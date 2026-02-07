@@ -159,8 +159,8 @@
   "hotPaths": [
     {
       "path": "lib/features/renderer/providers/fractal_provider.dart",
-      "accessCount": 23,
-      "lastAccessed": 1770484566030,
+      "accessCount": 24,
+      "lastAccessed": 1770504335341,
       "type": "file"
     },
     {
@@ -170,15 +170,21 @@
       "type": "file"
     },
     {
-      "path": "lib/features/controls/fractal_controls.dart",
-      "accessCount": 12,
-      "lastAccessed": 1770483807152,
-      "type": "file"
+      "path": "",
+      "accessCount": 13,
+      "lastAccessed": 1770503632567,
+      "type": "directory"
     },
     {
       "path": "lib/features/viewer/fractal_viewer_screen.dart",
-      "accessCount": 11,
-      "lastAccessed": 1770484579516,
+      "accessCount": 13,
+      "lastAccessed": 1770504333919,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/controls/fractal_controls.dart",
+      "accessCount": 13,
+      "lastAccessed": 1770504334392,
       "type": "file"
     },
     {
@@ -189,8 +195,14 @@
     },
     {
       "path": "lib/core/services/export_service.dart",
-      "accessCount": 9,
-      "lastAccessed": 1770484571570,
+      "accessCount": 10,
+      "lastAccessed": 1770504340252,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/catalog/fractal_catalog_screen.dart",
+      "accessCount": 10,
+      "lastAccessed": 1770504444034,
       "type": "file"
     },
     {
@@ -206,10 +218,16 @@
       "type": "file"
     },
     {
-      "path": "",
+      "path": "lib/features/home/home_screen.dart",
       "accessCount": 9,
-      "lastAccessed": 1770496099358,
-      "type": "directory"
+      "lastAccessed": 1770504404513,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/fractal_renderer.dart",
+      "accessCount": 8,
+      "lastAccessed": 1770504442157,
+      "type": "file"
     },
     {
       "path": "lib/core/services/test_screenshot_service.dart",
@@ -218,27 +236,21 @@
       "type": "file"
     },
     {
-      "path": "lib/features/home/home_screen.dart",
+      "path": "lib/main.dart",
       "accessCount": 6,
-      "lastAccessed": 1770486576632,
+      "lastAccessed": 1770503637963,
       "type": "file"
+    },
+    {
+      "path": "lib",
+      "accessCount": 6,
+      "lastAccessed": 1770504348695,
+      "type": "directory"
     },
     {
       "path": "lib/core/services/ar_export_service.dart",
       "accessCount": 5,
       "lastAccessed": 1770483683712,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/catalog/fractal_catalog_screen.dart",
-      "accessCount": 5,
-      "lastAccessed": 1770484098968,
-      "type": "file"
-    },
-    {
-      "path": "lib/main.dart",
-      "accessCount": 5,
-      "lastAccessed": 1770484102912,
       "type": "file"
     },
     {
@@ -257,12 +269,6 @@
       "path": "lib/l10n/app_es.arb",
       "accessCount": 3,
       "lastAccessed": 1770481659052,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 3,
-      "lastAccessed": 1770483806064,
       "type": "file"
     },
     {
@@ -296,12 +302,6 @@
       "type": "file"
     },
     {
-      "path": "lib",
-      "accessCount": 3,
-      "lastAccessed": 1770484574384,
-      "type": "directory"
-    },
-    {
       "path": "android/app/src/main/AndroidManifest.xml",
       "accessCount": 3,
       "lastAccessed": 1770496459624,
@@ -315,8 +315,8 @@
     },
     {
       "path": "lib/features/renderer/fractal_canvas.dart",
-      "accessCount": 2,
-      "lastAccessed": 1770483684266,
+      "accessCount": 3,
+      "lastAccessed": 1770504348394,
       "type": "file"
     },
     {
@@ -329,6 +329,12 @@
       "path": "lib/core/models/fractal_preset.dart",
       "accessCount": 2,
       "lastAccessed": 1770483821450,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/presets/preset_sheet.dart",
+      "accessCount": 2,
+      "lastAccessed": 1770504339049,
       "type": "file"
     },
     {
@@ -431,12 +437,6 @@
       "path": "lib/shared/utils/navigation_manager.dart",
       "accessCount": 1,
       "lastAccessed": 1770483825062,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/presets/preset_sheet.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770483825493,
       "type": "file"
     },
     {

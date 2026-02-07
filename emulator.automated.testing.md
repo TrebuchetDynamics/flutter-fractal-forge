@@ -4,8 +4,9 @@ Run a Flutter app in an Android emulator and let an LLM agent continuously test,
 
 ## Prerequisites
 
-- Flutter SDK on PATH
-- Android SDK with cmdline-tools at `/usr/lib/android-sdk`
+- Flutter SDK on PATH (`~/flutter/bin`)
+- Android SDK at `/usr/lib/android-sdk` with cmdline-tools v19+
+- ANDROID_SDK_ROOT env var set: `export ANDROID_SDK_ROOT=/usr/lib/android-sdk`
 - KVM support for emulator acceleration: `sudo apt install qemu-kvm`
 - An LLM agent with shell access (Claude Code, Codex CLI, Aider, etc.)
 
@@ -14,13 +15,26 @@ Run a Flutter app in an Android emulator and let an LLM agent continuously test,
 ### Install system image and create AVD
 
 ```bash
-sdkmanager --sdk_root=/usr/lib/android-sdk "system-images;android-34;google_apis;x86_64"
-avdmanager create avd -n fractal_test -k "system-images;android-34;google_apis;x86_64" --device "pixel_6"
+# Use full path — sdkmanager is NOT on PATH by default
+/usr/lib/android-sdk/cmdline-tools/latest/bin/sdkmanager \
+  --sdk_root=/usr/lib/android-sdk \
+  "system-images;android-34;google_apis;x86_64"
+
+/usr/lib/android-sdk/cmdline-tools/latest/bin/avdmanager \
+  create avd -n fractal_test \
+  -k "system-images;android-34;google_apis;x86_64" \
+  --device "pixel_6"
 ```
 
-### Launch emulator headless (for CI/agent use)
+**Gotcha:** If sdkmanager warns about "SDK XML versions up to 3 but version 4 was encountered", your cmdline-tools are too old. Download the latest zip from https://developer.android.com/studio#command-line-tools-only and replace the `cmdline-tools/latest/` directory.
+
+### Launch emulator
 
 ```bash
+# With GUI window (for visual monitoring)
+/usr/lib/android-sdk/emulator/emulator -avd fractal_test -no-audio -gpu swiftshader_indirect &
+
+# Headless (for CI/agent use)
 /usr/lib/android-sdk/emulator/emulator -avd fractal_test -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect &
 ```
 
@@ -38,8 +52,8 @@ adb shell getprop sys.boot_completed | grep -q 1
 # wait-for-emulator.sh
 echo "Waiting for emulator to boot..."
 adb wait-for-device
-while [ "$(adb shell getprop sys.boot_completed 2>/dev/null)" != "1" ]; do
-  sleep 2
+while [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" != "1" ]; do
+  sleep 3
 done
 echo "Emulator ready."
 ```
@@ -283,7 +297,90 @@ kill %1
 cancelomc
 ```
 
-## 7. CI/CD Integration
+## 7. Real-World Lessons Learned
+
+These findings come from actual testing sessions and represent gotchas that will save debugging time:
+
+### cmdline-tools version matters
+
+The apt-installed cmdline-tools (v12) cannot parse SDK XML v4. Download the latest version (v19+) from https://developer.android.com/studio#command-line-tools-only and extract to `/usr/lib/android-sdk/cmdline-tools/latest/`. Failure to do this results in:
+
+```
+Error: SDK XML versions up to 3 but version 4 was encountered
+```
+
+### sdkmanager is NOT on PATH
+
+Do not assume `sdkmanager` is available as a direct command. Always use the full path:
+
+```bash
+/usr/lib/android-sdk/cmdline-tools/latest/bin/sdkmanager
+```
+
+Forgetting this results in "command not found" errors.
+
+### System image download can fail silently
+
+When downloading system images via `sdkmanager`, corrupted downloads produce the error:
+
+```
+Error on ZipFile unknown archive
+```
+
+Fix by removing the corrupted image and retrying:
+
+```bash
+rm -rf /usr/lib/android-sdk/system-images/android-34/
+/usr/lib/android-sdk/cmdline-tools/latest/bin/sdkmanager \
+  --sdk_root=/usr/lib/android-sdk \
+  "system-images;android-34;google_apis;x86_64"
+```
+
+### Boot-wait needs carriage return stripping
+
+The `adb shell getprop` command returns output with `\r\n` line endings on some emulators. When checking boot completion in a while loop, strip the carriage return:
+
+```bash
+while [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" != "1" ]; do
+  sleep 3
+done
+```
+
+Without `tr -d '\r'`, the string comparison fails even when the emulator is ready.
+
+### Emulator resolution is 1080x2400
+
+The Pixel 6 AVD (configured above) has a device resolution of 1080x2400 pixels. When using `adb shell input tap` to simulate taps, use the actual device coordinates, not scaled display coordinates. For example:
+
+```bash
+# Tap at device coordinates (540, 800)
+adb shell input tap 540 800
+```
+
+### Search field intercepts taps
+
+On the catalog screen, the search field overlaps the area above the first ListTile. Before tapping cards in that region, dismiss the on-screen keyboard:
+
+```bash
+adb shell input keyevent KEYCODE_BACK
+```
+
+Then wait ~500ms before tapping cards.
+
+### Known bug: FractalViewerScreen AppBar missing on Android
+
+The `FractalController` provider is not wrapped around the viewer route, causing a `ProviderNotFoundException` when navigating to the `FractalViewerScreen`. The fractal shader renders correctly, but the Scaffold/AppBar crashes. This is a known issue in the codebase that requires provider wrapper fixes.
+
+### Helper scripts
+
+Use the provided helper scripts for agent-friendly emulator interaction:
+
+- `scripts/emu-status.sh` - Capture screenshot, logcat, and UI dump in one command
+- `scripts/emu-tap.sh` - Tap a UI element by coordinates with built-in keyboard dismissal
+
+These scripts reduce boilerplate in test loops.
+
+## 8. CI/CD Integration
 
 ### GitHub Actions example
 
@@ -313,7 +410,7 @@ jobs:
           script: flutter test integration_test/app_test.dart -d emulator-5554
 ```
 
-## 8. Tips
+## 9. Tips
 
 - **Headless emulator** (`-no-window`) uses less resources and is ideal for agent use
 - **swiftshader_indirect** GPU mode works without a physical GPU

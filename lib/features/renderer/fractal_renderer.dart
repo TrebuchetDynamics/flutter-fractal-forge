@@ -27,6 +27,7 @@ class _FractalRendererState extends State<FractalRenderer>
   ui.FragmentProgram? _program;
   String? _shaderAsset;
   bool _loading = false;
+  String? _shaderError;
 
   @override
   void initState() {
@@ -43,6 +44,9 @@ class _FractalRendererState extends State<FractalRenderer>
       return;
     }
     _loading = true;
+    setState(() {
+      _shaderError = null;
+    });
     try {
       final program = await ui.FragmentProgram.fromAsset(asset);
       setState(() {
@@ -51,6 +55,9 @@ class _FractalRendererState extends State<FractalRenderer>
       });
     } catch (e) {
       debugPrint('Error loading shader: $e');
+      setState(() {
+        _shaderError = e.toString();
+      });
     } finally {
       _loading = false;
     }

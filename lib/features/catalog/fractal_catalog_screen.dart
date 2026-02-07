@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -15,6 +16,7 @@ class FractalCatalogScreen extends StatefulWidget {
 
 class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
   final _searchController = TextEditingController();
+  Timer? _debounce;
 
   @override
   void dispose() {
