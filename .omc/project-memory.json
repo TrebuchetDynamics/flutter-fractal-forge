@@ -308,6 +308,12 @@
       "type": "file"
     },
     {
+      "path": "flutter.android.install.md",
+      "accessCount": 3,
+      "lastAccessed": 1770497088763,
+      "type": "file"
+    },
+    {
       "path": "lib/features/renderer/fractal_canvas.dart",
       "accessCount": 2,
       "lastAccessed": 1770483684266,
@@ -444,12 +450,6 @@
       "accessCount": 1,
       "lastAccessed": 1770496103685,
       "type": "directory"
-    },
-    {
-      "path": "flutter.android.install.md",
-      "accessCount": 1,
-      "lastAccessed": 1770496390066,
-      "type": "file"
     },
     {
       "path": "android/app/src/debug/AndroidManifest.xml",

@@ -222,3 +222,5 @@ export PATH="/usr/lib/android-sdk/cmdline-tools/latest/bin:$PATH"
 ```
 
 Then `source ~/.bashrc`.
+
+**Important:** `ANDROID_SDK_ROOT` must be set or Flutter won't find the sdkmanager and will report "Android license status unknown" even after accepting licenses.
