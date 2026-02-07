@@ -75,3 +75,6 @@
 {"t":0,"agent":"a3fbe48","agent_type":"architect-medium","event":"agent_stop","success":true,"duration_ms":69302}
 {"t":0,"agent":"a568662","agent_type":"executor","event":"agent_start","parent_mode":"none"}
 {"t":0,"agent":"a7b56cc","agent_type":"executor-low","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a7b56cc","agent_type":"executor-low","event":"agent_stop","success":true,"duration_ms":17272}
+{"t":0,"agent":"a568662","agent_type":"executor","event":"agent_stop","success":true,"duration_ms":29083}
+{"t":0,"agent":"ad43d9f","agent_type":"unknown","event":"agent_stop","success":true}

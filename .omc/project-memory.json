@@ -188,6 +188,12 @@
       "type": "file"
     },
     {
+      "path": "lib/features/catalog/fractal_catalog_screen.dart",
+      "accessCount": 13,
+      "lastAccessed": 1770504450432,
+      "type": "file"
+    },
+    {
       "path": "pubspec.yaml",
       "accessCount": 11,
       "lastAccessed": 1770496269364,
@@ -200,9 +206,9 @@
       "type": "file"
     },
     {
-      "path": "lib/features/catalog/fractal_catalog_screen.dart",
+      "path": "lib/features/renderer/fractal_renderer.dart",
       "accessCount": 10,
-      "lastAccessed": 1770504444034,
+      "lastAccessed": 1770504451826,
       "type": "file"
     },
     {
@@ -221,12 +227,6 @@
       "path": "lib/features/home/home_screen.dart",
       "accessCount": 9,
       "lastAccessed": 1770504404513,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 8,
-      "lastAccessed": 1770504442157,
       "type": "file"
     },
     {

@@ -76,6 +76,39 @@ class _FractalRendererState extends State<FractalRenderer>
     if (_shaderAsset != module.shaderAsset && !_loading) {
       _loadShader(module.shaderAsset);
     }
+    if (_shaderError != null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const SizedBox(height: 16),
+              Text(
+                'Failed to load shader',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _shaderError!,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () {
+                  setState(() { _shaderError = null; });
+                  _loadShader(module.shaderAsset);
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     if (_program == null) {
       final l10n = AppLocalizations.of(context)!;
       return Center(

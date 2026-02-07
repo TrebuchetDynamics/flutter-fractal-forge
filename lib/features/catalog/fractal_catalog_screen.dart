@@ -20,6 +20,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -59,7 +60,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                       },
                     ),
             ),
-            onChanged: (_) => setState(() {}),
+            onChanged: (_) {
+              _debounce?.cancel();
+              _debounce = Timer(const Duration(milliseconds: 300), () {
+                setState(() {});
+              });
+            },
           ),
         ),
         Expanded(
