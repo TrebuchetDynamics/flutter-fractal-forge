@@ -1,0 +1,30 @@
+import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:vector_math/vector_math.dart';
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  test('FractalController.resetSession resets params + view + transparency', () {
+    final controller = FractalController(ModuleRegistry());
+
+    // Mutate away from defaults.
+    controller.updateParam('iterations', 500);
+    controller.updateZoom(2.5);
+    controller.updatePan(Vector2(1.0, -2.0));
+    controller.setTransparentBackground(true);
+
+    expect(controller.params['iterations'], 500);
+    expect(controller.view.zoom, 2.5);
+    expect(controller.transparentBackground, isTrue);
+
+    controller.resetSession();
+
+    // Defaults for the initial module (mandelbrot).
+    expect(controller.params['iterations'], 120);
+    expect(controller.view.zoom, 1.0);
+    expect(controller.view.pan, Vector2.zero());
+    expect(controller.transparentBackground, isFalse);
+  });
+}

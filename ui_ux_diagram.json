@@ -1,0 +1,600 @@
+{
+  "$schema": "https://example.com/flutter-fractals/ui-ux-diagram.schema.json",
+  "app": {
+    "name": "Flutter Fractals",
+    "entrypoint": {
+      "widget": "FlutterFractalsApp",
+      "file": "lib/main.dart",
+      "home": {
+        "widget": "HomeScreen",
+        "file": "lib/features/home/home_screen.dart"
+      }
+    },
+    "global_state": [
+      {
+        "id": "state.moduleRegistry",
+        "type": "Provider<ModuleRegistry>",
+        "scope": "app",
+        "file": "lib/main.dart",
+        "notes": "Created in FlutterFractalsApp.build(); holds available fractal modules."
+      },
+      {
+        "id": "state.presetStore",
+        "type": "Provider<PresetStore>",
+        "scope": "app",
+        "file": "lib/main.dart",
+        "notes": "Created async in main() via PresetStore.create(); used by PresetSheet to save/load user presets."
+      },
+      {
+        "id": "state.arQualityStore",
+        "type": "Provider<ArQualityStore>",
+        "scope": "app",
+        "file": "lib/main.dart",
+        "notes": "Created async in main() via ArQualityStore.create(); persists the last selected AR quality preset."
+      },
+      {
+        "id": "state.fractalController",
+        "type": "ChangeNotifierProvider<FractalController>",
+        "scope": "app",
+        "file": "lib/main.dart",
+        "notes": "Single controller instance shared across Explore viewer and AR overlay; stores selected module, params, view (zoom/pan/rotation), and transparentBackground."
+      }
+    ]
+  },
+  "screens": [
+    {
+      "id": "screen.home",
+      "name": "Home",
+      "widget": "HomeScreen",
+      "file": "lib/features/home/home_screen.dart",
+      "kind": "screen",
+      "navigation": {
+        "type": "root",
+        "route": "MaterialApp.home"
+      },
+      "layout": {
+        "scaffold": true,
+        "appBar": {
+          "title": "catalogTitle or arTitle depending on selected tab",
+          "file": "lib/features/home/home_screen.dart"
+        },
+        "bottomNavigationBar": {
+          "type": "BottomNavigationBar",
+          "tabs": [
+            {
+              "id": "tab.explore",
+              "labelKey": "tabExplore",
+              "icon": "Icons.grid_view",
+              "contentScreenId": "screen.catalog"
+            },
+            {
+              "id": "tab.ar",
+              "labelKey": "tabAr",
+              "icon": "Icons.camera_alt",
+              "contentScreenId": "screen.arOverlay"
+            }
+          ],
+          "state": {
+            "local": "_index (int)",
+            "flow": "Tap changes _index; body swaps between FractalCatalogScreen and ArOverlayScreen.",
+            "file": "lib/features/home/home_screen.dart"
+          }
+        }
+      }
+    },
+    {
+      "id": "screen.catalog",
+      "name": "Fractal Catalog / Explore",
+      "widget": "FractalCatalogScreen",
+      "file": "lib/features/catalog/fractal_catalog_screen.dart",
+      "kind": "screen",
+      "navigation": {
+        "type": "tabContent",
+        "parent": "screen.home",
+        "tabId": "tab.explore"
+      },
+      "key_components": [
+        {
+          "id": "component.catalog.search",
+          "type": "TextField",
+          "key": "catalogSearchField",
+          "state": "_searchController (TextEditingController)",
+          "behavior": "Filters modules from ModuleRegistry by localized displayName().",
+          "file": "lib/features/catalog/fractal_catalog_screen.dart"
+        },
+        {
+          "id": "component.catalog.moduleList",
+          "type": "ListView.builder",
+          "behavior": "Shows _ModuleCard per FractalModule.",
+          "file": "lib/features/catalog/fractal_catalog_screen.dart"
+        }
+      ],
+      "state_flows": [
+        {
+          "id": "flow.catalog.filterModules",
+          "reads": ["state.moduleRegistry"],
+          "local_state": ["_searchController.text"],
+          "output": "modules[]",
+          "file": "lib/features/catalog/fractal_catalog_screen.dart"
+        },
+        {
+          "id": "flow.catalog.openViewer",
+          "trigger": "Tap module card",
+          "actions": [
+            {
+              "type": "stateWrite",
+              "target": "state.fractalController",
+              "method": "selectModule(module)",
+              "file": "lib/features/catalog/fractal_catalog_screen.dart",
+              "notes": "Also resets params/view to module.defaultPreset inside controller."
+            },
+            {
+              "type": "navigate",
+              "method": "Navigator.push(MaterialPageRoute)",
+              "to": "screen.viewer",
+              "file": "lib/features/catalog/fractal_catalog_screen.dart"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "screen.viewer",
+      "name": "Fractal Viewer / Renderer",
+      "widget": "FractalViewerScreen",
+      "file": "lib/features/viewer/fractal_viewer_screen.dart",
+      "kind": "screen",
+      "navigation": {
+        "type": "push",
+        "from": "screen.catalog",
+        "method": "Navigator.push(MaterialPageRoute(builder: (_) => const FractalViewerScreen()))"
+      },
+      "key_components": [
+        {
+          "id": "component.viewer.renderer",
+          "type": "FractalRenderer",
+          "file": "lib/features/renderer/fractal_renderer.dart",
+          "notes": "CustomPaint with shader-driven FractalCanvas; GestureDetector updates zoom/pan/rotation via FractalController."
+        },
+        {
+          "id": "component.viewer.appBar.controlsButton",
+          "type": "IconButton",
+          "icon": "Icons.tune",
+          "opens": "sheet.controls",
+          "file": "lib/features/viewer/fractal_viewer_screen.dart"
+        },
+        {
+          "id": "component.viewer.appBar.presetsButton",
+          "type": "IconButton",
+          "icon": "Icons.bookmark",
+          "opens": "sheet.presets",
+          "file": "lib/features/viewer/fractal_viewer_screen.dart"
+        },
+        {
+          "id": "component.viewer.appBar.exportButton",
+          "type": "IconButton",
+          "icon": "Icons.download",
+          "opens": "sheet.exportPngOptions",
+          "file": "lib/features/viewer/fractal_viewer_screen.dart"
+        },
+        {
+          "id": "component.viewer.exportOverlay",
+          "type": "Card + LinearProgressIndicator",
+          "visibleWhen": "_exporting == true",
+          "state": "_exporting (bool), _exportProgress (double?)",
+          "file": "lib/features/viewer/fractal_viewer_screen.dart"
+        }
+      ],
+      "state_flows": [
+        {
+          "id": "flow.viewer.renderState",
+          "reads": ["state.fractalController"],
+          "writes": [],
+          "data": {
+            "module": "controller.module",
+            "params": "controller.params",
+            "view": "controller.view",
+            "transparentBackground": "controller.transparentBackground"
+          },
+          "file": "lib/features/renderer/fractal_renderer.dart"
+        },
+        {
+          "id": "flow.viewer.gestures",
+          "trigger": "Pinch/drag on FractalRenderer",
+          "conditions": [
+            "If module.dimension == threeD: drag updates rotation",
+            "Else: drag updates pan"
+          ],
+          "actions": [
+            "FractalController.updateZoom()",
+            "FractalController.updatePan() or updateRotation()"
+          ],
+          "file": "lib/features/renderer/fractal_renderer.dart"
+        },
+        {
+          "id": "flow.viewer.exportPng",
+          "trigger": "Select Export PNG or Export Transparent PNG",
+          "local_state": ["_fractalKey", "_exporting", "_exportProgress"],
+          "reads": ["state.fractalController"],
+          "writes": ["state.fractalController.transparentBackground (temporary override when exporting transparent)"] ,
+          "services": [
+            {
+              "type": "ExportService",
+              "methods": ["capturePng(RepaintBoundary)", "saveBytes(...) ", "shareFile(...)"],
+              "file": "lib/core/services/export_service.dart (used)",
+              "usageFile": "lib/features/viewer/fractal_viewer_screen.dart"
+            }
+          ],
+          "notes": "Viewer export captures the RepaintBoundary keyed by _fractalKey at pixelRatio 2.5 and shares it."
+        }
+      ]
+    },
+    {
+      "id": "sheet.controls",
+      "name": "Controls",
+      "widget": "FractalControlsSheet",
+      "file": "lib/features/controls/fractal_controls.dart",
+      "kind": "modalBottomSheet",
+      "navigation": {
+        "type": "modal",
+        "from": "screen.viewer",
+        "method": "showModalBottomSheet(isScrollControlled: true)"
+      },
+      "key_components": [
+        {
+          "id": "component.controls.paramControl",
+          "type": "Slider / ChoiceChip / SwitchListTile",
+          "behavior": "Renders a control per controller.module.parameters; updates controller.updateParam(id, value).",
+          "file": "lib/features/controls/fractal_controls.dart"
+        },
+        {
+          "id": "component.controls.resetView",
+          "type": "OutlinedButton",
+          "action": "FractalController.resetView()",
+          "file": "lib/features/controls/fractal_controls.dart"
+        },
+        {
+          "id": "component.controls.resetParams",
+          "type": "OutlinedButton",
+          "action": "FractalController.resetParams()",
+          "file": "lib/features/controls/fractal_controls.dart"
+        },
+        {
+          "id": "component.controls.randomize",
+          "type": "ElevatedButton",
+          "action": "FractalController.randomizeParams()",
+          "file": "lib/features/controls/fractal_controls.dart"
+        }
+      ]
+    },
+    {
+      "id": "sheet.presets",
+      "name": "Presets",
+      "widget": "PresetSheet",
+      "file": "lib/features/presets/preset_sheet.dart",
+      "kind": "modalBottomSheet",
+      "navigation": {
+        "type": "modal",
+        "from": "screen.viewer",
+        "method": "showModalBottomSheet(isScrollControlled: true)"
+      },
+      "key_components": [
+        {
+          "id": "component.presets.savePreset",
+          "type": "TextField + ElevatedButton",
+          "behavior": "Creates FractalPreset from current controller state and calls PresetStore.saveUserPreset().",
+          "file": "lib/features/presets/preset_sheet.dart",
+          "dependsOn": ["state.fractalController", "state.presetStore"]
+        },
+        {
+          "id": "component.presets.builtInPresets",
+          "type": "Wrap(ActionChip)",
+          "behavior": "controller.module.builtInPresets; on tap controller.applyPreset(preset) and pop sheet.",
+          "file": "lib/features/presets/preset_sheet.dart"
+        },
+        {
+          "id": "component.presets.userPresets",
+          "type": "FutureBuilder + Wrap(ActionChip)",
+          "behavior": "PresetStore.loadUserPresets(moduleId); applies selected preset.",
+          "file": "lib/features/presets/preset_sheet.dart"
+        }
+      ]
+    },
+    {
+      "id": "sheet.exportPngOptions",
+      "name": "Export Options (Viewer)",
+      "widget": "(inline in FractalViewerScreen)",
+      "file": "lib/features/viewer/fractal_viewer_screen.dart",
+      "kind": "modalBottomSheet",
+      "navigation": {
+        "type": "modal",
+        "from": "screen.viewer",
+        "method": "showModalBottomSheet()"
+      },
+      "key_components": [
+        {
+          "id": "component.export.viewer.png",
+          "type": "ListTile",
+          "action": "_exportPng(transparent: false)",
+          "file": "lib/features/viewer/fractal_viewer_screen.dart"
+        },
+        {
+          "id": "component.export.viewer.transparentPng",
+          "type": "ListTile",
+          "action": "_exportPng(transparent: true)",
+          "file": "lib/features/viewer/fractal_viewer_screen.dart"
+        }
+      ]
+    },
+    {
+      "id": "screen.arOverlay",
+      "name": "AR Overlay",
+      "widget": "ArOverlayScreen",
+      "file": "lib/features/ar/ar_overlay_screen.dart",
+      "kind": "screen",
+      "navigation": {
+        "type": "tabContent",
+        "parent": "screen.home",
+        "tabId": "tab.ar"
+      },
+      "key_components": [
+        {
+          "id": "component.ar.cameraPreview",
+          "type": "CameraPreview",
+          "dependsOn": "camera permission + CameraController initialization",
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "component.ar.overlayRenderer",
+          "type": "FractalRenderer (gesturesEnabled: false)",
+          "file": "lib/features/ar/ar_overlay_screen.dart",
+          "notes": "Placed inside Transform; overlay gesture handling is done by ArOverlayScreen's GestureDetector (scale/rotate/move)."
+        },
+        {
+          "id": "component.ar.overlayTransform",
+          "type": "Transform(Matrix4)",
+          "state": ["_overlayOffset", "_overlayScale", "_overlayRotation"],
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "component.ar.controlsPanel",
+          "type": "_ArControlsPanel",
+          "file": "lib/features/ar/ar_overlay_screen.dart",
+          "controls": [
+            "Opacity slider",
+            "Lock overlay switch",
+            "Transparent background switch",
+            "Quality preset chips",
+            "Export overlay-only button",
+            "Export baked screenshot button",
+            "Export video button"
+          ]
+        },
+        {
+          "id": "component.ar.exportOverlay",
+          "type": "Modal progress overlay",
+          "visibleWhen": "_exporting == true",
+          "state": "_exporting (bool), _exportProgress (double?)",
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        }
+      ],
+      "state_flows": [
+        {
+          "id": "flow.ar.permissionAndInit",
+          "trigger": "initState -> _initCamera()",
+          "actions": [
+            "Permission.camera.request()",
+            "availableCameras()",
+            "CameraController.initialize()"
+          ],
+          "outcomes": [
+            "_permissionDenied true -> show arPermissionRequest",
+            "camera unavailable -> show arCameraUnavailable",
+            "initialized -> show CameraPreview + overlay"
+          ],
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "flow.ar.syncFractalController",
+          "trigger": "initState post-frame callback",
+          "reads": ["state.arQualityStore", "state.fractalController"],
+          "writes": ["state.fractalController.transparentBackground", "state.fractalController.params"],
+          "actions": [
+            "Read quality preset from ArQualityStore.getPreset()",
+            "Set FractalController.transparentBackground(true)",
+            "FractalController.applyArQualityPreset(preset)"
+          ],
+          "notes": "On dispose, restores previous transparency.",
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "flow.ar.overlayGestures",
+          "trigger": "Pinch/rotate/drag on overlay gesture layer",
+          "conditions": ["Disabled when _overlayLocked is true"],
+          "writes": ["_overlayOffset", "_overlayScale", "_overlayRotation"],
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "flow.ar.transparentToggle",
+          "trigger": "Toggle 'Transparent BG' in _ArControlsPanel",
+          "writes": ["state.fractalController.transparentBackground"],
+          "notes": "This affects the fractal rendering used for overlay capture/baked export.",
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "flow.ar.qualityPreset",
+          "trigger": "Select quality chip",
+          "reads": ["state.fractalController"],
+          "writes": ["state.arQualityStore", "state.fractalController.params"],
+          "actions": [
+            "ArQualityStore.setPreset(preset)",
+            "FractalController.applyArQualityPreset(preset)"
+          ],
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "flow.ar.exportOverlayOnly",
+          "trigger": "Tap 'Overlay only export'",
+          "services": [
+            {
+              "type": "ExportService",
+              "methods": ["capturePng(_overlayKey)", "saveBytes(...) ", "shareFile(...)"],
+              "usageFile": "lib/features/ar/ar_overlay_screen.dart"
+            }
+          ],
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "flow.ar.exportBakedScreenshot",
+          "trigger": "Tap 'Baked screenshot export'",
+          "services": [
+            {
+              "type": "ArExportService",
+              "methods": ["exportBakedScreenshot(cameraController, overlayPng, filename)"] ,
+              "file": "lib/core/services/ar_export_service.dart (used)",
+              "usageFile": "lib/features/ar/ar_overlay_screen.dart"
+            },
+            {
+              "type": "ExportService",
+              "methods": ["capturePng", "shareFile"],
+              "usageFile": "lib/features/ar/ar_overlay_screen.dart"
+            }
+          ],
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "flow.ar.exportVideo",
+          "trigger": "Tap 'Video export'",
+          "intermediate_ui": "sheet.arVideoDuration",
+          "services": [
+            {
+              "type": "ArVideoExporter",
+              "methods": ["recordBakedVideo(...)"],
+              "file": "lib/core/services/ar_video_exporter.dart (used)",
+              "usageFile": "lib/features/ar/ar_overlay_screen.dart"
+            },
+            {
+              "type": "ExportService",
+              "methods": ["shareFile"],
+              "usageFile": "lib/features/ar/ar_overlay_screen.dart"
+            }
+          ],
+          "file": "lib/features/ar/ar_overlay_screen.dart",
+          "notes": "Shows progress percentage when _exportProgress != null."
+        }
+      ]
+    },
+    {
+      "id": "sheet.arVideoDuration",
+      "name": "AR Video Duration Picker",
+      "widget": "(inline in ArOverlayScreen)",
+      "file": "lib/features/ar/ar_overlay_screen.dart",
+      "kind": "modalBottomSheet",
+      "navigation": {
+        "type": "modal",
+        "from": "screen.arOverlay",
+        "method": "showModalBottomSheet<Duration>()"
+      },
+      "key_components": [
+        {
+          "id": "component.ar.duration.5",
+          "type": "ListTile",
+          "returns": "Duration(seconds: 5)",
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "component.ar.duration.10",
+          "type": "ListTile",
+          "returns": "Duration(seconds: 10)",
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        },
+        {
+          "id": "component.ar.duration.15",
+          "type": "ListTile",
+          "returns": "Duration(seconds: 15)",
+          "file": "lib/features/ar/ar_overlay_screen.dart"
+        }
+      ]
+    }
+  ],
+  "navigation_graph": {
+    "nodes": [
+      "screen.home",
+      "screen.catalog",
+      "screen.viewer",
+      "sheet.controls",
+      "sheet.presets",
+      "sheet.exportPngOptions",
+      "screen.arOverlay",
+      "sheet.arVideoDuration"
+    ],
+    "edges": [
+      {
+        "from": "screen.home",
+        "to": "screen.catalog",
+        "type": "tab",
+        "label": "Explore"
+      },
+      {
+        "from": "screen.home",
+        "to": "screen.arOverlay",
+        "type": "tab",
+        "label": "AR"
+      },
+      {
+        "from": "screen.catalog",
+        "to": "screen.viewer",
+        "type": "push",
+        "label": "Select module"
+      },
+      {
+        "from": "screen.viewer",
+        "to": "sheet.controls",
+        "type": "modal",
+        "label": "Tune"
+      },
+      {
+        "from": "screen.viewer",
+        "to": "sheet.presets",
+        "type": "modal",
+        "label": "Presets"
+      },
+      {
+        "from": "screen.viewer",
+        "to": "sheet.exportPngOptions",
+        "type": "modal",
+        "label": "Export"
+      },
+      {
+        "from": "screen.arOverlay",
+        "to": "sheet.arVideoDuration",
+        "type": "modal",
+        "label": "Pick duration"
+      }
+    ]
+  },
+  "implementation_index": {
+    "screens": {
+      "HomeScreen": "lib/features/home/home_screen.dart",
+      "FractalCatalogScreen": "lib/features/catalog/fractal_catalog_screen.dart",
+      "FractalViewerScreen": "lib/features/viewer/fractal_viewer_screen.dart",
+      "ArOverlayScreen": "lib/features/ar/ar_overlay_screen.dart"
+    },
+    "sheets": {
+      "FractalControlsSheet": "lib/features/controls/fractal_controls.dart",
+      "PresetSheet": "lib/features/presets/preset_sheet.dart"
+    },
+    "rendering": {
+      "FractalRenderer": "lib/features/renderer/fractal_renderer.dart",
+      "FractalCanvas": "lib/features/renderer/fractal_canvas.dart",
+      "FractalController": "lib/features/renderer/providers/fractal_provider.dart"
+    },
+    "services": {
+      "ExportService": "lib/core/services/export_service.dart",
+      "ArExportService": "lib/core/services/ar_export_service.dart",
+      "ArVideoExporter": "lib/core/services/ar_video_exporter.dart",
+      "PresetStore": "lib/core/services/preset_store.dart",
+      "ArQualityStore": "lib/core/services/ar_quality_store.dart"
+    }
+  }
+}
