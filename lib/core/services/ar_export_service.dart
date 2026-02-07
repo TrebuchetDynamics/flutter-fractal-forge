@@ -34,10 +34,9 @@ class ArExportService {
       );
     }
 
-    final composed = img.copyInto(
+    final composed = img.compositeImage(
       baseImage,
       overlayScaled,
-      blend: true,
     );
 
     final encoded = img.encodePng(composed);

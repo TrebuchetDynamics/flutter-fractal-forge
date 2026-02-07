@@ -98,9 +98,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                     return _ModuleCard(
                       module: module,
                       onTap: () {
-                        context.read<FractalController>().selectModule(module);
+                        final controller = context.read<FractalController>();
+                        controller.selectModule(module);
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => const FractalViewerScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => ChangeNotifierProvider.value(
+                              value: controller,
+                              child: const FractalViewerScreen(),
+                            ),
+                          ),
                         );
                       },
                       l10n: l10n,

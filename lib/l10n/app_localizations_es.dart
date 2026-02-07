@@ -24,7 +24,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get catalogSearchHint => 'Buscar fractales';
 
   @override
-  String get catalogSearchEmpty => 'No hay fractales que coincidan con tu búsqueda.';
+  String get catalogSearchEmpty =>
+      'No hay fractales que coincidan con tu búsqueda.';
 
   @override
   String get actionClearSearch => 'Borrar búsqueda';
@@ -81,15 +82,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exportTitle => 'Exportar';
-
-  @override
-  String get tooltipOpenControls => 'Abrir controles';
-
-  @override
-  String get tooltipOpenPresets => 'Abrir presets';
-
-  @override
-  String get tooltipExport => 'Exportar';
 
   @override
   String get exportPng => 'PNG';
@@ -258,6 +250,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get fractalTypeSierpinski => 'Sierpinski';
+
+  @override
+  String get tooltipOpenControls => 'Controles';
+
+  @override
+  String get tooltipOpenPresets => 'Presets';
+
+  @override
+  String get tooltipExport => 'Exportar';
 
   @override
   String get presetDefault => 'Predeterminado';

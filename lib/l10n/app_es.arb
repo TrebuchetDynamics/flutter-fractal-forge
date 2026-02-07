@@ -77,8 +77,10 @@
   "fractalTypeMandelbulb": "Mandelbulb",
   "fractalTypeMandelbox": "Mandelbox",
   "fractalTypeJulia": "Julia",
-  "fractalTypeSierpinski": "Sierpinski"
-  ,
+  "fractalTypeSierpinski": "Sierpinski",
+  "tooltipOpenControls": "Controles",
+  "tooltipOpenPresets": "Presets",
+  "tooltipExport": "Exportar",
   "presetDefault": "Predeterminado",
   "presetClassic": "Clásico",
   "presetSoftGlow": "Brillo suave",

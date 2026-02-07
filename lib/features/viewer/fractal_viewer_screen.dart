@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
+import 'package:flutter_fractals/features/debug/debug_overlay.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
@@ -19,6 +23,30 @@ class _FractalViewerScreenState extends State<FractalViewerScreen> {
   final ExportService _exportService = const ExportService();
   bool _exporting = false;
   double? _exportProgress;
+  DebugRunnerService? _debugRunner;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  // We must use didChangeDependencies for Provider access (not available in initState)
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (kDebugMode && _debugRunner == null) {
+      _debugRunner = DebugRunnerService(
+        controller: context.read<FractalController>(),
+        registry: context.read<ModuleRegistry>(),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _debugRunner?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +96,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen> {
                   ),
                 ),
               ),
+            ),
+          if (kDebugMode && _debugRunner != null)
+            DebugOverlay(
+              runner: _debugRunner!,
+              boundaryKey: _fractalKey,
             ),
         ],
       ),

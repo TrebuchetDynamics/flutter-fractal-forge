@@ -137,7 +137,7 @@ class ArVideoExporter {
     final fallbackFps = min(fps, 12);
     final frameIntervalMs = (1000 / fallbackFps).round();
     final targetFrames = (duration.inMilliseconds / frameIntervalMs).round();
-    final animation = img.Animation()..frameRate = fallbackFps;
+    final frames = <img.Image>[];
 
     final sessionId = DateTime.now().millisecondsSinceEpoch;
     final outputFile =
@@ -156,7 +156,15 @@ class ArVideoExporter {
         await cameraController.stopImageStream();
       } catch (_) {}
       try {
-        final bytes = img.encodeGifAnimation(animation);
+        if (frames.isEmpty) {
+          completer.complete(null);
+          return;
+        }
+        final firstFrame = frames.first;
+        for (var i = 1; i < frames.length; i++) {
+          firstFrame.addFrame(frames[i]);
+        }
+        final bytes = img.encodeGif(firstFrame);
         await outputFile.writeAsBytes(bytes, flush: true);
         onProgress?.call(1.0);
         completer.complete(
@@ -195,17 +203,16 @@ class ArVideoExporter {
               interpolation: img.Interpolation.linear,
             );
           }
-          final composed = img.copyInto(
+          final composed = img.compositeImage(
             cameraImage,
             overlayScaled,
-            blend: true,
           );
 
           final resized = _resizeForFallback(
             composed,
             targetShortSide: targetShortSide,
           );
-          animation.addFrame(resized);
+          frames.add(resized);
           captured += 1;
           if (onProgress != null && targetFrames > 0) {
             onProgress((captured / targetFrames).clamp(0.0, 1.0));
@@ -327,7 +334,7 @@ class ArVideoExporter {
         width: image.width,
         height: image.height,
         bytes: plane.bytes.buffer,
-        format: img.Format.bgra,
+        order: img.ChannelOrder.bgra,
       );
       return _rotateIfLandscape(converted);
     }

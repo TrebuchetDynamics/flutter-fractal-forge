@@ -6,16 +6,18 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/ar_quality_preset.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/test_logger.dart';
 import 'package:vector_math/vector_math.dart';
 
 class FractalController extends ChangeNotifier {
   final ModuleRegistry registry;
+  final TestLogger? _logger;
   late FractalModule _module;
   Map<String, Object> _params = {};
   FractalViewState _view = FractalViewState.initial();
   bool _transparentBackground = false;
 
-  FractalController(this.registry) {
+  FractalController(this.registry, {TestLogger? logger}) : _logger = logger {
     _module = registry.modules.first;
     _applyPreset(_module.defaultPreset);
   }
@@ -32,6 +34,7 @@ class FractalController extends ChangeNotifier {
     _module = module;
     _applyPreset(module.defaultPreset);
     notifyListeners();
+    _logChange('stateChange', 'moduleSwitch', 'Switched to ${module.id}');
   }
 
   void updateParam(String id, Object value) {
@@ -39,21 +42,25 @@ class FractalController extends ChangeNotifier {
     _params = Map<String, Object>.from(_params);
     _params[id] = _clampValue(schema, value);
     notifyListeners();
+    _logChange('stateChange', 'paramUpdate', 'Updated $id', metadata: {'value': value.toString()});
   }
 
   void applyPreset(FractalPreset preset) {
     _applyPreset(preset);
     notifyListeners();
+    _logChange('stateChange', 'presetApply', 'Applied preset ${preset.name}');
   }
 
   void resetParams() {
     _applyPreset(_module.defaultPreset);
     notifyListeners();
+    _logChange('stateChange', 'reset', 'Reset params to default');
   }
 
   void resetView() {
     _view = FractalViewState.initial();
     notifyListeners();
+    _logChange('stateChange', 'reset', 'Reset view');
   }
 
   /// Resets the current "session" state (params + view + transparency)
@@ -62,6 +69,7 @@ class FractalController extends ChangeNotifier {
     _applyPreset(_module.defaultPreset);
     _transparentBackground = false;
     notifyListeners();
+    _logChange('stateChange', 'reset', 'Reset session');
   }
 
   void randomizeParams() {
@@ -93,16 +101,24 @@ class FractalController extends ChangeNotifier {
     }
     _params = updated;
     notifyListeners();
+    _logChange('stateChange', 'randomize', 'Randomized params for ${_module.id}');
   }
 
   void updateZoom(double zoom) {
     _view = _view.copyWith(zoom: zoom.clamp(0.05, 20.0));
     notifyListeners();
+    _logChange('userAction', 'zoom', 'Zoom updated', metadata: {'zoom': zoom});
   }
 
   void updatePan(Vector2 pan) {
-    _view = _view.copyWith(pan: pan);
+    _view = _view.copyWith(
+      pan: Vector2(
+        pan.x.clamp(-3.0, 3.0),
+        pan.y.clamp(-3.0, 3.0),
+      ),
+    );
     notifyListeners();
+    _logChange('userAction', 'pan', 'Pan updated', metadata: {'x': pan.x, 'y': pan.y});
   }
 
   void updateRotation(Vector3 rotation) {
@@ -113,6 +129,16 @@ class FractalController extends ChangeNotifier {
   void setTransparentBackground(bool value) {
     _transparentBackground = value;
     notifyListeners();
+  }
+
+  void _logChange(String type, String category, String message, {Map<String, dynamic>? metadata}) {
+    _logger?.log(LogEvent(
+      timestamp: DateTime.now(),
+      type: type,
+      category: category,
+      message: message,
+      metadata: metadata,
+    ));
   }
 
   void applyArQualityPreset(ArQualityPreset preset) {

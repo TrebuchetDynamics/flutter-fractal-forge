@@ -209,13 +209,13 @@ abstract class AppLocalizations {
   /// No description provided for @presetNameRequired.
   ///
   /// In en, this message translates to:
-  /// **'Preset name is required'**
+  /// **'Enter a preset name.'**
   String get presetNameRequired;
 
   /// No description provided for @presetSaveFailed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to save preset: {error}'**
+  /// **'Couldn’t save preset: {error}'**
   String presetSaveFailed(Object error);
 
   /// No description provided for @resetView.
@@ -241,24 +241,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export'**
   String get exportTitle;
-
-  /// No description provided for @tooltipOpenControls.
-  ///
-  /// In en, this message translates to:
-  /// **'Open controls'**
-  String get tooltipOpenControls;
-
-  /// No description provided for @tooltipOpenPresets.
-  ///
-  /// In en, this message translates to:
-  /// **'Open presets'**
-  String get tooltipOpenPresets;
-
-  /// No description provided for @tooltipExport.
-  ///
-  /// In en, this message translates to:
-  /// **'Export'**
-  String get tooltipExport;
 
   /// No description provided for @exportPng.
   ///
@@ -583,6 +565,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sierpinski'**
   String get fractalTypeSierpinski;
+
+  /// No description provided for @tooltipOpenControls.
+  ///
+  /// In en, this message translates to:
+  /// **'Controls'**
+  String get tooltipOpenControls;
+
+  /// No description provided for @tooltipOpenPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Presets'**
+  String get tooltipOpenPresets;
+
+  /// No description provided for @tooltipExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get tooltipExport;
 
   /// No description provided for @presetDefault.
   ///

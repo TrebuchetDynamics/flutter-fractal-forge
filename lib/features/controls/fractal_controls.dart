@@ -80,7 +80,8 @@ class _ParamControl extends StatelessWidget {
     switch (param.type) {
       case FractalParamType.float:
       case FractalParamType.integer:
-        final doubleValue = value is num ? value.toDouble() : param.min;
+        final v = value;
+        final doubleValue = v is num ? v.toDouble() : param.min;
         final divisions = ((param.max - param.min) / param.step).round();
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +152,7 @@ class _ParamControl extends StatelessWidget {
         return SwitchListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(param.label(l10n)),
-          value: value is bool ? value : false,
+          value: value == true,
           onChanged: (newValue) => onChanged(newValue),
         );
     }

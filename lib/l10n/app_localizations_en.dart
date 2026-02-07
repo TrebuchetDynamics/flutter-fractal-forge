@@ -83,15 +83,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportTitle => 'Export';
 
   @override
-  String get tooltipOpenControls => 'Open controls';
-
-  @override
-  String get tooltipOpenPresets => 'Open presets';
-
-  @override
-  String get tooltipExport => 'Export';
-
-  @override
   String get exportPng => 'PNG';
 
   @override
@@ -258,6 +249,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fractalTypeSierpinski => 'Sierpinski';
+
+  @override
+  String get tooltipOpenControls => 'Controls';
+
+  @override
+  String get tooltipOpenPresets => 'Presets';
+
+  @override
+  String get tooltipExport => 'Export';
 
   @override
   String get presetDefault => 'Default';
