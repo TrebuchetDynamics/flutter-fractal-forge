@@ -108,18 +108,26 @@ class _FractalViewerScreenState extends State<FractalViewerScreen> {
   }
 
   void _openControls(BuildContext context) {
+    final controller = context.read<FractalController>();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (_) => const FractalControlsSheet(),
+      builder: (_) => ChangeNotifierProvider.value(
+        value: controller,
+        child: const FractalControlsSheet(),
+      ),
     );
   }
 
   void _openPresets(BuildContext context) {
+    final controller = context.read<FractalController>();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (_) => const PresetSheet(),
+      builder: (_) => ChangeNotifierProvider.value(
+        value: controller,
+        child: const PresetSheet(),
+      ),
     );
   }
 

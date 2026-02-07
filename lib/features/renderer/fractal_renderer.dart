@@ -131,9 +131,11 @@ class _FractalRendererState extends State<FractalRenderer>
                   Vector3(delta.dy * 0.01, delta.dx * 0.01, 0),
             );
           } else {
+            // Invert panning so dragging the finger moves the view intuitively
+            // (i.e., drag right -> scene shifts right).
             final pan = Vector2(
-              view.pan.x + delta.dx * 0.005,
-              view.pan.y + delta.dy * 0.005,
+              view.pan.x - delta.dx * 0.005,
+              view.pan.y - delta.dy * 0.005,
             );
             provider.updatePan(pan);
           }

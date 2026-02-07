@@ -7,6 +7,11 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+dependencies {
+    // Needed when Flutter includes deferred components / Play Store split compat classes.
+    implementation("com.google.android.play:core:1.10.3")
+}
+
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
@@ -33,6 +38,10 @@ android {
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Avoid Play Core split-compat requirement (and related R8 missing classes)
+        // unless you explicitly use deferred components.
+        manifestPlaceholders["applicationName"] = "io.flutter.app.FlutterApplication"
     }
 
     signingConfigs {
@@ -51,6 +60,7 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            // Production defaults
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
