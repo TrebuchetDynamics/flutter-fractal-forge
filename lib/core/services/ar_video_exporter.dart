@@ -5,8 +5,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
 
 class ArVideoExporter {
@@ -14,8 +12,6 @@ class ArVideoExporter {
 
   const ArVideoExporter({ExportService exportService = const ExportService()})
       : _exportService = exportService;
-
-  bool get _supportsFfmpegKit => Platform.isAndroid || Platform.isIOS;
 
   Future<ArVideoExportResult?> recordBakedVideo({
     required CameraController cameraController,
@@ -33,21 +29,6 @@ class ArVideoExporter {
       return null;
     }
 
-    if (_supportsFfmpegKit) {
-      final result = await _recordWithFfmpegKit(
-        cameraController: cameraController,
-        overlayKey: overlayKey,
-        duration: duration,
-        fps: fps,
-        pixelRatio: pixelRatio,
-        targetShortSide: targetShortSide,
-        onProgress: onProgress,
-      );
-      if (result != null) {
-        return result;
-      }
-    }
-
     return _recordWithGifFallback(
       cameraController: cameraController,
       overlayKey: overlayKey,
@@ -57,69 +38,6 @@ class ArVideoExporter {
       targetShortSide: targetShortSide,
       onProgress: onProgress,
     );
-  }
-
-  Future<ArVideoExportResult?> _recordWithFfmpegKit({
-    required CameraController cameraController,
-    required GlobalKey overlayKey,
-    required Duration duration,
-    required int fps,
-    required double pixelRatio,
-    required int targetShortSide,
-    ValueChanged<double>? onProgress,
-  }) async {
-    onProgress?.call(0.0);
-    final tempDir = await getTemporaryDirectory();
-    final sessionId = DateTime.now().millisecondsSinceEpoch;
-    final sessionDir = Directory('${tempDir.path}/ar_export_$sessionId');
-    final overlayDir = Directory('${sessionDir.path}/overlay');
-    await overlayDir.create(recursive: true);
-
-    await cameraController.startVideoRecording();
-    final overlayFuture = _captureOverlayFrames(
-      overlayKey: overlayKey,
-      outputDir: overlayDir,
-      duration: duration,
-      fps: fps,
-      pixelRatio: pixelRatio,
-      onProgress: (progress) {
-        if (onProgress != null) {
-          onProgress(progress * 0.7);
-        }
-      },
-    );
-    await Future.delayed(duration);
-    final videoFile = await cameraController.stopVideoRecording();
-    await overlayFuture;
-
-    final outputFile =
-        await _exportService.createExportFile(filename: 'ar_baked_$sessionId.mp4');
-    onProgress?.call(0.7);
-    final composed = await _composeWithFfmpegKit(
-      cameraPath: videoFile.path,
-      overlayPattern: '${overlayDir.path}/frame_%05d.png',
-      fps: fps,
-      outputPath: outputFile.path,
-      targetShortSide: targetShortSide,
-    );
-    onProgress?.call(1.0);
-
-    try {
-      await File(videoFile.path).delete();
-    } catch (_) {}
-    await _cleanupDirectory(sessionDir);
-    if (composed) {
-      return ArVideoExportResult(
-        file: outputFile,
-        method: ArVideoExportMethod.ffmpeg,
-      );
-    }
-    try {
-      if (await outputFile.exists()) {
-        await outputFile.delete();
-      }
-    } catch (_) {}
-    return null;
   }
 
   Future<ArVideoExportResult?> _recordWithGifFallback({
@@ -239,75 +157,6 @@ class ArVideoExporter {
     return completer.future;
   }
 
-  Future<int> _captureOverlayFrames({
-    required GlobalKey overlayKey,
-    required Directory outputDir,
-    required Duration duration,
-    required int fps,
-    required double pixelRatio,
-    ValueChanged<double>? onProgress,
-  }) async {
-    final frameIntervalMs = (1000 / fps).round();
-    final frameCount = (duration.inMilliseconds / frameIntervalMs).round();
-    final stopwatch = Stopwatch()..start();
-    for (var i = 0; i < frameCount; i++) {
-      final targetMs = i * frameIntervalMs;
-      final elapsed = stopwatch.elapsedMilliseconds;
-      if (elapsed < targetMs) {
-        await Future.delayed(Duration(milliseconds: targetMs - elapsed));
-      }
-      final bytes = await _exportService.capturePng(overlayKey, pixelRatio: pixelRatio);
-      final file =
-          File('${outputDir.path}/frame_${i.toString().padLeft(5, '0')}.png');
-      await file.writeAsBytes(bytes, flush: true);
-      if (onProgress != null && frameCount > 0) {
-        onProgress(((i + 1) / frameCount).clamp(0.0, 1.0));
-      }
-    }
-    return frameCount;
-  }
-
-  Future<bool> _composeWithFfmpegKit({
-    required String cameraPath,
-    required String overlayPattern,
-    required int fps,
-    required String outputPath,
-    required int targetShortSide,
-  }) async {
-    final filter =
-        '[1:v][0:v]scale2ref=rw:rh[overlay][base];'
-        '[base][overlay]overlay=0:0:format=auto,'
-        'scale=if(gte(iw,ih),-2,$targetShortSide):if(gte(iw,ih),$targetShortSide,-2)';
-    final command = [
-      '-y',
-      '-i',
-      _quote(cameraPath),
-      '-framerate',
-      '$fps',
-      '-start_number',
-      '0',
-      '-i',
-      _quote(overlayPattern),
-      '-filter_complex',
-      '"$filter"',
-      '-r',
-      '$fps',
-      '-c:v',
-      'libx264',
-      '-pix_fmt',
-      'yuv420p',
-      '-shortest',
-      _quote(outputPath),
-    ].join(' ');
-    try {
-      final session = await FFmpegKit.execute(command);
-      final returnCode = await session.getReturnCode();
-      return ReturnCode.isSuccess(returnCode) && await File(outputPath).exists();
-    } catch (_) {
-      return false;
-    }
-  }
-
   Future<void> _cleanupDirectory(Directory directory) async {
     if (!await directory.exists()) {
       return;
@@ -320,11 +169,6 @@ class ArVideoExporter {
     try {
       await directory.delete(recursive: true);
     } catch (_) {}
-  }
-
-  String _quote(String value) {
-    final escaped = value.replaceAll('"', '\\"');
-    return '"$escaped"';
   }
 
   img.Image? _convertCameraImage(CameraImage image) {

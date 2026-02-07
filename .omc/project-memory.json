@@ -164,6 +164,12 @@
       "type": "file"
     },
     {
+      "path": "lib/core/services/ar_video_exporter.dart",
+      "accessCount": 17,
+      "lastAccessed": 1770496279971,
+      "type": "file"
+    },
+    {
       "path": "lib/features/controls/fractal_controls.dart",
       "accessCount": 12,
       "lastAccessed": 1770483807152,
@@ -176,15 +182,9 @@
       "type": "file"
     },
     {
-      "path": "lib/core/services/ar_video_exporter.dart",
-      "accessCount": 9,
-      "lastAccessed": 1770483684027,
-      "type": "file"
-    },
-    {
       "path": "pubspec.yaml",
-      "accessCount": 9,
-      "lastAccessed": 1770484567013,
+      "accessCount": 11,
+      "lastAccessed": 1770496269364,
       "type": "file"
     },
     {
@@ -207,8 +207,8 @@
     },
     {
       "path": "",
-      "accessCount": 8,
-      "lastAccessed": 1770484099714,
+      "accessCount": 9,
+      "lastAccessed": 1770496099358,
       "type": "directory"
     },
     {
@@ -300,6 +300,12 @@
       "accessCount": 3,
       "lastAccessed": 1770484574384,
       "type": "directory"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "accessCount": 3,
+      "lastAccessed": 1770496459624,
+      "type": "file"
     },
     {
       "path": "lib/features/renderer/fractal_canvas.dart",
@@ -425,6 +431,30 @@
       "path": "lib/features/presets/preset_sheet.dart",
       "accessCount": 1,
       "lastAccessed": 1770483825493,
+      "type": "file"
+    },
+    {
+      "path": "android/settings.gradle.kts",
+      "accessCount": 1,
+      "lastAccessed": 1770496058997,
+      "type": "file"
+    },
+    {
+      "path": "pubspec.lock",
+      "accessCount": 1,
+      "lastAccessed": 1770496103685,
+      "type": "directory"
+    },
+    {
+      "path": "flutter.android.install.md",
+      "accessCount": 1,
+      "lastAccessed": 1770496390066,
+      "type": "file"
+    },
+    {
+      "path": "android/app/src/debug/AndroidManifest.xml",
+      "accessCount": 1,
+      "lastAccessed": 1770496443081,
       "type": "file"
     }
   ],
