@@ -23,6 +23,8 @@ class FractalRenderer extends StatefulWidget {
 
 class _FractalRendererState extends State<FractalRenderer>
     with TickerProviderStateMixin {
+  static const bool _isTest = bool.fromEnvironment('FLUTTER_TEST');
+
   late AnimationController _animationController;
   ui.FragmentProgram? _program;
   String? _shaderAsset;
@@ -73,6 +75,53 @@ class _FractalRendererState extends State<FractalRenderer>
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
     final module = controller.module;
+
+    // Widget tests run on a stripped-down engine that doesn't support GPU shaders.
+    // Provide a lightweight placeholder surface so gesture + UI behavior can be
+    // exercised in CI without a device/emulator.
+    if (_isTest) {
+      final content = RepaintBoundary(
+        key: widget.boundaryKey,
+        child: const SizedBox.expand(
+          child: ColoredBox(
+            key: Key('fractalTestSurface'),
+            color: Colors.black,
+          ),
+        ),
+      );
+
+      if (!widget.gesturesEnabled) {
+        return content;
+      }
+
+      return GestureDetector(
+        onScaleUpdate: (details) {
+          final provider = context.read<FractalController>();
+          final view = provider.view;
+
+          if (details.scale != 1.0) {
+            provider.updateZoom(view.zoom * details.scale);
+          }
+
+          if (details.focalPointDelta != Offset.zero) {
+            final delta = details.focalPointDelta;
+            if (module.dimension == FractalDimension.threeD) {
+              provider.updateRotation(
+                view.rotation + Vector3(delta.dy * 0.01, delta.dx * 0.01, 0),
+              );
+            } else {
+              final pan = Vector2(
+                view.pan.x - delta.dx * 0.005,
+                view.pan.y - delta.dy * 0.005,
+              );
+              provider.updatePan(pan);
+            }
+          }
+        },
+        child: content,
+      );
+    }
+
     if (_shaderAsset != module.shaderAsset && !_loading) {
       _loadShader(module.shaderAsset);
     }
@@ -98,7 +147,9 @@ class _FractalRendererState extends State<FractalRenderer>
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: () {
-                  setState(() { _shaderError = null; });
+                  setState(() {
+                    _shaderError = null;
+                  });
                   _loadShader(module.shaderAsset);
                 },
                 icon: const Icon(Icons.refresh),

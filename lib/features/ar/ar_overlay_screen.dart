@@ -9,7 +9,9 @@ import 'package:flutter_fractals/core/services/ar_video_exporter.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'dart:developer' as dev;
 
 class ArOverlayScreen extends StatefulWidget {
   const ArOverlayScreen({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class ArOverlayScreen extends StatefulWidget {
 
 class _ArOverlayScreenState extends State<ArOverlayScreen> {
   CameraController? _cameraController;
+  late final FractalController _fractalController;
   bool _permissionDenied = false;
   bool _initializing = true;
   bool _exporting = false;
@@ -46,27 +49,46 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
   @override
   void initState() {
     super.initState();
+    _fractalController = context.read<FractalController>();
     _qualityPreset = context.read<ArQualityStore>().getPreset();
     _initCamera();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final controller = context.read<FractalController>();
-      _previousTransparency = controller.transparentBackground;
-      controller.setTransparentBackground(true);
-      controller.applyArQualityPreset(_qualityPreset);
+      // AR overlay expects the fractal layer to have a transparent background.
+      // Cache controller so dispose doesn't depend on context.
+      _previousTransparency = _fractalController.transparentBackground;
+      _fractalController.setTransparentBackground(true);
+      _fractalController.applyArQualityPreset(_qualityPreset);
     });
   }
 
   Future<void> _initCamera() async {
+    dev.log('initCamera: requesting permission', name: 'FF.AR');
     final status = await Permission.camera.request();
     if (!status.isGranted) {
+      if (!mounted) return;
       setState(() {
         _permissionDenied = true;
         _initializing = false;
       });
       return;
     }
-    final cameras = await availableCameras();
+
+    List<CameraDescription> cameras;
+    try {
+      cameras = await availableCameras();
+    } catch (e, st) {
+      dev.log('initCamera: availableCameras failed: $e',
+          name: 'FF.AR', error: e, stackTrace: st);
+      if (!mounted) return;
+      setState(() {
+        _permissionDenied = true;
+        _initializing = false;
+      });
+      return;
+    }
+
     if (cameras.isEmpty) {
+      if (!mounted) return;
       setState(() {
         _permissionDenied = true;
         _initializing = false;
@@ -75,6 +97,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     }
 
     try {
+      dev.log('initCamera: creating controller', name: 'FF.AR');
       final controller = CameraController(
         cameras.first,
         ResolutionPreset.high,
@@ -86,11 +109,15 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         await controller.dispose();
         return;
       }
+      dev.log('initCamera: initialized', name: 'FF.AR');
       setState(() {
         _cameraController = controller;
         _initializing = false;
       });
-    } catch (_) {
+    } catch (e, st) {
+      dev.log('initCamera: initialize failed: $e',
+          name: 'FF.AR', error: e, stackTrace: st);
+      if (!mounted) return;
       setState(() {
         _permissionDenied = true;
         _initializing = false;
@@ -100,9 +127,22 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
 
   @override
   void dispose() {
-    _cameraController?.dispose();
-    // Restore prior viewer transparency. `mounted` is false during dispose.
-    context.read<FractalController>().setTransparentBackground(_previousTransparency);
+    dev.log('dispose: tearing down AR screen', name: 'FF.AR');
+    try {
+      _cameraController?.dispose();
+    } catch (e, st) {
+      dev.log('dispose: cameraController dispose failed: $e',
+          name: 'FF.AR', error: e, stackTrace: st);
+    }
+
+    // Restore prior viewer transparency.
+    // Avoid context.read() in dispose (can throw if provider tree already torn down).
+    try {
+      _fractalController.setTransparentBackground(_previousTransparency);
+    } catch (e, st) {
+      dev.log('dispose: restoring transparency failed: $e',
+          name: 'FF.AR', error: e, stackTrace: st);
+    }
     super.dispose();
   }
 
@@ -167,7 +207,8 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                             setState(() {
                               _overlayScale =
                                   (_startScale * details.scale).clamp(0.3, 4.0);
-                              _overlayRotation = _startRotation + details.rotation;
+                              _overlayRotation =
+                                  _startRotation + details.rotation;
                               _overlayOffset += details.focalPointDelta;
                             });
                           },
@@ -206,7 +247,11 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
             locked: _overlayLocked,
             transparent: _transparentBackground,
             qualityPreset: _qualityPreset,
-            onOpacityChanged: (value) => setState(() => _overlayOpacity = value),
+            currentModuleLabel: controller.module.displayName(l10n),
+            onSelectModule:
+                _exporting ? null : () => _showModuleSelector(context),
+            onOpacityChanged: (value) =>
+                setState(() => _overlayOpacity = value),
             onLockedChanged: (value) => setState(() => _overlayLocked = value),
             onTransparentChanged: (value) {
               setState(() => _transparentBackground = value);
@@ -237,7 +282,8 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                         const SizedBox(height: 12),
                         SizedBox(
                           width: 200,
-                          child: LinearProgressIndicator(value: _exportProgress),
+                          child:
+                              LinearProgressIndicator(value: _exportProgress),
                         ),
                         if (_exportProgress != null) ...[
                           const SizedBox(height: 8),
@@ -254,14 +300,89 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     );
   }
 
+  Future<void> _showModuleSelector(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final controller = context.read<FractalController>();
+    final modules = controller.registry.modules;
+
+    final selected = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) {
+        final twoD =
+            modules.where((m) => m.dimension == FractalDimension.twoD).toList();
+        final threeD = modules
+            .where((m) => m.dimension == FractalDimension.threeD)
+            .toList();
+
+        Widget buildSection(String title, List<FractalModule> items) {
+          if (items.isEmpty) {
+            return const SizedBox.shrink();
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                child: Text(title,
+                    style: Theme.of(sheetContext).textTheme.titleSmall),
+              ),
+              ...items.map((module) {
+                final isSelected = module.id == controller.module.id;
+                return ListTile(
+                  title: Text(module.displayName(l10n)),
+                  trailing: isSelected ? const Icon(Icons.check) : null,
+                  onTap: () => Navigator.of(sheetContext).pop(module.id),
+                );
+              }),
+            ],
+          );
+        }
+
+        return SafeArea(
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              buildSection(l10n.fractalSection2d, twoD),
+              buildSection(l10n.fractalSection3d, threeD),
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (!mounted || selected == null) {
+      return;
+    }
+
+    final module = controller.registry.byId(selected);
+    controller.selectModule(module);
+
+    // Ensure AR mode always renders on transparent background and uses AR quality.
+    setState(() => _transparentBackground = true);
+    controller.setTransparentBackground(true);
+    controller.applyArQualityPreset(_qualityPreset);
+  }
+
   Future<void> _exportOverlay(BuildContext context) async {
     final l10n = AppLocalizations.of(context)!;
+    if (_overlayKey.currentContext == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.exportFailed('Overlay not ready'))),
+        );
+      }
+      return;
+    }
+    dev.log('exportOverlay: capturing overlay png', name: 'FF.AR');
     setState(() {
       _exporting = true;
       _exportProgress = null;
     });
     try {
-      final bytes = await _exportService.capturePng(_overlayKey, pixelRatio: 2.0);
+      final bytes =
+          await _exportService.capturePng(_overlayKey, pixelRatio: 2.0);
       final file = await _exportService.saveBytes(
         bytes,
         filename: 'ar_overlay_${DateTime.now().millisecondsSinceEpoch}.png',
@@ -285,7 +406,21 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
 
   Future<void> _exportBaked(BuildContext context) async {
     final l10n = AppLocalizations.of(context)!;
-    if (_cameraController == null) {
+    final cam = _cameraController;
+    if (cam == null || !cam.value.isInitialized) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.exportFailed('Camera not ready'))),
+        );
+      }
+      return;
+    }
+    if (_overlayKey.currentContext == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.exportFailed('Overlay not ready'))),
+        );
+      }
       return;
     }
     setState(() {
@@ -293,9 +428,11 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
       _exportProgress = null;
     });
     try {
-      final overlayBytes = await _exportService.capturePng(_overlayKey, pixelRatio: 2.0);
+      final overlayBytes =
+          await _exportService.capturePng(_overlayKey, pixelRatio: 2.0);
+      dev.log('exportBaked: capturing overlay + takePicture', name: 'FF.AR');
       final file = await _arExportService.exportBakedScreenshot(
-        cameraController: _cameraController!,
+        cameraController: cam,
         overlayPng: overlayBytes,
         filename: 'ar_baked_${DateTime.now().millisecondsSinceEpoch}.png',
       );
@@ -318,7 +455,21 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
 
   Future<void> _exportVideo(BuildContext context) async {
     final l10n = AppLocalizations.of(context)!;
-    if (_cameraController == null) {
+    final cam = _cameraController;
+    if (cam == null || !cam.value.isInitialized) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.exportFailed('Camera not ready'))),
+        );
+      }
+      return;
+    }
+    if (_overlayKey.currentContext == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.exportFailed('Overlay not ready'))),
+        );
+      }
       return;
     }
     final duration = await showModalBottomSheet<Duration>(
@@ -329,15 +480,18 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
           children: [
             ListTile(
               title: Text(l10n.arDuration5),
-              onTap: () => Navigator.of(context).pop(const Duration(seconds: 5)),
+              onTap: () =>
+                  Navigator.of(context).pop(const Duration(seconds: 5)),
             ),
             ListTile(
               title: Text(l10n.arDuration10),
-              onTap: () => Navigator.of(context).pop(const Duration(seconds: 10)),
+              onTap: () =>
+                  Navigator.of(context).pop(const Duration(seconds: 10)),
             ),
             ListTile(
               title: Text(l10n.arDuration15),
-              onTap: () => Navigator.of(context).pop(const Duration(seconds: 15)),
+              onTap: () =>
+                  Navigator.of(context).pop(const Duration(seconds: 15)),
             ),
           ],
         ),
@@ -351,8 +505,9 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
       _exportProgress = 0.0;
     });
     try {
+      dev.log('exportVideo: recording baked video (fallback gif)', name: 'FF.AR');
       final result = await _videoExporter.recordBakedVideo(
-        cameraController: _cameraController!,
+        cameraController: cam,
         overlayKey: _overlayKey,
         duration: duration,
         fps: 30,
@@ -466,6 +621,8 @@ class _ArControlsPanel extends StatelessWidget {
   final bool locked;
   final bool transparent;
   final ArQualityPreset qualityPreset;
+  final String currentModuleLabel;
+  final VoidCallback? onSelectModule;
   final ValueChanged<double> onOpacityChanged;
   final ValueChanged<bool> onLockedChanged;
   final ValueChanged<bool> onTransparentChanged;
@@ -479,6 +636,8 @@ class _ArControlsPanel extends StatelessWidget {
     required this.locked,
     required this.transparent,
     required this.qualityPreset,
+    required this.currentModuleLabel,
+    required this.onSelectModule,
     required this.onOpacityChanged,
     required this.onLockedChanged,
     required this.onTransparentChanged,
@@ -498,6 +657,15 @@ class _ArControlsPanel extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: onSelectModule,
+                icon: const Icon(Icons.grid_view),
+                label: Text('${l10n.arSelectFractal}: $currentModuleLabel'),
+              ),
+            ),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Expanded(child: Text(l10n.paramOpacity)),

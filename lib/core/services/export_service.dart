@@ -37,10 +37,23 @@ class ExportService {
   }
 
   Future<Uint8List> capturePng(GlobalKey boundaryKey, {double pixelRatio = 2.0}) async {
-    final boundary = boundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    RenderRepaintBoundary? boundary =
+        boundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     if (boundary == null) {
       throw StateError('Boundary not found');
     }
+
+    // Defensive: boundary.toImage() can throw if the layer hasn't painted yet.
+    if (boundary.debugNeedsPaint) {
+      // Wait for one frame and re-acquire boundary (it can change).
+      await WidgetsBinding.instance.endOfFrame;
+      boundary =
+          boundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary == null) {
+        throw StateError('Boundary not found');
+      }
+    }
+
     final image = await boundary.toImage(pixelRatio: pixelRatio);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     if (byteData == null) {

@@ -188,6 +188,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arTitle => 'AR Overlay';
 
   @override
+  String get arSelectFractal => 'Fractal';
+
+  @override
+  String get fractalSection2d => '2D';
+
+  @override
+  String get fractalSection3d => '3D';
+
+  @override
   String get arPermissionRequest =>
       'Camera permission is required for AR mode.';
 

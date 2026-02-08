@@ -49,9 +49,12 @@ void main() {
 
     float t = iter / maxIter;
     vec3 color = palette(t, uColorScheme);
+
+    // AR overlay mode: make the interior of the set transparent.
     float alpha = 1.0;
-    if (uTransparentBg > 0.5 && iter < maxIter - 1.0) {
-        alpha = smoothstep(0.2, 1.0, t);
+    if (uTransparentBg > 0.5) {
+        bool inside = iter >= (maxIter - 1.0);
+        alpha = inside ? 0.0 : 1.0;
     }
 
     fragColor = vec4(color, alpha);

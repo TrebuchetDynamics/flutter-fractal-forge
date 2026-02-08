@@ -58,6 +58,9 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
+  # Needed for mocking permission requests in widget tests.
+  permission_handler_platform_interface: ^4.2.0
+
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.3
 

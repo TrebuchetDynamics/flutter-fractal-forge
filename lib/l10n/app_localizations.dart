@@ -446,6 +446,24 @@ abstract class AppLocalizations {
   /// **'AR Overlay'**
   String get arTitle;
 
+  /// No description provided for @arSelectFractal.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractal'**
+  String get arSelectFractal;
+
+  /// No description provided for @fractalSection2d.
+  ///
+  /// In en, this message translates to:
+  /// **'2D'**
+  String get fractalSection2d;
+
+  /// No description provided for @fractalSection3d.
+  ///
+  /// In en, this message translates to:
+  /// **'3D'**
+  String get fractalSection3d;
+
   /// No description provided for @arPermissionRequest.
   ///
   /// In en, this message translates to:

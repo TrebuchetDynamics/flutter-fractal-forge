@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'dart:developer' as dev;
 import 'package:camera/camera.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as img;
@@ -139,9 +140,13 @@ class ArVideoExporter {
         if (captured >= targetFrames) {
           await finish();
         }
-      } catch (e) {
+      } catch (e, st) {
+        dev.log('recordBakedVideo: frame capture failed: $e',
+            name: 'FF.AR', error: e, stackTrace: st);
+        // Fail gracefully: stop streaming and return null instead of crashing.
+        await finish();
         if (!completer.isCompleted) {
-          completer.completeError(e);
+          completer.complete(null);
         }
       } finally {
         processing = false;

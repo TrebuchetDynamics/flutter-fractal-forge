@@ -14,6 +14,15 @@ class ArExportService {
     required Uint8List overlayPng,
     required String filename,
   }) async {
+    if (!cameraController.value.isInitialized) {
+      throw StateError('Camera not initialized');
+    }
+    // Some camera implementations disallow takePicture while an image stream is active.
+    if (cameraController.value.isStreamingImages) {
+      try {
+        await cameraController.stopImageStream();
+      } catch (_) {}
+    }
     final photoFile = await cameraController.takePicture();
     final photoBytes = await photoFile.readAsBytes();
     final baseImage = img.decodeImage(photoBytes);

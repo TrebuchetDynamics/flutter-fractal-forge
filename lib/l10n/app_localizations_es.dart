@@ -189,6 +189,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get arTitle => 'Superposición AR';
 
   @override
+  String get arSelectFractal => 'Fractal';
+
+  @override
+  String get fractalSection2d => '2D';
+
+  @override
+  String get fractalSection3d => '3D';
+
+  @override
   String get arPermissionRequest =>
       'Se requiere permiso de cámara para el modo AR.';
 
