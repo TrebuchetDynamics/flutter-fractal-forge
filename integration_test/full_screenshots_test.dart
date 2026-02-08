@@ -63,7 +63,9 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      // Avoid indefinite pumpAndSettle: shaders/animations can keep scheduling frames.
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 2));
     }
 
     Future<void> snap(WidgetTester tester, String name) async {
@@ -74,30 +76,33 @@ void main() {
           .replaceAll(RegExp(r'[^a-z0-9\-_.]+'), '_')
           .replaceAll(RegExp(r'_+'), '_');
 
-      // Try desktop fallback first (works on Linux desktop)
-      try {
-        final dir = Directory('screenshots');
-        if (!dir.existsSync()) {
-          dir.createSync(recursive: true);
+      // Try desktop fallback first (works on Linux desktop).
+      // On Android, prefer the integration_test screenshot path for stability.
+      if (!Platform.isAndroid) {
+        try {
+          final dir = Directory('screenshots');
+          if (!dir.existsSync()) {
+            dir.createSync(recursive: true);
+          }
+          final ctx = boundaryKey.currentContext;
+          if (ctx == null) {
+            throw Exception('Screenshot boundary not mounted');
+          }
+          final boundary = ctx.findRenderObject() as RenderRepaintBoundary;
+          final image = await boundary.toImage(pixelRatio: 2.0);
+          final data = await image.toByteData(format: ui.ImageByteFormat.png);
+          if (data == null) {
+            throw Exception('Failed to encode screenshot PNG');
+          }
+          final file = File('screenshots/$safeName.png');
+          await file.writeAsBytes(data.buffer.asUint8List());
+          // ignore: avoid_print
+          print('SCREENSHOT (repaint boundary): $safeName');
+          return;
+        } catch (e) {
+          // Fall through to integration test screenshot
+          debugPrint('Repaint boundary failed: $e, trying integration screenshot');
         }
-        final ctx = boundaryKey.currentContext;
-        if (ctx == null) {
-          throw Exception('Screenshot boundary not mounted');
-        }
-        final boundary = ctx.findRenderObject() as RenderRepaintBoundary;
-        final image = await boundary.toImage(pixelRatio: 2.0);
-        final data = await image.toByteData(format: ui.ImageByteFormat.png);
-        if (data == null) {
-          throw Exception('Failed to encode screenshot PNG');
-        }
-        final file = File('screenshots/$safeName.png');
-        await file.writeAsBytes(data.buffer.asUint8List());
-        // ignore: avoid_print
-        print('SCREENSHOT (repaint boundary): $safeName');
-        return;
-      } catch (e) {
-        // Fall through to integration test screenshot
-        debugPrint('Repaint boundary failed: $e, trying integration screenshot');
       }
 
       // For Android, need to convert surface first
@@ -193,8 +198,8 @@ void main() {
 
       // Open controls panel (Icons.tune)
       await tester.tap(find.byIcon(Icons.tune));
-      await tester.pumpAndSettle();
-      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 800));
 
       await snap(tester, '07_controls_panel');
     });
@@ -208,8 +213,8 @@ void main() {
 
       // Open presets panel (Icons.bookmark)
       await tester.tap(find.byIcon(Icons.bookmark));
-      await tester.pumpAndSettle();
-      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 800));
 
       await snap(tester, '08_presets_panel');
     });

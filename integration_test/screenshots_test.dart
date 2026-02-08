@@ -61,7 +61,8 @@ void main() {
       if (skip.evaluate().isNotEmpty) {
         await binding.takeScreenshot('00_onboarding');
         await tester.tap(skip);
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 800));
       }
 
       await binding.takeScreenshot('01_catalog');
@@ -78,7 +79,8 @@ void main() {
       final tune = find.byIcon(Icons.tune_rounded);
       if (tune.evaluate().isNotEmpty) {
         await tester.tap(tune);
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 800));
         await binding.takeScreenshot('03_tune_panel');
       }
 
@@ -86,7 +88,8 @@ void main() {
       final back = find.byIcon(Icons.arrow_back_rounded);
       if (back.evaluate().isNotEmpty) {
         await tester.tap(back);
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 800));
       }
 
       await binding.takeScreenshot('04_catalog_after_back');

@@ -38,7 +38,9 @@ void main() {
           locale: const Locale('en'),
         ),
       );
-      await tester.pumpAndSettle();
+      // Avoid indefinite pumpAndSettle: shader/animation frames may never fully settle.
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 2));
     }
 
     Finder moduleCards() {
@@ -77,7 +79,8 @@ void main() {
 
       // Go back to catalog (custom back button in app bar)
       await tester.tap(find.byIcon(Icons.arrow_back_rounded));
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
 
       logger.logNavigation('Navigated back to catalog');
       expect(moduleCards().evaluate().length, greaterThanOrEqualTo(4));
@@ -111,7 +114,8 @@ void main() {
 
         // Go back (custom back button in app bar)
         await tester.tap(find.byIcon(Icons.arrow_back_rounded));
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
       }
 
       expect(
@@ -127,14 +131,16 @@ void main() {
       expect(searchField, findsOneWidget);
 
       await tester.enterText(searchField, 'Julia');
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
 
       expect(moduleCards().evaluate().length, greaterThanOrEqualTo(1));
       logger.logAction('test', 'Search filtered to Julia');
 
       // Clear search
       await tester.enterText(searchField, '');
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
 
       expect(moduleCards().evaluate().length, greaterThanOrEqualTo(4));
       logger.logAction('test', 'Search cleared, modules visible');

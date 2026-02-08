@@ -43,6 +43,12 @@ import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+/// Forces the CPU fallback renderer.
+///
+/// Useful for emulator CI runs and for validating gesture paths.
+/// Enable with: --dart-define=FORCE_CPU_FALLBACK=true
+const bool kForceCpuFallback = bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);
+
 class FractalViewerScreen extends StatefulWidget {
   const FractalViewerScreen({Key? key}) : super(key: key);
 
@@ -132,8 +138,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _recordHistory(context);
 
       // Schedule GPU health check for this module.
-      _useCpuFallback = false;
-      _scheduleGpuHealthCheck();
+      // Note: in emulator/CI we can force CPU fallback to make tests deterministic.
+      _useCpuFallback = kForceCpuFallback;
+      if (!_useCpuFallback) {
+        _scheduleGpuHealthCheck();
+      }
 
       // Initialize auto-explore service
       _autoExploreService?.dispose();
@@ -200,8 +209,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     // If module changed, reset fallback + re-check.
     final controller = context.read<FractalController>();
     if (_lastModuleId != null && _lastModuleId != controller.module.id) {
-      _useCpuFallback = false;
-      _scheduleGpuHealthCheck();
+      _useCpuFallback = kForceCpuFallback;
+      if (!_useCpuFallback) {
+        _scheduleGpuHealthCheck();
+      }
     }
 
     // Record view/config changes into history

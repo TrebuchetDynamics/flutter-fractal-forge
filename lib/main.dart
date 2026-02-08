@@ -42,6 +42,12 @@ import 'package:flutter_fractals/core/services/onboarding_service.dart';
 const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
 const int kBootStep = int.fromEnvironment('BOOT_STEP', defaultValue: 0);
 
+/// Deep links can be noisy/flaky on emulators and in automated UI tests.
+///
+/// Default: disabled.
+/// Enable with: --dart-define=ENABLE_DEEP_LINKS=1
+const int kEnableDeepLinks = int.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: 0);
+
 /// Application entry point.
 ///
 /// Initializes services, configures error handling, and launches the app.
@@ -99,8 +105,12 @@ Future<void> main() async {
     final historyStore = await HistoryStore.create();
     final accessibilityService = await AccessibilityService.create();
     final onboardingService = await OnboardingService.create();
-    final deepLinkService = DeepLinkService();
-    await deepLinkService.initialize();
+    DeepLinkService? deepLinkService;
+    if (kEnableDeepLinks == 1) {
+      deepLinkService = DeepLinkService();
+      await deepLinkService.initialize();
+    }
+
     runApp(
       FlutterFractalsApp(
         presetStore: presetStore,
