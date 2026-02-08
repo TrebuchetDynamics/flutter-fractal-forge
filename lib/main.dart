@@ -21,6 +21,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -37,6 +38,8 @@ import 'package:flutter_fractals/features/home/home_screen.dart';
 import 'package:flutter_fractals/features/onboarding/onboarding_screen.dart';
 import 'package:flutter_fractals/core/services/onboarding_service.dart';
 // FractalController is provided per tab (Explore vs AR).
+
+const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
 
 /// Application entry point.
 ///
@@ -57,6 +60,11 @@ Future<void> main() async {
       systemNavigationBarColor: AppColors.background,
       systemNavigationBarIconBrightness: Brightness.light,
     ));
+
+    if (kSafeMode >= 2) {
+      runApp(const _UltraSafeApp());
+      return;
+    }
 
     final presetStore = await PresetStore.create();
     final arQualityStore = await ArQualityStore.create();
@@ -106,6 +114,25 @@ Future<void> main() async {
 ///   ),
 /// );
 /// ```
+class _UltraSafeApp extends StatelessWidget {
+  const _UltraSafeApp();
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: Text(
+            'ULTRA SAFE MODE\nIf this screen shows, the crash is NOT from shaders/AR/providers.\n\nReport: "ultra safe mode opens".',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class FlutterFractalsApp extends StatefulWidget {
   /// Storage service for user-created presets.
   final PresetStore presetStore;

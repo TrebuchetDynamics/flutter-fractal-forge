@@ -12,6 +12,8 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+const bool kSafeMode = bool.fromEnvironment('SAFE_MODE', defaultValue: false);
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -43,8 +45,10 @@ class _HomeScreenState extends State<HomeScreen>
       vsync: this,
     );
 
-    // Set up deep link handling
-    _initDeepLinks();
+    // Set up deep link handling (skip in SAFE_MODE)
+    if (!kSafeMode) {
+      _initDeepLinks();
+    }
   }
 
   void _initDeepLinks() {
@@ -165,11 +169,27 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         );
       },
-      child: _index == 0
+      child: (kSafeMode || _index == 0)
           ? ChangeNotifierProvider.value(
               key: const ValueKey('explore'),
               value: _exploreController,
-              child: const FractalCatalogScreen(),
+              child: Column(
+                children: [
+                  if (kSafeMode)
+                    MaterialBanner(
+                      backgroundColor: AppColors.warning.withOpacity(0.15),
+                      content: Text(
+                        'SAFE MODE: AR & shader rendering disabled for device crash triage.',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppColors.warning),
+                      ),
+                      actions: const [],
+                    ),
+                  const Expanded(child: FractalCatalogScreen()),
+                ],
+              ),
             )
           : ChangeNotifierProvider.value(
               key: const ValueKey('ar'),
@@ -181,25 +201,27 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       extendBody: true,
       appBar: _PremiumAppBar(
-        title: _index == 0 ? l10n.catalogTitle : l10n.arTitle,
+        title: (kSafeMode || _index == 0) ? l10n.catalogTitle : l10n.arTitle,
       ),
       body: body,
-      bottomNavigationBar: _PremiumNavBar(
-        currentIndex: _index,
-        onTap: _onTabChanged,
-        items: [
-          _NavItem(
-            icon: Icons.grid_view_rounded,
-            label: l10n.tabExplore,
-            semanticLabel: l10n.semanticNavExplore,
-          ),
-          _NavItem(
-            icon: Icons.camera_rounded,
-            label: l10n.tabAr,
-            semanticLabel: l10n.semanticNavAr,
-          ),
-        ],
-      ),
+      bottomNavigationBar: kSafeMode
+          ? null
+          : _PremiumNavBar(
+              currentIndex: _index,
+              onTap: _onTabChanged,
+              items: [
+                _NavItem(
+                  icon: Icons.grid_view_rounded,
+                  label: l10n.tabExplore,
+                  semanticLabel: l10n.semanticNavExplore,
+                ),
+                _NavItem(
+                  icon: Icons.camera_rounded,
+                  label: l10n.tabAr,
+                  semanticLabel: l10n.semanticNavAr,
+                ),
+              ],
+            ),
     );
   }
 }
