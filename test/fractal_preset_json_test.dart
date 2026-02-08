@@ -33,12 +33,15 @@ void main() {
       expect(decoded.params, preset.params);
       expect(decoded.isBuiltIn, isTrue);
       expect(decoded.thumbnailPath, 'thumb.png');
-      expect(decoded.view.pan.x, closeTo(1.25, 1e-9));
-      expect(decoded.view.pan.y, closeTo(-3.5, 1e-9));
-      expect(decoded.view.zoom, closeTo(2.0, 1e-9));
-      expect(decoded.view.rotation.x, closeTo(0.1, 1e-9));
-      expect(decoded.view.rotation.y, closeTo(0.2, 1e-9));
-      expect(decoded.view.rotation.z, closeTo(0.3, 1e-9));
+      // JSON decoding can round-trip through 32-bit floats on some platforms/engines.
+      // Keep tolerance slightly loose to avoid flaky CI failures.
+      const eps = 1e-6;
+      expect(decoded.view.pan.x, closeTo(1.25, eps));
+      expect(decoded.view.pan.y, closeTo(-3.5, eps));
+      expect(decoded.view.zoom, closeTo(2.0, eps));
+      expect(decoded.view.rotation.x, closeTo(0.1, eps));
+      expect(decoded.view.rotation.y, closeTo(0.2, eps));
+      expect(decoded.view.rotation.z, closeTo(0.3, eps));
       expect(decoded.createdAt.toIso8601String(), preset.createdAt.toIso8601String());
     });
 

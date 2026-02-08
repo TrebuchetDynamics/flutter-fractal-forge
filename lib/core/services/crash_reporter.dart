@@ -1,4 +1,4 @@
-import 'dart:ui';
+// (removed unused import)
 
 import 'package:flutter/foundation.dart';
 
@@ -137,13 +137,13 @@ class CrashReporter {
     // file:///Users/<name>/... or file:///home/<name>/...
     s = s.replaceAll(
       RegExp(r'file:///((Users|home)/)[^/\s]+'),
-      'file:///$1…',
+      'file:///\$1…',
     );
 
     // /Users/<name>/... or /home/<name>/...
     s = s.replaceAll(
       RegExp(r'/(Users|home)/[^/\s]+'),
-      '/$1/…',
+      '/\$1/…',
     );
 
     return s;

@@ -40,12 +40,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Controls'), findsOneWidget);
 
-    // Dismiss.
-    final barrier = find.byType(ModalBarrier);
-    if (barrier.evaluate().isNotEmpty) {
-      await tester.tap(barrier.first);
-      await tester.pumpAndSettle();
-    }
+    // Dismiss by tapping outside the sheet.
+    await tester.tapAt(const Offset(10, 10));
+    await tester.pumpAndSettle();
 
     // Open Presets.
     await tester.tap(find.byIcon(Icons.bookmark));

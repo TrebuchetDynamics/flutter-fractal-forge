@@ -5,7 +5,7 @@ import 'dart:developer' as dev;
 import 'package:camera/camera.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as img;
-import 'package:path_provider/path_provider.dart';
+// import 'package:path_provider/path_provider.dart'; // unused
 import 'package:flutter_fractals/core/services/export_service.dart';
 
 class ArVideoExporter {
@@ -162,6 +162,7 @@ class ArVideoExporter {
     return completer.future;
   }
 
+  // ignore: unused_element
   Future<void> _cleanupDirectory(Directory directory) async {
     if (!await directory.exists()) {
       return;

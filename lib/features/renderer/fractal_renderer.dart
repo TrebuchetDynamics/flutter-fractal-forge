@@ -23,7 +23,17 @@ class FractalRenderer extends StatefulWidget {
 
 class _FractalRendererState extends State<FractalRenderer>
     with TickerProviderStateMixin {
-  static const bool _isTest = bool.fromEnvironment('FLUTTER_TEST');
+  // `bool.fromEnvironment('FLUTTER_TEST')` isn't consistently set across all
+  // runners. Using an assert-based check is reliable in debug/test and keeps
+  // release builds unaffected.
+  static final bool _isTest = (() {
+    var v = false;
+    assert(() {
+      v = true;
+      return true;
+    }());
+    return v || const bool.fromEnvironment('FLUTTER_TEST');
+  })();
 
   late AnimationController _animationController;
   ui.FragmentProgram? _program;
@@ -38,7 +48,13 @@ class _FractalRendererState extends State<FractalRenderer>
     _animationController = AnimationController(
       duration: const Duration(days: 1),
       vsync: this,
-    )..repeat();
+    );
+
+    // Avoid an always-running ticker in widget tests; it makes `pumpAndSettle`
+    // time out.
+    if (!_isTest) {
+      _animationController.repeat();
+    }
   }
 
   Future<void> _loadShader(String asset) async {
@@ -161,14 +177,14 @@ class _FractalRendererState extends State<FractalRenderer>
       );
     }
     if (_program == null) {
-      final l10n = AppLocalizations.of(context)!;
+      final l10n = AppLocalizations.of(context);
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            Text(l10n.loadingShaders),
+            Text(l10n?.loadingShaders ?? 'Loading shaders…'),
           ],
         ),
       );

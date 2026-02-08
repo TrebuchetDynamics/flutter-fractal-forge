@@ -22,7 +22,7 @@ class LogEvent {
   String toString() {
     final timestampStr = timestamp.toIso8601String();
     final metadataStr = metadata != null && metadata!.isNotEmpty
-        ? ' ${metadata}'
+        ? ' $metadata'
         : '';
     return '[$timestampStr] [$type/$category] $message$metadataStr';
   }
