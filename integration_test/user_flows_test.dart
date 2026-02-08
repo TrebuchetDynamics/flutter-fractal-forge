@@ -50,7 +50,8 @@ void main() {
       try {
         await tester.pumpAndSettle(
           const Duration(milliseconds: 100),
-          timeout: const Duration(seconds: 3),
+          EnginePhase.sendSemanticsUpdate,
+          const Duration(seconds: 3),
         );
       } catch (_) {
         await tester.pump();
