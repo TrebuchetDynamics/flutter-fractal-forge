@@ -42,20 +42,22 @@ import 'package:flutter_fractals/core/services/onboarding_service.dart';
 ///
 /// Initializes services, configures error handling, and launches the app.
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Lightweight, local-only crash/error reporting.
-  CrashReporter.install();
-
-  // Set immersive status bar styling.
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.light,
-    systemNavigationBarColor: AppColors.background,
-    systemNavigationBarIconBrightness: Brightness.light,
-  ));
-
+  // All Flutter initialization must happen in the same zone as runApp
+  // to avoid zone mismatch errors.
   await runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // Lightweight, local-only crash/error reporting.
+    CrashReporter.install();
+
+    // Set immersive status bar styling.
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: AppColors.background,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ));
+
     final presetStore = await PresetStore.create();
     final arQualityStore = await ArQualityStore.create();
     final historyStore = await HistoryStore.create();

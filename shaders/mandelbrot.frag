@@ -1,5 +1,6 @@
-#version 460 core
 #include <flutter/runtime_effect.glsl>
+
+precision highp float;
 
 uniform float uTime;
 uniform vec2 uResolution;
@@ -22,6 +23,10 @@ uniform vec4 uCustomStop7;
 out vec4 fragColor;
 
 void main() {
-    // Simple test: output red to verify shader works
-    fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    // Simple test: output gradient based on position
+    vec2 fragCoord = FlutterFragCoord().xy;
+    vec2 uv = fragCoord / uResolution;
+    
+    // Simple gradient from red to blue
+    fragColor = vec4(uv.x, 0.2, uv.y, 1.0);
 }
