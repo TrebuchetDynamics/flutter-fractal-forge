@@ -66,6 +66,13 @@ Future<void> main() async {
       return;
     }
 
+    // SAFE_MODE=1: run a minimal Scaffold + AppBar, but skip all services/modules.
+    // This isolates black-screen issues caused by app initialization.
+    if (kSafeMode == 1) {
+      runApp(const _SafeScaffoldApp());
+      return;
+    }
+
     final presetStore = await PresetStore.create();
     final arQualityStore = await ArQualityStore.create();
     final historyStore = await HistoryStore.create();
@@ -125,6 +132,28 @@ class _UltraSafeApp extends StatelessWidget {
         body: Center(
           child: Text(
             'ULTRA SAFE MODE\nIf this screen shows, the crash is NOT from shaders/AR/providers.\n\nReport: "ultra safe mode opens".',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SafeScaffoldApp extends StatelessWidget {
+  const _SafeScaffoldApp();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('SAFE MODE 1'),
+        ),
+        body: const Center(
+          child: Text(
+            'SAFE_MODE=1\nMinimal UI (AppBar + Text).\nNo services/modules initialized.\n\nReport: "safe mode 1 renders".',
             textAlign: TextAlign.center,
           ),
         ),

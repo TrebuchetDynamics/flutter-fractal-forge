@@ -55,9 +55,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # integration_test temporarily removed for Flutter 3.38 compatibility
-  # integration_test:
-  #   sdk: flutter
+  integration_test:
+    sdk: flutter
 
   # Needed for mocking permission requests in widget tests.
   permission_handler_platform_interface: ^4.2.0
