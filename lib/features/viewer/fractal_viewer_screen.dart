@@ -34,6 +34,7 @@ import 'package:flutter_fractals/features/history/history_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -70,6 +71,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   // Shader debug overlay (always show in debug builds for now)
   bool _showShaderDebug = true;
+
+  // CPU fallback if GPU shader output appears black.
+  bool _useCpuFallback = false;
+  Timer? _gpuHealthTimer;
 
   // History tracking
   FractalController? _lastController;
@@ -122,14 +127,78 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       // Record initial state
       _recordHistory(context);
 
+      // Schedule GPU health check for this module.
+      _useCpuFallback = false;
+      _scheduleGpuHealthCheck();
+
       // Initialize auto-explore service
       _autoExploreService?.dispose();
       _autoExploreService = AutoExploreService(controller: controller);
     }
   }
 
+  void _scheduleGpuHealthCheck() {
+    _gpuHealthTimer?.cancel();
+    // Give shader load + first frames a moment.
+    _gpuHealthTimer = Timer(const Duration(seconds: 3), () async {
+      if (!mounted) return;
+      if (_compareMode) return; // skip in compare mode for now
+      if (_useCpuFallback) return;
+
+      final controller = context.read<FractalController>();
+      if (controller.module.dimension != FractalDimension.twoD) {
+        return; // CPU fallback currently only for 2D
+      }
+
+      final boundaryContext = _fractalKeyA.currentContext;
+      if (boundaryContext == null) return;
+      final renderObject = boundaryContext.findRenderObject();
+      if (renderObject is! RenderRepaintBoundary) return;
+
+      try {
+        // Render a tiny snapshot to check if the canvas is basically black.
+        final img = await renderObject.toImage(pixelRatio: 0.05);
+        final data = await img.toByteData(format: ImageByteFormat.rawRgba);
+        if (data == null) return;
+
+        final bytes = data.buffer.asUint8List();
+        // Sample every Nth pixel.
+        int count = 0;
+        int dark = 0;
+        for (int i = 0; i + 3 < bytes.length; i += 4 * 40) {
+          final r = bytes[i];
+          final g = bytes[i + 1];
+          final b = bytes[i + 2];
+          // luminance approx
+          final lum = (0.2126 * r + 0.7152 * g + 0.0722 * b);
+          if (lum < 8) dark++;
+          count++;
+        }
+        if (count > 0) {
+          final darkRatio = dark / count;
+          if (darkRatio > 0.98) {
+            if (mounted) {
+              setState(() {
+                _useCpuFallback = true;
+              });
+            }
+          }
+        }
+      } catch (_) {
+        // Ignore snapshot failures.
+      }
+    });
+  }
+
   void _onControllerChanged() {
     if (!mounted) return;
+
+    // If module changed, reset fallback + re-check.
+    final controller = context.read<FractalController>();
+    if (_lastModuleId != null && _lastModuleId != controller.module.id) {
+      _useCpuFallback = false;
+      _scheduleGpuHealthCheck();
+    }
 
     // Record view/config changes into history
     _recordHistory(context);
@@ -156,6 +225,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   @override
   void dispose() {
+    _gpuHealthTimer?.cancel();
     _lastController?.removeListener(_onControllerChanged);
 
     final start = _sessionStart;
@@ -296,13 +366,23 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     onOpenPresets: () => _openPresets(context),
                     onOpenExport: () => _openExport(context),
                   )
-                : FractalRenderer(
-                    boundaryKey: _fractalKeyA,
-                    onOpenControls: () => _openControls(context),
-                    onOpenPresets: () => _openPresets(context),
-                    onOpenExport: () => _openExport(context),
-                  ),
+                : (_useCpuFallback
+                    ? _CpuFallbackPane(boundaryKey: _fractalKeyA)
+                    : FractalRenderer(
+                        boundaryKey: _fractalKeyA,
+                        onOpenControls: () => _openControls(context),
+                        onOpenPresets: () => _openPresets(context),
+                        onOpenExport: () => _openExport(context),
+                      )),
           ),
+
+          if (_useCpuFallback)
+            const Positioned(
+              top: 92,
+              left: 12,
+              right: 12,
+              child: _CpuFallbackBanner(),
+            ),
 
           // Minimap overlay (bottom-left)
           Positioned(
@@ -910,6 +990,65 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         });
       }
     }
+  }
+}
+
+class _CpuFallbackBanner extends StatelessWidget {
+  const _CpuFallbackBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.amber.withOpacity(0.7)),
+        ),
+        child: const Text(
+          'CPU fallback enabled (GPU shader output appeared black).',
+          style: TextStyle(color: Colors.amber, fontSize: 12),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+
+class _CpuFallbackPane extends StatelessWidget {
+  final GlobalKey boundaryKey;
+
+  const _CpuFallbackPane({required this.boundaryKey});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = context.watch<FractalController>();
+    final module = controller.module;
+
+    if (module.dimension != FractalDimension.twoD) {
+      return const Center(
+        child: Text(
+          '3D fractals are not supported on this device (shader compile stalled).',
+          style: TextStyle(color: Colors.white70),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    final state = FractalRenderState(
+      params: controller.params,
+      view: controller.view,
+      transparentBackground: controller.transparentBackground,
+    );
+
+    return RepaintBoundary(
+      key: boundaryKey,
+      child: CpuFractalRenderer(
+        module: module,
+        state: state,
+      ),
+    );
   }
 }
 

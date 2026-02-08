@@ -88,7 +88,11 @@ FractalModule buildPhoenixModule() {
       'phoenixCImag': 0.0,
       'phoenixP': -0.5,
     },
-    view: FractalViewState.initial(),
+    view: FractalViewState(
+      pan: Vector2(-0.5, 0.0),
+      zoom: 1.0,
+      rotation: Vector3.zero(),
+    ),
     createdAt: DateTime.now(),
     isBuiltIn: true,
   );

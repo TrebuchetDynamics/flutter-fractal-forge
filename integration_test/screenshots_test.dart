@@ -34,7 +34,9 @@ void main() {
           // deepLinkService intentionally omitted for stability.
         ),
       );
-      await tester.pumpAndSettle();
+      // Avoid indefinite pumpAndSettle: shader/animation frames may never fully settle.
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 2));
     }
 
     Finder moduleCards() {
@@ -46,8 +48,13 @@ void main() {
       });
     }
 
-    testWidgets('capture key screens', (tester) async {
+    testWidgets(
+      'capture key screens',
+      (tester) async {
       await pumpApp(tester);
+
+      // Required on Android for screenshot capture.
+      await binding.convertFlutterSurfaceToImage();
 
       // If onboarding shows, try skip.
       final skip = find.text('Skip');
@@ -83,6 +90,8 @@ void main() {
       }
 
       await binding.takeScreenshot('04_catalog_after_back');
-    });
+    },
+      timeout: const Timeout(Duration(minutes: 2)),
+    );
   });
 }
