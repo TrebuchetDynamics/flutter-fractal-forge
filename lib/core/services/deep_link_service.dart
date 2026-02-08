@@ -130,6 +130,15 @@ class DeepLinkService {
   ///
   /// Sets up listeners for incoming deep links from the platform.
   Future<void> initialize() async {
+    // TEMPORARY SAFETY SWITCH (2026-02): deep link channel init causes a black screen
+    // on some Samsung S24 devices during startup.
+    // User confirmed deep links are not needed for the immediate release.
+    // We leave parsing + stream support intact for later re-enable.
+    const bool kEnableDeepLinks = bool.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: false);
+    if (!kEnableDeepLinks) {
+      return;
+    }
+
     // Set up method channel handler for incoming links
     _channel.setMethodCallHandler(_handleMethodCall);
 
