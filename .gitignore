@@ -53,3 +53,6 @@ android/app/*.keystore
 
 
 .commit-push.pid
+
+# Local lock file used by scripts/overnight-*.sh to serialize Android builds.
+.android_flutter_build.lock
