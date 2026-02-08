@@ -173,17 +173,95 @@ Suggested `FractalModule` interface:
 5. AR: implement camera preview + overlay (harder).
 6. Video: implement FFmpeg binding for video export (hardest).
 
-## 14) Status (as of 2026-02-04)
-Implemented
-- In-app FFmpeg via `ffmpeg_kit_flutter_min_gpl` for AR baked video export; no external `ffmpeg` binary needed.
-- AR baked video composition now scales to 720p on the short side by default.
-- Export progress UI added for PNG + AR exports; buttons disabled during export.
-- Exports now save to a dedicated export directory (Android Pictures/FlutterFractals when available, documents fallback).
-- Added Julia + Burning Ship 2D fractal modules with shader support and schema-driven controls.
-- GIF fallback retained for AR video export failures.
+## 14) Fractal Catalog Roadmap (100+ Fractals)
 
-Remaining / TODO
-- Verify FFmpeg kit build sizes and ABI coverage on real Android devices.
-- Consider MediaStore integration for truly public gallery visibility on Android 10+.
-- Add more presets and tuned default framing for the new Julia/Burning Ship modules.
-- Optional: encode audio into AR exports and improve progress reporting during FFmpeg encode.
+Long-term goal: Comprehensive fractal encyclopedia. Each fractal validated individually before release.
+
+### Current Implementation: 6/105
+- ✅ Mandelbrot (2D)
+- ✅ Julia (2D)
+- ✅ Burning Ship (2D)
+- ✅ Phoenix (2D)
+- ✅ Mandelbulb (3D)
+- ⬜ 100 more planned...
+
+### Category Breakdown
+
+**I. Escape-Time (Complex Plane) - 25 fractals**
+Mandelbrot, Julia, Burning Ship, Phoenix, Tricorn, Celtic, Buffalo, Perpendicular, Lambda, Magnet I/II, Nova, Druid, Multibrot, Inverse Mandelbrot, Glynn, Simonbrot, Talis, Manowar, Spider, Shark Fin, Zircon Zity, Collatz, Eisenstein, Popcorn
+
+**II. Newton/Root-Finding - 10 fractals**
+Newton (z³-1), Newton (sin), Newton (General), Halley's, Schröder's, Secant, Fatou, Nova Julia, Magnet Newton, Householder
+
+**III. Strange Attractors - 20 fractals**
+Lorenz, Rössler, Hénon, Ikeda, Tinkerbell, Clifford, Peter de Jong, Svensson, Gumowski-Mira, Pickover, Thomas', Halvorsen, Rabinovich-Fabrikant, Dadras, Chen, Lü Chen, Aizawa, Duffing, Gingerbreadman, Lozi
+
+**IV. IFS & Geometric - 26 fractals**
+Sierpinski (Triangle/Carpet/Pentagon/Tetrahedron), Menger Sponge, Jerusalem Cube, Koch (Snowflake/Anti/Quadratic), Cesàro, Dragon Curves, Levy C, Barnsley Fern, Cyclosorus, Canopy, Pythagorean Tree, Cantor, Vicsek, Hexaflake, Pentaflake, Apollonian Gasket, Ford Circles, Steiner Chain
+
+**V. L-Systems & Space-Filling - 9 fractals**
+Hilbert (2D/3D), Peano, Moore, Gosper, Sierpinski Arrowhead, McWorter's, Penrose Tiling, Ammann-Beenker
+
+**VI. 3D Raymarching - 10 fractals**
+Mandelbulb, Mandelbox, KIFS, Quaternion Julia, Cubic Mandelbrot, Bulbils, Hartverdrahtet, Kleinian, Menger (DE), Hybrids
+
+**VII. Stochastic & Cellular - 5 fractals**
+Buddhabrot, Anti-Buddhabrot, Nebulabrot, DLA, Wolfram Rule 30
+
+### Implementation Priority
+
+🎯 **Immediate** (reuse Mandelbulb raymarcher):
+1. Mandelbox - box folding, similar distance estimation
+2. KIFS - kaleidoscopic mirrors, stunning visuals
+
+**Phase 1** (2D escape-time, minimal changes):
+Tricorn, Multibrot, Celtic, Buffalo, Nova
+
+**Phase 2** (Newton-type, new coloring):
+Newton z³-1, Halley's
+
+**Phase 3** (Attractors, particle rendering):
+Lorenz, Clifford, de Jong
+
+**Phase 4** (IFS, CPU/compute shader):
+Sierpinski, Koch, Barnsley Fern
+
+**Phase 5** (Stochastic):
+Buddhabrot, Nebulabrot
+
+### Validation Process
+Each new fractal must pass:
+1. `flutter analyze` - zero errors
+2. `flutter test` - all tests pass
+3. Emulator visual validation (screenshot)
+4. Real device testing
+5. Performance check (60fps target)
+6. Export verification (PNG/video)
+
+---
+
+## 15) Status (as of 2026-02-07)
+
+### Implemented
+- 6 fractal modules: Mandelbrot, Julia, Burning Ship, Phoenix, Mandelbulb
+- In-app FFmpeg via `ffmpeg_kit_flutter_min_gpl` for video export
+- AR baked video composition (720p default)
+- Export progress UI for PNG + AR exports
+- Dedicated export directory (Android Pictures/FlutterFractals)
+- Schema-driven controls per fractal
+- Minimap navigation overlay
+- Debug overlay for shader troubleshooting
+- 50+ sub-agent improvements (haptics, stats, video export, accessibility)
+
+### Known Issues
+- **CRITICAL: Flutter 3.38+ Impeller shader rendering**
+  - Fragment shaders show black screen on both emulator and real devices
+  - Impeller opt-out deprecated (Flutter ignores manifest setting)
+  - Options: downgrade Flutter to 3.19, CPU fallback, or wait for fix
+
+### Remaining / TODO
+- Fix Impeller shader compatibility issue
+- Add 99 more fractals per roadmap (Section 14)
+- Verify FFmpeg kit on real Android devices
+- MediaStore integration for Android 10+ gallery visibility
+- Audio encoding in AR exports
