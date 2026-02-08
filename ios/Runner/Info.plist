@@ -45,5 +45,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Deep linking: fractalforge:// custom URL scheme -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.fractalforge</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fractalforge</string>
+			</array>
+		</dict>
+	</array>
+	<!-- Universal links: https://fractalforge.app -->
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
 </dict>
 </plist>

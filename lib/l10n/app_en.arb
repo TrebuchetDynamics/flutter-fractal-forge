@@ -127,6 +127,13 @@
   "errorCameraNotReady": "Camera not ready",
   "shaderLoadFailed": "Failed to load shader",
   
+  "contextMenuResetView": "Reset View",
+  "contextMenuOpenControls": "Open Controls",
+  "contextMenuOpenPresets": "Open Presets",
+  "contextMenuRandomize": "Randomize",
+  "contextMenuExport": "Export",
+  "gestureDoubleTapReset": "View reset",
+  
   "exportQuickPresets": "Quick Presets",
   "exportPresetSocial": "Social",
   "exportPresetHighQuality": "High Quality",
@@ -163,6 +170,146 @@
   "@presetSaveFailed": {
     "placeholders": {
       "error": {}
+    }
+  },
+
+  "accessibilityTitle": "Accessibility",
+  "accessibilityHighContrast": "High Contrast",
+  "accessibilityHighContrastHint": "Use bright colors with maximum contrast",
+  "accessibilityReducedMotion": "Reduced Motion",
+  "accessibilityReducedMotionHint": "Minimize animations and transitions",
+  "accessibilityLargeTargets": "Large Touch Targets",
+  "accessibilityLargeTargetsHint": "Increase size of interactive elements",
+  "accessibilityScreenReaderActive": "Screen reader is active",
+  
+  "semanticFractalViewer": "Interactive fractal viewer. Pinch to zoom, drag to pan.",
+  "semanticFractalCard": "{name} fractal, {dimension}. Double tap to open.",
+  "@semanticFractalCard": {
+    "placeholders": {
+      "name": {},
+      "dimension": {}
+    }
+  },
+  "semanticSlider": "{label} slider. Current value: {value}. Minimum: {min}, Maximum: {max}",
+  "@semanticSlider": {
+    "placeholders": {
+      "label": {},
+      "value": {},
+      "min": {},
+      "max": {}
+    }
+  },
+  "semanticNavExplore": "Explore tab. Browse fractal catalog.",
+  "semanticNavAr": "AR tab. View fractals in augmented reality.",
+  "semanticBackButton": "Go back to previous screen",
+  "semanticCloseButton": "Close this dialog",
+  "semanticSearchField": "Search fractals by name",
+  "semanticExportButton": "Export current fractal as image",
+  "semanticControlsButton": "Open fractal parameter controls",
+  "semanticPresetsButton": "Open saved presets",
+  "semanticRandomizeButton": "Randomize all fractal parameters",
+  "semanticResetViewButton": "Reset view to default position",
+  "semanticResetParamsButton": "Reset all parameters to defaults",
+  "semanticZoomLevel": "Zoom level: {percent} percent",
+  "@semanticZoomLevel": {
+    "placeholders": {
+      "percent": {}
+    }
+  },
+  "semanticLoadingShaders": "Loading fractal shaders, please wait",
+  "semanticExportProgress": "Exporting image, {percent} percent complete",
+  "@semanticExportProgress": {
+    "placeholders": {
+      "percent": {}
+    }
+  },
+  "semanticPresetItem": "{name} preset. Double tap to apply.",
+  "@semanticPresetItem": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "semanticToggleOn": "{label}, currently on. Double tap to turn off.",
+  "@semanticToggleOn": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  "semanticToggleOff": "{label}, currently off. Double tap to turn on.",
+  "@semanticToggleOff": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  
+  "announceFractalLoaded": "{name} fractal loaded",
+  "@announceFractalLoaded": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "announcePresetApplied": "Preset {name} applied",
+  "@announcePresetApplied": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "announceExportComplete": "Export complete",
+  "announceViewReset": "View reset to default",
+  "announceParamsRandomized": "Parameters randomized",
+
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingGetStarted": "Get Started",
+  
+  "onboardingWelcomeTitle": "Welcome to Flutter Fractals",
+  "onboardingWelcomeDescription": "Explore the infinite beauty of mathematical fractals with real-time GPU-accelerated rendering.",
+  
+  "onboardingFractalTypesTitle": "Discover Fractal Types",
+  "onboardingFractalTypesDescription": "From classic 2D fractals to stunning 3D Mandelbulb, explore a variety of mathematical art.",
+  
+  "onboardingGesturesTitle": "Intuitive Controls",
+  "onboardingGesturesDescription": "Navigate fractals with simple, natural gestures.",
+  "onboardingGesturePan": "Pan",
+  "onboardingGesturePanDesc": "Drag with one finger to move around",
+  "onboardingGestureZoom": "Zoom",
+  "onboardingGestureZoomDesc": "Pinch to zoom in and out",
+  "onboardingGestureRotate": "Rotate",
+  "onboardingGestureRotateDesc": "Two-finger rotate for 3D fractals",
+  "onboardingGestureDoubleTap": "Double Tap",
+  "onboardingGestureDoubleTapDesc": "Quick reset to default view",
+  
+  "onboardingFeaturesTitle": "Powerful Features",
+  "onboardingFeaturesDescription": "Create, customize, and share your fractal creations.",
+  "onboardingFeaturePresets": "Presets",
+  "onboardingFeaturePresetsDesc": "Save and load your favorite configurations",
+  "onboardingFeatureExport": "Export",
+  "onboardingFeatureExportDesc": "Save high-quality images in multiple formats",
+  "onboardingFeatureAr": "AR Mode",
+  "onboardingFeatureArDesc": "Overlay fractals on your camera view",
+
+  "shareTitle": "Share Fractal",
+  "shareSubtitle": "Check out this {fractalName} fractal I created!",
+  "@shareSubtitle": {
+    "placeholders": {
+      "fractalName": {}
+    }
+  },
+  "tooltipShare": "Share",
+  "actionCopy": "Copy",
+  "actionShare": "Share",
+  "linkCopied": "Link copied to clipboard",
+  "shareMessage": "Check out this {fractalName} fractal! {link}",
+  "@shareMessage": {
+    "placeholders": {
+      "fractalName": {},
+      "link": {}
+    }
+  },
+  "shareSubject": "{fractalName} Fractal - Flutter Fractals",
+  "@shareSubject": {
+    "placeholders": {
+      "fractalName": {}
     }
   }
 }

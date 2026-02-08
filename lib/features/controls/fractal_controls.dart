@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
@@ -134,16 +136,14 @@ class FractalControlsSheet extends StatelessWidget {
                   const SizedBox(height: AppSpacing.md),
                   SizedBox(
                     width: double.infinity,
-                    child: GradientButton(
-                      onPressed: controller.randomizeParams,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.shuffle_rounded, size: 20),
-                          const SizedBox(width: AppSpacing.sm),
-                          Text(l10n.randomize),
-                        ],
-                      ),
+                    child: _AnimatedRandomizeButton(
+                      label: l10n.randomize,
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                        controller.randomizeParams();
+                        // Trigger a small celebration for discovering new fractals
+                        controller.recordInterestingSpot();
+                      },
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).padding.bottom + AppSpacing.lg),
@@ -463,6 +463,193 @@ class _PremiumSwitch extends StatelessWidget {
               onChanged: onChanged,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Animated randomize button with sparkle effects.
+class _AnimatedRandomizeButton extends StatefulWidget {
+  final String label;
+  final VoidCallback onPressed;
+
+  const _AnimatedRandomizeButton({
+    required this.label,
+    required this.onPressed,
+  });
+
+  @override
+  State<_AnimatedRandomizeButton> createState() => _AnimatedRandomizeButtonState();
+}
+
+class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
+    with TickerProviderStateMixin {
+  late AnimationController _scaleController;
+  late AnimationController _shakeController;
+  late AnimationController _glowController;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _shakeAnimation;
+  late Animation<double> _glowAnimation;
+  bool _isPressed = false;
+  bool _showSparkle = false;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _scaleController = AnimationController(
+      duration: AppAnimations.fast,
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _scaleController, curve: AppAnimations.snappyCurve),
+    );
+
+    _shakeController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _shakeAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: -0.03), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: -0.03, end: 0.03), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: 0.03, end: -0.02), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: -0.02, end: 0.01), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: 0.01, end: 0.0), weight: 1),
+    ]).animate(CurvedAnimation(
+      parent: _shakeController,
+      curve: Curves.easeOut,
+    ));
+
+    _glowController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    _glowAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.0), weight: 2),
+    ]).animate(CurvedAnimation(
+      parent: _glowController,
+      curve: Curves.easeOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    _shakeController.dispose();
+    _glowController.dispose();
+    super.dispose();
+  }
+
+  void _handleTap() {
+    widget.onPressed();
+    
+    // Trigger animations
+    _shakeController.forward(from: 0);
+    _glowController.forward(from: 0);
+    
+    setState(() => _showSparkle = true);
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (mounted) {
+        setState(() => _showSparkle = false);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SparkleEffect(
+      isActive: _showSparkle,
+      sparkleCount: 8,
+      child: GestureDetector(
+        onTapDown: (_) {
+          setState(() => _isPressed = true);
+          _scaleController.forward();
+        },
+        onTapUp: (_) {
+          setState(() => _isPressed = false);
+          _scaleController.reverse();
+        },
+        onTapCancel: () {
+          setState(() => _isPressed = false);
+          _scaleController.reverse();
+        },
+        onTap: _handleTap,
+        child: AnimatedBuilder(
+          animation: Listenable.merge([_scaleAnimation, _shakeAnimation, _glowAnimation]),
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _scaleAnimation.value,
+              child: Transform.rotate(
+                angle: _shakeAnimation.value,
+                child: Stack(
+                children: [
+                  // Glow effect
+                  if (_glowAnimation.value > 0)
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: _glowAnimation.value * 0.5),
+                              blurRadius: 20,
+                              spreadRadius: 2,
+                            ),
+                            BoxShadow(
+                              color: AppColors.secondary.withValues(alpha: _glowAnimation.value * 0.3),
+                              blurRadius: 30,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  // Button
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.xxl,
+                      vertical: AppSpacing.md + 2,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: AppColors.primaryGradient,
+                      borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3),
+                          blurRadius: _isPressed ? 16 : 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimatedRotation(
+                          turns: _shakeController.isAnimating ? 0.5 : 0,
+                          duration: const Duration(milliseconds: 300),
+                          child: const Icon(
+                            Icons.shuffle_rounded,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        Text(
+                          widget.label,
+                          style: AppTypography.labelLarge.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              ),
+            );
+          },
         ),
       ),
     );

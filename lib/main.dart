@@ -25,11 +25,17 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
+import 'package:flutter_fractals/core/services/deep_link_service.dart';
+import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/home/home_screen.dart';
+import 'package:flutter_fractals/features/onboarding/onboarding_screen.dart';
+import 'package:flutter_fractals/core/services/onboarding_service.dart';
 // FractalController is provided per tab (Explore vs AR).
 
 /// Application entry point.
@@ -52,10 +58,19 @@ Future<void> main() async {
   await runZonedGuarded(() async {
     final presetStore = await PresetStore.create();
     final arQualityStore = await ArQualityStore.create();
+    final historyStore = await HistoryStore.create();
+    final accessibilityService = await AccessibilityService.create();
+    final onboardingService = await OnboardingService.create();
+    final deepLinkService = DeepLinkService();
+    await deepLinkService.initialize();
     runApp(
       FlutterFractalsApp(
         presetStore: presetStore,
         arQualityStore: arQualityStore,
+        historyStore: historyStore,
+        accessibilityService: accessibilityService,
+        onboardingService: onboardingService,
+        deepLinkService: deepLinkService,
       ),
     );
   }, (Object error, StackTrace stack) {
@@ -76,6 +91,7 @@ Future<void> main() async {
 /// - [ModuleRegistry]: Available fractal modules
 /// - [PresetStore]: User preset persistence
 /// - [ArQualityStore]: AR quality preference storage
+/// - [AccessibilityService]: Accessibility settings management
 ///
 /// Example usage in tests:
 /// ```dart
@@ -83,16 +99,29 @@ Future<void> main() async {
 ///   FlutterFractalsApp(
 ///     presetStore: mockPresetStore,
 ///     arQualityStore: mockArQualityStore,
+///     accessibilityService: mockAccessibilityService,
 ///     locale: const Locale('en'),
 ///   ),
 /// );
 /// ```
-class FlutterFractalsApp extends StatelessWidget {
+class FlutterFractalsApp extends StatefulWidget {
   /// Storage service for user-created presets.
   final PresetStore presetStore;
 
   /// Storage service for AR quality preferences.
   final ArQualityStore arQualityStore;
+
+  /// Storage service for exploration history.
+  final HistoryStore? historyStore;
+
+  /// Service for accessibility settings.
+  final AccessibilityService accessibilityService;
+
+  /// Service for onboarding state management.
+  final OnboardingService? onboardingService;
+
+  /// Service for handling deep links.
+  final DeepLinkService? deepLinkService;
 
   /// Optional locale override for testing.
   ///
@@ -104,8 +133,34 @@ class FlutterFractalsApp extends StatelessWidget {
     Key? key,
     required this.presetStore,
     required this.arQualityStore,
+    this.historyStore,
+    required this.accessibilityService,
+    this.onboardingService,
+    this.deepLinkService,
     this.locale,
   }) : super(key: key);
+
+  @override
+  State<FlutterFractalsApp> createState() => _FlutterFractalsAppState();
+}
+
+class _FlutterFractalsAppState extends State<FlutterFractalsApp> {
+  bool _showOnboarding = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Check if onboarding should be shown
+    if (widget.onboardingService != null) {
+      _showOnboarding = !widget.onboardingService!.isOnboardingComplete;
+    }
+  }
+
+  void _onOnboardingComplete() {
+    setState(() {
+      _showOnboarding = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,17 +168,44 @@ class FlutterFractalsApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<ModuleRegistry>.value(value: registry),
-        Provider<PresetStore>.value(value: presetStore),
-        Provider<ArQualityStore>.value(value: arQualityStore),
+        Provider<PresetStore>.value(value: widget.presetStore),
+        Provider<ArQualityStore>.value(value: widget.arQualityStore),
+        if (widget.historyStore != null)
+          Provider<HistoryStore>.value(value: widget.historyStore!),
+        if (widget.historyStore != null)
+          ChangeNotifierProvider<HistoryProvider>(
+            create: (_) => HistoryProvider(store: widget.historyStore!),
+          ),
+        ChangeNotifierProvider<AccessibilityService>.value(
+          value: widget.accessibilityService,
+        ),
+        if (widget.onboardingService != null)
+          Provider<OnboardingService>.value(value: widget.onboardingService!),
+        if (widget.deepLinkService != null)
+          Provider<DeepLinkService>.value(value: widget.deepLinkService!),
       ],
-      child: MaterialApp(
-        locale: locale,
-        onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        theme: AppTheme.dark,
-        home: const HomeScreen(),
-        debugShowCheckedModeBanner: false,
+      child: Consumer<AccessibilityService>(
+        builder: (context, accessibility, child) {
+          // Use high contrast theme when enabled (in-app or system)
+          final useHighContrast = accessibility.highContrastEnabled ||
+              MediaQuery.of(context).highContrast;
+          final theme = useHighContrast ? AppTheme.highContrast : AppTheme.dark;
+
+          return MaterialApp(
+            locale: widget.locale,
+            onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: theme,
+            home: _showOnboarding && widget.onboardingService != null
+                ? OnboardingScreen(
+                    onboardingService: widget.onboardingService!,
+                    onComplete: _onOnboardingComplete,
+                  )
+                : const HomeScreen(),
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
     );
   }

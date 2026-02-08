@@ -155,6 +155,14 @@
   "errorOverlayNotReady": "Superposición no lista",
   "errorCameraNotReady": "Cámara no lista",
   "shaderLoadFailed": "Error al cargar el shader",
+  
+  "contextMenuResetView": "Restablecer vista",
+  "contextMenuOpenControls": "Abrir controles",
+  "contextMenuOpenPresets": "Abrir presets",
+  "contextMenuRandomize": "Aleatorizar",
+  "contextMenuExport": "Exportar",
+  "gestureDoubleTapReset": "Vista restablecida",
+  
   "@exportFailed": {
     "placeholders": {
       "error": {}
@@ -163,6 +171,146 @@
   "@presetSaveFailed": {
     "placeholders": {
       "error": {}
+    }
+  },
+
+  "accessibilityTitle": "Accesibilidad",
+  "accessibilityHighContrast": "Alto Contraste",
+  "accessibilityHighContrastHint": "Usar colores brillantes con máximo contraste",
+  "accessibilityReducedMotion": "Reducir Movimiento",
+  "accessibilityReducedMotionHint": "Minimizar animaciones y transiciones",
+  "accessibilityLargeTargets": "Objetivos Táctiles Grandes",
+  "accessibilityLargeTargetsHint": "Aumentar el tamaño de los elementos interactivos",
+  "accessibilityScreenReaderActive": "El lector de pantalla está activo",
+  
+  "semanticFractalViewer": "Visor de fractales interactivo. Pellizca para acercar, arrastra para desplazar.",
+  "semanticFractalCard": "Fractal {name}, {dimension}. Toca dos veces para abrir.",
+  "@semanticFractalCard": {
+    "placeholders": {
+      "name": {},
+      "dimension": {}
+    }
+  },
+  "semanticSlider": "Control deslizante {label}. Valor actual: {value}. Mínimo: {min}, Máximo: {max}",
+  "@semanticSlider": {
+    "placeholders": {
+      "label": {},
+      "value": {},
+      "min": {},
+      "max": {}
+    }
+  },
+  "semanticNavExplore": "Pestaña Explorar. Navegar por el catálogo de fractales.",
+  "semanticNavAr": "Pestaña AR. Ver fractales en realidad aumentada.",
+  "semanticBackButton": "Volver a la pantalla anterior",
+  "semanticCloseButton": "Cerrar este diálogo",
+  "semanticSearchField": "Buscar fractales por nombre",
+  "semanticExportButton": "Exportar el fractal actual como imagen",
+  "semanticControlsButton": "Abrir controles de parámetros del fractal",
+  "semanticPresetsButton": "Abrir presets guardados",
+  "semanticRandomizeButton": "Aleatorizar todos los parámetros del fractal",
+  "semanticResetViewButton": "Restablecer la vista a la posición predeterminada",
+  "semanticResetParamsButton": "Restablecer todos los parámetros a sus valores predeterminados",
+  "semanticZoomLevel": "Nivel de zoom: {percent} por ciento",
+  "@semanticZoomLevel": {
+    "placeholders": {
+      "percent": {}
+    }
+  },
+  "semanticLoadingShaders": "Cargando shaders de fractales, por favor espere",
+  "semanticExportProgress": "Exportando imagen, {percent} por ciento completado",
+  "@semanticExportProgress": {
+    "placeholders": {
+      "percent": {}
+    }
+  },
+  "semanticPresetItem": "Preset {name}. Toca dos veces para aplicar.",
+  "@semanticPresetItem": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "semanticToggleOn": "{label}, actualmente encendido. Toca dos veces para apagar.",
+  "@semanticToggleOn": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  "semanticToggleOff": "{label}, actualmente apagado. Toca dos veces para encender.",
+  "@semanticToggleOff": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  
+  "announceFractalLoaded": "Fractal {name} cargado",
+  "@announceFractalLoaded": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "announcePresetApplied": "Preset {name} aplicado",
+  "@announcePresetApplied": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "announceExportComplete": "Exportación completada",
+  "announceViewReset": "Vista restablecida a los valores predeterminados",
+  "announceParamsRandomized": "Parámetros aleatorizados",
+
+  "onboardingSkip": "Omitir",
+  "onboardingNext": "Siguiente",
+  "onboardingGetStarted": "Comenzar",
+  
+  "onboardingWelcomeTitle": "Bienvenido a Flutter Fractales",
+  "onboardingWelcomeDescription": "Explora la belleza infinita de los fractales matemáticos con renderizado en tiempo real acelerado por GPU.",
+  
+  "onboardingFractalTypesTitle": "Descubre Tipos de Fractales",
+  "onboardingFractalTypesDescription": "Desde fractales 2D clásicos hasta el impresionante Mandelbulb 3D, explora una variedad de arte matemático.",
+  
+  "onboardingGesturesTitle": "Controles Intuitivos",
+  "onboardingGesturesDescription": "Navega por los fractales con gestos simples y naturales.",
+  "onboardingGesturePan": "Desplazar",
+  "onboardingGesturePanDesc": "Arrastra con un dedo para moverte",
+  "onboardingGestureZoom": "Acercar",
+  "onboardingGestureZoomDesc": "Pellizca para acercar y alejar",
+  "onboardingGestureRotate": "Rotar",
+  "onboardingGestureRotateDesc": "Rota con dos dedos para fractales 3D",
+  "onboardingGestureDoubleTap": "Doble Toque",
+  "onboardingGestureDoubleTapDesc": "Restablecimiento rápido a la vista predeterminada",
+  
+  "onboardingFeaturesTitle": "Funciones Poderosas",
+  "onboardingFeaturesDescription": "Crea, personaliza y comparte tus creaciones fractales.",
+  "onboardingFeaturePresets": "Presets",
+  "onboardingFeaturePresetsDesc": "Guarda y carga tus configuraciones favoritas",
+  "onboardingFeatureExport": "Exportar",
+  "onboardingFeatureExportDesc": "Guarda imágenes de alta calidad en múltiples formatos",
+  "onboardingFeatureAr": "Modo AR",
+  "onboardingFeatureArDesc": "Superpone fractales en la vista de tu cámara",
+
+  "shareTitle": "Compartir Fractal",
+  "shareSubtitle": "¡Mira este fractal {fractalName} que creé!",
+  "@shareSubtitle": {
+    "placeholders": {
+      "fractalName": {}
+    }
+  },
+  "tooltipShare": "Compartir",
+  "actionCopy": "Copiar",
+  "actionShare": "Compartir",
+  "linkCopied": "Enlace copiado al portapapeles",
+  "shareMessage": "¡Mira este fractal {fractalName}! {link}",
+  "@shareMessage": {
+    "placeholders": {
+      "fractalName": {},
+      "link": {}
+    }
+  },
+  "shareSubject": "Fractal {fractalName} - Flutter Fractals",
+  "@shareSubject": {
+    "placeholders": {
+      "fractalName": {}
     }
   }
 }

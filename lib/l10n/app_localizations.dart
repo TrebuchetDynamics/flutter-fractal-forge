@@ -853,6 +853,566 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load shader'**
   String get shaderLoadFailed;
+
+  /// No description provided for @contextMenuResetView.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset View'**
+  String get contextMenuResetView;
+
+  /// No description provided for @contextMenuOpenControls.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Controls'**
+  String get contextMenuOpenControls;
+
+  /// No description provided for @contextMenuOpenPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Presets'**
+  String get contextMenuOpenPresets;
+
+  /// No description provided for @contextMenuRandomize.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize'**
+  String get contextMenuRandomize;
+
+  /// No description provided for @contextMenuExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get contextMenuExport;
+
+  /// No description provided for @gestureDoubleTapReset.
+  ///
+  /// In en, this message translates to:
+  /// **'View reset'**
+  String get gestureDoubleTapReset;
+
+  /// No description provided for @accessibilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessibility'**
+  String get accessibilityTitle;
+
+  /// No description provided for @accessibilityHighContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'High Contrast'**
+  String get accessibilityHighContrast;
+
+  /// No description provided for @accessibilityHighContrastHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use bright colors with maximum contrast'**
+  String get accessibilityHighContrastHint;
+
+  /// No description provided for @accessibilityReducedMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduced Motion'**
+  String get accessibilityReducedMotion;
+
+  /// No description provided for @accessibilityReducedMotionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimize animations and transitions'**
+  String get accessibilityReducedMotionHint;
+
+  /// No description provided for @accessibilityLargeTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Large Touch Targets'**
+  String get accessibilityLargeTargets;
+
+  /// No description provided for @accessibilityLargeTargetsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase size of interactive elements'**
+  String get accessibilityLargeTargetsHint;
+
+  /// No description provided for @accessibilityScreenReaderActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen reader is active'**
+  String get accessibilityScreenReaderActive;
+
+  /// No description provided for @semanticFractalViewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive fractal viewer. Pinch to zoom, drag to pan.'**
+  String get semanticFractalViewer;
+
+  /// No description provided for @semanticFractalCard.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} fractal, {dimension}. Double tap to open.'**
+  String semanticFractalCard(Object name, Object dimension);
+
+  /// No description provided for @semanticSlider.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} slider. Current value: {value}. Minimum: {min}, Maximum: {max}'**
+  String semanticSlider(Object label, Object value, Object min, Object max);
+
+  /// No description provided for @semanticNavExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore tab. Browse fractal catalog.'**
+  String get semanticNavExplore;
+
+  /// No description provided for @semanticNavAr.
+  ///
+  /// In en, this message translates to:
+  /// **'AR tab. View fractals in augmented reality.'**
+  String get semanticNavAr;
+
+  /// No description provided for @semanticBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back to previous screen'**
+  String get semanticBackButton;
+
+  /// No description provided for @semanticCloseButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Close this dialog'**
+  String get semanticCloseButton;
+
+  /// No description provided for @semanticSearchField.
+  ///
+  /// In en, this message translates to:
+  /// **'Search fractals by name'**
+  String get semanticSearchField;
+
+  /// No description provided for @semanticExportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Export current fractal as image'**
+  String get semanticExportButton;
+
+  /// No description provided for @semanticControlsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open fractal parameter controls'**
+  String get semanticControlsButton;
+
+  /// No description provided for @semanticPresetsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open saved presets'**
+  String get semanticPresetsButton;
+
+  /// No description provided for @semanticRandomizeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize all fractal parameters'**
+  String get semanticRandomizeButton;
+
+  /// No description provided for @semanticResetViewButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset view to default position'**
+  String get semanticResetViewButton;
+
+  /// No description provided for @semanticResetParamsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all parameters to defaults'**
+  String get semanticResetParamsButton;
+
+  /// No description provided for @semanticZoomLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom level: {percent} percent'**
+  String semanticZoomLevel(Object percent);
+
+  /// No description provided for @semanticLoadingShaders.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading fractal shaders, please wait'**
+  String get semanticLoadingShaders;
+
+  /// No description provided for @semanticExportProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting image, {percent} percent complete'**
+  String semanticExportProgress(Object percent);
+
+  /// No description provided for @semanticPresetItem.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} preset. Double tap to apply.'**
+  String semanticPresetItem(Object name);
+
+  /// No description provided for @semanticToggleOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}, currently on. Double tap to turn off.'**
+  String semanticToggleOn(Object label);
+
+  /// No description provided for @semanticToggleOff.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}, currently off. Double tap to turn on.'**
+  String semanticToggleOff(Object label);
+
+  /// No description provided for @announceFractalLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} fractal loaded'**
+  String announceFractalLoaded(Object name);
+
+  /// No description provided for @announcePresetApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Preset {name} applied'**
+  String announcePresetApplied(Object name);
+
+  /// No description provided for @announceExportComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Export complete'**
+  String get announceExportComplete;
+
+  /// No description provided for @announceViewReset.
+  ///
+  /// In en, this message translates to:
+  /// **'View reset to default'**
+  String get announceViewReset;
+
+  /// No description provided for @announceParamsRandomized.
+  ///
+  /// In en, this message translates to:
+  /// **'Parameters randomized'**
+  String get announceParamsRandomized;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onboardingGetStarted;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Flutter Fractals'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore the infinite beauty of mathematical fractals with real-time GPU-accelerated rendering.'**
+  String get onboardingWelcomeDescription;
+
+  /// No description provided for @onboardingFractalTypesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover Fractal Types'**
+  String get onboardingFractalTypesTitle;
+
+  /// No description provided for @onboardingFractalTypesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'From classic 2D fractals to stunning 3D Mandelbulb, explore a variety of mathematical art.'**
+  String get onboardingFractalTypesDescription;
+
+  /// No description provided for @onboardingGesturesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Intuitive Controls'**
+  String get onboardingGesturesTitle;
+
+  /// No description provided for @onboardingGesturesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate fractals with simple, natural gestures.'**
+  String get onboardingGesturesDescription;
+
+  /// No description provided for @onboardingGesturePan.
+  ///
+  /// In en, this message translates to:
+  /// **'Pan'**
+  String get onboardingGesturePan;
+
+  /// No description provided for @onboardingGesturePanDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag with one finger to move around'**
+  String get onboardingGesturePanDesc;
+
+  /// No description provided for @onboardingGestureZoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom'**
+  String get onboardingGestureZoom;
+
+  /// No description provided for @onboardingGestureZoomDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinch to zoom in and out'**
+  String get onboardingGestureZoomDesc;
+
+  /// No description provided for @onboardingGestureRotate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotate'**
+  String get onboardingGestureRotate;
+
+  /// No description provided for @onboardingGestureRotateDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-finger rotate for 3D fractals'**
+  String get onboardingGestureRotateDesc;
+
+  /// No description provided for @onboardingGestureDoubleTap.
+  ///
+  /// In en, this message translates to:
+  /// **'Double Tap'**
+  String get onboardingGestureDoubleTap;
+
+  /// No description provided for @onboardingGestureDoubleTapDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick reset to default view'**
+  String get onboardingGestureDoubleTapDesc;
+
+  /// No description provided for @onboardingFeaturesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Powerful Features'**
+  String get onboardingFeaturesTitle;
+
+  /// No description provided for @onboardingFeaturesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create, customize, and share your fractal creations.'**
+  String get onboardingFeaturesDescription;
+
+  /// No description provided for @onboardingFeaturePresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Presets'**
+  String get onboardingFeaturePresets;
+
+  /// No description provided for @onboardingFeaturePresetsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Save and load your favorite configurations'**
+  String get onboardingFeaturePresetsDesc;
+
+  /// No description provided for @onboardingFeatureExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get onboardingFeatureExport;
+
+  /// No description provided for @onboardingFeatureExportDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Save high-quality images in multiple formats'**
+  String get onboardingFeatureExportDesc;
+
+  /// No description provided for @onboardingFeatureAr.
+  ///
+  /// In en, this message translates to:
+  /// **'AR Mode'**
+  String get onboardingFeatureAr;
+
+  /// No description provided for @onboardingFeatureArDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Overlay fractals on your camera view'**
+  String get onboardingFeatureArDesc;
+
+  /// No description provided for @shareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Fractal'**
+  String get shareTitle;
+
+  /// No description provided for @shareSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out this {fractalName} fractal I created!'**
+  String shareSubtitle(Object fractalName);
+
+  /// No description provided for @tooltipShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get tooltipShare;
+
+  /// No description provided for @actionCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get actionCopy;
+
+  /// No description provided for @actionShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get actionShare;
+
+  /// No description provided for @linkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied to clipboard'**
+  String get linkCopied;
+
+  /// No description provided for @shareMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out this {fractalName} fractal! {link}'**
+  String shareMessage(Object fractalName, Object link);
+
+  /// No description provided for @shareSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'{fractalName} Fractal - Flutter Fractals'**
+  String shareSubject(Object fractalName);
+
+  // History feature strings
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exploration History'**
+  String get historyTitle;
+
+  /// No description provided for @historyPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Position {current} of {total}'**
+  String historyPosition(int current, int total);
+
+  /// No description provided for @historyGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get historyGoBack;
+
+  /// No description provided for @historyGoForward.
+  ///
+  /// In en, this message translates to:
+  /// **'Go forward'**
+  String get historyGoForward;
+
+  /// No description provided for @historyTabHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyTabHistory;
+
+  /// No description provided for @historyTabFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get historyTabFavorites;
+
+  /// No description provided for @historyEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No history yet'**
+  String get historyEmptyTitle;
+
+  /// No description provided for @historyEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start exploring fractals to build your history'**
+  String get historyEmptySubtitle;
+
+  /// No description provided for @favoritesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites yet'**
+  String get favoritesEmptyTitle;
+
+  /// No description provided for @favoritesEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save interesting locations to revisit later'**
+  String get favoritesEmptySubtitle;
+
+  /// No description provided for @saveFavoriteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as Favorite'**
+  String get saveFavoriteTitle;
+
+  /// No description provided for @favoritePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name for this spot'**
+  String get favoritePlaceholder;
+
+  /// No description provided for @renameFavoriteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Favorite'**
+  String get renameFavoriteTitle;
+
+  /// No description provided for @deleteFavoriteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Favorite'**
+  String get deleteFavoriteTitle;
+
+  /// No description provided for @deleteFavoriteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete "{name}" from favorites?'**
+  String deleteFavoriteMessage(String name);
+
+  /// No description provided for @saveAsFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as favorite'**
+  String get saveAsFavorite;
+
+  /// No description provided for @alreadyFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Already saved'**
+  String get alreadyFavorite;
+
+  /// No description provided for @buttonCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get buttonCancel;
+
+  /// No description provided for @buttonSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get buttonSave;
+
+  /// No description provided for @buttonDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get buttonDelete;
+
+  /// No description provided for @tooltipOpenHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get tooltipOpenHistory;
 }
 
 class _AppLocalizationsDelegate

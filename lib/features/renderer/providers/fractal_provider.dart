@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
@@ -41,6 +43,16 @@ import 'package:vector_math/vector_math.dart';
 /// controller.resetSession();
 /// ```
 class FractalController extends ChangeNotifier {
+  // Test mode detection - skip timer-based animations in tests
+  static final bool _isTest = (() {
+    var v = false;
+    assert(() {
+      v = true;
+      return true;
+    }());
+    return v || const bool.fromEnvironment('FLUTTER_TEST');
+  })();
+
   /// The module registry containing all available fractal types.
   final ModuleRegistry registry;
 
@@ -50,6 +62,19 @@ class FractalController extends ChangeNotifier {
   FractalViewState _view = FractalViewState.initial();
   bool _transparentBackground = false;
 
+  // Animation state
+  bool _isMorphing = false;
+  double _morphProgress = 1.0;
+  String? _previousModuleId;
+  Timer? _morphTimer;
+  bool _isCelebrating = false;
+  Timer? _celebrationTimer;
+  
+  // Interesting spot tracking for celebrations
+  int _consecutiveInterestingSpots = 0;
+  DateTime? _lastInterestingSpotTime;
+  final _celebrationController = StreamController<void>.broadcast();
+
   /// Creates a new [FractalController] with the given [registry].
   ///
   /// Optionally accepts a [logger] for test instrumentation.
@@ -58,6 +83,21 @@ class FractalController extends ChangeNotifier {
     _module = registry.modules.first;
     _applyPreset(_module.defaultPreset);
   }
+
+  /// Whether a module morph transition is in progress.
+  bool get isMorphing => _isMorphing;
+
+  /// Progress of the current morph transition (0.0 to 1.0).
+  double get morphProgress => _morphProgress;
+
+  /// The previous module ID during a morph transition.
+  String? get previousModuleId => _previousModuleId;
+
+  /// Whether a celebration effect should be shown.
+  bool get isCelebrating => _isCelebrating;
+
+  /// Stream that emits when a celebration should be triggered.
+  Stream<void> get onCelebration => _celebrationController.stream;
 
   /// The currently selected fractal module.
   ///
@@ -84,16 +124,66 @@ class FractalController extends ChangeNotifier {
   ///
   /// The [module] must be a valid module from the registry.
   /// Applies the module's default preset after switching.
+  /// Triggers a smooth morph transition animation.
   ///
   /// No-op if [module] is already the current module.
-  void selectModule(FractalModule module) {
+  void selectModule(FractalModule module, {bool animate = true}) {
     if (_module.id == module.id) {
       return;
     }
+    
+    final previousId = _module.id;
     _module = module;
     _applyPreset(module.defaultPreset);
+    
+    if (animate) {
+      _startMorphTransition(previousId);
+    }
+    
     notifyListeners();
     _logChange('stateChange', 'moduleSwitch', 'Switched to ${module.id}');
+  }
+
+  /// Starts a morph transition animation between fractal types.
+  void _startMorphTransition(String fromModuleId) {
+    // Skip timer-based animations in test mode
+    if (_isTest) {
+      _morphProgress = 1.0;
+      _isMorphing = false;
+      return;
+    }
+    
+    _previousModuleId = fromModuleId;
+    _isMorphing = true;
+    _morphProgress = 0.0;
+    
+    HapticFeedback.lightImpact();
+    
+    _morphTimer?.cancel();
+    
+    const duration = Duration(milliseconds: 600);
+    const fps = 60;
+    final steps = (duration.inMilliseconds / (1000 / fps)).round();
+    var step = 0;
+    
+    _morphTimer = Timer.periodic(
+      Duration(milliseconds: 1000 ~/ fps),
+      (timer) {
+        step++;
+        // Use ease-out cubic curve
+        final t = step / steps;
+        _morphProgress = 1.0 - pow(1.0 - t, 3);
+        notifyListeners();
+        
+        if (step >= steps) {
+          timer.cancel();
+          _morphProgress = 1.0;
+          _isMorphing = false;
+          _previousModuleId = null;
+          notifyListeners();
+        }
+      },
+    );
   }
 
   /// Updates a single fractal parameter.
@@ -240,6 +330,68 @@ class FractalController extends ChangeNotifier {
       message: message,
       metadata: metadata,
     ));
+  }
+
+  /// Records finding an interesting spot in the fractal.
+  /// 
+  /// When multiple interesting spots are found in quick succession,
+  /// triggers a celebration effect.
+  void recordInterestingSpot() {
+    final now = DateTime.now();
+    
+    if (_lastInterestingSpotTime != null) {
+      final elapsed = now.difference(_lastInterestingSpotTime!);
+      if (elapsed.inSeconds < 30) {
+        _consecutiveInterestingSpots++;
+        
+        // Trigger celebration after finding 3 interesting spots quickly
+        if (_consecutiveInterestingSpots >= 3) {
+          celebrate();
+          _consecutiveInterestingSpots = 0;
+        }
+      } else {
+        _consecutiveInterestingSpots = 1;
+      }
+    } else {
+      _consecutiveInterestingSpots = 1;
+    }
+    
+    _lastInterestingSpotTime = now;
+    _logChange('userAction', 'discovery', 'Found interesting spot');
+  }
+
+  /// Manually triggers a celebration effect.
+  void celebrate() {
+    if (_isCelebrating) return;
+    
+    _isCelebrating = true;
+    if (!_isTest) {
+      HapticFeedback.mediumImpact();
+    }
+    _celebrationController.add(null);
+    notifyListeners();
+    
+    // Skip timer in test mode
+    if (_isTest) {
+      _isCelebrating = false;
+      return;
+    }
+    
+    _celebrationTimer?.cancel();
+    _celebrationTimer = Timer(const Duration(milliseconds: 2500), () {
+      _isCelebrating = false;
+      notifyListeners();
+    });
+    
+    _logChange('event', 'celebration', 'Celebration triggered');
+  }
+
+  @override
+  void dispose() {
+    _morphTimer?.cancel();
+    _celebrationTimer?.cancel();
+    _celebrationController.close();
+    super.dispose();
   }
 
   /// Applies an AR quality preset to the current parameters.

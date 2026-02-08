@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/main.dart';
@@ -36,12 +37,16 @@ void main() {
     final boundaryKey = GlobalKey();
     late PresetStore presetStore;
     late ArQualityStore arQualityStore;
+    late AccessibilityService accessibilityService;
 
     setUp(() async {
       // Ensure first-run flows don't pollute screenshots.
       SharedPreferences.setMockInitialValues({});
       presetStore = await PresetStore.create();
-      arQualityStore = await ArQualityStore.create();    });
+      arQualityStore = await ArQualityStore.create();
+      accessibilityService = await AccessibilityService.create();
+    });
+
     Future<void> pumpApp(WidgetTester tester) async {
       await binding.setSurfaceSize(const Size(1080, 1920));
       addTearDown(() async {
@@ -54,6 +59,7 @@ void main() {
           child: FlutterFractalsApp(
             presetStore: presetStore,
             arQualityStore: arQualityStore,
+            accessibilityService: accessibilityService,
             locale: const Locale('en'),
           ),
         ),

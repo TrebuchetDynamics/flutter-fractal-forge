@@ -526,8 +526,8 @@ class SectionHeader extends StatelessWidget {
   }
 }
 
-/// Premium slider with value indicator.
-class PremiumSlider extends StatelessWidget {
+/// Premium slider with value indicator and smooth animations.
+class PremiumSlider extends StatefulWidget {
   final double value;
   final double min;
   final double max;
@@ -548,6 +548,61 @@ class PremiumSlider extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<PremiumSlider> createState() => _PremiumSliderState();
+}
+
+class _PremiumSliderState extends State<PremiumSlider>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pulseController;
+  late Animation<double> _pulseAnimation;
+  bool _isDragging = false;
+  double? _previousValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _pulseAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.15), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: 1.15, end: 1.0), weight: 1),
+    ]).animate(CurvedAnimation(
+      parent: _pulseController,
+      curve: Curves.easeOut,
+    ));
+  }
+
+  @override
+  void didUpdateWidget(PremiumSlider oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value && !_isDragging) {
+      _previousValue = oldWidget.value;
+      _pulseController.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
+
+  Color _getValueColor() {
+    if (_previousValue == null) return AppColors.primary;
+    
+    final delta = widget.value - _previousValue!;
+    final range = widget.max - widget.min;
+    final normalizedDelta = (delta / range).abs();
+
+    if (normalizedDelta > 0.05) {
+      return delta > 0 ? AppColors.secondary : AppColors.primaryLight;
+    }
+    return AppColors.primary;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -556,27 +611,41 @@ class PremiumSlider extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              label,
+              widget.label,
               style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.textPrimary,
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.sm,
-                vertical: AppSpacing.xs,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.surfaceVariant,
-                borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-              ),
-              child: Text(
-                valueLabel ?? value.toStringAsFixed(2),
-                style: AppTypography.labelSmall.copyWith(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+            AnimatedBuilder(
+              animation: _pulseAnimation,
+              builder: (context, child) {
+                return Transform.scale(
+                  scale: _pulseAnimation.value,
+                  child: AnimatedContainer(
+                    duration: AppAnimations.fast,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
+                      vertical: AppSpacing.xs,
+                    ),
+                    decoration: BoxDecoration(
+                      color: _isDragging
+                          ? _getValueColor().withValues(alpha: 0.15)
+                          : AppColors.surfaceVariant,
+                      borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+                      border: _isDragging
+                          ? Border.all(color: _getValueColor().withValues(alpha: 0.3))
+                          : null,
+                    ),
+                    child: Text(
+                      widget.valueLabel ?? widget.value.toStringAsFixed(2),
+                      style: AppTypography.labelSmall.copyWith(
+                        color: _isDragging ? _getValueColor() : AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -584,24 +653,88 @@ class PremiumSlider extends StatelessWidget {
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
             trackHeight: 6,
-            thumbShape: const RoundSliderThumbShape(
+            thumbShape: _AnimatedSliderThumbShape(
               enabledThumbRadius: 10,
-              elevation: 4,
+              isActive: _isDragging,
             ),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 22),
-            activeTrackColor: AppColors.primary,
+            activeTrackColor: _isDragging ? _getValueColor() : AppColors.primary,
             inactiveTrackColor: AppColors.surfaceVariant,
             thumbColor: Colors.white,
           ),
           child: Slider(
-            value: value.clamp(min, max),
-            min: min,
-            max: max,
-            divisions: divisions,
-            onChanged: onChanged,
+            value: widget.value.clamp(widget.min, widget.max),
+            min: widget.min,
+            max: widget.max,
+            divisions: widget.divisions,
+            onChangeStart: (_) => setState(() => _isDragging = true),
+            onChangeEnd: (_) => setState(() => _isDragging = false),
+            onChanged: widget.onChanged,
           ),
         ),
       ],
     );
+  }
+}
+
+/// Custom slider thumb with animation support.
+class _AnimatedSliderThumbShape extends SliderComponentShape {
+  final double enabledThumbRadius;
+  final bool isActive;
+
+  const _AnimatedSliderThumbShape({
+    this.enabledThumbRadius = 10.0,
+    this.isActive = false,
+  });
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return Size.fromRadius(enabledThumbRadius);
+  }
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
+    final canvas = context.canvas;
+    
+    final radius = enabledThumbRadius * (1 + activationAnimation.value * 0.15);
+    
+    // Draw shadow
+    final shadowPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.2)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+    canvas.drawCircle(center + const Offset(0, 2), radius, shadowPaint);
+    
+    // Draw glow when active
+    if (isActive || activationAnimation.value > 0) {
+      final glowPaint = Paint()
+        ..color = AppColors.primary.withValues(alpha: 0.3 * activationAnimation.value)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+      canvas.drawCircle(center, radius * 1.5, glowPaint);
+    }
+    
+    // Draw thumb
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(center, radius, paint);
+    
+    // Draw inner circle accent
+    final accentPaint = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.1 + activationAnimation.value * 0.2)
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(center, radius * 0.4, accentPaint);
   }
 }

@@ -17,6 +17,10 @@ void main() {
       controller = FractalController(registry);
     });
 
+    tearDown(() {
+      controller.dispose();
+    });
+
     testWidgets('notifies listeners when module changes', (tester) async {
       int notifyCount = 0;
       controller.addListener(() => notifyCount++);

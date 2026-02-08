@@ -1,11 +1,33 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/services/crash_reporter.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import './providers/fractal_provider.dart';
 import 'fractal_canvas.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+
+/// Types of shader errors for categorization and display.
+enum ShaderErrorType {
+  /// Shader code failed to compile on the GPU.
+  compilation,
+
+  /// The shader asset file was not found.
+  assetNotFound,
+
+  /// GPU ran out of memory.
+  outOfMemory,
+
+  /// GPU does not support required features.
+  gpuUnsupported,
+
+  /// Unknown or uncategorized error.
+  unknown,
+}
 
 /// A widget that renders fractals using GPU-accelerated shaders.
 ///
@@ -17,6 +39,14 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 ///
 /// The renderer requires a [FractalController] to be available via Provider.
 /// It automatically loads the appropriate shader when the module changes.
+///
+/// ## Gesture Support
+/// 
+/// - **Single-finger drag**: Pan (2D) or rotate (3D)
+/// - **Pinch-to-zoom**: Smooth zoom with momentum/inertia
+/// - **Two-finger rotation**: Rotate around Z-axis (3D fractals)
+/// - **Double-tap**: Reset view to default
+/// - **Long-press**: Show context menu
 ///
 /// {@category Rendering}
 ///
@@ -43,11 +73,23 @@ class FractalRenderer extends StatefulWidget {
   /// Defaults to true.
   final bool gesturesEnabled;
 
+  /// Callback for when controls should be opened.
+  final VoidCallback? onOpenControls;
+
+  /// Callback for when presets should be opened.
+  final VoidCallback? onOpenPresets;
+
+  /// Callback for when export should be opened.
+  final VoidCallback? onOpenExport;
+
   /// Creates a [FractalRenderer] widget.
   const FractalRenderer({
     Key? key,
     this.boundaryKey,
     this.gesturesEnabled = true,
+    this.onOpenControls,
+    this.onOpenPresets,
+    this.onOpenExport,
   }) : super(key: key);
 
   @override
@@ -68,11 +110,30 @@ class _FractalRendererState extends State<FractalRenderer>
     return v || const bool.fromEnvironment('FLUTTER_TEST');
   })();
 
+  /// Maximum number of shader load retries before showing error.
+  static const int _maxShaderRetries = 3;
+
   late AnimationController _animationController;
   ui.FragmentProgram? _program;
   String? _shaderAsset;
   bool _loading = false;
   String? _shaderError;
+  String? _shaderErrorDetails;
+  ShaderErrorType _shaderErrorType = ShaderErrorType.unknown;
+  int _shaderRetryCount = 0;
+
+  // Gesture state for smooth interactions
+  late AnimationController _zoomMomentumController;
+  late AnimationController _panMomentumController;
+  double _zoomVelocity = 0.0;
+  Offset _panVelocity = Offset.zero;
+  double _lastScale = 1.0;
+  double _lastRotation = 0.0;
+  bool _isScaling = false;
+
+  // For smooth zoom interpolation
+  double _targetZoom = 1.0;
+  double _currentZoom = 1.0;
 
   @override
   void initState() {
@@ -83,6 +144,17 @@ class _FractalRendererState extends State<FractalRenderer>
       vsync: this,
     );
 
+    // Momentum controllers for smooth deceleration
+    _zoomMomentumController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    )..addListener(_applyZoomMomentum);
+
+    _panMomentumController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    )..addListener(_applyPanMomentum);
+
     // Avoid an always-running ticker in widget tests; it makes `pumpAndSettle`
     // time out.
     if (!_isTest) {
@@ -90,6 +162,54 @@ class _FractalRendererState extends State<FractalRenderer>
     }
   }
 
+  void _applyZoomMomentum() {
+    if (!mounted) return;
+    final controller = context.read<FractalController>();
+    final view = controller.view;
+
+    // Decay the velocity with easing
+    final progress = Curves.easeOutCubic.transform(_zoomMomentumController.value);
+    final decayedVelocity = _zoomVelocity * (1.0 - progress);
+
+    if (decayedVelocity.abs() > 0.001) {
+      final newZoom = view.zoom * (1.0 + decayedVelocity * 0.02);
+      controller.updateZoom(newZoom);
+    }
+  }
+
+  void _applyPanMomentum() {
+    if (!mounted) return;
+    final controller = context.read<FractalController>();
+    final view = controller.view;
+    final module = controller.module;
+
+    // Decay the velocity with easing
+    final progress = Curves.easeOutCubic.transform(_panMomentumController.value);
+    final decayedVelocity = _panVelocity * (1.0 - progress);
+
+    if (decayedVelocity.distance > 0.5) {
+      if (module.dimension == FractalDimension.threeD) {
+        controller.updateRotation(
+          view.rotation + Vector3(
+            decayedVelocity.dy * 0.001,
+            decayedVelocity.dx * 0.001,
+            0,
+          ),
+        );
+      } else {
+        final pan = Vector2(
+          view.pan.x - decayedVelocity.dx * 0.0005,
+          view.pan.y - decayedVelocity.dy * 0.0005,
+        );
+        controller.updatePan(pan);
+      }
+    }
+  }
+
+  /// Loads a shader with retry logic and error reporting.
+  ///
+  /// Attempts to load the shader up to [_maxShaderRetries] times before
+  /// giving up. Reports all failures to [CrashReporter].
   Future<void> _loadShader(String asset) async {
     if (_loading) {
       return;
@@ -97,27 +217,310 @@ class _FractalRendererState extends State<FractalRenderer>
     _loading = true;
     setState(() {
       _shaderError = null;
+      _shaderErrorDetails = null;
     });
-    try {
-      final program = await ui.FragmentProgram.fromAsset(asset);
-      setState(() {
-        _program = program;
-        _shaderAsset = asset;
-      });
-    } catch (e) {
-      debugPrint('Error loading shader: $e');
-      setState(() {
-        _shaderError = e.toString();
-      });
-    } finally {
-      _loading = false;
+
+    for (var attempt = 1; attempt <= _maxShaderRetries; attempt++) {
+      try {
+        final program = await ui.FragmentProgram.fromAsset(asset);
+        if (mounted) {
+          setState(() {
+            _program = program;
+            _shaderAsset = asset;
+            _shaderRetryCount = 0;
+          });
+        }
+        return;
+      } catch (e, stack) {
+        final errorType = _categorizeShaderError(e);
+
+        // Report to crash reporter
+        CrashReporter.instance.record(
+          e,
+          stack,
+          source: 'shader_load',
+          fatal: false,
+          context: 'Attempt $attempt/$_maxShaderRetries for $asset',
+          tags: {
+            'shader_asset': asset,
+            'attempt': attempt.toString(),
+            'error_type': errorType.name,
+          },
+        );
+
+        if (attempt < _maxShaderRetries) {
+          // Wait before retrying with exponential backoff
+          await Future.delayed(Duration(milliseconds: 100 * attempt));
+          continue;
+        }
+
+        // Final failure
+        if (mounted) {
+          setState(() {
+            _shaderError = _getShaderErrorMessage(e, errorType);
+            _shaderErrorDetails = e.toString();
+            _shaderErrorType = errorType;
+            _shaderRetryCount = attempt;
+          });
+        }
+      }
+    }
+
+    _loading = false;
+  }
+
+  /// Categorizes shader errors for better error messages.
+  ShaderErrorType _categorizeShaderError(Object error) {
+    final message = error.toString().toLowerCase();
+
+    if (message.contains('compile') || message.contains('glsl')) {
+      return ShaderErrorType.compilation;
+    }
+    if (message.contains('not found') || message.contains('asset')) {
+      return ShaderErrorType.assetNotFound;
+    }
+    if (message.contains('memory') || message.contains('oom')) {
+      return ShaderErrorType.outOfMemory;
+    }
+    if (message.contains('gpu') || message.contains('driver')) {
+      return ShaderErrorType.gpuUnsupported;
+    }
+    return ShaderErrorType.unknown;
+  }
+
+  /// Returns a user-friendly error message based on error type.
+  String _getShaderErrorMessage(Object error, ShaderErrorType type) {
+    switch (type) {
+      case ShaderErrorType.compilation:
+        return 'Shader compilation failed. This fractal may not be compatible with your device.';
+      case ShaderErrorType.assetNotFound:
+        return 'Shader file not found. Please reinstall the app.';
+      case ShaderErrorType.outOfMemory:
+        return 'Not enough GPU memory. Try closing other apps.';
+      case ShaderErrorType.gpuUnsupported:
+        return 'Your GPU does not support this fractal\'s shader requirements.';
+      case ShaderErrorType.unknown:
+        return 'Failed to load shader: ${error.toString().length > 100 ? '${error.toString().substring(0, 100)}...' : error}';
+    }
+  }
+
+  /// Retries loading the current shader.
+  void _retryShaderLoad() {
+    if (_shaderAsset != null || context.read<FractalController>().module.shaderAsset.isNotEmpty) {
+      final asset = _shaderAsset ?? context.read<FractalController>().module.shaderAsset;
+      _loading = false; // Reset loading flag to allow retry
+      _loadShader(asset);
     }
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _zoomMomentumController.dispose();
+    _panMomentumController.dispose();
     super.dispose();
+  }
+
+  void _onScaleStart(ScaleStartDetails details) {
+    _zoomMomentumController.stop();
+    _panMomentumController.stop();
+    _lastScale = 1.0;
+    _lastRotation = 0.0;
+    _isScaling = details.pointerCount > 1;
+    _zoomVelocity = 0.0;
+    _panVelocity = Offset.zero;
+
+    final controller = context.read<FractalController>();
+    _currentZoom = controller.view.zoom;
+    _targetZoom = _currentZoom;
+  }
+
+  void _onScaleUpdate(ScaleUpdateDetails details) {
+    final controller = context.read<FractalController>();
+    final view = controller.view;
+    final module = controller.module;
+
+    // Smooth zoom with interpolation
+    if (details.scale != 1.0) {
+      final scaleChange = details.scale / _lastScale;
+      _targetZoom = view.zoom * scaleChange;
+      
+      // Smooth interpolation for zoom
+      final smoothZoom = _lerpDouble(view.zoom, _targetZoom, 0.3);
+      controller.updateZoom(smoothZoom);
+
+      // Track velocity for momentum
+      _zoomVelocity = (scaleChange - 1.0) * 10.0;
+      _lastScale = details.scale;
+    }
+
+    // Handle rotation for 3D fractals (two-finger twist)
+    if (module.dimension == FractalDimension.threeD && 
+        details.rotation != 0.0 && 
+        _isScaling) {
+      final rotationDelta = details.rotation - _lastRotation;
+      controller.updateRotation(
+        view.rotation + Vector3(0, 0, rotationDelta),
+      );
+      _lastRotation = details.rotation;
+    }
+
+    // Handle panning/rotation from focal point movement
+    if (details.focalPointDelta != Offset.zero) {
+      final delta = details.focalPointDelta;
+      _panVelocity = delta;
+
+      if (module.dimension == FractalDimension.threeD) {
+        // For 3D: pan gesture rotates the view
+        controller.updateRotation(
+          view.rotation + Vector3(delta.dy * 0.01, delta.dx * 0.01, 0),
+        );
+      } else {
+        // For 2D: standard panning
+        // Invert so dragging moves the view intuitively
+        final pan = Vector2(
+          view.pan.x - delta.dx * 0.005 / view.zoom,
+          view.pan.y - delta.dy * 0.005 / view.zoom,
+        );
+        controller.updatePan(pan);
+      }
+    }
+  }
+
+  void _onScaleEnd(ScaleEndDetails details) {
+    // Apply momentum/inertia based on final velocity
+    if (_zoomVelocity.abs() > 0.05) {
+      _zoomMomentumController.forward(from: 0);
+    }
+    if (_panVelocity.distance > 5) {
+      _panMomentumController.forward(from: 0);
+    }
+    _isScaling = false;
+  }
+
+  double _lerpDouble(double a, double b, double t) {
+    return a + (b - a) * t.clamp(0.0, 1.0);
+  }
+
+  void _onDoubleTap() {
+    final controller = context.read<FractalController>();
+    controller.resetView();
+
+    // Haptic feedback
+    HapticFeedback.mediumImpact();
+
+    // Show snackbar feedback
+    final l10n = AppLocalizations.of(context);
+    if (l10n != null && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.gestureDoubleTapReset),
+          duration: const Duration(seconds: 1),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+        ),
+      );
+    }
+  }
+
+  void _onLongPress(LongPressStartDetails details) {
+    HapticFeedback.heavyImpact();
+    _showContextMenu(details.globalPosition);
+  }
+
+  void _showContextMenu(Offset position) {
+    final controller = context.read<FractalController>();
+    final l10n = AppLocalizations.of(context);
+    if (l10n == null) return;
+
+    showMenu<String>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy,
+        position.dx + 1,
+        position.dy + 1,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      items: [
+        PopupMenuItem<String>(
+          value: 'reset',
+          child: Row(
+            children: [
+              const Icon(Icons.refresh_rounded, size: 20),
+              const SizedBox(width: 12),
+              Text(l10n.contextMenuResetView),
+            ],
+          ),
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem<String>(
+          value: 'controls',
+          child: Row(
+            children: [
+              const Icon(Icons.tune_rounded, size: 20),
+              const SizedBox(width: 12),
+              Text(l10n.contextMenuOpenControls),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'presets',
+          child: Row(
+            children: [
+              const Icon(Icons.bookmark_rounded, size: 20),
+              const SizedBox(width: 12),
+              Text(l10n.contextMenuOpenPresets),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'randomize',
+          child: Row(
+            children: [
+              const Icon(Icons.shuffle_rounded, size: 20),
+              const SizedBox(width: 12),
+              Text(l10n.contextMenuRandomize),
+            ],
+          ),
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem<String>(
+          value: 'export',
+          child: Row(
+            children: [
+              const Icon(Icons.download_rounded, size: 20),
+              const SizedBox(width: 12),
+              Text(l10n.contextMenuExport),
+            ],
+          ),
+        ),
+      ],
+    ).then((value) {
+      if (value == null) return;
+      
+      switch (value) {
+        case 'reset':
+          controller.resetView();
+          HapticFeedback.mediumImpact();
+          break;
+        case 'controls':
+          widget.onOpenControls?.call();
+          break;
+        case 'presets':
+          widget.onOpenPresets?.call();
+          break;
+        case 'randomize':
+          controller.randomizeParams();
+          HapticFeedback.mediumImpact();
+          break;
+        case 'export':
+          widget.onOpenExport?.call();
+          break;
+      }
+    });
   }
 
   @override
@@ -144,6 +547,7 @@ class _FractalRendererState extends State<FractalRenderer>
       }
 
       return GestureDetector(
+        onScaleStart: _onScaleStart,
         onScaleUpdate: (details) {
           final provider = context.read<FractalController>();
           final view = provider.view;
@@ -167,6 +571,9 @@ class _FractalRendererState extends State<FractalRenderer>
             }
           }
         },
+        onScaleEnd: _onScaleEnd,
+        onDoubleTap: _onDoubleTap,
+        onLongPressStart: _onLongPress,
         child: content,
       );
     }
@@ -175,79 +582,68 @@ class _FractalRendererState extends State<FractalRenderer>
       _loadShader(module.shaderAsset);
     }
     if (_shaderError != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.error_outline, size: 48, color: Colors.red),
-              const SizedBox(height: 16),
-              Text(
-                'Failed to load shader',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                _shaderError!,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton.icon(
-                onPressed: () {
-                  setState(() {
-                    _shaderError = null;
-                  });
-                  _loadShader(module.shaderAsset);
-                },
-                icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
+      return _ShaderErrorDisplay(
+        errorMessage: _shaderError!,
+        errorDetails: _shaderErrorDetails,
+        errorType: _shaderErrorType,
+        retryCount: _shaderRetryCount,
+        maxRetries: _maxShaderRetries,
+        onRetry: _retryShaderLoad,
+        onGoBack: () => Navigator.of(context).maybePop(),
       );
     }
     if (_program == null) {
       final l10n = AppLocalizations.of(context);
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(height: 16),
-            Text(l10n?.loadingShaders ?? 'Loading shaders…'),
-          ],
+        child: FractalLoadingIndicator(
+          size: 80,
+          message: l10n?.loadingShaders ?? 'Loading shaders…',
         ),
       );
     }
 
+    // Create the base fractal content
+    Widget fractalContent = SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) {
+          final renderState = FractalRenderState(
+            params: controller.params,
+            view: controller.view,
+            transparentBackground: controller.transparentBackground,
+          );
+          return CustomPaint(
+            painter: FractalCanvas(
+              module: controller.module,
+              state: renderState,
+              time: _animationController.value * 1000.0,
+              program: _program!,
+            ),
+            child: Container(),
+          );
+        },
+      ),
+    );
+
+    // Wrap with morph transition effect
+    if (controller.isMorphing) {
+      fractalContent = FractalMorphTransition(
+        currentFractalType: controller.module.id,
+        child: fractalContent,
+      );
+    }
+
+    // Wrap with celebration effect
+    fractalContent = CelebrationEffect(
+      isActive: controller.isCelebrating,
+      child: fractalContent,
+    );
+
     final content = RepaintBoundary(
       key: widget.boundaryKey,
-      child: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: AnimatedBuilder(
-          animation: _animationController,
-          builder: (context, child) {
-            final renderState = FractalRenderState(
-              params: controller.params,
-              view: controller.view,
-              transparentBackground: controller.transparentBackground,
-            );
-            return CustomPaint(
-              painter: FractalCanvas(
-                module: controller.module,
-                state: renderState,
-                time: _animationController.value * 1000.0,
-                program: _program!,
-              ),
-              child: Container(),
-            );
-          },
-        ),
-      ),
+      child: fractalContent,
     );
 
     if (!widget.gesturesEnabled) {
@@ -255,33 +651,322 @@ class _FractalRendererState extends State<FractalRenderer>
     }
 
     return GestureDetector(
-      onScaleUpdate: (details) {
-        final provider = context.read<FractalController>();
-        final view = provider.view;
-
-        if (details.scale != 1.0) {
-          provider.updateZoom(view.zoom * details.scale);
-        }
-
-        if (details.focalPointDelta != Offset.zero) {
-          final delta = details.focalPointDelta;
-          if (module.dimension == FractalDimension.threeD) {
-            provider.updateRotation(
-              view.rotation +
-                  Vector3(delta.dy * 0.01, delta.dx * 0.01, 0),
-            );
-          } else {
-            // Invert panning so dragging the finger moves the view intuitively
-            // (i.e., drag right -> scene shifts right).
-            final pan = Vector2(
-              view.pan.x - delta.dx * 0.005,
-              view.pan.y - delta.dy * 0.005,
-            );
-            provider.updatePan(pan);
-          }
-        }
-      },
+      onScaleStart: _onScaleStart,
+      onScaleUpdate: _onScaleUpdate,
+      onScaleEnd: _onScaleEnd,
+      onDoubleTap: _onDoubleTap,
+      onLongPressStart: _onLongPress,
       child: content,
     );
+  }
+}
+
+/// Displays shader loading errors with recovery options.
+class _ShaderErrorDisplay extends StatefulWidget {
+  final String errorMessage;
+  final String? errorDetails;
+  final ShaderErrorType errorType;
+  final int retryCount;
+  final int maxRetries;
+  final VoidCallback onRetry;
+  final VoidCallback onGoBack;
+
+  const _ShaderErrorDisplay({
+    required this.errorMessage,
+    this.errorDetails,
+    required this.errorType,
+    required this.retryCount,
+    required this.maxRetries,
+    required this.onRetry,
+    required this.onGoBack,
+  });
+
+  @override
+  State<_ShaderErrorDisplay> createState() => _ShaderErrorDisplayState();
+}
+
+class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
+    with SingleTickerProviderStateMixin {
+  bool _showDetails = false;
+  late AnimationController _pulseController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
+
+  IconData get _errorIcon {
+    switch (widget.errorType) {
+      case ShaderErrorType.compilation:
+        return Icons.code_off_rounded;
+      case ShaderErrorType.assetNotFound:
+        return Icons.folder_off_rounded;
+      case ShaderErrorType.outOfMemory:
+        return Icons.memory_rounded;
+      case ShaderErrorType.gpuUnsupported:
+        return Icons.desktop_access_disabled_rounded;
+      case ShaderErrorType.unknown:
+        return Icons.error_outline_rounded;
+    }
+  }
+
+  Color get _errorColor {
+    switch (widget.errorType) {
+      case ShaderErrorType.compilation:
+      case ShaderErrorType.unknown:
+        return AppColors.error;
+      case ShaderErrorType.assetNotFound:
+        return AppColors.warning;
+      case ShaderErrorType.outOfMemory:
+      case ShaderErrorType.gpuUnsupported:
+        return AppColors.error;
+    }
+  }
+
+  bool get _canRetry => widget.retryCount < widget.maxRetries;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.background,
+      child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Animated error icon
+              AnimatedBuilder(
+                animation: _pulseController,
+                builder: (context, child) {
+                  final pulse = 1.0 + (_pulseController.value * 0.1);
+                  return Transform.scale(
+                    scale: pulse,
+                    child: Container(
+                      padding: const EdgeInsets.all(AppSpacing.lg),
+                      decoration: BoxDecoration(
+                        color: _errorColor.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: _errorColor.withValues(alpha: 0.3),
+                          width: 2,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: _errorColor.withValues(alpha: 0.2 * _pulseController.value),
+                            blurRadius: 20,
+                            spreadRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        _errorIcon,
+                        size: 48,
+                        color: _errorColor,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              // Error title
+              Text(
+                'Shader Error',
+                style: AppTypography.titleLarge.copyWith(
+                  color: _errorColor,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+
+              // Retry count indicator
+              if (widget.retryCount > 0)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.xs,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    'Attempt ${widget.retryCount}/${widget.maxRetries}',
+                    style: AppTypography.labelSmall.copyWith(
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                ),
+              const SizedBox(height: AppSpacing.md),
+
+              // Error message
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppColors.border.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Text(
+                  widget.errorMessage,
+                  style: AppTypography.bodyMedium.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              // Action buttons
+              Wrap(
+                spacing: AppSpacing.md,
+                runSpacing: AppSpacing.sm,
+                alignment: WrapAlignment.center,
+                children: [
+                  if (_canRetry)
+                    ElevatedButton.icon(
+                      onPressed: widget.onRetry,
+                      icon: const Icon(Icons.refresh_rounded, size: 18),
+                      label: const Text('Try Again'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.lg,
+                          vertical: AppSpacing.md,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  OutlinedButton.icon(
+                    onPressed: widget.onGoBack,
+                    icon: const Icon(Icons.arrow_back_rounded, size: 18),
+                    label: const Text('Go Back'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.textSecondary,
+                      side: BorderSide(
+                        color: AppColors.border.withValues(alpha: 0.5),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.md,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              // Technical details section
+              if (widget.errorDetails != null) ...[
+                const SizedBox(height: AppSpacing.xl),
+                TextButton.icon(
+                  onPressed: () => setState(() => _showDetails = !_showDetails),
+                  icon: Icon(
+                    _showDetails
+                        ? Icons.expand_less_rounded
+                        : Icons.expand_more_rounded,
+                    size: 18,
+                  ),
+                  label: Text(_showDetails ? 'Hide Details' : 'Show Details'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.textMuted,
+                  ),
+                ),
+                AnimatedCrossFade(
+                  duration: AppAnimations.fast,
+                  crossFadeState: _showDetails
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
+                  firstChild: const SizedBox.shrink(),
+                  secondChild: Container(
+                    margin: const EdgeInsets.only(top: AppSpacing.sm),
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.border.withValues(alpha: 0.2),
+                      ),
+                    ),
+                    child: SelectableText(
+                      widget.errorDetails!,
+                      style: AppTypography.bodySmall.copyWith(
+                        color: AppColors.textMuted,
+                        fontFamily: 'monospace',
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+
+              // Helpful tips
+              const SizedBox(height: AppSpacing.xl),
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.2),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.lightbulb_outline_rounded,
+                      color: AppColors.primary.withValues(alpha: 0.7),
+                      size: 20,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Text(
+                        _getTipForErrorType(),
+                        style: AppTypography.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _getTipForErrorType() {
+    switch (widget.errorType) {
+      case ShaderErrorType.compilation:
+        return 'This fractal\'s shader may not be compatible with your GPU. Try a simpler fractal type.';
+      case ShaderErrorType.assetNotFound:
+        return 'The shader file appears to be missing. Reinstalling the app may fix this issue.';
+      case ShaderErrorType.outOfMemory:
+        return 'Close other apps to free up GPU memory, then try again.';
+      case ShaderErrorType.gpuUnsupported:
+        return 'Your device\'s GPU may not support the features required by this fractal.';
+      case ShaderErrorType.unknown:
+        return 'If this problem persists, try restarting the app or your device.';
+    }
   }
 }

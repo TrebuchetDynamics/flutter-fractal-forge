@@ -1,16 +1,24 @@
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/debug_runner_service.dart';
+import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/performance_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/debug_overlay.dart';
+import 'package:flutter_fractals/features/debug/performance_overlay.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
+import 'package:flutter_fractals/features/history/history_provider.dart';
+import 'package:flutter_fractals/features/history/history_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
@@ -24,13 +32,21 @@ class FractalViewerScreen extends StatefulWidget {
 }
 
 class _FractalViewerScreenState extends State<FractalViewerScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final GlobalKey _fractalKey = GlobalKey();
   final ExportService _exportService = const ExportService();
   bool _exporting = false;
   double? _exportProgress;
   DebugRunnerService? _debugRunner;
   late AnimationController _fabController;
+  
+  // Performance overlay state
+  final PerformanceService _performanceService = PerformanceService();
+  bool _showPerformanceOverlay = false;
+  bool _compactPerformanceOverlay = false;
+  
+  // History tracking
+  FractalController? _lastController;
 
   @override
   void initState() {
@@ -50,13 +66,48 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         registry: context.read<ModuleRegistry>(),
       );
     }
+    
+    // Set up history tracking
+    final controller = context.read<FractalController>();
+    if (_lastController != controller) {
+      _lastController?.removeListener(_onControllerChanged);
+      _lastController = controller;
+      controller.addListener(_onControllerChanged);
+      // Record initial state
+      _recordHistory(context);
+    }
+  }
+
+  void _onControllerChanged() {
+    if (mounted) {
+      _recordHistory(context);
+    }
   }
 
   @override
   void dispose() {
+    _lastController?.removeListener(_onControllerChanged);
     _fabController.dispose();
     _debugRunner?.dispose();
+    _performanceService.dispose();
     super.dispose();
+  }
+
+  void _togglePerformanceOverlay() {
+    setState(() {
+      _showPerformanceOverlay = !_showPerformanceOverlay;
+      if (_showPerformanceOverlay) {
+        _performanceService.start(this);
+      } else {
+        _performanceService.stop();
+      }
+    });
+  }
+
+  void _toggleCompactMode() {
+    setState(() {
+      _compactPerformanceOverlay = !_compactPerformanceOverlay;
+    });
   }
 
   @override
@@ -74,7 +125,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         children: [
           // Fractal renderer (full screen)
           Positioned.fill(
-            child: FractalRenderer(boundaryKey: _fractalKey),
+            child: FractalRenderer(
+              boundaryKey: _fractalKey,
+              onOpenControls: () => _openControls(context),
+              onOpenPresets: () => _openPresets(context),
+              onOpenExport: () => _openExport(context),
+            ),
           ),
 
           // Floating action buttons
@@ -109,11 +165,25 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     ),
                     const SizedBox(height: AppSpacing.md),
                     _FloatingActionButton(
+                      icon: Icons.history_rounded,
+                      tooltip: l10n.tooltipOpenHistory,
+                      onPressed: _exporting ? null : () => _openHistory(context),
+                      delay: const Duration(milliseconds: 75),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _FloatingActionButton(
+                      icon: Icons.share_rounded,
+                      tooltip: l10n.tooltipShare,
+                      onPressed: _exporting ? null : () => _shareFractal(context),
+                      delay: const Duration(milliseconds: 100),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _FloatingActionButton(
                       icon: Icons.download_rounded,
                       tooltip: l10n.tooltipExport,
                       onPressed: _exporting ? null : () => _openExport(context),
                       isPrimary: true,
-                      delay: const Duration(milliseconds: 100),
+                      delay: const Duration(milliseconds: 125),
                     ),
                   ],
                 ),
@@ -134,6 +204,30 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             DebugOverlay(
               runner: _debugRunner!,
               boundaryKey: _fractalKey,
+            ),
+
+          // Performance overlay toggle button (top-left)
+          Positioned(
+            top: MediaQuery.of(context).padding.top + kToolbarHeight + 8,
+            left: AppSpacing.md,
+            child: GestureDetector(
+              onLongPress: _showPerformanceOverlay ? _toggleCompactMode : null,
+              child: PerformanceToggleButton(
+                isEnabled: _showPerformanceOverlay,
+                onToggle: _togglePerformanceOverlay,
+              ),
+            ),
+          ),
+
+          // Performance overlay (top-left, below toggle)
+          if (_showPerformanceOverlay)
+            Positioned(
+              top: MediaQuery.of(context).padding.top + kToolbarHeight + 48,
+              left: AppSpacing.md,
+              child: FractalPerformanceOverlay(
+                service: _performanceService,
+                compact: _compactPerformanceOverlay,
+              ),
             ),
         ],
       ),
@@ -162,6 +256,61 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       builder: (_) => ChangeNotifierProvider.value(
         value: controller,
         child: const PresetSheet(),
+      ),
+    );
+  }
+
+  void _openHistory(BuildContext context) {
+    final controller = context.read<FractalController>();
+    final historyProvider = context.read<HistoryProvider?>();
+    if (historyProvider == null) return;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: controller),
+          ChangeNotifierProvider.value(value: historyProvider),
+        ],
+        child: const HistorySheet(),
+      ),
+    );
+  }
+
+  /// Records the current location in history.
+  void _recordHistory(BuildContext context) {
+    final controller = context.read<FractalController>();
+    final historyProvider = context.read<HistoryProvider?>();
+    if (historyProvider == null) return;
+
+    historyProvider.recordLocation(
+      moduleId: controller.module.id,
+      view: controller.view,
+      params: controller.params,
+    );
+  }
+
+  /// Shares the current fractal configuration via deep link.
+  void _shareFractal(BuildContext context) {
+    final controller = context.read<FractalController>();
+    final l10n = AppLocalizations.of(context)!;
+
+    // Build the deep link URL
+    final uri = DeepLinkService.buildUri(
+      moduleId: controller.module.id,
+      params: controller.params,
+      view: controller.view,
+    );
+
+    // Show a bottom sheet with sharing options
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _ShareSheet(
+        uri: uri,
+        fractalName: controller.module.displayName(l10n),
       ),
     );
   }
@@ -431,27 +580,46 @@ class _FloatingActionButtonState extends State<_FloatingActionButton>
 
   @override
   Widget build(BuildContext context) {
+    // Check for reduced motion preference
+    final reduceMotion = MediaQuery.of(context).disableAnimations ||
+        (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
+
     return FadeIn(
-      delay: widget.delay,
-      child: Tooltip(
-        message: widget.tooltip,
-        child: GestureDetector(
-          onTapDown: widget.onPressed != null ? (_) {
-            setState(() => _isPressed = true);
-            _controller.forward();
-          } : null,
-          onTapUp: widget.onPressed != null ? (_) {
-            setState(() => _isPressed = false);
-            _controller.reverse();
-          } : null,
-          onTapCancel: widget.onPressed != null ? () {
-            setState(() => _isPressed = false);
-            _controller.reverse();
-          } : null,
-          onTap: widget.onPressed,
-          child: ScaleTransition(
-            scale: _scaleAnimation,
-            child: AnimatedContainer(
+      delay: reduceMotion ? Duration.zero : widget.delay,
+      child: Semantics(
+        label: widget.tooltip,
+        button: true,
+        enabled: widget.onPressed != null,
+        child: Tooltip(
+          message: widget.tooltip,
+          child: GestureDetector(
+            onTapDown: (widget.onPressed != null && !reduceMotion) ? (_) {
+              setState(() => _isPressed = true);
+              _controller.forward();
+            } : null,
+            onTapUp: (widget.onPressed != null && !reduceMotion) ? (_) {
+              setState(() => _isPressed = false);
+              _controller.reverse();
+            } : null,
+            onTapCancel: (widget.onPressed != null && !reduceMotion) ? () {
+              setState(() => _isPressed = false);
+              _controller.reverse();
+            } : null,
+            onTap: widget.onPressed,
+            child: reduceMotion 
+                ? _buildButtonContent()
+                : ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: _buildButtonContent(),
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButtonContent() {
+    return AnimatedContainer(
               duration: AppAnimations.fast,
               width: 52,
               height: 52,
@@ -481,11 +649,7 @@ class _FloatingActionButtonState extends State<_FloatingActionButton>
                     ? Colors.white
                     : (_isPressed ? AppColors.primary : AppColors.textSecondary),
               ),
-            ),
-          ),
-        ),
-      ),
-    );
+            );
   }
 }
 
@@ -569,6 +733,218 @@ class _ExportOverlay extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Bottom sheet for sharing fractal configuration via deep link.
+class _ShareSheet extends StatelessWidget {
+  final Uri uri;
+  final String fractalName;
+
+  const _ShareSheet({
+    required this.uri,
+    required this.fractalName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final linkText = uri.toString();
+
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Handle bar
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppColors.textMuted.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Title
+              Text(
+                l10n.shareTitle,
+                style: AppTypography.titleLarge,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                l10n.shareSubtitle(fractalName),
+                style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              // Link preview
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceVariant,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.link_rounded, color: AppColors.primary, size: 20),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Text(
+                        linkText,
+                        style: AppTypography.bodySmall.copyWith(color: AppColors.textMuted),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              // Share buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: _ShareButton(
+                      icon: Icons.copy_rounded,
+                      label: l10n.actionCopy,
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: linkText));
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: [
+                                const Icon(Icons.check_rounded, color: AppColors.success, size: 18),
+                                const SizedBox(width: AppSpacing.sm),
+                                Text(l10n.linkCopied),
+                              ],
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: _ShareButton(
+                      icon: Icons.share_rounded,
+                      label: l10n.actionShare,
+                      isPrimary: true,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Share.share(
+                          l10n.shareMessage(fractalName, linkText),
+                          subject: l10n.shareSubject(fractalName),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ShareButton extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+  final bool isPrimary;
+
+  const _ShareButton({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+    this.isPrimary = false,
+  });
+
+  @override
+  State<_ShareButton> createState() => _ShareButtonState();
+}
+
+class _ShareButtonState extends State<_ShareButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: AppAnimations.fast,
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => _controller.forward(),
+      onTapUp: (_) => _controller.reverse(),
+      onTapCancel: () => _controller.reverse(),
+      onTap: widget.onPressed,
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+          decoration: BoxDecoration(
+            gradient: widget.isPrimary ? AppColors.primaryGradient : null,
+            color: widget.isPrimary ? null : AppColors.surfaceVariant,
+            borderRadius: BorderRadius.circular(12),
+            border: widget.isPrimary ? null : Border.all(
+              color: AppColors.border.withValues(alpha: 0.3),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                widget.icon,
+                size: 18,
+                color: widget.isPrimary ? Colors.white : AppColors.textPrimary,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                widget.label,
+                style: AppTypography.labelLarge.copyWith(
+                  color: widget.isPrimary ? Colors.white : AppColors.textPrimary,
+                ),
+              ),
+            ],
           ),
         ),
       ),

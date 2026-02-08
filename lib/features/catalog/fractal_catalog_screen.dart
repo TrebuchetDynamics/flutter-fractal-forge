@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
@@ -317,118 +318,134 @@ class _ModuleCardState extends State<_ModuleCard>
   Widget build(BuildContext context) {
     final is3D = widget.module.dimension == FractalDimension.threeD;
     final dimensionLabel = is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
+    final name = widget.module.displayName(widget.l10n);
+    final semanticLabel = widget.l10n.semanticFractalCard(name, dimensionLabel);
+    
+    // Check for reduced motion preference
+    final reduceMotion = MediaQuery.of(context).disableAnimations ||
+        (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: GestureDetector(
-        onTapDown: (_) {
-          setState(() => _isPressed = true);
-          _controller.forward();
-        },
-        onTapUp: (_) {
-          setState(() => _isPressed = false);
-          _controller.reverse();
-        },
-        onTapCancel: () {
-          setState(() => _isPressed = false);
-          _controller.reverse();
-        },
-        onTap: widget.onTap,
-        child: ScaleTransition(
-          scale: _scaleAnimation,
-          child: AnimatedContainer(
-            duration: AppAnimations.fast,
-            decoration: BoxDecoration(
-              color: _isPressed
-                  ? AppColors.surfaceElevated
-                  : AppColors.surface,
-              borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-              border: Border.all(
-                color: _isPressed
-                    ? AppColors.primary.withValues(alpha: 0.4)
-                    : AppColors.border.withValues(alpha: 0.4),
+      child: Semantics(
+        label: semanticLabel,
+        button: true,
+        child: GestureDetector(
+          onTapDown: reduceMotion ? null : (_) {
+            setState(() => _isPressed = true);
+            _controller.forward();
+          },
+          onTapUp: reduceMotion ? null : (_) {
+            setState(() => _isPressed = false);
+            _controller.reverse();
+          },
+          onTapCancel: reduceMotion ? null : () {
+            setState(() => _isPressed = false);
+            _controller.reverse();
+          },
+          onTap: widget.onTap,
+          child: reduceMotion
+              ? _buildCardContent(dimensionLabel, is3D)
+              : ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: _buildCardContent(dimensionLabel, is3D),
+                ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardContent(String dimensionLabel, bool is3D) {
+    return AnimatedContainer(
+      duration: AppAnimations.fast,
+      decoration: BoxDecoration(
+        color: _isPressed
+            ? AppColors.surfaceElevated
+            : AppColors.surface,
+        borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+        border: Border.all(
+          color: _isPressed
+              ? AppColors.primary.withValues(alpha: 0.4)
+              : AppColors.border.withValues(alpha: 0.4),
+        ),
+        boxShadow: _isPressed
+            ? [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.1),
+                  blurRadius: 16,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : null,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Row(
+          children: [
+            // Dimension indicator
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                gradient: is3D
+                    ? AppColors.primaryGradient
+                    : LinearGradient(
+                        colors: [
+                          AppColors.secondary.withValues(alpha: 0.8),
+                          AppColors.secondaryDark,
+                        ],
+                      ),
+                borderRadius: BorderRadius.circular(12),
               ),
-              boxShadow: _isPressed
-                  ? [
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.1),
-                        blurRadius: 16,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
-                  : null,
+              child: Center(
+                child: Text(
+                  is3D ? '3D' : '2D',
+                  style: AppTypography.labelLarge.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              child: Row(
+            const SizedBox(width: AppSpacing.lg),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Dimension indicator
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      gradient: is3D
-                          ? AppColors.primaryGradient
-                          : LinearGradient(
-                              colors: [
-                                AppColors.secondary.withValues(alpha: 0.8),
-                                AppColors.secondaryDark,
-                              ],
-                            ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: Text(
-                        is3D ? '3D' : '2D',
-                        style: AppTypography.labelLarge.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                  Text(
+                    widget.module.displayName(widget.l10n),
+                    style: AppTypography.titleMedium.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.lg),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.module.displayName(widget.l10n),
-                          style: AppTypography.titleMedium.copyWith(
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          dimensionLabel,
-                          style: AppTypography.bodySmall.copyWith(
-                            color: AppColors.textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  AnimatedContainer(
-                    duration: AppAnimations.fast,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: _isPressed
-                          ? AppColors.primary.withValues(alpha: 0.2)
-                          : AppColors.surfaceVariant,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(
-                      Icons.arrow_forward_rounded,
-                      size: 18,
-                      color: _isPressed
-                          ? AppColors.primary
-                          : AppColors.textMuted,
+                  const SizedBox(height: 4),
+                  Text(
+                    dimensionLabel,
+                    style: AppTypography.bodySmall.copyWith(
+                      color: AppColors.textMuted,
                     ),
                   ),
                 ],
               ),
             ),
-          ),
+            AnimatedContainer(
+              duration: AppAnimations.fast,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: _isPressed
+                    ? AppColors.primary.withValues(alpha: 0.2)
+                    : AppColors.surfaceVariant,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                Icons.arrow_forward_rounded,
+                size: 18,
+                color: _isPressed
+                    ? AppColors.primary
+                    : AppColors.textMuted,
+              ),
+            ),
+          ],
         ),
       ),
     );

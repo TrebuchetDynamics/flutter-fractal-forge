@@ -397,4 +397,325 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shaderLoadFailed => 'Failed to load shader';
+
+  @override
+  String get contextMenuResetView => 'Reset View';
+
+  @override
+  String get contextMenuOpenControls => 'Open Controls';
+
+  @override
+  String get contextMenuOpenPresets => 'Open Presets';
+
+  @override
+  String get contextMenuRandomize => 'Randomize';
+
+  @override
+  String get contextMenuExport => 'Export';
+
+  @override
+  String get gestureDoubleTapReset => 'View reset';
+
+  @override
+  String get accessibilityTitle => 'Accessibility';
+
+  @override
+  String get accessibilityHighContrast => 'High Contrast';
+
+  @override
+  String get accessibilityHighContrastHint =>
+      'Use bright colors with maximum contrast';
+
+  @override
+  String get accessibilityReducedMotion => 'Reduced Motion';
+
+  @override
+  String get accessibilityReducedMotionHint =>
+      'Minimize animations and transitions';
+
+  @override
+  String get accessibilityLargeTargets => 'Large Touch Targets';
+
+  @override
+  String get accessibilityLargeTargetsHint =>
+      'Increase size of interactive elements';
+
+  @override
+  String get accessibilityScreenReaderActive => 'Screen reader is active';
+
+  @override
+  String get semanticFractalViewer =>
+      'Interactive fractal viewer. Pinch to zoom, drag to pan.';
+
+  @override
+  String semanticFractalCard(Object name, Object dimension) {
+    return '$name fractal, $dimension. Double tap to open.';
+  }
+
+  @override
+  String semanticSlider(Object label, Object value, Object min, Object max) {
+    return '$label slider. Current value: $value. Minimum: $min, Maximum: $max';
+  }
+
+  @override
+  String get semanticNavExplore => 'Explore tab. Browse fractal catalog.';
+
+  @override
+  String get semanticNavAr => 'AR tab. View fractals in augmented reality.';
+
+  @override
+  String get semanticBackButton => 'Go back to previous screen';
+
+  @override
+  String get semanticCloseButton => 'Close this dialog';
+
+  @override
+  String get semanticSearchField => 'Search fractals by name';
+
+  @override
+  String get semanticExportButton => 'Export current fractal as image';
+
+  @override
+  String get semanticControlsButton => 'Open fractal parameter controls';
+
+  @override
+  String get semanticPresetsButton => 'Open saved presets';
+
+  @override
+  String get semanticRandomizeButton => 'Randomize all fractal parameters';
+
+  @override
+  String get semanticResetViewButton => 'Reset view to default position';
+
+  @override
+  String get semanticResetParamsButton => 'Reset all parameters to defaults';
+
+  @override
+  String semanticZoomLevel(Object percent) {
+    return 'Zoom level: $percent percent';
+  }
+
+  @override
+  String get semanticLoadingShaders => 'Loading fractal shaders, please wait';
+
+  @override
+  String semanticExportProgress(Object percent) {
+    return 'Exporting image, $percent percent complete';
+  }
+
+  @override
+  String semanticPresetItem(Object name) {
+    return '$name preset. Double tap to apply.';
+  }
+
+  @override
+  String semanticToggleOn(Object label) {
+    return '$label, currently on. Double tap to turn off.';
+  }
+
+  @override
+  String semanticToggleOff(Object label) {
+    return '$label, currently off. Double tap to turn on.';
+  }
+
+  @override
+  String announceFractalLoaded(Object name) {
+    return '$name fractal loaded';
+  }
+
+  @override
+  String announcePresetApplied(Object name) {
+    return 'Preset $name applied';
+  }
+
+  @override
+  String get announceExportComplete => 'Export complete';
+
+  @override
+  String get announceViewReset => 'View reset to default';
+
+  @override
+  String get announceParamsRandomized => 'Parameters randomized';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingGetStarted => 'Get Started';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welcome to Flutter Fractals';
+
+  @override
+  String get onboardingWelcomeDescription =>
+      'Explore the infinite beauty of mathematical fractals with real-time GPU-accelerated rendering.';
+
+  @override
+  String get onboardingFractalTypesTitle => 'Discover Fractal Types';
+
+  @override
+  String get onboardingFractalTypesDescription =>
+      'From classic 2D fractals to stunning 3D Mandelbulb, explore a variety of mathematical art.';
+
+  @override
+  String get onboardingGesturesTitle => 'Intuitive Controls';
+
+  @override
+  String get onboardingGesturesDescription =>
+      'Navigate fractals with simple, natural gestures.';
+
+  @override
+  String get onboardingGesturePan => 'Pan';
+
+  @override
+  String get onboardingGesturePanDesc => 'Drag with one finger to move around';
+
+  @override
+  String get onboardingGestureZoom => 'Zoom';
+
+  @override
+  String get onboardingGestureZoomDesc => 'Pinch to zoom in and out';
+
+  @override
+  String get onboardingGestureRotate => 'Rotate';
+
+  @override
+  String get onboardingGestureRotateDesc => 'Two-finger rotate for 3D fractals';
+
+  @override
+  String get onboardingGestureDoubleTap => 'Double Tap';
+
+  @override
+  String get onboardingGestureDoubleTapDesc => 'Quick reset to default view';
+
+  @override
+  String get onboardingFeaturesTitle => 'Powerful Features';
+
+  @override
+  String get onboardingFeaturesDescription =>
+      'Create, customize, and share your fractal creations.';
+
+  @override
+  String get onboardingFeaturePresets => 'Presets';
+
+  @override
+  String get onboardingFeaturePresetsDesc =>
+      'Save and load your favorite configurations';
+
+  @override
+  String get onboardingFeatureExport => 'Export';
+
+  @override
+  String get onboardingFeatureExportDesc =>
+      'Save high-quality images in multiple formats';
+
+  @override
+  String get onboardingFeatureAr => 'AR Mode';
+
+  @override
+  String get onboardingFeatureArDesc => 'Overlay fractals on your camera view';
+
+  @override
+  String get shareTitle => 'Share Fractal';
+
+  @override
+  String shareSubtitle(Object fractalName) {
+    return 'Check out this $fractalName fractal I created!';
+  }
+
+  @override
+  String get tooltipShare => 'Share';
+
+  @override
+  String get actionCopy => 'Copy';
+
+  @override
+  String get actionShare => 'Share';
+
+  @override
+  String get linkCopied => 'Link copied to clipboard';
+
+  @override
+  String shareMessage(Object fractalName, Object link) {
+    return 'Check out this $fractalName fractal! $link';
+  }
+
+  @override
+  String shareSubject(Object fractalName) {
+    return '$fractalName Fractal - Flutter Fractals';
+  }
+
+  // History feature strings
+
+  @override
+  String get historyTitle => 'Exploration History';
+
+  @override
+  String historyPosition(int current, int total) {
+    return 'Position $current of $total';
+  }
+
+  @override
+  String get historyGoBack => 'Go back';
+
+  @override
+  String get historyGoForward => 'Go forward';
+
+  @override
+  String get historyTabHistory => 'History';
+
+  @override
+  String get historyTabFavorites => 'Favorites';
+
+  @override
+  String get historyEmptyTitle => 'No history yet';
+
+  @override
+  String get historyEmptySubtitle =>
+      'Start exploring fractals to build your history';
+
+  @override
+  String get favoritesEmptyTitle => 'No favorites yet';
+
+  @override
+  String get favoritesEmptySubtitle =>
+      'Save interesting locations to revisit later';
+
+  @override
+  String get saveFavoriteTitle => 'Save as Favorite';
+
+  @override
+  String get favoritePlaceholder => 'Enter a name for this spot';
+
+  @override
+  String get renameFavoriteTitle => 'Rename Favorite';
+
+  @override
+  String get deleteFavoriteTitle => 'Delete Favorite';
+
+  @override
+  String deleteFavoriteMessage(String name) {
+    return 'Delete "$name" from favorites?';
+  }
+
+  @override
+  String get saveAsFavorite => 'Save as favorite';
+
+  @override
+  String get alreadyFavorite => 'Already saved';
+
+  @override
+  String get buttonCancel => 'Cancel';
+
+  @override
+  String get buttonSave => 'Save';
+
+  @override
+  String get buttonDelete => 'Delete';
+
+  @override
+  String get tooltipOpenHistory => 'History';
 }

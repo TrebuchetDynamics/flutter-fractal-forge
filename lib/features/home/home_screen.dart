@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/ar/ar_overlay_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,6 +27,9 @@ class _HomeScreenState extends State<HomeScreen>
   late final FractalController _exploreController;
   late final FractalController _arController;
 
+  StreamSubscription<DeepLinkData>? _deepLinkSubscription;
+  bool _handledInitialLink = false;
+
   @override
   void initState() {
     super.initState();
@@ -35,10 +42,96 @@ class _HomeScreenState extends State<HomeScreen>
       duration: AppAnimations.normal,
       vsync: this,
     );
+
+    // Set up deep link handling
+    _initDeepLinks();
+  }
+
+  void _initDeepLinks() {
+    // Try to get the deep link service (may not exist in tests)
+    DeepLinkService? deepLinkService;
+    try {
+      deepLinkService = context.read<DeepLinkService>();
+    } catch (_) {
+      // Deep link service not available
+      return;
+    }
+
+    // Handle the initial link if the app was launched via deep link
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_handledInitialLink && deepLinkService?.initialLink != null) {
+        _handledInitialLink = true;
+        _handleDeepLink(deepLinkService!.initialLink!);
+      }
+    });
+
+    // Listen for incoming deep links while the app is running
+    _deepLinkSubscription = deepLinkService.linkStream.listen(_handleDeepLink);
+  }
+
+  void _handleDeepLink(DeepLinkData data) {
+    final registry = context.read<ModuleRegistry>();
+
+    // Try to find the module by type
+    try {
+      final module = registry.byId(data.type);
+
+      // Apply the configuration to the explore controller
+      _exploreController.selectModule(module);
+
+      // Apply view state from deep link
+      final view = data.toViewState();
+      _exploreController.updateZoom(view.zoom);
+      _exploreController.updatePan(view.pan);
+      _exploreController.updateRotation(view.rotation);
+
+      // Apply fractal parameters
+      final params = data.toParams();
+      for (final entry in params.entries) {
+        _exploreController.updateParam(entry.key, entry.value);
+      }
+
+      // Navigate to the viewer screen
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              ChangeNotifierProvider.value(
+            value: _exploreController,
+            child: const FractalViewerScreen(),
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            final curvedAnimation = CurvedAnimation(
+              parent: animation,
+              curve: AppAnimations.defaultCurve,
+            );
+            return FadeTransition(
+              opacity: curvedAnimation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.05),
+                  end: Offset.zero,
+                ).animate(curvedAnimation),
+                child: child,
+              ),
+            );
+          },
+          transitionDuration: AppAnimations.normal,
+        ),
+      );
+    } catch (e) {
+      // Module not found, show error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Unknown fractal type: ${data.type}'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    }
   }
 
   @override
   void dispose() {
+    _deepLinkSubscription?.cancel();
     _animController.dispose();
     _exploreController.dispose();
     _arController.dispose();
@@ -95,8 +188,16 @@ class _HomeScreenState extends State<HomeScreen>
         currentIndex: _index,
         onTap: _onTabChanged,
         items: [
-          _NavItem(icon: Icons.grid_view_rounded, label: l10n.tabExplore),
-          _NavItem(icon: Icons.camera_rounded, label: l10n.tabAr),
+          _NavItem(
+            icon: Icons.grid_view_rounded,
+            label: l10n.tabExplore,
+            semanticLabel: l10n.semanticNavExplore,
+          ),
+          _NavItem(
+            icon: Icons.camera_rounded,
+            label: l10n.tabAr,
+            semanticLabel: l10n.semanticNavAr,
+          ),
         ],
       ),
     );
@@ -150,8 +251,13 @@ class _PremiumAppBar extends StatelessWidget implements PreferredSizeWidget {
 class _NavItem {
   final IconData icon;
   final String label;
+  final String semanticLabel;
 
-  const _NavItem({required this.icon, required this.label});
+  const _NavItem({
+    required this.icon,
+    required this.label,
+    required this.semanticLabel,
+  });
 }
 
 class _PremiumNavBar extends StatelessWidget {
@@ -197,6 +303,7 @@ class _PremiumNavBar extends StatelessWidget {
                 return _NavBarItem(
                   icon: item.icon,
                   label: item.label,
+                  semanticLabel: item.semanticLabel,
                   isSelected: isSelected,
                   onTap: () => onTap(index),
                 );
@@ -212,12 +319,14 @@ class _PremiumNavBar extends StatelessWidget {
 class _NavBarItem extends StatefulWidget {
   final IconData icon;
   final String label;
+  final String semanticLabel;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _NavBarItem({
     required this.icon,
     required this.label,
+    required this.semanticLabel,
     required this.isSelected,
     required this.onTap,
   });
@@ -252,50 +361,66 @@ class _NavBarItemState extends State<_NavBarItem>
   @override
   Widget build(BuildContext context) {
     final color = widget.isSelected ? AppColors.primary : AppColors.textMuted;
+    final anim = AppAnimations.of(context);
+    
+    // Check if we should reduce motion
+    final reduceMotion = context.shouldReduceMotion ||
+        (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
 
-    return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
-      onTapUp: (_) => _controller.reverse(),
-      onTapCancel: () => _controller.reverse(),
-      onTap: widget.onTap,
-      behavior: HitTestBehavior.opaque,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedContainer(
-                duration: AppAnimations.normal,
-                curve: AppAnimations.defaultCurve,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: widget.isSelected
-                      ? AppColors.primary.withValues(alpha: 0.15)
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  widget.icon,
-                  color: color,
-                  size: 22,
-                ),
+    return Semantics(
+      label: widget.semanticLabel,
+      button: true,
+      selected: widget.isSelected,
+      child: GestureDetector(
+        onTapDown: reduceMotion ? null : (_) => _controller.forward(),
+        onTapUp: reduceMotion ? null : (_) => _controller.reverse(),
+        onTapCancel: reduceMotion ? null : () => _controller.reverse(),
+        onTap: widget.onTap,
+        behavior: HitTestBehavior.opaque,
+        child: reduceMotion
+            ? _buildContent(color, anim)
+            : ScaleTransition(
+                scale: _scaleAnimation,
+                child: _buildContent(color, anim),
               ),
-              const SizedBox(height: 4),
-              AnimatedDefaultTextStyle(
-                duration: AppAnimations.normal,
-                style: AppTypography.labelSmall.copyWith(
-                  color: color,
-                  fontWeight: widget.isSelected
-                      ? FontWeight.w600
-                      : FontWeight.w400,
-                ),
-                child: Text(widget.label),
-              ),
-            ],
+      ),
+    );
+  }
+
+  Widget _buildContent(Color color, AccessibleAnimations anim) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedContainer(
+            duration: anim.normal,
+            curve: anim.curve,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: widget.isSelected
+                  ? AppColors.primary.withValues(alpha: 0.15)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              widget.icon,
+              color: color,
+              size: 22,
+            ),
           ),
-        ),
+          const SizedBox(height: 4),
+          AnimatedDefaultTextStyle(
+            duration: anim.normal,
+            style: AppTypography.labelSmall.copyWith(
+              color: color,
+              fontWeight: widget.isSelected
+                  ? FontWeight.w600
+                  : FontWeight.w400,
+            ),
+            child: Text(widget.label),
+          ),
+        ],
       ),
     );
   }

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 /// Premium color palette for the fractal forge app.
 /// Deep cosmic theme with vibrant accents.
 class AppColors {
+  // Prevent instantiation
+  AppColors._();
+
   // Primary backgrounds
   static const Color background = Color(0xFF0A0A12);
   static const Color surface = Color(0xFF12121C);
@@ -60,6 +63,55 @@ class AppColors {
   // Glassmorphism
   static Color glassBackground = Colors.white.withValues(alpha: 0.05);
   static Color glassBorder = Colors.white.withValues(alpha: 0.1);
+}
+
+/// High contrast color palette for accessibility.
+///
+/// Provides WCAG AAA compliant contrast ratios (7:1) for users
+/// with low vision or color perception difficulties.
+class HighContrastColors {
+  HighContrastColors._();
+
+  // Primary backgrounds - pure black for maximum contrast
+  static const Color background = Color(0xFF000000);
+  static const Color surface = Color(0xFF0A0A0A);
+  static const Color surfaceVariant = Color(0xFF1A1A1A);
+  static const Color surfaceElevated = Color(0xFF262626);
+
+  // High contrast accent colors
+  static const Color primary = Color(0xFFFFFF00); // Bright yellow
+  static const Color primaryLight = Color(0xFFFFFF99);
+  static const Color primaryDark = Color(0xFFCCCC00);
+
+  // Secondary - bright cyan for contrast
+  static const Color secondary = Color(0xFF00FFFF);
+  static const Color secondaryLight = Color(0xFF99FFFF);
+  static const Color secondaryDark = Color(0xFF00CCCC);
+
+  // High contrast gradients
+  static const LinearGradient primaryGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFFFF00), Color(0xFFFFCC00)],
+  );
+
+  // Text colors - pure white for maximum readability
+  static const Color textPrimary = Color(0xFFFFFFFF);
+  static const Color textSecondary = Color(0xFFE0E0E0);
+  static const Color textMuted = Color(0xFFB0B0B0);
+
+  // Borders - bright and visible
+  static const Color border = Color(0xFFFFFFFF);
+  static const Color borderLight = Color(0xFFCCCCCC);
+  static const Color divider = Color(0xFF666666);
+
+  // Status colors - bright and distinct
+  static const Color success = Color(0xFF00FF00);
+  static const Color warning = Color(0xFFFFFF00);
+  static const Color error = Color(0xFFFF0000);
+
+  // Focus indicator - highly visible
+  static const Color focusIndicator = Color(0xFFFFFF00);
 }
 
 /// Premium typography with careful weight and spacing.
@@ -176,16 +228,76 @@ class AppTypography {
 }
 
 /// Animation durations and curves.
+///
+/// Use [AppAnimations.of] to get accessibility-aware durations
+/// that respect the user's reduced motion preferences.
 class AppAnimations {
+  AppAnimations._();
+
   static const Duration fast = Duration(milliseconds: 150);
   static const Duration normal = Duration(milliseconds: 250);
   static const Duration slow = Duration(milliseconds: 350);
   static const Duration slower = Duration(milliseconds: 500);
 
+  /// Duration.zero for instant transitions (reduced motion mode).
+  static const Duration instant = Duration.zero;
+
   static const Curve defaultCurve = Curves.easeOutCubic;
   static const Curve bouncyCurve = Curves.elasticOut;
   static const Curve smoothCurve = Curves.easeInOutCubic;
   static const Curve snappyCurve = Curves.easeOutQuart;
+
+  /// Returns an accessibility-aware animation helper.
+  ///
+  /// If the user has enabled reduced motion (system or in-app),
+  /// all durations return [Duration.zero] for instant transitions.
+  ///
+  /// Example:
+  /// ```dart
+  /// final anim = AppAnimations.of(context);
+  /// AnimatedContainer(
+  ///   duration: anim.normal,
+  ///   // ...
+  /// )
+  /// ```
+  static AccessibleAnimations of(BuildContext context) {
+    final shouldReduce = MediaQuery.of(context).disableAnimations;
+    return AccessibleAnimations(reduceMotion: shouldReduce);
+  }
+}
+
+/// Accessibility-aware animation durations.
+///
+/// When [reduceMotion] is true, all durations return [Duration.zero]
+/// to provide instant transitions for users with vestibular disorders.
+class AccessibleAnimations {
+  /// Whether to reduce motion (disable animations).
+  final bool reduceMotion;
+
+  const AccessibleAnimations({this.reduceMotion = false});
+
+  /// Fast animation duration (150ms or instant).
+  Duration get fast =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.fast;
+
+  /// Normal animation duration (250ms or instant).
+  Duration get normal =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.normal;
+
+  /// Slow animation duration (350ms or instant).
+  Duration get slow =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.slow;
+
+  /// Slower animation duration (500ms or instant).
+  Duration get slower =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.slower;
+
+  /// Recommended curve for animations.
+  ///
+  /// Returns [Curves.linear] for reduced motion (instant feel)
+  /// or the default curve otherwise.
+  Curve get curve =>
+      reduceMotion ? Curves.linear : AppAnimations.defaultCurve;
 }
 
 /// Spacing and sizing constants.
@@ -207,8 +319,34 @@ class AppSpacing {
   static const double modalElevation = 8;
 }
 
+/// Minimum touch target size per WCAG 2.1 guidelines.
+///
+/// Interactive elements should be at least 44x44 logical pixels
+/// to be easily tappable for users with motor impairments.
+class AccessibleSizing {
+  AccessibleSizing._();
+
+  /// Minimum touch target size (48x48 per Material guidelines).
+  static const double minTouchTarget = 48.0;
+
+  /// Larger touch target for accessibility mode.
+  static const double largeTouchTarget = 56.0;
+
+  /// Minimum focus indicator width.
+  static const double focusIndicatorWidth = 3.0;
+
+  /// Returns the appropriate touch target size.
+  ///
+  /// When [largeTargets] is true, returns the larger size.
+  static double touchTargetSize({bool largeTargets = false}) {
+    return largeTargets ? largeTouchTarget : minTouchTarget;
+  }
+}
+
 /// Premium app theme data.
 class AppTheme {
+  AppTheme._();
+
   static ThemeData get dark {
     return ThemeData.dark().copyWith(
       scaffoldBackgroundColor: AppColors.background,
@@ -404,6 +542,234 @@ class AppTheme {
         ),
         titleTextStyle: AppTypography.headlineMedium,
         contentTextStyle: AppTypography.bodyMedium,
+      ),
+    );
+  }
+
+  /// High contrast theme for accessibility.
+  ///
+  /// Uses WCAG AAA compliant color combinations with maximum contrast
+  /// ratios for users with low vision or color perception difficulties.
+  static ThemeData get highContrast {
+    return ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: HighContrastColors.background,
+      primaryColor: HighContrastColors.primary,
+      colorScheme: const ColorScheme.highContrastDark(
+        primary: HighContrastColors.primary,
+        primaryContainer: HighContrastColors.primaryDark,
+        secondary: HighContrastColors.secondary,
+        secondaryContainer: HighContrastColors.secondaryDark,
+        surface: HighContrastColors.surface,
+        onPrimary: Colors.black,
+        onSecondary: Colors.black,
+        onSurface: HighContrastColors.textPrimary,
+        error: HighContrastColors.error,
+      ),
+      textTheme: TextTheme(
+        displayLarge: AppTypography.displayLarge.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w700,
+        ),
+        displayMedium: AppTypography.displayMedium.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w700,
+        ),
+        headlineLarge: AppTypography.headlineLarge.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w700,
+        ),
+        headlineMedium: AppTypography.headlineMedium.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w600,
+        ),
+        titleLarge: AppTypography.titleLarge.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w700,
+        ),
+        titleMedium: AppTypography.titleMedium.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w600,
+        ),
+        bodyLarge: AppTypography.bodyLarge.copyWith(
+          color: HighContrastColors.textSecondary,
+        ),
+        bodyMedium: AppTypography.bodyMedium.copyWith(
+          color: HighContrastColors.textSecondary,
+        ),
+        bodySmall: AppTypography.bodySmall.copyWith(
+          color: HighContrastColors.textMuted,
+        ),
+        labelLarge: AppTypography.labelLarge.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w600,
+        ),
+        labelMedium: AppTypography.labelMedium.copyWith(
+          color: HighContrastColors.textSecondary,
+        ),
+        labelSmall: AppTypography.labelSmall.copyWith(
+          color: HighContrastColors.textMuted,
+        ),
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: HighContrastColors.surface,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        centerTitle: true,
+        titleTextStyle: AppTypography.titleLarge.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w700,
+        ),
+        iconTheme: const IconThemeData(
+          color: HighContrastColors.textPrimary,
+          size: 24,
+        ),
+      ),
+      cardTheme: CardThemeData(
+        color: HighContrastColors.surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+          side: const BorderSide(color: HighContrastColors.border, width: 2),
+        ),
+        margin: EdgeInsets.zero,
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: HighContrastColors.surface,
+        selectedItemColor: HighContrastColors.primary,
+        unselectedItemColor: HighContrastColors.textSecondary,
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+        showUnselectedLabels: true,
+        selectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+        unselectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: HighContrastColors.surface,
+        modalBackgroundColor: HighContrastColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          side: BorderSide(color: HighContrastColors.border, width: 2),
+        ),
+        dragHandleColor: HighContrastColors.textPrimary,
+        dragHandleSize: Size(40, 4),
+        elevation: 0,
+        showDragHandle: true,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: HighContrastColors.primary,
+          foregroundColor: Colors.black,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          minimumSize: const Size(AccessibleSizing.minTouchTarget, AccessibleSizing.minTouchTarget),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+            side: const BorderSide(color: HighContrastColors.border, width: 2),
+          ),
+          textStyle: AppTypography.labelLarge.copyWith(
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: HighContrastColors.textPrimary,
+          side: const BorderSide(color: HighContrastColors.border, width: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          minimumSize: const Size(AccessibleSizing.minTouchTarget, AccessibleSizing.minTouchTarget),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          ),
+          textStyle: AppTypography.labelLarge.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      focusColor: HighContrastColors.focusIndicator,
+      hoverColor: HighContrastColors.primary.withValues(alpha: 0.2),
+      splashColor: HighContrastColors.primary.withValues(alpha: 0.3),
+      highlightColor: HighContrastColors.primary.withValues(alpha: 0.2),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: HighContrastColors.surfaceVariant,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+          borderSide: const BorderSide(color: HighContrastColors.border, width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+          borderSide: const BorderSide(color: HighContrastColors.border, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+          borderSide: const BorderSide(color: HighContrastColors.primary, width: 3),
+        ),
+        hintStyle: AppTypography.bodyMedium.copyWith(color: HighContrastColors.textMuted),
+        labelStyle: AppTypography.bodyMedium.copyWith(color: HighContrastColors.textPrimary),
+        prefixIconColor: HighContrastColors.textSecondary,
+        suffixIconColor: HighContrastColors.textSecondary,
+      ),
+      sliderTheme: const SliderThemeData(
+        activeTrackColor: HighContrastColors.primary,
+        inactiveTrackColor: HighContrastColors.surfaceVariant,
+        thumbColor: HighContrastColors.primary,
+        overlayColor: Color(0x40FFFF00),
+        trackHeight: 8,
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12),
+        overlayShape: RoundSliderOverlayShape(overlayRadius: 24),
+        valueIndicatorColor: HighContrastColors.primary,
+        valueIndicatorTextStyle: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return HighContrastColors.primary;
+          }
+          return HighContrastColors.textSecondary;
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return HighContrastColors.primaryDark;
+          }
+          return HighContrastColors.surfaceVariant;
+        }),
+        trackOutlineColor: WidgetStateProperty.all(HighContrastColors.border),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: HighContrastColors.surfaceElevated,
+        contentTextStyle: AppTypography.bodyMedium.copyWith(
+          color: HighContrastColors.textPrimary,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: HighContrastColors.border, width: 2),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: HighContrastColors.primary,
+        linearTrackColor: HighContrastColors.surfaceVariant,
+        circularTrackColor: HighContrastColors.surfaceVariant,
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: HighContrastColors.surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: HighContrastColors.border, width: 2),
+        ),
+        titleTextStyle: AppTypography.headlineMedium.copyWith(
+          color: HighContrastColors.textPrimary,
+          fontWeight: FontWeight.w700,
+        ),
+        contentTextStyle: AppTypography.bodyMedium.copyWith(
+          color: HighContrastColors.textSecondary,
+        ),
       ),
     );
   }
