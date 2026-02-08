@@ -40,6 +40,7 @@ import 'package:flutter_fractals/core/services/onboarding_service.dart';
 // FractalController is provided per tab (Explore vs AR).
 
 const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
+const int kBootStep = int.fromEnvironment('BOOT_STEP', defaultValue: 0);
 
 /// Application entry point.
 ///
@@ -70,6 +71,26 @@ Future<void> main() async {
     // This isolates black-screen issues caused by app initialization.
     if (kSafeMode == 1) {
       runApp(const _SafeScaffoldApp());
+      return;
+    }
+
+    // BOOT_STEP=1: Apply AppTheme + basic MaterialApp only (no services/providers).
+    if (kBootStep == 1) {
+      runApp(const _Step1ThemeOnlyApp());
+      return;
+    }
+
+    // BOOT_STEP=2: MaterialApp + AppTheme + minimal providers/services.
+    if (kBootStep == 2) {
+      runApp(const _Step2MinimalProviderApp());
+      return;
+    }
+
+    // BOOT_STEP=3: Initialize DeepLinkService only.
+    if (kBootStep == 3) {
+      final deepLinkService = DeepLinkService();
+      await deepLinkService.initialize();
+      runApp(_Step3DeepLinkInitApp(deepLinkService: deepLinkService));
       return;
     }
 
@@ -155,6 +176,89 @@ class _SafeScaffoldApp extends StatelessWidget {
           child: Text(
             'SAFE_MODE=1\nMinimal UI (AppBar + Text).\nNo services/modules initialized.\n\nReport: "safe mode 1 renders".',
             textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Step1ThemeOnlyApp extends StatelessWidget {
+  const _Step1ThemeOnlyApp();
+
+  @override
+  Widget build(BuildContext context) {
+    // Use our app theme, but do NOT initialize any stores/services.
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.dark,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('BOOT STEP 1'),
+        ),
+        body: const Center(
+          child: Text(
+            'BOOT_STEP=1\nMaterialApp + AppTheme only.\nNo providers/services.',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Step2MinimalProviderApp extends StatelessWidget {
+  const _Step2MinimalProviderApp();
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        // Minimal provider wiring (no app services yet).
+        Provider<int>.value(value: 42),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.dark,
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('BOOT STEP 2'),
+          ),
+          body: const Center(
+            child: Text(
+              'BOOT_STEP=2\nAppTheme + Provider<int>(42).',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Step3DeepLinkInitApp extends StatelessWidget {
+  final DeepLinkService deepLinkService;
+
+  const _Step3DeepLinkInitApp({required this.deepLinkService});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<DeepLinkService>.value(value: deepLinkService),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.dark,
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('BOOT STEP 3'),
+          ),
+          body: const Center(
+            child: Text(
+              'BOOT_STEP=3\nDeepLinkService initialized.',
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ),
