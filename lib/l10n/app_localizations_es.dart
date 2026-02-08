@@ -1,8 +1,4 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
-
-// ignore_for_file: type=lint
 
 /// The translations for Spanish Castilian (`es`).
 class AppLocalizationsEs extends AppLocalizations {
@@ -24,8 +20,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get catalogSearchHint => 'Buscar fractales';
 
   @override
-  String get catalogSearchEmpty =>
-      'No hay fractales que coincidan con tu búsqueda.';
+  String get catalogSearchEmpty => 'No hay fractales que coincidan con tu búsqueda.';
 
   @override
   String get actionClearSearch => 'Borrar búsqueda';
@@ -135,16 +130,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exportFormat => 'Formato';
 
   @override
-  String get exportFormatHintPng =>
-      'Calidad sin pérdida, soporta transparencia. Ideal para edición.';
+  String get exportFormatHintPng => 'Calidad sin pérdida, soporta transparencia. Ideal para edición.';
 
   @override
-  String get exportFormatHintJpg =>
-      'Archivo más pequeño, excelente para compartir. Sin transparencia.';
+  String get exportFormatHintJpg => 'Archivo más pequeño, excelente para compartir. Sin transparencia.';
 
   @override
-  String get exportFormatHintWebp =>
-      'Formato moderno con excelente compresión. Amplio soporte.';
+  String get exportFormatHintWebp => 'Formato moderno con excelente compresión. Amplio soporte.';
 
   @override
   String get exportResolution => 'Resolución';
@@ -165,15 +157,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exportTransparentBg => 'Fondo Transparente';
 
   @override
-  String get exportTransparentBgHint =>
-      'Eliminar el fondo para usar como superposición';
+  String get exportTransparentBgHint => 'Eliminar el fondo para usar como superposición';
 
   @override
   String get exportEmbedMetadata => 'Incluir Metadatos';
 
   @override
-  String get exportEmbedMetadataHint =>
-      'Incluir los parámetros del fractal en el archivo';
+  String get exportEmbedMetadataHint => 'Incluir los parámetros del fractal en el archivo';
 
   @override
   String get exportScreenResolution => 'Tamaño de pantalla';
@@ -197,8 +187,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exportArVideo => 'Video AR horneado';
 
   @override
-  String get exportArVideoStub =>
-      'La exportación de video AR está en andamiaje pero aún no se hornea.';
+  String get exportArVideoStub => 'La exportación de video AR está en andamiaje pero aún no se hornea.';
 
   @override
   String exportFailed(Object error) {
@@ -311,8 +300,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get fractalSection3d => '3D';
 
   @override
-  String get arPermissionRequest =>
-      'Se requiere permiso de cámara para el modo AR.';
+  String get arPermissionRequest => 'Se requiere permiso de cámara para el modo AR.';
 
   @override
   String get arPermissionDenied => 'Permiso de cámara denegado.';
@@ -321,8 +309,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get arCameraUnavailable => 'No hay cámara disponible.';
 
   @override
-  String get arCameraUnavailableHelp =>
-      'Asegúrate de que otra app no esté usando la cámara e inténtalo de nuevo.';
+  String get arCameraUnavailableHelp => 'Asegúrate de que otra app no esté usando la cámara e inténtalo de nuevo.';
 
   @override
   String get arOverlayOnlyExport => 'PNG solo superposición';
@@ -337,8 +324,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get arVideoExportFailed => 'La exportación de video AR falló.';
 
   @override
-  String get arVideoFallbackNotice =>
-      'FFmpeg no está disponible o falló. Se exportó un GIF de baja fps (archivo grande, sin audio).';
+  String get arVideoFallbackNotice => 'FFmpeg no está disponible o falló. Se exportó un GIF de baja fps (archivo grande, sin audio).';
 
   @override
   String get arDuration5 => '5s';
@@ -392,12 +378,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get wallpaperTitle => 'Fondo de pantalla';
 
   @override
-  String get wallpaperAndroidNote =>
-      'Exporta a la resolución nativa del dispositivo y lo establece como fondo.';
+  String get wallpaperAndroidNote => 'Exporta a la resolución nativa del dispositivo y lo establece como fondo.';
 
   @override
-  String get wallpaperIosNote =>
-      'iOS no permite que las apps establezcan el fondo directamente. Guardaremos la imagen en Fotos para que la configures desde ahí.';
+  String get wallpaperIosNote => 'iOS no permite que las apps establezcan el fondo directamente. Guardaremos la imagen en Fotos para que la configures desde ahí.';
 
   @override
   String get wallpaperTarget => 'Destino';
@@ -427,8 +411,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get wallpaperSaveCopy => 'Guardar una copia';
 
   @override
-  String get wallpaperSaveCopySubtitle =>
-      'También exporta y abre el menú de compartir.';
+  String get wallpaperSaveCopySubtitle => 'También exporta y abre el menú de compartir.';
 
   @override
   String get wallpaperApply => 'Aplicar';
@@ -517,26 +500,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get accessibilityHighContrast => 'Alto Contraste';
 
   @override
-  String get accessibilityHighContrastHint =>
-      'Usar colores brillantes con máximo contraste';
+  String get accessibilityHighContrastHint => 'Usar colores brillantes con máximo contraste';
 
   @override
   String get accessibilityReducedMotion => 'Reducir Movimiento';
 
   @override
-  String get accessibilityReducedMotionHint =>
-      'Minimizar animaciones y transiciones';
+  String get accessibilityReducedMotionHint => 'Minimizar animaciones y transiciones';
 
   @override
   String get accessibilityLargeTargets => 'Objetivos Táctiles Grandes';
 
   @override
-  String get accessibilityLargeTargetsHint =>
-      'Aumentar el tamaño de los elementos interactivos';
+  String get accessibilityLargeTargetsHint => 'Aumentar el tamaño de los elementos interactivos';
 
   @override
-  String get accessibilityScreenReaderActive =>
-      'El lector de pantalla está activo';
+  String get accessibilityScreenReaderActive => 'El lector de pantalla está activo';
 
   @override
   String get soundEffectsTitle => 'Efectos de Sonido';
@@ -545,15 +524,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get soundEffectsEnabled => 'Sonidos de Interfaz';
 
   @override
-  String get soundEffectsEnabledHint =>
-      'Reproducir sonidos sutiles para toques y transiciones';
+  String get soundEffectsEnabledHint => 'Reproducir sonidos sutiles para toques y transiciones';
 
   @override
   String get soundEffectsVolume => 'Volumen';
 
   @override
-  String get semanticFractalViewer =>
-      'Visor de fractales interactivo. Pellizca para acercar, arrastra para desplazar.';
+  String get semanticFractalViewer => 'Visor de fractales interactivo. Pellizca para acercar, arrastra para desplazar.';
 
   @override
   String semanticFractalCard(Object name, Object dimension) {
@@ -566,12 +543,10 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get semanticNavExplore =>
-      'Pestaña Explorar. Navegar por el catálogo de fractales.';
+  String get semanticNavExplore => 'Pestaña Explorar. Navegar por el catálogo de fractales.';
 
   @override
-  String get semanticNavAr =>
-      'Pestaña AR. Ver fractales en realidad aumentada.';
+  String get semanticNavAr => 'Pestaña AR. Ver fractales en realidad aumentada.';
 
   @override
   String get semanticBackButton => 'Volver a la pantalla anterior';
@@ -586,23 +561,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get semanticExportButton => 'Exportar el fractal actual como imagen';
 
   @override
-  String get semanticControlsButton =>
-      'Abrir controles de parámetros del fractal';
+  String get semanticControlsButton => 'Abrir controles de parámetros del fractal';
 
   @override
   String get semanticPresetsButton => 'Abrir presets guardados';
 
   @override
-  String get semanticRandomizeButton =>
-      'Aleatorizar todos los parámetros del fractal';
+  String get semanticRandomizeButton => 'Aleatorizar todos los parámetros del fractal';
 
   @override
-  String get semanticResetViewButton =>
-      'Restablecer la vista a la posición predeterminada';
+  String get semanticResetViewButton => 'Restablecer la vista a la posición predeterminada';
 
   @override
-  String get semanticResetParamsButton =>
-      'Restablecer todos los parámetros a sus valores predeterminados';
+  String get semanticResetParamsButton => 'Restablecer todos los parámetros a sus valores predeterminados';
 
   @override
   String semanticZoomLevel(Object percent) {
@@ -610,8 +581,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get semanticLoadingShaders =>
-      'Cargando shaders de fractales, por favor espere';
+  String get semanticLoadingShaders => 'Cargando shaders de fractales, por favor espere';
 
   @override
   String semanticExportProgress(Object percent) {
@@ -647,8 +617,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get announceExportComplete => 'Exportación completada';
 
   @override
-  String get announceViewReset =>
-      'Vista restablecida a los valores predeterminados';
+  String get announceViewReset => 'Vista restablecida a los valores predeterminados';
 
   @override
   String get announceParamsRandomized => 'Parámetros aleatorizados';
@@ -666,22 +635,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get onboardingWelcomeTitle => 'Bienvenido a Flutter Fractales';
 
   @override
-  String get onboardingWelcomeDescription =>
-      'Explora la belleza infinita de los fractales matemáticos con renderizado en tiempo real acelerado por GPU.';
+  String get onboardingWelcomeDescription => 'Explora la belleza infinita de los fractales matemáticos con renderizado en tiempo real acelerado por GPU.';
 
   @override
   String get onboardingFractalTypesTitle => 'Descubre Tipos de Fractales';
 
   @override
-  String get onboardingFractalTypesDescription =>
-      'Desde fractales 2D clásicos hasta el impresionante Mandelbulb 3D, explora una variedad de arte matemático.';
+  String get onboardingFractalTypesDescription => 'Desde fractales 2D clásicos hasta el impresionante Mandelbulb 3D, explora una variedad de arte matemático.';
 
   @override
   String get onboardingGesturesTitle => 'Controles Intuitivos';
 
   @override
-  String get onboardingGesturesDescription =>
-      'Navega por los fractales con gestos simples y naturales.';
+  String get onboardingGesturesDescription => 'Navega por los fractales con gestos simples y naturales.';
 
   @override
   String get onboardingGesturePan => 'Desplazar';
@@ -699,43 +665,37 @@ class AppLocalizationsEs extends AppLocalizations {
   String get onboardingGestureRotate => 'Rotar';
 
   @override
-  String get onboardingGestureRotateDesc =>
-      'Rota con dos dedos para fractales 3D';
+  String get onboardingGestureRotateDesc => 'Rota con dos dedos para fractales 3D';
 
   @override
   String get onboardingGestureDoubleTap => 'Doble Toque';
 
   @override
-  String get onboardingGestureDoubleTapDesc =>
-      'Restablecimiento rápido a la vista predeterminada';
+  String get onboardingGestureDoubleTapDesc => 'Restablecimiento rápido a la vista predeterminada';
 
   @override
   String get onboardingFeaturesTitle => 'Funciones Poderosas';
 
   @override
-  String get onboardingFeaturesDescription =>
-      'Crea, personaliza y comparte tus creaciones fractales.';
+  String get onboardingFeaturesDescription => 'Crea, personaliza y comparte tus creaciones fractales.';
 
   @override
   String get onboardingFeaturePresets => 'Presets';
 
   @override
-  String get onboardingFeaturePresetsDesc =>
-      'Guarda y carga tus configuraciones favoritas';
+  String get onboardingFeaturePresetsDesc => 'Guarda y carga tus configuraciones favoritas';
 
   @override
   String get onboardingFeatureExport => 'Exportar';
 
   @override
-  String get onboardingFeatureExportDesc =>
-      'Guarda imágenes de alta calidad en múltiples formatos';
+  String get onboardingFeatureExportDesc => 'Guarda imágenes de alta calidad en múltiples formatos';
 
   @override
   String get onboardingFeatureAr => 'Modo AR';
 
   @override
-  String get onboardingFeatureArDesc =>
-      'Superpone fractales en la vista de tu cámara';
+  String get onboardingFeatureArDesc => 'Superpone fractales en la vista de tu cámara';
 
   @override
   String get shareTitle => 'Compartir Fractal';
@@ -886,8 +846,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get autoExploreTitle => 'Auto-Explorar';
 
   @override
-  String get autoExploreSubtitle =>
-      'Descubre automáticamente áreas interesantes';
+  String get autoExploreSubtitle => 'Descubre automáticamente áreas interesantes';
 
   @override
   String get tooltipStartExplore => 'Iniciar auto-exploración';
@@ -946,15 +905,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get historyEmptyTitle => 'Sin historial';
 
   @override
-  String get historyEmptySubtitle =>
-      'Explora fractales para construir tu historial';
+  String get historyEmptySubtitle => 'Explora fractales para construir tu historial';
 
   @override
   String get favoritesEmptyTitle => 'Sin favoritos';
 
   @override
-  String get favoritesEmptySubtitle =>
-      'Guarda tus vistas favoritas para acceder rápidamente';
+  String get favoritesEmptySubtitle => 'Guarda tus vistas favoritas para acceder rápidamente';
 
   @override
   String get saveFavoriteTitle => 'Guardar Favorito';
