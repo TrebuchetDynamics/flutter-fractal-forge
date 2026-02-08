@@ -49,14 +49,21 @@ dependencies:
   path_provider: ^2.1.0
   share_plus: ^7.0.0
   permission_handler: ^11.0.0
-  camera: ^0.10.5
+  camera: ^0.11.3
   image: ^4.0.0
+
+dependency_overrides:
+  flutter_plugin_android_lifecycle: ^2.0.33
+  win32: ^5.10.0
+  path_provider_android: ^2.2.22
+  shared_preferences_android: ^2.4.20
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
+  # integration_test temporarily removed for Flutter 3.38 compatibility
+  # integration_test:
+  #   sdk: flutter
 
   # Needed for mocking permission requests in widget tests.
   permission_handler_platform_interface: ^4.2.0
