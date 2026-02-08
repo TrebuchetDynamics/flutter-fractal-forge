@@ -1,12 +1,16 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
@@ -204,7 +208,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _recordHistory(context);
 
     // Best-effort stats tracking (local-only)
-    final controller = context.read<FractalController>();
 
     // Zoom distance: sum abs(log(new/old))
     final prevZoom = _lastZoom;
@@ -368,12 +371,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   )
                 : (_useCpuFallback
                     ? _CpuFallbackPane(boundaryKey: _fractalKeyA)
-                    : FractalRenderer(
-                        boundaryKey: _fractalKeyA,
-                        onOpenControls: () => _openControls(context),
-                        onOpenPresets: () => _openPresets(context),
-                        onOpenExport: () => _openExport(context),
-                      )),
+                    : (controller.module.dimension == FractalDimension.threeD
+                        ? const Center(
+                            child: Text(
+                              '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)',
+                              style: TextStyle(color: Colors.white70),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        : FractalRenderer(
+                            boundaryKey: _fractalKeyA,
+                            onOpenControls: () => _openControls(context),
+                            onOpenPresets: () => _openPresets(context),
+                            onOpenExport: () => _openExport(context),
+                          ))),
           ),
 
           if (_useCpuFallback)
@@ -1016,10 +1027,17 @@ class _CpuFallbackBanner extends StatelessWidget {
   }
 }
 
-class _CpuFallbackPane extends StatelessWidget {
+class _CpuFallbackPane extends StatefulWidget {
   final GlobalKey boundaryKey;
 
   const _CpuFallbackPane({required this.boundaryKey});
+
+  @override
+  State<_CpuFallbackPane> createState() => _CpuFallbackPaneState();
+}
+
+class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
+  double _lastScale = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -1029,7 +1047,7 @@ class _CpuFallbackPane extends StatelessWidget {
     if (module.dimension != FractalDimension.twoD) {
       return const Center(
         child: Text(
-          '3D fractals are not supported on this device (shader compile stalled).',
+          '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)',
           style: TextStyle(color: Colors.white70),
           textAlign: TextAlign.center,
         ),
@@ -1042,12 +1060,41 @@ class _CpuFallbackPane extends StatelessWidget {
       transparentBackground: controller.transparentBackground,
     );
 
-    return RepaintBoundary(
-      key: boundaryKey,
+    final content = RepaintBoundary(
+      key: widget.boundaryKey,
       child: CpuFractalRenderer(
         module: module,
         state: state,
       ),
+    );
+
+    // Basic gesture support for CPU fallback.
+    return GestureDetector(
+      onScaleStart: (_) {
+        _lastScale = 1.0;
+      },
+      onScaleUpdate: (details) {
+        // Pan with one-finger drag (focalPointDelta) + zoom with pinch.
+        if (details.focalPointDelta != Offset.zero) {
+          final dx = details.focalPointDelta.dx;
+          final dy = details.focalPointDelta.dy;
+          // Map pixels to complex-plane movement.
+          final s = (0.004 / controller.view.zoom).clamp(0.00001, 0.1);
+          controller.updatePan(
+            Vector2(
+              controller.view.pan.x - dx * s,
+              controller.view.pan.y - dy * s,
+            ),
+          );
+        }
+
+        final scaleDelta = details.scale / _lastScale;
+        if (scaleDelta.isFinite && (scaleDelta - 1.0).abs() > 0.001) {
+          controller.updateZoom((controller.view.zoom * scaleDelta).clamp(0.05, 20000.0));
+        }
+        _lastScale = details.scale;
+      },
+      child: content,
     );
   }
 }
