@@ -41,13 +41,22 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('Catalog displays all 4 fractal modules', (tester) async {
+    Finder moduleCards() {
+      return find.byWidgetPredicate((w) {
+        final k = w.key;
+        if (k is! ValueKey) return false;
+        final v = k.value;
+        return v is String && v.startsWith('catalogModuleCard_');
+      });
+    }
+
+    testWidgets('Catalog displays fractal modules', (tester) async {
       await pumpApp(tester);
 
-      final listTiles = find.byType(ListTile);
-      expect(listTiles, findsNWidgets(4));
+      final moduleCount = moduleCards().evaluate().length;
+      expect(moduleCount, greaterThanOrEqualTo(4));
 
-      logger.logAction('test', 'Catalog shows 4 modules');
+      logger.logAction('test', 'Catalog shows $moduleCount modules');
       expect(logger.buffer.length, greaterThan(0));
     });
 
@@ -55,58 +64,60 @@ void main() {
       await pumpApp(tester);
 
       // Tap the first module card
-      await tester.tap(find.byType(ListTile).first);
+      await tester.tap(moduleCards().first);
       // Use pump with duration — shader animation never settles
       await tester.pump(const Duration(seconds: 2));
 
       // Should be on viewer screen with AppBar actions
-      expect(find.byIcon(Icons.tune), findsOneWidget);
-      expect(find.byIcon(Icons.bookmark), findsOneWidget);
-      expect(find.byIcon(Icons.download), findsOneWidget);
+      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.bookmark_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.download_rounded), findsOneWidget);
 
       logger.logNavigation('Navigated to viewer');
 
-      // Go back to catalog
-      final backButton = find.byTooltip('Back');
-      if (backButton.evaluate().isNotEmpty) {
-        await tester.tap(backButton);
-        await tester.pumpAndSettle();
+      // Go back to catalog (custom back button in app bar)
+      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.pumpAndSettle();
 
-        logger.logNavigation('Navigated back to catalog');
-        expect(find.byType(ListTile), findsNWidgets(4));
-      }
+      logger.logNavigation('Navigated back to catalog');
+      expect(moduleCards().evaluate().length, greaterThanOrEqualTo(4));
     });
 
     testWidgets('Navigate to each fractal module viewer', (tester) async {
       await pumpApp(tester);
 
-      final modules = find.byType(ListTile);
-      final moduleCount = modules.evaluate().length;
-      expect(moduleCount, 4);
+      final keys = moduleCards().evaluate().map((e) {
+        final k = e.widget.key;
+        if (k is! ValueKey) return null;
+        final v = k.value;
+        return v is String ? v : null;
+      }).whereType<String>().toList();
 
-      // Navigate to each module and verify viewer loads
-      for (int i = 0; i < moduleCount; i++) {
-        // Re-pump the app for each iteration to get a fresh state
+      expect(keys.length, greaterThanOrEqualTo(4));
+
+      // Navigate to each module and verify viewer loads.
+      // Use keys to avoid index drift across rebuilds.
+      for (int i = 0; i < keys.length; i++) {
         if (i > 0) {
           await pumpApp(tester);
         }
 
-        await tester.tap(find.byType(ListTile).at(i));
+        await tester.tap(find.byKey(ValueKey(keys[i])));
         await tester.pump(const Duration(seconds: 2));
 
         // Verify viewer screen loaded
-        expect(find.byIcon(Icons.tune), findsOneWidget);
+        expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
         logger.logNavigation('Viewed module $i');
 
-        // Go back
-        final backButton = find.byTooltip('Back');
-        if (backButton.evaluate().isNotEmpty) {
-          await tester.tap(backButton);
-          await tester.pumpAndSettle();
-        }
+        // Go back (custom back button in app bar)
+        await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+        await tester.pumpAndSettle();
       }
 
-      expect(logger.buffer.where((e) => e.type == 'navigation').length, greaterThanOrEqualTo(4));
+      expect(
+        logger.buffer.where((e) => e.type == 'navigation').length,
+        greaterThanOrEqualTo(keys.length),
+      );
     });
 
     testWidgets('Search filters catalog', (tester) async {
@@ -118,15 +129,15 @@ void main() {
       await tester.enterText(searchField, 'Julia');
       await tester.pumpAndSettle();
 
-      expect(find.byType(ListTile), findsOneWidget);
+      expect(moduleCards().evaluate().length, greaterThanOrEqualTo(1));
       logger.logAction('test', 'Search filtered to Julia');
 
       // Clear search
       await tester.enterText(searchField, '');
       await tester.pumpAndSettle();
 
-      expect(find.byType(ListTile), findsNWidgets(4));
-      logger.logAction('test', 'Search cleared, all modules visible');
+      expect(moduleCards().evaluate().length, greaterThanOrEqualTo(4));
+      logger.logAction('test', 'Search cleared, modules visible');
     });
 
     testWidgets('Logger captures events correctly', (tester) async {

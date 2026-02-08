@@ -331,6 +331,7 @@ class _ModuleCardState extends State<_ModuleCard>
         label: semanticLabel,
         button: true,
         child: GestureDetector(
+          key: Key('catalogModuleCard_${widget.module.id}'),
           onTapDown: reduceMotion ? null : (_) {
             setState(() => _isPressed = true);
             _controller.forward();
