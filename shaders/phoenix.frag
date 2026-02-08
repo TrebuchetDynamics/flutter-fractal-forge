@@ -73,7 +73,7 @@ void main() {
     float zMagSq = 0.0;
 
     // Phoenix iteration: z(n+1) = z(n)^2 + c + p * z(n-1)
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 512; i++) {
         if (i >= intMaxIter) break;
         
         zMagSq = dot(z, z);

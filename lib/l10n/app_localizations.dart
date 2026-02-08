@@ -1783,6 +1783,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stop'**
   String get actionStop;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyTitle;
+
+  /// No description provided for @historyPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} of {total}'**
+  String historyPosition(Object current, Object total);
+
+  /// No description provided for @historyGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get historyGoBack;
+
+  /// No description provided for @historyGoForward.
+  ///
+  /// In en, this message translates to:
+  /// **'Go forward'**
+  String get historyGoForward;
+
+  /// No description provided for @historyTabHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyTabHistory;
+
+  /// No description provided for @historyTabFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get historyTabFavorites;
+
+  /// No description provided for @historyEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No history yet'**
+  String get historyEmptyTitle;
+
+  /// No description provided for @historyEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start exploring fractals to build your history'**
+  String get historyEmptySubtitle;
+
+  /// No description provided for @favoritesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites yet'**
+  String get favoritesEmptyTitle;
+
+  /// No description provided for @favoritesEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your favorite views to access them quickly'**
+  String get favoritesEmptySubtitle;
+
+  /// No description provided for @saveFavoriteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Favorite'**
+  String get saveFavoriteTitle;
+
+  /// No description provided for @favoritePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name for this view'**
+  String get favoritePlaceholder;
+
+  /// No description provided for @buttonCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get buttonCancel;
+
+  /// No description provided for @buttonSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get buttonSave;
+
+  /// No description provided for @renameFavoriteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Favorite'**
+  String get renameFavoriteTitle;
+
+  /// No description provided for @deleteFavoriteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Favorite'**
+  String get deleteFavoriteTitle;
+
+  /// No description provided for @deleteFavoriteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"? This cannot be undone.'**
+  String deleteFavoriteMessage(Object name);
+
+  /// No description provided for @buttonDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get buttonDelete;
+
+  /// No description provided for @alreadyFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Already saved'**
+  String get alreadyFavorite;
+
+  /// No description provided for @saveAsFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as favorite'**
+  String get saveAsFavorite;
 }
 
 class _AppLocalizationsDelegate

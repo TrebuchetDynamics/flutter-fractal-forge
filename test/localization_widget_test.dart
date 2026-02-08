@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/main.dart';
@@ -28,6 +29,7 @@ void main() {
     late PresetStore presetStore;
     late ArQualityStore arQualityStore;
     late ModuleRegistry registry;
+    late AccessibilityService accessibilityService;
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +37,7 @@ void main() {
       PermissionHandlerPlatform.instance = _DenyAllPermissions();
       presetStore = await PresetStore.create();
       arQualityStore = await ArQualityStore.create();
+      accessibilityService = await AccessibilityService.create();
       registry = ModuleRegistry();
     });
 
@@ -43,6 +46,7 @@ void main() {
         FlutterFractalsApp(
           presetStore: presetStore,
           arQualityStore: arQualityStore,
+          accessibilityService: accessibilityService,
           locale: const Locale('en'),
         ),
       );

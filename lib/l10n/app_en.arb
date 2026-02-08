@@ -417,5 +417,37 @@
   "speedFast": "Fast",
   "actionPlay": "Play",
   "actionPause": "Pause",
-  "actionStop": "Stop"
+  "actionStop": "Stop",
+
+  "historyTitle": "History",
+  "historyPosition": "{current} of {total}",
+  "@historyPosition": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "historyGoBack": "Go back",
+  "historyGoForward": "Go forward",
+  "historyTabHistory": "History",
+  "historyTabFavorites": "Favorites",
+  "historyEmptyTitle": "No history yet",
+  "historyEmptySubtitle": "Start exploring fractals to build your history",
+  "favoritesEmptyTitle": "No favorites yet",
+  "favoritesEmptySubtitle": "Save your favorite views to access them quickly",
+  "saveFavoriteTitle": "Save Favorite",
+  "favoritePlaceholder": "Enter a name for this view",
+  "buttonCancel": "Cancel",
+  "buttonSave": "Save",
+  "renameFavoriteTitle": "Rename Favorite",
+  "deleteFavoriteTitle": "Delete Favorite",
+  "deleteFavoriteMessage": "Delete \"{name}\"? This cannot be undone.",
+  "@deleteFavoriteMessage": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "buttonDelete": "Delete",
+  "alreadyFavorite": "Already saved",
+  "saveAsFavorite": "Save as favorite"
 }

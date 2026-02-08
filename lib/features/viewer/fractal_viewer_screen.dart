@@ -23,6 +23,8 @@ import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/debug_overlay.dart';
 import 'package:flutter_fractals/features/debug/performance_overlay.dart';
+import 'package:flutter_fractals/features/debug/shader_debug_overlay.dart';
+import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/features/export/video_export_sheet.dart';
 import 'package:flutter_fractals/core/models/video_export_options.dart';
@@ -65,6 +67,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   final PerformanceService _performanceService = PerformanceService();
   bool _showPerformanceOverlay = false;
   bool _compactPerformanceOverlay = false;
+
+  // Shader debug overlay (always show in debug builds for now)
+  bool _showShaderDebug = true;
 
   // History tracking
   FractalController? _lastController;
@@ -429,6 +434,13 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                 service: _performanceService,
                 compact: _compactPerformanceOverlay,
               ),
+            ),
+
+          // Shader debug overlay (shows uniform values)
+          if (_showShaderDebug)
+            ShaderDebugOverlay(
+              enabled: true,
+              canvasSize: viewportSize,
             ),
             ],
           );

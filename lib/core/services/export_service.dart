@@ -46,11 +46,11 @@ class ExportService {
       final a = (255 * strength * t).round().clamp(0, 255);
       for (int x = 0; x < out.width; x++) {
         final p = out.getPixel(x, y);
-        // Alpha-blend black over pixel.
-        final r = (img.getRed(p) * (255 - a) / 255).round();
-        final g = (img.getGreen(p) * (255 - a) / 255).round();
-        final b = (img.getBlue(p) * (255 - a) / 255).round();
-        out.setPixelRgba(x, y, r, g, b, img.getAlpha(p));
+        // Alpha-blend black over pixel (new image package API).
+        final r = (p.r.toInt() * (255 - a) / 255).round();
+        final g = (p.g.toInt() * (255 - a) / 255).round();
+        final b = (p.b.toInt() * (255 - a) / 255).round();
+        out.setPixelRgba(x, y, r, g, b, p.a.toInt());
       }
     }
 
@@ -67,10 +67,10 @@ class ExportService {
       final a = (255 * strength * t).round().clamp(0, 255);
       for (int x = 0; x < out.width; x++) {
         final p = out.getPixel(x, y);
-        final r = (img.getRed(p) * (255 - a) / 255).round();
-        final g = (img.getGreen(p) * (255 - a) / 255).round();
-        final b = (img.getBlue(p) * (255 - a) / 255).round();
-        out.setPixelRgba(x, y, r, g, b, img.getAlpha(p));
+        final r = (p.r.toInt() * (255 - a) / 255).round();
+        final g = (p.g.toInt() * (255 - a) / 255).round();
+        final b = (p.b.toInt() * (255 - a) / 255).round();
+        out.setPixelRgba(x, y, r, g, b, p.a.toInt());
       }
     }
 

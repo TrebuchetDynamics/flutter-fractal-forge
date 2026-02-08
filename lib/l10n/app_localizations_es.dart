@@ -921,4 +921,70 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get actionStop => 'Detener';
+
+  @override
+  String get historyTitle => 'Historial';
+
+  @override
+  String historyPosition(Object current, Object total) {
+    return '$current de $total';
+  }
+
+  @override
+  String get historyGoBack => 'Atrás';
+
+  @override
+  String get historyGoForward => 'Adelante';
+
+  @override
+  String get historyTabHistory => 'Historial';
+
+  @override
+  String get historyTabFavorites => 'Favoritos';
+
+  @override
+  String get historyEmptyTitle => 'Sin historial';
+
+  @override
+  String get historyEmptySubtitle =>
+      'Explora fractales para construir tu historial';
+
+  @override
+  String get favoritesEmptyTitle => 'Sin favoritos';
+
+  @override
+  String get favoritesEmptySubtitle =>
+      'Guarda tus vistas favoritas para acceder rápidamente';
+
+  @override
+  String get saveFavoriteTitle => 'Guardar Favorito';
+
+  @override
+  String get favoritePlaceholder => 'Nombre para esta vista';
+
+  @override
+  String get buttonCancel => 'Cancelar';
+
+  @override
+  String get buttonSave => 'Guardar';
+
+  @override
+  String get renameFavoriteTitle => 'Renombrar Favorito';
+
+  @override
+  String get deleteFavoriteTitle => 'Eliminar Favorito';
+
+  @override
+  String deleteFavoriteMessage(Object name) {
+    return '¿Eliminar \"$name\"? Esto no se puede deshacer.';
+  }
+
+  @override
+  String get buttonDelete => 'Eliminar';
+
+  @override
+  String get alreadyFavorite => 'Ya guardado';
+
+  @override
+  String get saveAsFavorite => 'Guardar como favorito';
 }

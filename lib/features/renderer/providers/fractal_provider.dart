@@ -473,4 +473,65 @@ class FractalController extends ChangeNotifier {
     }
     return null;
   }
+
+  /// Alias for [view] for backward compatibility.
+  FractalViewState get viewState => _view;
+
+  /// The currently selected fractal module (alias for [module]).
+  FractalModule get currentModule => _module;
+
+  /// Loads a complete state from another controller or snapshot.
+  /// 
+  /// This initializes the controller from a full state including
+  /// module, parameters, view state, and transparency setting.
+  /// Parameters are clamped to the target module's schema.
+  /// 
+  /// Can accept either a [module] object directly or a [moduleId] string.
+  void loadState({
+    FractalModule? module,
+    String? moduleId,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    bool transparentBackground = false,
+    bool animateModule = false,
+  }) {
+    // Find the module by ID or use provided module
+    final FractalModule targetModule;
+    if (module != null) {
+      targetModule = module;
+    } else if (moduleId != null) {
+      targetModule = registry.modules.firstWhere(
+        (m) => m.id == moduleId,
+        orElse: () => _module,
+      );
+    } else {
+      targetModule = _module;
+    }
+    
+    // Switch to the target module
+    if (targetModule.id != _module.id) {
+      if (animateModule) {
+        selectModule(targetModule, animate: true);
+      } else {
+        _module = targetModule;
+      }
+    }
+    
+    // Apply parameters with clamping
+    final clamped = <String, Object>{};
+    for (final param in _module.parameters) {
+      final value = params[param.id] ?? param.defaultValue;
+      clamped[param.id] = _clampValue(param, value);
+    }
+    _params = clamped;
+    
+    // Set view state
+    _view = view;
+    
+    // Set transparency
+    _transparentBackground = transparentBackground;
+    
+    notifyListeners();
+    _logChange('stateChange', 'loadState', 'Loaded state for ${_module.id}');
+  }
 }

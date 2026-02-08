@@ -378,12 +378,15 @@ class LiveRegion extends StatelessWidget {
 ///
 /// Use sparingly - only for purely decorative elements that would
 /// clutter the accessibility tree.
-class ExcludeSemantics extends StatelessWidget {
+/// 
+/// Note: Named differently from Flutter's built-in ExcludeSemantics
+/// to avoid import conflicts.
+class FractalExcludeSemantics extends StatelessWidget {
   /// The child widget to exclude.
   final Widget child;
 
   /// Creates an exclude semantics widget.
-  const ExcludeSemantics({
+  const FractalExcludeSemantics({
     Key? key,
     required this.child,
   }) : super(key: key);

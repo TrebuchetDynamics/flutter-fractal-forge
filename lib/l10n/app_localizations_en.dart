@@ -906,4 +906,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionStop => 'Stop';
+
+  @override
+  String get historyTitle => 'History';
+
+  @override
+  String historyPosition(Object current, Object total) {
+    return '$current of $total';
+  }
+
+  @override
+  String get historyGoBack => 'Go back';
+
+  @override
+  String get historyGoForward => 'Go forward';
+
+  @override
+  String get historyTabHistory => 'History';
+
+  @override
+  String get historyTabFavorites => 'Favorites';
+
+  @override
+  String get historyEmptyTitle => 'No history yet';
+
+  @override
+  String get historyEmptySubtitle =>
+      'Start exploring fractals to build your history';
+
+  @override
+  String get favoritesEmptyTitle => 'No favorites yet';
+
+  @override
+  String get favoritesEmptySubtitle =>
+      'Save your favorite views to access them quickly';
+
+  @override
+  String get saveFavoriteTitle => 'Save Favorite';
+
+  @override
+  String get favoritePlaceholder => 'Enter a name for this view';
+
+  @override
+  String get buttonCancel => 'Cancel';
+
+  @override
+  String get buttonSave => 'Save';
+
+  @override
+  String get renameFavoriteTitle => 'Rename Favorite';
+
+  @override
+  String get deleteFavoriteTitle => 'Delete Favorite';
+
+  @override
+  String deleteFavoriteMessage(Object name) {
+    return 'Delete \"$name\"? This cannot be undone.';
+  }
+
+  @override
+  String get buttonDelete => 'Delete';
+
+  @override
+  String get alreadyFavorite => 'Already saved';
+
+  @override
+  String get saveAsFavorite => 'Save as favorite';
 }

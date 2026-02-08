@@ -154,6 +154,15 @@ class AppTypography {
     color: AppColors.textPrimary,
   );
 
+  static const TextStyle headlineSmall = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    letterSpacing: -0.05,
+    height: 1.4,
+    color: AppColors.textPrimary,
+  );
+
   static const TextStyle titleLarge = TextStyle(
     fontFamily: fontFamily,
     fontSize: 16,

@@ -8,7 +8,10 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 class PresetSheet extends StatefulWidget {
-  const PresetSheet({Key? key}) : super(key: key);
+  /// Optional callback when batch export is requested.
+  final VoidCallback? onBatchExport;
+
+  const PresetSheet({Key? key, this.onBatchExport}) : super(key: key);
 
   @override
   State<PresetSheet> createState() => _PresetSheetState();

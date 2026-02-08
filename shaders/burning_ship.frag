@@ -134,7 +134,7 @@ void main() {
     float iter = 0.0;
     float zMagSq = 0.0;
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 512; i++) {
         if (i >= intMaxIter) break;
         
         zMagSq = dot(z, z);

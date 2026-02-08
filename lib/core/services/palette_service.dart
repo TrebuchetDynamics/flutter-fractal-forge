@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +116,7 @@ class PaletteService extends ChangeNotifier {
   /// - [baseIndex + 0] = stopCount
   /// - then 8 vec4 stops, each: r, g, b, position
   void setCustomPaletteUniforms(
-    FragmentShader shader,
+    ui.FragmentShader shader,
     int baseIndex,
     FractalPalette palette,
   ) {
@@ -138,9 +139,10 @@ class PaletteService extends ChangeNotifier {
       final s = padded[i];
       final c = Color(s.colorArgb);
       final idx = baseIndex + 1 + i * 4;
-      shader.setFloat(idx + 0, c.red / 255.0);
-      shader.setFloat(idx + 1, c.green / 255.0);
-      shader.setFloat(idx + 2, c.blue / 255.0);
+      // Use new Color API (r/g/b are 0.0-1.0 floats)
+      shader.setFloat(idx + 0, c.r);
+      shader.setFloat(idx + 1, c.g);
+      shader.setFloat(idx + 2, c.b);
       shader.setFloat(idx + 3, s.position.clamp(0.0, 1.0));
     }
   }

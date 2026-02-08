@@ -418,5 +418,37 @@
   "speedFast": "Rápido",
   "actionPlay": "Reproducir",
   "actionPause": "Pausar",
-  "actionStop": "Detener"
+  "actionStop": "Detener",
+
+  "historyTitle": "Historial",
+  "historyPosition": "{current} de {total}",
+  "@historyPosition": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "historyGoBack": "Atrás",
+  "historyGoForward": "Adelante",
+  "historyTabHistory": "Historial",
+  "historyTabFavorites": "Favoritos",
+  "historyEmptyTitle": "Sin historial",
+  "historyEmptySubtitle": "Explora fractales para construir tu historial",
+  "favoritesEmptyTitle": "Sin favoritos",
+  "favoritesEmptySubtitle": "Guarda tus vistas favoritas para acceder rápidamente",
+  "saveFavoriteTitle": "Guardar Favorito",
+  "favoritePlaceholder": "Nombre para esta vista",
+  "buttonCancel": "Cancelar",
+  "buttonSave": "Guardar",
+  "renameFavoriteTitle": "Renombrar Favorito",
+  "deleteFavoriteTitle": "Eliminar Favorito",
+  "deleteFavoriteMessage": "¿Eliminar \"{name}\"? Esto no se puede deshacer.",
+  "@deleteFavoriteMessage": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "buttonDelete": "Eliminar",
+  "alreadyFavorite": "Ya guardado",
+  "saveAsFavorite": "Guardar como favorito"
 }
