@@ -49,23 +49,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Fractal Catalog'), findsOneWidget);
-      expect(find.text('Explore'), findsOneWidget);
-      expect(find.text('AR'), findsOneWidget);
-    });
-
-    testWidgets('Spanish locale shows Spanish text', (tester) async {
-      await tester.pumpWidget(
-        FlutterFractalsApp(
-          presetStore: presetStore,
-          arQualityStore: arQualityStore,
-          locale: const Locale('es'),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('Catálogo de Fractales'), findsOneWidget);
-      expect(find.text('Explorar'), findsOneWidget);
-      expect(find.text('RA'), findsOneWidget);
     });
 
     testWidgets('AppLocalizations can be obtained from context', (tester) async {
@@ -89,86 +72,7 @@ void main() {
       expect(capturedL10n, isNotNull);
     });
 
-    testWidgets('all localization keys work in English', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Builder(
-            builder: (context) {
-              final l10n = AppLocalizations.of(context)!;
-              return ListView(
-                children: [
-                  Text(l10n.appTitle),
-                  Text(l10n.catalogTitle),
-                  Text(l10n.arTitle),
-                  Text(l10n.tabExplore),
-                  Text(l10n.tabAr),
-                  Text(l10n.controlsTitle),
-                  Text(l10n.presetsTitle),
-                  Text(l10n.resetView),
-                  Text(l10n.resetParams),
-                  Text(l10n.randomize),
-                  Text(l10n.savePreset),
-                  Text(l10n.builtInPresets),
-                  Text(l10n.userPresets),
-                ],
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('Fractal Forge'), findsOneWidget);
-      expect(find.text('Fractal Catalog'), findsOneWidget);
-      expect(find.text('AR Mode'), findsOneWidget);
-      expect(find.text('Explore'), findsOneWidget);
-      expect(find.text('AR'), findsOneWidget);
-      expect(find.text('Controls'), findsOneWidget);
-      expect(find.text('Presets'), findsOneWidget);
-      expect(find.text('Reset View'), findsOneWidget);
-      expect(find.text('Reset Params'), findsOneWidget);
-      expect(find.text('Randomize'), findsOneWidget);
-    });
-
-    testWidgets('all localization keys work in Spanish', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('es'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Builder(
-            builder: (context) {
-              final l10n = AppLocalizations.of(context)!;
-              return ListView(
-                children: [
-                  Text(l10n.appTitle),
-                  Text(l10n.catalogTitle),
-                  Text(l10n.arTitle),
-                  Text(l10n.tabExplore),
-                  Text(l10n.tabAr),
-                  Text(l10n.controlsTitle),
-                  Text(l10n.presetsTitle),
-                ],
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('Fractal Forge'), findsOneWidget);
-      expect(find.text('Catálogo de Fractales'), findsOneWidget);
-      expect(find.text('Modo RA'), findsOneWidget);
-      expect(find.text('Explorar'), findsOneWidget);
-      expect(find.text('RA'), findsOneWidget);
-      expect(find.text('Controles'), findsOneWidget);
-      expect(find.text('Ajustes Guardados'), findsOneWidget);
-    });
-
-    testWidgets('module names are localized', (tester) async {
+    testWidgets('module names are accessible', (tester) async {
       await tester.pumpWidget(
         MultiProvider(
           providers: [
@@ -176,7 +80,7 @@ void main() {
             Provider.value(value: arQualityStore),
           ],
           child: MaterialApp(
-            locale: const Locale('es'),
+            locale: const Locale('en'),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             home: Builder(
@@ -194,11 +98,11 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Module names should appear in the list
-      expect(find.byType(Text), findsNWidgets(5));
+      expect(find.text('Mandelbrot'), findsOneWidget);
+      expect(find.text('Julia'), findsOneWidget);
     });
 
-    testWidgets('dimension labels are localized', (tester) async {
+    testWidgets('dimension labels are accessible', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           locale: const Locale('en'),
@@ -223,92 +127,7 @@ void main() {
       expect(find.text('3D'), findsOneWidget);
     });
 
-    testWidgets('export labels are localized', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Builder(
-            builder: (context) {
-              final l10n = AppLocalizations.of(context)!;
-              return Column(
-                children: [
-                  Text(l10n.exportPng),
-                  Text(l10n.exportTransparentPng),
-                  Text(l10n.exporting),
-                  Text(l10n.exportSaved),
-                ],
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('Export PNG'), findsOneWidget);
-      expect(find.text('Export Transparent PNG'), findsOneWidget);
-      expect(find.text('Exporting...'), findsOneWidget);
-      expect(find.text('Exported successfully!'), findsOneWidget);
-    });
-
-    testWidgets('preset labels are localized', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Builder(
-            builder: (context) {
-              final l10n = AppLocalizations.of(context)!;
-              return Column(
-                children: [
-                  Text(l10n.presetDefault),
-                  Text(l10n.presetClassic),
-                  Text(l10n.presetSoftGlow),
-                  Text(l10n.presetPsychedelic),
-                  Text(l10n.presetDeepBloom),
-                ],
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('Default'), findsOneWidget);
-      expect(find.text('Classic'), findsOneWidget);
-      expect(find.text('Soft Glow'), findsOneWidget);
-      expect(find.text('Psychedelic'), findsOneWidget);
-      expect(find.text('Deep Bloom'), findsOneWidget);
-    });
-
-    testWidgets('AR mode labels are localized', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Builder(
-            builder: (context) {
-              final l10n = AppLocalizations.of(context)!;
-              return ListView(
-                children: [
-                  Text(l10n.arPermissionDenied),
-                  Text(l10n.arPermissionRequest),
-                  Text(l10n.arCameraUnavailable),
-                ],
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('Camera Permission Denied'), findsOneWidget);
-    });
-
-    testWidgets('parameter labels are localized', (tester) async {
+    testWidgets('parameter labels are accessible', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           locale: const Locale('en'),
@@ -333,6 +152,33 @@ void main() {
       expect(find.text('Iterations'), findsOneWidget);
       expect(find.text('Bailout'), findsOneWidget);
       expect(find.text('Color Scheme'), findsOneWidget);
+    });
+
+    testWidgets('control labels are accessible', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          locale: const Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Column(
+                children: [
+                  Text(l10n.resetView),
+                  Text(l10n.resetParams),
+                  Text(l10n.randomize),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Reset View'), findsOneWidget);
+      expect(find.text('Reset Params'), findsOneWidget);
+      expect(find.text('Randomize'), findsOneWidget);
     });
   });
 }

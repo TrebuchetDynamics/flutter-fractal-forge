@@ -90,6 +90,8 @@ flutter:
     - shaders/mandelbrot.frag
     - shaders/julia.frag
     - shaders/burning_ship.frag
+    # Required by Flutter's Material ink sparkle on some platforms/tests.
+    - shaders/ink_sparkle.frag
     - shaders/phoenix.frag
 
   # To add assets to your application, add an assets section, like this:

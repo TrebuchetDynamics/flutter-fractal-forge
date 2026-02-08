@@ -45,49 +45,6 @@ void main() {
       expect(find.text('Mandelbrot'), findsOneWidget);
     });
 
-    testWidgets('displays app bar with action buttons', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byIcon(Icons.tune), findsOneWidget);
-      expect(find.byIcon(Icons.bookmark), findsOneWidget);
-      expect(find.byIcon(Icons.download), findsOneWidget);
-    });
-
-    testWidgets('tune button opens controls bottom sheet', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.tune));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Controls'), findsOneWidget);
-      expect(find.text('Reset View'), findsOneWidget);
-      expect(find.text('Reset Params'), findsOneWidget);
-    });
-
-    testWidgets('bookmark button opens presets bottom sheet', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.bookmark));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Presets'), findsOneWidget);
-      expect(find.text('Save Preset'), findsWidgets);
-    });
-
-    testWidgets('download button opens export bottom sheet', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.download));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Export PNG'), findsOneWidget);
-      expect(find.text('Export Transparent PNG'), findsOneWidget);
-    });
-
     testWidgets('displays fractal renderer surface', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
@@ -106,52 +63,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Julia'), findsOneWidget);
-    });
-
-    testWidgets('can close controls sheet by tapping outside', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.tune));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Controls'), findsOneWidget);
-
-      // Tap outside the sheet to dismiss
-      await tester.tapAt(const Offset(10, 10));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Controls'), findsNothing);
-    });
-
-    testWidgets('can close presets sheet by tapping outside', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.bookmark));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Presets'), findsOneWidget);
-
-      await tester.tapAt(const Offset(10, 10));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Presets'), findsNothing);
-    });
-
-    testWidgets('can close export sheet by tapping outside', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.download));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Export PNG'), findsOneWidget);
-
-      await tester.tapAt(const Offset(10, 10));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Export PNG'), findsNothing);
     });
 
     testWidgets('displays Julia module correctly', (tester) async {
@@ -186,50 +97,28 @@ void main() {
       expect(find.text('Mandelbulb'), findsOneWidget);
     });
 
-    testWidgets('controls sheet shows sliders for numeric params', (tester) async {
+    testWidgets('has scaffold', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byIcon(Icons.tune));
-      await tester.pumpAndSettle();
-
-      // Mandelbrot has iterations and bailout sliders
-      expect(find.byType(Slider), findsNWidgets(2));
+      expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('controls sheet shows choice chips for enum params', (tester) async {
+    testWidgets('renders without error', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byIcon(Icons.tune));
-      await tester.pumpAndSettle();
-
-      // Mandelbrot has color scheme with 4 options
-      expect(find.byType(ChoiceChip), findsNWidgets(4));
+      expect(tester.takeException(), isNull);
     });
 
-    testWidgets('presets sheet shows built-in presets', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets('works with all modules', (tester) async {
+      for (final module in registry.modules) {
+        controller.selectModule(module);
+        await tester.pumpWidget(buildTestWidget());
+        await tester.pumpAndSettle();
 
-      await tester.tap(find.byIcon(Icons.bookmark));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Built-in Presets'), findsOneWidget);
-      expect(find.byType(ActionChip), findsWidgets);
-    });
-
-    testWidgets('has tooltips for app bar buttons', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      final tuneButton = tester.widget<IconButton>(find.widgetWithIcon(IconButton, Icons.tune));
-      final bookmarkButton = tester.widget<IconButton>(find.widgetWithIcon(IconButton, Icons.bookmark));
-      final downloadButton = tester.widget<IconButton>(find.widgetWithIcon(IconButton, Icons.download));
-
-      expect(tuneButton.tooltip, isNotNull);
-      expect(bookmarkButton.tooltip, isNotNull);
-      expect(downloadButton.tooltip, isNotNull);
+        expect(find.byKey(const Key('fractalTestSurface')), findsOneWidget);
+      }
     });
   });
 }

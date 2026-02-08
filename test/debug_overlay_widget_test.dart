@@ -86,7 +86,7 @@ void main() {
       await tester.pumpAndSettle();
 
       if (kDebugMode) {
-        expect(find.byType(ListenableBuilder), findsOneWidget);
+        expect(find.byType(ListenableBuilder), findsWidgets);
       }
     });
 

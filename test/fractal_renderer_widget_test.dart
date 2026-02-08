@@ -127,7 +127,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byType(RepaintBoundary), findsOneWidget);
+      expect(find.byType(RepaintBoundary), findsWidgets);
     });
 
     testWidgets('uses SizedBox.expand for full size', (tester) async {

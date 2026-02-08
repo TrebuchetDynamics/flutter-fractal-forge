@@ -1,26 +1,22 @@
-/// Flutter Fractal Forge - A real-time fractal rendering application.
-///
-/// This application provides an interactive experience for exploring
-/// mathematical fractals with GPU-accelerated shaders.
-///
-/// ## Features
-///
-/// - Multiple fractal types (Mandelbrot, Julia, Mandelbulb, etc.)
-/// - Real-time parameter adjustment
-/// - 2D and 3D fractal rendering
-/// - AR camera overlay mode
-/// - Export to PNG with transparency support
-///
-/// ## Architecture
-///
-/// The app uses a modular architecture:
-/// - **Core**: Models, modules, services, and theming
-/// - **Features**: Screen-level components (catalog, viewer, AR, etc.)
-/// - **Shared**: Cross-cutting utilities
-///
-/// State management is handled via Provider with [FractalController]
-/// as the primary state holder for rendering.
-library flutter_fractals;
+// Flutter Fractal Forge - A real-time fractal rendering application.
+//
+// This application provides an interactive experience for exploring
+// mathematical fractals with GPU-accelerated shaders.
+//
+// Features:
+// - Multiple fractal types (Mandelbrot, Julia, Mandelbulb, etc.)
+// - Real-time parameter adjustment
+// - 2D and 3D fractal rendering
+// - AR camera overlay mode
+// - Export to PNG with transparency support
+//
+// Architecture:
+// - Core: Models, modules, services, and theming
+// - Features: Screen-level components (catalog, viewer, AR, etc.)
+// - Shared: Cross-cutting utilities
+//
+// State management is handled via Provider with FractalController
+// as the primary state holder for rendering.
 
 import 'dart:async';
 

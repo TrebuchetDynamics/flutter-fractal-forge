@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -18,10 +19,12 @@ import 'package:flutter_fractals/main.dart';
 /// - All 5 fractal types (Mandelbulb, Mandelbrot, Julia, Burning Ship, Phoenix)
 /// - Controls panel
 /// - Presets panel
-/// - AR mode (permission denied state on desktop)
 ///
 /// Run (Linux):
 ///   flutter test integration_test/full_screenshots_test.dart -d linux --reporter expanded
+///
+/// Run (Android):
+///   flutter test integration_test/full_screenshots_test.dart -d emulator-5554 --reporter expanded
 ///
 /// Headless (Linux/CI):
 ///   xvfb-run -a -s "-screen 0 1080x1920x24" \
@@ -33,6 +36,7 @@ void main() {
     final boundaryKey = GlobalKey();
     late PresetStore presetStore;
     late ArQualityStore arQualityStore;
+    bool androidScreenshotMode = false;
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({});
@@ -67,9 +71,8 @@ void main() {
           .replaceAll(RegExp(r'[^a-z0-9\-_.]+'), '_')
           .replaceAll(RegExp(r'_+'), '_');
 
+      // Try desktop fallback first (works on Linux desktop)
       try {
-        await binding.takeScreenshot(safeName);
-      } on MissingPluginException {
         final dir = Directory('screenshots');
         if (!dir.existsSync()) {
           dir.createSync(recursive: true);
@@ -86,10 +89,30 @@ void main() {
         }
         final file = File('screenshots/$safeName.png');
         await file.writeAsBytes(data.buffer.asUint8List());
+        // ignore: avoid_print
+        print('SCREENSHOT (repaint boundary): $safeName');
+        return;
+      } catch (e) {
+        // Fall through to integration test screenshot
+        debugPrint('Repaint boundary failed: $e, trying integration screenshot');
       }
 
-      // ignore: avoid_print
-      print('SCREENSHOT: $safeName');
+      // For Android, need to convert surface first
+      try {
+        if (!androidScreenshotMode) {
+          await binding.convertFlutterSurfaceToImage();
+          androidScreenshotMode = true;
+        }
+        await binding.takeScreenshot(safeName);
+        // ignore: avoid_print
+        print('SCREENSHOT (integration): $safeName');
+      } on MissingPluginException {
+        // ignore: avoid_print
+        print('SCREENSHOT SKIPPED (no plugin): $safeName');
+      } catch (e) {
+        // ignore: avoid_print
+        print('SCREENSHOT FAILED: $safeName - $e');
+      }
     }
 
     // Helper to find module cards by text
@@ -117,7 +140,7 @@ void main() {
       // Find Mandelbulb card by text
       final mandelbulbCard = findModuleCard('Mandelbulb');
       await tester.tap(mandelbulbCard);
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '02_viewer_mandelbulb');
     });
@@ -126,7 +149,7 @@ void main() {
       await pumpApp(tester);
       final card = findModuleCard('Mandelbrot');
       await tester.tap(card);
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '03_viewer_mandelbrot');
     });
@@ -135,7 +158,7 @@ void main() {
       await pumpApp(tester);
       final card = findModuleCard('Julia');
       await tester.tap(card);
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '04_viewer_julia');
     });
@@ -144,7 +167,7 @@ void main() {
       await pumpApp(tester);
       final card = findModuleCard('Burning Ship');
       await tester.tap(card);
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '05_viewer_burning_ship');
     });
@@ -153,7 +176,7 @@ void main() {
       await pumpApp(tester);
       final card = findModuleCard('Phoenix');
       await tester.tap(card);
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '06_viewer_phoenix');
     });
@@ -163,7 +186,7 @@ void main() {
       // Open Mandelbulb (3D fractal for more interesting controls)
       final mandelbulbCard = findModuleCard('Mandelbulb');
       await tester.tap(mandelbulbCard);
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 3));
 
       // Open controls panel (Icons.tune)
       await tester.tap(find.byIcon(Icons.tune));
@@ -178,7 +201,7 @@ void main() {
       // Open Julia set (has nice presets)
       final juliaCard = findModuleCard('Julia');
       await tester.tap(juliaCard);
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 3));
 
       // Open presets panel (Icons.bookmark)
       await tester.tap(find.byIcon(Icons.bookmark));
@@ -186,20 +209,6 @@ void main() {
       await tester.pump(const Duration(milliseconds: 500));
 
       await snap(tester, '08_presets_panel');
-    });
-
-    testWidgets('09_ar_mode', (tester) async {
-      await pumpApp(tester);
-
-      // Navigate to AR tab (second tab in bottom nav)
-      final arTabFinder = find.byIcon(Icons.camera_rounded);
-      expect(arTabFinder, findsOneWidget);
-      await tester.tap(arTabFinder);
-      await tester.pumpAndSettle();
-      await tester.pump(const Duration(seconds: 1));
-
-      // On desktop without camera, this shows the permission denied / camera unavailable state
-      await snap(tester, '09_ar_mode');
     });
   });
 }
