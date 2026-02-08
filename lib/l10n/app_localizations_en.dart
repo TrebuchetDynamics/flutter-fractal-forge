@@ -1,8 +1,4 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
-
-// ignore_for_file: type=lint
 
 /// The translations for English (`en`).
 class AppLocalizationsEn extends AppLocalizations {
@@ -134,16 +130,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportFormat => 'Format';
 
   @override
-  String get exportFormatHintPng =>
-      'Lossless quality, supports transparency. Best for editing.';
+  String get exportFormatHintPng => 'Lossless quality, supports transparency. Best for editing.';
 
   @override
-  String get exportFormatHintJpg =>
-      'Smaller file size, great for sharing. No transparency.';
+  String get exportFormatHintJpg => 'Smaller file size, great for sharing. No transparency.';
 
   @override
-  String get exportFormatHintWebp =>
-      'Modern format with excellent compression. Wide support.';
+  String get exportFormatHintWebp => 'Modern format with excellent compression. Wide support.';
 
   @override
   String get exportResolution => 'Resolution';
@@ -170,8 +163,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportEmbedMetadata => 'Embed Metadata';
 
   @override
-  String get exportEmbedMetadataHint =>
-      'Include fractal parameters in the image file';
+  String get exportEmbedMetadataHint => 'Include fractal parameters in the image file';
 
   @override
   String get exportScreenResolution => 'Screen size';
@@ -195,8 +187,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportArVideo => 'Baked AR Video';
 
   @override
-  String get exportArVideoStub =>
-      'AR video export is scaffolded but not baked yet.';
+  String get exportArVideoStub => 'AR video export is scaffolded but not baked yet.';
 
   @override
   String exportFailed(Object error) {
@@ -309,8 +300,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fractalSection3d => '3D';
 
   @override
-  String get arPermissionRequest =>
-      'Camera permission is required for AR mode.';
+  String get arPermissionRequest => 'Camera permission is required for AR mode.';
 
   @override
   String get arPermissionDenied => 'Camera permission denied.';
@@ -319,8 +309,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arCameraUnavailable => 'No camera available.';
 
   @override
-  String get arCameraUnavailableHelp =>
-      'Make sure another app isn’t using the camera, then try again.';
+  String get arCameraUnavailableHelp => 'Make sure another app isn’t using the camera, then try again.';
 
   @override
   String get arOverlayOnlyExport => 'Overlay-only PNG';
@@ -335,8 +324,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arVideoExportFailed => 'AR video export failed.';
 
   @override
-  String get arVideoFallbackNotice =>
-      'FFmpeg unavailable or failed. Exported a low-FPS GIF fallback (larger file, no audio).';
+  String get arVideoFallbackNotice => 'FFmpeg unavailable or failed. Exported a low-FPS GIF fallback (larger file, no audio).';
 
   @override
   String get arDuration5 => '5s';
@@ -390,12 +378,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wallpaperTitle => 'Wallpaper';
 
   @override
-  String get wallpaperAndroidNote =>
-      'Exports at your device’s native resolution and sets it as wallpaper.';
+  String get wallpaperAndroidNote => 'Exports at your device’s native resolution and sets it as wallpaper.';
 
   @override
-  String get wallpaperIosNote =>
-      'iOS doesn’t allow apps to set wallpapers directly. We’ll save the image to Photos so you can set it from there.';
+  String get wallpaperIosNote => 'iOS doesn’t allow apps to set wallpapers directly. We’ll save the image to Photos so you can set it from there.';
 
   @override
   String get wallpaperTarget => 'Target';
@@ -425,8 +411,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wallpaperSaveCopy => 'Save a copy';
 
   @override
-  String get wallpaperSaveCopySubtitle =>
-      'Also export and open the share sheet.';
+  String get wallpaperSaveCopySubtitle => 'Also export and open the share sheet.';
 
   @override
   String get wallpaperApply => 'Apply';
@@ -515,22 +500,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accessibilityHighContrast => 'High Contrast';
 
   @override
-  String get accessibilityHighContrastHint =>
-      'Use bright colors with maximum contrast';
+  String get accessibilityHighContrastHint => 'Use bright colors with maximum contrast';
 
   @override
   String get accessibilityReducedMotion => 'Reduced Motion';
 
   @override
-  String get accessibilityReducedMotionHint =>
-      'Minimize animations and transitions';
+  String get accessibilityReducedMotionHint => 'Minimize animations and transitions';
 
   @override
   String get accessibilityLargeTargets => 'Large Touch Targets';
 
   @override
-  String get accessibilityLargeTargetsHint =>
-      'Increase size of interactive elements';
+  String get accessibilityLargeTargetsHint => 'Increase size of interactive elements';
 
   @override
   String get accessibilityScreenReaderActive => 'Screen reader is active';
@@ -542,15 +524,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get soundEffectsEnabled => 'UI Sounds';
 
   @override
-  String get soundEffectsEnabledHint =>
-      'Play subtle sounds for button taps and transitions';
+  String get soundEffectsEnabledHint => 'Play subtle sounds for button taps and transitions';
 
   @override
   String get soundEffectsVolume => 'Volume';
 
   @override
-  String get semanticFractalViewer =>
-      'Interactive fractal viewer. Pinch to zoom, drag to pan.';
+  String get semanticFractalViewer => 'Interactive fractal viewer. Pinch to zoom, drag to pan.';
 
   @override
   String semanticFractalCard(Object name, Object dimension) {
@@ -655,22 +635,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingWelcomeTitle => 'Welcome to Flutter Fractals';
 
   @override
-  String get onboardingWelcomeDescription =>
-      'Explore the infinite beauty of mathematical fractals with real-time GPU-accelerated rendering.';
+  String get onboardingWelcomeDescription => 'Explore the infinite beauty of mathematical fractals with real-time GPU-accelerated rendering.';
 
   @override
   String get onboardingFractalTypesTitle => 'Discover Fractal Types';
 
   @override
-  String get onboardingFractalTypesDescription =>
-      'From classic 2D fractals to stunning 3D Mandelbulb, explore a variety of mathematical art.';
+  String get onboardingFractalTypesDescription => 'From classic 2D fractals to stunning 3D Mandelbulb, explore a variety of mathematical art.';
 
   @override
   String get onboardingGesturesTitle => 'Intuitive Controls';
 
   @override
-  String get onboardingGesturesDescription =>
-      'Navigate fractals with simple, natural gestures.';
+  String get onboardingGesturesDescription => 'Navigate fractals with simple, natural gestures.';
 
   @override
   String get onboardingGesturePan => 'Pan';
@@ -700,22 +677,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingFeaturesTitle => 'Powerful Features';
 
   @override
-  String get onboardingFeaturesDescription =>
-      'Create, customize, and share your fractal creations.';
+  String get onboardingFeaturesDescription => 'Create, customize, and share your fractal creations.';
 
   @override
   String get onboardingFeaturePresets => 'Presets';
 
   @override
-  String get onboardingFeaturePresetsDesc =>
-      'Save and load your favorite configurations';
+  String get onboardingFeaturePresetsDesc => 'Save and load your favorite configurations';
 
   @override
   String get onboardingFeatureExport => 'Export';
 
   @override
-  String get onboardingFeatureExportDesc =>
-      'Save high-quality images in multiple formats';
+  String get onboardingFeatureExportDesc => 'Save high-quality images in multiple formats';
 
   @override
   String get onboardingFeatureAr => 'AR Mode';
@@ -931,15 +905,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get historyEmptyTitle => 'No history yet';
 
   @override
-  String get historyEmptySubtitle =>
-      'Start exploring fractals to build your history';
+  String get historyEmptySubtitle => 'Start exploring fractals to build your history';
 
   @override
   String get favoritesEmptyTitle => 'No favorites yet';
 
   @override
-  String get favoritesEmptySubtitle =>
-      'Save your favorite views to access them quickly';
+  String get favoritesEmptySubtitle => 'Save your favorite views to access them quickly';
 
   @override
   String get saveFavoriteTitle => 'Save Favorite';

@@ -97,14 +97,14 @@ class _GlassCardState extends State<GlassCard>
                 duration: AppAnimations.fast,
                 decoration: BoxDecoration(
                   color: _isPressed
-                      ? AppColors.surfaceElevated.withValues(alpha: 0.9)
-                      : AppColors.surface.withValues(alpha: 0.8),
+                      ? AppColors.surfaceElevated.withOpacity(0.9)
+                      : AppColors.surface.withOpacity(0.8),
                   borderRadius: radius,
                   border: widget.showBorder
                       ? Border.all(
                           color: _isPressed
-                              ? AppColors.primary.withValues(alpha: 0.3)
-                              : AppColors.border.withValues(alpha: 0.5),
+                              ? AppColors.primary.withOpacity(0.3)
+                              : AppColors.border.withOpacity(0.5),
                         )
                       : null,
                 ),
@@ -202,8 +202,8 @@ class _GradientButtonState extends State<GradientButton>
                       borderRadius: radius,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(
-                            alpha: _isPressed ? 0.5 : 0.3,
+                          color: AppColors.primary.withOpacity(
+                            _isPressed ? 0.5 : 0.3,
                           ),
                           blurRadius: _isPressed ? 16 : 12,
                           spreadRadius: _isPressed ? 2 : 0,
@@ -299,7 +299,7 @@ class _AnimatedIconButtonState extends State<AnimatedIconButton>
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: widget.isActive
-                ? AppColors.primary.withValues(alpha: 0.15)
+                ? AppColors.primary.withOpacity(0.15)
                 : Colors.transparent,
           ),
           child: AnimatedDefaultTextStyle(
@@ -509,7 +509,7 @@ class SectionHeader extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.border.withValues(alpha: 0.5),
+                    AppColors.border.withOpacity(0.5),
                     Colors.transparent,
                   ],
                 ),
@@ -629,11 +629,11 @@ class _PremiumSliderState extends State<PremiumSlider>
                     ),
                     decoration: BoxDecoration(
                       color: _isDragging
-                          ? _getValueColor().withValues(alpha: 0.15)
+                          ? _getValueColor().withOpacity(0.15)
                           : AppColors.surfaceVariant,
                       borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
                       border: _isDragging
-                          ? Border.all(color: _getValueColor().withValues(alpha: 0.3))
+                          ? Border.all(color: _getValueColor().withOpacity(0.3))
                           : null,
                     ),
                     child: Text(
@@ -713,14 +713,14 @@ class _AnimatedSliderThumbShape extends SliderComponentShape {
     
     // Draw shadow
     final shadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.2)
+      ..color = Colors.black.withOpacity(0.2)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
     canvas.drawCircle(center + const Offset(0, 2), radius, shadowPaint);
     
     // Draw glow when active
     if (isActive || activationAnimation.value > 0) {
       final glowPaint = Paint()
-        ..color = AppColors.primary.withValues(alpha: 0.3 * activationAnimation.value)
+        ..color = AppColors.primary.withOpacity(0.3 * activationAnimation.value)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
       canvas.drawCircle(center, radius * 1.5, glowPaint);
     }
@@ -733,7 +733,7 @@ class _AnimatedSliderThumbShape extends SliderComponentShape {
     
     // Draw inner circle accent
     final accentPaint = Paint()
-      ..color = AppColors.primary.withValues(alpha: 0.1 + activationAnimation.value * 0.2)
+      ..color = AppColors.primary.withOpacity(0.1 + activationAnimation.value * 0.2)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius * 0.4, accentPaint);
   }

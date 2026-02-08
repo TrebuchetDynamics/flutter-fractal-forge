@@ -688,7 +688,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       Text(
                         '${result.resolution} • ${result.format.displayName} • ${result.formattedSize}',
                         style: AppTypography.bodySmall.copyWith(
-                          color: Colors.white.withValues(alpha: 0.7),
+                          color: Colors.white.withOpacity(0.7),
                         ),
                       ),
                     ],
@@ -878,7 +878,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       Text(
                         '${result.resolution} • ${result.format.displayName} • ${result.formattedSize}',
                         style: AppTypography.bodySmall.copyWith(
-                          color: Colors.white.withValues(alpha: 0.7),
+                          color: Colors.white.withOpacity(0.7),
                         ),
                       ),
                     ],
@@ -980,7 +980,7 @@ class _CompareRenderer extends StatelessWidget {
       return Row(
         children: [
           Expanded(child: paneA),
-          Container(width: 1, color: AppColors.surfaceVariant.withValues(alpha: 0.6)),
+          Container(width: 1, color: AppColors.surfaceVariant.withOpacity(0.6)),
           Expanded(child: paneB),
         ],
       );
@@ -1058,10 +1058,10 @@ class _ComparePane extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: (isActive ? AppColors.primary : AppColors.surfaceVariant)
-                    .withValues(alpha: 0.65),
+                    .withOpacity(0.65),
                 borderRadius: BorderRadius.circular(999),
                 border: Border.all(
-                  color: Colors.white.withValues(alpha: isActive ? 0.35 : 0.15),
+                  color: Colors.white.withOpacity(isActive ? 0.35 : 0.15),
                 ),
               ),
               child: Text(
@@ -1078,7 +1078,7 @@ class _ComparePane extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: AppColors.primary.withValues(alpha: 0.35),
+                      color: AppColors.primary.withOpacity(0.35),
                       width: 2,
                     ),
                   ),
@@ -1120,12 +1120,12 @@ class _CompareDividerHandle extends StatelessWidget {
           width: 28,
           height: 64,
           decoration: BoxDecoration(
-            color: AppColors.surfaceVariant.withValues(alpha: 0.75),
+            color: AppColors.surfaceVariant.withOpacity(0.75),
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
+            border: Border.all(color: Colors.white.withOpacity(0.18)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.35),
+                color: Colors.black.withOpacity(0.35),
                 blurRadius: 14,
                 offset: const Offset(0, 6),
               ),
@@ -1160,7 +1160,7 @@ class _AppBarIconButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 4),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.surfaceVariant.withValues(alpha: 0.5),
+            color: AppColors.surfaceVariant.withOpacity(0.5),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, size: 20, color: AppColors.textPrimary),
@@ -1195,8 +1195,8 @@ class _PremiumViewerAppBar extends StatelessWidget implements PreferredSizeWidge
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                AppColors.background.withValues(alpha: 0.9),
-                AppColors.background.withValues(alpha: 0.7),
+                AppColors.background.withOpacity(0.9),
+                AppColors.background.withOpacity(0.7),
               ],
             ),
           ),
@@ -1280,7 +1280,7 @@ class _AnimatedBackButtonState extends State<_AnimatedBackButton>
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.surfaceVariant.withValues(alpha: 0.5),
+            color: AppColors.surfaceVariant.withOpacity(0.5),
             borderRadius: BorderRadius.circular(12),
           ),
           child: const Icon(
@@ -1389,14 +1389,14 @@ class _FloatingActionButtonState extends State<_FloatingActionButton>
                 borderRadius: BorderRadius.circular(16),
                 border: widget.isPrimary ? null : Border.all(
                   color: _isPressed
-                      ? AppColors.primary.withValues(alpha: 0.5)
-                      : AppColors.border.withValues(alpha: 0.5),
+                      ? AppColors.primary.withOpacity(0.5)
+                      : AppColors.border.withOpacity(0.5),
                 ),
                 boxShadow: [
                   BoxShadow(
                     color: widget.isPrimary
-                        ? AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3)
-                        : Colors.black.withValues(alpha: 0.2),
+                        ? AppColors.primary.withOpacity(_isPressed ? 0.5 : 0.3)
+                        : Colors.black.withOpacity(0.2),
                     blurRadius: _isPressed ? 16 : 12,
                     offset: const Offset(0, 4),
                   ),
@@ -1427,7 +1427,7 @@ class _ExportOverlay extends StatelessWidget {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
       child: Container(
-        color: AppColors.background.withValues(alpha: 0.7),
+        color: AppColors.background.withOpacity(0.7),
         child: Center(
           child: FadeIn(
             child: Container(
@@ -1435,10 +1435,10 @@ class _ExportOverlay extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(AppSpacing.xl),
-                border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+                border: Border.all(color: AppColors.border.withOpacity(0.5)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
+                    color: Colors.black.withOpacity(0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -1519,7 +1519,7 @@ class _ShareSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColors.border.withOpacity(0.3)),
       ),
       child: SafeArea(
         child: Padding(
@@ -1534,7 +1534,7 @@ class _ShareSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.textMuted.withValues(alpha: 0.3),
+                    color: AppColors.textMuted.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -1561,7 +1561,7 @@ class _ShareSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColors.border.withOpacity(0.3)),
                 ),
                 child: Row(
                   children: [
@@ -1689,7 +1689,7 @@ class _ShareButtonState extends State<_ShareButton>
             color: widget.isPrimary ? null : AppColors.surfaceVariant,
             borderRadius: BorderRadius.circular(12),
             border: widget.isPrimary ? null : Border.all(
-              color: AppColors.border.withValues(alpha: 0.3),
+              color: AppColors.border.withOpacity(0.3),
             ),
           ),
           child: Row(

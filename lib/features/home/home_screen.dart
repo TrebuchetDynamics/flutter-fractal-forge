@@ -219,10 +219,10 @@ class _PremiumAppBar extends StatelessWidget implements PreferredSizeWidget {
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.85),
+            color: AppColors.surface.withOpacity(0.85),
             border: Border(
               bottom: BorderSide(
-                color: AppColors.border.withValues(alpha: 0.3),
+                color: AppColors.border.withOpacity(0.3),
               ),
             ),
           ),
@@ -282,14 +282,14 @@ class _PremiumNavBar extends StatelessWidget {
           child: Container(
             height: 64,
             decoration: BoxDecoration(
-              color: AppColors.surface.withValues(alpha: 0.9),
+              color: AppColors.surface.withOpacity(0.9),
               borderRadius: BorderRadius.circular(AppSpacing.xxl),
               border: Border.all(
-                color: AppColors.border.withValues(alpha: 0.4),
+                color: AppColors.border.withOpacity(0.4),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.25),
+                  color: Colors.black.withOpacity(0.25),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -399,7 +399,7 @@ class _NavBarItemState extends State<_NavBarItem>
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: widget.isSelected
-                  ? AppColors.primary.withValues(alpha: 0.15)
+                  ? AppColors.primary.withOpacity(0.15)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
             ),

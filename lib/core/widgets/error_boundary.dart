@@ -299,10 +299,10 @@ class _DefaultErrorDisplay extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppSpacing.lg),
               decoration: BoxDecoration(
-                color: _severityColor.withValues(alpha: 0.1),
+                color: _severityColor.withOpacity(0.1),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: _severityColor.withValues(alpha: 0.3),
+                  color: _severityColor.withOpacity(0.3),
                   width: 2,
                 ),
               ),
@@ -381,7 +381,7 @@ class _DefaultErrorDisplay extends StatelessWidget {
                   label: Text(action.label),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
-                    side: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
+                    side: BorderSide(color: AppColors.border.withOpacity(0.5)),
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.lg,
                       vertical: AppSpacing.md,
@@ -443,7 +443,7 @@ class _DefaultErrorDisplay extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.border.withOpacity(0.3)),
             ),
             constraints: const BoxConstraints(maxHeight: 200),
             child: SingleChildScrollView(
@@ -650,14 +650,14 @@ class _ShaderErrorDisplay extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.error.withValues(alpha: 0.1),
-                        AppColors.warning.withValues(alpha: 0.1),
+                        AppColors.error.withOpacity(0.1),
+                        AppColors.warning.withOpacity(0.1),
                       ],
                       transform: GradientRotation(value * 6.28),
                     ),
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: AppColors.error.withValues(alpha: 0.3),
+                      color: AppColors.error.withOpacity(0.3),
                       width: 2,
                     ),
                   ),

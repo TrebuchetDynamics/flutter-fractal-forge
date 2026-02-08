@@ -227,8 +227,8 @@ class _ActionButtonState extends State<_ActionButton>
             borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
             border: Border.all(
               color: _isPressed
-                  ? AppColors.primary.withValues(alpha: 0.3)
-                  : AppColors.border.withValues(alpha: 0.5),
+                  ? AppColors.primary.withOpacity(0.3)
+                  : AppColors.border.withOpacity(0.5),
             ),
           ),
           child: Row(
@@ -394,13 +394,13 @@ class _OptionChipState extends State<_OptionChip>
           ),
           decoration: BoxDecoration(
             color: widget.selected
-                ? AppColors.primary.withValues(alpha: 0.2)
+                ? AppColors.primary.withOpacity(0.2)
                 : AppColors.surfaceVariant,
             borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
             border: Border.all(
               color: widget.selected
-                  ? AppColors.primary.withValues(alpha: 0.6)
-                  : AppColors.border.withValues(alpha: 0.4),
+                  ? AppColors.primary.withOpacity(0.6)
+                  : AppColors.border.withOpacity(0.4),
             ),
           ),
           child: Text(
@@ -440,13 +440,13 @@ class _PremiumSwitch extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: value
-              ? AppColors.primary.withValues(alpha: 0.1)
-              : AppColors.surfaceVariant.withValues(alpha: 0.5),
+              ? AppColors.primary.withOpacity(0.1)
+              : AppColors.surfaceVariant.withOpacity(0.5),
           borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
           border: Border.all(
             color: value
-                ? AppColors.primary.withValues(alpha: 0.3)
-                : AppColors.border.withValues(alpha: 0.3),
+                ? AppColors.primary.withOpacity(0.3)
+                : AppColors.border.withOpacity(0.3),
           ),
         ),
         child: Row(
@@ -593,12 +593,12 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
                           borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: _glowAnimation.value * 0.5),
+                              color: AppColors.primary.withOpacity(_glowAnimation.value * 0.5),
                               blurRadius: 20,
                               spreadRadius: 2,
                             ),
                             BoxShadow(
-                              color: AppColors.secondary.withValues(alpha: _glowAnimation.value * 0.3),
+                              color: AppColors.secondary.withOpacity(_glowAnimation.value * 0.3),
                               blurRadius: 30,
                               spreadRadius: 5,
                             ),
@@ -617,7 +617,7 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
                       borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3),
+                          color: AppColors.primary.withOpacity(_isPressed ? 0.5 : 0.3),
                           blurRadius: _isPressed ? 16 : 12,
                           offset: const Offset(0, 4),
                         ),

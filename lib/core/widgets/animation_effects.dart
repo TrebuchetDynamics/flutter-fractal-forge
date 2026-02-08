@@ -175,7 +175,7 @@ class _ParticlePainter extends CustomPainter {
       final rotation = particle.rotation + particle.rotationSpeed * t * 10;
 
       final paint = Paint()
-        ..color = particle.color.withValues(alpha: opacity)
+        ..color = particle.color.withOpacity(opacity)
         ..style = PaintingStyle.fill;
 
       canvas.save();
@@ -366,7 +366,7 @@ class _FractalLoadingPainter extends CustomPainter {
       final layerRadius = baseRadius * (1 + pulse * 0.15) * (1 - layer * 0.15);
 
       final paint = Paint()
-        ..color = color.withValues(alpha: layerOpacity)
+        ..color = color.withOpacity(layerOpacity)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 3 - layer * 0.5
         ..strokeCap = StrokeCap.round;
@@ -391,7 +391,7 @@ class _FractalLoadingPainter extends CustomPainter {
 
     // Draw pulsing center
     final centerPaint = Paint()
-      ..color = color.withValues(alpha: 0.8)
+      ..color = color.withOpacity(0.8)
       ..style = PaintingStyle.fill;
     
     canvas.drawCircle(center, 4 + pulse * 2, centerPaint);
@@ -409,7 +409,7 @@ class _FractalLoadingPainter extends CustomPainter {
       canvas.drawCircle(
         dotPos,
         dotSize,
-        Paint()..color = color.withValues(alpha: 0.6),
+        Paint()..color = color.withOpacity(0.6),
       );
     }
   }
@@ -511,8 +511,8 @@ class _FractalMorphTransitionState extends State<FractalMorphTransition>
                     decoration: BoxDecoration(
                       gradient: RadialGradient(
                         colors: [
-                          AppColors.primary.withValues(alpha: glowValue * 0.3),
-                          AppColors.secondary.withValues(alpha: glowValue * 0.15),
+                          AppColors.primary.withOpacity(glowValue * 0.3),
+                          AppColors.secondary.withOpacity(glowValue * 0.15),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.5, 1.0],
@@ -564,7 +564,7 @@ class _MorphRipplePainter extends CustomPainter {
       final opacity = (1 - ringProgress) * 0.5;
 
       final paint = Paint()
-        ..color = color.withValues(alpha: opacity)
+        ..color = color.withOpacity(opacity)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2;
 
@@ -668,8 +668,8 @@ class _ParameterTransitionState extends State<ParameterTransition>
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: _getTransitionColor().withValues(
-                          alpha: (1 - _controller.value) * 0.5,
+                        color: _getTransitionColor().withOpacity(
+                          (1 - _controller.value) * 0.5,
                         ),
                         width: 2,
                       ),
@@ -814,7 +814,7 @@ class _SparklePainter extends CustomPainter {
         canvas,
         Offset(x, y),
         currentSize,
-        AppColors.secondary.withValues(alpha: opacity * 0.8),
+        AppColors.secondary.withOpacity(opacity * 0.8),
       );
     }
   }
@@ -850,7 +850,7 @@ class _SparklePainter extends CustomPainter {
 
     // Draw glow
     final glowPaint = Paint()
-      ..color = color.withValues(alpha: color.a * 0.3)
+      ..color = color.withOpacity(color.alpha / 255.0 * 0.3)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
     canvas.drawCircle(center, size * 0.8, glowPaint);
   }

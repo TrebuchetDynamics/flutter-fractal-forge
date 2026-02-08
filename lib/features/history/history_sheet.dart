@@ -53,10 +53,10 @@ class _HistorySheetState extends State<HistorySheet>
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.95),
+            color: AppColors.surface.withOpacity(0.95),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(
-              color: AppColors.border.withValues(alpha: 0.3),
+              color: AppColors.border.withOpacity(0.3),
             ),
           ),
           child: DraggableScrollableSheet(
@@ -73,7 +73,7 @@ class _HistorySheetState extends State<HistorySheet>
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: AppColors.textMuted.withValues(alpha: 0.4),
+                      color: AppColors.textMuted.withOpacity(0.4),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -510,7 +510,7 @@ class _NavigationButton extends StatelessWidget {
       child: Material(
         color: onPressed != null
             ? AppColors.surfaceVariant
-            : AppColors.surfaceVariant.withValues(alpha: 0.5),
+            : AppColors.surfaceVariant.withOpacity(0.5),
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
           onTap: onPressed,
@@ -524,7 +524,7 @@ class _NavigationButton extends StatelessWidget {
               size: 20,
               color: onPressed != null
                   ? AppColors.textPrimary
-                  : AppColors.textMuted.withValues(alpha: 0.5),
+                  : AppColors.textMuted.withOpacity(0.5),
             ),
           ),
         ),
@@ -551,7 +551,7 @@ class _SaveFavoriteButton extends StatelessWidget {
       message: isFavorite ? l10n.alreadyFavorite : l10n.saveAsFavorite,
       child: Material(
         color: isFavorite
-            ? AppColors.primary.withValues(alpha: 0.2)
+            ? AppColors.primary.withOpacity(0.2)
             : AppColors.surfaceVariant,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
@@ -584,7 +584,7 @@ class _CountBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.2),
+        color: AppColors.primary.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
@@ -621,7 +621,7 @@ class _EmptyState extends StatelessWidget {
             Icon(
               icon,
               size: 64,
-              color: AppColors.textMuted.withValues(alpha: 0.5),
+              color: AppColors.textMuted.withOpacity(0.5),
             ),
             const SizedBox(height: AppSpacing.lg),
             Text(
@@ -665,11 +665,11 @@ class _HistoryEntryTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       decoration: BoxDecoration(
         color: isCurrent
-            ? AppColors.primary.withValues(alpha: 0.15)
-            : AppColors.surfaceVariant.withValues(alpha: 0.5),
+            ? AppColors.primary.withOpacity(0.15)
+            : AppColors.surfaceVariant.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
         border: isCurrent
-            ? Border.all(color: AppColors.primary.withValues(alpha: 0.5))
+            ? Border.all(color: AppColors.primary.withOpacity(0.5))
             : null,
       ),
       child: Material(
@@ -687,7 +687,7 @@ class _HistoryEntryTile extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: isCurrent
-                        ? AppColors.primary.withValues(alpha: 0.2)
+                        ? AppColors.primary.withOpacity(0.2)
                         : AppColors.surface,
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -794,7 +794,7 @@ class _FavoriteEntryTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant.withValues(alpha: 0.5),
+        color: AppColors.surfaceVariant.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Material(

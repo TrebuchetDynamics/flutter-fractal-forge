@@ -73,14 +73,14 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
               borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
               border: Border.all(
                 color: _isSearchFocused
-                    ? AppColors.primary.withValues(alpha: 0.6)
-                    : AppColors.border.withValues(alpha: 0.3),
+                    ? AppColors.primary.withOpacity(0.6)
+                    : AppColors.border.withOpacity(0.3),
                 width: _isSearchFocused ? 1.5 : 1,
               ),
               boxShadow: _isSearchFocused
                   ? [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.15),
+                        color: AppColors.primary.withOpacity(0.15),
                         blurRadius: 12,
                         spreadRadius: 0,
                       ),
@@ -240,7 +240,7 @@ class _EmptyState extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(AppSpacing.xl),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant.withValues(alpha: 0.5),
+                  color: AppColors.surfaceVariant.withOpacity(0.5),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -365,13 +365,13 @@ class _ModuleCardState extends State<_ModuleCard>
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
           color: _isPressed
-              ? AppColors.primary.withValues(alpha: 0.4)
-              : AppColors.border.withValues(alpha: 0.4),
+              ? AppColors.primary.withOpacity(0.4)
+              : AppColors.border.withOpacity(0.4),
         ),
         boxShadow: _isPressed
             ? [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: AppColors.primary.withOpacity(0.1),
                   blurRadius: 16,
                   offset: const Offset(0, 4),
                 ),
@@ -391,7 +391,7 @@ class _ModuleCardState extends State<_ModuleCard>
                     ? AppColors.primaryGradient
                     : LinearGradient(
                         colors: [
-                          AppColors.secondary.withValues(alpha: 0.8),
+                          AppColors.secondary.withOpacity(0.8),
                           AppColors.secondaryDark,
                         ],
                       ),
@@ -433,7 +433,7 @@ class _ModuleCardState extends State<_ModuleCard>
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: _isPressed
-                    ? AppColors.primary.withValues(alpha: 0.2)
+                    ? AppColors.primary.withOpacity(0.2)
                     : AppColors.surfaceVariant,
                 borderRadius: BorderRadius.circular(10),
               ),

@@ -52,7 +52,7 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+                  color: theme.colorScheme.onSurface.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -80,14 +80,14 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                           ? l10n.wallpaperIosNote
                           : l10n.wallpaperAndroidNote,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
+                        color: theme.colorScheme.onSurface.withOpacity(0.75),
                       ),
                     ),
                     const SizedBox(height: 20),
                     Text(
                       l10n.wallpaperTarget,
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: theme.colorScheme.onSurface.withOpacity(0.7),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -119,7 +119,7 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                     Text(
                       l10n.wallpaperPresets,
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: theme.colorScheme.onSurface.withOpacity(0.7),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -209,10 +209,10 @@ class _StyleChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
-            color: selected ? theme.colorScheme.primaryContainer : theme.colorScheme.surfaceContainerHighest,
+            color: selected ? theme.colorScheme.primaryContainer : theme.colorScheme.surfaceVariant,
             borderRadius: BorderRadius.circular(999),
             border: Border.all(
-              color: selected ? theme.colorScheme.primary : theme.colorScheme.outline.withValues(alpha: 0.4),
+              color: selected ? theme.colorScheme.primary : theme.colorScheme.outline.withOpacity(0.4),
             ),
           ),
           child: Row(

@@ -162,7 +162,7 @@ class _PrimaryButton extends StatelessWidget {
         boxShadow: isLast
             ? [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.4),
+                  color: AppColors.primary.withOpacity(0.4),
                   blurRadius: 16,
                   offset: const Offset(0, 4),
                 ),
@@ -315,7 +315,7 @@ class _OnboardingPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
+                  color: AppColors.primary.withOpacity(0.3),
                   blurRadius: 24,
                   offset: const Offset(0, 8),
                 ),
@@ -393,13 +393,13 @@ class _AnimatedFractalPreviewState extends State<_AnimatedFractalPreview>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                AppColors.primary.withValues(alpha: 0.2),
-                AppColors.secondary.withValues(alpha: 0.2),
+                AppColors.primary.withOpacity(0.2),
+                AppColors.secondary.withOpacity(0.2),
               ],
               transform: GradientRotation(_controller.value * 6.28),
             ),
             border: Border.all(
-              color: AppColors.border.withValues(alpha: 0.5),
+              color: AppColors.border.withOpacity(0.5),
             ),
           ),
           child: ClipRRect(
@@ -419,7 +419,7 @@ class _AnimatedFractalPreviewState extends State<_AnimatedFractalPreview>
                   child: Icon(
                     Icons.blur_circular_rounded,
                     size: 80,
-                    color: AppColors.primary.withValues(alpha: 0.7),
+                    color: AppColors.primary.withOpacity(0.7),
                   ),
                 ),
               ],
@@ -448,7 +448,7 @@ class _FractalPatternPainter extends CustomPainter {
       final rotation = progress * 3.14 * (i.isEven ? 1 : -1);
 
       final paint = Paint()
-        ..color = AppColors.primary.withValues(alpha: opacity)
+        ..color = AppColors.primary.withOpacity(opacity)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5;
 
@@ -555,7 +555,7 @@ class _FractalTypeCard extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
-          color: info.color.withValues(alpha: 0.3),
+          color: info.color.withOpacity(0.3),
         ),
       ),
       child: Column(
@@ -653,7 +653,7 @@ class _GestureCard extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
-          color: AppColors.border.withValues(alpha: 0.5),
+          color: AppColors.border.withOpacity(0.5),
         ),
       ),
       child: Row(
@@ -662,7 +662,7 @@ class _GestureCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.15),
+              color: AppColors.primary.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -765,13 +765,13 @@ class _FeatureCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            info.color.withValues(alpha: 0.15),
-            info.color.withValues(alpha: 0.05),
+            info.color.withOpacity(0.15),
+            info.color.withOpacity(0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
-          color: info.color.withValues(alpha: 0.3),
+          color: info.color.withOpacity(0.3),
         ),
       ),
       child: Row(
@@ -780,7 +780,7 @@ class _FeatureCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: info.color.withValues(alpha: 0.2),
+              color: info.color.withOpacity(0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(

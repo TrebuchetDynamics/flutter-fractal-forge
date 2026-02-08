@@ -205,9 +205,9 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
                 child: Container(
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   decoration: BoxDecoration(
-                    color: AppColors.error.withValues(alpha: 0.08),
+                    color: AppColors.error.withOpacity(0.08),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+                    border: Border.all(color: AppColors.error.withOpacity(0.3)),
                   ),
                   child: Row(
                     children: [
@@ -301,7 +301,7 @@ class _ExportThumbTile extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.surface,
-          border: Border.all(color: AppColors.border.withValues(alpha: 0.35)),
+          border: Border.all(color: AppColors.border.withOpacity(0.35)),
         ),
         child: Stack(
           fit: StackFit.expand,
@@ -319,7 +319,7 @@ class _ExportThumbTile extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.black.withValues(alpha: 0.75),
+                      Colors.black.withOpacity(0.75),
                     ],
                   ),
                 ),

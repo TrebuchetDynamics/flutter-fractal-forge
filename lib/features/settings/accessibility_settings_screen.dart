@@ -104,10 +104,10 @@ class _InfoCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
-          color: AppColors.primary.withValues(alpha: 0.1),
+          color: AppColors.primary.withOpacity(0.1),
           borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
           border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.3),
+            color: AppColors.primary.withOpacity(0.3),
           ),
         ),
         child: Row(
@@ -167,13 +167,13 @@ class _SettingTile extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.lg),
           decoration: BoxDecoration(
             color: value
-                ? AppColors.primary.withValues(alpha: 0.1)
+                ? AppColors.primary.withOpacity(0.1)
                 : AppColors.surface,
             borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
             border: Border.all(
               color: value
-                  ? AppColors.primary.withValues(alpha: 0.4)
-                  : AppColors.border.withValues(alpha: 0.5),
+                  ? AppColors.primary.withOpacity(0.4)
+                  : AppColors.border.withOpacity(0.5),
             ),
           ),
           child: Row(
@@ -182,7 +182,7 @@ class _SettingTile extends StatelessWidget {
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
                   color: value
-                      ? AppColors.primary.withValues(alpha: 0.2)
+                      ? AppColors.primary.withOpacity(0.2)
                       : AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
                 ),
@@ -251,7 +251,7 @@ class _SystemSettingsHint extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
-          color: AppColors.surfaceVariant.withValues(alpha: 0.5),
+          color: AppColors.surfaceVariant.withOpacity(0.5),
           borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         ),
         child: Row(

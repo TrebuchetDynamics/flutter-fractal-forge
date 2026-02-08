@@ -78,12 +78,12 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                       borderRadius: BorderRadius.circular(16),
                       border: active
                           ? null
-                          : Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+                          : Border.all(color: AppColors.border.withOpacity(0.5)),
                       boxShadow: [
                         BoxShadow(
                           color: active
-                              ? AppColors.primary.withValues(alpha: 0.35)
-                              : Colors.black.withValues(alpha: 0.18),
+                              ? AppColors.primary.withOpacity(0.35)
+                              : Colors.black.withOpacity(0.18),
                           blurRadius: active ? 16 : 12,
                           offset: const Offset(0, 4),
                         ),
@@ -118,7 +118,7 @@ class AutoExploreSettingsSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColors.border.withOpacity(0.3)),
       ),
       child: SafeArea(
         child: Padding(
@@ -132,7 +132,7 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.textMuted.withValues(alpha: 0.3),
+                    color: AppColors.textMuted.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
