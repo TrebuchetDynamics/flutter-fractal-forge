@@ -11,6 +11,72 @@ import 'package:flutter_fractals/core/models/export_options.dart';
 class ExportService {
   const ExportService();
 
+  /// Apply simple legibility overlays for wallpaper usage.
+  ///
+  /// This keeps the fractal intact while slightly darkening common UI areas.
+  Uint8List applyWallpaperStyle(Uint8List pngBytes, {required String style}) {
+    try {
+      final decoded = img.decodePng(pngBytes);
+      if (decoded == null) return pngBytes;
+
+      // style: plain|homeOptimized|lockOptimized
+      switch (style) {
+        case 'homeOptimized':
+          return Uint8List.fromList(img.encodePng(_applyBottomGradient(decoded, strength: 0.28)));
+        case 'lockOptimized':
+          var out = _applyTopGradient(decoded, strength: 0.30);
+          out = _applyBottomGradient(out, strength: 0.18);
+          return Uint8List.fromList(img.encodePng(out));
+        default:
+          return pngBytes;
+      }
+    } catch (_) {
+      // If any processing fails, return original bytes.
+      return pngBytes;
+    }
+  }
+
+  img.Image _applyTopGradient(img.Image src, {required double strength}) {
+    final out = img.Image.from(src);
+    final h = out.height;
+    final overlayH = (h * 0.22).round().clamp(1, h);
+
+    for (int y = 0; y < overlayH; y++) {
+      final t = 1.0 - (y / overlayH);
+      final a = (255 * strength * t).round().clamp(0, 255);
+      for (int x = 0; x < out.width; x++) {
+        final p = out.getPixel(x, y);
+        // Alpha-blend black over pixel.
+        final r = (img.getRed(p) * (255 - a) / 255).round();
+        final g = (img.getGreen(p) * (255 - a) / 255).round();
+        final b = (img.getBlue(p) * (255 - a) / 255).round();
+        out.setPixelRgba(x, y, r, g, b, img.getAlpha(p));
+      }
+    }
+
+    return out;
+  }
+
+  img.Image _applyBottomGradient(img.Image src, {required double strength}) {
+    final out = img.Image.from(src);
+    final h = out.height;
+    final overlayH = (h * 0.28).round().clamp(1, h);
+
+    for (int y = h - overlayH; y < h; y++) {
+      final t = (y - (h - overlayH)) / overlayH; // 0..1
+      final a = (255 * strength * t).round().clamp(0, 255);
+      for (int x = 0; x < out.width; x++) {
+        final p = out.getPixel(x, y);
+        final r = (img.getRed(p) * (255 - a) / 255).round();
+        final g = (img.getGreen(p) * (255 - a) / 255).round();
+        final b = (img.getBlue(p) * (255 - a) / 255).round();
+        out.setPixelRgba(x, y, r, g, b, img.getAlpha(p));
+      }
+    }
+
+    return out;
+  }
+
   Future<Directory> getExportDirectory() async {
     if (Platform.isAndroid) {
       final dirs = await getExternalStorageDirectories(

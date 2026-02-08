@@ -40,6 +40,39 @@ class AppLocalizationsEs extends AppLocalizations {
   String get presetsTitle => 'Presets';
 
   @override
+  String get batchExportTitle => 'Exportación por lote';
+
+  @override
+  String get batchExportAllPresets => 'Exportar todos los presets';
+
+  @override
+  String get batchExportPreparing => 'Preparando…';
+
+  @override
+  String get batchExportCancelling => 'Cancelando…';
+
+  @override
+  String get batchExportCancelled => 'Cancelado';
+
+  @override
+  String get batchExportDone => 'Listo';
+
+  @override
+  String get batchExportNoPresets => 'No hay presets para exportar.';
+
+  @override
+  String get batchExportSavedTo => 'Guardado en:';
+
+  @override
+  String get batchExportContactSheet => 'Hoja de contacto';
+
+  @override
+  String get batchExportCancel => 'Cancelar';
+
+  @override
+  String get actionClose => 'Cerrar';
+
+  @override
   String get builtInPresets => 'Incluidos';
 
   @override
@@ -353,6 +386,65 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipExport => 'Exportar';
 
   @override
+  String get tooltipWallpaper => 'Establecer como Fondo';
+
+  @override
+  String get wallpaperTitle => 'Fondo de pantalla';
+
+  @override
+  String get wallpaperAndroidNote =>
+      'Exporta a la resolución nativa del dispositivo y lo establece como fondo.';
+
+  @override
+  String get wallpaperIosNote =>
+      'iOS no permite que las apps establezcan el fondo directamente. Guardaremos la imagen en Fotos para que la configures desde ahí.';
+
+  @override
+  String get wallpaperTarget => 'Destino';
+
+  @override
+  String get wallpaperTargetHome => 'Inicio';
+
+  @override
+  String get wallpaperTargetLock => 'Bloqueo';
+
+  @override
+  String get wallpaperTargetBoth => 'Ambos';
+
+  @override
+  String get wallpaperPresets => 'Presets';
+
+  @override
+  String get wallpaperPresetPlain => 'Normal';
+
+  @override
+  String get wallpaperPresetHome => 'Optimizado (Inicio)';
+
+  @override
+  String get wallpaperPresetLock => 'Optimizado (Bloqueo)';
+
+  @override
+  String get wallpaperSaveCopy => 'Guardar una copia';
+
+  @override
+  String get wallpaperSaveCopySubtitle =>
+      'También exporta y abre el menú de compartir.';
+
+  @override
+  String get wallpaperApply => 'Aplicar';
+
+  @override
+  String get wallpaperApplied => 'Fondo listo';
+
+  @override
+  String get wallpaperFailed => 'No se pudo aplicar el fondo';
+
+  @override
+  String wallpaperFailedWithError(Object error) {
+    return 'No se pudo aplicar el fondo: $error';
+  }
+
+  @override
   String get presetDefault => 'Predeterminado';
 
   @override
@@ -445,6 +537,19 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get accessibilityScreenReaderActive =>
       'El lector de pantalla está activo';
+
+  @override
+  String get soundEffectsTitle => 'Efectos de Sonido';
+
+  @override
+  String get soundEffectsEnabled => 'Sonidos de Interfaz';
+
+  @override
+  String get soundEffectsEnabledHint =>
+      'Reproducir sonidos sutiles para toques y transiciones';
+
+  @override
+  String get soundEffectsVolume => 'Volumen';
 
   @override
   String get semanticFractalViewer =>
@@ -662,74 +767,158 @@ class AppLocalizationsEs extends AppLocalizations {
     return 'Fractal $fractalName - Flutter Fractals';
   }
 
-  // History feature strings
+  @override
+  String get videoExportTitle => 'Exportar Video';
 
   @override
-  String get historyTitle => 'Historial de exploración';
+  String get videoPresetQuickGif => 'GIF Rápido';
 
   @override
-  String historyPosition(int current, int total) {
-    return 'Posición $current de $total';
+  String get videoPresetSocial => 'Redes Sociales';
+
+  @override
+  String get videoPresetHighQuality => 'Alta Calidad';
+
+  @override
+  String get videoPresetLoop => 'GIF en Bucle';
+
+  @override
+  String get videoTabAnimation => 'Animación';
+
+  @override
+  String get videoTabQuality => 'Calidad';
+
+  @override
+  String get videoTabAdvanced => 'Avanzado';
+
+  @override
+  String get videoAnimationType => 'Tipo de Animación';
+
+  @override
+  String get videoDuration => 'Duración';
+
+  @override
+  String get videoFrames => 'cuadros';
+
+  @override
+  String get videoZoomFactor => 'Factor de Zoom';
+
+  @override
+  String get videoEasing => 'Suavizado';
+
+  @override
+  String get videoParameterSweep => 'Barrido de Parámetro';
+
+  @override
+  String get videoSelectParameter => 'Seleccionar Parámetro';
+
+  @override
+  String get videoSweepStart => 'Valor Inicial';
+
+  @override
+  String get videoSweepEnd => 'Valor Final';
+
+  @override
+  String get videoPingPong => 'Ping-Pong';
+
+  @override
+  String get videoPingPongHint => 'Animar de vuelta al valor inicial';
+
+  @override
+  String get videoFormat => 'Formato';
+
+  @override
+  String get videoResolution => 'Resolución';
+
+  @override
+  String get videoFrameRate => 'Cuadros por Segundo';
+
+  @override
+  String get videoQualityPreset => 'Calidad';
+
+  @override
+  String get videoLoop => 'Bucle';
+
+  @override
+  String get videoLoopHint => 'Repetir animación continuamente';
+
+  @override
+  String get videoWatermark => 'Agregar Marca de Agua';
+
+  @override
+  String get videoWatermarkHint => 'Agregar marca \'Flutter Fractals\'';
+
+  @override
+  String get videoEstimatedOutput => 'Salida Estimada';
+
+  @override
+  String get videoTotalFrames => 'Total de Cuadros';
+
+  @override
+  String get videoEstimatedSize => 'Tamaño Est. del Archivo';
+
+  @override
+  String get videoExportNow => 'Exportar Video';
+
+  @override
+  String get videoExporting => 'Exportando video...';
+
+  @override
+  String videoExportProgress(Object current, Object total) {
+    return 'Renderizando cuadro $current de $total';
   }
 
   @override
-  String get historyGoBack => 'Ir atrás';
+  String get videoExportComplete => 'Video exportado exitosamente';
 
   @override
-  String get historyGoForward => 'Ir adelante';
-
-  @override
-  String get historyTabHistory => 'Historial';
-
-  @override
-  String get historyTabFavorites => 'Favoritos';
-
-  @override
-  String get historyEmptyTitle => 'Sin historial aún';
-
-  @override
-  String get historyEmptySubtitle =>
-      'Comienza a explorar fractales para construir tu historial';
-
-  @override
-  String get favoritesEmptyTitle => 'Sin favoritos aún';
-
-  @override
-  String get favoritesEmptySubtitle =>
-      'Guarda ubicaciones interesantes para revisitar después';
-
-  @override
-  String get saveFavoriteTitle => 'Guardar como favorito';
-
-  @override
-  String get favoritePlaceholder => 'Ingresa un nombre para este lugar';
-
-  @override
-  String get renameFavoriteTitle => 'Renombrar favorito';
-
-  @override
-  String get deleteFavoriteTitle => 'Eliminar favorito';
-
-  @override
-  String deleteFavoriteMessage(String name) {
-    return '¿Eliminar "$name" de favoritos?';
+  String videoExportFailed(Object error) {
+    return 'Exportación de video fallida: $error';
   }
 
   @override
-  String get saveAsFavorite => 'Guardar como favorito';
-
-  @override
-  String get alreadyFavorite => 'Ya guardado';
-
-  @override
-  String get buttonCancel => 'Cancelar';
-
-  @override
-  String get buttonSave => 'Guardar';
-
-  @override
-  String get buttonDelete => 'Eliminar';
+  String get tooltipExportVideo => 'Exportar Video';
 
   @override
   String get tooltipOpenHistory => 'Historial';
+
+  @override
+  String get autoExploreTitle => 'Auto-Explorar';
+
+  @override
+  String get autoExploreSubtitle =>
+      'Descubre automáticamente áreas interesantes';
+
+  @override
+  String get tooltipStartExplore => 'Iniciar auto-exploración';
+
+  @override
+  String get tooltipPauseExplore => 'Pausar auto-exploración';
+
+  @override
+  String get statusIdle => 'Listo para explorar';
+
+  @override
+  String get statusPaused => 'Pausado';
+
+  @override
+  String get statusExploring => 'Explorando...';
+
+  @override
+  String get speedLabel => 'Velocidad';
+
+  @override
+  String get speedSlow => 'Lento';
+
+  @override
+  String get speedFast => 'Rápido';
+
+  @override
+  String get actionPlay => 'Reproducir';
+
+  @override
+  String get actionPause => 'Pausar';
+
+  @override
+  String get actionStop => 'Detener';
 }

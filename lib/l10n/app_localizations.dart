@@ -158,6 +158,72 @@ abstract class AppLocalizations {
   /// **'Presets'**
   String get presetsTitle;
 
+  /// No description provided for @batchExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Batch Export'**
+  String get batchExportTitle;
+
+  /// No description provided for @batchExportAllPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Export all presets'**
+  String get batchExportAllPresets;
+
+  /// No description provided for @batchExportPreparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing…'**
+  String get batchExportPreparing;
+
+  /// No description provided for @batchExportCancelling.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelling…'**
+  String get batchExportCancelling;
+
+  /// No description provided for @batchExportCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get batchExportCancelled;
+
+  /// No description provided for @batchExportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get batchExportDone;
+
+  /// No description provided for @batchExportNoPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'No presets to export.'**
+  String get batchExportNoPresets;
+
+  /// No description provided for @batchExportSavedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to:'**
+  String get batchExportSavedTo;
+
+  /// No description provided for @batchExportContactSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact sheet'**
+  String get batchExportContactSheet;
+
+  /// No description provided for @batchExportCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get batchExportCancel;
+
+  /// No description provided for @actionClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get actionClose;
+
   /// No description provided for @builtInPresets.
   ///
   /// In en, this message translates to:
@@ -758,6 +824,114 @@ abstract class AppLocalizations {
   /// **'Export'**
   String get tooltipExport;
 
+  /// No description provided for @tooltipWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Wallpaper'**
+  String get tooltipWallpaper;
+
+  /// No description provided for @wallpaperTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper'**
+  String get wallpaperTitle;
+
+  /// No description provided for @wallpaperAndroidNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Exports at your device’s native resolution and sets it as wallpaper.'**
+  String get wallpaperAndroidNote;
+
+  /// No description provided for @wallpaperIosNote.
+  ///
+  /// In en, this message translates to:
+  /// **'iOS doesn’t allow apps to set wallpapers directly. We’ll save the image to Photos so you can set it from there.'**
+  String get wallpaperIosNote;
+
+  /// No description provided for @wallpaperTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Target'**
+  String get wallpaperTarget;
+
+  /// No description provided for @wallpaperTargetHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get wallpaperTargetHome;
+
+  /// No description provided for @wallpaperTargetLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock'**
+  String get wallpaperTargetLock;
+
+  /// No description provided for @wallpaperTargetBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Both'**
+  String get wallpaperTargetBoth;
+
+  /// No description provided for @wallpaperPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Presets'**
+  String get wallpaperPresets;
+
+  /// No description provided for @wallpaperPresetPlain.
+  ///
+  /// In en, this message translates to:
+  /// **'Plain'**
+  String get wallpaperPresetPlain;
+
+  /// No description provided for @wallpaperPresetHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home optimized'**
+  String get wallpaperPresetHome;
+
+  /// No description provided for @wallpaperPresetLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock optimized'**
+  String get wallpaperPresetLock;
+
+  /// No description provided for @wallpaperSaveCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a copy'**
+  String get wallpaperSaveCopy;
+
+  /// No description provided for @wallpaperSaveCopySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Also export and open the share sheet.'**
+  String get wallpaperSaveCopySubtitle;
+
+  /// No description provided for @wallpaperApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get wallpaperApply;
+
+  /// No description provided for @wallpaperApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper ready'**
+  String get wallpaperApplied;
+
+  /// No description provided for @wallpaperFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t apply wallpaper'**
+  String get wallpaperFailed;
+
+  /// No description provided for @wallpaperFailedWithError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t apply wallpaper: {error}'**
+  String wallpaperFailedWithError(Object error);
+
   /// No description provided for @presetDefault.
   ///
   /// In en, this message translates to:
@@ -937,6 +1111,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Screen reader is active'**
   String get accessibilityScreenReaderActive;
+
+  /// No description provided for @soundEffectsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound Effects'**
+  String get soundEffectsTitle;
+
+  /// No description provided for @soundEffectsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'UI Sounds'**
+  String get soundEffectsEnabled;
+
+  /// No description provided for @soundEffectsEnabledHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Play subtle sounds for button taps and transitions'**
+  String get soundEffectsEnabledHint;
+
+  /// No description provided for @soundEffectsVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get soundEffectsVolume;
 
   /// No description provided for @semanticFractalViewer.
   ///
@@ -1286,133 +1484,305 @@ abstract class AppLocalizations {
   /// **'{fractalName} Fractal - Flutter Fractals'**
   String shareSubject(Object fractalName);
 
-  // History feature strings
-
-  /// No description provided for @historyTitle.
+  /// No description provided for @videoExportTitle.
   ///
   /// In en, this message translates to:
-  /// **'Exploration History'**
-  String get historyTitle;
+  /// **'Export Video'**
+  String get videoExportTitle;
 
-  /// No description provided for @historyPosition.
+  /// No description provided for @videoPresetQuickGif.
   ///
   /// In en, this message translates to:
-  /// **'Position {current} of {total}'**
-  String historyPosition(int current, int total);
+  /// **'Quick GIF'**
+  String get videoPresetQuickGif;
 
-  /// No description provided for @historyGoBack.
+  /// No description provided for @videoPresetSocial.
   ///
   /// In en, this message translates to:
-  /// **'Go back'**
-  String get historyGoBack;
+  /// **'Social'**
+  String get videoPresetSocial;
 
-  /// No description provided for @historyGoForward.
+  /// No description provided for @videoPresetHighQuality.
   ///
   /// In en, this message translates to:
-  /// **'Go forward'**
-  String get historyGoForward;
+  /// **'High Quality'**
+  String get videoPresetHighQuality;
 
-  /// No description provided for @historyTabHistory.
+  /// No description provided for @videoPresetLoop.
   ///
   /// In en, this message translates to:
-  /// **'History'**
-  String get historyTabHistory;
+  /// **'Loop GIF'**
+  String get videoPresetLoop;
 
-  /// No description provided for @historyTabFavorites.
+  /// No description provided for @videoTabAnimation.
   ///
   /// In en, this message translates to:
-  /// **'Favorites'**
-  String get historyTabFavorites;
+  /// **'Animation'**
+  String get videoTabAnimation;
 
-  /// No description provided for @historyEmptyTitle.
+  /// No description provided for @videoTabQuality.
   ///
   /// In en, this message translates to:
-  /// **'No history yet'**
-  String get historyEmptyTitle;
+  /// **'Quality'**
+  String get videoTabQuality;
 
-  /// No description provided for @historyEmptySubtitle.
+  /// No description provided for @videoTabAdvanced.
   ///
   /// In en, this message translates to:
-  /// **'Start exploring fractals to build your history'**
-  String get historyEmptySubtitle;
+  /// **'Advanced'**
+  String get videoTabAdvanced;
 
-  /// No description provided for @favoritesEmptyTitle.
+  /// No description provided for @videoAnimationType.
   ///
   /// In en, this message translates to:
-  /// **'No favorites yet'**
-  String get favoritesEmptyTitle;
+  /// **'Animation Type'**
+  String get videoAnimationType;
 
-  /// No description provided for @favoritesEmptySubtitle.
+  /// No description provided for @videoDuration.
   ///
   /// In en, this message translates to:
-  /// **'Save interesting locations to revisit later'**
-  String get favoritesEmptySubtitle;
+  /// **'Duration'**
+  String get videoDuration;
 
-  /// No description provided for @saveFavoriteTitle.
+  /// No description provided for @videoFrames.
   ///
   /// In en, this message translates to:
-  /// **'Save as Favorite'**
-  String get saveFavoriteTitle;
+  /// **'frames'**
+  String get videoFrames;
 
-  /// No description provided for @favoritePlaceholder.
+  /// No description provided for @videoZoomFactor.
   ///
   /// In en, this message translates to:
-  /// **'Enter a name for this spot'**
-  String get favoritePlaceholder;
+  /// **'Zoom Factor'**
+  String get videoZoomFactor;
 
-  /// No description provided for @renameFavoriteTitle.
+  /// No description provided for @videoEasing.
   ///
   /// In en, this message translates to:
-  /// **'Rename Favorite'**
-  String get renameFavoriteTitle;
+  /// **'Easing'**
+  String get videoEasing;
 
-  /// No description provided for @deleteFavoriteTitle.
+  /// No description provided for @videoParameterSweep.
   ///
   /// In en, this message translates to:
-  /// **'Delete Favorite'**
-  String get deleteFavoriteTitle;
+  /// **'Parameter Sweep'**
+  String get videoParameterSweep;
 
-  /// No description provided for @deleteFavoriteMessage.
+  /// No description provided for @videoSelectParameter.
   ///
   /// In en, this message translates to:
-  /// **'Delete "{name}" from favorites?'**
-  String deleteFavoriteMessage(String name);
+  /// **'Select Parameter'**
+  String get videoSelectParameter;
 
-  /// No description provided for @saveAsFavorite.
+  /// No description provided for @videoSweepStart.
   ///
   /// In en, this message translates to:
-  /// **'Save as favorite'**
-  String get saveAsFavorite;
+  /// **'Start Value'**
+  String get videoSweepStart;
 
-  /// No description provided for @alreadyFavorite.
+  /// No description provided for @videoSweepEnd.
   ///
   /// In en, this message translates to:
-  /// **'Already saved'**
-  String get alreadyFavorite;
+  /// **'End Value'**
+  String get videoSweepEnd;
 
-  /// No description provided for @buttonCancel.
+  /// No description provided for @videoPingPong.
   ///
   /// In en, this message translates to:
-  /// **'Cancel'**
-  String get buttonCancel;
+  /// **'Ping-Pong'**
+  String get videoPingPong;
 
-  /// No description provided for @buttonSave.
+  /// No description provided for @videoPingPongHint.
   ///
   /// In en, this message translates to:
-  /// **'Save'**
-  String get buttonSave;
+  /// **'Animate back to start value'**
+  String get videoPingPongHint;
 
-  /// No description provided for @buttonDelete.
+  /// No description provided for @videoFormat.
   ///
   /// In en, this message translates to:
-  /// **'Delete'**
-  String get buttonDelete;
+  /// **'Format'**
+  String get videoFormat;
+
+  /// No description provided for @videoResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution'**
+  String get videoResolution;
+
+  /// No description provided for @videoFrameRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame Rate'**
+  String get videoFrameRate;
+
+  /// No description provided for @videoQualityPreset.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality'**
+  String get videoQualityPreset;
+
+  /// No description provided for @videoLoop.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop'**
+  String get videoLoop;
+
+  /// No description provided for @videoLoopHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat animation continuously'**
+  String get videoLoopHint;
+
+  /// No description provided for @videoWatermark.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Watermark'**
+  String get videoWatermark;
+
+  /// No description provided for @videoWatermarkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add \'Flutter Fractals\' branding'**
+  String get videoWatermarkHint;
+
+  /// No description provided for @videoEstimatedOutput.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Output'**
+  String get videoEstimatedOutput;
+
+  /// No description provided for @videoTotalFrames.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Frames'**
+  String get videoTotalFrames;
+
+  /// No description provided for @videoEstimatedSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Est. File Size'**
+  String get videoEstimatedSize;
+
+  /// No description provided for @videoExportNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Video'**
+  String get videoExportNow;
+
+  /// No description provided for @videoExporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting video...'**
+  String get videoExporting;
+
+  /// No description provided for @videoExportProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Rendering frame {current} of {total}'**
+  String videoExportProgress(Object current, Object total);
+
+  /// No description provided for @videoExportComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Video exported successfully'**
+  String get videoExportComplete;
+
+  /// No description provided for @videoExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Video export failed: {error}'**
+  String videoExportFailed(Object error);
+
+  /// No description provided for @tooltipExportVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Video'**
+  String get tooltipExportVideo;
 
   /// No description provided for @tooltipOpenHistory.
   ///
   /// In en, this message translates to:
   /// **'History'**
   String get tooltipOpenHistory;
+
+  /// No description provided for @autoExploreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-Explore'**
+  String get autoExploreTitle;
+
+  /// No description provided for @autoExploreSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically discover interesting areas'**
+  String get autoExploreSubtitle;
+
+  /// No description provided for @tooltipStartExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Start auto-explore'**
+  String get tooltipStartExplore;
+
+  /// No description provided for @tooltipPauseExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause auto-explore'**
+  String get tooltipPauseExplore;
+
+  /// No description provided for @statusIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to explore'**
+  String get statusIdle;
+
+  /// No description provided for @statusPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get statusPaused;
+
+  /// No description provided for @statusExploring.
+  ///
+  /// In en, this message translates to:
+  /// **'Exploring...'**
+  String get statusExploring;
+
+  /// No description provided for @speedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get speedLabel;
+
+  /// No description provided for @speedSlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow'**
+  String get speedSlow;
+
+  /// No description provided for @speedFast.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast'**
+  String get speedFast;
+
+  /// No description provided for @actionPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get actionPlay;
+
+  /// No description provided for @actionPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get actionPause;
+
+  /// No description provided for @actionStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get actionStop;
 }
 
 class _AppLocalizationsDelegate

@@ -2,6 +2,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// The Phoenix fractal is a variation of the Julia set with a "memory" term.
@@ -267,6 +268,9 @@ FractalModule buildPhoenixModule() {
       shader.setFloat(10, phoenixCImag);
       shader.setFloat(11, phoenixP);
       shader.setFloat(12, state.transparentBackground ? 1.0 : 0.0);
+
+      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
+      PaletteService.instance.setCustomPaletteUniforms(shader, 13, palette);
     },
   );
 }

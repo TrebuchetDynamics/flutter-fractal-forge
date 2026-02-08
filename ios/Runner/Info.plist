@@ -60,5 +60,7 @@
 	<!-- Universal links: https://fractalforge.app -->
 	<key>FlutterDeepLinkingEnabled</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Save fractal wallpapers to your photo library.</string>
 </dict>
 </plist>

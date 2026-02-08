@@ -10,6 +10,17 @@
   "viewerTitle": "Visor de fractales",
   "controlsTitle": "Controles",
   "presetsTitle": "Presets",
+  "batchExportTitle": "Exportación por lote",
+  "batchExportAllPresets": "Exportar todos los presets",
+  "batchExportPreparing": "Preparando…",
+  "batchExportCancelling": "Cancelando…",
+  "batchExportCancelled": "Cancelado",
+  "batchExportDone": "Listo",
+  "batchExportNoPresets": "No hay presets para exportar.",
+  "batchExportSavedTo": "Guardado en:",
+  "batchExportContactSheet": "Hoja de contacto",
+  "batchExportCancel": "Cancelar",
+  "actionClose": "Cerrar",
   "builtInPresets": "Incluidos",
   "userPresets": "Tus presets",
   "loadingPresets": "Cargando presets…",
@@ -110,6 +121,24 @@
   "tooltipOpenControls": "Controles",
   "tooltipOpenPresets": "Presets",
   "tooltipExport": "Exportar",
+  "tooltipWallpaper": "Fondo de pantalla",
+  "wallpaperTitle": "Fondo de pantalla",
+  "wallpaperAndroidNote": "Exporta a la resolución nativa del dispositivo y lo establece como fondo.",
+  "wallpaperIosNote": "iOS no permite que las apps establezcan el fondo directamente. Guardaremos la imagen en Fotos para que la configures desde ahí.",
+  "wallpaperTarget": "Destino",
+  "wallpaperTargetHome": "Inicio",
+  "wallpaperTargetLock": "Bloqueo",
+  "wallpaperTargetBoth": "Ambos",
+  "wallpaperPresets": "Presets",
+  "wallpaperPresetPlain": "Normal",
+  "wallpaperPresetHome": "Optimizado (Inicio)",
+  "wallpaperPresetLock": "Optimizado (Bloqueo)",
+  "wallpaperSaveCopy": "Guardar una copia",
+  "wallpaperSaveCopySubtitle": "También exporta y abre el menú de compartir.",
+  "wallpaperApply": "Aplicar",
+  "wallpaperApplied": "Fondo listo",
+  "wallpaperFailed": "No se pudo aplicar el fondo",
+  "wallpaperFailedWithError": "No se pudo aplicar el fondo: {error}",
   "presetDefault": "Predeterminado",
   "presetClassic": "Clásico",
   "presetSoftGlow": "Brillo suave",
@@ -182,6 +211,11 @@
   "accessibilityLargeTargets": "Objetivos Táctiles Grandes",
   "accessibilityLargeTargetsHint": "Aumentar el tamaño de los elementos interactivos",
   "accessibilityScreenReaderActive": "El lector de pantalla está activo",
+  
+  "soundEffectsTitle": "Efectos de Sonido",
+  "soundEffectsEnabled": "Sonidos de Interfaz",
+  "soundEffectsEnabledHint": "Reproducir sonidos sutiles para toques y transiciones",
+  "soundEffectsVolume": "Volumen",
   
   "semanticFractalViewer": "Visor de fractales interactivo. Pellizca para acercar, arrastra para desplazar.",
   "semanticFractalCard": "Fractal {name}, {dimension}. Toca dos veces para abrir.",
@@ -312,5 +346,77 @@
     "placeholders": {
       "fractalName": {}
     }
-  }
+  },
+
+  "videoExportTitle": "Exportar Video",
+  "videoPresetQuickGif": "GIF Rápido",
+  "videoPresetSocial": "Redes Sociales",
+  "videoPresetHighQuality": "Alta Calidad",
+  "videoPresetLoop": "GIF en Bucle",
+  
+  "videoTabAnimation": "Animación",
+  "videoTabQuality": "Calidad",
+  "videoTabAdvanced": "Avanzado",
+  
+  "videoAnimationType": "Tipo de Animación",
+  "videoDuration": "Duración",
+  "videoFrames": "cuadros",
+  "videoZoomFactor": "Factor de Zoom",
+  "videoEasing": "Suavizado",
+  
+  "videoParameterSweep": "Barrido de Parámetro",
+  "videoSelectParameter": "Seleccionar Parámetro",
+  "videoSweepStart": "Valor Inicial",
+  "videoSweepEnd": "Valor Final",
+  "videoPingPong": "Ping-Pong",
+  "videoPingPongHint": "Animar de vuelta al valor inicial",
+  
+  "videoFormat": "Formato",
+  "videoResolution": "Resolución",
+  "videoFrameRate": "Cuadros por Segundo",
+  "videoQualityPreset": "Calidad",
+  
+  "videoLoop": "Bucle",
+  "videoLoopHint": "Repetir animación continuamente",
+  "videoWatermark": "Agregar Marca de Agua",
+  "videoWatermarkHint": "Agregar marca 'Flutter Fractals'",
+  
+  "videoEstimatedOutput": "Salida Estimada",
+  "videoTotalFrames": "Total de Cuadros",
+  "videoEstimatedSize": "Tamaño Est. del Archivo",
+  
+  "videoExportNow": "Exportar Video",
+  "videoExporting": "Exportando video...",
+  "videoExportProgress": "Renderizando cuadro {current} de {total}",
+  "@videoExportProgress": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "videoExportComplete": "Video exportado exitosamente",
+  "videoExportFailed": "Exportación de video fallida: {error}",
+  "@videoExportFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  
+  "tooltipExportVideo": "Exportar Video",
+  "tooltipOpenHistory": "Historial",
+  "tooltipWallpaper": "Establecer como Fondo",
+
+  "autoExploreTitle": "Auto-Explorar",
+  "autoExploreSubtitle": "Descubre automáticamente áreas interesantes",
+  "tooltipStartExplore": "Iniciar auto-exploración",
+  "tooltipPauseExplore": "Pausar auto-exploración",
+  "statusIdle": "Listo para explorar",
+  "statusPaused": "Pausado",
+  "statusExploring": "Explorando...",
+  "speedLabel": "Velocidad",
+  "speedSlow": "Lento",
+  "speedFast": "Rápido",
+  "actionPlay": "Reproducir",
+  "actionPause": "Pausar",
+  "actionStop": "Detener"
 }

@@ -2,6 +2,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:vector_math/vector_math.dart';
 
 FractalModule buildJuliaModule() {
@@ -240,6 +241,9 @@ FractalModule buildJuliaModule() {
       shader.setFloat(9, juliaCReal);
       shader.setFloat(10, juliaCImag);
       shader.setFloat(11, state.transparentBackground ? 1.0 : 0.0);
+
+      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
+      PaletteService.instance.setCustomPaletteUniforms(shader, 12, palette);
     },
   );
 }

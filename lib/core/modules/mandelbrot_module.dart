@@ -2,6 +2,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:vector_math/vector_math.dart';
 
 FractalModule buildMandelbrotModule() {
@@ -185,6 +186,9 @@ FractalModule buildMandelbrotModule() {
       shader.setFloat(7, bailout);
       shader.setFloat(8, colorScheme);
       shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
+
+      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
+      PaletteService.instance.setCustomPaletteUniforms(shader, 10, palette);
     },
   );
 }

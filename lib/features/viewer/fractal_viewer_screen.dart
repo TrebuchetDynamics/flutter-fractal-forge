@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,17 +11,28 @@ import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/haptic_service.dart';
+import 'package:flutter_fractals/core/services/wallpaper_service.dart';
+import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/performance_service.dart';
+import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/debug_overlay.dart';
 import 'package:flutter_fractals/features/debug/performance_overlay.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
+import 'package:flutter_fractals/features/export/video_export_sheet.dart';
+import 'package:flutter_fractals/core/models/video_export_options.dart';
+import 'package:flutter_fractals/core/services/video_export_service.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/history/history_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
+import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
@@ -33,20 +45,38 @@ class FractalViewerScreen extends StatefulWidget {
 
 class _FractalViewerScreenState extends State<FractalViewerScreen>
     with TickerProviderStateMixin {
-  final GlobalKey _fractalKey = GlobalKey();
+  final GlobalKey _fractalKeyA = GlobalKey();
+  final GlobalKey _fractalKeyB = GlobalKey();
   final ExportService _exportService = const ExportService();
+  final WallpaperService _wallpaperService = const WallpaperService();
+
+  // Compare mode state
+  bool _compareMode = false;
+  bool _compareSliderMode = false; // false: side-by-side, true: sliding divider
+  double _compareDivider = 0.5; // 0..1 (only used for slider mode)
+  int _activePane = 0; // 0: A (primary/provider), 1: B (secondary)
+  FractalController? _compareController;
   bool _exporting = false;
   double? _exportProgress;
   DebugRunnerService? _debugRunner;
   late AnimationController _fabController;
-  
+
   // Performance overlay state
   final PerformanceService _performanceService = PerformanceService();
   bool _showPerformanceOverlay = false;
   bool _compactPerformanceOverlay = false;
-  
+
   // History tracking
   FractalController? _lastController;
+
+  // Exploration stats tracking
+  ExplorationStatsService? _statsService;
+  DateTime? _sessionStart;
+  double? _lastZoom;
+  String? _lastModuleId;
+
+  // Auto-explore service
+  AutoExploreService? _autoExploreService;
 
   @override
   void initState() {
@@ -66,30 +96,74 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         registry: context.read<ModuleRegistry>(),
       );
     }
-    
-    // Set up history tracking
+
+    // Grab stats service (optional in tests)
+    _statsService ??= context.read<ExplorationStatsService?>();
+
+    // Start session timer once.
+    _sessionStart ??= DateTime.now();
+
+    // Set up history + stats tracking
     final controller = context.read<FractalController>();
     if (_lastController != controller) {
       _lastController?.removeListener(_onControllerChanged);
       _lastController = controller;
+
+      _lastZoom = controller.view.zoom;
+      _lastModuleId = controller.module.id;
+      _statsService?.recordFractalExplored(controller.module.id);
+
       controller.addListener(_onControllerChanged);
       // Record initial state
       _recordHistory(context);
+
+      // Initialize auto-explore service
+      _autoExploreService?.dispose();
+      _autoExploreService = AutoExploreService(controller: controller);
     }
   }
 
   void _onControllerChanged() {
-    if (mounted) {
-      _recordHistory(context);
+    if (!mounted) return;
+
+    // Record view/config changes into history
+    _recordHistory(context);
+
+    // Best-effort stats tracking (local-only)
+    final controller = context.read<FractalController>();
+
+    // Zoom distance: sum abs(log(new/old))
+    final prevZoom = _lastZoom;
+    final currentZoom = controller.view.zoom;
+    if (prevZoom != null && prevZoom > 0 && currentZoom > 0 && prevZoom != currentZoom) {
+      final delta = (math.log(currentZoom / prevZoom)).abs();
+      _statsService?.addZoomDistance(delta);
+      _lastZoom = currentZoom;
+    }
+
+    // Unique fractals explored
+    final currentId = controller.module.id;
+    if (_lastModuleId != currentId) {
+      _lastModuleId = currentId;
+      _statsService?.recordFractalExplored(currentId);
     }
   }
 
   @override
   void dispose() {
     _lastController?.removeListener(_onControllerChanged);
+
+    final start = _sessionStart;
+    if (start != null) {
+      final elapsed = DateTime.now().difference(start);
+      _statsService?.addExploreTime(elapsed);
+    }
+
     _fabController.dispose();
     _debugRunner?.dispose();
     _performanceService.dispose();
+    _autoExploreService?.dispose();
+    _compareController?.dispose();
     super.dispose();
   }
 
@@ -110,26 +184,128 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     });
   }
 
+  FractalController _activeController(BuildContext context) {
+    if (_compareMode && _activePane == 1 && _compareController != null) {
+      return _compareController!;
+    }
+    return context.read<FractalController>();
+  }
+
+  GlobalKey _activeBoundaryKey() {
+    if (_compareMode && _activePane == 1) return _fractalKeyB;
+    return _fractalKeyA;
+  }
+
+  void _ensureCompareController(BuildContext context) {
+    if (_compareController != null) return;
+    final registry = context.read<ModuleRegistry>();
+    _compareController = FractalController(registry);
+
+    // Initialize B from A.
+    final a = context.read<FractalController>();
+    _compareController!.selectModule(a.module, animate: false);
+    for (final entry in a.params.entries) {
+      _compareController!.updateParam(entry.key, entry.value);
+    }
+    _compareController!.updatePan(a.view.pan);
+    _compareController!.updateZoom(a.view.zoom);
+    _compareController!.updateRotation(a.view.rotation);
+    _compareController!.setTransparentBackground(a.transparentBackground);
+  }
+
+  void _toggleCompareMode(BuildContext context) {
+    setState(() {
+      _compareMode = !_compareMode;
+      if (_compareMode) {
+        _ensureCompareController(context);
+        _activePane = 0;
+      }
+    });
+  }
+
+  void _toggleCompareLayout() {
+    setState(() {
+      _compareSliderMode = !_compareSliderMode;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
+
+    if (_compareMode) {
+      _ensureCompareController(context);
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _PremiumViewerAppBar(
         title: controller.module.displayName(l10n),
         onBack: () => Navigator.of(context).pop(),
+        actions: [
+          _AppBarIconButton(
+            icon: _compareMode ? Icons.close_fullscreen_rounded : Icons.compare_rounded,
+            tooltip: _compareMode ? 'Exit compare' : 'Compare',
+            onPressed: () => _toggleCompareMode(context),
+          ),
+          if (_compareMode) ...[
+            _AppBarIconButton(
+              icon: _compareSliderMode
+                  ? Icons.view_week_rounded
+                  : Icons.drag_handle_rounded,
+              tooltip: _compareSliderMode ? 'Side-by-side' : 'Sliding divider',
+              onPressed: _toggleCompareLayout,
+            ),
+            _AppBarIconButton(
+              icon: _activePane == 0 ? Icons.filter_1_rounded : Icons.filter_2_rounded,
+              tooltip: _activePane == 0 ? 'Editing: A' : 'Editing: B',
+              onPressed: () {
+                setState(() {
+                  _activePane = _activePane == 0 ? 1 : 0;
+                });
+              },
+            ),
+          ],
+        ],
       ),
-      body: Stack(
-        children: [
-          // Fractal renderer (full screen)
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final viewportSize = Size(constraints.maxWidth, constraints.maxHeight);
+
+          return Stack(
+            children: [
+          // Fractal renderer (single or compare)
           Positioned.fill(
-            child: FractalRenderer(
-              boundaryKey: _fractalKey,
-              onOpenControls: () => _openControls(context),
-              onOpenPresets: () => _openPresets(context),
-              onOpenExport: () => _openExport(context),
+            child: _compareMode
+                ? _CompareRenderer(
+                    keyA: _fractalKeyA,
+                    keyB: _fractalKeyB,
+                    controllerB: _compareController!,
+                    sliderMode: _compareSliderMode,
+                    divider: _compareDivider,
+                    activePane: _activePane,
+                    onDividerChanged: (v) => setState(() => _compareDivider = v),
+                    onActivePaneChanged: (pane) => setState(() => _activePane = pane),
+                    onOpenControls: () => _openControls(context),
+                    onOpenPresets: () => _openPresets(context),
+                    onOpenExport: () => _openExport(context),
+                  )
+                : FractalRenderer(
+                    boundaryKey: _fractalKeyA,
+                    onOpenControls: () => _openControls(context),
+                    onOpenPresets: () => _openPresets(context),
+                    onOpenExport: () => _openExport(context),
+                  ),
+          ),
+
+          // Minimap overlay (bottom-left)
+          Positioned(
+            left: AppSpacing.lg,
+            bottom: MediaQuery.of(context).padding.bottom + AppSpacing.xl,
+            child: ChangeNotifierProvider.value(
+              value: _activeController(context),
+              child: FractalMiniMap(viewportSize: viewportSize),
             ),
           ),
 
@@ -150,32 +326,57 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    // Auto-explore button
+                    if (_autoExploreService != null)
+                      ChangeNotifierProvider<AutoExploreService>.value(
+                        value: _autoExploreService!,
+                        child: AutoExploreButton(
+                          delay: const Duration(milliseconds: 0),
+                          onLongPress: _exporting ? null : () => _openAutoExploreSettings(context),
+                        ),
+                      ),
+                    if (_autoExploreService != null)
+                      const SizedBox(height: AppSpacing.md),
                     _FloatingActionButton(
                       icon: Icons.tune_rounded,
                       tooltip: l10n.tooltipOpenControls,
                       onPressed: _exporting ? null : () => _openControls(context),
-                      delay: const Duration(milliseconds: 0),
+                      delay: const Duration(milliseconds: 50),
                     ),
                     const SizedBox(height: AppSpacing.md),
                     _FloatingActionButton(
                       icon: Icons.bookmark_rounded,
                       tooltip: l10n.tooltipOpenPresets,
                       onPressed: _exporting ? null : () => _openPresets(context),
-                      delay: const Duration(milliseconds: 50),
+                      delay: const Duration(milliseconds: 100),
                     ),
                     const SizedBox(height: AppSpacing.md),
                     _FloatingActionButton(
                       icon: Icons.history_rounded,
                       tooltip: l10n.tooltipOpenHistory,
                       onPressed: _exporting ? null : () => _openHistory(context),
-                      delay: const Duration(milliseconds: 75),
+                      delay: const Duration(milliseconds: 125),
                     ),
                     const SizedBox(height: AppSpacing.md),
                     _FloatingActionButton(
                       icon: Icons.share_rounded,
                       tooltip: l10n.tooltipShare,
                       onPressed: _exporting ? null : () => _shareFractal(context),
-                      delay: const Duration(milliseconds: 100),
+                      delay: const Duration(milliseconds: 150),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _FloatingActionButton(
+                      icon: Icons.wallpaper_rounded,
+                      tooltip: l10n.tooltipWallpaper,
+                      onPressed: _exporting ? null : () => _openWallpaper(context),
+                      delay: const Duration(milliseconds: 170),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _FloatingActionButton(
+                      icon: Icons.videocam_rounded,
+                      tooltip: l10n.tooltipExportVideo,
+                      onPressed: _exporting ? null : () => _openVideoExport(context),
+                      delay: const Duration(milliseconds: 175),
                     ),
                     const SizedBox(height: AppSpacing.md),
                     _FloatingActionButton(
@@ -183,7 +384,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       tooltip: l10n.tooltipExport,
                       onPressed: _exporting ? null : () => _openExport(context),
                       isPrimary: true,
-                      delay: const Duration(milliseconds: 125),
+                      delay: const Duration(milliseconds: 200),
                     ),
                   ],
                 ),
@@ -203,7 +404,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           if (kDebugMode && _debugRunner != null)
             DebugOverlay(
               runner: _debugRunner!,
-              boundaryKey: _fractalKey,
+              boundaryKey: _activeBoundaryKey(),
             ),
 
           // Performance overlay toggle button (top-left)
@@ -229,13 +430,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                 compact: _compactPerformanceOverlay,
               ),
             ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
 
   void _openControls(BuildContext context) {
-    final controller = context.read<FractalController>();
+    final controller = _activeController(context);
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -248,14 +451,32 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   void _openPresets(BuildContext context) {
-    final controller = context.read<FractalController>();
+    final controller = _activeController(context);
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => ChangeNotifierProvider.value(
         value: controller,
-        child: const PresetSheet(),
+        child: PresetSheet(
+          onBatchExport: () => _openBatchExport(context),
+        ),
+      ),
+    );
+  }
+
+  void _openBatchExport(BuildContext context) {
+    final boundaryKey = _activeBoundaryKey();
+
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: _activeController(context)),
+          Provider.value(value: context.read<PresetStore>()),
+        ],
+        child: BatchExportDialog(boundaryKey: boundaryKey),
       ),
     );
   }
@@ -279,6 +500,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
+  void _openAutoExploreSettings(BuildContext context) {
+    if (_autoExploreService == null) return;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => ChangeNotifierProvider<AutoExploreService>.value(
+        value: _autoExploreService!,
+        child: const AutoExploreSettingsSheet(),
+      ),
+    );
+  }
+
   /// Records the current location in history.
   void _recordHistory(BuildContext context) {
     final controller = context.read<FractalController>();
@@ -294,7 +529,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   /// Shares the current fractal configuration via deep link.
   void _shareFractal(BuildContext context) {
-    final controller = context.read<FractalController>();
+    final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
 
     // Build the deep link URL
@@ -315,9 +550,21 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
+  void _openWallpaper(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => WallpaperOptionsSheet(
+        initial: const WallpaperOptions(),
+        onApply: (options) => _applyWallpaper(context, options),
+      ),
+    );
+  }
+
   void _openExport(BuildContext context) {
-    final controller = context.read<FractalController>();
-    
+    final controller = _activeController(context);
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -330,17 +577,244 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
-  Future<void> _performExport(BuildContext context, ExportOptions options) async {
+  void _openVideoExport(BuildContext context) {
+    final controller = context.read<FractalController>();
+
+    // Build available parameters for parameter sweep
+    final availableParams = <String>[];
+    final paramRanges = <String, (double, double)>{};
+
+    for (final param in controller.module.parameters) {
+      if (param.type.name == 'float' || param.type.name == 'integer') {
+        availableParams.add(param.id);
+        paramRanges[param.id] = (param.min, param.max);
+      }
+    }
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => VideoExportSheet(
+        initialOptions: const VideoExportOptions(),
+        fractalType: controller.module.id,
+        availableParameters: availableParams,
+        parameterRanges: paramRanges,
+        onExport: (options) => _performVideoExport(context, options),
+      ),
+    );
+  }
+
+  Future<void> _performVideoExport(BuildContext context, VideoExportOptions options) async {
     final controller = context.read<FractalController>();
     final l10n = AppLocalizations.of(context)!;
-    final size = MediaQuery.of(context).size;
-    final previousTransparency = controller.transparentBackground;
-    
+
     setState(() {
       _exporting = true;
       _exportProgress = 0;
     });
-    
+
+    final videoService = const VideoExportService();
+    final startView = controller.view;
+    final startParams = Map<String, Object>.from(controller.params);
+
+    try {
+      final result = await videoService.exportVideo(
+        options: options,
+        startView: startView,
+        startParams: startParams,
+        fractalType: controller.module.id,
+        updateView: (view, params) {
+          // Update the fractal controller to the new view/params
+          controller.updateZoom(view.zoom);
+          controller.updatePan(view.pan);
+          controller.updateRotation(view.rotation);
+          if (params != null) {
+            for (final entry in params.entries) {
+              controller.updateParam(entry.key, entry.value);
+            }
+          }
+        },
+        captureFrame: () async {
+          // Wait for the frame to render
+          await Future.delayed(const Duration(milliseconds: 50));
+          return await videoService.captureWidget(_activeBoundaryKey(), pixelRatio: 2.0);
+        },
+        onProgress: (progress, status) {
+          if (mounted) {
+            setState(() {
+              _exportProgress = progress;
+            });
+          }
+        },
+      );
+
+      // Restore original view and params
+      controller.updateZoom(startView.zoom);
+      controller.updatePan(startView.pan);
+      controller.updateRotation(startView.rotation);
+      for (final entry in startParams.entries) {
+        controller.updateParam(entry.key, entry.value);
+      }
+
+      if (mounted) {
+        // Share the video file
+        await _exportService.shareFile(result.file, text: l10n.videoExportTitle);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle_rounded, color: AppColors.success),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(l10n.videoExportComplete),
+                      Text(
+                        '${result.resolution} • ${result.format.displayName} • ${result.formattedSize}',
+                        style: AppTypography.bodySmall.copyWith(
+                          color: Colors.white.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    } catch (e) {
+      // Restore original view and params on error
+      controller.updateZoom(startView.zoom);
+      controller.updatePan(startView.pan);
+      controller.updateRotation(startView.rotation);
+      for (final entry in startParams.entries) {
+        controller.updateParam(entry.key, entry.value);
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.videoExportFailed(e.toString())),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _exporting = false;
+          _exportProgress = null;
+        });
+      }
+    }
+  }
+
+  Future<void> _applyWallpaper(BuildContext context, WallpaperOptions options) async {
+    final controller = context.read<FractalController>();
+    final l10n = AppLocalizations.of(context)!;
+    final mq = MediaQuery.of(context);
+    final size = mq.size;
+    final dpr = mq.devicePixelRatio;
+
+    setState(() {
+      _exporting = true;
+      _exportProgress = 0;
+    });
+
+    try {
+      // Export at *physical* device resolution.
+      final exportOptions = ExportOptions(
+        format: ExportFormat.png,
+        resolution: ExportResolution.custom,
+        customWidth: (size.width * dpr).round(),
+        customHeight: (size.height * dpr).round(),
+        embedMetadata: false,
+      );
+
+      final bytes = await _exportService.captureWithOptions(
+        _activeBoundaryKey(),
+        options: exportOptions,
+        screenWidth: size.width,
+        screenHeight: size.height,
+        onProgress: (p) {
+          if (!mounted) return;
+          // Keep within the same overlay UI used for export.
+          setState(() => _exportProgress = p * 0.9);
+        },
+      );
+
+      final styledBytes = _exportService.applyWallpaperStyle(
+        bytes,
+        style: options.style.name,
+      );
+
+      // Apply wallpaper (Android) or save to Photos (iOS).
+      final ok = await _wallpaperService.setWallpaper(
+        styledBytes,
+        target: options.target,
+      );
+
+      if (options.saveCopy) {
+        final filename = _exportService.generateFilename(
+          prefix: 'wallpaper',
+          format: ExportFormat.png,
+          fractalType: controller.module.id,
+        );
+        final file = await _exportService.saveBytes(styledBytes, filename: filename);
+        // Count saved wallpaper copy as a screenshot/export.
+        context.read<ExplorationStatsService?>()?.recordScreenshot();
+        // Best-effort share sheet so users can move it to Files/Photos.
+        await _exportService.shareFile(file, text: l10n.wallpaperTitle);
+      }
+
+      if (mounted) {
+        await HapticService.heavy();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(ok ? l10n.wallpaperApplied : l10n.wallpaperFailed),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.wallpaperFailedWithError(e.toString())),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _exporting = false;
+          _exportProgress = null;
+        });
+      }
+    }
+  }
+
+  Future<void> _performExport(BuildContext context, ExportOptions options) async {
+    final controller = _activeController(context);
+    final boundaryKey = _activeBoundaryKey();
+    final l10n = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
+    final previousTransparency = controller.transparentBackground;
+
+    setState(() {
+      _exporting = true;
+      _exportProgress = 0;
+    });
+
     try {
       // Set transparency if requested
       if (options.transparentBackground) {
@@ -351,7 +825,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
       // Perform the export
       final result = await _exportService.exportWithOptions(
-        _fractalKey,
+        boundaryKey,
         options: options,
         screenWidth: size.width,
         screenHeight: size.height,
@@ -367,9 +841,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       );
 
       if (mounted) {
+        // Heavy haptic feedback on export complete
+        await HapticService.heavy();
+
+        // Count as a screenshot/export
+        context.read<ExplorationStatsService?>()?.recordScreenshot();
+
         // Share the file
         await _exportService.shareFile(result.file, text: l10n.exportTitle);
-        
+
         // Show success message with details
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -421,13 +901,272 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 }
 
+class _CompareRenderer extends StatelessWidget {
+  final GlobalKey keyA;
+  final GlobalKey keyB;
+  final FractalController controllerB;
+  final bool sliderMode;
+  final double divider;
+  final int activePane;
+  final ValueChanged<double> onDividerChanged;
+  final ValueChanged<int> onActivePaneChanged;
+  final VoidCallback onOpenControls;
+  final VoidCallback onOpenPresets;
+  final VoidCallback onOpenExport;
+
+  const _CompareRenderer({
+    required this.keyA,
+    required this.keyB,
+    required this.controllerB,
+    required this.sliderMode,
+    required this.divider,
+    required this.activePane,
+    required this.onDividerChanged,
+    required this.onActivePaneChanged,
+    required this.onOpenControls,
+    required this.onOpenPresets,
+    required this.onOpenExport,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final a = context.read<FractalController>();
+
+    Widget paneA = _ComparePane(
+      isActive: activePane == 0,
+      label: 'A',
+      onTap: () => onOpenPane(0),
+      child: ChangeNotifierProvider.value(
+        value: a,
+        child: FractalRenderer(
+          boundaryKey: keyA,
+          gesturesEnabled: activePane == 0,
+          onOpenControls: onOpenControls,
+          onOpenPresets: onOpenPresets,
+          onOpenExport: onOpenExport,
+        ),
+      ),
+    );
+
+    Widget paneB = _ComparePane(
+      isActive: activePane == 1,
+      label: 'B',
+      onTap: () => onOpenPane(1),
+      child: ChangeNotifierProvider.value(
+        value: controllerB,
+        child: FractalRenderer(
+          boundaryKey: keyB,
+          gesturesEnabled: activePane == 1,
+          onOpenControls: onOpenControls,
+          onOpenPresets: onOpenPresets,
+          onOpenExport: onOpenExport,
+        ),
+      ),
+    );
+
+    if (!sliderMode) {
+      return Row(
+        children: [
+          Expanded(child: paneA),
+          Container(width: 1, color: AppColors.surfaceVariant.withValues(alpha: 0.6)),
+          Expanded(child: paneB),
+        ],
+      );
+    }
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final clamped = divider.clamp(0.05, 0.95);
+        final x = width * clamped;
+
+        return Stack(
+          children: [
+            Positioned.fill(child: paneA),
+            Positioned.fill(
+              child: ClipRect(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  widthFactor: 1.0 - clamped,
+                  child: paneB,
+                ),
+              ),
+            ),
+            Positioned(
+              left: x - 18,
+              top: 0,
+              bottom: 0,
+              width: 36,
+              child: _CompareDividerHandle(
+                onDrag: (dx) {
+                  final next = (x + dx) / width;
+                  onDividerChanged(next.clamp(0.05, 0.95));
+                },
+                onTapLeft: () => onOpenPane(0),
+                onTapRight: () => onOpenPane(1),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void onOpenPane(int pane) {
+    onActivePaneChanged(pane);
+  }
+}
+
+class _ComparePane extends StatelessWidget {
+  final Widget child;
+  final bool isActive;
+  final String label;
+  final VoidCallback onTap;
+
+  const _ComparePane({
+    required this.child,
+    required this.isActive,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Stack(
+        children: [
+          Positioned.fill(child: child),
+          Positioned(
+            left: 12,
+            top: MediaQuery.of(context).padding.top + 12,
+            child: AnimatedContainer(
+              duration: AppAnimations.fast,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: (isActive ? AppColors.primary : AppColors.surfaceVariant)
+                    .withValues(alpha: 0.65),
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: isActive ? 0.35 : 0.15),
+                ),
+              ),
+              child: Text(
+                label,
+                style: AppTypography.labelLarge.copyWith(
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ),
+          ),
+          if (isActive)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.primary.withValues(alpha: 0.35),
+                      width: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CompareDividerHandle extends StatelessWidget {
+  final ValueChanged<double> onDrag;
+  final VoidCallback onTapLeft;
+  final VoidCallback onTapRight;
+
+  const _CompareDividerHandle({
+    required this.onDrag,
+    required this.onTapLeft,
+    required this.onTapRight,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onHorizontalDragUpdate: (d) => onDrag(d.delta.dx),
+      onTapUp: (details) {
+        final localX = details.localPosition.dx;
+        if (localX < 18) {
+          onTapLeft();
+        } else {
+          onTapRight();
+        }
+      },
+      child: Center(
+        child: Container(
+          width: 28,
+          height: 64,
+          decoration: BoxDecoration(
+            color: AppColors.surfaceVariant.withValues(alpha: 0.75),
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.35),
+                blurRadius: 14,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: const Icon(Icons.drag_handle_rounded, color: AppColors.textPrimary),
+        ),
+      ),
+    );
+  }
+}
+
+class _AppBarIconButton extends StatelessWidget {
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+
+  const _AppBarIconButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColors.surfaceVariant.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon, size: 20, color: AppColors.textPrimary),
+        ),
+      ),
+    );
+  }
+}
+
 class _PremiumViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback onBack;
+  final List<Widget> actions;
 
   const _PremiumViewerAppBar({
     required this.title,
     required this.onBack,
+    this.actions = const [],
   });
 
   @override
@@ -467,6 +1206,11 @@ class _PremiumViewerAppBar extends StatelessWidget implements PreferredSizeWidge
                       ),
                     ),
                   ),
+                  if (actions.isNotEmpty) ...[
+                    const SizedBox(width: AppSpacing.sm),
+                    ...actions,
+                    const SizedBox(width: AppSpacing.xs),
+                  ],
                 ],
               ),
             ),
@@ -512,7 +1256,10 @@ class _AnimatedBackButtonState extends State<_AnimatedBackButton>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
+      onTapDown: (_) {
+        _controller.forward();
+        HapticService.medium();
+      },
       onTapUp: (_) => _controller.reverse(),
       onTapCancel: () => _controller.reverse(),
       onTap: widget.onPressed,
@@ -596,6 +1343,7 @@ class _FloatingActionButtonState extends State<_FloatingActionButton>
             onTapDown: (widget.onPressed != null && !reduceMotion) ? (_) {
               setState(() => _isPressed = true);
               _controller.forward();
+              HapticService.medium();
             } : null,
             onTapUp: (widget.onPressed != null && !reduceMotion) ? (_) {
               setState(() => _isPressed = false);
@@ -606,7 +1354,7 @@ class _FloatingActionButtonState extends State<_FloatingActionButton>
               _controller.reverse();
             } : null,
             onTap: widget.onPressed,
-            child: reduceMotion 
+            child: reduceMotion
                 ? _buildButtonContent()
                 : ScaleTransition(
                     scale: _scaleAnimation,
@@ -913,7 +1661,10 @@ class _ShareButtonState extends State<_ShareButton>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
+      onTapDown: (_) {
+        _controller.forward();
+        HapticService.medium();
+      },
       onTapUp: (_) => _controller.reverse(),
       onTapCancel: () => _controller.reverse(),
       onTap: widget.onPressed,

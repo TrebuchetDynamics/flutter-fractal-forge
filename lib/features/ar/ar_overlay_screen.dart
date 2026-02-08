@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/ar_export_service.dart';
 import 'package:flutter_fractals/core/services/ar_video_exporter.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -125,10 +127,24 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
 
   bool _previousTransparency = false;
 
+  // Exploration stats tracking
+  ExplorationStatsService? _statsService;
+  DateTime? _sessionStart;
+  double? _lastZoom;
+  String? _lastModuleId;
+
   @override
   void initState() {
     super.initState();
     _fractalController = context.read<FractalController>();
+    _statsService = context.read<ExplorationStatsService?>();
+    _sessionStart = DateTime.now();
+
+    _lastZoom = _fractalController.view.zoom;
+    _lastModuleId = _fractalController.module.id;
+    _statsService?.recordFractalExplored(_fractalController.module.id);
+    _fractalController.addListener(_onFractalChanged);
+
     _qualityPreset = context.read<ArQualityStore>().getPreset();
     _initCamera();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -221,6 +237,18 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
   @override
   void dispose() {
     dev.log('dispose: tearing down AR screen', name: 'FF.AR');
+
+    try {
+      _fractalController.removeListener(_onFractalChanged);
+    } catch (_) {
+      // ignore
+    }
+
+    final start = _sessionStart;
+    if (start != null) {
+      _statsService?.addExploreTime(DateTime.now().difference(start));
+    }
+
     try {
       _cameraController?.dispose();
     } catch (e, st) {
@@ -237,6 +265,23 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
           name: 'FF.AR', error: e, stackTrace: st);
     }
     super.dispose();
+  }
+
+  void _onFractalChanged() {
+    // Zoom distance: sum abs(log(new/old))
+    final prevZoom = _lastZoom;
+    final currentZoom = _fractalController.view.zoom;
+    if (prevZoom != null && prevZoom > 0 && currentZoom > 0 && prevZoom != currentZoom) {
+      final delta = (math.log(currentZoom / prevZoom)).abs();
+      _statsService?.addZoomDistance(delta);
+      _lastZoom = currentZoom;
+    }
+
+    final id = _fractalController.module.id;
+    if (_lastModuleId != id) {
+      _lastModuleId = id;
+      _statsService?.recordFractalExplored(id);
+    }
   }
 
   @override
@@ -529,6 +574,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         bytes,
         filename: 'ar_overlay_${DateTime.now().millisecondsSinceEpoch}.png',
       );
+      context.read<ExplorationStatsService?>()?.recordScreenshot();
       await _exportService.shareFile(file, text: l10n.arOverlayOnlyExport);
     } catch (e) {
       if (mounted) {
@@ -578,6 +624,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         overlayPng: overlayBytes,
         filename: 'ar_baked_${DateTime.now().millisecondsSinceEpoch}.png',
       );
+      context.read<ExplorationStatsService?>()?.recordScreenshot();
       await _exportService.shareFile(file, text: l10n.arBakedScreenshotExport);
     } catch (e) {
       if (mounted) {
