@@ -90,6 +90,7 @@ flutter:
     - shaders/mandelbrot.frag
     - shaders/julia.frag
     - shaders/burning_ship.frag
+    - shaders/phoenix.frag
 
   # To add assets to your application, add an assets section, like this:
   # assets:

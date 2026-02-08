@@ -2,7 +2,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-// import 'package:flutter_fractals/l10n/app_localizations.dart'; // unused
+import 'package:vector_math/vector_math.dart';
 
 FractalModule buildMandelbrotModule() {
   final parameters = [
@@ -64,23 +64,110 @@ FractalModule buildMandelbrotModule() {
     defaultPreset: defaultPreset,
     builtInPresets: [
       defaultPreset.copyWith(id: 'mandelbrot-classic', name: 'Classic'),
+      // Seahorse Valley - famous zoom location with spiraling tentacles
       defaultPreset.copyWith(
-        id: 'mandelbrot-soft',
-        name: 'Soft Glow',
+        id: 'mandelbrot-seahorse',
+        name: 'Seahorse Valley',
         params: {
-          'iterations': 220,
-          'bailout': 5.0,
-          'colorScheme': 1,
+          'iterations': 350,
+          'bailout': 4.0,
+          'colorScheme': 1, // Ocean
         },
+        view: FractalViewState(
+          pan: Vector2(-0.747, 0.1),
+          zoom: 25.0,
+          rotation: Vector3.zero(),
+        ),
       ),
+      // Elephant Valley - trunk-like spirals
       defaultPreset.copyWith(
-        id: 'mandelbrot-psy',
-        name: 'Psychedelic',
+        id: 'mandelbrot-elephant',
+        name: 'Elephant Valley',
         params: {
-          'iterations': 260,
-          'bailout': 3.5,
-          'colorScheme': 2,
+          'iterations': 300,
+          'bailout': 4.0,
+          'colorScheme': 0, // Fire
         },
+        view: FractalViewState(
+          pan: Vector2(0.275, 0.0),
+          zoom: 15.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Deep Spiral - mesmerizing spiral patterns
+      defaultPreset.copyWith(
+        id: 'mandelbrot-spiral',
+        name: 'Deep Spiral',
+        params: {
+          'iterations': 400,
+          'bailout': 4.0,
+          'colorScheme': 2, // Psychedelic
+        },
+        view: FractalViewState(
+          pan: Vector2(-0.743643887037158, 0.131825904205330),
+          zoom: 500.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Lightning Strike - high contrast jagged edges
+      defaultPreset.copyWith(
+        id: 'mandelbrot-lightning',
+        name: 'Lightning Strike',
+        params: {
+          'iterations': 280,
+          'bailout': 3.0,
+          'colorScheme': 3, // Grayscale
+        },
+        view: FractalViewState(
+          pan: Vector2(-0.1011, 0.9563),
+          zoom: 80.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Mini Mandelbrot - small copy deep in the set
+      defaultPreset.copyWith(
+        id: 'mandelbrot-mini',
+        name: 'Mini Mandelbrot',
+        params: {
+          'iterations': 450,
+          'bailout': 4.0,
+          'colorScheme': 0, // Fire
+        },
+        view: FractalViewState(
+          pan: Vector2(-1.7497591451303785, 0.0),
+          zoom: 200.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Aurora Borealis - soft flowing colors
+      defaultPreset.copyWith(
+        id: 'mandelbrot-aurora',
+        name: 'Aurora Borealis',
+        params: {
+          'iterations': 200,
+          'bailout': 6.0,
+          'colorScheme': 1, // Ocean
+        },
+        view: FractalViewState(
+          pan: Vector2(-0.5, 0.0),
+          zoom: 1.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Cosmic Web - intricate web-like structures
+      defaultPreset.copyWith(
+        id: 'mandelbrot-cosmic',
+        name: 'Cosmic Web',
+        params: {
+          'iterations': 380,
+          'bailout': 4.5,
+          'colorScheme': 2, // Psychedelic
+        },
+        view: FractalViewState(
+          pan: Vector2(-0.16, 1.0405),
+          zoom: 150.0,
+          rotation: Vector3.zero(),
+        ),
       ),
     ],
     setUniforms: (shader, state, size, time) {

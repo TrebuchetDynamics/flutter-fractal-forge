@@ -1,5 +1,7 @@
 #include <flutter/runtime_effect.glsl>
 
+precision highp float;
+
 uniform float uTime;
 uniform vec2 uResolution;
 uniform vec2 uMousePos;
@@ -15,314 +17,277 @@ uniform float uTransparentBg;
 
 out vec4 fragColor;
 
-// Rotation matrices
-mat3 rotateX(float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
+// Precomputed rotation matrix (computed once in main)
+mat3 gRotation;
+
+// Combined rotation matrix - more efficient than 3 separate matrices
+mat3 rotationMatrix(vec3 angles) {
+    float cx = cos(angles.x), sx = sin(angles.x);
+    float cy = cos(angles.y), sy = sin(angles.y);
+    float cz = cos(angles.z), sz = sin(angles.z);
+    
     return mat3(
-        1.0, 0.0, 0.0,
-        0.0, c, -s,
-        0.0, s, c
+        cy * cz, sx * sy * cz - cx * sz, cx * sy * cz + sx * sz,
+        cy * sz, sx * sy * sz + cx * cz, cx * sy * sz - sx * cz,
+        -sy, sx * cy, cx * cy
     );
 }
 
-mat3 rotateY(float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
-    return mat3(
-        c, 0.0, s,
-        0.0, 1.0, 0.0,
-        -s, 0.0, c
-    );
-}
-
-mat3 rotateZ(float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
-    return mat3(
-        c, -s, 0.0,
-        s, c, 0.0,
-        0.0, 0.0, 1.0
-    );
-}
-
-// Mandelbulb distance estimation
-float mandelbulbDE(vec3 pos) {
+// Mandelbulb distance estimation - optimized
+float mandelbulbDE(vec3 pos, int maxIter) {
     vec3 z = pos;
     float dr = 1.0;
     float r = 0.0;
-    int iterations = 0;
-    int maxIter = int(uIterations);
     
-    for (int i = 0; i < 100; i++) {
-        iterations = i;
+    for (int i = 0; i < 50; i++) {
         if (i >= maxIter) break;
         
         r = length(z);
         if (r > uBailout) break;
         
-        // Convert to polar coordinates
+        // Spherical coordinates
         float theta = acos(z.z / r);
         float phi = atan(z.y, z.x);
-        dr = pow(r, uPower - 1.0) * uPower * dr + 1.0;
         
-        // Scale and rotate the point
-        float zr = pow(r, uPower);
-        theta = theta * uPower;
-        phi = phi * uPower;
+        // Power derivation
+        float powR = pow(r, uPower - 1.0);
+        dr = powR * uPower * dr + 1.0;
         
-        // Convert back to cartesian coordinates
-        z = zr * vec3(sin(theta) * cos(phi), sin(phi) * sin(theta), cos(theta));
-        z += pos;
+        // Scale and rotate
+        float zr = powR * r;  // r^power
+        theta *= uPower;
+        phi *= uPower;
+        
+        // Back to cartesian
+        float sinTheta = sin(theta);
+        z = zr * vec3(sinTheta * cos(phi), sinTheta * sin(phi), cos(theta)) + pos;
     }
     
     return 0.5 * log(r) * r / dr;
 }
 
-// Mandelbox distance estimation
-float mandelboxDE(vec3 pos) {
+// Mandelbox distance estimation - optimized with reduced branching
+float mandelboxDE(vec3 pos, int maxIter) {
     vec3 z = pos;
     float r = 0.0;
-    int iterations = 0;
-    int maxIter = int(uIterations);
+    float scale = 2.0;
     
-    for (int i = 0; i < 100; i++) {
-        iterations = i;
+    for (int i = 0; i < 50; i++) {
         if (i >= maxIter) break;
         
-        // Box fold
-        if (abs(z.x) > 1.0) z.x = sign(z.x) * (2.0 - abs(z.x));
-        if (abs(z.y) > 1.0) z.y = sign(z.y) * (2.0 - abs(z.y));
-        if (abs(z.z) > 1.0) z.z = sign(z.z) * (2.0 - abs(z.z));
+        // Box fold - branchless using clamp
+        z = clamp(z, -1.0, 1.0) * 2.0 - z;
         
         // Sphere fold
-        r = length(z);
-        if (r < 0.5) {
-            z = z * 4.0;
-        } else if (r < 1.0) {
-            z = z / (r * r);
-        }
+        r = dot(z, z);
+        // Branchless: if r < 0.25, multiply by 4; if r < 1, divide by r; else keep
+        float factor = max(1.0 / max(r, 0.25), 1.0);
+        factor = min(factor, 4.0);
+        z *= factor;
         
         // Scale and translate
-        z = z * 2.0 + pos;
+        z = z * scale + pos;
         
-        r = length(z);
-        if (r > uBailout) break;
+        if (length(z) > uBailout) break;
     }
     
-    return length(z) * pow(2.0, -float(iterations));
+    return length(z) * pow(scale, -float(maxIter));
 }
 
-// Julia set distance estimation
-float juliaDE(vec3 pos) {
+// 3D Julia distance estimation
+float juliaDE(vec3 pos, int maxIter) {
     vec3 z = pos;
     vec3 c = vec3(0.285, 0.01, 0.0);
     float r = 0.0;
-    int iterations = 0;
-    int maxIter = int(uIterations);
+    float dr = 1.0;
     
-    for (int i = 0; i < 100; i++) {
-        iterations = i;
+    for (int i = 0; i < 50; i++) {
         if (i >= maxIter) break;
         
         r = length(z);
         if (r > uBailout) break;
         
-        // Julia set iteration
+        // Quaternion-like multiplication
         float x = z.x * z.x - z.y * z.y - z.z * z.z + c.x;
         float y = 2.0 * z.x * z.y + c.y;
-        float z_coord = 2.0 * z.x * z.z + c.z;
+        float zCoord = 2.0 * z.x * z.z + c.z;
         
-        z = vec3(x, y, z_coord);
+        z = vec3(x, y, zCoord);
+        dr = 2.0 * r * dr + 1.0;
     }
     
-    return 0.5 * log(r) * r / pow(r, float(iterations) * 0.5);
+    return 0.5 * log(r) * r / dr;
 }
 
-// Sierpinski tetrahedron distance estimation
-float sierpinskiDE(vec3 pos) {
+// Sierpinski tetrahedron - optimized vertex selection
+float sierpinskiDE(vec3 pos, int maxIter) {
     vec3 z = pos;
-    int iterations = 0;
-    int maxIter = int(uIterations);
     
-    for (int i = 0; i < 20; i++) {
-        iterations = i;
-        if (i >= maxIter / 3) break;
+    // Precomputed tetrahedron vertices
+    const vec3 v0 = vec3(1.0, 1.0, 1.0);
+    const vec3 v1 = vec3(-1.0, -1.0, 1.0);
+    const vec3 v2 = vec3(-1.0, 1.0, -1.0);
+    const vec3 v3 = vec3(1.0, -1.0, -1.0);
+    
+    float scale = 1.0;
+    int loopLimit = maxIter / 3;
+    
+    for (int i = 0; i < 15; i++) {
+        if (i >= loopLimit) break;
         
-        // Tetrahedron vertices
-        vec3 a1 = vec3(1.0, 1.0, 1.0);
-        vec3 a2 = vec3(-1.0, -1.0, 1.0);
-        vec3 a3 = vec3(-1.0, 1.0, -1.0);
-        vec3 a4 = vec3(1.0, -1.0, -1.0);
+        // Find closest vertex using branchless min
+        vec3 closest = v0;
+        float minDist = dot(z - v0, z - v0);
         
-        // Find closest vertex
-        float d1 = dot(z - a1, z - a1);
-        float d2 = dot(z - a2, z - a2);
-        float d3 = dot(z - a3, z - a3);
-        float d4 = dot(z - a4, z - a4);
+        float d1 = dot(z - v1, z - v1);
+        float d2 = dot(z - v2, z - v2);
+        float d3 = dot(z - v3, z - v3);
         
-        vec3 closest = a1;
-        float minDist = d1;
-        
-        if (d2 < minDist) {
-            minDist = d2;
-            closest = a2;
-        }
-        if (d3 < minDist) {
-            minDist = d3;
-            closest = a3;
-        }
-        if (d4 < minDist) {
-            minDist = d4;
-            closest = a4;
-        }
+        // Branchless closest selection
+        closest = mix(closest, v1, step(d1, minDist));
+        minDist = min(minDist, d1);
+        closest = mix(closest, v2, step(d2, minDist));
+        minDist = min(minDist, d2);
+        closest = mix(closest, v3, step(d3, minDist));
         
         z = z * 2.0 - closest;
+        scale *= 0.5;
     }
     
-    return length(z) * pow(2.0, -float(iterations));
+    return length(z) * scale;
 }
 
-// Main distance estimation function
+// Distance function dispatcher - optimized with step-based blending
 float getDistance(vec3 pos) {
+    int maxIter = int(uIterations);
     int type = int(uFractalType);
-    if (type == 0) {
-        return mandelbulbDE(pos);
-    } else if (type == 1) {
-        return mandelboxDE(pos);
-    } else if (type == 2) {
-        return juliaDE(pos);
-    } else if (type == 3) {
-        return sierpinskiDE(pos);
-    }
-    return mandelbulbDE(pos);
+    
+    // For simple cases, use direct selection (most common path)
+    if (type == 0) return mandelbulbDE(pos, maxIter);
+    if (type == 1) return mandelboxDE(pos, maxIter);
+    if (type == 2) return juliaDE(pos, maxIter);
+    return sierpinskiDE(pos, maxIter);
 }
 
-struct Hit {
-    bool hit;
-    float distance;
-    vec3 position;
-    vec3 normal;
-    int iterations;
-};
-
-// Raymarching
-Hit rayMarch(vec3 origin, vec3 direction) {
+// Raymarching with LOD and adaptive step
+vec4 rayMarch(vec3 origin, vec3 direction) {
     float totalDistance = 0.0;
     int iterations = 0;
-    int maxSteps = int(uSteps);
-    if (maxSteps < 1) {
-        maxSteps = 1;
-    }
+    
+    // LOD: Fewer steps when zoomed out
+    float lodFactor = clamp(uZoom * 0.5, 0.5, 1.0);
+    // SkSL doesn't support max(int, int), use float version
+    float fMaxSteps = max(uSteps * lodFactor, 10.0);
+    int maxSteps = int(fMaxSteps);
+    
+    // Adaptive minimum distance based on zoom
+    float minDist = 0.001 / max(uZoom, 0.1);
     
     vec3 pos = origin;
     
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 150; i++) {
+        if (i >= maxSteps) break;
+        
         iterations = i;
-        if (i >= maxSteps) {
-            break;
-        }
         pos = origin + totalDistance * direction;
         float distance = getDistance(pos);
         
-        if (distance < 0.001) {
-            // Calculate normal
-            vec2 epsilon = vec2(0.001, 0.0);
-            vec3 normal = normalize(vec3(
-                getDistance(pos + epsilon.xyy) - getDistance(pos - epsilon.xyy),
-                getDistance(pos + epsilon.yxy) - getDistance(pos - epsilon.yxy),
-                getDistance(pos + epsilon.yyx) - getDistance(pos - epsilon.yyx)
-            ));
-            
-            return Hit(true, totalDistance, pos, normal, iterations);
+        if (distance < minDist) {
+            // Surface hit - return position and iteration data
+            return vec4(pos, float(iterations));
         }
         
-        totalDistance += distance;
+        // Adaptive step: larger steps when far from surface
+        totalDistance += distance * 0.9;  // Slightly conservative for safety
+        
         if (totalDistance > 20.0) break;
     }
     
-    return Hit(false, totalDistance, vec3(0.0), vec3(0.0), iterations);
+    return vec4(0.0, 0.0, 0.0, -1.0);  // Miss indicator
 }
 
-// Color schemes
-vec3 getColor(float iterations, vec3 position, vec3 normal) {
-    float t = iterations / uIterations;
-    int scheme = int(uColorScheme);
+// Compute normal using forward differences (4 samples instead of 6)
+vec3 getNormal(vec3 pos) {
+    float eps = 0.001;
+    float d = getDistance(pos);
+    return normalize(vec3(
+        getDistance(pos + vec3(eps, 0.0, 0.0)) - d,
+        getDistance(pos + vec3(0.0, eps, 0.0)) - d,
+        getDistance(pos + vec3(0.0, 0.0, eps)) - d
+    ));
+}
+
+// Branchless color scheme selection
+vec3 getColor(float t, int scheme) {
+    vec3 fire = mix(vec3(0.1, 0.0, 0.0), vec3(1.0, 0.3, 0.0), t);
+    vec3 ocean = mix(vec3(0.0, 0.1, 0.2), vec3(0.0, 0.8, 1.0), t);
+    vec3 psychedelic = vec3(
+        sin(t * 6.28) * 0.5 + 0.5,
+        sin(t * 6.28 + 2.09) * 0.5 + 0.5,
+        sin(t * 6.28 + 4.19) * 0.5 + 0.5
+    );
+    vec3 gray = vec3(t);
     
-    if (scheme == 0) {
-        // Fire colors
-        return mix(vec3(0.1, 0.0, 0.0), vec3(1.0, 0.3, 0.0), t);
-    } else if (scheme == 1) {
-        // Ocean colors
-        return mix(vec3(0.0, 0.1, 0.2), vec3(0.0, 0.8, 1.0), t);
-    } else if (scheme == 2) {
-        // Psychedelic
-        return vec3(sin(t * 6.28), sin(t * 6.28 + 2.09), sin(t * 6.28 + 4.19));
-    } else {
-        // Grayscale
-        return vec3(t);
-    }
+    float s0 = step(1.0, float(scheme));
+    float s1 = step(2.0, float(scheme));
+    float s2 = step(3.0, float(scheme));
+    
+    vec3 result = fire;
+    result = mix(result, ocean, s0 * (1.0 - s1));
+    result = mix(result, psychedelic, s1 * (1.0 - s2));
+    result = mix(result, gray, s2);
+    
+    return result;
 }
 
-// Lighting
+// Optimized lighting with single light source
 vec3 calculateLighting(vec3 position, vec3 normal, vec3 color) {
-    vec3 lightPos = vec3(5.0, 5.0, 5.0);
-    vec3 lightDir = normalize(lightPos - position);
+    vec3 lightDir = normalize(vec3(5.0, 5.0, 5.0) - position);
     vec3 viewDir = normalize(-position);
-    vec3 reflectDir = reflect(-lightDir, normal);
+    vec3 halfDir = normalize(lightDir + viewDir);
     
-    // Ambient
-    float ambient = 0.1;
-    
-    // Diffuse
+    // Combined Blinn-Phong
     float diffuse = max(dot(normal, lightDir), 0.0);
+    float specular = pow(max(dot(normal, halfDir), 0.0), 32.0);
     
-    // Specular
-    float specular = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
-    
-    vec3 lightColor = vec3(1.0);
-    return color * (ambient + diffuse * lightColor + specular * lightColor);
+    return color * (0.1 + diffuse * 0.8 + specular * 0.3);
 }
 
 void main() {
     vec2 fragCoord = FlutterFragCoord().xy;
-    vec2 uv = (fragCoord - 0.5 * uResolution) / uResolution.y;
-    // Fix aspect ratio calculation if needed, but the above centers 0,0 and scales by height
-    // Actually the standard is usually (2.0*fragCoord - uResolution.xy)/uResolution.y
-    // Let's stick to standard normalized coordinates centered at screen
-    
-    uv = (fragCoord - 0.5 * uResolution) * 2.0 / uResolution.y;
+    vec2 uv = (fragCoord - 0.5 * uResolution) * 2.0 / uResolution.y;
 
-    // Camera setup
-    vec3 cameraPos = vec3(0.0, 0.0, 3.0 / uZoom);
-    mat3 rotation = rotateX(uRotation.x) * rotateY(uRotation.y) * rotateZ(uRotation.z);
-    cameraPos = rotation * cameraPos;
+    // Compute rotation matrix once
+    gRotation = rotationMatrix(uRotation);
     
-    vec3 target = vec3(0.0);
-    vec3 forward = normalize(target - cameraPos);
+    // Camera setup
+    vec3 cameraPos = gRotation * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
+    
+    vec3 forward = normalize(-cameraPos);
     vec3 right = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
     vec3 up = cross(forward, right);
     
     vec3 direction = normalize(forward + uv.x * right + uv.y * up);
     
-    Hit hit = rayMarch(cameraPos, direction);
+    vec4 hit = rayMarch(cameraPos, direction);
     
-    if (hit.hit) {
-        vec3 color = getColor(float(hit.iterations), hit.position, hit.normal);
-        color = calculateLighting(hit.position, hit.normal, color);
+    if (hit.w >= 0.0) {
+        // Hit
+        vec3 normal = getNormal(hit.xyz);
+        float t = hit.w / uIterations;
+        vec3 color = getColor(t, int(uColorScheme));
+        color = calculateLighting(hit.xyz, normal, color);
         
-        // Add fog effect
-        float fog = exp(-hit.distance * 0.1);
+        // Distance fog
+        float dist = length(hit.xyz - cameraPos);
+        float fog = exp(-dist * 0.15);
         color = mix(vec3(0.02), color, fog);
+        
         fragColor = vec4(color, 1.0);
     } else {
-        // Background gradient
-        // Use uv.y for gradient
+        // Background
         vec3 bgColor = mix(vec3(0.02), vec3(0.05, 0.05, 0.1), uv.y * 0.5 + 0.5);
-        float alpha = 1.0;
-        if (uTransparentBg > 0.5) {
-            alpha = 0.0;
-        }
+        float alpha = mix(1.0, 0.0, step(0.5, uTransparentBg));
         fragColor = vec4(bgColor, alpha);
     }
 }

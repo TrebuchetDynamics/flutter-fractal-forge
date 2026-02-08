@@ -83,6 +83,73 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportTitle => 'Export';
 
   @override
+  String get exportQuickPresets => 'Quick Presets';
+
+  @override
+  String get exportPresetSocial => 'Social';
+
+  @override
+  String get exportPresetHighQuality => 'High Quality';
+
+  @override
+  String get exportPresetWeb => 'Web';
+
+  @override
+  String get exportPresetTransparent => 'Transparent';
+
+  @override
+  String get exportFormat => 'Format';
+
+  @override
+  String get exportFormatHintPng =>
+      'Lossless quality, supports transparency. Best for editing.';
+
+  @override
+  String get exportFormatHintJpg =>
+      'Smaller file size, great for sharing. No transparency.';
+
+  @override
+  String get exportFormatHintWebp =>
+      'Modern format with excellent compression. Wide support.';
+
+  @override
+  String get exportResolution => 'Resolution';
+
+  @override
+  String get exportWidth => 'Width';
+
+  @override
+  String get exportHeight => 'Height';
+
+  @override
+  String get exportQuality => 'Quality';
+
+  @override
+  String get exportAdvancedOptions => 'Advanced Options';
+
+  @override
+  String get exportTransparentBg => 'Transparent Background';
+
+  @override
+  String get exportTransparentBgHint => 'Remove the background for overlay use';
+
+  @override
+  String get exportEmbedMetadata => 'Embed Metadata';
+
+  @override
+  String get exportEmbedMetadataHint =>
+      'Include fractal parameters in the image file';
+
+  @override
+  String get exportScreenResolution => 'Screen size';
+
+  @override
+  String get exportSummary => 'Export Summary';
+
+  @override
+  String get exportNow => 'Export Now';
+
+  @override
   String get exportPng => 'PNG';
 
   @override
@@ -131,6 +198,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moduleBurningShip => 'Burning Ship';
 
   @override
+  String get modulePhoenix => 'Phoenix';
+
+  @override
   String get moduleMandelbulb => 'Mandelbulb';
 
   @override
@@ -162,6 +232,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paramJuliaCImag => 'Julia C (Imag)';
+
+  @override
+  String get paramPhoenixCReal => 'Phoenix C (Real)';
+
+  @override
+  String get paramPhoenixCImag => 'Phoenix C (Imag)';
+
+  @override
+  String get paramPhoenixP => 'Phoenix P (Memory)';
 
   @override
   String get paramOpacity => 'Opacity';
@@ -248,6 +327,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get colorGrayscale => 'Grayscale';
 
   @override
+  String get colorPhoenix => 'Phoenix';
+
+  @override
   String get fractalTypeMandelbulb => 'Mandelbulb';
 
   @override
@@ -282,4 +364,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get presetDeepBloom => 'Deep Bloom';
+
+  @override
+  String get arStyleNeon => 'Neon';
+
+  @override
+  String get arStyleSoft => 'Soft';
+
+  @override
+  String get arStyleMono => 'Mono';
+
+  @override
+  String get arStyleTitle => 'Style';
+
+  @override
+  String get arShowGrid => 'Grid';
+
+  @override
+  String get arShowOutline => 'Outline';
+
+  @override
+  String get tooltipExpand => 'Expand';
+
+  @override
+  String get tooltipCollapse => 'Collapse';
+
+  @override
+  String get errorOverlayNotReady => 'Overlay not ready';
+
+  @override
+  String get errorCameraNotReady => 'Camera not ready';
+
+  @override
+  String get shaderLoadFailed => 'Failed to load shader';
 }

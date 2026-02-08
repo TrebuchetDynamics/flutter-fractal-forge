@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/ar_quality_store.dart';
+import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/main.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:permission_handler_platform_interface/permission_handler_platform_interface.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class _DenyAllPermissions extends PermissionHandlerPlatform {
+  @override
+  Future<Map<Permission, PermissionStatus>> requestPermissions(List<Permission> permissions) async {
+    return {
+      for (final permission in permissions) permission: PermissionStatus.denied,
+    };
+  }
+
+  @override
+  Future<PermissionStatus> checkPermissionStatus(Permission permission) async {
+    return PermissionStatus.denied;
+  }
+}
+
+void main() {
+  group('HomeScreen via FlutterFractalsApp', () {
+    late PresetStore presetStore;
+    late ArQualityStore arQualityStore;
+
+    setUp(() async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      SharedPreferences.setMockInitialValues({});
+      PermissionHandlerPlatform.instance = _DenyAllPermissions();
+      presetStore = await PresetStore.create();
+      arQualityStore = await ArQualityStore.create();
+    });
+
+    Widget buildTestWidget() {
+      return FlutterFractalsApp(
+        presetStore: presetStore,
+        arQualityStore: arQualityStore,
+        locale: const Locale('en'),
+      );
+    }
+
+    testWidgets('starts with catalog visible', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Fractal Catalog'), findsOneWidget);
+    });
+
+    testWidgets('displays fractal modules in catalog', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Mandelbrot'), findsOneWidget);
+      expect(find.text('Julia'), findsOneWidget);
+    });
+
+    testWidgets('has search field', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
+    });
+
+    testWidgets('has AppBar', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AppBar), findsOneWidget);
+    });
+
+    testWidgets('renders without error', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+    });
+  });
+}

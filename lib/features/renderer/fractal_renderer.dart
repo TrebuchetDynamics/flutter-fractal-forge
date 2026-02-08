@@ -7,10 +7,43 @@ import './providers/fractal_provider.dart';
 import 'fractal_canvas.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+/// A widget that renders fractals using GPU-accelerated shaders.
+///
+/// [FractalRenderer] is the core rendering component of the app. It:
+/// - Loads and compiles GLSL fragment shaders dynamically
+/// - Renders fractals at 60 FPS using [CustomPainter]
+/// - Handles gesture input (pan, zoom, rotate)
+/// - Adapts to the current [FractalController] state
+///
+/// The renderer requires a [FractalController] to be available via Provider.
+/// It automatically loads the appropriate shader when the module changes.
+///
+/// {@category Rendering}
+///
+/// Example:
+/// ```dart
+/// ChangeNotifierProvider.value(
+///   value: myController,
+///   child: FractalRenderer(
+///     boundaryKey: _captureKey,
+///     gesturesEnabled: true,
+///   ),
+/// )
+/// ```
 class FractalRenderer extends StatefulWidget {
+  /// Optional key for a [RepaintBoundary] that wraps the renderer.
+  ///
+  /// When provided, can be used to capture the rendered fractal
+  /// as an image for export or thumbnail generation.
   final GlobalKey? boundaryKey;
+
+  /// Whether gesture input (pan, zoom, rotate) is enabled.
+  ///
+  /// Set to false to display a non-interactive fractal view.
+  /// Defaults to true.
   final bool gesturesEnabled;
 
+  /// Creates a [FractalRenderer] widget.
   const FractalRenderer({
     Key? key,
     this.boundaryKey,

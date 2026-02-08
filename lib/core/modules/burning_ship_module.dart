@@ -2,7 +2,8 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-// import 'package:flutter_fractals/l10n/app_localizations.dart'; // unused
+import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math.dart' hide Colors;
 
 FractalModule buildBurningShipModule() {
   final parameters = [
@@ -64,23 +65,125 @@ FractalModule buildBurningShipModule() {
     defaultPreset: defaultPreset,
     builtInPresets: [
       defaultPreset.copyWith(id: 'burning-ship-classic', name: 'Classic'),
+      // The Ship - centered view of the iconic ship shape
       defaultPreset.copyWith(
-        id: 'burning-ship-embers',
-        name: 'Embers',
+        id: 'burning-ship-vessel',
+        name: 'The Vessel',
         params: {
-          'iterations': 260,
-          'bailout': 4.5,
-          'colorScheme': 1,
+          'iterations': 300,
+          'bailout': 4.0,
+          'colorScheme': 0, // Fire
         },
+        view: FractalViewState(
+          pan: Vector2(-0.5, -0.5),
+          zoom: 1.5,
+          rotation: Vector3.zero(),
+        ),
       ),
+      // Armada - fleet of small ships in the fractal
       defaultPreset.copyWith(
-        id: 'burning-ship-ashen',
-        name: 'Ashen',
+        id: 'burning-ship-armada',
+        name: 'Armada',
+        params: {
+          'iterations': 380,
+          'bailout': 4.0,
+          'colorScheme': 1, // Ocean
+        },
+        view: FractalViewState(
+          pan: Vector2(-1.762, -0.028),
+          zoom: 100.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Inferno Core - deep zoom into the flames
+      defaultPreset.copyWith(
+        id: 'burning-ship-inferno',
+        name: 'Inferno Core',
+        params: {
+          'iterations': 400,
+          'bailout': 4.5,
+          'colorScheme': 0, // Fire
+        },
+        view: FractalViewState(
+          pan: Vector2(-1.8619, -0.0006),
+          zoom: 500.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Ghost Ship - ethereal grayscale version
+      defaultPreset.copyWith(
+        id: 'burning-ship-ghost',
+        name: 'Ghost Ship',
+        params: {
+          'iterations': 350,
+          'bailout': 4.0,
+          'colorScheme': 3, // Grayscale
+        },
+        view: FractalViewState(
+          pan: Vector2(-0.5, -0.5),
+          zoom: 2.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Mast & Rigging - intricate details at the mast area
+      defaultPreset.copyWith(
+        id: 'burning-ship-mast',
+        name: 'Mast & Rigging',
         params: {
           'iterations': 320,
           'bailout': 4.0,
-          'colorScheme': 3,
+          'colorScheme': 2, // Psychedelic
         },
+        view: FractalViewState(
+          pan: Vector2(-1.755, -0.035),
+          zoom: 50.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Volcanic Ash - dark moody tones
+      defaultPreset.copyWith(
+        id: 'burning-ship-volcanic',
+        name: 'Volcanic Ash',
+        params: {
+          'iterations': 280,
+          'bailout': 3.5,
+          'colorScheme': 3, // Grayscale
+        },
+        view: FractalViewState(
+          pan: Vector2(-1.8, -0.01),
+          zoom: 30.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Neon Voyage - vibrant psychedelic ship
+      defaultPreset.copyWith(
+        id: 'burning-ship-neon',
+        name: 'Neon Voyage',
+        params: {
+          'iterations': 300,
+          'bailout': 5.0,
+          'colorScheme': 2, // Psychedelic
+        },
+        view: FractalViewState(
+          pan: Vector2(-0.5, -0.5),
+          zoom: 1.8,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Deep Sea Wreck - ocean-colored deep zoom
+      defaultPreset.copyWith(
+        id: 'burning-ship-wreck',
+        name: 'Deep Sea Wreck',
+        params: {
+          'iterations': 420,
+          'bailout': 4.0,
+          'colorScheme': 1, // Ocean
+        },
+        view: FractalViewState(
+          pan: Vector2(-1.7572, -0.0282),
+          zoom: 200.0,
+          rotation: Vector3.zero(),
+        ),
       ),
     ],
     setUniforms: (shader, state, size, time) {

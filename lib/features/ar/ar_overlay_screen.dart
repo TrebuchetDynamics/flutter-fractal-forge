@@ -22,14 +22,14 @@ enum ArOverlayStylePreset {
 }
 
 extension on ArOverlayStylePreset {
-  String label() {
+  String label(AppLocalizations l10n) {
     switch (this) {
       case ArOverlayStylePreset.neon:
-        return 'Neon';
+        return l10n.arStyleNeon;
       case ArOverlayStylePreset.soft:
-        return 'Soft';
+        return l10n.arStyleSoft;
       case ArOverlayStylePreset.mono:
-        return 'Mono';
+        return l10n.arStyleMono;
     }
   }
 
@@ -512,7 +512,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     if (_overlayKey.currentContext == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.exportFailed('Overlay not ready'))),
+          SnackBar(content: Text(l10n.exportFailed(l10n.errorOverlayNotReady))),
         );
       }
       return;
@@ -552,7 +552,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     if (cam == null || !cam.value.isInitialized) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.exportFailed('Camera not ready'))),
+          SnackBar(content: Text(l10n.exportFailed(l10n.errorCameraNotReady))),
         );
       }
       return;
@@ -560,7 +560,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     if (_overlayKey.currentContext == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.exportFailed('Overlay not ready'))),
+          SnackBar(content: Text(l10n.exportFailed(l10n.errorOverlayNotReady))),
         );
       }
       return;
@@ -601,7 +601,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     if (cam == null || !cam.value.isInitialized) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.exportFailed('Camera not ready'))),
+          SnackBar(content: Text(l10n.exportFailed(l10n.errorCameraNotReady))),
         );
       }
       return;
@@ -609,7 +609,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     if (_overlayKey.currentContext == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.exportFailed('Overlay not ready'))),
+          SnackBar(content: Text(l10n.exportFailed(l10n.errorOverlayNotReady))),
         );
       }
       return;
@@ -920,7 +920,7 @@ class _ArControlsPanel extends StatelessWidget {
           child: Row(
             children: [
               IconButton(
-                tooltip: 'Expand',
+                tooltip: l10n.tooltipExpand,
                 onPressed: () => onCollapsedChanged(false),
                 icon: const Icon(Icons.expand_less),
               ),
@@ -961,7 +961,7 @@ class _ArControlsPanel extends StatelessWidget {
                 children: [
                   Expanded(child: Text(l10n.arTitle)),
                   IconButton(
-                    tooltip: 'Collapse',
+                    tooltip: l10n.tooltipCollapse,
                     onPressed: () => onCollapsedChanged(true),
                     icon: const Icon(Icons.expand_more),
                   ),
@@ -1004,27 +1004,27 @@ class _ArControlsPanel extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
               ),
               SwitchListTile(
-                title: const Text('Grid'),
+                title: Text(l10n.arShowGrid),
                 value: showGrid,
                 onChanged: onGridChanged,
                 dense: true,
                 contentPadding: EdgeInsets.zero,
               ),
               SwitchListTile(
-                title: const Text('Outline'),
+                title: Text(l10n.arShowOutline),
                 value: showOutline,
                 onChanged: onOutlineChanged,
                 dense: true,
                 contentPadding: EdgeInsets.zero,
               ),
               const SizedBox(height: 8),
-              const Text('Style'),
+              Text(l10n.arStyleTitle),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
                 children: ArOverlayStylePreset.values.map((preset) {
                   return ChoiceChip(
-                    label: Text(preset.label()),
+                    label: Text(preset.label(l10n)),
                     selected: preset == stylePreset,
                     onSelected: (_) => onStyleChanged(preset),
                   );

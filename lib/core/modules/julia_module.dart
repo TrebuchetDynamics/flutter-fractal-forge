@@ -2,7 +2,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-// import 'package:flutter_fractals/l10n/app_localizations.dart'; // unused
+import 'package:vector_math/vector_math.dart';
 
 FractalModule buildJuliaModule() {
   final parameters = [
@@ -84,27 +84,141 @@ FractalModule buildJuliaModule() {
     defaultPreset: defaultPreset,
     builtInPresets: [
       defaultPreset.copyWith(id: 'julia-classic', name: 'Classic'),
+      // Dendrite - branching lightning patterns
       defaultPreset.copyWith(
-        id: 'julia-electric',
-        name: 'Electric',
+        id: 'julia-dendrite',
+        name: 'Dendrite',
+        params: {
+          'iterations': 280,
+          'bailout': 4.0,
+          'colorScheme': 3, // Grayscale
+          'juliaCReal': 0.0,
+          'juliaCImag': 1.0,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.2,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Spiral Galaxy - beautiful spiral arms
+      defaultPreset.copyWith(
+        id: 'julia-galaxy',
+        name: 'Spiral Galaxy',
+        params: {
+          'iterations': 300,
+          'bailout': 4.0,
+          'colorScheme': 2, // Psychedelic
+          'juliaCReal': -0.7269,
+          'juliaCImag': 0.1889,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.5,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Dragon's Breath - fiery swirling patterns
+      defaultPreset.copyWith(
+        id: 'julia-dragon',
+        name: "Dragon's Breath",
+        params: {
+          'iterations': 250,
+          'bailout': 4.5,
+          'colorScheme': 0, // Fire
+          'juliaCReal': -0.835,
+          'juliaCImag': -0.2321,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.8,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // San Marco - famous Julia set pattern
+      defaultPreset.copyWith(
+        id: 'julia-sanmarco',
+        name: 'San Marco',
+        params: {
+          'iterations': 320,
+          'bailout': 4.0,
+          'colorScheme': 1, // Ocean
+          'juliaCReal': -0.75,
+          'juliaCImag': 0.0,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.4,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Siegel Disk - circular patterns with intricate borders
+      defaultPreset.copyWith(
+        id: 'julia-siegel',
+        name: 'Siegel Disk',
+        params: {
+          'iterations': 350,
+          'bailout': 4.0,
+          'colorScheme': 2, // Psychedelic
+          'juliaCReal': -0.391,
+          'juliaCImag': -0.587,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.6,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Rabbit - resembles a rabbit's silhouette
+      defaultPreset.copyWith(
+        id: 'julia-rabbit',
+        name: 'Douady Rabbit',
+        params: {
+          'iterations': 280,
+          'bailout': 4.0,
+          'colorScheme': 0, // Fire
+          'juliaCReal': -0.123,
+          'juliaCImag': 0.745,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.3,
+          rotation: Vector3.zero(),
+        ),
+      ),
+      // Electric Storm - high energy chaotic patterns
+      defaultPreset.copyWith(
+        id: 'julia-storm',
+        name: 'Electric Storm',
         params: {
           'iterations': 220,
-          'bailout': 4.0,
-          'colorScheme': 2,
+          'bailout': 3.5,
+          'colorScheme': 2, // Psychedelic
           'juliaCReal': -0.4,
           'juliaCImag': 0.6,
         },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 2.0,
+          rotation: Vector3.zero(),
+        ),
       ),
+      // Coral Reef - organic underwater patterns
       defaultPreset.copyWith(
-        id: 'julia-deep',
-        name: 'Deep Sea',
+        id: 'julia-coral',
+        name: 'Coral Reef',
         params: {
-          'iterations': 260,
-          'bailout': 4.0,
-          'colorScheme': 1,
-          'juliaCReal': -0.75,
-          'juliaCImag': -0.05,
+          'iterations': 300,
+          'bailout': 5.0,
+          'colorScheme': 1, // Ocean
+          'juliaCReal': 0.285,
+          'juliaCImag': 0.01,
         },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.5,
+          rotation: Vector3.zero(),
+        ),
       ),
     ],
     setUniforms: (shader, state, size, time) {

@@ -1,0 +1,135 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_fractals/core/models/export_options.dart';
+
+void main() {
+  group('ExportFormat', () {
+    test('extension returns correct file extensions', () {
+      expect(ExportFormat.png.extension, 'png');
+      expect(ExportFormat.jpg.extension, 'jpg');
+      expect(ExportFormat.webp.extension, 'webp');
+    });
+
+    test('mimeType returns correct MIME types', () {
+      expect(ExportFormat.png.mimeType, 'image/png');
+      expect(ExportFormat.jpg.mimeType, 'image/jpeg');
+      expect(ExportFormat.webp.mimeType, 'image/webp');
+    });
+  });
+
+  group('ExportResolution', () {
+    test('dimensions returns correct values for preset resolutions', () {
+      expect(ExportResolution.hd.dimensions, (1280, 720));
+      expect(ExportResolution.fullHd.dimensions, (1920, 1080));
+      expect(ExportResolution.quadHd.dimensions, (2560, 1440));
+      expect(ExportResolution.uhd4k.dimensions, (3840, 2160));
+      expect(ExportResolution.instagram.dimensions, (1080, 1080));
+      expect(ExportResolution.instagramStory.dimensions, (1080, 1920));
+      expect(ExportResolution.twitter.dimensions, (1200, 675));
+    });
+
+    test('screen and custom resolutions return null dimensions', () {
+      expect(ExportResolution.screen.dimensions, isNull);
+      expect(ExportResolution.custom.dimensions, isNull);
+    });
+
+    test('isSocialPreset identifies social presets correctly', () {
+      expect(ExportResolution.instagram.isSocialPreset, isTrue);
+      expect(ExportResolution.instagramStory.isSocialPreset, isTrue);
+      expect(ExportResolution.twitter.isSocialPreset, isTrue);
+      expect(ExportResolution.fullHd.isSocialPreset, isFalse);
+      expect(ExportResolution.uhd4k.isSocialPreset, isFalse);
+    });
+  });
+
+  group('ExportOptions', () {
+    test('default options have sensible values', () {
+      const options = ExportOptions();
+      expect(options.format, ExportFormat.png);
+      expect(options.resolution, ExportResolution.fullHd);
+      expect(options.quality, 95);
+      expect(options.embedMetadata, isTrue);
+      expect(options.transparentBackground, isFalse);
+    });
+
+    test('calculatePixelRatio returns correct ratio for preset resolutions', () {
+      const options = ExportOptions(resolution: ExportResolution.fullHd);
+      // Screen 400x800 -> need ratio 1920/400 = 4.8
+      final ratio = options.calculatePixelRatio(400, 800);
+      expect(ratio, closeTo(4.8, 0.1));
+    });
+
+    test('calculatePixelRatio is clamped to 8.0 max', () {
+      const options = ExportOptions(resolution: ExportResolution.uhd4k);
+      // Screen 100x100 -> would need 38.4 ratio, but clamped to 8
+      final ratio = options.calculatePixelRatio(100, 100);
+      expect(ratio, 8.0);
+    });
+
+    test('getTargetDimensions returns correct dimensions', () {
+      const options = ExportOptions(resolution: ExportResolution.instagram);
+      final dims = options.getTargetDimensions(400, 800);
+      expect(dims, (1080, 1080));
+    });
+
+    test('custom resolution uses customWidth and customHeight', () {
+      const options = ExportOptions(
+        resolution: ExportResolution.custom,
+        customWidth: 2000,
+        customHeight: 1500,
+      );
+      final dims = options.getTargetDimensions(400, 800);
+      expect(dims, (2000, 1500));
+    });
+
+    test('copyWith creates new instance with updated values', () {
+      const original = ExportOptions();
+      final updated = original.copyWith(
+        format: ExportFormat.jpg,
+        quality: 80,
+      );
+      
+      expect(updated.format, ExportFormat.jpg);
+      expect(updated.quality, 80);
+      expect(updated.resolution, original.resolution); // Unchanged
+    });
+  });
+
+  group('ExportMetadata', () {
+    test('toExifMap returns expected keys', () {
+      final metadata = ExportMetadata(
+        fractalType: 'mandelbrot',
+        parameters: {'iterations': 100},
+        createdAt: DateTime(2024, 1, 15),
+      );
+      
+      final exif = metadata.toExifMap();
+      expect(exif, containsPair('Software', contains('Flutter Fractals')));
+      expect(exif, containsPair('Artist', 'Flutter Fractals'));
+      expect(exif, containsPair('UserComment', contains('mandelbrot')));
+    });
+  });
+
+  group('ExportPresets', () {
+    test('socialShare preset has correct settings', () {
+      expect(ExportPresets.socialShare.format, ExportFormat.jpg);
+      expect(ExportPresets.socialShare.resolution, ExportResolution.instagram);
+      expect(ExportPresets.socialShare.quality, 90);
+    });
+
+    test('highQualityPng preset has correct settings', () {
+      expect(ExportPresets.highQualityPng.format, ExportFormat.png);
+      expect(ExportPresets.highQualityPng.resolution, ExportResolution.uhd4k);
+    });
+
+    test('webOptimized preset has correct settings', () {
+      expect(ExportPresets.webOptimized.format, ExportFormat.webp);
+      expect(ExportPresets.webOptimized.resolution, ExportResolution.fullHd);
+      expect(ExportPresets.webOptimized.quality, 85);
+    });
+
+    test('transparentOverlay preset has correct settings', () {
+      expect(ExportPresets.transparentOverlay.format, ExportFormat.png);
+      expect(ExportPresets.transparentOverlay.transparentBackground, isTrue);
+    });
+  });
+}

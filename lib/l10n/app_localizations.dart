@@ -242,6 +242,132 @@ abstract class AppLocalizations {
   /// **'Export'**
   String get exportTitle;
 
+  /// No description provided for @exportQuickPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Presets'**
+  String get exportQuickPresets;
+
+  /// No description provided for @exportPresetSocial.
+  ///
+  /// In en, this message translates to:
+  /// **'Social'**
+  String get exportPresetSocial;
+
+  /// No description provided for @exportPresetHighQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'High Quality'**
+  String get exportPresetHighQuality;
+
+  /// No description provided for @exportPresetWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Web'**
+  String get exportPresetWeb;
+
+  /// No description provided for @exportPresetTransparent.
+  ///
+  /// In en, this message translates to:
+  /// **'Transparent'**
+  String get exportPresetTransparent;
+
+  /// No description provided for @exportFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Format'**
+  String get exportFormat;
+
+  /// No description provided for @exportFormatHintPng.
+  ///
+  /// In en, this message translates to:
+  /// **'Lossless quality, supports transparency. Best for editing.'**
+  String get exportFormatHintPng;
+
+  /// No description provided for @exportFormatHintJpg.
+  ///
+  /// In en, this message translates to:
+  /// **'Smaller file size, great for sharing. No transparency.'**
+  String get exportFormatHintJpg;
+
+  /// No description provided for @exportFormatHintWebp.
+  ///
+  /// In en, this message translates to:
+  /// **'Modern format with excellent compression. Wide support.'**
+  String get exportFormatHintWebp;
+
+  /// No description provided for @exportResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution'**
+  String get exportResolution;
+
+  /// No description provided for @exportWidth.
+  ///
+  /// In en, this message translates to:
+  /// **'Width'**
+  String get exportWidth;
+
+  /// No description provided for @exportHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get exportHeight;
+
+  /// No description provided for @exportQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality'**
+  String get exportQuality;
+
+  /// No description provided for @exportAdvancedOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Options'**
+  String get exportAdvancedOptions;
+
+  /// No description provided for @exportTransparentBg.
+  ///
+  /// In en, this message translates to:
+  /// **'Transparent Background'**
+  String get exportTransparentBg;
+
+  /// No description provided for @exportTransparentBgHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the background for overlay use'**
+  String get exportTransparentBgHint;
+
+  /// No description provided for @exportEmbedMetadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Embed Metadata'**
+  String get exportEmbedMetadata;
+
+  /// No description provided for @exportEmbedMetadataHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Include fractal parameters in the image file'**
+  String get exportEmbedMetadataHint;
+
+  /// No description provided for @exportScreenResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen size'**
+  String get exportScreenResolution;
+
+  /// No description provided for @exportSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Summary'**
+  String get exportSummary;
+
+  /// No description provided for @exportNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Now'**
+  String get exportNow;
+
   /// No description provided for @exportPng.
   ///
   /// In en, this message translates to:
@@ -332,6 +458,12 @@ abstract class AppLocalizations {
   /// **'Burning Ship'**
   String get moduleBurningShip;
 
+  /// No description provided for @modulePhoenix.
+  ///
+  /// In en, this message translates to:
+  /// **'Phoenix'**
+  String get modulePhoenix;
+
   /// No description provided for @moduleMandelbulb.
   ///
   /// In en, this message translates to:
@@ -397,6 +529,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Julia C (Imag)'**
   String get paramJuliaCImag;
+
+  /// No description provided for @paramPhoenixCReal.
+  ///
+  /// In en, this message translates to:
+  /// **'Phoenix C (Real)'**
+  String get paramPhoenixCReal;
+
+  /// No description provided for @paramPhoenixCImag.
+  ///
+  /// In en, this message translates to:
+  /// **'Phoenix C (Imag)'**
+  String get paramPhoenixCImag;
+
+  /// No description provided for @paramPhoenixP.
+  ///
+  /// In en, this message translates to:
+  /// **'Phoenix P (Memory)'**
+  String get paramPhoenixP;
 
   /// No description provided for @paramOpacity.
   ///
@@ -560,6 +710,12 @@ abstract class AppLocalizations {
   /// **'Grayscale'**
   String get colorGrayscale;
 
+  /// No description provided for @colorPhoenix.
+  ///
+  /// In en, this message translates to:
+  /// **'Phoenix'**
+  String get colorPhoenix;
+
   /// No description provided for @fractalTypeMandelbulb.
   ///
   /// In en, this message translates to:
@@ -631,6 +787,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deep Bloom'**
   String get presetDeepBloom;
+
+  /// No description provided for @arStyleNeon.
+  ///
+  /// In en, this message translates to:
+  /// **'Neon'**
+  String get arStyleNeon;
+
+  /// No description provided for @arStyleSoft.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft'**
+  String get arStyleSoft;
+
+  /// No description provided for @arStyleMono.
+  ///
+  /// In en, this message translates to:
+  /// **'Mono'**
+  String get arStyleMono;
+
+  /// No description provided for @arStyleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Style'**
+  String get arStyleTitle;
+
+  /// No description provided for @arShowGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid'**
+  String get arShowGrid;
+
+  /// No description provided for @arShowOutline.
+  ///
+  /// In en, this message translates to:
+  /// **'Outline'**
+  String get arShowOutline;
+
+  /// No description provided for @tooltipExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get tooltipExpand;
+
+  /// No description provided for @tooltipCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get tooltipCollapse;
+
+  /// No description provided for @errorOverlayNotReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Overlay not ready'**
+  String get errorOverlayNotReady;
+
+  /// No description provided for @errorCameraNotReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera not ready'**
+  String get errorCameraNotReady;
+
+  /// No description provided for @shaderLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load shader'**
+  String get shaderLoadFailed;
 }
 
 class _AppLocalizationsDelegate
