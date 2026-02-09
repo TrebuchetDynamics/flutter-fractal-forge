@@ -113,14 +113,28 @@ void main() {
     
     // Mandelbrot iteration
     vec2 z = vec2(0.0);
-    float i;
+    float i = 0.0;
     float bailoutSq = uBailout * uBailout;
-    
-    for (i = 0.0; i < uIterations; i += 1.0) {
+
+    // NOTE: Some Android GPU drivers/compilers (and/or Impeller) behave badly
+    // with non-constant loop bounds. Use a fixed maximum and break.
+    const int MAX_ITERS = 500;
+    for (int j = 0; j < MAX_ITERS; j++) {
+        if (float(j) >= uIterations) {
+            i = uIterations;
+            break;
+        }
+
         // z = z^2 + c
         z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
-        
-        if (dot(z, z) > bailoutSq) break;
+
+        if (dot(z, z) > bailoutSq) {
+            i = float(j);
+            break;
+        }
+
+        // If we never bail out, i will be set to uIterations above.
+        i = float(j) + 1.0;
     }
     
     // Color based on iteration count
