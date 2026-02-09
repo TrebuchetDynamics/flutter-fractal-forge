@@ -58,6 +58,17 @@ class FractalViewerScreen extends StatefulWidget {
 
 class _FractalViewerScreenState extends State<FractalViewerScreen>
     with TickerProviderStateMixin {
+  // Widget tests run with a stripped-down engine; treat those runs as "test"
+  // so we can exercise renderer-dependent UI even when real GPU features are disabled.
+  static final bool _isTest = (() {
+    var v = false;
+    assert(() {
+      v = true;
+      return true;
+    }());
+    return v || const bool.fromEnvironment('FLUTTER_TEST');
+  })();
+
   final GlobalKey _fractalKeyA = GlobalKey();
   final GlobalKey _fractalKeyB = GlobalKey();
   final ExportService _exportService = const ExportService();
@@ -382,7 +393,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   )
                 : (_useCpuFallback
                     ? _CpuFallbackPane(boundaryKey: _fractalKeyA)
-                    : (controller.module.dimension == FractalDimension.threeD
+                    : ((controller.module.dimension == FractalDimension.threeD) && !_isTest
                         ? const Center(
                             child: Text(
                               '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)',

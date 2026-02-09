@@ -239,7 +239,10 @@ class FractalController extends ChangeNotifier {
   /// and disables transparent background. The selected module
   /// remains unchanged.
   void resetSession() {
+    // Reset params to module defaults, but reset the view to the true "initial" view.
+    // (Module default presets may intentionally start at a non-zero pan like -0.5,0.0 for Mandelbrot.)
     _applyPreset(_module.defaultPreset);
+    _view = FractalViewState.initial();
     _transparentBackground = false;
     notifyListeners();
     _logChange('stateChange', 'reset', 'Reset session');

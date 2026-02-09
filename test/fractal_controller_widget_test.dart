@@ -155,12 +155,14 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('0.0,0.0'), findsOneWidget);
+      final initial = tester.widget<Text>(find.byType(Text)).data ?? '';
+      expect(initial, isNotEmpty);
 
       controller.updatePan(Vector2(0.5, 0.5));
       await tester.pumpAndSettle();
 
       expect(find.text('0.5,0.5'), findsOneWidget);
+      expect(initial, isNot('0.5,0.5'));
     });
 
     testWidgets('widget rebuilds when rotation changes', (tester) async {

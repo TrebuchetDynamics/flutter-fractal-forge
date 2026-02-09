@@ -53,6 +53,7 @@ void main() {
     }
 
     testWidgets('Catalog displays fractal modules', (tester) async {
+      _withSemantics(tester);
       await pumpApp(tester);
 
       final moduleCount = moduleCards().evaluate().length;
@@ -63,6 +64,7 @@ void main() {
     });
 
     testWidgets('Navigate to fractal viewer and back', (tester) async {
+      _withSemantics(tester);
       await pumpApp(tester);
 
       // Tap the first module card
@@ -87,6 +89,7 @@ void main() {
     });
 
     testWidgets('Navigate to each fractal module viewer', (tester) async {
+      _withSemantics(tester);
       await pumpApp(tester);
 
       final keys = moduleCards().evaluate().map((e) {
@@ -125,6 +128,7 @@ void main() {
     });
 
     testWidgets('Search filters catalog', (tester) async {
+      _withSemantics(tester);
       await pumpApp(tester);
 
       final searchField = find.byKey(const Key('catalogSearchField'));
@@ -147,6 +151,7 @@ void main() {
     });
 
     testWidgets('Logger captures events correctly', (tester) async {
+      _withSemantics(tester);
       await pumpApp(tester);
 
       // Verify logger captures different event types
