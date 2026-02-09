@@ -3,9 +3,30 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/palette_service.dart';
+import 'package:flutter_fractals/core/shaders/uniform_schema.dart';
 import 'package:vector_math/vector_math.dart';
 
 FractalModule buildMandelbrotModule() {
+  final schema = UniformSchema.build((b) {
+    b.float('uTime');
+    b.vec2('uResolution');
+    b.vec2('uCenter');
+    b.float('uZoom');
+    b.float('uIterations');
+    b.float('uBailout');
+    b.float('uColorScheme');
+    b.float('uTransparentBg');
+    b.float('uCustomStopCount');
+    b.vec4('uCustomStop0');
+    b.vec4('uCustomStop1');
+    b.vec4('uCustomStop2');
+    b.vec4('uCustomStop3');
+    b.vec4('uCustomStop4');
+    b.vec4('uCustomStop5');
+    b.vec4('uCustomStop6');
+    b.vec4('uCustomStop7');
+  });
+
   final parameters = [
     FractalParameter(
       id: 'iterations',
@@ -64,7 +85,7 @@ FractalModule buildMandelbrotModule() {
     id: 'mandelbrot',
     displayName: (l10n) => l10n.moduleMandelbrot,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/mandelbrot_simple.frag',
+    shaderAsset: 'shaders/mandelbrot_et.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -176,10 +197,27 @@ FractalModule buildMandelbrotModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      // Diagnostic path: match Shader Lab's FragmentProgram tile.
-      // Only pass uSize (vec2) as float indices 0-1.
-      shader.setFloat(0, size.width);
-      shader.setFloat(1, size.height);
+      final iterations = _readDouble(state.params, 'iterations', 120);
+      final bailout = _readDouble(state.params, 'bailout', 4.0);
+      final colorScheme = _readDouble(state.params, 'colorScheme', 0);
+
+      final w = schema.writer(shader);
+      w.setFloat('uTime', time);
+      w.setVec2('uResolution', size.width, size.height);
+      w.setVec2('uCenter', state.view.pan.x, state.view.pan.y);
+      w.setFloat('uZoom', state.view.zoom);
+      w.setFloat('uIterations', iterations);
+      w.setFloat('uBailout', bailout);
+      w.setFloat('uColorScheme', colorScheme);
+      w.setFloat('uTransparentBg', state.transparentBackground ? 1.0 : 0.0);
+
+      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
+      // Legacy palette writer expects baseIndex at the stop-count uniform.
+      PaletteService.instance.setCustomPaletteUniforms(
+        shader,
+        schema['uCustomStopCount'].index,
+        palette,
+      );
     },
   );
 }
