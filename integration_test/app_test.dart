@@ -53,7 +53,7 @@ void main() {
     }
 
     testWidgets('Catalog displays fractal modules', (tester) async {
-      _withSemantics(tester);
+      final semantics = tester.ensureSemantics();
       await pumpApp(tester);
 
       final moduleCount = moduleCards().evaluate().length;
@@ -61,10 +61,12 @@ void main() {
 
       logger.logAction('test', 'Catalog shows $moduleCount modules');
       expect(logger.buffer.length, greaterThan(0));
+
+      semantics.dispose();
     });
 
     testWidgets('Navigate to fractal viewer and back', (tester) async {
-      _withSemantics(tester);
+      final semantics = tester.ensureSemantics();
       await pumpApp(tester);
 
       // Tap the first module card
@@ -86,10 +88,12 @@ void main() {
 
       logger.logNavigation('Navigated back to catalog');
       expect(moduleCards().evaluate().length, greaterThanOrEqualTo(4));
+
+      semantics.dispose();
     });
 
     testWidgets('Navigate to each fractal module viewer', (tester) async {
-      _withSemantics(tester);
+      final semantics = tester.ensureSemantics();
       await pumpApp(tester);
 
       final keys = moduleCards().evaluate().map((e) {
@@ -125,10 +129,12 @@ void main() {
         logger.buffer.where((e) => e.type == 'navigation').length,
         greaterThanOrEqualTo(keys.length),
       );
+
+      semantics.dispose();
     });
 
     testWidgets('Search filters catalog', (tester) async {
-      _withSemantics(tester);
+      final semantics = tester.ensureSemantics();
       await pumpApp(tester);
 
       final searchField = find.byKey(const Key('catalogSearchField'));
@@ -148,10 +154,12 @@ void main() {
 
       expect(moduleCards().evaluate().length, greaterThanOrEqualTo(4));
       logger.logAction('test', 'Search cleared, modules visible');
+
+      semantics.dispose();
     });
 
     testWidgets('Logger captures events correctly', (tester) async {
-      _withSemantics(tester);
+      final semantics = tester.ensureSemantics();
       await pumpApp(tester);
 
       // Verify logger captures different event types
@@ -170,6 +178,8 @@ void main() {
       // Verify clearBuffer works
       logger.clearBuffer();
       expect(logger.buffer.length, 0);
+
+      semantics.dispose();
     });
   });
 }
