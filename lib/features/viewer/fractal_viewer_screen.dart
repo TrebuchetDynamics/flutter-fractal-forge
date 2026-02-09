@@ -31,6 +31,7 @@ import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/debug_overlay.dart';
 import 'package:flutter_fractals/features/debug/performance_overlay.dart';
 import 'package:flutter_fractals/features/debug/shader_debug_overlay.dart';
+import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/features/export/video_export_sheet.dart';
@@ -656,6 +657,23 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   const Text(
                     'GPU Debug Report',
                     style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => const ShaderLabScreen()),
+                            );
+                          },
+                          icon: const Icon(Icons.science_rounded, color: Colors.amber),
+                          label: const Text('Open Shader Lab', style: TextStyle(color: Colors.amber)),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 8),
                   Text(
