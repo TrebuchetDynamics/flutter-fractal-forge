@@ -359,7 +359,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         title: controller.module.displayName(l10n),
         onBack: () => Navigator.of(context).pop(),
         actions: [
-          if (kDebugMode)
+          if (kDebugMode || kProfileMode)
             _AppBarIconButton(
               icon: Icons.bug_report_rounded,
               tooltip: 'GPU debug report',
