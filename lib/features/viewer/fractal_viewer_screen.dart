@@ -101,7 +101,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   bool _useCpuFallback = false;
   // Disable the heuristic that auto-switches to CPU fallback.
   // Useful for debugging device-specific GPU issues.
-  bool _disableGpuHealthCheck = false;
+  bool _disableGpuHealthCheck = true; // DIAG: disabled to test GPU rendering
   double? _lastGpuDarkRatio;
   int? _lastGpuSampleCount;
   Object? _lastGpuHealthError;

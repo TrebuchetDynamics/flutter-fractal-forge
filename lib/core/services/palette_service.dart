@@ -20,8 +20,12 @@ class PaletteService extends ChangeNotifier {
   }
 
   static const int maxStops = 8;
+  static const int _texWidth = 256;
 
   final PaletteStore _store;
+
+  /// Cache of palette textures keyed by palette id.
+  final Map<String, ui.Image> _paletteTexCache = {};
 
   late final List<FractalPalette> _builtIn;
   List<FractalPalette> _user = const [];
@@ -108,6 +112,46 @@ class PaletteService extends ChangeNotifier {
       ],
       isBuiltIn: false,
     );
+  }
+
+  /// Returns a 256×1 [ui.Image] representing the palette gradient.
+  ///
+  /// The image is cached per palette id and reused across frames.
+  /// Use with `shader.setImageSampler(0, image)` to pass palette as texture.
+  ui.Image paletteTexture(FractalPalette palette) {
+    final cached = _paletteTexCache[palette.id];
+    if (cached != null) return cached;
+
+    final stops = [...palette.stops]..sort((a, b) => a.position.compareTo(b.position));
+    if (stops.isEmpty) {
+      stops.add(const FractalColorStop(position: 0.0, colorArgb: 0xFF000000));
+      stops.add(const FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF));
+    }
+
+    final rec = ui.PictureRecorder();
+    final canvas = Canvas(rec, Rect.fromLTWH(0, 0, _texWidth.toDouble(), 1));
+    final gradColors = stops.map((s) => Color(s.colorArgb)).toList();
+    final gradStops = stops.map((s) => s.position.clamp(0.0, 1.0)).toList();
+    final paint = Paint()
+      ..shader = ui.Gradient.linear(
+        Offset.zero,
+        Offset(_texWidth.toDouble(), 0),
+        gradColors,
+        gradStops,
+      );
+    canvas.drawRect(Rect.fromLTWH(0, 0, _texWidth.toDouble(), 1), paint);
+    final pic = rec.endRecording();
+    final img = pic.toImageSync(_texWidth, 1);
+    _paletteTexCache[palette.id] = img;
+    return img;
+  }
+
+  /// Clears cached palette textures (call if palettes change).
+  void invalidatePaletteTextures() {
+    for (final img in _paletteTexCache.values) {
+      img.dispose();
+    }
+    _paletteTexCache.clear();
   }
 
   /// Writes custom palette uniforms expected by the shaders.

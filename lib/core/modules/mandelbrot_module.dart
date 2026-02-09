@@ -14,17 +14,8 @@ FractalModule buildMandelbrotModule() {
     b.float('uZoom');
     b.float('uIterations');
     b.float('uBailout');
-    b.float('uColorScheme');
     b.float('uTransparentBg');
-    b.float('uCustomStopCount');
-    b.vec4('uCustomStop0');
-    b.vec4('uCustomStop1');
-    b.vec4('uCustomStop2');
-    b.vec4('uCustomStop3');
-    b.vec4('uCustomStop4');
-    b.vec4('uCustomStop5');
-    b.vec4('uCustomStop6');
-    b.vec4('uCustomStop7');
+    // Palette is now a sampler2D — no more vec4 stops!
   });
 
   final parameters = [
@@ -85,7 +76,7 @@ FractalModule buildMandelbrotModule() {
     id: 'mandelbrot',
     displayName: (l10n) => l10n.moduleMandelbrot,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/mandelbrot_hardgrad.frag',
+    shaderAsset: 'shaders/diag_9float.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -208,16 +199,12 @@ FractalModule buildMandelbrotModule() {
       w.setFloat('uZoom', state.view.zoom);
       w.setFloat('uIterations', iterations);
       w.setFloat('uBailout', bailout);
-      w.setFloat('uColorScheme', colorScheme);
       w.setFloat('uTransparentBg', state.transparentBackground ? 1.0 : 0.0);
 
-      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
-      // Legacy palette writer expects baseIndex at the stop-count uniform.
-      PaletteService.instance.setCustomPaletteUniforms(
-        shader,
-        schema['uCustomStopCount'].index,
-        palette,
-      );
+      // DIAG: no sampler for diag_9float.frag test
+      // final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
+      // final paletteTex = PaletteService.instance.paletteTexture(palette);
+      // shader.setImageSampler(0, paletteTex);
     },
   );
 }

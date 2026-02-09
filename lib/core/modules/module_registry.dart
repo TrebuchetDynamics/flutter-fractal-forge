@@ -1,4 +1,5 @@
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/burning_ship_module.dart';
 import 'package:flutter_fractals/core/modules/julia_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbrot_module.dart';
@@ -49,6 +50,8 @@ class ModuleRegistry {
     buildBurningShipModule(),
     buildPhoenixModule(),
     buildMandelbulbModule(),
+    // Keep diagnostics last so existing UI/tests keep their assumptions.
+    buildGpuGradientModule(),
   ];
 
   /// Retrieves a module by its unique [id].
