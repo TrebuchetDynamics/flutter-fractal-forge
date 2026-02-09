@@ -120,6 +120,9 @@ class PaletteService extends ChangeNotifier {
     int baseIndex,
     FractalPalette palette,
   ) {
+    // NOTE: This API is legacy. Prefer setting palette uniforms via a
+    // UniformSchema/UniformWriter to avoid hard-coded float indices.
+
     final stops = [...palette.stops]..sort((a, b) => a.position.compareTo(b.position));
     final count = stops.length.clamp(0, maxStops);
     shader.setFloat(baseIndex, count.toDouble());
