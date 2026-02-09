@@ -46,3 +46,4 @@ flutter:
   - shaders/ink_sparkle.frag
   - shaders/phoenix.frag
   - shaders/diag_min.frag
+  - shaders/mandelbrot_simple.frag

@@ -64,7 +64,7 @@ FractalModule buildMandelbrotModule() {
     id: 'mandelbrot',
     displayName: (l10n) => l10n.moduleMandelbrot,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/mandelbrot.frag',
+    shaderAsset: 'shaders/mandelbrot_simple.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -176,23 +176,10 @@ FractalModule buildMandelbrotModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      final iterations = _readDouble(state.params, 'iterations', 120);
-      final bailout = _readDouble(state.params, 'bailout', 4.0);
-      final colorScheme = _readDouble(state.params, 'colorScheme', 0);
-
-      shader.setFloat(0, time);
-      shader.setFloat(1, size.width);
-      shader.setFloat(2, size.height);
-      shader.setFloat(3, state.view.pan.x);
-      shader.setFloat(4, state.view.pan.y);
-      shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, iterations);
-      shader.setFloat(7, bailout);
-      shader.setFloat(8, colorScheme);
-      shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
-
-      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
-      PaletteService.instance.setCustomPaletteUniforms(shader, 10, palette);
+      // Diagnostic path: match Shader Lab's FragmentProgram tile.
+      // Only pass uSize (vec2) as float indices 0-1.
+      shader.setFloat(0, size.width);
+      shader.setFloat(1, size.height);
     },
   );
 }
