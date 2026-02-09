@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
+import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +98,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   // CPU fallback if GPU shader output appears black.
   bool _useCpuFallback = false;
+  // Disable the heuristic that auto-switches to CPU fallback.
+  // Useful for debugging device-specific GPU issues.
+  bool _disableGpuHealthCheck = false;
+  double? _lastGpuDarkRatio;
+  int? _lastGpuSampleCount;
+  Object? _lastGpuHealthError;
   Timer? _gpuHealthTimer;
 
   // History tracking
@@ -163,11 +172,13 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   void _scheduleGpuHealthCheck() {
     _gpuHealthTimer?.cancel();
+    if (_disableGpuHealthCheck) return;
     // Give shader load + first frames a moment.
     _gpuHealthTimer = Timer(const Duration(seconds: 3), () async {
       if (!mounted) return;
       if (_compareMode) return; // skip in compare mode for now
       if (_useCpuFallback) return;
+      if (_disableGpuHealthCheck) return;
 
       final controller = context.read<FractalController>();
       if (controller.module.dimension != FractalDimension.twoD) {
@@ -200,6 +211,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         }
         if (count > 0) {
           final darkRatio = dark / count;
+          _lastGpuDarkRatio = darkRatio;
+          _lastGpuSampleCount = count;
           if (darkRatio > 0.98) {
             if (mounted) {
               setState(() {
@@ -208,7 +221,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             }
           }
         }
-      } catch (_) {
+      } catch (e) {
+        _lastGpuHealthError = e;
         // Ignore snapshot failures.
       }
     });
@@ -410,11 +424,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           ),
 
           if (_useCpuFallback)
-            const Positioned(
+            Positioned(
               top: 92,
               left: 12,
               right: 12,
-              child: _CpuFallbackBanner(),
+              child: _CpuFallbackBanner(
+                onTryGpu: () {
+                  setState(() {
+                    _useCpuFallback = false;
+                    // Keep the health-check disabled so we can see the raw GPU output.
+                    _disableGpuHealthCheck = true;
+                  });
+                },
+                onReport: () => _shareGpuDebugReport(context),
+              ),
             ),
 
           // Minimap overlay (bottom-left)
@@ -560,6 +583,50 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         },
       ),
     );
+  }
+
+  Future<void> _shareGpuDebugReport(BuildContext context) async {
+    final controller = context.read<FractalController>();
+    final l10n = AppLocalizations.of(context)!;
+
+    try {
+      // Capture current visible output (GPU or CPU) for context.
+      final png = await _exportService.capturePng(_activeBoundaryKey(), pixelRatio: 1.0);
+      final screenshotFile = await _exportService.saveBytes(
+        png,
+        filename: _exportService.generateFilename(prefix: 'gpu_debug', format: ExportFormat.png, fractalType: controller.module.id),
+      );
+
+      final payload = <String, Object?>{
+        'timestamp': DateTime.now().toIso8601String(),
+        'moduleId': controller.module.id,
+        'moduleDimension': controller.module.dimension.name,
+        'cpuFallbackActive': _useCpuFallback,
+        'gpuHealthCheckDisabled': _disableGpuHealthCheck,
+        'lastGpuDarkRatio': _lastGpuDarkRatio,
+        'lastGpuSampleCount': _lastGpuSampleCount,
+        'lastGpuHealthError': _lastGpuHealthError?.toString(),
+        'platform': Platform.operatingSystem,
+        'platformVersion': Platform.operatingSystemVersion,
+      };
+
+      final ts = DateTime.now().millisecondsSinceEpoch;
+      final reportFile = await _exportService.saveBytes(
+        Uint8List.fromList(const JsonEncoder.withIndent('  ').convert(payload).codeUnits),
+        filename: 'gpu_debug_${controller.module.id}_$ts.json',
+      );
+
+      // Share the JSON-ish text file first (Telegram will show both if sent separately).
+      await _exportService.shareFile(reportFile, text: 'GPU debug report (please send back to Sidon)');
+      await _exportService.shareFile(screenshotFile, text: 'GPU debug screenshot');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.exportFailed(e.toString())),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    }
   }
 
   void _openControls(BuildContext context) {
@@ -1027,23 +1094,60 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 }
 
 class _CpuFallbackBanner extends StatelessWidget {
-  const _CpuFallbackBanner();
+  final VoidCallback onTryGpu;
+  final VoidCallback onReport;
+
+  const _CpuFallbackBanner({
+    required this.onTryGpu,
+    required this.onReport,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.6),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.amber.withOpacity(0.7)),
-        ),
-        child: const Text(
-          'CPU fallback enabled (GPU shader output appeared black).',
-          style: TextStyle(color: Colors.amber, fontSize: 12),
-          textAlign: TextAlign.center,
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.65),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.amber.withOpacity(0.8)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            'CPU fallback enabled (GPU output appeared black).',
+            style: TextStyle(color: Colors.amber, fontSize: 12),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 10,
+            runSpacing: 6,
+            alignment: WrapAlignment.center,
+            children: [
+              OutlinedButton(
+                onPressed: onTryGpu,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: BorderSide(color: Colors.white.withOpacity(0.6)),
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                ),
+                child: const Text('Try GPU'),
+              ),
+              OutlinedButton(
+                onPressed: onReport,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.amber,
+                  side: BorderSide(color: Colors.amber.withOpacity(0.8)),
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                ),
+                child: const Text('Report'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
