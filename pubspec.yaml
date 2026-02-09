@@ -51,3 +51,4 @@ flutter:
   - shaders/mandelbrot_hardgrad.frag
   - shaders/mandelbrot_tex.frag
   - shaders/diag_9float.frag
+  - shaders/diag_sampler.frag

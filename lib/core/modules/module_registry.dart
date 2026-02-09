@@ -1,5 +1,6 @@
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
+import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
 import 'package:flutter_fractals/core/modules/burning_ship_module.dart';
 import 'package:flutter_fractals/core/modules/julia_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbrot_module.dart';
@@ -52,6 +53,7 @@ class ModuleRegistry {
     buildMandelbulbModule(),
     // Keep diagnostics last so existing UI/tests keep their assumptions.
     buildGpuGradientModule(),
+    buildGpuSamplerDiagModule(),
   ];
 
   /// Retrieves a module by its unique [id].
