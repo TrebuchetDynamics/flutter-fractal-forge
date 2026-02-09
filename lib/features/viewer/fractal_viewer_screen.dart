@@ -599,13 +599,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final l10n = AppLocalizations.of(context)!;
 
     try {
-      // Capture current visible output (GPU or CPU) for context.
-      final png = await _exportService.capturePng(_activeBoundaryKey(), pixelRatio: 1.0);
-      final screenshotFile = await _exportService.saveBytes(
-        png,
-        filename: _exportService.generateFilename(prefix: 'gpu_debug', format: ExportFormat.png, fractalType: controller.module.id),
-      );
-
+      // Build payload first (share_plus seems unreliable on some Samsung builds without ADB).
       final payload = <String, Object?>{
         'timestamp': DateTime.now().toIso8601String(),
         'moduleId': controller.module.id,
@@ -619,19 +613,96 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         'platformVersion': Platform.operatingSystemVersion,
       };
 
+      final reportText = const JsonEncoder.withIndent('  ').convert(payload);
+
+      // Best-effort save the report + screenshot to the app export directory.
       final ts = DateTime.now().millisecondsSinceEpoch;
       final reportFile = await _exportService.saveBytes(
-        Uint8List.fromList(const JsonEncoder.withIndent('  ').convert(payload).codeUnits),
+        Uint8List.fromList(reportText.codeUnits),
         filename: 'gpu_debug_${controller.module.id}_$ts.json',
       );
 
-      // Share both files in a single share intent (more reliable on some Android builds).
-      await Share.shareXFiles(
-        [
-          XFile(reportFile.path),
-          XFile(screenshotFile.path),
-        ],
-        text: 'GPU debug bundle (please send back to Sidon)',
+      File? screenshotFile;
+      try {
+        final png = await _exportService.capturePng(_activeBoundaryKey(), pixelRatio: 1.0);
+        screenshotFile = await _exportService.saveBytes(
+          png,
+          filename: _exportService.generateFilename(prefix: 'gpu_debug', format: ExportFormat.png, fractalType: controller.module.id),
+        );
+      } catch (_) {
+        // Screenshot capture can fail when GPU output is black; still continue with text report.
+      }
+
+      // Show an in-app sheet so the user can copy/paste the JSON into Telegram manually.
+      if (!context.mounted) return;
+      await showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) {
+          return SafeArea(
+            child: Container(
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.85),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.amber.withOpacity(0.8)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'GPU Debug Report',
+                    style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Saved report: ${reportFile.path}',
+                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                  if (screenshotFile != null)
+                    Text(
+                      'Saved screenshot: ${screenshotFile!.path}',
+                      style: const TextStyle(color: Colors.white70, fontSize: 12),
+                    ),
+                  const SizedBox(height: 10),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.45),
+                    child: SingleChildScrollView(
+                      child: SelectableText(
+                        reportText,
+                        style: const TextStyle(fontFamily: 'monospace', fontSize: 11, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 6,
+                    children: [
+                      OutlinedButton(
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(text: reportText));
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Copied GPU debug JSON to clipboard. Paste it into Telegram.')),
+                          );
+                        },
+                        child: const Text('Copy JSON'),
+                      ),
+                      OutlinedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Close'),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        },
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
