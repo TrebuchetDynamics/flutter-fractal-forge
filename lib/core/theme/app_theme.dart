@@ -395,7 +395,7 @@ class AppTheme {
         titleTextStyle: AppTypography.titleLarge,
         iconTheme: const IconThemeData(color: AppColors.textPrimary, size: 22),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.surface,
         elevation: AppSpacing.cardElevation,
         shape: RoundedRectangleBorder(
@@ -544,7 +544,7 @@ class AppTheme {
         linearTrackColor: AppColors.surfaceVariant,
         circularTrackColor: AppColors.surfaceVariant,
       ),
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: AppColors.surface,
         elevation: 16,
         shape: RoundedRectangleBorder(
@@ -636,7 +636,7 @@ class AppTheme {
           size: 24,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: HighContrastColors.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -768,7 +768,7 @@ class AppTheme {
         linearTrackColor: HighContrastColors.surfaceVariant,
         circularTrackColor: HighContrastColors.surfaceVariant,
       ),
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: HighContrastColors.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
