@@ -52,3 +52,5 @@ flutter:
   - shaders/mandelbrot_tex.frag
   - shaders/diag_9float.frag
   - shaders/diag_sampler.frag
+  - shaders/mandel_step_escape.frag
+  - shaders/mandel_step_smooth.frag
