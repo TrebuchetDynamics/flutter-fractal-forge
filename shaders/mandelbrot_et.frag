@@ -89,6 +89,12 @@ vec3 sampleCustomPalette(float t) {
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
 
+  // HARD DIAGNOSTIC: force a visible gradient first.
+  // If this is still black on S24, the issue is NOT Mandelbrot math.
+  vec2 uv01_diag = fragCoord / max(uResolution, vec2(1.0));
+  fragColor = vec4(uv01_diag.x, 0.25, uv01_diag.y, 1.0);
+  return;
+
   // Map pixels -> complex plane
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
