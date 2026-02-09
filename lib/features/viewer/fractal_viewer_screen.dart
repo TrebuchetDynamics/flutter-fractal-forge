@@ -619,9 +619,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         filename: 'gpu_debug_${controller.module.id}_$ts.json',
       );
 
-      // Share the JSON-ish text file first (Telegram will show both if sent separately).
-      await _exportService.shareFile(reportFile, text: 'GPU debug report (please send back to Sidon)');
-      await _exportService.shareFile(screenshotFile, text: 'GPU debug screenshot');
+      // Share both files in a single share intent (more reliable on some Android builds).
+      await Share.shareXFiles(
+        [
+          XFile(reportFile.path),
+          XFile(screenshotFile.path),
+        ],
+        text: 'GPU debug bundle (please send back to Sidon)',
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
