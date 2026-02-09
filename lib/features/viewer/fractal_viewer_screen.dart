@@ -425,18 +425,21 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
           if (_useCpuFallback)
             Positioned(
-              top: 92,
-              left: 12,
+              // Avoid overlapping the ShaderDebugOverlay which is positioned at top:80, left:8.
+              top: MediaQuery.of(context).padding.top + 8,
               right: 12,
-              child: _CpuFallbackBanner(
-                onTryGpu: () {
-                  setState(() {
-                    _useCpuFallback = false;
-                    // Keep the health-check disabled so we can see the raw GPU output.
-                    _disableGpuHealthCheck = true;
-                  });
-                },
-                onReport: () => _shareGpuDebugReport(context),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 240),
+                child: _CpuFallbackBanner(
+                  onTryGpu: () {
+                    setState(() {
+                      _useCpuFallback = false;
+                      // Keep the health-check disabled so we can see the raw GPU output.
+                      _disableGpuHealthCheck = true;
+                    });
+                  },
+                  onReport: () => _shareGpuDebugReport(context),
+                ),
               ),
             ),
 
