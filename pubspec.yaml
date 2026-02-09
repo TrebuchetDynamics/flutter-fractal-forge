@@ -48,3 +48,4 @@ flutter:
   - shaders/diag_min.frag
   - shaders/mandelbrot_simple.frag
   - shaders/mandelbrot_et.frag
+  - shaders/mandelbrot_hardgrad.frag

@@ -85,7 +85,7 @@ FractalModule buildMandelbrotModule() {
     id: 'mandelbrot',
     displayName: (l10n) => l10n.moduleMandelbrot,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/mandelbrot_et.frag',
+    shaderAsset: 'shaders/mandelbrot_hardgrad.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
