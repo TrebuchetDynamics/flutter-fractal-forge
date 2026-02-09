@@ -1,6 +1,6 @@
 #include <flutter/runtime_effect.glsl>
 
-precision mediump float;
+precision highp float;
 
 // IMPORTANT: Uniform layout must match Dart UniformSchema exactly.
 uniform float uTime;           // 0
@@ -125,9 +125,15 @@ void main() {
   float t = smoothVal / max(1.0, uIterations);
   t = fract(t + uTime * 0.0001);
 
+  // Debug-friendly coloring: mix palette with a coordinate tint so we can
+  // visually confirm we're not outputting all-black.
   vec3 col;
   if (uCustomStopCount > 0.5) col = sampleCustomPalette(t);
   else col = builtinPalette(t, int(uColorScheme));
+
+  // Add a tiny UV-based tint (should be visible even if palette is dark).
+  vec2 uv01 = fragCoord / max(uResolution, vec2(1.0));
+  col = clamp(col + vec3(0.15 * uv01.x, 0.0, 0.15 * uv01.y), 0.0, 1.0);
 
   fragColor = vec4(col, 1.0);
 }
