@@ -429,6 +429,16 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
             onOpacityChanged: (value) =>
                 setState(() => _overlayOpacity = value),
             onLockedChanged: (value) => setState(() => _overlayLocked = value),
+            onCenterOverlay: () => setState(() {
+              _overlayOffset = Offset.zero;
+              _overlayRotation = 0.0;
+            }),
+            onResetOverlay: () => setState(() {
+              _overlayOffset = Offset.zero;
+              _overlayScale = 1.0;
+              _overlayRotation = 0.0;
+              _overlayOpacity = 0.75;
+            }),
             onTransparentChanged: (value) {
               setState(() => _transparentBackground = value);
               controller.setTransparentBackground(value);
@@ -927,6 +937,8 @@ class _ArControlsPanel extends StatelessWidget {
   final ValueChanged<bool> onCollapsedChanged;
   final ValueChanged<double> onOpacityChanged;
   final ValueChanged<bool> onLockedChanged;
+  final VoidCallback onCenterOverlay;
+  final VoidCallback onResetOverlay;
   final ValueChanged<bool> onTransparentChanged;
   final ValueChanged<bool> onGridChanged;
   final ValueChanged<bool> onOutlineChanged;
@@ -950,6 +962,8 @@ class _ArControlsPanel extends StatelessWidget {
     required this.onCollapsedChanged,
     required this.onOpacityChanged,
     required this.onLockedChanged,
+    required this.onCenterOverlay,
+    required this.onResetOverlay,
     required this.onTransparentChanged,
     required this.onGridChanged,
     required this.onOutlineChanged,
@@ -965,34 +979,36 @@ class _ArControlsPanel extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     Widget collapsedBar() {
+      // Keep this *very* small — users should see the scene.
       return Card(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
           child: Row(
             children: [
               IconButton(
                 tooltip: l10n.tooltipExpand,
                 onPressed: () => onCollapsedChanged(false),
                 icon: const Icon(Icons.expand_less),
+                visualDensity: VisualDensity.compact,
               ),
-              const SizedBox(width: 4),
               Expanded(
                 child: Text(
-                  '${l10n.arTitle}: $currentModuleLabel',
+                  currentModuleLabel,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(width: 8),
+              IconButton(
+                tooltip: l10n.paramLockOverlay,
+                onPressed: () => onLockedChanged(!locked),
+                icon: Icon(locked ? Icons.lock_rounded : Icons.lock_open_rounded),
+                visualDensity: VisualDensity.compact,
+              ),
               IconButton(
                 tooltip: l10n.arBakedScreenshotExport,
                 onPressed: onExportBaked,
                 icon: const Icon(Icons.photo_camera),
-              ),
-              IconButton(
-                tooltip: l10n.arVideoExport,
-                onPressed: onExportVideo,
-                icon: const Icon(Icons.videocam),
+                visualDensity: VisualDensity.compact,
               ),
             ],
           ),
@@ -1003,98 +1019,140 @@ class _ArControlsPanel extends StatelessWidget {
     Widget expandedPanel() {
       return Card(
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Expanded(child: Text(l10n.arTitle)),
+                  Expanded(
+                    child: Text(
+                      '${l10n.arTitle}: $currentModuleLabel',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                   IconButton(
                     tooltip: l10n.tooltipCollapse,
                     onPressed: () => onCollapsedChanged(true),
                     icon: const Icon(Icons.expand_more),
+                    visualDensity: VisualDensity.compact,
                   ),
                 ],
               ),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: onSelectModule,
-                  icon: const Icon(Icons.grid_view),
-                  label: Text('${l10n.arSelectFractal}: $currentModuleLabel'),
-                ),
+              const SizedBox(height: 6),
+
+              // Primary controls (keep compact)
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: onSelectModule,
+                      icon: const Icon(Icons.grid_view),
+                      label: Text(l10n.arSelectFractal),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  OutlinedButton.icon(
+                    onPressed: onCenterOverlay,
+                    icon: const Icon(Icons.center_focus_strong),
+                    label: const Text('Center'),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 6),
               Row(
                 children: [
                   Expanded(child: Text(l10n.paramOpacity)),
                   Expanded(
                     child: Slider(
                       value: opacity,
-                      min: 0.1,
+                      min: 0.2,
                       max: 1.0,
                       onChanged: onOpacityChanged,
                     ),
                   ),
                 ],
               ),
-              SwitchListTile(
-                title: Text(l10n.paramLockOverlay),
-                value: locked,
-                onChanged: onLockedChanged,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
+              Row(
+                children: [
+                  Expanded(
+                    child: SwitchListTile(
+                      title: Text(l10n.paramLockOverlay),
+                      value: locked,
+                      onChanged: onLockedChanged,
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  OutlinedButton.icon(
+                    onPressed: onResetOverlay,
+                    icon: const Icon(Icons.restart_alt_rounded),
+                    label: Text(l10n.resetView),
+                  ),
+                ],
               ),
-              SwitchListTile(
-                title: Text(l10n.paramTransparentBg),
-                value: transparent,
-                onChanged: onTransparentChanged,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-              ),
-              SwitchListTile(
-                title: Text(l10n.arShowGrid),
-                value: showGrid,
-                onChanged: onGridChanged,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-              ),
-              SwitchListTile(
-                title: Text(l10n.arShowOutline),
-                value: showOutline,
-                onChanged: onOutlineChanged,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
+
+              // Advanced options in a collapsible section
+              ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                childrenPadding: EdgeInsets.zero,
+                title: const Text('More'),
+                children: [
+                  SwitchListTile(
+                    title: Text(l10n.paramTransparentBg),
+                    value: transparent,
+                    onChanged: onTransparentChanged,
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                  SwitchListTile(
+                    title: Text(l10n.arShowGrid),
+                    value: showGrid,
+                    onChanged: onGridChanged,
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                  SwitchListTile(
+                    title: Text(l10n.arShowOutline),
+                    value: showOutline,
+                    onChanged: onOutlineChanged,
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(l10n.arStyleTitle),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    children: ArOverlayStylePreset.values.map((preset) {
+                      return ChoiceChip(
+                        label: Text(preset.label(l10n)),
+                        selected: preset == stylePreset,
+                        onSelected: (_) => onStyleChanged(preset),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(l10n.arQualityPreset),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    children: ArQualityPreset.values.map((preset) {
+                      return ChoiceChip(
+                        label: Text(preset.label(l10n)),
+                        selected: preset == qualityPreset,
+                        onSelected: (_) => onQualityChanged(preset),
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
-              Text(l10n.arStyleTitle),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                children: ArOverlayStylePreset.values.map((preset) {
-                  return ChoiceChip(
-                    label: Text(preset.label(l10n)),
-                    selected: preset == stylePreset,
-                    onSelected: (_) => onStyleChanged(preset),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 12),
-              Text(l10n.arQualityPreset),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                children: ArQualityPreset.values.map((preset) {
-                  return ChoiceChip(
-                    label: Text(preset.label(l10n)),
-                    selected: preset == qualityPreset,
-                    onSelected: (_) => onQualityChanged(preset),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 12),
+
+              // Export actions
               Row(
                 children: [
                   Expanded(
@@ -1112,12 +1170,13 @@ class _ArControlsPanel extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 6),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: OutlinedButton.icon(
                   onPressed: onExportVideo,
-                  child: Text(l10n.arVideoExport),
+                  icon: const Icon(Icons.videocam),
+                  label: Text(l10n.arVideoExport),
                 ),
               ),
             ],
