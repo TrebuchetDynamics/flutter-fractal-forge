@@ -113,7 +113,10 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
   double _overlayRotation = 0.0;
   double _overlayOpacity = 0.75;
   bool _overlayLocked = false;
-  bool _transparentBackground = true;
+  // In AR, users typically want a solid "painting". Transparent background makes the
+  // interior of escape-time sets see-through (camera shows through), which reads as
+  // gray/noisy texture. Default to opaque.
+  bool _transparentBackground = false;
   bool _panelCollapsed = true;
 
   bool _showGrid = true;
@@ -148,10 +151,13 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     _qualityPreset = context.read<ArQualityStore>().getPreset();
     _initCamera();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // AR overlay expects the fractal layer to have a transparent background.
       // Cache controller so dispose doesn't depend on context.
       _previousTransparency = _fractalController.transparentBackground;
-      _fractalController.setTransparentBackground(true);
+
+      // Default to an opaque "painting" in AR.
+      // (Transparent background makes most of the set see-through, which looks like noise.)
+      _fractalController.setTransparentBackground(_transparentBackground);
+
       _fractalController.applyArQualityPreset(_qualityPreset);
 
       // Sensible defaults per dimension.
