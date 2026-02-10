@@ -31,6 +31,7 @@ import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/debug_overlay.dart';
 import 'package:flutter_fractals/features/debug/performance_overlay.dart';
 import 'package:flutter_fractals/features/debug/shader_debug_overlay.dart';
+import 'package:flutter_fractals/features/ar/ar_overlay_screen.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
@@ -94,8 +95,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   bool _showPerformanceOverlay = false;
   bool _compactPerformanceOverlay = false;
 
-  // Shader debug overlay (always show in debug builds for now)
-  bool _showShaderDebug = true;
+  // Dev-only shader debug overlay (shows uniform values)
+  bool _showShaderDebug = false;
 
   // CPU fallback if GPU shader output appears black.
   bool _useCpuFallback = false;
@@ -359,12 +360,27 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         title: controller.module.displayName(l10n),
         onBack: () => Navigator.of(context).pop(),
         actions: [
-          if (kDebugMode || kProfileMode)
+          if (kDebugMode)
             _AppBarIconButton(
               icon: Icons.bug_report_rounded,
               tooltip: 'GPU debug report',
               onPressed: () => _shareGpuDebugReport(context),
             ),
+          _AppBarIconButton(
+            icon: Icons.camera_rounded,
+            tooltip: 'AR',
+            onPressed: () {
+              final controller = context.read<FractalController>();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ChangeNotifierProvider.value(
+                    value: controller,
+                    child: const ArOverlayScreen(),
+                  ),
+                ),
+              );
+            },
+          ),
           _AppBarIconButton(
             icon: _compareMode ? Icons.close_fullscreen_rounded : Icons.compare_rounded,
             tooltip: _compareMode ? 'Exit compare' : 'Compare',
@@ -488,6 +504,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                     if (_autoExploreService != null)
                       const SizedBox(height: AppSpacing.md),
+                    // Keep the viewer uncluttered: only core actions here.
                     _FloatingActionButton(
                       icon: Icons.tune_rounded,
                       tooltip: l10n.tooltipOpenControls,
@@ -501,34 +518,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       onPressed: _exporting ? null : () => _openPresets(context),
                       delay: const Duration(milliseconds: 100),
                     ),
-                    const SizedBox(height: AppSpacing.md),
-                    _FloatingActionButton(
-                      icon: Icons.history_rounded,
-                      tooltip: l10n.tooltipOpenHistory,
-                      onPressed: _exporting ? null : () => _openHistory(context),
-                      delay: const Duration(milliseconds: 125),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    _FloatingActionButton(
-                      icon: Icons.share_rounded,
-                      tooltip: l10n.tooltipShare,
-                      onPressed: _exporting ? null : () => _shareFractal(context),
-                      delay: const Duration(milliseconds: 150),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    _FloatingActionButton(
-                      icon: Icons.wallpaper_rounded,
-                      tooltip: l10n.tooltipWallpaper,
-                      onPressed: _exporting ? null : () => _openWallpaper(context),
-                      delay: const Duration(milliseconds: 170),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    _FloatingActionButton(
-                      icon: Icons.videocam_rounded,
-                      tooltip: l10n.tooltipExportVideo,
-                      onPressed: _exporting ? null : () => _openVideoExport(context),
-                      delay: const Duration(milliseconds: 175),
-                    ),
+                    // AR entry is in the app bar to avoid redundant buttons.
+
                     const SizedBox(height: AppSpacing.md),
                     _FloatingActionButton(
                       icon: Icons.download_rounded,
@@ -558,21 +549,22 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               boundaryKey: _activeBoundaryKey(),
             ),
 
-          // Performance overlay toggle button (top-left)
-          Positioned(
-            top: MediaQuery.of(context).padding.top + kToolbarHeight + 8,
-            left: AppSpacing.md,
-            child: GestureDetector(
-              onLongPress: _showPerformanceOverlay ? _toggleCompactMode : null,
-              child: PerformanceToggleButton(
-                isEnabled: _showPerformanceOverlay,
-                onToggle: _togglePerformanceOverlay,
+          // Dev-only performance overlay toggle button (top-left)
+          if (kDebugMode)
+            Positioned(
+              top: MediaQuery.of(context).padding.top + kToolbarHeight + 8,
+              left: AppSpacing.md,
+              child: GestureDetector(
+                onLongPress: _showPerformanceOverlay ? _toggleCompactMode : null,
+                child: PerformanceToggleButton(
+                  isEnabled: _showPerformanceOverlay,
+                  onToggle: _togglePerformanceOverlay,
+                ),
               ),
             ),
-          ),
 
-          // Performance overlay (top-left, below toggle)
-          if (_showPerformanceOverlay)
+          // Dev-only performance overlay (top-left, below toggle)
+          if (kDebugMode && _showPerformanceOverlay)
             Positioned(
               top: MediaQuery.of(context).padding.top + kToolbarHeight + 48,
               left: AppSpacing.md,
@@ -582,8 +574,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               ),
             ),
 
-          // Shader debug overlay (shows uniform values)
-          if (_showShaderDebug)
+          // Dev-only shader debug overlay (uniform values)
+          if (kDebugMode && _showShaderDebug)
             ShaderDebugOverlay(
               enabled: true,
               canvasSize: viewportSize,
