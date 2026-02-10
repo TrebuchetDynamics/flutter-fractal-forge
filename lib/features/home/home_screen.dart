@@ -318,16 +318,17 @@ class _PremiumNavBar extends StatelessWidget {
               ],
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(items.length, (index) {
                 final item = items[index];
                 final isSelected = index == currentIndex;
-                return _NavBarItem(
-                  icon: item.icon,
-                  label: item.label,
-                  semanticLabel: item.semanticLabel,
-                  isSelected: isSelected,
-                  onTap: () => onTap(index),
+                return Expanded(
+                  child: _NavBarItem(
+                    icon: item.icon,
+                    label: item.label,
+                    semanticLabel: item.semanticLabel,
+                    isSelected: isSelected,
+                    onTap: () => onTap(index),
+                  ),
                 );
               }),
             ),
@@ -411,7 +412,7 @@ class _NavBarItemState extends State<_NavBarItem>
 
   Widget _buildContent(Color color, AccessibleAnimations anim) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
