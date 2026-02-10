@@ -187,6 +187,7 @@ FractalModule buildMandelbrotModule() {
       w.setFloat('uZoom', state.view.zoom);
       w.setFloat('uIterations', iterations);
       w.setFloat('uBailout', bailout);
+      w.setFloat('uColorScheme', colorScheme);
       w.setFloat('uTransparentBg', state.transparentBackground ? 1.0 : 0.0);
 
       // DIAG: no sampler for diag_9float.frag test

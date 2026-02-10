@@ -298,6 +298,8 @@ class _ParamControl extends StatelessWidget {
         );
 
       case FractalParamType.enumeration:
+        // Use horizontal scroll for large option sets (e.g. 64 palettes).
+        final useScroll = param.options.length > 8;
         return Padding(
           padding: const EdgeInsets.only(bottom: AppSpacing.lg),
           child: Column(
@@ -310,18 +312,38 @@ class _ParamControl extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppSpacing.sm),
-              Wrap(
-                spacing: AppSpacing.sm,
-                runSpacing: AppSpacing.sm,
-                children: param.options.map((option) {
-                  final selected = option.value == value;
-                  return _OptionChip(
-                    label: option.label(l10n),
-                    selected: selected,
-                    onSelected: () => onChanged(option.value),
-                  );
-                }).toList(),
-              ),
+              if (useScroll)
+                SizedBox(
+                  height: 40,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: param.options.length,
+                    separatorBuilder: (_, __) =>
+                        const SizedBox(width: AppSpacing.sm),
+                    itemBuilder: (context, index) {
+                      final option = param.options[index];
+                      final selected = option.value == value;
+                      return _OptionChip(
+                        label: option.label(l10n),
+                        selected: selected,
+                        onSelected: () => onChanged(option.value),
+                      );
+                    },
+                  ),
+                )
+              else
+                Wrap(
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  children: param.options.map((option) {
+                    final selected = option.value == value;
+                    return _OptionChip(
+                      label: option.label(l10n),
+                      selected: selected,
+                      onSelected: () => onChanged(option.value),
+                    );
+                  }).toList(),
+                ),
             ],
           ),
         );

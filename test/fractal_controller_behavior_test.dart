@@ -38,7 +38,8 @@ void main() {
       final snapped = ((bailout * 10).round() / 10);
       expect(bailout, closeTo(snapped, 1e-9));
 
-      expect(colorScheme, anyOf(0, 1, 2, 3));
+      expect(colorScheme, isA<int>());
+      expect(colorScheme as int, inInclusiveRange(0, 63));
     });
 
     test('applyArQualityPreset updates known params and clamps to schema', () {
