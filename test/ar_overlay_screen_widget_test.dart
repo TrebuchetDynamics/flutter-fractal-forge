@@ -62,12 +62,13 @@ void main() {
       expect(find.byType(Icon), findsWidgets);
     });
 
-    testWidgets('sets transparent background on init', (tester) async {
+    testWidgets('defaults to opaque painting background in AR', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // Controller should have transparent background enabled
-      expect(controller.transparentBackground, isTrue);
+      // In AR we default to an opaque "painting" so the set interior doesn't
+      // become see-through (camera noise shows through).
+      expect(controller.transparentBackground, isFalse);
     });
 
     testWidgets('renders without crashing', (tester) async {
