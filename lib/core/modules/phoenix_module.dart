@@ -101,7 +101,7 @@ FractalModule buildPhoenixModule() {
     id: 'phoenix',
     displayName: (l10n) => l10n.modulePhoenix,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/phoenix.frag',
+    shaderAsset: 'shaders/phoenix_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -273,8 +273,7 @@ FractalModule buildPhoenixModule() {
       shader.setFloat(11, phoenixP);
       shader.setFloat(12, state.transparentBackground ? 1.0 : 0.0);
 
-      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
-      PaletteService.instance.setCustomPaletteUniforms(shader, 13, palette);
+      // GPU-safe: no custom palette uniform block in phoenix_gpu.frag
     },
   );
 }

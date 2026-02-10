@@ -80,7 +80,7 @@ FractalModule buildJuliaModule() {
     id: 'julia',
     displayName: (l10n) => l10n.moduleJulia,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/julia.frag',
+    shaderAsset: 'shaders/julia_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -242,8 +242,7 @@ FractalModule buildJuliaModule() {
       shader.setFloat(10, juliaCImag);
       shader.setFloat(11, state.transparentBackground ? 1.0 : 0.0);
 
-      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
-      PaletteService.instance.setCustomPaletteUniforms(shader, 12, palette);
+      // GPU-safe: no custom palette uniform block in julia_gpu.frag
     },
   );
 }

@@ -65,7 +65,7 @@ FractalModule buildBurningShipModule() {
     id: 'burning_ship',
     displayName: (l10n) => l10n.moduleBurningShip,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/burning_ship.frag',
+    shaderAsset: 'shaders/burning_ship_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -207,8 +207,7 @@ FractalModule buildBurningShipModule() {
       shader.setFloat(8, colorScheme);
       shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
 
-      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
-      PaletteService.instance.setCustomPaletteUniforms(shader, 10, palette);
+      // GPU-safe: no custom palette uniform block in burning_ship_gpu.frag
     },
   );
 }
