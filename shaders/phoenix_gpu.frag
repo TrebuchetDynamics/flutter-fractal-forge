@@ -36,10 +36,18 @@ vec3 palette(float t, int scheme) {
       0.5 + 0.5 * cos(6.28318 * (t + 0.33)),
       0.5 + 0.5 * cos(6.28318 * (t + 0.67))
     );
-  } else {
+  } else if (scheme == 3) {
     float g = 0.5 + 0.5 * cos(6.28318 * t);
     return vec3(g);
   }
+
+  float s = float(scheme);
+  vec3 a = 0.55 + 0.15 * sin(vec3(1.0, 2.0, 3.0) * (0.37 * s + 0.1));
+  vec3 b = 0.45 + 0.25 * cos(vec3(1.7, 2.3, 2.9) * (0.29 * s + 0.2));
+  vec3 c = 1.0  + 0.80 * sin(vec3(0.8, 1.3, 1.7) * (0.11 * s + 0.3));
+  vec3 d = fract(sin(vec3(12.9898, 78.233, 37.719) * (s + 0.5)) * 43758.5453);
+  vec3 col = a + b * cos(6.28318 * (c * t + d));
+  return clamp(col, 0.0, 1.0);
 }
 
 void main() {
