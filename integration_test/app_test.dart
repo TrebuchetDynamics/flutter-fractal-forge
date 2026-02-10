@@ -112,11 +112,21 @@ void main() {
           await pumpApp(tester);
         }
 
-        await tester.tap(find.byKey(ValueKey(keys[i])));
+        // Scroll until the card is visible (handles growing catalog).
+        final cardFinder = find.byKey(ValueKey(keys[i]));
+        await tester.scrollUntilVisible(
+          cardFinder,
+          200,
+          scrollable: find.byType(Scrollable).first,
+          maxScrolls: 20,
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(cardFinder);
         await tester.pump(const Duration(seconds: 2));
 
-        // Verify viewer screen loaded
-        expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
+        // Verify viewer screen loaded (back arrow always present).
+        expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
         logger.logNavigation('Viewed module $i');
 
         // Go back (custom back button in app bar)
