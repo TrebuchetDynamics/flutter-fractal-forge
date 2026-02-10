@@ -4,6 +4,10 @@ import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
 import 'package:flutter_fractals/core/modules/burning_ship_module.dart';
 import 'package:flutter_fractals/core/modules/julia_module.dart';
 import 'package:flutter_fractals/core/modules/tricorn_module.dart';
+import 'package:flutter_fractals/core/modules/multibrot3_module.dart';
+import 'package:flutter_fractals/core/modules/celtic_module.dart';
+import 'package:flutter_fractals/core/modules/buffalo_module.dart';
+import 'package:flutter_fractals/core/modules/nova_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbrot_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/phoenix_module.dart';
@@ -48,10 +52,14 @@ class ModuleRegistry {
   /// - Mandelbulb (3D, spherical)
   ModuleRegistry() : modules = [
     buildMandelbrotModule(),
-    buildTricornModule(),
     buildJuliaModule(),
     buildBurningShipModule(),
     buildPhoenixModule(),
+    buildTricornModule(),
+    buildMultibrot3Module(),
+    buildCelticModule(),
+    buildBuffaloModule(),
+    buildNovaModule(),
     buildMandelbulbModule(),
     // Keep diagnostics last so existing UI/tests keep their assumptions.
     buildGpuGradientModule(),

@@ -1,0 +1,88 @@
+#include <flutter/runtime_effect.glsl>
+
+precision highp float;
+
+uniform float uTime;          // 0
+uniform vec2  uResolution;    // 1-2
+uniform vec2  uCenter;        // 3-4
+uniform float uZoom;          // 5
+uniform float uIterations;    // 6
+uniform float uRelaxation;    // 7  (Newton relaxation coeff, default 1.0)
+uniform float uColorScheme;   // 8
+uniform float uTransparentBg; // 9
+
+out vec4 fragColor;
+
+vec3 palette(float t, int scheme) {
+  if (scheme == 0) {
+    return vec3(0.5+0.5*cos(6.28318*(t+0.0)),0.5+0.5*cos(6.28318*(t+0.4)),0.5+0.5*cos(6.28318*(t+0.7)));
+  } else if (scheme == 1) {
+    return vec3(0.5+0.5*cos(6.28318*(t+0.5)),0.5+0.5*cos(6.28318*(t+0.3)),0.5+0.5*cos(6.28318*(t+0.0)));
+  } else if (scheme == 2) {
+    return vec3(0.5+0.5*cos(6.28318*(t+0.0)),0.5+0.5*cos(6.28318*(t+0.33)),0.5+0.5*cos(6.28318*(t+0.67)));
+  } else {
+    float g = 0.5+0.5*cos(6.28318*t); return vec3(g);
+  }
+}
+
+// Complex divide: (a+bi)/(c+di)
+vec2 cdiv(vec2 a, vec2 b) {
+  float d = dot(b, b);
+  if (d < 1e-20) return vec2(1e10);
+  return vec2(a.x*b.x + a.y*b.y, a.y*b.x - a.x*b.y) / d;
+}
+
+// Complex multiply
+vec2 cmul(vec2 a, vec2 b) {
+  return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x);
+}
+
+// Complex square
+vec2 csq(vec2 z) {
+  return vec2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y);
+}
+
+void main() {
+  vec2 fragCoord = FlutterFragCoord().xy;
+  float scale = min(uResolution.x, uResolution.y);
+  vec2 uv = (fragCoord - 0.5*uResolution) / max(1.0, scale);
+  vec2 c = uv / max(0.000001, uZoom) + uCenter;
+
+  // Nova fractal: Newton's method on z^3 - 1 with additive c perturbation
+  // z_{n+1} = z_n - R * f(z_n)/f'(z_n) + c
+  // f(z) = z^3 - 1, f'(z) = 3z^2
+  vec2 z = vec2(1.0, 0.0);  // start near root
+  float R = uRelaxation;
+
+  const int MAX_ITERS = 500;
+  int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
+  int it = 0;
+  float conv = 0.0;
+
+  for (int j = 0; j < MAX_ITERS; j++) {
+    if (j >= target) { it = target; break; }
+
+    vec2 z2 = csq(z);
+    vec2 z3 = cmul(z2, z);
+    vec2 fz = z3 - vec2(1.0, 0.0);
+    vec2 fpz = 3.0 * z2;
+    vec2 step_val = cdiv(fz, fpz);
+    z = z - R * step_val + c;
+
+    float d = dot(step_val, step_val);
+    if (d < 1e-10) { it = j; conv = d; break; }
+    it = j + 1;
+  }
+
+  if (it >= target) {
+    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
+    return;
+  }
+
+  // Color based on which root converged to + iteration count
+  float angle = atan(z.y, z.x);
+  float rootPhase = mod(angle / 6.28318 + 1.0, 1.0);
+  float t = fract(float(it) / max(1.0, uIterations) + rootPhase * 0.33 + uTime*0.0001);
+  vec3 color = palette(t, int(uColorScheme));
+  fragColor = vec4(color, 1.0);
+}
