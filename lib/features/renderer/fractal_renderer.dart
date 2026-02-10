@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -131,7 +132,12 @@ class _FractalRendererState extends State<FractalRenderer>
   double _lastRotation = 0.0;
   bool _isScaling = false;
 
-  // For smooth zoom interpolation
+  // Gesture anchors so interactions feel 1:1 with fingers.
+  double _startZoom = 1.0;
+  Vector2 _startPan = Vector2.zero();
+  Offset _startFocalPoint = Offset.zero;
+
+  // For smooth zoom interpolation (kept for optional momentum only)
   double _targetZoom = 1.0;
   double _currentZoom = 1.0;
 
@@ -324,6 +330,7 @@ class _FractalRendererState extends State<FractalRenderer>
   void _onScaleStart(ScaleStartDetails details) {
     _zoomMomentumController.stop();
     _panMomentumController.stop();
+
     _lastScale = 1.0;
     _lastRotation = 0.0;
     _isScaling = details.pointerCount > 1;
@@ -331,7 +338,11 @@ class _FractalRendererState extends State<FractalRenderer>
     _panVelocity = Offset.zero;
 
     final controller = context.read<FractalController>();
-    _currentZoom = controller.view.zoom;
+    _startZoom = controller.view.zoom;
+    _startPan = controller.view.pan;
+    _startFocalPoint = details.focalPoint;
+
+    _currentZoom = _startZoom;
     _targetZoom = _currentZoom;
   }
 
@@ -340,51 +351,71 @@ class _FractalRendererState extends State<FractalRenderer>
     final view = controller.view;
     final module = controller.module;
 
-    // Smooth zoom with interpolation
-    if (details.scale != 1.0) {
-      final scaleChange = details.scale / _lastScale;
-      _targetZoom = view.zoom * scaleChange;
-      
-      // Smooth interpolation for zoom
-      final smoothZoom = _lerpDouble(view.zoom, _targetZoom, 0.3);
-      controller.updateZoom(smoothZoom);
+    // Try to map screen pixels to fractal "world" units based on the shader's
+    // coordinate transform:
+    //   uv = (frag - 0.5*res)/scale
+    //   c  = uv/zoom + center
+    final renderBox = context.findRenderObject() as RenderBox?;
+    final size = renderBox?.size;
+    final scalePx = (size == null)
+        ? 1.0
+        : math.max(1.0, math.min(size.width, size.height));
 
-      // Track velocity for momentum
-      _zoomVelocity = (scaleChange - 1.0) * 10.0;
-      _lastScale = details.scale;
+    // Total finger movement since gesture start.
+    final totalDelta = details.focalPoint - _startFocalPoint;
+
+    // --- 1 finger: pan (2D) or rotate (3D) ---
+    if (details.pointerCount == 1) {
+      if (module.dimension == FractalDimension.threeD) {
+        // Rotate with 1 finger in AR/3D mode.
+        controller.updateRotation(
+          view.rotation + Vector3(totalDelta.dy * 0.0009, totalDelta.dx * 0.0009, 0),
+        );
+      } else {
+        // Convert pixels → complex-plane delta.
+        final dxWorld = (totalDelta.dx / scalePx) / math.max(1e-9, _startZoom);
+        final dyWorld = (totalDelta.dy / scalePx) / math.max(1e-9, _startZoom);
+        controller.updatePan(
+          Vector2(
+            _startPan.x - dxWorld,
+            _startPan.y - dyWorld,
+          ),
+        );
+      }
+
+      // For momentum.
+      _panVelocity = details.focalPointDelta;
+      return;
     }
 
-    // Handle rotation for 3D fractals (two-finger twist)
-    if (module.dimension == FractalDimension.threeD && 
-        details.rotation != 0.0 && 
-        _isScaling) {
+    // --- 2+ fingers: pinch zoom (and optional twist rotation for 3D) ---
+    final newZoom = (_startZoom * details.scale).clamp(1e-9, 1e12);
+
+    if (module.dimension == FractalDimension.threeD && details.rotation != 0.0) {
       final rotationDelta = details.rotation - _lastRotation;
-      controller.updateRotation(
-        view.rotation + Vector3(0, 0, rotationDelta),
-      );
+      controller.updateRotation(view.rotation + Vector3(0, 0, rotationDelta));
       _lastRotation = details.rotation;
     }
 
-    // Handle panning/rotation from focal point movement
-    if (details.focalPointDelta != Offset.zero) {
-      final delta = details.focalPointDelta;
-      _panVelocity = delta;
+    if (module.dimension != FractalDimension.threeD && size != null) {
+      // Keep the point under the fingers stable while zooming.
+      final startN = (_startFocalPoint - Offset(size.width / 2, size.height / 2)) / scalePx;
+      final curN = (details.focalPoint - Offset(size.width / 2, size.height / 2)) / scalePx;
 
-      if (module.dimension == FractalDimension.threeD) {
-        // For 3D: pan gesture rotates the view
-        controller.updateRotation(
-          view.rotation + Vector3(delta.dy * 0.01, delta.dx * 0.01, 0),
-        );
-      } else {
-        // For 2D: standard panning
-        // Invert so dragging moves the view intuitively
-        final pan = Vector2(
-          view.pan.x - delta.dx * 0.005 / view.zoom,
-          view.pan.y - delta.dy * 0.005 / view.zoom,
-        );
-        controller.updatePan(pan);
-      }
+      final worldX = startN.dx / _startZoom + _startPan.x;
+      final worldY = startN.dy / _startZoom + _startPan.y;
+
+      final newCenterX = worldX - (curN.dx / newZoom);
+      final newCenterY = worldY - (curN.dy / newZoom);
+      controller.updatePan(Vector2(newCenterX, newCenterY));
     }
+
+    controller.updateZoom(newZoom);
+
+    // Track velocity for momentum (after release).
+    final scaleChange = details.scale / _lastScale;
+    _zoomVelocity = (scaleChange - 1.0) * 10.0;
+    _lastScale = details.scale;
   }
 
   void _onScaleEnd(ScaleEndDetails details) {
