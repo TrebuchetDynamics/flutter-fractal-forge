@@ -49,7 +49,13 @@ void main() {
       expect(find.text('Mandelbrot'), findsOneWidget);
       expect(find.text('Julia'), findsOneWidget);
       expect(find.text('Burning Ship'), findsOneWidget);
+
+      await tester.ensureVisible(find.text('Phoenix'));
+      await tester.pumpAndSettle();
       expect(find.text('Phoenix'), findsOneWidget);
+
+      await tester.ensureVisible(find.text('Mandelbulb'));
+      await tester.pumpAndSettle();
       expect(find.text('Mandelbulb'), findsOneWidget);
     });
 

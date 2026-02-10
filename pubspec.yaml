@@ -57,3 +57,4 @@ flutter:
   - shaders/julia_gpu.frag
   - shaders/burning_ship_gpu.frag
   - shaders/phoenix_gpu.frag
+  - shaders/tricorn_gpu.frag
