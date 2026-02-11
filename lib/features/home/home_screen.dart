@@ -7,7 +7,7 @@ import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
-import 'package:flutter_fractals/features/ar/ar_overlay_screen.dart';
+// AR entry lives in FractalViewer; home no longer hosts AR tab.
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -21,13 +21,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  int _index = 0;
-  late final AnimationController _animController;
-
+class _HomeScreenState extends State<HomeScreen> {
   late final FractalController _exploreController;
-  late final FractalController _arController;
 
   StreamSubscription<DeepLinkData>? _deepLinkSubscription;
   bool _handledInitialLink = false;
@@ -39,11 +34,7 @@ class _HomeScreenState extends State<HomeScreen>
     // Keep controller state scoped per tab so AR-specific tweaks (quality presets,
     // transparent background) don't leak into the Explore/catalog/viewer flow.
     _exploreController = FractalController(registry);
-    _arController = FractalController(registry);
-    _animController = AnimationController(
-      duration: AppAnimations.normal,
-      vsync: this,
-    );
+    // Home no longer animates tab transitions.
 
     // Set up deep link handling (skip in SAFE_MODE)
     if (!kSafeMode) {
@@ -136,18 +127,11 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     _deepLinkSubscription?.cancel();
-    _animController.dispose();
     _exploreController.dispose();
-    _arController.dispose();
     super.dispose();
   }
 
-  void _onTabChanged(int index) {
-    if (index != _index) {
-      setState(() => _index = index);
-      _animController.forward(from: 0);
-    }
-  }
+  // AR tab removed: AR entry is inside FractalViewer app bar.
 
   @override
   Widget build(BuildContext context) {
@@ -169,59 +153,34 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         );
       },
-      child: (kSafeMode || _index == 0)
-          ? ChangeNotifierProvider.value(
-              key: const ValueKey('explore'),
-              value: _exploreController,
-              child: Column(
-                children: [
-                  if (kSafeMode)
-                    MaterialBanner(
-                      backgroundColor: AppColors.warning.withOpacity(0.15),
-                      content: Text(
-                        'SAFE MODE: AR & shader rendering disabled for device crash triage.',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppColors.warning),
-                      ),
-                      actions: const [],
-                    ),
-                  const Expanded(child: FractalCatalogScreen()),
-                ],
+      child: ChangeNotifierProvider.value(
+        key: const ValueKey('explore'),
+        value: _exploreController,
+        child: Column(
+          children: [
+            if (kSafeMode)
+              MaterialBanner(
+                backgroundColor: AppColors.warning.withOpacity(0.15),
+                content: Text(
+                  'SAFE MODE: AR & shader rendering disabled for device crash triage.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: AppColors.warning),
+                ),
+                actions: const [],
               ),
-            )
-          : ChangeNotifierProvider.value(
-              key: const ValueKey('ar'),
-              value: _arController,
-              child: const ArOverlayScreen(),
-            ),
+            const Expanded(child: FractalCatalogScreen()),
+          ],
+        ),
+      ),
     );
 
     return Scaffold(
       extendBody: true,
-      appBar: _PremiumAppBar(
-        title: (kSafeMode || _index == 0) ? l10n.catalogTitle : l10n.arTitle,
-      ),
+      appBar: _PremiumAppBar(title: l10n.catalogTitle),
       body: body,
-      bottomNavigationBar: kSafeMode
-          ? null
-          : _PremiumNavBar(
-              currentIndex: _index,
-              onTap: _onTabChanged,
-              items: [
-                _NavItem(
-                  icon: Icons.grid_view_rounded,
-                  label: l10n.tabExplore,
-                  semanticLabel: l10n.semanticNavExplore,
-                ),
-                _NavItem(
-                  icon: Icons.camera_rounded,
-                  label: l10n.tabAr,
-                  semanticLabel: l10n.semanticNavAr,
-                ),
-              ],
-            ),
+      bottomNavigationBar: null,
     );
   }
 }
