@@ -1,0 +1,87 @@
+#include <flutter/runtime_effect.glsl>
+
+precision highp float;
+
+uniform float uTime;          // 0
+uniform vec2  uResolution;    // 1-2
+uniform vec2  uCenter;        // 3-4
+uniform float uZoom;          // 5
+uniform float uIterations;    // 6
+uniform float uBailout;       // 7
+uniform float uColorScheme;   // 8
+uniform float uTransparentBg; // 9
+
+out vec4 fragColor;
+
+const int MAX_ITERS = 500;
+
+vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
+  return a + b * cos(6.28318 * (c * t + d));
+}
+
+vec3 getPaletteColor(float t, int scheme) {
+  t = fract(t);
+  if (scheme == 0) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.00, 0.33, 0.67));
+  if (scheme == 1) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.50, 0.30, 0.00));
+  if (scheme == 2) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0, 0.7, 0.4), vec3(0.00, 0.15, 0.20));
+  if (scheme == 3) {
+    float g = 0.5 + 0.5 * cos(6.28318 * t);
+    return vec3(g);
+  }
+  float s = float(scheme);
+  vec3 a = 0.55 + 0.15 * sin(vec3(1.0, 2.0, 3.0) * (0.37 * s + 0.1));
+  vec3 b = 0.45 + 0.25 * cos(vec3(1.7, 2.3, 2.9) * (0.29 * s + 0.2));
+  vec3 c = 1.0  + 0.80 * sin(vec3(0.8, 1.3, 1.7) * (0.11 * s + 0.3));
+  vec3 d = fract(sin(vec3(12.9898, 78.233, 37.719) * (s + 0.5)) * 43758.5453);
+  return clamp(iqPalette(t, a, b, c, d), 0.0, 1.0);
+}
+
+float hash21(vec2 p) {
+  p = fract(p * vec2(313.1, 127.7));
+  p += dot(p, p + 53.13);
+  return fract(p.x * p.y);
+}
+
+float cellAt(vec2 cell, float stepId) {
+  float seed = step(0.72, hash21(cell + vec2(-9.1, 2.7)));
+  float flicker = step(0.9, hash21(cell + vec2(stepId * 0.37, -stepId * 0.21)));
+  return max(seed * step(0.15, fract(0.09 * stepId + hash21(cell))), flicker);
+}
+
+void main() {
+  vec2 fragCoord = FlutterFragCoord().xy;
+  float scale = min(uResolution.x, uResolution.y);
+  vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
+  vec2 p = uv / max(0.000001, uZoom) + uCenter;
+
+  vec2 cell = floor(p * 96.0);
+  int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
+  float stepId = floor(0.3 * float(target) + uTime * 0.45);
+
+  float alive = cellAt(cell, stepId);
+
+  float n = 0.0;
+  for (int oy = -1; oy <= 1; oy++) {
+    for (int ox = -1; ox <= 1; ox++) {
+      if (ox == 0 && oy == 0) continue;
+      n += cellAt(cell + vec2(float(ox), float(oy)), stepId - 1.0);
+    }
+  }
+
+  // Day & Night: B3678 / S34678 (totalistic outer-totalistic rule).
+  bool b = (abs(n - 3.0) < 0.1) || (abs(n - 6.0) < 0.1) || (abs(n - 7.0) < 0.1) || (abs(n - 8.0) < 0.1);
+  bool s = (abs(n - 3.0) < 0.1) || (abs(n - 4.0) < 0.1) || (abs(n - 6.0) < 0.1) || (abs(n - 7.0) < 0.1) || (abs(n - 8.0) < 0.1);
+  float nextAlive = alive > 0.5 ? (s ? 1.0 : 0.0) : (b ? 1.0 : 0.0);
+
+  float tone = fract(0.08 * n + 0.3 * hash21(cell) + 0.01 * stepId);
+  vec3 nightCol = vec3(0.015, 0.02, 0.04);
+  vec3 dayCol = getPaletteColor(0.4 + tone, int(uColorScheme));
+  vec3 col = mix(nightCol, dayCol, nextAlive);
+
+  if (nextAlive < 0.5 && uTransparentBg > 0.5) {
+    fragColor = vec4(0.0);
+    return;
+  }
+
+  fragColor = vec4(col, 1.0);
+}
