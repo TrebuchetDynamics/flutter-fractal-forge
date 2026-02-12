@@ -62,6 +62,9 @@ flutter:
   - shaders/celtic_gpu.frag
   - shaders/buffalo_gpu.frag
   - shaders/nova_gpu.frag
+  - shaders/nova_julia_gpu.frag
+  - shaders/fatou_gpu.frag
+  - shaders/gamma_gpu.frag
   - shaders/collatz_gpu.frag
   - shaders/popcorn_gpu.frag
   - shaders/sine_julia_gpu.frag
@@ -91,6 +94,7 @@ flutter:
   - shaders/ducky_gpu.frag
   - shaders/schroeder_gpu.frag
   - shaders/secant_fractal_gpu.frag
+  - shaders/secant_cosecant_gpu.frag
   - shaders/lyapunov_gpu.frag
   - shaders/logistic_lyapunov_gpu.frag
   - shaders/circle_map_lyapunov_gpu.frag
@@ -101,6 +105,8 @@ flutter:
   - shaders/tetration_gpu.frag
   - shaders/talis_gpu.frag
   - shaders/halley_gpu.frag
+  - shaders/householder_gpu.frag
+  - shaders/magnet_newton_gpu.frag
   - shaders/henon_gpu.frag
   - shaders/tinkerbell_gpu.frag
   - shaders/gingerbreadman_gpu.frag
@@ -144,6 +150,12 @@ flutter:
   - shaders/arneodo_gpu.frag
   - shaders/thomas_attractor_gpu.frag
   - shaders/four_wing_gpu.frag
+  - shaders/lorenz_2d_gpu.frag
+  - shaders/rossler_2d_gpu.frag
+  - shaders/dadras_gpu.frag
+  - shaders/chen_gpu.frag
+  - shaders/lu_chen_gpu.frag
+  - shaders/halvorsen_gpu.frag
   - shaders/wolfram_rule30_gpu.frag
   - shaders/langton_ant_gpu.frag
   - shaders/sandpile_gpu.frag

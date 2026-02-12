@@ -62,6 +62,24 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/nova_gpu.frag',
     defaultIterations: 150,
   ),
+  EscapeTimeConfig(
+    id: 'nova_julia',
+    name: 'Nova Julia',
+    shaderAsset: 'shaders/nova_julia_gpu.frag',
+    defaultIterations: 140,
+  ),
+  EscapeTimeConfig(
+    id: 'fatou',
+    name: 'Fatou Set',
+    shaderAsset: 'shaders/fatou_gpu.frag',
+    defaultIterations: 180,
+  ),
+  EscapeTimeConfig(
+    id: 'gamma_fractal',
+    name: 'Gamma Fractal',
+    shaderAsset: 'shaders/gamma_gpu.frag',
+    defaultIterations: 100,
+  ),
 
   // ── New escape-time fractals (add shader + entry) ───────
   // Uncomment as shaders are implemented:
@@ -465,6 +483,48 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 260,
     defaultBailout: 12.0,
   ),
+  EscapeTimeConfig(
+    id: 'lorenz_2d',
+    name: 'Lorenz Attractor (2D)',
+    shaderAsset: 'shaders/lorenz_2d_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'rossler_2d',
+    name: 'Rossler Attractor (2D)',
+    shaderAsset: 'shaders/rossler_2d_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 12.0,
+  ),
+  EscapeTimeConfig(
+    id: 'dadras',
+    name: 'Dadras Attractor',
+    shaderAsset: 'shaders/dadras_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'chen',
+    name: 'Chen Attractor',
+    shaderAsset: 'shaders/chen_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'lu_chen',
+    name: 'Lu-Chen Attractor',
+    shaderAsset: 'shaders/lu_chen_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'halvorsen',
+    name: 'Halvorsen Attractor',
+    shaderAsset: 'shaders/halvorsen_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 16.0,
+  ),
 
   // ── II. Convergent/Root-Finding (escape-time variant) ───
   EscapeTimeConfig(
@@ -480,6 +540,20 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/halley_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'householder',
+    name: 'Householder Fractal',
+    shaderAsset: 'shaders/householder_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'magnet_newton',
+    name: 'Magnet Newton',
+    shaderAsset: 'shaders/magnet_newton_gpu.frag',
+    defaultIterations: 90,
+    defaultBailout: 6.0,
   ),
 
   // ── VII. Trigonometric ──────────────────────────────────
@@ -550,6 +624,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Secant Fractal',
     shaderAsset: 'shaders/secant_fractal_gpu.frag',
     defaultIterations: 80,
+  ),
+  EscapeTimeConfig(
+    id: 'secant_cosecant',
+    name: 'Secant/Cosecant Map',
+    shaderAsset: 'shaders/secant_cosecant_gpu.frag',
+    defaultIterations: 100,
+    defaultBailout: 12.0,
   ),
 
   // ── IX. Lyapunov ────────────────────────────────────────
