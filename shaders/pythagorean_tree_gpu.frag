@@ -1,0 +1,102 @@
+#include <flutter/runtime_effect.glsl>
+
+precision highp float;
+
+uniform float uTime;
+uniform vec2  uResolution;
+uniform vec2  uCenter;
+uniform float uZoom;
+uniform float uIterations;
+uniform float uBailout;
+uniform float uColorScheme;
+uniform float uTransparentBg;
+
+out vec4 fragColor;
+
+const int MAX_ITERS = 500;
+
+vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
+  return a + b * cos(6.28318 * (c * t + d));
+}
+
+vec3 getPaletteColor(float t, int scheme) {
+  t = fract(t);
+  if (scheme == 0) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.00, 0.33, 0.67));
+  if (scheme == 1) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.50, 0.30, 0.00));
+  if (scheme == 2) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0, 0.7, 0.4), vec3(0.00, 0.15, 0.20));
+  if (scheme == 3) {
+    float g = 0.5 + 0.5 * cos(6.28318 * t);
+    return vec3(g);
+  }
+
+  float s = float(scheme);
+  vec3 a = 0.55 + 0.15 * sin(vec3(1.0, 2.0, 3.0) * (0.37 * s + 0.1));
+  vec3 b = 0.45 + 0.25 * cos(vec3(1.7, 2.3, 2.9) * (0.29 * s + 0.2));
+  vec3 c = 1.0  + 0.80 * sin(vec3(0.8, 1.3, 1.7) * (0.11 * s + 0.3));
+  vec3 d = fract(sin(vec3(12.9898, 78.233, 37.719) * (s + 0.5)) * 43758.5453);
+  return clamp(iqPalette(t, a, b, c, d), 0.0, 1.0);
+}
+
+float sdBox(vec2 p, vec2 b) {
+  vec2 d = abs(p) - b;
+  return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+}
+
+mat2 rot(float a) {
+  float c = cos(a), s = sin(a);
+  return mat2(c, -s, s, c);
+}
+
+void main() {
+  vec2 fragCoord = FlutterFragCoord().xy;
+  float scale = min(uResolution.x, uResolution.y);
+  vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
+
+  vec2 p = uv / max(0.000001, uZoom) + uCenter;
+  p *= 2.2;
+  p.y += 0.7;
+
+  int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
+
+  vec2 q = p;
+  float trap = 1e9;
+  float depth = 0.0;
+
+  for (int i = 0; i < MAX_ITERS; i++) {
+    if (i >= target) break;
+
+    float dSquare = abs(sdBox(q - vec2(0.0, 0.5), vec2(0.5)));
+    trap = min(trap, dSquare / pow(1.41421356, float(i) * 0.9));
+
+    if (q.y < 0.0) {
+      q = vec2(q.x, -q.y);
+    }
+
+    if (q.x < 0.0) {
+      q -= vec2(-0.5, 1.0);
+      q = rot(0.78539816339) * q;
+      q *= 1.41421356;
+      depth += 1.0;
+    } else {
+      q -= vec2(0.5, 1.0);
+      q = rot(-0.78539816339) * q;
+      q *= 1.41421356;
+      depth += 1.0;
+    }
+
+    if (length(q) > max(2.0, uBailout) * 10.0) break;
+  }
+
+  float edge = exp(-28.0 * trap);
+  if (edge < 0.02) {
+    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    return;
+  }
+
+  float t = fract(depth / float(target) + 0.3 * edge + uTime * 0.0001);
+  vec3 color = getPaletteColor(t, int(uColorScheme));
+  color *= mix(vec3(0.45, 0.30, 0.18), vec3(0.35, 0.85, 0.45), clamp(depth / float(target), 0.0, 1.0));
+  color *= 0.8 + 0.6 * edge;
+
+  fragColor = vec4(color, 1.0);
+}
