@@ -56,3 +56,4 @@ android/app/*.keystore
 
 # Local lock file used by scripts/overnight-*.sh to serialize Android builds.
 .android_flutter_build.lock
+.omc/project-memory.json
