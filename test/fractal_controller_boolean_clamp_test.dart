@@ -15,7 +15,7 @@ void main() {
       displayName: (_) => 'Bool',
       dimension: FractalDimension.twoD,
       shaderAsset: 'shaders/unused.frag',
-      parameters: const [
+      parameters: [
         FractalParameter(
           id: 'flag',
           label: (_) => 'Flag',

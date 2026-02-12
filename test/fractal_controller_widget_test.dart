@@ -268,7 +268,7 @@ void main() {
       // Get a preset that has different iterations than default
       final presets = registry.byId('mandelbrot').builtInPresets;
       final preset = presets.firstWhere(
-        (p) => (p.params['iterations'] as int?) != 120,
+        (p) => (p.params['iterations'] as num?)?.toInt() != 120,
         orElse: () => presets.first,
       );
 
