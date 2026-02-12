@@ -410,6 +410,20 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 12.0,
   ),
   EscapeTimeConfig(
+    id: 'zaslavsky',
+    name: 'Zaslavsky Map',
+    shaderAsset: 'shaders/zaslavsky_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'kicked_rotator',
+    name: 'Kicked Rotator',
+    shaderAsset: 'shaders/kicked_rotator_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
     id: 'chua_circuit',
     name: "Chua's Circuit",
     shaderAsset: 'shaders/chua_gpu.frag',
