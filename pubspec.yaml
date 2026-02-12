@@ -91,3 +91,14 @@ flutter:
   - shaders/tetration_gpu.frag
   - shaders/talis_gpu.frag
   - shaders/halley_gpu.frag
+  - shaders/henon_gpu.frag
+  - shaders/tinkerbell_gpu.frag
+  - shaders/gingerbreadman_gpu.frag
+  - shaders/lozi_gpu.frag
+  - shaders/duffing_gpu.frag
+  - shaders/ikeda_gpu.frag
+  - shaders/hopalong_gpu.frag
+  - shaders/pickover_gpu.frag
+  - shaders/feigenbaum_gpu.frag
+  - shaders/gauss_map_gpu.frag
+  - shaders/buddhabrot_gpu.frag

@@ -158,6 +158,50 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 90,
   ),
 
+  // ── X. 2D Maps / Attractors ─────────────────────────────
+  EscapeTimeConfig(
+    id: 'henon',
+    name: 'Hénon Map',
+    shaderAsset: 'shaders/henon_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tinkerbell',
+    name: 'Tinkerbell Map',
+    shaderAsset: 'shaders/tinkerbell_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 32.0,
+  ),
+  EscapeTimeConfig(
+    id: 'gingerbreadman',
+    name: 'Gingerbreadman Map',
+    shaderAsset: 'shaders/gingerbreadman_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 24.0,
+  ),
+  EscapeTimeConfig(
+    id: 'lozi',
+    name: 'Lozi Map',
+    shaderAsset: 'shaders/lozi_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 24.0,
+  ),
+  EscapeTimeConfig(
+    id: 'duffing',
+    name: 'Duffing Map',
+    shaderAsset: 'shaders/duffing_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 32.0,
+  ),
+  EscapeTimeConfig(
+    id: 'ikeda',
+    name: 'Ikeda Map',
+    shaderAsset: 'shaders/ikeda_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 32.0,
+  ),
+
   // ── II. Convergent/Root-Finding (escape-time variant) ───
   EscapeTimeConfig(
     id: 'newton_z3',
@@ -252,6 +296,47 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 200,
     defaultCenterX: 3.0,
     defaultCenterY: 3.0,
+  ),
+  EscapeTimeConfig(
+    id: 'hopalong',
+    name: 'Hopalong Attractor',
+    shaderAsset: 'shaders/hopalong_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 32.0,
+  ),
+  EscapeTimeConfig(
+    id: 'pickover_biomorph',
+    name: 'Pickover Biomorph',
+    shaderAsset: 'shaders/pickover_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 64.0,
+  ),
+  EscapeTimeConfig(
+    id: 'feigenbaum',
+    name: 'Feigenbaum Logistic Map',
+    shaderAsset: 'shaders/feigenbaum_gpu.frag',
+    defaultIterations: 260,
+    defaultCenterX: 0.25,
+    defaultCenterY: 0.0,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'gauss_map',
+    name: 'Gauss Map',
+    shaderAsset: 'shaders/gauss_map_gpu.frag',
+    defaultIterations: 220,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'buddhabrot_approx',
+    name: 'Buddhabrot (Approx)',
+    shaderAsset: 'shaders/buddhabrot_gpu.frag',
+    defaultIterations: 260,
+    defaultCenterX: -0.5,
+    defaultCenterY: 0.0,
+    defaultBailout: 8.0,
   ),
 ];
 
