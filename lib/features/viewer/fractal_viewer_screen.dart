@@ -52,7 +52,8 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 ///
 /// Useful for emulator CI runs and for validating gesture paths.
 /// Enable with: --dart-define=FORCE_CPU_FALLBACK=true
-const bool kForceCpuFallback = bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);
+const bool kForceCpuFallback =
+    bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);
 
 class FractalViewerScreen extends StatefulWidget {
   const FractalViewerScreen({Key? key}) : super(key: key);
@@ -119,6 +120,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   // Auto-explore service
   AutoExploreService? _autoExploreService;
+
+  // Freeze renderer while export sheet is open.
+  bool _freezeFrameForExport = false;
+  bool _resumeAutoExploreAfterExportSheet = false;
 
   @override
   void initState() {
@@ -250,7 +255,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     // Zoom distance: sum abs(log(new/old))
     final prevZoom = _lastZoom;
     final currentZoom = controller.view.zoom;
-    if (prevZoom != null && prevZoom > 0 && currentZoom > 0 && prevZoom != currentZoom) {
+    if (prevZoom != null &&
+        prevZoom > 0 &&
+        currentZoom > 0 &&
+        prevZoom != currentZoom) {
       final delta = (math.log(currentZoom / prevZoom)).abs();
       _statsService?.addZoomDistance(delta);
       _lastZoom = currentZoom;
@@ -381,205 +389,197 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               );
             },
           ),
-          _AppBarIconButton(
-            icon: _compareMode ? Icons.close_fullscreen_rounded : Icons.compare_rounded,
-            tooltip: _compareMode ? 'Exit compare' : 'Compare',
-            onPressed: () => _toggleCompareMode(context),
-          ),
-          if (_compareMode) ...[
-            _AppBarIconButton(
-              icon: _compareSliderMode
-                  ? Icons.view_week_rounded
-                  : Icons.drag_handle_rounded,
-              tooltip: _compareSliderMode ? 'Side-by-side' : 'Sliding divider',
-              onPressed: _toggleCompareLayout,
-            ),
-            _AppBarIconButton(
-              icon: _activePane == 0 ? Icons.filter_1_rounded : Icons.filter_2_rounded,
-              tooltip: _activePane == 0 ? 'Editing: A' : 'Editing: B',
-              onPressed: () {
-                setState(() {
-                  _activePane = _activePane == 0 ? 1 : 0;
-                });
-              },
-            ),
-          ],
+          // Compare (A/B) intentionally removed from user-facing UI.
+
         ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final viewportSize = Size(constraints.maxWidth, constraints.maxHeight);
+          final viewportSize =
+              Size(constraints.maxWidth, constraints.maxHeight);
 
           return Stack(
             children: [
-          // Fractal renderer (single or compare)
-          Positioned.fill(
-            child: _compareMode
-                ? _CompareRenderer(
-                    keyA: _fractalKeyA,
-                    keyB: _fractalKeyB,
-                    controllerB: _compareController!,
-                    sliderMode: _compareSliderMode,
-                    divider: _compareDivider,
-                    activePane: _activePane,
-                    onDividerChanged: (v) => setState(() => _compareDivider = v),
-                    onActivePaneChanged: (pane) => setState(() => _activePane = pane),
-                    onOpenControls: () => _openControls(context),
-                    onOpenPresets: () => _openPresets(context),
-                    onOpenExport: () => _openExport(context),
-                  )
-                : (_useCpuFallback
-                    ? _CpuFallbackPane(boundaryKey: _fractalKeyA)
-                    : ((controller.module.dimension == FractalDimension.threeD) && !_isTest
-                        ? const Center(
-                            child: Text(
-                              '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)',
-                              style: TextStyle(color: Colors.white70),
-                              textAlign: TextAlign.center,
+              // Fractal renderer (single or compare)
+              Positioned.fill(
+                child: _compareMode
+                    ? _CompareRenderer(
+                        keyA: _fractalKeyA,
+                        keyB: _fractalKeyB,
+                        controllerB: _compareController!,
+                        sliderMode: _compareSliderMode,
+                        divider: _compareDivider,
+                        activePane: _activePane,
+                        onDividerChanged: (v) =>
+                            setState(() => _compareDivider = v),
+                        onActivePaneChanged: (pane) =>
+                            setState(() => _activePane = pane),
+                        onOpenControls: () => _openControls(context),
+                        onOpenPresets: () => _openPresets(context),
+                        onOpenExport: () => _openExport(context),
+                        freezeFrame: _freezeFrameForExport,
+                      )
+                    : (_useCpuFallback
+                        ? _CpuFallbackPane(boundaryKey: _fractalKeyA)
+                        : ((controller.module.dimension ==
+                                    FractalDimension.threeD) &&
+                                !_isTest
+                            ? const Center(
+                                child: Text(
+                                  '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)',
+                                  style: TextStyle(color: Colors.white70),
+                                  textAlign: TextAlign.center,
+                                ),
+                              )
+                            : FractalRenderer(
+                                boundaryKey: _fractalKeyA,
+                                animationEnabled: !_freezeFrameForExport,
+                                onOpenControls: () => _openControls(context),
+                                onOpenPresets: () => _openPresets(context),
+                                onOpenExport: () => _openExport(context),
+                              ))),
+              ),
+
+              if (_useCpuFallback)
+                Positioned(
+                  // Avoid overlapping the ShaderDebugOverlay which is positioned at top:80, left:8.
+                  top: MediaQuery.of(context).padding.top + 8,
+                  right: 12,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 240),
+                    child: _CpuFallbackBanner(
+                      onTryGpu: () {
+                        setState(() {
+                          _useCpuFallback = false;
+                          // Keep the health-check disabled so we can see the raw GPU output.
+                          _disableGpuHealthCheck = true;
+                        });
+                      },
+                      onReport: () => _shareGpuDebugReport(context),
+                    ),
+                  ),
+                ),
+
+              // Minimap overlay (bottom-left)
+              Positioned(
+                left: AppSpacing.lg,
+                bottom: MediaQuery.of(context).padding.bottom + AppSpacing.xl,
+                child: ChangeNotifierProvider.value(
+                  value: _activeController(context),
+                  child: FractalMiniMap(viewportSize: viewportSize),
+                ),
+              ),
+
+              // Floating action buttons
+              Positioned(
+                right: AppSpacing.lg,
+                bottom: MediaQuery.of(context).padding.bottom + AppSpacing.xl,
+                child: FadeTransition(
+                  opacity: _fabController,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0.5, 0),
+                      end: Offset.zero,
+                    ).animate(CurvedAnimation(
+                      parent: _fabController,
+                      curve: AppAnimations.defaultCurve,
+                    )),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Auto-explore button
+                        if (_autoExploreService != null)
+                          ChangeNotifierProvider<AutoExploreService>.value(
+                            value: _autoExploreService!,
+                            child: AutoExploreButton(
+                              delay: const Duration(milliseconds: 0),
+                              onLongPress: _exporting
+                                  ? null
+                                  : () => _openAutoExploreSettings(context),
                             ),
-                          )
-                        : FractalRenderer(
-                            boundaryKey: _fractalKeyA,
-                            onOpenControls: () => _openControls(context),
-                            onOpenPresets: () => _openPresets(context),
-                            onOpenExport: () => _openExport(context),
-                          ))),
-          ),
-
-          if (_useCpuFallback)
-            Positioned(
-              // Avoid overlapping the ShaderDebugOverlay which is positioned at top:80, left:8.
-              top: MediaQuery.of(context).padding.top + 8,
-              right: 12,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 240),
-                child: _CpuFallbackBanner(
-                  onTryGpu: () {
-                    setState(() {
-                      _useCpuFallback = false;
-                      // Keep the health-check disabled so we can see the raw GPU output.
-                      _disableGpuHealthCheck = true;
-                    });
-                  },
-                  onReport: () => _shareGpuDebugReport(context),
-                ),
-              ),
-            ),
-
-          // Minimap overlay (bottom-left)
-          Positioned(
-            left: AppSpacing.lg,
-            bottom: MediaQuery.of(context).padding.bottom + AppSpacing.xl,
-            child: ChangeNotifierProvider.value(
-              value: _activeController(context),
-              child: FractalMiniMap(viewportSize: viewportSize),
-            ),
-          ),
-
-          // Floating action buttons
-          Positioned(
-            right: AppSpacing.lg,
-            bottom: MediaQuery.of(context).padding.bottom + AppSpacing.xl,
-            child: FadeTransition(
-              opacity: _fabController,
-              child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0.5, 0),
-                  end: Offset.zero,
-                ).animate(CurvedAnimation(
-                  parent: _fabController,
-                  curve: AppAnimations.defaultCurve,
-                )),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Auto-explore button
-                    if (_autoExploreService != null)
-                      ChangeNotifierProvider<AutoExploreService>.value(
-                        value: _autoExploreService!,
-                        child: AutoExploreButton(
-                          delay: const Duration(milliseconds: 0),
-                          onLongPress: _exporting ? null : () => _openAutoExploreSettings(context),
+                          ),
+                        if (_autoExploreService != null)
+                          const SizedBox(height: AppSpacing.md),
+                        // Keep the viewer uncluttered: only core actions here.
+                        _FloatingActionButton(
+                          icon: Icons.tune_rounded,
+                          tooltip: l10n.tooltipOpenControls,
+                          onPressed:
+                              _exporting ? null : () => _openControls(context),
+                          delay: const Duration(milliseconds: 50),
                         ),
-                      ),
-                    if (_autoExploreService != null)
-                      const SizedBox(height: AppSpacing.md),
-                    // Keep the viewer uncluttered: only core actions here.
-                    _FloatingActionButton(
-                      icon: Icons.tune_rounded,
-                      tooltip: l10n.tooltipOpenControls,
-                      onPressed: _exporting ? null : () => _openControls(context),
-                      delay: const Duration(milliseconds: 50),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    _FloatingActionButton(
-                      icon: Icons.bookmark_rounded,
-                      tooltip: l10n.tooltipOpenPresets,
-                      onPressed: _exporting ? null : () => _openPresets(context),
-                      delay: const Duration(milliseconds: 100),
-                    ),
-                    // AR entry is in the app bar to avoid redundant buttons.
+                        const SizedBox(height: AppSpacing.md),
+                        _FloatingActionButton(
+                          icon: Icons.bookmark_rounded,
+                          tooltip: l10n.tooltipOpenPresets,
+                          onPressed:
+                              _exporting ? null : () => _openPresets(context),
+                          delay: const Duration(milliseconds: 100),
+                        ),
+                        // AR entry is in the app bar to avoid redundant buttons.
 
-                    const SizedBox(height: AppSpacing.md),
-                    _FloatingActionButton(
-                      icon: Icons.download_rounded,
-                      tooltip: l10n.tooltipExport,
-                      onPressed: _exporting ? null : () => _openExport(context),
-                      isPrimary: true,
-                      delay: const Duration(milliseconds: 200),
+                        const SizedBox(height: AppSpacing.md),
+                        _FloatingActionButton(
+                          icon: Icons.download_rounded,
+                          tooltip: l10n.tooltipExport,
+                          onPressed:
+                              _exporting ? null : () => _openExport(context),
+                          isPrimary: true,
+                          delay: const Duration(milliseconds: 200),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
 
-          // Export progress overlay
-          if (_exporting)
-            Positioned.fill(
-              child: _ExportOverlay(
-                progress: _exportProgress,
-                l10n: l10n,
-              ),
-            ),
-
-          if (kDebugMode && _debugRunner != null)
-            DebugOverlay(
-              runner: _debugRunner!,
-              boundaryKey: _activeBoundaryKey(),
-            ),
-
-          // Dev-only performance overlay toggle button (top-left)
-          if (kDebugMode)
-            Positioned(
-              top: MediaQuery.of(context).padding.top + kToolbarHeight + 8,
-              left: AppSpacing.md,
-              child: GestureDetector(
-                onLongPress: _showPerformanceOverlay ? _toggleCompactMode : null,
-                child: PerformanceToggleButton(
-                  isEnabled: _showPerformanceOverlay,
-                  onToggle: _togglePerformanceOverlay,
+              // Export progress overlay
+              if (_exporting)
+                Positioned.fill(
+                  child: _ExportOverlay(
+                    progress: _exportProgress,
+                    l10n: l10n,
+                  ),
                 ),
-              ),
-            ),
 
-          // Dev-only performance overlay (top-left, below toggle)
-          if (kDebugMode && _showPerformanceOverlay)
-            Positioned(
-              top: MediaQuery.of(context).padding.top + kToolbarHeight + 48,
-              left: AppSpacing.md,
-              child: FractalPerformanceOverlay(
-                service: _performanceService,
-                compact: _compactPerformanceOverlay,
-              ),
-            ),
+              if (kDebugMode && _debugRunner != null)
+                DebugOverlay(
+                  runner: _debugRunner!,
+                  boundaryKey: _activeBoundaryKey(),
+                ),
 
-          // Dev-only shader debug overlay (uniform values)
-          if (kDebugMode && _showShaderDebug)
-            ShaderDebugOverlay(
-              enabled: true,
-              canvasSize: viewportSize,
-            ),
+              // Dev-only performance overlay toggle button (top-left)
+              if (kDebugMode)
+                Positioned(
+                  top: MediaQuery.of(context).padding.top + kToolbarHeight + 8,
+                  left: AppSpacing.md,
+                  child: GestureDetector(
+                    onLongPress:
+                        _showPerformanceOverlay ? _toggleCompactMode : null,
+                    child: PerformanceToggleButton(
+                      isEnabled: _showPerformanceOverlay,
+                      onToggle: _togglePerformanceOverlay,
+                    ),
+                  ),
+                ),
+
+              // Dev-only performance overlay (top-left, below toggle)
+              if (kDebugMode && _showPerformanceOverlay)
+                Positioned(
+                  top: MediaQuery.of(context).padding.top + kToolbarHeight + 48,
+                  left: AppSpacing.md,
+                  child: FractalPerformanceOverlay(
+                    service: _performanceService,
+                    compact: _compactPerformanceOverlay,
+                  ),
+                ),
+
+              // Dev-only shader debug overlay (uniform values)
+              if (kDebugMode && _showShaderDebug)
+                ShaderDebugOverlay(
+                  enabled: true,
+                  canvasSize: viewportSize,
+                ),
             ],
           );
         },
@@ -617,10 +617,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
       File? screenshotFile;
       try {
-        final png = await _exportService.capturePng(_activeBoundaryKey(), pixelRatio: 1.0);
+        final png = await _exportService.capturePng(_activeBoundaryKey(),
+            pixelRatio: 1.0);
         screenshotFile = await _exportService.saveBytes(
           png,
-          filename: _exportService.generateFilename(prefix: 'gpu_debug', format: ExportFormat.png, fractalType: controller.module.id),
+          filename: _exportService.generateFilename(
+              prefix: 'gpu_debug',
+              format: ExportFormat.png,
+              fractalType: controller.module.id),
         );
       } catch (_) {
         // Screenshot capture can fail when GPU output is black; still continue with text report.
@@ -648,7 +652,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                 children: [
                   const Text(
                     'GPU Debug Report',
-                    style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.amber, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -658,11 +663,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           onPressed: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => const ShaderLabScreen()),
+                              MaterialPageRoute(
+                                  builder: (_) => const ShaderLabScreen()),
                             );
                           },
-                          icon: const Icon(Icons.science_rounded, color: Colors.amber),
-                          label: const Text('Open Shader Lab', style: TextStyle(color: Colors.amber)),
+                          icon: const Icon(Icons.science_rounded,
+                              color: Colors.amber),
+                          label: const Text('Open Shader Lab',
+                              style: TextStyle(color: Colors.amber)),
                         ),
                       ),
                     ],
@@ -675,15 +683,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   if (screenshotFile != null)
                     Text(
                       'Saved screenshot: ${screenshotFile!.path}',
-                      style: const TextStyle(color: Colors.white70, fontSize: 12),
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 12),
                     ),
                   const SizedBox(height: 10),
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.45),
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.45),
                     child: SingleChildScrollView(
                       child: SelectableText(
                         reportText,
-                        style: const TextStyle(fontFamily: 'monospace', fontSize: 11, color: Colors.white),
+                        style: const TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 11,
+                            color: Colors.white),
                       ),
                     ),
                   ),
@@ -697,7 +710,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           Clipboard.setData(ClipboardData(text: reportText));
                           Navigator.of(context).pop();
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Copied GPU debug JSON to clipboard. Paste it into Telegram.')),
+                            const SnackBar(
+                                content: Text(
+                                    'Copied GPU debug JSON to clipboard. Paste it into Telegram.')),
                           );
                         },
                         child: const Text('Copy JSON'),
@@ -801,6 +816,29 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
+  void _pauseAutoExploreForExportSheet() {
+    final svc = _autoExploreService;
+    if (svc == null) {
+      _resumeAutoExploreAfterExportSheet = false;
+      return;
+    }
+
+    _resumeAutoExploreAfterExportSheet = svc.isExploring && !svc.isPaused;
+    if (_resumeAutoExploreAfterExportSheet) {
+      svc.pause();
+    }
+  }
+
+  void _resumeAutoExploreAfterExportSheetIfNeeded() {
+    final svc = _autoExploreService;
+    if (svc == null) return;
+
+    if (_resumeAutoExploreAfterExportSheet && svc.isExploring && svc.isPaused) {
+      svc.resume();
+    }
+    _resumeAutoExploreAfterExportSheet = false;
+  }
+
   /// Records the current location in history.
   void _recordHistory(BuildContext context) {
     final controller = context.read<FractalController>();
@@ -851,6 +889,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   void _openExport(BuildContext context) {
     final controller = _activeController(context);
+    _pauseAutoExploreForExportSheet();
+    setState(() {
+      _freezeFrameForExport = true;
+    });
 
     showModalBottomSheet(
       context: context,
@@ -859,9 +901,19 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       builder: (_) => ExportOptionsSheet(
         initialOptions: const ExportOptions(),
         fractalType: controller.module.id,
-        onExport: (options) => _performExport(context, options),
+        onExport: (options, action) => _performExport(
+          context,
+          options,
+          shareAfterSave: action == ExportAction.saveAndShare,
+        ),
       ),
-    );
+    ).whenComplete(() {
+      if (!mounted) return;
+      setState(() {
+        _freezeFrameForExport = false;
+      });
+      _resumeAutoExploreAfterExportSheetIfNeeded();
+    });
   }
 
   void _openVideoExport(BuildContext context) {
@@ -892,7 +944,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
-  Future<void> _performVideoExport(BuildContext context, VideoExportOptions options) async {
+  Future<void> _performVideoExport(
+      BuildContext context, VideoExportOptions options) async {
     final controller = context.read<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
@@ -925,7 +978,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         captureFrame: () async {
           // Wait for the frame to render
           await Future.delayed(const Duration(milliseconds: 50));
-          return await videoService.captureWidget(_activeBoundaryKey(), pixelRatio: 2.0);
+          return await videoService.captureWidget(_activeBoundaryKey(),
+              pixelRatio: 2.0);
         },
         onProgress: (progress, status) {
           if (mounted) {
@@ -946,13 +1000,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
       if (mounted) {
         // Share the video file
-        await _exportService.shareFile(result.file, text: l10n.videoExportTitle);
+        await _exportService.shareFile(result.file,
+            text: l10n.videoExportTitle);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.check_circle_rounded, color: AppColors.success),
+                const Icon(Icons.check_circle_rounded,
+                    color: AppColors.success),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Column(
@@ -1003,7 +1059,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
   }
 
-  Future<void> _applyWallpaper(BuildContext context, WallpaperOptions options) async {
+  Future<void> _applyWallpaper(
+      BuildContext context, WallpaperOptions options) async {
     final controller = context.read<FractalController>();
     final l10n = AppLocalizations.of(context)!;
     final mq = MediaQuery.of(context);
@@ -1054,7 +1111,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           format: ExportFormat.png,
           fractalType: controller.module.id,
         );
-        final file = await _exportService.saveBytes(styledBytes, filename: filename);
+        final file =
+            await _exportService.saveBytes(styledBytes, filename: filename);
         // Count saved wallpaper copy as a screenshot/export.
         context.read<ExplorationStatsService?>()?.recordScreenshot();
         // Best-effort share sheet so users can move it to Files/Photos.
@@ -1090,7 +1148,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
   }
 
-  Future<void> _performExport(BuildContext context, ExportOptions options) async {
+  Future<void> _performExport(
+    BuildContext context,
+    ExportOptions options, {
+    required bool shareAfterSave,
+  }) async {
     final controller = _activeController(context);
     final boundaryKey = _activeBoundaryKey();
     final l10n = AppLocalizations.of(context)!;
@@ -1134,15 +1196,18 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         // Count as a screenshot/export
         context.read<ExplorationStatsService?>()?.recordScreenshot();
 
-        // Share the file
-        await _exportService.shareFile(result.file, text: l10n.exportTitle);
+        // Optional share to installed apps.
+        if (shareAfterSave) {
+          await _exportService.shareFile(result.file, text: l10n.exportTitle);
+        }
 
         // Show success message with details
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.check_circle_rounded, color: AppColors.success),
+                const Icon(Icons.check_circle_rounded,
+                    color: AppColors.success),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Column(
@@ -1226,7 +1291,8 @@ class _CpuFallbackBanner extends StatelessWidget {
                   foregroundColor: Colors.white,
                   side: BorderSide(color: Colors.white.withOpacity(0.6)),
                   visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 ),
                 child: const Text('Try GPU'),
               ),
@@ -1236,7 +1302,8 @@ class _CpuFallbackBanner extends StatelessWidget {
                   foregroundColor: Colors.amber,
                   side: BorderSide(color: Colors.amber.withOpacity(0.8)),
                   visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 ),
                 child: const Text('Report'),
               ),
@@ -1311,7 +1378,8 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
 
         final scaleDelta = details.scale / _lastScale;
         if (scaleDelta.isFinite && (scaleDelta - 1.0).abs() > 0.001) {
-          controller.updateZoom((controller.view.zoom * scaleDelta).clamp(0.05, 20000.0));
+          controller.updateZoom(
+              (controller.view.zoom * scaleDelta).clamp(0.05, 20000.0));
         }
         _lastScale = details.scale;
       },
@@ -1332,6 +1400,7 @@ class _CompareRenderer extends StatelessWidget {
   final VoidCallback onOpenControls;
   final VoidCallback onOpenPresets;
   final VoidCallback onOpenExport;
+  final bool freezeFrame;
 
   const _CompareRenderer({
     required this.keyA,
@@ -1345,6 +1414,7 @@ class _CompareRenderer extends StatelessWidget {
     required this.onOpenControls,
     required this.onOpenPresets,
     required this.onOpenExport,
+    required this.freezeFrame,
   });
 
   @override
@@ -1359,6 +1429,7 @@ class _CompareRenderer extends StatelessWidget {
         value: a,
         child: FractalRenderer(
           boundaryKey: keyA,
+          animationEnabled: !freezeFrame,
           gesturesEnabled: activePane == 0,
           onOpenControls: onOpenControls,
           onOpenPresets: onOpenPresets,
@@ -1375,6 +1446,7 @@ class _CompareRenderer extends StatelessWidget {
         value: controllerB,
         child: FractalRenderer(
           boundaryKey: keyB,
+          animationEnabled: !freezeFrame,
           gesturesEnabled: activePane == 1,
           onOpenControls: onOpenControls,
           onOpenPresets: onOpenPresets,
@@ -1538,7 +1610,8 @@ class _CompareDividerHandle extends StatelessWidget {
               ),
             ],
           ),
-          child: const Icon(Icons.drag_handle_rounded, color: AppColors.textPrimary),
+          child: const Icon(Icons.drag_handle_rounded,
+              color: AppColors.textPrimary),
         ),
       ),
     );
@@ -1577,7 +1650,8 @@ class _AppBarIconButton extends StatelessWidget {
   }
 }
 
-class _PremiumViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
+class _PremiumViewerAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   final String title;
   final VoidCallback onBack;
   final List<Widget> actions;
@@ -1759,19 +1833,25 @@ class _FloatingActionButtonState extends State<_FloatingActionButton>
         child: Tooltip(
           message: widget.tooltip,
           child: GestureDetector(
-            onTapDown: (widget.onPressed != null && !reduceMotion) ? (_) {
-              setState(() => _isPressed = true);
-              _controller.forward();
-              HapticService.medium();
-            } : null,
-            onTapUp: (widget.onPressed != null && !reduceMotion) ? (_) {
-              setState(() => _isPressed = false);
-              _controller.reverse();
-            } : null,
-            onTapCancel: (widget.onPressed != null && !reduceMotion) ? () {
-              setState(() => _isPressed = false);
-              _controller.reverse();
-            } : null,
+            onTapDown: (widget.onPressed != null && !reduceMotion)
+                ? (_) {
+                    setState(() => _isPressed = true);
+                    _controller.forward();
+                    HapticService.medium();
+                  }
+                : null,
+            onTapUp: (widget.onPressed != null && !reduceMotion)
+                ? (_) {
+                    setState(() => _isPressed = false);
+                    _controller.reverse();
+                  }
+                : null,
+            onTapCancel: (widget.onPressed != null && !reduceMotion)
+                ? () {
+                    setState(() => _isPressed = false);
+                    _controller.reverse();
+                  }
+                : null,
             onTap: widget.onPressed,
             child: reduceMotion
                 ? _buildButtonContent()
@@ -1787,36 +1867,38 @@ class _FloatingActionButtonState extends State<_FloatingActionButton>
 
   Widget _buildButtonContent() {
     return AnimatedContainer(
-              duration: AppAnimations.fast,
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                gradient: widget.isPrimary ? AppColors.primaryGradient : null,
-                color: widget.isPrimary ? null : AppColors.surface,
-                borderRadius: BorderRadius.circular(16),
-                border: widget.isPrimary ? null : Border.all(
-                  color: _isPressed
-                      ? AppColors.primary.withOpacity(0.5)
-                      : AppColors.border.withOpacity(0.5),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: widget.isPrimary
-                        ? AppColors.primary.withOpacity(_isPressed ? 0.5 : 0.3)
-                        : Colors.black.withOpacity(0.2),
-                    blurRadius: _isPressed ? 16 : 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+      duration: AppAnimations.fast,
+      width: 52,
+      height: 52,
+      decoration: BoxDecoration(
+        gradient: widget.isPrimary ? AppColors.primaryGradient : null,
+        color: widget.isPrimary ? null : AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: widget.isPrimary
+            ? null
+            : Border.all(
+                color: _isPressed
+                    ? AppColors.primary.withOpacity(0.5)
+                    : AppColors.border.withOpacity(0.5),
               ),
-              child: Icon(
-                widget.icon,
-                size: 22,
-                color: widget.isPrimary
-                    ? Colors.white
-                    : (_isPressed ? AppColors.primary : AppColors.textSecondary),
-              ),
-            );
+        boxShadow: [
+          BoxShadow(
+            color: widget.isPrimary
+                ? AppColors.primary.withOpacity(_isPressed ? 0.5 : 0.3)
+                : Colors.black.withOpacity(0.2),
+            blurRadius: _isPressed ? 16 : 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Icon(
+        widget.icon,
+        size: 22,
+        color: widget.isPrimary
+            ? Colors.white
+            : (_isPressed ? AppColors.primary : AppColors.textSecondary),
+      ),
+    );
   }
 }
 
@@ -1882,7 +1964,8 @@ class _ExportOverlay extends StatelessWidget {
                             value: progress,
                             minHeight: 6,
                             backgroundColor: AppColors.surfaceVariant,
-                            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                AppColors.primary),
                           ),
                         ),
                         if (progress != null) ...[
@@ -1957,7 +2040,8 @@ class _ShareSheet extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm),
               Text(
                 l10n.shareSubtitle(fractalName),
-                style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                style: AppTypography.bodyMedium
+                    .copyWith(color: AppColors.textSecondary),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpacing.xl),
@@ -1972,12 +2056,14 @@ class _ShareSheet extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.link_rounded, color: AppColors.primary, size: 20),
+                    const Icon(Icons.link_rounded,
+                        color: AppColors.primary, size: 20),
                     const SizedBox(width: AppSpacing.sm),
                     Expanded(
                       child: Text(
                         linkText,
-                        style: AppTypography.bodySmall.copyWith(color: AppColors.textMuted),
+                        style: AppTypography.bodySmall
+                            .copyWith(color: AppColors.textMuted),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -2001,7 +2087,8 @@ class _ShareSheet extends StatelessWidget {
                           SnackBar(
                             content: Row(
                               children: [
-                                const Icon(Icons.check_rounded, color: AppColors.success, size: 18),
+                                const Icon(Icons.check_rounded,
+                                    color: AppColors.success, size: 18),
                                 const SizedBox(width: AppSpacing.sm),
                                 Text(l10n.linkCopied),
                               ],
@@ -2095,9 +2182,11 @@ class _ShareButtonState extends State<_ShareButton>
             gradient: widget.isPrimary ? AppColors.primaryGradient : null,
             color: widget.isPrimary ? null : AppColors.surfaceVariant,
             borderRadius: BorderRadius.circular(12),
-            border: widget.isPrimary ? null : Border.all(
-              color: AppColors.border.withOpacity(0.3),
-            ),
+            border: widget.isPrimary
+                ? null
+                : Border.all(
+                    color: AppColors.border.withOpacity(0.3),
+                  ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -2111,7 +2200,8 @@ class _ShareButtonState extends State<_ShareButton>
               Text(
                 widget.label,
                 style: AppTypography.labelLarge.copyWith(
-                  color: widget.isPrimary ? Colors.white : AppColors.textPrimary,
+                  color:
+                      widget.isPrimary ? Colors.white : AppColors.textPrimary,
                 ),
               ),
             ],

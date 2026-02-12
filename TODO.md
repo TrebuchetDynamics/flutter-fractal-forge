@@ -1,181 +1,102 @@
-# Flutter Fractal Forge - TODO & Roadmap
+# Flutter Fractal Forge — Execution TODO
 
-> Last updated: 2026-02-11
->
-> A prioritized list of improvements, features, and ideas for the Flutter Fractal Forge app.
+Last updated: 2026-02-11
+Owner: Sidon
 
----
-
-## 🔴 High Priority - Core Improvements
-
-### Performance & Stability
-- [ ] **Implement shader caching** — Currently shaders are loaded each time; cache compiled programs for faster module switching
-- [ ] **Add GPU memory management** — Monitor and limit shader memory usage on low-end devices
-- [x] **Frame rate optimization for AR mode** — AR quality presets now cover all 10 fractal modules with per-module iteration/step tuning; removed no-op GPU filters
-- [ ] **Add graceful degradation** — Detect GPU capabilities and adjust iteration counts automatically
-
-### Missing Core Features
-- [ ] **Preset deletion** — Users can save presets but cannot delete them (only loading exists in `PresetSheet`)
-- [ ] **Preset editing** — Allow users to rename or update existing presets
-- [ ] **Preset thumbnails** — Generate and display preview images for saved presets
-- [ ] **Undo/Redo system** — Track parameter changes and allow reverting to previous states
-- [ ] **Bookmark favorite locations** — Quick-save interesting zoom locations separate from full presets
-
-### Error Handling & UX
-- [ ] **Improve shader error messages** — The current error display is technical; add user-friendly explanations
-- [ ] **Add onboarding/tutorial** — First-time user guide explaining gestures and controls
-- [ ] **Add haptic feedback** — Subtle vibration on slider snapping and button presses
-- [ ] **Better loading states** — Show shader compilation progress, not just "Loading shaders..."
+This is the **active execution plan** (not idea dumping). Items are prioritized and tracked by status.
 
 ---
 
-## 🟡 Medium Priority - Feature Enhancements
+## P0 — MUST SHIP NEXT
 
-### New Fractal Types
-- [ ] **Sierpiński Triangle/Carpet** — Classic recursive fractals (could be 2D shader-based)
-- [ ] **Newton Fractal** — Root-finding visualization with beautiful basins
-- [ ] **Lyapunov Fractal** — Chaos theory visualization
-- [ ] **Tricorn/Mandelbar** — Conjugate Mandelbrot variation
-- [ ] **Barnsley Fern** — IFS-based botanical fractal
-- [ ] **Menger Sponge (3D)** — 3D fractal with infinite holes
-- [ ] **Apollonian Gasket** — Circle packing fractal
+### 1) AR real anchoring (wall/floor/table) — **IN PROGRESS**
+- [ ] Integrate true plane anchors (vertical + horizontal) instead of overlay-only placement
+- [ ] Tap-to-place fractal on detected plane
+- [ ] Auto choose best plane by largest stable area in view (wall/floor/table)
+- [ ] Keep overlay mode as fallback when ARCore/ARKit unavailable
+- [ ] Device validation checklist on S24 (wall lock, drift, relocalization)
 
-### Color & Rendering
-- [ ] **Custom color palette editor** — Let users define their own gradients
-- [ ] **Color palette presets library** — Curated collection of palettes (sunset, nebula, forest, etc.)
-- [ ] **Anti-aliasing toggle** — Super-sampling option for higher quality exports
-- [ ] **Animation mode** — Auto-animate parameters over time (color cycling, slow zoom)
-- [ ] **Interior coloring for Mandelbrot** — Add distance estimation for inside-set coloring
-- [ ] **Orbit traps** — Alternative coloring method using geometric shapes
+### 2) Export behavior hardening — **IN PROGRESS**
+- [x] Opening Export pauses auto-navigation and freezes frame
+- [x] Separate Save vs Share actions
+- [ ] Resume policy prompt after export (resume auto-pilot or stay manual)
+- [ ] Share flow QA: WhatsApp / Instagram / X / device gallery
 
-### Export & Sharing
-- [ ] **Batch export** — Export multiple resolutions at once
-- [ ] **Animation/GIF export** — Export zoom animations or parameter sweeps
-- [ ] **Video export with native encoding** — Replace GIF fallback with proper MP4/WebM
-- [ ] **Direct social media sharing** — Pre-configured sizes for Instagram, Twitter, etc.
-- [ ] **Export presets as shareable links** — Generate URLs or QR codes for preset sharing
-- [ ] **EXIF metadata in exports** — Embed fractal parameters in image metadata for reproduction
+### 3) Deep zoom quality + precision fallback — **IN PROGRESS**
+- [x] GPU→CPU fallback policy added for key fractals
+- [x] CPU supersampling + smoother coloring added
+- [ ] Tune per-fractal fallback thresholds on device
+- [ ] Add on-screen “High precision mode” indicator
+- [ ] Validate no visible handoff jumps during pinch zoom
 
-### AR Mode Improvements
-- [x] **AR back button and l10n** — Added explicit back navigation; replaced hardcoded strings with localized keys
-- [ ] **AR recording with audio** — Option to capture device audio during video export
-- [ ] **Multiple overlay shapes** — Circle, square, hexagon frame options
-- [ ] **Blend modes** — Multiply, overlay, screen blending with camera feed
-- [ ] **AR face tracking** — Position fractal overlay relative to detected faces
-- [ ] **Save AR compositions** — Store favorite AR setups (fractal + style + position)
+### 4) Catalog redesign + 200 PRD rollout (with previews) — **IN PROGRESS**
+- [x] Stable catalog IDs introduced (`core.<module_id>`)
+- [x] Thumbnail previews wired per item (deterministic preview)
+- [ ] Add PRD manifest loader (`assets/catalog/prd_catalog.json`)
+- [ ] Add ID lock/integrity tests for 200 list
+- [ ] Add filter/sort + list/grid toggle for large catalogs
+- [ ] Map full 200 PRD entries to runtime modules/status
 
 ---
 
-## 🟢 Low Priority - Nice to Have
+## P1 — HIGH PRIORITY AFTER P0
 
-### User Experience
-- [ ] **Dark/Light theme toggle** — Currently only dark theme exists
-- [ ] **Tablet/Desktop layout** — Responsive design for larger screens
-- [ ] **Keyboard shortcuts (desktop)** — Arrow keys for pan, +/- for zoom
-- [ ] **Pinch-to-zoom sensitivity setting** — Adjustable gesture sensitivity
-- [ ] **Quick-access control bar** — Mini controls without opening the full sheet
-- [ ] **History/recent fractals list** — Track recently viewed fractals and locations
+### 5) Auto-Pilot navigation + user corrections
+- [ ] Improve path smoothness and dwell behavior
+- [ ] Accept manual pan/zoom corrections while auto mode runs
+- [ ] Add quick actions: Accept framing / Reject and try another
+- [ ] Persist correction bias per fractal type
 
-### Educational Features
-- [ ] **Math info panel** — Explain the mathematics behind each fractal
-- [ ] **Iteration visualization mode** — Show how iterations converge/diverge
-- [ ] **Coordinate display** — Show current complex plane coordinates
-- [ ] **Zoom depth indicator** — Display how deep the current zoom is
-- [ ] **Tour mode** — Guided exploration of famous fractal locations
+### 6) Grain/noise reduction (GPU path)
+- [ ] Improve smooth coloring near escape boundary
+- [ ] Reduce palette banding/noise at high iterations
+- [ ] Add regression test scene for noise score comparisons
 
-### Social & Community
-- [ ] **Gallery of user creations** — Optional cloud gallery for sharing
-- [ ] **Preset sharing community** — Browse and download community presets
-- [ ] **Wallpaper mode** — Generate device wallpapers at correct aspect ratio
-- [ ] **Widget support** — Home screen widget showing animated fractals
-
-### Technical Improvements
-- [ ] **Add comprehensive code documentation** — Expand dartdoc coverage
-- [ ] **Increase test coverage** — Current tests are mostly widget tests; add more unit tests for services
-- [ ] **Performance benchmarking** — Automated FPS testing across devices
-- [ ] **Accessibility audit** — Ensure proper semantics and screen reader support
-- [ ] **CI/CD pipeline** — Automated testing and deployment
+### 7) Stable sharing/export presets
+- [ ] One-tap presets for Instagram feed/story, X, WhatsApp
+- [ ] Keep exact frame lock from viewer to exported file
+- [ ] Verify EXIF/metadata persistence policy
 
 ---
 
-## 💡 Discovered Feature Ideas
+## P2 — IMPORTANT PRODUCT POLISH
 
-These ideas emerged while exploring the codebase:
+### 8) Preset management
+- [ ] Delete preset
+- [ ] Rename/edit preset
+- [ ] Preset thumbnail generation
 
-### Based on Current Architecture
-1. **Fractal comparison mode** — Split screen showing two fractals or parameters side by side
-2. **Parameter linking** — Link zoom to iterations automatically for optimal quality
-3. **Session recording** — Record and replay exploration sessions
-4. **Fractal morphing** — Smooth transitions between different fractal types
-5. **Julia set from Mandelbrot** — Tap a point in Mandelbrot to see its corresponding Julia set
+### 9) Viewer controls ergonomics
+- [ ] Make controls sheet snap/collapse more aggressively
+- [ ] Move non-critical actions into compact overflow
 
-### Shader Enhancements
-1. **Custom shader upload** — Power users can load their own GLSL shaders
-2. **Shader parameters via uniforms** — Expose more shader values to UI controls
-3. **Post-processing effects** — Blur, vignette, chromatic aberration as overlays
-4. **Ray marching enhancements (3D)** — Ambient occlusion, soft shadows for Mandelbulb
-
-### Integration Ideas
-1. **Apple Watch companion** — Remote control for exploration
-2. **Nearby device sync** — Explore the same fractal on multiple devices
-3. **VR/AR headset support** — Immersive 3D fractal exploration
-4. **Procedural music generation** — Create ambient soundscapes from fractal data
+### 10) Onboarding and accessibility
+- [ ] Explain gestures + AR behavior clearly
+- [ ] Improve screen-reader labels for catalog and controls
 
 ---
 
-## 🗓️ Suggested Roadmap
+## DONE RECENTLY
 
-### Phase 1: Polish & Stability (Weeks 1-2)
-- Preset deletion and editing
-- Improved error handling
-- Shader caching
-- Onboarding flow
-
-### Phase 2: Content Expansion (Weeks 3-4)
-- Add 2-3 new fractal types (Newton, Tricorn, Sierpiński)
-- Custom color palette editor
-- Animation mode basics
-
-### Phase 3: Export & Sharing (Weeks 5-6)
-- Native video export
-- Batch export
-- Social media presets
-- Preset sharing links
-
-### Phase 4: Advanced Features (Weeks 7-8)
-- Julia set picker from Mandelbrot
-- Comparison mode
-- Educational content
-- Tablet/desktop layout
-
-### Phase 5: Community & Polish (Weeks 9+)
-- Gallery features
-- Accessibility improvements
-- Performance optimization
-- Documentation
+- [x] Home screen Explore/AR tabs removed; AR entry stays in viewer
+- [x] Gesture sync improved (1 finger pan, 2 finger zoom feel)
+- [x] AR panel made less intrusive (collapsed bar + reorganized controls)
+- [x] 64 palette support + horizontal palette selector
 
 ---
 
-## 📋 Technical Debt
+## OUT OF SCOPE (explicit)
 
-- [ ] The `translateByDouble` and `scaleByDouble` Matrix4 extensions in AR screen could be extracted to a utility
-- [x] `ArVideoExporter` cleaned up: removed dead FFmpeg enum and unused cleanup method
-- [x] Color filter matrices in `ArOverlayScreen` optimized: soft preset returns null (skips GPU), neon/mono remain as constants
-- [ ] `FractalControlsSheet` hardcodes "Actions" label instead of using l10n
-- [ ] Several widgets have similar press animation logic; extract to a reusable mixin
-- [ ] Test coverage for `export_service.dart` is limited
-- [ ] The `CrashReporter` is local-only; consider optional cloud reporting
+- Arenaton implementation is out of scope for this repo/agent.
+- Sidon works only on Flutter Fractal Forge + fractal tasks.
 
 ---
 
-## 📝 Notes
+## Working agreement (Juan)
 
-- No existing TODO/FIXME comments were found in the codebase — it's clean!
-- The architecture is solid with good separation of concerns
-- Localization is well-implemented with English and Spanish support
-- The modular fractal system makes adding new types straightforward
-- Shader code uses good practices (LOD, branchless operations)
-- AR mode (AR-0: camera overlay) is well-implemented with quality presets for all modules, three style presets, gesture controls, and three export modes
-
-
-improve image /home/xel/git/flutter-fractal-forge/assets/icon/ic_launcher.png
+- Use multiple subagents for independent tracks in parallel.
+- Send concise progress every ~30 minutes:
+  - Done
+  - In progress
+  - Blocked
+  - Next APK/tests
