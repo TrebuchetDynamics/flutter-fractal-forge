@@ -341,6 +341,77 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 160,
     defaultBailout: 4.0,
   ),
+  EscapeTimeConfig(
+    id: 'sierpinski_pentagon',
+    name: 'Sierpinski Pentagon',
+    shaderAsset: 'shaders/sierpinski_pentagon_gpu.frag',
+    defaultIterations: 140,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'hexaflake',
+    name: 'Hexaflake',
+    shaderAsset: 'shaders/hexaflake_gpu.frag',
+    defaultIterations: 140,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'pentaflake',
+    name: 'Pentaflake',
+    shaderAsset: 'shaders/pentaflake_gpu.frag',
+    defaultIterations: 140,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'cantor_dust',
+    name: 'Cantor Dust',
+    shaderAsset: 'shaders/cantor_dust_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'apollonian_gasket',
+    name: 'Apollonian Gasket',
+    shaderAsset: 'shaders/apollonian_gasket_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'ford_circles',
+    name: 'Ford Circles',
+    shaderAsset: 'shaders/ford_circles_gpu.frag',
+    defaultIterations: 140,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'steiner_chain',
+    name: 'Steiner Chain',
+    shaderAsset: 'shaders/steiner_chain_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'cesaro_fractal',
+    name: 'Cesàro Fractal',
+    shaderAsset: 'shaders/cesaro_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'cantor_set',
+    name: 'Cantor Set',
+    shaderAsset: 'shaders/cantor_set_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'fractal_canopy',
+    name: 'Fractal Canopy',
+    shaderAsset: 'shaders/fractal_canopy_gpu.frag',
+    defaultIterations: 80,
+    defaultCenterY: -0.15,
+    defaultBailout: 4.0,
+  ),
 
   // ── X. 2D Maps / Attractors ─────────────────────────────
   EscapeTimeConfig(
@@ -555,6 +626,50 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 90,
     defaultBailout: 6.0,
   ),
+  EscapeTimeConfig(
+    id: 'hypercomplex_newton',
+    name: 'Hypercomplex Newton (Quaternion z³ - 1)',
+    shaderAsset: 'shaders/hypercomplex_newton_gpu.frag',
+    defaultIterations: 100,
+    defaultBailout: 8.0,
+  ),
+
+  // ── III. Hypercomplex / Higher-dimensional slices ─────
+  EscapeTimeConfig(
+    id: 'quaternion_julia_2d',
+    name: 'Quaternion Julia (2D Slice)',
+    shaderAsset: 'shaders/quaternion_julia_2d_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tessarine_julia',
+    name: 'Tessarine Julia',
+    shaderAsset: 'shaders/tessarine_julia_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'split_complex',
+    name: 'Split-Complex Fractal',
+    shaderAsset: 'shaders/split_complex_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 10.0,
+  ),
+  EscapeTimeConfig(
+    id: 'dual_complex',
+    name: 'Dual-Complex Fractal',
+    shaderAsset: 'shaders/dual_complex_gpu.frag',
+    defaultIterations: 170,
+    defaultBailout: 10.0,
+  ),
+  EscapeTimeConfig(
+    id: 'bicomplex',
+    name: 'Bicomplex Mandelbrot',
+    shaderAsset: 'shaders/bicomplex_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 12.0,
+  ),
 
   // ── VII. Trigonometric ──────────────────────────────────
   EscapeTimeConfig(
@@ -715,6 +830,24 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultCenterY: 0.0,
     defaultBailout: 8.0,
   ),
+  EscapeTimeConfig(
+    id: 'anti_buddhabrot',
+    name: 'Anti-Buddhabrot',
+    shaderAsset: 'shaders/anti_buddhabrot_gpu.frag',
+    defaultIterations: 260,
+    defaultCenterX: -0.5,
+    defaultCenterY: 0.0,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'nebulabrot',
+    name: 'Nebulabrot (Approx)',
+    shaderAsset: 'shaders/nebulabrot_gpu.frag',
+    defaultIterations: 280,
+    defaultCenterX: -0.5,
+    defaultCenterY: 0.0,
+    defaultBailout: 8.0,
+  ),
 
   // ── XII. Cellular Automata & Stochastic Growth ─────────
   EscapeTimeConfig(
@@ -729,6 +862,20 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: "Langton's Ant",
     shaderAsset: 'shaders/langton_ant_gpu.frag',
     defaultIterations: 260,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'turmite',
+    name: 'Turmite',
+    shaderAsset: 'shaders/turmite_gpu.frag',
+    defaultIterations: 280,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'wireworld',
+    name: 'Wireworld',
+    shaderAsset: 'shaders/wireworld_gpu.frag',
+    defaultIterations: 220,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
@@ -757,6 +904,34 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Percolation Cluster',
     shaderAsset: 'shaders/percolation_gpu.frag',
     defaultIterations: 240,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'brian_brain',
+    name: "Brian's Brain",
+    shaderAsset: 'shaders/brian_brain_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'highlife',
+    name: 'HighLife',
+    shaderAsset: 'shaders/highlife_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'day_night',
+    name: 'Day & Night',
+    shaderAsset: 'shaders/day_night_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'eden_growth',
+    name: 'Eden Growth Model',
+    shaderAsset: 'shaders/eden_growth_gpu.frag',
+    defaultIterations: 280,
     defaultBailout: 4.0,
   ),
 ];

@@ -118,6 +118,8 @@ flutter:
   - shaders/feigenbaum_gpu.frag
   - shaders/gauss_map_gpu.frag
   - shaders/buddhabrot_gpu.frag
+  - shaders/anti_buddhabrot_gpu.frag
+  - shaders/nebulabrot_gpu.frag
   - shaders/sierpinski_triangle_gpu.frag
   - shaders/sierpinski_carpet_gpu.frag
   - shaders/koch_snowflake_gpu.frag
@@ -156,9 +158,31 @@ flutter:
   - shaders/chen_gpu.frag
   - shaders/lu_chen_gpu.frag
   - shaders/halvorsen_gpu.frag
+  - shaders/quaternion_julia_2d_gpu.frag
+  - shaders/tessarine_julia_gpu.frag
+  - shaders/split_complex_gpu.frag
+  - shaders/dual_complex_gpu.frag
+  - shaders/bicomplex_gpu.frag
+  - shaders/hypercomplex_newton_gpu.frag
   - shaders/wolfram_rule30_gpu.frag
   - shaders/langton_ant_gpu.frag
   - shaders/sandpile_gpu.frag
   - shaders/dla_gpu.frag
   - shaders/forest_fire_gpu.frag
   - shaders/percolation_gpu.frag
+  - shaders/turmite_gpu.frag
+  - shaders/wireworld_gpu.frag
+  - shaders/sierpinski_pentagon_gpu.frag
+  - shaders/hexaflake_gpu.frag
+  - shaders/pentaflake_gpu.frag
+  - shaders/cantor_dust_gpu.frag
+  - shaders/apollonian_gasket_gpu.frag
+  - shaders/ford_circles_gpu.frag
+  - shaders/steiner_chain_gpu.frag
+  - shaders/cesaro_gpu.frag
+  - shaders/cantor_set_gpu.frag
+  - shaders/fractal_canopy_gpu.frag
+  - shaders/brian_brain_gpu.frag
+  - shaders/highlife_gpu.frag
+  - shaders/day_night_gpu.frag
+  - shaders/eden_growth_gpu.frag
