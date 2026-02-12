@@ -235,3 +235,20 @@ flutter:
   - shaders/moore_curve_gpu.frag
   - shaders/lambda_w_gpu.frag
   - shaders/zeta_gpu.frag
+  - shaders/manair_fire_gpu.frag
+  - shaders/spider_x_gpu.frag
+  - shaders/popcorn2_gpu.frag
+  - shaders/chebyshev_gpu.frag
+  - shaders/legendre_gpu.frag
+  - shaders/laguerre_gpu.frag
+  - shaders/hermite_gpu.frag
+  - shaders/virial_gpu.frag
+  - shaders/newton_sin_gpu.frag
+  - shaders/newton_general_gpu.frag
+  - shaders/multibrot4_gpu.frag
+  - shaders/multibrot5_gpu.frag
+  - shaders/sierpinski_tetrahedron_gpu.frag
+  - shaders/jerusalem_cube_gpu.frag
+  - shaders/menger_3d_slice_gpu.frag
+  - shaders/pola_sierpinski_gpu.frag
+  - shaders/fibonacci_spiral_gpu.frag
