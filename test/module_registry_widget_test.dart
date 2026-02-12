@@ -23,11 +23,11 @@ void main() {
             body: Builder(
               builder: (context) {
                 final l10n = AppLocalizations.of(context)!;
-                return ListView(
+                return SingleChildScrollView(child: Column(
                   children: registry.modules.map((module) {
                     return Text(module.displayName(l10n));
                   }).toList(),
-                );
+                ));
               },
             ),
           ),
@@ -80,14 +80,14 @@ void main() {
             body: Builder(
               builder: (context) {
                 final l10n = AppLocalizations.of(context)!;
-                return ListView(
+                return SingleChildScrollView(child: Column(
                   children: registry.modules.map((module) {
                     final dimLabel = module.dimension == FractalDimension.twoD
                         ? l10n.dimension2d
                         : l10n.dimension3d;
                     return Text('${module.displayName(l10n)}: $dimLabel');
                   }).toList(),
-                );
+                ));
               },
             ),
           ),

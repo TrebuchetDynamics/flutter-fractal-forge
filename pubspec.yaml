@@ -85,9 +85,3 @@ flutter:
   - shaders/tetration_gpu.frag
   - shaders/talis_gpu.frag
   - shaders/halley_gpu.frag
-  - shaders/schroeder_gpu.frag
-  - shaders/secant_fractal_gpu.frag
-  - shaders/fish_gpu.frag
-  - shaders/barnsley_j1_gpu.frag
-  - shaders/ducky_gpu.frag
-  - shaders/lyapunov_gpu.frag
