@@ -26,6 +26,7 @@ import 'package:flutter_fractals/core/services/performance_service.dart';
 import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/debug_overlay.dart';
@@ -117,6 +118,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   DateTime? _sessionStart;
   double? _lastZoom;
   String? _lastModuleId;
+
+  // Deep-zoom precision indicator
+  bool _deepZoomPrecisionActive = false;
 
   // Auto-explore service
   AutoExploreService? _autoExploreService;
@@ -245,6 +249,18 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       if (!_useCpuFallback) {
         _scheduleGpuHealthCheck();
       }
+    }
+
+    // Deep-zoom precision indicator
+    const dzPolicy = DeepZoomPrecisionPolicy();
+    final dzActive = dzPolicy.shouldUseCpuFallback(
+      moduleId: controller.module.id,
+      zoom: controller.view.zoom,
+    );
+    if (dzActive != _deepZoomPrecisionActive) {
+      _deepZoomPrecisionActive = dzActive;
+      // Don't auto-switch to CPU — just show indicator.
+      // User can tap to enable CPU if they want.
     }
 
     // Record view/config changes into history
@@ -460,6 +476,39 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         });
                       },
                       onReport: () => _shareGpuDebugReport(context),
+                    ),
+                  ),
+                ),
+
+              // Deep-zoom precision indicator
+              if (_deepZoomPrecisionActive && !_useCpuFallback)
+                Positioned(
+                  top: MediaQuery.of(context).padding.top + 8,
+                  right: 12,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _useCpuFallback = true;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.cyan.withOpacity(0.7)),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.precision_manufacturing_rounded, color: Colors.cyan, size: 16),
+                          SizedBox(width: 6),
+                          Text(
+                            'Deep Zoom — tap for CPU precision',
+                            style: TextStyle(color: Colors.cyan, fontSize: 11),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
