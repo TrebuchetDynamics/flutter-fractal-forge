@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
 
@@ -12,6 +14,10 @@ class CatalogRepository {
   const CatalogRepository({required this.entries});
 
   factory CatalogRepository.fromRegistry(ModuleRegistry registry) {
+    final categoriesById = {
+      for (final config in escapeTimeCatalog) config.id: config.category,
+    };
+
     return CatalogRepository(
       entries: registry.modules
           .map(
@@ -19,6 +25,10 @@ class CatalogRepository {
               // Stable prefix to decouple future module refactors from IDs.
               catalogId: 'core.${module.id}',
               module: module,
+              category: categoriesById[module.id] ??
+                  (module.dimension == FractalDimension.threeD
+                      ? '3D Fractals'
+                      : 'Other'),
             ),
           )
           .toList(growable: false),

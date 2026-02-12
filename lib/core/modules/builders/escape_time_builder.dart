@@ -3,7 +3,6 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Declarative config for a standard 2D escape-time fractal.
@@ -22,6 +21,7 @@ class EscapeTimeConfig {
   final double defaultCenterY;
   final double defaultZoom;
   final int maxIterations;
+  final String category;
   final List<FractalParameter> extraParams;
   final List<FractalPreset> extraPresets;
 
@@ -37,6 +37,7 @@ class EscapeTimeConfig {
     this.defaultCenterY = 0.0,
     this.defaultZoom = 1.0,
     this.maxIterations = 500,
+    this.category = 'Escape-Time',
     this.extraParams = const [],
     this.extraPresets = const [],
   });

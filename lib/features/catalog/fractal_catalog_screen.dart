@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+enum CatalogViewMode { grid, list }
+
 class FractalCatalogScreen extends StatefulWidget {
   const FractalCatalogScreen({Key? key}) : super(key: key);
 
@@ -20,10 +23,13 @@ class FractalCatalogScreen extends StatefulWidget {
 }
 
 class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
+  static const _viewPrefKey = 'catalog_view_grid';
+
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
   Timer? _debounce;
   bool _isSearchFocused = false;
+  CatalogViewMode _viewMode = CatalogViewMode.grid;
 
   @override
   void initState() {
@@ -31,6 +37,22 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     _focusNode.addListener(() {
       setState(() => _isSearchFocused = _focusNode.hasFocus);
     });
+    _loadViewPreference();
+  }
+
+  Future<void> _loadViewPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final useGrid = prefs.getBool(_viewPrefKey) ?? true;
+    if (!mounted) return;
+    setState(() {
+      _viewMode = useGrid ? CatalogViewMode.grid : CatalogViewMode.list;
+    });
+  }
+
+  Future<void> _setViewMode(CatalogViewMode mode) async {
+    setState(() => _viewMode = mode);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_viewPrefKey, mode == CatalogViewMode.grid);
   }
 
   @override
@@ -55,20 +77,17 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           entry.aliases.any((a) => a.toLowerCase().contains(query));
       return name.contains(query) ||
           matchesAlias ||
-          entry.catalogId.contains(query);
+          entry.catalogId.contains(query) ||
+          entry.category.toLowerCase().contains(query);
     }).toList();
 
-    // Group by dimension
-    final entries2D = allEntries
-        .where((e) => e.module.dimension == FractalDimension.twoD)
-        .toList();
-    final entries3D = allEntries
-        .where((e) => e.module.dimension == FractalDimension.threeD)
-        .toList();
+    final groupedEntries = <String, List<CatalogEntry>>{};
+    for (final entry in allEntries) {
+      groupedEntries.putIfAbsent(entry.category, () => []).add(entry);
+    }
 
     return Column(
       children: [
-        // Premium search bar
         Padding(
           padding: const EdgeInsets.fromLTRB(
             AppSpacing.lg,
@@ -76,77 +95,13 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
             AppSpacing.lg,
             AppSpacing.sm,
           ),
-          child: AnimatedContainer(
-            duration: AppAnimations.normal,
-            curve: AppAnimations.defaultCurve,
-            decoration: BoxDecoration(
-              color: AppColors.surfaceVariant,
-              borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-              border: Border.all(
-                color: _isSearchFocused
-                    ? AppColors.primary.withOpacity(0.6)
-                    : AppColors.border.withOpacity(0.3),
-                width: _isSearchFocused ? 1.5 : 1,
-              ),
-              boxShadow: _isSearchFocused
-                  ? [
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.15),
-                        blurRadius: 12,
-                        spreadRadius: 0,
-                      ),
-                    ]
-                  : null,
-            ),
-            child: TextField(
-              key: const Key('catalogSearchField'),
-              controller: _searchController,
-              focusNode: _focusNode,
-              style: AppTypography.bodyMedium
-                  .copyWith(color: AppColors.textPrimary),
-              decoration: InputDecoration(
-                hintText: l10n.catalogSearchHint,
-                hintStyle: AppTypography.bodyMedium
-                    .copyWith(color: AppColors.textMuted),
-                prefixIcon: AnimatedContainer(
-                  duration: AppAnimations.fast,
-                  child: Icon(
-                    Icons.search_rounded,
-                    color: _isSearchFocused
-                        ? AppColors.primary
-                        : AppColors.textMuted,
-                  ),
-                ),
-                suffixIcon: AnimatedSwitcher(
-                  duration: AppAnimations.fast,
-                  child: _searchController.text.isEmpty
-                      ? const SizedBox.shrink()
-                      : IconButton(
-                          key: const ValueKey('clear'),
-                          tooltip: MaterialLocalizations.of(context)
-                              .deleteButtonTooltip,
-                          icon: const Icon(Icons.close_rounded, size: 20),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() {});
-                          },
-                        ),
-                ),
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.lg,
-                  vertical: AppSpacing.md,
-                ),
-              ),
-              onChanged: (_) {
-                _debounce?.cancel();
-                _debounce = Timer(const Duration(milliseconds: 200), () {
-                  setState(() {});
-                });
-              },
-            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: _buildSearchField(context, l10n)),
+              const SizedBox(width: AppSpacing.sm),
+              _buildViewToggle(context, l10n),
+            ],
           ),
         ),
         Expanded(
@@ -159,47 +114,186 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                     setState(() {});
                   },
                 )
-              : ListView(
-                  padding: EdgeInsets.only(
-                    left: AppSpacing.lg,
-                    right: AppSpacing.lg,
-                    top: AppSpacing.sm,
-                    bottom: MediaQuery.of(context).padding.bottom + 100,
-                  ),
-                  children: [
-                    if (entries3D.isNotEmpty) ...[
-                      SectionHeader(title: l10n.fractalSection3d),
-                      ...entries3D.asMap().entries.map((entry) {
-                        return StaggeredItem(
-                          index: entry.key,
-                          child: _ModuleCard(
-                            entry: entry.value,
-                            onTap: () =>
-                                _openViewer(context, entry.value.module),
-                            l10n: l10n,
-                          ),
-                        );
-                      }),
-                      const SizedBox(height: AppSpacing.xl),
-                    ],
-                    if (entries2D.isNotEmpty) ...[
-                      SectionHeader(title: l10n.fractalSection2d),
-                      ...entries2D.asMap().entries.map((entry) {
-                        return StaggeredItem(
-                          index: entry.key + entries3D.length,
-                          child: _ModuleCard(
-                            entry: entry.value,
-                            onTap: () =>
-                                _openViewer(context, entry.value.module),
-                            l10n: l10n,
-                          ),
-                        );
-                      }),
-                    ],
-                  ],
-                ),
+              : _viewMode == CatalogViewMode.grid
+                  ? _buildGridContent(context, groupedEntries, l10n)
+                  : _buildListContent(context, groupedEntries, l10n),
         ),
       ],
+    );
+  }
+
+  Widget _buildSearchField(BuildContext context, AppLocalizations l10n) {
+    return AnimatedContainer(
+      duration: AppAnimations.normal,
+      curve: AppAnimations.defaultCurve,
+      decoration: BoxDecoration(
+        color: AppColors.surfaceVariant,
+        borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+        border: Border.all(
+          color: _isSearchFocused
+              ? AppColors.primary.withOpacity(0.6)
+              : AppColors.border.withOpacity(0.3),
+          width: _isSearchFocused ? 1.5 : 1,
+        ),
+        boxShadow: _isSearchFocused
+            ? [
+                BoxShadow(
+                  color: AppColors.primary.withOpacity(0.15),
+                  blurRadius: 12,
+                  spreadRadius: 0,
+                ),
+              ]
+            : null,
+      ),
+      child: TextField(
+        key: const Key('catalogSearchField'),
+        controller: _searchController,
+        focusNode: _focusNode,
+        style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+        decoration: InputDecoration(
+          hintText: l10n.catalogSearchHint,
+          hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+          prefixIcon: AnimatedContainer(
+            duration: AppAnimations.fast,
+            child: Icon(
+              Icons.search_rounded,
+              color: _isSearchFocused ? AppColors.primary : AppColors.textMuted,
+            ),
+          ),
+          suffixIcon: AnimatedSwitcher(
+            duration: AppAnimations.fast,
+            child: _searchController.text.isEmpty
+                ? const SizedBox.shrink()
+                : IconButton(
+                    key: const ValueKey('clear'),
+                    tooltip: MaterialLocalizations.of(context).deleteButtonTooltip,
+                    icon: const Icon(Icons.close_rounded, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() {});
+                    },
+                  ),
+          ),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
+          ),
+        ),
+        onChanged: (_) {
+          _debounce?.cancel();
+          _debounce = Timer(const Duration(milliseconds: 200), () {
+            setState(() {});
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildViewToggle(BuildContext context, AppLocalizations l10n) {
+    final isGrid = _viewMode == CatalogViewMode.grid;
+    return Semantics(
+      button: true,
+      label: isGrid ? 'Switch to list view' : 'Switch to grid view',
+      child: Tooltip(
+        message: isGrid ? 'List view' : 'Grid view',
+        child: IconButton.filledTonal(
+          key: const Key('catalogViewToggleButton'),
+          onPressed: () => _setViewMode(
+            isGrid ? CatalogViewMode.list : CatalogViewMode.grid,
+          ),
+          icon: Icon(isGrid ? Icons.view_list_rounded : Icons.grid_view_rounded),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildListContent(
+    BuildContext context,
+    Map<String, List<CatalogEntry>> groupedEntries,
+    AppLocalizations l10n,
+  ) {
+    int index = 0;
+    return ListView(
+      padding: EdgeInsets.only(
+        left: AppSpacing.lg,
+        right: AppSpacing.lg,
+        top: AppSpacing.sm,
+        bottom: MediaQuery.of(context).padding.bottom + 100,
+      ),
+      children: groupedEntries.entries.expand((section) {
+        final widgets = <Widget>[
+          SectionHeader(title: section.key),
+        ];
+        for (final entry in section.value) {
+          widgets.add(
+            StaggeredItem(
+              index: index++,
+              child: _ModuleCard(
+                entry: entry,
+                onTap: () => _openViewer(context, entry.module),
+                l10n: l10n,
+              ),
+            ),
+          );
+        }
+        widgets.add(const SizedBox(height: AppSpacing.lg));
+        return widgets;
+      }).toList(growable: false),
+    );
+  }
+
+  Widget _buildGridContent(
+    BuildContext context,
+    Map<String, List<CatalogEntry>> groupedEntries,
+    AppLocalizations l10n,
+  ) {
+    final width = MediaQuery.of(context).size.width;
+    final crossAxisCount = width >= 1024
+        ? 6
+        : width >= 840
+            ? 5
+            : width >= 600
+                ? 4
+                : 3;
+
+    return ListView(
+      padding: EdgeInsets.only(
+        left: AppSpacing.lg,
+        right: AppSpacing.lg,
+        top: AppSpacing.sm,
+        bottom: MediaQuery.of(context).padding.bottom + 100,
+      ),
+      children: groupedEntries.entries.map((section) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionHeader(title: section.key),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: section.value.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: AppSpacing.sm,
+                mainAxisSpacing: AppSpacing.sm,
+                childAspectRatio: 0.78,
+              ),
+              itemBuilder: (context, index) {
+                final entry = section.value[index];
+                return _ModuleGridTile(
+                  entry: entry,
+                  l10n: l10n,
+                  onTap: () => _openViewer(context, entry.module),
+                );
+              },
+            ),
+            const SizedBox(height: AppSpacing.xl),
+          ],
+        );
+      }).toList(growable: false),
     );
   }
 
@@ -230,6 +324,58 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           );
         },
         transitionDuration: AppAnimations.normal,
+      ),
+    );
+  }
+}
+
+class _ModuleGridTile extends StatelessWidget {
+  final CatalogEntry entry;
+  final AppLocalizations l10n;
+  final VoidCallback onTap;
+
+  const _ModuleGridTile({
+    required this.entry,
+    required this.l10n,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final is3D = entry.module.dimension == FractalDimension.threeD;
+    final dimensionLabel = is3D ? l10n.dimension3d : l10n.dimension2d;
+    final name = entry.module.displayName(l10n);
+
+    return Semantics(
+      label: l10n.semanticFractalCard(name, dimensionLabel),
+      button: true,
+      child: InkWell(
+        key: Key('catalogGridTile_${entry.catalogId}'),
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _PreviewThumbnail(
+                catalogId: entry.catalogId,
+                is3D: is3D,
+                size: 80,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTypography.labelMedium.copyWith(
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -312,10 +458,12 @@ class _ModuleCard extends StatefulWidget {
 class _PreviewThumbnail extends StatelessWidget {
   final String catalogId;
   final bool is3D;
+  final double size;
 
   const _PreviewThumbnail({
     required this.catalogId,
     required this.is3D,
+    this.size = 64,
   });
 
   @override
@@ -327,8 +475,8 @@ class _PreviewThumbnail extends StatelessWidget {
     final colorB = HSVColor.fromAHSV(1, hueB, 0.66, 0.78).toColor();
 
     return Container(
-      width: 64,
-      height: 64,
+      width: size,
+      height: size,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -414,7 +562,6 @@ class _ModuleCardState extends State<_ModuleCard>
     final name = widget.entry.module.displayName(widget.l10n);
     final semanticLabel = widget.l10n.semanticFractalCard(name, dimensionLabel);
 
-    // Check for reduced motion preference
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
 

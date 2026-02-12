@@ -181,6 +181,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
   }
 
+  void _onAutoExploreUserCorrection() {
+    _autoExploreService?.onUserCorrection();
+  }
+
   void _scheduleGpuHealthCheck() {
     _gpuHealthTimer?.cancel();
     if (_disableGpuHealthCheck) return;
@@ -437,6 +441,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         onOpenControls: () => _openControls(context),
                         onOpenPresets: () => _openPresets(context),
                         onOpenExport: () => _openExport(context),
+                        onUserInteraction: _onAutoExploreUserCorrection,
                         freezeFrame: _freezeFrameForExport,
                       )
                     : (_useCpuFallback
@@ -457,6 +462,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                 onOpenControls: () => _openControls(context),
                                 onOpenPresets: () => _openPresets(context),
                                 onOpenExport: () => _openExport(context),
+                                onUserInteraction: _onAutoExploreUserCorrection,
                               ))),
               ),
 
@@ -492,7 +498,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       });
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.6),
                         borderRadius: BorderRadius.circular(8),
@@ -501,7 +508,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.precision_manufacturing_rounded, color: Colors.cyan, size: 16),
+                          Icon(Icons.precision_manufacturing_rounded,
+                              color: Colors.cyan, size: 16),
                           SizedBox(width: 6),
                           Text(
                             'Deep Zoom — tap for CPU precision',
@@ -798,7 +806,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final currentId = controller.module.id;
     // Filter to real fractals (skip diagnostics)
     final candidates = registry.modules
-        .where((m) => m.id != currentId && !m.id.contains('diag') && !m.id.contains('gradient'))
+        .where((m) =>
+            m.id != currentId &&
+            !m.id.contains('diag') &&
+            !m.id.contains('gradient'))
         .toList();
     if (candidates.isEmpty) return;
     final rng = math.Random();
@@ -1467,6 +1478,7 @@ class _CompareRenderer extends StatelessWidget {
   final VoidCallback onOpenControls;
   final VoidCallback onOpenPresets;
   final VoidCallback onOpenExport;
+  final VoidCallback? onUserInteraction;
   final bool freezeFrame;
 
   const _CompareRenderer({
@@ -1481,6 +1493,7 @@ class _CompareRenderer extends StatelessWidget {
     required this.onOpenControls,
     required this.onOpenPresets,
     required this.onOpenExport,
+    this.onUserInteraction,
     required this.freezeFrame,
   });
 
@@ -1501,6 +1514,7 @@ class _CompareRenderer extends StatelessWidget {
           onOpenControls: onOpenControls,
           onOpenPresets: onOpenPresets,
           onOpenExport: onOpenExport,
+          onUserInteraction: onUserInteraction,
         ),
       ),
     );
@@ -1518,6 +1532,7 @@ class _CompareRenderer extends StatelessWidget {
           onOpenControls: onOpenControls,
           onOpenPresets: onOpenPresets,
           onOpenExport: onOpenExport,
+          onUserInteraction: onUserInteraction,
         ),
       ),
     );

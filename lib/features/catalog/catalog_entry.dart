@@ -16,12 +16,16 @@ class CatalogEntry {
   /// Backing runtime fractal module that can render this entry today.
   final FractalModule module;
 
+  /// Display category used to group entries in the catalog UI.
+  final String category;
+
   /// Optional search aliases used by catalog filtering.
   final List<String> aliases;
 
   const CatalogEntry({
     required this.catalogId,
     required this.module,
+    required this.category,
     this.aliases = const [],
   });
 }

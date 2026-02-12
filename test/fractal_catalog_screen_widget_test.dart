@@ -42,7 +42,7 @@ void main() {
       );
     }
 
-    testWidgets('displays all fractal modules in list', (tester) async {
+    testWidgets('displays catalog modules in default grid view', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
@@ -50,10 +50,10 @@ void main() {
       final ids = registry.modules.map((m) => m.id).toList();
       expect(ids, containsAll(['mandelbrot', 'julia', 'burning_ship', 'phoenix', 'mandelbulb']));
 
-      // Verify at least the first few are rendered (others may need scrolling).
+      // Verify key entries render in the default view.
       expect(find.text('Mandelbrot'), findsOneWidget);
-      expect(find.text('Julia'), findsOneWidget);
       expect(find.text('Burning Ship'), findsOneWidget);
+      expect(find.byKey(const Key('catalogViewToggleButton')), findsOneWidget);
     });
 
     testWidgets('displays search field', (tester) async {
@@ -80,6 +80,11 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('2D'), findsWidgets);
+
+      await tester.enterText(find.byKey(const Key('catalogSearchField')), 'Mandelbulb');
+      await tester.pump(const Duration(milliseconds: 350));
+      await tester.pumpAndSettle();
+
       expect(find.text('3D'), findsWidgets);
     });
 
@@ -89,7 +94,11 @@ void main() {
 
       expect(controller.module.id, 'mandelbrot');
 
-      await tester.tap(find.text('Julia'));
+      await tester.enterText(find.byKey(const Key('catalogSearchField')), 'Julia');
+      await tester.pump(const Duration(milliseconds: 350));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Julia').last);
       await tester.pumpAndSettle();
 
       expect(controller.module.id, 'julia');
