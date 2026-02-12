@@ -158,6 +158,52 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 90,
   ),
 
+  // ── XI. IFS / Geometric Fractals ───────────────────────
+  EscapeTimeConfig(
+    id: 'sierpinski_triangle',
+    name: 'Sierpinski Triangle',
+    shaderAsset: 'shaders/sierpinski_triangle_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'sierpinski_carpet',
+    name: 'Sierpinski Carpet',
+    shaderAsset: 'shaders/sierpinski_carpet_gpu.frag',
+    defaultIterations: 100,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'koch_snowflake',
+    name: 'Koch Snowflake',
+    shaderAsset: 'shaders/koch_snowflake_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 6.0,
+  ),
+  EscapeTimeConfig(
+    id: 'dragon_curve',
+    name: 'Dragon Curve',
+    shaderAsset: 'shaders/dragon_curve_gpu.frag',
+    defaultIterations: 140,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'barnsley_fern',
+    name: 'Barnsley Fern',
+    shaderAsset: 'shaders/barnsley_fern_gpu.frag',
+    defaultIterations: 120,
+    defaultCenterY: 0.2,
+    defaultBailout: 6.0,
+  ),
+  EscapeTimeConfig(
+    id: 'pythagorean_tree',
+    name: 'Pythagorean Tree',
+    shaderAsset: 'shaders/pythagorean_tree_gpu.frag',
+    defaultIterations: 120,
+    defaultCenterY: -0.15,
+    defaultBailout: 6.0,
+  ),
+
   // ── X. 2D Maps / Attractors ─────────────────────────────
   EscapeTimeConfig(
     id: 'henon',
@@ -200,6 +246,48 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/ikeda_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 32.0,
+  ),
+  EscapeTimeConfig(
+    id: 'clifford',
+    name: 'Clifford Attractor',
+    shaderAsset: 'shaders/clifford_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'peter_de_jong',
+    name: 'Peter de Jong Attractor',
+    shaderAsset: 'shaders/peter_de_jong_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'svensson',
+    name: 'Svensson Attractor',
+    shaderAsset: 'shaders/svensson_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 24.0,
+  ),
+  EscapeTimeConfig(
+    id: 'gumowski_mira',
+    name: 'Gumowski-Mira Map',
+    shaderAsset: 'shaders/gumowski_mira_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 48.0,
+  ),
+  EscapeTimeConfig(
+    id: 'arnold_cat',
+    name: "Arnold's Cat Map",
+    shaderAsset: 'shaders/arnold_cat_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'standard_map',
+    name: 'Standard Map (Chirikov)',
+    shaderAsset: 'shaders/standard_map_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 12.0,
   ),
 
   // ── II. Convergent/Root-Finding (escape-time variant) ───

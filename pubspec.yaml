@@ -102,3 +102,15 @@ flutter:
   - shaders/feigenbaum_gpu.frag
   - shaders/gauss_map_gpu.frag
   - shaders/buddhabrot_gpu.frag
+  - shaders/sierpinski_triangle_gpu.frag
+  - shaders/sierpinski_carpet_gpu.frag
+  - shaders/koch_snowflake_gpu.frag
+  - shaders/dragon_curve_gpu.frag
+  - shaders/barnsley_fern_gpu.frag
+  - shaders/pythagorean_tree_gpu.frag
+  - shaders/clifford_gpu.frag
+  - shaders/peter_de_jong_gpu.frag
+  - shaders/svensson_gpu.frag
+  - shaders/gumowski_mira_gpu.frag
+  - shaders/arnold_cat_gpu.frag
+  - shaders/standard_map_gpu.frag
