@@ -95,6 +95,23 @@ flutter:
   - shaders/schroeder_gpu.frag
   - shaders/secant_fractal_gpu.frag
   - shaders/secant_cosecant_gpu.frag
+  - shaders/taylor_gpu.frag
+  - shaders/rational_map_gpu.frag
+  - shaders/barnsley_j2_gpu.frag
+  - shaders/barnsley_j3_gpu.frag
+  - shaders/celtic_julia_gpu.frag
+  - shaders/buffalo_julia_gpu.frag
+  - shaders/perpendicular_julia_gpu.frag
+  - shaders/tricorn_julia_gpu.frag
+  - shaders/burning_ship_julia_gpu.frag
+  - shaders/multibrot_neg2_gpu.frag
+  - shaders/heart_gpu.frag
+  - shaders/cosine_mandelbrot_gpu.frag
+  - shaders/tangent_mandelbrot_gpu.frag
+  - shaders/sinh_mandelbrot_gpu.frag
+  - shaders/cosh_mandelbrot_gpu.frag
+  - shaders/tanh_mandelbrot_gpu.frag
+  - shaders/log_spiral_gpu.frag
   - shaders/lyapunov_gpu.frag
   - shaders/logistic_lyapunov_gpu.frag
   - shaders/circle_map_lyapunov_gpu.frag

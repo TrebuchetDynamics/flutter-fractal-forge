@@ -896,6 +896,109 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 12.0,
   ),
 
+  EscapeTimeConfig(
+    id: 'taylor',
+    name: 'Taylor Series Fractal',
+    shaderAsset: 'shaders/taylor_gpu.frag',
+    defaultIterations: 120,
+  ),
+  EscapeTimeConfig(
+    id: 'rational_map',
+    name: 'Rational Map Fractal',
+    shaderAsset: 'shaders/rational_map_gpu.frag',
+    defaultIterations: 140,
+  ),
+  EscapeTimeConfig(
+    id: 'barnsley_j2',
+    name: 'Barnsley J2',
+    shaderAsset: 'shaders/barnsley_j2_gpu.frag',
+    defaultIterations: 140,
+  ),
+  EscapeTimeConfig(
+    id: 'barnsley_j3',
+    name: 'Barnsley J3',
+    shaderAsset: 'shaders/barnsley_j3_gpu.frag',
+    defaultIterations: 140,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_julia',
+    name: 'Celtic Julia',
+    shaderAsset: 'shaders/celtic_julia_gpu.frag',
+    defaultIterations: 160,
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_julia',
+    name: 'Buffalo Julia',
+    shaderAsset: 'shaders/buffalo_julia_gpu.frag',
+    defaultIterations: 160,
+  ),
+  EscapeTimeConfig(
+    id: 'perpendicular_julia',
+    name: 'Perpendicular Julia',
+    shaderAsset: 'shaders/perpendicular_julia_gpu.frag',
+    defaultIterations: 160,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_julia',
+    name: 'Tricorn Julia',
+    shaderAsset: 'shaders/tricorn_julia_gpu.frag',
+    defaultIterations: 160,
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_julia',
+    name: 'Burning Ship Julia',
+    shaderAsset: 'shaders/burning_ship_julia_gpu.frag',
+    defaultIterations: 160,
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot_neg2',
+    name: 'Multibrot d=-2',
+    shaderAsset: 'shaders/multibrot_neg2_gpu.frag',
+    defaultIterations: 140,
+  ),
+  EscapeTimeConfig(
+    id: 'heart',
+    name: 'Heart Fractal',
+    shaderAsset: 'shaders/heart_gpu.frag',
+    defaultIterations: 140,
+  ),
+  EscapeTimeConfig(
+    id: 'cosine_mandelbrot',
+    name: 'Cosine Mandelbrot',
+    shaderAsset: 'shaders/cosine_mandelbrot_gpu.frag',
+    defaultIterations: 120,
+  ),
+  EscapeTimeConfig(
+    id: 'tangent_mandelbrot',
+    name: 'Tangent Mandelbrot',
+    shaderAsset: 'shaders/tangent_mandelbrot_gpu.frag',
+    defaultIterations: 110,
+  ),
+  EscapeTimeConfig(
+    id: 'sinh_mandelbrot',
+    name: 'Sinh Mandelbrot',
+    shaderAsset: 'shaders/sinh_mandelbrot_gpu.frag',
+    defaultIterations: 120,
+  ),
+  EscapeTimeConfig(
+    id: 'cosh_mandelbrot',
+    name: 'Cosh Mandelbrot',
+    shaderAsset: 'shaders/cosh_mandelbrot_gpu.frag',
+    defaultIterations: 120,
+  ),
+  EscapeTimeConfig(
+    id: 'tanh_mandelbrot',
+    name: 'Tanh Mandelbrot',
+    shaderAsset: 'shaders/tanh_mandelbrot_gpu.frag',
+    defaultIterations: 120,
+  ),
+  EscapeTimeConfig(
+    id: 'log_spiral',
+    name: 'Log Spiral Fractal',
+    shaderAsset: 'shaders/log_spiral_gpu.frag',
+    defaultIterations: 140,
+  ),
+
   // ── IX. Lyapunov ────────────────────────────────────────
   EscapeTimeConfig(
     id: 'lyapunov',
