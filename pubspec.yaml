@@ -71,6 +71,12 @@ flutter:
   - shaders/druid_gpu.frag
   - shaders/magnet1_gpu.frag
   - shaders/magnet2_gpu.frag
+  - shaders/magnet3_gpu.frag
+  - shaders/power_sum_gpu.frag
+  - shaders/cactus_gpu.frag
+  - shaders/astroid_gpu.frag
+  - shaders/deltoid_gpu.frag
+  - shaders/eisenstein_gpu.frag
   - shaders/exponential_gpu.frag
   - shaders/zircon_zity_gpu.frag
   - shaders/spider_gpu.frag
@@ -108,6 +114,12 @@ flutter:
   - shaders/dragon_curve_gpu.frag
   - shaders/barnsley_fern_gpu.frag
   - shaders/pythagorean_tree_gpu.frag
+  - shaders/hilbert_curve_gpu.frag
+  - shaders/peano_curve_gpu.frag
+  - shaders/gosper_curve_gpu.frag
+  - shaders/levy_c_gpu.frag
+  - shaders/menger_sponge_gpu.frag
+  - shaders/vicsek_gpu.frag
   - shaders/clifford_gpu.frag
   - shaders/peter_de_jong_gpu.frag
   - shaders/svensson_gpu.frag
