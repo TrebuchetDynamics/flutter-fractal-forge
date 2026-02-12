@@ -179,6 +179,8 @@
   "arStyleTitle": "Estilo",
   "arShowGrid": "Cuadrícula",
   "arShowOutline": "Contorno",
+  "arCenter": "Centrar",
+  "arMoreOptions": "Más",
   "tooltipExpand": "Expandir",
   "tooltipCollapse": "Contraer",
   "errorOverlayNotReady": "Superposición no lista",

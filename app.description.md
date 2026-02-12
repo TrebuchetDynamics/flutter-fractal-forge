@@ -19,11 +19,16 @@ Flutter Fractals is a free app for exploring the infinite beauty of mathematical
 Discover a growing catalog of fractals rendered with high‑performance fragment shaders, then pan/zoom/rotate and fine‑tune parameters with responsive controls. Save your favorite looks as presets and export what you create.
 
 ### Fractals you can explore
-- Mandelbrot
-- Julia
-- Burning Ship
+- Mandelbrot (2D)
+- Julia (2D)
+- Burning Ship (2D)
+- Phoenix (2D)
+- Tricorn (2D)
+- Multibrot-3 (2D)
+- Celtic (2D)
+- Buffalo (2D)
+- Nova (2D)
 - Mandelbulb (3D)
-- (Additional modes may be included depending on build)
 
 ### Create and customize
 - Smooth touch gestures for navigation (pan/zoom for 2D, orbit/zoom for 3D)
@@ -37,6 +42,8 @@ Discover a growing catalog of fractals rendered with high‑performance fragment
 - Optional transparent PNG export (when enabled)
 - AR overlay mode (camera background + fractal overlay)
 - Export short AR videos (up to 15 seconds)
+- Three AR style presets (Neon, Soft, Mono)
+- AR quality presets (Low, Medium, High) for performance tuning
 
 ### Privacy‑first
 - No accounts
@@ -55,11 +62,16 @@ Flutter Fractals es una app gratuita para explorar la belleza infinita de los fr
 Explora un catálogo creciente de fractales renderizados con shaders (fragment shaders) de alto rendimiento, navega con gestos y ajusta parámetros con controles responsivos. Guarda tus combinaciones favoritas como presets y exporta tus creaciones.
 
 ### Fractales disponibles
-- Mandelbrot
-- Julia
-- Barco ardiente (Burning Ship)
+- Mandelbrot (2D)
+- Julia (2D)
+- Barco ardiente / Burning Ship (2D)
+- Fénix / Phoenix (2D)
+- Tricorn (2D)
+- Multibrot-3 (2D)
+- Celtic (2D)
+- Buffalo (2D)
+- Nova (2D)
 - Mandelbulb (3D)
-- (Pueden incluirse modos adicionales según la versión)
 
 ### Crea y personaliza
 - Gestos suaves para navegar (pan/zoom en 2D, rotación/zoom en 3D)
@@ -73,6 +85,8 @@ Explora un catálogo creciente de fractales renderizados con shaders (fragment s
 - Exportación opcional de PNG con transparencia
 - Modo AR de superposición (cámara + fractal)
 - Exporta videos cortos en AR (hasta 15 segundos)
+- Tres presets de estilo AR (Neón, Suave, Mono)
+- Presets de calidad AR (Bajo, Medio, Alto) para ajustar rendimiento
 
 ### Privacidad primero
 - Sin cuentas
@@ -87,7 +101,7 @@ Si activas el modo AR, la cámara se usa solo para mostrar una vista previa en t
 ## Feature bullets (for Play Console highlights)
 
 - Real‑time fractal rendering with high‑performance fragment shaders
-- Multiple fractal modes (2D + 3D)
+- 10 fractal modes (9 × 2D + 1 × 3D)
 - Touch gestures: pan/zoom (2D) and orbit/zoom (3D)
 - Parameter controls + palettes + randomize
 - Save local presets

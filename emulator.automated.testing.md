@@ -80,6 +80,27 @@ flutter test integration_test/app_test.dart -d emulator-5554
 flutter test integration_test/app_test.dart -d emulator-5554 --reporter expanded
 ```
 
+### AR-specific testing
+
+AR mode requires a camera, which emulators simulate. Test the following flows:
+
+```bash
+# Navigate to viewer, then tap AR button
+# AR mode should show camera preview with fractal overlay
+# Test permission denied path (revoke camera permission first)
+adb shell pm revoke com.fractals.flutter_fractals android.permission.CAMERA
+# Re-grant for subsequent tests
+adb shell pm grant com.fractals.flutter_fractals android.permission.CAMERA
+```
+
+Key AR behaviors to verify:
+- Camera permission request and denial handling
+- Overlay gesture controls (pan, pinch-to-scale, rotation)
+- Style preset switching (Neon, Soft, Mono)
+- Quality preset switching (Low, Medium, High)
+- Back button navigation
+- Export functions (overlay PNG, baked screenshot, video GIF)
+
 ## 4. Capturing Screenshots and Logs
 
 ### Device screenshots
@@ -367,9 +388,9 @@ adb shell input keyevent KEYCODE_BACK
 
 Then wait ~500ms before tapping cards.
 
-### Known bug: FractalViewerScreen AppBar missing on Android
+### Known issue: FractalViewerScreen provider setup
 
-The `FractalController` provider is not wrapped around the viewer route, causing a `ProviderNotFoundException` when navigating to the `FractalViewerScreen`. The fractal shader renders correctly, but the Scaffold/AppBar crashes. This is a known issue in the codebase that requires provider wrapper fixes.
+The `FractalController` provider must be wrapped around the viewer route. If missing, a `ProviderNotFoundException` occurs on navigation. The AR overlay screen correctly passes the controller via `ChangeNotifierProvider.value`, but the main viewer route needs the same treatment if accessed from a fresh navigation stack.
 
 ### Helper scripts
 

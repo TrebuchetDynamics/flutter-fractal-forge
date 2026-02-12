@@ -1,6 +1,4 @@
 import 'dart:math' as math;
-import 'dart:ui';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -71,12 +69,7 @@ extension on ArOverlayStylePreset {
           0, 0, 0, 1.0, 0,
         ]);
       case ArOverlayStylePreset.soft:
-        return const ColorFilter.matrix(<double>[
-          1.0, 0, 0, 0, 0,
-          0, 1.0, 0, 0, 0,
-          0, 0, 1.0, 0, 0,
-          0, 0, 0, 1.0, 0,
-        ]);
+        return null;
       case ArOverlayStylePreset.mono:
         return const ColorFilter.matrix(<double>[
           0.33, 0.33, 0.33, 0, 0,
@@ -409,6 +402,23 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
           ),
         ),
         Positioned(
+          top: 0,
+          left: 0,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: IconButton(
+                tooltip: l10n.actionClose,
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.black54,
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
           left: 16,
           right: 16,
           bottom: 16,
@@ -548,10 +558,9 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     final module = controller.registry.byId(selected);
     controller.selectModule(module);
 
-    // Ensure AR mode always renders on transparent background and uses AR quality.
+    // Adjust defaults per dimension; respect the current transparency toggle.
     final dim = module.dimension;
     setState(() {
-      _transparentBackground = true;
       if (dim == FractalDimension.threeD) {
         _overlayOpacity = 0.85;
         _overlayScale = 1.0;
@@ -562,7 +571,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         _stylePreset = ArOverlayStylePreset.neon;
       }
     });
-    controller.setTransparentBackground(true);
+    controller.setTransparentBackground(_transparentBackground);
     controller.applyArQualityPreset(_qualityPreset);
   }
 
@@ -787,13 +796,7 @@ class _ArOverlayFrame extends StatelessWidget {
             elevation: 6,
             borderRadius: BorderRadius.circular(radius),
             clipBehavior: Clip.antiAlias,
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(
-                sigmaX: 0.0,
-                sigmaY: 0.0,
-              ),
-              child: child,
-            ),
+            child: child,
           ),
           if (showOutline)
             IgnorePointer(
@@ -1057,7 +1060,7 @@ class _ArControlsPanel extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: onCenterOverlay,
                     icon: const Icon(Icons.center_focus_strong),
-                    label: const Text('Center'),
+                    label: Text(l10n.arCenter),
                   ),
                 ],
               ),
@@ -1099,7 +1102,7 @@ class _ArControlsPanel extends StatelessWidget {
               ExpansionTile(
                 tilePadding: EdgeInsets.zero,
                 childrenPadding: EdgeInsets.zero,
-                title: const Text('More'),
+                title: Text(l10n.arMoreOptions),
                 children: [
                   SwitchListTile(
                     title: Text(l10n.paramTransparentBg),

@@ -162,21 +162,6 @@ class ArVideoExporter {
     return completer.future;
   }
 
-  // ignore: unused_element
-  Future<void> _cleanupDirectory(Directory directory) async {
-    if (!await directory.exists()) {
-      return;
-    }
-    await for (final entity in directory.list()) {
-      try {
-        await entity.delete(recursive: true);
-      } catch (_) {}
-    }
-    try {
-      await directory.delete(recursive: true);
-    } catch (_) {}
-  }
-
   img.Image? _convertCameraImage(CameraImage image) {
     if (image.format.group == ImageFormatGroup.bgra8888) {
       final plane = image.planes.first;
@@ -260,7 +245,6 @@ class ArVideoExporter {
 }
 
 enum ArVideoExportMethod {
-  ffmpeg,
   dartGifFallback,
 }
 

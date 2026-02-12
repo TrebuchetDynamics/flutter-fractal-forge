@@ -66,6 +66,38 @@ Map<String, Object> arQualityParamsForModule(ArQualityPreset preset, String modu
       return {
         'iterations': _qualityValue(preset, low: 80, medium: 140, high: 220),
       };
+    case 'julia':
+      return {
+        'iterations': _qualityValue(preset, low: 60, medium: 120, high: 200),
+      };
+    case 'burning_ship':
+      return {
+        'iterations': _qualityValue(preset, low: 80, medium: 150, high: 250),
+      };
+    case 'phoenix':
+      return {
+        'iterations': _qualityValue(preset, low: 60, medium: 130, high: 220),
+      };
+    case 'tricorn':
+      return {
+        'iterations': _qualityValue(preset, low: 60, medium: 130, high: 220),
+      };
+    case 'nova':
+      return {
+        'iterations': _qualityValue(preset, low: 80, medium: 150, high: 250),
+      };
+    case 'multibrot3':
+      return {
+        'iterations': _qualityValue(preset, low: 60, medium: 130, high: 220),
+      };
+    case 'buffalo':
+      return {
+        'iterations': _qualityValue(preset, low: 60, medium: 130, high: 220),
+      };
+    case 'celtic':
+      return {
+        'iterations': _qualityValue(preset, low: 60, medium: 130, high: 220),
+      };
     case 'mandelbulb':
       return {
         'iterations': _qualityValue(preset, low: 30, medium: 50, high: 80),

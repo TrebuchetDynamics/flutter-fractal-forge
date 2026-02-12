@@ -478,6 +478,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get arShowOutline => 'Contorno';
 
   @override
+  String get arCenter => 'Centrar';
+
+  @override
+  String get arMoreOptions => 'Más';
+
+  @override
   String get tooltipExpand => 'Expandir';
 
   @override

@@ -476,6 +476,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arShowOutline => 'Outline';
 
   @override
+  String get arCenter => 'Center';
+
+  @override
+  String get arMoreOptions => 'More';
+
+  @override
   String get tooltipExpand => 'Expand';
 
   @override

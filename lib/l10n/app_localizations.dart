@@ -998,6 +998,18 @@ abstract class AppLocalizations {
   /// **'Outline'**
   String get arShowOutline;
 
+  /// No description provided for @arCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Center'**
+  String get arCenter;
+
+  /// No description provided for @arMoreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get arMoreOptions;
+
   /// No description provided for @tooltipExpand.
   ///
   /// In en, this message translates to:

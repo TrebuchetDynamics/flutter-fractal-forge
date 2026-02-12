@@ -150,6 +150,8 @@
   "arStyleTitle": "Style",
   "arShowGrid": "Grid",
   "arShowOutline": "Outline",
+  "arCenter": "Center",
+  "arMoreOptions": "More",
   "tooltipExpand": "Expand",
   "tooltipCollapse": "Collapse",
   "errorOverlayNotReady": "Overlay not ready",
