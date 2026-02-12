@@ -526,6 +526,95 @@ class SectionHeader extends StatelessWidget {
   }
 }
 
+/// Reusable press-to-scale wrapper that eliminates duplicate tap animation boilerplate.
+///
+/// Wraps a child in a [GestureDetector] + [ScaleTransition] that scales down
+/// on press and springs back on release. The [builder] receives the current
+/// `isPressed` state so consumers can adjust decoration (color, border, etc.).
+class PressableScale extends StatefulWidget {
+  /// Builder that receives the current pressed state.
+  final Widget Function(bool isPressed) builder;
+
+  /// Called when the user taps. If null, press animation is disabled.
+  final VoidCallback? onTap;
+
+  /// Scale factor at the deepest point of the press (default 0.95).
+  final double scaleEnd;
+
+  /// Animation curve (default [AppAnimations.snappyCurve]).
+  final Curve curve;
+
+  const PressableScale({
+    Key? key,
+    required this.builder,
+    this.onTap,
+    this.scaleEnd = 0.95,
+    this.curve = AppAnimations.snappyCurve,
+  }) : super(key: key);
+
+  @override
+  State<PressableScale> createState() => _PressableScaleState();
+}
+
+class _PressableScaleState extends State<PressableScale>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  bool _isPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: AppAnimations.fast,
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: widget.scaleEnd).animate(
+      CurvedAnimation(parent: _controller, curve: widget.curve),
+    );
+  }
+
+  @override
+  void didUpdateWidget(PressableScale oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.scaleEnd != oldWidget.scaleEnd || widget.curve != oldWidget.curve) {
+      _scaleAnimation = Tween<double>(begin: 1.0, end: widget.scaleEnd).animate(
+        CurvedAnimation(parent: _controller, curve: widget.curve),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = widget.onTap != null;
+    return GestureDetector(
+      onTapDown: enabled ? (_) {
+        setState(() => _isPressed = true);
+        _controller.forward();
+      } : null,
+      onTapUp: enabled ? (_) {
+        setState(() => _isPressed = false);
+        _controller.reverse();
+      } : null,
+      onTapCancel: enabled ? () {
+        setState(() => _isPressed = false);
+        _controller.reverse();
+      } : null,
+      onTap: widget.onTap,
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: widget.builder(_isPressed),
+      ),
+    );
+  }
+}
+
 /// Premium slider with value indicator and smooth animations.
 class PremiumSlider extends StatefulWidget {
   final double value;

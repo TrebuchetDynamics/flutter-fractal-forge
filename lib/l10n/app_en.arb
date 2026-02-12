@@ -31,6 +31,7 @@
   "presetSaved": "Preset saved",
   "presetNameRequired": "Enter a preset name.",
   "presetSaveFailed": "Couldn’t save preset: {error}",
+  "sectionActions": "Actions",
   "resetView": "Reset View",
   "resetParams": "Reset Params",
   "randomize": "Randomize",

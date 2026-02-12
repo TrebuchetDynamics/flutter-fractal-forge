@@ -112,7 +112,7 @@ class FractalControlsSheet extends StatelessWidget {
                     );
                   }),
                   const SizedBox(height: AppSpacing.xl),
-                  SectionHeader(title: 'Actions'),
+                  SectionHeader(title: l10n.sectionActions),
                   const SizedBox(height: AppSpacing.sm),
                   Row(
                     children: [
@@ -157,7 +157,7 @@ class FractalControlsSheet extends StatelessWidget {
   }
 }
 
-class _ActionButton extends StatefulWidget {
+class _ActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onPressed;
@@ -169,85 +169,42 @@ class _ActionButton extends StatefulWidget {
   });
 
   @override
-  State<_ActionButton> createState() => _ActionButtonState();
-}
-
-class _ActionButtonState extends State<_ActionButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  bool _isPressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) {
-        setState(() => _isPressed = true);
-        _controller.forward();
-      },
-      onTapUp: (_) {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      },
-      onTapCancel: () {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      },
-      onTap: widget.onPressed,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: AnimatedContainer(
-          duration: AppAnimations.fast,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.md,
+    return PressableScale(
+      onTap: onPressed,
+      builder: (isPressed) => AnimatedContainer(
+        duration: AppAnimations.fast,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        decoration: BoxDecoration(
+          color: isPressed
+              ? AppColors.surfaceElevated
+              : AppColors.surfaceVariant,
+          borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          border: Border.all(
+            color: isPressed
+                ? AppColors.primary.withOpacity(0.3)
+                : AppColors.border.withOpacity(0.5),
           ),
-          decoration: BoxDecoration(
-            color: _isPressed
-                ? AppColors.surfaceElevated
-                : AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-            border: Border.all(
-              color: _isPressed
-                  ? AppColors.primary.withOpacity(0.3)
-                  : AppColors.border.withOpacity(0.5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: isPressed ? AppColors.primary : AppColors.textSecondary,
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                widget.icon,
-                size: 18,
-                color: _isPressed ? AppColors.primary : AppColors.textSecondary,
+            const SizedBox(width: AppSpacing.sm),
+            Text(
+              label,
+              style: AppTypography.labelMedium.copyWith(
+                color: isPressed ? AppColors.primary : AppColors.textPrimary,
               ),
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                widget.label,
-                style: AppTypography.labelMedium.copyWith(
-                  color: _isPressed ? AppColors.primary : AppColors.textPrimary,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -361,7 +318,7 @@ class _ParamControl extends StatelessWidget {
   }
 }
 
-class _OptionChip extends StatefulWidget {
+class _OptionChip extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onSelected;
@@ -373,64 +330,31 @@ class _OptionChip extends StatefulWidget {
   });
 
   @override
-  State<_OptionChip> createState() => _OptionChipState();
-}
-
-class _OptionChipState extends State<_OptionChip>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
-      onTapUp: (_) => _controller.reverse(),
-      onTapCancel: () => _controller.reverse(),
-      onTap: widget.onSelected,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: AnimatedContainer(
-          duration: AppAnimations.normal,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
+    return PressableScale(
+      onTap: onSelected,
+      builder: (isPressed) => AnimatedContainer(
+        duration: AppAnimations.normal,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: selected
+              ? AppColors.primary.withOpacity(0.2)
+              : AppColors.surfaceVariant,
+          borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+          border: Border.all(
+            color: selected
+                ? AppColors.primary.withOpacity(0.6)
+                : AppColors.border.withOpacity(0.4),
           ),
-          decoration: BoxDecoration(
-            color: widget.selected
-                ? AppColors.primary.withOpacity(0.2)
-                : AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-            border: Border.all(
-              color: widget.selected
-                  ? AppColors.primary.withOpacity(0.6)
-                  : AppColors.border.withOpacity(0.4),
-            ),
-          ),
-          child: Text(
-            widget.label,
-            style: AppTypography.labelMedium.copyWith(
-              color: widget.selected ? AppColors.primary : AppColors.textSecondary,
-              fontWeight: widget.selected ? FontWeight.w600 : FontWeight.w400,
-            ),
+        ),
+        child: Text(
+          label,
+          style: AppTypography.labelMedium.copyWith(
+            color: selected ? AppColors.primary : AppColors.textSecondary,
+            fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
           ),
         ),
       ),

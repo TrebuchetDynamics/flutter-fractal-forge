@@ -34,7 +34,8 @@ class FractalViewState {
   /// - Values < 1.0 zoom out (shrink)
   /// - Value of 1.0 is the default view
   ///
-  /// Clamped to range [0.05, 20.0] to prevent extreme zoom levels.
+  /// In controller updates, this is typically clamped to [1e-9, 1e12]
+  /// to allow deep-zoom workflows.
   final double zoom;
 
   /// The 3D rotation angles in radians.

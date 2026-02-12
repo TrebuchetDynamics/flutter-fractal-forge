@@ -284,6 +284,12 @@ abstract class AppLocalizations {
   /// **'Couldn’t save preset: {error}'**
   String presetSaveFailed(Object error);
 
+  /// No description provided for @sectionActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get sectionActions;
+
   /// No description provided for @resetView.
   ///
   /// In en, this message translates to:

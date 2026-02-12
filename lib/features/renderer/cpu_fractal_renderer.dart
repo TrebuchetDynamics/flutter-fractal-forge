@@ -7,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
 ///
-/// Purpose: provide a "works everywhere" path when GPU shader output is black.
-/// This is intentionally low-res and throttled.
+/// Deep-zoom quality path:
+/// - Uses double-precision math on CPU for stable deep zoom coordinates.
+/// - Uses multi-sample anti-aliasing (2x2) to reduce grain/noise.
+/// - Uses smooth/continuous escape-time coloring.
 class CpuFractalRenderer extends StatefulWidget {
   final FractalModule module;
   final FractalRenderState state;
@@ -25,8 +26,8 @@ class CpuFractalRenderer extends StatefulWidget {
     super.key,
     required this.module,
     required this.state,
-    this.width = 320,
-    this.height = 640,
+    this.width = 360,
+    this.height = 360,
   });
 
   @override
@@ -64,22 +65,24 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
   void _scheduleRender() {
     _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 150), _render);
+    _debounce = Timer(const Duration(milliseconds: 120), _render);
   }
 
   Future<void> _render() async {
     final int job = ++_job;
     try {
-      final img = await _renderCpu(
+      final frame = await renderCpuFrame(
         moduleId: widget.module.id,
         viewPan: widget.state.view.pan,
         viewZoom: widget.state.view.zoom,
-        iterations: _readInt(widget.state.params, 'iterations', 120),
+        iterations: _readInt(widget.state.params, 'iterations', 220),
         bailout: _readDouble(widget.state.params, 'bailout', 4.0),
         juliaC: _juliaC(widget.state.params),
         width: widget.width,
         height: widget.height,
+        sampleCount: 4,
       );
+      final img = await frame.toImage();
       if (!mounted || job != _job) return;
       setState(() {
         _image = img;
@@ -114,13 +117,38 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       child: SizedBox(
         width: img.width.toDouble(),
         height: img.height.toDouble(),
-        child: RawImage(image: img, filterQuality: FilterQuality.none),
+        child: RawImage(image: img, filterQuality: FilterQuality.low),
       ),
     );
   }
 }
 
-Future<ui.Image> _renderCpu({
+class CpuRenderFrame {
+  final Uint8List rgba;
+  final int width;
+  final int height;
+
+  const CpuRenderFrame({
+    required this.rgba,
+    required this.width,
+    required this.height,
+  });
+
+  Future<ui.Image> toImage() async {
+    final c = Completer<ui.Image>();
+    // ignore: deprecated_member_use
+    ui.decodeImageFromPixels(
+      rgba,
+      width,
+      height,
+      ui.PixelFormat.rgba8888,
+      (img) => c.complete(img),
+    );
+    return c.future;
+  }
+}
+
+Future<CpuRenderFrame> renderCpuFrame({
   required String moduleId,
   required Vector2 viewPan,
   required double viewZoom,
@@ -129,108 +157,154 @@ Future<ui.Image> _renderCpu({
   required Vector2 juliaC,
   required int width,
   required int height,
+  int sampleCount = 4,
 }) async {
-  // Map screen -> complex plane.
-  // Use a sensible default view that shows the set without requiring perfect params.
   final centerX = viewPan.x;
   final centerY = viewPan.y;
   final zoom = viewZoom <= 0 ? 1.0 : viewZoom;
 
-  // For 2D, interpret zoom as magnification; larger => more detail.
   final scale = 3.0 / zoom;
-
+  final aspect = width / height;
   final bytes = Uint8List(width * height * 4);
   final bailout2 = bailout * bailout;
+  final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
+  final totalSamples = samplesPerAxis * samplesPerAxis;
 
   for (int y = 0; y < height; y++) {
-    final ny = (y / (height - 1)) * 2.0 - 1.0;
     for (int x = 0; x < width; x++) {
-      final nx = (x / (width - 1)) * 2.0 - 1.0;
+      double rAcc = 0;
+      double gAcc = 0;
+      double bAcc = 0;
 
-      // Keep aspect ratio.
-      final aspect = width / height;
-      final cx = centerX + nx * scale * aspect;
-      final cy = centerY + ny * scale;
+      for (int sy = 0; sy < samplesPerAxis; sy++) {
+        for (int sx = 0; sx < samplesPerAxis; sx++) {
+          final subX = (x + (sx + 0.5) / samplesPerAxis) / (width - 1);
+          final subY = (y + (sy + 0.5) / samplesPerAxis) / (height - 1);
+          final nx = subX * 2.0 - 1.0;
+          final ny = subY * 2.0 - 1.0;
 
-      int it = 0;
-      double zx, zy;
-      double c0x, c0y;
+          final cx = centerX + nx * scale * aspect;
+          final cy = centerY + ny * scale;
 
-      if (moduleId == 'julia') {
-        zx = cx;
-        zy = cy;
-        c0x = juliaC.x;
-        c0y = juliaC.y;
-      } else {
-        // mandelbrot, burning_ship, phoenix (fallback to mandelbrot-style)
-        zx = 0.0;
-        zy = 0.0;
-        c0x = cx;
-        c0y = cy;
-      }
-
-      while (it < iterations) {
-        double zx2 = zx * zx;
-        double zy2 = zy * zy;
-        if (zx2 + zy2 > bailout2) break;
-
-        if (moduleId == 'burning_ship') {
-          // z = (|Re(z)| + i|Im(z)|)^2 + c
-          final azx = zx.abs();
-          final azy = zy.abs();
-          final rx = azx * azx - azy * azy + c0x;
-          final ry = 2.0 * azx * azy + c0y;
-          zx = rx;
-          zy = ry;
-        } else if (moduleId == 'phoenix') {
-          // Very rough phoenix-like variant: z = z^2 + c + p*prev
-          // (We don't track prev here; fallback to mandelbrot dynamics.)
-          final rx = zx2 - zy2 + c0x;
-          final ry = 2.0 * zx * zy + c0y;
-          zx = rx;
-          zy = ry;
-        } else {
-          // Mandelbrot / Julia
-          final rx = zx2 - zy2 + c0x;
-          final ry = 2.0 * zx * zy + c0y;
-          zx = rx;
-          zy = ry;
+          final color = _escapeColor(
+            moduleId: moduleId,
+            cx: cx,
+            cy: cy,
+            juliaC: juliaC,
+            iterations: iterations,
+            bailout2: bailout2,
+          );
+          rAcc += color.$1;
+          gAcc += color.$2;
+          bAcc += color.$3;
         }
-
-        it++;
       }
 
       final idx = (y * width + x) * 4;
-      if (it >= iterations) {
-        // inside set
-        bytes[idx + 0] = 0;
-        bytes[idx + 1] = 0;
-        bytes[idx + 2] = 0;
-        bytes[idx + 3] = 255;
-      } else {
-        // simple smooth-ish gradient
-        final t = it / iterations;
-        final r = (9 * (1 - t) * t * t * t * 255).clamp(0, 255).toInt();
-        final g = (15 * (1 - t) * (1 - t) * t * t * 255).clamp(0, 255).toInt();
-        final b = (8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255).clamp(0, 255).toInt();
-        bytes[idx + 0] = r;
-        bytes[idx + 1] = g;
-        bytes[idx + 2] = b;
-        bytes[idx + 3] = 255;
-      }
+      bytes[idx + 0] = (rAcc / totalSamples).clamp(0, 255).round();
+      bytes[idx + 1] = (gAcc / totalSamples).clamp(0, 255).round();
+      bytes[idx + 2] = (bAcc / totalSamples).clamp(0, 255).round();
+      bytes[idx + 3] = 255;
     }
   }
 
-  final c = Completer<ui.Image>();
-  // ignore: deprecated_member_use
-  ui.decodeImageFromPixels(
-    bytes,
-    width,
-    height,
-    ui.PixelFormat.rgba8888,
-    (img) => c.complete(img),
-  );
-  return c.future;
+  return CpuRenderFrame(rgba: bytes, width: width, height: height);
+}
+
+(double, double, double) _escapeColor({
+  required String moduleId,
+  required double cx,
+  required double cy,
+  required Vector2 juliaC,
+  required int iterations,
+  required double bailout2,
+}) {
+  double zx;
+  double zy;
+  double c0x;
+  double c0y;
+
+  if (moduleId == 'julia') {
+    zx = cx;
+    zy = cy;
+    c0x = juliaC.x;
+    c0y = juliaC.y;
+  } else {
+    zx = 0.0;
+    zy = 0.0;
+    c0x = cx;
+    c0y = cy;
+  }
+
+  int it = 0;
+  while (it < iterations) {
+    final zx2 = zx * zx;
+    final zy2 = zy * zy;
+    final mag2 = zx2 + zy2;
+    if (mag2 > bailout2) break;
+
+    switch (moduleId) {
+      case 'celtic':
+        final rx = (zx2 - zy2).abs() + c0x;
+        final ry = 2.0 * zx * zy + c0y;
+        zx = rx;
+        zy = ry;
+        break;
+      case 'buffalo':
+        final rx = (zx2 - zy2).abs() + c0x;
+        final ry = (2.0 * zx * zy).abs() + c0y;
+        zx = rx;
+        zy = ry;
+        break;
+      default:
+        final rx = zx2 - zy2 + c0x;
+        final ry = 2.0 * zx * zy + c0y;
+        zx = rx;
+        zy = ry;
+        break;
+    }
+
+    it++;
+  }
+
+  if (it >= iterations) {
+    return (0, 0, 0);
+  }
+
+  final mag2 = math.max(1e-16, zx * zx + zy * zy);
+  final smooth =
+      it + 1.0 - math.log(math.log(mag2) / math.log(2.0)) / math.log(2.0);
+  final t = (smooth / math.max(1, iterations)).clamp(0.0, 1.0);
+  final c = _palette(t);
+  return c;
+}
+
+(double, double, double) _palette(double t) {
+  final r = 9.0 * (1 - t) * t * t * t * 255.0;
+  final g = 15.0 * (1 - t) * (1 - t) * t * t * 255.0;
+  final b = 8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255.0;
+  return (r, g, b);
+}
+
+/// Lower is smoother (less grain).
+double computeGrainScore(Uint8List rgba, int width, int height) {
+  if (width < 2 || height < 2) return 0;
+  double sum = 0;
+  int count = 0;
+
+  int at(int x, int y, int c) => rgba[(y * width + x) * 4 + c];
+
+  for (int y = 0; y < height - 1; y++) {
+    for (int x = 0; x < width - 1; x++) {
+      for (int c = 0; c < 3; c++) {
+        final v = at(x, y, c);
+        sum += (v - at(x + 1, y, c)).abs();
+        sum += (v - at(x, y + 1, c)).abs();
+        count += 2;
+      }
+    }
+  }
+  return sum / count;
 }
 
 int _readInt(Map<String, Object> params, String key, int fallback) {
@@ -248,7 +322,7 @@ double _readDouble(Map<String, Object> params, String key, double fallback) {
 }
 
 Vector2 _juliaC(Map<String, Object> params) {
-  final x = _readDouble(params, 'juliaX', -0.7);
-  final y = _readDouble(params, 'juliaY', 0.27);
+  final x = _readDouble(params, 'juliaCReal', -0.8);
+  final y = _readDouble(params, 'juliaCImag', 0.156);
   return Vector2(x, y);
 }

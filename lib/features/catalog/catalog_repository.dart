@@ -1,0 +1,34 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
+
+/// Catalog data source for the Explore screen.
+///
+/// Phase 1: derives entries from currently implemented modules while assigning
+/// stable catalog IDs. This keeps IDs future-proof for PRD-200 ingest.
+class CatalogRepository {
+  final List<CatalogEntry> entries;
+
+  const CatalogRepository({required this.entries});
+
+  factory CatalogRepository.fromRegistry(ModuleRegistry registry) {
+    return CatalogRepository(
+      entries: registry.modules
+          .map(
+            (module) => CatalogEntry(
+              // Stable prefix to decouple future module refactors from IDs.
+              catalogId: 'core.${module.id}',
+              module: module,
+            ),
+          )
+          .toList(growable: false),
+    );
+  }
+
+  CatalogEntry byCatalogId(String catalogId) {
+    return entries.firstWhere((entry) => entry.catalogId == catalogId);
+  }
+
+  @visibleForTesting
+  Set<String> allIds() => entries.map((e) => e.catalogId).toSet();
+}

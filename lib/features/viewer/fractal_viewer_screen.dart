@@ -389,8 +389,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               );
             },
           ),
-          // Compare (A/B) intentionally removed from user-facing UI.
-
+          // Random fractal picker
+          _AppBarIconButton(
+            icon: Icons.shuffle_rounded,
+            tooltip: 'Random Fractal',
+            onPressed: () => _jumpToRandomFractal(context),
+          ),
         ],
       ),
       body: LayoutBuilder(
@@ -737,6 +741,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         ),
       );
     }
+  }
+
+  void _jumpToRandomFractal(BuildContext context) {
+    final registry = context.read<ModuleRegistry>();
+    final controller = context.read<FractalController>();
+    final currentId = controller.module.id;
+    // Filter to real fractals (skip diagnostics)
+    final candidates = registry.modules
+        .where((m) => m.id != currentId && !m.id.contains('diag') && !m.id.contains('gradient'))
+        .toList();
+    if (candidates.isEmpty) return;
+    final rng = math.Random();
+    final pick = candidates[rng.nextInt(candidates.length)];
+    controller.selectModule(pick);
   }
 
   void _openControls(BuildContext context) {

@@ -408,7 +408,7 @@ class _PresetSheetState extends State<PresetSheet> {
   }
 }
 
-class _PresetChip extends StatefulWidget {
+class _PresetChip extends StatelessWidget {
   final String label;
   final IconData icon;
   final bool isBuiltIn;
@@ -422,93 +422,50 @@ class _PresetChip extends StatefulWidget {
   });
 
   @override
-  State<_PresetChip> createState() => _PresetChipState();
-}
-
-class _PresetChipState extends State<_PresetChip>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  bool _isPressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) {
-        setState(() => _isPressed = true);
-        _controller.forward();
-      },
-      onTapUp: (_) {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      },
-      onTapCancel: () {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      },
-      onTap: widget.onTap,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: AnimatedContainer(
-          duration: AppAnimations.normal,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
+    return PressableScale(
+      onTap: onTap,
+      builder: (isPressed) => AnimatedContainer(
+        duration: AppAnimations.normal,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: isPressed
+              ? (isBuiltIn
+                  ? AppColors.primary.withOpacity(0.25)
+                  : AppColors.secondary.withOpacity(0.25))
+              : AppColors.surfaceVariant,
+          borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+          border: Border.all(
+            color: isPressed
+                ? (isBuiltIn
+                    ? AppColors.primary.withOpacity(0.6)
+                    : AppColors.secondary.withOpacity(0.6))
+                : AppColors.border.withOpacity(0.4),
           ),
-          decoration: BoxDecoration(
-            color: _isPressed
-                ? (widget.isBuiltIn
-                    ? AppColors.primary.withOpacity(0.25)
-                    : AppColors.secondary.withOpacity(0.25))
-                : AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-            border: Border.all(
-              color: _isPressed
-                  ? (widget.isBuiltIn
-                      ? AppColors.primary.withOpacity(0.6)
-                      : AppColors.secondary.withOpacity(0.6))
-                  : AppColors.border.withOpacity(0.4),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 16,
+              color: isPressed
+                  ? (isBuiltIn ? AppColors.primary : AppColors.secondary)
+                  : AppColors.textMuted,
             ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                widget.icon,
-                size: 16,
-                color: _isPressed
-                    ? (widget.isBuiltIn ? AppColors.primary : AppColors.secondary)
-                    : AppColors.textMuted,
+            const SizedBox(width: AppSpacing.xs),
+            Text(
+              label,
+              style: AppTypography.labelMedium.copyWith(
+                color: isPressed
+                    ? (isBuiltIn ? AppColors.primary : AppColors.secondary)
+                    : AppColors.textSecondary,
               ),
-              const SizedBox(width: AppSpacing.xs),
-              Text(
-                widget.label,
-                style: AppTypography.labelMedium.copyWith(
-                  color: _isPressed
-                      ? (widget.isBuiltIn ? AppColors.primary : AppColors.secondary)
-                      : AppColors.textSecondary,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

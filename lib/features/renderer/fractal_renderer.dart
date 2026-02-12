@@ -9,6 +9,8 @@ import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import './providers/fractal_provider.dart';
+import 'cpu_fractal_renderer.dart';
+import 'deep_zoom_precision_policy.dart';
 import 'fractal_canvas.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
@@ -42,7 +44,7 @@ enum ShaderErrorType {
 /// It automatically loads the appropriate shader when the module changes.
 ///
 /// ## Gesture Support
-/// 
+///
 /// - **Single-finger drag**: Pan (2D) or rotate (3D)
 /// - **Pinch-to-zoom**: Smooth zoom with momentum/inertia
 /// - **Two-finger rotation**: Rotate around Z-axis (3D fractals)
@@ -83,6 +85,11 @@ class FractalRenderer extends StatefulWidget {
   /// Callback for when export should be opened.
   final VoidCallback? onOpenExport;
 
+  /// Whether time-based animation should advance.
+  ///
+  /// When false, rendering uses a fixed time (frame is frozen).
+  final bool animationEnabled;
+
   /// Creates a [FractalRenderer] widget.
   const FractalRenderer({
     Key? key,
@@ -91,6 +98,7 @@ class FractalRenderer extends StatefulWidget {
     this.onOpenControls,
     this.onOpenPresets,
     this.onOpenExport,
+    this.animationEnabled = true,
   }) : super(key: key);
 
   @override
@@ -99,6 +107,8 @@ class FractalRenderer extends StatefulWidget {
 
 class _FractalRendererState extends State<FractalRenderer>
     with TickerProviderStateMixin {
+  static const DeepZoomPrecisionPolicy _precisionPolicy =
+      DeepZoomPrecisionPolicy();
   // `bool.fromEnvironment('FLUTTER_TEST')` isn't consistently set across all
   // runners. Using an assert-based check is reliable in debug/test and keeps
   // release builds unaffected.
@@ -174,7 +184,8 @@ class _FractalRendererState extends State<FractalRenderer>
     final view = controller.view;
 
     // Decay the velocity with easing
-    final progress = Curves.easeOutCubic.transform(_zoomMomentumController.value);
+    final progress =
+        Curves.easeOutCubic.transform(_zoomMomentumController.value);
     final decayedVelocity = _zoomVelocity * (1.0 - progress);
 
     if (decayedVelocity.abs() > 0.001) {
@@ -190,17 +201,19 @@ class _FractalRendererState extends State<FractalRenderer>
     final module = controller.module;
 
     // Decay the velocity with easing
-    final progress = Curves.easeOutCubic.transform(_panMomentumController.value);
+    final progress =
+        Curves.easeOutCubic.transform(_panMomentumController.value);
     final decayedVelocity = _panVelocity * (1.0 - progress);
 
     if (decayedVelocity.distance > 0.5) {
       if (module.dimension == FractalDimension.threeD) {
         controller.updateRotation(
-          view.rotation + Vector3(
-            decayedVelocity.dy * 0.001,
-            decayedVelocity.dx * 0.001,
-            0,
-          ),
+          view.rotation +
+              Vector3(
+                decayedVelocity.dy * 0.001,
+                decayedVelocity.dx * 0.001,
+                0,
+              ),
         );
       } else {
         final pan = Vector2(
@@ -312,8 +325,10 @@ class _FractalRendererState extends State<FractalRenderer>
 
   /// Retries loading the current shader.
   void _retryShaderLoad() {
-    if (_shaderAsset != null || context.read<FractalController>().module.shaderAsset.isNotEmpty) {
-      final asset = _shaderAsset ?? context.read<FractalController>().module.shaderAsset;
+    if (_shaderAsset != null ||
+        context.read<FractalController>().module.shaderAsset.isNotEmpty) {
+      final asset =
+          _shaderAsset ?? context.read<FractalController>().module.shaderAsset;
       _loading = false; // Reset loading flag to allow retry
       _loadShader(asset);
     }
@@ -357,9 +372,8 @@ class _FractalRendererState extends State<FractalRenderer>
     //   c  = uv/zoom + center
     final renderBox = context.findRenderObject() as RenderBox?;
     final size = renderBox?.size;
-    final scalePx = (size == null)
-        ? 1.0
-        : math.max(1.0, math.min(size.width, size.height));
+    final scalePx =
+        (size == null) ? 1.0 : math.max(1.0, math.min(size.width, size.height));
 
     // Total finger movement since gesture start.
     final totalDelta = details.focalPoint - _startFocalPoint;
@@ -369,12 +383,21 @@ class _FractalRendererState extends State<FractalRenderer>
       if (module.dimension == FractalDimension.threeD) {
         // Rotate with 1 finger in AR/3D mode.
         controller.updateRotation(
-          view.rotation + Vector3(totalDelta.dy * 0.0009, totalDelta.dx * 0.0009, 0),
+          view.rotation +
+              Vector3(totalDelta.dy * 0.0009, totalDelta.dx * 0.0009, 0),
         );
       } else {
-        // Convert pixels → complex-plane delta.
-        final dxWorld = (totalDelta.dx / scalePx) / math.max(1e-9, _startZoom);
-        final dyWorld = (totalDelta.dy / scalePx) / math.max(1e-9, _startZoom);
+        // Convert pixels → complex-plane delta, accounting for rotation.
+        // When the fractal is rotated, screen drag axes must rotate too
+        // so panning always feels physically correct.
+        final rot = view.rotation.z; // rotation angle in radians
+        final cosR = math.cos(rot);
+        final sinR = math.sin(rot);
+        final rawDx = totalDelta.dx / scalePx;
+        final rawDy = totalDelta.dy / scalePx;
+        // Rotate screen delta by -rotation to get world delta
+        final dxWorld = (rawDx * cosR + rawDy * sinR) / math.max(1e-9, _startZoom);
+        final dyWorld = (-rawDx * sinR + rawDy * cosR) / math.max(1e-9, _startZoom);
         controller.updatePan(
           Vector2(
             _startPan.x - dxWorld,
@@ -391,7 +414,8 @@ class _FractalRendererState extends State<FractalRenderer>
     // --- 2+ fingers: pinch zoom (and optional twist rotation for 3D) ---
     final newZoom = (_startZoom * details.scale).clamp(1e-9, 1e12);
 
-    if (module.dimension == FractalDimension.threeD && details.rotation != 0.0) {
+    if (module.dimension == FractalDimension.threeD &&
+        details.rotation != 0.0) {
       final rotationDelta = details.rotation - _lastRotation;
       controller.updateRotation(view.rotation + Vector3(0, 0, rotationDelta));
       _lastRotation = details.rotation;
@@ -399,8 +423,12 @@ class _FractalRendererState extends State<FractalRenderer>
 
     if (module.dimension != FractalDimension.threeD && size != null) {
       // Keep the point under the fingers stable while zooming.
-      final startN = (_startFocalPoint - Offset(size.width / 2, size.height / 2)) / scalePx;
-      final curN = (details.focalPoint - Offset(size.width / 2, size.height / 2)) / scalePx;
+      final startN =
+          (_startFocalPoint - Offset(size.width / 2, size.height / 2)) /
+              scalePx;
+      final curN =
+          (details.focalPoint - Offset(size.width / 2, size.height / 2)) /
+              scalePx;
 
       final worldX = startN.dx / _startZoom + _startPan.x;
       final worldY = startN.dy / _startZoom + _startPan.y;
@@ -531,7 +559,7 @@ class _FractalRendererState extends State<FractalRenderer>
       ],
     ).then((value) {
       if (value == null) return;
-      
+
       switch (value) {
         case 'reset':
           controller.resetView();
@@ -556,6 +584,19 @@ class _FractalRendererState extends State<FractalRenderer>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.animationEnabled) {
+      if (!_isTest && !_animationController.isAnimating) {
+        _animationController.repeat();
+      }
+    } else {
+      if (_animationController.isAnimating) {
+        _animationController.stop();
+      }
+      if (_animationController.value != 0.0) {
+        _animationController.value = 0.0;
+      }
+    }
+
     final controller = context.watch<FractalController>();
     final module = controller.module;
 
@@ -606,6 +647,38 @@ class _FractalRendererState extends State<FractalRenderer>
         onDoubleTap: _onDoubleTap,
         onLongPressStart: _onLongPress,
         child: content,
+      );
+    }
+
+    final shouldUseCpuFallback = _precisionPolicy.shouldUseCpuFallback(
+      moduleId: module.id,
+      zoom: controller.view.zoom,
+    );
+
+    if (shouldUseCpuFallback && module.dimension == FractalDimension.twoD) {
+      final cpuContent = RepaintBoundary(
+        key: widget.boundaryKey,
+        child: CpuFractalRenderer(
+          module: module,
+          state: FractalRenderState(
+            params: controller.params,
+            view: controller.view,
+            transparentBackground: controller.transparentBackground,
+          ),
+        ),
+      );
+
+      if (!widget.gesturesEnabled) {
+        return cpuContent;
+      }
+
+      return GestureDetector(
+        onScaleStart: _onScaleStart,
+        onScaleUpdate: _onScaleUpdate,
+        onScaleEnd: _onScaleEnd,
+        onDoubleTap: _onDoubleTap,
+        onLongPressStart: _onLongPress,
+        child: cpuContent,
       );
     }
 
@@ -794,7 +867,8 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: _errorColor.withOpacity(0.2 * _pulseController.value),
+                            color: _errorColor
+                                .withOpacity(0.2 * _pulseController.value),
                             blurRadius: 20,
                             spreadRadius: 5,
                           ),

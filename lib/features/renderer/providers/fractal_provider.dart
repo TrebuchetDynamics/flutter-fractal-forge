@@ -69,7 +69,7 @@ class FractalController extends ChangeNotifier {
   Timer? _morphTimer;
   bool _isCelebrating = false;
   Timer? _celebrationTimer;
-  
+
   // Interesting spot tracking for celebrations
   int _consecutiveInterestingSpots = 0;
   DateTime? _lastInterestingSpotTime;
@@ -131,15 +131,15 @@ class FractalController extends ChangeNotifier {
     if (_module.id == module.id) {
       return;
     }
-    
+
     final previousId = _module.id;
     _module = module;
     _applyPreset(module.defaultPreset);
-    
+
     if (animate) {
       _startMorphTransition(previousId);
     }
-    
+
     notifyListeners();
     _logChange('stateChange', 'moduleSwitch', 'Switched to ${module.id}');
   }
@@ -152,20 +152,20 @@ class FractalController extends ChangeNotifier {
       _isMorphing = false;
       return;
     }
-    
+
     _previousModuleId = fromModuleId;
     _isMorphing = true;
     _morphProgress = 0.0;
-    
+
     HapticFeedback.lightImpact();
-    
+
     _morphTimer?.cancel();
-    
+
     const duration = Duration(milliseconds: 600);
     const fps = 60;
     final steps = (duration.inMilliseconds / (1000 / fps)).round();
     var step = 0;
-    
+
     _morphTimer = Timer.periodic(
       Duration(milliseconds: 1000 ~/ fps),
       (timer) {
@@ -174,7 +174,7 @@ class FractalController extends ChangeNotifier {
         final t = step / steps;
         _morphProgress = 1.0 - pow(1.0 - t, 3);
         notifyListeners();
-        
+
         if (step >= steps) {
           timer.cancel();
           _morphProgress = 1.0;
@@ -201,7 +201,8 @@ class FractalController extends ChangeNotifier {
     _params = Map<String, Object>.from(_params);
     _params[id] = _clampValue(schema, value);
     notifyListeners();
-    _logChange('stateChange', 'paramUpdate', 'Updated $id', metadata: {'value': value.toString()});
+    _logChange('stateChange', 'paramUpdate', 'Updated $id',
+        metadata: {'value': value.toString()});
   }
 
   /// Applies a preset, setting all parameters and view state.
@@ -263,7 +264,8 @@ class FractalController extends ChangeNotifier {
           updated[param.id] = stepped;
           break;
         case FractalParamType.integer:
-          final value = param.min + random.nextInt((param.max - param.min).round() + 1);
+          final value =
+              param.min + random.nextInt((param.max - param.min).round() + 1);
           updated[param.id] = value.round();
           break;
         case FractalParamType.enumeration:
@@ -281,14 +283,16 @@ class FractalController extends ChangeNotifier {
     }
     _params = updated;
     notifyListeners();
-    _logChange('stateChange', 'randomize', 'Randomized params for ${_module.id}');
+    _logChange(
+        'stateChange', 'randomize', 'Randomized params for ${_module.id}');
   }
 
   /// Updates the zoom level.
   ///
-  /// The [zoom] value is clamped to range [0.05, 20.0].
+  /// The [zoom] value is clamped to range [1e-9, 1e12] to support
+  /// deep-zoom exploration before precision fallback kicks in.
   void updateZoom(double zoom) {
-    _view = _view.copyWith(zoom: zoom.clamp(0.05, 20.0));
+    _view = _view.copyWith(zoom: zoom.clamp(1e-9, 1e12));
     notifyListeners();
     _logChange('userAction', 'zoom', 'Zoom updated', metadata: {'zoom': zoom});
   }
@@ -305,7 +309,8 @@ class FractalController extends ChangeNotifier {
       ),
     );
     notifyListeners();
-    _logChange('userAction', 'pan', 'Pan updated', metadata: {'x': pan.x, 'y': pan.y});
+    _logChange('userAction', 'pan', 'Pan updated',
+        metadata: {'x': pan.x, 'y': pan.y});
   }
 
   /// Updates the 3D rotation angles.
@@ -325,7 +330,8 @@ class FractalController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _logChange(String type, String category, String message, {Map<String, dynamic>? metadata}) {
+  void _logChange(String type, String category, String message,
+      {Map<String, dynamic>? metadata}) {
     _logger?.log(LogEvent(
       timestamp: DateTime.now(),
       type: type,
@@ -336,17 +342,17 @@ class FractalController extends ChangeNotifier {
   }
 
   /// Records finding an interesting spot in the fractal.
-  /// 
+  ///
   /// When multiple interesting spots are found in quick succession,
   /// triggers a celebration effect.
   void recordInterestingSpot() {
     final now = DateTime.now();
-    
+
     if (_lastInterestingSpotTime != null) {
       final elapsed = now.difference(_lastInterestingSpotTime!);
       if (elapsed.inSeconds < 30) {
         _consecutiveInterestingSpots++;
-        
+
         // Trigger celebration after finding 3 interesting spots quickly
         if (_consecutiveInterestingSpots >= 3) {
           celebrate();
@@ -358,7 +364,7 @@ class FractalController extends ChangeNotifier {
     } else {
       _consecutiveInterestingSpots = 1;
     }
-    
+
     _lastInterestingSpotTime = now;
     _logChange('userAction', 'discovery', 'Found interesting spot');
   }
@@ -366,26 +372,26 @@ class FractalController extends ChangeNotifier {
   /// Manually triggers a celebration effect.
   void celebrate() {
     if (_isCelebrating) return;
-    
+
     _isCelebrating = true;
     if (!_isTest) {
       HapticFeedback.mediumImpact();
     }
     _celebrationController.add(null);
     notifyListeners();
-    
+
     // Skip timer in test mode
     if (_isTest) {
       _isCelebrating = false;
       return;
     }
-    
+
     _celebrationTimer?.cancel();
     _celebrationTimer = Timer(const Duration(milliseconds: 2500), () {
       _isCelebrating = false;
       notifyListeners();
     });
-    
+
     _logChange('event', 'celebration', 'Celebration triggered');
   }
 
@@ -434,7 +440,8 @@ class FractalController extends ChangeNotifier {
 
     final clamped = <String, Object>{};
     for (final param in _module.parameters) {
-      clamped[param.id] = _clampValue(param, merged[param.id] ?? param.defaultValue);
+      clamped[param.id] =
+          _clampValue(param, merged[param.id] ?? param.defaultValue);
     }
 
     _params = clamped;
@@ -484,11 +491,11 @@ class FractalController extends ChangeNotifier {
   FractalModule get currentModule => _module;
 
   /// Loads a complete state from another controller or snapshot.
-  /// 
+  ///
   /// This initializes the controller from a full state including
   /// module, parameters, view state, and transparency setting.
   /// Parameters are clamped to the target module's schema.
-  /// 
+  ///
   /// Can accept either a [module] object directly or a [moduleId] string.
   void loadState({
     FractalModule? module,
@@ -510,7 +517,7 @@ class FractalController extends ChangeNotifier {
     } else {
       targetModule = _module;
     }
-    
+
     // Switch to the target module
     if (targetModule.id != _module.id) {
       if (animateModule) {
@@ -519,7 +526,7 @@ class FractalController extends ChangeNotifier {
         _module = targetModule;
       }
     }
-    
+
     // Apply parameters with clamping
     final clamped = <String, Object>{};
     for (final param in _module.parameters) {
@@ -527,13 +534,13 @@ class FractalController extends ChangeNotifier {
       clamped[param.id] = _clampValue(param, value);
     }
     _params = clamped;
-    
+
     // Set view state
     _view = view;
-    
+
     // Set transparency
     _transparentBackground = transparentBackground;
-    
+
     notifyListeners();
     _logChange('stateChange', 'loadState', 'Loaded state for ${_module.id}');
   }

@@ -5,6 +5,8 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
+import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
@@ -45,15 +47,24 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     final query = _searchController.text.trim().toLowerCase();
-    final allModules = registry.modules.where((module) {
+    final catalog = CatalogRepository.fromRegistry(registry);
+    final allEntries = catalog.entries.where((entry) {
       if (query.isEmpty) return true;
-      final name = module.displayName(l10n).toLowerCase();
-      return name.contains(query);
+      final name = entry.module.displayName(l10n).toLowerCase();
+      final matchesAlias =
+          entry.aliases.any((a) => a.toLowerCase().contains(query));
+      return name.contains(query) ||
+          matchesAlias ||
+          entry.catalogId.contains(query);
     }).toList();
 
     // Group by dimension
-    final modules2D = allModules.where((m) => m.dimension == FractalDimension.twoD).toList();
-    final modules3D = allModules.where((m) => m.dimension == FractalDimension.threeD).toList();
+    final entries2D = allEntries
+        .where((e) => e.module.dimension == FractalDimension.twoD)
+        .toList();
+    final entries3D = allEntries
+        .where((e) => e.module.dimension == FractalDimension.threeD)
+        .toList();
 
     return Column(
       children: [
@@ -91,15 +102,19 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
               key: const Key('catalogSearchField'),
               controller: _searchController,
               focusNode: _focusNode,
-              style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+              style: AppTypography.bodyMedium
+                  .copyWith(color: AppColors.textPrimary),
               decoration: InputDecoration(
                 hintText: l10n.catalogSearchHint,
-                hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+                hintStyle: AppTypography.bodyMedium
+                    .copyWith(color: AppColors.textMuted),
                 prefixIcon: AnimatedContainer(
                   duration: AppAnimations.fast,
                   child: Icon(
                     Icons.search_rounded,
-                    color: _isSearchFocused ? AppColors.primary : AppColors.textMuted,
+                    color: _isSearchFocused
+                        ? AppColors.primary
+                        : AppColors.textMuted,
                   ),
                 ),
                 suffixIcon: AnimatedSwitcher(
@@ -108,7 +123,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                       ? const SizedBox.shrink()
                       : IconButton(
                           key: const ValueKey('clear'),
-                          tooltip: MaterialLocalizations.of(context).deleteButtonTooltip,
+                          tooltip: MaterialLocalizations.of(context)
+                              .deleteButtonTooltip,
                           icon: const Icon(Icons.close_rounded, size: 20),
                           onPressed: () {
                             _searchController.clear();
@@ -134,7 +150,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           ),
         ),
         Expanded(
-          child: allModules.isEmpty
+          child: allEntries.isEmpty
               ? _EmptyState(
                   query: query,
                   l10n: l10n,
@@ -151,28 +167,30 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                     bottom: MediaQuery.of(context).padding.bottom + 100,
                   ),
                   children: [
-                    if (modules3D.isNotEmpty) ...[
+                    if (entries3D.isNotEmpty) ...[
                       SectionHeader(title: l10n.fractalSection3d),
-                      ...modules3D.asMap().entries.map((entry) {
+                      ...entries3D.asMap().entries.map((entry) {
                         return StaggeredItem(
                           index: entry.key,
                           child: _ModuleCard(
-                            module: entry.value,
-                            onTap: () => _openViewer(context, entry.value),
+                            entry: entry.value,
+                            onTap: () =>
+                                _openViewer(context, entry.value.module),
                             l10n: l10n,
                           ),
                         );
                       }),
                       const SizedBox(height: AppSpacing.xl),
                     ],
-                    if (modules2D.isNotEmpty) ...[
+                    if (entries2D.isNotEmpty) ...[
                       SectionHeader(title: l10n.fractalSection2d),
-                      ...modules2D.asMap().entries.map((entry) {
+                      ...entries2D.asMap().entries.map((entry) {
                         return StaggeredItem(
-                          index: entry.key + modules3D.length,
+                          index: entry.key + entries3D.length,
                           child: _ModuleCard(
-                            module: entry.value,
-                            onTap: () => _openViewer(context, entry.value),
+                            entry: entry.value,
+                            onTap: () =>
+                                _openViewer(context, entry.value.module),
                             l10n: l10n,
                           ),
                         );
@@ -252,7 +270,8 @@ class _EmptyState extends StatelessWidget {
               const SizedBox(height: AppSpacing.lg),
               Text(
                 l10n.catalogSearchEmpty,
-                style: AppTypography.bodyLarge.copyWith(color: AppColors.textSecondary),
+                style: AppTypography.bodyLarge
+                    .copyWith(color: AppColors.textSecondary),
                 textAlign: TextAlign.center,
               ),
               if (query.isNotEmpty) ...[
@@ -276,18 +295,91 @@ class _EmptyState extends StatelessWidget {
 }
 
 class _ModuleCard extends StatefulWidget {
-  final FractalModule module;
+  final CatalogEntry entry;
   final VoidCallback onTap;
   final AppLocalizations l10n;
 
   const _ModuleCard({
-    required this.module,
+    required this.entry,
     required this.onTap,
     required this.l10n,
   });
 
   @override
   State<_ModuleCard> createState() => _ModuleCardState();
+}
+
+class _PreviewThumbnail extends StatelessWidget {
+  final String catalogId;
+  final bool is3D;
+
+  const _PreviewThumbnail({
+    required this.catalogId,
+    required this.is3D,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final hash = catalogId.hashCode;
+    final hueA = (hash.abs() % 360).toDouble();
+    final hueB = ((hash.abs() ~/ 11) % 360).toDouble();
+    final colorA = HSVColor.fromAHSV(1, hueA, 0.58, 0.92).toColor();
+    final colorB = HSVColor.fromAHSV(1, hueB, 0.66, 0.78).toColor();
+
+    return Container(
+      width: 64,
+      height: 64,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border.withOpacity(0.5)),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [colorA, colorB],
+        ),
+      ),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment(
+                    ((hash % 100) / 100) * 2 - 1,
+                    (((hash ~/ 100) % 100) / 100) * 2 - 1,
+                  ),
+                  radius: 1.1,
+                  colors: [
+                    Colors.white.withOpacity(0.18),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 6,
+            right: 6,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.35),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                is3D ? '3D' : '2D',
+                style: AppTypography.labelSmall.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _ModuleCardState extends State<_ModuleCard>
@@ -316,11 +408,12 @@ class _ModuleCardState extends State<_ModuleCard>
 
   @override
   Widget build(BuildContext context) {
-    final is3D = widget.module.dimension == FractalDimension.threeD;
-    final dimensionLabel = is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
-    final name = widget.module.displayName(widget.l10n);
+    final is3D = widget.entry.module.dimension == FractalDimension.threeD;
+    final dimensionLabel =
+        is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
+    final name = widget.entry.module.displayName(widget.l10n);
     final semanticLabel = widget.l10n.semanticFractalCard(name, dimensionLabel);
-    
+
     // Check for reduced motion preference
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
@@ -331,19 +424,25 @@ class _ModuleCardState extends State<_ModuleCard>
         label: semanticLabel,
         button: true,
         child: GestureDetector(
-          key: Key('catalogModuleCard_${widget.module.id}'),
-          onTapDown: reduceMotion ? null : (_) {
-            setState(() => _isPressed = true);
-            _controller.forward();
-          },
-          onTapUp: reduceMotion ? null : (_) {
-            setState(() => _isPressed = false);
-            _controller.reverse();
-          },
-          onTapCancel: reduceMotion ? null : () {
-            setState(() => _isPressed = false);
-            _controller.reverse();
-          },
+          key: Key('catalogModuleCard_${widget.entry.catalogId}'),
+          onTapDown: reduceMotion
+              ? null
+              : (_) {
+                  setState(() => _isPressed = true);
+                  _controller.forward();
+                },
+          onTapUp: reduceMotion
+              ? null
+              : (_) {
+                  setState(() => _isPressed = false);
+                  _controller.reverse();
+                },
+          onTapCancel: reduceMotion
+              ? null
+              : () {
+                  setState(() => _isPressed = false);
+                  _controller.reverse();
+                },
           onTap: widget.onTap,
           child: reduceMotion
               ? _buildCardContent(dimensionLabel, is3D)
@@ -360,9 +459,7 @@ class _ModuleCardState extends State<_ModuleCard>
     return AnimatedContainer(
       duration: AppAnimations.fast,
       decoration: BoxDecoration(
-        color: _isPressed
-            ? AppColors.surfaceElevated
-            : AppColors.surface,
+        color: _isPressed ? AppColors.surfaceElevated : AppColors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
           color: _isPressed
@@ -383,30 +480,9 @@ class _ModuleCardState extends State<_ModuleCard>
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: Row(
           children: [
-            // Dimension indicator
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                gradient: is3D
-                    ? AppColors.primaryGradient
-                    : LinearGradient(
-                        colors: [
-                          AppColors.secondary.withOpacity(0.8),
-                          AppColors.secondaryDark,
-                        ],
-                      ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Text(
-                  is3D ? '3D' : '2D',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+            _PreviewThumbnail(
+              catalogId: widget.entry.catalogId,
+              is3D: is3D,
             ),
             const SizedBox(width: AppSpacing.lg),
             Expanded(
@@ -414,7 +490,7 @@ class _ModuleCardState extends State<_ModuleCard>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.module.displayName(widget.l10n),
+                    widget.entry.module.displayName(widget.l10n),
                     style: AppTypography.titleMedium.copyWith(
                       color: AppColors.textPrimary,
                     ),
@@ -441,9 +517,7 @@ class _ModuleCardState extends State<_ModuleCard>
               child: Icon(
                 Icons.arrow_forward_rounded,
                 size: 18,
-                color: _isPressed
-                    ? AppColors.primary
-                    : AppColors.textMuted,
+                color: _isPressed ? AppColors.primary : AppColors.textMuted,
               ),
             ),
           ],

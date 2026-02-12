@@ -31,6 +31,7 @@
   "presetSaved": "Preset guardado",
   "presetNameRequired": "Escribe un nombre para el preset.",
   "presetSaveFailed": "No se pudo guardar el preset: {error}",
+  "sectionActions": "Acciones",
   "resetView": "Restablecer vista",
   "resetParams": "Restablecer parámetros",
   "randomize": "Aleatorizar",

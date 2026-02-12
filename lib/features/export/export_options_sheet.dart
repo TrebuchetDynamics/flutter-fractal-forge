@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+enum ExportAction {
+  saveOnly,
+  saveAndShare,
+}
+
 /// A bottom sheet for configuring export options
 class ExportOptionsSheet extends StatefulWidget {
   final ExportOptions initialOptions;
   final String fractalType;
-  final void Function(ExportOptions options) onExport;
+  final void Function(ExportOptions options, ExportAction action) onExport;
 
   const ExportOptionsSheet({
     Key? key,
@@ -72,13 +77,14 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              
+
               // Title
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
-                    Icon(Icons.download_rounded, color: theme.colorScheme.primary),
+                    Icon(Icons.download_rounded,
+                        color: theme.colorScheme.primary),
                     const SizedBox(width: 12),
                     Text(
                       l10n.exportTitle,
@@ -89,9 +95,9 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Content
               Expanded(
                 child: ListView(
@@ -100,43 +106,43 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                   children: [
                     // Quick presets
                     _buildQuickPresets(context, l10n),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Format selection
                     _buildFormatSection(context, l10n),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Resolution selection
                     _buildResolutionSection(context, l10n),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Quality slider (for JPG/WebP)
                     if (_options.format != ExportFormat.png)
                       _buildQualitySection(context, l10n),
-                    
+
                     // Advanced options toggle
                     _buildAdvancedToggle(context, l10n),
-                    
+
                     if (_showAdvanced) ...[
                       const SizedBox(height: 16),
                       _buildAdvancedOptions(context, l10n),
                     ],
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Export info summary
                     _buildExportSummary(context, l10n),
-                    
+
                     const SizedBox(height: 100), // Space for button
                   ],
                 ),
               ),
-              
-              // Export button
-              _buildExportButton(context, l10n),
+
+              // Export actions
+              _buildExportActions(context, l10n),
             ],
           ),
         );
@@ -146,7 +152,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
   Widget _buildQuickPresets(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -165,28 +171,32 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 icon: Icons.share,
                 label: l10n.exportPresetSocial,
                 isSelected: _options == ExportPresets.socialShare,
-                onTap: () => setState(() => _options = ExportPresets.socialShare),
+                onTap: () =>
+                    setState(() => _options = ExportPresets.socialShare),
               ),
               const SizedBox(width: 8),
               _QuickPresetChip(
                 icon: Icons.high_quality,
                 label: l10n.exportPresetHighQuality,
                 isSelected: _options == ExportPresets.highQualityPng,
-                onTap: () => setState(() => _options = ExportPresets.highQualityPng),
+                onTap: () =>
+                    setState(() => _options = ExportPresets.highQualityPng),
               ),
               const SizedBox(width: 8),
               _QuickPresetChip(
                 icon: Icons.web,
                 label: l10n.exportPresetWeb,
                 isSelected: _options == ExportPresets.webOptimized,
-                onTap: () => setState(() => _options = ExportPresets.webOptimized),
+                onTap: () =>
+                    setState(() => _options = ExportPresets.webOptimized),
               ),
               const SizedBox(width: 8),
               _QuickPresetChip(
                 icon: Icons.layers,
                 label: l10n.exportPresetTransparent,
                 isSelected: _options == ExportPresets.transparentOverlay,
-                onTap: () => setState(() => _options = ExportPresets.transparentOverlay),
+                onTap: () =>
+                    setState(() => _options = ExportPresets.transparentOverlay),
               ),
             ],
           ),
@@ -197,7 +207,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
   Widget _buildFormatSection(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -248,7 +258,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   Widget _buildFormatHint(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     String hint;
-    
+
     switch (_options.format) {
       case ExportFormat.png:
         hint = l10n.exportFormatHintPng;
@@ -260,7 +270,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
         hint = l10n.exportFormatHintWebp;
         break;
     }
-    
+
     return Text(
       hint,
       style: theme.textTheme.bodySmall?.copyWith(
@@ -271,7 +281,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
   Widget _buildResolutionSection(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -353,7 +363,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
   Widget _buildQualitySection(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -394,7 +404,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
   Widget _buildAdvancedToggle(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
-    
+
     return InkWell(
       onTap: () => setState(() => _showAdvanced = !_showAdvanced),
       borderRadius: BorderRadius.circular(8),
@@ -434,7 +444,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               });
             },
           ),
-        
+
         // Embed metadata
         SwitchListTile(
           title: Text(l10n.exportEmbedMetadata),
@@ -453,18 +463,19 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   Widget _buildExportSummary(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final dims = _options.resolution.dimensions;
-    
+
     String resolutionText;
     if (_options.resolution == ExportResolution.custom) {
       final w = _options.customWidth ?? 1920;
       final h = _options.customHeight ?? 1080;
       resolutionText = '$w×$h';
     } else if (dims != null) {
-      resolutionText = '${dims.$1}×${dims.$2}'; // Using braces for tuple elements
+      resolutionText =
+          '${dims.$1}×${dims.$2}'; // Using braces for tuple elements
     } else {
       resolutionText = l10n.exportScreenResolution;
     }
-    
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -521,7 +532,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     );
   }
 
-  Widget _buildExportButton(BuildContext context, AppLocalizations l10n) {
+  Widget _buildExportActions(BuildContext context, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -535,19 +546,36 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
         ],
       ),
       child: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          child: FilledButton.icon(
-            onPressed: () {
-              Navigator.of(context).pop();
-              widget.onExport(_options);
-            },
-            icon: const Icon(Icons.download),
-            label: Text(l10n.exportNow),
-            style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  widget.onExport(_options, ExportAction.saveOnly);
+                },
+                icon: const Icon(Icons.save_alt_rounded),
+                label: Text(l10n.exportNow),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
             ),
-          ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: FilledButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  widget.onExport(_options, ExportAction.saveAndShare);
+                },
+                icon: const Icon(Icons.share_rounded),
+                label: Text(l10n.share),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -570,7 +598,7 @@ class _QuickPresetChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
@@ -626,7 +654,7 @@ class _SummaryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Row(
       children: [
         Icon(

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1770481488510,
+  "lastScanned": 1770856483367,
   "projectRoot": "/home/xel/git/flutter-fractal-forge",
   "techStack": {
     "languages": [],
@@ -27,6 +27,7 @@
     "mainDirectories": [
       "assets",
       "lib",
+      "scripts",
       "test"
     ],
     "gitBranches": {
@@ -36,24 +37,50 @@
   },
   "customNotes": [],
   "directoryMap": {
+    "agent_test_logs": {
+      "path": "agent_test_logs",
+      "purpose": null,
+      "fileCount": 3547,
+      "lastAccessed": 1770856483361,
+      "keyFiles": [
+        "app_front.png",
+        "app_now.png",
+        "build_100_20260208_024805.log",
+        "build_100_20260208_135332.log",
+        "build_101_20260208_024918.log"
+      ]
+    },
+    "agent_ui_logs": {
+      "path": "agent_ui_logs",
+      "purpose": null,
+      "fileCount": 12,
+      "lastAccessed": 1770856483361,
+      "keyFiles": [
+        "logcat_1_20260208_083400.log",
+        "logcat_2_20260208_083441.log",
+        "logcat_3_20260208_083527.log",
+        "monkey_1_20260208_083400.log",
+        "monkey_2_20260208_083441.log"
+      ]
+    },
     "android": {
       "path": "android",
       "purpose": null,
-      "fileCount": 11,
-      "lastAccessed": 1770481488506,
+      "fileCount": 15,
+      "lastAccessed": 1770856483362,
       "keyFiles": [
         "build.gradle.kts",
+        "build.gradle.kts.bak",
+        "build.gradle.legacy",
         "flutter_fractals_android.iml",
-        "gradle.properties",
-        "gradlew",
-        "gradlew.bat"
+        "gradle.properties"
       ]
     },
     "assets": {
       "path": "assets",
       "purpose": "Static assets",
       "fileCount": 1,
-      "lastAccessed": 1770481488508,
+      "lastAccessed": 1770856483362,
       "keyFiles": [
         "feature-graphic.png"
       ]
@@ -61,24 +88,35 @@
     "build": {
       "path": "build",
       "purpose": "Build output",
-      "fileCount": 2,
-      "lastAccessed": 1770481488508,
+      "fileCount": 1,
+      "lastAccessed": 1770856483362,
+      "keyFiles": []
+    },
+    "integration_test": {
+      "path": "integration_test",
+      "purpose": null,
+      "fileCount": 7,
+      "lastAccessed": 1770856483362,
       "keyFiles": [
-        "199e63d12aae48772fe1ad268adc4fc7.cache.dill.track.dill"
+        "app_test.dart",
+        "cpu_fallback_gestures_test.dart",
+        "full_screenshots_test.dart",
+        "perf_smoke_test.dart",
+        "screenshots_test.dart"
       ]
     },
     "ios": {
       "path": "ios",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1770481488508,
+      "lastAccessed": 1770856483363,
       "keyFiles": []
     },
     "lib": {
       "path": "lib",
       "purpose": "Library code",
       "fileCount": 1,
-      "lastAccessed": 1770481488509,
+      "lastAccessed": 1770856483363,
       "keyFiles": [
         "main.dart"
       ]
@@ -87,7 +125,7 @@
       "path": "linux",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1770481488509,
+      "lastAccessed": 1770856483363,
       "keyFiles": [
         "CMakeLists.txt"
       ]
@@ -96,40 +134,66 @@
       "path": "macos",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1770481488509,
+      "lastAccessed": 1770856483363,
       "keyFiles": []
+    },
+    "screenshots": {
+      "path": "screenshots",
+      "purpose": null,
+      "fileCount": 22,
+      "lastAccessed": 1770856483363,
+      "keyFiles": [
+        "emu_after_skip.png",
+        "emu_catalog.png",
+        "emu_catalog2.png",
+        "emu_mandelbrot.png",
+        "emu_mandelbrot2.png"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 5,
+      "lastAccessed": 1770856483363,
+      "keyFiles": [
+        "desktop-screenshots.sh",
+        "emu-status.sh",
+        "emu-tap.sh",
+        "overnight-emulator-loop.sh",
+        "overnight-ui-monkey.sh"
+      ]
     },
     "shaders": {
       "path": "shaders",
       "purpose": null,
-      "fileCount": 5,
-      "lastAccessed": 1770481488509,
+      "fileCount": 24,
+      "lastAccessed": 1770856483363,
       "keyFiles": [
+        "buffalo_gpu.frag",
         "burning_ship.frag",
-        "common.vert",
-        "julia.frag",
-        "mandelbrot.frag",
-        "mandelbulb.frag"
+        "burning_ship_gpu.frag",
+        "celtic_gpu.frag",
+        "common.vert"
       ]
     },
     "test": {
       "path": "test",
       "purpose": "Test files",
-      "fileCount": 11,
-      "lastAccessed": 1770481488509,
+      "fileCount": 35,
+      "lastAccessed": 1770856483363,
       "keyFiles": [
         "README.md",
+        "accessibility_test.dart",
+        "ar_overlay_screen_widget_test.dart",
         "ar_quality_store_test.dart",
-        "catalog_search_widget_test.dart",
-        "fractal_controller_behavior_test.dart",
-        "fractal_controller_clamp_test.dart"
+        "catalog_search_widget_test.dart"
       ]
     },
     "web": {
       "path": "web",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1770481488509,
+      "lastAccessed": 1770856483363,
       "keyFiles": [
         "favicon.png",
         "index.html",
@@ -140,7 +204,7 @@
       "path": "windows",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1770481488509,
+      "lastAccessed": 1770856483363,
       "keyFiles": [
         "CMakeLists.txt"
       ]
@@ -148,313 +212,258 @@
     "android/app": {
       "path": "android/app",
       "purpose": "Application code",
-      "fileCount": 2,
-      "lastAccessed": 1770481488509,
+      "fileCount": 5,
+      "lastAccessed": 1770856483366,
       "keyFiles": [
         "build.gradle.kts",
-        "proguard-rules.pro"
+        "build.gradle.kts.bak",
+        "build.gradle.legacy"
+      ]
+    },
+    "android/build": {
+      "path": "android/build",
+      "purpose": "Build output",
+      "fileCount": 0,
+      "lastAccessed": 1770856483366,
+      "keyFiles": []
+    },
+    "build/app": {
+      "path": "build/app",
+      "purpose": "Application code",
+      "fileCount": 1,
+      "lastAccessed": 1770856483366,
+      "keyFiles": [
+        "deeplink.json"
       ]
     }
   },
   "hotPaths": [
     {
-      "path": "lib/features/renderer/providers/fractal_provider.dart",
-      "accessCount": 24,
-      "lastAccessed": 1770504335341,
+      "path": "lib/features/ar/ar_overlay_screen.dart",
+      "accessCount": 20,
+      "lastAccessed": 1770858946163,
       "type": "file"
     },
     {
-      "path": "lib/core/services/ar_video_exporter.dart",
-      "accessCount": 17,
-      "lastAccessed": 1770496279971,
+      "path": "TODO.md",
+      "accessCount": 16,
+      "lastAccessed": 1770859417323,
       "type": "file"
     },
     {
       "path": "",
-      "accessCount": 13,
-      "lastAccessed": 1770503632567,
+      "accessCount": 9,
+      "lastAccessed": 1770856793422,
       "type": "directory"
     },
     {
-      "path": "lib/features/viewer/fractal_viewer_screen.dart",
-      "accessCount": 13,
-      "lastAccessed": 1770504333919,
-      "type": "file"
-    },
-    {
       "path": "lib/features/controls/fractal_controls.dart",
-      "accessCount": 13,
-      "lastAccessed": 1770504334392,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/catalog/fractal_catalog_screen.dart",
-      "accessCount": 13,
-      "lastAccessed": 1770504450432,
-      "type": "file"
-    },
-    {
-      "path": "pubspec.yaml",
-      "accessCount": 11,
-      "lastAccessed": 1770496269364,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/services/export_service.dart",
-      "accessCount": 10,
-      "lastAccessed": 1770504340252,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 10,
-      "lastAccessed": 1770504451826,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/services/debug_runner_service.dart",
       "accessCount": 9,
-      "lastAccessed": 1770484573307,
+      "lastAccessed": 1770859372325,
       "type": "file"
     },
     {
-      "path": "integration_test/app_test.dart",
-      "accessCount": 9,
-      "lastAccessed": 1770491338865,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/home/home_screen.dart",
-      "accessCount": 9,
-      "lastAccessed": 1770504404513,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/services/test_screenshot_service.dart",
-      "accessCount": 7,
-      "lastAccessed": 1770484564180,
-      "type": "file"
-    },
-    {
-      "path": "lib/main.dart",
-      "accessCount": 6,
-      "lastAccessed": 1770503637963,
+      "path": "app.description.md",
+      "accessCount": 8,
+      "lastAccessed": 1770857039144,
       "type": "file"
     },
     {
       "path": "lib",
-      "accessCount": 6,
-      "lastAccessed": 1770504348695,
+      "accessCount": 8,
+      "lastAccessed": 1770858824016,
       "type": "directory"
     },
     {
-      "path": "lib/core/services/ar_export_service.dart",
-      "accessCount": 5,
-      "lastAccessed": 1770483683712,
-      "type": "file"
-    },
-    {
       "path": "lib/l10n/app_en.arb",
-      "accessCount": 4,
-      "lastAccessed": 1770481772487,
+      "accessCount": 7,
+      "lastAccessed": 1770858884799,
+      "type": "directory"
+    },
+    {
+      "path": "lib/features/presets/preset_sheet.dart",
+      "accessCount": 7,
+      "lastAccessed": 1770859376762,
       "type": "file"
     },
     {
-      "path": "lib/core/modules/module_registry.dart",
-      "accessCount": 4,
-      "lastAccessed": 1770484572052,
+      "path": "lib/core/services/ar_video_exporter.dart",
+      "accessCount": 6,
+      "lastAccessed": 1770856794164,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/widgets/animated_widgets.dart",
+      "accessCount": 6,
+      "lastAccessed": 1770859370840,
       "type": "file"
     },
     {
       "path": "lib/l10n/app_es.arb",
-      "accessCount": 3,
-      "lastAccessed": 1770481659052,
+      "accessCount": 5,
+      "lastAccessed": 1770858886393,
+      "type": "directory"
+    },
+    {
+      "path": "lib/l10n",
+      "accessCount": 4,
+      "lastAccessed": 1770856832380,
+      "type": "directory"
+    },
+    {
+      "path": "emulator.automated.testing.md",
+      "accessCount": 4,
+      "lastAccessed": 1770857034853,
       "type": "file"
     },
     {
-      "path": "lib/core/modules/fractal_module.dart",
+      "path": "lib/main.dart",
       "accessCount": 3,
-      "lastAccessed": 1770483806487,
+      "lastAccessed": 1770856562910,
       "type": "file"
     },
     {
-      "path": "lib/core/models/fractal_view_state.dart",
+      "path": "lib/core/services/ar_export_service.dart",
       "accessCount": 3,
-      "lastAccessed": 1770483812050,
+      "lastAccessed": 1770856664539,
       "type": "file"
     },
     {
-      "path": "test/fractal_controller_behavior_test.dart",
+      "path": "lib/features/renderer/providers/fractal_provider.dart",
       "accessCount": 3,
-      "lastAccessed": 1770483815827,
+      "lastAccessed": 1770856711473,
       "type": "file"
     },
     {
-      "path": "lib/core/services/test_logger.dart",
+      "path": "lib/core/modules",
       "accessCount": 3,
-      "lastAccessed": 1770484563764,
+      "lastAccessed": 1770856712580,
+      "type": "directory"
+    },
+    {
+      "path": "lib/core/models/ar_quality_preset.dart",
+      "accessCount": 3,
+      "lastAccessed": 1770856789934,
       "type": "file"
     },
     {
-      "path": "lib/features/debug/debug_overlay.dart",
+      "path": "test/export_service_test.dart",
       "accessCount": 3,
-      "lastAccessed": 1770484565121,
+      "lastAccessed": 1770859070680,
       "type": "file"
     },
     {
-      "path": "android/app/src/main/AndroidManifest.xml",
-      "accessCount": 3,
-      "lastAccessed": 1770496459624,
-      "type": "file"
-    },
-    {
-      "path": "flutter.android.install.md",
-      "accessCount": 3,
-      "lastAccessed": 1770497088763,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/fractal_canvas.dart",
-      "accessCount": 3,
-      "lastAccessed": 1770504348394,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/modules/mandelbrot_module.dart",
+      "path": "ar.md",
       "accessCount": 2,
-      "lastAccessed": 1770483820955,
+      "lastAccessed": 1770856549968,
       "type": "file"
     },
     {
-      "path": "lib/core/models/fractal_preset.dart",
+      "path": "lib/features/ar",
       "accessCount": 2,
-      "lastAccessed": 1770483821450,
-      "type": "file"
+      "lastAccessed": 1770856553965,
+      "type": "directory"
     },
     {
-      "path": "lib/features/presets/preset_sheet.dart",
+      "path": "lib/core/services/ar_quality_store.dart",
       "accessCount": 2,
-      "lastAccessed": 1770504339049,
+      "lastAccessed": 1770856666061,
       "type": "file"
     },
     {
-      "path": "lib/l10n/app_localizations.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770481589241,
+      "path": "test/ar_quality_store_test.dart",
+      "accessCount": 2,
+      "lastAccessed": 1770857071853,
       "type": "file"
     },
     {
-      "path": "lib/l10n/app_localizations_en.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770481779232,
+      "path": "lib/features/home/home_screen.dart",
+      "accessCount": 2,
+      "lastAccessed": 1770859204259,
       "type": "file"
     },
     {
-      "path": "lib/l10n/app_localizations_es.dart",
+      "path": "pubspec.yaml",
       "accessCount": 1,
-      "lastAccessed": 1770481779799,
+      "lastAccessed": 1770856510023,
       "type": "file"
     },
     {
-      "path": "shaders/mandelbrot.frag",
+      "path": "lib/features/viewer/fractal_viewer_screen.dart",
       "accessCount": 1,
-      "lastAccessed": 1770482728601,
+      "lastAccessed": 1770856519684,
       "type": "file"
     },
     {
-      "path": "shaders/julia.frag",
+      "path": "lib/features/renderer/fractal_renderer.dart",
       "accessCount": 1,
-      "lastAccessed": 1770482728665,
+      "lastAccessed": 1770856527426,
       "type": "file"
     },
     {
-      "path": "shaders/burning_ship.frag",
+      "path": "lib/features/onboarding/onboarding_screen.dart",
       "accessCount": 1,
-      "lastAccessed": 1770482728709,
+      "lastAccessed": 1770856541324,
+      "type": "directory"
+    },
+    {
+      "path": "test/home_ar_tab_opens_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1770856550465,
       "type": "file"
     },
     {
-      "path": "shaders/mandelbulb.frag",
+      "path": "test/ar_overlay_screen_widget_test.dart",
       "accessCount": 1,
-      "lastAccessed": 1770482728903,
+      "lastAccessed": 1770856550862,
       "type": "file"
     },
     {
-      "path": "lib/core/modules/julia_module.dart",
+      "path": "android/app/proguard-rules.pro",
       "accessCount": 1,
-      "lastAccessed": 1770482734815,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/modules/burning_ship_module.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770482735044,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/modules/mandelbulb_module.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770482737583,
-      "type": "file"
-    },
-    {
-      "path": "test/fractal_controller_clamp_test.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770482743490,
-      "type": "file"
-    },
-    {
-      "path": "test/README.md",
-      "accessCount": 1,
-      "lastAccessed": 1770483677764,
-      "type": "file"
-    },
-    {
-      "path": "test/widget_test.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770483678080,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/models/fractal_params.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770483680619,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/models/fractal_parameter.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770483811566,
-      "type": "file"
-    },
-    {
-      "path": "test/catalog_search_widget_test.dart",
-      "accessCount": 1,
-      "lastAccessed": 1770483815272,
+      "lastAccessed": 1770856551415,
       "type": "file"
     },
     {
       "path": "lib/shared/utils/navigation_manager.dart",
       "accessCount": 1,
-      "lastAccessed": 1770483825062,
-      "type": "file"
-    },
-    {
-      "path": "android/settings.gradle.kts",
-      "accessCount": 1,
-      "lastAccessed": 1770496058997,
-      "type": "file"
-    },
-    {
-      "path": "pubspec.lock",
-      "accessCount": 1,
-      "lastAccessed": 1770496103685,
+      "lastAccessed": 1770856552757,
       "type": "directory"
     },
     {
-      "path": "android/app/src/debug/AndroidManifest.xml",
+      "path": "PRD.md",
       "accessCount": 1,
-      "lastAccessed": 1770496443081,
+      "lastAccessed": 1770856559671,
+      "type": "directory"
+    },
+    {
+      "path": "integration_test",
+      "accessCount": 1,
+      "lastAccessed": 1770856560919,
+      "type": "directory"
+    },
+    {
+      "path": "lib/core/modules/module_registry.dart",
+      "accessCount": 1,
+      "lastAccessed": 1770856983687,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/services/export_service.dart",
+      "accessCount": 1,
+      "lastAccessed": 1770858823849,
+      "type": "file"
+    },
+    {
+      "path": "lib/features",
+      "accessCount": 1,
+      "lastAccessed": 1770858838197,
+      "type": "directory"
+    },
+    {
+      "path": "lib/core/models/export_options.dart",
+      "accessCount": 1,
+      "lastAccessed": 1770859002970,
       "type": "file"
     }
   ],

@@ -7,14 +7,14 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('FractalController', () {
-    test('updateZoom clamps to [0.05, 20.0]', () {
+    test('updateZoom clamps to [1e-9, 1e12]', () {
       final controller = FractalController(ModuleRegistry());
 
-      controller.updateZoom(0.0001);
-      expect(controller.view.zoom, 0.05);
+      controller.updateZoom(-1.0);
+      expect(controller.view.zoom, 1e-9);
 
-      controller.updateZoom(999);
-      expect(controller.view.zoom, 20.0);
+      controller.updateZoom(1e20);
+      expect(controller.view.zoom, 1e12);
 
       controller.updateZoom(1.25);
       expect(controller.view.zoom, 1.25);
@@ -52,11 +52,10 @@ void main() {
       // For mandelbrot, high -> iterations 220 (within [20,500]).
       expect(controller.params['iterations'], 220);
 
-      // If we switch to a module without AR overrides, it should do nothing.
+      // Julia has AR overrides in this build; verify it updates safely.
       controller.selectModule(controller.registry.byId('julia'));
-      final before = Map<String, Object>.from(controller.params);
       controller.applyArQualityPreset(ArQualityPreset.high);
-      expect(controller.params, before);
+      expect(controller.params['iterations'], 200);
     });
   });
 }

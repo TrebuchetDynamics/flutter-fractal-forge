@@ -38,11 +38,11 @@ extension on ArOverlayStylePreset {
     final base = brightness == Brightness.dark ? Colors.white : Colors.black;
     switch (this) {
       case ArOverlayStylePreset.neon:
-        return Colors.cyanAccent.withOpacity(0.65);
+        return Colors.cyanAccent.withValues(alpha: 0.65);
       case ArOverlayStylePreset.soft:
-        return base.withOpacity(0.28);
+        return base.withValues(alpha: 0.28);
       case ArOverlayStylePreset.mono:
-        return base.withOpacity(0.40);
+        return base.withValues(alpha: 0.40);
     }
   }
 
@@ -50,11 +50,11 @@ extension on ArOverlayStylePreset {
     final base = brightness == Brightness.dark ? Colors.white : Colors.black;
     switch (this) {
       case ArOverlayStylePreset.neon:
-        return Colors.cyanAccent.withOpacity(0.16);
+        return Colors.cyanAccent.withValues(alpha: 0.16);
       case ArOverlayStylePreset.soft:
-        return base.withOpacity(0.10);
+        return base.withValues(alpha: 0.10);
       case ArOverlayStylePreset.mono:
-        return base.withOpacity(0.12);
+        return base.withValues(alpha: 0.12);
     }
   }
 
@@ -360,15 +360,17 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                         child: Transform(
                           alignment: Alignment.center,
                           transform: Matrix4.identity()
-                            ..translate(
+                            ..translateByDouble(
                               _overlayOffset.dx,
                               _overlayOffset.dy,
                               0.0,
+                              1.0,
                             )
                             ..rotateZ(_overlayRotation)
-                            ..scale(
+                            ..scaleByDouble(
                               _overlayScale,
                               _overlayScale,
+                              1.0,
                               1.0,
                             ),
                           child: SizedBox(
@@ -835,9 +837,9 @@ class _ArGridPainter extends CustomPainter {
     }
 
     // Center lines a bit stronger.
-    final strongAlpha = ((color.alpha / 255.0) * 1.6).clamp(0.0, 1.0);
+    final strongAlpha = (color.a * 1.6).clamp(0.0, 1.0);
     final strong = Paint()
-      ..color = color.withOpacity(strongAlpha)
+      ..color = color.withValues(alpha: strongAlpha)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
     canvas.drawLine(

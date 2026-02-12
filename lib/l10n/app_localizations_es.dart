@@ -105,6 +105,9 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get sectionActions => 'Acciones';
+
+  @override
   String get resetView => 'Restablecer vista';
 
   @override
