@@ -123,19 +123,27 @@ flutter:
   - shaders/sierpinski_triangle_gpu.frag
   - shaders/sierpinski_carpet_gpu.frag
   - shaders/koch_snowflake_gpu.frag
+  - shaders/koch_anti_snowflake_gpu.frag
+  - shaders/quadratic_koch_gpu.frag
   - shaders/dragon_curve_gpu.frag
+  - shaders/golden_dragon_gpu.frag
+  - shaders/twin_dragon_gpu.frag
+  - shaders/terdragon_gpu.frag
   - shaders/barnsley_fern_gpu.frag
+  - shaders/cyclosorus_fern_gpu.frag
   - shaders/pythagorean_tree_gpu.frag
   - shaders/hilbert_curve_gpu.frag
   - shaders/peano_curve_gpu.frag
   - shaders/gosper_curve_gpu.frag
   - shaders/levy_c_gpu.frag
+  - shaders/levy_tapestry_gpu.frag
   - shaders/menger_sponge_gpu.frag
   - shaders/vicsek_gpu.frag
   - shaders/penrose_tiling_gpu.frag
   - shaders/fibonacci_word_gpu.frag
   - shaders/rauzy_gpu.frag
   - shaders/pinwheel_gpu.frag
+  - shaders/chair_tiling_gpu.frag
   - shaders/z_order_curve_gpu.frag
   - shaders/greek_cross_gpu.frag
   - shaders/clifford_gpu.frag
@@ -158,6 +166,9 @@ flutter:
   - shaders/chen_gpu.frag
   - shaders/lu_chen_gpu.frag
   - shaders/halvorsen_gpu.frag
+  - shaders/scroll_waves_gpu.frag
+  - shaders/rikitake_gpu.frag
+  - shaders/aizawa_gpu.frag
   - shaders/quaternion_julia_2d_gpu.frag
   - shaders/tessarine_julia_gpu.frag
   - shaders/split_complex_gpu.frag
@@ -182,6 +193,11 @@ flutter:
   - shaders/cesaro_gpu.frag
   - shaders/cantor_set_gpu.frag
   - shaders/fractal_canopy_gpu.frag
+  - shaders/benesi_gpu.frag
+  - shaders/pseudo_kleinian_gpu.frag
+  - shaders/hat_monotile_gpu.frag
+  - shaders/spectre_monotile_gpu.frag
+  - shaders/sphinx_tiling_gpu.frag
   - shaders/brian_brain_gpu.frag
   - shaders/highlife_gpu.frag
   - shaders/day_night_gpu.frag

@@ -286,6 +286,63 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(
+    id: 'levy_tapestry',
+    name: 'Lévy Tapestry',
+    shaderAsset: 'shaders/levy_tapestry_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 6.0,
+  ),
+  EscapeTimeConfig(
+    id: 'golden_dragon',
+    name: 'Golden Dragon',
+    shaderAsset: 'shaders/golden_dragon_gpu.frag',
+    defaultIterations: 170,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'twin_dragon',
+    name: 'Twin Dragon',
+    shaderAsset: 'shaders/twin_dragon_gpu.frag',
+    defaultIterations: 170,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'terdragon',
+    name: 'Terdragon',
+    shaderAsset: 'shaders/terdragon_gpu.frag',
+    defaultIterations: 170,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'chair_tiling',
+    name: 'Chair Tiling',
+    shaderAsset: 'shaders/chair_tiling_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 6.0,
+  ),
+  EscapeTimeConfig(
+    id: 'koch_anti_snowflake',
+    name: 'Koch Anti-Snowflake',
+    shaderAsset: 'shaders/koch_anti_snowflake_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 6.0,
+  ),
+  EscapeTimeConfig(
+    id: 'quadratic_koch_island',
+    name: 'Quadratic Koch Island',
+    shaderAsset: 'shaders/quadratic_koch_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 6.0,
+  ),
+  EscapeTimeConfig(
+    id: 'cyclosorus_fern',
+    name: 'Cyclosorus Fern',
+    shaderAsset: 'shaders/cyclosorus_fern_gpu.frag',
+    defaultIterations: 200,
+    defaultCenterY: 0.2,
+    defaultBailout: 6.0,
+  ),
+  EscapeTimeConfig(
     id: 'menger_sponge_2d',
     name: 'Menger Sponge (2D Cross-Section)',
     shaderAsset: 'shaders/menger_sponge_gpu.frag',
@@ -410,6 +467,41 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/fractal_canopy_gpu.frag',
     defaultIterations: 80,
     defaultCenterY: -0.15,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'benesi',
+    name: 'Benesi Fractal',
+    shaderAsset: 'shaders/benesi_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'pseudo_kleinian',
+    name: 'Pseudo-Kleinian',
+    shaderAsset: 'shaders/pseudo_kleinian_gpu.frag',
+    defaultIterations: 220,
+    defaultBailout: 10.0,
+  ),
+  EscapeTimeConfig(
+    id: 'hat_monotile',
+    name: 'Hat Monotile',
+    shaderAsset: 'shaders/hat_monotile_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'spectre_monotile',
+    name: 'Spectre Monotile',
+    shaderAsset: 'shaders/spectre_monotile_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'sphinx_tiling',
+    name: 'Sphinx Tiling',
+    shaderAsset: 'shaders/sphinx_tiling_gpu.frag',
+    defaultIterations: 180,
     defaultBailout: 4.0,
   ),
 
@@ -595,6 +687,27 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/halvorsen_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'scroll_waves',
+    name: 'Scroll Waves Attractor',
+    shaderAsset: 'shaders/scroll_waves_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 14.0,
+  ),
+  EscapeTimeConfig(
+    id: 'rikitake',
+    name: 'Rikitake Dynamo',
+    shaderAsset: 'shaders/rikitake_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 18.0,
+  ),
+  EscapeTimeConfig(
+    id: 'aizawa',
+    name: 'Aizawa Attractor',
+    shaderAsset: 'shaders/aizawa_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 18.0,
   ),
 
   // ── II. Convergent/Root-Finding (escape-time variant) ───
@@ -934,6 +1047,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 280,
     defaultBailout: 4.0,
   ),
+
+  // Remaining entries (rikitake, aizawa, scroll_waves, benesi,
+  // pseudo_kleinian, tiling entries) already registered above.
 ];
 
 /// Build all currently active escape-time modules from the catalog.
