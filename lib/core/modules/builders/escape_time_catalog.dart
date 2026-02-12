@@ -483,27 +483,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 220,
     defaultBailout: 10.0,
   ),
-  EscapeTimeConfig(
-    id: 'hat_monotile',
-    name: 'Hat Monotile',
-    shaderAsset: 'shaders/hat_monotile_gpu.frag',
-    defaultIterations: 180,
-    defaultBailout: 4.0,
-  ),
-  EscapeTimeConfig(
-    id: 'spectre_monotile',
-    name: 'Spectre Monotile',
-    shaderAsset: 'shaders/spectre_monotile_gpu.frag',
-    defaultIterations: 180,
-    defaultBailout: 4.0,
-  ),
-  EscapeTimeConfig(
-    id: 'sphinx_tiling',
-    name: 'Sphinx Tiling',
-    shaderAsset: 'shaders/sphinx_tiling_gpu.frag',
-    defaultIterations: 180,
-    defaultBailout: 4.0,
-  ),
 
   // ── X. 2D Maps / Attractors ─────────────────────────────
   EscapeTimeConfig(
@@ -708,6 +687,62 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/aizawa_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 18.0,
+  ),
+  EscapeTimeConfig(
+    id: 'rabinovich_fabrikant',
+    name: 'Rabinovich-Fabrikant Attractor',
+    shaderAsset: 'shaders/rabinovich_fabrikant_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'nose_hoover',
+    name: 'Nosé-Hoover Attractor',
+    shaderAsset: 'shaders/nose_hoover_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 12.0,
+  ),
+  EscapeTimeConfig(
+    id: 'moore_spiegel',
+    name: 'Moore-Spiegel Attractor',
+    shaderAsset: 'shaders/moore_spiegel_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 24.0,
+  ),
+  EscapeTimeConfig(
+    id: 'hadley',
+    name: 'Hadley Circulation',
+    shaderAsset: 'shaders/hadley_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 20.0,
+  ),
+  EscapeTimeConfig(
+    id: 'genesio_tesi',
+    name: 'Genesio-Tesi Attractor',
+    shaderAsset: 'shaders/genesio_tesi_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 20.0,
+  ),
+  EscapeTimeConfig(
+    id: 'liu_chen',
+    name: 'Liu-Chen Attractor',
+    shaderAsset: 'shaders/liu_chen_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 24.0,
+  ),
+  EscapeTimeConfig(
+    id: 'newton_leipnik',
+    name: 'Newton-Leipnik Attractor',
+    shaderAsset: 'shaders/newton_leipnik_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 16.0,
+  ),
+  EscapeTimeConfig(
+    id: 'bouali',
+    name: 'Bouali Attractor',
+    shaderAsset: 'shaders/bouali_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 16.0,
   ),
 
   // ── II. Convergent/Root-Finding (escape-time variant) ───
@@ -1048,8 +1083,66 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
   ),
 
-  // Remaining entries (rikitake, aizawa, scroll_waves, benesi,
-  // pseudo_kleinian, tiling entries) already registered above.
+  // All remaining fractals already registered by subagent batches above.
+
+  EscapeTimeConfig(
+    id: 'farey_diagram',
+    name: 'Farey Diagram',
+    shaderAsset: 'shaders/farey_diagram_gpu.frag',
+    defaultIterations: 140,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.2,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'cayley_graph',
+    name: 'Cayley Graph Fractal',
+    shaderAsset: 'shaders/cayley_graph_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'sierpinski_arrowhead',
+    name: 'Sierpinski Arrowhead',
+    shaderAsset: 'shaders/sierpinski_arrowhead_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'mcworter_pentigree',
+    name: "McWorter's Pentigree",
+    shaderAsset: 'shaders/mcworter_pentigree_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'ammann_beenker',
+    name: 'Ammann-Beenker Tiling',
+    shaderAsset: 'shaders/ammann_beenker_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'moore_curve',
+    name: 'Moore Curve',
+    shaderAsset: 'shaders/moore_curve_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'lambda_w',
+    name: 'Lambda W Fractal',
+    shaderAsset: 'shaders/lambda_w_gpu.frag',
+    defaultIterations: 100,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'riemann_zeta',
+    name: 'Riemann Zeta Fractal',
+    shaderAsset: 'shaders/zeta_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 8.0,
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.

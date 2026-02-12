@@ -169,6 +169,14 @@ flutter:
   - shaders/scroll_waves_gpu.frag
   - shaders/rikitake_gpu.frag
   - shaders/aizawa_gpu.frag
+  - shaders/rabinovich_fabrikant_gpu.frag
+  - shaders/nose_hoover_gpu.frag
+  - shaders/moore_spiegel_gpu.frag
+  - shaders/hadley_gpu.frag
+  - shaders/genesio_tesi_gpu.frag
+  - shaders/liu_chen_gpu.frag
+  - shaders/newton_leipnik_gpu.frag
+  - shaders/bouali_gpu.frag
   - shaders/quaternion_julia_2d_gpu.frag
   - shaders/tessarine_julia_gpu.frag
   - shaders/split_complex_gpu.frag
@@ -202,3 +210,11 @@ flutter:
   - shaders/highlife_gpu.frag
   - shaders/day_night_gpu.frag
   - shaders/eden_growth_gpu.frag
+  - shaders/farey_diagram_gpu.frag
+  - shaders/cayley_graph_gpu.frag
+  - shaders/sierpinski_arrowhead_gpu.frag
+  - shaders/mcworter_pentigree_gpu.frag
+  - shaders/ammann_beenker_gpu.frag
+  - shaders/moore_curve_gpu.frag
+  - shaders/lambda_w_gpu.frag
+  - shaders/zeta_gpu.frag
