@@ -12,7 +12,8 @@ class AutoExploreButton extends StatefulWidget {
   final VoidCallback? onLongPress;
   final Duration delay;
 
-  const AutoExploreButton({super.key, this.onLongPress, this.delay = Duration.zero});
+  const AutoExploreButton(
+      {super.key, this.onLongPress, this.delay = Duration.zero});
 
   @override
   State<AutoExploreButton> createState() => _AutoExploreButtonState();
@@ -57,47 +58,72 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
         button: true,
         child: Tooltip(
           message: tooltip,
-          child: GestureDetector(
-            onTap: () {
-              HapticFeedback.mediumImpact();
-              svc.toggle();
-            },
-            onLongPress: widget.onLongPress,
-            child: AnimatedBuilder(
-              animation: _pulse,
-              builder: (context, child) {
-                final scale = active ? (1.0 + _pulse.value * 0.12) : 1.0;
-                return Transform.scale(
-                  scale: scale,
-                  child: Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      gradient: active ? AppColors.primaryGradient : null,
-                      color: active ? null : AppColors.surface,
-                      borderRadius: BorderRadius.circular(16),
-                      border: active
-                          ? null
-                          : Border.all(color: AppColors.border.withOpacity(0.5)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: active
-                              ? AppColors.primary.withOpacity(0.35)
-                              : Colors.black.withOpacity(0.18),
-                          blurRadius: active ? 16 : 12,
-                          offset: const Offset(0, 4),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  HapticFeedback.mediumImpact();
+                  svc.toggle();
+                },
+                onLongPress: widget.onLongPress,
+                child: AnimatedBuilder(
+                  animation: _pulse,
+                  builder: (context, child) {
+                    final scale = active ? (1.0 + _pulse.value * 0.12) : 1.0;
+                    return Transform.scale(
+                      scale: scale,
+                      child: Container(
+                        width: 52,
+                        height: 52,
+                        decoration: BoxDecoration(
+                          gradient: active ? AppColors.primaryGradient : null,
+                          color: active ? null : AppColors.surface,
+                          borderRadius: BorderRadius.circular(16),
+                          border: active
+                              ? null
+                              : Border.all(
+                                  color: AppColors.border.withOpacity(0.5)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: active
+                                  ? AppColors.primary.withOpacity(0.35)
+                                  : Colors.black.withOpacity(0.18),
+                              blurRadius: active ? 16 : 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
-                      ],
+                        child: Icon(
+                          active ? Icons.pause_rounded : Icons.explore_rounded,
+                          color:
+                              active ? Colors.white : AppColors.textSecondary,
+                          size: 24,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              if (svc.pausedByUserCorrection)
+                Positioned(
+                  right: -8,
+                  top: -8,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.72),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.white12),
                     ),
-                    child: Icon(
-                      active ? Icons.pause_rounded : Icons.explore_rounded,
-                      color: active ? Colors.white : AppColors.textSecondary,
-                      size: 24,
+                    child: const Text(
+                      'Auto-pilot paused',
+                      style: TextStyle(fontSize: 10, color: Colors.white70),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+            ],
           ),
         ),
       ),
@@ -138,25 +164,68 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
-              Text(l10n?.autoExploreTitle ?? 'Auto-Explore', style: AppTypography.titleLarge),
+              Text(l10n?.autoExploreTitle ?? 'Auto-Explore',
+                  style: AppTypography.titleLarge),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                l10n?.autoExploreSubtitle ?? 'Automatically discover interesting areas',
-                style: AppTypography.bodySmall.copyWith(color: AppColors.textMuted),
+                l10n?.autoExploreSubtitle ??
+                    'Automatically discover interesting areas',
+                style: AppTypography.bodySmall
+                    .copyWith(color: AppColors.textMuted),
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.md),
+              if (svc.pausedByUserCorrection)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.04),
+                    borderRadius: BorderRadius.circular(10),
+                    border:
+                        Border.all(color: AppColors.border.withOpacity(0.35)),
+                  ),
+                  child: const Text(
+                    'Auto-pilot paused (user correction)',
+                    style: TextStyle(fontSize: 12, color: Colors.white70),
+                  ),
+                ),
+              const SizedBox(height: AppSpacing.md),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(l10n?.speedLabel ?? 'Speed', style: AppTypography.labelLarge),
-                  Text('${svc.speed.toStringAsFixed(1)}x', style: AppTypography.labelLarge.copyWith(color: AppColors.primary)),
+                  Text('Mode', style: AppTypography.labelLarge),
+                  DropdownButton<AutoExploreMode>(
+                    value: svc.mode,
+                    dropdownColor: AppColors.surfaceVariant,
+                    onChanged: (v) {
+                      if (v == null) return;
+                      svc.mode = v;
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                          value: AutoExploreMode.wander, child: Text('Wander')),
+                      DropdownMenuItem(
+                          value: AutoExploreMode.spiral, child: Text('Spiral')),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(l10n?.speedLabel ?? 'Speed',
+                      style: AppTypography.labelLarge),
+                  Text('${svc.speed.toStringAsFixed(1)}x',
+                      style: AppTypography.labelLarge
+                          .copyWith(color: AppColors.primary)),
                 ],
               ),
               Slider(
                 value: svc.speed,
-                min: 0.25,
-                max: 4.0,
-                divisions: 15,
+                min: 0.5,
+                max: 3.0,
+                divisions: 25,
                 onChanged: (v) {
                   HapticFeedback.selectionClick();
                   svc.speed = v;
@@ -168,7 +237,9 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: svc.toggle,
-                      icon: Icon(svc.isExploring && !svc.isPaused ? Icons.pause_rounded : Icons.play_arrow_rounded),
+                      icon: Icon(svc.isExploring && !svc.isPaused
+                          ? Icons.pause_rounded
+                          : Icons.play_arrow_rounded),
                       label: Text(
                         svc.isExploring && !svc.isPaused
                             ? (l10n?.actionPause ?? 'Pause')

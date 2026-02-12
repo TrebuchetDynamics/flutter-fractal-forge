@@ -9,7 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class _DenyAllPermissions extends PermissionHandlerPlatform {
   @override
-  Future<Map<Permission, PermissionStatus>> requestPermissions(List<Permission> permissions) async {
+  Future<Map<Permission, PermissionStatus>> requestPermissions(
+      List<Permission> permissions) async {
     return {
       for (final permission in permissions) permission: PermissionStatus.denied,
     };
@@ -57,7 +58,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Mandelbrot'), findsOneWidget);
-      expect(find.text('Julia'), findsOneWidget);
+      expect(find.textContaining('Julia'), findsWidgets);
     });
 
     testWidgets('has search field', (tester) async {

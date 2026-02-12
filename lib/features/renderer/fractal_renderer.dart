@@ -85,6 +85,9 @@ class FractalRenderer extends StatefulWidget {
   /// Callback for when export should be opened.
   final VoidCallback? onOpenExport;
 
+  /// Called when the user manually starts pan/zoom interaction.
+  final VoidCallback? onUserInteraction;
+
   /// Whether time-based animation should advance.
   ///
   /// When false, rendering uses a fixed time (frame is frozen).
@@ -98,6 +101,7 @@ class FractalRenderer extends StatefulWidget {
     this.onOpenControls,
     this.onOpenPresets,
     this.onOpenExport,
+    this.onUserInteraction,
     this.animationEnabled = true,
   }) : super(key: key);
 
@@ -343,6 +347,8 @@ class _FractalRendererState extends State<FractalRenderer>
   }
 
   void _onScaleStart(ScaleStartDetails details) {
+    widget.onUserInteraction?.call();
+
     _zoomMomentumController.stop();
     _panMomentumController.stop();
 
@@ -396,8 +402,10 @@ class _FractalRendererState extends State<FractalRenderer>
         final rawDx = totalDelta.dx / scalePx;
         final rawDy = totalDelta.dy / scalePx;
         // Rotate screen delta by -rotation to get world delta
-        final dxWorld = (rawDx * cosR + rawDy * sinR) / math.max(1e-9, _startZoom);
-        final dyWorld = (-rawDx * sinR + rawDy * cosR) / math.max(1e-9, _startZoom);
+        final dxWorld =
+            (rawDx * cosR + rawDy * sinR) / math.max(1e-9, _startZoom);
+        final dyWorld =
+            (-rawDx * sinR + rawDy * cosR) / math.max(1e-9, _startZoom);
         controller.updatePan(
           Vector2(
             _startPan.x - dxWorld,
