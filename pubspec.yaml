@@ -68,5 +68,15 @@ flutter:
   - shaders/newton_z3_gpu.frag
   - shaders/perpendicular_gpu.frag
   - shaders/lambda_gpu.frag
+  - shaders/druid_gpu.frag
+  - shaders/magnet1_gpu.frag
+  - shaders/magnet2_gpu.frag
+  - shaders/exponential_gpu.frag
+  - shaders/zircon_zity_gpu.frag
   - shaders/spider_gpu.frag
   - shaders/manowar_gpu.frag
+  - shaders/inverse_mandelbrot_gpu.frag
+  - shaders/glynn_gpu.frag
+  - shaders/simonbrot_gpu.frag
+  - shaders/shark_fin_gpu.frag
+  - shaders/cosine_julia_gpu.frag

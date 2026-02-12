@@ -78,42 +78,48 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/lambda_gpu.frag',
     defaultIterations: 120,
   ),
-  // EscapeTimeConfig(
-  //   id: 'magnet_type_1',
-  //   name: 'Magnet Fractal (Type I)',
-  //   shaderAsset: 'shaders/magnet1_gpu.frag',
-  //   defaultIterations: 100,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'magnet_type_2',
-  //   name: 'Magnet Fractal (Type II)',
-  //   shaderAsset: 'shaders/magnet2_gpu.frag',
-  //   defaultIterations: 100,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'druid',
-  //   name: 'Druid Fractal',
-  //   shaderAsset: 'shaders/druid_gpu.frag',
-  //   defaultIterations: 150,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'inverse_mandelbrot',
-  //   name: 'Inverse Mandelbrot',
-  //   shaderAsset: 'shaders/inverse_mandelbrot_gpu.frag',
-  //   defaultIterations: 120,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'glynn',
-  //   name: 'Glynn Fractal',
-  //   shaderAsset: 'shaders/glynn_gpu.frag',
-  //   defaultIterations: 150,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'simonbrot',
-  //   name: 'Simonbrot',
-  //   shaderAsset: 'shaders/simonbrot_gpu.frag',
-  //   defaultIterations: 150,
-  // ),
+  EscapeTimeConfig(
+    id: 'magnet_type_1',
+    name: 'Magnet Fractal (Type I)',
+    shaderAsset: 'shaders/magnet1_gpu.frag',
+    defaultIterations: 100,
+  ),
+  EscapeTimeConfig(
+    id: 'magnet_type_2',
+    name: 'Magnet Fractal (Type II)',
+    shaderAsset: 'shaders/magnet2_gpu.frag',
+    defaultIterations: 100,
+  ),
+  EscapeTimeConfig(
+    id: 'druid',
+    name: 'Druid Fractal',
+    shaderAsset: 'shaders/druid_gpu.frag',
+    defaultIterations: 150,
+  ),
+  EscapeTimeConfig(
+    id: 'inverse_mandelbrot',
+    name: 'Inverse Mandelbrot',
+    shaderAsset: 'shaders/inverse_mandelbrot_gpu.frag',
+    defaultIterations: 120,
+  ),
+  EscapeTimeConfig(
+    id: 'glynn',
+    name: 'Glynn Fractal',
+    shaderAsset: 'shaders/glynn_gpu.frag',
+    defaultIterations: 150,
+  ),
+  EscapeTimeConfig(
+    id: 'simonbrot',
+    name: 'Simonbrot',
+    shaderAsset: 'shaders/simonbrot_gpu.frag',
+    defaultIterations: 150,
+  ),
+  EscapeTimeConfig(
+    id: 'shark_fin',
+    name: 'Shark Fin',
+    shaderAsset: 'shaders/shark_fin_gpu.frag',
+    defaultIterations: 150,
+  ),
   EscapeTimeConfig(
     id: 'manowar',
     name: 'Manowar Fractal',
@@ -162,18 +168,24 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/sine_julia_gpu.frag',
     defaultIterations: 100,
   ),
-  // EscapeTimeConfig(
-  //   id: 'cosine_julia',
-  //   name: 'Cosine Julia',
-  //   shaderAsset: 'shaders/cosine_julia_gpu.frag',
-  //   defaultIterations: 100,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'exponential',
-  //   name: 'Exponential Fractal',
-  //   shaderAsset: 'shaders/exponential_gpu.frag',
-  //   defaultIterations: 100,
-  // ),
+  EscapeTimeConfig(
+    id: 'cosine_julia',
+    name: 'Cosine Julia',
+    shaderAsset: 'shaders/cosine_julia_gpu.frag',
+    defaultIterations: 100,
+  ),
+  EscapeTimeConfig(
+    id: 'exponential',
+    name: 'Exponential Fractal',
+    shaderAsset: 'shaders/exponential_gpu.frag',
+    defaultIterations: 100,
+  ),
+  EscapeTimeConfig(
+    id: 'zircon_zity',
+    name: 'Zircon Zity',
+    shaderAsset: 'shaders/zircon_zity_gpu.frag',
+    defaultIterations: 130,
+  ),
 
   // ── IX. Lyapunov ────────────────────────────────────────
   // EscapeTimeConfig(
