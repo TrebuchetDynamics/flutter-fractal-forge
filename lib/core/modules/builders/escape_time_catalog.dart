@@ -66,18 +66,18 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   // ── New escape-time fractals (add shader + entry) ───────
   // Uncomment as shaders are implemented:
   //
-  // EscapeTimeConfig(
-  //   id: 'perpendicular_mandelbrot',
-  //   name: 'Perpendicular Mandelbrot',
-  //   shaderAsset: 'shaders/perpendicular_gpu.frag',
-  //   defaultIterations: 150,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'lambda',
-  //   name: 'Lambda Fractal',
-  //   shaderAsset: 'shaders/lambda_gpu.frag',
-  //   defaultIterations: 120,
-  // ),
+  EscapeTimeConfig(
+    id: 'perpendicular_mandelbrot',
+    name: 'Perpendicular Mandelbrot',
+    shaderAsset: 'shaders/perpendicular_gpu.frag',
+    defaultIterations: 150,
+  ),
+  EscapeTimeConfig(
+    id: 'lambda',
+    name: 'Lambda Fractal',
+    shaderAsset: 'shaders/lambda_gpu.frag',
+    defaultIterations: 120,
+  ),
   // EscapeTimeConfig(
   //   id: 'magnet_type_1',
   //   name: 'Magnet Fractal (Type I)',
@@ -114,39 +114,40 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   //   shaderAsset: 'shaders/simonbrot_gpu.frag',
   //   defaultIterations: 150,
   // ),
-  // EscapeTimeConfig(
-  //   id: 'manowar',
-  //   name: 'Manowar Fractal',
-  //   shaderAsset: 'shaders/manowar_gpu.frag',
-  //   defaultIterations: 150,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'spider',
-  //   name: 'Spider Fractal',
-  //   shaderAsset: 'shaders/spider_gpu.frag',
-  //   defaultIterations: 150,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'collatz',
-  //   name: 'Collatz Fractal',
-  //   shaderAsset: 'shaders/collatz_gpu.frag',
-  //   defaultIterations: 120,
-  // ),
-  // EscapeTimeConfig(
-  //   id: 'popcorn',
-  //   name: 'Popcorn Fractal',
-  //   shaderAsset: 'shaders/popcorn_gpu.frag',
-  //   defaultIterations: 120,
-  // ),
+  EscapeTimeConfig(
+    id: 'manowar',
+    name: 'Manowar Fractal',
+    shaderAsset: 'shaders/manowar_gpu.frag',
+    defaultIterations: 150,
+  ),
+  EscapeTimeConfig(
+    id: 'spider',
+    name: 'Spider Fractal',
+    shaderAsset: 'shaders/spider_gpu.frag',
+    defaultIterations: 150,
+  ),
+  EscapeTimeConfig(
+    id: 'collatz',
+    name: 'Collatz Fractal',
+    shaderAsset: 'shaders/collatz_gpu.frag',
+    defaultIterations: 120,
+  ),
+  EscapeTimeConfig(
+    id: 'popcorn',
+    name: 'Popcorn Fractal',
+    shaderAsset: 'shaders/popcorn_gpu.frag',
+    defaultIterations: 140,
+    defaultBailout: 4.0,
+  ),
 
   // ── II. Convergent/Root-Finding (escape-time variant) ───
-  // EscapeTimeConfig(
-  //   id: 'newton_z3',
-  //   name: 'Newton Fractal (z³ - 1)',
-  //   shaderAsset: 'shaders/newton_z3_gpu.frag',
-  //   defaultIterations: 80,
-  //   defaultBailout: 0.001,
-  // ),
+  EscapeTimeConfig(
+    id: 'newton_z3',
+    name: 'Newton Fractal (z³ - 1)',
+    shaderAsset: 'shaders/newton_z3_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 4.0,
+  ),
   // EscapeTimeConfig(
   //   id: 'halley',
   //   name: "Halley's Fractal",
@@ -155,12 +156,12 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   // ),
 
   // ── VII. Trigonometric ──────────────────────────────────
-  // EscapeTimeConfig(
-  //   id: 'sine_julia',
-  //   name: 'Sine Julia',
-  //   shaderAsset: 'shaders/sine_julia_gpu.frag',
-  //   defaultIterations: 100,
-  // ),
+  EscapeTimeConfig(
+    id: 'sine_julia',
+    name: 'Sine Julia',
+    shaderAsset: 'shaders/sine_julia_gpu.frag',
+    defaultIterations: 100,
+  ),
   // EscapeTimeConfig(
   //   id: 'cosine_julia',
   //   name: 'Cosine Julia',

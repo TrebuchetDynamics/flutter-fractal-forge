@@ -62,3 +62,11 @@ flutter:
   - shaders/celtic_gpu.frag
   - shaders/buffalo_gpu.frag
   - shaders/nova_gpu.frag
+  - shaders/collatz_gpu.frag
+  - shaders/popcorn_gpu.frag
+  - shaders/sine_julia_gpu.frag
+  - shaders/newton_z3_gpu.frag
+  - shaders/perpendicular_gpu.frag
+  - shaders/lambda_gpu.frag
+  - shaders/spider_gpu.frag
+  - shaders/manowar_gpu.frag
