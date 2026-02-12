@@ -80,6 +80,12 @@ flutter:
   - shaders/simonbrot_gpu.frag
   - shaders/shark_fin_gpu.frag
   - shaders/cosine_julia_gpu.frag
+  - shaders/barnsley_j1_gpu.frag
+  - shaders/fish_gpu.frag
+  - shaders/ducky_gpu.frag
+  - shaders/schroeder_gpu.frag
+  - shaders/secant_fractal_gpu.frag
+  - shaders/lyapunov_gpu.frag
   - shaders/tangent_gpu.frag
   - shaders/sinh_cosh_gpu.frag
   - shaders/tetration_gpu.frag

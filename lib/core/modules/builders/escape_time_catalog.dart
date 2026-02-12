@@ -212,14 +212,47 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 130,
   ),
 
+  // ── VIII. Advanced Rational & Polynomial ─────────────────
+  EscapeTimeConfig(
+    id: 'barnsley_j1',
+    name: "Barnsley J1",
+    shaderAsset: 'shaders/barnsley_j1_gpu.frag',
+    defaultIterations: 120,
+  ),
+  EscapeTimeConfig(
+    id: 'fish',
+    name: 'Fish Fractal',
+    shaderAsset: 'shaders/fish_gpu.frag',
+    defaultIterations: 150,
+  ),
+  EscapeTimeConfig(
+    id: 'ducky',
+    name: 'Ducky Fractal',
+    shaderAsset: 'shaders/ducky_gpu.frag',
+    defaultIterations: 130,
+  ),
+  EscapeTimeConfig(
+    id: 'schroeder',
+    name: "Schröder's Fractal",
+    shaderAsset: 'shaders/schroeder_gpu.frag',
+    defaultIterations: 80,
+  ),
+  EscapeTimeConfig(
+    id: 'secant_fractal',
+    name: 'Secant Fractal',
+    shaderAsset: 'shaders/secant_fractal_gpu.frag',
+    defaultIterations: 80,
+  ),
+
   // ── IX. Lyapunov ────────────────────────────────────────
-  // EscapeTimeConfig(
-  //   id: 'lyapunov',
-  //   name: 'Lyapunov Fractal',
-  //   shaderAsset: 'shaders/lyapunov_gpu.frag',
-  //   defaultIterations: 200,
-  //   defaultBailout: 8.0,
-  // ),
+  EscapeTimeConfig(
+    id: 'lyapunov',
+    name: 'Lyapunov Fractal',
+    shaderAsset: 'shaders/lyapunov_gpu.frag',
+    defaultIterations: 200,
+    defaultCenterX: 3.0,
+    defaultCenterY: 3.0,
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.
