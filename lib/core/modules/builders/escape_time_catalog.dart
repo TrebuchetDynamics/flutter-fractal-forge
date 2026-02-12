@@ -145,6 +145,36 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 140,
     defaultBailout: 4.0,
   ),
+  EscapeTimeConfig(
+    id: 'talis',
+    name: 'Talis Fractal',
+    shaderAsset: 'shaders/talis_gpu.frag',
+    defaultIterations: 140,
+  ),
+  EscapeTimeConfig(
+    id: 'tetration',
+    name: 'Tetration Fractal',
+    shaderAsset: 'shaders/tetration_gpu.frag',
+    defaultIterations: 90,
+  ),
+  EscapeTimeConfig(
+    id: 'fish',
+    name: 'Fish Fractal',
+    shaderAsset: 'shaders/fish_gpu.frag',
+    defaultIterations: 170,
+  ),
+  EscapeTimeConfig(
+    id: 'barnsley_j1',
+    name: 'Barnsley J1',
+    shaderAsset: 'shaders/barnsley_j1_gpu.frag',
+    defaultIterations: 160,
+  ),
+  EscapeTimeConfig(
+    id: 'ducky',
+    name: 'Ducky Fractal',
+    shaderAsset: 'shaders/ducky_gpu.frag',
+    defaultIterations: 150,
+  ),
 
   // ── II. Convergent/Root-Finding (escape-time variant) ───
   EscapeTimeConfig(
@@ -154,12 +184,27 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 80,
     defaultBailout: 4.0,
   ),
-  // EscapeTimeConfig(
-  //   id: 'halley',
-  //   name: "Halley's Fractal",
-  //   shaderAsset: 'shaders/halley_gpu.frag',
-  //   defaultIterations: 80,
-  // ),
+  EscapeTimeConfig(
+    id: 'schroeder',
+    name: "Schröder Fractal (z³ - 1)",
+    shaderAsset: 'shaders/schroeder_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'secant_fractal',
+    name: 'Secant Fractal (z³ - 1)',
+    shaderAsset: 'shaders/secant_fractal_gpu.frag',
+    defaultIterations: 90,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'halley',
+    name: "Halley's Fractal",
+    shaderAsset: 'shaders/halley_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 4.0,
+  ),
 
   // ── VII. Trigonometric ──────────────────────────────────
   EscapeTimeConfig(
@@ -172,6 +217,18 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     id: 'cosine_julia',
     name: 'Cosine Julia',
     shaderAsset: 'shaders/cosine_julia_gpu.frag',
+    defaultIterations: 100,
+  ),
+  EscapeTimeConfig(
+    id: 'tangent',
+    name: 'Tangent Fractal',
+    shaderAsset: 'shaders/tangent_gpu.frag',
+    defaultIterations: 100,
+  ),
+  EscapeTimeConfig(
+    id: 'sinh_cosh',
+    name: 'Sinh Fractal',
+    shaderAsset: 'shaders/sinh_cosh_gpu.frag',
     defaultIterations: 100,
   ),
   EscapeTimeConfig(
@@ -188,13 +245,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   ),
 
   // ── IX. Lyapunov ────────────────────────────────────────
-  // EscapeTimeConfig(
-  //   id: 'lyapunov',
-  //   name: 'Lyapunov Fractal',
-  //   shaderAsset: 'shaders/lyapunov_gpu.frag',
-  //   defaultIterations: 200,
-  //   defaultBailout: 8.0,
-  // ),
+  EscapeTimeConfig(
+    id: 'lyapunov',
+    name: 'Lyapunov Fractal',
+    shaderAsset: 'shaders/lyapunov_gpu.frag',
+    defaultIterations: 200,
+    defaultCenterX: 3.0,
+    defaultCenterY: 3.0,
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.
