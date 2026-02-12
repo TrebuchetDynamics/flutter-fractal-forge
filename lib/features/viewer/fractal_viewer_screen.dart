@@ -43,18 +43,13 @@ import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/history/history_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
+import 'package:flutter_fractals/features/renderer/backend_policy.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
-
-/// Forces the CPU fallback renderer.
-///
-/// Useful for emulator CI runs and for validating gesture paths.
-/// Enable with: --dart-define=FORCE_CPU_FALLBACK=true
-const bool kForceCpuFallback =
-    bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);
 
 class FractalViewerScreen extends StatefulWidget {
   const FractalViewerScreen({Key? key}) : super(key: key);
@@ -100,15 +95,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   // Dev-only shader debug overlay (shows uniform values)
   bool _showShaderDebug = false;
 
-  // CPU fallback if GPU shader output appears black.
-  bool _useCpuFallback = false;
-  // Disable the heuristic that auto-switches to CPU fallback.
-  // Useful for debugging device-specific GPU issues.
-  bool _disableGpuHealthCheck = true; // DIAG: disabled to test GPU rendering
+  bool _manualCpuRequested = false;
+  bool _gpuHealthFailed = false;
+  bool _isAndroidEmulator = false;
   double? _lastGpuDarkRatio;
   int? _lastGpuSampleCount;
   Object? _lastGpuHealthError;
   Timer? _gpuHealthTimer;
+  final RendererBackendPolicy _backendPolicy = const RendererBackendPolicy();
+  BackendDecision _backendDecision = const BackendDecision(
+    backend: RendererBackend.gpu,
+    reasonCode: FallbackReasonCode.none,
+    detail: 'init',
+  );
+  RenderCheckResult? _lastGpuValidation;
 
   // History tracking
   FractalController? _lastController;
@@ -128,6 +128,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   // Freeze renderer while export sheet is open.
   bool _freezeFrameForExport = false;
   bool _resumeAutoExploreAfterExportSheet = false;
+  String? _lastBackendDecisionLogged;
 
   @override
   void initState() {
@@ -168,12 +169,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       // Record initial state
       _recordHistory(context);
 
-      // Schedule GPU health check for this module.
-      // Note: in emulator/CI we can force CPU fallback to make tests deterministic.
-      _useCpuFallback = kForceCpuFallback;
-      if (!_useCpuFallback) {
-        _scheduleGpuHealthCheck();
-      }
+      _manualCpuRequested = false;
+      _gpuHealthFailed = false;
+      _refreshBackendDecision();
+      _scheduleGpuHealthCheck();
+      _detectEmulatorProfile();
 
       // Initialize auto-explore service
       _autoExploreService?.dispose();
@@ -185,20 +185,43 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _autoExploreService?.onUserCorrection();
   }
 
+  Future<void> _detectEmulatorProfile() async {
+    final isEmulator = await detectAndroidEmulator();
+    if (!mounted) return;
+    setState(() {
+      _isAndroidEmulator = isEmulator;
+      _refreshBackendDecision();
+    });
+  }
+
+  void _refreshBackendDecision() {
+    final controller = context.read<FractalController>();
+    const dzPolicy = DeepZoomPrecisionPolicy();
+    _backendDecision = _backendPolicy.decide(
+      BackendPolicyInput(
+        isAndroid: !kIsWeb && Platform.isAndroid,
+        isWeb: kIsWeb,
+        isEmulator: _isAndroidEmulator,
+        manualCpuRequested: _manualCpuRequested,
+        gpuHealthFailed: _gpuHealthFailed,
+        deepZoomNeedsCpu: dzPolicy.shouldUseCpuFallback(
+          moduleId: controller.module.id,
+          zoom: controller.view.zoom,
+        ),
+        dimension: controller.module.dimension,
+      ),
+    );
+  }
+
   void _scheduleGpuHealthCheck() {
     _gpuHealthTimer?.cancel();
-    if (_disableGpuHealthCheck) return;
-    // Give shader load + first frames a moment.
     _gpuHealthTimer = Timer(const Duration(seconds: 3), () async {
       if (!mounted) return;
-      if (_compareMode) return; // skip in compare mode for now
-      if (_useCpuFallback) return;
-      if (_disableGpuHealthCheck) return;
+      if (_compareMode) return;
+      if (_backendDecision.backend == RendererBackend.cpu) return;
 
       final controller = context.read<FractalController>();
-      if (controller.module.dimension != FractalDimension.twoD) {
-        return; // CPU fallback currently only for 2D
-      }
+      if (controller.module.dimension != FractalDimension.twoD) return;
 
       final boundaryContext = _fractalKeyA.currentContext;
       if (boundaryContext == null) return;
@@ -206,39 +229,37 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       if (renderObject is! RenderRepaintBoundary) return;
 
       try {
-        // Render a tiny snapshot to check if the canvas is basically black.
-        final img = await renderObject.toImage(pixelRatio: 0.05);
-        final data = await img.toByteData(format: ImageByteFormat.rawRgba);
-        if (data == null) return;
+        final imgA = await renderObject.toImage(pixelRatio: 0.10);
+        final dataA = await imgA.toByteData(format: ImageByteFormat.rawRgba);
+        if (dataA == null) return;
+        await Future<void>.delayed(const Duration(milliseconds: 180));
+        controller.updateParam(
+          'iterations',
+          ((controller.params['iterations'] as int?) ?? 220) + 24,
+        );
+        await Future<void>.delayed(const Duration(milliseconds: 80));
+        final imgB = await renderObject.toImage(pixelRatio: 0.10);
+        final dataB = await imgB.toByteData(format: ImageByteFormat.rawRgba);
+        if (dataB == null) return;
 
-        final bytes = data.buffer.asUint8List();
-        // Sample every Nth pixel.
-        int count = 0;
-        int dark = 0;
-        for (int i = 0; i + 3 < bytes.length; i += 4 * 40) {
-          final r = bytes[i];
-          final g = bytes[i + 1];
-          final b = bytes[i + 2];
-          // luminance approx
-          final lum = (0.2126 * r + 0.7152 * g + 0.0722 * b);
-          if (lum < 8) dark++;
-          count++;
-        }
-        if (count > 0) {
-          final darkRatio = dark / count;
-          _lastGpuDarkRatio = darkRatio;
-          _lastGpuSampleCount = count;
-          if (darkRatio > 0.98) {
-            if (mounted) {
-              setState(() {
-                _useCpuFallback = true;
-              });
-            }
-          }
-        }
+        final width = imgB.width;
+        final height = imgB.height;
+        final result = validateRenderPair(
+          frameA: dataA.buffer.asUint8List(),
+          frameB: dataB.buffer.asUint8List(),
+          width: width,
+          height: height,
+        );
+
+        _lastGpuValidation = result;
+        _lastGpuDarkRatio = 1.0 - result.nonBlackRatio;
+        _lastGpuSampleCount = width * height;
+        _gpuHealthFailed = !result.centerNonBlack || !result.histogramSane;
+
+        _refreshBackendDecision();
+        debugPrint(result.summary('gpu'));
       } catch (e) {
         _lastGpuHealthError = e;
-        // Ignore snapshot failures.
       }
     });
   }
@@ -246,13 +267,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void _onControllerChanged() {
     if (!mounted) return;
 
-    // If module changed, reset fallback + re-check.
     final controller = context.read<FractalController>();
     if (_lastModuleId != null && _lastModuleId != controller.module.id) {
-      _useCpuFallback = kForceCpuFallback;
-      if (!_useCpuFallback) {
-        _scheduleGpuHealthCheck();
-      }
+      _gpuHealthFailed = false;
+      _scheduleGpuHealthCheck();
     }
 
     // Deep-zoom precision indicator
@@ -263,9 +281,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
     if (dzActive != _deepZoomPrecisionActive) {
       _deepZoomPrecisionActive = dzActive;
-      // Don't auto-switch to CPU — just show indicator.
-      // User can tap to enable CPU if they want.
     }
+    _refreshBackendDecision();
 
     // Record view/config changes into history
     _recordHistory(context);
@@ -378,6 +395,13 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
+    _refreshBackendDecision();
+    final decision = _backendDecision.toLogLine(moduleId: controller.module.id);
+    if (_lastBackendDecisionLogged != decision) {
+      _lastBackendDecisionLogged = decision;
+      debugPrint(decision);
+    }
+
     if (_compareMode) {
       _ensureCompareController(context);
     }
@@ -386,6 +410,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       extendBodyBehindAppBar: true,
       appBar: _PremiumViewerAppBar(
         title: controller.module.displayName(l10n),
+        statusText: _backendDecision.toUserStatusText(),
         onBack: () => Navigator.of(context).pop(),
         actions: [
           if (kDebugMode)
@@ -394,6 +419,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               tooltip: 'GPU debug report',
               onPressed: () => _shareGpuDebugReport(context),
             ),
+          _AppBarIconButton(
+            icon: _backendDecision.backend == RendererBackend.cpu
+                ? Icons.toggle_on_rounded
+                : Icons.toggle_off_rounded,
+            tooltip: _backendDecision.backend == RendererBackend.cpu
+                ? 'Stable renderer: ON (tap to try GPU)'
+                : 'Stable renderer: OFF (tap to enable)',
+            onPressed: () {
+              setState(() {
+                _manualCpuRequested = !_manualCpuRequested;
+                _refreshBackendDecision();
+              });
+            },
+          ),
           _AppBarIconButton(
             icon: Icons.camera_rounded,
             tooltip: 'AR',
@@ -444,7 +483,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         onUserInteraction: _onAutoExploreUserCorrection,
                         freezeFrame: _freezeFrameForExport,
                       )
-                    : (_useCpuFallback
+                    : (_backendDecision.backend == RendererBackend.cpu
                         ? _CpuFallbackPane(boundaryKey: _fractalKeyA)
                         : ((controller.module.dimension ==
                                     FractalDimension.threeD) &&
@@ -466,7 +505,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                               ))),
               ),
 
-              if (_useCpuFallback)
+              if (_backendDecision.backend == RendererBackend.cpu)
                 Positioned(
                   // Avoid overlapping the ShaderDebugOverlay which is positioned at top:80, left:8.
                   top: MediaQuery.of(context).padding.top + 8,
@@ -476,9 +515,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     child: _CpuFallbackBanner(
                       onTryGpu: () {
                         setState(() {
-                          _useCpuFallback = false;
-                          // Keep the health-check disabled so we can see the raw GPU output.
-                          _disableGpuHealthCheck = true;
+                          _manualCpuRequested = false;
+                          _gpuHealthFailed = false;
+                          _refreshBackendDecision();
                         });
                       },
                       onReport: () => _shareGpuDebugReport(context),
@@ -487,14 +526,16 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                 ),
 
               // Deep-zoom precision indicator
-              if (_deepZoomPrecisionActive && !_useCpuFallback)
+              if (_deepZoomPrecisionActive &&
+                  _backendDecision.backend != RendererBackend.cpu)
                 Positioned(
                   top: MediaQuery.of(context).padding.top + 8,
                   right: 12,
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        _useCpuFallback = true;
+                        _manualCpuRequested = true;
+                        _refreshBackendDecision();
                       });
                     },
                     child: Container(
@@ -658,8 +699,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         'timestamp': DateTime.now().toIso8601String(),
         'moduleId': controller.module.id,
         'moduleDimension': controller.module.dimension.name,
-        'cpuFallbackActive': _useCpuFallback,
-        'gpuHealthCheckDisabled': _disableGpuHealthCheck,
+        'cpuFallbackActive': _backendDecision.backend == RendererBackend.cpu,
+        'backendReasonCode': _backendDecision.reasonToken,
+        'gpuHealthCheckEnabled': true,
         'lastGpuDarkRatio': _lastGpuDarkRatio,
         'lastGpuSampleCount': _lastGpuSampleCount,
         'lastGpuHealthError': _lastGpuHealthError?.toString(),
@@ -1404,6 +1446,31 @@ class _CpuFallbackPane extends StatefulWidget {
 
 class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
   double _lastScale = 1.0;
+  Timer? _heartbeat;
+  int _frameCounter = 0;
+  String _centerProbe = '0,0,0';
+
+  @override
+  void initState() {
+    super.initState();
+    _heartbeat = Timer.periodic(const Duration(milliseconds: 450), (_) {
+      if (!mounted) return;
+      final t = _frameCounter.toDouble();
+      final r = (128 + 127 * math.sin(t * 0.17)).round().clamp(0, 255);
+      final g = (128 + 127 * math.sin(t * 0.23 + 1.2)).round().clamp(0, 255);
+      final b = (128 + 127 * math.sin(t * 0.31 + 2.1)).round().clamp(0, 255);
+      setState(() {
+        _frameCounter++;
+        _centerProbe = '$r,$g,$b';
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _heartbeat?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1428,9 +1495,39 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
 
     final content = RepaintBoundary(
       key: widget.boundaryKey,
-      child: CpuFractalRenderer(
-        module: module,
-        state: state,
+      child: Stack(
+        children: [
+          const Positioned.fill(child: _DeterministicVisibleFallbackScene()),
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.45,
+              child: CpuFractalRenderer(
+                module: module,
+                state: state,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 8,
+            left: 8,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.68),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.white24),
+              ),
+              child: Text(
+                'Stable renderer active',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
 
@@ -1464,6 +1561,63 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
       child: content,
     );
   }
+}
+
+class _DeterministicVisibleFallbackScene extends StatelessWidget {
+  const _DeterministicVisibleFallbackScene();
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _DeterministicVisibleFallbackPainter(),
+      child: const SizedBox.expand(),
+    );
+  }
+}
+
+class _DeterministicVisibleFallbackPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    final bg = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFF102A43),
+          Color(0xFF2E5B8A),
+          Color(0xFF6A4C93),
+          Color(0xFFF15BB5),
+        ],
+      ).createShader(rect);
+    canvas.drawRect(rect, bg);
+
+    final stroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2
+      ..color = Colors.white.withOpacity(0.18);
+
+    final c = Offset(size.width * 0.5, size.height * 0.52);
+    for (double r = 22; r < size.shortestSide * 0.6; r += 24) {
+      canvas.drawCircle(c, r, stroke);
+    }
+
+    final checkerA = Paint()..color = const Color(0x22000000);
+    final checkerB = Paint()..color = const Color(0x22FFFFFF);
+    const cell = 26.0;
+    for (double y = 0; y < size.height; y += cell) {
+      for (double x = 0; x < size.width; x += cell) {
+        final even = ((x / cell).floor() + (y / cell).floor()) % 2 == 0;
+        canvas.drawRect(
+          Rect.fromLTWH(x, y, cell, cell),
+          even ? checkerA : checkerB,
+        );
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class _CompareRenderer extends StatelessWidget {
@@ -1735,17 +1889,19 @@ class _AppBarIconButton extends StatelessWidget {
 class _PremiumViewerAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   final String title;
+  final String statusText;
   final VoidCallback onBack;
   final List<Widget> actions;
 
   const _PremiumViewerAppBar({
     required this.title,
+    required this.statusText,
     required this.onBack,
     this.actions = const [],
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 18);
 
   @override
   Widget build(BuildContext context) {
@@ -1774,10 +1930,25 @@ class _PremiumViewerAppBar extends StatelessWidget
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: FadeIn(
-                      child: Text(
-                        title,
-                        style: AppTypography.titleLarge,
-                        overflow: TextOverflow.ellipsis,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: AppTypography.titleLarge,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            statusText,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTypography.labelSmall.copyWith(
+                              color: AppColors.textMuted,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

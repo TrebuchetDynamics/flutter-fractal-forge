@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -155,6 +156,9 @@ class _FractalRendererState extends State<FractalRenderer>
   double _targetZoom = 1.0;
   double _currentZoom = 1.0;
 
+  DateTime? _shaderLoadStartedAt;
+  bool _firstFrameLogged = false;
+
   @override
   void initState() {
     super.initState();
@@ -238,6 +242,8 @@ class _FractalRendererState extends State<FractalRenderer>
       return;
     }
     _loading = true;
+    _shaderLoadStartedAt = DateTime.now();
+    debugPrint('[renderer] shader_load_start asset=$asset');
     setState(() {
       _shaderError = null;
       _shaderErrorDetails = null;
@@ -253,9 +259,15 @@ class _FractalRendererState extends State<FractalRenderer>
             _shaderRetryCount = 0;
           });
         }
+        final dt = DateTime.now()
+            .difference(_shaderLoadStartedAt ?? DateTime.now())
+            .inMilliseconds;
+        debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
         return;
       } catch (e, stack) {
         final errorType = _categorizeShaderError(e);
+        debugPrint(
+            '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
 
         // Report to crash reporter
         CrashReporter.instance.record(
@@ -590,6 +602,43 @@ class _FractalRendererState extends State<FractalRenderer>
     });
   }
 
+  Widget _withRendererIndicator({
+    required Widget child,
+    required String mode,
+    required bool fallbackActive,
+  }) {
+    if (!kDebugMode) return child;
+    return Stack(
+      children: [
+        Positioned.fill(child: child),
+        Positioned(
+          left: 12,
+          right: 12,
+          bottom: 18,
+          child: IgnorePointer(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.amber.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black54),
+              ),
+              child: Text(
+                'Renderer: $mode | fallback: $fallbackActive',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.animationEnabled) {
@@ -664,14 +713,18 @@ class _FractalRendererState extends State<FractalRenderer>
     );
 
     if (shouldUseCpuFallback && module.dimension == FractalDimension.twoD) {
-      final cpuContent = RepaintBoundary(
-        key: widget.boundaryKey,
-        child: CpuFractalRenderer(
-          module: module,
-          state: FractalRenderState(
-            params: controller.params,
-            view: controller.view,
-            transparentBackground: controller.transparentBackground,
+      final cpuContent = _withRendererIndicator(
+        mode: 'CPU',
+        fallbackActive: true,
+        child: RepaintBoundary(
+          key: widget.boundaryKey,
+          child: CpuFractalRenderer(
+            module: module,
+            state: FractalRenderState(
+              params: controller.params,
+              view: controller.view,
+              transparentBackground: controller.transparentBackground,
+            ),
           ),
         ),
       );
@@ -726,6 +779,14 @@ class _FractalRendererState extends State<FractalRenderer>
             view: controller.view,
             transparentBackground: controller.transparentBackground,
           );
+          if (!_firstFrameLogged) {
+            _firstFrameLogged = true;
+            final dt = DateTime.now()
+                .difference(_shaderLoadStartedAt ?? DateTime.now())
+                .inMilliseconds;
+            debugPrint(
+                '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
+          }
           return CustomPaint(
             painter: FractalCanvas(
               module: controller.module,
@@ -753,9 +814,13 @@ class _FractalRendererState extends State<FractalRenderer>
       child: fractalContent,
     );
 
-    final content = RepaintBoundary(
-      key: widget.boundaryKey,
-      child: fractalContent,
+    final content = _withRendererIndicator(
+      mode: 'GPU',
+      fallbackActive: false,
+      child: RepaintBoundary(
+        key: widget.boundaryKey,
+        child: fractalContent,
+      ),
     );
 
     if (!widget.gesturesEnabled) {

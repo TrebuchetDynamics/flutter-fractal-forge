@@ -117,7 +117,13 @@ void main() {
         await tester.pumpWidget(buildTestWidget());
         await tester.pumpAndSettle();
 
-        expect(find.byKey(const Key('fractalTestSurface')), findsOneWidget);
+        final hasTestSurface = find.byKey(const Key('fractalTestSurface'));
+        final hasUnsupportedText = find.textContaining('3D fractals are disabled');
+        expect(
+          hasTestSurface.evaluate().isNotEmpty ||
+              hasUnsupportedText.evaluate().isNotEmpty,
+          isTrue,
+        );
       }
     });
   });

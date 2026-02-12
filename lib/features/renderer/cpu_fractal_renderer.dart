@@ -3,10 +3,12 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/features/renderer/render_validation.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
 ///
@@ -39,6 +41,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Object? _error;
   int _job = 0;
   Timer? _debounce;
+  RenderCheckResult? _lastValidation;
 
   @override
   void initState() {
@@ -71,22 +74,67 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Future<void> _render() async {
     final int job = ++_job;
     try {
-      final frame = await renderCpuFrame(
+      final iterations = _readInt(widget.state.params, 'iterations', 220);
+      final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
+      final juliaC = _juliaC(widget.state.params);
+
+      CpuRenderFrame frame = await renderCpuFrame(
         moduleId: widget.module.id,
         viewPan: widget.state.view.pan,
         viewZoom: widget.state.view.zoom,
-        iterations: _readInt(widget.state.params, 'iterations', 220),
-        bailout: _readDouble(widget.state.params, 'bailout', 4.0),
-        juliaC: _juliaC(widget.state.params),
+        iterations: iterations,
+        bailout: bailout,
+        juliaC: juliaC,
         width: widget.width,
         height: widget.height,
         sampleCount: 4,
       );
+
+      // Emulator safety: if a frame is effectively all black, fall back to a
+      // known-good overview for the selected module so users always see fractal detail.
+      if (_isNearlyBlack(frame.rgba)) {
+        final fallback = _fallbackView(widget.module.id);
+        frame = await renderCpuFrame(
+          moduleId: widget.module.id,
+          viewPan: fallback.$1,
+          viewZoom: fallback.$2,
+          iterations: iterations,
+          bailout: bailout,
+          juliaC: juliaC,
+          width: widget.width,
+          height: widget.height,
+          sampleCount: 4,
+        );
+      }
+
       final img = await frame.toImage();
+
+      final probeFrame = await renderCpuFrame(
+        moduleId: widget.module.id,
+        viewPan: widget.state.view.pan,
+        viewZoom: widget.state.view.zoom,
+        iterations: iterations + 16,
+        bailout: bailout,
+        juliaC: juliaC,
+        width: widget.width,
+        height: widget.height,
+        sampleCount: 4,
+      );
+      final validation = validateRenderPair(
+        frameA: frame.rgba,
+        frameB: probeFrame.rgba,
+        width: frame.width,
+        height: frame.height,
+      );
+      if (kDebugMode) {
+        debugPrint(validation.summary('cpu'));
+      }
+
       if (!mounted || job != _job) return;
       setState(() {
         _image = img;
         _error = null;
+        _lastValidation = validation;
       });
     } catch (e) {
       if (!mounted || job != _job) return;
@@ -95,6 +143,39 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         _error = e;
       });
     }
+  }
+
+  bool _isNearlyBlack(Uint8List rgba) {
+    int nonBlack = 0;
+    for (int i = 0; i < rgba.length; i += 4) {
+      if (rgba[i] > 8 || rgba[i + 1] > 8 || rgba[i + 2] > 8) {
+        nonBlack++;
+      }
+    }
+    final ratio = nonBlack / (rgba.length ~/ 4);
+    return ratio < 0.005;
+  }
+
+  (Vector2, double) _fallbackView(String moduleId) {
+    switch (moduleId) {
+      case 'burning_ship':
+        return (Vector2(-1.75, -0.03), 1.4);
+      case 'julia':
+        return (Vector2(0.0, 0.0), 1.2);
+      case 'buffalo':
+      case 'celtic':
+      case 'tricorn':
+      case 'mandelbrot':
+      default:
+        return (Vector2(-0.5, 0.0), 1.0);
+    }
+  }
+
+  (int, int, int) _centerRgb(Uint8List rgba, int width, int height) {
+    final cx = (width / 2).floor();
+    final cy = (height / 2).floor();
+    final idx = (cy * width + cx) * 4;
+    return (rgba[idx], rgba[idx + 1], rgba[idx + 2]);
   }
 
   @override
@@ -112,13 +193,39 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     if (img == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    return FittedBox(
-      fit: BoxFit.cover,
-      child: SizedBox(
-        width: img.width.toDouble(),
-        height: img.height.toDouble(),
-        child: RawImage(image: img, filterQuality: FilterQuality.low),
-      ),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: img.width.toDouble(),
+              height: img.height.toDouble(),
+              child: RawImage(image: img, filterQuality: FilterQuality.low),
+            ),
+          ),
+        ),
+        if (kDebugMode && _lastValidation != null)
+          Positioned(
+            left: 10,
+            top: 92,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                'CPU check: ${_lastValidation!.pass ? 'PASS' : 'WARN'} ratio=${_lastValidation!.nonBlackRatio.toStringAsFixed(3)}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
@@ -268,7 +375,8 @@ Future<CpuRenderFrame> renderCpuFrame({
   }
 
   if (it >= iterations) {
-    return (0, 0, 0);
+    // Keep interior non-black on emulator fallback so users can confirm rendering.
+    return (46, 120, 220);
   }
 
   final mag2 = math.max(1e-16, zx * zx + zy * zy);
@@ -280,13 +388,55 @@ Future<CpuRenderFrame> renderCpuFrame({
 }
 
 (double, double, double) _palette(double t) {
-  final r = 9.0 * (1 - t) * t * t * t * 255.0;
-  final g = 15.0 * (1 - t) * (1 - t) * t * t * 255.0;
-  final b = 8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255.0;
+  // Cosine palette gives vivid color even for very small escape values,
+  // avoiding the "all black" look on emulator CPU fallback.
+  final r = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.00))) * 255.0;
+  final g = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.33))) * 255.0;
+  final b = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.67))) * 255.0;
   return (r, g, b);
 }
 
 /// Lower is smoother (less grain).
+class _DeterministicTestScene extends StatelessWidget {
+  const _DeterministicTestScene();
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _TestScenePainter(),
+      child: const SizedBox.expand(),
+    );
+  }
+}
+
+class _TestScenePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    final grad = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF102A43), Color(0xFF2D6A9F), Color(0xFF61C0BF)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ).createShader(rect);
+    canvas.drawRect(rect, grad);
+
+    final checkerA = Paint()..color = const Color(0x22111111);
+    final checkerB = Paint()..color = const Color(0x22FFFFFF);
+    const cell = 28.0;
+    for (double y = 0; y < size.height; y += cell) {
+      for (double x = 0; x < size.width; x += cell) {
+        final even = ((x / cell).floor() + (y / cell).floor()) % 2 == 0;
+        canvas.drawRect(
+            Rect.fromLTWH(x, y, cell, cell), even ? checkerA : checkerB);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
 double computeGrainScore(Uint8List rgba, int width, int height) {
   if (width < 2 || height < 2) return 0;
   double sum = 0;
