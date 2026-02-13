@@ -38,6 +38,8 @@ flutter_launcher_icons:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+  - assets/catalog_thumbs/
   shaders:
   - shaders/mandelbulb.frag
   - shaders/mandelbrot.frag

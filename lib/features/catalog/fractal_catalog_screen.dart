@@ -199,12 +199,16 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
       label: isGrid ? 'Switch to list view' : 'Switch to grid view',
       child: Tooltip(
         message: isGrid ? 'List view' : 'Grid view',
-        child: IconButton.filledTonal(
+        child: IconButton(
           key: const Key('catalogViewToggleButton'),
           onPressed: () => _setViewMode(
             isGrid ? CatalogViewMode.list : CatalogViewMode.grid,
           ),
-          icon: Icon(isGrid ? Icons.view_list_rounded : Icons.grid_view_rounded),
+          icon: Icon(
+            isGrid ? Icons.view_list_rounded : Icons.grid_view_rounded,
+            color: AppColors.textMuted,
+            size: 22,
+          ),
         ),
       ),
     );
@@ -277,9 +281,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
               itemCount: section.value.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                crossAxisSpacing: AppSpacing.sm,
-                mainAxisSpacing: AppSpacing.sm,
-                childAspectRatio: 0.78,
+                crossAxisSpacing: AppSpacing.xs,
+                mainAxisSpacing: AppSpacing.xs,
+                childAspectRatio: 0.82,
               ),
               itemBuilder: (context, index) {
                 final entry = section.value[index];
@@ -290,7 +294,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                 );
               },
             ),
-            const SizedBox(height: AppSpacing.xl),
+            const SizedBox(height: AppSpacing.md),
           ],
         );
       }).toList(growable: false),
@@ -358,19 +362,24 @@ class _ModuleGridTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _PreviewThumbnail(
-                catalogId: entry.catalogId,
-                is3D: is3D,
-                size: 80,
+              Expanded(
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: _PreviewThumbnail(
+                    catalogId: entry.catalogId,
+                    is3D: is3D,
+                  ),
+                ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Text(
                 name,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                style: AppTypography.labelMedium.copyWith(
+                style: AppTypography.labelSmall.copyWith(
                   color: AppColors.textPrimary,
+                  fontSize: 11,
                 ),
               ),
             ],
@@ -458,52 +467,34 @@ class _ModuleCard extends StatefulWidget {
 class _PreviewThumbnail extends StatelessWidget {
   final String catalogId;
   final bool is3D;
-  final double size;
+  final double? size;
 
   const _PreviewThumbnail({
     required this.catalogId,
     required this.is3D,
-    this.size = 64,
+    this.size,
   });
 
   @override
   Widget build(BuildContext context) {
-    final hash = catalogId.hashCode;
-    final hueA = (hash.abs() % 360).toDouble();
-    final hueB = ((hash.abs() ~/ 11) % 360).toDouble();
-    final colorA = HSVColor.fromAHSV(1, hueA, 0.58, 0.92).toColor();
-    final colorB = HSVColor.fromAHSV(1, hueB, 0.66, 0.78).toColor();
+    final thumbAsset = 'assets/catalog_thumbs/$catalogId.png';
 
     return Container(
-      width: size,
-      height: size,
+      width: size ?? double.infinity,
+      height: size ?? double.infinity,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.border.withOpacity(0.5)),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [colorA, colorB],
-        ),
       ),
       child: Stack(
         children: [
           Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: Alignment(
-                    ((hash % 100) / 100) * 2 - 1,
-                    (((hash ~/ 100) % 100) / 100) * 2 - 1,
-                  ),
-                  radius: 1.1,
-                  colors: [
-                    Colors.white.withOpacity(0.18),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
+            child: Image.asset(
+              thumbAsset,
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.low,
+              errorBuilder: (context, error, stack) => _GradientFallback(catalogId: catalogId),
             ),
           ),
           Positioned(
@@ -525,6 +516,29 @@ class _PreviewThumbnail extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _GradientFallback extends StatelessWidget {
+  final String catalogId;
+  const _GradientFallback({required this.catalogId});
+
+  @override
+  Widget build(BuildContext context) {
+    final hash = catalogId.hashCode;
+    final hueA = (hash.abs() % 360).toDouble();
+    final hueB = ((hash.abs() ~/ 11) % 360).toDouble();
+    final colorA = HSVColor.fromAHSV(1, hueA, 0.58, 0.92).toColor();
+    final colorB = HSVColor.fromAHSV(1, hueB, 0.66, 0.78).toColor();
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [colorA, colorB],
+        ),
       ),
     );
   }
@@ -630,6 +644,7 @@ class _ModuleCardState extends State<_ModuleCard>
             _PreviewThumbnail(
               catalogId: widget.entry.catalogId,
               is3D: is3D,
+              size: 64,
             ),
             const SizedBox(width: AppSpacing.lg),
             Expanded(
