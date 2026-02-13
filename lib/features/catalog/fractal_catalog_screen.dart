@@ -483,11 +483,28 @@ class _PreviewThumbnail extends StatelessWidget {
     this.size,
   });
 
+  /// CPU thumbnail renderer implements only 8 fractal formulas.
+  /// Others use Mandelbrot fallback (thumbnail approximate).
+  bool _hasExactCpuThumbnail(String catalogId) {
+    final id = catalogId.startsWith('core.') ? catalogId.substring(5) : catalogId;
+    return const [
+      'mandelbrot',
+      'julia',
+      'burning_ship',
+      'celtic',
+      'buffalo',
+      'tricorn',
+      'multibrot3',
+      'phoenix',
+    ].contains(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     // Strip 'core.' prefix to match thumbnail filenames (e.g. mandelbrot.png).
     final thumbId = catalogId.startsWith('core.') ? catalogId.substring(5) : catalogId;
     final thumbAsset = 'assets/catalog_thumbs/$thumbId.png';
+    final isApproximate = !_hasExactCpuThumbnail(catalogId);
 
     return Container(
       width: size ?? double.infinity,
@@ -525,6 +542,27 @@ class _PreviewThumbnail extends StatelessWidget {
               ),
             ),
           ),
+          if (isApproximate)
+            Positioned(
+              bottom: 4,
+              left: 4,
+              right: 4,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  'Preview approximate',
+                  textAlign: TextAlign.center,
+                  style: AppTypography.labelSmall.copyWith(
+                    color: Colors.white70,
+                    fontSize: 9,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
