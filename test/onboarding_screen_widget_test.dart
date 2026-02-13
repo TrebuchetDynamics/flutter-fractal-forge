@@ -28,7 +28,7 @@ void main() {
     }
 
     testWidgets('displays welcome page initially', (tester) async {
-      bool completed = false;
+      bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
       ));
@@ -42,7 +42,7 @@ void main() {
     });
 
     testWidgets('navigates through pages with Next button', (tester) async {
-      bool completed = false;
+      bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
       ));
@@ -79,7 +79,7 @@ void main() {
     });
 
     testWidgets('completes onboarding with Get Started button', (tester) async {
-      bool completed = false;
+      bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
       ));
@@ -110,7 +110,7 @@ void main() {
     });
 
     testWidgets('skip button completes onboarding', (tester) async {
-      bool completed = false;
+      bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
       ));
@@ -130,7 +130,7 @@ void main() {
     });
 
     testWidgets('displays page indicators', (tester) async {
-      bool completed = false;
+      bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
       ));
@@ -143,7 +143,7 @@ void main() {
     });
 
     testWidgets('displays fractal types on second page', (tester) async {
-      bool completed = false;
+      bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
       ));
@@ -161,7 +161,7 @@ void main() {
     });
 
     testWidgets('displays gesture controls on third page', (tester) async {
-      bool completed = false;
+      bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
       ));
@@ -183,7 +183,7 @@ void main() {
     });
 
     testWidgets('displays features on fourth page', (tester) async {
-      bool completed = false;
+      bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
       ));

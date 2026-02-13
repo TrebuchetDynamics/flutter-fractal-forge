@@ -145,7 +145,7 @@ class _FractalRendererState extends State<FractalRenderer>
   Offset _panVelocity = Offset.zero;
   double _lastScale = 1.0;
   double _lastRotation = 0.0;
-  bool _isScaling = false;
+
 
   // Gesture anchors so interactions feel 1:1 with fingers.
   double _startZoom = 1.0;
@@ -153,8 +153,8 @@ class _FractalRendererState extends State<FractalRenderer>
   Offset _startFocalPoint = Offset.zero;
 
   // For smooth zoom interpolation (kept for optional momentum only)
-  double _targetZoom = 1.0;
-  double _currentZoom = 1.0;
+
+
 
   DateTime? _shaderLoadStartedAt;
   bool _firstFrameLogged = false;
@@ -366,7 +366,7 @@ class _FractalRendererState extends State<FractalRenderer>
 
     _lastScale = 1.0;
     _lastRotation = 0.0;
-    _isScaling = details.pointerCount > 1;
+
     _zoomVelocity = 0.0;
     _panVelocity = Offset.zero;
 
@@ -375,8 +375,8 @@ class _FractalRendererState extends State<FractalRenderer>
     _startPan = controller.view.pan;
     _startFocalPoint = details.focalPoint;
 
-    _currentZoom = _startZoom;
-    _targetZoom = _currentZoom;
+
+
   }
 
   void _onScaleUpdate(ScaleUpdateDetails details) {
@@ -474,12 +474,9 @@ class _FractalRendererState extends State<FractalRenderer>
     if (_panVelocity.distance > 5) {
       _panMomentumController.forward(from: 0);
     }
-    _isScaling = false;
+
   }
 
-  double _lerpDouble(double a, double b, double t) {
-    return a + (b - a) * t.clamp(0.0, 1.0);
-  }
 
   void _onDoubleTap() {
     final controller = context.read<FractalController>();

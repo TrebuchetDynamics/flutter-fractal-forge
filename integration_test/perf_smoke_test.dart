@@ -17,9 +17,7 @@ void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   // Ensure we collect real frame timings on desktop.
-  if (binding is LiveTestWidgetsFlutterBinding) {
-    binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
-  }
+  binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
   group('perf', () {
     testWidgets('fractal viewer frame times stay within a loose budget',

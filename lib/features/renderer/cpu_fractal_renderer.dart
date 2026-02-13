@@ -171,13 +171,6 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     }
   }
 
-  (int, int, int) _centerRgb(Uint8List rgba, int width, int height) {
-    final cx = (width / 2).floor();
-    final cy = (height / 2).floor();
-    final idx = (cy * width + cx) * 4;
-    return (rgba[idx], rgba[idx + 1], rgba[idx + 2]);
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_error != null) {
@@ -397,46 +390,6 @@ Future<CpuRenderFrame> renderCpuFrame({
 }
 
 /// Lower is smoother (less grain).
-class _DeterministicTestScene extends StatelessWidget {
-  const _DeterministicTestScene();
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _TestScenePainter(),
-      child: const SizedBox.expand(),
-    );
-  }
-}
-
-class _TestScenePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-    final grad = Paint()
-      ..shader = const LinearGradient(
-        colors: [Color(0xFF102A43), Color(0xFF2D6A9F), Color(0xFF61C0BF)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ).createShader(rect);
-    canvas.drawRect(rect, grad);
-
-    final checkerA = Paint()..color = const Color(0x22111111);
-    final checkerB = Paint()..color = const Color(0x22FFFFFF);
-    const cell = 28.0;
-    for (double y = 0; y < size.height; y += cell) {
-      for (double x = 0; x < size.width; x += cell) {
-        final even = ((x / cell).floor() + (y / cell).floor()) % 2 == 0;
-        canvas.drawRect(
-            Rect.fromLTWH(x, y, cell, cell), even ? checkerA : checkerB);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
 double computeGrainScore(Uint8List rgba, int width, int height) {
   if (width < 2 || height < 2) return 0;
   double sum = 0;

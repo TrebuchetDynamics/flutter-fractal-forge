@@ -9,8 +9,7 @@ import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/main.dart';
 
 void main() {
-  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized()
-      as IntegrationTestWidgetsFlutterBinding;
+  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Screenshot walkthrough', () {
     late PresetStore presetStore;

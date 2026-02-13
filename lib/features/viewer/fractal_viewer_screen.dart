@@ -108,7 +108,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     reasonCode: FallbackReasonCode.none,
     detail: 'init',
   );
-  RenderCheckResult? _lastGpuValidation;
+  
 
   // History tracking
   FractalController? _lastController;
@@ -251,7 +251,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           height: height,
         );
 
-        _lastGpuValidation = result;
+        
         _lastGpuDarkRatio = 1.0 - result.nonBlackRatio;
         _lastGpuSampleCount = width * height;
         _gpuHealthFailed = !result.centerNonBlack || !result.histogramSane;
@@ -374,21 +374,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _compareController!.setTransparentBackground(a.transparentBackground);
   }
 
-  void _toggleCompareMode(BuildContext context) {
-    setState(() {
-      _compareMode = !_compareMode;
-      if (_compareMode) {
-        _ensureCompareController(context);
-        _activePane = 0;
-      }
-    });
-  }
-
-  void _toggleCompareLayout() {
-    setState(() {
-      _compareSliderMode = !_compareSliderMode;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -785,7 +770,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   ),
                   if (screenshotFile != null)
                     Text(
-                      'Saved screenshot: ${screenshotFile!.path}',
+                      'Saved screenshot: ${screenshotFile.path}',
                       style:
                           const TextStyle(color: Colors.white70, fontSize: 12),
                     ),
@@ -903,6 +888,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
+  // ignore: unused_element
   void _openHistory(BuildContext context) {
     final controller = context.read<FractalController>();
     final historyProvider = context.read<HistoryProvider?>();
@@ -973,6 +959,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   /// Shares the current fractal configuration via deep link.
+  // ignore: unused_element
   void _shareFractal(BuildContext context) {
     final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
@@ -995,6 +982,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
+  // ignore: unused_element
   void _openWallpaper(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -1036,6 +1024,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     });
   }
 
+  // ignore: unused_element
   void _openVideoExport(BuildContext context) {
     final controller = context.read<FractalController>();
 
@@ -1447,21 +1436,16 @@ class _CpuFallbackPane extends StatefulWidget {
 class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
   double _lastScale = 1.0;
   Timer? _heartbeat;
-  int _frameCounter = 0;
-  String _centerProbe = '0,0,0';
+  
 
   @override
   void initState() {
     super.initState();
     _heartbeat = Timer.periodic(const Duration(milliseconds: 450), (_) {
       if (!mounted) return;
-      final t = _frameCounter.toDouble();
-      final r = (128 + 127 * math.sin(t * 0.17)).round().clamp(0, 255);
-      final g = (128 + 127 * math.sin(t * 0.23 + 1.2)).round().clamp(0, 255);
-      final b = (128 + 127 * math.sin(t * 0.31 + 2.1)).round().clamp(0, 255);
       setState(() {
-        _frameCounter++;
-        _centerProbe = '$r,$g,$b';
+        
+        
       });
     });
   }

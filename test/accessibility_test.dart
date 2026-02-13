@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
-import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/main.dart';
 
 /// Accessibility test suite following TalkBack guidelines.
@@ -274,32 +269,3 @@ Widget _buildTestApp({
 }
 
 /// Helper widget for testing catalog with providers.
-Widget _buildCatalogTest({
-  required PresetStore presetStore,
-  required ArQualityStore arQualityStore,
-  required AccessibilityService accessibilityService,
-}) {
-  final registry = ModuleRegistry();
-  final controller = FractalController(registry);
-
-  return MaterialApp(
-    locale: const Locale('en'),
-    localizationsDelegates: AppLocalizations.localizationsDelegates,
-    supportedLocales: AppLocalizations.supportedLocales,
-    theme: AppTheme.dark,
-    home: MultiProvider(
-      providers: [
-        Provider<ModuleRegistry>.value(value: registry),
-        Provider<PresetStore>.value(value: presetStore),
-        Provider<ArQualityStore>.value(value: arQualityStore),
-        ChangeNotifierProvider<AccessibilityService>.value(
-          value: accessibilityService,
-        ),
-        ChangeNotifierProvider<FractalController>.value(value: controller),
-      ],
-      child: const Scaffold(
-        body: FractalCatalogScreen(),
-      ),
-    ),
-  );
-}

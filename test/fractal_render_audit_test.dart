@@ -12,7 +12,6 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart' show Vector2;
 
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
 
@@ -107,7 +106,6 @@ void main() {
 /// Analyze pixel statistics of a rendered frame.
 ({double rgbStdev, double nonBlackRatio, int uniqueColors}) _analyzeFrame(
     Uint8List rgba, int width, int height) {
-  int nonBlack = 0;
   final colors = <int>{};
 
   // Sample 10x10 grid
@@ -122,7 +120,7 @@ void main() {
       final g = rgba[idx + 1];
       final b = rgba[idx + 2];
 
-      if (r > 8 || g > 8 || b > 8) nonBlack++;
+      
       colors.add((r << 16) | (g << 8) | b);
 
       // Luminance for variance calculation

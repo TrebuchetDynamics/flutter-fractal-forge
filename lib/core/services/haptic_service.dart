@@ -2,8 +2,8 @@ import 'package:flutter/services.dart';
 
 /// Haptic feedback service providing tactile feedback for UI interactions.
 class HapticService {
-  static final HapticService _instance = HapticService._();
-  HapticService._();
+  
+  HapticService();
 
   /// Light haptic feedback for subtle interactions (sliders, scrolling)
   static Future<void> light() async {

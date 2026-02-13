@@ -35,7 +35,7 @@ void main() {
 
     test('includes timestamp for uniqueness', () {
       final name1 = service.generateFilename(format: ExportFormat.png);
-      final name2 = service.generateFilename(format: ExportFormat.png);
+      final _  = service.generateFilename(format: ExportFormat.png);
       // Both should have numeric timestamps; may be equal if called in same ms
       final ts1 = RegExp(r'(\d+)\.png$').firstMatch(name1)?.group(1);
       expect(ts1, isNotNull);
