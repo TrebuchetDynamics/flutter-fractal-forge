@@ -590,7 +590,7 @@ class _ModuleCardState extends State<_ModuleCard>
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Semantics(
         label: semanticLabel,
         button: true,
@@ -648,15 +648,15 @@ class _ModuleCardState extends State<_ModuleCard>
             : null,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
         child: Row(
           children: [
             _PreviewThumbnail(
               catalogId: widget.entry.catalogId,
               is3D: is3D,
-              size: 64,
+              size: 48,
             ),
-            const SizedBox(width: AppSpacing.lg),
+            const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
