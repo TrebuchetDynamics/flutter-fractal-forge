@@ -485,7 +485,9 @@ class _PreviewThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final thumbAsset = 'assets/catalog_thumbs/$catalogId.png';
+    // Strip 'core.' prefix to match thumbnail filenames (e.g. mandelbrot.png).
+    final thumbId = catalogId.startsWith('core.') ? catalogId.substring(5) : catalogId;
+    final thumbAsset = 'assets/catalog_thumbs/$thumbId.png';
 
     return Container(
       width: size ?? double.infinity,

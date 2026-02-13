@@ -18,7 +18,7 @@ void main() {
     late TestLogger logger;
 
     setUp(() async {
-      SharedPreferences.setMockInitialValues({});
+      SharedPreferences.setMockInitialValues({'onboarding_complete': true});
       presetStore = await PresetStore.create();
       arQualityStore = await ArQualityStore.create();
       accessibilityService = await AccessibilityService.create();
@@ -41,6 +41,8 @@ void main() {
       // Avoid indefinite pumpAndSettle: shader/animation frames may never fully settle.
       await tester.pump();
       await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 1));
     }
 
     Finder moduleCards() {
