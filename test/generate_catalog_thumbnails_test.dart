@@ -65,6 +65,39 @@ void main() {
       }
     }
 
+    // Generate thumbnails for custom modules not in escapeTimeCatalog
+    final customModules = <({String id, double cx, double cy, double zoom, int iters})>[
+      (id: 'julia', cx: 0.0, cy: 0.0, zoom: 1.2, iters: 150),
+      (id: 'phoenix', cx: -0.5, cy: 0.0, zoom: 1.0, iters: 120),
+    ];
+    for (final m in customModules) {
+      try {
+        final rgba = _renderFractal(
+          moduleId: m.id,
+          centerX: m.cx,
+          centerY: m.cy,
+          zoom: m.zoom,
+          iterations: m.iters,
+          bailout: 4.0,
+          width: _thumbSize,
+          height: _thumbSize,
+        );
+        final image = img.Image(width: _thumbSize, height: _thumbSize);
+        for (int y = 0; y < _thumbSize; y++) {
+          for (int x = 0; x < _thumbSize; x++) {
+            final idx = (y * _thumbSize + x) * 4;
+            image.setPixelRgba(x, y, rgba[idx], rgba[idx + 1], rgba[idx + 2], rgba[idx + 3]);
+          }
+        }
+        final pngBytes = img.encodePng(image, level: 6);
+        File('${outDir.path}/${m.id}.png').writeAsBytesSync(pngBytes);
+        generated++;
+      } catch (e) {
+        print('  FAIL custom ${m.id}: $e');
+        failed++;
+      }
+    }
+
     stopwatch.stop();
     print('\n=== Thumbnail Generation Complete ===');
     print('Generated: $generated');
@@ -86,7 +119,7 @@ void main() {
 
     expect(generated, greaterThanOrEqualTo(escapeTimeCatalog.length - failed));
     expect(failed, 0);
-    expect(files.length, escapeTimeCatalog.length);
+    expect(files.length, greaterThanOrEqualTo(escapeTimeCatalog.length));
   });
 }
 
