@@ -174,22 +174,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _scheduleGpuHealthCheck();
       _detectEmulatorProfile();
 
-      // Initialize auto-explore service (only for supported fractals)
+      // Initialize auto-explore service
       _autoExploreService?.dispose();
-      _autoExploreService = _supportsAutoExplore(controller.module.id)
-          ? AutoExploreService(controller: controller)
-          : null;
+      _autoExploreService = AutoExploreService(controller: controller);
     }
   }
 
   void _onAutoExploreUserCorrection() {
     _autoExploreService?.onUserCorrection();
-  }
-
-  /// Auto-explore boundary scoring only supports specific fractals.
-  /// For other fractals, it would use incorrect mandelbrot calculations.
-  bool _supportsAutoExplore(String moduleId) {
-    return const ['mandelbrot', 'julia', 'burning_ship'].contains(moduleId);
   }
 
   Future<void> _detectEmulatorProfile() async {

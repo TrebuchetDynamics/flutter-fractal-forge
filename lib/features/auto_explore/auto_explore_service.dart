@@ -438,6 +438,16 @@ int _iterations(
       return _julia(pos.x, pos.y, cr, ci, maxIter);
     case 'burning_ship':
       return _burningShip(pos.x, pos.y, maxIter);
+    case 'celtic':
+      return _celtic(pos.x, pos.y, maxIter);
+    case 'buffalo':
+      return _buffalo(pos.x, pos.y, maxIter);
+    case 'tricorn':
+      return _tricorn(pos.x, pos.y, maxIter);
+    case 'multibrot3':
+      return _multibrot3(pos.x, pos.y, maxIter);
+    case 'phoenix':
+      return _phoenix(pos.x, pos.y, maxIter);
     case 'mandelbrot':
     default:
       return _mandelbrot(pos.x, pos.y, maxIter);
@@ -483,6 +493,82 @@ int _burningShip(double cr, double ci, int maxIter) {
     final tr = zr * zr - zi * zi + cr;
     zi = (2.0 * zr * zi).abs() + ci;
     zr = tr.abs();
+    i++;
+  }
+  return i;
+}
+
+int _celtic(double cr, double ci, int maxIter) {
+  var zr = 0.0;
+  var zi = 0.0;
+  var i = 0;
+  while (zr * zr + zi * zi <= 4.0 && i < maxIter) {
+    final zr2 = zr * zr;
+    final zi2 = zi * zi;
+    final tr = (zr2 - zi2).abs() + cr;
+    zi = 2.0 * zr * zi + ci;
+    zr = tr;
+    i++;
+  }
+  return i;
+}
+
+int _buffalo(double cr, double ci, int maxIter) {
+  var zr = 0.0;
+  var zi = 0.0;
+  var i = 0;
+  while (zr * zr + zi * zi <= 4.0 && i < maxIter) {
+    final zr2 = zr * zr;
+    final zi2 = zi * zi;
+    final tr = (zr2 - zi2).abs() + cr;
+    zi = (2.0 * zr * zi).abs() + ci;
+    zr = tr;
+    i++;
+  }
+  return i;
+}
+
+int _tricorn(double cr, double ci, int maxIter) {
+  var zr = 0.0;
+  var zi = 0.0;
+  var i = 0;
+  while (zr * zr + zi * zi <= 4.0 && i < maxIter) {
+    final tr = zr * zr - zi * zi + cr;
+    zi = -2.0 * zr * zi + ci;
+    zr = tr;
+    i++;
+  }
+  return i;
+}
+
+int _multibrot3(double cr, double ci, int maxIter) {
+  var zr = 0.0;
+  var zi = 0.0;
+  var i = 0;
+  while (zr * zr + zi * zi <= 4.0 && i < maxIter) {
+    final zr2 = zr * zr;
+    final zi2 = zi * zi;
+    final zr3 = zr * zr2 - 3.0 * zr * zi2;
+    final zi3 = 3.0 * zr2 * zi - zi * zi2;
+    zr = zr3 + cr;
+    zi = zi3 + ci;
+    i++;
+  }
+  return i;
+}
+
+int _phoenix(double cr, double ci, int maxIter) {
+  var zr = 0.0;
+  var zi = 0.0;
+  var prevZr = 0.0;
+  var i = 0;
+  while (zr * zr + zi * zi <= 4.0 && i < maxIter) {
+    final zr2 = zr * zr;
+    final zi2 = zi * zi;
+    final tempZr = zr;
+    zr = zr2 - zi2 + cr + 0.5667 * prevZr;
+    zi = 2.0 * tempZr * zi + ci;
+    prevZr = tempZr;
     i++;
   }
   return i;
