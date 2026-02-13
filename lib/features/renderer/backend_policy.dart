@@ -5,6 +5,8 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 
 const bool kForceCpuFallback =
     bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);
+const bool _kSkipEmulatorGuard =
+    bool.fromEnvironment('SKIP_EMULATOR_GUARD', defaultValue: false);
 
 enum RendererBackend { gpu, cpu }
 
@@ -123,7 +125,7 @@ class RendererBackendPolicy {
       );
     }
 
-    if (input.isAndroid && input.isEmulator) {
+    if (input.isAndroid && input.isEmulator && !_kSkipEmulatorGuard) {
       return const BackendDecision(
         backend: RendererBackend.cpu,
         reasonCode: FallbackReasonCode.androidEmulator,
