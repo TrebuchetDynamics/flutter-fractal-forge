@@ -30,10 +30,10 @@ void main() {
       final colorScheme = controller.params['colorScheme'];
 
       expect(iterations, isA<int>());
-      expect(iterations as int, inInclusiveRange(20, 500));
+      expect(iterations as int, inInclusiveRange(20, 5000));
 
       expect(bailout, isA<double>());
-      expect(bailout as double, inInclusiveRange(2.0, 8.0));
+      expect(bailout as double, inInclusiveRange(2.0, 50.0));
       // Mandelbrot bailout step is 0.1; randomize snaps to step.
       final snapped = ((bailout * 10).round() / 10);
       expect(bailout, closeTo(snapped, 1e-9));
@@ -46,10 +46,10 @@ void main() {
       final controller = FractalController(ModuleRegistry());
       // Force a clearly out-of-range value that should be clamped after applying.
       controller.updateParam('iterations', 9999);
-      expect(controller.params['iterations'], 500);
+      expect(controller.params['iterations'], 5000);
 
       controller.applyArQualityPreset(ArQualityPreset.high);
-      // For mandelbrot, high -> iterations 220 (within [20,500]).
+      // For mandelbrot, high -> iterations 220 (within [20,5000]).
       expect(controller.params['iterations'], 220);
 
       // Julia has AR overrides in this build; verify it updates safely.

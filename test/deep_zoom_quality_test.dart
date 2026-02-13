@@ -10,10 +10,14 @@ void main() {
     const policy = DeepZoomPrecisionPolicy();
 
     test('uses per-fractal thresholds for CPU fallback', () {
-      expect(policy.thresholdFor('mandelbrot'), 1e6);
-      expect(policy.thresholdFor('julia'), 5e5);
-      expect(policy.thresholdFor('celtic'), 5e5);
-      expect(policy.thresholdFor('buffalo'), 5e5);
+      expect(policy.thresholdFor('mandelbrot'), 1e5);
+      expect(policy.thresholdFor('julia'), 5e4);
+      expect(policy.thresholdFor('celtic'), 5e4);
+      expect(policy.thresholdFor('buffalo'), 5e4);
+    });
+
+    test('provides default threshold for unlisted fractals', () {
+      expect(policy.thresholdFor('some_unknown'), 2e5);
     });
 
     test('fallback toggles at threshold', () {
@@ -22,12 +26,17 @@ void main() {
         isFalse,
       );
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e6),
+        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e5),
         isTrue,
       );
+      // Unlisted fractals use default threshold (2e5)
       expect(
         policy.shouldUseCpuFallback(moduleId: 'tricorn', zoom: 10000),
         isFalse,
+      );
+      expect(
+        policy.shouldUseCpuFallback(moduleId: 'tricorn', zoom: 5e4),
+        isTrue,
       );
     });
   });

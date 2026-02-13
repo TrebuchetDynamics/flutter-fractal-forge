@@ -18,7 +18,7 @@ class FractalControlsSheet extends StatelessWidget {
 
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.85,
+        maxHeight: MediaQuery.of(context).size.height * 0.68,
       ),
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -93,7 +93,12 @@ class FractalControlsSheet extends StatelessWidget {
           // Scrollable content
           Flexible(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.xl),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.lg,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -211,6 +216,75 @@ class _ActionButton extends StatelessWidget {
   }
 }
 
+class _CompactParamSlider extends StatelessWidget {
+  final String label;
+  final double value;
+  final double min;
+  final double max;
+  final int? divisions;
+  final String valueLabel;
+  final ValueChanged<double> onChanged;
+
+  const _CompactParamSlider({
+    required this.label,
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.divisions,
+    required this.valueLabel,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTypography.bodySmall.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Text(
+              valueLabel,
+              style: AppTypography.labelSmall.copyWith(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            trackHeight: 3,
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 14),
+            activeTrackColor: AppColors.primary,
+            inactiveTrackColor: AppColors.surfaceVariant,
+            thumbColor: Colors.white,
+          ),
+          child: Slider(
+            value: value,
+            min: min,
+            max: max,
+            divisions: divisions,
+            onChanged: onChanged,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _ParamControl extends StatelessWidget {
   final FractalParameter param;
   final Object value;
@@ -234,8 +308,8 @@ class _ParamControl extends StatelessWidget {
         final divisions = ((param.max - param.min) / param.step).round();
 
         return Padding(
-          padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-          child: PremiumSlider(
+          padding: const EdgeInsets.only(bottom: AppSpacing.md),
+          child: _CompactParamSlider(
             label: param.label(l10n),
             value: doubleValue.clamp(param.min, param.max),
             min: param.min,

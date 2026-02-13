@@ -219,33 +219,41 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     Map<String, List<CatalogEntry>> groupedEntries,
     AppLocalizations l10n,
   ) {
-    int index = 0;
-    return ListView(
+    // Flatten grouped entries into a flat list of widgets for lazy building.
+    final flatItems = <({String type, CatalogEntry? entry, String? title})>[];
+    for (final section in groupedEntries.entries) {
+      flatItems.add((type: 'header', entry: null, title: section.key));
+      for (final entry in section.value) {
+        flatItems.add((type: 'card', entry: entry, title: null));
+      }
+      flatItems.add((type: 'spacer', entry: null, title: null));
+    }
+
+    return ListView.builder(
       padding: EdgeInsets.only(
         left: AppSpacing.lg,
         right: AppSpacing.lg,
         top: AppSpacing.sm,
         bottom: MediaQuery.of(context).padding.bottom + 100,
       ),
-      children: groupedEntries.entries.expand((section) {
-        final widgets = <Widget>[
-          SectionHeader(title: section.key),
-        ];
-        for (final entry in section.value) {
-          widgets.add(
-            StaggeredItem(
-              index: index++,
-              child: _ModuleCard(
-                entry: entry,
-                onTap: () => _openViewer(context, entry.module),
-                l10n: l10n,
-              ),
-            ),
-          );
+      itemCount: flatItems.length,
+      itemBuilder: (context, index) {
+        final item = flatItems[index];
+        switch (item.type) {
+          case 'header':
+            return SectionHeader(title: item.title!);
+          case 'card':
+            return _ModuleCard(
+              entry: item.entry!,
+              onTap: () => _openViewer(context, item.entry!.module),
+              l10n: l10n,
+            );
+          case 'spacer':
+            return const SizedBox(height: AppSpacing.lg);
+          default:
+            return const SizedBox.shrink();
         }
-        widgets.add(const SizedBox(height: AppSpacing.lg));
-        return widgets;
-      }).toList(growable: false),
+      },
     );
   }
 

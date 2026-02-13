@@ -80,8 +80,11 @@ void main() {
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
+    // Clamp z components before ccos to prevent cosh overflow → NaN → black
+    z = vec2(clamp(z.x, -20.0, 20.0), clamp(z.y, -20.0, 20.0));
     z = ccos(z) + c;
-    if (dot(z, z) > bailoutSq) { it = j; break; }
+    float mag2 = dot(z, z);
+    if (mag2 > bailoutSq || mag2 != mag2) { it = j; break; }  // NaN check: x != x
   }
 
   if (it >= target) {

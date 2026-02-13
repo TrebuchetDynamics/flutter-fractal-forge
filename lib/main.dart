@@ -46,7 +46,8 @@ const int kBootStep = int.fromEnvironment('BOOT_STEP', defaultValue: 0);
 ///
 /// Default: disabled.
 /// Enable with: --dart-define=ENABLE_DEEP_LINKS=1
-const int kEnableDeepLinks = int.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: 0);
+const int kEnableDeepLinks =
+    int.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: 0);
 
 /// Application entry point.
 ///
@@ -317,15 +318,22 @@ class FlutterFractalsApp extends StatefulWidget {
 }
 
 class _FlutterFractalsAppState extends State<FlutterFractalsApp> {
+  bool _showSplash = true;
   bool _showOnboarding = false;
 
   @override
   void initState() {
     super.initState();
-    // Check if onboarding should be shown
     if (widget.onboardingService != null) {
       _showOnboarding = !widget.onboardingService!.isOnboardingComplete;
     }
+  }
+
+  void _onSplashFinished() {
+    if (!mounted) return;
+    setState(() {
+      _showSplash = false;
+    });
   }
 
   void _onOnboardingComplete() {
@@ -365,16 +373,19 @@ class _FlutterFractalsAppState extends State<FlutterFractalsApp> {
 
           return MaterialApp(
             locale: widget.locale,
-            onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+            onGenerateTitle: (context) =>
+                AppLocalizations.of(context)!.appTitle,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: theme,
-            home: _showOnboarding && widget.onboardingService != null
-                ? OnboardingScreen(
-                    onboardingService: widget.onboardingService!,
-                    onComplete: _onOnboardingComplete,
-                  )
-                : const HomeScreen(),
+            home: _showSplash
+                ? FractalSplashScreen(onFinished: _onSplashFinished)
+                : _showOnboarding && widget.onboardingService != null
+                    ? OnboardingScreen(
+                        onboardingService: widget.onboardingService!,
+                        onComplete: _onOnboardingComplete,
+                      )
+                    : const HomeScreen(),
             debugShowCheckedModeBanner: false,
           );
         },
