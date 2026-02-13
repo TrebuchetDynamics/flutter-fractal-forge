@@ -64,7 +64,7 @@ void main() {
             supportedLocales: AppLocalizations.supportedLocales,
             home: Consumer<FractalController>(
               builder: (context, ctrl, child) {
-                return Text('${ctrl.params['iterations']}');
+                return Text(ctrl.params['iterations'].toString());
               },
             ),
           ),
@@ -94,7 +94,7 @@ void main() {
             supportedLocales: AppLocalizations.supportedLocales,
             home: Consumer<FractalController>(
               builder: (context, ctrl, child) {
-                return Text('${ctrl.view.zoom.toStringAsFixed(1)}');
+                return Text(ctrl.view.zoom.toStringAsFixed(1));
               },
             ),
           ),
@@ -175,7 +175,7 @@ void main() {
             supportedLocales: AppLocalizations.supportedLocales,
             home: Consumer<FractalController>(
               builder: (context, ctrl, child) {
-                return Text('${ctrl.view.rotation.x.toStringAsFixed(1)}');
+                return Text(ctrl.view.rotation.x.toStringAsFixed(1));
               },
             ),
           ),
@@ -207,8 +207,8 @@ void main() {
               builder: (context, ctrl, child) {
                 return Column(
                   children: [
-                    Text('${ctrl.params['iterations']}'),
-                    Text('${ctrl.view.zoom.toStringAsFixed(1)}'),
+                    Text(ctrl.params['iterations'].toString()),
+                    Text(ctrl.view.zoom.toStringAsFixed(1)),
                     Text(ctrl.transparentBackground ? 'transparent' : 'opaque'),
                   ],
                 );
@@ -241,7 +241,7 @@ void main() {
             supportedLocales: AppLocalizations.supportedLocales,
             home: Consumer<FractalController>(
               builder: (context, ctrl, child) {
-                return Text('${ctrl.params['iterations']}');
+                return Text(ctrl.params['iterations'].toString());
               },
             ),
           ),
@@ -281,7 +281,7 @@ void main() {
             supportedLocales: AppLocalizations.supportedLocales,
             home: Consumer<FractalController>(
               builder: (context, ctrl, child) {
-                return Text('${ctrl.params['iterations']}');
+                return Text(ctrl.params['iterations'].toString());
               },
             ),
           ),

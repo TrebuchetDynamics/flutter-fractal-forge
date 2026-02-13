@@ -98,7 +98,7 @@ void main() {
     test('toExifMap returns expected keys', () {
       final metadata = ExportMetadata(
         fractalType: 'mandelbrot',
-        parameters: {'iterations': 100},
+        parameters: const {'iterations': 100},
         createdAt: DateTime(2024, 1, 15),
       );
       

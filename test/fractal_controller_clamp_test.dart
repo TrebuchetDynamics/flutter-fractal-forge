@@ -16,7 +16,7 @@ void main() {
       id: 'bad',
       moduleId: controller.module.id,
       name: 'Bad',
-      params: {
+      params: const {
         'iterations': 9999,
         'bailout': 9999.0,
         'colorScheme': 999,

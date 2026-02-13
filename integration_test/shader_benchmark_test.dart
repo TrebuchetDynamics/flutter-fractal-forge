@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -26,32 +25,32 @@ void main() {
       ];
       
       for (final shaderPath in shaders) {
-        print('Benchmarking: $shaderPath');
+        debugPrint('Benchmarking: $shaderPath');
         final result = await _benchmarkShader(tester, shaderPath, binding);
         results[shaderPath] = result;
       }
       
       // Print benchmark results
-      print('\n${'=' * 60}');
-      print('SHADER PERFORMANCE BENCHMARK RESULTS');
-      print('=' * 60);
+      debugPrint('\n${'=' * 60}');
+      debugPrint('SHADER PERFORMANCE BENCHMARK RESULTS');
+      debugPrint('=' * 60);
       
       for (final entry in results.entries) {
         final r = entry.value;
-        print('\n${entry.key}:');
+        debugPrint('\n${entry.key}:');
         if (r.loadTimeMs < 0) {
-          print('  FAILED TO LOAD');
+          debugPrint('  FAILED TO LOAD');
           continue;
         }
-        print('  Load time:     ${r.loadTimeMs.toStringAsFixed(2)} ms');
-        print('  Avg frame:     ${r.avgFrameTimeMs.toStringAsFixed(2)} ms');
-        print('  Min frame:     ${r.minFrameTimeMs.toStringAsFixed(2)} ms');
-        print('  Max frame:     ${r.maxFrameTimeMs.toStringAsFixed(2)} ms');
-        print('  FPS (avg):     ${(1000 / r.avgFrameTimeMs).toStringAsFixed(1)}');
-        print('  Frame count:   ${r.frameCount}');
+        debugPrint('  Load time:     ${r.loadTimeMs.toStringAsFixed(2)} ms');
+        debugPrint('  Avg frame:     ${r.avgFrameTimeMs.toStringAsFixed(2)} ms');
+        debugPrint('  Min frame:     ${r.minFrameTimeMs.toStringAsFixed(2)} ms');
+        debugPrint('  Max frame:     ${r.maxFrameTimeMs.toStringAsFixed(2)} ms');
+        debugPrint('  FPS (avg):     ${(1000 / r.avgFrameTimeMs).toStringAsFixed(1)}');
+        debugPrint('  Frame count:   ${r.frameCount}');
       }
       
-      print('\n${'=' * 60}\n');
+      debugPrint('\n${'=' * 60}\n');
       
       // Assert minimum performance targets
       for (final entry in results.entries) {
@@ -97,7 +96,7 @@ Future<ShaderBenchmarkResult> _benchmarkShader(
   try {
     program = await ui.FragmentProgram.fromAsset(shaderPath);
   } catch (e) {
-    print('  Error loading shader: $e');
+    debugPrint('  Error loading shader: $e');
     return ShaderBenchmarkResult(
       loadTimeMs: -1,
       avgFrameTimeMs: -1,
@@ -108,7 +107,7 @@ Future<ShaderBenchmarkResult> _benchmarkShader(
   }
   
   final loadTimeMs = DateTime.now().difference(loadStart).inMicroseconds / 1000.0;
-  print('  Loaded in ${loadTimeMs.toStringAsFixed(2)} ms');
+  debugPrint('  Loaded in ${loadTimeMs.toStringAsFixed(2)} ms');
   
   // Build benchmark widget
   await tester.pumpWidget(
@@ -136,7 +135,7 @@ Future<ShaderBenchmarkResult> _benchmarkShader(
   }
   stopwatch.stop();
   
-  print('  Collected ${frameTimes.length} frame samples');
+  debugPrint('  Collected ${frameTimes.length} frame samples');
   
   if (frameTimes.isEmpty || frameTimes.length < 5) {
     return ShaderBenchmarkResult(

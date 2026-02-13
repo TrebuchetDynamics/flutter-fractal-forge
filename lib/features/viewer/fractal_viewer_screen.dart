@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
-import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -77,8 +76,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   final WallpaperService _wallpaperService = const WallpaperService();
 
   // Compare mode state
-  bool _compareMode = false;
-  bool _compareSliderMode = false; // false: side-by-side, true: sliding divider
+  final bool _compareMode = false;
+  final bool _compareSliderMode = false; // false: side-by-side, true: sliding divider
   double _compareDivider = 0.5; // 0..1 (only used for slider mode)
   int _activePane = 0; // 0: A (primary/provider), 1: B (secondary)
   FractalController? _compareController;
@@ -93,7 +92,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   bool _compactPerformanceOverlay = false;
 
   // Dev-only shader debug overlay (shows uniform values)
-  bool _showShaderDebug = false;
+  final bool _showShaderDebug = false;
 
   bool _manualCpuRequested = false;
   bool _gpuHealthFailed = false;
@@ -1063,7 +1062,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _exportProgress = 0;
     });
 
-    final videoService = const VideoExportService();
+    const videoService = const VideoExportService();
     final startView = controller.view;
     final startParams = Map<String, Object>.from(controller.params);
 

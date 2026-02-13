@@ -57,5 +57,6 @@ void main() {
 
     // Should show permission denied UI state, not crash.
     expect(find.byIcon(Icons.no_photography), findsOneWidget);
+  // skip: AR tab not in HomeScreen nav yet — planned feature
   }, skip: true);
 }

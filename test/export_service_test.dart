@@ -248,7 +248,7 @@ void main() {
     test('toExifMap includes required fields', () {
       final metadata = ExportMetadata(
         fractalType: 'mandelbrot',
-        parameters: {'iterations': 200},
+        parameters: const {'iterations': 200},
         createdAt: DateTime(2026, 2, 11),
       );
       final map = metadata.toExifMap();
@@ -262,7 +262,7 @@ void main() {
     test('toExifMap uses custom description when provided', () {
       final metadata = ExportMetadata(
         fractalType: 'julia',
-        parameters: {},
+        parameters: const {},
         createdAt: DateTime(2026, 1, 1),
         description: 'My custom description',
       );
@@ -273,7 +273,7 @@ void main() {
     test('toExifMap uses default description when not provided', () {
       final metadata = ExportMetadata(
         fractalType: 'julia',
-        parameters: {},
+        parameters: const {},
         createdAt: DateTime(2026, 1, 1),
       );
       final map = metadata.toExifMap();

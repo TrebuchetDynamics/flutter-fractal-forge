@@ -79,7 +79,7 @@ FractalModule buildMandelbulbModule() {
     id: 'mandelbulb-default',
     moduleId: 'mandelbulb',
     name: 'Default',
-    params: {
+    params: const {
       'power': 8.0,
       'iterations': 50,
       'steps': 120,

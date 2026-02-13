@@ -50,7 +50,7 @@ void main() {
       final frameB = Uint8List.fromList(List<int>.filled(16 * 4, 0));
 
       // center pixel (1,1) for a 4x4 image
-      final center = (1 * 4 + 1) * 4;
+      const center = (1 * 4 + 1) * 4;
       frameB[center] = 64;
       frameB[center + 1] = 96;
       frameB[center + 2] = 128;

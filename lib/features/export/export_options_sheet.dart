@@ -219,7 +219,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
         ),
         const SizedBox(height: 12),
         SegmentedButton<ExportFormat>(
-          segments: [
+          segments: const [
             ButtonSegment(
               value: ExportFormat.png,
               label: const Text('PNG'),

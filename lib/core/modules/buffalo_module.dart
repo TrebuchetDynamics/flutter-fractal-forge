@@ -20,7 +20,7 @@ FractalModule buildBuffaloModule() {
 
   final defaultPreset = FractalPreset(
     id: 'buffalo-default', moduleId: 'buffalo', name: 'Default',
-    params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 0},
+    params: const {'iterations': 180, 'bailout': 4.0, 'colorScheme': 0},
     view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
     createdAt: DateTime.now(), isBuiltIn: true,
   );

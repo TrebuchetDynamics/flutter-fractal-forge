@@ -157,7 +157,7 @@ class _ParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final gravity = 15.0;
+    const gravity = 15.0;
 
     for (final particle in particles) {
       final t = progress;
