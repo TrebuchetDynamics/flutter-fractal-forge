@@ -58,3 +58,6 @@ android/app/*.keystore
 .android_flutter_build.lock
 .omc/
 .omc/project-memory.json
+
+# Local test artifacts (do not commit)
+agent_test_logs/
