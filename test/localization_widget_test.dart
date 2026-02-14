@@ -3,6 +3,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -30,6 +31,7 @@ void main() {
     late ArQualityStore arQualityStore;
     late ModuleRegistry registry;
     late AccessibilityService accessibilityService;
+    late RendererSettingsService rendererSettingsService;
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +40,7 @@ void main() {
       presetStore = await PresetStore.create();
       arQualityStore = await ArQualityStore.create();
       accessibilityService = await AccessibilityService.create();
+      rendererSettingsService = await RendererSettingsService.create();
       registry = ModuleRegistry();
     });
 
@@ -47,6 +50,7 @@ void main() {
           presetStore: presetStore,
           arQualityStore: arQualityStore,
           accessibilityService: accessibilityService,
+          rendererSettingsService: rendererSettingsService,
           locale: const Locale('en'),
         ),
       );

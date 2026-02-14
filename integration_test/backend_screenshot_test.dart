@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
+import 'package:flutter_fractals/core/services/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
@@ -12,14 +13,22 @@ import 'package:flutter_fractals/main.dart';
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Screenshot walkthrough', () {
+  setUpAll(() async {
+    // Required on Android for IntegrationTest screenshot capture.
+    await binding.convertFlutterSurfaceToImage();
+  });
+
+  group('Backend screenshots', () {
     late PresetStore presetStore;
     late ArQualityStore arQualityStore;
     late AccessibilityService accessibilityService;
     late RendererSettingsService rendererSettingsService;
 
     setUp(() async {
-      SharedPreferences.setMockInitialValues({});
+      SharedPreferences.setMockInitialValues({
+        'onboarding_complete': true,
+        'onboarding_version': OnboardingService.currentVersion,
+      });
       presetStore = await PresetStore.create();
       arQualityStore = await ArQualityStore.create();
       accessibilityService = await AccessibilityService.create();
@@ -34,70 +43,59 @@ void main() {
           accessibilityService: accessibilityService,
           rendererSettingsService: rendererSettingsService,
           locale: const Locale('en'),
-          // deepLinkService intentionally omitted for stability.
         ),
       );
-      // Avoid indefinite pumpAndSettle: shader/animation frames may never fully settle.
+      // Avoid pumpAndSettle (continuous animations).
       await tester.pump();
+      await tester.pump(const Duration(seconds: 2));
       await tester.pump(const Duration(seconds: 2));
     }
 
     Finder moduleCards() {
+      // Catalog supports list + grid view.
       return find.byWidgetPredicate((w) {
         final k = w.key;
         if (k is! ValueKey) return false;
         final v = k.value;
-        return v is String && v.startsWith('catalogModuleCard_');
+        if (v is! String) return false;
+        return v.startsWith('catalogModuleCard_') ||
+            v.startsWith('catalogGridTile_');
       });
     }
 
-    testWidgets(
-      'capture key screens',
-      (tester) async {
+    Future<void> snapViewer(WidgetTester tester, String name) async {
+      // Give the renderer time to produce a few frames.
+      await tester.pump(const Duration(seconds: 3));
+      await binding.takeScreenshot(name);
+    }
+
+    testWidgets('capture viewer screenshots (first visible modules)',
+        (tester) async {
       await pumpApp(tester);
 
-      // Required on Android for screenshot capture.
-      await binding.convertFlutterSurfaceToImage();
-
-      // If onboarding shows, try skip.
-      final skip = find.text('Skip');
-      if (skip.evaluate().isNotEmpty) {
-        await binding.takeScreenshot('00_onboarding');
-        await tester.tap(skip);
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 800));
-      }
-
-      await binding.takeScreenshot('01_catalog');
-
-      // Open first fractal viewer.
       final cards = moduleCards();
       expect(cards, findsWidgets);
-      await tester.tap(cards.first);
-      await tester.pump(const Duration(seconds: 2));
 
-      await binding.takeScreenshot('02_viewer');
+      // Grab the first few visible cards; this avoids brittle scrolling by id.
+      final count = cards.evaluate().length;
+      final take = count >= 4 ? 4 : count;
+      expect(take, greaterThanOrEqualTo(1));
 
-      // Open tune panel if available.
-      final tune = find.byIcon(Icons.tune_rounded);
-      if (tune.evaluate().isNotEmpty) {
-        await tester.tap(tune);
+      for (int i = 0; i < take; i++) {
+        // Tap module card.
+        await tester.tap(cards.at(i));
         await tester.pump();
-        await tester.pump(const Duration(milliseconds: 800));
-        await binding.takeScreenshot('03_tune_panel');
-      }
+        await tester.pump(const Duration(seconds: 3));
 
-      // Return to catalog.
-      final back = find.byIcon(Icons.arrow_back_rounded);
-      if (back.evaluate().isNotEmpty) {
-        await tester.tap(back);
+        // Viewer should be present.
+        expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
+        await snapViewer(tester, 'viewer_$i');
+
+        // Back to catalog.
+        await tester.tap(find.byIcon(Icons.arrow_back_rounded));
         await tester.pump();
-        await tester.pump(const Duration(milliseconds: 800));
+        await tester.pump(const Duration(seconds: 2));
       }
-
-      await binding.takeScreenshot('04_catalog_after_back');
-    },
-      timeout: const Timeout(Duration(minutes: 2)),
-    );
+    }, timeout: const Timeout(Duration(minutes: 12)));
   });
 }

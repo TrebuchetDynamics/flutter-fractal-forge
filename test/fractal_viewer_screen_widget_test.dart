@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -13,6 +14,7 @@ void main() {
     late ModuleRegistry registry;
     late FractalController controller;
     late PresetStore presetStore;
+    late RendererSettingsService rendererSettings;
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +22,7 @@ void main() {
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
+      rendererSettings = RendererSettingsService(await SharedPreferences.getInstance());
     });
 
     Widget buildTestWidget() {
@@ -28,6 +31,7 @@ void main() {
           Provider.value(value: registry),
           ChangeNotifierProvider.value(value: controller),
           Provider.value(value: presetStore),
+          ChangeNotifierProvider.value(value: rendererSettings),
         ],
         child: MaterialApp(
           locale: const Locale('en'),

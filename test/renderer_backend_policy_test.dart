@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/backend_policy.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,7 +16,7 @@ void main() {
           isAndroid: false,
           isWeb: false,
           isEmulator: false,
-          manualCpuRequested: false,
+          userMode: RendererBackendMode.auto,
           gpuHealthFailed: false,
           deepZoomNeedsCpu: false,
           dimension: FractalDimension.twoD,
@@ -32,7 +33,7 @@ void main() {
           isAndroid: true,
           isWeb: false,
           isEmulator: true,
-          manualCpuRequested: false,
+          userMode: RendererBackendMode.auto,
           gpuHealthFailed: false,
           deepZoomNeedsCpu: false,
           dimension: FractalDimension.twoD,

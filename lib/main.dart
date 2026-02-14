@@ -27,6 +27,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
@@ -105,6 +106,7 @@ Future<void> main() async {
     final arQualityStore = await ArQualityStore.create();
     final historyStore = await HistoryStore.create();
     final accessibilityService = await AccessibilityService.create();
+    final rendererSettingsService = await RendererSettingsService.create();
     final onboardingService = await OnboardingService.create();
     DeepLinkService? deepLinkService;
     if (kEnableDeepLinks == 1) {
@@ -118,6 +120,7 @@ Future<void> main() async {
         arQualityStore: arQualityStore,
         historyStore: historyStore,
         accessibilityService: accessibilityService,
+        rendererSettingsService: rendererSettingsService,
         onboardingService: onboardingService,
         deepLinkService: deepLinkService,
       ),
@@ -290,6 +293,9 @@ class FlutterFractalsApp extends StatefulWidget {
   /// Service for accessibility settings.
   final AccessibilityService accessibilityService;
 
+  /// Service for renderer backend preferences.
+  final RendererSettingsService rendererSettingsService;
+
   /// Service for onboarding state management.
   final OnboardingService? onboardingService;
 
@@ -308,6 +314,7 @@ class FlutterFractalsApp extends StatefulWidget {
     required this.arQualityStore,
     this.historyStore,
     required this.accessibilityService,
+    required this.rendererSettingsService,
     this.onboardingService,
     this.deepLinkService,
     this.locale,
@@ -358,6 +365,9 @@ class _FlutterFractalsAppState extends State<FlutterFractalsApp> {
           ),
         ChangeNotifierProvider<AccessibilityService>.value(
           value: widget.accessibilityService,
+        ),
+        ChangeNotifierProvider<RendererSettingsService>.value(
+          value: widget.rendererSettingsService,
         ),
         if (widget.onboardingService != null)
           Provider<OnboardingService>.value(value: widget.onboardingService!),

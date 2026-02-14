@@ -43,6 +43,7 @@ import 'package:flutter_fractals/features/history/history_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
 import 'package:flutter_fractals/features/renderer/backend_policy.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
@@ -94,7 +95,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   // Dev-only shader debug overlay (shows uniform values)
   final bool _showShaderDebug = false;
 
-  bool _manualCpuRequested = false;
   bool _gpuHealthFailed = false;
   bool _isAndroidEmulator = false;
   double? _lastGpuDarkRatio;
@@ -170,7 +170,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       // Record initial state
       _recordHistory(context);
 
-      _manualCpuRequested = false;
       _gpuHealthFailed = false;
       _refreshBackendDecision();
       _scheduleGpuHealthCheck();
@@ -199,12 +198,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final controller = context.read<FractalController>();
     const dzPolicy = DeepZoomPrecisionPolicy();
 
+    final mode = context.read<RendererSettingsService>().backendMode;
+
     final newDecision = _backendPolicy.decide(
       BackendPolicyInput(
         isAndroid: !kIsWeb && Platform.isAndroid,
         isWeb: kIsWeb,
         isEmulator: _isAndroidEmulator,
-        manualCpuRequested: _manualCpuRequested,
+        userMode: mode,
         gpuHealthFailed: _gpuHealthFailed,
         deepZoomNeedsCpu: dzPolicy.shouldUseCpuFallback(
           moduleId: controller.module.id,
@@ -422,6 +423,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
+    final rendererSettings = context.watch<RendererSettingsService>();
+    final backendMode = rendererSettings.backendMode;
 
     // Debounce backend decision refresh to prevent excessive recalculation
     _backendDebounceTimer?.cancel();
@@ -455,18 +458,17 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               onPressed: () => _shareGpuDebugReport(context),
             ),
           _AppBarIconButton(
-            icon: _backendDecision.backend == RendererBackend.cpu
-                ? Icons.toggle_on_rounded
-                : Icons.toggle_off_rounded,
-            tooltip: _backendDecision.backend == RendererBackend.cpu
-                ? 'Stable renderer: ON (tap to try GPU)'
-                : 'Stable renderer: OFF (tap to enable)',
-            onPressed: () {
-              setState(() {
-                _manualCpuRequested = !_manualCpuRequested;
-                _refreshBackendDecision();
-              });
+            icon: switch (backendMode) {
+              RendererBackendMode.auto => Icons.auto_mode_rounded,
+              RendererBackendMode.cpuOnly => Icons.computer_rounded,
+              RendererBackendMode.gpuOnly => Icons.flash_on_rounded,
             },
+            tooltip: switch (backendMode) {
+              RendererBackendMode.auto => 'Renderer preference: Auto',
+              RendererBackendMode.cpuOnly => 'Renderer preference: CPU only',
+              RendererBackendMode.gpuOnly => 'Renderer preference: GPU only (debug)',
+            },
+            onPressed: () => _openBackendModePicker(context),
           ),
           _AppBarIconButton(
             icon: Icons.camera_rounded,
@@ -549,8 +551,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     constraints: const BoxConstraints(maxWidth: 240),
                     child: _CpuFallbackBanner(
                       onTryGpu: () {
+                        // Switch back to Auto so policy can try GPU again.
+                        context
+                            .read<RendererSettingsService>()
+                            .setBackendMode(RendererBackendMode.auto);
                         setState(() {
-                          _manualCpuRequested = false;
                           _gpuHealthFailed = false;
                           _refreshBackendDecision();
                         });
@@ -568,8 +573,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   right: 12,
                   child: GestureDetector(
                     onTap: () {
+                      context
+                          .read<RendererSettingsService>()
+                          .setBackendMode(RendererBackendMode.cpuOnly);
                       setState(() {
-                        _manualCpuRequested = true;
                         _refreshBackendDecision();
                       });
                     },
@@ -894,7 +901,124 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     controller.selectModule(pick);
   }
 
-  void _openControls(BuildContext context) {
+  void _openBackendModePicker(BuildContext context) {
+    final settings = context.read<RendererSettingsService>();
+
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) {
+        final mode = settings.backendMode;
+
+        return SafeArea(
+          child: Container(
+            margin: const EdgeInsets.all(AppSpacing.lg),
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+              border: Border.all(color: AppColors.border.withOpacity(0.6)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Renderer Backend',
+                  style: AppTypography.titleLarge,
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  'Choose how fractals are rendered. Auto is recommended.',
+                  style: AppTypography.bodySmall,
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                _backendModeTile(
+                  context: context,
+                  title: 'Auto',
+                  subtitle: 'Use GPU when healthy; fall back to CPU when needed.',
+                  value: RendererBackendMode.auto,
+                  groupValue: mode,
+                  onChanged: (v) async {
+                    await settings.setBackendMode(v);
+                    if (context.mounted) Navigator.of(context).pop();
+                    AccessibilityService.announce('Renderer backend: Auto');
+                  },
+                ),
+                _backendModeTile(
+                  context: context,
+                  title: 'CPU only (stable)',
+                  subtitle: 'Always use the stable CPU renderer.',
+                  value: RendererBackendMode.cpuOnly,
+                  groupValue: mode,
+                  onChanged: (v) async {
+                    await settings.setBackendMode(v);
+                    if (context.mounted) Navigator.of(context).pop();
+                    AccessibilityService.announce('Renderer backend: CPU only');
+                  },
+                ),
+                _backendModeTile(
+                  context: context,
+                  title: 'GPU only (debug)',
+                  subtitle:
+                      'Always try GPU rendering. May show black/invalid output on some devices.',
+                  value: RendererBackendMode.gpuOnly,
+                  groupValue: mode,
+                  onChanged: (v) async {
+                    await settings.setBackendMode(v);
+                    if (context.mounted) Navigator.of(context).pop();
+                    AccessibilityService.announce('Renderer backend: GPU only');
+                  },
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Close'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _backendModeTile({
+    required BuildContext context,
+    required String title,
+    required String subtitle,
+    required RendererBackendMode value,
+    required RendererBackendMode groupValue,
+    required ValueChanged<RendererBackendMode> onChanged,
+  }) {
+    final selected = value == groupValue;
+    return Semantics(
+      container: true,
+      label: title,
+      hint: subtitle,
+      selected: selected,
+      button: true,
+      onTap: () => onChanged(value),
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        title: Text(title, style: AppTypography.titleMedium),
+        subtitle: Text(subtitle, style: AppTypography.bodySmall),
+        trailing: Radio<RendererBackendMode>(
+          value: value,
+          groupValue: groupValue,
+          onChanged: (v) {
+            if (v != null) onChanged(v);
+          },
+        ),
+        onTap: () => onChanged(value),
+      ),
+    );
+  }
+
+  void _openControls(BuildContext context) {  
     final controller = _activeController(context);
     showModalBottomSheet(
       context: context,

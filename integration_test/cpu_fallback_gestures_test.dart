@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/main.dart';
 
@@ -22,12 +23,14 @@ void main() {
     late PresetStore presetStore;
     late ArQualityStore arQualityStore;
     late AccessibilityService accessibilityService;
+    late RendererSettingsService rendererSettingsService;
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({});
       presetStore = await PresetStore.create();
       arQualityStore = await ArQualityStore.create();
       accessibilityService = await AccessibilityService.create();
+      rendererSettingsService = await RendererSettingsService.create();
     });
 
     Future<void> pumpApp(WidgetTester tester) async {
@@ -36,6 +39,7 @@ void main() {
           presetStore: presetStore,
           arQualityStore: arQualityStore,
           accessibilityService: accessibilityService,
+          rendererSettingsService: rendererSettingsService,
           locale: const Locale('en'),
         ),
       );

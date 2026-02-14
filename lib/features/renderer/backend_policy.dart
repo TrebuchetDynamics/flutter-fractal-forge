@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 
 const bool kForceCpuFallback =
     bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);
@@ -66,7 +67,7 @@ class BackendDecision {
       case FallbackReasonCode.deepZoomPrecision:
         return 'Deep zoom precision mode enabled';
       case FallbackReasonCode.manualToggle:
-        return 'Stable renderer enabled';
+        return 'Renderer preference applied';
       case FallbackReasonCode.moduleUnsupported:
         return 'Stable renderer enabled for this fractal mode';
       case FallbackReasonCode.forcedByFlag:
@@ -81,7 +82,7 @@ class BackendPolicyInput {
   final bool isAndroid;
   final bool isWeb;
   final bool isEmulator;
-  final bool manualCpuRequested;
+  final RendererBackendMode userMode;
   final bool gpuHealthFailed;
   final bool deepZoomNeedsCpu;
   final FractalDimension dimension;
@@ -90,7 +91,7 @@ class BackendPolicyInput {
     required this.isAndroid,
     required this.isWeb,
     required this.isEmulator,
-    required this.manualCpuRequested,
+    required this.userMode,
     required this.gpuHealthFailed,
     required this.deepZoomNeedsCpu,
     required this.dimension,
@@ -109,11 +110,11 @@ class RendererBackendPolicy {
       );
     }
 
-    if (input.manualCpuRequested) {
+    if (input.userMode == RendererBackendMode.cpuOnly) {
       return const BackendDecision(
         backend: RendererBackend.cpu,
         reasonCode: FallbackReasonCode.manualToggle,
-        detail: 'manual_cpu_toggle',
+        detail: 'cpu_only',
       );
     }
 
@@ -122,6 +123,14 @@ class RendererBackendPolicy {
         backend: RendererBackend.cpu,
         reasonCode: FallbackReasonCode.moduleUnsupported,
         detail: 'cpu_path_only_for_unsupported_gpu_module',
+      );
+    }
+
+    if (input.userMode == RendererBackendMode.gpuOnly) {
+      return const BackendDecision(
+        backend: RendererBackend.gpu,
+        reasonCode: FallbackReasonCode.manualToggle,
+        detail: 'gpu_only',
       );
     }
 

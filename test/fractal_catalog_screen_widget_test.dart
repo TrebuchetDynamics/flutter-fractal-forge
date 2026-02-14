@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -15,6 +16,7 @@ void main() {
     late FractalController controller;
     late PresetStore presetStore;
     late ArQualityStore arQualityStore;
+    late RendererSettingsService rendererSettings;
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,7 @@ void main() {
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
       arQualityStore = await ArQualityStore.create();
+      rendererSettings = RendererSettingsService(await SharedPreferences.getInstance());
     });
 
     Widget buildTestWidget() {
@@ -32,6 +35,7 @@ void main() {
           ChangeNotifierProvider.value(value: controller),
           Provider.value(value: presetStore),
           Provider.value(value: arQualityStore),
+          ChangeNotifierProvider.value(value: rendererSettings),
         ],
         child: MaterialApp(
           locale: const Locale('en'),
