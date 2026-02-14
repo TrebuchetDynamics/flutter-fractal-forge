@@ -187,7 +187,12 @@ class _FractalRendererState extends State<FractalRenderer>
   }
 
   void _applyZoomMomentum() {
+    // Check mounted first to prevent accessing disposed widget
     if (!mounted) return;
+
+    // Safety check: ensure controller is still animating
+    if (!_zoomMomentumController.isAnimating) return;
+
     final controller = context.read<FractalController>();
     final view = controller.view;
 
@@ -203,7 +208,12 @@ class _FractalRendererState extends State<FractalRenderer>
   }
 
   void _applyPanMomentum() {
+    // Check mounted first to prevent accessing disposed widget
     if (!mounted) return;
+
+    // Safety check: ensure controller is still animating
+    if (!_panMomentumController.isAnimating) return;
+
     final controller = context.read<FractalController>();
     final view = controller.view;
     final module = controller.module;
@@ -352,9 +362,17 @@ class _FractalRendererState extends State<FractalRenderer>
 
   @override
   void dispose() {
+    // Remove listeners before disposing controllers to prevent crashes
+    _zoomMomentumController.removeListener(_applyZoomMomentum);
+    _panMomentumController.removeListener(_applyPanMomentum);
+
     _animationController.dispose();
     _zoomMomentumController.dispose();
     _panMomentumController.dispose();
+
+    // Dispose FragmentProgram to prevent memory leak
+    _program = null;
+
     super.dispose();
   }
 
@@ -414,10 +432,10 @@ class _FractalRendererState extends State<FractalRenderer>
         final rawDx = totalDelta.dx / scalePx;
         final rawDy = totalDelta.dy / scalePx;
         // Rotate screen delta by -rotation to get world delta
-        final dxWorld =
-            (rawDx * cosR + rawDy * sinR) / math.max(1e-9, _startZoom);
-        final dyWorld =
-            (-rawDx * sinR + rawDy * cosR) / math.max(1e-9, _startZoom);
+        // Guard against division by zero with max(1e-9, zoom)
+        final safeZoom = math.max(1e-9, _startZoom);
+        final dxWorld = (rawDx * cosR + rawDy * sinR) / safeZoom;
+        final dyWorld = (-rawDx * sinR + rawDy * cosR) / safeZoom;
         controller.updatePan(
           Vector2(
             _startPan.x - dxWorld,
@@ -740,9 +758,12 @@ class _FractalRendererState extends State<FractalRenderer>
       );
     }
 
+    // Check if we need to load a new shader
     if (_shaderAsset != module.shaderAsset && !_loading) {
       _loadShader(module.shaderAsset);
     }
+
+    // Show error if shader failed to load
     if (_shaderError != null) {
       return _ShaderErrorDisplay(
         errorMessage: _shaderError!,
@@ -754,7 +775,10 @@ class _FractalRendererState extends State<FractalRenderer>
         onGoBack: () => Navigator.of(context).maybePop(),
       );
     }
-    if (_program == null) {
+
+    // Wait for shader to load before rendering
+    // This prevents race condition where shader is used before it's ready
+    if (_program == null || _loading) {
       final l10n = AppLocalizations.of(context);
       return Center(
         child: FractalLoadingIndicator(

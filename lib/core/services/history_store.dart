@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/features/history/history_entry.dart';
 
@@ -84,10 +85,20 @@ class HistoryStore {
     if (payload == null || payload.isEmpty) return [];
     try {
       final decoded = jsonDecode(payload) as List;
-      return decoded
-          .map((item) => HistoryEntry.fromJson((item as Map).cast<String, Object?>()))
-          .toList();
-    } catch (_) {
+      final entries = <HistoryEntry>[];
+      for (final item in decoded) {
+        try {
+          final entry = HistoryEntry.fromJson((item as Map).cast<String, Object?>());
+          entries.add(entry);
+        } catch (e) {
+          // Skip corrupted entry, continue with others
+          debugPrint('Failed to parse history entry: $e');
+        }
+      }
+      return entries;
+    } catch (e) {
+      // Corrupted JSON, return empty list
+      debugPrint('Failed to parse history JSON: $e');
       return [];
     }
   }

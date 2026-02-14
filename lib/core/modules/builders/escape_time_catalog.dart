@@ -56,12 +56,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/multibrot3_gpu.frag',
     defaultIterations: 150,
   ),
-  EscapeTimeConfig(
-    id: 'nova',
-    name: 'Nova',
-    shaderAsset: 'shaders/nova_gpu.frag',
-    defaultIterations: 150,
-  ),
+  // Nova has custom uniforms (relaxation instead of bailout) — keep custom builder.
+  // See nova_module.dart.
   EscapeTimeConfig(
     id: 'nova_julia',
     name: 'Nova Julia',

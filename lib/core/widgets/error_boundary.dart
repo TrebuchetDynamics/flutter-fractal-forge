@@ -230,9 +230,8 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
 
 /// Internal wrapper that catches errors in the widget tree.
 ///
-/// This uses a simpler approach that doesn't modify global state,
-/// making it test-friendly.
-class _ErrorBoundaryWrapper extends StatelessWidget {
+/// This uses ErrorWidget.builder to catch build-time errors.
+class _ErrorBoundaryWrapper extends StatefulWidget {
   final Widget child;
   final void Function(Object, StackTrace?) onError;
 
@@ -242,10 +241,37 @@ class _ErrorBoundaryWrapper extends StatelessWidget {
   });
 
   @override
+  State<_ErrorBoundaryWrapper> createState() => _ErrorBoundaryWrapperState();
+}
+
+class _ErrorBoundaryWrapperState extends State<_ErrorBoundaryWrapper> {
+  ErrorWidgetBuilder? _previousBuilder;
+
+  @override
+  void initState() {
+    super.initState();
+    // Install error handler for this subtree
+    _previousBuilder = ErrorWidget.builder;
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      // Call the error callback
+      widget.onError(details.exception, details.stack);
+      // Return a minimal error widget
+      return const SizedBox.shrink();
+    };
+  }
+
+  @override
+  void dispose() {
+    // Restore previous error handler
+    if (_previousBuilder != null) {
+      ErrorWidget.builder = _previousBuilder!;
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Simply render the child - error catching happens through
-    // the parent ErrorBoundary's build method and Flutter's error handling
-    return child;
+    return widget.child;
   }
 }
 

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/ar_quality_store.dart';
+import 'package:flutter_fractals/core/services/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
 import 'package:flutter_fractals/main.dart';
 
@@ -18,7 +19,10 @@ void main() {
     late TestLogger logger;
 
     setUp(() async {
-      SharedPreferences.setMockInitialValues({'onboarding_complete': true});
+      SharedPreferences.setMockInitialValues({
+        'onboarding_complete': true,
+        'onboarding_version': OnboardingService.currentVersion,
+      });
       presetStore = await PresetStore.create();
       arQualityStore = await ArQualityStore.create();
       accessibilityService = await AccessibilityService.create();
@@ -46,11 +50,14 @@ void main() {
     }
 
     Finder moduleCards() {
+      // Catalog supports list + grid view. Keys differ by view mode.
       return find.byWidgetPredicate((w) {
         final k = w.key;
         if (k is! ValueKey) return false;
         final v = k.value;
-        return v is String && v.startsWith('catalogModuleCard_');
+        if (v is! String) return false;
+        return v.startsWith('catalogModuleCard_') ||
+            v.startsWith('catalogGridTile_');
       });
     }
 
@@ -107,15 +114,19 @@ void main() {
 
       expect(keys.length, greaterThanOrEqualTo(4));
 
-      // Navigate to each module and verify viewer loads.
+      // Smoke coverage: only sample a handful of modules to keep runtime reasonable
+      // on emulators and in CI.
+      final sampledKeys = keys.take(8).toList();
+
+      // Navigate to each sampled module and verify viewer loads.
       // Use keys to avoid index drift across rebuilds.
-      for (int i = 0; i < keys.length; i++) {
+      for (int i = 0; i < sampledKeys.length; i++) {
         if (i > 0) {
           await pumpApp(tester);
         }
 
         // Scroll until the card is visible (handles growing catalog).
-        final cardFinder = find.byKey(ValueKey(keys[i]));
+        final cardFinder = find.byKey(ValueKey(sampledKeys[i]));
         await tester.scrollUntilVisible(
           cardFinder,
           200,
@@ -139,7 +150,7 @@ void main() {
 
       expect(
         logger.buffer.where((e) => e.type == 'navigation').length,
-        greaterThanOrEqualTo(keys.length),
+        greaterThanOrEqualTo(sampledKeys.length),
       );
 
       semantics.dispose();

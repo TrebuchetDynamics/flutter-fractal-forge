@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vector_math/vector_math.dart';
+import 'package:image/image.dart' as img;
 import '../models/video_export_options.dart';
 import '../models/fractal_view_state.dart';
 
@@ -128,7 +129,7 @@ class VideoExportService {
   }
 
   /// Export video with the given options.
-  /// 
+  ///
   /// This method captures frames and encodes them. For full video encoding,
   /// use a native plugin or FFmpeg.
   Future<VideoExportResult> exportVideo({
@@ -140,8 +141,10 @@ class VideoExportService {
     required Future<Uint8List> Function() captureFrame,
     void Function(double progress, String status)? onProgress,
   }) async {
-    final frames = <Uint8List>[];
     final totalFrames = options.totalFrames;
+
+    // Capture and decode frames incrementally to avoid RAM exhaustion
+    final decodedFrames = <img.Image>[];
 
     for (var i = 0; i < totalFrames; i++) {
       // Calculate view for this frame
@@ -151,7 +154,7 @@ class VideoExportService {
         frameIndex: i,
         totalFrames: totalFrames,
       );
-      
+
       // Calculate parameter updates if doing a sweep
       Map<String, double>? paramUpdates;
       if (options.animationType == VideoAnimationType.parameterSweep) {
@@ -162,38 +165,50 @@ class VideoExportService {
           totalFrames: totalFrames,
         );
       }
-      
+
       // Update the fractal
       updateView(view, paramUpdates);
-      
+
       // Wait for render
       await Future.delayed(const Duration(milliseconds: 16));
-      
+
       // Capture frame
-      final frame = await captureFrame();
-      frames.add(frame);
-      
+      final frameBytes = await captureFrame();
+
+      // Decode immediately and release raw bytes
+      final decoded = img.decodePng(frameBytes);
+      if (decoded == null) {
+        throw Exception('Failed to decode frame $i');
+      }
+      decodedFrames.add(decoded);
+
       // Report progress
       final progress = (i + 1) / totalFrames;
       onProgress?.call(progress, 'Rendering frame ${i + 1} of $totalFrames');
     }
 
-    // Save frames to temporary directory
+    // Build animation: first frame + addFrame for rest
+    final firstFrame = decodedFrames.first;
+    for (var i = 1; i < decodedFrames.length; i++) {
+      firstFrame.addFrame(decodedFrames[i]);
+    }
+
+    // Encode to GIF
+    final bytes = Uint8List.fromList(img.encodeGif(firstFrame));
+
+    // Save to file
     final dir = await getTemporaryDirectory();
     final filename = generateFilename(options);
     final outputPath = '${dir.path}/$filename';
-
-    // For now, save as PNG sequence (actual video encoding requires ffmpeg or native)
-    // In production, you'd encode to MP4/GIF here
-    final outputFile = File(outputPath.replaceAll('.${options.format.extension}', '.png'));
-    await outputFile.writeAsBytes(frames.first);
+    final outputFile = File(outputPath);
+    await outputFile.writeAsBytes(bytes);
 
     final size = await outputFile.length();
 
     return VideoExportResult(
       file: outputFile,
       filePath: outputFile.path,
-      frameCount: frames.length,
+      frameCount: decodedFrames.length,
       duration: options.duration,
       fileSizeBytes: size,
       resolution: options.resolution,

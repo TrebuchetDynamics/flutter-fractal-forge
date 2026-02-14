@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
 import 'package:flutter_fractals/core/modules/julia_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbulb_module.dart';
+import 'package:flutter_fractals/core/modules/nova_module.dart';
 import 'package:flutter_fractals/core/modules/phoenix_module.dart';
 
 /// Registry of all available fractal modules.
@@ -54,6 +55,8 @@ class ModuleRegistry {
       if (!catalogIds.contains('julia')) buildJuliaModule(),
       // Phoenix needs extra (p, q) params
       if (!catalogIds.contains('phoenix')) buildPhoenixModule(),
+      // Nova needs relaxation param instead of bailout
+      if (!catalogIds.contains('nova')) buildNovaModule(),
       // Mandelbulb is 3D with rotation uniforms
       if (!catalogIds.contains('mandelbulb')) buildMandelbulbModule(),
     ];
@@ -70,8 +73,14 @@ class ModuleRegistry {
     // Find key positions for insertion
     final mandelbrotIdx = catalogModules.indexWhere((m) => m.id == 'mandelbrot');
     final burningShipIdx = catalogModules.indexWhere((m) => m.id == 'burning_ship');
+    final novaJuliaIdx = catalogModules.indexWhere((m) => m.id == 'nova_julia');
 
     for (int i = 0; i < catalogModules.length; i++) {
+      // Insert Nova right before Nova Julia
+      if (i == novaJuliaIdx) {
+        final nova = customModules.where((m) => m.id == 'nova');
+        result.addAll(nova);
+      }
       result.add(catalogModules[i]);
       // Insert Julia right after Mandelbrot
       if (i == mandelbrotIdx) {

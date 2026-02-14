@@ -279,7 +279,12 @@ class AnimatedFractalController extends ChangeNotifier {
   @override
   void dispose() {
     _morphTimer?.cancel();
-    _interestingSpotController.close();
+
+    // Close stream controller before disposing
+    if (!_interestingSpotController.isClosed) {
+      _interestingSpotController.close();
+    }
+
     super.dispose();
   }
 }

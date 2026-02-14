@@ -128,6 +128,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   bool _freezeFrameForExport = false;
   bool _resumeAutoExploreAfterExportSheet = false;
   String? _lastBackendDecisionLogged;
+  Timer? _backendDebounceTimer;
+  DateTime? _lastBackendSwitch;
 
   @override
   void initState() {
@@ -196,7 +198,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void _refreshBackendDecision() {
     final controller = context.read<FractalController>();
     const dzPolicy = DeepZoomPrecisionPolicy();
-    _backendDecision = _backendPolicy.decide(
+
+    final newDecision = _backendPolicy.decide(
       BackendPolicyInput(
         isAndroid: !kIsWeb && Platform.isAndroid,
         isWeb: kIsWeb,
@@ -210,6 +213,24 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         dimension: controller.module.dimension,
       ),
     );
+
+    // Add hysteresis to prevent rapid backend switching (flicker bug)
+    // Only switch if decision changed AND enough time has passed
+    if (newDecision.backend != _backendDecision.backend) {
+      final now = DateTime.now();
+      final lastSwitch = _lastBackendSwitch;
+
+      // Require 500ms minimum between backend switches
+      if (lastSwitch == null ||
+          now.difference(lastSwitch).inMilliseconds >= 500) {
+        _backendDecision = newDecision;
+        _lastBackendSwitch = now;
+      }
+      // Else: keep old decision to prevent flicker
+    } else {
+      // Same backend, update decision immediately
+      _backendDecision = newDecision;
+    }
   }
 
   void _scheduleGpuHealthCheck() {
@@ -228,6 +249,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       if (renderObject is! RenderRepaintBoundary) return;
 
       try {
+        // Capture original iterations value to restore after health check
+        final originalIterations = controller.params['iterations'];
+
         final imgA = await renderObject.toImage(pixelRatio: 0.10);
         final dataA = await imgA.toByteData(format: ImageByteFormat.rawRgba);
         if (dataA == null) return;
@@ -239,7 +263,13 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         await Future<void>.delayed(const Duration(milliseconds: 80));
         final imgB = await renderObject.toImage(pixelRatio: 0.10);
         final dataB = await imgB.toByteData(format: ImageByteFormat.rawRgba);
-        if (dataB == null) return;
+        if (dataB == null) {
+          // Restore original value before early return
+          if (originalIterations != null) {
+            controller.updateParam('iterations', originalIterations);
+          }
+          return;
+        }
 
         final width = imgB.width;
         final height = imgB.height;
@@ -250,7 +280,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           height: height,
         );
 
-        
+        // Restore original iterations value after health check
+        if (originalIterations != null) {
+          controller.updateParam('iterations', originalIterations);
+        }
+
         _lastGpuDarkRatio = 1.0 - result.nonBlackRatio;
         _lastGpuSampleCount = width * height;
         _gpuHealthFailed = !result.centerNonBlack || !result.histogramSane;
@@ -259,6 +293,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         debugPrint(result.summary('gpu'));
       } catch (e) {
         _lastGpuHealthError = e;
+        // Attempt to restore original iterations on error (best effort)
+        try {
+          final originalIterations = controller.params['iterations'];
+          if (originalIterations != null) {
+            controller.updateParam('iterations', originalIterations);
+          }
+        } catch (_) {
+          // Ignore restoration errors
+        }
       }
     });
   }
@@ -311,6 +354,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   @override
   void dispose() {
     _gpuHealthTimer?.cancel();
+    _backendDebounceTimer?.cancel();
     _lastController?.removeListener(_onControllerChanged);
 
     final start = _sessionStart;
@@ -379,7 +423,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
-    _refreshBackendDecision();
+    // Debounce backend decision refresh to prevent excessive recalculation
+    _backendDebounceTimer?.cancel();
+    _backendDebounceTimer = Timer(const Duration(milliseconds: 16), () {
+      if (mounted) {
+        _refreshBackendDecision();
+      }
+    });
+
     final decision = _backendDecision.toLogLine(moduleId: controller.module.id);
     if (_lastBackendDecisionLogged != decision) {
       _lastBackendDecisionLogged = decision;

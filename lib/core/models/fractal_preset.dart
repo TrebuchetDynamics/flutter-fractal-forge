@@ -170,15 +170,30 @@ class FractalPreset {
   /// Parses a list of presets from a JSON string.
   ///
   /// Returns an empty list if [payload] is null or empty.
+  /// Skips corrupted entries and continues parsing valid ones.
   /// Used for reading from SharedPreferences.
   static List<FractalPreset> listFromPrefs(String? payload) {
     if (payload == null || payload.isEmpty) {
       return [];
     }
-    final decoded = jsonDecode(payload) as List;
-    return decoded
-        .map((item) => FractalPreset.fromJson((item as Map).cast<String, Object?>()))
-        .toList();
+    try {
+      final decoded = jsonDecode(payload) as List;
+      final presets = <FractalPreset>[];
+      for (final item in decoded) {
+        try {
+          final preset = FractalPreset.fromJson((item as Map).cast<String, Object?>());
+          presets.add(preset);
+        } catch (e) {
+          // Skip corrupted preset, continue with others
+          debugPrint('Failed to parse preset: $e');
+        }
+      }
+      return presets;
+    } catch (e) {
+      // Corrupted JSON, return empty list
+      debugPrint('Failed to parse presets JSON: $e');
+      return [];
+    }
   }
 
   /// Serializes a list of presets to a JSON string.

@@ -8,6 +8,7 @@ import 'package:vector_math/vector_math.dart' show Vector2;
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
+import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
 ///
@@ -265,9 +266,11 @@ Future<CpuRenderFrame> renderCpuFrame({
   final scale = 3.0 / zoom;
   final aspect = width / height;
   final bytes = Uint8List(width * height * 4);
-  final bailout2 = bailout * bailout;
   final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
   final totalSamples = samplesPerAxis * samplesPerAxis;
+
+  final formula =
+      cpuFormulasByModuleId[moduleId] ?? cpuFormulasByModuleId['mandelbrot']!;
 
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
@@ -285,14 +288,7 @@ Future<CpuRenderFrame> renderCpuFrame({
           final cx = centerX + nx * scale * aspect;
           final cy = centerY + ny * scale;
 
-          final color = _escapeColor(
-            moduleId: moduleId,
-            cx: cx,
-            cy: cy,
-            juliaC: juliaC,
-            iterations: iterations,
-            bailout2: bailout2,
-          );
+          final color = formula(cx, cy, iterations, bailout, juliaC);
           rAcc += color.$1;
           gAcc += color.$2;
           bAcc += color.$3;
@@ -308,84 +304,6 @@ Future<CpuRenderFrame> renderCpuFrame({
   }
 
   return CpuRenderFrame(rgba: bytes, width: width, height: height);
-}
-
-(double, double, double) _escapeColor({
-  required String moduleId,
-  required double cx,
-  required double cy,
-  required Vector2 juliaC,
-  required int iterations,
-  required double bailout2,
-}) {
-  double zx;
-  double zy;
-  double c0x;
-  double c0y;
-
-  if (moduleId == 'julia') {
-    zx = cx;
-    zy = cy;
-    c0x = juliaC.x;
-    c0y = juliaC.y;
-  } else {
-    zx = 0.0;
-    zy = 0.0;
-    c0x = cx;
-    c0y = cy;
-  }
-
-  int it = 0;
-  while (it < iterations) {
-    final zx2 = zx * zx;
-    final zy2 = zy * zy;
-    final mag2 = zx2 + zy2;
-    if (mag2 > bailout2) break;
-
-    switch (moduleId) {
-      case 'celtic':
-        final rx = (zx2 - zy2).abs() + c0x;
-        final ry = 2.0 * zx * zy + c0y;
-        zx = rx;
-        zy = ry;
-        break;
-      case 'buffalo':
-        final rx = (zx2 - zy2).abs() + c0x;
-        final ry = (2.0 * zx * zy).abs() + c0y;
-        zx = rx;
-        zy = ry;
-        break;
-      default:
-        final rx = zx2 - zy2 + c0x;
-        final ry = 2.0 * zx * zy + c0y;
-        zx = rx;
-        zy = ry;
-        break;
-    }
-
-    it++;
-  }
-
-  if (it >= iterations) {
-    // Keep interior non-black on emulator fallback so users can confirm rendering.
-    return (46, 120, 220);
-  }
-
-  final mag2 = math.max(1e-16, zx * zx + zy * zy);
-  final smooth =
-      it + 1.0 - math.log(math.log(mag2) / math.log(2.0)) / math.log(2.0);
-  final t = (smooth / math.max(1, iterations)).clamp(0.0, 1.0);
-  final c = _palette(t);
-  return c;
-}
-
-(double, double, double) _palette(double t) {
-  // Cosine palette gives vivid color even for very small escape values,
-  // avoiding the "all black" look on emulator CPU fallback.
-  final r = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.00))) * 255.0;
-  final g = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.33))) * 255.0;
-  final b = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.67))) * 255.0;
-  return (r, g, b);
 }
 
 /// Lower is smoother (less grain).

@@ -227,32 +227,32 @@ class ExportService {
         return Uint8List.fromList(img.encodePng(image, level: 6));
       
       case ExportFormat.jpg:
-        // For JPG, we need to remove alpha channel if present
-        final rgbImage = options.transparentBackground
-            ? image
-            : _removeAlpha(image);
+        // JPG doesn't support transparency - always composite onto background
+        // transparentBackground option is ignored for JPG (use black background)
+        final rgbImage = _removeAlpha(image);
         return Uint8List.fromList(img.encodeJpg(rgbImage, quality: options.quality));
       
       case ExportFormat.webp:
-        // WebP encoding not available in image package, fallback to PNG
+        // WebP encoding not available in image package v4.x, fallback to PNG
+        // TODO: Add WebP support via platform-specific encoder or native plugin
         return Uint8List.fromList(img.encodePng(image));
     }
   }
 
   img.Image _removeAlpha(img.Image image) {
-    // Create a new image with white background
+    // Create a new RGB image (no alpha channel) for JPG export
     final result = img.Image(
       width: image.width,
       height: image.height,
       numChannels: 3,
     );
-    
-    // Fill with black (fractal background)
+
+    // Fill with black (space around fractals is typically black/transparent)
     img.fill(result, color: img.ColorRgb8(0, 0, 0));
-    
-    // Composite the original image over the background
+
+    // Composite the original image over the black background
     img.compositeImage(result, image);
-    
+
     return result;
   }
 

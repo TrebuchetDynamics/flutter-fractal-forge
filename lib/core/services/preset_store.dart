@@ -18,7 +18,17 @@ class PresetStore {
 
   Future<void> saveUserPreset(FractalPreset preset) async {
     final presets = await loadUserPresets(preset.moduleId);
-    final updated = [...presets, preset];
+    // Check for duplicate ID and replace if exists
+    final existingIndex = presets.indexWhere((p) => p.id == preset.id);
+    final List<FractalPreset> updated;
+    if (existingIndex >= 0) {
+      // Replace existing preset with same ID
+      updated = [...presets];
+      updated[existingIndex] = preset;
+    } else {
+      // Add new preset
+      updated = [...presets, preset];
+    }
     await _prefs.setString(_key(preset.moduleId), FractalPreset.listToPrefs(updated));
   }
 

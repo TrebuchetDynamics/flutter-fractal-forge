@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:vector_math/vector_math.dart';
@@ -146,9 +147,15 @@ class DeepLinkService {
     try {
       final String? initialUri = await _channel.invokeMethod('getInitialLink');
       if (initialUri != null) {
-        final data = parseUri(Uri.parse(initialUri));
-        if (data != null) {
-          _initialLink = data;
+        try {
+          final uri = Uri.parse(initialUri);
+          final data = parseUri(uri);
+          if (data != null) {
+            _initialLink = data;
+          }
+        } catch (e) {
+          // Malformed URI, ignore
+          debugPrint('Failed to parse initial deep link URI: $e');
         }
       }
     } on PlatformException {
@@ -159,17 +166,24 @@ class DeepLinkService {
   Future<dynamic> _handleMethodCall(MethodCall call) async {
     if (call.method == 'onDeepLink') {
       final String uriString = call.arguments as String;
-      final data = parseUri(Uri.parse(uriString));
-      if (data != null) {
-        _linkController.add(data);
+      try {
+        final uri = Uri.parse(uriString);
+        final data = parseUri(uri);
+        if (data != null) {
+          _linkController.add(data);
+        }
+      } catch (e) {
+        // Malformed URI, ignore
+        debugPrint('Failed to parse deep link URI: $e');
       }
     }
   }
 
   /// Parses a URI into [DeepLinkData].
   ///
-  /// Returns null if the URI is not a valid fractalforge deep link.
-  static DeepLinkData? parseUri(Uri uri) {
+  /// Returns null if the URI is not a valid fractalforge deep link or
+  /// if the fractal type is not recognized.
+  static DeepLinkData? parseUri(Uri uri, {List<String>? validFractalTypes}) {
     // Accept both 'fractalforge' scheme and https with our host
     if (uri.scheme != scheme && uri.scheme != 'https') {
       return null;
@@ -190,6 +204,11 @@ class DeepLinkService {
     final type = params['type'];
 
     if (type == null || type.isEmpty) {
+      return null;
+    }
+
+    // Validate fractal type if validation list provided
+    if (validFractalTypes != null && !validFractalTypes.contains(type)) {
       return null;
     }
 

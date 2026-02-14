@@ -205,12 +205,14 @@ class AutoExploreService extends ChangeNotifier {
   void _scheduleNext() {
     _timer?.cancel();
     _timer = Timer(_nextDwellDuration(), () async {
+      // Check if still exploring before any async operations
       if (!_isExploring || _isPaused) return;
 
       final target = _mode == AutoExploreMode.spiral
           ? _nextSpiralTarget()
           : await _nextWanderTarget();
 
+      // Re-check state after async operation (widget may have disposed)
       if (!_isExploring || _isPaused) return;
 
       if (target == null) {
@@ -222,6 +224,8 @@ class AutoExploreService extends ChangeNotifier {
               controller.view.pan.y + sin(angle) * drift),
           (controller.view.zoom * 0.85).clamp(config.minZoom, config.maxZoom),
         );
+        // Re-check state after animation
+        if (!_isExploring || _isPaused) return;
         _scheduleNext();
         return;
       }
@@ -231,6 +235,10 @@ class AutoExploreService extends ChangeNotifier {
 
       await _animateTo(
           target.pan, target.zoom.clamp(config.minZoom, config.maxZoom));
+
+      // Re-check state after animation before recording and scheduling
+      if (!_isExploring || _isPaused) return;
+
       controller.recordInterestingSpot();
       _scheduleNext();
     });
@@ -289,8 +297,10 @@ class AutoExploreService extends ChangeNotifier {
 
     final completer = Completer<void>();
     _anim = Timer.periodic(frame, (t) {
+      // Always check state before updating controller (prevents disposed widget access)
       if (!_isExploring || _isPaused) {
         t.cancel();
+        _anim = null;
         if (!completer.isCompleted) completer.complete();
         return;
       }
@@ -307,6 +317,7 @@ class AutoExploreService extends ChangeNotifier {
 
       if (raw >= 1.0) {
         t.cancel();
+        _anim = null;
         if (!completer.isCompleted) completer.complete();
       }
     });
