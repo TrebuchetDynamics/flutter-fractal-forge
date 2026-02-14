@@ -58,6 +58,30 @@ done
 echo "Emulator ready."
 ```
 
+## Quick Start: Headless Test Runner Script
+
+This repo includes a one-shot headless runner that will:
+- reuse a running emulator if present, otherwise start the `fractal_test` AVD in `-no-window` mode
+- wait for boot completion
+- disable Android system animations for more deterministic UI timing
+- run a Flutter integration test target
+- capture screenshot + logcat to `agent_test_logs/headless/`
+
+Run:
+```bash
+scripts/headless-emulator-test.sh
+```
+
+Override the test command:
+```bash
+scripts/headless-emulator-test.sh flutter test integration_test/ -d "$DEVICE" --reporter expanded
+```
+
+Keep the emulator running after the test:
+```bash
+KEEP_EMULATOR=1 scripts/headless-emulator-test.sh
+```
+
 ## 2. Running the App on Emulator
 
 ```bash

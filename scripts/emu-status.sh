@@ -20,7 +20,11 @@ echo -e "${BLUE}[EMU-STATUS] Starting emulator diagnostics...${NC}"
 # 1. CHECK IF EMULATOR IS RUNNING
 # ============================================================================
 
-DEVICES=$(adb devices 2>/dev/null | grep -v "List of attached devices" | grep -v "^$" | awk '{print $1}')
+DEVICES=$(adb devices 2>/dev/null \
+  | grep -vE "^List of devices attached" \
+  | grep -vE "^\* daemon" \
+  | grep -vE "^$" \
+  | awk 'NF{print $1}')
 
 if [ -z "$DEVICES" ]; then
     echo -e "${RED}[ERROR] No Android devices found. Is the emulator running?${NC}"

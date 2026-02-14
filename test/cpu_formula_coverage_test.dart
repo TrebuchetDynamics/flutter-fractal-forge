@@ -27,11 +27,11 @@ void main() {
       const height = 64;
 
       // One standard view for consistent comparisons.
-      const viewPan = Vector2(-0.5, 0.0);
+      final viewPan = Vector2(-0.5, 0.0);
       const viewZoom = 3.0;
       const iterations = 80;
       const bailout = 4.0;
-      const juliaC = Vector2(-0.8, 0.156);
+      final juliaC = Vector2(-0.8, 0.156);
 
       final baseline = await renderCpuFrame(
         moduleId: 'mandelbrot',
@@ -83,11 +83,11 @@ void main() {
       const width = 64;
       const height = 64;
 
-      const viewPan = Vector2(-0.5, 0.0);
+      final viewPan = Vector2(-0.5, 0.0);
       const viewZoom = 3.0;
       const iterations = 80;
       const bailout = 4.0;
-      const juliaC = Vector2(-0.8, 0.156);
+      final juliaC = Vector2(-0.8, 0.156);
 
       for (final cfg in escapeTimeCatalog) {
         final frame = await renderCpuFrame(
