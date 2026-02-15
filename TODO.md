@@ -1,102 +1,132 @@
 # Flutter Fractal Forge — Execution TODO
 
-Last updated: 2026-02-11
+Last updated: 2026-02-15
 Owner: Sidon
 
-This is the **active execution plan** (not idea dumping). Items are prioritized and tracked by status.
+## Architecture Direction (decided 2026-02-15)
+
+**GPU-primary, CPU safety net.**
+- GPU is the default renderer (196 pre-compiled fragment shaders, one per fractal)
+- CPU fallback auto-activates via 2s health check when GPU output is invalid
+- CPU path is maintenance-only (no further performance investment)
+- GPU investment: coloring quality, smooth iteration, deep zoom, new formulas
 
 ---
 
 ## P0 — MUST SHIP NEXT
 
-### 1) AR real anchoring (wall/floor/table) — **IN PROGRESS**
-- [ ] Integrate true plane anchors (vertical + horizontal) instead of overlay-only placement
-- [ ] Tap-to-place fractal on detected plane
-- [ ] Auto choose best plane by largest stable area in view (wall/floor/table)
-- [ ] Keep overlay mode as fallback when ARCore/ARKit unavailable
-- [ ] Device validation checklist on S24 (wall lock, drift, relocalization)
+### 1) GPU visual quality — smooth coloring + palette system
+- [ ] Add smooth/continuous escape-time coloring to all escape-time shaders (eliminate banding)
+- [ ] Implement palette uniform system (pass palette as texture/uniform array to shaders)
+- [ ] Allow user palette selection from viewer controls
+- [ ] Add regression test: render canonical viewport, assert no banding artifacts
 
-### 2) Export behavior hardening — **IN PROGRESS**
+### 2) Play Store release polish
+- [x] Play Store checklist doc created
+- [ ] App icon finalized (adaptive icon + Play Store feature graphic)
+- [ ] Store listing copy (title, short desc, full desc, screenshots)
+- [ ] Privacy policy URL
+- [ ] Content rating questionnaire
+- [ ] Signing key + upload to Play Console
+- [ ] Internal testing track → closed beta → production
+
+### 3) Catalog expansion toward 200+
+- [x] 196 escape-time fractals with GPU shaders
+- [ ] Add PRD manifest loader (`assets/catalog/prd_catalog.json`)
+- [ ] Add ID lock/integrity tests for full catalog
+- [ ] Add filter/sort + list/grid toggle for large catalogs
+- [ ] Add 4+ new fractal formulas (target 200+)
+
+### 4) Export behavior hardening
 - [x] Opening Export pauses auto-navigation and freezes frame
 - [x] Separate Save vs Share actions
-- [ ] Resume policy prompt after export (resume auto-pilot or stay manual)
+- [ ] Resume policy prompt after export
 - [ ] Share flow QA: WhatsApp / Instagram / X / device gallery
-
-### 3) Deep zoom quality + precision fallback — **IN PROGRESS**
-- [x] GPU→CPU fallback policy added for key fractals
-- [x] CPU supersampling + smoother coloring added
-- [ ] Tune per-fractal fallback thresholds on device
-- [ ] Add on-screen “High precision mode” indicator
-- [ ] Validate no visible handoff jumps during pinch zoom
-
-### 4) Catalog redesign + 200 PRD rollout (with previews) — **IN PROGRESS**
-- [x] Stable catalog IDs introduced (`core.<module_id>`)
-- [x] Thumbnail previews wired per item (deterministic preview)
-- [ ] Add PRD manifest loader (`assets/catalog/prd_catalog.json`)
-- [ ] Add ID lock/integrity tests for 200 list
-- [ ] Add filter/sort + list/grid toggle for large catalogs
-- [ ] Map full 200 PRD entries to runtime modules/status
 
 ---
 
 ## P1 — HIGH PRIORITY AFTER P0
 
-### 5) Auto-Pilot navigation + user corrections
+### 5) Deep zoom: perturbation theory in GPU shaders
+- [ ] Research perturbation + series approximation for Mandelbrot shader
+- [ ] Implement reference orbit calculation (CPU) + delta iteration (GPU)
+- [ ] Enable zoom beyond float32 precision wall (~10^7) on GPU
+- [ ] CPU fallback remains for non-perturbation fractals at extreme zoom
+
+### 6) AR real anchoring (wall/floor/table)
+- [ ] Integrate true plane anchors (vertical + horizontal)
+- [ ] Tap-to-place fractal on detected plane
+- [ ] Keep overlay mode as fallback when ARCore/ARKit unavailable
+
+### 7) Auto-Pilot navigation improvements
 - [ ] Improve path smoothness and dwell behavior
 - [ ] Accept manual pan/zoom corrections while auto mode runs
 - [ ] Add quick actions: Accept framing / Reject and try another
-- [ ] Persist correction bias per fractal type
 
-### 6) Grain/noise reduction (GPU path)
-- [ ] Improve smooth coloring near escape boundary
-- [ ] Reduce palette banding/noise at high iterations
-- [ ] Add regression test scene for noise score comparisons
-
-### 7) Stable sharing/export presets
-- [ ] One-tap presets for Instagram feed/story, X, WhatsApp
-- [ ] Keep exact frame lock from viewer to exported file
-- [ ] Verify EXIF/metadata persistence policy
+### 8) In-app diagnostic logger enhancements
+- [x] Core logger with export (text/JSON/share) — commit 5ae1c9e
+- [x] Logs: lifecycle, GPU health, shader load, backend switches, user actions, state snapshots
+- [ ] Add gesture logging (pan/zoom start/end with coordinates)
+- [ ] Add performance metrics logging (frame time, fps)
+- [ ] Persist log across app restarts (write to file)
 
 ---
 
 ## P2 — IMPORTANT PRODUCT POLISH
 
-### 8) Preset management
+### 9) Preset management
 - [ ] Delete preset
 - [ ] Rename/edit preset
 - [ ] Preset thumbnail generation
 
-### 9) Viewer controls ergonomics
+### 10) Viewer controls ergonomics
 - [ ] Make controls sheet snap/collapse more aggressively
 - [ ] Move non-critical actions into compact overflow
 
-### 10) Onboarding and accessibility
+### 11) Onboarding and accessibility
 - [ ] Explain gestures + AR behavior clearly
 - [ ] Improve screen-reader labels for catalog and controls
+
+### 12) Stable sharing/export presets
+- [ ] One-tap presets for Instagram feed/story, X, WhatsApp
+- [ ] Keep exact frame lock from viewer to exported file
 
 ---
 
 ## DONE RECENTLY
 
-- [x] Home screen Explore/AR tabs removed; AR entry stays in viewer
-- [x] Gesture sync improved (1 finger pan, 2 finger zoom feel)
-- [x] AR panel made less intrusive (collapsed bar + reorganized controls)
+- [x] In-app diagnostic logger with export (commit 5ae1c9e)
+- [x] Fix GPU "Loading shaders..." stuck forever — _loading flag bug (commit 2066e43)
+- [x] GPU debug report payload enhanced with health metrics (commit 2ec66a2)
+- [x] CPU visual gate test (blockiness + luminance diversity)
+- [x] CPU quality: zoom-scaled iterations + 2x2 AA refine pass (commit 7767213)
+- [x] Renderer backend setting (Auto/CPU/GPU) with persistence (commit 2c24554)
+- [x] CPU tile renderer (96px, center-first spiral, cancel-on-gesture)
+- [x] 196/196 render audit passing
 - [x] 64 palette support + horizontal palette selector
+- [x] Home screen simplified; AR entry in viewer only
 
 ---
 
-## OUT OF SCOPE (explicit)
+## CPU Path — Maintenance Only
+
+The CPU renderer works and passes all tests. No further performance investment.
+- CPU progressive tiles with preview→refine
+- Persistent worker isolate
+- Iteration buffer + proxy iterators for audit
+- Maintained for: emulator testing, broken GPU fallback, deep zoom precision
+
+---
+
+## OUT OF SCOPE
 
 - Arenaton implementation is out of scope for this repo/agent.
 - Sidon works only on Flutter Fractal Forge + fractal tasks.
+- Dynamic runtime shader compilation (user-defined formulas) — future feature, not now.
 
 ---
 
 ## Working agreement (Juan)
 
 - Use multiple subagents for independent tracks in parallel.
-- Send concise progress every ~30 minutes:
-  - Done
-  - In progress
-  - Blocked
-  - Next APK/tests
+- Send concise progress every ~30 minutes.
