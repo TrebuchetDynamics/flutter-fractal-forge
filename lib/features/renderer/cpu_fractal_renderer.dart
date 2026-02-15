@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'dart:isolate';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
@@ -9,6 +11,7 @@ import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
 ///
@@ -41,7 +44,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Object? _error;
   int _job = 0;
   Timer? _debounce;
+  Timer? _refineTimer;
   RenderCheckResult? _lastValidation;
+
+  // Preview vs refine rendering.
+  DateTime? _lastInteractionAt;
 
   @override
   void initState() {
@@ -56,6 +63,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         oldWidget.state.view.zoom != widget.state.view.zoom ||
         oldWidget.state.view.pan != widget.state.view.pan ||
         oldWidget.state.params != widget.state.params) {
+      _markInteraction();
       _scheduleRender();
     }
   }
@@ -63,75 +71,121 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   @override
   void dispose() {
     _debounce?.cancel();
+    _refineTimer?.cancel();
     super.dispose();
+  }
+
+  void _markInteraction() {
+    _lastInteractionAt = DateTime.now();
+  }
+
+  bool _shouldStillBeInteracting() {
+    final t = _lastInteractionAt;
+    if (t == null) return false;
+    return DateTime.now().difference(t) < const Duration(milliseconds: 220);
   }
 
   void _scheduleRender() {
     _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 120), _render);
+    _debounce = Timer(const Duration(milliseconds: 60), _renderPreview);
+
+    // Schedule a refine pass after user stops touching.
+    _refineTimer?.cancel();
+    _refineTimer = Timer(const Duration(milliseconds: 260), () {
+      if (!mounted) return;
+      if (_shouldStillBeInteracting()) {
+        // Still moving; we'll get rescheduled by later updates.
+        return;
+      }
+      _renderRefine();
+    });
   }
 
-  Future<void> _render() async {
+  Future<CpuRenderFrame> _renderFrame({
+    required int width,
+    required int height,
+    required int iterations,
+    required double bailout,
+    required Vector2 juliaC,
+    required int sampleCount,
+  }) async {
+    final req = CpuRenderRequest(
+      moduleId: widget.module.id,
+      panX: widget.state.view.pan.x,
+      panY: widget.state.view.pan.y,
+      zoom: widget.state.view.zoom,
+      iterations: iterations,
+      bailout: bailout,
+      juliaCX: juliaC.x,
+      juliaCY: juliaC.y,
+      width: width,
+      height: height,
+      sampleCount: sampleCount,
+    );
+
+    final resp = await Isolate.run(() => renderCpuFrameInIsolate(req));
+    return CpuRenderFrame(rgba: resp.rgba, width: resp.width, height: resp.height);
+  }
+
+  Future<void> _renderPreview() async {
     final int job = ++_job;
     try {
       final iterations = _readInt(widget.state.params, 'iterations', 220);
       final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
 
-      // Interactive CPU mode: prioritize responsiveness.
-      // We start with 1 sample per pixel and a modest resolution; users can
-      // still export higher quality later.
-      final targetW = widget.width;
-      final targetH = widget.height;
-      CpuRenderFrame frame = await renderCpuFrame(
-        moduleId: widget.module.id,
-        viewPan: widget.state.view.pan,
-        viewZoom: widget.state.view.zoom,
+      // During interaction we render a smaller buffer for speed.
+      final w = (widget.width * 0.8).round().clamp(200, widget.width);
+      final h = (widget.height * 0.8).round().clamp(200, widget.height);
+
+      var frame = await _renderFrame(
+        width: w,
+        height: h,
         iterations: iterations,
         bailout: bailout,
         juliaC: juliaC,
-        width: targetW,
-        height: targetH,
         sampleCount: 1,
       );
 
-      // Emulator safety: if a frame is effectively all black, fall back to a
-      // known-good overview for the selected module so users always see fractal detail.
+      // Ensure user always sees something.
       if (_isNearlyBlack(frame.rgba)) {
         final fallback = _fallbackView(widget.module.id);
-        frame = await renderCpuFrame(
+        final req = CpuRenderRequest(
           moduleId: widget.module.id,
-          viewPan: fallback.$1,
-          viewZoom: fallback.$2,
+          panX: fallback.$1.x,
+          panY: fallback.$1.y,
+          zoom: fallback.$2,
           iterations: iterations,
           bailout: bailout,
-          juliaC: juliaC,
-          width: widget.width,
-          height: widget.height,
-          sampleCount: 4,
+          juliaCX: juliaC.x,
+          juliaCY: juliaC.y,
+          width: w,
+          height: h,
+          sampleCount: 1,
         );
+        final resp = await Isolate.run(() => renderCpuFrameInIsolate(req));
+        frame = CpuRenderFrame(rgba: resp.rgba, width: resp.width, height: resp.height);
       }
 
       final img = await frame.toImage();
 
-      final probeFrame = await renderCpuFrame(
-        moduleId: widget.module.id,
-        viewPan: widget.state.view.pan,
-        viewZoom: widget.state.view.zoom,
-        iterations: iterations + 16,
-        bailout: bailout,
-        juliaC: juliaC,
-        width: targetW,
-        height: targetH,
-        sampleCount: 1,
-      );
-      final validation = validateRenderPair(
-        frameA: frame.rgba,
-        frameB: probeFrame.rgba,
-        width: frame.width,
-        height: frame.height,
-      );
+      // Optional validation only in debug builds.
+      RenderCheckResult? validation;
       if (kDebugMode) {
+        final probe = await _renderFrame(
+          width: w,
+          height: h,
+          iterations: iterations + 16,
+          bailout: bailout,
+          juliaC: juliaC,
+          sampleCount: 1,
+        );
+        validation = validateRenderPair(
+          frameA: frame.rgba,
+          frameB: probe.rgba,
+          width: frame.width,
+          height: frame.height,
+        );
         debugPrint(validation.summary('cpu'));
       }
 
@@ -140,6 +194,61 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         _image = img;
         _error = null;
         _lastValidation = validation;
+      });
+    } catch (e) {
+      if (!mounted || job != _job) return;
+      setState(() {
+        _image = null;
+        _error = e;
+      });
+    }
+  }
+
+  Future<void> _renderRefine() async {
+    final int job = ++_job;
+    try {
+      final iterations = _readInt(widget.state.params, 'iterations', 220);
+      final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
+      final juliaC = _juliaC(widget.state.params);
+
+      // When the user stops, refine at full widget resolution.
+      final w = widget.width;
+      final h = widget.height;
+
+      var frame = await _renderFrame(
+        width: w,
+        height: h,
+        iterations: iterations,
+        bailout: bailout,
+        juliaC: juliaC,
+        sampleCount: 1,
+      );
+
+      if (_isNearlyBlack(frame.rgba)) {
+        final fallback = _fallbackView(widget.module.id);
+        final req = CpuRenderRequest(
+          moduleId: widget.module.id,
+          panX: fallback.$1.x,
+          panY: fallback.$1.y,
+          zoom: fallback.$2,
+          iterations: iterations,
+          bailout: bailout,
+          juliaCX: juliaC.x,
+          juliaCY: juliaC.y,
+          width: w,
+          height: h,
+          sampleCount: 1,
+        );
+        final resp = await Isolate.run(() => renderCpuFrameInIsolate(req));
+        frame = CpuRenderFrame(rgba: resp.rgba, width: resp.width, height: resp.height);
+      }
+
+      final img = await frame.toImage();
+
+      if (!mounted || job != _job) return;
+      setState(() {
+        _image = img;
+        _error = null;
       });
     } catch (e) {
       if (!mounted || job != _job) return;
