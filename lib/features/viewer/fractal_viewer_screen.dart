@@ -254,7 +254,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   void _scheduleGpuHealthCheck() {
     _gpuHealthTimer?.cancel();
-    _gpuHealthTimer = Timer(const Duration(seconds: 3), () async {
+    _gpuHealthTimer = Timer(const Duration(seconds: 2), () async {
       if (!mounted) return;
       if (_compareMode) return;
       if (_backendDecision.backend == RendererBackend.cpu) return;
@@ -263,9 +263,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       if (controller.module.dimension != FractalDimension.twoD) return;
 
       final boundaryContext = _fractalKeyA.currentContext;
-      if (boundaryContext == null) return;
+      if (boundaryContext == null) {
+        _log.warn('gpu', 'Health check skipped: no boundary context (renderer not mounted?)');
+        return;
+      }
       final renderObject = boundaryContext.findRenderObject();
-      if (renderObject is! RenderRepaintBoundary) return;
+      if (renderObject is! RenderRepaintBoundary) {
+        _log.warn('gpu', 'Health check skipped: no RenderRepaintBoundary');
+        return;
+      }
 
       try {
         // Capture original iterations value to restore after health check
@@ -326,6 +332,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         );
       } catch (e) {
         _lastGpuHealthError = e;
+        _log.error('gpu', 'Health check error', data: {'error': e.toString()});
         // Attempt to restore original iterations on error (best effort)
         try {
           final originalIterations = controller.params['iterations'];

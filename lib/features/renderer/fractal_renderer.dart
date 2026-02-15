@@ -268,6 +268,7 @@ class _FractalRendererState extends State<FractalRenderer>
             _program = program;
             _shaderAsset = asset;
             _shaderRetryCount = 0;
+            _loading = false;
           });
         }
         final dt = DateTime.now()
@@ -275,6 +276,7 @@ class _FractalRendererState extends State<FractalRenderer>
             .inMilliseconds;
         debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
         AppLogger.instance.logState('gpu', 'Shader loaded', {'asset': asset, 'compileMs': dt});
+        _loading = false;
         return;
       } catch (e, stack) {
         final errorType = _categorizeShaderError(e);
