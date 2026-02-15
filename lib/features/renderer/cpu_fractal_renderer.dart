@@ -256,9 +256,14 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Future<void> _renderPreview() async {
     final int job = ++_job;
     try {
-      final iterations = _readInt(widget.state.params, 'iterations', 220);
+      final baseIterations = _readInt(widget.state.params, 'iterations', 220);
       final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
+
+      // Increase iteration budget as zoom increases to avoid blotchy boundaries.
+      final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
+      final extra = (math.log(z) / math.ln2 * 24.0).round();
+      final iterations = (baseIterations + extra).clamp(50, 500);
 
       // During interaction we render a smaller buffer for speed.
       final w = (widget.width * 0.8).round().clamp(200, widget.width);
@@ -353,9 +358,14 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Future<void> _renderRefine() async {
     final int job = ++_job;
     try {
-      final iterations = _readInt(widget.state.params, 'iterations', 220);
+      final baseIterations = _readInt(widget.state.params, 'iterations', 220);
       final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
+
+      // Increase iteration budget as zoom increases to avoid blotchy boundaries.
+      final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
+      final extra = (math.log(z) / math.ln2 * 24.0).round();
+      final iterations = (baseIterations + extra).clamp(50, 500);
 
       // When the user stops, refine at full widget resolution.
       final w = widget.width;
@@ -367,7 +377,8 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         iterations: iterations,
         bailout: bailout,
         juliaC: juliaC,
-        sampleCount: 1,
+        // Refine pass: use 2x2 supersampling for better edge quality.
+        sampleCount: 4,
         job: job,
         maxTime: null,
         onPartial: (img) {
