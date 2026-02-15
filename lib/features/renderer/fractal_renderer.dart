@@ -9,6 +9,7 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
+import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import './providers/fractal_provider.dart';
 import 'cpu_fractal_renderer.dart';
 import 'deep_zoom_precision_policy.dart';
@@ -273,11 +274,15 @@ class _FractalRendererState extends State<FractalRenderer>
             .difference(_shaderLoadStartedAt ?? DateTime.now())
             .inMilliseconds;
         debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
+        AppLogger.instance.logState('gpu', 'Shader loaded', {'asset': asset, 'compileMs': dt});
         return;
       } catch (e, stack) {
         final errorType = _categorizeShaderError(e);
         debugPrint(
             '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
+        AppLogger.instance.logState('gpu', 'Shader load failed', {
+          'asset': asset, 'attempt': attempt, 'type': errorType.name, 'error': e.toString(),
+        }, level: LogLevel.error);
 
         // Report to crash reporter
         CrashReporter.instance.record(

@@ -47,6 +47,8 @@ import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
+import 'package:flutter_fractals/core/services/app_logger_service.dart';
+import 'package:flutter_fractals/features/debug/log_viewer_screen.dart';
 import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -134,6 +136,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Timer? _backendDebounceTimer;
   DateTime? _lastBackendSwitch;
 
+  final AppLogger _log = AppLogger.instance;
+
   @override
   void initState() {
     super.initState();
@@ -141,6 +145,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       duration: AppAnimations.normal,
       vsync: this,
     )..forward();
+    _log.info('lifecycle', 'FractalViewerScreen initState');
   }
 
   @override
@@ -191,6 +196,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Future<void> _detectEmulatorProfile() async {
     final isEmulator = await detectAndroidEmulator();
     if (!mounted) return;
+    _log.logState('lifecycle', 'Emulator detection', {'isEmulator': isEmulator});
     setState(() {
       _isAndroidEmulator = isEmulator;
       _refreshBackendDecision();
@@ -203,6 +209,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     final mode = context.read<RendererSettingsService>().backendMode;
 
+    final oldBackend = _backendDecision.backend;
     final newDecision = _backendPolicy.decide(
       BackendPolicyInput(
         isAndroid: !kIsWeb && Platform.isAndroid,
@@ -220,6 +227,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     // Add hysteresis to prevent rapid backend switching (flicker bug)
     // Only switch if decision changed AND enough time has passed
+    if (newDecision.backend != oldBackend) {
+      _log.logState('render', 'Backend switch', {
+        'from': oldBackend.name,
+        'to': newDecision.backend.name,
+        'reason': newDecision.reasonToken,
+        'detail': newDecision.detail,
+      });
+    }
     if (newDecision.backend != _backendDecision.backend) {
       final now = DateTime.now();
       final lastSwitch = _lastBackendSwitch;
@@ -296,6 +311,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _lastGpuSampleCount = width * height;
         _gpuHealthFailed = !result.centerNonBlack || !result.histogramSane;
 
+        _log.logState('gpu', 'GPU health check', {
+          'pass': !_gpuHealthFailed,
+          'nonBlackRatio': result.nonBlackRatio,
+          'centerNonBlack': result.centerNonBlack,
+          'histogramSane': result.histogramSane,
+          'sampleCount': width * height,
+        }, level: _gpuHealthFailed ? LogLevel.warn : LogLevel.info);
+
         _refreshBackendDecision();
         debugPrint(result.summary('gpu'));
         debugPrint(
@@ -356,6 +379,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     // Unique fractals explored
     final currentId = controller.module.id;
     if (_lastModuleId != currentId) {
+      _log.logState('action', 'Module changed', {
+        'from': _lastModuleId,
+        'to': currentId,
+      });
       _lastModuleId = currentId;
       _statsService?.recordFractalExplored(currentId);
     }
@@ -499,6 +526,24 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             icon: Icons.shuffle_rounded,
             tooltip: 'Random Fractal',
             onPressed: () => _jumpToRandomFractal(context),
+          ),
+          _AppBarIconButton(
+            icon: Icons.receipt_long_rounded,
+            tooltip: 'View Log',
+            onPressed: () {
+              _log.logState('state', 'Snapshot at log open', {
+                'module': controller.module.id,
+                'panX': controller.view.pan.x,
+                'panY': controller.view.pan.y,
+                'zoom': controller.view.zoom,
+                'iterations': controller.params['iterations'],
+                'backend': _backendDecision.backend.name,
+                'backendReason': _backendDecision.reasonToken,
+              });
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const LogViewerScreen()),
+              );
+            },
           ),
         ],
       ),
@@ -901,6 +946,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   void _jumpToRandomFractal(BuildContext context) {
+    _log.info('action', 'Random fractal');
     final registry = context.read<ModuleRegistry>();
     final controller = context.read<FractalController>();
     final currentId = controller.module.id;
@@ -1034,7 +1080,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
-  void _openControls(BuildContext context) {  
+  void _openControls(BuildContext context) {
+    _log.info('action', 'Open controls');
     final controller = _activeController(context);
     showModalBottomSheet(
       context: context,
@@ -1048,6 +1095,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   void _openPresets(BuildContext context) {
+    _log.info('action', 'Open presets');
     final controller = _activeController(context);
     showModalBottomSheet(
       context: context,
@@ -1186,6 +1234,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   void _openExport(BuildContext context) {
+    _log.info('action', 'Open export');
     final controller = _activeController(context);
     _pauseAutoExploreForExportSheet();
     setState(() {
