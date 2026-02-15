@@ -182,6 +182,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     required ValueChanged<ui.Image> onPartial,
   }) async {
     final full = Uint8List(width * height * 4);
+    // Start with an opaque background so partial-tile progressive updates don't
+    // look like "missing" regions (transparent pixels showing the UI behind).
+    for (int i = 3; i < full.length; i += 4) {
+      full[i] = 255;
+    }
     final started = DateTime.now();
 
     int tilesDone = 0;

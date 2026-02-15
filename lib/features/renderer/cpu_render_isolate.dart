@@ -173,7 +173,10 @@ Uint8List _renderRect({
   final centerY = panY;
   final z = zoom <= 0 ? 1.0 : zoom;
 
-  final scale = 3.0 / z;
+  // Mandelbrot viewport baseline:
+  // x in [-2.0, 1.0] (width 3.0) and y in [-1.5, 1.5] (height 3.0).
+  // Using half-range 1.5 keeps the set correctly proportioned.
+  final scale = 1.5 / z;
   final aspect = fullWidth / fullHeight;
 
   final bytes = Uint8List(w * h * 4);
