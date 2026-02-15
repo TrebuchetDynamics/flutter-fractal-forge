@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'dart:isolate';
@@ -537,7 +538,9 @@ Future<CpuRenderFrame> renderCpuFrame({
   final centerY = viewPan.y;
   final zoom = viewZoom <= 0 ? 1.0 : viewZoom;
 
-  final scale = 3.0 / zoom;
+  // Mandelbrot viewport baseline: y in [-1.5, 1.5] => half-range 1.5
+  // (matches tile/isolate renderer mapping).
+  final scale = 1.5 / zoom;
   final aspect = width / height;
   final bytes = Uint8List(width * height * 4);
   final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
@@ -578,6 +581,136 @@ Future<CpuRenderFrame> renderCpuFrame({
   }
 
   return CpuRenderFrame(rgba: bytes, width: width, height: height);
+}
+
+/// Iteration/escape buffer (palette-independent) for correctness + quality metrics.
+///
+/// Returns a [Uint16List] with one entry per pixel:
+/// - 0..iterations: integer escape iteration count
+/// - iterations means "inside" (did not escape)
+Future<Uint16List?> renderCpuIterationBuffer({
+  required String moduleId,
+  required Vector2 viewPan,
+  required double viewZoom,
+  required int iterations,
+  required double bailout,
+  required Vector2 juliaC,
+  required int width,
+  required int height,
+}) async {
+  final centerX = viewPan.x;
+  final centerY = viewPan.y;
+  final zoom = viewZoom <= 0 ? 1.0 : viewZoom;
+
+  final scale = 1.5 / zoom;
+  final aspect = width / height;
+
+  // For now: implement the core 4 goldens only.
+  // (Extending this to all catalog modules will require refactoring cpu_formulas
+  // to expose iteration counts for each recurrence.)
+  int Function(double cx, double cy)? iterFn;
+  switch (moduleId) {
+    case 'mandelbrot':
+      iterFn = (cx, cy) => _iterMandelbrot(cx, cy, iterations, bailout);
+      break;
+    case 'burning_ship':
+      iterFn = (cx, cy) => _iterBurningShip(cx, cy, iterations, bailout);
+      break;
+    case 'tricorn':
+      iterFn = (cx, cy) => _iterTricorn(cx, cy, iterations, bailout);
+      break;
+    case 'julia':
+      iterFn = (cx, cy) => _iterJulia(cx, cy, iterations, bailout, juliaC);
+      break;
+    default:
+      return null;
+  }
+
+  final out = Uint16List(width * height);
+  for (int y = 0; y < height; y++) {
+    final ny = (y / (height - 1)) * 2.0 - 1.0;
+    for (int x = 0; x < width; x++) {
+      final nx = (x / (width - 1)) * 2.0 - 1.0;
+      final cx = centerX + nx * scale * aspect;
+      final cy = centerY + ny * scale;
+      out[y * width + x] = iterFn(cx, cy).clamp(0, iterations);
+    }
+  }
+  return out;
+}
+
+int _iterMandelbrot(double cx, double cy, int iterations, double bailout) {
+  double zx = 0.0;
+  double zy = 0.0;
+  final bailout2 = bailout * bailout;
+  int it = 0;
+  while (it < iterations) {
+    final zx2 = zx * zx;
+    final zy2 = zy * zy;
+    if (zx2 + zy2 > bailout2) break;
+    final nx = zx2 - zy2 + cx;
+    final ny = 2.0 * zx * zy + cy;
+    zx = nx;
+    zy = ny;
+    it++;
+  }
+  return it;
+}
+
+int _iterBurningShip(double cx, double cy, int iterations, double bailout) {
+  double zx = 0.0;
+  double zy = 0.0;
+  final bailout2 = bailout * bailout;
+  int it = 0;
+  while (it < iterations) {
+    final ax = zx.abs();
+    final ay = zy.abs();
+    final zx2 = ax * ax;
+    final zy2 = ay * ay;
+    if (zx2 + zy2 > bailout2) break;
+    final nx = zx2 - zy2 + cx;
+    final ny = 2.0 * ax * ay + cy;
+    zx = nx;
+    zy = ny;
+    it++;
+  }
+  return it;
+}
+
+int _iterTricorn(double cx, double cy, int iterations, double bailout) {
+  double zx = 0.0;
+  double zy = 0.0;
+  final bailout2 = bailout * bailout;
+  int it = 0;
+  while (it < iterations) {
+    final zx2 = zx * zx;
+    final zy2 = zy * zy;
+    if (zx2 + zy2 > bailout2) break;
+    final nx = zx2 - zy2 + cx;
+    final ny = -2.0 * zx * zy + cy;
+    zx = nx;
+    zy = ny;
+    it++;
+  }
+  return it;
+}
+
+int _iterJulia(double x, double y, int iterations, double bailout, Vector2 c) {
+  double zx = x;
+  double zy = y;
+  final bailout2 = bailout * bailout;
+  int it = 0;
+  while (it < iterations) {
+    final zx2 = zx * zx;
+    final zy2 = zy * zy;
+    if (zx2 + zy2 > bailout2) break;
+    final nx = zx2 - zy2 + c.x;
+    final ny = 2.0 * zx * zy + c.y;
+    zx = nx;
+    zy = ny;
+    it++;
+  }
+  return it;
 }
 
 /// Lower is smoother (less grain).

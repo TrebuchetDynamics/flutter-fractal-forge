@@ -17,6 +17,8 @@ import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 
+// Iteration-buffer metrics (preferred) vs RGB metrics (fallback).
+
 const int _size = 64; // Small for speed, enough for structural metrics
 
 // Old audit used a single RGB stdev threshold which produces many false negatives
@@ -41,7 +43,7 @@ void main() {
     for (final config in escapeTimeCatalog) {
       total++;
       try {
-        final frame = await renderCpuFrame(
+        final iters = await renderCpuIterationBuffer(
           moduleId: config.id,
           viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
           viewZoom: config.defaultZoom,
@@ -50,11 +52,24 @@ void main() {
           juliaC: Vector2(-0.8, 0.156),
           width: _size,
           height: _size,
-          sampleCount: 1,
         );
-        final rgba = frame.rgba;
 
-        final stats = _analyzeFrame(rgba, _size, _size);
+        // If the iteration-buffer path is not available for this module yet,
+        // fall back to the RGB structural metric.
+        final stats = iters != null
+            ? _analyzeIterationBuffer(iters, _size, _size)
+            : _analyzeFrame((await renderCpuFrame(
+                moduleId: config.id,
+                viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
+                viewZoom: config.defaultZoom,
+                iterations: config.defaultIterations.round().clamp(50, 300),
+                bailout: config.defaultBailout,
+                juliaC: Vector2(-0.8, 0.156),
+                width: _size,
+                height: _size,
+                sampleCount: 1,
+              ))
+                .rgba, _size, _size);
 
         String status;
         if (stats.nonBlackRatio < 0.01) {
@@ -136,6 +151,7 @@ void main() {
   int width,
   int height,
 ) {
+
   final colors = <int>{};
 
   // Full-frame non-black ratio + luminance buffer.
@@ -196,3 +212,62 @@ void main() {
     hasStructure: hasStructure,
   );
 }
+
+({
+  double edgeDensity,
+  double entropyBits,
+  double nonBlackRatio,
+  int uniqueColors,
+  bool hasStructure,
+}) _analyzeIterationBuffer(
+  Uint16List iters,
+  int width,
+  int height,
+) {
+  // Treat iteration counts as a scalar field. This avoids palette artifacts.
+  final hist = List<int>.filled(_histBins, 0);
+  int nonZero = 0;
+
+  int edgeCount = 0;
+  int interior = 0;
+
+  int at(int x, int y) => iters[y * width + x];
+
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      final v = at(x, y);
+      if (v != 0) nonZero++;
+
+      final bin = ((v / 300.0) * _histBins).floor().clamp(0, _histBins - 1);
+      hist[bin]++;
+
+      if (x > 0 && x < width - 1 && y > 0 && y < height - 1) {
+        interior++;
+        final dx = (at(x + 1, y) - at(x - 1, y)).abs();
+        final dy = (at(x, y + 1) - at(x, y - 1)).abs();
+        if (dx + dy >= 4) edgeCount++;
+      }
+    }
+  }
+
+  final nonBlackRatio = nonZero / (width * height);
+  final edgeDensity = interior == 0 ? 0.0 : edgeCount / interior;
+
+  final n = (width * height).toDouble();
+  double entropy = 0.0;
+  for (final c in hist) {
+    if (c == 0) continue;
+    final p = c / n;
+    entropy -= p * (math.log(p) / math.ln2);
+  }
+
+  final hasStructure = edgeDensity >= _minEdgeDensity || entropy >= _minEntropyBits;
+  return (
+    edgeDensity: edgeDensity,
+    entropyBits: entropy,
+    nonBlackRatio: nonBlackRatio,
+    uniqueColors: hist.where((c) => c > 0).length,
+    hasStructure: hasStructure,
+  );
+}
+
