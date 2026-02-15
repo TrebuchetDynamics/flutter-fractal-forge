@@ -98,6 +98,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   bool _gpuHealthFailed = false;
   bool _isAndroidEmulator = false;
   double? _lastGpuDarkRatio;
+  double? _lastGpuNonBlackRatio;
+  bool? _lastGpuCenterNonBlack;
+  bool? _lastGpuHistogramSane;
   int? _lastGpuSampleCount;
   Object? _lastGpuHealthError;
   Timer? _gpuHealthTimer;
@@ -286,12 +289,18 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           controller.updateParam('iterations', originalIterations);
         }
 
+        _lastGpuNonBlackRatio = result.nonBlackRatio;
         _lastGpuDarkRatio = 1.0 - result.nonBlackRatio;
+        _lastGpuCenterNonBlack = result.centerNonBlack;
+        _lastGpuHistogramSane = result.histogramSane;
         _lastGpuSampleCount = width * height;
         _gpuHealthFailed = !result.centerNonBlack || !result.histogramSane;
 
         _refreshBackendDecision();
         debugPrint(result.summary('gpu'));
+        debugPrint(
+          '[renderer] gpu_health nonBlackRatio=${result.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${result.centerNonBlack} histogramSane=${result.histogramSane} sampleCount=${width * height}',
+        );
       } catch (e) {
         _lastGpuHealthError = e;
         // Attempt to restore original iterations on error (best effort)
@@ -741,10 +750,17 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         'timestamp': DateTime.now().toIso8601String(),
         'moduleId': controller.module.id,
         'moduleDimension': controller.module.dimension.name,
-        'cpuFallbackActive': _backendDecision.backend == RendererBackend.cpu,
-        'backendReasonCode': _backendDecision.reasonToken,
+        'rendererPreference': context.read<RendererSettingsService>().backendMode.name,
+        'backendDecision': {
+          'backend': _backendDecision.backend.name,
+          'reasonCode': _backendDecision.reasonToken,
+          'detail': _backendDecision.detail,
+        },
         'gpuHealthCheckEnabled': true,
+        'lastGpuNonBlackRatio': _lastGpuNonBlackRatio,
         'lastGpuDarkRatio': _lastGpuDarkRatio,
+        'lastGpuCenterNonBlack': _lastGpuCenterNonBlack,
+        'lastGpuHistogramSane': _lastGpuHistogramSane,
         'lastGpuSampleCount': _lastGpuSampleCount,
         'lastGpuHealthError': _lastGpuHealthError?.toString(),
         'platform': Platform.operatingSystem,

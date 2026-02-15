@@ -42,13 +42,7 @@ void main() {
     // Quick sanity checks.
     final rgba = resp.rgba;
     int nonBlack = 0;
-    for (int i = 0; i < rgba.length; i += 4) {
-      if (rgba[i] > 8 || rgba[i + 1] > 8 || rgba[i + 2] > 8) nonBlack++;
-    }
-    expect(nonBlack / (w * h), greaterThan(0.10), reason: 'Should not be mostly black');
-
-    // Blockiness metric: large flat 8x8 blocks are a regression.
-    // We compute the mean per-block luminance and count identical adjacent blocks.
+    final lumBins = List<int>.filled(32, 0);
     double lumAt(int px, int py) {
       final idx = (py * w + px) * 4;
       final r = rgba[idx];
@@ -56,6 +50,27 @@ void main() {
       final b = rgba[idx + 2];
       return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     }
+
+    for (int y = 0; y < h; y++) {
+      for (int x = 0; x < w; x++) {
+        final idx = (y * w + x) * 4;
+        if (rgba[idx] > 8 || rgba[idx + 1] > 8 || rgba[idx + 2] > 8) {
+          nonBlack++;
+        }
+        final l = lumAt(x, y);
+        final b = (l / 256.0 * lumBins.length).floor().clamp(0, lumBins.length - 1);
+        lumBins[b]++;
+      }
+    }
+
+    expect(nonBlack / (w * h), greaterThan(0.10), reason: 'Should not be mostly black');
+
+    // Not gradient-only / flat: require some luminance diversity.
+    final nonZeroBins = lumBins.where((c) => c > (w * h * 0.001)).length;
+    expect(nonZeroBins, greaterThanOrEqualTo(6), reason: 'Too few luminance bins (flat/gradient-only)');
+
+    // Blockiness metric: large flat 8x8 blocks are a regression.
+    // We compute the mean per-block luminance and count identical adjacent blocks.
 
     const bs = 8;
     final bw = w ~/ bs;
