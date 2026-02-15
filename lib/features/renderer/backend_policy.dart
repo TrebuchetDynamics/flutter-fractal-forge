@@ -169,14 +169,40 @@ class RendererBackendPolicy {
 Future<bool> detectAndroidEmulator() async {
   if (kIsWeb || !Platform.isAndroid) return false;
 
+  // 1. /proc/cpuinfo — check for emulator markers
   try {
     final cpuInfo = await File('/proc/cpuinfo').readAsString();
     final c = cpuInfo.toLowerCase();
-    if (c.contains('ranchu') || c.contains('goldfish') || c.contains('qemu')) {
+    if (c.contains('ranchu') ||
+        c.contains('goldfish') ||
+        c.contains('qemu') ||
+        c.contains('android virtual processor')) {
       return true;
     }
   } catch (_) {}
 
+  // 2. getprop — most reliable on modern emulators
+  try {
+    final result = await Process.run('getprop', ['ro.hardware']);
+    final hw = (result.stdout as String).trim().toLowerCase();
+    if (hw == 'ranchu' || hw == 'goldfish') return true;
+  } catch (_) {}
+
+  try {
+    final result = await Process.run('getprop', ['ro.build.characteristics']);
+    if ((result.stdout as String).trim().toLowerCase().contains('emulator')) {
+      return true;
+    }
+  } catch (_) {}
+
+  try {
+    final result = await Process.run('getprop', ['ro.product.model']);
+    if ((result.stdout as String).trim().toLowerCase().contains('sdk_gphone')) {
+      return true;
+    }
+  } catch (_) {}
+
+  // 3. /system/build.prop — fallback file check
   try {
     final buildProp = await File('/system/build.prop').readAsString();
     final b = buildProp.toLowerCase();
