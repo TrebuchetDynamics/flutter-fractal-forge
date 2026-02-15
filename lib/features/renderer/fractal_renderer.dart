@@ -621,35 +621,65 @@ class _FractalRendererState extends State<FractalRenderer>
     required Widget child,
     required String mode,
     required bool fallbackActive,
+    required bool highPrecisionActive,
   }) {
-    if (!kDebugMode) return child;
+    if (!kDebugMode && !highPrecisionActive) return child;
+
     return Stack(
       children: [
         Positioned.fill(child: child),
-        Positioned(
-          left: 12,
-          right: 12,
-          bottom: 18,
-          child: IgnorePointer(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.black54),
-              ),
-              child: Text(
-                'Renderer: $mode | fallback: $fallbackActive',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
+
+        // Ship-visible indicator: CPU == high precision path.
+        if (highPrecisionActive)
+          Positioned(
+            left: 12,
+            top: 12,
+            child: IgnorePointer(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.65),
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(color: Colors.white24),
+                ),
+                child: const Text(
+                  'High precision (CPU)',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+
+        // Debug-only details.
+        if (kDebugMode)
+          Positioned(
+            left: 12,
+            right: 12,
+            bottom: 18,
+            child: IgnorePointer(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.amber.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.black54),
+                ),
+                child: Text(
+                  'Renderer: $mode | fallback: $fallbackActive',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -731,6 +761,7 @@ class _FractalRendererState extends State<FractalRenderer>
       final cpuContent = _withRendererIndicator(
         mode: 'CPU',
         fallbackActive: true,
+        highPrecisionActive: true,
         child: RepaintBoundary(
           key: widget.boundaryKey,
           child: LayoutBuilder(
@@ -850,6 +881,7 @@ class _FractalRendererState extends State<FractalRenderer>
     final content = _withRendererIndicator(
       mode: 'GPU',
       fallbackActive: false,
+      highPrecisionActive: false,
       child: RepaintBoundary(
         key: widget.boundaryKey,
         child: fractalContent,
