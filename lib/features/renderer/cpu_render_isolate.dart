@@ -49,46 +49,167 @@ final class CpuRenderResponse {
 
 /// Top-level entrypoint suitable for [Isolate.run].
 CpuRenderResponse renderCpuFrameInIsolate(CpuRenderRequest req) {
-  final centerX = req.panX;
-  final centerY = req.panY;
-  final zoom = req.zoom <= 0 ? 1.0 : req.zoom;
+  final bytes = _renderRect(
+    moduleId: req.moduleId,
+    panX: req.panX,
+    panY: req.panY,
+    zoom: req.zoom,
+    iterations: req.iterations,
+    bailout: req.bailout,
+    juliaCX: req.juliaCX,
+    juliaCY: req.juliaCY,
+    // Full viewport
+    fullWidth: req.width,
+    fullHeight: req.height,
+    // Tile == full
+    x0: 0,
+    y0: 0,
+    w: req.width,
+    h: req.height,
+    sampleCount: req.sampleCount,
+  );
+  return CpuRenderResponse(rgba: bytes, width: req.width, height: req.height);
+}
 
-  final scale = 3.0 / zoom;
-  final aspect = req.width / req.height;
+final class CpuTileRenderRequest {
+  const CpuTileRenderRequest({
+    required this.moduleId,
+    required this.panX,
+    required this.panY,
+    required this.zoom,
+    required this.iterations,
+    required this.bailout,
+    required this.juliaCX,
+    required this.juliaCY,
+    required this.fullWidth,
+    required this.fullHeight,
+    required this.x0,
+    required this.y0,
+    required this.w,
+    required this.h,
+    required this.sampleCount,
+  });
 
-  final bytes = Uint8List(req.width * req.height * 4);
-  final samplesPerAxis = math.max(1, math.sqrt(req.sampleCount).round());
+  final String moduleId;
+  final double panX;
+  final double panY;
+  final double zoom;
+  final int iterations;
+  final double bailout;
+  final double juliaCX;
+  final double juliaCY;
+
+  final int fullWidth;
+  final int fullHeight;
+  final int x0;
+  final int y0;
+  final int w;
+  final int h;
+  final int sampleCount;
+}
+
+final class CpuTileRenderResponse {
+  const CpuTileRenderResponse({
+    required this.x0,
+    required this.y0,
+    required this.w,
+    required this.h,
+    required this.rgba,
+  });
+
+  final int x0;
+  final int y0;
+  final int w;
+  final int h;
+  final Uint8List rgba;
+}
+
+CpuTileRenderResponse renderCpuTileInIsolate(CpuTileRenderRequest req) {
+  final bytes = _renderRect(
+    moduleId: req.moduleId,
+    panX: req.panX,
+    panY: req.panY,
+    zoom: req.zoom,
+    iterations: req.iterations,
+    bailout: req.bailout,
+    juliaCX: req.juliaCX,
+    juliaCY: req.juliaCY,
+    fullWidth: req.fullWidth,
+    fullHeight: req.fullHeight,
+    x0: req.x0,
+    y0: req.y0,
+    w: req.w,
+    h: req.h,
+    sampleCount: req.sampleCount,
+  );
+
+  return CpuTileRenderResponse(
+    x0: req.x0,
+    y0: req.y0,
+    w: req.w,
+    h: req.h,
+    rgba: bytes,
+  );
+}
+
+Uint8List _renderRect({
+  required String moduleId,
+  required double panX,
+  required double panY,
+  required double zoom,
+  required int iterations,
+  required double bailout,
+  required double juliaCX,
+  required double juliaCY,
+  required int fullWidth,
+  required int fullHeight,
+  required int x0,
+  required int y0,
+  required int w,
+  required int h,
+  required int sampleCount,
+}) {
+  final centerX = panX;
+  final centerY = panY;
+  final z = zoom <= 0 ? 1.0 : zoom;
+
+  final scale = 3.0 / z;
+  final aspect = fullWidth / fullHeight;
+
+  final bytes = Uint8List(w * h * 4);
+  final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
   final totalSamples = samplesPerAxis * samplesPerAxis;
 
-  final juliaC = Vector2(req.juliaCX, req.juliaCY);
+  final juliaC = Vector2(juliaCX, juliaCY);
+  final formula = cpuFormulasByModuleId[moduleId] ?? cpuFormulasByModuleId['mandelbrot']!;
 
-  final formula =
-      cpuFormulasByModuleId[req.moduleId] ?? cpuFormulasByModuleId['mandelbrot']!;
+  for (int ty = 0; ty < h; ty++) {
+    final y = y0 + ty;
+    for (int tx = 0; tx < w; tx++) {
+      final x = x0 + tx;
 
-  for (int y = 0; y < req.height; y++) {
-    for (int x = 0; x < req.width; x++) {
       double rAcc = 0;
       double gAcc = 0;
       double bAcc = 0;
 
       for (int sy = 0; sy < samplesPerAxis; sy++) {
         for (int sx = 0; sx < samplesPerAxis; sx++) {
-          final subX = (x + (sx + 0.5) / samplesPerAxis) / (req.width - 1);
-          final subY = (y + (sy + 0.5) / samplesPerAxis) / (req.height - 1);
+          final subX = (x + (sx + 0.5) / samplesPerAxis) / (fullWidth - 1);
+          final subY = (y + (sy + 0.5) / samplesPerAxis) / (fullHeight - 1);
           final nx = subX * 2.0 - 1.0;
           final ny = subY * 2.0 - 1.0;
 
           final cx = centerX + nx * scale * aspect;
           final cy = centerY + ny * scale;
 
-          final color = formula(cx, cy, req.iterations, req.bailout, juliaC);
+          final color = formula(cx, cy, iterations, bailout, juliaC);
           rAcc += color.$1;
           gAcc += color.$2;
           bAcc += color.$3;
         }
       }
 
-      final idx = (y * req.width + x) * 4;
+      final idx = (ty * w + tx) * 4;
       bytes[idx + 0] = (rAcc / totalSamples).clamp(0, 255).round();
       bytes[idx + 1] = (gAcc / totalSamples).clamp(0, 255).round();
       bytes[idx + 2] = (bAcc / totalSamples).clamp(0, 255).round();
@@ -96,5 +217,5 @@ CpuRenderResponse renderCpuFrameInIsolate(CpuRenderRequest req) {
     }
   }
 
-  return CpuRenderResponse(rgba: bytes, width: req.width, height: req.height);
+  return bytes;
 }

@@ -101,30 +101,139 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     });
   }
 
-  Future<CpuRenderFrame> _renderFrame({
+  static const int _tileSize = 96;
+
+  List<(int x0, int y0, int w, int h)> _tileOrder({
+    required int width,
+    required int height,
+  }) {
+    final cols = (width / _tileSize).ceil();
+    final rows = (height / _tileSize).ceil();
+
+    final startX = (cols - 1) ~/ 2;
+    final startY = (rows - 1) ~/ 2;
+
+    final out = <(int, int, int, int)>[];
+    final seen = List.generate(rows, (_) => List<bool>.filled(cols, false));
+
+    void addTile(int tx, int ty) {
+      if (tx < 0 || ty < 0 || tx >= cols || ty >= rows) return;
+      if (seen[ty][tx]) return;
+      seen[ty][tx] = true;
+
+      final x0 = tx * _tileSize;
+      final y0 = ty * _tileSize;
+      final w = (x0 + _tileSize <= width) ? _tileSize : (width - x0);
+      final h = (y0 + _tileSize <= height) ? _tileSize : (height - y0);
+      if (w <= 0 || h <= 0) return;
+      out.add((x0, y0, w, h));
+    }
+
+    // Classic spiral walk over the tile grid.
+    int x = startX;
+    int y = startY;
+    int dx = 1;
+    int dy = 0;
+    int segmentLen = 1;
+    int segmentPassed = 0;
+    int segments = 0;
+
+    while (out.length < cols * rows) {
+      addTile(x, y);
+      x += dx;
+      y += dy;
+      segmentPassed++;
+
+      if (segmentPassed == segmentLen) {
+        segmentPassed = 0;
+        // rotate right
+        final ndx = -dy;
+        final ndy = dx;
+        dx = ndx;
+        dy = ndy;
+        segments++;
+        if (segments % 2 == 0) segmentLen++;
+      }
+
+      // Safety: break if we somehow loop forever.
+      if (segmentLen > cols + rows + 4) break;
+    }
+
+    return out;
+  }
+
+  Future<CpuRenderFrame> _renderFrameTiled({
     required int width,
     required int height,
     required int iterations,
     required double bailout,
     required Vector2 juliaC,
     required int sampleCount,
+    required int job,
+    required Duration? maxTime,
+    required ValueChanged<ui.Image> onPartial,
   }) async {
-    final req = CpuRenderRequest(
-      moduleId: widget.module.id,
-      panX: widget.state.view.pan.x,
-      panY: widget.state.view.pan.y,
-      zoom: widget.state.view.zoom,
-      iterations: iterations,
-      bailout: bailout,
-      juliaCX: juliaC.x,
-      juliaCY: juliaC.y,
-      width: width,
-      height: height,
-      sampleCount: sampleCount,
-    );
+    final full = Uint8List(width * height * 4);
+    final started = DateTime.now();
 
-    final resp = await Isolate.run(() => renderCpuFrameInIsolate(req));
-    return CpuRenderFrame(rgba: resp.rgba, width: resp.width, height: resp.height);
+    int tilesDone = 0;
+    DateTime lastUpdate = DateTime.fromMillisecondsSinceEpoch(0);
+
+    for (final tile in _tileOrder(width: width, height: height)) {
+      if (!mounted || job != _job) break;
+
+      if (maxTime != null && DateTime.now().difference(started) > maxTime) {
+        break;
+      }
+
+      final req = CpuTileRenderRequest(
+        moduleId: widget.module.id,
+        panX: widget.state.view.pan.x,
+        panY: widget.state.view.pan.y,
+        zoom: widget.state.view.zoom,
+        iterations: iterations,
+        bailout: bailout,
+        juliaCX: juliaC.x,
+        juliaCY: juliaC.y,
+        fullWidth: width,
+        fullHeight: height,
+        x0: tile.$1,
+        y0: tile.$2,
+        w: tile.$3,
+        h: tile.$4,
+        sampleCount: sampleCount,
+      );
+
+      final resp = await Isolate.run(() => renderCpuTileInIsolate(req));
+
+      // Blit tile into full buffer.
+      for (int ty = 0; ty < resp.h; ty++) {
+        final dstRow = ((resp.y0 + ty) * width + resp.x0) * 4;
+        final srcRow = (ty * resp.w) * 4;
+        full.setRange(
+          dstRow,
+          dstRow + resp.w * 4,
+          resp.rgba,
+          srcRow,
+        );
+      }
+
+      tilesDone++;
+
+      // Progressive UI update (throttled).
+      final now = DateTime.now();
+      final shouldUpdate = tilesDone == 1 ||
+          tilesDone % 6 == 0 ||
+          now.difference(lastUpdate) > const Duration(milliseconds: 80);
+      if (shouldUpdate) {
+        lastUpdate = now;
+        final img = await CpuRenderFrame(rgba: full, width: width, height: height).toImage();
+        if (!mounted || job != _job) break;
+        onPartial(img);
+      }
+    }
+
+    return CpuRenderFrame(rgba: full, width: width, height: height);
   }
 
   Future<void> _renderPreview() async {
@@ -138,19 +247,29 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       final w = (widget.width * 0.8).round().clamp(200, widget.width);
       final h = (widget.height * 0.8).round().clamp(200, widget.height);
 
-      var frame = await _renderFrame(
+      var frame = await _renderFrameTiled(
         width: w,
         height: h,
         iterations: iterations,
         bailout: bailout,
         juliaC: juliaC,
         sampleCount: 1,
+        job: job,
+        // Preview should stay responsive; allow partial frame.
+        maxTime: const Duration(milliseconds: 140),
+        onPartial: (img) {
+          if (!mounted || job != _job) return;
+          setState(() {
+            _image = img;
+            _error = null;
+          });
+        },
       );
 
       // Ensure user always sees something.
       if (_isNearlyBlack(frame.rgba)) {
         final fallback = _fallbackView(widget.module.id);
-        final req = CpuRenderRequest(
+        final req = CpuTileRenderRequest(
           moduleId: widget.module.id,
           panX: fallback.$1.x,
           panY: fallback.$1.y,
@@ -159,12 +278,16 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           bailout: bailout,
           juliaCX: juliaC.x,
           juliaCY: juliaC.y,
-          width: w,
-          height: h,
+          fullWidth: w,
+          fullHeight: h,
+          x0: 0,
+          y0: 0,
+          w: w,
+          h: h,
           sampleCount: 1,
         );
-        final resp = await Isolate.run(() => renderCpuFrameInIsolate(req));
-        frame = CpuRenderFrame(rgba: resp.rgba, width: resp.width, height: resp.height);
+        final resp = await Isolate.run(() => renderCpuTileInIsolate(req));
+        frame = CpuRenderFrame(rgba: resp.rgba, width: w, height: h);
       }
 
       final img = await frame.toImage();
@@ -172,13 +295,16 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       // Optional validation only in debug builds.
       RenderCheckResult? validation;
       if (kDebugMode) {
-        final probe = await _renderFrame(
+        final probe = await _renderFrameTiled(
           width: w,
           height: h,
           iterations: iterations + 16,
           bailout: bailout,
           juliaC: juliaC,
           sampleCount: 1,
+          job: job,
+          maxTime: null,
+          onPartial: (_) {},
         );
         validation = validateRenderPair(
           frameA: frame.rgba,
@@ -215,18 +341,27 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       final w = widget.width;
       final h = widget.height;
 
-      var frame = await _renderFrame(
+      var frame = await _renderFrameTiled(
         width: w,
         height: h,
         iterations: iterations,
         bailout: bailout,
         juliaC: juliaC,
         sampleCount: 1,
+        job: job,
+        maxTime: null,
+        onPartial: (img) {
+          if (!mounted || job != _job) return;
+          setState(() {
+            _image = img;
+            _error = null;
+          });
+        },
       );
 
       if (_isNearlyBlack(frame.rgba)) {
         final fallback = _fallbackView(widget.module.id);
-        final req = CpuRenderRequest(
+        final req = CpuTileRenderRequest(
           moduleId: widget.module.id,
           panX: fallback.$1.x,
           panY: fallback.$1.y,
@@ -235,12 +370,16 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           bailout: bailout,
           juliaCX: juliaC.x,
           juliaCY: juliaC.y,
-          width: w,
-          height: h,
+          fullWidth: w,
+          fullHeight: h,
+          x0: 0,
+          y0: 0,
+          w: w,
+          h: h,
           sampleCount: 1,
         );
-        final resp = await Isolate.run(() => renderCpuFrameInIsolate(req));
-        frame = CpuRenderFrame(rgba: resp.rgba, width: resp.width, height: resp.height);
+        final resp = await Isolate.run(() => renderCpuTileInIsolate(req));
+        frame = CpuRenderFrame(rgba: resp.rgba, width: w, height: h);
       }
 
       final img = await frame.toImage();
