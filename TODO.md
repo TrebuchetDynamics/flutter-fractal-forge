@@ -15,13 +15,21 @@ Owner: Sidon
 
 ## P0 — MUST SHIP NEXT
 
-### 1) GPU visual quality — smooth coloring + palette system
-- [ ] Add smooth/continuous escape-time coloring to all escape-time shaders (eliminate banding)
+### 1) Dynamic iteration adjustment based on zoom — **NEW**
+- [ ] Increase max iteration slider beyond 500 (e.g., 5000+)
+- [ ] Automatically raise iteration count when zooming in until image converges
+- [ ] Adaptive logic: start low, progressively increase until pixel stability (no visible changes)
+- [ ] Convergence detection: compare previous frame, stop when changes < threshold
+- [ ] Works on both GPU (shader uniform) and CPU fallback paths
+
+### 2) GPU visual quality — smooth coloring + palette system
+- [ ] Implement fractional/smooth escape-time coloring in all escape-time shaders (eliminate banding)
 - [ ] Implement palette uniform system (pass palette as texture/uniform array to shaders)
+- [ ] More gradient options + color cycling/animation support
 - [ ] Allow user palette selection from viewer controls
 - [ ] Add regression test: render canonical viewport, assert no banding artifacts
 
-### 2) Play Store release polish
+### 3) Play Store release polish
 - [x] Play Store checklist doc created
 - [ ] App icon finalized (adaptive icon + Play Store feature graphic)
 - [ ] Store listing copy (title, short desc, full desc, screenshots)
@@ -30,14 +38,14 @@ Owner: Sidon
 - [ ] Signing key + upload to Play Console
 - [ ] Internal testing track → closed beta → production
 
-### 3) Catalog expansion toward 200+
+### 4) Catalog expansion toward 200+
 - [x] 196 escape-time fractals with GPU shaders
 - [ ] Add PRD manifest loader (`assets/catalog/prd_catalog.json`)
 - [ ] Add ID lock/integrity tests for full catalog
 - [ ] Add filter/sort + list/grid toggle for large catalogs
 - [ ] Add 4+ new fractal formulas (target 200+)
 
-### 4) Export behavior hardening
+### 5) Export behavior hardening
 - [x] Opening Export pauses auto-navigation and freezes frame
 - [x] Separate Save vs Share actions
 - [ ] Resume policy prompt after export
@@ -47,47 +55,57 @@ Owner: Sidon
 
 ## P1 — HIGH PRIORITY AFTER P0
 
-### 5) Deep zoom: perturbation theory in GPU shaders
+### 6) Deep zoom: perturbation theory in GPU shaders
 - [ ] Research perturbation + series approximation for Mandelbrot shader
 - [ ] Implement reference orbit calculation (CPU) + delta iteration (GPU)
 - [ ] Enable zoom beyond float32 precision wall (~10^7) on GPU
 - [ ] CPU fallback remains for non-perturbation fractals at extreme zoom
 
-### 6) AR real anchoring (wall/floor/table)
+### 7) AR real anchoring (wall/floor/table)
 - [ ] Integrate true plane anchors (vertical + horizontal)
 - [ ] Tap-to-place fractal on detected plane
 - [ ] Keep overlay mode as fallback when ARCore/ARKit unavailable
 
-### 7) Auto-Pilot navigation improvements
+### 8) Auto-Pilot navigation improvements
 - [ ] Improve path smoothness and dwell behavior
 - [ ] Accept manual pan/zoom corrections while auto mode runs
 - [ ] Add quick actions: Accept framing / Reject and try another
 
-### 8) In-app diagnostic logger enhancements
+### 9) In-app diagnostic logger enhancements
 - [x] Core logger with export (text/JSON/share) — commit 5ae1c9e
 - [x] Logs: lifecycle, GPU health, shader load, backend switches, user actions, state snapshots
 - [ ] Add gesture logging (pan/zoom start/end with coordinates)
 - [ ] Add performance metrics logging (frame time, fps)
 - [ ] Persist log across app restarts (write to file)
 
+### 10) GPU health check improvements
+- [ ] Make detection more robust across devices
+- [ ] Add fallback analytics to track GPU failures
+
 ---
 
 ## P2 — IMPORTANT PRODUCT POLISH
 
-### 9) Preset management
+### 11) Preset management
 - [ ] Delete preset
 - [ ] Rename/edit preset
 - [ ] Preset thumbnail generation
 
-### 10) Viewer controls ergonomics
+### 12) User-defined color palettes
+- [ ] Allow saving/loading custom gradients
+
+### 13) Bookmark/favorites for locations
+- [ ] Save coordinates, zoom, formula, palette
+
+### 14) Viewer controls ergonomics
 - [ ] Make controls sheet snap/collapse more aggressively
 - [ ] Move non-critical actions into compact overflow
 
-### 11) Onboarding and accessibility
+### 15) Onboarding and accessibility
 - [ ] Explain gestures + AR behavior clearly
 - [ ] Improve screen-reader labels for catalog and controls
 
-### 12) Stable sharing/export presets
+### 16) Stable sharing/export presets
 - [ ] One-tap presets for Instagram feed/story, X, WhatsApp
 - [ ] Keep exact frame lock from viewer to exported file
 
@@ -118,11 +136,18 @@ The CPU renderer works and passes all tests. No further performance investment.
 
 ---
 
+## Future / Low Priority
+
+- [ ] User-defined formulas at runtime (CPU interpreter or dynamic shader compilation)
+- [ ] Video recording of zoom animations
+- Dynamic runtime shader compilation — deferred, not needed for Play Store launch
+
+---
+
 ## OUT OF SCOPE
 
 - Arenaton implementation is out of scope for this repo/agent.
 - Sidon works only on Flutter Fractal Forge + fractal tasks.
-- Dynamic runtime shader compilation (user-defined formulas) — future feature, not now.
 
 ---
 
