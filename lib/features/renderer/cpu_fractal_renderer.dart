@@ -78,6 +78,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
 
+      // Interactive CPU mode: prioritize responsiveness.
+      // We start with 1 sample per pixel and a modest resolution; users can
+      // still export higher quality later.
+      final targetW = widget.width;
+      final targetH = widget.height;
       CpuRenderFrame frame = await renderCpuFrame(
         moduleId: widget.module.id,
         viewPan: widget.state.view.pan,
@@ -85,9 +90,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         iterations: iterations,
         bailout: bailout,
         juliaC: juliaC,
-        width: widget.width,
-        height: widget.height,
-        sampleCount: 4,
+        width: targetW,
+        height: targetH,
+        sampleCount: 1,
       );
 
       // Emulator safety: if a frame is effectively all black, fall back to a
@@ -116,9 +121,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         iterations: iterations + 16,
         bailout: bailout,
         juliaC: juliaC,
-        width: widget.width,
-        height: widget.height,
-        sampleCount: 4,
+        width: targetW,
+        height: targetH,
+        sampleCount: 1,
       );
       final validation = validateRenderPair(
         frameA: frame.rgba,

@@ -1655,7 +1655,11 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
       key: widget.boundaryKey,
       child: Stack(
         children: [
-          const Positioned.fill(child: _DeterministicVisibleFallbackScene()),
+          Positioned.fill(
+            child: _DeterministicVisibleFallbackScene(
+              transparentBackground: controller.transparentBackground,
+            ),
+          ),
           Positioned.fill(
             child: Opacity(
               opacity: 0.45,
@@ -1722,18 +1726,26 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
 }
 
 class _DeterministicVisibleFallbackScene extends StatelessWidget {
-  const _DeterministicVisibleFallbackScene();
+  const _DeterministicVisibleFallbackScene({required this.transparentBackground});
+
+  final bool transparentBackground;
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _DeterministicVisibleFallbackPainter(),
+      painter: _DeterministicVisibleFallbackPainter(
+        transparentBackground: transparentBackground,
+      ),
       child: const SizedBox.expand(),
     );
   }
 }
 
 class _DeterministicVisibleFallbackPainter extends CustomPainter {
+  const _DeterministicVisibleFallbackPainter({required this.transparentBackground});
+
+  final bool transparentBackground;
+
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
@@ -1760,16 +1772,20 @@ class _DeterministicVisibleFallbackPainter extends CustomPainter {
       canvas.drawCircle(c, r, stroke);
     }
 
-    final checkerA = Paint()..color = const Color(0x22000000);
-    final checkerB = Paint()..color = const Color(0x22FFFFFF);
-    const cell = 26.0;
-    for (double y = 0; y < size.height; y += cell) {
-      for (double x = 0; x < size.width; x += cell) {
-        final even = ((x / cell).floor() + (y / cell).floor()) % 2 == 0;
-        canvas.drawRect(
-          Rect.fromLTWH(x, y, cell, cell),
-          even ? checkerA : checkerB,
-        );
+    // Checkerboard is useful only when previewing transparency (AR/export).
+    // In normal viewing it looks noisy and reduces perceived quality.
+    if (transparentBackground) {
+      final checkerA = Paint()..color = const Color(0x22000000);
+      final checkerB = Paint()..color = const Color(0x22FFFFFF);
+      const cell = 26.0;
+      for (double y = 0; y < size.height; y += cell) {
+        for (double x = 0; x < size.width; x += cell) {
+          final even = ((x / cell).floor() + (y / cell).floor()) % 2 == 0;
+          canvas.drawRect(
+            Rect.fromLTWH(x, y, cell, cell),
+            even ? checkerA : checkerB,
+          );
+        }
       }
     }
   }
