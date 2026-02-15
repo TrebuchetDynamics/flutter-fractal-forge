@@ -1211,8 +1211,9 @@ double _smoothEscape({
   // Ported from shaders/deltoid_gpu.frag
   final cx = x;
   final cy = y;
-  double zx = 0.0;
-  double zy = 0.0;
+  // Start z at c; starting at 0 makes z=0 a fixed point for this recurrence.
+  double zx = cx;
+  double zy = cy;
   final bailout2 = bailout * bailout;
   int it = 0;
 

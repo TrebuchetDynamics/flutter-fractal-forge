@@ -51,7 +51,9 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z = vec2(0.0);
+  // Start z at c; starting at 0 makes z=0 a fixed point for z = z^2 + c*conj(z)
+  // and produces a uniform (all-inside) image.
+  vec2 z = c;
 
   float bailoutSq = uBailout * uBailout;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));

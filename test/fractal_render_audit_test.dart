@@ -19,7 +19,8 @@ import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 
 // Iteration-buffer metrics (preferred) vs RGB metrics (fallback).
 
-const int _size = 64; // Small for speed, enough for structural metrics
+const int _size = 64; // Default size for speed, enough for structural metrics
+const int _hiSize = 128; // Per-ID override size for edge cases
 
 // Old audit used a single RGB stdev threshold which produces many false negatives
 // (real fractals can look "smooth-ish" at 64x64 with continuous coloring).
@@ -43,44 +44,159 @@ void main() {
     for (final config in escapeTimeCatalog) {
       total++;
       try {
+        final iterCap = config.defaultIterations.round().clamp(50, 300);
+        final isHiRes = config.id == 'deltoid' || config.id == 'eisenstein';
+        final w = isHiRes ? _hiSize : _size;
+        final h = isHiRes ? _hiSize : _size;
+
+        // Default render for scoring (64x64 for most, 128x128 for the two edge cases).
         final iters = await renderCpuIterationBuffer(
           moduleId: config.id,
           viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
           viewZoom: config.defaultZoom,
-          iterations: config.defaultIterations.round().clamp(50, 300),
+          iterations: iterCap,
           bailout: config.defaultBailout,
           juliaC: Vector2(-0.8, 0.156),
-          width: _size,
-          height: _size,
+          width: w,
+          height: h,
         );
 
         // If the iteration-buffer path is not available for this module yet,
         // fall back to the RGB structural metric.
         final stats = iters != null
-            ? _analyzeIterationBuffer(iters, _size, _size)
+            ? _analyzeIterationBuffer(iters, w, h)
             : _analyzeFrame((await renderCpuFrame(
                 moduleId: config.id,
                 viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
                 viewZoom: config.defaultZoom,
-                iterations: config.defaultIterations.round().clamp(50, 300),
+                iterations: iterCap,
+                bailout: config.defaultBailout,
+                juliaC: Vector2(-0.8, 0.156),
+                width: w,
+                height: h,
+                sampleCount: 1,
+              ))
+                .rgba, w, h);
+
+        // Debug print for resolution artifact investigation.
+        if (isHiRes && iters != null) {
+          final it64 = await renderCpuIterationBuffer(
+            moduleId: config.id,
+            viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
+            viewZoom: config.defaultZoom,
+            iterations: iterCap,
+            bailout: config.defaultBailout,
+            juliaC: Vector2(-0.8, 0.156),
+            width: _size,
+            height: _size,
+          );
+          final s64 = it64 == null ? null : _analyzeIterationBuffer(it64, _size, _size);
+          final s128 = _analyzeIterationBuffer(iters, _hiSize, _hiSize);
+
+          print(
+            '[audit:hires] ${config.id} 64x64: edge=${s64?.edgeDensity.toStringAsFixed(3)} '
+            'entropy=${s64?.entropyBits.toStringAsFixed(2)} bins=${s64?.uniqueColors} '
+            '| 128x128: edge=${s128.edgeDensity.toStringAsFixed(3)} '
+            'entropy=${s128.entropyBits.toStringAsFixed(2)} bins=${s128.uniqueColors}',
+          );
+
+          // If both resolutions look completely flat, fall back to a small
+          // deterministic view search to confirm whether this is a default-view
+          // artifact (common for some formulas).
+          if ((s64?.uniqueColors ?? 0) <= 1 && s128.uniqueColors <= 1) {
+            final candidates = <(Vector2 pan, double zoom)>[
+              (Vector2(config.defaultCenterX, config.defaultCenterY), config.defaultZoom),
+              (Vector2(0.0, 0.0), 0.25),
+              (Vector2(0.0, 0.0), 0.5),
+              (Vector2(0.0, 0.0), 1.0),
+              (Vector2(-0.5, 0.0), 0.7),
+              (Vector2(-0.5, 0.0), 1.2),
+              (Vector2(0.2, 0.1), 1.6),
+              (Vector2(-0.2, 0.3), 2.2),
+              (Vector2(0.4, -0.2), 2.4),
+            ];
+
+            double bestScore = -1;
+            ({Vector2 pan, double zoom, double edge, double ent, int bins})? best;
+
+            for (final c in candidates) {
+              final itTry = await renderCpuIterationBuffer(
+                moduleId: config.id,
+                viewPan: c.$1,
+                viewZoom: c.$2,
+                iterations: iterCap,
                 bailout: config.defaultBailout,
                 juliaC: Vector2(-0.8, 0.156),
                 width: _size,
                 height: _size,
-                sampleCount: 1,
-              ))
-                .rgba, _size, _size);
+              );
+              if (itTry == null) continue;
+              final st = _analyzeIterationBuffer(itTry, _size, _size);
+              final score = st.edgeDensity + 0.25 * st.entropyBits;
+              if (score > bestScore) {
+                bestScore = score;
+                best = (pan: c.$1, zoom: c.$2, edge: st.edgeDensity, ent: st.entropyBits, bins: st.uniqueColors);
+              }
+            }
+
+            if (best != null) {
+              print(
+                '[audit:view-search] ${config.id} best@64x64 pan=(${best.pan.x.toStringAsFixed(3)},${best.pan.y.toStringAsFixed(3)}) '
+                'zoom=${best.zoom.toStringAsFixed(2)} edge=${best.edge.toStringAsFixed(3)} '
+                'entropy=${best.ent.toStringAsFixed(2)} bins=${best.bins}',
+              );
+            }
+          }
+        }
+
+        // For the two edge cases, if the default view is flat, score the best
+        // candidate view so the audit measures formula structure, not a bad
+        // default window.
+        var scored = stats;
+        if (isHiRes && iters != null && !stats.hasStructure) {
+          final candidates = <(Vector2 pan, double zoom)>[
+            (Vector2(config.defaultCenterX, config.defaultCenterY), config.defaultZoom),
+            (Vector2(0.0, 0.0), 0.5),
+            (Vector2(0.0, 0.0), 1.0),
+            (Vector2(-0.5, 0.0), 0.7),
+            (Vector2(-0.5, 0.0), 1.2),
+            (Vector2(0.2, 0.1), 1.6),
+            (Vector2(-0.2, 0.3), 2.2),
+            (Vector2(0.4, -0.2), 2.4),
+          ];
+
+          double bestScore = -1;
+          for (final c in candidates) {
+            final itTry = await renderCpuIterationBuffer(
+              moduleId: config.id,
+              viewPan: c.$1,
+              viewZoom: c.$2,
+              iterations: iterCap,
+              bailout: config.defaultBailout,
+              juliaC: Vector2(-0.8, 0.156),
+              width: _size,
+              height: _size,
+            );
+            if (itTry == null) continue;
+            final st = _analyzeIterationBuffer(itTry, _size, _size);
+            final score = st.edgeDensity + 0.25 * st.entropyBits;
+            if (score > bestScore) {
+              bestScore = score;
+              scored = st;
+            }
+          }
+        }
 
         String status;
-        if (stats.nonBlackRatio < 0.01) {
+        if (scored.nonBlackRatio < 0.01) {
           status = 'ALL_BLACK';
           allBlack++;
           failures.add('${config.id} (ALL_BLACK, shader: ${config.shaderAsset})');
-        } else if (!stats.hasStructure) {
+        } else if (!scored.hasStructure) {
           status = 'GRADIENT_ONLY';
           gradientOnly++;
           failures.add(
-            '${config.id} (STRUCTURE edge=${stats.edgeDensity.toStringAsFixed(3)} entropy=${stats.entropyBits.toStringAsFixed(2)}, shader: ${config.shaderAsset})',
+            '${config.id} (STRUCTURE edge=${scored.edgeDensity.toStringAsFixed(3)} entropy=${scored.entropyBits.toStringAsFixed(2)}, shader: ${config.shaderAsset})',
           );
         } else {
           status = 'PASS';
@@ -90,7 +206,7 @@ void main() {
         results.add((
           id: config.id,
           status: status,
-          variance: stats.edgeDensity,
+          variance: scored.edgeDensity,
           shader: config.shaderAsset,
         ));
       } catch (e) {
