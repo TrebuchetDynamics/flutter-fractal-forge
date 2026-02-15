@@ -12,6 +12,7 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu_tile_worker.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
 ///
@@ -47,13 +48,19 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Timer? _refineTimer;
   RenderCheckResult? _lastValidation;
 
+  CpuTileWorker? _worker;
+
   // Preview vs refine rendering.
   DateTime? _lastInteractionAt;
 
   @override
   void initState() {
     super.initState();
-    _scheduleRender();
+    () async {
+      _worker = await CpuTileWorker.spawn();
+      if (!mounted) return;
+      _scheduleRender();
+    }();
   }
 
   @override
@@ -72,6 +79,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   void dispose() {
     _debounce?.cancel();
     _refineTimer?.cancel();
+    _worker?.dispose();
     super.dispose();
   }
 
@@ -204,7 +212,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         sampleCount: sampleCount,
       );
 
-      final resp = await Isolate.run(() => renderCpuTileInIsolate(req));
+      final worker = _worker;
+      if (worker == null) return CpuRenderFrame(rgba: full, width: width, height: height);
+      final resp = await worker.renderTile(req);
 
       // Blit tile into full buffer.
       for (int ty = 0; ty < resp.h; ty++) {
@@ -286,8 +296,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           h: h,
           sampleCount: 1,
         );
-        final resp = await Isolate.run(() => renderCpuTileInIsolate(req));
-        frame = CpuRenderFrame(rgba: resp.rgba, width: w, height: h);
+        final worker = _worker;
+        if (worker != null) {
+          final resp = await worker.renderTile(req);
+          frame = CpuRenderFrame(rgba: resp.rgba, width: w, height: h);
+        }
       }
 
       final img = await frame.toImage();
@@ -378,8 +391,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           h: h,
           sampleCount: 1,
         );
-        final resp = await Isolate.run(() => renderCpuTileInIsolate(req));
-        frame = CpuRenderFrame(rgba: resp.rgba, width: w, height: h);
+        final worker = _worker;
+        if (worker != null) {
+          final resp = await worker.renderTile(req);
+          frame = CpuRenderFrame(rgba: resp.rgba, width: w, height: h);
+        }
       }
 
       final img = await frame.toImage();

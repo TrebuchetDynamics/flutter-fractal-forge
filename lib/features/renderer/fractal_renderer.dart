@@ -733,13 +733,25 @@ class _FractalRendererState extends State<FractalRenderer>
         fallbackActive: true,
         child: RepaintBoundary(
           key: widget.boundaryKey,
-          child: CpuFractalRenderer(
-            module: module,
-            state: FractalRenderState(
-              params: controller.params,
-              view: controller.view,
-              transparentBackground: controller.transparentBackground,
-            ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final dpr = MediaQuery.of(context).devicePixelRatio;
+              // CPU renderer internal resolution:
+              // - Preview/refine logic will further downscale while interacting.
+              // - Keep a cap to avoid blowing up render cost on high-DPI screens.
+              final w = (constraints.maxWidth * dpr).round().clamp(320, 900);
+              final h = (constraints.maxHeight * dpr).round().clamp(320, 900);
+              return CpuFractalRenderer(
+                module: module,
+                state: FractalRenderState(
+                  params: controller.params,
+                  view: controller.view,
+                  transparentBackground: controller.transparentBackground,
+                ),
+                width: w,
+                height: h,
+              );
+            },
           ),
         ),
       );
