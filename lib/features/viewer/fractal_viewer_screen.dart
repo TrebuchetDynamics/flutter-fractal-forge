@@ -381,8 +381,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _lastGpuCenterNonBlack = stats.centerNonBlack;
         _lastGpuHistogramSane = stats.histogramSane;
         _lastGpuSampleCount = width * height;
-        final probeFailed =
-            _forceGpuHealthProbeFailure || !stats.centerNonBlack || !stats.histogramSane;
+        final probeFailed = _forceGpuHealthProbeFailure ||
+            !stats.centerNonBlack ||
+            !stats.histogramSane;
         if (probeFailed) {
           _gpuHealthFailureStreak++;
         } else {
@@ -414,8 +415,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _refreshBackendDecision();
 
         debugPrint(stats.summary('gpu'));
+        final moduleId = controller.module.id;
         debugPrint(
-          '[renderer] gpu_health nonBlackRatio=${stats.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${stats.centerNonBlack} histogramSane=${stats.histogramSane} sampleCount=${width * height} backendSwitchesDuringProbe=$_gpuProbeBackendSwitches forcedProbeFailure=$_forceGpuHealthProbeFailure',
+          '[renderer] gpu_health module=$moduleId nonBlackRatio=${stats.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${stats.centerNonBlack} histogramSane=${stats.histogramSane} sampleCount=${width * height} backendSwitchesDuringProbe=$_gpuProbeBackendSwitches forcedProbeFailure=$_forceGpuHealthProbeFailure',
         );
 
         // Extra diagnostic line: proves we did not trigger backend switches while probing.
