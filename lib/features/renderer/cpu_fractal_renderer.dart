@@ -220,7 +220,8 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       );
 
       final worker = _worker;
-      if (worker == null) return CpuRenderFrame(rgba: full, width: width, height: height);
+      if (worker == null)
+        return CpuRenderFrame(rgba: full, width: width, height: height);
       final resp = await worker.renderTile(req);
 
       // Blit tile into full buffer.
@@ -244,7 +245,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           now.difference(lastUpdate) > const Duration(milliseconds: 80);
       if (shouldUpdate) {
         lastUpdate = now;
-        final img = await CpuRenderFrame(rgba: full, width: width, height: height).toImage();
+        final img =
+            await CpuRenderFrame(rgba: full, width: width, height: height)
+                .toImage();
         if (!mounted || job != _job) break;
         onPartial(img);
       }
@@ -257,13 +260,14 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     final int job = ++_job;
     try {
       final baseIterations = _readInt(widget.state.params, 'iterations', 220);
+      final maxIterations = _iterationMaxForModule();
       final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
 
       // Increase iteration budget as zoom increases to avoid blotchy boundaries.
       final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
-      final extra = (math.log(z) / math.ln2 * 24.0).round();
-      final iterations = (baseIterations + extra).clamp(50, 500);
+      final extra = (math.log(z) / math.ln2 * 32.0).round();
+      final iterations = (baseIterations + extra).clamp(50, maxIterations);
 
       // During interaction we render a smaller buffer for speed.
       final w = (widget.width * 0.8).round().clamp(200, widget.width);
@@ -359,13 +363,14 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     final int job = ++_job;
     try {
       final baseIterations = _readInt(widget.state.params, 'iterations', 220);
+      final maxIterations = _iterationMaxForModule();
       final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
 
       // Increase iteration budget as zoom increases to avoid blotchy boundaries.
       final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
-      final extra = (math.log(z) / math.ln2 * 24.0).round();
-      final iterations = (baseIterations + extra).clamp(50, 500);
+      final extra = (math.log(z) / math.ln2 * 32.0).round();
+      final iterations = (baseIterations + extra).clamp(50, maxIterations);
 
       // When the user stops, refine at full widget resolution.
       final w = widget.width;
@@ -456,6 +461,15 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       default:
         return (Vector2(-0.5, 0.0), 1.0);
     }
+  }
+
+  int _iterationMaxForModule() {
+    for (final param in widget.module.parameters) {
+      if (param.id == 'iterations') {
+        return param.max.round();
+      }
+    }
+    return 5000;
   }
 
   @override

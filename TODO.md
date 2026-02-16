@@ -16,11 +16,11 @@ Owner: Sidon
 ## P0 — MUST SHIP NEXT
 
 ### 1) Dynamic iteration adjustment based on zoom — **NEW**
-- [ ] Increase max iteration slider beyond 500 (e.g., 5000+)
-- [ ] Automatically raise iteration count when zooming in until image converges
-- [ ] Adaptive logic: start low, progressively increase until pixel stability (no visible changes)
+- [x] Increase max iteration slider beyond 500 (now 5000)
+- [x] Automatically raise iteration count when zooming in (adaptive step-up in controller)
+- [x] Adaptive logic: start low, progressively increase based on zoom growth
 - [ ] Convergence detection: compare previous frame, stop when changes < threshold
-- [ ] Works on both GPU (shader uniform) and CPU fallback paths
+- [x] Works on both GPU (shader uniform) and CPU fallback paths
 
 ### 2) GPU visual quality — smooth coloring + palette system
 - [ ] Implement fractional/smooth escape-time coloring in all escape-time shaders (eliminate banding)

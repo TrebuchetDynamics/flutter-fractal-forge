@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
@@ -115,6 +116,9 @@ class _FractalRendererState extends State<FractalRenderer>
     with TickerProviderStateMixin {
   static const DeepZoomPrecisionPolicy _precisionPolicy =
       DeepZoomPrecisionPolicy();
+  static const int _maxProgramCacheEntries = 24;
+  static final LinkedHashMap<String, ui.FragmentProgram> _programCache =
+      LinkedHashMap<String, ui.FragmentProgram>();
   // `bool.fromEnvironment('FLUTTER_TEST')` isn't consistently set across all
   // runners. Using an assert-based check is reliable in debug/test and keeps
   // release builds unaffected.
@@ -132,6 +136,8 @@ class _FractalRendererState extends State<FractalRenderer>
 
   late AnimationController _animationController;
   ui.FragmentProgram? _program;
+  ui.FragmentProgram? _shaderForCachedFragment;
+  ui.FragmentShader? _cachedFragmentShader;
   String? _shaderAsset;
   bool _loading = false;
   String? _shaderError;
@@ -147,7 +153,6 @@ class _FractalRendererState extends State<FractalRenderer>
   double _lastScale = 1.0;
   double _lastRotation = 0.0;
 
-
   // Gesture anchors so interactions feel 1:1 with fingers.
   double _startZoom = 1.0;
   Vector2 _startPan = Vector2.zero();
@@ -155,10 +160,32 @@ class _FractalRendererState extends State<FractalRenderer>
 
   // For smooth zoom interpolation (kept for optional momentum only)
 
-
-
   DateTime? _shaderLoadStartedAt;
   bool _firstFrameLogged = false;
+
+  ui.FragmentProgram? _takeProgramFromCache(String asset) {
+    final cached = _programCache.remove(asset);
+    if (cached != null) {
+      // Move to MRU position.
+      _programCache[asset] = cached;
+    }
+    return cached;
+  }
+
+  void _storeProgramInCache(String asset, ui.FragmentProgram program) {
+    _programCache.remove(asset);
+    _programCache[asset] = program;
+
+    while (_programCache.length > _maxProgramCacheEntries) {
+      final oldestKey = _programCache.keys.first;
+      _programCache.remove(oldestKey);
+      if (kDebugMode) {
+        debugPrint(
+          '[renderer] shader_cache_evict asset=$oldestKey size=${_programCache.length}',
+        );
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -260,12 +287,47 @@ class _FractalRendererState extends State<FractalRenderer>
       _shaderErrorDetails = null;
     });
 
+    final cached = _takeProgramFromCache(asset);
+    if (cached != null) {
+      if (mounted) {
+        setState(() {
+          _program = cached;
+          _shaderForCachedFragment = null;
+          _cachedFragmentShader = null;
+          _shaderAsset = asset;
+          _shaderRetryCount = 0;
+          _loading = false;
+        });
+      } else {
+        _program = cached;
+        _shaderForCachedFragment = null;
+        _cachedFragmentShader = null;
+        _shaderAsset = asset;
+        _shaderRetryCount = 0;
+      }
+      final dt = DateTime.now()
+          .difference(_shaderLoadStartedAt ?? DateTime.now())
+          .inMilliseconds;
+      debugPrint(
+          '[renderer] shader_cache_hit asset=$asset load_ms=$dt cache_size=${_programCache.length}');
+      AppLogger.instance.logState('gpu', 'Shader loaded', {
+        'asset': asset,
+        'compileMs': dt,
+        'fromCache': true,
+      });
+      _loading = false;
+      return;
+    }
+
     for (var attempt = 1; attempt <= _maxShaderRetries; attempt++) {
       try {
         final program = await ui.FragmentProgram.fromAsset(asset);
+        _storeProgramInCache(asset, program);
         if (mounted) {
           setState(() {
             _program = program;
+            _shaderForCachedFragment = null;
+            _cachedFragmentShader = null;
             _shaderAsset = asset;
             _shaderRetryCount = 0;
             _loading = false;
@@ -275,16 +337,24 @@ class _FractalRendererState extends State<FractalRenderer>
             .difference(_shaderLoadStartedAt ?? DateTime.now())
             .inMilliseconds;
         debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
-        AppLogger.instance.logState('gpu', 'Shader loaded', {'asset': asset, 'compileMs': dt});
+        AppLogger.instance.logState(
+            'gpu', 'Shader loaded', {'asset': asset, 'compileMs': dt});
         _loading = false;
         return;
       } catch (e, stack) {
         final errorType = _categorizeShaderError(e);
         debugPrint(
             '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
-        AppLogger.instance.logState('gpu', 'Shader load failed', {
-          'asset': asset, 'attempt': attempt, 'type': errorType.name, 'error': e.toString(),
-        }, level: LogLevel.error);
+        AppLogger.instance.logState(
+            'gpu',
+            'Shader load failed',
+            {
+              'asset': asset,
+              'attempt': attempt,
+              'type': errorType.name,
+              'error': e.toString(),
+            },
+            level: LogLevel.error);
 
         // Report to crash reporter
         CrashReporter.instance.record(
@@ -377,7 +447,9 @@ class _FractalRendererState extends State<FractalRenderer>
     _zoomMomentumController.dispose();
     _panMomentumController.dispose();
 
-    // Dispose FragmentProgram to prevent memory leak
+    // Drop shader/program references.
+    _cachedFragmentShader = null;
+    _shaderForCachedFragment = null;
     _program = null;
 
     super.dispose();
@@ -399,9 +471,6 @@ class _FractalRendererState extends State<FractalRenderer>
     _startZoom = controller.view.zoom;
     _startPan = controller.view.pan;
     _startFocalPoint = details.focalPoint;
-
-
-
   }
 
   void _onScaleUpdate(ScaleUpdateDetails details) {
@@ -499,9 +568,7 @@ class _FractalRendererState extends State<FractalRenderer>
     if (_panVelocity.distance > 5) {
       _panMomentumController.forward(from: 0);
     }
-
   }
-
 
   void _onDoubleTap() {
     final controller = context.read<FractalController>();
@@ -624,6 +691,14 @@ class _FractalRendererState extends State<FractalRenderer>
     });
   }
 
+  ui.FragmentShader _currentFragmentShader(ui.FragmentProgram program) {
+    if (_cachedFragmentShader == null || _shaderForCachedFragment != program) {
+      _cachedFragmentShader = program.fragmentShader();
+      _shaderForCachedFragment = program;
+    }
+    return _cachedFragmentShader!;
+  }
+
   Widget _withRendererIndicator({
     required Widget child,
     required String mode,
@@ -643,7 +718,8 @@ class _FractalRendererState extends State<FractalRenderer>
             top: 12,
             child: IgnorePointer(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.65),
                   borderRadius: BorderRadius.circular(999),
@@ -669,7 +745,8 @@ class _FractalRendererState extends State<FractalRenderer>
             bottom: 18,
             child: IgnorePointer(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.amber.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(10),
@@ -863,7 +940,7 @@ class _FractalRendererState extends State<FractalRenderer>
               module: controller.module,
               state: renderState,
               time: _animationController.value * 1000.0,
-              program: _program!,
+              shader: _currentFragmentShader(_program!),
             ),
             child: Container(),
           );

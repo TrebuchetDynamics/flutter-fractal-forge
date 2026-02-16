@@ -12,7 +12,7 @@ FractalModule buildTricornModule() {
       label: (l10n) => l10n.paramIterations,
       type: FractalParamType.integer,
       min: 20,
-      max: 500,
+      max: 5000,
       step: 1,
       defaultValue: 180,
     ),
@@ -53,7 +53,9 @@ FractalModule buildTricornModule() {
     shaderAsset: 'shaders/tricorn_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
-    builtInPresets: [defaultPreset.copyWith(id: 'tricorn-classic', name: 'Classic')],
+    builtInPresets: [
+      defaultPreset.copyWith(id: 'tricorn-classic', name: 'Classic')
+    ],
     setUniforms: (shader, state, size, time) {
       final iterations = _readDouble(state.params, 'iterations', 180);
       final bailout = _readDouble(state.params, 'bailout', 4.0);

@@ -43,6 +43,13 @@ import 'package:vector_math/vector_math.dart';
 /// controller.resetSession();
 /// ```
 class FractalController extends ChangeNotifier {
+  static const bool _adaptiveIterationsEnabled = bool.fromEnvironment(
+    'ADAPTIVE_ITERATIONS',
+    defaultValue: true,
+  );
+  static const int _adaptiveIterationsMinStep = 8;
+  static const double _adaptiveZoomEpsilon = 1.01;
+
   // Test mode detection - skip timer-based animations in tests
   static final bool _isTest = (() {
     var v = false;
@@ -74,6 +81,7 @@ class FractalController extends ChangeNotifier {
   int _consecutiveInterestingSpots = 0;
   DateTime? _lastInterestingSpotTime;
   final _celebrationController = StreamController<void>.broadcast();
+  double _lastAdaptiveZoom = 1.0;
 
   /// Creates a new [FractalController] with the given [registry].
   ///
@@ -82,6 +90,7 @@ class FractalController extends ChangeNotifier {
   FractalController(this.registry, {TestLogger? logger}) : _logger = logger {
     _module = registry.modules.first;
     _applyPreset(_module.defaultPreset);
+    _lastAdaptiveZoom = _view.zoom;
   }
 
   /// Whether a module morph transition is in progress.
@@ -230,6 +239,7 @@ class FractalController extends ChangeNotifier {
   /// Does not affect fractal parameters.
   void resetView() {
     _view = FractalViewState.initial();
+    _lastAdaptiveZoom = _view.zoom;
     notifyListeners();
     _logChange('stateChange', 'reset', 'Reset view');
   }
@@ -244,6 +254,7 @@ class FractalController extends ChangeNotifier {
     // (Module default presets may intentionally start at a non-zero pan like -0.5,0.0 for Mandelbrot.)
     _applyPreset(_module.defaultPreset);
     _view = FractalViewState.initial();
+    _lastAdaptiveZoom = _view.zoom;
     _transparentBackground = false;
     notifyListeners();
     _logChange('stateChange', 'reset', 'Reset session');
@@ -292,9 +303,21 @@ class FractalController extends ChangeNotifier {
   /// The [zoom] value is clamped to range [1e-9, 1e12] to support
   /// deep-zoom exploration before precision fallback kicks in.
   void updateZoom(double zoom) {
-    _view = _view.copyWith(zoom: zoom.clamp(1e-9, 1e12));
+    final clampedZoom = zoom.clamp(1e-9, 1e12).toDouble();
+    final zoomingIn = clampedZoom > (_lastAdaptiveZoom * _adaptiveZoomEpsilon);
+    _view = _view.copyWith(zoom: clampedZoom);
+    _lastAdaptiveZoom = clampedZoom;
+
+    final autoIterations = _applyAdaptiveIterationsForZoom(
+      zoom: clampedZoom,
+      zoomingIn: zoomingIn,
+    );
+
     notifyListeners();
-    _logChange('userAction', 'zoom', 'Zoom updated', metadata: {'zoom': zoom});
+    _logChange('userAction', 'zoom', 'Zoom updated', metadata: {
+      'zoom': clampedZoom,
+      if (autoIterations != null) 'autoIterations': autoIterations,
+    });
   }
 
   /// Updates the 2D pan offset.
@@ -446,6 +469,88 @@ class FractalController extends ChangeNotifier {
 
     _params = clamped;
     _view = preset.view;
+    _lastAdaptiveZoom = _view.zoom;
+  }
+
+  int? _applyAdaptiveIterationsForZoom({
+    required double zoom,
+    required bool zoomingIn,
+  }) {
+    if (!_adaptiveIterationsEnabled || !zoomingIn) {
+      return null;
+    }
+    if (_module.dimension != FractalDimension.twoD) {
+      return null;
+    }
+
+    final iterationsSchema = _findParam('iterations');
+    if (iterationsSchema == null ||
+        iterationsSchema.type != FractalParamType.integer) {
+      return null;
+    }
+
+    final minIterations = iterationsSchema.min.round();
+    final maxIterations = iterationsSchema.max.round();
+    final currentValue = _params['iterations'];
+    final currentIterations = currentValue is num
+        ? currentValue.round()
+        : (iterationsSchema.defaultValue as num).round();
+    final baseIterations = (iterationsSchema.defaultValue as num).round();
+
+    final targetIterations = _suggestIterationsForZoom(
+      zoom: zoom,
+      baseIterations: baseIterations,
+      minIterations: minIterations,
+      maxIterations: maxIterations,
+    );
+    if (targetIterations <= currentIterations) {
+      return null;
+    }
+
+    final delta = targetIterations - currentIterations;
+    final step = delta >= 256
+        ? 64
+        : delta >= 96
+            ? 32
+            : delta >= 32
+                ? 16
+                : _adaptiveIterationsMinStep;
+    final nextIterations =
+        (currentIterations + step).clamp(minIterations, maxIterations);
+    if (nextIterations <= currentIterations) {
+      return null;
+    }
+
+    _params = Map<String, Object>.from(_params);
+    _params['iterations'] = nextIterations;
+    _logChange(
+      'stateChange',
+      'adaptiveIterations',
+      'Adaptive iterations increased',
+      metadata: {
+        'module': _module.id,
+        'zoom': zoom,
+        'from': currentIterations,
+        'to': nextIterations,
+        'target': targetIterations,
+      },
+    );
+    return nextIterations;
+  }
+
+  int _suggestIterationsForZoom({
+    required double zoom,
+    required int baseIterations,
+    required int minIterations,
+    required int maxIterations,
+  }) {
+    final safeZoom = max(1.0, zoom);
+    final zoomOctaves = log(safeZoom) / ln2;
+    final extra = max(0, (zoomOctaves * 48.0).round());
+    final raw = baseIterations + extra;
+    // Snap to a small step to avoid jittery one-by-one jumps.
+    final snapped = ((raw + 3) ~/ 4) * 4;
+    return snapped.clamp(minIterations, maxIterations);
   }
 
   double _roundToStep(double value, double step) {
@@ -537,6 +642,7 @@ class FractalController extends ChangeNotifier {
 
     // Set view state
     _view = view;
+    _lastAdaptiveZoom = _view.zoom;
 
     // Set transparency
     _transparentBackground = transparentBackground;

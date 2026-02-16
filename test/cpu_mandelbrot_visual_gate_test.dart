@@ -20,8 +20,8 @@ void main() {
     const bailout = 4.0;
     const aa = 4;
 
-    final extra = (math.log(math.max(zoom, 1.0)) / math.ln2 * 24.0).round();
-    final iters = (baseIters + extra).clamp(50, 500);
+    final extra = (math.log(math.max(zoom, 1.0)) / math.ln2 * 32.0).round();
+    final iters = (baseIters + extra).clamp(50, 5000);
 
     final resp = renderCpuFrameInIsolate(
       CpuRenderRequest(
@@ -58,16 +58,19 @@ void main() {
           nonBlack++;
         }
         final l = lumAt(x, y);
-        final b = (l / 256.0 * lumBins.length).floor().clamp(0, lumBins.length - 1);
+        final b =
+            (l / 256.0 * lumBins.length).floor().clamp(0, lumBins.length - 1);
         lumBins[b]++;
       }
     }
 
-    expect(nonBlack / (w * h), greaterThan(0.10), reason: 'Should not be mostly black');
+    expect(nonBlack / (w * h), greaterThan(0.10),
+        reason: 'Should not be mostly black');
 
     // Not gradient-only / flat: require some luminance diversity.
     final nonZeroBins = lumBins.where((c) => c > (w * h * 0.001)).length;
-    expect(nonZeroBins, greaterThanOrEqualTo(6), reason: 'Too few luminance bins (flat/gradient-only)');
+    expect(nonZeroBins, greaterThanOrEqualTo(6),
+        reason: 'Too few luminance bins (flat/gradient-only)');
 
     // Blockiness metric: large flat 8x8 blocks are a regression.
     // We compute the mean per-block luminance and count identical adjacent blocks.
@@ -108,6 +111,7 @@ void main() {
     final ratio = sameAdj / adj;
     // Empirical: a properly rendered Mandelbrot should have lots of boundaries,
     // so adjacent blocks shouldn't all be identical.
-    expect(ratio, lessThan(0.80), reason: 'Too many identical adjacent blocks (blocky render)');
+    expect(ratio, lessThan(0.80),
+        reason: 'Too many identical adjacent blocks (blocky render)');
   });
 }

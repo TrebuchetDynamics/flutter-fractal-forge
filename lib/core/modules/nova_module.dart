@@ -8,21 +8,35 @@ import 'package:vector_math/vector_math.dart';
 FractalModule buildNovaModule() {
   final parameters = [
     FractalParameter(
-      id: 'iterations', label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer, min: 20, max: 500, step: 1, defaultValue: 200,
+      id: 'iterations',
+      label: (l10n) => l10n.paramIterations,
+      type: FractalParamType.integer,
+      min: 20,
+      max: 5000,
+      step: 1,
+      defaultValue: 200,
     ),
     FractalParameter(
-      id: 'relaxation', label: (l10n) => 'Relaxation',
-      type: FractalParamType.float, min: 0.1, max: 3.0, step: 0.05, defaultValue: 1.0,
+      id: 'relaxation',
+      label: (l10n) => 'Relaxation',
+      type: FractalParamType.float,
+      min: 0.1,
+      max: 3.0,
+      step: 0.05,
+      defaultValue: 1.0,
     ),
     CommonFractalParams.colorScheme64(defaultValue: 0),
   ];
 
   final defaultPreset = FractalPreset(
-    id: 'nova-default', moduleId: 'nova', name: 'Default',
+    id: 'nova-default',
+    moduleId: 'nova',
+    name: 'Default',
     params: {'iterations': 200, 'relaxation': 1.0, 'colorScheme': 0},
-    view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-    createdAt: DateTime.now(), isBuiltIn: true,
+    view: FractalViewState(
+        pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+    createdAt: DateTime.now(),
+    isBuiltIn: true,
   );
 
   return FractalModule(
@@ -32,7 +46,9 @@ FractalModule buildNovaModule() {
     shaderAsset: 'shaders/nova_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
-    builtInPresets: [defaultPreset.copyWith(id: 'nova-classic', name: 'Classic')],
+    builtInPresets: [
+      defaultPreset.copyWith(id: 'nova-classic', name: 'Classic')
+    ],
     setUniforms: (shader, state, size, time) {
       shader.setFloat(0, time);
       shader.setFloat(1, size.width);
@@ -49,5 +65,8 @@ FractalModule buildNovaModule() {
 }
 
 double _d(Map<String, Object> p, String k, double f) {
-  final v = p[k]; if (v is int) return v.toDouble(); if (v is double) return v; return f;
+  final v = p[k];
+  if (v is int) return v.toDouble();
+  if (v is double) return v;
+  return f;
 }

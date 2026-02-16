@@ -6,9 +6,9 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// The Phoenix fractal is a variation of the Julia set with a "memory" term.
-/// 
+///
 /// Formula: z(n+1) = z(n)^2 + c + p * z(n-1)
-/// 
+///
 /// The parameter p adds a "memory" of the previous iteration, creating
 /// beautiful asymmetric patterns that resemble rising flames or wings.
 FractalModule buildPhoenixModule() {
@@ -18,7 +18,7 @@ FractalModule buildPhoenixModule() {
       label: (l10n) => l10n.paramIterations,
       type: FractalParamType.integer,
       min: 20,
-      max: 500,
+      max: 5000,
       step: 1,
       defaultValue: 180,
     ),

@@ -8,6 +8,12 @@ const bool kForceCpuFallback =
     bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);
 const bool _kSkipEmulatorGuard =
     bool.fromEnvironment('SKIP_EMULATOR_GUARD', defaultValue: false);
+const bool _kAllowGpuOnAndroidEmulator = bool.fromEnvironment(
+  'ALLOW_GPU_ON_ANDROID_EMULATOR',
+  defaultValue: false,
+);
+const bool _kBypassEmulatorGuard =
+    _kSkipEmulatorGuard || _kAllowGpuOnAndroidEmulator;
 
 enum RendererBackend { gpu, cpu }
 
@@ -99,7 +105,11 @@ class BackendPolicyInput {
 }
 
 class RendererBackendPolicy {
-  const RendererBackendPolicy();
+  final bool bypassEmulatorGuard;
+
+  const RendererBackendPolicy({
+    this.bypassEmulatorGuard = _kBypassEmulatorGuard,
+  });
 
   BackendDecision decide(BackendPolicyInput input) {
     if (kForceCpuFallback) {
@@ -134,7 +144,7 @@ class RendererBackendPolicy {
       );
     }
 
-    if (input.isAndroid && input.isEmulator && !_kSkipEmulatorGuard) {
+    if (input.isAndroid && input.isEmulator && !bypassEmulatorGuard) {
       return const BackendDecision(
         backend: RendererBackend.cpu,
         reasonCode: FallbackReasonCode.androidEmulator,

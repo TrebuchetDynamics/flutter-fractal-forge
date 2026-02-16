@@ -36,7 +36,7 @@ class EscapeTimeConfig {
     this.defaultCenterX = 0.0,
     this.defaultCenterY = 0.0,
     this.defaultZoom = 1.0,
-    this.maxIterations = 500,
+    this.maxIterations = 5000,
     this.category = 'Escape-Time',
     this.extraParams = const [],
     this.extraPresets = const [],
@@ -122,14 +122,19 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       shader.setFloat(3, state.view.pan.x);
       shader.setFloat(4, state.view.pan.y);
       shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, _d(state.params, 'iterations', config.defaultIterations));
+      shader.setFloat(
+          6, _d(state.params, 'iterations', config.defaultIterations));
       shader.setFloat(7, _d(state.params, 'bailout', config.defaultBailout));
-      shader.setFloat(8, _d(state.params, 'colorScheme', config.defaultColorScheme.toDouble()));
+      shader.setFloat(
+          8,
+          _d(state.params, 'colorScheme',
+              config.defaultColorScheme.toDouble()));
       shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
       // Extra params start at index 10
       for (int i = 0; i < config.extraParams.length; i++) {
         final p = config.extraParams[i];
-        shader.setFloat(10 + i, _d(state.params, p.id, (p.defaultValue as num).toDouble()));
+        shader.setFloat(
+            10 + i, _d(state.params, p.id, (p.defaultValue as num).toDouble()));
       }
     },
   );

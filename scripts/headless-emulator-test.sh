@@ -27,6 +27,7 @@ set -euo pipefail
 #   KEEP_EMULATOR=0                  Keep emulator running even if started here (default 0)
 #   TEST_TARGET=integration_test/app_test.dart   Default test target when no args
 #   REPORTER=expanded                Flutter test reporter (default expanded)
+#   ENABLE_GPU_ON_EMULATOR=0         Add dart define to bypass emulator CPU guard
 #   LOG_DIR=agent_test_logs/headless Output dir for artifacts (default under repo)
 #   BOOT_TIMEOUT_SECS=240            Boot wait timeout (default 240)
 #   TEST_TIMEOUT_SECS=900            Test timeout (default 900)
@@ -47,6 +48,7 @@ PORT="${PORT:-auto}"
 KEEP_EMULATOR="${KEEP_EMULATOR:-0}"
 TEST_TARGET="${TEST_TARGET:-integration_test/app_test.dart}"
 REPORTER="${REPORTER:-expanded}"
+ENABLE_GPU_ON_EMULATOR="${ENABLE_GPU_ON_EMULATOR:-0}"
 LOG_DIR="${LOG_DIR:-$ROOT/agent_test_logs/headless}"
 BOOT_TIMEOUT_SECS="${BOOT_TIMEOUT_SECS:-240}"
 TEST_TIMEOUT_SECS="${TEST_TIMEOUT_SECS:-900}"
@@ -180,6 +182,21 @@ else
   run_cmd=(flutter test "$TEST_TARGET" -d "$DEVICE" --reporter "$REPORTER")
 fi
 
+if [ "$ENABLE_GPU_ON_EMULATOR" = "1" ] && [ "${run_cmd[0]:-}" = "flutter" ]; then
+  has_gpu_define=0
+  for arg in "${run_cmd[@]}"; do
+    if [ "$arg" = "--dart-define=ALLOW_GPU_ON_ANDROID_EMULATOR=true" ] || \
+       [ "$arg" = "--dart-define=SKIP_EMULATOR_GUARD=true" ]; then
+      has_gpu_define=1
+      break
+    fi
+  done
+  if [ "$has_gpu_define" = "0" ]; then
+    run_cmd+=("--dart-define=ALLOW_GPU_ON_ANDROID_EMULATOR=true")
+  fi
+  log "GPU emulator mode enabled (bypass emulator CPU guard)"
+fi
+
 export DEVICE
 
 test_log="$LOG_DIR/test_${TS}.log"
@@ -206,4 +223,3 @@ adb -s "$DEVICE" logcat -d -v time > "$LOG_DIR/logcat_${TS}.log" 2>&1 || true
 
 log "Done (rc=$rc). Artifacts: $LOG_DIR"
 exit "$rc"
-

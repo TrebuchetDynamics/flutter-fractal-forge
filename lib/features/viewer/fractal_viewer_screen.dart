@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui';
+import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -80,7 +81,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   // Compare mode state
   final bool _compareMode = false;
-  final bool _compareSliderMode = false; // false: side-by-side, true: sliding divider
+  final bool _compareSliderMode =
+      false; // false: side-by-side, true: sliding divider
   double _compareDivider = 0.5; // 0..1 (only used for slider mode)
   int _activePane = 0; // 0: A (primary/provider), 1: B (secondary)
   FractalController? _compareController;
@@ -108,13 +110,13 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Timer? _gpuHealthTimer;
   bool _gpuProbeActive = false;
   int _gpuProbeBackendSwitches = 0;
+  int _gpuHealthFailureStreak = 0;
   final RendererBackendPolicy _backendPolicy = const RendererBackendPolicy();
   BackendDecision _backendDecision = const BackendDecision(
     backend: RendererBackend.gpu,
     reasonCode: FallbackReasonCode.none,
     detail: 'init',
   );
-  
 
   // History tracking
   FractalController? _lastController;
@@ -199,7 +201,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Future<void> _detectEmulatorProfile() async {
     final isEmulator = await detectAndroidEmulator();
     if (!mounted) return;
-    _log.logState('lifecycle', 'Emulator detection', {'isEmulator': isEmulator});
+    _log.logState(
+        'lifecycle', 'Emulator detection', {'isEmulator': isEmulator});
     setState(() {
       _isAndroidEmulator = isEmulator;
       _refreshBackendDecision();
@@ -267,6 +270,31 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _lastBackendDecisionModuleId = currentModuleId;
   }
 
+  Future<ui.Image?> _captureProbeImage(
+    RenderRepaintBoundary boundary, {
+    double pixelRatio = 0.10,
+  }) async {
+    if (!mounted || !boundary.attached) return null;
+    if (!boundary.hasSize || boundary.size.isEmpty) return null;
+
+    // Ensure a painted frame exists before reading from the layer.
+    await WidgetsBinding.instance.endOfFrame;
+    if (!mounted || !boundary.attached) return null;
+    if (!boundary.hasSize || boundary.size.isEmpty) return null;
+
+    try {
+      return await boundary
+          .toImage(pixelRatio: pixelRatio)
+          .timeout(const Duration(milliseconds: 250));
+    } catch (e) {
+      if (e.toString().contains('Null check operator used on a null value')) {
+        _log.warn('gpu', 'Health check skipped: boundary image not ready');
+        return null;
+      }
+      rethrow;
+    }
+  }
+
   void _scheduleGpuHealthCheck() {
     _gpuHealthTimer?.cancel();
     _gpuHealthTimer = Timer(const Duration(seconds: 2), () async {
@@ -283,7 +311,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       final controller = context.read<FractalController>();
       if (controller.module.dimension != FractalDimension.twoD) {
         if (kDebugMode) {
-          debugPrint('[renderer] gpu_health_probe skipped reason=non_2d_module');
+          debugPrint(
+              '[renderer] gpu_health_probe skipped reason=non_2d_module');
         }
         _gpuProbeActive = false;
         return;
@@ -291,9 +320,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
       final boundaryContext = _fractalKeyA.currentContext;
       if (boundaryContext == null) {
-        _log.warn('gpu', 'Health check skipped: no boundary context (renderer not mounted?)');
+        _log.warn('gpu',
+            'Health check skipped: no boundary context (renderer not mounted?)');
         if (kDebugMode) {
-          debugPrint('[renderer] gpu_health_probe skipped reason=no_boundary_context');
+          debugPrint(
+              '[renderer] gpu_health_probe skipped reason=no_boundary_context');
         }
         _gpuProbeActive = false;
         return;
@@ -302,28 +333,29 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       if (renderObject is! RenderRepaintBoundary) {
         _log.warn('gpu', 'Health check skipped: no RenderRepaintBoundary');
         if (kDebugMode) {
-          debugPrint('[renderer] gpu_health_probe skipped reason=no_repaint_boundary');
+          debugPrint(
+              '[renderer] gpu_health_probe skipped reason=no_repaint_boundary');
         }
         _gpuProbeActive = false;
         return;
       }
 
+      ui.Image? imgA;
+      ui.Image? imgB;
       try {
         // IMPORTANT: health probe must NOT mutate live controller params.
 
         // Take two low-res snapshots for robustness, but without changing any
         // params (no transient iteration bumps).
-        final imgA = await renderObject
-            .toImage(pixelRatio: 0.10)
-            .timeout(const Duration(milliseconds: 250));
+        imgA = await _captureProbeImage(renderObject);
+        if (imgA == null) return;
         final dataA = await imgA.toByteData(format: ImageByteFormat.rawRgba);
         if (dataA == null) return;
 
         await Future<void>.delayed(const Duration(milliseconds: 220));
 
-        final imgB = await renderObject
-            .toImage(pixelRatio: 0.10)
-            .timeout(const Duration(milliseconds: 250));
+        imgB = await _captureProbeImage(renderObject);
+        if (imgB == null) return;
         final dataB = await imgB.toByteData(format: ImageByteFormat.rawRgba);
         if (dataB == null) return;
 
@@ -344,16 +376,29 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _lastGpuCenterNonBlack = stats.centerNonBlack;
         _lastGpuHistogramSane = stats.histogramSane;
         _lastGpuSampleCount = width * height;
-        _gpuHealthFailed = !stats.centerNonBlack || !stats.histogramSane;
+        final probeFailed = !stats.centerNonBlack || !stats.histogramSane;
+        if (probeFailed) {
+          _gpuHealthFailureStreak++;
+        } else {
+          _gpuHealthFailureStreak = 0;
+        }
+        // Require two consecutive probe failures before forcing CPU fallback.
+        _gpuHealthFailed = _gpuHealthFailureStreak >= 2;
 
-        _log.logState('gpu', 'GPU health check', {
-          'pass': !_gpuHealthFailed,
-          'nonBlackRatio': stats.nonBlackRatio,
-          'centerNonBlack': stats.centerNonBlack,
-          'histogramSane': stats.histogramSane,
-          'sampleCount': width * height,
-          'backendSwitchesDuringProbe': _gpuProbeBackendSwitches,
-        }, level: _gpuHealthFailed ? LogLevel.warn : LogLevel.info);
+        _log.logState(
+            'gpu',
+            'GPU health check',
+            {
+              'pass': !_gpuHealthFailed,
+              'probeFailed': probeFailed,
+              'failureStreak': _gpuHealthFailureStreak,
+              'nonBlackRatio': stats.nonBlackRatio,
+              'centerNonBlack': stats.centerNonBlack,
+              'histogramSane': stats.histogramSane,
+              'sampleCount': width * height,
+              'backendSwitchesDuringProbe': _gpuProbeBackendSwitches,
+            },
+            level: _gpuHealthFailed ? LogLevel.warn : LogLevel.info);
 
         // Force one decision refresh after probe. If GPU is healthy, this should
         // not cause any backend switch.
@@ -377,12 +422,16 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _lastGpuHealthError = e;
         if (e is TimeoutException) {
           if (kDebugMode) {
-            debugPrint('[renderer] gpu_health_probe skipped reason=to_image_timeout');
+            debugPrint(
+                '[renderer] gpu_health_probe skipped reason=to_image_timeout');
           }
         } else {
-          _log.error('gpu', 'Health check error', data: {'error': e.toString()});
+          _log.error('gpu', 'Health check error',
+              data: {'error': e.toString()});
         }
       } finally {
+        imgA?.dispose();
+        imgB?.dispose();
         _gpuProbeActive = false;
       }
     });
@@ -394,6 +443,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final controller = context.read<FractalController>();
     if (_lastModuleId != null && _lastModuleId != controller.module.id) {
       _gpuHealthFailed = false;
+      _gpuHealthFailureStreak = 0;
       _scheduleGpuHealthCheck();
     }
 
@@ -502,7 +552,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _compareController!.updateRotation(a.view.rotation);
     _compareController!.setTransparentBackground(a.transparentBackground);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -699,7 +748,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           SizedBox(width: 6),
                           Text(
                             l10n.deepZoomCpuFallback,
-                            style: const TextStyle(color: Colors.cyan, fontSize: 11),
+                            style: const TextStyle(
+                                color: Colors.cyan, fontSize: 11),
                           ),
                         ],
                       ),
@@ -844,7 +894,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         'timestamp': DateTime.now().toIso8601String(),
         'moduleId': controller.module.id,
         'moduleDimension': controller.module.dimension.name,
-        'rendererPreference': context.read<RendererSettingsService>().backendMode.name,
+        'rendererPreference':
+            context.read<RendererSettingsService>().backendMode.name,
         'backendDecision': {
           'backend': _backendDecision.backend.name,
           'reasonCode': _backendDecision.reasonToken,
@@ -1047,7 +1098,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                 _backendModeTile(
                   context: context,
                   title: 'Auto',
-                  subtitle: 'Use GPU when healthy; fall back to CPU when needed.',
+                  subtitle:
+                      'Use GPU when healthy; fall back to CPU when needed.',
                   value: RendererBackendMode.auto,
                   groupValue: mode,
                   onChanged: (v) async {
@@ -1724,17 +1776,13 @@ class _CpuFallbackPane extends StatefulWidget {
 class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
   double _lastScale = 1.0;
   Timer? _heartbeat;
-  
 
   @override
   void initState() {
     super.initState();
     _heartbeat = Timer.periodic(const Duration(milliseconds: 450), (_) {
       if (!mounted) return;
-      setState(() {
-        
-        
-      });
+      setState(() {});
     });
   }
 
@@ -1840,7 +1888,8 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
 }
 
 class _DeterministicVisibleFallbackScene extends StatelessWidget {
-  const _DeterministicVisibleFallbackScene({required this.transparentBackground});
+  const _DeterministicVisibleFallbackScene(
+      {required this.transparentBackground});
 
   final bool transparentBackground;
 
@@ -1856,7 +1905,8 @@ class _DeterministicVisibleFallbackScene extends StatelessWidget {
 }
 
 class _DeterministicVisibleFallbackPainter extends CustomPainter {
-  const _DeterministicVisibleFallbackPainter({required this.transparentBackground});
+  const _DeterministicVisibleFallbackPainter(
+      {required this.transparentBackground});
 
   final bool transparentBackground;
 

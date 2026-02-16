@@ -6,18 +6,17 @@ class FractalCanvas extends CustomPainter {
   final FractalModule module;
   final FractalRenderState state;
   final double time;
-  final FragmentProgram program;
+  final FragmentShader shader;
 
   FractalCanvas({
     required this.module,
     required this.state,
     required this.time,
-    required this.program,
+    required this.shader,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final shader = program.fragmentShader();
     module.setUniforms(shader, state, size, time);
 
     final paint = Paint()
@@ -34,7 +33,7 @@ class FractalCanvas extends CustomPainter {
   bool shouldRepaint(covariant FractalCanvas oldDelegate) {
     return oldDelegate.state != state ||
         oldDelegate.time != time ||
-        oldDelegate.program != program ||
+        oldDelegate.shader != shader ||
         oldDelegate.module.id != module.id;
   }
 }

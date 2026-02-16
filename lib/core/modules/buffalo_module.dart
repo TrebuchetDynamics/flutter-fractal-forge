@@ -8,21 +8,35 @@ import 'package:vector_math/vector_math.dart';
 FractalModule buildBuffaloModule() {
   final parameters = [
     FractalParameter(
-      id: 'iterations', label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer, min: 20, max: 500, step: 1, defaultValue: 180,
+      id: 'iterations',
+      label: (l10n) => l10n.paramIterations,
+      type: FractalParamType.integer,
+      min: 20,
+      max: 5000,
+      step: 1,
+      defaultValue: 180,
     ),
     FractalParameter(
-      id: 'bailout', label: (l10n) => l10n.paramBailout,
-      type: FractalParamType.float, min: 2.0, max: 8.0, step: 0.1, defaultValue: 4.0,
+      id: 'bailout',
+      label: (l10n) => l10n.paramBailout,
+      type: FractalParamType.float,
+      min: 2.0,
+      max: 8.0,
+      step: 0.1,
+      defaultValue: 4.0,
     ),
     CommonFractalParams.colorScheme64(defaultValue: 0),
   ];
 
   final defaultPreset = FractalPreset(
-    id: 'buffalo-default', moduleId: 'buffalo', name: 'Default',
+    id: 'buffalo-default',
+    moduleId: 'buffalo',
+    name: 'Default',
     params: const {'iterations': 180, 'bailout': 4.0, 'colorScheme': 0},
-    view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-    createdAt: DateTime.now(), isBuiltIn: true,
+    view: FractalViewState(
+        pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+    createdAt: DateTime.now(),
+    isBuiltIn: true,
   );
 
   return FractalModule(
@@ -32,7 +46,9 @@ FractalModule buildBuffaloModule() {
     shaderAsset: 'shaders/buffalo_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
-    builtInPresets: [defaultPreset.copyWith(id: 'buffalo-classic', name: 'Classic')],
+    builtInPresets: [
+      defaultPreset.copyWith(id: 'buffalo-classic', name: 'Classic')
+    ],
     setUniforms: (shader, state, size, time) {
       shader.setFloat(0, time);
       shader.setFloat(1, size.width);
@@ -49,5 +65,8 @@ FractalModule buildBuffaloModule() {
 }
 
 double _d(Map<String, Object> p, String k, double f) {
-  final v = p[k]; if (v is int) return v.toDouble(); if (v is double) return v; return f;
+  final v = p[k];
+  if (v is int) return v.toDouble();
+  if (v is double) return v;
+  return f;
 }

@@ -30,7 +30,7 @@ void main() {
       final colorScheme = controller.params['colorScheme'];
 
       expect(iterations, isA<int>());
-      expect(iterations as int, inInclusiveRange(20, 500));
+      expect(iterations as int, inInclusiveRange(20, 5000));
 
       expect(bailout, isA<double>());
       expect(bailout as double, inInclusiveRange(2.0, 50.0));
@@ -46,16 +46,36 @@ void main() {
       final controller = FractalController(ModuleRegistry());
       // Force a clearly out-of-range value that should be clamped after applying.
       controller.updateParam('iterations', 9999);
-      expect(controller.params['iterations'], 500);
+      expect(controller.params['iterations'], 5000);
 
       controller.applyArQualityPreset(ArQualityPreset.high);
-      // For mandelbrot, high -> iterations 220 (within [20,500]).
+      // For mandelbrot, high -> iterations 220 (within [20,5000]).
       expect(controller.params['iterations'], 220);
 
       // Julia has AR overrides in this build; verify it updates safely.
       controller.selectModule(controller.registry.byId('julia'));
       controller.applyArQualityPreset(ArQualityPreset.high);
       expect(controller.params['iterations'], 200);
+    });
+
+    test('updateZoom adaptively increases iterations when zooming in', () {
+      final controller = FractalController(ModuleRegistry());
+      final startIterations = controller.params['iterations'] as int;
+
+      controller.updateZoom(2.0);
+      final afterZoom2 = controller.params['iterations'] as int;
+
+      controller.updateZoom(32.0);
+      final afterZoom32 = controller.params['iterations'] as int;
+
+      controller.updateZoom(1.0);
+      final afterZoomOut = controller.params['iterations'] as int;
+
+      expect(afterZoom2, greaterThan(startIterations));
+      expect(afterZoom32, greaterThan(afterZoom2));
+      expect(afterZoom32, inInclusiveRange(20, 5000));
+      // Adaptive policy only raises while zooming in; zooming out keeps budget.
+      expect(afterZoomOut, afterZoom32);
     });
   });
 }

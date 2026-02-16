@@ -31,7 +31,7 @@ void main() {
 
     controller.applyPreset(badPreset);
 
-    expect(controller.params['iterations'], 500);
+    expect(controller.params['iterations'], 5000);
     expect(controller.params['bailout'], 8.0);
     // Enumeration invalid -> default for module.
     expect(controller.params['colorScheme'], 0);

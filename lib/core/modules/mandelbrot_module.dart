@@ -25,7 +25,7 @@ FractalModule buildMandelbrotModule() {
       label: (l10n) => l10n.paramIterations,
       type: FractalParamType.integer,
       min: 20,
-      max: 500,
+      max: 5000,
       step: 1,
       defaultValue: 120,
     ),

@@ -43,6 +43,27 @@ void main() {
       expect(decision.backend, RendererBackend.cpu);
       expect(decision.reasonToken, 'android_emulator');
     });
+
+    test('allows GPU on android emulator when bypass is enabled', () {
+      const policyWithBypass = RendererBackendPolicy(
+        bypassEmulatorGuard: true,
+      );
+
+      final decision = policyWithBypass.decide(
+        const BackendPolicyInput(
+          isAndroid: true,
+          isWeb: false,
+          isEmulator: true,
+          userMode: RendererBackendMode.auto,
+          gpuHealthFailed: false,
+          deepZoomNeedsCpu: false,
+          dimension: FractalDimension.twoD,
+        ),
+      );
+
+      expect(decision.backend, RendererBackend.gpu);
+      expect(decision.reasonCode, FallbackReasonCode.none);
+    });
   });
 
   group('Render validation', () {
