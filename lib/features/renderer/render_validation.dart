@@ -1,5 +1,65 @@
 import 'dart:typed_data';
 
+class RenderFrameStats {
+  final int centerR;
+  final int centerG;
+  final int centerB;
+  final double nonBlackRatio;
+  final bool centerNonBlack;
+  final bool histogramSane;
+
+  const RenderFrameStats({
+    required this.centerR,
+    required this.centerG,
+    required this.centerB,
+    required this.nonBlackRatio,
+    required this.centerNonBlack,
+    required this.histogramSane,
+  });
+
+  String summary(String backend) {
+    return '[renderer] render_frame_stats backend=$backend center=$centerR,$centerG,$centerB non_black_ratio=${nonBlackRatio.toStringAsFixed(4)} histogram_sane=$histogramSane';
+  }
+}
+
+RenderFrameStats validateRenderFrame({
+  required Uint8List frame,
+  required int width,
+  required int height,
+}) {
+  int idx(int x, int y) => (y * width + x) * 4;
+
+  final cx = (width / 2).floor();
+  final cy = (height / 2).floor();
+  final cIndex = idx(cx, cy);
+  final centerR = frame[cIndex];
+  final centerG = frame[cIndex + 1];
+  final centerB = frame[cIndex + 2];
+
+  final centerNonBlack = centerR > 8 || centerG > 8 || centerB > 8;
+
+  int nonBlack = 0;
+  final total = width * height;
+
+  for (int i = 0; i + 3 < frame.length; i += 4) {
+    if (frame[i] > 8 || frame[i + 1] > 8 || frame[i + 2] > 8) {
+      nonBlack++;
+    }
+  }
+
+  final nonBlackRatio = total == 0 ? 0.0 : nonBlack / total;
+  final histogramSane = nonBlackRatio > 0.01;
+
+  return RenderFrameStats(
+    centerR: centerR,
+    centerG: centerG,
+    centerB: centerB,
+    nonBlackRatio: nonBlackRatio,
+    centerNonBlack: centerNonBlack,
+    histogramSane: histogramSane,
+  );
+}
+
 class RenderCheckResult {
   final int centerR;
   final int centerG;

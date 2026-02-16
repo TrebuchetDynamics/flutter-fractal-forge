@@ -74,9 +74,9 @@ void main() {
     return;
   }
 
-  // Smooth coloring (the suspect): log2(log2(|z|^2))
+  // Smooth coloring: continuous escape-time with normalization
   float mag2 = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2));
+  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
   float t = smoothVal / max(1.0, uIterations);
   t = clamp(t, 0.0, 1.0);
 

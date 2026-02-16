@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 /// Generates GPU-rendered catalog thumbnails on emulator.
 ///
 /// Run:
@@ -98,20 +97,20 @@ void main() {
           File('${outDir.path}/${config.id}.png')
               .writeAsBytesSync(img.encodePng(thumb));
           generated++;
-          if (generated % 20 == 0) print('  Progress: $generated/${escapeTimeCatalog.length}');
+          if (generated % 20 == 0) debugPrint('  Progress: $generated/${escapeTimeCatalog.length}');
         } else {
-          print('  FAIL ${config.id}: decode failed');
+          debugPrint('  FAIL ${config.id}: decode failed');
           failed++;
         }
 
         controller.dispose();
       } catch (e) {
-        print('  ERROR ${config.id}: $e');
+        debugPrint('  ERROR ${config.id}: $e');
         failed++;
       }
     }
 
-    print('\n=== GPU Thumbnail Generation ===');
-    print('Generated: $generated / Failed: $failed / Total: ${escapeTimeCatalog.length}');
+    debugPrint('\n=== GPU Thumbnail Generation ===');
+    debugPrint('Generated: $generated / Failed: $failed / Total: ${escapeTimeCatalog.length}');
   });
 }

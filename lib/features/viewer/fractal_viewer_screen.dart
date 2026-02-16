@@ -106,6 +106,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   int? _lastGpuSampleCount;
   Object? _lastGpuHealthError;
   Timer? _gpuHealthTimer;
+  bool _gpuProbeActive = false;
+  int _gpuProbeBackendSwitches = 0;
   final RendererBackendPolicy _backendPolicy = const RendererBackendPolicy();
   BackendDecision _backendDecision = const BackendDecision(
     backend: RendererBackend.gpu,
@@ -135,6 +137,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   String? _lastBackendDecisionLogged;
   Timer? _backendDebounceTimer;
   DateTime? _lastBackendSwitch;
+  String? _lastBackendDecisionModuleId;
 
   final AppLogger _log = AppLogger.instance;
 
@@ -210,6 +213,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final mode = context.read<RendererSettingsService>().backendMode;
 
     final oldBackend = _backendDecision.backend;
+    final currentModuleId = controller.module.id;
+    final moduleChanged = _lastBackendDecisionModuleId != currentModuleId;
+
     final newDecision = _backendPolicy.decide(
       BackendPolicyInput(
         isAndroid: !kIsWeb && Platform.isAndroid,
@@ -228,19 +234,26 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     // Add hysteresis to prevent rapid backend switching (flicker bug)
     // Only switch if decision changed AND enough time has passed
     if (newDecision.backend != oldBackend) {
+      if (_gpuProbeActive) {
+        _gpuProbeBackendSwitches++;
+      }
       _log.logState('render', 'Backend switch', {
         'from': oldBackend.name,
         'to': newDecision.backend.name,
         'reason': newDecision.reasonToken,
         'detail': newDecision.detail,
+        'duringGpuProbe': _gpuProbeActive,
       });
     }
     if (newDecision.backend != _backendDecision.backend) {
       final now = DateTime.now();
       final lastSwitch = _lastBackendSwitch;
 
-      // Require 500ms minimum between backend switches
-      if (lastSwitch == null ||
+      // Module switches should always update immediately. The hysteresis is
+      // only meant to prevent rapid CPU<->GPU flip-flopping on *the same* module
+      // due to health-check/precision conditions.
+      if (moduleChanged ||
+          lastSwitch == null ||
           now.difference(lastSwitch).inMilliseconds >= 500) {
         _backendDecision = newDecision;
         _lastBackendSwitch = now;
@@ -250,6 +263,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       // Same backend, update decision immediately
       _backendDecision = newDecision;
     }
+
+    _lastBackendDecisionModuleId = currentModuleId;
   }
 
   void _scheduleGpuHealthCheck() {
@@ -259,89 +274,116 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       if (_compareMode) return;
       if (_backendDecision.backend == RendererBackend.cpu) return;
 
+      _gpuProbeActive = true;
+      _gpuProbeBackendSwitches = 0;
+      if (kDebugMode) {
+        debugPrint('[renderer] gpu_health_probe start');
+      }
+
       final controller = context.read<FractalController>();
-      if (controller.module.dimension != FractalDimension.twoD) return;
+      if (controller.module.dimension != FractalDimension.twoD) {
+        if (kDebugMode) {
+          debugPrint('[renderer] gpu_health_probe skipped reason=non_2d_module');
+        }
+        _gpuProbeActive = false;
+        return;
+      }
 
       final boundaryContext = _fractalKeyA.currentContext;
       if (boundaryContext == null) {
         _log.warn('gpu', 'Health check skipped: no boundary context (renderer not mounted?)');
+        if (kDebugMode) {
+          debugPrint('[renderer] gpu_health_probe skipped reason=no_boundary_context');
+        }
+        _gpuProbeActive = false;
         return;
       }
       final renderObject = boundaryContext.findRenderObject();
       if (renderObject is! RenderRepaintBoundary) {
         _log.warn('gpu', 'Health check skipped: no RenderRepaintBoundary');
+        if (kDebugMode) {
+          debugPrint('[renderer] gpu_health_probe skipped reason=no_repaint_boundary');
+        }
+        _gpuProbeActive = false;
         return;
       }
 
       try {
-        // Capture original iterations value to restore after health check
-        final originalIterations = controller.params['iterations'];
+        // IMPORTANT: health probe must NOT mutate live controller params.
 
-        final imgA = await renderObject.toImage(pixelRatio: 0.10);
+        // Take two low-res snapshots for robustness, but without changing any
+        // params (no transient iteration bumps).
+        final imgA = await renderObject
+            .toImage(pixelRatio: 0.10)
+            .timeout(const Duration(milliseconds: 250));
         final dataA = await imgA.toByteData(format: ImageByteFormat.rawRgba);
         if (dataA == null) return;
-        await Future<void>.delayed(const Duration(milliseconds: 180));
-        controller.updateParam(
-          'iterations',
-          ((controller.params['iterations'] as int?) ?? 220) + 24,
-        );
-        await Future<void>.delayed(const Duration(milliseconds: 80));
-        final imgB = await renderObject.toImage(pixelRatio: 0.10);
+
+        await Future<void>.delayed(const Duration(milliseconds: 220));
+
+        final imgB = await renderObject
+            .toImage(pixelRatio: 0.10)
+            .timeout(const Duration(milliseconds: 250));
         final dataB = await imgB.toByteData(format: ImageByteFormat.rawRgba);
-        if (dataB == null) {
-          // Restore original value before early return
-          if (originalIterations != null) {
-            controller.updateParam('iterations', originalIterations);
-          }
-          return;
-        }
+        if (dataB == null) return;
 
         final width = imgB.width;
         final height = imgB.height;
-        final result = validateRenderPair(
-          frameA: dataA.buffer.asUint8List(),
-          frameB: dataB.buffer.asUint8List(),
+
+        // We only care about black/near-black output and histogram sanity here.
+        // Progression checks (frameProgressed/iterationDeltaVisible) were tied
+        // to the old iteration-bump approach and are intentionally ignored.
+        final stats = validateRenderFrame(
+          frame: dataB.buffer.asUint8List(),
           width: width,
           height: height,
         );
 
-        // Restore original iterations value after health check
-        if (originalIterations != null) {
-          controller.updateParam('iterations', originalIterations);
-        }
-
-        _lastGpuNonBlackRatio = result.nonBlackRatio;
-        _lastGpuDarkRatio = 1.0 - result.nonBlackRatio;
-        _lastGpuCenterNonBlack = result.centerNonBlack;
-        _lastGpuHistogramSane = result.histogramSane;
+        _lastGpuNonBlackRatio = stats.nonBlackRatio;
+        _lastGpuDarkRatio = 1.0 - stats.nonBlackRatio;
+        _lastGpuCenterNonBlack = stats.centerNonBlack;
+        _lastGpuHistogramSane = stats.histogramSane;
         _lastGpuSampleCount = width * height;
-        _gpuHealthFailed = !result.centerNonBlack || !result.histogramSane;
+        _gpuHealthFailed = !stats.centerNonBlack || !stats.histogramSane;
 
         _log.logState('gpu', 'GPU health check', {
           'pass': !_gpuHealthFailed,
-          'nonBlackRatio': result.nonBlackRatio,
-          'centerNonBlack': result.centerNonBlack,
-          'histogramSane': result.histogramSane,
+          'nonBlackRatio': stats.nonBlackRatio,
+          'centerNonBlack': stats.centerNonBlack,
+          'histogramSane': stats.histogramSane,
           'sampleCount': width * height,
+          'backendSwitchesDuringProbe': _gpuProbeBackendSwitches,
         }, level: _gpuHealthFailed ? LogLevel.warn : LogLevel.info);
 
+        // Force one decision refresh after probe. If GPU is healthy, this should
+        // not cause any backend switch.
         _refreshBackendDecision();
-        debugPrint(result.summary('gpu'));
+
+        debugPrint(stats.summary('gpu'));
         debugPrint(
-          '[renderer] gpu_health nonBlackRatio=${result.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${result.centerNonBlack} histogramSane=${result.histogramSane} sampleCount=${width * height}',
+          '[renderer] gpu_health nonBlackRatio=${stats.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${stats.centerNonBlack} histogramSane=${stats.histogramSane} sampleCount=${width * height} backendSwitchesDuringProbe=$_gpuProbeBackendSwitches',
         );
+
+        // Extra diagnostic line: proves we did not trigger backend switches while probing.
+        debugPrint(
+          '[renderer] gpu_health_probe side_effects backendSwitchesDuringProbe=$_gpuProbeBackendSwitches (expected 0 on healthy GPU)',
+        );
+
+        // Keep old API behavior: we still captured two frames, even though we
+        // now validate from a single frame. (Avoid unused var warnings.)
+        // ignore: unused_local_variable
+        final _ = dataA;
       } catch (e) {
         _lastGpuHealthError = e;
-        _log.error('gpu', 'Health check error', data: {'error': e.toString()});
-        // Attempt to restore original iterations on error (best effort)
-        try {
-          final originalIterations = controller.params['iterations'];
-          if (originalIterations != null) {
-            controller.updateParam('iterations', originalIterations);
+        if (e is TimeoutException) {
+          if (kDebugMode) {
+            debugPrint('[renderer] gpu_health_probe skipped reason=to_image_timeout');
           }
-        } catch (_) {
-          // Ignore restoration errors
+        } else {
+          _log.error('gpu', 'Health check error', data: {'error': e.toString()});
         }
+      } finally {
+        _gpuProbeActive = false;
       }
     });
   }

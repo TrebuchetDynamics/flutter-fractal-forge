@@ -237,7 +237,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 - **Adaptive quality:** Reduces iterations on older devices
 - **GPU acceleration:** All rendering via fragment shaders
 - **Memory efficient:** No large texture allocations
-- **Renderer docs:** See `docs/cpu_vs_gpu_rendering.md` and `docs/renderer_backend_matrix.md`
+- **Renderer docs:** See `docs/cpu_vs_gpu_rendering.md`, `docs/renderer_backend_matrix.md`, and `docs/formula_coverage_limitation.md`
 
 ---
 

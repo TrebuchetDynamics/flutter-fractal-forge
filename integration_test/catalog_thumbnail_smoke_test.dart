@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 /// Smoke test: Verify catalog thumbnails load (not gradient fallbacks).
 library;
 
@@ -52,8 +51,8 @@ void main() {
           (widget.decoration as BoxDecoration).gradient != null,
     );
 
-    print('Asset thumbnails found: ${assetImages.evaluate().length}');
-    print('Gradient fallbacks found: ${fallbacks.evaluate().length}');
+    debugPrint('Asset thumbnails found: ${assetImages.evaluate().length}');
+    debugPrint('Gradient fallbacks found: ${fallbacks.evaluate().length}');
 
     // At least 10 real thumbnails should load (catalog has 197 entries)
     expect(assetImages.evaluate().length, greaterThan(10),
