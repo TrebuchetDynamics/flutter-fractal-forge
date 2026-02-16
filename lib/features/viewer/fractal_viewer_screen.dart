@@ -63,6 +63,11 @@ class FractalViewerScreen extends StatefulWidget {
 
 class _FractalViewerScreenState extends State<FractalViewerScreen>
     with TickerProviderStateMixin {
+  static const bool _forceGpuHealthProbeFailure = bool.fromEnvironment(
+    'FORCE_GPU_HEALTH_PROBE_FAILURE',
+    defaultValue: false,
+  );
+
   // Widget tests run with a stripped-down engine; treat those runs as "test"
   // so we can exercise renderer-dependent UI even when real GPU features are disabled.
   static final bool _isTest = (() {
@@ -376,14 +381,17 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _lastGpuCenterNonBlack = stats.centerNonBlack;
         _lastGpuHistogramSane = stats.histogramSane;
         _lastGpuSampleCount = width * height;
-        final probeFailed = !stats.centerNonBlack || !stats.histogramSane;
+        final probeFailed =
+            _forceGpuHealthProbeFailure || !stats.centerNonBlack || !stats.histogramSane;
         if (probeFailed) {
           _gpuHealthFailureStreak++;
         } else {
           _gpuHealthFailureStreak = 0;
         }
         // Require two consecutive probe failures before forcing CPU fallback.
-        _gpuHealthFailed = _gpuHealthFailureStreak >= 2;
+        // In deterministic simulation mode we force failover in a single probe.
+        final requiredFailureStreak = _forceGpuHealthProbeFailure ? 1 : 2;
+        _gpuHealthFailed = _gpuHealthFailureStreak >= requiredFailureStreak;
 
         _log.logState(
             'gpu',
@@ -397,6 +405,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               'histogramSane': stats.histogramSane,
               'sampleCount': width * height,
               'backendSwitchesDuringProbe': _gpuProbeBackendSwitches,
+              'forcedProbeFailure': _forceGpuHealthProbeFailure,
             },
             level: _gpuHealthFailed ? LogLevel.warn : LogLevel.info);
 
@@ -406,7 +415,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
         debugPrint(stats.summary('gpu'));
         debugPrint(
-          '[renderer] gpu_health nonBlackRatio=${stats.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${stats.centerNonBlack} histogramSane=${stats.histogramSane} sampleCount=${width * height} backendSwitchesDuringProbe=$_gpuProbeBackendSwitches',
+          '[renderer] gpu_health nonBlackRatio=${stats.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${stats.centerNonBlack} histogramSane=${stats.histogramSane} sampleCount=${width * height} backendSwitchesDuringProbe=$_gpuProbeBackendSwitches forcedProbeFailure=$_forceGpuHealthProbeFailure',
         );
 
         // Extra diagnostic line: proves we did not trigger backend switches while probing.

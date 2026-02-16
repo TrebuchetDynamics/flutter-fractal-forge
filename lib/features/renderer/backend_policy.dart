@@ -6,14 +6,8 @@ import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 
 const bool kForceCpuFallback =
     bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);
-const bool _kSkipEmulatorGuard =
-    bool.fromEnvironment('SKIP_EMULATOR_GUARD', defaultValue: false);
-const bool _kAllowGpuOnAndroidEmulator = bool.fromEnvironment(
-  'ALLOW_GPU_ON_ANDROID_EMULATOR',
-  defaultValue: false,
-);
-const bool _kBypassEmulatorGuard =
-    _kSkipEmulatorGuard || _kAllowGpuOnAndroidEmulator;
+// Android emulator GPU is allowed in auto mode. Runtime health probes in
+// FractalViewerScreen enforce fast fallback to CPU on invalid output.
 
 enum RendererBackend { gpu, cpu }
 
@@ -105,11 +99,7 @@ class BackendPolicyInput {
 }
 
 class RendererBackendPolicy {
-  final bool bypassEmulatorGuard;
-
-  const RendererBackendPolicy({
-    this.bypassEmulatorGuard = _kBypassEmulatorGuard,
-  });
+  const RendererBackendPolicy();
 
   BackendDecision decide(BackendPolicyInput input) {
     if (kForceCpuFallback) {
@@ -144,13 +134,8 @@ class RendererBackendPolicy {
       );
     }
 
-    if (input.isAndroid && input.isEmulator && !bypassEmulatorGuard) {
-      return const BackendDecision(
-        backend: RendererBackend.cpu,
-        reasonCode: FallbackReasonCode.androidEmulator,
-        detail: 'ranchu/goldfish emulator guard',
-      );
-    }
+    // Emulator targets are handled like physical devices in auto mode.
+    // Runtime GPU health checks own fallback decisions.
 
     if (input.gpuHealthFailed) {
       return const BackendDecision(

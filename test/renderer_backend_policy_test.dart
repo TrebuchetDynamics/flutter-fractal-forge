@@ -27,29 +27,8 @@ void main() {
       expect(decision.reasonCode, FallbackReasonCode.none);
     });
 
-    test('uses canonical reason for android emulator fallback', () {
+    test('uses GPU on healthy android emulator in auto mode', () {
       final decision = policy.decide(
-        const BackendPolicyInput(
-          isAndroid: true,
-          isWeb: false,
-          isEmulator: true,
-          userMode: RendererBackendMode.auto,
-          gpuHealthFailed: false,
-          deepZoomNeedsCpu: false,
-          dimension: FractalDimension.twoD,
-        ),
-      );
-
-      expect(decision.backend, RendererBackend.cpu);
-      expect(decision.reasonToken, 'android_emulator');
-    });
-
-    test('allows GPU on android emulator when bypass is enabled', () {
-      const policyWithBypass = RendererBackendPolicy(
-        bypassEmulatorGuard: true,
-      );
-
-      final decision = policyWithBypass.decide(
         const BackendPolicyInput(
           isAndroid: true,
           isWeb: false,
@@ -63,6 +42,24 @@ void main() {
 
       expect(decision.backend, RendererBackend.gpu);
       expect(decision.reasonCode, FallbackReasonCode.none);
+    });
+
+    test('falls back to CPU on android emulator when GPU health fails', () {
+      final decision = policy.decide(
+        const BackendPolicyInput(
+          isAndroid: true,
+          isWeb: false,
+          isEmulator: true,
+          userMode: RendererBackendMode.auto,
+          gpuHealthFailed: true,
+          deepZoomNeedsCpu: false,
+          dimension: FractalDimension.twoD,
+        ),
+      );
+
+      expect(decision.backend, RendererBackend.cpu);
+      expect(decision.reasonCode, FallbackReasonCode.gpuHealthCheckFailed);
+      expect(decision.reasonToken, 'gpu_health_check_failed');
     });
   });
 

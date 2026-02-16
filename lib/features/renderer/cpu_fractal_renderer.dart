@@ -15,6 +15,7 @@ import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
 import 'package:flutter_fractals/features/renderer/cpu_tile_worker.dart';
 import 'package:flutter_fractals/features/renderer/cpu_iterators.dart';
+import 'package:flutter_fractals/features/renderer/convergence_detector.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
 ///
@@ -49,6 +50,12 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Timer? _debounce;
   Timer? _refineTimer;
   RenderCheckResult? _lastValidation;
+
+  // Convergence detection for adaptive iteration adjustment.
+  final ConvergenceDetector _convergenceDetector = const ConvergenceDetector();
+  Uint8List? _previousFrameBuffer;
+  int _lastIterations = 0;
+  bool _isConverged = false;
 
   CpuTileWorker? _worker;
 
@@ -87,6 +94,45 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
   void _markInteraction() {
     _lastInteractionAt = DateTime.now();
+    // Reset convergence state on new interaction.
+    _isConverged = false;
+  }
+
+  /// Checks frame-to-frame convergence and updates iteration budget.
+  /// Returns adjusted iteration count based on convergence result.
+  int _checkConvergence(Uint8List currentBuffer, int width, int height, int currentIterations) {
+    final prev = _previousFrameBuffer;
+
+    if (prev == null || prev.length != currentBuffer.length) {
+      // First frame - store and return current iterations.
+      _previousFrameBuffer = Uint8List.fromList(currentBuffer);
+      _lastIterations = currentIterations;
+      _isConverged = false;
+      return currentIterations;
+    }
+
+    // Compare with previous frame.
+    final result = _convergenceDetector.detect(
+      previous: prev,
+      current: currentBuffer,
+      width: width,
+      height: height,
+      currentIterations: currentIterations,
+    );
+
+    // Store current buffer for next comparison.
+    _previousFrameBuffer = Uint8List.fromList(currentBuffer);
+    _isConverged = result.converged;
+
+    // Log convergence state in debug mode.
+    if (kDebugMode && result.changeRatio > 0.01) {
+      debugPrint('[cpu] convergence: converged=${result.converged} '
+          'change=${(result.changeRatio * 100).toStringAsFixed(1)}% '
+          'iter=$currentIterations->${result.suggestedIterations}');
+    }
+
+    // Use suggested iterations for next render if not converged.
+    return result.suggestedIterations.clamp(50, _iterationMaxForModule());
   }
 
   bool _shouldStillBeInteracting() {
@@ -320,6 +366,16 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       }
 
       final img = await frame.toImage();
+
+      // Check convergence for adaptive iteration adjustment (after first few frames).
+      if (_lastIterations > 0 && !_isConverged) {
+        // Use current iterations for display, but track for next frame comparison.
+        _checkConvergence(frame.rgba, frame.width, frame.height, iterations);
+      } else {
+        // Store first frame for subsequent comparisons.
+        _previousFrameBuffer = Uint8List.fromList(frame.rgba);
+        _lastIterations = iterations;
+      }
 
       // Optional validation only in debug builds.
       RenderCheckResult? validation;
