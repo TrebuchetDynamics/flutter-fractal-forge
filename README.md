@@ -61,7 +61,7 @@ A beautiful, high-performance Flutter application for exploring and rendering ma
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/flutter-fractal-forge.git
+   git clone https://github.com/XelHaku/flutter-fractal-forge.git
    cd flutter-fractal-forge
    ```
 
