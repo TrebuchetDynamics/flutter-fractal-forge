@@ -100,8 +100,7 @@ void main() {
           }
           final file = File('screenshots/$safeName.png');
           await file.writeAsBytes(data.buffer.asUint8List());
-          // ignore: avoid_print
-          print('SCREENSHOT (repaint boundary): $safeName');
+          debugPrint('SCREENSHOT (repaint boundary): $safeName');
           return;
         } catch (e) {
           // Fall through to integration test screenshot
@@ -116,14 +115,11 @@ void main() {
           androidScreenshotMode = true;
         }
         await binding.takeScreenshot(safeName);
-        // ignore: avoid_print
-        print('SCREENSHOT (integration): $safeName');
+        debugPrint('SCREENSHOT (integration): $safeName');
       } on MissingPluginException {
-        // ignore: avoid_print
-        print('SCREENSHOT SKIPPED (no plugin): $safeName');
+        debugPrint('SCREENSHOT SKIPPED (no plugin): $safeName');
       } catch (e) {
-        // ignore: avoid_print
-        print('SCREENSHOT FAILED: $safeName - $e');
+        debugPrint('SCREENSHOT FAILED: $safeName - $e');
       }
     }
 

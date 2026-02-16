@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 /// Integration test: validates render output using frame-pair analysis.
 ///
 /// Run on connected device/emulator:
@@ -6,6 +5,7 @@
 library;
 
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
@@ -52,12 +52,12 @@ void main() {
         height: 128,
       );
 
-      print(result.summary('cpu-mandelbrot'));
-      print('  centerNonBlack: ${result.centerNonBlack}');
-      print('  histogramSane: ${result.histogramSane}');
-      print('  frameProgressed: ${result.frameProgressed}');
-      print('  iterationDeltaVisible: ${result.iterationDeltaVisible}');
-      print('  nonBlackRatio: ${result.nonBlackRatio}');
+      debugPrint(result.summary('cpu-mandelbrot'));
+      debugPrint('  centerNonBlack: ${result.centerNonBlack}');
+      debugPrint('  histogramSane: ${result.histogramSane}');
+      debugPrint('  frameProgressed: ${result.frameProgressed}');
+      debugPrint('  iterationDeltaVisible: ${result.iterationDeltaVisible}');
+      debugPrint('  nonBlackRatio: ${result.nonBlackRatio}');
 
       expect(result.centerNonBlack, isTrue,
           reason: 'Center pixel should be non-black for Mandelbrot at (-0.5, 0)');
@@ -99,7 +99,7 @@ void main() {
         height: 128,
       );
 
-      print(result.summary('cpu-julia'));
+      debugPrint(result.summary('cpu-julia'));
       expect(result.centerNonBlack, isTrue);
       expect(result.histogramSane, isTrue);
     });
@@ -136,7 +136,7 @@ void main() {
         height: 128,
       );
 
-      print(result.summary('cpu-burning_ship'));
+      debugPrint(result.summary('cpu-burning_ship'));
       expect(result.centerNonBlack, isTrue);
       expect(result.histogramSane, isTrue);
     });

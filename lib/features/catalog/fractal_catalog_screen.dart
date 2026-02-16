@@ -315,8 +315,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            ChangeNotifierProvider.value(
-          value: controller,
+            MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: controller),
+          ],
           child: const FractalViewerScreen(),
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {

@@ -90,8 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.of(context).push(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              ChangeNotifierProvider.value(
-            value: _exploreController,
+              MultiProvider(
+            providers: [
+              ChangeNotifierProvider.value(value: _exploreController),
+            ],
             child: const FractalViewerScreen(),
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
