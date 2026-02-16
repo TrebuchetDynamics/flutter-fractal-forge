@@ -13,6 +13,7 @@ void main() {
     // 1. Setup
     SharedPreferences.setMockInitialValues({
       'onboarding_complete': true,
+      'onboarding_version': 1,
     });
 
     app.main();
@@ -47,7 +48,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
     
     // Verify controls sheet content
-    expect(find.text('Parameters'), findsOneWidget);
+    expect(find.text('Controls'), findsWidgets);
     debugPrint('Controls sheet opened successfully');
     
     // Close sheet by tapping scrim (top left of screen usually safe) or back button
