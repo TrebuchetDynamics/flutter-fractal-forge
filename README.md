@@ -13,6 +13,7 @@ A beautiful, high-performance Flutter application for exploring and rendering ma
 ## ✨ Features
 
 ### 🎨 Multiple Fractal Types
+
 - **Mandelbrot Set** — The classic 2D fractal with infinite zoom capability
 - **Julia Set** — Complex parameter-based variations
 - **Burning Ship** — Dramatic angular fractal with unique aesthetics
@@ -22,31 +23,35 @@ A beautiful, high-performance Flutter application for exploring and rendering ma
 - **Privacy Focused:** No analytics or tracking
 
 ### 🖐️ Interactive Controls
+
 - **Drag** to rotate 3D fractals or pan 2D fractals
 - **Pinch** to zoom in/out
 - **Customizable parameters** — Fine-tune power, iterations, bailout, and more
 - **Color schemes** — Fire, Ocean, Psychedelic, and Grayscale themes
 
 ### 📱 AR Camera Overlay
+
 - Overlay fractals on your camera feed
 - Adjustable quality presets (Low/Medium/High)
 - Transparent background support
 - Perfect for creative photography
 
 ### 💾 Presets & Export
+
 - **Built-in presets** for each fractal type
 - **Save custom presets** with thumbnails
 - **Export to PNG** with transparency support
 - **Share directly** to other apps
 
 ### 🌐 Localization
+
 - English and Spanish language support
 - Extensible localization framework
 
 ## 📸 Screenshots
 
 | Explore Tab | Mandelbrot View | AR Overlay |
-|:-----------:|:---------------:|:----------:|
+| :---: | :---: | :---: |
 | Browse fractal types | Interactive viewer with controls | Camera overlay mode |
 
 ## 🚀 Getting Started
@@ -60,17 +65,20 @@ A beautiful, high-performance Flutter application for exploring and rendering ma
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/XelHaku/flutter-fractal-forge.git
    cd flutter-fractal-forge
    ```
 
 2. **Install dependencies:**
+
    ```bash
    flutter pub get
    ```
 
 3. **Run the app:**
+
    ```bash
    flutter run
    ```
@@ -78,6 +86,7 @@ A beautiful, high-performance Flutter application for exploring and rendering ma
 ### Platform-Specific Setup
 
 #### Android
+
 ```bash
 flutter build apk --release
 # or for app bundle
@@ -85,11 +94,13 @@ flutter build appbundle --release
 ```
 
 #### iOS
+
 ```bash
 flutter build ios --release
 ```
 
 #### Linux/macOS/Windows
+
 ```bash
 flutter build linux --release
 flutter build macos --release
@@ -102,7 +113,7 @@ flutter build windows --release
 
 The app follows a clean, modular architecture:
 
-```
+```text
 lib/
 ├── core/                           # Core business logic
 │   ├── models/                     # Data models
@@ -142,15 +153,19 @@ lib/
 ### Key Components
 
 #### FractalModule
+
 Defines a fractal type with its shader, parameters, and presets. Each module is self-contained and declarative.
 
 #### FractalController
+
 A `ChangeNotifier` that manages the current fractal state — selected module, parameters, view transform, and transparency settings.
 
 #### FractalRenderer
+
 A stateful widget that loads the appropriate GLSL shader, handles gesture input, and renders fractals at 60 FPS using `CustomPainter`.
 
 #### ModuleRegistry
+
 Central registry for all available fractal modules. Easily extensible to add new fractal types.
 
 ## 🎮 Controls
@@ -164,6 +179,7 @@ Central registry for all available fractal modules. Easily extensible to add new
 | **Double Tap** | Reset view | Reset view |
 
 ### Parameters
+
 - **Iterations** — Detail level (higher = more detail, slower)
 - **Bailout** — Escape threshold for calculations
 - **Power** — Mathematical power (3D fractals)
