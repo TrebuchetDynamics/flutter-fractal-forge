@@ -539,7 +539,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           if (kDebugMode)
             _AppBarIconButton(
               icon: Icons.bug_report_rounded,
-              tooltip: 'GPU debug report',
+              tooltip: l10n.tooltipGpuDebug,
               onPressed: () => _shareGpuDebugReport(context),
             ),
           _AppBarIconButton(
@@ -549,9 +549,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               RendererBackendMode.gpuOnly => Icons.flash_on_rounded,
             },
             tooltip: switch (backendMode) {
-              RendererBackendMode.auto => 'Renderer preference: Auto',
-              RendererBackendMode.cpuOnly => 'Renderer preference: CPU only',
-              RendererBackendMode.gpuOnly => 'Renderer preference: GPU only (debug)',
+              RendererBackendMode.auto => l10n.rendererAuto,
+              RendererBackendMode.cpuOnly => l10n.rendererCpu,
+              RendererBackendMode.gpuOnly => l10n.rendererGpu,
             },
             onPressed: () => _openBackendModePicker(context),
           ),
@@ -573,7 +573,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           // Random fractal picker
           _AppBarIconButton(
             icon: Icons.shuffle_rounded,
-            tooltip: 'Random Fractal',
+            tooltip: l10n.tooltipRandomFractal,
             onPressed: () => _jumpToRandomFractal(context),
           ),
           _AppBarIconButton(
@@ -628,10 +628,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         : ((controller.module.dimension ==
                                     FractalDimension.threeD) &&
                                 !_isTest
-                            ? const Center(
+                            ? Center(
                                 child: Text(
-                                  '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)',
-                                  style: TextStyle(color: Colors.white70),
+                                  l10n.disable3dMessage,
+                                  style: const TextStyle(color: Colors.white70),
                                   textAlign: TextAlign.center,
                                 ),
                               )
@@ -691,15 +691,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.cyan.withOpacity(0.7)),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.precision_manufacturing_rounded,
                               color: Colors.cyan, size: 16),
                           SizedBox(width: 6),
                           Text(
-                            'Deep Zoom — tap for CPU precision',
-                            style: TextStyle(color: Colors.cyan, fontSize: 11),
+                            l10n.deepZoomCpuFallback,
+                            style: const TextStyle(color: Colors.cyan, fontSize: 11),
                           ),
                         ],
                       ),

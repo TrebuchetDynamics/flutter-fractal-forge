@@ -452,5 +452,13 @@
   },
   "buttonDelete": "Delete",
   "alreadyFavorite": "Already saved",
-  "saveAsFavorite": "Save as favorite"
+  "saveAsFavorite": "Save as favorite",
+  
+  "disable3dMessage": "3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)",
+  "deepZoomCpuFallback": "Deep Zoom — tap for CPU precision",
+  "rendererAuto": "Renderer preference: Auto",
+  "rendererCpu": "Renderer preference: CPU only",
+  "rendererGpu": "Renderer preference: GPU only (debug)",
+  "tooltipGpuDebug": "GPU debug report",
+  "tooltipRandomFractal": "Random Fractal"
 }

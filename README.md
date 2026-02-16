@@ -18,6 +18,8 @@ A beautiful, high-performance Flutter application for exploring and rendering ma
 - **Burning Ship** — Dramatic angular fractal with unique aesthetics
 - **Phoenix Fractal** — Recursive transformation patterns
 - **Mandelbulb** — Stunning 3D extension of the Mandelbrot set
+- **Offline Capable:** Fully functional without internet access
+- **Privacy Focused:** No analytics or tracking
 
 ### 🖐️ Interactive Controls
 - **Drag** to rotate 3D fractals or pan 2D fractals
@@ -154,10 +156,12 @@ Central registry for all available fractal modules. Easily extensible to add new
 ## 🎮 Controls
 
 ### Gesture Controls
+
 | Gesture | 2D Fractals | 3D Fractals |
-|---------|-------------|-------------|
-| Drag    | Pan view    | Rotate view |
-| Pinch   | Zoom        | Zoom        |
+| :--- | :--- | :--- |
+| **Drag** | Pan view | Rotate view |
+| **Pinch** | Zoom | Zoom |
+| **Double Tap** | Reset view | Reset view |
 
 ### Parameters
 - **Iterations** — Detail level (higher = more detail, slower)
@@ -205,7 +209,7 @@ See [SHADER_OPTIMIZATIONS.md](SHADER_OPTIMIZATIONS.md) for performance tips.
 ## 📋 Requirements
 
 | Platform | Minimum Version | Notes |
-|----------|-----------------|-------|
+| :------- | :-------------- | :---- |
 | Android  | API 21 (5.0)    | OpenGL ES 3.0 required |
 | iOS      | 10.0            | Metal-backed shaders |
 | Web      | Chrome 70+      | WebGL 2.0 support |

@@ -1921,6 +1921,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save as favorite'**
   String get saveAsFavorite;
+
+  /// No description provided for @disable3dMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)'**
+  String get disable3dMessage;
+
+  /// No description provided for @deepZoomCpuFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Deep Zoom — tap for CPU precision'**
+  String get deepZoomCpuFallback;
+
+  /// No description provided for @rendererAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Renderer preference: Auto'**
+  String get rendererAuto;
+
+  /// No description provided for @rendererCpu.
+  ///
+  /// In en, this message translates to:
+  /// **'Renderer preference: CPU only'**
+  String get rendererCpu;
+
+  /// No description provided for @rendererGpu.
+  ///
+  /// In en, this message translates to:
+  /// **'Renderer preference: GPU only (debug)'**
+  String get rendererGpu;
+
+  /// No description provided for @tooltipGpuDebug.
+  ///
+  /// In en, this message translates to:
+  /// **'GPU debug report'**
+  String get tooltipGpuDebug;
+
+  /// No description provided for @tooltipRandomFractal.
+  ///
+  /// In en, this message translates to:
+  /// **'Random Fractal'**
+  String get tooltipRandomFractal;
 }
 
 class _AppLocalizationsDelegate

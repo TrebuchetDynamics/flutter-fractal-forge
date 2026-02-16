@@ -996,4 +996,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get saveAsFavorite => 'Guardar como favorito';
+
+  @override
+  String get disable3dMessage =>
+      '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)';
+
+  @override
+  String get deepZoomCpuFallback => 'Deep Zoom — tap for CPU precision';
+
+  @override
+  String get rendererAuto => 'Renderer preference: Auto';
+
+  @override
+  String get rendererCpu => 'Renderer preference: CPU only';
+
+  @override
+  String get rendererGpu => 'Renderer preference: GPU only (debug)';
+
+  @override
+  String get tooltipGpuDebug => 'GPU debug report';
+
+  @override
+  String get tooltipRandomFractal => 'Random Fractal';
 }
