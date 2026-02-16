@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,13 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/main.dart' as app;
+
+class _ViewerEvidenceFrame {
+  final RenderFrameStats stats;
+  final String pngBase64;
+
+  const _ViewerEvidenceFrame({required this.stats, required this.pngBase64});
+}
 
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +52,7 @@ void main() {
     fail('Catalog card not found after scrolling: $catalogId');
   }
 
-  Future<RenderFrameStats> waitForViewerReady(WidgetTester tester) async {
+  Future<_ViewerEvidenceFrame> waitForViewerReady(WidgetTester tester) async {
     // Wait until shader loading placeholder is gone.
     for (var i = 0; i < 40; i++) {
       await tester.pump(const Duration(milliseconds: 300));
@@ -79,14 +87,20 @@ void main() {
       width: image.width,
       height: image.height,
     );
+    final pngData = await image.toByteData(format: ui.ImageByteFormat.png);
     image.dispose();
 
+    expect(pngData, isNotNull,
+        reason: 'Failed to encode rendered frame as PNG evidence');
     expect(stats.histogramSane, isTrue,
         reason: 'Frame histogram looks flat/invalid for rendered fractal');
     expect(stats.nonBlackRatio, greaterThan(0.01),
         reason: 'Frame non-black ratio too low for valid fractal render');
 
-    return stats;
+    return _ViewerEvidenceFrame(
+      stats: stats,
+      pngBase64: base64Encode(pngData!.buffer.asUint8List()),
+    );
   }
 
   Future<void> captureFractal({
@@ -115,15 +129,19 @@ void main() {
             'Viewer module id mismatch for $catalogId (expected $moduleId)');
 
     // Gate 3: frame rendered (not loading/placeholder).
-    final frameStats = await waitForViewerReady(tester);
+    final evidenceFrame = await waitForViewerReady(tester);
 
     final now = DateTime.now();
     final tsMs = now.millisecondsSinceEpoch;
     debugPrint(
-      '[evidence] capture_ready fractal=$moduleId catalog=$catalogId screenshot=$screenshotName tsMs=$tsMs tsIso=${now.toIso8601String()} viewerActive=true moduleVerified=true frameReady=true frameNonBlackRatio=${frameStats.nonBlackRatio.toStringAsFixed(4)} frameCenterNonBlack=${frameStats.centerNonBlack} frameHistogramSane=${frameStats.histogramSane}',
+      '[evidence] capture_ready fractal=$moduleId catalog=$catalogId screenshot=$screenshotName tsMs=$tsMs tsIso=${now.toIso8601String()} viewerActive=true moduleVerified=true frameReady=true frameNonBlackRatio=${evidenceFrame.stats.nonBlackRatio.toStringAsFixed(4)} frameCenterNonBlack=${evidenceFrame.stats.centerNonBlack} frameHistogramSane=${evidenceFrame.stats.histogramSane}',
+    );
+    debugPrint(
+      '[evidence] frame_png fractal=$moduleId b64=${evidenceFrame.pngBase64}',
     );
 
-    await binding.takeScreenshot(screenshotName);
+    // Give host-side proof script a deterministic capture window after gate passes.
+    await tester.pump(const Duration(milliseconds: 1600));
 
     await tester.tap(find.byIcon(Icons.arrow_back_rounded));
     await tester.pump();

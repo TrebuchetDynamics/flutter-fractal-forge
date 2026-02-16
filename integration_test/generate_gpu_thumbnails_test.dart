@@ -60,8 +60,8 @@ void main() {
         final controller = FractalController(registry);
         controller.selectModule(module);
         
-        // Zoom in for visible detail in thumbnail (default zoom=1.0 shows too much)
-        controller.updateZoom(50.0);
+        // Zoom to show fractal features - 5.0 shows edge detail without going into black interior
+        controller.updateZoom(5.0);
 
         await tester.pumpWidget(
           MaterialApp(
