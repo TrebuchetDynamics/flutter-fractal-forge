@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vector_math/vector_math.dart' show Vector2;
 
 void main() {
   group('FractalViewerScreen', () {
@@ -26,7 +28,8 @@ void main() {
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
-      rendererSettings = RendererSettingsService(await SharedPreferences.getInstance());
+      rendererSettings =
+          RendererSettingsService(await SharedPreferences.getInstance());
       historyStore = await HistoryStore.create();
       historyProvider = HistoryProvider(store: historyStore);
     });
@@ -146,6 +149,55 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Mandelbrot'), findsOneWidget);
+    });
+
+    testWidgets('keyboard arrow keys pan view', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final initialX = controller.view.pan.x;
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.arrowRight);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+
+      expect(controller.view.pan.x, greaterThan(initialX));
+    });
+
+    testWidgets('keyboard plus and minus keys adjust zoom', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final initialZoom = controller.view.zoom;
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.equal);
+      await tester.pump();
+      final zoomedIn = controller.view.zoom;
+
+      expect(zoomedIn, greaterThan(initialZoom));
+
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.minus);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+
+      expect(controller.view.zoom, lessThan(zoomedIn));
+    });
+
+    testWidgets('keyboard R resets view state', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      controller.updatePan(Vector2(0.5, -0.25));
+      controller.updateZoom(4.0);
+      await tester.pump();
+
+      expect(controller.view.zoom, equals(4.0));
+
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.keyR);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+
+      expect(controller.view.zoom, equals(1.0));
+      expect(controller.view.pan.x, equals(0.0));
+      expect(controller.view.pan.y, equals(0.0));
     });
 
     testWidgets('works with all modules', (tester) async {
