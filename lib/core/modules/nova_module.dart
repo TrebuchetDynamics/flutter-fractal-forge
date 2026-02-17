@@ -3,6 +3,7 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:vector_math/vector_math.dart';
 
 FractalModule buildNovaModule() {
@@ -56,17 +57,12 @@ FractalModule buildNovaModule() {
       shader.setFloat(3, state.view.pan.x);
       shader.setFloat(4, state.view.pan.y);
       shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, _d(state.params, 'iterations', 200));
-      shader.setFloat(7, _d(state.params, 'relaxation', 1.0));
-      shader.setFloat(8, _d(state.params, 'colorScheme', 0));
+      shader.setFloat(6, readDouble(state.params, 'iterations', 200));
+      shader.setFloat(7, readDouble(state.params, 'relaxation', 1.0));
+      shader.setFloat(8, readDouble(state.params, 'colorScheme', 0));
       shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
     },
   );
 }
 
-double _d(Map<String, Object> p, String k, double f) {
-  final v = p[k];
-  if (v is int) return v.toDouble();
-  if (v is double) return v;
-  return f;
-}
+

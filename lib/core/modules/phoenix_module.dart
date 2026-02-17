@@ -3,6 +3,7 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// The Phoenix fractal is a variation of the Julia set with a "memory" term.
@@ -238,12 +239,12 @@ FractalModule buildPhoenixModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      final iterations = _readDouble(state.params, 'iterations', 180);
-      final bailout = _readDouble(state.params, 'bailout', 4.0);
-      final colorScheme = _readDouble(state.params, 'colorScheme', 4);
-      final phoenixCReal = _readDouble(state.params, 'phoenixCReal', 0.5667);
-      final phoenixCImag = _readDouble(state.params, 'phoenixCImag', 0.0);
-      final phoenixP = _readDouble(state.params, 'phoenixP', -0.5);
+      final iterations = readDouble(state.params, 'iterations', 180);
+      final bailout = readDouble(state.params, 'bailout', 4.0);
+      final colorScheme = readDouble(state.params, 'colorScheme', 4);
+      final phoenixCReal = readDouble(state.params, 'phoenixCReal', 0.5667);
+      final phoenixCImag = readDouble(state.params, 'phoenixCImag', 0.0);
+      final phoenixP = readDouble(state.params, 'phoenixP', -0.5);
 
       shader.setFloat(0, time);
       shader.setFloat(1, size.width);
@@ -264,13 +265,4 @@ FractalModule buildPhoenixModule() {
   );
 }
 
-double _readDouble(Map<String, Object> params, String key, double fallback) {
-  final value = params[key];
-  if (value is int) {
-    return value.toDouble();
-  }
-  if (value is double) {
-    return value;
-  }
-  return fallback;
-}
+

@@ -2,6 +2,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -283,12 +284,12 @@ FractalModule buildMandelbulbModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      final power = _readDouble(state.params, 'power', 8.0);
-      final iterations = _readDouble(state.params, 'iterations', 50);
-      final steps = _readDouble(state.params, 'steps', 120);
-      final bailout = _readDouble(state.params, 'bailout', 2.0);
-      final colorScheme = _readDouble(state.params, 'colorScheme', 0);
-      final fractalType = _readDouble(state.params, 'fractalType', 0);
+      final power = readDouble(state.params, 'power', 8.0);
+      final iterations = readDouble(state.params, 'iterations', 50);
+      final steps = readDouble(state.params, 'steps', 120);
+      final bailout = readDouble(state.params, 'bailout', 2.0);
+      final colorScheme = readDouble(state.params, 'colorScheme', 0);
+      final fractalType = readDouble(state.params, 'fractalType', 0);
 
       shader.setFloat(0, time);
       shader.setFloat(1, size.width);
@@ -313,13 +314,4 @@ FractalModule buildMandelbulbModule() {
   );
 }
 
-double _readDouble(Map<String, Object> params, String key, double fallback) {
-  final value = params[key];
-  if (value is int) {
-    return value.toDouble();
-  }
-  if (value is double) {
-    return value;
-  }
-  return fallback;
-}
+

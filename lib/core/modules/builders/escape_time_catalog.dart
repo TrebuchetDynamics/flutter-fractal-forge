@@ -1,5 +1,8 @@
+import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:vector_math/vector_math.dart';
 
 /// All standard 2D escape-time fractals defined declaratively.
 ///
@@ -22,6 +25,99 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/mandel_step_smooth.frag',
     defaultIterations: 120,
     defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'mandelbrot-seahorse',
+        moduleId: 'mandelbrot',
+        name: 'Seahorse Valley',
+        params: {'iterations': 350, 'bailout': 4.0, 'colorScheme': 1},
+        view: FractalViewState(
+          pan: Vector2(-0.747, 0.1),
+          zoom: 25.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-elephant',
+        moduleId: 'mandelbrot',
+        name: 'Elephant Valley',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 0},
+        view: FractalViewState(
+          pan: Vector2(0.275, 0.0),
+          zoom: 15.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-spiral',
+        moduleId: 'mandelbrot',
+        name: 'Deep Spiral',
+        params: {'iterations': 400, 'bailout': 4.0, 'colorScheme': 2},
+        view: FractalViewState(
+          pan: Vector2(-0.743643887037158, 0.131825904205330),
+          zoom: 500.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-lightning',
+        moduleId: 'mandelbrot',
+        name: 'Lightning Strike',
+        params: {'iterations': 280, 'bailout': 3.0, 'colorScheme': 3},
+        view: FractalViewState(
+          pan: Vector2(-0.1011, 0.9563),
+          zoom: 80.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-mini',
+        moduleId: 'mandelbrot',
+        name: 'Mini Mandelbrot',
+        params: {'iterations': 450, 'bailout': 4.0, 'colorScheme': 0},
+        view: FractalViewState(
+          pan: Vector2(-1.7497591451303785, 0.0),
+          zoom: 200.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-aurora',
+        moduleId: 'mandelbrot',
+        name: 'Aurora Borealis',
+        params: {'iterations': 200, 'bailout': 6.0, 'colorScheme': 1},
+        view: FractalViewState(
+          pan: Vector2(-0.5, 0.0),
+          zoom: 1.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-cosmic',
+        moduleId: 'mandelbrot',
+        name: 'Cosmic Web',
+        params: {'iterations': 380, 'bailout': 4.5, 'colorScheme': 2},
+        view: FractalViewState(
+          pan: Vector2(-0.16, 1.0405),
+          zoom: 150.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   // Julia has extra params (seed cx, cy) — keep custom builder for now.
   // Phoenix has extra params (p, q) — keep custom builder for now.
@@ -31,6 +127,112 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     displayName: (l10n) => l10n.moduleBurningShip,
     shaderAsset: 'shaders/burning_ship_gpu.frag',
     defaultIterations: 200,
+    extraPresets: [
+      FractalPreset(
+        id: 'burning-ship-vessel',
+        moduleId: 'burning_ship',
+        name: 'The Vessel',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 0},
+        view: FractalViewState(
+          pan: Vector2(-0.5, -0.5),
+          zoom: 1.5,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'burning-ship-armada',
+        moduleId: 'burning_ship',
+        name: 'Armada',
+        params: {'iterations': 380, 'bailout': 4.0, 'colorScheme': 1},
+        view: FractalViewState(
+          pan: Vector2(-1.762, -0.028),
+          zoom: 100.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'burning-ship-inferno',
+        moduleId: 'burning_ship',
+        name: 'Inferno Core',
+        params: {'iterations': 400, 'bailout': 4.5, 'colorScheme': 0},
+        view: FractalViewState(
+          pan: Vector2(-1.8619, -0.0006),
+          zoom: 500.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'burning-ship-ghost',
+        moduleId: 'burning_ship',
+        name: 'Ghost Ship',
+        params: {'iterations': 350, 'bailout': 4.0, 'colorScheme': 3},
+        view: FractalViewState(
+          pan: Vector2(-0.5, -0.5),
+          zoom: 2.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'burning-ship-mast',
+        moduleId: 'burning_ship',
+        name: 'Mast & Rigging',
+        params: {'iterations': 320, 'bailout': 4.0, 'colorScheme': 2},
+        view: FractalViewState(
+          pan: Vector2(-1.755, -0.035),
+          zoom: 50.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'burning-ship-volcanic',
+        moduleId: 'burning_ship',
+        name: 'Volcanic Ash',
+        params: {'iterations': 280, 'bailout': 3.5, 'colorScheme': 3},
+        view: FractalViewState(
+          pan: Vector2(-1.8, -0.01),
+          zoom: 30.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'burning-ship-neon',
+        moduleId: 'burning_ship',
+        name: 'Neon Voyage',
+        params: {'iterations': 300, 'bailout': 5.0, 'colorScheme': 2},
+        view: FractalViewState(
+          pan: Vector2(-0.5, -0.5),
+          zoom: 1.8,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'burning-ship-wreck',
+        moduleId: 'burning_ship',
+        name: 'Deep Sea Wreck',
+        params: {'iterations': 420, 'bailout': 4.0, 'colorScheme': 1},
+        view: FractalViewState(
+          pan: Vector2(-1.7572, -0.0282),
+          zoom: 200.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tricorn',

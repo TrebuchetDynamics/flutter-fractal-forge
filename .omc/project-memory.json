@@ -320,9 +320,15 @@
   },
   "hotPaths": [
     {
+      "path": "lib/features/viewer/fractal_viewer_screen.dart",
+      "accessCount": 28,
+      "lastAccessed": 1771358233707,
+      "type": "file"
+    },
+    {
       "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 10,
-      "lastAccessed": 1771356942619,
+      "accessCount": 16,
+      "lastAccessed": 1771357579250,
       "type": "file"
     },
     {
@@ -335,6 +341,60 @@
       "path": "scripts/run-app.sh",
       "accessCount": 2,
       "lastAccessed": 1771356393752,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/components/viewer_export_overlay.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771358192045,
+      "type": "file"
+    },
+    {
+      "path": "integration_test/double_tap_anchor_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771357242823,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/providers/fractal_provider.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771357290130,
+      "type": "file"
+    },
+    {
+      "path": "refactor-plan.md",
+      "accessCount": 1,
+      "lastAccessed": 1771357796857,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/param_reader.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771357854195,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/components/compare_renderer.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771358069566,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer",
+      "accessCount": 1,
+      "lastAccessed": 1771358106010,
+      "type": "directory"
+    },
+    {
+      "path": "lib",
+      "accessCount": 1,
+      "lastAccessed": 1771358249735,
+      "type": "directory"
+    },
+    {
+      "path": "lib/features/viewer/components/export_overlay.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771358253030,
       "type": "file"
     }
   ],

@@ -3,6 +3,7 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:vector_math/vector_math.dart';
 
 FractalModule buildJuliaModule() {
@@ -209,11 +210,11 @@ FractalModule buildJuliaModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      final iterations = _readDouble(state.params, 'iterations', 160);
-      final bailout = _readDouble(state.params, 'bailout', 4.0);
-      final colorScheme = _readDouble(state.params, 'colorScheme', 0);
-      final juliaCReal = _readDouble(state.params, 'juliaCReal', -0.8);
-      final juliaCImag = _readDouble(state.params, 'juliaCImag', 0.156);
+      final iterations = readDouble(state.params, 'iterations', 160);
+      final bailout = readDouble(state.params, 'bailout', 4.0);
+      final colorScheme = readDouble(state.params, 'colorScheme', 0);
+      final juliaCReal = readDouble(state.params, 'juliaCReal', -0.8);
+      final juliaCImag = readDouble(state.params, 'juliaCImag', 0.156);
 
       shader.setFloat(0, time);
       shader.setFloat(1, size.width);
@@ -233,13 +234,4 @@ FractalModule buildJuliaModule() {
   );
 }
 
-double _readDouble(Map<String, Object> params, String key, double fallback) {
-  final value = params[key];
-  if (value is int) {
-    return value.toDouble();
-  }
-  if (value is double) {
-    return value;
-  }
-  return fallback;
-}
+

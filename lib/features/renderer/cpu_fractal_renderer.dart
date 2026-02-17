@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
@@ -331,9 +332,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Future<void> _renderPreview() async {
     final int job = ++_job;
     try {
-      final baseIterations = _readInt(widget.state.params, 'iterations', 220);
+      final baseIterations = readInt(widget.state.params, 'iterations', 220);
       final maxIterations = _iterationMaxForModule();
-      final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
+      final bailout = readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
 
       // Increase iteration budget as zoom increases to avoid blotchy boundaries.
@@ -445,9 +446,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Future<void> _renderRefine() async {
     final int job = ++_job;
     try {
-      final baseIterations = _readInt(widget.state.params, 'iterations', 220);
+      final baseIterations = readInt(widget.state.params, 'iterations', 220);
       final maxIterations = _iterationMaxForModule();
-      final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
+      final bailout = readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
 
       // Increase iteration budget as zoom increases to avoid blotchy boundaries.
@@ -538,9 +539,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         buffer[i] = 255;
       }
 
-      final baseIterations = _readInt(widget.state.params, 'iterations', 220);
+      final baseIterations = readInt(widget.state.params, 'iterations', 220);
       final maxIterations = _iterationMaxForModule();
-      final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
+      final bailout = readDouble(widget.state.params, 'bailout', 4.0);
       final juliaC = _juliaC(widget.state.params);
       final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
       final extra = (math.log(z) / math.ln2 * 32.0).round();
@@ -880,22 +881,8 @@ double computeGrainScore(Uint8List rgba, int width, int height) {
   return sum / count;
 }
 
-int _readInt(Map<String, Object> params, String key, int fallback) {
-  final v = params[key];
-  if (v is int) return v;
-  if (v is double) return v.round();
-  return fallback;
-}
-
-double _readDouble(Map<String, Object> params, String key, double fallback) {
-  final v = params[key];
-  if (v is double) return v;
-  if (v is int) return v.toDouble();
-  return fallback;
-}
-
 Vector2 _juliaC(Map<String, Object> params) {
-  final x = _readDouble(params, 'juliaCReal', -0.8);
-  final y = _readDouble(params, 'juliaCImag', 0.156);
+  final x = readDouble(params, 'juliaCReal', -0.8);
+  final y = readDouble(params, 'juliaCImag', 0.156);
   return Vector2(x, y);
 }

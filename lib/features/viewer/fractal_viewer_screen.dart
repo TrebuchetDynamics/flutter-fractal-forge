@@ -55,6 +55,11 @@ import 'package:flutter_fractals/features/debug/log_viewer_screen.dart';
 import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/features/viewer/components/fractal_app_bar.dart';
+import 'package:flutter_fractals/features/viewer/components/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/components/cpu_fallback_pane.dart';
+import 'package:flutter_fractals/features/viewer/components/compare_renderer.dart';
+import 'package:flutter_fractals/features/viewer/components/viewer_export_overlay.dart';
 
 class FractalViewerScreen extends StatefulWidget {
   const FractalViewerScreen({Key? key}) : super(key: key);
@@ -624,18 +629,18 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: _PremiumViewerAppBar(
+      appBar: FractalAppBar(
         title: controller.module.displayName(l10n),
         statusText: _backendDecision.toUserStatusText(),
         onBack: () => Navigator.of(context).pop(),
         actions: [
           if (kDebugMode)
-            _AppBarIconButton(
+            AppBarIconButton(
               icon: Icons.bug_report_rounded,
               tooltip: l10n.tooltipGpuDebug,
               onPressed: () => _shareGpuDebugReport(context),
             ),
-          _AppBarIconButton(
+          AppBarIconButton(
             icon: switch (backendMode) {
               RendererBackendMode.auto => Icons.auto_mode_rounded,
               RendererBackendMode.cpuOnly => Icons.computer_rounded,
@@ -648,7 +653,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             },
             onPressed: () => _openBackendModePicker(context),
           ),
-          _AppBarIconButton(
+          AppBarIconButton(
             icon: controller.rotationLocked
                 ? Icons.screen_lock_rotation_rounded
                 : Icons.screen_rotation_alt_rounded,
@@ -665,18 +670,18 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             },
           ),
           if (historyProvider != null && historyProvider.canGoBack)
-            _AppBarIconButton(
+            AppBarIconButton(
               icon: Icons.undo_rounded,
               tooltip: 'Back in view history',
               onPressed: () => _goHistoryBack(context),
             ),
           if (historyProvider != null && historyProvider.canGoForward)
-            _AppBarIconButton(
+            AppBarIconButton(
               icon: Icons.redo_rounded,
               tooltip: 'Forward in view history',
               onPressed: () => _goHistoryForward(context),
             ),
-          _AppBarIconButton(
+          AppBarIconButton(
             icon: Icons.camera_rounded,
             tooltip: 'AR',
             onPressed: () {
@@ -692,12 +697,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             },
           ),
           // Random fractal picker
-          _AppBarIconButton(
+          AppBarIconButton(
             icon: Icons.shuffle_rounded,
             tooltip: l10n.tooltipRandomFractal,
             onPressed: () => _jumpToRandomFractal(context),
           ),
-          _AppBarIconButton(
+          AppBarIconButton(
             icon: Icons.receipt_long_rounded,
             tooltip: 'View Log',
             onPressed: () {
@@ -727,7 +732,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               // Fractal renderer (single or compare)
               Positioned.fill(
                 child: _compareMode
-                    ? _CompareRenderer(
+                    ? CompareRenderer(
                         keyA: _fractalKeyA,
                         keyB: _fractalKeyB,
                         controllerB: _compareController!,
@@ -751,7 +756,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             onOpenPresets: () => _openPresets(context),
                             onOpenExport: () => _openExport(context),
                             onUserInteraction: _onAutoExploreUserCorrection,
-                            overrideChild: _CpuFallbackPane(
+                            overrideChild: CpuFallbackPane(
                               boundaryKey: _fractalKeyA,
                               initialSnapshot: _lastGpuSnapshot,
                               onSnapshotFadeComplete: () {
@@ -790,7 +795,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   right: 12,
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 240),
-                    child: _CpuFallbackBanner(
+                    child: CpuFallbackBanner(
                       onTryGpu: () {
                         // Switch back to Auto so policy can try GPU again.
                         context
@@ -860,69 +865,22 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               Positioned(
                 right: AppSpacing.lg,
                 bottom: MediaQuery.of(context).padding.bottom + AppSpacing.xl,
-                child: FadeTransition(
-                  opacity: _fabController,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0.5, 0),
-                      end: Offset.zero,
-                    ).animate(CurvedAnimation(
-                      parent: _fabController,
-                      curve: AppAnimations.defaultCurve,
-                    )),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Auto-explore button
-                        if (_autoExploreService != null)
-                          ChangeNotifierProvider<AutoExploreService>.value(
-                            value: _autoExploreService!,
-                            child: AutoExploreButton(
-                              delay: const Duration(milliseconds: 0),
-                              onLongPress: _exporting
-                                  ? null
-                                  : () => _openAutoExploreSettings(context),
-                            ),
-                          ),
-                        if (_autoExploreService != null)
-                          const SizedBox(height: AppSpacing.md),
-                        // Keep the viewer uncluttered: only core actions here.
-                        _FloatingActionButton(
-                          icon: Icons.tune_rounded,
-                          tooltip: l10n.tooltipOpenControls,
-                          onPressed:
-                              _exporting ? null : () => _openControls(context),
-                          delay: const Duration(milliseconds: 50),
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        _FloatingActionButton(
-                          icon: Icons.bookmark_rounded,
-                          tooltip: l10n.tooltipOpenPresets,
-                          onPressed:
-                              _exporting ? null : () => _openPresets(context),
-                          delay: const Duration(milliseconds: 100),
-                        ),
-                        // AR entry is in the app bar to avoid redundant buttons.
-
-                        const SizedBox(height: AppSpacing.md),
-                        _FloatingActionButton(
-                          icon: Icons.download_rounded,
-                          tooltip: l10n.tooltipExport,
-                          onPressed:
-                              _exporting ? null : () => _openExport(context),
-                          isPrimary: true,
-                          delay: const Duration(milliseconds: 200),
-                        ),
-                      ],
-                    ),
-                  ),
+                child: FractalViewControls(
+                  fabController: _fabController,
+                  autoExploreService: _autoExploreService,
+                  isExporting: _exporting,
+                  onOpenAutoExploreSettings: () =>
+                      _openAutoExploreSettings(context),
+                  onOpenControls: () => _openControls(context),
+                  onOpenPresets: () => _openPresets(context),
+                  onOpenExport: () => _openExport(context),
                 ),
               ),
 
               // Export progress overlay
               if (_exporting)
                 Positioned.fill(
-                  child: _ExportOverlay(
+                  child: ExportOverlay(
                     progress: _exportProgress,
                     l10n: l10n,
                   ),
@@ -1442,7 +1400,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => _ShareSheet(
+      builder: (_) => ShareSheet(
         uri: uri,
         fractalName: controller.module.displayName(l10n),
       ),
@@ -1830,1099 +1788,5 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 }
 
-class _CpuFallbackBanner extends StatelessWidget {
-  final VoidCallback onTryGpu;
-  final VoidCallback onReport;
 
-  const _CpuFallbackBanner({
-    required this.onTryGpu,
-    required this.onReport,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.65),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.amber.withOpacity(0.8)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            'CPU fallback enabled (GPU output appeared black).',
-            style: TextStyle(color: Colors.amber, fontSize: 12),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 10,
-            runSpacing: 6,
-            alignment: WrapAlignment.center,
-            children: [
-              OutlinedButton(
-                onPressed: onTryGpu,
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: BorderSide(color: Colors.white.withOpacity(0.6)),
-                  visualDensity: VisualDensity.compact,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                ),
-                child: const Text('Try GPU'),
-              ),
-              OutlinedButton(
-                onPressed: onReport,
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.amber,
-                  side: BorderSide(color: Colors.amber.withOpacity(0.8)),
-                  visualDensity: VisualDensity.compact,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                ),
-                child: const Text('Report'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CpuFallbackPane extends StatefulWidget {
-  final GlobalKey boundaryKey;
-  final ui.Image? initialSnapshot;
-  final VoidCallback? onSnapshotFadeComplete;
-
-  const _CpuFallbackPane({
-    required this.boundaryKey,
-    this.initialSnapshot,
-    this.onSnapshotFadeComplete,
-  });
-
-  @override
-  State<_CpuFallbackPane> createState() => _CpuFallbackPaneState();
-}
-
-class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
-  bool _showSnapshot = true;
-  bool _hasSeenPartial = false;
-
-  @override
-  void didUpdateWidget(covariant _CpuFallbackPane oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.initialSnapshot != oldWidget.initialSnapshot) {
-      _showSnapshot = widget.initialSnapshot != null;
-      _hasSeenPartial = false;
-    }
-  }
-
-  void _handlePartial() {
-    if (_hasSeenPartial) return;
-    _hasSeenPartial = true;
-    if (widget.initialSnapshot == null) return;
-    setState(() {
-      _showSnapshot = false;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = context.watch<FractalController>();
-    final module = controller.module;
-
-    if (module.dimension != FractalDimension.twoD) {
-      return const Center(
-        child: Text(
-          '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)',
-          style: TextStyle(color: Colors.white70),
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-
-    final state = FractalRenderState(
-      params: controller.params,
-      view: controller.view,
-      transparentBackground: controller.transparentBackground,
-    );
-
-    return RepaintBoundary(
-      key: widget.boundaryKey,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: _DeterministicVisibleFallbackScene(
-              transparentBackground: controller.transparentBackground,
-            ),
-          ),
-          Positioned.fill(
-            child: CpuFractalRenderer(
-              module: module,
-              state: state,
-              onPartial: _handlePartial,
-            ),
-          ),
-          if (widget.initialSnapshot != null)
-            Positioned.fill(
-              child: IgnorePointer(
-                child: AnimatedOpacity(
-                  opacity: _showSnapshot ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 400),
-                  onEnd: () {
-                    if (!_showSnapshot) {
-                      widget.onSnapshotFadeComplete?.call();
-                    }
-                  },
-                  child: RawImage(
-                    image: widget.initialSnapshot,
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.medium,
-                  ),
-                ),
-              ),
-            ),
-          Positioned(
-            top: 8,
-            left: 8,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.68),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.white24),
-              ),
-              child: const Text(
-                'Stable renderer active',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DeterministicVisibleFallbackScene extends StatelessWidget {
-  const _DeterministicVisibleFallbackScene(
-      {required this.transparentBackground});
-
-  final bool transparentBackground;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _DeterministicVisibleFallbackPainter(
-        transparentBackground: transparentBackground,
-      ),
-      child: const SizedBox.expand(),
-    );
-  }
-}
-
-class _DeterministicVisibleFallbackPainter extends CustomPainter {
-  const _DeterministicVisibleFallbackPainter(
-      {required this.transparentBackground});
-
-  final bool transparentBackground;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-    final bg = Paint()
-      ..shader = const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFF102A43),
-          Color(0xFF2E5B8A),
-          Color(0xFF6A4C93),
-          Color(0xFFF15BB5),
-        ],
-      ).createShader(rect);
-    canvas.drawRect(rect, bg);
-
-    final stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2
-      ..color = Colors.white.withOpacity(0.18);
-
-    final c = Offset(size.width * 0.5, size.height * 0.52);
-    for (double r = 22; r < size.shortestSide * 0.6; r += 24) {
-      canvas.drawCircle(c, r, stroke);
-    }
-
-    // Checkerboard is useful only when previewing transparency (AR/export).
-    // In normal viewing it looks noisy and reduces perceived quality.
-    if (transparentBackground) {
-      final checkerA = Paint()..color = const Color(0x22000000);
-      final checkerB = Paint()..color = const Color(0x22FFFFFF);
-      const cell = 26.0;
-      for (double y = 0; y < size.height; y += cell) {
-        for (double x = 0; x < size.width; x += cell) {
-          final even = ((x / cell).floor() + (y / cell).floor()) % 2 == 0;
-          canvas.drawRect(
-            Rect.fromLTWH(x, y, cell, cell),
-            even ? checkerA : checkerB,
-          );
-        }
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class _CompareRenderer extends StatelessWidget {
-  final GlobalKey keyA;
-  final GlobalKey keyB;
-  final FractalController controllerB;
-  final bool sliderMode;
-  final double divider;
-  final int activePane;
-  final ValueChanged<double> onDividerChanged;
-  final ValueChanged<int> onActivePaneChanged;
-  final VoidCallback onOpenControls;
-  final VoidCallback onOpenPresets;
-  final VoidCallback onOpenExport;
-  final VoidCallback? onUserInteraction;
-  final bool freezeFrame;
-
-  const _CompareRenderer({
-    required this.keyA,
-    required this.keyB,
-    required this.controllerB,
-    required this.sliderMode,
-    required this.divider,
-    required this.activePane,
-    required this.onDividerChanged,
-    required this.onActivePaneChanged,
-    required this.onOpenControls,
-    required this.onOpenPresets,
-    required this.onOpenExport,
-    this.onUserInteraction,
-    required this.freezeFrame,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final a = context.read<FractalController>();
-
-    Widget paneA = _ComparePane(
-      isActive: activePane == 0,
-      label: 'A',
-      onTap: () => onOpenPane(0),
-      child: ChangeNotifierProvider.value(
-        value: a,
-        child: FractalRenderer(
-          boundaryKey: keyA,
-          animationEnabled: !freezeFrame,
-          gesturesEnabled: activePane == 0,
-          onOpenControls: onOpenControls,
-          onOpenPresets: onOpenPresets,
-          onOpenExport: onOpenExport,
-          onUserInteraction: onUserInteraction,
-        ),
-      ),
-    );
-
-    Widget paneB = _ComparePane(
-      isActive: activePane == 1,
-      label: 'B',
-      onTap: () => onOpenPane(1),
-      child: ChangeNotifierProvider.value(
-        value: controllerB,
-        child: FractalRenderer(
-          boundaryKey: keyB,
-          animationEnabled: !freezeFrame,
-          gesturesEnabled: activePane == 1,
-          onOpenControls: onOpenControls,
-          onOpenPresets: onOpenPresets,
-          onOpenExport: onOpenExport,
-          onUserInteraction: onUserInteraction,
-        ),
-      ),
-    );
-
-    if (!sliderMode) {
-      return Row(
-        children: [
-          Expanded(child: paneA),
-          Container(width: 1, color: AppColors.surfaceVariant.withOpacity(0.6)),
-          Expanded(child: paneB),
-        ],
-      );
-    }
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth;
-        final clamped = divider.clamp(0.05, 0.95);
-        final x = width * clamped;
-
-        return Stack(
-          children: [
-            Positioned.fill(child: paneA),
-            Positioned.fill(
-              child: ClipRect(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  widthFactor: 1.0 - clamped,
-                  child: paneB,
-                ),
-              ),
-            ),
-            Positioned(
-              left: x - 18,
-              top: 0,
-              bottom: 0,
-              width: 36,
-              child: _CompareDividerHandle(
-                onDrag: (dx) {
-                  final next = (x + dx) / width;
-                  onDividerChanged(next.clamp(0.05, 0.95));
-                },
-                onTapLeft: () => onOpenPane(0),
-                onTapRight: () => onOpenPane(1),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void onOpenPane(int pane) {
-    onActivePaneChanged(pane);
-  }
-}
-
-class _ComparePane extends StatelessWidget {
-  final Widget child;
-  final bool isActive;
-  final String label;
-  final VoidCallback onTap;
-
-  const _ComparePane({
-    required this.child,
-    required this.isActive,
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Stack(
-        children: [
-          Positioned.fill(child: child),
-          Positioned(
-            left: 12,
-            top: MediaQuery.of(context).padding.top + 12,
-            child: AnimatedContainer(
-              duration: AppAnimations.fast,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: (isActive ? AppColors.primary : AppColors.surfaceVariant)
-                    .withOpacity(0.65),
-                borderRadius: BorderRadius.circular(999),
-                border: Border.all(
-                  color: Colors.white.withOpacity(isActive ? 0.35 : 0.15),
-                ),
-              ),
-              child: Text(
-                label,
-                style: AppTypography.labelLarge.copyWith(
-                  color: AppColors.textPrimary,
-                ),
-              ),
-            ),
-          ),
-          if (isActive)
-            Positioned.fill(
-              child: IgnorePointer(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: AppColors.primary.withOpacity(0.35),
-                      width: 2,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CompareDividerHandle extends StatelessWidget {
-  final ValueChanged<double> onDrag;
-  final VoidCallback onTapLeft;
-  final VoidCallback onTapRight;
-
-  const _CompareDividerHandle({
-    required this.onDrag,
-    required this.onTapLeft,
-    required this.onTapRight,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onHorizontalDragUpdate: (d) => onDrag(d.delta.dx),
-      onTapUp: (details) {
-        final localX = details.localPosition.dx;
-        if (localX < 18) {
-          onTapLeft();
-        } else {
-          onTapRight();
-        }
-      },
-      child: Center(
-        child: Container(
-          width: 28,
-          height: 64,
-          decoration: BoxDecoration(
-            color: AppColors.surfaceVariant.withOpacity(0.75),
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: Colors.white.withOpacity(0.18)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.35),
-                blurRadius: 14,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: const Icon(Icons.drag_handle_rounded,
-              color: AppColors.textPrimary),
-        ),
-      ),
-    );
-  }
-}
-
-class _AppBarIconButton extends StatelessWidget {
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback onPressed;
-
-  const _AppBarIconButton({
-    required this.icon,
-    required this.tooltip,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltip,
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.surfaceVariant.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, size: 20, color: AppColors.textPrimary),
-        ),
-      ),
-    );
-  }
-}
-
-class _PremiumViewerAppBar extends StatelessWidget
-    implements PreferredSizeWidget {
-  final String title;
-  final String statusText;
-  final VoidCallback onBack;
-  final List<Widget> actions;
-
-  const _PremiumViewerAppBar({
-    required this.title,
-    required this.statusText,
-    required this.onBack,
-    this.actions = const [],
-  });
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 18);
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                AppColors.background.withOpacity(0.9),
-                AppColors.background.withOpacity(0.7),
-              ],
-            ),
-          ),
-          child: SafeArea(
-            bottom: false,
-            child: SizedBox(
-              height: kToolbarHeight,
-              child: Row(
-                children: [
-                  const SizedBox(width: AppSpacing.xs),
-                  _AnimatedBackButton(onPressed: onBack),
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: FadeIn(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            style: AppTypography.titleLarge,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            statusText,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTypography.labelSmall.copyWith(
-                              color: AppColors.textMuted,
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (actions.isNotEmpty) ...[
-                    const SizedBox(width: AppSpacing.sm),
-                    ...actions,
-                    const SizedBox(width: AppSpacing.xs),
-                  ],
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AnimatedBackButton extends StatefulWidget {
-  final VoidCallback onPressed;
-
-  const _AnimatedBackButton({required this.onPressed});
-
-  @override
-  State<_AnimatedBackButton> createState() => _AnimatedBackButtonState();
-}
-
-class _AnimatedBackButtonState extends State<_AnimatedBackButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.85).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) {
-        _controller.forward();
-        HapticService.medium();
-      },
-      onTapUp: (_) => _controller.reverse(),
-      onTapCancel: () => _controller.reverse(),
-      onTap: widget.onPressed,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.surfaceVariant.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Icon(
-            Icons.arrow_back_rounded,
-            size: 20,
-            color: AppColors.textPrimary,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FloatingActionButton extends StatefulWidget {
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback? onPressed;
-  final bool isPrimary;
-  final Duration delay;
-
-  const _FloatingActionButton({
-    required this.icon,
-    required this.tooltip,
-    this.onPressed,
-    this.isPrimary = false,
-    this.delay = Duration.zero,
-  });
-
-  @override
-  State<_FloatingActionButton> createState() => _FloatingActionButtonState();
-}
-
-class _FloatingActionButtonState extends State<_FloatingActionButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  bool _isPressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Check for reduced motion preference
-    final reduceMotion = MediaQuery.of(context).disableAnimations ||
-        (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
-
-    return FadeIn(
-      delay: reduceMotion ? Duration.zero : widget.delay,
-      child: Semantics(
-        label: widget.tooltip,
-        button: true,
-        enabled: widget.onPressed != null,
-        child: Tooltip(
-          message: widget.tooltip,
-          child: GestureDetector(
-            onTapDown: (widget.onPressed != null && !reduceMotion)
-                ? (_) {
-                    setState(() => _isPressed = true);
-                    _controller.forward();
-                    HapticService.medium();
-                  }
-                : null,
-            onTapUp: (widget.onPressed != null && !reduceMotion)
-                ? (_) {
-                    setState(() => _isPressed = false);
-                    _controller.reverse();
-                  }
-                : null,
-            onTapCancel: (widget.onPressed != null && !reduceMotion)
-                ? () {
-                    setState(() => _isPressed = false);
-                    _controller.reverse();
-                  }
-                : null,
-            onTap: widget.onPressed,
-            child: reduceMotion
-                ? _buildButtonContent()
-                : ScaleTransition(
-                    scale: _scaleAnimation,
-                    child: _buildButtonContent(),
-                  ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildButtonContent() {
-    return AnimatedContainer(
-      duration: AppAnimations.fast,
-      width: 52,
-      height: 52,
-      decoration: BoxDecoration(
-        gradient: widget.isPrimary ? AppColors.primaryGradient : null,
-        color: widget.isPrimary ? null : AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: widget.isPrimary
-            ? null
-            : Border.all(
-                color: _isPressed
-                    ? AppColors.primary.withOpacity(0.5)
-                    : AppColors.border.withOpacity(0.5),
-              ),
-        boxShadow: [
-          BoxShadow(
-            color: widget.isPrimary
-                ? AppColors.primary.withOpacity(_isPressed ? 0.5 : 0.3)
-                : Colors.black.withOpacity(0.2),
-            blurRadius: _isPressed ? 16 : 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Icon(
-        widget.icon,
-        size: 22,
-        color: widget.isPrimary
-            ? Colors.white
-            : (_isPressed ? AppColors.primary : AppColors.textSecondary),
-      ),
-    );
-  }
-}
-
-class _ExportOverlay extends StatelessWidget {
-  final double? progress;
-  final AppLocalizations l10n;
-
-  const _ExportOverlay({
-    required this.progress,
-    required this.l10n,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-      child: Container(
-        color: AppColors.background.withOpacity(0.7),
-        child: Center(
-          child: FadeIn(
-            child: Container(
-              padding: const EdgeInsets.all(AppSpacing.xxl),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(AppSpacing.xl),
-                border: Border.all(color: AppColors.border.withOpacity(0.5)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    decoration: BoxDecoration(
-                      gradient: AppColors.primaryGradient,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.downloading_rounded,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Text(
-                    l10n.exporting,
-                    style: AppTypography.titleMedium,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  SizedBox(
-                    width: 200,
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: LinearProgressIndicator(
-                            value: progress,
-                            minHeight: 6,
-                            backgroundColor: AppColors.surfaceVariant,
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                                AppColors.primary),
-                          ),
-                        ),
-                        if (progress != null) ...[
-                          const SizedBox(height: AppSpacing.sm),
-                          Text(
-                            '${(progress! * 100).round()}%',
-                            style: AppTypography.labelSmall.copyWith(
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Bottom sheet for sharing fractal configuration via deep link.
-class _ShareSheet extends StatelessWidget {
-  final Uri uri;
-  final String fractalName;
-
-  const _ShareSheet({
-    required this.uri,
-    required this.fractalName,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final linkText = uri.toString();
-
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: AppColors.border.withOpacity(0.3)),
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xl),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Handle bar
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: AppColors.textMuted.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-
-              // Title
-              Text(
-                l10n.shareTitle,
-                style: AppTypography.titleLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                l10n.shareSubtitle(fractalName),
-                style: AppTypography.bodyMedium
-                    .copyWith(color: AppColors.textSecondary),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppSpacing.xl),
-
-              // Link preview
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border.withOpacity(0.3)),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.link_rounded,
-                        color: AppColors.primary, size: 20),
-                    const SizedBox(width: AppSpacing.sm),
-                    Expanded(
-                      child: Text(
-                        linkText,
-                        style: AppTypography.bodySmall
-                            .copyWith(color: AppColors.textMuted),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-
-              // Share buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: _ShareButton(
-                      icon: Icons.copy_rounded,
-                      label: l10n.actionCopy,
-                      onPressed: () {
-                        Clipboard.setData(ClipboardData(text: linkText));
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Row(
-                              children: [
-                                const Icon(Icons.check_rounded,
-                                    color: AppColors.success, size: 18),
-                                const SizedBox(width: AppSpacing.sm),
-                                Text(l10n.linkCopied),
-                              ],
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: _ShareButton(
-                      icon: Icons.share_rounded,
-                      label: l10n.actionShare,
-                      isPrimary: true,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Share.share(
-                          l10n.shareMessage(fractalName, linkText),
-                          subject: l10n.shareSubject(fractalName),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ShareButton extends StatefulWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onPressed;
-  final bool isPrimary;
-
-  const _ShareButton({
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-    this.isPrimary = false,
-  });
-
-  @override
-  State<_ShareButton> createState() => _ShareButtonState();
-}
-
-class _ShareButtonState extends State<_ShareButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) {
-        _controller.forward();
-        HapticService.medium();
-      },
-      onTapUp: (_) => _controller.reverse(),
-      onTapCancel: () => _controller.reverse(),
-      onTap: widget.onPressed,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-          decoration: BoxDecoration(
-            gradient: widget.isPrimary ? AppColors.primaryGradient : null,
-            color: widget.isPrimary ? null : AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(12),
-            border: widget.isPrimary
-                ? null
-                : Border.all(
-                    color: AppColors.border.withOpacity(0.3),
-                  ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                widget.icon,
-                size: 18,
-                color: widget.isPrimary ? Colors.white : AppColors.textPrimary,
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                widget.label,
-                style: AppTypography.labelLarge.copyWith(
-                  color:
-                      widget.isPrimary ? Colors.white : AppColors.textPrimary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
