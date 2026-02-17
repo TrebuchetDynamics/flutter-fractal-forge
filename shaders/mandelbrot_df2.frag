@@ -7,7 +7,13 @@ precision highp float;
 // Extends usable GPU zoom range from ~1e7 (float32 limit) to ~1e14.
 // Uses paired-float (Knuth/Dekker) arithmetic for center coordinates.
 //
-// Uniform layout must match mandelbrot_df2_module.dart exactly.
+// NOTE: This shader is available infrastructure but is NOT yet wired to
+// FractalRenderer. To activate, create mandelbrot_df2_module.dart with the
+// uniform layout below and add a shouldUseDoubleFloat() call site in
+// fractal_renderer.dart before the _loadShader() call (around line 368).
+// Also raise DeepZoomPrecisionPolicy mandelbrot threshold to 1e14.
+//
+// Uniform layout must match mandelbrot_df2_module.dart when created:
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform float uCenterHiX;     // 3  (high part of center.x)
@@ -138,7 +144,8 @@ void main() {
     float zy2 = zy * zy;
     zy = 2.0 * zx * zy + cy_f;
     zx = zx2 - zy2 + cx_f;
-    if (zx2 + zy2 > bailoutSq) { it = j; break; }
+    // Bailout test uses post-update magnitudes (not stale zx2/zy2).
+    if (zx * zx + zy * zy > bailoutSq) { it = j; break; }
     it = j + 1;
   }
 
