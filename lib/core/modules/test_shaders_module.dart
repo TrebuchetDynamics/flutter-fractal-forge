@@ -2,8 +2,10 @@
 import 'dart:ui';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:vector_math/vector_math.dart';
 
 /// Test 1: Minimal shader - just outputs solid red, no uniforms
 final FractalModule testMinimalModule = FractalModule(
@@ -12,11 +14,17 @@ final FractalModule testMinimalModule = FractalModule(
   dimension: FractalDimension.twoD,
   shaderAsset: 'shaders/test_minimal.frag',
   parameters: const <FractalParameter>[],
-  defaultPreset: const FractalPreset(
+  defaultPreset: FractalPreset(
     id: 'test_minimal_default',
     name: 'Default',
     moduleId: 'test_minimal',
-    params: {},
+    params: const {},
+    view: FractalViewState(
+      pan: Vector2.zero(),
+      zoom: 1.0,
+      rotation: Vector3.zero(),
+    ),
+    createdAt: DateTime(2026),
   ),
   builtInPresets: const [],
   setUniforms: (shader, state, size, time) {
@@ -31,11 +39,17 @@ final FractalModule testGlFragCoordModule = FractalModule(
   dimension: FractalDimension.twoD,
   shaderAsset: 'shaders/test_gl_fragcoord.frag',
   parameters: const <FractalParameter>[],
-  defaultPreset: const FractalPreset(
+  defaultPreset: FractalPreset(
     id: 'test_gl_fragcoord_default',
     name: 'Default',
     moduleId: 'test_gl_fragcoord',
-    params: {},
+    params: const {},
+    view: FractalViewState(
+      pan: Vector2.zero(),
+      zoom: 1.0,
+      rotation: Vector3.zero(),
+    ),
+    createdAt: DateTime(2026),
   ),
   builtInPresets: const [],
   setUniforms: (shader, state, size, time) {
@@ -52,11 +66,17 @@ final FractalModule testFlutterCoordModule = FractalModule(
   dimension: FractalDimension.twoD,
   shaderAsset: 'shaders/test_flutter_coord.frag',
   parameters: const <FractalParameter>[],
-  defaultPreset: const FractalPreset(
+  defaultPreset: FractalPreset(
     id: 'test_flutter_coord_default',
     name: 'Default',
     moduleId: 'test_flutter_coord',
-    params: {},
+    params: const {},
+    view: FractalViewState(
+      pan: Vector2.zero(),
+      zoom: 1.0,
+      rotation: Vector3.zero(),
+    ),
+    createdAt: DateTime(2026),
   ),
   builtInPresets: const [],
   setUniforms: (shader, state, size, time) {

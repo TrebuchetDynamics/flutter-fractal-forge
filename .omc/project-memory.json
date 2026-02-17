@@ -282,6 +282,12 @@
   },
   "hotPaths": [
     {
+      "path": "lib/core/modules/test_shaders_module.dart",
+      "accessCount": 5,
+      "lastAccessed": 1771287469997,
+      "type": "file"
+    },
+    {
       "path": "lib/core/modules/module_registry.dart",
       "accessCount": 4,
       "lastAccessed": 1771286934913,
@@ -306,15 +312,15 @@
       "type": "file"
     },
     {
-      "path": "lib",
-      "accessCount": 2,
-      "lastAccessed": 1771286838911,
+      "path": "lib/core/modules",
+      "accessCount": 3,
+      "lastAccessed": 1771287443070,
       "type": "directory"
     },
     {
-      "path": "lib/core/modules",
+      "path": "lib",
       "accessCount": 2,
-      "lastAccessed": 1771286922563,
+      "lastAccessed": 1771286838911,
       "type": "directory"
     },
     {
@@ -322,6 +328,12 @@
       "accessCount": 2,
       "lastAccessed": 1771287083496,
       "type": "file"
+    },
+    {
+      "path": "lib/core/models/fractal_preset.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771287441709,
+      "type": "directory"
     },
     {
       "path": "app.description.md",
@@ -453,12 +465,6 @@
       "path": "shaders/test_flutter_coord.frag",
       "accessCount": 1,
       "lastAccessed": 1771286895305,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/modules/test_shaders_module.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771286917581,
       "type": "file"
     }
   ],
