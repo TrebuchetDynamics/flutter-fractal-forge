@@ -1,0 +1,19 @@
+Flutter Fractal Forge is a high-performance fractal explorer built for deep zoom discovery and creative experimentation. Navigate mathematically rich worlds with fluid gestures, responsive rendering, and a robust fallback architecture designed for reliability across Android devices.
+
+What you can do:
+- Explore classic and advanced fractal sets with interactive pan and zoom.
+- Use polished touch gestures for precise navigation and fast framing.
+- Switch rendering behavior with backend controls (Auto / CPU-only / GPU-only debug mode).
+- Recover automatically with CPU fallback if GPU health checks fail.
+- Inspect rendering behavior with built-in diagnostics and export logs for troubleshooting.
+
+Why it feels good to use:
+- Gesture interactions are tuned for smooth, predictable movement.
+- Rendering pipeline is optimized for stability and consistent output.
+- App architecture is designed to keep the experience responsive under load.
+
+Accessibility and reliability:
+- The app is developed with automation-first validation and measurable quality gates.
+- Core rendering quality, performance checks, and viewer behavior are continuously tested.
+
+Whether you are curious about fractal math, looking for mesmerizing visuals, or validating rendering systems, Flutter Fractal Forge gives you a practical and powerful workspace for fractal exploration on Android.
