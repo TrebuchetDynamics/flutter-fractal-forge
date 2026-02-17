@@ -321,14 +321,20 @@
   "hotPaths": [
     {
       "path": "lib/features/viewer/fractal_viewer_screen.dart",
-      "accessCount": 38,
-      "lastAccessed": 1771363104894,
+      "accessCount": 39,
+      "lastAccessed": 1771366851458,
       "type": "file"
     },
     {
       "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 23,
-      "lastAccessed": 1771359339130,
+      "accessCount": 24,
+      "lastAccessed": 1771366851460,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/gesture_handler.dart",
+      "accessCount": 15,
+      "lastAccessed": 1771366988095,
       "type": "file"
     },
     {
@@ -344,16 +350,16 @@
       "type": "file"
     },
     {
-      "path": "lib/features/renderer/gesture_handler.dart",
-      "accessCount": 7,
-      "lastAccessed": 1771359245657,
-      "type": "file"
-    },
-    {
       "path": "",
       "accessCount": 6,
       "lastAccessed": 1771360760122,
       "type": "directory"
+    },
+    {
+      "path": "scripts/run-app.sh",
+      "accessCount": 6,
+      "lastAccessed": 1771366233080,
+      "type": "file"
     },
     {
       "path": "scripts/run-emulator-app.sh",
@@ -413,12 +419,6 @@
       "path": "lib/features/wallpaper/wallpaper_options_sheet.dart",
       "accessCount": 3,
       "lastAccessed": 1771364327263,
-      "type": "file"
-    },
-    {
-      "path": "scripts/run-app.sh",
-      "accessCount": 2,
-      "lastAccessed": 1771356393752,
       "type": "file"
     },
     {
@@ -500,6 +500,12 @@
       "type": "file"
     },
     {
+      "path": "lib/features/viewer/components/fractal_view_controls.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771366851715,
+      "type": "file"
+    },
+    {
       "path": "integration_test/double_tap_anchor_test.dart",
       "accessCount": 1,
       "lastAccessed": 1771357242823,
@@ -527,12 +533,6 @@
       "path": "lib/features/viewer/components/fractal_app_bar.dart",
       "accessCount": 1,
       "lastAccessed": 1771358315747,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/viewer/components/fractal_view_controls.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771358316157,
       "type": "file"
     },
     {

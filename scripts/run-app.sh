@@ -28,11 +28,11 @@ EMULATOR_BIN="${ANDROID_SDK}/emulator/emulator"
 HEADLESS=false
 SOFTWARE_RENDERING=false
 BUILD_MODE="debug"
-STREAM_LOGCAT=false
+STREAM_LOGCAT=true                          # default: stream logcat alongside flutter run
 FORCE_DEVICE=""
 WIFI_HOST=""
 LIST_ONLY=false
-DART_DEFINES=()
+DART_DEFINES=("--dart-define=FORCE_GPU_RENDER=true")  # default: bypass test-mode placeholder
 
 # ── Argument parsing ───────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
