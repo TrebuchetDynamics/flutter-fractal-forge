@@ -307,6 +307,43 @@ double _smoothEscape({
   return _cexpSafe(logGammaX, logGammaY, clampX: 40.0);
 }
 
+
+typedef _ZUpdate = (double, double) Function(
+  double zx, double zy, double cx, double cy);
+
+/// Higher-order escape-time formula.
+///
+/// Runs the standard escape-time loop using [update] as the recurrence, then
+/// colours using [_smoothEscape] + [_palette].  Optional [zx0]/[zy0] override
+/// the initial z value (default 0+0i).  [power] forwards to [_smoothEscape].
+@pragma('vm:prefer-inline')
+(double r, double g, double b) _escapeTime(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  _ZUpdate update, {
+  double zx0 = 0.0,
+  double zy0 = 0.0,
+  double power = 2.0,
+}) {
+  double zx = zx0;
+  double zy = zy0;
+  final bailout2 = bailout * bailout;
+  int it = 0;
+  while (it < iterations) {
+    if (zx * zx + zy * zy > bailout2) break;
+    final n = update(zx, zy, x, y);
+    zx = n.$1;
+    zy = n.$2;
+    it++;
+  }
+  if (it >= iterations) return _insideColor;
+  final mag2 = zx * zx + zy * zy;
+  return _palette(
+    _clamp(_smoothEscape(it: it, iterations: iterations, mag2: mag2, power: power), 0.0, 1.0),
+  );
+}
 (double r, double g, double b) _cpu_synthetic(
   int seed,
   double x,
@@ -396,29 +433,8 @@ double _smoothEscape({
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-  while (it < iterations) {
-    final zx2 = zx * zx;
-    final zy2 = zy * zy;
-    final mag2 = zx2 + zy2;
-    if (mag2 > bailout2) break;
-    final nx = zx2 - zy2 + x;
-    final ny = 2.0 * zx * zy + y;
-    zx = nx;
-    zy = ny;
-    it++;
-  }
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) => _escapeTime(x, y, iterations, bailout,
+    (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, 2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_julia(
   double x,
   double y,
@@ -426,198 +442,69 @@ double _smoothEscape({
   double bailout,
   Vector2 juliaC,
 ) {
-  double zx = x;
-  double zy = y;
+  // Julia set: z₀ = (x, y), c = juliaC
   final c0x = juliaC.x;
   final c0y = juliaC.y;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-  while (it < iterations) {
-    final zx2 = zx * zx;
-    final zy2 = zy * zy;
-    final mag2 = zx2 + zy2;
-    if (mag2 > bailout2) break;
-    final nx = zx2 - zy2 + c0x;
-    final ny = 2.0 * zx * zy + c0y;
-    zx = nx;
-    zy = ny;
-    it++;
-  }
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
+  return _escapeTime(
+    x, y, iterations, bailout,
+    (zx, zy, cx, cy) => (zx * zx - zy * zy + c0x, 2.0 * zx * zy + c0y),
+    zx0: x, zy0: y,
+  );
 }
-
 (double r, double g, double b) _cpu_celtic(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-  while (it < iterations) {
-    final zx2 = zx * zx;
-    final zy2 = zy * zy;
-    final mag2 = zx2 + zy2;
-    if (mag2 > bailout2) break;
-    final rx = (zx2 - zy2).abs() + x;
-    final ry = 2.0 * zx * zy + y;
-    zx = rx;
-    zy = ry;
-    it++;
-  }
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) => _escapeTime(x, y, iterations, bailout,
+    (zx, zy, cx, cy) =>
+        ((zx * zx - zy * zy).abs() + cx, 2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_buffalo(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-  while (it < iterations) {
-    final zx2 = zx * zx;
-    final zy2 = zy * zy;
-    final mag2 = zx2 + zy2;
-    if (mag2 > bailout2) break;
-    final rx = (zx2 - zy2).abs() + x;
-    final ry = (2.0 * zx * zy).abs() + y;
-    zx = rx;
-    zy = ry;
-    it++;
-  }
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) => _escapeTime(x, y, iterations, bailout,
+    (zx, zy, cx, cy) =>
+        ((zx * zx - zy * zy).abs() + cx, (2.0 * zx * zy).abs() + cy));
 (double r, double g, double b) _cpu_burning_ship(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/burning_ship_gpu.frag
-  double zx = 0.0;
-  double zy = 0.0;
-  final cx = x;
-  final cy = -y; // shader flips Y for typical Burning Ship orientation
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    final mag2 = zx * zx + zy * zy;
-    if (mag2 > bailout2) break;
-
-    final ax = zx.abs();
-    final ay = zy.abs();
-    final ax2 = ax * ax;
-    final ay2 = ay * ay;
-    final nx = ax2 - ay2 + cx;
-    final ny = 2.0 * ax * ay + cy;
-    zx = nx;
-    zy = ny;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/burning_ship_gpu.frag — shader flips Y.
+    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+      final ax = zx.abs();
+      final ay = zy.abs();
+      return (ax * ax - ay * ay + cx, 2.0 * ax * ay + cy);
+    });
 (double r, double g, double b) _cpu_tricorn(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/tricorn_gpu.frag (Mandelbar / Tricorn)
-  double zx = 0.0;
-  double zy = 0.0;
-  final cx = x;
-  final cy = y;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    final mag2 = zx * zx + zy * zy;
-    if (mag2 > bailout2) break;
-
-    final zx2 = zx * zx;
-    final zy2 = zy * zy;
-    final nx = zx2 - zy2 + cx;
-    final ny = -2.0 * zx * zy + cy; // conj(z)^2
-    zx = nx;
-    zy = ny;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/tricorn_gpu.frag (Mandelbar: conj(z)^2 + c)
+    _escapeTime(x, y, iterations, bailout,
+        (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, -2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_multibrot3(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/multibrot3_gpu.frag (z^3 + c)
-  double zx = 0.0;
-  double zy = 0.0;
-  final cx = x;
-  final cy = y;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    final mag2 = zx * zx + zy * zy;
-    if (mag2 > bailout2) break;
-
-    final x2 = zx * zx;
-    final y2 = zy * zy;
-    final nx = zx * (x2 - 3.0 * y2) + cx;
-    final ny = zy * (3.0 * x2 - y2) + cy;
-    zx = nx;
-    zy = ny;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-    _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: 3.0),
-    0.0,
-    1.0,
-  );
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/multibrot3_gpu.frag (z^3 + c)
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final x2 = zx * zx;
+      final y2 = zy * zy;
+      return (zx * (x2 - 3.0 * y2) + cx, zy * (3.0 * x2 - y2) + cy);
+    }, power: 3.0);
 (double r, double g, double b) _cpu_nova(
   double x,
   double y,
@@ -836,73 +723,26 @@ double _smoothEscape({
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/perpendicular_gpu.frag
-  double zx = 0.0;
-  double zy = 0.0;
-  final cx = x;
-  final cy = y;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    final mag2 = zx * zx + zy * zy;
-    if (mag2 > bailout2) break;
-
-    final x2 = zx * zx - zy * zy;
-    final y2 = 2.0 * zx * zy;
-    zx = x2.abs() + cx;
-    zy = y2 + cy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/perpendicular_gpu.frag
+    _escapeTime(x, y, iterations, bailout,
+        (zx, zy, cx, cy) =>
+            ((zx * zx - zy * zy).abs() + cx, 2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_lambda(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/lambda_gpu.frag (Lambda map in complex plane)
-  final cx = x;
-  final cy = y;
-  double zx = cx;
-  double zy = cy;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    final mag2 = zx * zx + zy * zy;
-    if (mag2 > bailout2) break;
-
-    final oneMinusX = 1.0 - zx;
-    final oneMinusY = -zy;
-
-    // z * (1 - z)
-    final t1x = zx * oneMinusX - zy * oneMinusY;
-    final t1y = zx * oneMinusY + zy * oneMinusX;
-    // c * (z * (1 - z))
-    final nx = cx * t1x - cy * t1y;
-    final ny = cx * t1y + cy * t1x;
-    zx = nx;
-    zy = ny;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/lambda_gpu.frag: z = c*z*(1-z), z₀ = c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      // z*(1-z): real = zx - zx^2 + zy^2, imag = zy - 2*zx*zy
+      final t1x = zx - zx * zx + zy * zy;
+      final t1y = zy - 2.0 * zx * zy;
+      // c * t1
+      return (cx * t1x - cy * t1y, cx * t1y + cy * t1x);
+    }, zx0: x, zy0: y);
 (double r, double g, double b) _cpu_magnet_type_1(
   double x,
   double y,
@@ -1093,152 +933,62 @@ double _smoothEscape({
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/power_sum_gpu.frag: z = z^3 + z^2 + c
-  final cx = x;
-  final cy = y;
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final z2x = zx * zx - zy * zy;
-    final z2y = 2.0 * zx * zy;
-    final z3x = z2x * zx - z2y * zy;
-    final z3y = z2x * zy + z2y * zx;
-    zx = z3x + z2x + cx;
-    zy = z3y + z2y + cy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/power_sum_gpu.frag: z = z^3 + z^2 + c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final z2x = zx * zx - zy * zy;
+      final z2y = 2.0 * zx * zy;
+      final z3x = z2x * zx - z2y * zy;
+      final z3y = z2x * zy + z2y * zx;
+      return (z3x + z2x + cx, z3y + z2y + cy);
+    });
 (double r, double g, double b) _cpu_cactus(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/cactus_gpu.frag
-  final cx = x;
-  final cy = y;
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final z2x = zx * zx - zy * zy;
-    final z2y = 2.0 * zx * zy;
-    final z3x = z2x * zx - z2y * zy;
-    final z3y = z2x * zy + z2y * zx;
-
-    // z = z^3 + (c - 1)z - c
-    final c1x = cx - 1.0;
-    final c1y = cy;
-    final c1zx = c1x * zx - c1y * zy;
-    final c1zy = c1x * zy + c1y * zx;
-    zx = z3x + c1zx - cx;
-    zy = z3y + c1zy - cy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/cactus_gpu.frag: z = z^3 + (c-1)z - c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final z2x = zx * zx - zy * zy;
+      final z2y = 2.0 * zx * zy;
+      final z3x = z2x * zx - z2y * zy;
+      final z3y = z2x * zy + z2y * zx;
+      // (c-1)*z
+      final c1zx = (cx - 1.0) * zx - cy * zy;
+      final c1zy = (cx - 1.0) * zy + cy * zx;
+      return (z3x + c1zx - cx, z3y + c1zy - cy);
+    });
 (double r, double g, double b) _cpu_astroid(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/astroid_gpu.frag
-  final cx = x;
-  final cy = y;
-  double zx = cx;
-  double zy = cy;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final r = math.sqrt(zx * zx + zy * zy);
-    final theta = math.atan2(zy, zx);
-    final rp = math.pow(math.max(r, 1e-12), 2.0 / 3.0).toDouble();
-    final ang = (2.0 / 3.0) * theta;
-    zx = rp * math.cos(ang) + cx;
-    zy = rp * math.sin(ang) + cy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/astroid_gpu.frag: z = z^(2/3) + c, z₀ = c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final r = math.sqrt(zx * zx + zy * zy);
+      final theta = math.atan2(zy, zx);
+      final rp = math.pow(math.max(r, 1e-12), 2.0 / 3.0).toDouble();
+      final ang = (2.0 / 3.0) * theta;
+      return (rp * math.cos(ang) + cx, rp * math.sin(ang) + cy);
+    }, zx0: x, zy0: y);
 (double r, double g, double b) _cpu_deltoid(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/deltoid_gpu.frag
-  final cx = x;
-  final cy = y;
-  // Start z at c; starting at 0 makes z=0 a fixed point for this recurrence.
-  double zx = cx;
-  double zy = cy;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final z2x = zx * zx - zy * zy;
-    final z2y = 2.0 * zx * zy;
-    // c * conj(z)
-    final czx = cx * zx + cy * zy;
-    final czy = cy * zx - cx * zy;
-    zx = z2x + czx;
-    zy = z2y + czy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/deltoid_gpu.frag: z = z^2 + c*conj(z), z₀ = c
+    _escapeTime(x, y, iterations, bailout,
+        (zx, zy, cx, cy) => (
+              zx * zx - zy * zy + cx * zx + cy * zy,
+              2.0 * zx * zy + cy * zx - cx * zy,
+            ),
+        zx0: x, zy0: y);
 (double r, double g, double b) _cpu_eisenstein(
   double x,
   double y,
@@ -1298,178 +1048,67 @@ double _smoothEscape({
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/druid_gpu.frag (cubic Mandelbrot)
-  final cx = x;
-  final cy = y;
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final x2 = zx * zx;
-    final y2 = zy * zy;
-    final nx = zx * (x2 - 3.0 * y2) + cx;
-    final ny = zy * (3.0 * x2 - y2) + cy;
-    zx = nx;
-    zy = ny;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: 3.0),
-      0.0,
-      1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/druid_gpu.frag (cubic Mandelbrot, z^3 + c)
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final x2 = zx * zx;
+      final y2 = zy * zy;
+      return (zx * (x2 - 3.0 * y2) + cx, zy * (3.0 * x2 - y2) + cy);
+    });
 (double r, double g, double b) _cpu_inverse_mandelbrot(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/inverse_mandelbrot_gpu.frag: z = 1 / z^2 + c
-  final cx = x;
-  final cy = y;
-  double zx = cx;
-  double zy = cy;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    // z2 = z^2
-    final z2x = zx * zx - zy * zy;
-    final z2y = 2.0 * zx * zy;
-    // inv(z2)
-    final d = math.max(1e-12, z2x * z2x + z2y * z2y);
-    final invx = z2x / d;
-    final invy = -z2y / d;
-
-    zx = invx + cx;
-    zy = invy + cy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/inverse_mandelbrot_gpu.frag: z = 1/z^2 + c, z₀ = c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final z2x = zx * zx - zy * zy;
+      final z2y = 2.0 * zx * zy;
+      final d = math.max(1e-12, z2x * z2x + z2y * z2y);
+      return (z2x / d + cx, -z2y / d + cy);
+    }, zx0: x, zy0: y);
 (double r, double g, double b) _cpu_glynn(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/glynn_gpu.frag: z = z^1.5 + c (polar form)
-  final cx = x;
-  final cy = y;
-  double zx = cx;
-  double zy = cy;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final r = math.sqrt(zx * zx + zy * zy);
-    final theta = math.atan2(zy, zx);
-    final rp = math.pow(math.max(r, 1e-12), 1.5).toDouble();
-    final ang = 1.5 * theta;
-    zx = rp * math.cos(ang) + cx;
-    zy = rp * math.sin(ang) + cy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/glynn_gpu.frag: z = z^1.5 + c, z₀ = c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final r = math.sqrt(zx * zx + zy * zy);
+      final theta = math.atan2(zy, zx);
+      final rp = math.pow(math.max(r, 1e-12), 1.5).toDouble();
+      final ang = 1.5 * theta;
+      return (rp * math.cos(ang) + cx, rp * math.sin(ang) + cy);
+    }, zx0: x, zy0: y);
 (double r, double g, double b) _cpu_simonbrot(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/simonbrot_gpu.frag
-  final cx = x;
-  final cy = y;
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final r = math.sqrt(zx * zx + zy * zy);
-    final unitx = (r > 1e-12) ? (zx / r) : 0.0;
-    final unity = (r > 1e-12) ? (zy / r) : 0.0;
-
-    final z2x = zx * zx - zy * zy;
-    final z2y = 2.0 * zx * zy;
-    zx = z2x + unitx + cx;
-    zy = z2y + unity + cy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/simonbrot_gpu.frag: z = z^2 + unit(z) + c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final r = math.sqrt(zx * zx + zy * zy);
+      final ux = r > 1e-12 ? zx / r : 0.0;
+      final uy = r > 1e-12 ? zy / r : 0.0;
+      return (zx * zx - zy * zy + ux + cx, 2.0 * zx * zy + uy + cy);
+    });
 (double r, double g, double b) _cpu_shark_fin(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/shark_fin_gpu.frag
-  final cx = x;
-  final cy = y;
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final wx = zx;
-    final wy = zy.abs();
-    final nx = wx * wx - wy * wy + cx;
-    final ny = 2.0 * wx * wy + cy;
-    zx = nx;
-    zy = ny;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/shark_fin_gpu.frag: z = zx^2 - |zy|^2 + cx, 2*zx*|zy| + cy
+    _escapeTime(x, y, iterations, bailout,
+        (zx, zy, cx, cy) =>
+            (zx * zx - zy * zy + cx, 2.0 * zx * zy.abs() + cy));
 (double r, double g, double b) _cpu_manowar(
   double x,
   double y,
@@ -1628,38 +1267,14 @@ double _smoothEscape({
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/talis_gpu.frag
-  final cx = x;
-  final cy = y;
-  double zx = 0.0;
-  double zy = 0.0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-
-    final numerX = zx * zx - zy * zy;
-    final numerY = 2.0 * zx * zy;
-    final denomX = 1.0 + zx;
-    final denomY = zy;
-
-    final q = _cdivSafe(numerX, numerY, denomX, denomY);
-    zx = q.$1 + cx;
-    zy = q.$2 + cy;
-    it++;
-  }
-
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
-  return _palette(t);
-}
-
+) =>
+    // Ported from shaders/talis_gpu.frag: z = z^2 / (1+z) + c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final z2x = zx * zx - zy * zy;
+      final z2y = 2.0 * zx * zy;
+      final q = _cdivSafe(z2x, z2y, 1.0 + zx, zy);
+      return (q.$1 + cx, q.$2 + cy);
+    });
 (double r, double g, double b) _cpu_tetration(
   double x,
   double y,
