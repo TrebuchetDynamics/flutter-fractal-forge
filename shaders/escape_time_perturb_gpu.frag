@@ -89,8 +89,19 @@ vec2 deltaMultibrot4(vec2 Zn, vec2 dz, vec2 dc) {
 
 vec2 deltaMultibrot5(vec2 Zn, vec2 dz, vec2 dc) {
   vec2 Z2 = cmul(Zn, Zn);
-  vec2 Z4 = cmul(Z2, Z2);
-  return 5.0 * cmul(Z4, dz) + dc;
+  vec2 Z3 = cmul(Z2, Zn);
+  vec2 Z4 = cmul(Z3, Zn);
+  vec2 dz2 = cmul(dz, dz);
+  vec2 dz3 = cmul(dz2, dz);
+  vec2 dz4 = cmul(dz3, dz);
+  vec2 dz5 = cmul(dz4, dz);
+
+  return 5.0 * cmul(Z4, dz) +
+      10.0 * cmul(Z3, dz2) +
+      10.0 * cmul(Z2, dz3) +
+      5.0 * cmul(Zn, dz4) +
+      dz5 +
+      dc;
 }
 
 void main() {
@@ -100,7 +111,7 @@ void main() {
 
   int formula = int(uFormula + 0.5);
   float bailoutSq = uBailout * uBailout;
-  int maxIter = int(clamp(uIterations, 4.0, 500.0));
+  int maxIter = int(clamp(uIterations, 4.0, 2000.0));
 
   vec2 dc = uv / max(1e-9, uZoom);
   vec2 dz = vec2(0.0);
@@ -108,7 +119,7 @@ void main() {
   int it = 0;
   float finalMag2 = 0.0;
 
-  const int MAX_ITERS = 500;
+  const int MAX_ITERS = 2000;
 
   for (int n = 0; n < MAX_ITERS; n++) {
     if (n >= maxIter) {
