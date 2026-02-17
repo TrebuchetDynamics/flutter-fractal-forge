@@ -67,13 +67,11 @@ if [[ "$RUNNING_EMULATORS" -eq 0 ]]; then
         echo "  Starting in headless mode (no window)..."
         nohup "$EMULATOR_BIN" -avd "$AVD_NAME" \
             -no-window -no-audio -no-boot-anim \
-            -gpu swiftshader_indirect \
             > /tmp/emulator.log 2>&1 &
     else
         echo "  Starting with GUI window..."
         nohup "$EMULATOR_BIN" -avd "$AVD_NAME" \
             -no-audio \
-            -gpu swiftshader_indirect \
             > /tmp/emulator.log 2>&1 &
     fi
 
