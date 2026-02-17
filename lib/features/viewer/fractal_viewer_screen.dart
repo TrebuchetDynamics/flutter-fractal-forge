@@ -647,6 +647,22 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             onPressed: () => _openBackendModePicker(context),
           ),
           _AppBarIconButton(
+            icon: controller.rotationLocked
+                ? Icons.screen_lock_rotation_rounded
+                : Icons.screen_rotation_alt_rounded,
+            tooltip: controller.rotationLocked
+                ? 'Unlock rotation gestures'
+                : 'Lock rotation gestures',
+            onPressed: () {
+              controller.toggleRotationLock();
+              final locked = controller.rotationLocked;
+              AccessibilityService.announce(
+                locked ? 'Rotation locked' : 'Rotation unlocked',
+              );
+              HapticFeedback.selectionClick();
+            },
+          ),
+          _AppBarIconButton(
             icon: Icons.camera_rounded,
             tooltip: 'AR',
             onPressed: () {

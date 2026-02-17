@@ -601,6 +601,7 @@ class _FractalRendererState extends State<FractalRenderer>
     final controller = context.read<FractalController>();
     final view = controller.view;
     final module = controller.module;
+    final rotationLocked = controller.rotationLocked;
 
     // Try to map screen pixels to fractal "world" units based on the shader's
     // coordinate transform:
@@ -620,11 +621,13 @@ class _FractalRendererState extends State<FractalRenderer>
     // --- 1 finger: pan (2D) or rotate (3D) ---
     if (details.pointerCount == 1) {
       if (module.dimension == FractalDimension.threeD) {
-        // Use incremental deltas to avoid jumps when pointer count changes.
-        final d = details.focalPointDelta;
-        controller.updateRotation(
-          view.rotation + Vector3(d.dy * 0.0009, d.dx * 0.0009, 0),
-        );
+        if (!rotationLocked) {
+          // Use incremental deltas to avoid jumps when pointer count changes.
+          final d = details.focalPointDelta;
+          controller.updateRotation(
+            view.rotation + Vector3(d.dy * 0.0009, d.dx * 0.0009, 0),
+          );
+        }
       } else {
         // Use incremental deltas to avoid large jumps after pinch→pan handoff.
         final worldDelta = _screenDeltaToWorldDelta(
@@ -674,12 +677,13 @@ class _FractalRendererState extends State<FractalRenderer>
       }
     }
 
-    if (!_rotationGestureActive &&
+    if (!rotationLocked &&
+        !_rotationGestureActive &&
         details.rotation.abs() > _kIntentionalRotationThreshold) {
       _rotationGestureActive = true;
     }
     final effectiveRotationDelta =
-        _rotationGestureActive ? details.rotation : 0.0;
+        (!rotationLocked && _rotationGestureActive) ? details.rotation : 0.0;
     final newRotationZ = _startRotationZ + effectiveRotationDelta;
 
     if (size != null && module.dimension != FractalDimension.threeD) {
@@ -699,7 +703,8 @@ class _FractalRendererState extends State<FractalRenderer>
 
       controller.updateRotation(
           Vector3(view.rotation.x, view.rotation.y, newRotationZ));
-    } else if (module.dimension == FractalDimension.threeD &&
+    } else if (!rotationLocked &&
+        module.dimension == FractalDimension.threeD &&
         details.rotation != 0.0) {
       final rotationDelta = details.rotation - _lastRotation;
       controller.updateRotation(view.rotation + Vector3(0, 0, rotationDelta));

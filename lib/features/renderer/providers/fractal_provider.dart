@@ -9,6 +9,7 @@ import 'package:flutter_fractals/core/models/ar_quality_preset.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
+import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Manages the state of fractal rendering and user interactions.
@@ -50,15 +51,8 @@ class FractalController extends ChangeNotifier {
   static const int _adaptiveIterationsMinStep = 8;
   static const double _adaptiveZoomEpsilon = 1.01;
 
-  // Test mode detection - skip timer-based animations in tests
-  static final bool _isTest = (() {
-    var v = false;
-    assert(() {
-      v = true;
-      return true;
-    }());
-    return v || const bool.fromEnvironment('FLUTTER_TEST');
-  })();
+  // Test mode detection - skip timer-based animations in automated tests.
+  bool get _isTest => RuntimeModeService.isAutomatedTest;
 
   /// The module registry containing all available fractal types.
   final ModuleRegistry registry;
@@ -68,6 +62,7 @@ class FractalController extends ChangeNotifier {
   Map<String, Object> _params = {};
   FractalViewState _view = FractalViewState.initial();
   bool _transparentBackground = false;
+  bool _rotationLocked = false;
 
   // Animation state
   bool _isMorphing = false;
@@ -128,6 +123,9 @@ class FractalController extends ChangeNotifier {
   ///
   /// Used for AR overlay mode and transparent PNG export.
   bool get transparentBackground => _transparentBackground;
+
+  /// Whether gesture-based rotation is locked.
+  bool get rotationLocked => _rotationLocked;
 
   /// Switches to a different fractal module.
   ///
@@ -256,6 +254,7 @@ class FractalController extends ChangeNotifier {
     _view = FractalViewState.initial();
     _lastAdaptiveZoom = _view.zoom;
     _transparentBackground = false;
+    _rotationLocked = false;
     notifyListeners();
     _logChange('stateChange', 'reset', 'Reset session');
   }
@@ -342,6 +341,23 @@ class FractalController extends ChangeNotifier {
   void updateRotation(Vector3 rotation) {
     _view = _view.copyWith(rotation: rotation);
     notifyListeners();
+  }
+
+  /// Locks or unlocks gesture-based rotation.
+  void setRotationLocked(bool value) {
+    if (_rotationLocked == value) return;
+    _rotationLocked = value;
+    notifyListeners();
+    _logChange(
+      'stateChange',
+      'rotationLock',
+      value ? 'Rotation locked' : 'Rotation unlocked',
+    );
+  }
+
+  /// Toggles gesture-based rotation lock.
+  void toggleRotationLock() {
+    setRotationLocked(!_rotationLocked);
   }
 
   /// Sets whether the background should be transparent.

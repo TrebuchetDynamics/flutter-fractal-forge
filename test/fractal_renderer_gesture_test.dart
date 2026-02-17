@@ -453,4 +453,36 @@ void main() {
 
     expect(controller.view.zoom, inInclusiveRange(1e-9, 1e12));
   });
+
+  testWidgets('Rotation lock prevents two-finger rotation updates',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    controller.setRotationLocked(true);
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final initialZ = controller.view.rotation.z;
+    final center = tester.getCenter(find.byType(FractalRenderer));
+
+    final g1 = await tester.createGesture(pointer: 1);
+    final g2 = await tester.createGesture(pointer: 2);
+
+    await g1.down(center + const Offset(-40, 0));
+    await g2.down(center + const Offset(40, 0));
+    await tester.pump();
+
+    // Twist the two pointers around center to simulate rotation.
+    await g1.moveTo(center + const Offset(-20, -25));
+    await g2.moveTo(center + const Offset(20, 25));
+    await tester.pump();
+
+    await g1.up();
+    await g2.up();
+    await tester.pumpAndSettle();
+
+    expect(controller.view.rotation.z, equals(initialZ));
+  });
 }
