@@ -282,6 +282,12 @@
   },
   "hotPaths": [
     {
+      "path": "",
+      "accessCount": 10,
+      "lastAccessed": 1771290292095,
+      "type": "directory"
+    },
+    {
       "path": "lib/core/modules/test_shaders_module.dart",
       "accessCount": 9,
       "lastAccessed": 1771289175511,
@@ -298,6 +304,12 @@
       "accessCount": 7,
       "lastAccessed": 1771289181797,
       "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app",
+      "accessCount": 5,
+      "lastAccessed": 1771290286465,
+      "type": "directory"
     },
     {
       "path": "scripts/run-emulator-app.sh",
@@ -330,6 +342,12 @@
       "type": "file"
     },
     {
+      "path": "GPU_EMULATOR_FIX.md",
+      "accessCount": 4,
+      "lastAccessed": 1771290317804,
+      "type": "file"
+    },
+    {
       "path": "lib/features/viewer/fractal_viewer_screen.dart",
       "accessCount": 3,
       "lastAccessed": 1771286830585,
@@ -348,16 +366,16 @@
       "type": "file"
     },
     {
-      "path": "lib",
-      "accessCount": 2,
-      "lastAccessed": 1771286838911,
-      "type": "directory"
+      "path": "exploration-vulkan-ndk-app/README.md",
+      "accessCount": 3,
+      "lastAccessed": 1771290276774,
+      "type": "file"
     },
     {
-      "path": "GPU_EMULATOR_FIX.md",
-      "accessCount": 2,
-      "lastAccessed": 1771287083496,
-      "type": "file"
+      "path": "lib",
+      "accessCount": 3,
+      "lastAccessed": 1771290310973,
+      "type": "directory"
     },
     {
       "path": "lib/core/models/fractal_preset.dart",
@@ -381,6 +399,48 @@
       "path": "shaders/test_always_red.frag",
       "accessCount": 2,
       "lastAccessed": 1771289581848,
+      "type": "file"
+    },
+    {
+      "path": "PRD.md",
+      "accessCount": 2,
+      "lastAccessed": 1771290277181,
+      "type": "file"
+    },
+    {
+      "path": "AGENTS.md",
+      "accessCount": 2,
+      "lastAccessed": 1771290277640,
+      "type": "file"
+    },
+    {
+      "path": "docs/cpu_vs_gpu_rendering.md",
+      "accessCount": 2,
+      "lastAccessed": 1771290278071,
+      "type": "file"
+    },
+    {
+      "path": "SHADER_OPTIMIZATIONS.md",
+      "accessCount": 2,
+      "lastAccessed": 1771290278659,
+      "type": "file"
+    },
+    {
+      "path": "docs/renderer_backend_matrix.md",
+      "accessCount": 2,
+      "lastAccessed": 1771290279267,
+      "type": "file"
+    },
+    {
+      "path": "DEVELOPMENT.md",
+      "accessCount": 2,
+      "lastAccessed": 1771290292189,
+      "type": "file"
+    },
+    {
+      "path": "docs/gpu_emulator_validation.md",
+      "accessCount": 2,
+      "lastAccessed": 1771290317366,
       "type": "file"
     },
     {
@@ -462,12 +522,6 @@
       "type": "file"
     },
     {
-      "path": "DEVELOPMENT.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286365919,
-      "type": "file"
-    },
-    {
       "path": "lib/features/renderer/fractal_canvas.dart",
       "accessCount": 1,
       "lastAccessed": 1771286796415,
@@ -516,16 +570,16 @@
       "type": "file"
     },
     {
-      "path": "exploration-vulkan-ndk-app/README.md",
+      "path": "README.md",
       "accessCount": 1,
-      "lastAccessed": 1771290203278,
+      "lastAccessed": 1771290269004,
       "type": "file"
     },
     {
-      "path": "exploration-vulkan-ndk-app",
+      "path": "PERFORMANCE.md",
       "accessCount": 1,
-      "lastAccessed": 1771290217699,
-      "type": "directory"
+      "lastAccessed": 1771290278112,
+      "type": "file"
     }
   ],
   "userDirectives": []
