@@ -497,7 +497,7 @@ class _FractalMorphTransitionState extends State<FractalMorphTransition>
                   ..setEntry(3, 2, 0.001)
                   ..rotateY(morphValue * math.pi * 0.1),
                 child: Opacity(
-                  opacity: 1.0 - morphValue * 0.3 + (1 - morphValue) * 0.3,
+                  opacity: 1.0 - morphValue * 0.3,
                   child: widget.child,
                 ),
               ),
