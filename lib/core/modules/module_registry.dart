@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/modules/julia_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/nova_module.dart';
 import 'package:flutter_fractals/core/modules/phoenix_module.dart';
+import 'package:flutter_fractals/core/modules/test_shaders_module.dart';
 
 /// Registry of all available fractal modules.
 ///
@@ -63,7 +64,13 @@ class ModuleRegistry {
 
     // Diagnostics (debug only, always last)
     final diagModules = kDebugMode
-        ? [buildGpuGradientModule(), buildGpuSamplerDiagModule()]
+        ? [
+            testMinimalModule,
+            testGlFragCoordModule,
+            testFlutterCoordModule,
+            buildGpuGradientModule(),
+            buildGpuSamplerDiagModule(),
+          ]
         : <FractalModule>[];
 
     // Merge: catalog first (Mandelbrot at top), then custom, then diag.

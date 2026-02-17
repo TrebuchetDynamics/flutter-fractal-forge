@@ -41,6 +41,9 @@ flutter:
   assets:
     - assets/catalog_thumbs/
   shaders:
+    - shaders/test_minimal.frag
+    - shaders/test_gl_fragcoord.frag
+    - shaders/test_flutter_coord.frag
     - shaders/mandelbulb.frag
     - shaders/mandelbrot.frag
     - shaders/julia.frag

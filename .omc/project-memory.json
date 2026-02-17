@@ -282,6 +282,36 @@
   },
   "hotPaths": [
     {
+      "path": "lib/core/modules/module_registry.dart",
+      "accessCount": 4,
+      "lastAccessed": 1771286934913,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/fractal_viewer_screen.dart",
+      "accessCount": 3,
+      "lastAccessed": 1771286830585,
+      "type": "file"
+    },
+    {
+      "path": "pubspec.yaml",
+      "accessCount": 3,
+      "lastAccessed": 1771286906199,
+      "type": "file"
+    },
+    {
+      "path": "lib",
+      "accessCount": 2,
+      "lastAccessed": 1771286838911,
+      "type": "directory"
+    },
+    {
+      "path": "lib/core/modules",
+      "accessCount": 2,
+      "lastAccessed": 1771286922563,
+      "type": "directory"
+    },
+    {
       "path": "app.description.md",
       "accessCount": 1,
       "lastAccessed": 1771286140673,
@@ -363,6 +393,72 @@
       "path": "DEVELOPMENT.md",
       "accessCount": 1,
       "lastAccessed": 1771286365919,
+      "type": "file"
+    },
+    {
+      "path": "scripts/run-emulator-app.sh",
+      "accessCount": 1,
+      "lastAccessed": 1771286692806,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/fractal_canvas.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771286796415,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/backend_policy.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771286796954,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/fractal_module.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771286810439,
+      "type": "file"
+    },
+    {
+      "path": "shaders/mandelbrot.frag",
+      "accessCount": 1,
+      "lastAccessed": 1771286828912,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/render_validation.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771286841715,
+      "type": "file"
+    },
+    {
+      "path": "shaders/test_minimal.frag",
+      "accessCount": 1,
+      "lastAccessed": 1771286889992,
+      "type": "file"
+    },
+    {
+      "path": "shaders/test_gl_fragcoord.frag",
+      "accessCount": 1,
+      "lastAccessed": 1771286893018,
+      "type": "file"
+    },
+    {
+      "path": "shaders/test_flutter_coord.frag",
+      "accessCount": 1,
+      "lastAccessed": 1771286895305,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/test_shaders_module.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771286917581,
+      "type": "file"
+    },
+    {
+      "path": "GPU_EMULATOR_FIX.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286973376,
       "type": "file"
     }
   ],
