@@ -10,32 +10,37 @@ void main() {
     const policy = DeepZoomPrecisionPolicy();
 
     test('uses per-fractal thresholds for CPU fallback', () {
-      expect(policy.thresholdFor('mandelbrot'), 1e5);
-      expect(policy.thresholdFor('julia'), 5e4);
-      expect(policy.thresholdFor('celtic'), 5e4);
-      expect(policy.thresholdFor('buffalo'), 5e4);
+      // Raised from 1e5/5e4 to 1e7/5e6: float32 GPU can accurately render
+      // further than the old conservative values.
+      expect(policy.thresholdFor('mandelbrot'), 1e7);
+      expect(policy.thresholdFor('julia'), 5e6);
+      expect(policy.thresholdFor('celtic'), 5e6);
+      expect(policy.thresholdFor('buffalo'), 5e6);
     });
 
     test('provides default threshold for unlisted fractals', () {
-      expect(policy.thresholdFor('some_unknown'), 2e5);
+      // Raised from 2e5 to 1e8: simple fractals tolerate higher GPU zoom.
+      expect(policy.thresholdFor('some_unknown'), 1e8);
     });
 
     test('fallback toggles at threshold', () {
+      // GPU stays active up to the new higher threshold.
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 179.9),
+        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e6),
         isFalse,
       );
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e5),
+        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e7),
         isTrue,
       );
-      // Unlisted fractals use default threshold (2e5)
+      // Unlisted fractals use default threshold (1e8)
+      // 'some_unknown' is not in the per-module map, so it gets _defaultThreshold.
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'tricorn', zoom: 10000),
+        policy.shouldUseCpuFallback(moduleId: 'some_unknown', zoom: 5e7),
         isFalse,
       );
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'tricorn', zoom: 5e4),
+        policy.shouldUseCpuFallback(moduleId: 'some_unknown', zoom: 1e8),
         isTrue,
       );
     });

@@ -49,6 +49,7 @@ import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
+import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/debug/log_viewer_screen.dart';
 import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
@@ -68,16 +69,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     defaultValue: false,
   );
 
-  // Widget tests run with a stripped-down engine; treat those runs as "test"
-  // so we can exercise renderer-dependent UI even when real GPU features are disabled.
-  static final bool _isTest = (() {
-    var v = false;
-    assert(() {
-      v = true;
-      return true;
-    }());
-    return v || const bool.fromEnvironment('FLUTTER_TEST');
-  })();
+  bool get _isTest => RuntimeModeService.isAutomatedTest;
 
   final GlobalKey _fractalKeyA = GlobalKey();
   final GlobalKey _fractalKeyB = GlobalKey();
@@ -132,8 +124,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   double? _lastZoom;
   String? _lastModuleId;
 
-  // Deep-zoom precision indicator
+  // Deep-zoom precision indicator + hysteresis filter
+  // (avoids rapid GPU↔CPU flicker when zooming near the threshold)
   bool _deepZoomPrecisionActive = false;
+  final DeepZoomHysteresis _dzHysteresis = DeepZoomHysteresis();
 
   // Auto-explore service
   AutoExploreService? _autoExploreService;
@@ -216,13 +210,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   void _refreshBackendDecision() {
     final controller = context.read<FractalController>();
-    const dzPolicy = DeepZoomPrecisionPolicy();
 
     final mode = context.read<RendererSettingsService>().backendMode;
 
     final oldBackend = _backendDecision.backend;
     final currentModuleId = controller.module.id;
     final moduleChanged = _lastBackendDecisionModuleId != currentModuleId;
+
+    // Reset hysteresis on module change so we start fresh for the new fractal.
+    if (moduleChanged) _dzHysteresis.reset();
 
     final newDecision = _backendPolicy.decide(
       BackendPolicyInput(
@@ -231,7 +227,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         isEmulator: _isAndroidEmulator,
         userMode: mode,
         gpuHealthFailed: _gpuHealthFailed,
-        deepZoomNeedsCpu: dzPolicy.shouldUseCpuFallback(
+        deepZoomNeedsCpu: _dzHysteresis.update(
           moduleId: controller.module.id,
           zoom: controller.view.zoom,
         ),
@@ -302,6 +298,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   void _scheduleGpuHealthCheck() {
     _gpuHealthTimer?.cancel();
+    if (RuntimeModeService.useRendererPlaceholderSurface) {
+      return;
+    }
     _gpuHealthTimer = Timer(const Duration(seconds: 2), () async {
       if (!mounted) return;
       if (_compareMode) return;
@@ -458,9 +457,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _scheduleGpuHealthCheck();
     }
 
-    // Deep-zoom precision indicator
-    const dzPolicy = DeepZoomPrecisionPolicy();
-    final dzActive = dzPolicy.shouldUseCpuFallback(
+    // Deep-zoom precision indicator — uses same hysteresis state as decision
+    // so the UI badge and backend decision stay in sync.
+    final dzActive = _dzHysteresis.update(
       moduleId: controller.module.id,
       zoom: controller.view.zoom,
     );
