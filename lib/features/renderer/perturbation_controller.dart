@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 typedef DD = ({double hi, double lo});
@@ -82,23 +81,31 @@ List<(double zr, double zi)>? computeReferenceOrbit({
   return orbit;
 }
 
+/// Encodes orbit as a ui.Image using Impeller-safe RG normalization.
+///
+/// Each float v (in range [-4, 4]) is stored in one RGBA pixel as:
+///   R = coarse: (v + 4.0) / 8.0          → [0, 1]
+///   G = fine:   fract((v + 4.0) / 8.0 * 256.0) / 256.0  → [0, 1/256]
+/// Shader decode: v = R * 8.0 - 4.0 + G * 8.0
+///
+/// Precision: 8/256 ≈ 0.031 per fine step — sufficient for orbit
+/// values within the bailout radius (≤ 8.0). Avoids all integer bit ops
+/// so it compiles cleanly under Impeller/SPIR-V.
+///
+/// Layout: width = n*2, height = 1
+///   pixel[n*2]   = zr encoding
+///   pixel[n*2+1] = zi encoding
 ui.Image encodeOrbitTexture(List<(double zr, double zi)> orbit) {
   final n = orbit.length;
   final pixelCount = n * 2;
-  final bytes = Uint8List(pixelCount * 4);
 
-  void encodeFloat(int pixelIdx, double value) {
-    final buf = ByteData(4)..setFloat32(0, value, Endian.little);
-    final base = pixelIdx * 4;
-    bytes[base] = buf.getUint8(0);
-    bytes[base + 1] = buf.getUint8(1);
-    bytes[base + 2] = buf.getUint8(2);
-    bytes[base + 3] = buf.getUint8(3);
-  }
-
-  for (var i = 0; i < n; i++) {
-    encodeFloat(i * 2, orbit[i].$1);
-    encodeFloat(i * 2 + 1, orbit[i].$2);
+  // Encode a float in [-4, 4] into (r, g) bytes [0..255]
+  (int r, int g) encodeFloat(double value) {
+    final mapped = (value.clamp(-4.0, 4.0) + 4.0) / 8.0; // [0, 1]
+    final scaled = mapped * 256.0;
+    final coarse = scaled.floor().clamp(0, 255);
+    final fine = ((scaled - coarse) * 255.0).round().clamp(0, 255);
+    return (coarse, fine);
   }
 
   final recorder = ui.PictureRecorder();
@@ -107,17 +114,17 @@ ui.Image encodeOrbitTexture(List<(double zr, double zi)> orbit) {
     ui.Rect.fromLTWH(0, 0, pixelCount.toDouble(), 1),
   );
 
-  for (var i = 0; i < pixelCount; i++) {
-    final base = i * 4;
-    final color = ui.Color.fromARGB(
-      bytes[base + 3],
-      bytes[base],
-      bytes[base + 1],
-      bytes[base + 2],
+  for (var i = 0; i < n; i++) {
+    final (rR, gR) = encodeFloat(orbit[i].$1); // zr
+    final (rI, gI) = encodeFloat(orbit[i].$2); // zi
+
+    canvas.drawRect(
+      ui.Rect.fromLTWH((i * 2).toDouble(), 0, 1, 1),
+      ui.Paint()..color = ui.Color.fromARGB(255, rR, gR, 0),
     );
     canvas.drawRect(
-      ui.Rect.fromLTWH(i.toDouble(), 0, 1, 1),
-      ui.Paint()..color = color,
+      ui.Rect.fromLTWH((i * 2 + 1).toDouble(), 0, 1, 1),
+      ui.Paint()..color = ui.Color.fromARGB(255, rI, gI, 0),
     );
   }
 
