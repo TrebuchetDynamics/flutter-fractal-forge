@@ -17,6 +17,15 @@ uniform float uTransparentBg;
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
 // Precomputed rotation matrix (computed once in main)
 mat3 gRotation;
 
@@ -283,11 +292,11 @@ void main() {
         float fog = exp(-dist * 0.15);
         color = mix(vec3(0.02), color, fog);
         
-        fragColor = vec4(color, 1.0);
+        fragColor = vec4(linearToSRGB(color), 1.0);
     } else {
         // Background
         vec3 bgColor = mix(vec3(0.02), vec3(0.05, 0.05, 0.1), uv.y * 0.5 + 0.5);
         float alpha = mix(1.0, 0.0, step(0.5, uTransparentBg));
-        fragColor = vec4(bgColor, alpha);
+        fragColor = vec4(linearToSRGB(bgColor), alpha);
     }
 }

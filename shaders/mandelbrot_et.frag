@@ -24,34 +24,45 @@ uniform vec4  uCustomStop7;     // 39-42
 
 out vec4 fragColor;
 
-vec3 builtinPalette(float t, int scheme) {
-  t = clamp(t, 0.0, 1.0);
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
+vec3 palette(float t, int scheme) {
   if (scheme == 0) {
-    // Fire
     return vec3(
-      0.5 + 0.5 * cos(6.28318 * (1.0 * t + 0.00)),
-      0.5 + 0.5 * cos(6.28318 * (1.0 * t + 0.33)),
-      0.5 + 0.5 * cos(6.28318 * (1.0 * t + 0.67))
+      0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.4)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.7))
     );
-  }
-  if (scheme == 1) {
-    // Ocean
+  } else if (scheme == 1) {
     return vec3(
-      0.5 + 0.5 * cos(6.28318 * (1.0 * t + 0.50)),
-      0.5 + 0.5 * cos(6.28318 * (1.0 * t + 0.60)),
-      0.5 + 0.5 * cos(6.28318 * (1.0 * t + 0.70))
+      0.5 + 0.5 * cos(6.28318 * (t + 0.5)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.3)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.0))
     );
-  }
-  if (scheme == 2) {
-    // Psychedelic
+  } else if (scheme == 2) {
     return vec3(
-      0.5 + 0.5 * sin(6.28318 * t * 3.0),
-      0.5 + 0.5 * sin(6.28318 * t * 5.0 + 2.0),
-      0.5 + 0.5 * sin(6.28318 * t * 7.0 + 4.0)
+      0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.33)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.67))
     );
+  } else if (scheme == 3) {
+    float g = 0.5 + 0.5 * cos(6.28318 * t);
+    return vec3(g);
   }
-  // Grayscale
-  return vec3(t);
+  float s = float(scheme);
+  vec3 a = 0.55 + 0.15 * sin(vec3(1.0, 2.0, 3.0) * (0.37 * s + 0.1));
+  vec3 b = 0.45 + 0.25 * cos(vec3(1.7, 2.3, 2.9) * (0.29 * s + 0.2));
+  vec3 c = 1.0  + 0.80 * sin(vec3(0.8, 1.3, 1.7) * (0.11 * s + 0.3));
+  vec3 d = fract(sin(vec3(12.9898, 78.233, 37.719) * (s + 0.5)) * 43758.5453);
+  vec3 col = a + b * cos(6.28318 * (c * t + d));
+  return clamp(col, 0.0, 1.0);
 }
 
 vec3 sampleCustomPalette(float t) {
@@ -89,12 +100,6 @@ vec3 sampleCustomPalette(float t) {
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
 
-  // HARD DIAGNOSTIC: force a visible gradient first.
-  // If this is still black on S24, the issue is NOT Mandelbrot math.
-  vec2 uv01_diag = fragCoord / max(uResolution, vec2(1.0));
-  fragColor = vec4(uv01_diag.x, 0.25, uv01_diag.y, 1.0);
-  return;
-
   // Map pixels -> complex plane
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
@@ -102,11 +107,14 @@ void main() {
 
   vec2 z = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
+  int scheme = int(uColorScheme);
 
-  // Driver-friendly fixed loop.
+  // Driver-friendly fixed loop + orbit trap accumulators.
   const int MAX_ITERS = 500;
   int it = 0;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
+  float minDistSq  = 1e9; // scheme 10: point trap at origin
+  float crossDist  = 1e9; // scheme 11: cross trap (min |Re(z)| or |Im(z)|)
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
@@ -114,32 +122,46 @@ void main() {
     // z = z^2 + c
     z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
 
-    if (dot(z, z) > bailoutSq) { it = j; break; }
+    // Orbit trap accumulators (always updated, cheap).
+    float dSq = dot(z, z);
+    minDistSq = min(minDistSq, dSq);
+    crossDist = min(crossDist, min(abs(z.x), abs(z.y)));
+
+    if (dSq > bailoutSq) { it = j; break; }
     it = j + 1;
   }
 
+  // Orbit trap coloring (schemes 10-11): colour all points, ignore set membership.
+  if (scheme == 10) {
+    // Point trap at origin: colour by closest approach distance.
+    float d = clamp(sqrt(minDistSq) / uBailout, 0.0, 1.0);
+    float t = fract(d * 3.0 + uTime * 0.0001);
+    fragColor = vec4(linearToSRGB(palette(t, 0)), 1.0);
+    return;
+  }
+  if (scheme == 11) {
+    // Cross trap: colour by closest approach to real or imaginary axis.
+    float d = clamp(crossDist * 4.0, 0.0, 1.0);
+    float t = fract(d * 2.0 + uTime * 0.0001);
+    fragColor = vec4(linearToSRGB(palette(t, 1)), 1.0);
+    return;
+  }
+
   if (it >= target) {
-    // inside set
+    // Inside set (standard escape-time modes).
     if (uTransparentBg > 0.5) fragColor = vec4(0.0, 0.0, 0.0, 0.0);
     else fragColor = vec4(0.0, 0.0, 0.0, 1.0);
     return;
   }
 
-  // Smooth-ish coloring
   float mag2 = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2));
+  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
   float t = fract(smoothVal / 64.0);
   t = fract(t + uTime * 0.0001);
 
-  // Debug-friendly coloring: mix palette with a coordinate tint so we can
-  // visually confirm we're not outputting all-black.
   vec3 col;
   if (uCustomStopCount > 0.5) col = sampleCustomPalette(t);
-  else col = builtinPalette(t, int(uColorScheme));
+  else col = palette(t, scheme);
 
-  // Add a tiny UV-based tint (should be visible even if palette is dark).
-  vec2 uv01 = fragCoord / max(uResolution, vec2(1.0));
-  col = clamp(col + vec3(0.15 * uv01.x, 0.0, 0.15 * uv01.y), 0.0, 1.0);
-
-  fragColor = vec4(col, 1.0);
+  fragColor = vec4(linearToSRGB(col), 1.0);
 }

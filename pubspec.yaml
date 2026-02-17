@@ -61,7 +61,11 @@ flutter:
     - shaders/diag_sampler.frag
     - shaders/mandel_step_escape.frag
     - shaders/mandel_step_smooth.frag
+    - shaders/mandelbrot_df2.frag
+    - shaders/post_glow_h.frag
+    - shaders/post_glow_v.frag
     - shaders/julia_gpu.frag
+    - shaders/mandel_julia_dual_gpu.frag
     - shaders/burning_ship_gpu.frag
     - shaders/phoenix_gpu.frag
     - shaders/tricorn_gpu.frag

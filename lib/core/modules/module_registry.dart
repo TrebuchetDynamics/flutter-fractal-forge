@@ -3,6 +3,7 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
 import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
+import 'package:flutter_fractals/core/modules/julia_dual_module.dart';
 import 'package:flutter_fractals/core/modules/julia_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/nova_module.dart';
@@ -54,6 +55,8 @@ class ModuleRegistry {
     final customModules = <FractalModule>[
       // Julia needs extra seed params (cx, cy)
       if (!catalogIds.contains('julia')) buildJuliaModule(),
+      // Julia Dual: side-by-side Mandelbrot + Julia viewer
+      if (!catalogIds.contains('julia_dual')) buildJuliaDualModule(),
       // Phoenix needs extra (p, q) params
       if (!catalogIds.contains('phoenix')) buildPhoenixModule(),
       // Nova needs relaxation param instead of bailout
@@ -91,10 +94,12 @@ class ModuleRegistry {
         result.addAll(nova);
       }
       result.add(catalogModules[i]);
-      // Insert Julia right after Mandelbrot
+      // Insert Julia and Julia Dual right after Mandelbrot
       if (i == mandelbrotIdx) {
         final julia = customModules.where((m) => m.id == 'julia');
         result.addAll(julia);
+        final juliaDual = customModules.where((m) => m.id == 'julia_dual');
+        result.addAll(juliaDual);
       }
       // Insert Phoenix right after Burning Ship
       if (i == burningShipIdx) {

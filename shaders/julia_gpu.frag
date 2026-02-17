@@ -16,6 +16,15 @@ uniform float uTransparentBg; // 11
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(
@@ -58,16 +67,35 @@ void main() {
   vec2 c = vec2(uJuliaReal, uJuliaImag);
 
   float bailoutSq = uBailout * uBailout;
+  int scheme = int(uColorScheme);
 
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float minDistSq = 1e9; // scheme 10: point trap at origin
+  float crossDist = 1e9; // scheme 11: cross trap
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
     z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
-    if (dot(z, z) > bailoutSq) { it = j; break; }
+    float dSq = dot(z, z);
+    minDistSq = min(minDistSq, dSq);
+    crossDist = min(crossDist, min(abs(z.x), abs(z.y)));
+    if (dSq > bailoutSq) { it = j; break; }
     it = j + 1;
+  }
+
+  if (scheme == 10) {
+    float d = clamp(sqrt(minDistSq) / uBailout, 0.0, 1.0);
+    float t = fract(d * 3.0 + uTime * 0.0001);
+    fragColor = vec4(linearToSRGB(palette(t, 0)), 1.0);
+    return;
+  }
+  if (scheme == 11) {
+    float d = clamp(crossDist * 4.0, 0.0, 1.0);
+    float t = fract(d * 2.0 + uTime * 0.0001);
+    fragColor = vec4(linearToSRGB(palette(t, 1)), 1.0);
+    return;
   }
 
   if (it >= target) {
@@ -78,10 +106,10 @@ void main() {
   }
 
   float mag2 = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2));
+  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
   float t = fract(smoothVal / 64.0);
   t = fract(t + uTime * 0.0001);
 
-  vec3 color = palette(t, int(uColorScheme));
-  fragColor = vec4(color, 1.0);
+  vec3 color = palette(t, scheme);
+  fragColor = vec4(linearToSRGB(color), 1.0);
 }
