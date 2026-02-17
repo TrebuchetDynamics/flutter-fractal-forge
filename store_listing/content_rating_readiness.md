@@ -1,25 +1,39 @@
 # Play Store Content Rating Questionnaire Readiness
 
-Updated: 2026-02-16 23:46 CST (America/Monterrey)
+Updated: 2026-02-17 01:50 CST (America/Monterrey)
+Status: Finalized for first upload (pending actual Play Console form submission)
 
-## Planned app classification inputs (draft)
-- **App category intent:** Education / Entertainment (final category to be selected in Play Console).
-- **Primary functionality:** Interactive fractal exploration and visualization.
-- **User-generated content:** No social posting or public UGC feed.
-- **Online interaction:** No public chat, no direct user-to-user communication.
-- **Location sharing:** No.
-- **Personal data collection for advertising:** No ad SDK configured in app module.
+## App profile used for IARC answers
+- App type: Fractal exploration and visualization
+- Target audience: General
+- User-generated content: No
+- User-to-user interaction: No
+- Ads shown in app: No
+- In-app purchases: No
+- Gambling functionality: No
+- Real-money transactions: No
+- Location tracking/collection: No
+- Personal data sale/sharing: No
+- Social networking features: No
 
-## Potentially sensitive capability declarations
-- **Camera permission present** (`android.permission.CAMERA`), used for AR mode experiments.
-  - Questionnaire answer should reflect optional camera usage and no mature/violent content.
-- **Media read permissions present** (`READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO`) for local media workflows.
+## Explicit questionnaire answers (fill these in exactly)
+1. **Does the app include user-generated content visible to other users?** → **No**
+2. **Can users communicate with each other (chat/messages/forums)?** → **No**
+3. **Does the app share user location or use location tracking?** → **No**
+4. **Does the app contain ads/ad targeting SDKs?** → **No**
+5. **Does the app offer in-app purchases or paid loot mechanics?** → **No**
+6. **Does the app include gambling, betting, or real-money rewards?** → **No**
+7. **Does the app include sexual content/nudity?** → **No**
+8. **Does the app include realistic violence/gore?** → **No**
+9. **Does the app include hate speech/discrimination content?** → **No**
+10. **Does the app include controlled substances/alcohol/tobacco encouragement?** → **No**
+11. **Does the app include horror/fear themes likely to distress children?** → **No**
 
-## Suggested pre-submit checklist
-1. Confirm final Play Console category.
-2. Verify camera/AR flow is clearly explained in store listing privacy text.
-3. Complete IARC questionnaire with the exact capabilities above.
-4. Save questionnaire confirmation screenshot to `store_listing/` for release audit trail.
+## Notes for first submission
+- Content is mathematical/visual fractal rendering only.
+- There are no backend servers required for app operation.
+- If optional AR/camera features are re-introduced later, re-run this checklist before the next release.
 
-## Blockers
-- None technical. Final content rating answers require Play Console submission context.
+## Remaining manual console steps
+- Submit these answers inside Play Console IARC flow.
+- Save completion screenshot as `store_listing/content_rating_submission_proof.png` once submitted.
