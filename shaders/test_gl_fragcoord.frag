@@ -1,5 +1,7 @@
 // Test shader using gl_FragCoord (standard GLSL, not Flutter helper)
 
+#include <flutter/runtime_effect.glsl>
+
 precision mediump float;
 
 uniform vec2 uResolution;

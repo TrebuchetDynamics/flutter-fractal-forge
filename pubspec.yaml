@@ -41,6 +41,8 @@ flutter:
   assets:
     - assets/catalog_thumbs/
   shaders:
+    - shaders/test_always_red.frag
+    - shaders/test_uniform_only.frag
     - shaders/test_minimal.frag
     - shaders/test_gl_fragcoord.frag
     - shaders/test_flutter_coord.frag

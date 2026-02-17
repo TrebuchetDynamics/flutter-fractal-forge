@@ -1,6 +1,8 @@
 // Minimal test shader for SwiftShader debugging
 // Test 1: Just output a constant color - no uniforms, no functions
 
+#include <flutter/runtime_effect.glsl>
+
 precision mediump float;
 
 out vec4 fragColor;

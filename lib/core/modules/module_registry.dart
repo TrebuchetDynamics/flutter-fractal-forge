@@ -65,6 +65,8 @@ class ModuleRegistry {
     // Diagnostics (debug only, always last)
     final diagModules = kDebugMode
         ? [
+            testAlwaysRedModule,
+            testUniformOnlyModule,
             testMinimalModule,
             testGlFragCoordModule,
             testFlutterCoordModule,

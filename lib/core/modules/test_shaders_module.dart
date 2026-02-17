@@ -85,3 +85,55 @@ final FractalModule testFlutterCoordModule = FractalModule(
     shader.setFloat(1, size.height);
   },
 );
+
+/// Test 4: Always red - no uniforms, no conditions, just constant red output
+final FractalModule testAlwaysRedModule = FractalModule(
+  id: 'test_always_red',
+  displayName: (AppLocalizations l10n) => 'Test: ALWAYS RED (no uniforms)',
+  dimension: FractalDimension.twoD,
+  shaderAsset: 'shaders/test_always_red.frag',
+  parameters: const <FractalParameter>[],
+  defaultPreset: FractalPreset(
+    id: 'test_always_red_default',
+    name: 'Default',
+    moduleId: 'test_always_red',
+    params: const {},
+    view: FractalViewState(
+      pan: Vector2.zero(),
+      zoom: 1.0,
+      rotation: Vector3.zero(),
+    ),
+    createdAt: DateTime(2026),
+  ),
+  builtInPresets: const [],
+  setUniforms: (shader, state, size, time) {
+    // NO UNIFORMS - not even trying to set them
+  },
+);
+
+/// Test 5: Uniform test - outputs green if uResolution.x > 100, red otherwise
+final FractalModule testUniformOnlyModule = FractalModule(
+  id: 'test_uniform_only',
+  displayName: (AppLocalizations l10n) => 'Test: Uniform Check (Green/Red)',
+  dimension: FractalDimension.twoD,
+  shaderAsset: 'shaders/test_uniform_only.frag',
+  parameters: const <FractalParameter>[],
+  defaultPreset: FractalPreset(
+    id: 'test_uniform_only_default',
+    name: 'Default',
+    moduleId: 'test_uniform_only',
+    params: const {},
+    view: FractalViewState(
+      pan: Vector2.zero(),
+      zoom: 1.0,
+      rotation: Vector3.zero(),
+    ),
+    createdAt: DateTime(2026),
+  ),
+  builtInPresets: const [],
+  setUniforms: (shader, state, size, time) {
+    // Set resolution - shader will show green if this reaches the GPU correctly
+    shader.setFloat(0, size.width);
+    shader.setFloat(1, size.height);
+  },
+);
