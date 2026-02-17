@@ -280,6 +280,91 @@
       ]
     }
   },
-  "hotPaths": [],
+  "hotPaths": [
+    {
+      "path": "app.description.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286140673,
+      "type": "file"
+    },
+    {
+      "path": "audience_and_naming.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286141152,
+      "type": "file"
+    },
+    {
+      "path": "ar.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286141666,
+      "type": "file"
+    },
+    {
+      "path": "desktop.screenshots.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286142052,
+      "type": "file"
+    },
+    {
+      "path": "emulator.automated.testing.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286142446,
+      "type": "file"
+    },
+    {
+      "path": "flutter.android.install.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286142859,
+      "type": "file"
+    },
+    {
+      "path": "BLOCKER_REPORT_2026-02-13.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286150663,
+      "type": "file"
+    },
+    {
+      "path": "BUG_INVENTORY_2026-02-13.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286151218,
+      "type": "file"
+    },
+    {
+      "path": "BUG_INVENTORY_SUMMARY.txt",
+      "accessCount": 1,
+      "lastAccessed": 1771286151943,
+      "type": "file"
+    },
+    {
+      "path": "DELIVERY_2026-02-13.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286152482,
+      "type": "file"
+    },
+    {
+      "path": "store-listing.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286152998,
+      "type": "file"
+    },
+    {
+      "path": "UI_UX_DIAGRAM_README.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286153632,
+      "type": "file"
+    },
+    {
+      "path": "STORE_LISTING.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286257019,
+      "type": "file"
+    },
+    {
+      "path": "DEVELOPMENT.md",
+      "accessCount": 1,
+      "lastAccessed": 1771286365919,
+      "type": "file"
+    }
+  ],
   "userDirectives": []
 }
