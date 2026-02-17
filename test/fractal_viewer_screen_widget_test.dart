@@ -209,12 +209,19 @@ void main() {
         await tester.pumpWidget(buildTestWidget());
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 100));
-        await tester.pump(const Duration(milliseconds: 700));
 
         // Basic sanity: the screen should build and not throw.
         expect(find.byType(Scaffold), findsOneWidget);
         expect(tester.takeException(), isNull);
+
+        // Avoid long-running debounce carryover between module swaps.
+        historyProvider.cancelPendingRecord();
       }
+
+      // Ensure pending async work is drained before teardown.
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+      historyProvider.cancelPendingRecord();
     });
   });
 }
