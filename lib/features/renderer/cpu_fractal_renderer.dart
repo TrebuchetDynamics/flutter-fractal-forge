@@ -31,12 +31,20 @@ class CpuFractalRenderer extends StatefulWidget {
   final int width;
   final int height;
 
+  /// Called when a partial CPU frame is available.
+  final VoidCallback? onPartial;
+
+  /// Called when slow mode active state changes.
+  final ValueChanged<bool>? onSlowModeActiveChanged;
+
   const CpuFractalRenderer({
     super.key,
     required this.module,
     required this.state,
     this.width = 360,
     this.height = 360,
+    this.onPartial,
+    this.onSlowModeActiveChanged,
   });
 
   @override
@@ -58,6 +66,10 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   bool _isConverged = false;
 
   CpuTileWorker? _worker;
+
+  int? _slowModeRow;
+  int? _slowModeTotal;
+  bool _slowModeActive = false;
 
   // Preview vs refine rendering.
   DateTime? _lastInteractionAt;
@@ -88,6 +100,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   void dispose() {
     _debounce?.cancel();
     _refineTimer?.cancel();
+    _setSlowModeActive(false);
     _worker?.dispose();
     super.dispose();
   }
@@ -100,7 +113,8 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
   /// Checks frame-to-frame convergence and updates iteration budget.
   /// Returns adjusted iteration count based on convergence result.
-  int _checkConvergence(Uint8List currentBuffer, int width, int height, int currentIterations) {
+  int _checkConvergence(
+      Uint8List currentBuffer, int width, int height, int currentIterations) {
     final prev = _previousFrameBuffer;
 
     if (prev == null || prev.length != currentBuffer.length) {
@@ -155,6 +169,18 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       }
       _renderRefine();
     });
+  }
+
+  void _setSlowModeActive(bool active) {
+    if (_slowModeActive == active) return;
+    if (mounted) {
+      setState(() {
+        _slowModeActive = active;
+      });
+    } else {
+      _slowModeActive = active;
+    }
+    widget.onSlowModeActiveChanged?.call(active);
   }
 
   static const int _tileSize = 96;
@@ -335,6 +361,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
             _image = img;
             _error = null;
           });
+          widget.onPartial?.call();
         },
       );
 
@@ -448,6 +475,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
             _image = img;
             _error = null;
           });
+          widget.onPartial?.call();
         },
       );
 
@@ -483,13 +511,102 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       setState(() {
         _image = img;
         _error = null;
+        _slowModeRow = null;
+        _slowModeTotal = null;
       });
+
+      // Start slow mode after refine completes.
+      _renderSlowMode();
     } catch (e) {
       if (!mounted || job != _job) return;
       setState(() {
         _image = null;
         _error = e;
       });
+    }
+  }
+
+  Future<void> _renderSlowMode() async {
+    final int job = ++_job;
+    _setSlowModeActive(true);
+
+    try {
+      final w = (widget.width * 2).clamp(400, 2160);
+      final h = (widget.height * 2).clamp(400, 3840);
+      final buffer = Uint8List(w * h * 4);
+      for (int i = 3; i < buffer.length; i += 4) {
+        buffer[i] = 255;
+      }
+
+      final baseIterations = _readInt(widget.state.params, 'iterations', 220);
+      final maxIterations = _iterationMaxForModule();
+      final bailout = _readDouble(widget.state.params, 'bailout', 4.0);
+      final juliaC = _juliaC(widget.state.params);
+      final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
+      final extra = (math.log(z) / math.ln2 * 32.0).round();
+      final iterations = (baseIterations + extra).clamp(50, maxIterations);
+
+      for (int row = 0; row < h; row++) {
+        if (!mounted || job != _job) {
+          _setSlowModeActive(false);
+          return;
+        }
+
+        final req = CpuTileRenderRequest(
+          moduleId: widget.module.id,
+          panX: widget.state.view.pan.x,
+          panY: widget.state.view.pan.y,
+          zoom: widget.state.view.zoom,
+          iterations: iterations,
+          bailout: bailout,
+          juliaCX: juliaC.x,
+          juliaCY: juliaC.y,
+          fullWidth: w,
+          fullHeight: h,
+          x0: 0,
+          y0: row,
+          w: w,
+          h: 1,
+          sampleCount: 4,
+        );
+
+        final worker = _worker;
+        if (worker == null) {
+          _setSlowModeActive(false);
+          return;
+        }
+        final resp = await worker.renderTile(req);
+
+        final dstOffset = row * w * 4;
+        buffer.setRange(dstOffset, dstOffset + w * 4, resp.rgba);
+
+        if (row % 8 == 0 || row == h - 1) {
+          final img =
+              await CpuRenderFrame(rgba: buffer, width: w, height: h).toImage();
+          if (!mounted || job != _job) {
+            _setSlowModeActive(false);
+            return;
+          }
+          setState(() {
+            _image = img;
+            _slowModeRow = row;
+            _slowModeTotal = h;
+            _error = null;
+          });
+          widget.onPartial?.call();
+        }
+      }
+
+      if (mounted && job == _job) {
+        setState(() {
+          _slowModeRow = null;
+          _slowModeTotal = null;
+        });
+      }
+      _setSlowModeActive(false);
+    } catch (_) {
+      _setSlowModeActive(false);
+      rethrow;
     }
   }
 
@@ -543,39 +660,77 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     if (img == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: SizedBox(
-              width: img.width.toDouble(),
-              height: img.height.toDouble(),
-              child: RawImage(image: img, filterQuality: FilterQuality.low),
-            ),
-          ),
-        ),
-        if (kDebugMode && _lastValidation != null)
-          Positioned(
-            left: 10,
-            top: 92,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                'CPU check: ${_lastValidation!.pass ? 'PASS' : 'WARN'} ratio=${_lastValidation!.nonBlackRatio.toStringAsFixed(3)}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final height =
+            constraints.maxHeight.isFinite ? constraints.maxHeight : 400.0;
+
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: img.width.toDouble(),
+                  height: img.height.toDouble(),
+                  child: RawImage(image: img, filterQuality: FilterQuality.low),
                 ),
               ),
             ),
-          ),
-      ],
+            if (_slowModeRow != null && _slowModeTotal != null)
+              Positioned(
+                top: (_slowModeRow! / _slowModeTotal! * height),
+                left: 0,
+                right: 0,
+                height: 2,
+                child: Container(color: Colors.cyan.withOpacity(0.6)),
+              ),
+            if (_slowModeActive)
+              Positioned(
+                top: 8,
+                left: 8,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.68),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.cyan.withOpacity(0.7)),
+                  ),
+                  child: const Text(
+                    'High Res ✦',
+                    style: TextStyle(
+                      color: Colors.cyan,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            if (kDebugMode && _lastValidation != null)
+              Positioned(
+                left: 10,
+                top: 92,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    'CPU check: ${_lastValidation!.pass ? 'PASS' : 'WARN'} ratio=${_lastValidation!.nonBlackRatio.toStringAsFixed(3)}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }

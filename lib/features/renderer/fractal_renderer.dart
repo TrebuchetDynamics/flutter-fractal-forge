@@ -99,6 +99,10 @@ class FractalRenderer extends StatefulWidget {
   /// When false, rendering uses a fixed time (frame is frozen).
   final bool animationEnabled;
 
+  /// Optional child override that keeps full gesture handling while
+  /// replacing the visual renderer content.
+  final Widget? overrideChild;
+
   /// Creates a [FractalRenderer] widget.
   const FractalRenderer({
     Key? key,
@@ -109,6 +113,7 @@ class FractalRenderer extends StatefulWidget {
     this.onOpenExport,
     this.onUserInteraction,
     this.animationEnabled = true,
+    this.overrideChild,
   }) : super(key: key);
 
   @override
@@ -1122,6 +1127,29 @@ class _FractalRendererState extends State<FractalRenderer>
         return content;
       }
 
+      return Listener(
+        onPointerDown: _onPointerDown,
+        onPointerMove: _onPointerMove,
+        onPointerUp: _onPointerUp,
+        onPointerCancel: _onPointerUp,
+        onPointerSignal: _onPointerSignal,
+        child: GestureDetector(
+          onScaleStart: _onScaleStart,
+          onScaleUpdate: _onScaleUpdate,
+          onScaleEnd: _onScaleEnd,
+          onDoubleTapDown: _onDoubleTapDown,
+          onDoubleTap: _onDoubleTapGesture,
+          onLongPressStart: _onLongPress,
+          child: content,
+        ),
+      );
+    }
+
+    if (widget.overrideChild != null) {
+      final content = widget.overrideChild!;
+      if (!widget.gesturesEnabled) {
+        return content;
+      }
       return Listener(
         onPointerDown: _onPointerDown,
         onPointerMove: _onPointerMove,

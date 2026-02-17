@@ -114,6 +114,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     reasonCode: FallbackReasonCode.none,
     detail: 'init',
   );
+  ui.Image? _lastGpuSnapshot;
 
   // History tracking
   FractalController? _lastController;
@@ -238,6 +239,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     // Add hysteresis to prevent rapid backend switching (flicker bug)
     // Only switch if decision changed AND enough time has passed
     if (newDecision.backend != oldBackend) {
+      if (oldBackend == RendererBackend.gpu &&
+          newDecision.backend == RendererBackend.cpu) {
+        unawaited(_captureLastGpuSnapshot());
+      }
       if (_gpuProbeActive) {
         _gpuProbeBackendSwitches++;
       }
@@ -269,6 +274,32 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
 
     _lastBackendDecisionModuleId = currentModuleId;
+  }
+
+  Future<void> _captureLastGpuSnapshot() async {
+    try {
+      final boundaryContext = _fractalKeyA.currentContext;
+      if (boundaryContext == null) return;
+      final renderObject = boundaryContext.findRenderObject();
+      if (renderObject is! RenderRepaintBoundary) return;
+
+      await WidgetsBinding.instance.endOfFrame;
+      if (!mounted || !renderObject.attached || !renderObject.hasSize) return;
+
+      final dpr = MediaQuery.of(context).devicePixelRatio.clamp(1.0, 2.0);
+      final snapshot = await renderObject.toImage(pixelRatio: dpr);
+      if (!mounted) {
+        snapshot.dispose();
+        return;
+      }
+      final previous = _lastGpuSnapshot;
+      setState(() {
+        _lastGpuSnapshot = snapshot;
+      });
+      previous?.dispose();
+    } catch (_) {
+      // Best effort only.
+    }
   }
 
   Future<ui.Image?> _captureProbeImage(
@@ -509,6 +540,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _statsService?.addExploreTime(elapsed);
     }
 
+    _lastGpuSnapshot?.dispose();
     _fabController.dispose();
     _debugRunner?.dispose();
     _performanceService.dispose();
@@ -683,7 +715,24 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         freezeFrame: _freezeFrameForExport,
                       )
                     : (_backendDecision.backend == RendererBackend.cpu
-                        ? _CpuFallbackPane(boundaryKey: _fractalKeyA)
+                        ? FractalRenderer(
+                            animationEnabled: !_freezeFrameForExport,
+                            onOpenControls: () => _openControls(context),
+                            onOpenPresets: () => _openPresets(context),
+                            onOpenExport: () => _openExport(context),
+                            onUserInteraction: _onAutoExploreUserCorrection,
+                            overrideChild: _CpuFallbackPane(
+                              boundaryKey: _fractalKeyA,
+                              initialSnapshot: _lastGpuSnapshot,
+                              onSnapshotFadeComplete: () {
+                                final snapshot = _lastGpuSnapshot;
+                                setState(() {
+                                  _lastGpuSnapshot = null;
+                                });
+                                snapshot?.dispose();
+                              },
+                            ),
+                          )
                         : ((controller.module.dimension ==
                                     FractalDimension.threeD) &&
                                 !_isTest
@@ -1776,30 +1825,39 @@ class _CpuFallbackBanner extends StatelessWidget {
 
 class _CpuFallbackPane extends StatefulWidget {
   final GlobalKey boundaryKey;
+  final ui.Image? initialSnapshot;
+  final VoidCallback? onSnapshotFadeComplete;
 
-  const _CpuFallbackPane({required this.boundaryKey});
+  const _CpuFallbackPane({
+    required this.boundaryKey,
+    this.initialSnapshot,
+    this.onSnapshotFadeComplete,
+  });
 
   @override
   State<_CpuFallbackPane> createState() => _CpuFallbackPaneState();
 }
 
 class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
-  double _lastScale = 1.0;
-  Timer? _heartbeat;
+  bool _showSnapshot = true;
+  bool _hasSeenPartial = false;
 
   @override
-  void initState() {
-    super.initState();
-    _heartbeat = Timer.periodic(const Duration(milliseconds: 450), (_) {
-      if (!mounted) return;
-      setState(() {});
-    });
+  void didUpdateWidget(covariant _CpuFallbackPane oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialSnapshot != oldWidget.initialSnapshot) {
+      _showSnapshot = widget.initialSnapshot != null;
+      _hasSeenPartial = false;
+    }
   }
 
-  @override
-  void dispose() {
-    _heartbeat?.cancel();
-    super.dispose();
+  void _handlePartial() {
+    if (_hasSeenPartial) return;
+    _hasSeenPartial = true;
+    if (widget.initialSnapshot == null) return;
+    setState(() {
+      _showSnapshot = false;
+    });
   }
 
   @override
@@ -1823,7 +1881,7 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
       transparentBackground: controller.transparentBackground,
     );
 
-    final content = RepaintBoundary(
+    return RepaintBoundary(
       key: widget.boundaryKey,
       child: Stack(
         children: [
@@ -1833,14 +1891,31 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
             ),
           ),
           Positioned.fill(
-            child: Opacity(
-              opacity: 0.45,
-              child: CpuFractalRenderer(
-                module: module,
-                state: state,
-              ),
+            child: CpuFractalRenderer(
+              module: module,
+              state: state,
+              onPartial: _handlePartial,
             ),
           ),
+          if (widget.initialSnapshot != null)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: AnimatedOpacity(
+                  opacity: _showSnapshot ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 400),
+                  onEnd: () {
+                    if (!_showSnapshot) {
+                      widget.onSnapshotFadeComplete?.call();
+                    }
+                  },
+                  child: RawImage(
+                    image: widget.initialSnapshot,
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.medium,
+                  ),
+                ),
+              ),
+            ),
           Positioned(
             top: 8,
             left: 8,
@@ -1851,9 +1926,9 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.white24),
               ),
-              child: Text(
+              child: const Text(
                 'Stable renderer active',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -1863,36 +1938,6 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
           ),
         ],
       ),
-    );
-
-    // Basic gesture support for CPU fallback.
-    return GestureDetector(
-      onScaleStart: (_) {
-        _lastScale = 1.0;
-      },
-      onScaleUpdate: (details) {
-        // Pan with one-finger drag (focalPointDelta) + zoom with pinch.
-        if (details.focalPointDelta != Offset.zero) {
-          final dx = details.focalPointDelta.dx;
-          final dy = details.focalPointDelta.dy;
-          // Google Maps style: direct constant mapping
-          final s = 0.003;
-          controller.updatePan(
-            Vector2(
-              controller.view.pan.x - dx * s,
-              controller.view.pan.y - dy * s,
-            ),
-          );
-        }
-
-        final scaleDelta = details.scale / _lastScale;
-        if (scaleDelta.isFinite && (scaleDelta - 1.0).abs() > 0.001) {
-          controller.updateZoom(
-              (controller.view.zoom * scaleDelta).clamp(0.05, 20000.0));
-        }
-        _lastScale = details.scale;
-      },
-      child: content,
     );
   }
 }
