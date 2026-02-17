@@ -7,3 +7,6 @@
 4	1062	1771292199761185933	CMakeFiles/fractal_engine.dir/jni_bridge.cpp.o	2a842a58619ff017
 4	1761	1771292200453193749	CMakeFiles/fractal_engine.dir/vulkan_engine.cpp.o	1dc60a0a5f4831a5
 1761	1789	1771292200492194190	/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/build/intermediates/cxx/Debug/1k3b5nr1/obj/x86_64/libfractal_engine.so	949e8fa67be80f61
+26	2638	1771360898041713478	CMakeFiles/fractal_engine.dir/jni_bridge.cpp.o	2a842a58619ff017
+26	8583	1771360903881569381	CMakeFiles/fractal_engine.dir/vulkan_engine.cpp.o	1dc60a0a5f4831a5
+8583	8751	1771360904206578631	/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/build/intermediates/cxx/Debug/1k3b5nr1/obj/x86_64/libfractal_engine.so	949e8fa67be80f61

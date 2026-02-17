@@ -131,4 +131,27 @@ Java_com_fractalforge_vulkan_MainActivity_nativeGetDeviceInfo(
     return env->NewStringUTF("{}");
 }
 
+JNIEXPORT void JNICALL
+Java_com_fractalforge_vulkan_MainActivity_nativeSetViewParams(
+    JNIEnv* /*env*/, jobject /*thiz*/,
+    jfloat cx, jfloat cy, jfloat zoom)
+{
+    std::lock_guard<std::mutex> lock(g_engineMutex);
+    if (g_engine) {
+        g_engine->setViewParams(cx, cy, zoom);
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_com_fractalforge_vulkan_MainActivity_nativeSetMandelbulbViewParams(
+    JNIEnv* /*env*/, jobject /*thiz*/,
+    jfloat cx, jfloat cy, jfloat cz, jfloat zoom,
+    jfloat rotX, jfloat rotY, jfloat rotZ)
+{
+    std::lock_guard<std::mutex> lock(g_engineMutex);
+    if (g_engine) {
+        g_engine->setMandelbulbViewParams(cx, cy, cz, zoom, rotX, rotY, rotZ);
+    }
+}
+
 } // extern "C"

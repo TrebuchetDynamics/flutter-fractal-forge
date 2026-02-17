@@ -321,20 +321,98 @@
   "hotPaths": [
     {
       "path": "lib/features/viewer/fractal_viewer_screen.dart",
-      "accessCount": 28,
-      "lastAccessed": 1771358233707,
+      "accessCount": 38,
+      "lastAccessed": 1771363104894,
       "type": "file"
     },
     {
       "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 16,
-      "lastAccessed": 1771357579250,
+      "accessCount": 23,
+      "lastAccessed": 1771359339130,
       "type": "file"
+    },
+    {
+      "path": "lib/features/presets/preset_sheet.dart",
+      "accessCount": 13,
+      "lastAccessed": 1771364976994,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/controls/fractal_controls.dart",
+      "accessCount": 9,
+      "lastAccessed": 1771364928920,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/gesture_handler.dart",
+      "accessCount": 7,
+      "lastAccessed": 1771359245657,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 6,
+      "lastAccessed": 1771360760122,
+      "type": "directory"
     },
     {
       "path": "scripts/run-emulator-app.sh",
       "accessCount": 5,
       "lastAccessed": 1771356340596,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/cpu_formulas.dart",
+      "accessCount": 5,
+      "lastAccessed": 1771359800405,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/history/history_sheet.dart",
+      "accessCount": 5,
+      "lastAccessed": 1771364327881,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/export/export_options_sheet.dart",
+      "accessCount": 4,
+      "lastAccessed": 1771364303552,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/components/compare_renderer.dart",
+      "accessCount": 3,
+      "lastAccessed": 1771358588900,
+      "type": "file"
+    },
+    {
+      "path": "refactor-plan.md",
+      "accessCount": 3,
+      "lastAccessed": 1771359812418,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/app/src/main/cpp/vulkan_engine.h",
+      "accessCount": 3,
+      "lastAccessed": 1771360746397,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/app/src/main/cpp/vulkan_engine.cpp",
+      "accessCount": 3,
+      "lastAccessed": 1771360763747,
+      "type": "file"
+    },
+    {
+      "path": "lib",
+      "accessCount": 3,
+      "lastAccessed": 1771364266241,
+      "type": "directory"
+    },
+    {
+      "path": "lib/features/wallpaper/wallpaper_options_sheet.dart",
+      "accessCount": 3,
+      "lastAccessed": 1771364327263,
       "type": "file"
     },
     {
@@ -350,6 +428,78 @@
       "type": "file"
     },
     {
+      "path": "lib/features/viewer",
+      "accessCount": 2,
+      "lastAccessed": 1771358562916,
+      "type": "directory"
+    },
+    {
+      "path": "lib/core/widgets/animation_effects.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771358628260,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/app/src/main/cpp/jni_bridge.cpp",
+      "accessCount": 2,
+      "lastAccessed": 1771360770984,
+      "type": "file"
+    },
+    {
+      "path": "shaders",
+      "accessCount": 2,
+      "lastAccessed": 1771360799014,
+      "type": "directory"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/app/src/main/java/com/fractalforge/vulkan/MainActivity.kt",
+      "accessCount": 2,
+      "lastAccessed": 1771360851470,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/app/src/main/AndroidManifest.xml",
+      "accessCount": 2,
+      "lastAccessed": 1771360872710,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/viewer_gpu_health.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771362931983,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/viewer_debug_report.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771362956136,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/viewer_export_actions.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771362996836,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/viewer_dialogs.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771363029384,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/ar/ar_overlay_screen.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771364260629,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/widgets/animated_widgets.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771364272853,
+      "type": "file"
+    },
+    {
       "path": "integration_test/double_tap_anchor_test.dart",
       "accessCount": 1,
       "lastAccessed": 1771357242823,
@@ -362,40 +512,112 @@
       "type": "file"
     },
     {
-      "path": "refactor-plan.md",
-      "accessCount": 1,
-      "lastAccessed": 1771357796857,
-      "type": "file"
-    },
-    {
       "path": "lib/core/modules/param_reader.dart",
       "accessCount": 1,
       "lastAccessed": 1771357854195,
       "type": "file"
     },
     {
-      "path": "lib/features/viewer/components/compare_renderer.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771358069566,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/viewer",
-      "accessCount": 1,
-      "lastAccessed": 1771358106010,
-      "type": "directory"
-    },
-    {
-      "path": "lib",
-      "accessCount": 1,
-      "lastAccessed": 1771358249735,
-      "type": "directory"
-    },
-    {
       "path": "lib/features/viewer/components/export_overlay.dart",
       "accessCount": 1,
       "lastAccessed": 1771358253030,
       "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/components/fractal_app_bar.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771358315747,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/components/fractal_view_controls.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771358316157,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/fractal_painter.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771358784032,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/shader_loader.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771358815704,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/cpu_fractal_renderer.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771359675303,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/docs/gesture_table.md",
+      "accessCount": 1,
+      "lastAccessed": 1771360180337,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/docs/gesture-navigation.md",
+      "accessCount": 1,
+      "lastAccessed": 1771360180753,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/app/src/main/res/layout/activity_main.xml",
+      "accessCount": 1,
+      "lastAccessed": 1771360188803,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/app/src/main/cpp/shaders/mandelbrot.comp",
+      "accessCount": 1,
+      "lastAccessed": 1771360303007,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/app/src/main/cpp/shaders/mandelbulb.comp",
+      "accessCount": 1,
+      "lastAccessed": 1771360303567,
+      "type": "file"
+    },
+    {
+      "path": "shaders/mandelbrot_et.frag",
+      "accessCount": 1,
+      "lastAccessed": 1771360798469,
+      "type": "file"
+    },
+    {
+      "path": "test/cpu_mandelbrot_visual_gate_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771360862597,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules",
+      "accessCount": 1,
+      "lastAccessed": 1771360864993,
+      "type": "directory"
+    },
+    {
+      "path": "shaders/mandel_step_smooth.frag",
+      "accessCount": 1,
+      "lastAccessed": 1771360878849,
+      "type": "file"
+    },
+    {
+      "path": "lib/features",
+      "accessCount": 1,
+      "lastAccessed": 1771364263720,
+      "type": "directory"
+    },
+    {
+      "path": "lib/features/export",
+      "accessCount": 1,
+      "lastAccessed": 1771364269832,
+      "type": "directory"
     }
   ],
   "userDirectives": []

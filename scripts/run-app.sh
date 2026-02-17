@@ -2,162 +2,288 @@
 set -e
 
 # Flutter Fractal Forge - Run App on Device or Emulator
-# Usage: ./scripts/run-app.sh [--headless] [--software-rendering]
-# Prefers a USB-connected physical device; falls back to emulator.
+# Usage: ./scripts/run-app.sh [options]
+#
+# Options:
+#   --headless              Start emulator without a window (emulator fallback only)
+#   --software-rendering    Pass --enable-software-rendering to flutter run
+#   --mode debug|profile|release
+#                           Build mode (default: debug)
+#   --logcat                Stream adb logcat (Flutter + native) alongside flutter run
+#   --dart-define KEY=VAL   Pass a dart-define; may be repeated
+#   --device SERIAL         Force a specific device serial instead of auto-detect
+#   --wifi HOST[:PORT]      Connect to device over Wi-Fi ADB (adb connect HOST:PORT)
+#   --list                  List available devices and exit
+#   --help                  Show this help
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Configuration
+# ── Configuration ─────────────────────────────────────────────────────────────
 AVD_NAME="${AVD_NAME:-fractal_test}"
-DEVICE_ID="${DEVICE_ID:-emulator-5554}"
+EMULATOR_DEVICE_ID="${EMULATOR_DEVICE_ID:-emulator-5554}"
 ANDROID_SDK="${ANDROID_SDK_ROOT:-/usr/lib/android-sdk}"
 EMULATOR_BIN="${ANDROID_SDK}/emulator/emulator"
+
 HEADLESS=false
 SOFTWARE_RENDERING=false
+BUILD_MODE="debug"
+STREAM_LOGCAT=false
+FORCE_DEVICE=""
+WIFI_HOST=""
+LIST_ONLY=false
+DART_DEFINES=()
 
-# Parse arguments
+# ── Argument parsing ───────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --headless)
-            HEADLESS=true
-            shift
+        --headless)            HEADLESS=true; shift ;;
+        --software-rendering)  SOFTWARE_RENDERING=true; shift ;;
+        --logcat)              STREAM_LOGCAT=true; shift ;;
+        --list)                LIST_ONLY=true; shift ;;
+        --help|-h)
+            sed -n '/^# Options:/,/^[^#]/{ /^# /{ s/^# //; p } }' "$0"
+            exit 0
             ;;
-        --software-rendering)
-            SOFTWARE_RENDERING=true
-            shift
+        --mode)
+            BUILD_MODE="$2"; shift 2
+            [[ "$BUILD_MODE" =~ ^(debug|profile|release)$ ]] || {
+                echo "Unknown mode: $BUILD_MODE (use debug|profile|release)"; exit 1; }
             ;;
-        *)
-            shift
-            ;;
+        --device)
+            FORCE_DEVICE="$2"; shift 2 ;;
+        --wifi)
+            WIFI_HOST="$2"; shift 2 ;;
+        --dart-define)
+            DART_DEFINES+=("--dart-define=$2"); shift 2 ;;
+        --dart-define=*)
+            DART_DEFINES+=("$1"); shift ;;
+        *) shift ;;
     esac
 done
 
-# Colors for output
+# ── Colors ─────────────────────────────────────────────────────────────────────
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
-NC='\033[0m' # No Color
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
 
-echo -e "${GREEN}=== Flutter Fractal Forge - App Runner ===${NC}"
+# ── Helpers ────────────────────────────────────────────────────────────────────
+info()    { echo -e "${CYAN}  $*${NC}"; }
+ok()      { echo -e "${GREEN}✓ $*${NC}"; }
+warn()    { echo -e "${YELLOW}⚠ $*${NC}"; }
+fail()    { echo -e "${RED}✗ $*${NC}"; exit 1; }
+
+device_model() {
+    local serial="$1"
+    local model brand
+    model=$(adb -s "$serial" shell getprop ro.product.model 2>/dev/null | tr -d '\r\n')
+    brand=$(adb -s "$serial" shell getprop ro.product.brand 2>/dev/null | tr -d '\r\n')
+    echo "${brand} ${model}"
+}
+
+device_android_version() {
+    local serial="$1"
+    adb -s "$serial" shell getprop ro.build.version.release 2>/dev/null | tr -d '\r\n'
+}
+
+print_device_table() {
+    echo ""
+    echo -e "${BOLD}Connected devices:${NC}"
+    printf "  %-24s %-12s %-30s %s\n" "SERIAL" "STATE" "MODEL" "ANDROID"
+    printf "  %-24s %-12s %-30s %s\n" "------" "-----" "-----" "-------"
+    while IFS= read -r line; do
+        [[ "$line" =~ ^List ]] && continue
+        [[ -z "$line" ]] && continue
+        serial=$(echo "$line" | awk '{print $1}')
+        state=$(echo "$line"  | awk '{print $2}')
+        if [[ "$state" == "device" ]]; then
+            model=$(device_model "$serial")
+            android=$(device_android_version "$serial")
+        else
+            model="-"
+            android="-"
+        fi
+        printf "  %-24s %-12s %-30s %s\n" "$serial" "$state" "$model" "$android"
+    done < <(adb devices | tail -n +2)
+    echo ""
+}
+
+# ── Prerequisite checks ────────────────────────────────────────────────────────
+command -v adb    &>/dev/null || fail "adb not found in PATH (install Android platform-tools)"
+command -v flutter &>/dev/null || fail "flutter not found in PATH"
+
+echo -e "${GREEN}${BOLD}=== Flutter Fractal Forge – Run App ===${NC}"
+info "mode=${BUILD_MODE}  logcat=${STREAM_LOGCAT}  defines=${DART_DEFINES[*]:-none}"
 echo ""
 
-# Check if Flutter is available
-if ! command -v flutter &> /dev/null; then
-    echo -e "${RED}✗ Flutter not found in PATH${NC}"
-    echo "Please install Flutter or add it to your PATH"
-    exit 1
+# ── --list ─────────────────────────────────────────────────────────────────────
+if [[ "$LIST_ONLY" == true ]]; then
+    print_device_table
+    exit 0
 fi
 
-# Detect USB physical device (any adb device that is not an emulator)
-echo -e "${YELLOW}Checking for USB physical device...${NC}"
-USB_DEVICE=$(adb devices | awk 'NR>1 && $2=="device" && $1!~/emulator/ {print $1; exit}')
-
-if [[ -n "$USB_DEVICE" ]]; then
-    echo -e "${GREEN}✓ Physical device found: $USB_DEVICE${NC}"
-    DEVICE_ID="$USB_DEVICE"
-else
-    echo -e "${YELLOW}No USB device found, falling back to emulator...${NC}"
-
-    # Check if emulator binary exists
-    if [[ ! -f "$EMULATOR_BIN" ]]; then
-        echo -e "${RED}✗ Emulator not found at: $EMULATOR_BIN${NC}"
-        echo "Please install Android SDK emulator"
-        exit 1
+# ── Wi-Fi ADB connect ──────────────────────────────────────────────────────────
+if [[ -n "$WIFI_HOST" ]]; then
+    # Default port 5555 when none given
+    WIFI_ADDR="${WIFI_HOST}"
+    [[ "$WIFI_HOST" != *:* ]] && WIFI_ADDR="${WIFI_HOST}:5555"
+    echo -e "${YELLOW}Connecting to ${WIFI_ADDR} over Wi-Fi ADB...${NC}"
+    if adb connect "$WIFI_ADDR" 2>&1 | grep -q "connected"; then
+        ok "Connected to $WIFI_ADDR"
+        FORCE_DEVICE="$WIFI_ADDR"
+    else
+        fail "Could not connect to $WIFI_ADDR – check IP, port 5555 open, and 'adb tcpip 5555' ran first"
     fi
+fi
 
-    # Check if emulator is already running
-    RUNNING_EMULATORS=$(adb devices | grep emulator | grep -v offline | wc -l)
+# ── Device selection ───────────────────────────────────────────────────────────
+DEVICE_ID=""
 
-    if [[ "$RUNNING_EMULATORS" -eq 0 ]]; then
-        echo -e "${YELLOW}✓ No emulator running, starting $AVD_NAME...${NC}"
+if [[ -n "$FORCE_DEVICE" ]]; then
+    echo -e "${YELLOW}Using forced device: $FORCE_DEVICE${NC}"
+    DEVICE_ID="$FORCE_DEVICE"
+else
+    echo -e "${YELLOW}Scanning for physical device...${NC}"
 
-        # Start emulator in background
-        if [[ "$HEADLESS" == true ]]; then
-            echo "  Starting in headless mode (no window)..."
-            nohup "$EMULATOR_BIN" -avd "$AVD_NAME" \
-                -no-window -no-audio -no-boot-anim \
-                > /tmp/emulator.log 2>&1 &
-        else
-            echo "  Starting with GUI window..."
-            nohup "$EMULATOR_BIN" -avd "$AVD_NAME" \
-                -no-audio \
-                > /tmp/emulator.log 2>&1 &
+    # Parse adb devices output; skip offline/unauthorized for now
+    while IFS= read -r line; do
+        [[ "$line" =~ ^List ]] && continue
+        [[ -z "$line" ]] && continue
+        serial=$(echo "$line" | awk '{print $1}')
+        state=$(echo "$line"  | awk '{print $2}')
+
+        # Skip emulators
+        [[ "$serial" =~ ^emulator ]] && continue
+
+        if [[ "$state" == "unauthorized" ]]; then
+            warn "Physical device ${serial} is UNAUTHORIZED"
+            info  "→ On your phone, open the USB debugging prompt and tap 'Allow'"
+            info  "→ Then re-run this script"
+            # Keep scanning; there may be another device
+            continue
         fi
 
-        EMULATOR_PID=$!
-        echo -e "${GREEN}✓ Emulator started (PID: $EMULATOR_PID)${NC}"
+        if [[ "$state" == "offline" ]]; then
+            warn "Physical device ${serial} is OFFLINE – try unplugging and re-plugging"
+            continue
+        fi
 
-        # Wait for device to appear
-        echo -e "${YELLOW}Waiting for emulator device...${NC}"
-        adb wait-for-device
+        if [[ "$state" == "device" ]]; then
+            DEVICE_ID="$serial"
+            break
+        fi
+    done < <(adb devices | tail -n +2)
 
-        # Wait for boot to complete
-        echo -e "${YELLOW}Waiting for boot to complete...${NC}"
-        BOOT_TIMEOUT=120
-        ELAPSED=0
-        while [[ "$(adb -s "$DEVICE_ID" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" != "1" ]]; do
-            if [[ $ELAPSED -ge $BOOT_TIMEOUT ]]; then
-                echo -e "${RED}✗ Boot timeout after ${BOOT_TIMEOUT}s${NC}"
-                exit 1
-            fi
-            echo -n "."
-            sleep 3
-            ELAPSED=$((ELAPSED + 3))
-        done
-        echo ""
-        echo -e "${GREEN}✓ Emulator booted successfully!${NC}"
+    if [[ -n "$DEVICE_ID" ]]; then
+        MODEL=$(device_model "$DEVICE_ID")
+        ANDROID_VER=$(device_android_version "$DEVICE_ID")
+        ok "Physical device: ${BOLD}${MODEL}${NC}${GREEN} (${DEVICE_ID}, Android ${ANDROID_VER})"
     else
-        echo -e "${GREEN}✓ Emulator already running${NC}"
+        warn "No ready physical device found – falling back to emulator"
+
+        # ── Emulator fallback ──────────────────────────────────────────────────
+        if [[ ! -f "$EMULATOR_BIN" ]]; then
+            fail "Emulator not found at: $EMULATOR_BIN\nInstall Android SDK emulator or connect a physical device."
+        fi
+
+        RUNNING_EMU=$(adb devices | awk '/^emulator/ && $2=="device" {print $1; exit}')
+
+        if [[ -n "$RUNNING_EMU" ]]; then
+            DEVICE_ID="$RUNNING_EMU"
+            ok "Reusing running emulator: $DEVICE_ID"
+        else
+            echo -e "${YELLOW}Starting emulator ${AVD_NAME}...${NC}"
+            EMU_FLAGS="-avd $AVD_NAME -no-audio"
+            [[ "$HEADLESS" == true ]] && EMU_FLAGS="$EMU_FLAGS -no-window -no-boot-anim"
+            nohup "$EMULATOR_BIN" $EMU_FLAGS >/tmp/emulator.log 2>&1 &
+            ok "Emulator launched (PID: $!)"
+
+            echo -e "${YELLOW}Waiting for device to appear...${NC}"
+            adb wait-for-device
+
+            DEVICE_ID="$EMULATOR_DEVICE_ID"
+            echo -e "${YELLOW}Waiting for boot...${NC}"
+            BOOT_TIMEOUT=120
+            ELAPSED=0
+            while [[ "$(adb -s "$DEVICE_ID" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" != "1" ]]; do
+                [[ $ELAPSED -ge $BOOT_TIMEOUT ]] && fail "Boot timeout after ${BOOT_TIMEOUT}s"
+                printf "."
+                sleep 3; ELAPSED=$((ELAPSED + 3))
+            done
+            echo ""
+            ok "Emulator booted"
+        fi
     fi
 fi
 
-# Verify device is online
+# ── Final device sanity check ──────────────────────────────────────────────────
 echo ""
-echo -e "${YELLOW}Verifying device status...${NC}"
-DEVICE_STATUS=$(adb devices | awk -v id="$DEVICE_ID" '$1==id {print $2}')
+echo -e "${YELLOW}Verifying device ${DEVICE_ID}...${NC}"
 
-if [[ "$DEVICE_STATUS" != "device" ]]; then
-    echo -e "${RED}✗ Device $DEVICE_ID is not ready (status: $DEVICE_STATUS)${NC}"
-    exit 1
-fi
+DEVICE_STATE=$(adb devices | awk -v id="$DEVICE_ID" '$1==id {print $2}')
 
-echo -e "${GREEN}✓ Device $DEVICE_ID is online${NC}"
+case "$DEVICE_STATE" in
+    device)
+        ok "Device is online" ;;
+    unauthorized)
+        fail "Device ${DEVICE_ID} is UNAUTHORIZED\n  → Accept the RSA fingerprint prompt on your phone" ;;
+    offline)
+        fail "Device ${DEVICE_ID} is OFFLINE\n  → Try: adb kill-server && adb start-server" ;;
+    "")
+        fail "Device ${DEVICE_ID} not found in 'adb devices'" ;;
+    *)
+        fail "Device ${DEVICE_ID} has unexpected state: ${DEVICE_STATE}" ;;
+esac
 
-# Check if Flutter can see the device
+# ── Build flutter run command ──────────────────────────────────────────────────
 echo ""
-echo -e "${YELLOW}Checking Flutter device list...${NC}"
-if ! flutter devices | grep -q "$DEVICE_ID"; then
-    echo -e "${RED}✗ Flutter cannot see device $DEVICE_ID${NC}"
-    echo "Running 'flutter devices' to debug:"
-    flutter devices
-    exit 1
-fi
-
-echo -e "${GREEN}✓ Flutter can see device $DEVICE_ID${NC}"
-
-# Run the app
-echo ""
-echo -e "${GREEN}=== Running Flutter app ===${NC}"
+echo -e "${GREEN}${BOLD}=== Launching app ===${NC}"
 echo ""
 
 cd "$PROJECT_ROOT"
 
-# Use environment PATH override if needed (for lld workaround)
+# lld workaround (Linux desktop)
 if [[ -f "$HOME/.local/bin/clang++" ]]; then
     export PATH="$HOME/.local/bin:$PATH"
-    echo -e "${YELLOW}Note: Using custom clang++ wrapper from ~/.local/bin${NC}"
+    info "Using custom clang++ wrapper from ~/.local/bin"
 fi
 
-# Build Flutter run command
-FLUTTER_ARGS="-d $DEVICE_ID"
-if [[ "$SOFTWARE_RENDERING" == true ]]; then
-    echo -e "${YELLOW}Note: Using --enable-software-rendering flag${NC}"
-    FLUTTER_ARGS="--enable-software-rendering $FLUTTER_ARGS"
+FLUTTER_ARGS=("-d" "$DEVICE_ID" "--$BUILD_MODE")
+[[ "$SOFTWARE_RENDERING" == true ]] && FLUTTER_ARGS+=("--enable-software-rendering")
+FLUTTER_ARGS+=("${DART_DEFINES[@]}")
+
+info "flutter run ${FLUTTER_ARGS[*]}"
+echo ""
+
+# ── Optional logcat streaming ──────────────────────────────────────────────────
+LOGCAT_PID=""
+if [[ "$STREAM_LOGCAT" == true ]]; then
+    LOG_FILE="/tmp/fractal-logcat-${DEVICE_ID//[^a-zA-Z0-9]/_}.log"
+    adb -s "$DEVICE_ID" logcat -c 2>/dev/null || true   # clear buffer
+    adb -s "$DEVICE_ID" logcat \
+        -v time \
+        -s flutter:V AndroidRuntime:E System.err:W \
+        > "$LOG_FILE" 2>/dev/null &
+    LOGCAT_PID=$!
+    ok "Logcat streaming to: ${LOG_FILE}  (PID: ${LOGCAT_PID})"
+    info "  Tail live: tail -f ${LOG_FILE}"
+    echo ""
 fi
 
-# Run Flutter app
-flutter run $FLUTTER_ARGS
+# ── Cleanup trap ───────────────────────────────────────────────────────────────
+cleanup() {
+    if [[ -n "$LOGCAT_PID" ]]; then
+        kill "$LOGCAT_PID" 2>/dev/null || true
+        info "Logcat stream stopped"
+    fi
+}
+trap cleanup EXIT INT TERM
+
+# ── Run ────────────────────────────────────────────────────────────────────────
+flutter run "${FLUTTER_ARGS[@]}"
 
 echo ""
-echo -e "${GREEN}✓ App session ended${NC}"
+ok "App session ended"

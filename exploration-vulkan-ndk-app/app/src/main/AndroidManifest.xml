@@ -7,6 +7,8 @@
         android:version="0x00401000"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <uses-feature
         android:name="android.hardware.vulkan.compute"
         android:version="0"

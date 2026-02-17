@@ -53,6 +53,9 @@ public:
     void cleanup();
     void resize(uint32_t width, uint32_t height);
     void setFractalType(uint32_t type);
+    void setViewParams(float cx, float cy, float zoom);
+    void setMandelbulbViewParams(float cx, float cy, float cz, float zoom,
+                                 float rotX, float rotY, float rotZ);
     void render();
     std::string getDeviceInfo() const;
 
@@ -98,6 +101,15 @@ private:
     uint32_t        currentFractal_= 0;
     bool            initialized_   = false;
     float           time_          = 0.0f;
+
+    // View state (written from JNI, read in render)
+    float viewCenterX_ = -0.5f;
+    float viewCenterY_ =  0.0f;
+    float viewCenterZ_ =  0.0f;
+    float viewZoom_    =  1.0f;
+    float viewRotX_    =  0.0f;
+    float viewRotY_    =  0.0f;
+    float viewRotZ_    =  0.0f;
 
     VkPhysicalDeviceProperties deviceProperties_ = {};
     bool                       fp64Supported_    = false;

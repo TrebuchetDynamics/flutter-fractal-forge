@@ -928,9 +928,9 @@ void VulkanEngine::render()
 
     if (currentFractal_ == 0) {
         MandelbrotParams params = {};
-        params.centerX     = -0.5f;
-        params.centerY     = 0.0f;
-        params.zoom        = 1.0f;
+        params.centerX     = viewCenterX_;
+        params.centerY     = viewCenterY_;
+        params.zoom        = viewZoom_;
         params.aspectRatio = aspectRatio;
         params.width       = width_;
         params.height      = height_;
@@ -944,13 +944,13 @@ void VulkanEngine::render()
                            sizeof(MandelbrotParams), &params);
     } else {
         MandelbulbParams params = {};
-        params.centerX     = 0.0f;
-        params.centerY     = 0.0f;
-        params.centerZ     = 0.0f;
-        params.zoom        = 1.0f;
-        params.rotationX   = 0.0f;
-        params.rotationY   = 0.0f;
-        params.rotationZ   = 0.0f;
+        params.centerX     = viewCenterX_;
+        params.centerY     = viewCenterY_;
+        params.centerZ     = viewCenterZ_;
+        params.zoom        = viewZoom_;
+        params.rotationX   = viewRotX_;
+        params.rotationY   = viewRotY_;
+        params.rotationZ   = viewRotZ_;
         params.power       = 8.0f;
         params.width       = width_;
         params.height      = height_;
@@ -1130,6 +1130,25 @@ void VulkanEngine::resize(uint32_t width, uint32_t height)
 void VulkanEngine::setFractalType(uint32_t type)
 {
     currentFractal_ = type;
+}
+
+void VulkanEngine::setViewParams(float cx, float cy, float zoom)
+{
+    viewCenterX_ = cx;
+    viewCenterY_ = cy;
+    viewZoom_    = zoom;
+}
+
+void VulkanEngine::setMandelbulbViewParams(float cx, float cy, float cz, float zoom,
+                                            float rotX, float rotY, float rotZ)
+{
+    viewCenterX_ = cx;
+    viewCenterY_ = cy;
+    viewCenterZ_ = cz;
+    viewZoom_    = zoom;
+    viewRotX_    = rotX;
+    viewRotY_    = rotY;
+    viewRotZ_    = rotZ;
 }
 
 // ===========================================================================
