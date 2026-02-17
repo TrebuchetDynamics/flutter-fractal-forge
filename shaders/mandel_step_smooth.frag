@@ -77,9 +77,7 @@ void main() {
   // Smooth coloring: continuous escape-time with normalization
   float mag2 = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
-  float t = smoothVal / max(1.0, uIterations);
-  t = clamp(t, 0.0, 1.0);
-
+  float t = fract(smoothVal / 64.0);
   vec3 col = palette(fract(t + uTime * 0.0001), int(uColorScheme));
   fragColor = vec4(col, 1.0);
 }

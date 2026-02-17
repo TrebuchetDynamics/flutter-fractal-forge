@@ -289,7 +289,7 @@ double _smoothEscape({
   final m2 = math.max(1e-16, mag2);
   final lp = _log2(power);
   final v = it - _log2(_log2(m2)) / (lp == 0.0 ? 1.0 : lp);
-  return v / math.max(1, iterations);
+  return _fract(v / 64.0);
 }
 
 (double x, double y) _gammaStirling(double zx, double zy) {
@@ -341,7 +341,7 @@ typedef _ZUpdate = (double, double) Function(
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
   return _palette(
-    _clamp(_smoothEscape(it: it, iterations: iterations, mag2: mag2, power: power), 0.0, 1.0),
+    _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: power),
   );
 }
 (double r, double g, double b) _cpu_synthetic(
@@ -782,10 +782,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
+  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
   return _palette(t);
 }
 
@@ -847,10 +844,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
+  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
   return _palette(t);
 }
 
@@ -920,10 +914,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
+  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
   return _palette(t);
 }
 
@@ -1035,10 +1026,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
+  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
   return _palette(t);
 }
 
@@ -1140,8 +1128,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
+  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2);
   return _palette(t);
 }
 
@@ -1175,8 +1162,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
+  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2);
   return _palette(t);
 }
 
@@ -1221,8 +1207,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2), 0.0, 1.0);
+  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2);
   return _palette(t);
 }
 
@@ -1301,10 +1286,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _clamp(
-      _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0),
-      0.0,
-      1.0);
+  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
   return _palette(t);
 }
 

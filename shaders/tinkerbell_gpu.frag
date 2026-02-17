@@ -71,7 +71,7 @@ void main() {
 
   float r2 = max(1e-12, x * x + y * y);
   float smoothVal = float(it) - log2(log2(r2));
-  float t = fract(smoothVal / max(1.0, uIterations) + uTime * 0.0001);
+  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
 
   fragColor = vec4(palette(t, int(uColorScheme)), 1.0);
 }

@@ -79,7 +79,7 @@ void main() {
 
   float mag2 = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2));
-  float t = smoothVal / max(1.0, uIterations);
+  float t = fract(smoothVal / 64.0);
   t = fract(t + uTime * 0.0001);
 
   vec3 color = palette(t, int(uColorScheme));

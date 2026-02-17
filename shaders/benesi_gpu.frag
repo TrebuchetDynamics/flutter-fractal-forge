@@ -71,6 +71,6 @@ void main() {
 
   float m2 = dot(z, z);
   float smoothVal = float(it) - log2(log2(max(1.0001, m2)));
-  float t = fract(smoothVal / float(target) + 0.2 * log(1.0 + 1.0 / max(1e-6, trap)));
+  float t = fract(smoothVal / 64.0 + 0.2 * log(1.0 + 1.0 / max(1e-6, trap)));
   fragColor = vec4(getPaletteColor(t, int(uColorScheme)), 1.0);
 }

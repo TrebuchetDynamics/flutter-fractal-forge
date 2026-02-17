@@ -167,6 +167,6 @@ void main() {
   }
 
   float smoothVal = float(it) - log2(log2(max(1e-12, finalMag2))) + 4.0;
-  float t = fract(smoothVal / max(1.0, uIterations) + uTime * 0.0001);
+  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
   fragColor = vec4(samplePalette(t), 1.0);
 }

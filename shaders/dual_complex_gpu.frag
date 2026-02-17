@@ -78,6 +78,6 @@ void main() {
 
   float metric = max(1e-12, dot(a, a) + 0.5 * dot(b, b));
   float smoothVal = float(it) - log2(log2(metric + 1.0));
-  float t = fract(smoothVal / max(1.0, uIterations) + uTime * 0.0001 + 0.15 * atan(b.y, b.x));
+  float t = fract(smoothVal / 64.0 + uTime * 0.0001 + 0.15 * atan(b.y, b.x));
   fragColor = vec4(palette(t, int(uColorScheme)), 1.0);
 }
