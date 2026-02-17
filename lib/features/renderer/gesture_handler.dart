@@ -12,7 +12,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   static const double _kPanMax = 3.0;
   static const double _kRubberBandStrength = 0.5;
   static const double _kTiltMaxRadians = 67.5 * math.pi / 180.0;
-  static const double _kIntentionalRotationThreshold = 0.06;
+  // Raised from 0.06 → 0.12 rad: fingers are never perfectly parallel during
+  // pinch, so the old threshold triggered accidental rotation too easily.
+  static const double _kIntentionalRotationThreshold = 0.12;
+  // If scale deviates this much BEFORE rotation threshold is reached, the
+  // gesture is classified as zoom/pan and rotation is locked out entirely.
+  static const double _kIntentionalZoomThreshold = 0.05;
   static const int _kRawDoubleTapMaxGapMs = 280;
   static const double _kRawDoubleTapMaxDistancePx = 28.0;
 
@@ -38,6 +43,9 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   bool _twoFingerTapCandidate = false;
   bool _isTilting = false;
   bool _rotationGestureActive = false;
+  // True once scale deviates significantly; prevents rotation from activating
+  // mid-pinch (the root cause of the "rotation during zoom/pan" bug).
+  bool _zoomPanGestureActive = false;
   Offset? _doubleTapDownLocal;
   DateTime? _lastRawTapAt;
   Offset? _lastRawTapPos;
@@ -182,6 +190,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _startTiltX = controller.view.rotation.x;
     _isTilting = false;
     _rotationGestureActive = false;
+    _zoomPanGestureActive = false;
   }
 
   double _rubberBand(double value, double min, double max,
@@ -326,8 +335,16 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       }
     }
 
+    // If scale deviates significantly BEFORE rotation threshold is reached,
+    // classify this gesture as zoom/pan and block rotation for its lifetime.
+    if (!_rotationGestureActive && !_zoomPanGestureActive &&
+        (details.scale - 1.0).abs() > _kIntentionalZoomThreshold) {
+      _zoomPanGestureActive = true;
+    }
+
     if (!rotationLocked &&
         !_rotationGestureActive &&
+        !_zoomPanGestureActive &&
         details.rotation.abs() > _kIntentionalRotationThreshold) {
       _rotationGestureActive = true;
     }
