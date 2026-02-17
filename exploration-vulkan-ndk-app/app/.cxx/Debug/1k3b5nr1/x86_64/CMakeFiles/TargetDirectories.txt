@@ -1,0 +1,4 @@
+/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/.cxx/Debug/1k3b5nr1/x86_64/CMakeFiles/fractal_engine.dir
+/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/.cxx/Debug/1k3b5nr1/x86_64/CMakeFiles/compile_shaders.dir
+/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/.cxx/Debug/1k3b5nr1/x86_64/CMakeFiles/edit_cache.dir
+/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/.cxx/Debug/1k3b5nr1/x86_64/CMakeFiles/rebuild_cache.dir

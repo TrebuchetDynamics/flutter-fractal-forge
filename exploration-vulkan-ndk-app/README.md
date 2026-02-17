@@ -181,3 +181,54 @@ This gives you the professional look and cross-platform reach of a modern app wi
 ---
 
 **Would you like me to show you how to set up a "Method Channel" in Dart to send parameters from a Flutter slider directly to your Vulkan NDK renderer?**
+
+Yes, your **exploration-vulkan-ndk-app** will work on the Android Emulator in 2026, but with a few specific requirements to ensure that your fractal math doesn't crawl at 1 FPS.
+
+Google has made significant updates to the emulator recently (stable version 36.x as of Feb 2026) to specifically support the modern graphics stack you are using.
+
+### 1. The "Host GPU" Requirement
+
+For a project like **Fractal Forge**, which relies on heavy GPU compute for Mandelbulb raymarching, you **must** enable hardware acceleration.
+
+* **How it works:** The emulator "passes through" the Vulkan commands from your NDK code directly to your computer's actual graphics card (NVIDIA, AMD, or Intel).
+* **Benefit:** You get near-native performance. Without this, the emulator uses "Lavapipe" (software rendering), which will be far too slow for real-time 3D fractals.
+
+### 2. Recommended Emulator Setup
+
+To get the pilot app running smoothly, use these settings in your **Android Device Manager**:
+
+* **System Image:** Choose **x86_64** with **API 33 (Android 13)** or higher. API 33+ ensures that the Vulkan 1.3 loader is natively supported.
+* **Graphics Selection:** Set the "Graphics" dropdown to **Hardware - GLES 2.0/3.0** (this also enables the Vulkan passthrough).
+* **Vulkan Features:** In your `AndroidManifest.xml`, ensure you have the feature requirement so the emulator knows to initialize the Vulkan driver:
+```xml
+<uses-feature android:name="android.hardware.vulkan.version" android:version="0x400300" android:required="true" />
+
+```
+
+
+
+---
+
+### 3. Emulator Limitations to Watch For
+
+While it works, there are three "gotchas" for your specific project:
+
+| Feature | Physical Device | Emulator |
+| --- | --- | --- |
+| **Precision** | Full FP64 (if GPU allows) | Limited by Host GPU drivers |
+| **AR Overlay** | Works with real camera | Requires "Virtual Scene" camera |
+| **Heat/Power** | Drains battery fast | Uses laptop/PC power (easier for dev) |
+
+### 4. Pro Tip for Your Pilot
+
+Since you are focusing on **Mandelbrot and Mandelbulb** only:
+If the emulator crashes or feels sluggish, it’s usually due to a mismatch between the **Host GPU driver** and the **Emulator Vulkan loader**.
+
+* **Fix:** Update your PC’s graphics drivers (NVIDIA/AMD) to the latest 2026 versions.
+* **Debug:** Use the command line to start the emulator with `-gpu vulkan` to force the Vulkan backend.
+
+---
+
+### Next Step
+
+Would you like me to generate the **`VkInstance` initialization code** for your C++ pilot so it correctly checks for the `VK_KHR_external_memory_capabilities` extension needed for the Flutter-to-NDK bridge?

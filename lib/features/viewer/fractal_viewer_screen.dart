@@ -1876,8 +1876,8 @@ class _CpuFallbackPaneState extends State<_CpuFallbackPane> {
         if (details.focalPointDelta != Offset.zero) {
           final dx = details.focalPointDelta.dx;
           final dy = details.focalPointDelta.dy;
-          // Map pixels to complex-plane movement.
-          final s = (0.004 / controller.view.zoom).clamp(0.00001, 0.1);
+          // Google Maps style: direct constant mapping
+          final s = 0.003;
           controller.updatePan(
             Vector2(
               controller.view.pan.x - dx * s,

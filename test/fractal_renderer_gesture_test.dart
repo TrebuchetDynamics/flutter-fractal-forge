@@ -8,7 +8,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 void main() {
-  Widget buildTestWidget(FractalController controller, {
+  Widget buildTestWidget(
+    FractalController controller, {
     VoidCallback? onOpenControls,
     VoidCallback? onOpenPresets,
     VoidCallback? onOpenExport,
@@ -37,7 +38,8 @@ void main() {
     );
   }
 
-  testWidgets('FractalRenderer drag updates pan; pinch updates zoom', (tester) async {
+  testWidgets('FractalRenderer drag updates pan; pinch updates zoom',
+      (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
     final controller = FractalController(ModuleRegistry());
@@ -78,7 +80,7 @@ void main() {
     expect(controller.view.zoom, isNot(equals(initialZoom)));
   });
 
-  testWidgets('Double-tap resets view to default', (tester) async {
+  testWidgets('Double-tap zooms in by default', (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
     final controller = FractalController(ModuleRegistry());
@@ -86,24 +88,36 @@ void main() {
     await tester.pumpWidget(buildTestWidget(controller));
     await tester.pumpAndSettle();
 
-    // First, modify the view by panning
-    await tester.drag(find.byType(FractalRenderer), const Offset(40, 20));
-    await tester.pump();
+    final initialZoom = controller.view.zoom;
 
-    // Store modified values
-    final modifiedPan = controller.view.pan.clone();
-    expect(modifiedPan.x, isNot(0.0));
-
-    // Double-tap to reset
     await tester.tap(find.byType(FractalRenderer));
     await tester.pump(const Duration(milliseconds: 50));
     await tester.tap(find.byType(FractalRenderer));
     await tester.pumpAndSettle();
 
-    // Verify view was reset
-    expect(controller.view.pan.x, equals(0.0));
-    expect(controller.view.pan.y, equals(0.0));
-    expect(controller.view.zoom, equals(1.0));
+    expect(controller.view.zoom, greaterThan(initialZoom));
+  });
+
+  testWidgets('Double-tap zoom anchors to tap coordinate', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final renderer = find.byType(FractalRenderer);
+    final topLeft = tester.getTopLeft(renderer);
+    final tapPoint = topLeft + const Offset(60, 60);
+
+    await tester.tapAt(tapPoint);
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.tapAt(tapPoint);
+    await tester.pumpAndSettle();
+
+    expect(controller.view.zoom, greaterThan(1.0));
+    expect(controller.view.pan.x, lessThan(0.0));
+    expect(controller.view.pan.y, lessThan(0.0));
   });
 
   testWidgets('Long-press shows context menu', (tester) async {
@@ -152,7 +166,8 @@ void main() {
     expect(controller.view.pan.y, equals(0.0));
   });
 
-  testWidgets('Context menu randomize option randomizes params', (tester) async {
+  testWidgets('Context menu randomize option randomizes params',
+      (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
     final controller = FractalController(ModuleRegistry());

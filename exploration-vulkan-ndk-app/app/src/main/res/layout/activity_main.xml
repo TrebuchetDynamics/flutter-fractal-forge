@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/controlsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="#80000000">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMandelbrot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mandelbrot"
+            android:layout_marginEnd="16dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMandelbulb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mandelbulb"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="#FFCCCCCC"
+        android:textSize="18sp"
+        android:padding="32dp"
+        android:background="#FF000000"
+        android:visibility="gone" />
+
+</FrameLayout>

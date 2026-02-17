@@ -1,9 +1,11 @@
 import 'dart:collection';
 import 'dart:math' as math;
+import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -122,7 +124,12 @@ class _FractalRendererState extends State<FractalRenderer>
   // `bool.fromEnvironment('FLUTTER_TEST')` isn't consistently set across all
   // runners. Using an assert-based check is reliable in debug/test and keeps
   // release builds unaffected.
+  //
+  // Pass --dart-define=FORCE_GPU_RENDER=true when running GPU proof integration
+  // tests on a real device/emulator that has actual GPU support. This bypasses
+  // the lightweight placeholder so the test exercises real shader execution.
   static final bool _isTest = (() {
+    if (const bool.fromEnvironment('FORCE_GPU_RENDER')) return false;
     var v = false;
     assert(() {
       v = true;
@@ -157,6 +164,20 @@ class _FractalRendererState extends State<FractalRenderer>
   double _startZoom = 1.0;
   Vector2 _startPan = Vector2.zero();
   Offset _startFocalPoint = Offset.zero;
+  double _startRotationZ = 0.0;
+  double _startTiltX = 0.0;
+
+  // Raw pointer tracking for two-finger-tap and wheel gestures.
+  final Map<int, Offset> _activePointers = <int, Offset>{};
+  final Map<int, Offset> _twoFingerTapDownPositions = <int, Offset>{};
+  DateTime? _twoFingerTapStartedAt;
+  bool _twoFingerTapCandidate = false;
+  bool _isTilting = false;
+  Offset? _doubleTapDownLocal;
+
+  // Velocity history for Google Maps-style fling
+  static const int _velHistorySize = 5;
+  final List<({Offset pos, int ms})> _velHistory = [];
 
   // For smooth zoom interpolation (kept for optional momentum only)
 
@@ -215,59 +236,75 @@ class _FractalRendererState extends State<FractalRenderer>
   }
 
   void _applyZoomMomentum() {
-    // Check mounted first to prevent accessing disposed widget
     if (!mounted) return;
-
-    // Safety check: ensure controller is still animating
     if (!_zoomMomentumController.isAnimating) return;
 
     final controller = context.read<FractalController>();
     final view = controller.view;
 
-    // Decay the velocity with easing
-    final progress =
-        Curves.easeOutCubic.transform(_zoomMomentumController.value);
-    final decayedVelocity = _zoomVelocity * (1.0 - progress);
+    // Google Maps spec: zoom friction 0.92 per frame
+    _zoomVelocity = _zoomVelocity * 0.92;
 
-    if (decayedVelocity.abs() > 0.001) {
-      final newZoom = view.zoom * (1.0 + decayedVelocity * 0.02);
-      controller.updateZoom(newZoom);
+    // Stop threshold: 0.0001 zoom levels/ms
+    if (_zoomVelocity.abs() < 0.0001) {
+      _zoomMomentumController.stop();
+      _zoomVelocity = 0.0;
+      return;
     }
+
+    // Apply zoom velocity (in zoom levels)
+    final proposedZoom = view.zoom * math.pow(2, _zoomVelocity * 0.016);
+    final boundedZoom = _rubberBand(proposedZoom.toDouble(), 1e-10, 1e10);
+    final hitZoomBoundary = boundedZoom <= 1e-10 || boundedZoom >= 1e10;
+    if (hitZoomBoundary) {
+      _zoomVelocity *= 0.5;
+    }
+    controller.updateZoom(boundedZoom);
   }
 
   void _applyPanMomentum() {
-    // Check mounted first to prevent accessing disposed widget
     if (!mounted) return;
-
-    // Safety check: ensure controller is still animating
     if (!_panMomentumController.isAnimating) return;
 
     final controller = context.read<FractalController>();
     final view = controller.view;
     final module = controller.module;
 
-    // Decay the velocity with easing
-    final progress =
-        Curves.easeOutCubic.transform(_panMomentumController.value);
-    final decayedVelocity = _panVelocity * (1.0 - progress);
+    // Google Maps spec: friction 0.95 per frame at 60fps
+    _panVelocity = _panVelocity * 0.95;
 
-    if (decayedVelocity.distance > 0.5) {
-      if (module.dimension == FractalDimension.threeD) {
-        controller.updateRotation(
-          view.rotation +
-              Vector3(
-                decayedVelocity.dy * 0.001,
-                decayedVelocity.dx * 0.001,
-                0,
-              ),
-        );
-      } else {
-        final pan = Vector2(
-          view.pan.x - decayedVelocity.dx * 0.0005,
-          view.pan.y - decayedVelocity.dy * 0.0005,
-        );
-        controller.updatePan(pan);
+    // Stop threshold: 0.1 px/frame
+    if (_panVelocity.distance < 0.1) {
+      _panMomentumController.stop();
+      _panVelocity = Offset.zero;
+      return;
+    }
+
+    if (module.dimension == FractalDimension.threeD) {
+      controller.updateRotation(
+        view.rotation +
+            Vector3(_panVelocity.dy * 0.0008, _panVelocity.dx * 0.0008, 0),
+      );
+    } else {
+      // Map pixel velocity to world coordinates — divide by zoom (linear)
+      final renderBox = context.findRenderObject() as RenderBox?;
+      final size = renderBox?.size;
+      final scalePx = (size == null)
+          ? 1.0
+          : math.max(1.0, math.min(size.width, size.height));
+      final safeZoom = math.max(1e-9, view.zoom);
+      final nextPan = Vector2(
+        view.pan.x - (_panVelocity.dx / scalePx) / safeZoom,
+        view.pan.y - (_panVelocity.dy / scalePx) / safeZoom,
+      );
+      final boundedPan = Vector2(
+        _rubberBand(nextPan.x, -3.0, 3.0),
+        _rubberBand(nextPan.y, -3.0, 3.0),
+      );
+      if (boundedPan.x != nextPan.x || boundedPan.y != nextPan.y) {
+        _panVelocity *= 0.5;
       }
+      controller.updatePan(boundedPan);
     }
   }
 
@@ -446,6 +483,7 @@ class _FractalRendererState extends State<FractalRenderer>
     _animationController.dispose();
     _zoomMomentumController.dispose();
     _panMomentumController.dispose();
+    _zoomAnimation?.dispose();
 
     // Drop shader/program references.
     _cachedFragmentShader = null;
@@ -466,11 +504,68 @@ class _FractalRendererState extends State<FractalRenderer>
 
     _zoomVelocity = 0.0;
     _panVelocity = Offset.zero;
+    _velHistory.clear();
 
     final controller = context.read<FractalController>();
+    final renderBox = context.findRenderObject() as RenderBox?;
+    final localFocal = (renderBox != null)
+        ? renderBox.globalToLocal(details.focalPoint)
+        : details.focalPoint;
+
     _startZoom = controller.view.zoom;
     _startPan = controller.view.pan;
-    _startFocalPoint = details.focalPoint;
+    _startFocalPoint = localFocal;
+    _startRotationZ = controller.view.rotation.z;
+    _startTiltX = controller.view.rotation.x;
+    _isTilting = false;
+  }
+
+  double _rubberBand(double value, double min, double max,
+      {double strength = 0.5}) {
+    if (value < min) return min + (value - min) * strength;
+    if (value > max) return max + (value - max) * strength;
+    return value;
+  }
+
+  Offset _normalizedPoint(Offset p, Size size, double scalePx) {
+    return (p - Offset(size.width / 2, size.height / 2)) / scalePx;
+  }
+
+  Vector2 _rotateInv2d(Offset value, double angle) {
+    final cosA = math.cos(angle);
+    final sinA = math.sin(angle);
+    return Vector2(
+      value.dx * cosA + value.dy * sinA,
+      -value.dx * sinA + value.dy * cosA,
+    );
+  }
+
+  void _applyZoomAroundFocal({
+    required FractalController controller,
+    required double targetZoom,
+    required Offset focalPoint,
+    double? explicitRotationZ,
+  }) {
+    final view = controller.view;
+    final renderBox = context.findRenderObject() as RenderBox?;
+    final size = renderBox?.size;
+    final zoom = _rubberBand(targetZoom, 1e-10, 1e10);
+
+    if (size != null) {
+      final scalePx = math.max(1.0, math.min(size.width, size.height));
+      final n = _normalizedPoint(focalPoint, size, scalePx);
+      final rotationZ = explicitRotationZ ?? view.rotation.z;
+      final oldWorldDelta = _rotateInv2d(n, rotationZ) / view.zoom;
+      final newWorldDelta = _rotateInv2d(n, rotationZ) / zoom;
+      final worldX = view.pan.x + oldWorldDelta.x;
+      final worldY = view.pan.y + oldWorldDelta.y;
+      controller.updatePan(Vector2(
+        _rubberBand(worldX - newWorldDelta.x, -3.0, 3.0),
+        _rubberBand(worldY - newWorldDelta.y, -3.0, 3.0),
+      ));
+    }
+
+    controller.updateZoom(zoom);
   }
 
   void _onScaleUpdate(ScaleUpdateDetails details) {
@@ -486,9 +581,12 @@ class _FractalRendererState extends State<FractalRenderer>
     final size = renderBox?.size;
     final scalePx =
         (size == null) ? 1.0 : math.max(1.0, math.min(size.width, size.height));
+    final localFocal = (renderBox != null)
+        ? renderBox.globalToLocal(details.focalPoint)
+        : details.focalPoint;
 
     // Total finger movement since gesture start.
-    final totalDelta = details.focalPoint - _startFocalPoint;
+    final totalDelta = localFocal - _startFocalPoint;
 
     // --- 1 finger: pan (2D) or rotate (3D) ---
     if (details.pointerCount == 1) {
@@ -499,97 +597,240 @@ class _FractalRendererState extends State<FractalRenderer>
               Vector3(totalDelta.dy * 0.0009, totalDelta.dx * 0.0009, 0),
         );
       } else {
-        // Convert pixels → complex-plane delta, accounting for rotation.
-        // When the fractal is rotated, screen drag axes must rotate too
-        // so panning always feels physically correct.
-        final rot = view.rotation.z; // rotation angle in radians
+        // Convert pixels → complex-plane delta.
+        // Google Maps style: pixels / zoom (linear)
+        final rot = view.rotation.z;
         final cosR = math.cos(rot);
         final sinR = math.sin(rot);
         final rawDx = totalDelta.dx / scalePx;
         final rawDy = totalDelta.dy / scalePx;
-        // Rotate screen delta by -rotation to get world delta
-        // Guard against division by zero with max(1e-9, zoom)
+        // Linear mapping: divide by zoom
         final safeZoom = math.max(1e-9, _startZoom);
         final dxWorld = (rawDx * cosR + rawDy * sinR) / safeZoom;
         final dyWorld = (-rawDx * sinR + rawDy * cosR) / safeZoom;
         controller.updatePan(
           Vector2(
-            _startPan.x - dxWorld,
-            _startPan.y - dyWorld,
+            _rubberBand(_startPan.x - dxWorld, -3.0, 3.0),
+            _rubberBand(_startPan.y - dyWorld, -3.0, 3.0),
           ),
         );
       }
 
-      // For momentum.
-      _panVelocity = details.focalPointDelta;
+      // Track velocity history for Google Maps fling
+      final now = DateTime.now().millisecondsSinceEpoch;
+      _velHistory.add((pos: localFocal, ms: now));
+      if (_velHistory.length > _velHistorySize) _velHistory.removeAt(0);
+
       return;
     }
 
-    // --- 2+ fingers: pinch zoom (and optional twist rotation for 3D) ---
-    final newZoom = (_startZoom * details.scale).clamp(1e-9, 1e12);
+    // --- 2+ fingers: pinch zoom + rotate + tilt ---
+    final newZoom = _rubberBand(_startZoom * details.scale, 1e-10, 1e10);
 
-    if (module.dimension == FractalDimension.threeD &&
+    if (size != null && details.pointerCount >= 2) {
+      final verticalDelta = localFocal.dy - _startFocalPoint.dy;
+      final horizontalDelta = localFocal.dx - _startFocalPoint.dx;
+      final rotationDeltaFromStart = details.rotation;
+      final isVerticalSwipe =
+          verticalDelta.abs() > (horizontalDelta.abs() * 1.25);
+      final isStablePinch = (details.scale - 1.0).abs() < 0.08;
+      final isStableRotate = rotationDeltaFromStart.abs() < 0.08;
+
+      if (!_isTilting && isVerticalSwipe && isStablePinch && isStableRotate) {
+        _isTilting = true;
+      }
+
+      if (_isTilting) {
+        final tilt = (_startTiltX + (verticalDelta * 0.01))
+            .clamp(0.0, 67.5 * math.pi / 180.0);
+        controller
+            .updateRotation(Vector3(tilt, view.rotation.y, view.rotation.z));
+      }
+    }
+
+    final newRotationZ = _startRotationZ + details.rotation;
+
+    if (size != null && module.dimension != FractalDimension.threeD) {
+      // Keep the world point under the midpoint fixed while zooming/rotating.
+      final startN = _normalizedPoint(_startFocalPoint, size, scalePx);
+      final curN = _normalizedPoint(localFocal, size, scalePx);
+
+      final worldAtStart =
+          _rotateInv2d(startN, _startRotationZ) / _startZoom + _startPan;
+      final newCenter =
+          worldAtStart - (_rotateInv2d(curN, newRotationZ) / newZoom);
+
+      controller.updatePan(Vector2(
+        _rubberBand(newCenter.x, -3.0, 3.0),
+        _rubberBand(newCenter.y, -3.0, 3.0),
+      ));
+
+      controller.updateRotation(
+          Vector3(view.rotation.x, view.rotation.y, newRotationZ));
+    } else if (module.dimension == FractalDimension.threeD &&
         details.rotation != 0.0) {
       final rotationDelta = details.rotation - _lastRotation;
       controller.updateRotation(view.rotation + Vector3(0, 0, rotationDelta));
       _lastRotation = details.rotation;
     }
 
-    if (module.dimension != FractalDimension.threeD && size != null) {
-      // Keep the point under the fingers stable while zooming.
-      final startN =
-          (_startFocalPoint - Offset(size.width / 2, size.height / 2)) /
-              scalePx;
-      final curN =
-          (details.focalPoint - Offset(size.width / 2, size.height / 2)) /
-              scalePx;
-
-      final worldX = startN.dx / _startZoom + _startPan.x;
-      final worldY = startN.dy / _startZoom + _startPan.y;
-
-      final newCenterX = worldX - (curN.dx / newZoom);
-      final newCenterY = worldY - (curN.dy / newZoom);
-      controller.updatePan(Vector2(newCenterX, newCenterY));
-    }
-
     controller.updateZoom(newZoom);
 
-    // Track velocity for momentum (after release).
+    // Track zoom velocity in zoom levels per ms (logarithmic)
     final scaleChange = details.scale / _lastScale;
-    _zoomVelocity = (scaleChange - 1.0) * 10.0;
+    if (scaleChange > 0) {
+      final zoomLevelChange = math.log(scaleChange) / math.ln2; // log2(scale)
+      _zoomVelocity = zoomLevelChange / 16; // per frame, convert to per-ms
+    }
     _lastScale = details.scale;
   }
 
   void _onScaleEnd(ScaleEndDetails details) {
-    // Apply momentum/inertia based on final velocity
-    if (_zoomVelocity.abs() > 0.05) {
+    if (_isTilting) {
+      _isTilting = false;
+      _velHistory.clear();
+      _zoomVelocity = 0.0;
+      return;
+    }
+
+    // Google Maps fling: compute velocity from history buffer
+    // Spec: fling threshold = 0.3 px/ms = ~5 px/frame at 60fps
+    if (_velHistory.length >= 2) {
+      final newest = _velHistory.last;
+      final oldest = _velHistory.first;
+      final dt = (newest.ms - oldest.ms).toDouble();
+      if (dt > 0) {
+        final vx = (newest.pos.dx - oldest.pos.dx) / dt * 16; // px/frame
+        final vy = (newest.pos.dy - oldest.pos.dy) / dt * 16;
+        _panVelocity = Offset(vx, vy);
+        // Only fling if fast enough: 5 px/frame (equiv to 0.3 px/ms)
+        if (_panVelocity.distance > 5.0) {
+          _panMomentumController.duration = const Duration(seconds: 2);
+          _panMomentumController.forward(from: 0);
+        }
+      }
+    }
+    _velHistory.clear();
+
+    // Zoom momentum - spec threshold 0.01 zoom levels/ms
+    if (_zoomVelocity.abs() > 0.01) {
+      _zoomMomentumController.duration = const Duration(seconds: 2);
       _zoomMomentumController.forward(from: 0);
     }
-    if (_panVelocity.distance > 5) {
-      _panMomentumController.forward(from: 0);
-    }
   }
 
-  void _onDoubleTap() {
+  void _onDoubleTap([Offset? tapPosition]) {
     final controller = context.read<FractalController>();
-    controller.resetView();
+    final currentZoom = controller.view.zoom;
+    final targetZoom = (currentZoom * 2.0).clamp(1e-10, 1e10);
 
-    // Haptic feedback
+    _animateZoomTo(currentZoom, targetZoom, tapPosition);
     HapticFeedback.mediumImpact();
+  }
 
-    // Show snackbar feedback
-    final l10n = AppLocalizations.of(context);
-    if (l10n != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.gestureDoubleTapReset),
-          duration: const Duration(seconds: 1),
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-        ),
-      );
+  void _onDoubleTapDown(TapDownDetails details) {
+    final renderBox = context.findRenderObject() as RenderBox?;
+    _doubleTapDownLocal = (renderBox != null)
+        ? renderBox.globalToLocal(details.globalPosition)
+        : details.localPosition;
+  }
+
+  void _onDoubleTapGesture() {
+    _onDoubleTap(_doubleTapDownLocal);
+    _doubleTapDownLocal = null;
+  }
+
+  void _onPointerDown(PointerDownEvent event) {
+    _activePointers[event.pointer] = event.localPosition;
+
+    if (_activePointers.length == 2) {
+      _twoFingerTapCandidate = true;
+      _twoFingerTapStartedAt = DateTime.now();
+      _twoFingerTapDownPositions
+        ..clear()
+        ..addAll(_activePointers);
+    } else if (_activePointers.length > 2) {
+      _twoFingerTapCandidate = false;
     }
   }
+
+  void _onPointerMove(PointerMoveEvent event) {
+    _activePointers[event.pointer] = event.localPosition;
+    if (!_twoFingerTapCandidate) return;
+
+    final origin = _twoFingerTapDownPositions[event.pointer];
+    if (origin != null && (event.localPosition - origin).distance > 18.0) {
+      _twoFingerTapCandidate = false;
+    }
+  }
+
+  void _onPointerUp(PointerEvent event) {
+    if (_twoFingerTapCandidate && _activePointers.length == 2) {
+      final elapsedMs = DateTime.now()
+          .difference(_twoFingerTapStartedAt ?? DateTime.now())
+          .inMilliseconds;
+      if (elapsedMs <= 220) {
+        final points = _activePointers.values.toList(growable: false);
+        final midpoint = Offset(
+          (points[0].dx + points[1].dx) / 2.0,
+          (points[0].dy + points[1].dy) / 2.0,
+        );
+        final controller = context.read<FractalController>();
+        final zoom = controller.view.zoom;
+        _animateZoomTo(zoom, (zoom * 0.5).clamp(1e-10, 1e10), midpoint);
+        HapticFeedback.lightImpact();
+      }
+    }
+
+    _activePointers.remove(event.pointer);
+    if (_activePointers.length < 2) {
+      _twoFingerTapCandidate = false;
+      _twoFingerTapDownPositions.clear();
+      _twoFingerTapStartedAt = null;
+    }
+  }
+
+  void _onPointerSignal(PointerSignalEvent event) {
+    if (event is! PointerScrollEvent) return;
+    final controller = context.read<FractalController>();
+    final factor = math.exp(-event.scrollDelta.dy * 0.001);
+    final targetZoom = controller.view.zoom * factor;
+    _applyZoomAroundFocal(
+      controller: controller,
+      targetZoom: targetZoom,
+      focalPoint: event.localPosition,
+    );
+  }
+
+  void _animateZoomTo(double from, double to, [Offset? focalPoint]) {
+    final controller = context.read<FractalController>();
+
+    _zoomAnimation?.dispose();
+    _zoomAnimation = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    final tween = Tween<double>(begin: from, end: to);
+    final curve =
+        CurvedAnimation(parent: _zoomAnimation!, curve: Curves.easeOutCubic);
+    _zoomAnimation!.addListener(() {
+      final zoom = tween.transform(curve.value);
+      if (focalPoint == null) {
+        controller.updateZoom(zoom);
+      } else {
+        _applyZoomAroundFocal(
+          controller: controller,
+          targetZoom: zoom,
+          focalPoint: focalPoint,
+        );
+      }
+    });
+
+    unawaited(_zoomAnimation!.forward());
+  }
+
+  AnimationController? _zoomAnimation;
 
   void _onLongPress(LongPressStartDetails details) {
     HapticFeedback.heavyImpact();
@@ -804,35 +1045,43 @@ class _FractalRendererState extends State<FractalRenderer>
         return content;
       }
 
-      return GestureDetector(
-        onScaleStart: _onScaleStart,
-        onScaleUpdate: (details) {
-          final provider = context.read<FractalController>();
-          final view = provider.view;
+      return Listener(
+        onPointerDown: _onPointerDown,
+        onPointerMove: _onPointerMove,
+        onPointerUp: _onPointerUp,
+        onPointerCancel: _onPointerUp,
+        onPointerSignal: _onPointerSignal,
+        child: GestureDetector(
+          onScaleStart: _onScaleStart,
+          onScaleUpdate: (details) {
+            final provider = context.read<FractalController>();
+            final view = provider.view;
 
-          if (details.scale != 1.0) {
-            provider.updateZoom(view.zoom * details.scale);
-          }
-
-          if (details.focalPointDelta != Offset.zero) {
-            final delta = details.focalPointDelta;
-            if (module.dimension == FractalDimension.threeD) {
-              provider.updateRotation(
-                view.rotation + Vector3(delta.dy * 0.01, delta.dx * 0.01, 0),
-              );
-            } else {
-              final pan = Vector2(
-                view.pan.x - delta.dx * 0.005,
-                view.pan.y - delta.dy * 0.005,
-              );
-              provider.updatePan(pan);
+            if (details.scale != 1.0) {
+              provider.updateZoom(view.zoom * details.scale);
             }
-          }
-        },
-        onScaleEnd: _onScaleEnd,
-        onDoubleTap: _onDoubleTap,
-        onLongPressStart: _onLongPress,
-        child: content,
+
+            if (details.focalPointDelta != Offset.zero) {
+              final delta = details.focalPointDelta;
+              if (module.dimension == FractalDimension.threeD) {
+                provider.updateRotation(
+                  view.rotation + Vector3(delta.dy * 0.01, delta.dx * 0.01, 0),
+                );
+              } else {
+                final pan = Vector2(
+                  view.pan.x - delta.dx * 0.005,
+                  view.pan.y - delta.dy * 0.005,
+                );
+                provider.updatePan(pan);
+              }
+            }
+          },
+          onScaleEnd: _onScaleEnd,
+          onDoubleTapDown: _onDoubleTapDown,
+          onDoubleTap: _onDoubleTapGesture,
+          onLongPressStart: _onLongPress,
+          child: content,
+        ),
       );
     }
 
@@ -875,13 +1124,21 @@ class _FractalRendererState extends State<FractalRenderer>
         return cpuContent;
       }
 
-      return GestureDetector(
-        onScaleStart: _onScaleStart,
-        onScaleUpdate: _onScaleUpdate,
-        onScaleEnd: _onScaleEnd,
-        onDoubleTap: _onDoubleTap,
-        onLongPressStart: _onLongPress,
-        child: cpuContent,
+      return Listener(
+        onPointerDown: _onPointerDown,
+        onPointerMove: _onPointerMove,
+        onPointerUp: _onPointerUp,
+        onPointerCancel: _onPointerUp,
+        onPointerSignal: _onPointerSignal,
+        child: GestureDetector(
+          onScaleStart: _onScaleStart,
+          onScaleUpdate: _onScaleUpdate,
+          onScaleEnd: _onScaleEnd,
+          onDoubleTapDown: _onDoubleTapDown,
+          onDoubleTap: _onDoubleTapGesture,
+          onLongPressStart: _onLongPress,
+          child: cpuContent,
+        ),
       );
     }
 
@@ -976,13 +1233,21 @@ class _FractalRendererState extends State<FractalRenderer>
       return content;
     }
 
-    return GestureDetector(
-      onScaleStart: _onScaleStart,
-      onScaleUpdate: _onScaleUpdate,
-      onScaleEnd: _onScaleEnd,
-      onDoubleTap: _onDoubleTap,
-      onLongPressStart: _onLongPress,
-      child: content,
+    return Listener(
+      onPointerDown: _onPointerDown,
+      onPointerMove: _onPointerMove,
+      onPointerUp: _onPointerUp,
+      onPointerCancel: _onPointerUp,
+      onPointerSignal: _onPointerSignal,
+      child: GestureDetector(
+        onScaleStart: _onScaleStart,
+        onScaleUpdate: _onScaleUpdate,
+        onScaleEnd: _onScaleEnd,
+        onDoubleTapDown: _onDoubleTapDown,
+        onDoubleTap: _onDoubleTapGesture,
+        onLongPressStart: _onLongPress,
+        child: content,
+      ),
     );
   }
 }

@@ -283,8 +283,20 @@
   "hotPaths": [
     {
       "path": "",
+      "accessCount": 19,
+      "lastAccessed": 1771290785761,
+      "type": "directory"
+    },
+    {
+      "path": "lib/features/renderer/fractal_renderer.dart",
+      "accessCount": 12,
+      "lastAccessed": 1771292185144,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app",
       "accessCount": 10,
-      "lastAccessed": 1771290292095,
+      "lastAccessed": 1771292033672,
       "type": "directory"
     },
     {
@@ -306,10 +318,10 @@
       "type": "file"
     },
     {
-      "path": "exploration-vulkan-ndk-app",
-      "accessCount": 5,
-      "lastAccessed": 1771290286465,
-      "type": "directory"
+      "path": "lib/features/viewer/fractal_viewer_screen.dart",
+      "accessCount": 6,
+      "lastAccessed": 1771291955120,
+      "type": "file"
     },
     {
       "path": "scripts/run-emulator-app.sh",
@@ -348,9 +360,9 @@
       "type": "file"
     },
     {
-      "path": "lib/features/viewer/fractal_viewer_screen.dart",
-      "accessCount": 3,
-      "lastAccessed": 1771286830585,
+      "path": "exploration-vulkan-ndk-app/README.md",
+      "accessCount": 4,
+      "lastAccessed": 1771290768609,
       "type": "file"
     },
     {
@@ -366,12 +378,6 @@
       "type": "file"
     },
     {
-      "path": "exploration-vulkan-ndk-app/README.md",
-      "accessCount": 3,
-      "lastAccessed": 1771290276774,
-      "type": "file"
-    },
-    {
       "path": "lib",
       "accessCount": 3,
       "lastAccessed": 1771290310973,
@@ -382,12 +388,6 @@
       "accessCount": 2,
       "lastAccessed": 1771287441709,
       "type": "directory"
-    },
-    {
-      "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 2,
-      "lastAccessed": 1771288156060,
-      "type": "file"
     },
     {
       "path": "shaders/test_flutter_coord.frag",
@@ -441,6 +441,12 @@
       "path": "docs/gpu_emulator_validation.md",
       "accessCount": 2,
       "lastAccessed": 1771290317366,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/render_validation.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771291399104,
       "type": "file"
     },
     {
@@ -537,12 +543,6 @@
       "path": "lib/core/modules/fractal_module.dart",
       "accessCount": 1,
       "lastAccessed": 1771286810439,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/render_validation.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771286841715,
       "type": "file"
     },
     {

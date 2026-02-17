@@ -1,0 +1,9 @@
+# ninja log v5
+1	121	1771291921804820536	/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/src/main/assets/shaders/mandelbulb.comp.spv	40ac2d8a81bb6e8e
+1	146	1771291921826049670	/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/src/main/assets/shaders/mandelbrot.comp.spv	ce88ad96ba89b8a
+146	1248	1771291922915061944	CMakeFiles/fractal_engine.dir/jni_bridge.cpp.o	2a842a58619ff017
+147	2275	1771291923932073408	CMakeFiles/fractal_engine.dir/vulkan_engine.cpp.o	1dc60a0a5f4831a5
+2275	2338	1771291924020074399	/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/build/intermediates/cxx/Debug/1k3b5nr1/obj/x86_64/libfractal_engine.so	949e8fa67be80f61
+4	1062	1771292199761185933	CMakeFiles/fractal_engine.dir/jni_bridge.cpp.o	2a842a58619ff017
+4	1761	1771292200453193749	CMakeFiles/fractal_engine.dir/vulkan_engine.cpp.o	1dc60a0a5f4831a5
+1761	1789	1771292200492194190	/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/build/intermediates/cxx/Debug/1k3b5nr1/obj/x86_64/libfractal_engine.so	949e8fa67be80f61

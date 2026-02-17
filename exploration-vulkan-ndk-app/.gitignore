@@ -1,0 +1,7 @@
+local.properties
+*.iml
+.gradle/
+build/
+app/build/
+.idea/
+app/src/main/assets/shaders/*.spv
