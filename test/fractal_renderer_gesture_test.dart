@@ -403,4 +403,33 @@ void main() {
     expect(after, greaterThan(before));
     expect(after, lessThanOrEqualTo(before * 3.0));
   });
+
+  testWidgets('Two-finger tilt is clamped to max tilt angle', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final g1 = await tester.createGesture();
+    final g2 = await tester.createGesture();
+
+    await g1.down(center + const Offset(-40, 0));
+    await g2.down(center + const Offset(40, 0));
+    await tester.pump();
+
+    // Keep distance/rotation stable and move both fingers vertically
+    // to trigger tilt gesture path with a very large delta.
+    await g1.moveTo(center + const Offset(-40, 700));
+    await g2.moveTo(center + const Offset(40, 700));
+    await tester.pumpAndSettle();
+
+    await g1.up();
+    await g2.up();
+    await tester.pumpAndSettle();
+
+    // 67.5 degrees in radians = 1.1780972450961724
+    expect(controller.view.rotation.x, inInclusiveRange(0.0, 1.1782));
+  });
 }
