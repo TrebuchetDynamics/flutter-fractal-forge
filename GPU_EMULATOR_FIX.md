@@ -128,9 +128,51 @@ Expected after fix:
 
 ---
 
-## Workarounds to Try
+## Proven Solutions (From Flutter Community)
 
-### 1. Emulator GPU Mode
+### ⭐ Solution 1: Change Emulator Graphics Renderer (RECOMMENDED FIRST)
+
+**This is the most effective fix for SwiftShader shader issues.**
+
+**Steps:**
+1. Start the emulator
+2. Click **"..."** (More options) in emulator control panel
+3. Go to **Settings** > **Advanced**
+4. Change "OpenGL ES renderer" from "Autodetect" or "SwiftShader" to:
+   - **ANGLE (D3D11)** ← Try this first (most reliable)
+   - OR: **SwiftShader + Compatibility (OpenGL ES 1.1/2.0)**
+5. Restart emulator
+6. Run app again
+
+**Why this works:** ANGLE (Almost Native Graphics Layer Engine) translates OpenGL ES to Direct3D, avoiding SwiftShader bugs. This resolves shader compilation issues and rendering glitches for most developers.
+
+**Known SwiftShader Issues:**
+- Shaders fail to link due to uniform limits
+- Blank screen / 100% black output
+- Poor color rendering and gradients
+- Even Flutter's Impeller engine team hits black box issues with SwiftShader
+
+### ⭐ Solution 2: Force Software Rendering
+
+**If changing emulator settings doesn't work, force Flutter's software renderer:**
+
+```bash
+flutter run --enable-software-rendering -d emulator-5554
+```
+
+This bypasses the emulator's OpenGL configuration and uses Flutter's software rendering path, which has resolved "blank screen" issues on emulator.
+
+### ⭐ Solution 3: Test on Physical Device (Gold Standard)
+
+**Always validate shaders on real hardware before finalizing.**
+
+Physical devices use real GPU drivers and are the only 100% reliable test environment. If shaders work on device but fail on emulator, it's confirmed as an emulator/SwiftShader issue.
+
+---
+
+## Alternative Emulator GPU Modes
+
+### 1. Host GPU Mode
 ```bash
 # Try host GPU instead of SwiftShader
 emulator -avd fractal_test -gpu host

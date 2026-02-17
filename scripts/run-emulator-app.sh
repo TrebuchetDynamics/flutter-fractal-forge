@@ -2,7 +2,7 @@
 set -e
 
 # Flutter Fractal Forge - Run App on Emulator
-# Usage: ./scripts/run-emulator-app.sh [--headless]
+# Usage: ./scripts/run-emulator-app.sh [--headless] [--software-rendering]
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -13,11 +13,24 @@ DEVICE_ID="${DEVICE_ID:-emulator-5554}"
 ANDROID_SDK="${ANDROID_SDK_ROOT:-/usr/lib/android-sdk}"
 EMULATOR_BIN="${ANDROID_SDK}/emulator/emulator"
 HEADLESS=false
+SOFTWARE_RENDERING=false
 
 # Parse arguments
-if [[ "$1" == "--headless" ]]; then
-    HEADLESS=true
-fi
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --headless)
+            HEADLESS=true
+            shift
+            ;;
+        --software-rendering)
+            SOFTWARE_RENDERING=true
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -127,8 +140,15 @@ if [[ -f "$HOME/.local/bin/clang++" ]]; then
     echo -e "${YELLOW}Note: Using custom clang++ wrapper from ~/.local/bin${NC}"
 fi
 
+# Build Flutter run command
+FLUTTER_ARGS="-d $DEVICE_ID"
+if [[ "$SOFTWARE_RENDERING" == true ]]; then
+    echo -e "${YELLOW}Note: Using --enable-software-rendering flag${NC}"
+    FLUTTER_ARGS="--enable-software-rendering $FLUTTER_ARGS"
+fi
+
 # Run Flutter app
-flutter run -d "$DEVICE_ID"
+flutter run $FLUTTER_ARGS
 
 echo ""
 echo -e "${GREEN}✓ App session ended${NC}"
