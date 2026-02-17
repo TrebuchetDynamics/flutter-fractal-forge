@@ -3,13 +3,8 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:flutter_fractals/core/shaders/uniform_schema.dart';
-import 'package:flutter_fractals/features/renderer/perturbation_controller.dart';
-import 'package:flutter_fractals/features/renderer/perturbation_service.dart';
 import 'package:vector_math/vector_math.dart';
-
-final PerturbationService _perturbService = PerturbationService();
 
 FractalModule buildMandelbrotModule() {
   final schema = UniformSchema.build((b) {
@@ -19,6 +14,7 @@ FractalModule buildMandelbrotModule() {
     b.float('uZoom');
     b.float('uIterations');
     b.float('uBailout');
+    b.float('uColorScheme');
     b.float('uTransparentBg');
     // Palette is now a sampler2D — no more vec4 stops!
   });
@@ -67,7 +63,7 @@ FractalModule buildMandelbrotModule() {
     id: 'mandelbrot',
     displayName: (l10n) => l10n.moduleMandelbrot,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/escape_time_perturb_gpu.frag',
+    shaderAsset: 'shaders/mandel_step_smooth.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -179,35 +175,24 @@ FractalModule buildMandelbrotModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      final iterations = _readDouble(state.params, 'iterations', 120).round();
+      final iterations = _readDouble(state.params, 'iterations', 120);
       final bailout = _readDouble(state.params, 'bailout', 4.0);
-
-      _perturbService.update(
-        formula: PerturbFormulaType.mandelbrot,
-        cRefRe: state.view.pan.x,
-        cRefIm: state.view.pan.y,
-        maxIter: iterations,
-        bailout: bailout,
-      );
+      final colorScheme = _readDouble(state.params, 'colorScheme', 0);
 
       final w = schema.writer(shader);
       w.setFloat('uTime', time);
       w.setVec2('uResolution', size.width, size.height);
       w.setVec2('uCenter', state.view.pan.x, state.view.pan.y);
       w.setFloat('uZoom', state.view.zoom);
-      w.setFloat('uIterations', iterations.toDouble());
+      w.setFloat('uIterations', iterations);
       w.setFloat('uBailout', bailout);
+      w.setFloat('uColorScheme', colorScheme);
       w.setFloat('uTransparentBg', state.transparentBackground ? 1.0 : 0.0);
 
-      final paletteIdx = _readDouble(state.params, 'colorScheme', 0).round();
-      final palette = PaletteService.instance.paletteAtIndex(paletteIdx);
-      final palTex = PaletteService.instance.paletteTexture(palette);
-      shader.setImageSampler(0, palTex);
-
-      final orbitTex = _perturbService.orbitTexture;
-      if (orbitTex != null) {
-        shader.setImageSampler(1, orbitTex);
-      }
+      // DIAG: no sampler for diag_9float.frag test
+      // final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
+      // final paletteTex = PaletteService.instance.paletteTexture(palette);
+      // shader.setImageSampler(0, paletteTex);
     },
   );
 }

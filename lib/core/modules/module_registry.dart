@@ -4,7 +4,6 @@ import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart'
 import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
 import 'package:flutter_fractals/core/modules/julia_module.dart';
-import 'package:flutter_fractals/core/modules/mandelbrot_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/nova_module.dart';
 import 'package:flutter_fractals/core/modules/phoenix_module.dart';
@@ -49,11 +48,6 @@ class ModuleRegistry {
   static List<FractalModule> _buildAll() {
     // IDs already in the escape-time catalog (built declaratively)
     final catalogModules = buildEscapeTimeCatalogModules();
-    final mandelbrotCatalogIdx = catalogModules.indexWhere((m) => m.id == 'mandelbrot');
-    if (mandelbrotCatalogIdx != -1) {
-      catalogModules[mandelbrotCatalogIdx] = buildMandelbrotModule();
-    }
-
     final catalogIds = catalogModules.map((m) => m.id).toSet();
 
     // Custom modules with special params/uniforms
