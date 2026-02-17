@@ -283,14 +283,20 @@
   "hotPaths": [
     {
       "path": "lib/core/modules/test_shaders_module.dart",
-      "accessCount": 5,
-      "lastAccessed": 1771287469997,
+      "accessCount": 9,
+      "lastAccessed": 1771289175511,
       "type": "file"
     },
     {
       "path": "lib/core/modules/module_registry.dart",
-      "accessCount": 4,
-      "lastAccessed": 1771286934913,
+      "accessCount": 8,
+      "lastAccessed": 1771289179392,
+      "type": "file"
+    },
+    {
+      "path": "pubspec.yaml",
+      "accessCount": 7,
+      "lastAccessed": 1771289181797,
       "type": "file"
     },
     {
@@ -300,22 +306,46 @@
       "type": "file"
     },
     {
+      "path": "lib/features/renderer",
+      "accessCount": 4,
+      "lastAccessed": 1771288160645,
+      "type": "directory"
+    },
+    {
+      "path": "lib/core/modules",
+      "accessCount": 4,
+      "lastAccessed": 1771288454443,
+      "type": "directory"
+    },
+    {
+      "path": "shaders/mandelbrot.frag",
+      "accessCount": 4,
+      "lastAccessed": 1771288476939,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/mandelbrot_module.dart",
+      "accessCount": 4,
+      "lastAccessed": 1771288559161,
+      "type": "file"
+    },
+    {
       "path": "lib/features/viewer/fractal_viewer_screen.dart",
       "accessCount": 3,
       "lastAccessed": 1771286830585,
       "type": "file"
     },
     {
-      "path": "pubspec.yaml",
+      "path": "shaders/test_minimal.frag",
       "accessCount": 3,
-      "lastAccessed": 1771286906199,
+      "lastAccessed": 1771288189353,
       "type": "file"
     },
     {
-      "path": "lib/core/modules",
+      "path": "shaders/test_gl_fragcoord.frag",
       "accessCount": 3,
-      "lastAccessed": 1771287443070,
-      "type": "directory"
+      "lastAccessed": 1771288191058,
+      "type": "file"
     },
     {
       "path": "lib",
@@ -334,6 +364,24 @@
       "accessCount": 2,
       "lastAccessed": 1771287441709,
       "type": "directory"
+    },
+    {
+      "path": "lib/features/renderer/fractal_renderer.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771288156060,
+      "type": "file"
+    },
+    {
+      "path": "shaders/test_flutter_coord.frag",
+      "accessCount": 2,
+      "lastAccessed": 1771288169399,
+      "type": "file"
+    },
+    {
+      "path": "shaders/test_always_red.frag",
+      "accessCount": 2,
+      "lastAccessed": 1771289581848,
+      "type": "file"
     },
     {
       "path": "app.description.md",
@@ -438,34 +486,46 @@
       "type": "file"
     },
     {
-      "path": "shaders/mandelbrot.frag",
-      "accessCount": 1,
-      "lastAccessed": 1771286828912,
-      "type": "file"
-    },
-    {
       "path": "lib/features/renderer/render_validation.dart",
       "accessCount": 1,
       "lastAccessed": 1771286841715,
       "type": "file"
     },
     {
-      "path": "shaders/test_minimal.frag",
+      "path": "shaders/julia.frag",
       "accessCount": 1,
-      "lastAccessed": 1771286889992,
+      "lastAccessed": 1771288175460,
       "type": "file"
     },
     {
-      "path": "shaders/test_gl_fragcoord.frag",
+      "path": "shaders/mandel_step_smooth.frag",
       "accessCount": 1,
-      "lastAccessed": 1771286893018,
+      "lastAccessed": 1771288519706,
       "type": "file"
     },
     {
-      "path": "shaders/test_flutter_coord.frag",
+      "path": "lib/core/shaders",
       "accessCount": 1,
-      "lastAccessed": 1771286895305,
+      "lastAccessed": 1771288567453,
+      "type": "directory"
+    },
+    {
+      "path": "shaders/test_uniform_only.frag",
+      "accessCount": 1,
+      "lastAccessed": 1771288582876,
       "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app/README.md",
+      "accessCount": 1,
+      "lastAccessed": 1771290203278,
+      "type": "file"
+    },
+    {
+      "path": "exploration-vulkan-ndk-app",
+      "accessCount": 1,
+      "lastAccessed": 1771290217699,
+      "type": "directory"
     }
   ],
   "userDirectives": []
