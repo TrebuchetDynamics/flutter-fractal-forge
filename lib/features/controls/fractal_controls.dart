@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 class FractalControlsSheet extends StatelessWidget {
   const FractalControlsSheet({Key? key}) : super(key: key);
@@ -16,148 +17,83 @@ class FractalControlsSheet extends StatelessWidget {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.68,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Drag handle
-          Center(
-            child: Container(
-              margin: const EdgeInsets.only(top: AppSpacing.md),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.border,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          // Header
-          Padding(
+    return AppBottomSheet(
+      maxHeightFactor: 0.68,
+      children: [
+        AppBottomSheetHeader(
+          icon: Icons.tune_rounded,
+          title: l10n.controlsTitle,
+          subtitle: controller.module.displayName(l10n),
+          onClose: () => Navigator.of(context).pop(),
+        ),
+        const Divider(height: 1, color: AppColors.divider),
+        // Scrollable content
+        Flexible(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
-              AppSpacing.xl,
               AppSpacing.lg,
-              AppSpacing.xl,
-              AppSpacing.sm,
+              AppSpacing.md,
+              AppSpacing.lg,
+              AppSpacing.lg,
             ),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    gradient: AppColors.primaryGradient,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.tune_rounded,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.controlsTitle,
-                        style: AppTypography.headlineMedium,
+                SectionHeader(title: l10n.controlsTitle),
+                ...controller.module.parameters.asMap().entries.map((entry) {
+                  return StaggeredItem(
+                    index: entry.key,
+                    itemDelay: const Duration(milliseconds: 30),
+                    child: _ParamControl(
+                      param: entry.value,
+                      value: controller.params[entry.value.id] ??
+                          entry.value.defaultValue,
+                      onChanged: (value) =>
+                          controller.updateParam(entry.value.id, value),
+                    ),
+                  );
+                }),
+                const SizedBox(height: AppSpacing.xl),
+                SectionHeader(title: l10n.sectionActions),
+                const SizedBox(height: AppSpacing.sm),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _ActionButton(
+                        icon: Icons.restart_alt_rounded,
+                        label: l10n.resetView,
+                        onPressed: controller.resetView,
                       ),
-                      Text(
-                        controller.module.displayName(l10n),
-                        style: AppTypography.bodySmall.copyWith(
-                          color: AppColors.textMuted,
-                        ),
+                    ),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(
+                      child: _ActionButton(
+                        icon: Icons.settings_backup_restore_rounded,
+                        label: l10n.resetParams,
+                        onPressed: controller.resetParams,
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.md),
+                SizedBox(
+                  width: double.infinity,
+                  child: _AnimatedRandomizeButton(
+                    label: l10n.randomize,
+                    onPressed: () {
+                      HapticFeedback.mediumImpact();
+                      controller.randomizeParams();
+                      // Trigger a small celebration for discovering new fractals
+                      controller.recordInterestingSpot();
+                    },
                   ),
                 ),
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(
-                    Icons.close_rounded,
-                    color: AppColors.textMuted,
-                  ),
-                ),
+                SizedBox(height: MediaQuery.of(context).padding.bottom + AppSpacing.lg),
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.divider),
-          // Scrollable content
-          Flexible(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.lg,
-                AppSpacing.md,
-                AppSpacing.lg,
-                AppSpacing.lg,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SectionHeader(title: l10n.controlsTitle),
-                  ...controller.module.parameters.asMap().entries.map((entry) {
-                    return StaggeredItem(
-                      index: entry.key,
-                      itemDelay: const Duration(milliseconds: 30),
-                      child: _ParamControl(
-                        param: entry.value,
-                        value: controller.params[entry.value.id] ??
-                            entry.value.defaultValue,
-                        onChanged: (value) =>
-                            controller.updateParam(entry.value.id, value),
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: AppSpacing.xl),
-                  SectionHeader(title: l10n.sectionActions),
-                  const SizedBox(height: AppSpacing.sm),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _ActionButton(
-                          icon: Icons.restart_alt_rounded,
-                          label: l10n.resetView,
-                          onPressed: controller.resetView,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: _ActionButton(
-                          icon: Icons.settings_backup_restore_rounded,
-                          label: l10n.resetParams,
-                          onPressed: controller.resetParams,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  SizedBox(
-                    width: double.infinity,
-                    child: _AnimatedRandomizeButton(
-                      label: l10n.randomize,
-                      onPressed: () {
-                        HapticFeedback.mediumImpact();
-                        controller.randomizeParams();
-                        // Trigger a small celebration for discovering new fractals
-                        controller.recordInterestingSpot();
-                      },
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).padding.bottom + AppSpacing.lg),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

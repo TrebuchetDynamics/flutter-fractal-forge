@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 class PresetSheet extends StatefulWidget {
   /// Optional callback when batch export is requested.
@@ -50,288 +51,224 @@ class _PresetSheetState extends State<PresetSheet> {
 
     _userPresetsFuture ??= presetStore.loadUserPresets(controller.module.id);
 
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.85,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Drag handle
-          Center(
-            child: Container(
-              margin: const EdgeInsets.only(top: AppSpacing.md),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.border,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
+    return AppBottomSheet(
+      maxHeightFactor: 0.85,
+      children: [
+        AppBottomSheetHeader(
+          icon: Icons.bookmark_rounded,
+          iconGradient: LinearGradient(
+            colors: [
+              AppColors.secondary.withOpacity(0.8),
+              AppColors.secondaryDark,
+            ],
           ),
-          // Header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.xl,
-              AppSpacing.lg,
-              AppSpacing.xl,
-              AppSpacing.sm,
-            ),
-            child: Row(
+          title: l10n.presetsTitle,
+          subtitle: controller.module.displayName(l10n),
+          onClose: () => Navigator.of(context).pop(),
+        ),
+        const Divider(height: 1, color: AppColors.divider),
+        // Scrollable content
+        Flexible(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(AppSpacing.xl),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.secondary.withOpacity(0.8),
-                        AppColors.secondaryDark,
+                // Save new preset section
+                SectionHeader(title: l10n.savePreset),
+                const SizedBox(height: AppSpacing.sm),
+                FadeIn(
+                  child: AnimatedContainer(
+                    duration: AppAnimations.normal,
+                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceVariant.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                      border: Border.all(
+                        color: _isInputFocused
+                            ? AppColors.primary.withOpacity(0.4)
+                            : AppColors.border.withOpacity(0.3),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        AnimatedContainer(
+                          duration: AppAnimations.normal,
+                          decoration: BoxDecoration(
+                            color: AppColors.surface,
+                            borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+                            border: Border.all(
+                              color: _isInputFocused
+                                  ? AppColors.primary.withOpacity(0.6)
+                                  : AppColors.border.withOpacity(0.4),
+                              width: _isInputFocused ? 1.5 : 1,
+                            ),
+                          ),
+                          child: TextField(
+                            controller: _nameController,
+                            focusNode: _focusNode,
+                            style: AppTypography.bodyMedium.copyWith(
+                              color: AppColors.textPrimary,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: l10n.presetNameHint,
+                              hintStyle: AppTypography.bodyMedium.copyWith(
+                                color: AppColors.textMuted,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.edit_rounded,
+                                size: 20,
+                                color: _isInputFocused
+                                    ? AppColors.primary
+                                    : AppColors.textMuted,
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.lg,
+                                vertical: AppSpacing.md,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        SizedBox(
+                          width: double.infinity,
+                          child: GradientButton(
+                            onPressed: (_saving || _nameController.text.trim().isEmpty)
+                                ? null
+                                : () => _savePreset(context, controller, presetStore, l10n),
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors.secondary.withOpacity(0.9),
+                                AppColors.secondaryDark,
+                              ],
+                            ),
+                            child: _saving
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.save_rounded, size: 20),
+                                      const SizedBox(width: AppSpacing.sm),
+                                      Text(l10n.savePreset),
+                                    ],
+                                  ),
+                          ),
+                        ),
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.bookmark_rounded,
-                    color: Colors.white,
-                    size: 20,
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.presetsTitle,
-                        style: AppTypography.headlineMedium,
+                const SizedBox(height: AppSpacing.xl),
+
+                // Built-in presets
+                SectionHeader(title: l10n.builtInPresets),
+                const SizedBox(height: AppSpacing.sm),
+                Wrap(
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  children: controller.module.builtInPresets.asMap().entries.map((entry) {
+                    return StaggeredItem(
+                      index: entry.key,
+                      itemDelay: const Duration(milliseconds: 40),
+                      child: _PresetChip(
+                        label: _presetName(context, entry.value),
+                        icon: Icons.auto_awesome_rounded,
+                        isBuiltIn: true,
+                        onTap: () {
+                          controller.applyPreset(entry.value);
+                          Navigator.of(context).pop();
+                        },
                       ),
-                      Text(
-                        controller.module.displayName(l10n),
-                        style: AppTypography.bodySmall.copyWith(
-                          color: AppColors.textMuted,
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: AppSpacing.xl),
+
+                // User presets
+                SectionHeader(title: l10n.userPresets),
+                const SizedBox(height: AppSpacing.sm),
+                FutureBuilder<List<FractalPreset>>(
+                  future: _userPresetsFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            Text(
+                              l10n.loadingPresets,
+                              style: AppTypography.bodyMedium.copyWith(
+                                color: AppColors.textMuted,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      return FadeIn(
+                        child: _ErrorState(
+                          message: l10n.presetsLoadFailed,
+                          onRetry: () {
+                            setState(() {
+                              _userPresetsFuture =
+                                  presetStore.loadUserPresets(controller.module.id);
+                            });
+                          },
+                          l10n: l10n,
+                        ),
+                      );
+                    }
+                    final presets = snapshot.data ?? [];
+                    if (presets.isEmpty) {
+                      return FadeIn(
+                        child: _EmptyUserPresets(l10n: l10n),
+                      );
+                    }
+                    return Wrap(
+                      spacing: AppSpacing.sm,
+                      runSpacing: AppSpacing.sm,
+                      children: presets.asMap().entries.map((entry) {
+                        return StaggeredItem(
+                          index: entry.key,
+                          itemDelay: const Duration(milliseconds: 40),
+                          child: _PresetChip(
+                            label: entry.value.name,
+                            icon: Icons.bookmark_outline_rounded,
+                            isBuiltIn: false,
+                            onTap: () {
+                              controller.applyPreset(entry.value);
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
                 ),
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(
-                    Icons.close_rounded,
-                    color: AppColors.textMuted,
-                  ),
-                ),
+                SizedBox(height: MediaQuery.of(context).padding.bottom + AppSpacing.lg),
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.divider),
-          // Scrollable content
-          Flexible(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Save new preset section
-                  SectionHeader(title: l10n.savePreset),
-                  const SizedBox(height: AppSpacing.sm),
-                  FadeIn(
-                    child: AnimatedContainer(
-                      duration: AppAnimations.normal,
-                      padding: const EdgeInsets.all(AppSpacing.lg),
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceVariant.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-                        border: Border.all(
-                          color: _isInputFocused
-                              ? AppColors.primary.withOpacity(0.4)
-                              : AppColors.border.withOpacity(0.3),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          AnimatedContainer(
-                            duration: AppAnimations.normal,
-                            decoration: BoxDecoration(
-                              color: AppColors.surface,
-                              borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-                              border: Border.all(
-                                color: _isInputFocused
-                                    ? AppColors.primary.withOpacity(0.6)
-                                    : AppColors.border.withOpacity(0.4),
-                                width: _isInputFocused ? 1.5 : 1,
-                              ),
-                            ),
-                            child: TextField(
-                              controller: _nameController,
-                              focusNode: _focusNode,
-                              style: AppTypography.bodyMedium.copyWith(
-                                color: AppColors.textPrimary,
-                              ),
-                              decoration: InputDecoration(
-                                hintText: l10n.presetNameHint,
-                                hintStyle: AppTypography.bodyMedium.copyWith(
-                                  color: AppColors.textMuted,
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.edit_rounded,
-                                  size: 20,
-                                  color: _isInputFocused
-                                      ? AppColors.primary
-                                      : AppColors.textMuted,
-                                ),
-                                border: InputBorder.none,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.lg,
-                                  vertical: AppSpacing.md,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          SizedBox(
-                            width: double.infinity,
-                            child: GradientButton(
-                              onPressed: (_saving || _nameController.text.trim().isEmpty)
-                                  ? null
-                                  : () => _savePreset(context, controller, presetStore, l10n),
-                              gradient: LinearGradient(
-                                colors: [
-                                  AppColors.secondary.withOpacity(0.9),
-                                  AppColors.secondaryDark,
-                                ],
-                              ),
-                              child: _saving
-                                  ? const SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(Icons.save_rounded, size: 20),
-                                        const SizedBox(width: AppSpacing.sm),
-                                        Text(l10n.savePreset),
-                                      ],
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
-
-                  // Built-in presets
-                  SectionHeader(title: l10n.builtInPresets),
-                  const SizedBox(height: AppSpacing.sm),
-                  Wrap(
-                    spacing: AppSpacing.sm,
-                    runSpacing: AppSpacing.sm,
-                    children: controller.module.builtInPresets.asMap().entries.map((entry) {
-                      return StaggeredItem(
-                        index: entry.key,
-                        itemDelay: const Duration(milliseconds: 40),
-                        child: _PresetChip(
-                          label: _presetName(context, entry.value),
-                          icon: Icons.auto_awesome_rounded,
-                          isBuiltIn: true,
-                          onTap: () {
-                            controller.applyPreset(entry.value);
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
-
-                  // User presets
-                  SectionHeader(title: l10n.userPresets),
-                  const SizedBox(height: AppSpacing.sm),
-                  FutureBuilder<List<FractalPreset>>(
-                    future: _userPresetsFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                              const SizedBox(width: AppSpacing.md),
-                              Text(
-                                l10n.loadingPresets,
-                                style: AppTypography.bodyMedium.copyWith(
-                                  color: AppColors.textMuted,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      if (snapshot.hasError) {
-                        return FadeIn(
-                          child: _ErrorState(
-                            message: l10n.presetsLoadFailed,
-                            onRetry: () {
-                              setState(() {
-                                _userPresetsFuture =
-                                    presetStore.loadUserPresets(controller.module.id);
-                              });
-                            },
-                            l10n: l10n,
-                          ),
-                        );
-                      }
-                      final presets = snapshot.data ?? [];
-                      if (presets.isEmpty) {
-                        return FadeIn(
-                          child: _EmptyUserPresets(l10n: l10n),
-                        );
-                      }
-                      return Wrap(
-                        spacing: AppSpacing.sm,
-                        runSpacing: AppSpacing.sm,
-                        children: presets.asMap().entries.map((entry) {
-                          return StaggeredItem(
-                            index: entry.key,
-                            itemDelay: const Duration(milliseconds: 40),
-                            child: _PresetChip(
-                              label: entry.value.name,
-                              icon: Icons.bookmark_outline_rounded,
-                              isBuiltIn: false,
-                              onTap: () {
-                                controller.applyPreset(entry.value);
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          );
-                        }).toList(),
-                      );
-                    },
-                  ),
-                  SizedBox(height: MediaQuery.of(context).padding.bottom + AppSpacing.lg),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

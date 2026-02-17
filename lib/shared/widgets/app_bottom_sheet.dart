@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
+
+/// Standard bottom sheet container with drag handle and rounded top corners.
+///
+/// Eliminates the repeated [Container] + drag-handle + decoration boilerplate
+/// found in every modal bottom sheet. Pass [children] (header, divider,
+/// [Flexible] content, etc.) and they are placed in a [Column] below the handle.
+class AppBottomSheet extends StatelessWidget {
+  /// Fraction of screen height available for this sheet (default: 0.68).
+  final double maxHeightFactor;
+
+  /// Widgets placed after the drag handle (typically an [AppBottomSheetHeader],
+  /// a [Divider], and a [Flexible] scrollable body).
+  final List<Widget> children;
+
+  const AppBottomSheet({
+    super.key,
+    this.maxHeightFactor = 0.68,
+    required this.children,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * maxHeightFactor,
+      ),
+      decoration: const BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const _DragHandle(),
+          ...children,
+        ],
+      ),
+    );
+  }
+}
+
+class _DragHandle extends StatelessWidget {
+  const _DragHandle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.only(top: AppSpacing.md),
+        width: 40,
+        height: 4,
+        decoration: BoxDecoration(
+          color: AppColors.border,
+          borderRadius: BorderRadius.circular(2),
+        ),
+      ),
+    );
+  }
+}
+
+/// Standard header row for an [AppBottomSheet].
+///
+/// Renders a gradient icon badge on the left, a [title] + optional [subtitle]
+/// column in the middle, and a close [IconButton] on the right.
+class AppBottomSheetHeader extends StatelessWidget {
+  final IconData icon;
+
+  /// Gradient for the icon badge. Defaults to [AppColors.primaryGradient].
+  final Gradient? iconGradient;
+
+  final String title;
+  final String? subtitle;
+  final VoidCallback? onClose;
+
+  const AppBottomSheetHeader({
+    super.key,
+    required this.icon,
+    this.iconGradient,
+    required this.title,
+    this.subtitle,
+    this.onClose,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.xl,
+        AppSpacing.lg,
+        AppSpacing.xl,
+        AppSpacing.sm,
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              gradient: iconGradient ?? AppColors.primaryGradient,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: Colors.white, size: 20),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: AppTypography.headlineMedium),
+                if (subtitle != null)
+                  Text(
+                    subtitle!,
+                    style: AppTypography.bodySmall.copyWith(
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          if (onClose != null)
+            IconButton(
+              onPressed: onClose,
+              icon: Icon(Icons.close_rounded, color: AppColors.textMuted),
+            ),
+        ],
+      ),
+    );
+  }
+}
