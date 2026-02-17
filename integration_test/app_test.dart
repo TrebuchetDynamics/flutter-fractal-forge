@@ -188,6 +188,29 @@ void main() {
       semantics.dispose();
     });
 
+    testWidgets('Search then open module shows renderer and actions', (tester) async {
+      final semantics = tester.ensureSemantics();
+      await pumpApp(tester);
+
+      final searchField = find.byKey(const Key('catalogSearchField'));
+      await tester.enterText(searchField, 'Burning');
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      // Open filtered result.
+      await tester.tap(find.text('Burning Ship').first);
+      await tester.pump(const Duration(seconds: 2));
+
+      // Verify viewer loaded with visible renderer + core actions.
+      expect(find.byType(FractalRenderer), findsOneWidget);
+      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.bookmark_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.download_rounded), findsOneWidget);
+
+      logger.logNavigation('Search->open Burning Ship viewer');
+      semantics.dispose();
+    });
+
     testWidgets('Viewer drag + pinch updates fractal view state', (tester) async {
       final semantics = tester.ensureSemantics();
       await pumpApp(tester);

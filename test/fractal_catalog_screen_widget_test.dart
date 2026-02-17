@@ -137,5 +137,64 @@ void main() {
       // Module text should render.
       expect(find.text('Mandelbrot'), findsOneWidget);
     });
+
+    testWidgets('search miss shows empty state and clear restores results',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester.enterText(
+          find.byKey(const Key('catalogSearchField')), 'zzzz-no-match');
+      await tester.pump(const Duration(milliseconds: 350));
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.search_off_rounded), findsOneWidget);
+      expect(find.byKey(const Key('catalogClearSearchButton')), findsOneWidget);
+
+      await tester.tap(find.byKey(const Key('catalogClearSearchButton')));
+      await tester.pump(const Duration(milliseconds: 350));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Mandelbrot'), findsOneWidget);
+    });
+
+    testWidgets('respects saved list-view preference at startup',
+        (tester) async {
+      SharedPreferences.setMockInitialValues({'catalog_view_grid': false});
+
+      registry = ModuleRegistry();
+      controller = FractalController(registry);
+      presetStore = await PresetStore.create();
+      arQualityStore = await ArQualityStore.create();
+      rendererSettings =
+          RendererSettingsService(await SharedPreferences.getInstance());
+
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // In list mode, toggle button should show "switch to grid" icon.
+      expect(find.byIcon(Icons.grid_view_rounded), findsOneWidget);
+      // And the opposite icon should not be the active toggle icon.
+      expect(find.byIcon(Icons.view_list_rounded), findsNothing);
+    });
+
+    testWidgets('view toggle switches to list mode and persists preference',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // Starts in grid mode, so icon indicates switch-to-list.
+      expect(find.byIcon(Icons.view_list_rounded), findsOneWidget);
+
+      await tester.tap(find.byKey(const Key('catalogViewToggleButton')));
+      await tester.pumpAndSettle();
+
+      // After toggle, icon indicates switch back to grid.
+      expect(find.byIcon(Icons.grid_view_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.view_list_rounded), findsNothing);
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getBool('catalog_view_grid'), isFalse);
+    });
   });
 }
