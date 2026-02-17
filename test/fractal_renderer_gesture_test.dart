@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
@@ -304,5 +305,102 @@ void main() {
       final ratio = zoomValues[i] / zoomValues[i - 1];
       expect(ratio, inInclusiveRange(0.5, 2.0)); // No crazy jumps
     }
+  });
+
+  testWidgets('Boundary rubber-banding clamps pan at positive edge',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    // Huge drag should still clamp pan in controller bounds.
+    await tester.drag(
+      find.byType(FractalRenderer),
+      const Offset(5000, 5000),
+    );
+    await tester.pumpAndSettle();
+
+    expect(controller.view.pan.x, inInclusiveRange(-3.0, 3.0));
+    expect(controller.view.pan.y, inInclusiveRange(-3.0, 3.0));
+  });
+
+  testWidgets('Boundary rubber-banding clamps pan at negative edge',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    await tester.drag(
+      find.byType(FractalRenderer),
+      const Offset(-5000, -5000),
+    );
+    await tester.pumpAndSettle();
+
+    expect(controller.view.pan.x, inInclusiveRange(-3.0, 3.0));
+    expect(controller.view.pan.y, inInclusiveRange(-3.0, 3.0));
+  });
+
+  testWidgets('Mouse wheel zoom clamps to max and min limits', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final center = tester.getCenter(find.byType(FractalRenderer));
+
+    // Scroll up aggressively to zoom in (should clamp).
+    await tester.sendEventToBinding(
+      PointerScrollEvent(
+        position: center,
+        scrollDelta: const Offset(0, -100000),
+        kind: PointerDeviceKind.mouse,
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(controller.view.zoom, lessThanOrEqualTo(1e12));
+
+    // Scroll down aggressively to zoom out (should clamp).
+    await tester.sendEventToBinding(
+      PointerScrollEvent(
+        position: center,
+        scrollDelta: const Offset(0, 100000),
+        kind: PointerDeviceKind.mouse,
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(controller.view.zoom, greaterThanOrEqualTo(1e-9));
+  });
+
+  testWidgets('Rapid dual double-tap does not stack duplicate triggers',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final before = controller.view.zoom;
+
+    // First double-tap.
+    await tester.tap(find.byType(FractalRenderer));
+    await tester.pump(const Duration(milliseconds: 40));
+    await tester.tap(find.byType(FractalRenderer));
+    await tester.pump(const Duration(milliseconds: 40));
+
+    // Immediate second double-tap attempt (should not instantly stack).
+    await tester.tap(find.byType(FractalRenderer));
+    await tester.pump(const Duration(milliseconds: 40));
+    await tester.tap(find.byType(FractalRenderer));
+    await tester.pumpAndSettle();
+
+    final after = controller.view.zoom;
+    // Guard against duplicate rapid trigger: allow one step; reject multi-step jump.
+    expect(after, greaterThan(before));
+    expect(after, lessThanOrEqualTo(before * 3.0));
   });
 }
