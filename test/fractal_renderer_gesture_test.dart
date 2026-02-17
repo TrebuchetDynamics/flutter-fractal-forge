@@ -432,4 +432,25 @@ void main() {
     // 67.5 degrees in radians = 1.1780972450961724
     expect(controller.view.rotation.x, inInclusiveRange(0.0, 1.1782));
   });
+
+  testWidgets('Mouse wheel zoom-out respects minimum clamp', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final center = tester.getCenter(find.byType(FractalRenderer));
+
+    await tester.sendEventToBinding(
+      PointerScrollEvent(
+        position: center,
+        scrollDelta: const Offset(0, 500000),
+        kind: PointerDeviceKind.mouse,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(controller.view.zoom, inInclusiveRange(1e-9, 1e12));
+  });
 }

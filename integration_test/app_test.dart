@@ -8,7 +8,10 @@ import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/main.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -181,6 +184,54 @@ void main() {
 
       expect(moduleCards().evaluate().length, greaterThanOrEqualTo(4));
       logger.logAction('test', 'Search cleared, modules visible');
+
+      semantics.dispose();
+    });
+
+    testWidgets('Viewer drag + pinch updates fractal view state', (tester) async {
+      final semantics = tester.ensureSemantics();
+      await pumpApp(tester);
+
+      // Enter viewer from catalog.
+      await tester.tap(moduleCards().first);
+      await tester.pump(const Duration(seconds: 2));
+
+      final rendererFinder = find.byType(FractalRenderer);
+      expect(rendererFinder, findsOneWidget);
+
+      final context = tester.element(rendererFinder);
+      final controller = context.read<FractalController>();
+
+      final initialPanX = controller.view.pan.x;
+      final initialPanY = controller.view.pan.y;
+      final initialZoom = controller.view.zoom;
+
+      // Drag to pan.
+      await tester.drag(rendererFinder, const Offset(40, 20));
+      await tester.pump(const Duration(milliseconds: 400));
+
+      expect(controller.view.pan.x, isNot(equals(initialPanX)));
+      expect(controller.view.pan.y, isNot(equals(initialPanY)));
+
+      // Pinch out to zoom in.
+      final center = tester.getCenter(rendererFinder);
+      final g1 = await tester.createGesture();
+      final g2 = await tester.createGesture();
+
+      await g1.down(center + const Offset(-40, 0));
+      await g2.down(center + const Offset(40, 0));
+      await tester.pump(const Duration(milliseconds: 50));
+
+      await g1.moveTo(center + const Offset(-80, 0));
+      await g2.moveTo(center + const Offset(80, 0));
+      await tester.pump(const Duration(milliseconds: 200));
+
+      await g1.up();
+      await g2.up();
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(controller.view.zoom, greaterThan(initialZoom));
+      logger.logAction('gesture', 'Viewer drag+pinch changed pan/zoom');
 
       semantics.dispose();
     });
