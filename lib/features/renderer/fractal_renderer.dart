@@ -757,16 +757,50 @@ class _FractalRendererState extends State<FractalRenderer>
   }
 
   void _onDoubleTap([Offset? tapPosition]) {
+    // Stop any momentum so it doesn't fight the animation.
+    _zoomMomentumController.stop();
+    _panMomentumController.stop();
+
     final controller = context.read<FractalController>();
-    final currentZoom = controller.view.zoom;
+    final view = controller.view;
+    final currentZoom = view.zoom;
     final targetZoom = (currentZoom * 2.0).clamp(_kMinZoom, _kMaxZoom);
+
+    // Compute target pan once so the tapped world-point stays fixed on screen.
+    // world_point = pan + rotated(n) / zoom  (must be equal before and after)
+    // => targetPan = pan + rotated(n) * (1/currentZoom - 1/targetZoom)
+    Vector2 targetPan = view.pan;
+    if (tapPosition != null) {
+      final renderBox = context.findRenderObject() as RenderBox?;
+      final size = renderBox?.size;
+      if (size != null) {
+        final scalePx = math.max(1.0, math.min(size.width, size.height));
+        final n = _normalizedPoint(tapPosition, size, scalePx);
+        final rotated = _rotateInv2d(n, view.rotation.z);
+        targetPan = Vector2(
+          _rubberBand(
+              view.pan.x + rotated.x / currentZoom - rotated.x / targetZoom,
+              _kPanMin,
+              _kPanMax),
+          _rubberBand(
+              view.pan.y + rotated.y / currentZoom - rotated.y / targetZoom,
+              _kPanMin,
+              _kPanMax),
+        );
+      }
+    }
 
     if (kDebugMode) {
       debugPrint(
-          '[gesture] double_tap trigger tap=$tapPosition zoom=$currentZoom target=$targetZoom');
+          '[gesture] double_tap trigger tap=$tapPosition zoom=$currentZoom'
+          ' target=$targetZoom targetPan=$targetPan');
     }
 
-    _animateZoomTo(currentZoom, targetZoom, tapPosition);
+    _animatePanZoomTo(
+        startPan: view.pan,
+        targetPan: targetPan,
+        fromZoom: currentZoom,
+        toZoom: targetZoom);
     HapticFeedback.mediumImpact();
   }
 
@@ -912,6 +946,37 @@ class _FractalRendererState extends State<FractalRenderer>
           focalPoint: focalPoint,
         );
       }
+    });
+
+    unawaited(_zoomAnimation!.forward());
+  }
+
+  /// Animates pan and zoom simultaneously from start values to target values.
+  /// Simpler and more reliable than the incremental focal-point approach for
+  /// gestures where the target is known up-front (e.g. double-tap).
+  void _animatePanZoomTo({
+    required Vector2 startPan,
+    required Vector2 targetPan,
+    required double fromZoom,
+    required double toZoom,
+  }) {
+    final controller = context.read<FractalController>();
+
+    _zoomAnimation?.dispose();
+    _zoomAnimation = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    final curve =
+        CurvedAnimation(parent: _zoomAnimation!, curve: Curves.easeOutCubic);
+    _zoomAnimation!.addListener(() {
+      final t = curve.value;
+      controller.updateZoom(fromZoom + (toZoom - fromZoom) * t);
+      controller.updatePan(Vector2(
+        startPan.x + (targetPan.x - startPan.x) * t,
+        startPan.y + (targetPan.y - startPan.y) * t,
+      ));
     });
 
     unawaited(_zoomAnimation!.forward());

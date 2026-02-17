@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1771222371227,
+  "lastScanned": 1771356151349,
   "projectRoot": "/home/xel/git/flutter-fractal-forge",
   "techStack": {
     "languages": [],
@@ -42,7 +42,7 @@
       "path": "agent_test_logs",
       "purpose": null,
       "fileCount": 3576,
-      "lastAccessed": 1771222371221,
+      "lastAccessed": 1771356151340,
       "keyFiles": [
         "app_front.png",
         "app_now.png",
@@ -55,7 +55,7 @@
       "path": "agent_ui_logs",
       "purpose": null,
       "fileCount": 12,
-      "lastAccessed": 1771222371221,
+      "lastAccessed": 1771356151341,
       "keyFiles": [
         "logcat_1_20260208_083400.log",
         "logcat_2_20260208_083441.log",
@@ -68,7 +68,7 @@
       "path": "android",
       "purpose": null,
       "fileCount": 15,
-      "lastAccessed": 1771222371221,
+      "lastAccessed": 1771356151341,
       "keyFiles": [
         "build.gradle.kts",
         "build.gradle.kts.bak",
@@ -81,7 +81,7 @@
       "path": "assets",
       "purpose": "Static assets",
       "fileCount": 2,
-      "lastAccessed": 1771222371221,
+      "lastAccessed": 1771356151341,
       "keyFiles": [
         "AGENTS.md",
         "feature-graphic.png"
@@ -90,30 +90,46 @@
     "build": {
       "path": "build",
       "purpose": "Build output",
-      "fileCount": 2,
-      "lastAccessed": 1771222371222,
+      "fileCount": 5,
+      "lastAccessed": 1771356151341,
       "keyFiles": [
+        "0f800240f1cb2d54a65e196465305194.cache.dill.track.dill",
+        "63bd56dbe4c6a960015c8ffbe968c675.cache.dill.track.dill",
+        "f537d389bd7fe17e116f8b847863fcdd.cache.dill.track.dill",
         "snapshot_blob.bin.d"
       ]
     },
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
-      "fileCount": 14,
-      "lastAccessed": 1771222371222,
+      "fileCount": 17,
+      "lastAccessed": 1771356151342,
       "keyFiles": [
+        "IMPROVEMENTS.md",
         "accessibility_audit.md",
         "apk_size_analysis.md",
         "auto_explore_triage.md",
-        "catalog_redesign_200_ingest_plan.md",
-        "cpu_vs_gpu_rendering.md"
+        "catalog_redesign_200_ingest_plan.md"
+      ]
+    },
+    "exploration-vulkan-ndk-app": {
+      "path": "exploration-vulkan-ndk-app",
+      "purpose": null,
+      "fileCount": 8,
+      "lastAccessed": 1771356151342,
+      "keyFiles": [
+        "README.md",
+        "build.gradle.kts",
+        "gradle.properties",
+        "gradlew",
+        "gradlew.bat"
       ]
     },
     "fractals-library": {
       "path": "fractals-library",
       "purpose": null,
       "fileCount": 4,
-      "lastAccessed": 1771222371222,
+      "lastAccessed": 1771356151342,
       "keyFiles": [
         "AGENTS.md",
         "fractal-library.md",
@@ -124,8 +140,8 @@
     "integration_test": {
       "path": "integration_test",
       "purpose": null,
-      "fileCount": 14,
-      "lastAccessed": 1771222371222,
+      "fileCount": 18,
+      "lastAccessed": 1771356151343,
       "keyFiles": [
         "AGENTS.md",
         "app_test.dart",
@@ -138,14 +154,14 @@
       "path": "ios",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1771222371222,
+      "lastAccessed": 1771356151343,
       "keyFiles": []
     },
     "lib": {
       "path": "lib",
       "purpose": "Library code",
       "fileCount": 2,
-      "lastAccessed": 1771222371222,
+      "lastAccessed": 1771356151343,
       "keyFiles": [
         "AGENTS.md",
         "main.dart"
@@ -155,7 +171,7 @@
       "path": "linux",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1771222371223,
+      "lastAccessed": 1771356151343,
       "keyFiles": [
         "CMakeLists.txt"
       ]
@@ -164,34 +180,34 @@
       "path": "macos",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1771222371223,
+      "lastAccessed": 1771356151343,
       "keyFiles": []
     },
     "screenshots": {
       "path": "screenshots",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1771222371223,
+      "lastAccessed": 1771356151343,
       "keyFiles": []
     },
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
-      "fileCount": 7,
-      "lastAccessed": 1771222371223,
+      "fileCount": 9,
+      "lastAccessed": 1771356151343,
       "keyFiles": [
         "AGENTS.md",
         "desktop-screenshots.sh",
         "emu-status.sh",
         "emu-tap.sh",
-        "headless-emulator-test.sh"
+        "emulator-gpu-proof.sh"
       ]
     },
     "shaders": {
       "path": "shaders",
       "purpose": null,
-      "fileCount": 215,
-      "lastAccessed": 1771222371223,
+      "fileCount": 222,
+      "lastAccessed": 1771356151344,
       "keyFiles": [
         "AGENTS.md",
         "aizawa_gpu.frag",
@@ -200,11 +216,24 @@
         "apollonian_gasket_gpu.frag"
       ]
     },
+    "store_listing": {
+      "path": "store_listing",
+      "purpose": null,
+      "fileCount": 10,
+      "lastAccessed": 1771356151344,
+      "keyFiles": [
+        "ASSET_SPECS.md",
+        "PLAY_UPLOAD_CHECKLIST.md",
+        "UPLOAD_CHECKLIST.md",
+        "content_rating_readiness.md",
+        "feature_graphic.png"
+      ]
+    },
     "test": {
       "path": "test",
       "purpose": "Test files",
-      "fileCount": 48,
-      "lastAccessed": 1771222371223,
+      "fileCount": 49,
+      "lastAccessed": 1771356151344,
       "keyFiles": [
         "AGENTS.md",
         "README.md",
@@ -217,7 +246,7 @@
       "path": "tool",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1771222371224,
+      "lastAccessed": 1771356151344,
       "keyFiles": [
         "render_cpu_png.dart",
         "render_cpu_png_isolate.dart"
@@ -227,7 +256,7 @@
       "path": "web",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1771222371224,
+      "lastAccessed": 1771356151344,
       "keyFiles": [
         "favicon.png",
         "index.html",
@@ -238,7 +267,7 @@
       "path": "windows",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1771222371224,
+      "lastAccessed": 1771356151344,
       "keyFiles": [
         "CMakeLists.txt"
       ]
@@ -247,7 +276,7 @@
       "path": "android/app",
       "purpose": "Application code",
       "fileCount": 5,
-      "lastAccessed": 1771222371226,
+      "lastAccessed": 1771356151347,
       "keyFiles": [
         "build.gradle.kts",
         "build.gradle.kts.bak",
@@ -258,23 +287,32 @@
       "path": "android/build",
       "purpose": "Build output",
       "fileCount": 0,
-      "lastAccessed": 1771222371226,
+      "lastAccessed": 1771356151347,
       "keyFiles": []
     },
     "build/app": {
       "path": "build/app",
       "purpose": "Application code",
       "fileCount": 1,
-      "lastAccessed": 1771222371226,
+      "lastAccessed": 1771356151347,
       "keyFiles": [
         "deeplink.json"
+      ]
+    },
+    "exploration-vulkan-ndk-app/app": {
+      "path": "exploration-vulkan-ndk-app/app",
+      "purpose": "Application code",
+      "fileCount": 1,
+      "lastAccessed": 1771356151348,
+      "keyFiles": [
+        "build.gradle.kts"
       ]
     },
     "fractals-library/scripts": {
       "path": "fractals-library/scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 1,
-      "lastAccessed": 1771222371227,
+      "lastAccessed": 1771356151348,
       "keyFiles": [
         "validate_manifest.py"
       ]
@@ -282,303 +320,21 @@
   },
   "hotPaths": [
     {
-      "path": "",
-      "accessCount": 19,
-      "lastAccessed": 1771290785761,
-      "type": "directory"
-    },
-    {
       "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 12,
-      "lastAccessed": 1771292185144,
-      "type": "file"
-    },
-    {
-      "path": "exploration-vulkan-ndk-app",
       "accessCount": 10,
-      "lastAccessed": 1771292033672,
-      "type": "directory"
-    },
-    {
-      "path": "lib/core/modules/test_shaders_module.dart",
-      "accessCount": 9,
-      "lastAccessed": 1771289175511,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/modules/module_registry.dart",
-      "accessCount": 8,
-      "lastAccessed": 1771289179392,
-      "type": "file"
-    },
-    {
-      "path": "pubspec.yaml",
-      "accessCount": 7,
-      "lastAccessed": 1771289181797,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/viewer/fractal_viewer_screen.dart",
-      "accessCount": 6,
-      "lastAccessed": 1771291955120,
+      "lastAccessed": 1771356942619,
       "type": "file"
     },
     {
       "path": "scripts/run-emulator-app.sh",
-      "accessCount": 4,
-      "lastAccessed": 1771287092151,
+      "accessCount": 5,
+      "lastAccessed": 1771356340596,
       "type": "file"
     },
     {
-      "path": "lib/features/renderer",
-      "accessCount": 4,
-      "lastAccessed": 1771288160645,
-      "type": "directory"
-    },
-    {
-      "path": "lib/core/modules",
-      "accessCount": 4,
-      "lastAccessed": 1771288454443,
-      "type": "directory"
-    },
-    {
-      "path": "shaders/mandelbrot.frag",
-      "accessCount": 4,
-      "lastAccessed": 1771288476939,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/modules/mandelbrot_module.dart",
-      "accessCount": 4,
-      "lastAccessed": 1771288559161,
-      "type": "file"
-    },
-    {
-      "path": "GPU_EMULATOR_FIX.md",
-      "accessCount": 4,
-      "lastAccessed": 1771290317804,
-      "type": "file"
-    },
-    {
-      "path": "exploration-vulkan-ndk-app/README.md",
-      "accessCount": 4,
-      "lastAccessed": 1771290768609,
-      "type": "file"
-    },
-    {
-      "path": "shaders/test_minimal.frag",
-      "accessCount": 3,
-      "lastAccessed": 1771288189353,
-      "type": "file"
-    },
-    {
-      "path": "shaders/test_gl_fragcoord.frag",
-      "accessCount": 3,
-      "lastAccessed": 1771288191058,
-      "type": "file"
-    },
-    {
-      "path": "lib",
-      "accessCount": 3,
-      "lastAccessed": 1771290310973,
-      "type": "directory"
-    },
-    {
-      "path": "lib/core/models/fractal_preset.dart",
+      "path": "scripts/run-app.sh",
       "accessCount": 2,
-      "lastAccessed": 1771287441709,
-      "type": "directory"
-    },
-    {
-      "path": "shaders/test_flutter_coord.frag",
-      "accessCount": 2,
-      "lastAccessed": 1771288169399,
-      "type": "file"
-    },
-    {
-      "path": "shaders/test_always_red.frag",
-      "accessCount": 2,
-      "lastAccessed": 1771289581848,
-      "type": "file"
-    },
-    {
-      "path": "PRD.md",
-      "accessCount": 2,
-      "lastAccessed": 1771290277181,
-      "type": "file"
-    },
-    {
-      "path": "AGENTS.md",
-      "accessCount": 2,
-      "lastAccessed": 1771290277640,
-      "type": "file"
-    },
-    {
-      "path": "docs/cpu_vs_gpu_rendering.md",
-      "accessCount": 2,
-      "lastAccessed": 1771290278071,
-      "type": "file"
-    },
-    {
-      "path": "SHADER_OPTIMIZATIONS.md",
-      "accessCount": 2,
-      "lastAccessed": 1771290278659,
-      "type": "file"
-    },
-    {
-      "path": "docs/renderer_backend_matrix.md",
-      "accessCount": 2,
-      "lastAccessed": 1771290279267,
-      "type": "file"
-    },
-    {
-      "path": "DEVELOPMENT.md",
-      "accessCount": 2,
-      "lastAccessed": 1771290292189,
-      "type": "file"
-    },
-    {
-      "path": "docs/gpu_emulator_validation.md",
-      "accessCount": 2,
-      "lastAccessed": 1771290317366,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/render_validation.dart",
-      "accessCount": 2,
-      "lastAccessed": 1771291399104,
-      "type": "file"
-    },
-    {
-      "path": "app.description.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286140673,
-      "type": "file"
-    },
-    {
-      "path": "audience_and_naming.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286141152,
-      "type": "file"
-    },
-    {
-      "path": "ar.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286141666,
-      "type": "file"
-    },
-    {
-      "path": "desktop.screenshots.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286142052,
-      "type": "file"
-    },
-    {
-      "path": "emulator.automated.testing.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286142446,
-      "type": "file"
-    },
-    {
-      "path": "flutter.android.install.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286142859,
-      "type": "file"
-    },
-    {
-      "path": "BLOCKER_REPORT_2026-02-13.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286150663,
-      "type": "file"
-    },
-    {
-      "path": "BUG_INVENTORY_2026-02-13.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286151218,
-      "type": "file"
-    },
-    {
-      "path": "BUG_INVENTORY_SUMMARY.txt",
-      "accessCount": 1,
-      "lastAccessed": 1771286151943,
-      "type": "file"
-    },
-    {
-      "path": "DELIVERY_2026-02-13.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286152482,
-      "type": "file"
-    },
-    {
-      "path": "store-listing.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286152998,
-      "type": "file"
-    },
-    {
-      "path": "UI_UX_DIAGRAM_README.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286153632,
-      "type": "file"
-    },
-    {
-      "path": "STORE_LISTING.md",
-      "accessCount": 1,
-      "lastAccessed": 1771286257019,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/fractal_canvas.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771286796415,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/backend_policy.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771286796954,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/modules/fractal_module.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771286810439,
-      "type": "file"
-    },
-    {
-      "path": "shaders/julia.frag",
-      "accessCount": 1,
-      "lastAccessed": 1771288175460,
-      "type": "file"
-    },
-    {
-      "path": "shaders/mandel_step_smooth.frag",
-      "accessCount": 1,
-      "lastAccessed": 1771288519706,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/shaders",
-      "accessCount": 1,
-      "lastAccessed": 1771288567453,
-      "type": "directory"
-    },
-    {
-      "path": "shaders/test_uniform_only.frag",
-      "accessCount": 1,
-      "lastAccessed": 1771288582876,
-      "type": "file"
-    },
-    {
-      "path": "README.md",
-      "accessCount": 1,
-      "lastAccessed": 1771290269004,
-      "type": "file"
-    },
-    {
-      "path": "PERFORMANCE.md",
-      "accessCount": 1,
-      "lastAccessed": 1771290278112,
+      "lastAccessed": 1771356393752,
       "type": "file"
     }
   ],
