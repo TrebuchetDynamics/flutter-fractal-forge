@@ -266,9 +266,15 @@ class HistoryProvider extends ChangeNotifier {
     controller.updateRotation(entry.view.rotation);
   }
 
+  /// Cancels any pending debounced history record.
+  void cancelPendingRecord() {
+    _debounceTimer?.cancel();
+    _debounceTimer = null;
+  }
+
   @override
   void dispose() {
-    _debounceTimer?.cancel();
+    cancelPendingRecord();
     super.dispose();
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -15,6 +17,8 @@ void main() {
     late FractalController controller;
     late PresetStore presetStore;
     late RendererSettingsService rendererSettings;
+    late HistoryStore historyStore;
+    late HistoryProvider historyProvider;
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +27,14 @@ void main() {
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
       rendererSettings = RendererSettingsService(await SharedPreferences.getInstance());
+      historyStore = await HistoryStore.create();
+      historyProvider = HistoryProvider(store: historyStore);
+    });
+
+    tearDown(() {
+      historyProvider.dispose();
+      controller.dispose();
+      rendererSettings.dispose();
     });
 
     Widget buildTestWidget() {
@@ -32,6 +44,7 @@ void main() {
           ChangeNotifierProvider.value(value: controller),
           Provider.value(value: presetStore),
           ChangeNotifierProvider.value(value: rendererSettings),
+          ChangeNotifierProvider.value(value: historyProvider),
         ],
         child: MaterialApp(
           locale: const Locale('en'),
@@ -65,6 +78,7 @@ void main() {
 
       controller.selectModule(registry.byId('julia'));
       await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 700));
 
       expect(find.text('Julia'), findsOneWidget);
     });
@@ -115,6 +129,25 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
+    testWidgets('history back button restores previous module', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // Give history debounce time to record initial location.
+      await tester.pump(const Duration(milliseconds: 700));
+
+      controller.selectModule(registry.byId('julia'));
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 700));
+
+      expect(find.text('Julia'), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.undo_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Mandelbrot'), findsOneWidget);
+    });
+
     testWidgets('works with all modules', (tester) async {
       // Many screens include continuous animations (shader time, UI pulses, etc.).
       // `pumpAndSettle` can therefore time out even when the UI is correct.
@@ -124,6 +157,7 @@ void main() {
         await tester.pumpWidget(buildTestWidget());
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump(const Duration(milliseconds: 700));
 
         // Basic sanity: the screen should build and not throw.
         expect(find.byType(Scaffold), findsOneWidget);

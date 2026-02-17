@@ -39,6 +39,7 @@ import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/features/export/video_export_sheet.dart';
 import 'package:flutter_fractals/core/models/video_export_options.dart';
 import 'package:flutter_fractals/core/services/video_export_service.dart';
+import 'package:flutter_fractals/features/history/history_entry.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/history/history_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
@@ -600,6 +601,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
     final rendererSettings = context.watch<RendererSettingsService>();
+    final historyProvider = context.watch<HistoryProvider?>();
     final backendMode = rendererSettings.backendMode;
 
     // Debounce backend decision refresh to prevent excessive recalculation
@@ -662,6 +664,18 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               HapticFeedback.selectionClick();
             },
           ),
+          if (historyProvider != null && historyProvider.canGoBack)
+            _AppBarIconButton(
+              icon: Icons.undo_rounded,
+              tooltip: 'Back in view history',
+              onPressed: () => _goHistoryBack(context),
+            ),
+          if (historyProvider != null && historyProvider.canGoForward)
+            _AppBarIconButton(
+              icon: Icons.redo_rounded,
+              tooltip: 'Forward in view history',
+              onPressed: () => _goHistoryForward(context),
+            ),
           _AppBarIconButton(
             icon: Icons.camera_rounded,
             tooltip: 'AR',
@@ -1357,6 +1371,45 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       svc.resume();
     }
     _resumeAutoExploreAfterExportSheet = false;
+  }
+
+  void _applyHistoryEntry(BuildContext context, HistoryEntry entry) {
+    final controller = context.read<FractalController>();
+    final registry = context.read<ModuleRegistry>();
+
+    if (controller.module.id != entry.moduleId) {
+      controller.selectModule(registry.byId(entry.moduleId), animate: false);
+    }
+
+    for (final paramEntry in entry.params.entries) {
+      try {
+        controller.updateParam(paramEntry.key, paramEntry.value);
+      } catch (_) {
+        // Ignore params not present in the selected module.
+      }
+    }
+
+    controller.updateZoom(entry.view.zoom);
+    controller.updatePan(entry.view.pan);
+    controller.updateRotation(entry.view.rotation);
+  }
+
+  void _goHistoryBack(BuildContext context) {
+    final historyProvider = context.read<HistoryProvider?>();
+    if (historyProvider == null) return;
+    final entry = historyProvider.goBack();
+    if (entry == null) return;
+    _applyHistoryEntry(context, entry);
+    AccessibilityService.announce('Moved to previous view');
+  }
+
+  void _goHistoryForward(BuildContext context) {
+    final historyProvider = context.read<HistoryProvider?>();
+    if (historyProvider == null) return;
+    final entry = historyProvider.goForward();
+    if (entry == null) return;
+    _applyHistoryEntry(context, entry);
+    AccessibilityService.announce('Moved to next view');
   }
 
   /// Records the current location in history.

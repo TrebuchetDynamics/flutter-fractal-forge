@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:flutter_fractals/core/shaders/uniform_schema.dart';
+import 'package:flutter_fractals/features/renderer/perturbation_controller.dart';
 import 'package:flutter_fractals/features/renderer/perturbation_service.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -66,7 +67,7 @@ FractalModule buildMandelbrotModule() {
     id: 'mandelbrot',
     displayName: (l10n) => l10n.moduleMandelbrot,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/mandelbrot_perturb_gpu.frag',
+    shaderAsset: 'shaders/escape_time_perturb_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -182,6 +183,7 @@ FractalModule buildMandelbrotModule() {
       final bailout = _readDouble(state.params, 'bailout', 4.0);
 
       _perturbService.update(
+        formula: PerturbFormulaType.mandelbrot,
         cRefRe: state.view.pan.x,
         cRefIm: state.view.pan.y,
         maxIter: iterations,
