@@ -59,7 +59,6 @@ import 'package:flutter_fractals/features/viewer/components/fractal_app_bar.dart
 import 'package:flutter_fractals/features/viewer/components/fractal_view_controls.dart';
 import 'package:flutter_fractals/features/viewer/components/cpu_fallback_pane.dart';
 import 'package:flutter_fractals/features/viewer/components/compare_renderer.dart';
-import 'package:flutter_fractals/features/viewer/components/viewer_export_overlay.dart';
 
 class FractalViewerScreen extends StatefulWidget {
   const FractalViewerScreen({Key? key}) : super(key: key);
