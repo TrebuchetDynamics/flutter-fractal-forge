@@ -558,6 +558,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Simonbrot',
     shaderAsset: 'shaders/simonbrot_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'simonbrot-relief',
+        moduleId: 'simonbrot',
+        name: 'Simonbrot Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'shark_fin',
@@ -628,12 +639,34 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Talis Fractal',
     shaderAsset: 'shaders/talis_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'talis-relief',
+        moduleId: 'talis',
+        name: 'Talis Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tetration',
     name: 'Tetration Fractal',
     shaderAsset: 'shaders/tetration_gpu.frag',
     defaultIterations: 90,
+    extraPresets: [
+      FractalPreset(
+        id: 'tetration-relief',
+        moduleId: 'tetration',
+        name: 'Tetration Relief',
+        params: {'iterations': 130, 'bailout': 4.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
 
   // ── XI. IFS / Geometric Fractals ───────────────────────
@@ -1361,6 +1394,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Fish Fractal',
     shaderAsset: 'shaders/fish_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'fish-relief',
+        moduleId: 'fish',
+        name: 'Fish Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'ducky',

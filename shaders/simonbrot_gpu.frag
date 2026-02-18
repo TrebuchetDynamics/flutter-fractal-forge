@@ -2,6 +2,11 @@
 
 precision highp float;
 
+// Simonbrot: z_{n+1} = z² + z/|z| + c  (Mandelbrot-style, z₀=0, c=pixel)
+// The unit-vector term z/|z| adds a constant-magnitude radial push each step,
+// producing fractal boundaries with unusually dense filaments and "thorny" spurs.
+// Derivative (dz/dc): approx 2z·der + der/|z| + 1  (when |z|>0), der₀=(0,0).
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform vec2  uCenter;        // 3-4
@@ -22,6 +27,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
+// colorScheme 0-49: standard palette. 50-63: normal-map (14 angles × 4 palettes).
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
@@ -57,8 +63,12 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
+  int schemeInt = int(uColorScheme);
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
   vec2 z = vec2(0.0);
+
+  // Mandelbrot-style derivative dz/dc: der₀=(0,0)
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
@@ -71,6 +81,12 @@ void main() {
     // Simonbrot: z = z^2 + z/|z| + c
     float r = length(z);
     vec2 unit = (r > 1e-12) ? (z / r) : vec2(0.0);
+    // Approximate: d(z/|z|)/dc ≈ der/r (treating |z| as locally constant)
+    if (r > 1e-12) {
+      der = 2.0 * cmul(z, der) + der / r + vec2(1.0, 0.0);
+    } else {
+      der = vec2(1.0, 0.0);
+    }
     z = cmul(z, z) + unit + c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
@@ -82,8 +98,30 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
+  float mag2      = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }
