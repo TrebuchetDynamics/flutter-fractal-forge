@@ -1928,6 +1928,42 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     ],
   ),
   EscapeTimeConfig(
+    id: 'multibrot_15',
+    name: 'Multibrot d=1.5',
+    shaderAsset: 'shaders/multibrot_15_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot15-relief',
+        moduleId: 'multibrot_15',
+        name: 'Half-Power Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'perp_celtic_cubic',
+    name: 'Perpendicular Celtic Cubic',
+    shaderAsset: 'shaders/perp_celtic_cubic_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-celtic-cubic-relief',
+        moduleId: 'perp_celtic_cubic',
+        name: 'Fold Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
     id: 'mandelbrot_curvature_avg',
     name: 'Mandelbrot Curvature Avg',
     shaderAsset: 'shaders/mandelbrot_curvature_avg_gpu.frag',
