@@ -217,6 +217,69 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
   }
 
   // ignore: unused_element
+  /// Quick-save the current view + params as a named user preset (N4 Bookmarks).
+  ///
+  /// Auto-names the bookmark as "<Fractal> @ <zoom>×" so the user gets instant
+  /// confirmation without having to type anything. The preset is retrievable via
+  /// the existing PresetSheet (bookmark icon in the controls bar).
+  Future<void> _saveBookmark(BuildContext context) async {
+    final controller = _activeController(context);
+    final presetStore = context.read<PresetStore>();
+    final l10n = AppLocalizations.of(context)!;
+
+    // Auto-name: "<ModuleName> @ <zoom>×"
+    final zoom = controller.view.zoom;
+    final zoomStr = zoom >= 1e6
+        ? '${(zoom / 1e6).toStringAsFixed(1)}M×'
+        : zoom >= 1e3
+            ? '${(zoom / 1e3).toStringAsFixed(1)}k×'
+            : '${zoom.toStringAsFixed(0)}×';
+    final autoName =
+        '${controller.module.displayName(l10n)} @ $zoomStr';
+
+    final preset = FractalPreset(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      moduleId: controller.module.id,
+      name: autoName,
+      params: Map<String, Object>.from(controller.params),
+      view: controller.view,
+      createdAt: DateTime.now(),
+    );
+
+    try {
+      await presetStore.saveUserPreset(preset);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.bookmark_added_rounded,
+                    color: AppColors.success),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Text(
+                    'Saved: $autoName',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+            action: SnackBarAction(
+              label: 'View',
+              onPressed: () => _openPresets(context),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.presetSaveFailed(e.toString()))),
+        );
+      }
+    }
+  }
+
   void _openVideoExport(BuildContext context) {
     final controller = context.read<FractalController>();
 

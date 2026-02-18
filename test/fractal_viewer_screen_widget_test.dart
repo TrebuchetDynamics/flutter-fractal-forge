@@ -85,6 +85,36 @@ void main() {
       expect(find.byTooltip('Back'), findsOneWidget);
     });
 
+    testWidgets('bookmark button is present in app bar', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byTooltip('Save location'), findsOneWidget);
+    });
+
+    testWidgets('tapping bookmark button saves a preset and shows snackbar',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // Verify no presets exist yet.
+      final before = await presetStore.loadUserPresets('mandelbrot');
+      expect(before, isEmpty);
+
+      // Tap the bookmark button.
+      await tester.tap(find.byTooltip('Save location'));
+      await tester.pumpAndSettle();
+
+      // SnackBar should appear with bookmark_added icon.
+      expect(find.byIcon(Icons.bookmark_added_rounded), findsOneWidget);
+
+      // A preset should be saved.
+      final after = await presetStore.loadUserPresets('mandelbrot');
+      expect(after.length, equals(1));
+      expect(after.first.name, contains('Mandelbrot'));
+      expect(after.first.name, contains('×'));
+    });
+
     testWidgets('displays fractal renderer surface', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();

@@ -18,6 +18,7 @@ import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
 import 'package:flutter_fractals/core/services/wallpaper_service.dart';
@@ -567,6 +568,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     ),
                   );
                 },
+              ),
+              // Quick bookmark: save current location (N4)
+              AppBarIconButton(
+                icon: Icons.bookmark_add_rounded,
+                tooltip: 'Save location',
+                onPressed: () => _saveBookmark(context),
               ),
               // Random fractal picker
               AppBarIconButton(
