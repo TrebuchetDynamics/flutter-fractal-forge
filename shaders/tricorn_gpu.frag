@@ -22,6 +22,8 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
+// colorScheme 0-49: standard palette coloring.
+// colorScheme 50-63: normal-map (bas-relief) mode — 14 light angles × 4 base palettes.
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(
@@ -55,14 +57,19 @@ vec3 palette(float t, int scheme) {
   return clamp(col, 0.0, 1.0);
 }
 
-
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
-  vec2 c = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z = vec2(0.0);
+  int schemeInt = int(uColorScheme);
+  vec2 c   = uv / max(0.000001, uZoom) + uCenter;
+  vec2 z   = vec2(0.0);
+  // Complex derivative dz/dc for normal-map shading.
+  // Tricorn applies conj() before squaring; chain rule uses conj(z) as the base:
+  //   zc      = conj(z_n)
+  //   der_next = 2 * zc * der + 1   [complex multiply with conj(z)]
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
 
@@ -75,6 +82,9 @@ void main() {
 
     // Tricorn / Mandelbar: z_{n+1} = conj(z_n)^2 + c
     vec2 zc = vec2(z.x, -z.y);
+    // Derivative update (before z update): 2 * conj(z) * der + 1
+    der = 2.0 * vec2(zc.x * der.x - zc.y * der.y,
+                     zc.x * der.y + zc.y * der.x) + vec2(1.0, 0.0);
     z = vec2(zc.x * zc.x - zc.y * zc.y, 2.0 * zc.x * zc.y) + c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
@@ -86,11 +96,35 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
+  float mag2      = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    // Normal estimate: nv = z / der  (complex division)
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    vec3 col = palette(baseT, basePal) * light;
+    fragColor = vec4(linearToSRGB(col), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0);
   t = fract(t + uTime * 0.0001);
-
-  vec3 color = palette(t, int(uColorScheme));
+  vec3 color = palette(t, schemeInt);
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

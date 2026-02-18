@@ -292,12 +292,52 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Tricorn',
     shaderAsset: 'shaders/tricorn_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'tricorn-relief-dawn',
+        moduleId: 'tricorn',
+        name: 'Bas-Relief: Dawn',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'tricorn-relief-dusk',
+        moduleId: 'tricorn',
+        name: 'Bas-Relief: Dusk',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(-0.16, 0.9), zoom: 30.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'celtic',
     name: 'Celtic',
     shaderAsset: 'shaders/celtic_gpu.frag',
     defaultIterations: 180,
+    extraPresets: [
+      FractalPreset(
+        id: 'celtic-relief-iron',
+        moduleId: 'celtic',
+        name: 'Bas-Relief: Iron',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'celtic-relief-storm',
+        moduleId: 'celtic',
+        name: 'Bas-Relief: Storm',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 4.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'buffalo',
@@ -310,6 +350,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Multibrot d=3',
     shaderAsset: 'shaders/multibrot3_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot3-relief-trine',
+        moduleId: 'multibrot3',
+        name: 'Bas-Relief: Trine',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   // Nova has custom uniforms (relaxation instead of bailout) — keep custom builder.
   // See nova_module.dart.
@@ -1569,12 +1620,34 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Multibrot d=4',
     shaderAsset: 'shaders/multibrot4_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot4-relief-quad',
+        moduleId: 'multibrot4',
+        name: 'Bas-Relief: Quad',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multibrot5',
     name: 'Multibrot d=5',
     shaderAsset: 'shaders/multibrot5_gpu.frag',
     defaultIterations: 170,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot5-relief-quint',
+        moduleId: 'multibrot5',
+        name: 'Bas-Relief: Quint',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'sierpinski_tetrahedron',
