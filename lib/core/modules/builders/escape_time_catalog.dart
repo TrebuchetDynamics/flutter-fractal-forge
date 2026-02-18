@@ -1827,6 +1827,29 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
   ),
+
+  // Mandelbrot Orbit Trap (Cross Trap)
+  // Colors by minimum orbit distance to real/imaginary axes instead of escape
+  // iteration count. Reveals rich banded structure in the classic black interior.
+  EscapeTimeConfig(
+    id: 'mandelbrot_orbit_trap',
+    name: 'Mandelbrot Orbit Trap',
+    shaderAsset: 'shaders/mandelbrot_orbit_trap_gpu.frag',
+    defaultIterations: 300,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'orbit-trap-deep',
+        moduleId: 'mandelbrot_orbit_trap',
+        name: 'Deep Trap',
+        params: {'iterations': 500, 'bailout': 6.0, 'colorScheme': 2},
+        view: FractalViewState(pan: Vector2(-0.747, 0.1), zoom: 20.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.
