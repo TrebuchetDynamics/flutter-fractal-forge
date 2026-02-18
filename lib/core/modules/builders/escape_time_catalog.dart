@@ -1631,6 +1631,32 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/sphinx_tiling_gpu.frag',
     defaultIterations: 120,
   ),
+
+  // ── From MandlebrotSetSFML open-source research ──────────────────────────
+
+  // Log-Rotation Mandelbrot: z_{n+1} = Rot(log|z|) * z^2 + c.
+  // The squared orbit is rotated by log|z_n| before adding c.
+  // Creates twisted, quasi-self-similar spirals unlike any standard set.
+  EscapeTimeConfig(
+    id: 'washed_away',
+    name: 'Washed Away',
+    shaderAsset: 'shaders/washed_away_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+  ),
+
+  // Golden-Ratio Mandelbrot: z_{n+1} = |z|^φ * exp(i·φ·arg(z)) + c
+  // where φ = (1+√5)/2 ≈ 1.618 (golden ratio).
+  // Irrational exponent destroys all rotational symmetry → aperiodic geometry.
+  EscapeTimeConfig(
+    id: 'damaged_doublebrot',
+    name: 'Damaged DoubleBrot',
+    shaderAsset: 'shaders/damaged_doublebrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 8.0,
+    defaultCenterX: -0.3,
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.
