@@ -92,6 +92,33 @@ void main() {
       expect(find.byTooltip('Save location'), findsOneWidget);
     });
 
+    testWidgets('random fractal FAB is present and switches module',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final randomFab = find.byIcon(Icons.shuffle_rounded);
+      expect(randomFab, findsOneWidget);
+      expect(controller.module.id, equals('mandelbrot'));
+
+      await tester.tap(randomFab);
+      await tester.pumpAndSettle();
+
+      expect(controller.module.id, isNot(equals('mandelbrot')));
+
+      // Drain/cancel pending history debounce timer to keep test harness clean.
+      historyProvider.cancelPendingRecord();
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+    });
+
+    testWidgets('AR FAB is present for quick access', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.camera_rounded), findsOneWidget);
+    });
+
     testWidgets('tapping bookmark button saves a preset and shows snackbar',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());

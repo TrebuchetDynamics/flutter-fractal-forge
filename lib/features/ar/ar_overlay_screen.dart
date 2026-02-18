@@ -63,19 +63,51 @@ extension on ArOverlayStylePreset {
       case ArOverlayStylePreset.neon:
         // Slightly boost luminance so it reads better against camera noise.
         return const ColorFilter.matrix(<double>[
-          1.1, 0, 0, 0, 0,
-          0, 1.1, 0, 0, 0,
-          0, 0, 1.1, 0, 0,
-          0, 0, 0, 1.0, 0,
+          1.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.0,
+          0,
         ]);
       case ArOverlayStylePreset.soft:
         return null;
       case ArOverlayStylePreset.mono:
         return const ColorFilter.matrix(<double>[
-          0.33, 0.33, 0.33, 0, 0,
-          0.33, 0.33, 0.33, 0, 0,
-          0.33, 0.33, 0.33, 0, 0,
-          0, 0, 0, 1.0, 0,
+          0.33,
+          0.33,
+          0.33,
+          0,
+          0,
+          0.33,
+          0.33,
+          0.33,
+          0,
+          0,
+          0.33,
+          0.33,
+          0.33,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.0,
+          0,
         ]);
     }
   }
@@ -90,11 +122,14 @@ class ArOverlayScreen extends StatefulWidget {
 
 class _ArOverlayScreenState extends State<ArOverlayScreen> {
   CameraController? _cameraController;
+  CameraDescription? _activeCamera;
   late final FractalController _fractalController;
   bool _permissionDenied = false;
   bool _initializing = true;
   bool _exporting = false;
   double? _exportProgress;
+  String? _cameraFailureReason;
+  bool _hasMultipleCameras = false;
 
   final GlobalKey _overlayKey = GlobalKey();
   final ExportService _exportService = const ExportService();
@@ -106,6 +141,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
   double _overlayRotation = 0.0;
   double _overlayOpacity = 0.75;
   bool _overlayLocked = false;
+  bool _anchorPlaced = false;
   // In AR, users typically want a solid "painting". Transparent background makes the
   // interior of escape-time sets see-through (camera shows through), which reads as
   // gray/noisy texture. Default to opaque.
@@ -176,6 +212,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
       if (!mounted) return;
       setState(() {
         _permissionDenied = true;
+        _cameraFailureReason = null;
         _initializing = false;
       });
       return;
@@ -189,7 +226,9 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
           name: 'FF.AR', error: e, stackTrace: st);
       if (!mounted) return;
       setState(() {
-        _permissionDenied = true;
+        _hasMultipleCameras = false;
+        _permissionDenied = false;
+        _cameraFailureReason = 'Could not enumerate cameras: $e';
         _initializing = false;
       });
       return;
@@ -198,39 +237,167 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     if (cameras.isEmpty) {
       if (!mounted) return;
       setState(() {
-        _permissionDenied = true;
+        _hasMultipleCameras = false;
+        _permissionDenied = false;
+        _cameraFailureReason = 'No camera devices were reported by the system.';
         _initializing = false;
       });
       return;
     }
 
-    try {
-      dev.log('initCamera: creating controller', name: 'FF.AR');
-      final controller = CameraController(
-        cameras.first,
-        ResolutionPreset.high,
-        enableAudio: false,
-        imageFormatGroup: ImageFormatGroup.yuv420,
-      );
-      await controller.initialize();
-      if (!mounted) {
-        await controller.dispose();
-        return;
+    _hasMultipleCameras = cameras.length > 1;
+
+    final preferred = <CameraDescription>[
+      ...cameras.where((c) => c.lensDirection == CameraLensDirection.back),
+      ...cameras.where((c) => c.lensDirection == CameraLensDirection.external),
+      ...cameras.where((c) => c.lensDirection == CameraLensDirection.front),
+    ];
+
+    final presets = <ResolutionPreset>[
+      ResolutionPreset.high,
+      ResolutionPreset.medium,
+      ResolutionPreset.low,
+    ];
+
+    Object? lastError;
+    StackTrace? lastStack;
+
+    for (final camera in preferred) {
+      for (final preset in presets) {
+        CameraController? candidate;
+        try {
+          dev.log(
+            'initCamera: trying ${camera.name} (${camera.lensDirection.name}) @ ${preset.name}',
+            name: 'FF.AR',
+          );
+          candidate = CameraController(
+            camera,
+            preset,
+            enableAudio: false,
+            imageFormatGroup: ImageFormatGroup.yuv420,
+          );
+          await candidate.initialize();
+          if (!mounted) {
+            await candidate.dispose();
+            return;
+          }
+          final previous = _cameraController;
+          setState(() {
+            _cameraController = candidate;
+            _activeCamera = camera;
+            _cameraFailureReason = null;
+            _permissionDenied = false;
+            _initializing = false;
+          });
+          await previous?.dispose();
+          dev.log(
+            'initCamera: initialized ${camera.name} @ ${preset.name}',
+            name: 'FF.AR',
+          );
+          return;
+        } catch (e, st) {
+          lastError = e;
+          lastStack = st;
+          dev.log(
+            'initCamera: failed ${camera.name} @ ${preset.name}: $e',
+            name: 'FF.AR',
+            error: e,
+            stackTrace: st,
+          );
+          try {
+            await candidate?.dispose();
+          } catch (_) {}
+        }
       }
-      dev.log('initCamera: initialized', name: 'FF.AR');
-      setState(() {
-        _cameraController = controller;
-        _initializing = false;
-      });
-    } catch (e, st) {
-      dev.log('initCamera: initialize failed: $e',
-          name: 'FF.AR', error: e, stackTrace: st);
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _permissionDenied = false;
+      _cameraFailureReason =
+          'Failed to initialize any camera profile. ${lastError ?? 'Unknown error.'}';
+      _initializing = false;
+    });
+
+    if (lastError != null) {
+      dev.log('initCamera: all camera attempts failed',
+          name: 'FF.AR', error: lastError, stackTrace: lastStack);
+    }
+  }
+
+  Future<void> _switchCamera() async {
+    if (_initializing || _exporting) return;
+
+    List<CameraDescription> cameras;
+    try {
+      cameras = await availableCameras();
+    } catch (e) {
       if (!mounted) return;
       setState(() {
-        _permissionDenied = true;
-        _initializing = false;
+        _cameraFailureReason = 'Unable to switch camera: $e';
       });
+      return;
     }
+
+    if (cameras.length < 2) {
+      return;
+    }
+
+    final currentName = _activeCamera?.name;
+    var index = cameras.indexWhere((camera) => camera.name == currentName);
+    if (index < 0) index = 0;
+    final nextCamera = cameras[(index + 1) % cameras.length];
+
+    final presets = <ResolutionPreset>[
+      ResolutionPreset.high,
+      ResolutionPreset.medium,
+      ResolutionPreset.low,
+    ];
+
+    setState(() {
+      _initializing = true;
+      _cameraFailureReason = null;
+    });
+
+    Object? lastError;
+    for (final preset in presets) {
+      CameraController? candidate;
+      try {
+        candidate = CameraController(
+          nextCamera,
+          preset,
+          enableAudio: false,
+          imageFormatGroup: ImageFormatGroup.yuv420,
+        );
+        await candidate.initialize();
+        if (!mounted) {
+          await candidate.dispose();
+          return;
+        }
+        final previous = _cameraController;
+        setState(() {
+          _cameraController = candidate;
+          _activeCamera = nextCamera;
+          _cameraFailureReason = null;
+          _initializing = false;
+          _hasMultipleCameras = cameras.length > 1;
+        });
+        await previous?.dispose();
+        return;
+      } catch (e) {
+        lastError = e;
+        try {
+          await candidate?.dispose();
+        } catch (_) {}
+      }
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _cameraFailureReason =
+          'Could not switch to camera ${nextCamera.name}: ${lastError ?? 'unknown error'}';
+      _initializing = false;
+    });
   }
 
   @override
@@ -270,7 +437,10 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     // Zoom distance: sum abs(log(new/old))
     final prevZoom = _lastZoom;
     final currentZoom = _fractalController.view.zoom;
-    if (prevZoom != null && prevZoom > 0 && currentZoom > 0 && prevZoom != currentZoom) {
+    if (prevZoom != null &&
+        prevZoom > 0 &&
+        currentZoom > 0 &&
+        prevZoom != currentZoom) {
       final delta = (math.log(currentZoom / prevZoom)).abs();
       _statsService?.addZoomDistance(delta);
       _lastZoom = currentZoom;
@@ -302,6 +472,22 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         onSecondaryAction: () {
           setState(() {
             _permissionDenied = false;
+            _cameraFailureReason = null;
+            _initializing = true;
+          });
+          _initCamera();
+        },
+      );
+    }
+    if (_cameraFailureReason != null) {
+      return _ArStatusState(
+        icon: Icons.warning_amber_rounded,
+        title: l10n.arCameraUnavailable,
+        message: _cameraFailureReason!,
+        primaryActionLabel: l10n.actionRetry,
+        onPrimaryAction: () {
+          setState(() {
+            _cameraFailureReason = null;
             _initializing = true;
           });
           _initCamera();
@@ -315,14 +501,18 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         message: l10n.arCameraUnavailableHelp,
         primaryActionLabel: l10n.actionRetry,
         onPrimaryAction: () {
-          setState(() => _initializing = true);
+          setState(() {
+            _cameraFailureReason = null;
+            _initializing = true;
+          });
           _initCamera();
         },
       );
     }
 
     final dim = controller.module.dimension;
-    final overlaySize = MediaQuery.of(context).size.shortestSide *
+    final viewportSize = MediaQuery.of(context).size;
+    final overlaySize = viewportSize.shortestSide *
         (dim == FractalDimension.threeD ? 0.55 : 0.62);
 
     final brightness = Theme.of(context).brightness;
@@ -337,13 +527,32 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
               children: [
                 Positioned.fill(
                   child: GestureDetector(
-                    onScaleStart: _overlayLocked
+                    onTapUp: _overlayLocked
+                        ? null
+                        : (details) {
+                            final center = viewportSize.center(Offset.zero);
+                            setState(() {
+                              _overlayOffset = details.localPosition - center;
+                              _anchorPlaced = true;
+                              _overlayLocked = true;
+                            });
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'Fractal anchored to tapped surface'),
+                                  duration: Duration(milliseconds: 1200),
+                                ),
+                              );
+                            }
+                          },
+                    onScaleStart: (_overlayLocked || !_anchorPlaced)
                         ? null
                         : (details) {
                             _startScale = _overlayScale;
                             _startRotation = _overlayRotation;
                           },
-                    onScaleUpdate: _overlayLocked
+                    onScaleUpdate: (_overlayLocked || !_anchorPlaced)
                         ? null
                         : (details) {
                             setState(() {
@@ -354,49 +563,55 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                               _overlayOffset += details.focalPointDelta;
                             });
                           },
-                    child: Center(
-                      child: Opacity(
-                        opacity: _overlayOpacity,
-                        child: Transform(
-                          alignment: Alignment.center,
-                          transform: Matrix4.identity()
-                            ..translateByDouble(
-                              _overlayOffset.dx,
-                              _overlayOffset.dy,
-                              0.0,
-                              1.0,
-                            )
-                            ..rotateZ(_overlayRotation)
-                            ..scaleByDouble(
-                              _overlayScale,
-                              _overlayScale,
-                              1.0,
-                              1.0,
-                            ),
-                          child: SizedBox(
-                            width: overlaySize,
-                            height: overlaySize,
-                            child: _ArOverlayFrame(
-                              showGrid: _showGrid,
-                              showOutline: _showOutline,
-                              gridColor: _stylePreset.gridColor(brightness),
-                              outlineColor: _stylePreset.outlineColor(brightness),
-                              child: ColorFiltered(
-                                colorFilter: _stylePreset.colorFilter() ??
-                                    const ColorFilter.mode(
-                                      Colors.transparent,
-                                      BlendMode.dst,
+                    child: _anchorPlaced
+                        ? Center(
+                            child: Opacity(
+                              opacity: _overlayOpacity,
+                              child: Transform(
+                                alignment: Alignment.center,
+                                transform: Matrix4.identity()
+                                  ..translateByDouble(
+                                    _overlayOffset.dx,
+                                    _overlayOffset.dy,
+                                    0.0,
+                                    1.0,
+                                  )
+                                  ..rotateZ(_overlayRotation)
+                                  ..scaleByDouble(
+                                    _overlayScale,
+                                    _overlayScale,
+                                    1.0,
+                                    1.0,
+                                  ),
+                                child: SizedBox(
+                                  width: overlaySize,
+                                  height: overlaySize,
+                                  child: _ArOverlayFrame(
+                                    showGrid: _showGrid,
+                                    showOutline: _showOutline,
+                                    gridColor:
+                                        _stylePreset.gridColor(brightness),
+                                    outlineColor:
+                                        _stylePreset.outlineColor(brightness),
+                                    child: ColorFiltered(
+                                      colorFilter: _stylePreset.colorFilter() ??
+                                          const ColorFilter.mode(
+                                            Colors.transparent,
+                                            BlendMode.dst,
+                                          ),
+                                      child: const FractalRenderer(
+                                        boundaryKey: null,
+                                        gesturesEnabled: false,
+                                      ),
                                     ),
-                                child: const FractalRenderer(
-                                  boundaryKey: null,
-                                  gesturesEnabled: false,
+                                  ),
                                 ),
                               ),
                             ),
+                          )
+                        : const Center(
+                            child: _ArAnchorReticle(),
                           ),
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ],
@@ -420,6 +635,58 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
             ),
           ),
         ),
+        if (_hasMultipleCameras)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: IconButton(
+                  tooltip: 'Switch camera',
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.black54,
+                  ),
+                  onPressed: _switchCamera,
+                  icon: const Icon(Icons.cameraswitch_rounded,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        Positioned(
+          top: 72,
+          left: 16,
+          right: 16,
+          child: SafeArea(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.black54,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white24),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    _anchorPlaced
+                        ? 'Anchored • ${_activeCamera?.lensDirection.name ?? 'camera'} camera'
+                        : 'Tap to anchor fractal',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
         Positioned(
           left: 16,
           right: 16,
@@ -434,8 +701,14 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
             stylePreset: _stylePreset,
             qualityPreset: _qualityPreset,
             currentModuleLabel: controller.module.displayName(l10n),
-            onSelectModule:
-                _exporting ? null : () => _showModuleSelector(context),
+            isAnchored: _anchorPlaced,
+            onBeginAnchoring: _exporting
+                ? null
+                : () => setState(() {
+                      _anchorPlaced = false;
+                      _overlayLocked = false;
+                      _overlayOffset = Offset.zero;
+                    }),
             onCollapsedChanged: (value) =>
                 setState(() => _panelCollapsed = value),
             onOpacityChanged: (value) =>
@@ -499,82 +772,6 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
           ),
       ],
     );
-  }
-
-  Future<void> _showModuleSelector(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
-    final controller = context.read<FractalController>();
-    final modules = controller.registry.modules;
-
-    final selected = await showModalBottomSheet<String>(
-      context: context,
-      showDragHandle: true,
-      builder: (sheetContext) {
-        final twoD =
-            modules.where((m) => m.dimension == FractalDimension.twoD).toList();
-        final threeD = modules
-            .where((m) => m.dimension == FractalDimension.threeD)
-            .toList();
-
-        Widget buildSection(String title, List<FractalModule> items) {
-          if (items.isEmpty) {
-            return const SizedBox.shrink();
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-                child: Text(title,
-                    style: Theme.of(sheetContext).textTheme.titleSmall),
-              ),
-              ...items.map((module) {
-                final isSelected = module.id == controller.module.id;
-                return ListTile(
-                  title: Text(module.displayName(l10n)),
-                  trailing: isSelected ? const Icon(Icons.check) : null,
-                  onTap: () => Navigator.of(sheetContext).pop(module.id),
-                );
-              }),
-            ],
-          );
-        }
-
-        return SafeArea(
-          child: ListView(
-            shrinkWrap: true,
-            children: [
-              buildSection(l10n.fractalSection2d, twoD),
-              buildSection(l10n.fractalSection3d, threeD),
-              const SizedBox(height: 8),
-            ],
-          ),
-        );
-      },
-    );
-
-    if (!mounted || selected == null) {
-      return;
-    }
-
-    final module = controller.registry.byId(selected);
-    controller.selectModule(module);
-
-    // Adjust defaults per dimension; respect the current transparency toggle.
-    final dim = module.dimension;
-    setState(() {
-      if (dim == FractalDimension.threeD) {
-        _overlayOpacity = 0.85;
-        _overlayScale = 1.0;
-        _stylePreset = ArOverlayStylePreset.soft;
-      } else {
-        _overlayOpacity = 0.70;
-        _overlayScale = 1.1;
-        _stylePreset = ArOverlayStylePreset.neon;
-      }
-    });
-    controller.setTransparentBackground(_transparentBackground);
-    controller.applyArQualityPreset(_qualityPreset);
   }
 
   Future<void> _exportOverlay(BuildContext context) async {
@@ -719,7 +916,8 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
       _exportProgress = 0.0;
     });
     try {
-      dev.log('exportVideo: recording baked video (fallback gif)', name: 'FF.AR');
+      dev.log('exportVideo: recording baked video (fallback gif)',
+          name: 'FF.AR');
       final result = await _videoExporter.recordBakedVideo(
         cameraController: cam,
         overlayKey: _overlayKey,
@@ -860,6 +1058,37 @@ class _ArGridPainter extends CustomPainter {
   }
 }
 
+class _ArAnchorReticle extends StatelessWidget {
+  const _ArAnchorReticle();
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.black26,
+          border: Border.all(color: Colors.white70, width: 1.2),
+          boxShadow: const [
+            BoxShadow(color: Colors.black38, blurRadius: 8, spreadRadius: 1),
+          ],
+        ),
+        child: const SizedBox(
+          width: 46,
+          height: 46,
+          child: Center(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _ArStatusState extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -937,7 +1166,8 @@ class _ArControlsPanel extends StatelessWidget {
   final ArOverlayStylePreset stylePreset;
   final ArQualityPreset qualityPreset;
   final String currentModuleLabel;
-  final VoidCallback? onSelectModule;
+  final bool isAnchored;
+  final VoidCallback? onBeginAnchoring;
 
   final ValueChanged<bool> onCollapsedChanged;
   final ValueChanged<double> onOpacityChanged;
@@ -963,7 +1193,8 @@ class _ArControlsPanel extends StatelessWidget {
     required this.stylePreset,
     required this.qualityPreset,
     required this.currentModuleLabel,
-    required this.onSelectModule,
+    required this.isAnchored,
+    required this.onBeginAnchoring,
     required this.onCollapsedChanged,
     required this.onOpacityChanged,
     required this.onLockedChanged,
@@ -1004,9 +1235,18 @@ class _ArControlsPanel extends StatelessWidget {
                 ),
               ),
               IconButton(
+                tooltip: isAnchored ? 'Re-anchor' : 'Anchor to surface',
+                onPressed: onBeginAnchoring,
+                icon: Icon(
+                  isAnchored ? Icons.push_pin_rounded : Icons.push_pin_outlined,
+                ),
+                visualDensity: VisualDensity.compact,
+              ),
+              IconButton(
                 tooltip: l10n.paramLockOverlay,
                 onPressed: () => onLockedChanged(!locked),
-                icon: Icon(locked ? Icons.lock_rounded : Icons.lock_open_rounded),
+                icon:
+                    Icon(locked ? Icons.lock_rounded : Icons.lock_open_rounded),
                 visualDensity: VisualDensity.compact,
               ),
               IconButton(
@@ -1048,15 +1288,24 @@ class _ArControlsPanel extends StatelessWidget {
               ),
               const SizedBox(height: 6),
 
-              // Primary controls (keep compact)
+              // AR uses the currently selected viewer fractal.
               Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: onSelectModule,
-                      icon: const Icon(Icons.grid_view),
-                      label: Text(l10n.arSelectFractal),
+                    child: Text(
+                      isAnchored
+                          ? 'Anchored to tapped surface'
+                          : 'Tap to anchor this fractal',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
+                  ),
+                  const SizedBox(width: 8),
+                  OutlinedButton.icon(
+                    onPressed: onBeginAnchoring,
+                    icon: const Icon(Icons.push_pin_rounded),
+                    label: Text(isAnchored ? 'Re-anchor' : 'Anchor'),
                   ),
                   const SizedBox(width: 8),
                   OutlinedButton.icon(

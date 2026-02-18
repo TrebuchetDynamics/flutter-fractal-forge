@@ -74,6 +74,14 @@ class FractalViewerScreen extends StatefulWidget {
   State<FractalViewerScreen> createState() => _FractalViewerScreenState();
 }
 
+enum _ViewerMenuAction {
+  rendererMode,
+  toggleRotation,
+  toggleMinimap,
+  openLogs,
+  gpuDebug,
+}
+
 class _FractalViewerScreenState extends State<FractalViewerScreen>
     with
         TickerProviderStateMixin,
@@ -106,6 +114,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   final PerformanceService _performanceService = PerformanceService();
   bool _showPerformanceOverlay = false;
   bool _compactPerformanceOverlay = false;
+
+  // Visual simplification state
+  bool _showMiniMap = false;
 
   // Dev-only shader debug overlay (shows uniform values)
   final bool _showShaderDebug = false;
@@ -370,6 +381,134 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     controller.selectModule(pick);
   }
 
+  void _onRandomFractalFab(BuildContext context) {
+    _jumpToRandomFractal(context);
+    AccessibilityService.announce('Random fractal selected');
+    HapticService.light();
+  }
+
+  void _openArOverlay(BuildContext context) {
+    final controller = context.read<FractalController>();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ChangeNotifierProvider.value(
+          value: controller,
+          child: const ArOverlayScreen(),
+        ),
+      ),
+    );
+  }
+
+  List<PopupMenuEntry<_ViewerMenuAction>> _viewerMenuEntries(
+    BuildContext context,
+  ) {
+    return [
+      const PopupMenuItem<_ViewerMenuAction>(
+        value: _ViewerMenuAction.rendererMode,
+        child: ListTile(
+          dense: true,
+          leading: Icon(Icons.auto_mode_rounded),
+          title: Text('Renderer mode'),
+          contentPadding: EdgeInsets.zero,
+        ),
+      ),
+      PopupMenuItem<_ViewerMenuAction>(
+        value: _ViewerMenuAction.toggleRotation,
+        child: ListTile(
+          dense: true,
+          leading: Icon(
+            _activeController(context).rotationLocked
+                ? Icons.screen_lock_rotation_rounded
+                : Icons.screen_rotation_alt_rounded,
+          ),
+          title: Text(
+            _activeController(context).rotationLocked
+                ? 'Unlock rotation'
+                : 'Lock rotation',
+          ),
+          contentPadding: EdgeInsets.zero,
+        ),
+      ),
+      PopupMenuItem<_ViewerMenuAction>(
+        value: _ViewerMenuAction.toggleMinimap,
+        child: ListTile(
+          dense: true,
+          leading: Icon(_showMiniMap ? Icons.map_rounded : Icons.map_outlined),
+          title: Text(_showMiniMap ? 'Hide minimap' : 'Show minimap'),
+          contentPadding: EdgeInsets.zero,
+        ),
+      ),
+      const PopupMenuDivider(),
+      // AR and random fractal actions are on right-side FABs for faster access.
+      const PopupMenuItem<_ViewerMenuAction>(
+        value: _ViewerMenuAction.openLogs,
+        child: ListTile(
+          dense: true,
+          leading: Icon(Icons.receipt_long_rounded),
+          title: Text('View logs'),
+          contentPadding: EdgeInsets.zero,
+        ),
+      ),
+      if (kDebugMode)
+        const PopupMenuItem<_ViewerMenuAction>(
+          value: _ViewerMenuAction.gpuDebug,
+          child: ListTile(
+            dense: true,
+            leading: Icon(Icons.bug_report_rounded),
+            title: Text('GPU debug report'),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+    ];
+  }
+
+  void _onViewerMenuSelected(
+    BuildContext context,
+    _ViewerMenuAction action,
+  ) {
+    switch (action) {
+      case _ViewerMenuAction.rendererMode:
+        _openBackendModePicker(context);
+        break;
+      case _ViewerMenuAction.toggleRotation:
+        final controller = _activeController(context);
+        controller.toggleRotationLock();
+        final locked = controller.rotationLocked;
+        AccessibilityService.announce(
+          locked ? 'Rotation locked' : 'Rotation unlocked',
+        );
+        HapticFeedback.selectionClick();
+        break;
+      case _ViewerMenuAction.toggleMinimap:
+        setState(() {
+          _showMiniMap = !_showMiniMap;
+        });
+        AccessibilityService.announce(
+          _showMiniMap ? 'Minimap shown' : 'Minimap hidden',
+        );
+        break;
+      // Random fractal and AR mode are handled by dedicated viewer FABs.
+      case _ViewerMenuAction.openLogs:
+        final controller = context.read<FractalController>();
+        _log.logState('state', 'Snapshot at log open', {
+          'module': controller.module.id,
+          'panX': controller.view.pan.x,
+          'panY': controller.view.pan.y,
+          'zoom': controller.view.zoom,
+          'iterations': controller.params['iterations'],
+          'backend': _backendDecision.backend.name,
+          'backendReason': _backendDecision.reasonToken,
+        });
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const LogViewerScreen()),
+        );
+        break;
+      case _ViewerMenuAction.gpuDebug:
+        _shareGpuDebugReport(context);
+        break;
+    }
+  }
+
   void _applyHistoryEntry(BuildContext context, HistoryEntry entry) {
     final controller = context.read<FractalController>();
     final registry = context.read<ModuleRegistry>();
@@ -474,9 +613,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
-    final rendererSettings = context.watch<RendererSettingsService>();
     final historyProvider = context.watch<HistoryProvider?>();
-    final backendMode = rendererSettings.backendMode;
 
     // Debounce backend decision refresh to prevent excessive recalculation
     _backendDebounceTimer?.cancel();
@@ -507,41 +644,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             statusText: _backendDecision.toUserStatusText(),
             onBack: () => Navigator.of(context).pop(),
             actions: [
-              if (kDebugMode)
-                AppBarIconButton(
-                  icon: Icons.bug_report_rounded,
-                  tooltip: l10n.tooltipGpuDebug,
-                  onPressed: () => _shareGpuDebugReport(context),
-                ),
-              AppBarIconButton(
-                icon: switch (backendMode) {
-                  RendererBackendMode.auto => Icons.auto_mode_rounded,
-                  RendererBackendMode.cpuOnly => Icons.computer_rounded,
-                  RendererBackendMode.gpuOnly => Icons.flash_on_rounded,
-                },
-                tooltip: switch (backendMode) {
-                  RendererBackendMode.auto => l10n.rendererAuto,
-                  RendererBackendMode.cpuOnly => l10n.rendererCpu,
-                  RendererBackendMode.gpuOnly => l10n.rendererGpu,
-                },
-                onPressed: () => _openBackendModePicker(context),
-              ),
-              AppBarIconButton(
-                icon: controller.rotationLocked
-                    ? Icons.screen_lock_rotation_rounded
-                    : Icons.screen_rotation_alt_rounded,
-                tooltip: controller.rotationLocked
-                    ? 'Unlock rotation gestures'
-                    : 'Lock rotation gestures',
-                onPressed: () {
-                  controller.toggleRotationLock();
-                  final locked = controller.rotationLocked;
-                  AccessibilityService.announce(
-                    locked ? 'Rotation locked' : 'Rotation unlocked',
-                  );
-                  HapticFeedback.selectionClick();
-                },
-              ),
               if (historyProvider != null && historyProvider.canGoBack)
                 AppBarIconButton(
                   icon: Icons.undo_rounded,
@@ -554,50 +656,36 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   tooltip: 'Forward in view history',
                   onPressed: () => _goHistoryForward(context),
                 ),
-              AppBarIconButton(
-                icon: Icons.camera_rounded,
-                tooltip: 'AR',
-                onPressed: () {
-                  final controller = context.read<FractalController>();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => ChangeNotifierProvider.value(
-                        value: controller,
-                        child: const ArOverlayScreen(),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              // Quick bookmark: save current location (N4)
+              // Keep bookmark as a quick one-tap action.
               AppBarIconButton(
                 icon: Icons.bookmark_add_rounded,
                 tooltip: 'Save location',
                 onPressed: () => _saveBookmark(context),
               ),
-              // Random fractal picker
-              AppBarIconButton(
-                icon: Icons.shuffle_rounded,
-                tooltip: l10n.tooltipRandomFractal,
-                onPressed: () => _jumpToRandomFractal(context),
-              ),
-              AppBarIconButton(
-                icon: Icons.receipt_long_rounded,
-                tooltip: 'View Log',
-                onPressed: () {
-                  _log.logState('state', 'Snapshot at log open', {
-                    'module': controller.module.id,
-                    'panX': controller.view.pan.x,
-                    'panY': controller.view.pan.y,
-                    'zoom': controller.view.zoom,
-                    'iterations': controller.params['iterations'],
-                    'backend': _backendDecision.backend.name,
-                    'backendReason': _backendDecision.reasonToken,
-                  });
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const LogViewerScreen()),
-                  );
-                },
+              Semantics(
+                label: 'More options',
+                button: true,
+                child: Tooltip(
+                  message: 'More options',
+                  child: PopupMenuButton<_ViewerMenuAction>(
+                    onSelected: (action) =>
+                        _onViewerMenuSelected(context, action),
+                    itemBuilder: (_) => _viewerMenuEntries(context),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceVariant.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.more_horiz_rounded,
+                        size: 20,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -742,16 +830,17 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                     ),
 
-                  // Minimap overlay (bottom-left)
-                  Positioned(
-                    left: AppSpacing.lg,
-                    bottom:
-                        MediaQuery.of(context).padding.bottom + AppSpacing.xl,
-                    child: ChangeNotifierProvider.value(
-                      value: _activeController(context),
-                      child: FractalMiniMap(viewportSize: viewportSize),
+                  // Minimap overlay (optional, hidden by default to reduce clutter)
+                  if (_showMiniMap)
+                    Positioned(
+                      left: AppSpacing.lg,
+                      bottom:
+                          MediaQuery.of(context).padding.bottom + AppSpacing.xl,
+                      child: ChangeNotifierProvider.value(
+                        value: _activeController(context),
+                        child: FractalMiniMap(viewportSize: viewportSize),
+                      ),
                     ),
-                  ),
 
                   // Floating action buttons
                   Positioned(
@@ -766,6 +855,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           _openAutoExploreSettings(context),
                       onOpenControls: () => _openControls(context),
                       onOpenPresets: () => _openPresets(context),
+                      onOpenRandomFractal: () => _onRandomFractalFab(context),
+                      onOpenArViewer: () => _openArOverlay(context),
                       onOpenExport: () => _openExport(context),
                     ),
                   ),
