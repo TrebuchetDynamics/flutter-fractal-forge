@@ -34,6 +34,7 @@ import 'package:flutter_fractals/features/debug/debug_overlay.dart';
 import 'package:flutter_fractals/features/debug/performance_overlay.dart';
 import 'package:flutter_fractals/features/debug/shader_debug_overlay.dart';
 import 'package:flutter_fractals/features/ar/ar_overlay_screen.dart';
+import 'package:flutter_fractals/features/ar/arcore_anchor_screen.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
@@ -387,13 +388,57 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     HapticService.light();
   }
 
-  void _openArOverlay(BuildContext context) {
+  Future<void> _openArOverlay(BuildContext context) async {
     final controller = context.read<FractalController>();
-    Navigator.of(context).push(
+
+    Future<void> openOverlayFallback() async {
+      if (!mounted) return;
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ChangeNotifierProvider.value(
+            value: controller,
+            child: const ArOverlayScreen(),
+          ),
+        ),
+      );
+    }
+
+    if (!Platform.isAndroid) {
+      await openOverlayFallback();
+      return;
+    }
+
+    final supported = await ArCoreAnchorScreen.isSupportedOnDevice();
+    if (!supported) {
+      await openOverlayFallback();
+      return;
+    }
+
+    Uint8List textureBytes;
+    try {
+      textureBytes = await _exportService.capturePng(
+        _activeBoundaryKey(),
+        pixelRatio: 1.5,
+      );
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Could not capture fractal texture, using AR overlay'),
+          ),
+        );
+      }
+      await openOverlayFallback();
+      return;
+    }
+
+    if (!mounted) return;
+    await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => ChangeNotifierProvider.value(
           value: controller,
-          child: const ArOverlayScreen(),
+          child: ArCoreAnchorScreen(fractalTextureBytes: textureBytes),
         ),
       ),
     );

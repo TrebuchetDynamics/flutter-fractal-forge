@@ -20,6 +20,7 @@ dependencies:
   permission_handler: ^11.0.0
   camera: ^0.10.6
   image: ^4.0.0
+  arcore_flutter_plugin: ^0.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

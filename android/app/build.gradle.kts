@@ -41,8 +41,8 @@ android {
 
     defaultConfig {
         applicationId = "com.fractals.flutter_fractals"
-        // Play Store requirement baseline: API 21+
-        minSdk = maxOf(flutter.minSdkVersion, 21)
+        // ARCore requirement baseline: API 24+
+        minSdk = maxOf(flutter.minSdkVersion, 24)
         targetSdk = 34
         versionCode = flutterVersionCode
         versionName = flutterVersionName

@@ -106,10 +106,13 @@ void main() {
 
       expect(controller.module.id, isNot(equals('mandelbrot')));
 
+      // Let delayed FAB fade-in timers complete before teardown.
+      await tester.pump(const Duration(milliseconds: 400));
+
       // Drain/cancel pending history debounce timer to keep test harness clean.
       historyProvider.cancelPendingRecord();
       await tester.pumpWidget(const SizedBox.shrink());
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
     });
 
     testWidgets('AR FAB is present for quick access', (tester) async {

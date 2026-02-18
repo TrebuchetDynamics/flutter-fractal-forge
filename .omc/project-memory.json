@@ -320,21 +320,21 @@
   },
   "hotPaths": [
     {
+      "path": "lib/features/renderer/fractal_renderer.dart",
+      "accessCount": 46,
+      "lastAccessed": 1771374580957,
+      "type": "file"
+    },
+    {
       "path": "lib/features/viewer/fractal_viewer_screen.dart",
       "accessCount": 40,
       "lastAccessed": 1771373957969,
       "type": "file"
     },
     {
-      "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 38,
-      "lastAccessed": 1771374394478,
-      "type": "file"
-    },
-    {
       "path": "lib/features/renderer/gesture_handler.dart",
-      "accessCount": 19,
-      "lastAccessed": 1771374370387,
+      "accessCount": 22,
+      "lastAccessed": 1771374708395,
       "type": "file"
     },
     {
@@ -342,6 +342,12 @@
       "accessCount": 13,
       "lastAccessed": 1771364976994,
       "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 11,
+      "lastAccessed": 1771374564491,
+      "type": "directory"
     },
     {
       "path": "shaders/mandelbrot_et.frag",
@@ -356,27 +362,21 @@
       "type": "file"
     },
     {
-      "path": "",
-      "accessCount": 9,
-      "lastAccessed": 1771374279390,
-      "type": "directory"
-    },
-    {
       "path": "lib",
       "accessCount": 8,
       "lastAccessed": 1771370542980,
       "type": "directory"
     },
     {
-      "path": "scripts/run-app.sh",
-      "accessCount": 6,
-      "lastAccessed": 1771366233080,
+      "path": "lib/features/renderer/providers/fractal_provider.dart",
+      "accessCount": 7,
+      "lastAccessed": 1771374553819,
       "type": "file"
     },
     {
-      "path": "lib/features/renderer/providers/fractal_provider.dart",
+      "path": "scripts/run-app.sh",
       "accessCount": 6,
-      "lastAccessed": 1771374320686,
+      "lastAccessed": 1771366233080,
       "type": "file"
     },
     {
@@ -458,6 +458,12 @@
       "type": "file"
     },
     {
+      "path": "lib/features/renderer/shader_loader.dart",
+      "accessCount": 3,
+      "lastAccessed": 1771374588346,
+      "type": "file"
+    },
+    {
       "path": "lib/features/viewer/components/viewer_export_overlay.dart",
       "accessCount": 2,
       "lastAccessed": 1771358192045,
@@ -533,12 +539,6 @@
       "path": "lib/features/viewer/components/fractal_view_controls.dart",
       "accessCount": 2,
       "lastAccessed": 1771366851715,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/shader_loader.dart",
-      "accessCount": 2,
-      "lastAccessed": 1771374040797,
       "type": "file"
     },
     {

@@ -19,6 +19,27 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// Compatibility shim for older Android library plugins that don't declare
+// `namespace` (required by AGP 8+).
+subprojects {
+    plugins.withId("com.android.library") {
+        val androidExt = extensions.findByName("android") ?: return@withId
+        val getNamespace = androidExt::class.java.methods.firstOrNull {
+            it.name == "getNamespace" && it.parameterCount == 0
+        }
+        val setNamespace = androidExt::class.java.methods.firstOrNull {
+            it.name == "setNamespace" && it.parameterCount == 1
+        }
+        val currentNamespace = getNamespace?.invoke(androidExt) as? String
+        if (currentNamespace.isNullOrBlank()) {
+            setNamespace?.invoke(
+                androidExt,
+                "com.fractals.legacy.${project.name.replace('-', '_')}"
+            )
+        }
+    }
+}
+
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
