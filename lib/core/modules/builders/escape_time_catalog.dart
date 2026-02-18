@@ -565,6 +565,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Spider Fractal',
     shaderAsset: 'shaders/spider_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'spider-relief',
+        moduleId: 'spider',
+        name: 'Spider Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'collatz',
@@ -1253,6 +1264,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Exponential Fractal',
     shaderAsset: 'shaders/exponential_gpu.frag',
     defaultIterations: 100,
+    extraPresets: [
+      FractalPreset(
+        id: 'exponential-relief',
+        moduleId: 'exponential',
+        name: 'Exponential Relief',
+        params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'zircon_zity',
@@ -1444,6 +1466,18 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Tangent Mandelbrot',
     shaderAsset: 'shaders/tangent_mandelbrot_gpu.frag',
     defaultIterations: 110,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'tangent-mandel-relief',
+        moduleId: 'tangent_mandelbrot',
+        name: 'Tangent Relief',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'sinh_mandelbrot',

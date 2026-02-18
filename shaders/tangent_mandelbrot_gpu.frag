@@ -2,6 +2,11 @@
 
 precision highp float;
 
+// Tangent Mandelbrot: z_{n+1} = tan(z) + c
+// Transcendental fractal with poles at z = (n+½)π; produces cactus-spine and
+// peacock-fan shapes along the real axis with rich self-similar boundary detail.
+// Derivative: d(tan(z))/dc = (1 + tan²(z))·der + 1  (sec² identity).
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;
 uniform vec2  uResolution;
 uniform vec2  uCenter;
@@ -28,6 +33,8 @@ vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
 }
 
+// colorScheme 0-49: standard palette coloring.
+// colorScheme 50-63: normal-map (bas-relief) mode — 14 light angles × 4 base palettes.
 vec3 getPaletteColor(float t, int scheme) {
   t = fract(t);
   if (scheme == 0) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.0,0.33,0.67));
@@ -80,8 +87,10 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
-  vec2 c = uv / max(uZoom, 1e-6) + uCenter;
-  vec2 z = vec2(0.0);
+  int schemeInt = int(uColorScheme);
+  vec2 c   = uv / max(uZoom, 1e-6) + uCenter;
+  vec2 z   = vec2(0.0);
+  vec2 der = vec2(0.0);
 
   float bailoutSq = max(4.0, uBailout * uBailout);
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
@@ -89,7 +98,10 @@ void main() {
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
-    z = ctan(z) + c;
+    // d(tan(z))/dc = (1 + tan²(z))·der + 1
+    vec2 tan_z = ctan(z);
+    der = cmul(vec2(1.0, 0.0) + cmul(tan_z, tan_z), der) + vec2(1.0, 0.0);
+    z   = tan_z + c;
     if (dot(z, z) > bailoutSq) { it = j; break; }
   }
 
@@ -98,7 +110,30 @@ void main() {
     return;
   }
 
-  float smoothVal = float(it) - log2(log2(max(1e-12, dot(z, z))));
+  float mag2      = max(1e-12, dot(z, z));
+  float smoothVal = float(it) - log2(log2(mag2));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(getPaletteColor(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
+  fragColor = vec4(linearToSRGB(getPaletteColor(t, schemeInt)), 1.0);
 }
