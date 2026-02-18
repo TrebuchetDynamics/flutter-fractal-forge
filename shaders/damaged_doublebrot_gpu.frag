@@ -58,18 +58,28 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
+  int schemeInt = int(uColorScheme);
+  vec2 der = vec2(0.0);
+
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
     // Polar form: z_{n+1} = |z|^φ * (cos(φ·θ) + i·sin(φ·θ)) + c
+    // d/dc: φ·|z|^(φ-1)·e^(i(φ-1)θ)·der + 1
     float mag = length(z);
     if (mag < 1e-10) {
-      // z ≈ 0: next iterate is just c (common at first step)
+      der = vec2(1.0, 0.0);
       z = c;
     } else {
-      float angle   = atan(z.y, z.x);
-      float magPow  = pow(mag, PHI);
-      float newAngle = PHI * angle;
+      float theta     = atan(z.y, z.x);
+      float derScale  = PHI * pow(mag, PHI - 1.0);
+      float derAngle  = (PHI - 1.0) * theta;
+      float dfx = derScale * cos(derAngle);
+      float dfy = derScale * sin(derAngle);
+      der = vec2(dfx * der.x - dfy * der.y + 1.0,
+                 dfx * der.y + dfy * der.x);
+      float magPow   = pow(mag, PHI);
+      float newAngle = PHI * theta;
       z = vec2(magPow * cos(newAngle), magPow * sin(newAngle)) + c;
     }
 
@@ -82,10 +92,31 @@ void main() {
     return;
   }
 
-  // Smooth coloring: adjust for exponent φ instead of 2.
-  // mu = n - log(log|z|) / log(φ)
+  // Smooth coloring: mu = n - log(log|z|) / log(φ)
   float mag2 = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log(0.5 * log(mag2)) / log(PHI);
-  float t = fract(smoothVal / 64.0 + uTime*0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float lightAngle = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir    = vec2(cos(lightAngle), sin(lightAngle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
+  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }

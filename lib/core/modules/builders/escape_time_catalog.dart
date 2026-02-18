@@ -499,12 +499,34 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Power Sum Fractal',
     shaderAsset: 'shaders/power_sum_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'power-sum-relief',
+        moduleId: 'power_sum',
+        name: 'Power Sum Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'cactus',
     name: 'Cactus Fractal',
     shaderAsset: 'shaders/cactus_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'cactus-relief',
+        moduleId: 'cactus',
+        name: 'Cactus Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'astroid',
@@ -529,12 +551,34 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Druid Fractal',
     shaderAsset: 'shaders/druid_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'druid-relief',
+        moduleId: 'druid',
+        name: 'Druid Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'inverse_mandelbrot',
     name: 'Inverse Mandelbrot',
     shaderAsset: 'shaders/inverse_mandelbrot_gpu.frag',
     defaultIterations: 120,
+    extraPresets: [
+      FractalPreset(
+        id: 'inverse-mandelbrot-relief',
+        moduleId: 'inverse_mandelbrot',
+        name: 'Inverse Mandelbrot Relief',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'glynn',
@@ -626,6 +670,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Collatz Fractal',
     shaderAsset: 'shaders/collatz_gpu.frag',
     defaultIterations: 120,
+    extraPresets: [
+      FractalPreset(
+        id: 'collatz-relief',
+        moduleId: 'collatz',
+        name: 'Collatz Relief',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'popcorn',
@@ -1369,6 +1424,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Zircon Zity',
     shaderAsset: 'shaders/zircon_zity_gpu.frag',
     defaultIterations: 130,
+    extraPresets: [
+      FractalPreset(
+        id: 'zircon-zity-relief',
+        moduleId: 'zircon_zity',
+        name: 'Zircon Zity Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
 
   // ── VIII. Advanced Rational & Polynomial ─────────────────
@@ -2089,6 +2155,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 200,
     defaultBailout: 8.0,
     defaultCenterX: -0.3,
+    extraPresets: [
+      FractalPreset(
+        id: 'damaged-doublebrot-relief',
+        moduleId: 'damaged_doublebrot',
+        name: 'Damaged DoubleBrot Relief',
+        params: {'iterations': 250, 'bailout': 8.0, 'colorScheme': 54},
+        view: FractalViewState(pan: Vector2(-0.3, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
 
   // Perpendicular Celtic: z_{n+1} = Re(z^2) + i*|Im(z^2)| + c

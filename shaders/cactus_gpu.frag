@@ -66,11 +66,16 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
+  int schemeInt = int(uColorScheme);
+  vec2 der = vec2(0.0);
+
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
     vec2 z2 = cmul(z, z);
     vec2 z3 = cmul(z2, z);
+    // d(z³+(c-1)z-c)/dc = (3z²+c-1)·der + (z-1)
+    der = cmul(3.0 * z2 + c - vec2(1.0, 0.0), der) + (z - vec2(1.0, 0.0));
     z = z3 + cmul(c - vec2(1.0, 0.0), z) - c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
@@ -84,6 +89,28 @@ void main() {
 
   float mag2 = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2 + 1.0));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }
