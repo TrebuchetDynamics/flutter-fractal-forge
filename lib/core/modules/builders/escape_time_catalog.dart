@@ -272,6 +272,19 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
+      FractalPreset(
+        id: 'burning-ship-relief',
+        moduleId: 'burning_ship',
+        name: 'Bas-Relief: Hull',
+        params: {'iterations': 320, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(
+          pan: Vector2(-0.5, -0.5),
+          zoom: 1.5,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
     ],
   ),
   EscapeTimeConfig(
