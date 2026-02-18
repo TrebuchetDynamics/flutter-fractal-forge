@@ -327,8 +327,8 @@
     },
     {
       "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 24,
-      "lastAccessed": 1771366851460,
+      "accessCount": 27,
+      "lastAccessed": 1771370682598,
       "type": "file"
     },
     {
@@ -344,15 +344,27 @@
       "type": "file"
     },
     {
+      "path": "shaders/mandelbrot_et.frag",
+      "accessCount": 10,
+      "lastAccessed": 1771370519189,
+      "type": "file"
+    },
+    {
       "path": "lib/features/controls/fractal_controls.dart",
       "accessCount": 9,
       "lastAccessed": 1771364928920,
       "type": "file"
     },
     {
+      "path": "lib",
+      "accessCount": 8,
+      "lastAccessed": 1771370542980,
+      "type": "directory"
+    },
+    {
       "path": "",
-      "accessCount": 6,
-      "lastAccessed": 1771360760122,
+      "accessCount": 8,
+      "lastAccessed": 1771370746314,
       "type": "directory"
     },
     {
@@ -380,10 +392,22 @@
       "type": "file"
     },
     {
+      "path": "shaders/mandel_step_smooth.frag",
+      "accessCount": 5,
+      "lastAccessed": 1771370535073,
+      "type": "file"
+    },
+    {
       "path": "lib/features/export/export_options_sheet.dart",
       "accessCount": 4,
       "lastAccessed": 1771364303552,
       "type": "file"
+    },
+    {
+      "path": "shaders",
+      "accessCount": 4,
+      "lastAccessed": 1771370548624,
+      "type": "directory"
     },
     {
       "path": "lib/features/viewer/components/compare_renderer.dart",
@@ -408,12 +432,6 @@
       "accessCount": 3,
       "lastAccessed": 1771360763747,
       "type": "file"
-    },
-    {
-      "path": "lib",
-      "accessCount": 3,
-      "lastAccessed": 1771364266241,
-      "type": "directory"
     },
     {
       "path": "lib/features/wallpaper/wallpaper_options_sheet.dart",
@@ -444,12 +462,6 @@
       "accessCount": 2,
       "lastAccessed": 1771360770984,
       "type": "file"
-    },
-    {
-      "path": "shaders",
-      "accessCount": 2,
-      "lastAccessed": 1771360799014,
-      "type": "directory"
     },
     {
       "path": "exploration-vulkan-ndk-app/app/src/main/java/com/fractalforge/vulkan/MainActivity.kt",
@@ -506,6 +518,12 @@
       "type": "file"
     },
     {
+      "path": "lib/features/renderer/fractal_painter.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771370232506,
+      "type": "file"
+    },
+    {
       "path": "integration_test/double_tap_anchor_test.dart",
       "accessCount": 1,
       "lastAccessed": 1771357242823,
@@ -533,12 +551,6 @@
       "path": "lib/features/viewer/components/fractal_app_bar.dart",
       "accessCount": 1,
       "lastAccessed": 1771358315747,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/fractal_painter.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771358784032,
       "type": "file"
     },
     {
@@ -584,12 +596,6 @@
       "type": "file"
     },
     {
-      "path": "shaders/mandelbrot_et.frag",
-      "accessCount": 1,
-      "lastAccessed": 1771360798469,
-      "type": "file"
-    },
-    {
       "path": "test/cpu_mandelbrot_visual_gate_test.dart",
       "accessCount": 1,
       "lastAccessed": 1771360862597,
@@ -600,12 +606,6 @@
       "accessCount": 1,
       "lastAccessed": 1771360864993,
       "type": "directory"
-    },
-    {
-      "path": "shaders/mandel_step_smooth.frag",
-      "accessCount": 1,
-      "lastAccessed": 1771360878849,
-      "type": "file"
     },
     {
       "path": "lib/features",

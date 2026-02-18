@@ -1,605 +1,288 @@
-# Flutter AR Fractal Placement Guide
+# Spatial Anchoring and Architectural Integration of Procedural Graphics in Flutter-Based Augmented Reality Ecosystems
 
-## Overview
-Implement Augmented Reality to place 2D fractal images on real-world surfaces using **ar_flutter_plugin**. This guide covers plane detection, hit testing, and asset placement for both Android (ARCore) and iOS (ARKit).
+The integration of augmented reality within the Flutter framework represents a sophisticated intersection of high-level reactive UI programming and low-level spatial computing. As digital environments increasingly overlap with physical spaces, the requirement to anchor complex, procedurally generated visuals—such as fractal images—to specific real-world surfaces like walls, floors, ceilings, and tables has become a primary objective for developers and spatial researchers. This report examines the current state of open-source Flutter AR projects, the underlying mechanisms of surface detection, and the architectural strategies necessary for persistent spatial anchoring.
 
-## Prerequisites
+---
 
-### Device Requirements
-- **Android**: ARCore supported device (Android 7.0+)
-- **iOS**: ARKit supported device (iOS 11.0+, A9 chip or newer)
-- **Enable AR in project**:
-  ```yaml
-  # pubspec.yaml
-  dependencies:
-    ar_flutter_plugin: ^latest_version
-    vector_math: ^2.1.0
-  ```
+## Theoretical Framework of Flutter AR Integration
 
-### Platform Configuration
+The technical realization of augmented reality in a cross-platform context requires a robust bridge between the Dart-based Flutter engine and the native AR capabilities of mobile operating systems. For Android, this is facilitated by Google's ARCore, while iOS utilizes Apple's ARKit. These native SDKs handle the heavy lifting of environmental understanding, which includes motion tracking, light estimation, and plane detection.
 
-**Android** (`android/app/src/main/AndroidManifest.xml`):
-```xml
-<uses-permission android:name="android.permission.CAMERA" />
-<uses-feature android:name="android.hardware.camera.ar" android:required="true" />
+The mathematical foundation of this environmental understanding is built upon **Visual-Inertial Odometry (VIO)** and **Simultaneous Localization and Mapping (SLAM)**. VIO combines high-frequency data from the device's Inertial Measurement Unit (IMU)—specifically the accelerometer and gyroscope—with visual feature point extraction from the camera feed. The system identifies unique visual "features" such as high-contrast edges or corners and tracks their relative displacement across successive video frames. This allows the application to calculate the device's position in six degrees of freedom (6DoF) within a local coordinate system.
 
-<application>
-    <meta-data
-        android:name="com.google.ar.core"
-        android:value="required" />
-</application>
-```
+For a fractal image to be anchored to a physical surface, the application must perform a coordinate transformation from 2D screen space to 3D world space. This is achieved through a process called **hit testing**. When a user interacts with the screen, a virtual ray is cast from the camera's perspective through the touched point and into the reconstructed 3D scene. If this ray intersects with a detected plane (such as a table or wall), the system generates an `ARAnchor`.
 
-**iOS** (`ios/Runner/Info.plist`):
-```xml
-<key>NSCameraUsageDescription</key>
-<string>AR requires camera access</string>
-<key>UIRequiredDeviceCapabilities</key>
-<array>
-    <string>arkit</string>
-</array>
-```
+The transformation of a point $P_{screen}(x, y)$ to a point $P_{world}(X, Y, Z)$ involves the inverse of the projection matrix $M_{proj}$ and the view-model matrix $M_{view}$:
 
-## Implementation
+$$P_{world} = M_{view}^{-1} \cdot M_{proj}^{-1} \cdot P_{ndc}$$
 
-### 1. Project Structure
-```
-lib/
-├── ar/
-│   ├── ar_scene_manager.dart
-│   ├── fractal_node_builder.dart
-│   └── plane_detector.dart
-├── widgets/
-│   └── ar_view_widget.dart
-└── main.dart
-```
+where $P_{ndc}$ represents the coordinates in Normalized Device Coordinate space.
 
-### 2. Core AR Manager
+---
+
+## Comparative Analysis of Open-Source AR Plugins
+
+The Flutter AR ecosystem is characterized by several key plugins that abstract the complexities of ARCore and ARKit. The original `ar_flutter_plugin` served as the foundational community standard, but its development has since fragmented into specialized forks and successors to maintain compatibility with modern SDKs and introduce advanced features like cloud anchoring, image tracking, and the Geospatial API.
+
+### Plugin Evolution and Capability Matrix
+
+The choice of plugin is contingent upon the specific surface anchoring requirements. Projects necessitating vertical plane detection (walls) or downward-facing plane detection (ceilings) require plugins that expose the full configuration suites of the native SDKs.
+
+| Plugin Name | Primary Platform | Plane Detection Support | Unique Features | Maintenance Status (2025) |
+|---|---|---|---|---|
+| `ar_flutter_plugin` | Android / iOS | Horizontal & Vertical | Original base, local/online GLB support | Discontinued/Legacy |
+| `ar_flutter_plugin_2` | Android / iOS | Horizontal & Vertical | Updated for modern SceneView (Android), Gradle compatibility fork | Active Community |
+| `ar_flutter_plugin_plus` | Android / iOS | Horiz / Vert / Image | Image marker tracking, Cloud Anchors, Collaborative AR | Highly Active |
+| `arkit_plugin` | iOS | Horiz / Vert / Face / Body | Deep SceneKit integration, LiDAR mesh reconstruction, occlusion | Specialized / Stable |
+| `arcore_flutter_plugin` | Android | Horiz / Vert / Ceiling | Direct ARCore access; based on deprecated Sceneform | Legacy — use `sceneview_flutter` instead |
+| `sceneview_flutter` | Android | Horiz / Vert / Ceiling | Modern Sceneform replacement; uses Google Filament renderer and ARCore | Actively Developed |
+| `ar_quido` | Android / iOS | Image Recognition | Identifies JPG/PNG reference image markers to trigger AR events | Targeted Utility |
+
+#### Notable Plugin: `sceneview_flutter`
+
+The [`sceneview_flutter`](https://github.com/SceneView/sceneview-flutter) plugin represents the most significant architectural shift in Android AR development. Because Google archived the original Sceneform SDK (upon which `arcore_flutter_plugin` depends), `sceneview_flutter` was developed as a complete rewrite using the **SceneView** Kotlin library backed by **Google Filament**—a production-quality physically-based rendering (PBR) engine. For new projects targeting Android, this plugin is the recommended replacement for `arcore_flutter_plugin`.
+
+The `ar_flutter_plugin_plus` represents the most capable cross-platform option for the fractal gallery use case, as it integrates image tracking with traditional plane anchoring. This allows a fractal image to be anchored not just to a detected geometric plane but to a specific visual marker on a wall or table, providing higher stability and persistent recognition.
+
+---
+
+## Surface-Specific Anchoring Strategies
+
+Anchoring digital content to floors, tables, walls, and ceilings requires distinct technical approaches due to how ARCore and ARKit classify and track different surface orientations.
+
+### Floors and Tables: Horizontal Plane Detection
+
+Horizontal plane detection is the most mature aspect of mobile AR. The system typically identifies surfaces that are perpendicular to the gravity vector. Tables and floors provide high-contrast feature points that allow the SLAM algorithm to resolve the plane's extent and boundaries quickly. In Flutter, the `ARSessionManager` is usually initialized with `PlaneDetectionConfig.horizontal` to facilitate this.
+
+Open-source projects like `learn_ar_flutter` and `ARCore-Wizard` demonstrate the standard workflow: the app detects a horizontal surface, visualizes it with a mesh or grid, and allows the user to tap to place an anchor. For fractal images, this anchor serves as the origin point for a flat 3D node that displays the fractal texture.
+
+### Walls: Vertical Plane Detection and Occlusion
+
+Vertical plane detection is technically more demanding. Many interior walls are featureless and monochromatic, making it difficult for standard cameras to extract the feature points necessary for plane fitting. To resolve this, specialized plugins like `arkit_plugin` allow for explicit vertical plane detection:
+
 ```dart
-// lib/ar/ar_scene_manager.dart
-import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
-import 'package:ar_flutter_plugin/models/ar_node.dart';
-import 'package:ar_flutter_plugin/models/ar_anchor.dart';
-import 'package:vector_math/vector_math_64.dart';
-
-class ARSceneManager {
-  late ARSessionManager _sessionManager;
-  late ARObjectManager _objectManager;
-  late ARAnchorManager _anchorManager;
-  bool _isInitialized = false;
-
-  Future<void> initialize(ARViewCreatedCallback onViewCreated) async {
-    try {
-      await _checkARAvailability();
-      _isInitialized = true;
-    } catch (e) {
-      throw Exception('AR initialization failed: $e');
-    }
-  }
-
-  Future<void> _checkARAvailability() async {
-    // Platform-specific availability checks
-  }
-
-  void onARViewCreated(
-    ARSessionManager sessionManager,
-    ARObjectManager objectManager,
-    ARAnchorManager anchorManager,
-    ARLocationManager locationManager,
-  ) {
-    _sessionManager = sessionManager;
-    _objectManager = objectManager;
-    _anchorManager = anchorManager;
-
-    _configureSession();
-    _setupPlaneDetection();
-    _setupGestureHandlers();
-  }
-
-  void _configureSession() {
-    _sessionManager.onInitialize(
-      showFeaturePoints: false,
-      showPlanes: true,
-      showWorldOrigin: false,
-      handleTaps: true,
-      handlePans: true,
-      handleRotation: true,
-    );
-  }
-
-  void _setupPlaneDetection() {
-    _sessionManager.onPlaneOrPointTap = _onPlaneTapped;
-  }
-
-  void _setupGestureHandlers() {
-    _objectManager.onPanStart = _onNodePanStart;
-    _objectManager.onPanChange = _onNodePanChange;
-    _objectManager.onRotationStart = _onNodeRotationStart;
-  }
-
-  Future<void> _onPlaneTapped(List<ARHitTestResult> hitTestResults) async {
-    final planeHit = hitTestResults.firstWhereOrNull(
-      (hit) => hit.type == ARHitTestResultType.plane,
-    );
-
-    if (planeHit != null) {
-      await _placeFractalAtHit(planeHit);
-    }
-  }
-
-  Future<void> _placeFractalAtHit(ARHitTestResult hit) async {
-    try {
-      // Create anchor at hit location
-      final anchor = ARPlaneAnchor(
-        transformation: hit.worldTransform,
-      );
-
-      final anchorAdded = await _anchorManager.addAnchor(anchor);
-      
-      if (anchorAdded) {
-        await _createFractalNode(anchor);
-      }
-    } catch (e) {
-      print('Failed to place fractal: $e');
-    }
-  }
-
-  Future<void> _createFractalNode(ARPlaneAnchor anchor) async {
-    // Implementation in next section
-  }
-
-  Future<void> dispose() async {
-    if (_isInitialized) {
-      await _sessionManager.dispose();
-      _isInitialized = false;
-    }
-  }
-}
+body: ARKitSceneView(
+  planeDetection: ARPlaneDetection.horizontalAndVertical,
+  onARKitViewCreated: onARKitViewCreated,
+)
 ```
 
-### 3. Fractal Node Builder
-```dart
-// lib/ar/fractal_node_builder.dart
-import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
-import 'package:vector_math/vector_math_64.dart';
+This configuration instructs the iOS engine to look for surfaces parallel to the gravity vector. The `ARWallPicture` project provides a direct example of this, specifically designed to display images from a photo library on detected wall surfaces. This is highly relevant for the goal of anchoring fractals to walls, as it provides the logic for image-to-plane mapping and automatic image switching based on the viewing angle.
 
-class FractalNodeBuilder {
-  static ARNode createFractalNode({
-    required String imagePath,
-    required double width,
-    required double height,
-    Vector3? position,
-    Vector4? rotation,
-  }) {
-    // For 2D images, create a plane with texture
-    return ARNode(
-      name: 'fractal_${DateTime.now().millisecondsSinceEpoch}',
-      type: NodeType.fileSystemAppFolderGLB,
-      uri: _createGLBModel(imagePath, width, height),
-      scale: Vector3(0.3, 0.3, 0.3), // Start with reasonable scale
-      position: position ?? Vector3(0, 0, 0),
-      rotation: rotation ?? Vector4(0, 0, 0, 0),
-    );
-  }
+For realism, walls also require **occlusion handling**. The `arkit_plugin` occlusion sample uses a transparent material with `ARKitColorMask.none`, which writes to the depth buffer without rendering color. This ensures that any virtual fractal "behind" a real-world object (like a pillar or furniture) is correctly hidden, maintaining the spatial illusion.
 
-  static String _createGLBModel(String imagePath, double width, double height) {
-    // In production, pre-process fractal images to GLB format
-    // For development, use a placeholder model with dynamic texture loading
-    return 'models/fractal_plane.glb';
-  }
+### Ceilings: Horizontal Downward Classification
 
-  static Future<void> updateFractalTexture(
-    ARNode node, 
-    String newImagePath,
-  ) async {
-    // Update material texture with new fractal image
-    // This requires custom shader/material implementation
-  }
-}
-```
+Ceiling detection is a specialized case of horizontal plane detection where the surface normal is oriented downward. ARCore's native SDK includes a `HORIZONTAL_DOWNWARD_FACING` classification, though many Flutter plugins abstract this into a general horizontal category or omit it.
 
-### 4. Complete AR Widget
-```dart
-// lib/widgets/ar_view_widget.dart
-import 'package:flutter/material.dart';
-import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
-import '../ar/ar_scene_manager.dart';
+The `sceneview_flutter` plugin (and its predecessor `arcore_flutter_plugin`) expose the `ArCorePlane` class, which can return specific orientations including downward-facing surfaces. If a plugin does not natively classify ceilings, developers commonly use a spatial offset from the floor or a ray-casting technique that searches for the highest horizontal plane in the current coordinate system.
 
-class ARFractalView extends StatefulWidget {
-  final String fractalImagePath;
-  
-  const ARFractalView({super.key, required this.fractalImagePath});
+On iOS devices with **LiDAR**, ARKit's Scene Reconstruction generates a dense 3D mesh of the environment with surface **classification labels** including `.floor`, `.wall`, `.ceiling`, and `.table`. This mesh-based classification is significantly more reliable for ceiling detection than feature-point plane fitting alone, and is accessible through `arkit_plugin`.
 
-  @override
-  State<ARFractalView> createState() => _ARFractalViewState();
-}
+### Surface Classification Summary
 
-class _ARFractalViewState extends State<ARFractalView> {
-  late ARSceneManager _arManager;
-  bool _isARReady = false;
-  String _statusMessage = 'Initializing AR...';
+| Classification | Normal Vector (Y-axis) | Recommended Detection Method |
+|---|---|---|
+| Floor / Table | ≈ +1.0 (Upward) | Standard horizontal plane detection |
+| Ceiling | ≈ −1.0 (Downward) | `HORIZONTAL_DOWNWARD_FACING` or LiDAR mesh classification |
+| Wall | ≈ 0.0 (Perpendicular to Gravity) | Vertical plane detection + feature-point hit testing |
 
-  @override
-  void initState() {
-    super.initState();
-    _arManager = ARSceneManager();
-    _initializeAR();
-  }
+---
 
-  Future<void> _initializeAR() async {
-    try {
-      await _arManager.initialize(_onARViewCreated);
-      setState(() {
-        _isARReady = true;
-        _statusMessage = 'Tap on surfaces to place fractal';
-      });
-    } catch (e) {
-      setState(() {
-        _statusMessage = 'AR unavailable: $e';
-      });
-    }
-  }
+## Open-Source Projects for Fractal Visualization
 
-  void _onARViewCreated(
-    ARSessionManager sessionManager,
-    ARObjectManager objectManager,
-    ARAnchorManager anchorManager,
-    ARLocationManager locationManager,
-  ) {
-    _arManager.onARViewCreated(
-      sessionManager,
-      objectManager,
-      anchorManager,
-      locationManager,
-    );
-  }
+While many AR projects focus on static 3D models (GLB/GLTF), the requirement for fractal images introduces the need for procedural texture generation or dynamic image handling.
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ARView(
-          onARViewCreated: _onARViewCreated,
-          planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
-        ),
-        Positioned(
-          bottom: 20,
-          left: 0,
-          right: 0,
-          child: _buildControls(),
-        ),
-        Positioned(
-          top: 50,
-          left: 0,
-          right: 0,
-          child: _buildStatusOverlay(),
-        ),
-      ],
-    );
-  }
+### The eCommerce and UI Foundation
 
-  Widget _buildControls() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _ControlButton(
-            icon: Icons.refresh,
-            label: 'Reset',
-            onTap: _resetScene,
-          ),
-          _ControlButton(
-            icon: Icons.delete,
-            label: 'Clear',
-            onTap: _clearFractals,
-          ),
-          _ControlButton(
-            icon: Icons.photo,
-            label: 'Change',
-            onTap: _changeFractal,
-          ),
-        ],
-      ),
-    );
-  }
+The `eCommerce-UI-with-Flutter-Augmented-Reality-ARKit` project by `maxonflutter` provides a professional-grade architecture for managing a gallery of items. Its structure separates the UI (browsing fractals) from the AR view (anchoring them). The `lib/screens/product_with_augmented_reality_screen.dart` file manages the lifecycle of the ARKit session and the placement of 3D nodes, which can be adapted to display 2D fractal textures instead of furniture models.
 
-  Widget _buildStatusOverlay() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            _isARReady ? Icons.check_circle : Icons.info,
-            color: _isARReady ? Colors.green : Colors.orange,
-          ),
-          const SizedBox(width: 10),
-          Text(
-            _statusMessage,
-            style: const TextStyle(color: Colors.white),
-          ),
-        ],
-      ),
-    );
-  }
+### AR Room Decor and Spatial Management
 
-  void _resetScene() {
-    // Implement scene reset
-  }
+The `ar_room_decor` project, built with Flutter and Firebase, illustrates how to manage a persistent gallery of decorative items. Its "Object Capture" functionality allows users to capture physical objects and add them to a virtual gallery—a concept that can be pivoted to allow users to "capture" a section of a wall as a canvas for a fractal overlay.
 
-  void _clearFractals() {
-    // Implement clear all fractals
-  }
+### Situm AR and Multi-Binary Integration
 
-  void _changeFractal() {
-    // Implement fractal image change
-  }
+For high-end or industrial applications, `situm_flutter_ar` demonstrates the integration of complex AR binaries (like Unity exports) into a Flutter application. This is relevant for fractals rendered via complex shaders in Unity and embedded into a Flutter-managed UI. Unity's shader language (HLSL) is often more optimized for the recursive calculations required for fractals like the Mandelbrot set than pure Dart compute paths.
 
-  @override
-  void dispose() {
-    _arManager.dispose();
-    super.dispose();
-  }
-}
+---
 
-class _ControlButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
+## Procedural Rendering of Fractals in AR
 
-  const _ControlButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
+Fractals are defined by recursive mathematical formulas. Rendering these in an AR context requires a transition from CPU-bound Dart code to GPU-bound fragment shaders.
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.6),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: Colors.white, size: 28),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ],
-    );
-  }
-}
-```
+### Shader Integration in Flutter
 
-### 5. Main Application
-```dart
-// lib/main.dart
-import 'package:flutter/material.dart';
-import 'widgets/ar_view_widget.dart';
+Flutter 3.x introduced stable support for fragment shaders via the `FragmentProgram` API. A Mandelbrot fractal, for instance, can be defined in a `.frag` GLSL file:
 
-void main() {
-  runApp(const FractalARApp());
-}
+$$z_{n+1} = z_n^2 + c$$
 
-class FractalARApp extends StatelessWidget {
-  const FractalARApp({super.key});
+Shaders must be declared in the `shaders:` section of `pubspec.yaml`; the Flutter toolchain then compiles them to the appropriate backend format at build time:
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fractal AR Gallery',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.black,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.black,
-          elevation: 0,
-        ),
-      ),
-      home: const FractalGalleryScreen(),
-    );
-  }
-}
-
-class FractalGalleryScreen extends StatefulWidget {
-  const FractalGalleryScreen({super.key});
-
-  @override
-  State<FractalGalleryScreen> createState() => _FractalGalleryScreenState();
-}
-
-class _FractalGalleryScreenState extends State<FractalGalleryScreen> {
-  String _selectedFractal = 'assets/fractals/mandelbrot.png';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fractal AR Gallery'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.help),
-            onPressed: _showInstructions,
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ARFractalView(fractalImagePath: _selectedFractal),
-          ),
-          _buildFractalSelector(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFractalSelector() {
-    return Container(
-      height: 100,
-      color: Colors.black87,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _FractalThumbnail(
-            imagePath: 'assets/fractals/mandelbrot.png',
-            isSelected: _selectedFractal == 'assets/fractals/mandelbrot.png',
-            onTap: () => _selectFractal('assets/fractals/mandelbrot.png'),
-          ),
-          _FractalThumbnail(
-            imagePath: 'assets/fractals/julia.png',
-            isSelected: _selectedFractal == 'assets/fractals/julia.png',
-            onTap: () => _selectFractal('assets/fractals/julia.png'),
-          ),
-          // Add more fractal thumbnails
-        ],
-      ),
-    );
-  }
-
-  void _selectFractal(String path) {
-    setState(() {
-      _selectedFractal = path;
-    });
-  }
-
-  void _showInstructions() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('AR Instructions'),
-        content: const Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('1. Slowly move your device around'),
-            Text('2. Wait for planes to appear (white dots)'),
-            Text('3. Tap on detected surfaces to place fractal'),
-            Text('4. Use pinch to scale, drag to move'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _FractalThumbnail extends StatelessWidget {
-  final String imagePath;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _FractalThumbnail({
-    required this.imagePath,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 80,
-        margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? Colors.blue : Colors.transparent,
-            width: 3,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(5),
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}
-```
-
-## Asset Preparation
-
-### For 2D Fractal Images:
-1. **Convert to GLB format** using tools like Blender or online converters
-2. **Optimize textures**: 1024x1024 PNG with transparency
-3. **Place in assets**:
-   ```
-   assets/
-   ├── models/
-   │   └── fractal_plane.glb
-   └── fractals/
-       ├── mandelbrot.png
-       └── julia.png
-   ```
-
-### pubspec.yaml Configuration:
 ```yaml
 flutter:
-  assets:
-    - assets/models/
-    - assets/fractals/
+  shaders:
+    - shaders/mandelbrot.frag
 ```
 
-## Troubleshooting
+At runtime, a shader is loaded and instantiated as follows:
 
-### Common Issues:
-1. **No planes detected**:
-   - Ensure adequate lighting
-   - Move device slowly to scan surfaces
-   - Check if surface has enough texture
+```dart
+final program = await FragmentProgram.fromAsset('shaders/mandelbrot.frag');
+final shader = program.fragmentShader();
+```
 
-2. **AR not available**:
-   ```dart
-   Future<bool> checkARSupport() async {
-     if (Platform.isAndroid) {
-       return await ArCoreController.checkArCoreAvailability();
-     } else if (Platform.isIOS) {
-       return await ArKitController.checkArKitAvailability();
-     }
-     return false;
-   }
-   ```
+The community package [`flutter_shaders`](https://pub.dev/packages/flutter_shaders) provides higher-level utilities (e.g., `AnimatedSampler`, `ShaderBuilder`) that simplify binding uniforms and integrating shaders into the widget tree.
 
-3. **Performance optimization**:
-   - Limit simultaneous fractal nodes to 5-10
-   - Use compressed textures
-   - Dispose unused nodes immediately
+To bridge a shader-rendered fractal with AR, the output is rendered to an `ImageShader` or captured via `PictureRecorder.toImage()`, then the resulting byte array is passed to the `ArCoreMaterial` or `ARKitMaterial` texture property.
 
-## Testing Checklist
-- [ ] Camera permission granted
-- [ ] ARCore/ARKit supported device
-- [ ] Surfaces have sufficient texture
-- [ ] Adequate lighting conditions
-- [ ] Fractal images properly formatted
-- [ ] Platform configurations applied
+### Performance Considerations for Fractals in AR
 
-## Next Steps
-1. Implement fractal generation directly in AR
-2. Add multiplayer shared AR experiences
-3. Integrate with fractal parameter controls
-4. Add animation to fractal transformations
+Recursive Mandelbrot/Julia-set calculations are computationally expensive. In an active AR session, the device is already under heavy load from VIO, SLAM, and plane detection. If fractal rendering drops the frame rate below 30 FPS, spatial tracking will drift, causing the fractal to "float" away from its anchor.
 
-This implementation provides a robust foundation for placing fractal images in AR. The modular structure allows for easy extension with additional fractal types and interaction modes.
+Strategies to maintain performance:
+
+- **Cache `FragmentProgram` instances.** Re-instantiating from assets each frame is expensive. Load once and reuse `Shader` objects across frames.
+- **Asynchronous rendering.** Use a separate Dart `Isolate` (or `compute()`) to drive iteration-count calculations when the fractal is generated on the CPU.
+- **Level of Detail (LOD).** Reduce the iteration depth of the fractal when the user is far from the anchored image; increase it as they approach.
+- **Impeller rendering engine.** Flutter's Impeller backend (enabled by default on iOS, opt-in on Android) provides deterministic GPU pipeline compilation, eliminating the shader-compilation jank that previously caused frame drops on first render.
+- **LiDAR offloading (iOS).** On LiDAR-equipped devices, depth sensing reduces the reliance on visual feature-point SLAM, freeing GPU cycles for fractal rendering.
+
+---
+
+## Technical Implementation Workflow
+
+To anchor fractals to all four surface types (floors, tables, walls, ceilings), a developer should follow an integrated workflow combining several open-source techniques.
+
+### Step 1: Environmental Configuration
+
+Set up platform-specific permissions and configurations. For Android, update `AndroidManifest.xml` and the app-level `build.gradle` to declare the AR feature requirement:
+
+```xml
+<!-- AndroidManifest.xml -->
+<uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
+<meta-data android:name="com.google.ar.core" android:value="required"/>
+```
+
+For `sceneview_flutter`, add the dependency instead of the deprecated Sceneform library:
+
+```gradle
+// build.gradle (app-level)
+dependencies {
+    implementation 'io.github.sceneview:arsceneview:2.x.x'
+}
+```
+
+For iOS, the `Info.plist` must include `NSCameraUsageDescription`, and the `Podfile` must be configured to handle ARKit targets.
+
+### Step 2: Surface Detection and Filtering
+
+Listen for plane detection events. In `ar_flutter_plugin_2`, this is handled via the `onPlaneDetected` listener. To distinguish between floor/table and wall/ceiling planes, examine the plane's orientation vector.
+
+For LiDAR-equipped iOS devices, request ARKit mesh classification directly:
+
+```dart
+ARKitSceneView(
+  configuration: ARWorldTrackingConfiguration()
+    ..sceneReconstruction = ARSceneReconstruction.meshWithClassification,
+  onARKitViewCreated: onARKitViewCreated,
+)
+```
+
+This provides per-vertex mesh labels (`.floor`, `.wall`, `.ceiling`, `.table`, etc.) without relying solely on geometric plane fitting.
+
+### Step 3: Hit Testing and Anchor Placement
+
+Upon a user tap, the hit test determines the precise coordinates on the surface. For walls, a `featurePoint` hit test is often more successful if a plane has not yet been fully resolved. The `arkit_plugin` allows hit testing against detected planes using the `existingPlaneUsingExtent` type, which ensures the fractal remains within the bounds of the detected surface.
+
+### Step 4: Fractal Texture Application
+
+Once an anchor is created, an `ARNode` is attached. If using a pre-rendered fractal, the image is loaded via the assets folder or a remote URL. If dynamic, the shader-rendered output is applied. The `ARWallPicture` project demonstrates dynamic image-texture replacement on vertical planes, providing a template for this step.
+
+---
+
+## Persistent and Collaborative Fractal Galleries
+
+The concept of a fractal gallery implies that the artwork should stay in place even after the app is closed and be visible to multiple users. Two complementary approaches address this: **Cloud Anchors** (room-scale) and the **ARCore Geospatial API** (building- and city-scale).
+
+### Google Cloud Anchors (Room-Scale Persistence)
+
+Cloud Anchors allow the spatial feature map of a specific location to be uploaded to Google's servers. The `ar_flutter_plugin_plus` provides examples for this workflow. Any user within approximately 100 m can then "resolve" that anchor, causing the fractal to appear in the same real-world position on their device.
+
+With OAuth 2.0 authentication, uploaded anchors persist for up to **365 days**. The workflow for a persistent fractal installation:
+
+1. **Host.** The "Artist" app anchors a fractal to a wall and calls `hostCloudAnchor()`.
+2. **Store.** The resulting Cloud Anchor ID and fractal metadata (e.g., `"Mandelbrot, blue-gold palette"`) are stored in Firebase Firestore.
+3. **Resolve.** The "Visitor" app retrieves the ID and calls `resolveCloudAnchor()` to recreate the experience.
+
+### ARCore Geospatial API (City-Scale Persistence)
+
+For outdoor installations or large venues, the **ARCore Geospatial API** (supported on Android and iOS) uses Google's **Visual Positioning System (VPS)**—a global 3D point cloud derived from Street View imagery—to localize devices with accuracy far exceeding GPS alone. This enables fractal artwork to be pinned to specific geographic coordinates without any manual mapping or prior scanning of the space.
+
+The API provides three anchor types:
+
+| Anchor Type | Description | Best For |
+|---|---|---|
+| **WGS84** | Fixed at a latitude, longitude, and altitude | Outdoor murals on flat surfaces |
+| **Terrain** | Positioned relative to the ground surface elevation | Fractals on sloped terrain or plazas |
+| **Rooftop** | Anchored relative to a building's rooftop geometry | Architectural installations on building facades |
+
+For fractal gallery applications, Terrain and Rooftop anchors offer the most compelling deployment scenario: a fractal can be "mounted" on the exterior wall of a building at a specific GPS coordinate, visible to any visitor who opens the app nearby.
+
+### Image Marker Anchoring for Indoor Stability
+
+For environments with low texture (blank walls, white galleries), image marker tracking is the most reliable anchoring method. By placing a small, high-contrast physical marker on the wall, the app can use it as a stable reference point. The `ar_flutter_plugin_plus` and `ar_quido` plugins identify these markers and provide a stable transformation matrix for the fractal node.
+
+Reference images are declared in `pubspec.yaml` assets and loaded into the AR session's reference image set. Detection latency is typically under one second, and the anchor remains stable even when the marker is partially occluded.
+
+Image anchors are significantly more reliable for "fixed" visualizations than free-form plane detection—the recommended approach for users wanting to "hang" fractal art on walls without the positional drift associated with standard VIO on featureless surfaces.
+
+---
+
+## Current Limitations and Future Outlook
+
+### Hardware Dependencies and Discrepancies
+
+ARCore and ARKit are not universally supported. Apps must include a device-compatibility check before entering the AR view. Vertical plane detection is notably less stable on older devices lacking depth sensors or LiDAR. The Geospatial API requires Street View coverage of the target location and is unavailable in regions where Google has not collected VPS data.
+
+### Plugin Ecosystem Volatility
+
+The deprecation of Sceneform and the discontinuation of the original `ar_flutter_plugin` highlight the fragility of the AR plugin ecosystem. Developers are strongly advised to target `ar_flutter_plugin_plus` for cross-platform projects or `sceneview_flutter` for Android-specific work. Both are actively maintained and compatible with Flutter 3.10+.
+
+### Emerging: Android XR and Jetpack XR
+
+The 2025 landscape introduces **Android XR** and the **Jetpack XR SDK**, Google's next-generation platform targeting headsets and glasses in addition to phones. Early ARCore APIs for Jetpack XR already expose Geospatial pose tracking. While Flutter support for Android XR is nascent, the underlying ARCore APIs are expected to be unified, meaning fractal gallery applications built on the Geospatial API today should be forward-compatible with wearable form factors as Flutter's XR support matures.
+
+### Emerging: Semantic Scene Understanding
+
+Future ARCore and ARKit releases are trending toward **scene semantics**—AI-assisted surface classification that goes beyond geometric plane fitting. Rather than relying purely on VIO to guess that a surface is a wall, the system will classify it semantically. This will make ceiling detection and featureless-wall anchoring significantly more reliable without requiring LiDAR hardware.
+
+---
+
+## Conclusion
+
+The objective of anchoring fractal images to various real-world surfaces in a Flutter application is achievable through a strategic combination of open-source plugins.
+
+- **Floors and tables:** Standard horizontal plane detection via `ar_flutter_plugin_plus` or `sceneview_flutter` is sufficient.
+- **Walls:** Vertical plane configurations from `arkit_plugin` and the `ARWallPicture` reference project handle image mapping and occlusion.
+- **Ceilings:** Downward-facing horizontal plane classification or ARKit LiDAR mesh labels provide the most reliable detection.
+- **Persistent galleries:** Cloud Anchors cover room-scale indoor installations (up to 365-day persistence); the ARCore Geospatial API with Terrain/Rooftop anchors handles outdoor and building-scale deployments without pre-mapping.
+- **Stable indoor anchoring:** Image marker tracking via `ar_flutter_plugin_plus` or `ar_quido` is the recommended approach for featureless walls.
+
+By leveraging Flutter's `FragmentProgram` shader API with the Impeller rendering engine, and combining cloud-based persistent anchors with the Geospatial API, developers can create immersive, stable, and shareable fractal galleries that bridge the gap between abstract mathematics and physical space.
+
+---
+
+## References and Further Reading
+
+- [Flutter Fragment Shaders — Official Documentation](https://docs.flutter.dev/ui/design/graphics/fragment-shaders)
+- [FragmentProgram class — Dart API](https://api.flutter.dev/flutter/dart-ui/FragmentProgram-class.html)
+- [`flutter_shaders` package — pub.dev](https://pub.dev/packages/flutter_shaders)
+- [ARCore Cloud Anchors — Google Developers](https://developers.google.com/ar/develop/cloud-anchors)
+- [ARCore Geospatial API — Google Developers](https://developers.google.com/ar/develop/geospatial)
+- [Streetscape Geometry & Rooftop Anchors Codelab](https://developers.google.com/codelabs/arcore-streetscape-geometry-rooftop-anchors)
+- [SceneView Flutter — GitHub](https://github.com/SceneView/sceneview-flutter)
+- [arkit_plugin — pub.dev](https://pub.dev/packages/arkit_plugin)
+- [ar_quido — pub.dev](https://pub.dev/packages/ar_quido)
+- [Build AR Apps with Flutter — Banuba 2025 Guide](https://www.banuba.com/blog/flutter-ar-guide)
+- [Bringing Data to Life: Exploring AR in Flutter — ClearPeaks](https://www.clearpeaks.com/bringing-data-to-life-exploring-ar-in-flutter/)
