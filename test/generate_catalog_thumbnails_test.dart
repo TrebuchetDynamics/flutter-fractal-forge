@@ -16,7 +16,7 @@ import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 
-const int _thumbSize = 128;
+const int _thumbSize = 320;
 
 void main() {
   test('Generate catalog thumbnails (manual)', () async {
@@ -38,7 +38,7 @@ void main() {
           juliaC: Vector2(-0.8, 0.156),
           width: _thumbSize,
           height: _thumbSize,
-          sampleCount: 4,
+          sampleCount: 8,
         );
         final rgba = frame.rgba;
 
@@ -78,6 +78,7 @@ void main() {
     final customModules = <({String id, double cx, double cy, double zoom, int iters})>[
       (id: 'julia', cx: 0.0, cy: 0.0, zoom: 1.2, iters: 150),
       (id: 'phoenix', cx: -0.5, cy: 0.0, zoom: 1.0, iters: 120),
+      (id: 'nova', cx: 0.0, cy: 0.0, zoom: 1.0, iters: 100),
     ];
     for (final m in customModules) {
       try {
@@ -90,7 +91,7 @@ void main() {
           juliaC: Vector2(-0.8, 0.156),
           width: _thumbSize,
           height: _thumbSize,
-          sampleCount: 4,
+          sampleCount: 8,
         );
         final rgba = frame.rgba;
 

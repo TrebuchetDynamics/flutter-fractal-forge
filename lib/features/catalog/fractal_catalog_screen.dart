@@ -485,21 +485,9 @@ class _PreviewThumbnail extends StatelessWidget {
     this.size,
   });
 
-  /// CPU thumbnail renderer implements only 8 fractal formulas.
-  /// Others use Mandelbrot fallback (thumbnail approximate).
-  bool _hasExactCpuThumbnail(String catalogId) {
-    final id = catalogId.startsWith('core.') ? catalogId.substring(5) : catalogId;
-    return const [
-      'mandelbrot',
-      'julia',
-      'burning_ship',
-      'celtic',
-      'buffalo',
-      'tricorn',
-      'multibrot3',
-      'phoenix',
-    ].contains(id);
-  }
+  /// Returns true — cpu_formulas.dart implements ~198 formulas covering the
+  /// full escape-time catalog, so all thumbnails are exact renders.
+  bool _hasExactCpuThumbnail(String catalogId) => true;
 
   @override
   Widget build(BuildContext context) {
@@ -522,7 +510,7 @@ class _PreviewThumbnail extends StatelessWidget {
             child: Image.asset(
               thumbAsset,
               fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
+              filterQuality: FilterQuality.medium,
               errorBuilder: (context, error, stack) => _GradientFallback(catalogId: catalogId),
             ),
           ),
