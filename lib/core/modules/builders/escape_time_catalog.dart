@@ -1783,6 +1783,50 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 160,
     defaultBailout: 4.0,
   ),
+
+  // Cubic Burning Ship: z_{n+1} = (|Re(z)| + i·|Im(z)|)^3 + c
+  // Extends the Burning Ship to power 3: richer 4-fold symmetric forms.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'burning_ship_cubic',
+    name: 'Cubic Burning Ship',
+    shaderAsset: 'shaders/burning_ship_cubic_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'burning-ship-cubic-relief',
+        moduleId: 'burning_ship_cubic',
+        name: 'Bas-Relief: Forge',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Celtic Cubic: z_{n+1} = |Re(z^3)| + i·Im(z^3) + c
+  // Extends Celtic to power 3 — richer aperiodic structure from 3-fold symmetry
+  // combined with the Celtic abs-fold. Supports normal-map shading (50-63).
+  EscapeTimeConfig(
+    id: 'celtic_cubic',
+    name: 'Celtic Cubic',
+    shaderAsset: 'shaders/celtic_cubic_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'celtic-cubic-relief',
+        moduleId: 'celtic_cubic',
+        name: 'Bas-Relief: Knot',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.

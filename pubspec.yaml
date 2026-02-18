@@ -269,3 +269,5 @@ flutter:
     - shaders/damaged_doublebrot_gpu.frag
     - shaders/perp_celtic_gpu.frag
     - shaders/feather_gpu.frag
+    - shaders/burning_ship_cubic_gpu.frag
+    - shaders/celtic_cubic_gpu.frag
