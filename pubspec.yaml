@@ -272,3 +272,4 @@ flutter:
     - shaders/burning_ship_cubic_gpu.frag
     - shaders/celtic_cubic_gpu.frag
     - shaders/mandelbrot_orbit_trap_gpu.frag
+    - shaders/burning_ship_perp_gpu.frag

@@ -1850,6 +1850,25 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
   ),
+  EscapeTimeConfig(
+    id: 'burning_ship_perp',
+    name: 'Perpendicular Burning Ship',
+    shaderAsset: 'shaders/burning_ship_perp_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-ship-relief',
+        moduleId: 'burning_ship_perp',
+        name: 'Filament Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 54},
+        view: FractalViewState(pan: Vector2(-0.5, -0.5), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.
