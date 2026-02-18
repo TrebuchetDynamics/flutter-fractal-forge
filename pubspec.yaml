@@ -279,3 +279,5 @@ flutter:
     - shaders/buffalo_cubic_gpu.frag
     - shaders/mandelbrot_de_gpu.frag
     - shaders/tricorn_cubic_gpu.frag
+    - shaders/mandelbrot_curvature_avg_gpu.frag
+    - shaders/julia_de_gpu.frag
