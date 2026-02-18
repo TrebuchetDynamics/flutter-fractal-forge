@@ -2157,6 +2157,24 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     ],
   ),
   EscapeTimeConfig(
+    id: 'multibrot_25',
+    name: 'Multibrot d=2.5',
+    shaderAsset: 'shaders/multibrot_25_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot25-relief',
+        moduleId: 'multibrot_25',
+        name: 'Two-and-Half Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
     id: 'burning_ship_perp',
     name: 'Perpendicular Burning Ship',
     shaderAsset: 'shaders/burning_ship_perp_gpu.frag',

@@ -283,3 +283,4 @@ flutter:
     - shaders/julia_de_gpu.frag
     - shaders/multibrot_15_gpu.frag
     - shaders/perp_celtic_cubic_gpu.frag
+    - shaders/multibrot_25_gpu.frag
