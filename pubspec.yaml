@@ -267,3 +267,5 @@ flutter:
     - shaders/fibonacci_spiral_gpu.frag
     - shaders/washed_away_gpu.frag
     - shaders/damaged_doublebrot_gpu.frag
+    - shaders/perp_celtic_gpu.frag
+    - shaders/feather_gpu.frag

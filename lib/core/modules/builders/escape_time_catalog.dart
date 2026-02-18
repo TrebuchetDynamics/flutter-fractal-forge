@@ -344,6 +344,26 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Buffalo',
     shaderAsset: 'shaders/buffalo_gpu.frag',
     defaultIterations: 180,
+    extraPresets: [
+      FractalPreset(
+        id: 'buffalo-relief-plains',
+        moduleId: 'buffalo',
+        name: 'Bas-Relief: Plains',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'buffalo-relief-stampede',
+        moduleId: 'buffalo',
+        name: 'Bas-Relief: Stampede',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(-0.3, 0.5), zoom: 8.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multibrot3',
@@ -1729,6 +1749,39 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 200,
     defaultBailout: 8.0,
     defaultCenterX: -0.3,
+  ),
+
+  // Perpendicular Celtic: z_{n+1} = Re(z^2) + i*|Im(z^2)| + c
+  // Complement to Celtic — abs on the imaginary component instead of real,
+  // producing different folding symmetry and distinct spiral arm geometry.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'perp_celtic',
+    name: 'Perpendicular Celtic',
+    shaderAsset: 'shaders/perp_celtic_gpu.frag',
+    defaultIterations: 180,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-celtic-relief-jade',
+        moduleId: 'perp_celtic',
+        name: 'Bas-Relief: Jade',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Feather Fractal: z_{n+1} = z^3 / (1 + |z|^2) + c
+  // The denominator damps large orbits, producing feather-like spiraling arms
+  // with rich filament structure distinct from polynomial escape-time sets.
+  EscapeTimeConfig(
+    id: 'feather',
+    name: 'Feather Fractal',
+    shaderAsset: 'shaders/feather_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 4.0,
   ),
 ];
 
