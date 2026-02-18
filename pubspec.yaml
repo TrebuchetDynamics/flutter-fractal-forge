@@ -47,6 +47,7 @@ flutter:
     - shaders/test_gl_fragcoord.frag
     - shaders/test_flutter_coord.frag
     - shaders/mandelbulb.frag
+    - shaders/mandelbox_3d_gpu.frag
     - shaders/mandelbrot.frag
     - shaders/julia.frag
     - shaders/burning_ship.frag

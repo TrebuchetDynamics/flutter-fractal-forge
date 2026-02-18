@@ -653,6 +653,34 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _showContextMenu(details.globalPosition);
   }
 
+  /// Called when user taps the left (Mandelbrot) panel of the julia_dual module.
+  /// Converts screen position to Mandelbrot complex coords and updates Julia seed.
+  void _onJuliaDualTap(Offset localPos, FractalController controller) {
+    final renderBox = context.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+    final size = renderBox.size;
+
+    // Only respond to taps on the left (Mandelbrot) panel.
+    if (localPos.dx >= size.width * 0.5) return;
+
+    final view = controller.view;
+    final scale = size.width < size.height ? size.width : size.height;
+
+    // Map pixel → UV (same mapping as the shader).
+    // shader: uv = (fragCoord - 0.5 * uResolution) / max(1, scale)
+    // We use the full width for this mapping (left panel only spans 0..width/2,
+    // but the Mandelbrot computation maps over the full left-panel viewport).
+    final uvX = (localPos.dx - size.width * 0.5) / scale;
+    final uvY = (localPos.dy - size.height * 0.5) / scale;
+
+    // Apply zoom and pan to get fractal coordinates.
+    final fracX = uvX / view.zoom + view.pan.x;
+    final fracY = uvY / view.zoom + view.pan.y;
+
+    controller.updateParam('juliaCReal', fracX.clamp(-2.0, 2.0));
+    controller.updateParam('juliaCImag', fracY.clamp(-2.0, 2.0));
+  }
+
   void _showContextMenu(Offset position) {
     final controller = context.read<FractalController>();
     final l10n = AppLocalizations.of(context);

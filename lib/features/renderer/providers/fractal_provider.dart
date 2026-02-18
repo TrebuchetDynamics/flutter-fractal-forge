@@ -63,6 +63,9 @@ class FractalController extends ChangeNotifier {
   FractalViewState _view = FractalViewState.initial();
   bool _transparentBackground = false;
   bool _rotationLocked = false;
+  bool _glowEnabled = false;
+  double _glowSigma = 1.0;    // blur radius multiplier: 1.0 = standard
+  double _glowIntensity = 0.35; // opacity of glow layer
 
   // Animation state
   bool _isMorphing = false;
@@ -126,6 +129,10 @@ class FractalController extends ChangeNotifier {
 
   /// Whether gesture-based rotation is locked.
   bool get rotationLocked => _rotationLocked;
+
+  bool get glowEnabled => _glowEnabled;
+  double get glowSigma => _glowSigma;
+  double get glowIntensity => _glowIntensity;
 
   /// Switches to a different fractal module.
   ///
@@ -358,6 +365,22 @@ class FractalController extends ChangeNotifier {
   /// Toggles gesture-based rotation lock.
   void toggleRotationLock() {
     setRotationLocked(!_rotationLocked);
+  }
+
+  void setGlowEnabled(bool value) {
+    if (_glowEnabled == value) return;
+    _glowEnabled = value;
+    notifyListeners();
+  }
+
+  void setGlowSigma(double value) {
+    _glowSigma = value.clamp(0.1, 5.0);
+    notifyListeners();
+  }
+
+  void setGlowIntensity(double value) {
+    _glowIntensity = value.clamp(0.0, 1.0);
+    notifyListeners();
   }
 
   /// Sets whether the background should be transparent.

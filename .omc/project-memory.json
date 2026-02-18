@@ -321,20 +321,20 @@
   "hotPaths": [
     {
       "path": "lib/features/viewer/fractal_viewer_screen.dart",
-      "accessCount": 39,
-      "lastAccessed": 1771366851458,
+      "accessCount": 40,
+      "lastAccessed": 1771373957969,
       "type": "file"
     },
     {
       "path": "lib/features/renderer/fractal_renderer.dart",
-      "accessCount": 27,
-      "lastAccessed": 1771370682598,
+      "accessCount": 38,
+      "lastAccessed": 1771374394478,
       "type": "file"
     },
     {
       "path": "lib/features/renderer/gesture_handler.dart",
-      "accessCount": 15,
-      "lastAccessed": 1771366988095,
+      "accessCount": 19,
+      "lastAccessed": 1771374370387,
       "type": "file"
     },
     {
@@ -351,9 +351,15 @@
     },
     {
       "path": "lib/features/controls/fractal_controls.dart",
-      "accessCount": 9,
-      "lastAccessed": 1771364928920,
+      "accessCount": 10,
+      "lastAccessed": 1771373973657,
       "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 9,
+      "lastAccessed": 1771374279390,
+      "type": "directory"
     },
     {
       "path": "lib",
@@ -362,15 +368,15 @@
       "type": "directory"
     },
     {
-      "path": "",
-      "accessCount": 8,
-      "lastAccessed": 1771370746314,
-      "type": "directory"
-    },
-    {
       "path": "scripts/run-app.sh",
       "accessCount": 6,
       "lastAccessed": 1771366233080,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/providers/fractal_provider.dart",
+      "accessCount": 6,
+      "lastAccessed": 1771374320686,
       "type": "file"
     },
     {
@@ -410,6 +416,12 @@
       "type": "directory"
     },
     {
+      "path": "lib/features/renderer/fractal_painter.dart",
+      "accessCount": 4,
+      "lastAccessed": 1771374022380,
+      "type": "file"
+    },
+    {
       "path": "lib/features/viewer/components/compare_renderer.dart",
       "accessCount": 3,
       "lastAccessed": 1771358588900,
@@ -437,6 +449,12 @@
       "path": "lib/features/wallpaper/wallpaper_options_sheet.dart",
       "accessCount": 3,
       "lastAccessed": 1771364327263,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/param_reader.dart",
+      "accessCount": 3,
+      "lastAccessed": 1771374316986,
       "type": "file"
     },
     {
@@ -518,27 +536,15 @@
       "type": "file"
     },
     {
-      "path": "lib/features/renderer/fractal_painter.dart",
+      "path": "lib/features/renderer/shader_loader.dart",
       "accessCount": 2,
-      "lastAccessed": 1771370232506,
+      "lastAccessed": 1771374040797,
       "type": "file"
     },
     {
       "path": "integration_test/double_tap_anchor_test.dart",
       "accessCount": 1,
       "lastAccessed": 1771357242823,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/providers/fractal_provider.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771357290130,
-      "type": "file"
-    },
-    {
-      "path": "lib/core/modules/param_reader.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771357854195,
       "type": "file"
     },
     {
@@ -551,12 +557,6 @@
       "path": "lib/features/viewer/components/fractal_app_bar.dart",
       "accessCount": 1,
       "lastAccessed": 1771358315747,
-      "type": "file"
-    },
-    {
-      "path": "lib/features/renderer/shader_loader.dart",
-      "accessCount": 1,
-      "lastAccessed": 1771358815704,
       "type": "file"
     },
     {

@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
 import 'package:flutter_fractals/core/modules/julia_dual_module.dart';
 import 'package:flutter_fractals/core/modules/julia_module.dart';
+import 'package:flutter_fractals/core/modules/mandelbox_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/nova_module.dart';
 import 'package:flutter_fractals/core/modules/phoenix_module.dart';
@@ -63,6 +64,8 @@ class ModuleRegistry {
       if (!catalogIds.contains('nova')) buildNovaModule(),
       // Mandelbulb is 3D with rotation uniforms
       if (!catalogIds.contains('mandelbulb')) buildMandelbulbModule(),
+      // Mandelbox is 3D with box-fold + sphere-fold DE
+      if (!catalogIds.contains('mandelbox')) buildMandelboxModule(),
     ];
 
     // Diagnostics (debug only, always last)

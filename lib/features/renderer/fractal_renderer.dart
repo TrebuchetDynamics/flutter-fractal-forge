@@ -9,6 +9,7 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/mandelbrot_df2_module.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
@@ -138,6 +139,7 @@ class _FractalRendererState extends State<FractalRenderer>
       RuntimeModeService.useRendererPlaceholderSurface;
 
   late AnimationController _animationController;
+  FractalModule? _df2Module;
 
   @override
   void initState() {
@@ -364,9 +366,22 @@ class _FractalRendererState extends State<FractalRenderer>
       );
     }
 
+    // Select df2 shader for deep-zoom Mandelbrot.
+    final bool usesDf2 = _precisionPolicy.shouldUseDoubleFloat(
+      moduleId: module.id,
+      zoom: controller.view.zoom,
+    );
+    // Cache the df2 wrapper; rebuild only when the standard module changes.
+    if (usesDf2 && (module.id == 'mandelbrot')) {
+      _df2Module ??= buildMandelbrotDf2Module(module);
+    }
+    final effectiveModule = (usesDf2 && module.id == 'mandelbrot')
+        ? (_df2Module ??= buildMandelbrotDf2Module(module))
+        : module;
+
     // Check if we need to load a new shader
-    if (_shaderAsset != module.shaderAsset && !_loading) {
-      _loadShader(module.shaderAsset);
+    if (_shaderAsset != effectiveModule.shaderAsset && !_loading) {
+      _loadShader(effectiveModule.shaderAsset);
     }
 
     // Show error if shader failed to load
@@ -416,10 +431,13 @@ class _FractalRendererState extends State<FractalRenderer>
           }
           return CustomPaint(
             painter: FractalCanvas(
-              module: controller.module,
+              module: effectiveModule,
               state: renderState,
               time: _animationController.value * 1000.0,
               shader: _currentFragmentShader(_program!),
+              glowEnabled: controller.glowEnabled,
+              glowSigma: controller.glowSigma,
+              glowIntensity: controller.glowIntensity,
             ),
             child: Container(),
           );
@@ -442,9 +460,9 @@ class _FractalRendererState extends State<FractalRenderer>
     );
 
     final content = _withRendererIndicator(
-      mode: 'GPU',
+      mode: usesDf2 ? 'GPU-DF2' : 'GPU',
       fallbackActive: false,
-      highPrecisionActive: false,
+      highPrecisionActive: usesDf2,
       child: RepaintBoundary(
         key: widget.boundaryKey,
         child: fractalContent,
@@ -468,6 +486,9 @@ class _FractalRendererState extends State<FractalRenderer>
         onDoubleTapDown: _onDoubleTapDown,
         onDoubleTap: _onDoubleTapGesture,
         onLongPressStart: _onLongPress,
+        onTapUp: (module.id == 'julia_dual') ? (details) {
+          _onJuliaDualTap(details.localPosition, controller);
+        } : null,
         child: content,
       ),
     );
