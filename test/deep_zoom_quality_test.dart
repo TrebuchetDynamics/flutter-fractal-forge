@@ -10,9 +10,8 @@ void main() {
     const policy = DeepZoomPrecisionPolicy();
 
     test('uses per-fractal thresholds for CPU fallback', () {
-      // Raised from 1e5/5e4 to 1e7/5e6: float32 GPU can accurately render
-      // further than the old conservative values.
-      expect(policy.thresholdFor('mandelbrot'), 1e7);
+      // Mandelbrot threshold tracks df2 upper bound in current policy.
+      expect(policy.thresholdFor('mandelbrot'), 1e14);
       expect(policy.thresholdFor('julia'), 5e6);
       expect(policy.thresholdFor('celtic'), 5e6);
       expect(policy.thresholdFor('buffalo'), 5e6);
@@ -24,13 +23,13 @@ void main() {
     });
 
     test('fallback toggles at threshold', () {
-      // GPU stays active up to the new higher threshold.
+      // GPU stays active for Mandelbrot until df2 upper bound.
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e6),
+        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e7),
         isFalse,
       );
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e7),
+        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e14),
         isTrue,
       );
       // Unlisted fractals use default threshold (1e8)

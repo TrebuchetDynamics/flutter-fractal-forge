@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbrot_df2_module.dart';
+import 'package:flutter_fractals/core/modules/julia_perturb_module.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
@@ -140,6 +141,7 @@ class _FractalRendererState extends State<FractalRenderer>
 
   late AnimationController _animationController;
   FractalModule? _df2Module;
+  FractalModule? _juliaPerturbModule;
 
   @override
   void initState() {
@@ -309,10 +311,16 @@ class _FractalRendererState extends State<FractalRenderer>
       );
     }
 
-    final shouldUseCpuFallback = _precisionPolicy.shouldUseCpuFallback(
-      moduleId: module.id,
-      zoom: controller.view.zoom,
-    );
+    final bool usesJuliaPerturb =
+        module.id == 'julia' &&
+        controller.view.zoom >= 5e6 &&
+        controller.view.zoom < 1e30;
+
+    final shouldUseCpuFallback = !usesJuliaPerturb &&
+        _precisionPolicy.shouldUseCpuFallback(
+          moduleId: module.id,
+          zoom: controller.view.zoom,
+        );
 
     if (shouldUseCpuFallback && module.dimension == FractalDimension.twoD) {
       final cpuContent = _withRendererIndicator(
@@ -375,9 +383,11 @@ class _FractalRendererState extends State<FractalRenderer>
     if (usesDf2 && (module.id == 'mandelbrot')) {
       _df2Module ??= buildMandelbrotDf2Module(module);
     }
-    final effectiveModule = (usesDf2 && module.id == 'mandelbrot')
-        ? (_df2Module ??= buildMandelbrotDf2Module(module))
-        : module;
+    final effectiveModule = usesJuliaPerturb
+        ? (_juliaPerturbModule ??= buildJuliaPerturbModule(module))
+        : ((usesDf2 && module.id == 'mandelbrot')
+            ? (_df2Module ??= buildMandelbrotDf2Module(module))
+            : module);
 
     // Check if we need to load a new shader
     if (_shaderAsset != effectiveModule.shaderAsset && !_loading) {
