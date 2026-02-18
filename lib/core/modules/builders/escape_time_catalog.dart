@@ -541,6 +541,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Glynn Fractal',
     shaderAsset: 'shaders/glynn_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'glynn-relief',
+        moduleId: 'glynn',
+        name: 'Glynn Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'simonbrot',
@@ -553,6 +564,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Shark Fin',
     shaderAsset: 'shaders/shark_fin_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'shark-fin-relief',
+        moduleId: 'shark_fin',
+        name: 'Shark Fin Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'manowar',
@@ -1322,6 +1344,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: "Barnsley J1",
     shaderAsset: 'shaders/barnsley_j1_gpu.frag',
     defaultIterations: 120,
+    extraPresets: [
+      FractalPreset(
+        id: 'barnsley-j1-relief',
+        moduleId: 'barnsley_j1',
+        name: 'Barnsley J1 Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'fish',
@@ -1334,6 +1367,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Ducky Fractal',
     shaderAsset: 'shaders/ducky_gpu.frag',
     defaultIterations: 130,
+    extraPresets: [
+      FractalPreset(
+        id: 'ducky-relief',
+        moduleId: 'ducky',
+        name: 'Ducky Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 60},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'schroeder',
@@ -2034,6 +2078,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/feather_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'feather-relief',
+        moduleId: 'feather',
+        name: 'Feather Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
 
   // Cubic Burning Ship: z_{n+1} = (|Re(z)| + i·|Im(z)|)^3 + c

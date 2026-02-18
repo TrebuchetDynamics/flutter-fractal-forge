@@ -2,6 +2,12 @@
 
 precision highp float;
 
+// Shark Fin Fractal: z_{n+1} = (Re(z) + i·|Im(z)|)² + c  (Mandelbrot-style, z₀=0, c=pixel)
+// The absolute value on the imaginary part folds the lower half-plane upward,
+// producing shark-fin-shaped boundary features and enhanced bilateral symmetry.
+// Derivative (dz/dc): derNew = 2w·der + 1, w=(Re(z),|Im(z)|), der₀=(0,0).
+//   (Approximate: sign(Im(z)) treated as locally constant in chain rule.)
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform vec2  uCenter;        // 3-4
@@ -22,6 +28,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
+// colorScheme 0-49: standard palette. 50-63: normal-map (14 angles × 4 palettes).
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
@@ -48,13 +55,19 @@ vec3 palette(float t, int scheme) {
   return clamp(a + b * cos(6.28318 * (c4 * t + d)), 0.0, 1.0);
 }
 
+vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
+  int schemeInt = int(uColorScheme);
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
   vec2 z = vec2(0.0);
+
+  // Mandelbrot-style derivative dz/dc: der₀=(0,0)
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
@@ -64,8 +77,10 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // Shark Fin: z = z^2 + c with Im(z) = abs(Im(z)) before squaring
+    // Shark Fin: z = (x + i|y|)^2 + c
     vec2 w = vec2(z.x, abs(z.y));
+    // Approximate derivative: d(w²)/dc ≈ 2w·der + 1 (sign(z.y) locally constant)
+    der = 2.0 * cmul(w, der) + vec2(1.0, 0.0);
     z = vec2(w.x * w.x - w.y * w.y, 2.0 * w.x * w.y) + c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
@@ -77,8 +92,30 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
+  float mag2      = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }
