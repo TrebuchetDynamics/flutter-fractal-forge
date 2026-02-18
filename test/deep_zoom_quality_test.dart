@@ -10,11 +10,16 @@ void main() {
     const policy = DeepZoomPrecisionPolicy();
 
     test('uses per-fractal thresholds for CPU fallback', () {
-      // Mandelbrot threshold tracks df2 upper bound in current policy.
+      // Mandelbrot: df2 shader covers [5e6, 1e14), CPU above 1e14.
       expect(policy.thresholdFor('mandelbrot'), 1e14);
-      expect(policy.thresholdFor('julia'), 5e6);
-      expect(policy.thresholdFor('celtic'), 5e6);
-      expect(policy.thresholdFor('buffalo'), 5e6);
+      // Perturbation fractals: perturb shader covers [5e6, 1e30),
+      // so CPU fallback only triggers at 1e30.
+      expect(policy.thresholdFor('julia'), 1e30);
+      expect(policy.thresholdFor('celtic'), 1e30);
+      expect(policy.thresholdFor('buffalo'), 1e30);
+      expect(policy.thresholdFor('burning_ship'), 1e30);
+      expect(policy.thresholdFor('tricorn'), 1e30);
+      expect(policy.thresholdFor('phoenix'), 1e30);
     });
 
     test('provides default threshold for unlisted fractals', () {

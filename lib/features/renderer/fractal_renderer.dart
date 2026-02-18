@@ -11,6 +11,7 @@ import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbrot_df2_module.dart';
 import 'package:flutter_fractals/core/modules/julia_perturb_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_perturb_module.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
@@ -142,6 +143,8 @@ class _FractalRendererState extends State<FractalRenderer>
   late AnimationController _animationController;
   FractalModule? _df2Module;
   FractalModule? _juliaPerturbModule;
+  FractalModule? _escapeTimePerturbModule;
+  String _escapeTimePerturbModuleId = '';
 
   @override
   void initState() {
@@ -316,7 +319,14 @@ class _FractalRendererState extends State<FractalRenderer>
         controller.view.zoom >= 5e6 &&
         controller.view.zoom < 1e30;
 
-    final shouldUseCpuFallback = !usesJuliaPerturb &&
+    final bool usesEscapeTimePerturb =
+        kPerturbableEscapeTimeIds.contains(module.id) &&
+        controller.view.zoom >= 5e6 &&
+        controller.view.zoom < 1e30;
+
+    final bool usesAnyPerturb = usesJuliaPerturb || usesEscapeTimePerturb;
+
+    final shouldUseCpuFallback = !usesAnyPerturb &&
         _precisionPolicy.shouldUseCpuFallback(
           moduleId: module.id,
           zoom: controller.view.zoom,
@@ -383,11 +393,18 @@ class _FractalRendererState extends State<FractalRenderer>
     if (usesDf2 && (module.id == 'mandelbrot')) {
       _df2Module ??= buildMandelbrotDf2Module(module);
     }
+    // Cache the escape-time perturb wrapper; invalidate if module id changes.
+    if (usesEscapeTimePerturb && _escapeTimePerturbModuleId != module.id) {
+      _escapeTimePerturbModule = buildEscapeTimePerturbModule(module);
+      _escapeTimePerturbModuleId = module.id;
+    }
     final effectiveModule = usesJuliaPerturb
         ? (_juliaPerturbModule ??= buildJuliaPerturbModule(module))
-        : ((usesDf2 && module.id == 'mandelbrot')
-            ? (_df2Module ??= buildMandelbrotDf2Module(module))
-            : module);
+        : usesEscapeTimePerturb
+            ? (_escapeTimePerturbModule ??= buildEscapeTimePerturbModule(module))
+            : ((usesDf2 && module.id == 'mandelbrot')
+                ? (_df2Module ??= buildMandelbrotDf2Module(module))
+                : module);
 
     // Check if we need to load a new shader
     if (_shaderAsset != effectiveModule.shaderAsset && !_loading) {

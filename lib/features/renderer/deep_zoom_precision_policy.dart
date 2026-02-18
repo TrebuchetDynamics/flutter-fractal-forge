@@ -47,13 +47,17 @@ class DeepZoomPrecisionPolicy {
     // Mandelbrot: df2 shader covers zoom [5e6, 1e14), so CPU fallback only
     // kicks in above 1e14 (the df2 upper bound).
     'mandelbrot': 1e14,
-    'julia': 5e6,
-    'celtic': 5e6,
-    'buffalo': 5e6,
-    'burning_ship': 5e6,
-    'tricorn': 5e6,
-    'multibrot3': 5e6,
-    'phoenix': 5e6,
+    // Julia & escape-time perturbation fractals: perturbation shader covers
+    // [5e6, 1e30), so CPU fallback only activates above 1e30.
+    'julia': 1e30,
+    'celtic': 1e30,
+    'buffalo': 1e30,
+    'burning_ship': 1e30,
+    'tricorn': 1e30,
+    'multibrot3': 1e30,
+    'multibrot4': 1e30,
+    'multibrot5': 1e30,
+    'phoenix': 1e30,
   };
 
   /// Default threshold for any fractal type not listed above.
