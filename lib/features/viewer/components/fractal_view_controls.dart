@@ -14,6 +14,8 @@ class FractalViewControls extends StatelessWidget {
   final VoidCallback onOpenAutoExploreSettings;
   final VoidCallback onOpenControls;
   final VoidCallback onOpenPresets;
+  final VoidCallback onOpenRandomFractal;
+  final VoidCallback onOpenArViewer;
   final VoidCallback onOpenExport;
 
   const FractalViewControls({
@@ -24,6 +26,8 @@ class FractalViewControls extends StatelessWidget {
     required this.onOpenAutoExploreSettings,
     required this.onOpenControls,
     required this.onOpenPresets,
+    required this.onOpenRandomFractal,
+    required this.onOpenArViewer,
     required this.onOpenExport,
   });
 
@@ -69,15 +73,27 @@ class FractalViewControls extends StatelessWidget {
               onPressed: isExporting ? null : onOpenPresets,
               delay: const Duration(milliseconds: 100),
             ),
-            // AR entry is in the app bar to avoid redundant buttons.
-
+            const SizedBox(height: AppSpacing.md),
+            FloatingActionButtonWidget(
+              icon: Icons.shuffle_rounded,
+              tooltip: l10n.tooltipRandomFractal,
+              onPressed: isExporting ? null : onOpenRandomFractal,
+              delay: const Duration(milliseconds: 150),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            FloatingActionButtonWidget(
+              icon: Icons.camera_rounded,
+              tooltip: l10n.arTitle,
+              onPressed: isExporting ? null : onOpenArViewer,
+              delay: const Duration(milliseconds: 190),
+            ),
             const SizedBox(height: AppSpacing.md),
             FloatingActionButtonWidget(
               icon: Icons.download_rounded,
               tooltip: l10n.tooltipExport,
               onPressed: isExporting ? null : onOpenExport,
               isPrimary: true,
-              delay: const Duration(milliseconds: 200),
+              delay: const Duration(milliseconds: 230),
             ),
           ],
         ),
