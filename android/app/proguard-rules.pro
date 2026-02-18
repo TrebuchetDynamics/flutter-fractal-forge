@@ -7,7 +7,7 @@
 -keep class io.flutter.plugins.** { *; }
 
 # Keep app classes
--keep class com.fractals.flutter_fractals.** { *; }
+-keep class com.trebuchetdynamics.fractal.forge.** { *; }
 
 # FFmpeg Kit
 -keep class com.arthenica.ffmpegkit.** { *; }
@@ -20,3 +20,10 @@
 -keep,allowobfuscation,allowshrinking interface * {
     <methods>;
 }
+
+# ARCore / Sceneform (arcore_flutter_plugin 0.1.0 uses old Sceneform 1.13.0
+# which references classes no longer present in modern builds; suppress R8 errors)
+-dontwarn com.google.ar.sceneform.**
+-dontwarn com.google.devtools.build.android.desugar.runtime.**
+-keep class com.google.ar.** { *; }
+-keep class com.difrancescogianmarco.arcore_flutter_plugin.** { *; }

@@ -21,21 +21,45 @@ subprojects {
 
 // Compatibility shim for older Android library plugins that don't declare
 // `namespace` (required by AGP 8+).
+//
+// Uses plugins.withId (lifecycle-safe; fires even after plugin is applied)
+// and handles both AGP <8 (String getter/setter) and AGP 8+ (Property<String>
+// returned by getNamespace()).
 subprojects {
     plugins.withId("com.android.library") {
-        val androidExt = extensions.findByName("android") ?: return@withId
-        val getNamespace = androidExt::class.java.methods.firstOrNull {
-            it.name == "getNamespace" && it.parameterCount == 0
-        }
-        val setNamespace = androidExt::class.java.methods.firstOrNull {
-            it.name == "setNamespace" && it.parameterCount == 1
-        }
-        val currentNamespace = getNamespace?.invoke(androidExt) as? String
-        if (currentNamespace.isNullOrBlank()) {
-            setNamespace?.invoke(
-                androidExt,
-                "com.fractals.legacy.${project.name.replace('-', '_')}"
-            )
+        val android = extensions.findByName("android") ?: return@withId
+        try {
+            val getNamespace = android.javaClass.getMethod("getNamespace")
+            val nsPropOrValue = getNamespace.invoke(android)
+
+            val hasNamespace: Boolean = when (nsPropOrValue) {
+                null      -> false
+                is String -> nsPropOrValue.isNotBlank()
+                else      -> try {
+                    // AGP 8+: namespace is a Property<String>; isPresent() = true if set
+                    nsPropOrValue.javaClass.getMethod("isPresent").invoke(nsPropOrValue) as Boolean
+                } catch (_: Exception) { false }
+            }
+
+            if (!hasNamespace) {
+                val ns = "com.fractals.legacy.${project.name.replace('-', '_')}"
+                when {
+                    nsPropOrValue == null || nsPropOrValue is String -> {
+                        // AGP <8: setNamespace(String)
+                        android.javaClass
+                            .getMethod("setNamespace", String::class.java)
+                            .invoke(android, ns)
+                    }
+                    else -> {
+                        // AGP 8+: Property<String>.set(String)
+                        val setMethod = nsPropOrValue.javaClass.methods
+                            .firstOrNull { m -> m.name == "set" && m.parameterCount == 1 }
+                        setMethod?.invoke(nsPropOrValue, ns)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            logger.warn("namespace-shim: could not patch ${project.name}: ${e.message}")
         }
     }
 }
