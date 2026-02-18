@@ -18,6 +18,15 @@ uniform sampler2D uOrbit;
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
 vec2 fetchOrbit(int n) {
   int totalWidth = int(uIterations) * 2;
   float u0 = (float(n * 2) + 0.5) / float(max(totalWidth, 1));
@@ -180,5 +189,5 @@ void main() {
   float smoothVal = float(it) - log2(log2(max(1e-12, finalMag2))) + 4.0;
   // uExtra1 = color cycle speed (cycles/sec). 0 = static, ~0.1 = gentle cycle.
   float t = fract(smoothVal / 64.0 + uTime * uExtra1);
-  fragColor = vec4(samplePalette(t), 1.0);
+  fragColor = vec4(linearToSRGB(samplePalette(t)), 1.0);
 }

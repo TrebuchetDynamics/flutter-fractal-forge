@@ -338,6 +338,12 @@
       "type": "file"
     },
     {
+      "path": "shaders/mandelbrot_et.frag",
+      "accessCount": 14,
+      "lastAccessed": 1771451705819,
+      "type": "file"
+    },
+    {
       "path": "lib/features/presets/preset_sheet.dart",
       "accessCount": 13,
       "lastAccessed": 1771364976994,
@@ -345,15 +351,9 @@
     },
     {
       "path": "",
-      "accessCount": 11,
-      "lastAccessed": 1771374564491,
+      "accessCount": 13,
+      "lastAccessed": 1771451489316,
       "type": "directory"
-    },
-    {
-      "path": "shaders/mandelbrot_et.frag",
-      "accessCount": 10,
-      "lastAccessed": 1771370519189,
-      "type": "file"
     },
     {
       "path": "lib/features/controls/fractal_controls.dart",

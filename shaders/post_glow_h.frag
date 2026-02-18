@@ -19,6 +19,15 @@ uniform float uRadius;        // float 2  (1.0 = ~12px glow at 1080p)
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
 // 13-tap Gaussian kernel (σ ≈ 3.0).
 // Weights are symmetric; we use 7 unique values (centre + 6 pairs).
 const int TAPS = 7;
