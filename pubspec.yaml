@@ -275,3 +275,5 @@ flutter:
     - shaders/burning_ship_perp_gpu.frag
     - shaders/mandelbrot_stripe_avg_gpu.frag
     - shaders/burning_ship_perp_julia_gpu.frag
+    - shaders/mandelbrot_tia_gpu.frag
+    - shaders/buffalo_cubic_gpu.frag
