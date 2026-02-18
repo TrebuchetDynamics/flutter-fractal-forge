@@ -43,7 +43,7 @@ android {
         applicationId = "com.fractals.flutter_fractals"
         // Play Store requirement baseline: API 21+
         minSdk = maxOf(flutter.minSdkVersion, 21)
-        targetSdk = 34
+        targetSdk = 35
         versionCode = flutterVersionCode
         versionName = flutterVersionName
     }
@@ -81,6 +81,7 @@ flutter {
 }
 
 dependencies {
-    // Required by Flutter engine when deferred components / split install classes are referenced.
-    implementation("com.google.android.play:core:1.10.3")
+    // Play Core modular library for SDK 34+ compatibility
+    // Replaces deprecated com.google.android.play:core:1.10.3
+    implementation("com.google.android.play:feature-delivery:2.1.0")
 }

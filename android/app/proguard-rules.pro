@@ -20,3 +20,9 @@
 -keep,allowobfuscation,allowshrinking interface * {
     <methods>;
 }
+
+# Play Core compatibility for SDK 34+
+# Allow missing Play Core Task classes (app doesn't use deferred components)
+-dontwarn com.google.android.play.core.tasks.**
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.splitcompat.**
