@@ -28,6 +28,7 @@ set -euo pipefail
 #   TEST_TARGET=integration_test/app_test.dart   Default test target when no args
 #   REPORTER=expanded                Flutter test reporter (default expanded)
 #   ENABLE_GPU_ON_EMULATOR=0         Add dart define to bypass emulator CPU guard
+#   EMU_PROBE_TIMEOUT_MS=8000        Override GPU probe toImage timeout on emulator (default 8000)
 #   LOG_DIR=agent_test_logs/headless Output dir for artifacts (default under repo)
 #   BOOT_TIMEOUT_SECS=240            Boot wait timeout (default 240)
 #   TEST_TIMEOUT_SECS=900            Test timeout (default 900)
@@ -49,6 +50,7 @@ KEEP_EMULATOR="${KEEP_EMULATOR:-0}"
 TEST_TARGET="${TEST_TARGET:-integration_test/app_test.dart}"
 REPORTER="${REPORTER:-expanded}"
 ENABLE_GPU_ON_EMULATOR="${ENABLE_GPU_ON_EMULATOR:-0}"
+EMU_PROBE_TIMEOUT_MS="${EMU_PROBE_TIMEOUT_MS:-8000}"
 LOG_DIR="${LOG_DIR:-$ROOT/agent_test_logs/headless}"
 BOOT_TIMEOUT_SECS="${BOOT_TIMEOUT_SECS:-240}"
 TEST_TIMEOUT_SECS="${TEST_TIMEOUT_SECS:-900}"
@@ -182,19 +184,33 @@ else
   run_cmd=(flutter test "$TEST_TARGET" -d "$DEVICE" --reporter "$REPORTER")
 fi
 
-if [ "$ENABLE_GPU_ON_EMULATOR" = "1" ] && [ "${run_cmd[0]:-}" = "flutter" ]; then
-  has_gpu_define=0
+if [ "${run_cmd[0]:-}" = "flutter" ]; then
+  # Ensure probe timeout is relaxed on emulator to avoid toImage timeout noise.
+  has_probe_define=0
   for arg in "${run_cmd[@]}"; do
-    if [ "$arg" = "--dart-define=ALLOW_GPU_ON_ANDROID_EMULATOR=true" ] || \
-       [ "$arg" = "--dart-define=SKIP_EMULATOR_GUARD=true" ]; then
-      has_gpu_define=1
+    if [[ "$arg" == --dart-define=EMU_PROBE_TIMEOUT_MS=* ]]; then
+      has_probe_define=1
       break
     fi
   done
-  if [ "$has_gpu_define" = "0" ]; then
-    run_cmd+=("--dart-define=ALLOW_GPU_ON_ANDROID_EMULATOR=true")
+  if [ "$has_probe_define" = "0" ]; then
+    run_cmd+=("--dart-define=EMU_PROBE_TIMEOUT_MS=${EMU_PROBE_TIMEOUT_MS}")
   fi
-  log "GPU emulator mode enabled (bypass emulator CPU guard)"
+
+  if [ "$ENABLE_GPU_ON_EMULATOR" = "1" ]; then
+    has_gpu_define=0
+    for arg in "${run_cmd[@]}"; do
+      if [ "$arg" = "--dart-define=ALLOW_GPU_ON_ANDROID_EMULATOR=true" ] || \
+         [ "$arg" = "--dart-define=SKIP_EMULATOR_GUARD=true" ]; then
+        has_gpu_define=1
+        break
+      fi
+    done
+    if [ "$has_gpu_define" = "0" ]; then
+      run_cmd+=("--dart-define=ALLOW_GPU_ON_ANDROID_EMULATOR=true")
+    fi
+    log "GPU emulator mode enabled (bypass emulator CPU guard)"
+  fi
 fi
 
 export DEVICE

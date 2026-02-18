@@ -8,6 +8,10 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
     'FORCE_GPU_HEALTH_PROBE_FAILURE',
     defaultValue: false,
   );
+  static const int _emuProbeTimeoutMs = int.fromEnvironment(
+    'EMU_PROBE_TIMEOUT_MS',
+    defaultValue: 250,
+  );
 
   // Abstract members satisfied by _FractalViewerScreenState.
   AppLogger get _log;
@@ -158,9 +162,12 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
     if (!boundary.hasSize || boundary.size.isEmpty) return null;
 
     try {
+      final timeoutMs = (_isAndroidEmulator && _emuProbeTimeoutMs > 250)
+          ? _emuProbeTimeoutMs
+          : 250;
       return await boundary
           .toImage(pixelRatio: pixelRatio)
-          .timeout(const Duration(milliseconds: 250));
+          .timeout(Duration(milliseconds: timeoutMs));
     } catch (e) {
       if (e.toString().contains('Null check operator used on a null value')) {
         _log.warn('gpu', 'Health check skipped: boundary image not ready');
