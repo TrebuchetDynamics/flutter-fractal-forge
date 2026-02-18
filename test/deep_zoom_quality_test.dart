@@ -48,6 +48,23 @@ void main() {
         isTrue,
       );
     });
+
+    test('auto-scales GPU iterations with zoom depth', () {
+      expect(policy.scaledGpuIterations(baseIterations: 120, zoom: 1.0), 120);
+
+      final mid = policy.scaledGpuIterations(baseIterations: 120, zoom: 1e6);
+      final deep = policy.scaledGpuIterations(baseIterations: 120, zoom: 1e12);
+
+      expect(mid, greaterThan(120));
+      expect(deep, greaterThan(mid));
+      expect(deep, lessThanOrEqualTo(DeepZoomPrecisionPolicy.gpuMaxIterations));
+
+      // Clamp behavior.
+      expect(
+        policy.scaledGpuIterations(baseIterations: 5000, zoom: 1e30),
+        DeepZoomPrecisionPolicy.gpuMaxIterations,
+      );
+    });
   });
 
   group('CPU deep-zoom quality', () {

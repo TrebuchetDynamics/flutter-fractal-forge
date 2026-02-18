@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 
 /// Decides when GPU precision is likely insufficient at deep zoom.
@@ -35,6 +37,11 @@ import 'package:flutter/foundation.dart';
 /// appear earlier.
 @immutable
 class DeepZoomPrecisionPolicy {
+  /// Maximum iterations we send to GPU shaders for real-time rendering.
+  ///
+  /// Most escape-time shaders clamp around this value already; keeping the
+  /// cap centralized avoids overdriving slower devices at extreme zoom.
+  static const int gpuMaxIterations = 2000;
   /// Per-module GPU→CPU fallback thresholds.
   ///
   /// For mandelbrot, the CPU fallback threshold is pushed to [_df2UpperThreshold]
@@ -110,6 +117,28 @@ class DeepZoomPrecisionPolicy {
   }
 
   int get hysteresisFrames => _hysteresisFrames;
+
+  /// Auto-scales iteration count with zoom depth for GPU rendering.
+  ///
+  /// Keeps shallow zoom responsive while increasing detail as zoom grows,
+  /// reducing under-iteration artifacts in deep zoom.
+  ///
+  /// Scaling curve:
+  /// - zoom <= 1: unchanged
+  /// - zoom > 1: base * (1 + 0.35 * log10(zoom))
+  /// - clamped to [4, gpuMaxIterations]
+  int scaledGpuIterations({
+    required int baseIterations,
+    required double zoom,
+  }) {
+    final safeBase = baseIterations.clamp(4, gpuMaxIterations);
+    if (zoom <= 1.0) return safeBase;
+
+    final depth = (math.log(zoom) / math.ln10).clamp(0.0, 30.0);
+    final factor = 1.0 + 0.35 * depth;
+    final scaled = (safeBase * factor).round();
+    return scaled.clamp(4, gpuMaxIterations);
+  }
 }
 
 /// Stateful hysteresis filter for GPU→CPU deep-zoom transitions.

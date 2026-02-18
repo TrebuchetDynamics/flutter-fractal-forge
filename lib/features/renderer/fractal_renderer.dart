@@ -443,8 +443,16 @@ class _FractalRendererState extends State<FractalRenderer>
       child: AnimatedBuilder(
         animation: _animationController,
         builder: (context, child) {
+          final baseIterations = (controller.params['iterations'] as num?)?.toInt() ?? 160;
+          final scaledIterations = _precisionPolicy.scaledGpuIterations(
+            baseIterations: baseIterations,
+            zoom: controller.view.zoom,
+          );
+          final gpuParams = Map<String, Object>.from(controller.params)
+            ..['iterations'] = scaledIterations;
+
           final renderState = FractalRenderState(
-            params: controller.params,
+            params: gpuParams,
             view: controller.view,
             transparentBackground: controller.transparentBackground,
           );
