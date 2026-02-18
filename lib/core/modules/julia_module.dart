@@ -208,6 +208,23 @@ FractalModule buildJuliaModule() {
           rotation: Vector3.zero(),
         ),
       ),
+      // Embossed Julia - bas-relief normal-map shading, classic seed
+      defaultPreset.copyWith(
+        id: 'julia-relief',
+        name: 'Embossed Julia',
+        params: {
+          'iterations': 220,
+          'bailout': 4.0,
+          'colorScheme': 55, // normal-map, angle 5, palette 3
+          'juliaCReal': -0.7,
+          'juliaCImag': 0.27015,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.4,
+          rotation: Vector3.zero(),
+        ),
+      ),
     ],
     setUniforms: (shader, state, size, time) {
       final iterations = readDouble(state.params, 'iterations', 160);

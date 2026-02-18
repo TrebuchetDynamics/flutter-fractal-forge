@@ -559,6 +559,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Manowar Fractal',
     shaderAsset: 'shaders/manowar_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'manowar-relief',
+        moduleId: 'manowar',
+        name: 'Manowar Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'spider',
@@ -1252,12 +1263,34 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Tangent Fractal',
     shaderAsset: 'shaders/tangent_gpu.frag',
     defaultIterations: 100,
+    extraPresets: [
+      FractalPreset(
+        id: 'tangent-relief',
+        moduleId: 'tangent',
+        name: 'Tangent Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'sinh_cosh',
     name: 'Sinh Fractal',
     shaderAsset: 'shaders/sinh_cosh_gpu.frag',
     defaultIterations: 100,
+    extraPresets: [
+      FractalPreset(
+        id: 'sinh-cosh-relief',
+        moduleId: 'sinh_cosh',
+        name: 'Sinh Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'exponential',
