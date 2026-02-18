@@ -178,6 +178,7 @@ void main() {
   }
 
   float smoothVal = float(it) - log2(log2(max(1e-12, finalMag2))) + 4.0;
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
+  // uExtra1 = color cycle speed (cycles/sec). 0 = static, ~0.1 = gentle cycle.
+  float t = fract(smoothVal / 64.0 + uTime * uExtra1);
   fragColor = vec4(samplePalette(t), 1.0);
 }

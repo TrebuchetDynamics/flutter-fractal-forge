@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:flutter_fractals/core/services/palette_service.dart';
@@ -63,12 +64,19 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
   final id = standardModule.id;
   final formula = formulaForId(id);
 
+  // Inject the color-cycle-speed slider (G15) if not already present.
+  final baseParams = standardModule.parameters;
+  final hasCycleParam = baseParams.any((p) => p.id == 'colorCycleSpeed');
+  final parameters = hasCycleParam
+      ? baseParams
+      : [...baseParams, CommonFractalParams.colorCycleSpeed()];
+
   return FractalModule(
     id: standardModule.id,
     displayName: standardModule.displayName,
     dimension: standardModule.dimension,
     shaderAsset: 'shaders/escape_time_perturb_gpu.frag',
-    parameters: standardModule.parameters,
+    parameters: parameters,
     defaultPreset: standardModule.defaultPreset,
     builtInPresets: standardModule.builtInPresets,
     setUniforms: (shader, state, size, time) {
@@ -82,6 +90,9 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       final phoenixP = id == 'phoenix'
           ? readDouble(state.params, 'phoenixP', 0.0)
           : 0.0;
+
+      // G15 color cycling speed (cycles per second via uExtra1).
+      final colorSpeed = readDouble(state.params, 'colorCycleSpeed', 0.0);
 
       final palette = PaletteService.instance.paletteAtIndex(colorScheme);
       final paletteTex = PaletteService.instance.paletteTexture(palette);
@@ -103,9 +114,9 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       shader.setFloat(7, bailout);
       shader.setFloat(8, state.transparentBackground ? 1.0 : 0.0);
       shader.setFloat(9, formula.toDouble());
-      shader.setFloat(10, phoenixP);  // uExtra0
-      shader.setFloat(11, 0.0);       // uExtra1
-      shader.setFloat(12, 0.0);       // uExtra2
+      shader.setFloat(10, phoenixP);   // uExtra0
+      shader.setFloat(11, colorSpeed); // uExtra1 = color cycle speed (G15)
+      shader.setFloat(12, 0.0);        // uExtra2
 
       shader.setImageSampler(0, paletteTex);
       shader.setImageSampler(1, orbitTex);
