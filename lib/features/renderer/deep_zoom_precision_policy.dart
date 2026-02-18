@@ -44,9 +44,9 @@ class DeepZoomPrecisionPolicy {
   /// Other escape-time fractals still use float32 GPU up to their threshold,
   /// then fall back to CPU (no df2 variant available yet).
   static const Map<String, double> _cpuFallbackZoomThresholds = {
-    // Mandelbrot: standard threshold. When df2 shader is wired to the renderer,
-    // this can be raised to 1e14 (the df2 upper bound).
-    'mandelbrot': 1e7,
+    // Mandelbrot: df2 shader covers zoom [5e6, 1e14), so CPU fallback only
+    // kicks in above 1e14 (the df2 upper bound).
+    'mandelbrot': 1e14,
     'julia': 5e6,
     'celtic': 5e6,
     'buffalo': 5e6,

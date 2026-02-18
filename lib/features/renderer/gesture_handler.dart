@@ -664,13 +664,13 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     if (localPos.dx >= size.width * 0.5) return;
 
     final view = controller.view;
-    final scale = size.width < size.height ? size.width : size.height;
-
-    // Map pixel → UV (same mapping as the shader).
-    // shader: uv = (fragCoord - 0.5 * uResolution) / max(1, scale)
-    // We use the full width for this mapping (left panel only spans 0..width/2,
-    // but the Mandelbrot computation maps over the full left-panel viewport).
-    final uvX = (localPos.dx - size.width * 0.5) / scale;
+    // Mirror the dual-panel shader's coordinate mapping exactly:
+    //   halfW = uResolution.x * 0.5
+    //   scale = min(halfW, uResolution.y)
+    //   uv    = (fragCoord - vec2(halfW*0.5, uResolution.y*0.5)) / scale
+    final halfW = size.width * 0.5;
+    final scale = halfW < size.height ? halfW : size.height;
+    final uvX = (localPos.dx - halfW * 0.5) / scale;
     final uvY = (localPos.dy - size.height * 0.5) / scale;
 
     // Apply zoom and pan to get fractal coordinates.

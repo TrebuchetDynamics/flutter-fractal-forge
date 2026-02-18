@@ -36,9 +36,12 @@ class FractalCanvas extends CustomPainter {
     // Glow: draw blurred version with screen blending on top.
     if (glowEnabled && glowIntensity > 0.0) {
       final sigma = (glowSigma * 8.0).clamp(2.0, 48.0);
+      // Alpha controls glow brightness: glowIntensity=1.0 → full, 0.35 → subtle.
       canvas.saveLayer(
         rect,
-        Paint()..blendMode = BlendMode.screen,
+        Paint()
+          ..blendMode = BlendMode.screen
+          ..color = Color.fromRGBO(255, 255, 255, glowIntensity.clamp(0.0, 1.0)),
       );
       canvas.drawRect(
         rect,
