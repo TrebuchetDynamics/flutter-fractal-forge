@@ -280,7 +280,7 @@ class _Step3DeepLinkInitApp extends StatelessWidget {
   }
 }
 
-class FlutterFractalsApp extends StatefulWidget {
+class FlutterFractalsApp extends StatelessWidget {
   /// Storage service for user-created presets.
   final PresetStore presetStore;
 
@@ -321,10 +321,120 @@ class FlutterFractalsApp extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<FlutterFractalsApp> createState() => _FlutterFractalsAppState();
+  Widget build(BuildContext context) {
+    return _AppProviders(
+      presetStore: presetStore,
+      arQualityStore: arQualityStore,
+      historyStore: historyStore,
+      accessibilityService: accessibilityService,
+      rendererSettingsService: rendererSettingsService,
+      onboardingService: onboardingService,
+      deepLinkService: deepLinkService,
+      locale: locale,
+    );
+  }
 }
 
-class _FlutterFractalsAppState extends State<FlutterFractalsApp> {
+/// Provides app-scoped dependencies and stores.
+class _AppProviders extends StatelessWidget {
+  final PresetStore presetStore;
+  final ArQualityStore arQualityStore;
+  final HistoryStore? historyStore;
+  final AccessibilityService accessibilityService;
+  final RendererSettingsService rendererSettingsService;
+  final OnboardingService? onboardingService;
+  final DeepLinkService? deepLinkService;
+  final Locale? locale;
+
+  const _AppProviders({
+    required this.presetStore,
+    required this.arQualityStore,
+    required this.historyStore,
+    required this.accessibilityService,
+    required this.rendererSettingsService,
+    required this.onboardingService,
+    required this.deepLinkService,
+    required this.locale,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<ModuleRegistry>(create: (_) => ModuleRegistry()),
+        Provider<PresetStore>.value(value: presetStore),
+        Provider<ArQualityStore>.value(value: arQualityStore),
+        if (historyStore != null)
+          Provider<HistoryStore>.value(value: historyStore!),
+        if (historyStore != null)
+          ChangeNotifierProvider<HistoryProvider>(
+            create: (_) => HistoryProvider(store: historyStore!),
+          ),
+        ChangeNotifierProvider<AccessibilityService>.value(
+          value: accessibilityService,
+        ),
+        ChangeNotifierProvider<RendererSettingsService>.value(
+          value: rendererSettingsService,
+        ),
+        if (onboardingService != null)
+          Provider<OnboardingService>.value(value: onboardingService!),
+        if (deepLinkService != null)
+          Provider<DeepLinkService>.value(value: deepLinkService!),
+      ],
+      child: _AppShell(
+        locale: locale,
+        onboardingService: onboardingService,
+      ),
+    );
+  }
+}
+
+/// Owns MaterialApp/theme/localization shell.
+class _AppShell extends StatelessWidget {
+  final Locale? locale;
+  final OnboardingService? onboardingService;
+
+  const _AppShell({
+    required this.locale,
+    required this.onboardingService,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AccessibilityService>(
+      builder: (context, accessibility, child) {
+        // Use high contrast theme when enabled (in-app or system).
+        final mediaHighContrast =
+            MediaQuery.maybeOf(context)?.highContrast ?? false;
+        final useHighContrast =
+            accessibility.highContrastEnabled || mediaHighContrast;
+        final theme = useHighContrast ? AppTheme.highContrast : AppTheme.dark;
+
+        return MaterialApp(
+          locale: locale,
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme: theme,
+          home: _AppBootstrap(onboardingService: onboardingService),
+          debugShowCheckedModeBanner: false,
+        );
+      },
+    );
+  }
+}
+
+/// Handles splash -> onboarding -> home startup flow.
+class _AppBootstrap extends StatefulWidget {
+  final OnboardingService? onboardingService;
+
+  const _AppBootstrap({required this.onboardingService});
+
+  @override
+  State<_AppBootstrap> createState() => _AppBootstrapState();
+}
+
+class _AppBootstrapState extends State<_AppBootstrap> {
   bool _showSplash = true;
   bool _showOnboarding = false;
 
@@ -344,6 +454,7 @@ class _FlutterFractalsAppState extends State<FlutterFractalsApp> {
   }
 
   void _onOnboardingComplete() {
+    if (!mounted) return;
     setState(() {
       _showOnboarding = false;
     });
@@ -351,55 +462,17 @@ class _FlutterFractalsAppState extends State<FlutterFractalsApp> {
 
   @override
   Widget build(BuildContext context) {
-    final registry = ModuleRegistry();
-    return MultiProvider(
-      providers: [
-        Provider<ModuleRegistry>.value(value: registry),
-        Provider<PresetStore>.value(value: widget.presetStore),
-        Provider<ArQualityStore>.value(value: widget.arQualityStore),
-        if (widget.historyStore != null)
-          Provider<HistoryStore>.value(value: widget.historyStore!),
-        if (widget.historyStore != null)
-          ChangeNotifierProvider<HistoryProvider>(
-            create: (_) => HistoryProvider(store: widget.historyStore!),
-          ),
-        ChangeNotifierProvider<AccessibilityService>.value(
-          value: widget.accessibilityService,
-        ),
-        ChangeNotifierProvider<RendererSettingsService>.value(
-          value: widget.rendererSettingsService,
-        ),
-        if (widget.onboardingService != null)
-          Provider<OnboardingService>.value(value: widget.onboardingService!),
-        if (widget.deepLinkService != null)
-          Provider<DeepLinkService>.value(value: widget.deepLinkService!),
-      ],
-      child: Consumer<AccessibilityService>(
-        builder: (context, accessibility, child) {
-          // Use high contrast theme when enabled (in-app or system)
-          final useHighContrast = accessibility.highContrastEnabled ||
-              MediaQuery.of(context).highContrast;
-          final theme = useHighContrast ? AppTheme.highContrast : AppTheme.dark;
+    if (_showSplash) {
+      return FractalSplashScreen(onFinished: _onSplashFinished);
+    }
 
-          return MaterialApp(
-            locale: widget.locale,
-            onGenerateTitle: (context) =>
-                AppLocalizations.of(context)!.appTitle,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            theme: theme,
-            home: _showSplash
-                ? FractalSplashScreen(onFinished: _onSplashFinished)
-                : _showOnboarding && widget.onboardingService != null
-                    ? OnboardingScreen(
-                        onboardingService: widget.onboardingService!,
-                        onComplete: _onOnboardingComplete,
-                      )
-                    : const HomeScreen(),
-            debugShowCheckedModeBanner: false,
-          );
-        },
-      ),
-    );
+    if (_showOnboarding && widget.onboardingService != null) {
+      return OnboardingScreen(
+        onboardingService: widget.onboardingService!,
+        onComplete: _onOnboardingComplete,
+      );
+    }
+
+    return const HomeScreen();
   }
 }

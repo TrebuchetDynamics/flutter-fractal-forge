@@ -421,6 +421,54 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
+  String _formatZoomLabel(double zoom) {
+    if (zoom == 0) return '0';
+    if (zoom >= 1000 || zoom < 0.01) {
+      return zoom.toStringAsExponential(2);
+    }
+    return zoom.toStringAsFixed(2);
+  }
+
+  Widget _buildViewerStatusChip(
+    BuildContext context,
+    FractalController controller,
+  ) {
+    final backendLabel =
+        _backendDecision.backend == RendererBackend.cpu ? 'CPU' : 'GPU';
+    final zoomLabel = _formatZoomLabel(controller.view.zoom);
+    final iterations = (controller.params['iterations'] as num?)?.toInt() ?? 0;
+    final moduleId = controller.module.id;
+    final shaderId = controller.module.shaderAsset;
+    final presetId = controller.module.defaultPreset.id;
+
+    final semanticsLabel =
+        'Render status. Backend $backendLabel. Module $moduleId. Zoom $zoomLabel. Iterations $iterations. Shader $shaderId. Preset $presetId.';
+
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: semanticsLabel,
+      child: Container(
+        key: const Key('viewerStatusChip'),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.58),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white24),
+        ),
+        child: Text(
+          '$backendLabel · z=$zoomLabel · it=$iterations',
+          key: const Key('viewerStatusChipText'),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
@@ -613,6 +661,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                     onUserInteraction:
                                         _onAutoExploreUserCorrection,
                                   ))),
+                  ),
+
+                  Positioned(
+                    top: MediaQuery.of(context).padding.top +
+                        kToolbarHeight +
+                        (kDebugMode ? 48 : 8),
+                    left: 12,
+                    child: _buildViewerStatusChip(context, controller),
                   ),
 
                   if (_backendDecision.backend == RendererBackend.cpu)

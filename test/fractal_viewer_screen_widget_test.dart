@@ -65,6 +65,26 @@ void main() {
       expect(find.text('Mandelbrot'), findsOneWidget);
     });
 
+    testWidgets('shows render status chip for clarity', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
+      final statusText = tester.widget<Text>(
+        find.byKey(const Key('viewerStatusChipText')),
+      );
+      expect(statusText.data, contains('z='));
+      expect(statusText.data, contains('it='));
+    });
+
+    testWidgets('back button includes tooltip for accessibility',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byTooltip('Back'), findsOneWidget);
+    });
+
     testWidgets('displays fractal renderer surface', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
