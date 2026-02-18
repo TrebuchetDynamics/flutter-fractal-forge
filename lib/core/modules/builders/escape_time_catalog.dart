@@ -117,6 +117,46 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
+      // Normal-map (bas-relief) presets — colorScheme 50-63 activates 3D shading.
+      FractalPreset(
+        id: 'mandelbrot-relief-sunrise',
+        moduleId: 'mandelbrot',
+        name: 'Bas-Relief: Sunrise',
+        params: {'iterations': 280, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(
+          pan: Vector2(-0.5, 0.0),
+          zoom: 1.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-relief-seahorse',
+        moduleId: 'mandelbrot',
+        name: 'Bas-Relief: Seahorse',
+        params: {'iterations': 350, 'bailout': 4.0, 'colorScheme': 54},
+        view: FractalViewState(
+          pan: Vector2(-0.747, 0.1),
+          zoom: 25.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-relief-moonlit',
+        moduleId: 'mandelbrot',
+        name: 'Bas-Relief: Moonlit',
+        params: {'iterations': 400, 'bailout': 4.0, 'colorScheme': 61},
+        view: FractalViewState(
+          pan: Vector2(-0.743643887037158, 0.131825904205330),
+          zoom: 500.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
     ],
   ),
   // Julia has extra params (seed cx, cy) — keep custom builder for now.
