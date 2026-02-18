@@ -1,0 +1,23 @@
+Flutter Fractal Forge is a high-performance fractal explorer designed for curious minds, students, artists, and math enthusiasts.
+
+Discover and interact with 200+ fractal types, including Mandelbrot, Julia, Burning Ship, Phoenix, and many advanced sets. Navigate smoothly with pinch zoom, pan, keyboard shortcuts, and quick module switching.
+
+Key features:
+• 200+ fractal modules with rich visual variety
+• Real-time rendering optimized for modern Android devices
+• Deep zoom exploration with precision-aware rendering paths
+• Built-in presets to jump to interesting regions instantly
+• Multiple color palettes and visual styles
+• History navigation and fast module switching
+• Touch, keyboard, and gesture controls
+• Accessibility-oriented UI labels and navigation
+
+Whether you want to learn fractal geometry, generate inspiration for digital art, or simply enjoy mesmerizing mathematical structures, Flutter Fractal Forge gives you a responsive and reliable exploration experience.
+
+Perfect for:
+• Math and science learners
+• Creative coders and digital artists
+• Classroom demos and visual explanation
+• Relaxing visual exploration
+
+Download now and dive into infinite mathematical worlds.
