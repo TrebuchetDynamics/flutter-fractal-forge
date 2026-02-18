@@ -123,12 +123,15 @@ void main() {
       }
     }
 
-    // Helper to find module cards by text
-    Finder findModuleCard(String name) {
-      return find.ancestor(
-        of: find.text(name),
-        matching: find.byType(GestureDetector),
-      ).first;
+    Future<void> tapModuleByName(WidgetTester tester, String name) async {
+      final scrollable = find.byType(Scrollable).first;
+      await tester.scrollUntilVisible(
+        find.text(name),
+        200.0,
+        scrollable: scrollable,
+      );
+      await tester.tap(find.text(name));
+      await tester.pump();
     }
 
     testWidgets('01_catalog', (tester) async {
@@ -145,9 +148,7 @@ void main() {
 
     testWidgets('02_viewer_mandelbulb', (tester) async {
       await pumpApp(tester);
-      // Find Mandelbulb card by text
-      final mandelbulbCard = findModuleCard('Mandelbulb');
-      await tester.tap(mandelbulbCard);
+      await tapModuleByName(tester, 'Mandelbulb');
       await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '02_viewer_mandelbulb');
@@ -155,8 +156,7 @@ void main() {
 
     testWidgets('03_viewer_mandelbrot', (tester) async {
       await pumpApp(tester);
-      final card = findModuleCard('Mandelbrot');
-      await tester.tap(card);
+      await tapModuleByName(tester, 'Mandelbrot');
       await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '03_viewer_mandelbrot');
@@ -164,8 +164,7 @@ void main() {
 
     testWidgets('04_viewer_julia', (tester) async {
       await pumpApp(tester);
-      final card = findModuleCard('Julia');
-      await tester.tap(card);
+      await tapModuleByName(tester, 'Julia');
       await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '04_viewer_julia');
@@ -173,8 +172,7 @@ void main() {
 
     testWidgets('05_viewer_burning_ship', (tester) async {
       await pumpApp(tester);
-      final card = findModuleCard('Burning Ship');
-      await tester.tap(card);
+      await tapModuleByName(tester, 'Burning Ship');
       await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '05_viewer_burning_ship');
@@ -182,8 +180,7 @@ void main() {
 
     testWidgets('06_viewer_phoenix', (tester) async {
       await pumpApp(tester);
-      final card = findModuleCard('Phoenix');
-      await tester.tap(card);
+      await tapModuleByName(tester, 'Phoenix');
       await tester.pump(const Duration(seconds: 3));
       expect(find.byIcon(Icons.tune), findsOneWidget);
       await snap(tester, '06_viewer_phoenix');
@@ -192,8 +189,7 @@ void main() {
     testWidgets('07_controls_panel', (tester) async {
       await pumpApp(tester);
       // Open Mandelbulb (3D fractal for more interesting controls)
-      final mandelbulbCard = findModuleCard('Mandelbulb');
-      await tester.tap(mandelbulbCard);
+      await tapModuleByName(tester, 'Mandelbulb');
       await tester.pump(const Duration(seconds: 3));
 
       // Open controls panel (Icons.tune)
@@ -207,8 +203,7 @@ void main() {
     testWidgets('08_presets_panel', (tester) async {
       await pumpApp(tester);
       // Open Julia set (has nice presets)
-      final juliaCard = findModuleCard('Julia');
-      await tester.tap(juliaCard);
+      await tapModuleByName(tester, 'Julia');
       await tester.pump(const Duration(seconds: 3));
 
       // Open presets panel (Icons.bookmark)
