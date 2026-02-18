@@ -2,6 +2,9 @@
 
 precision highp float;
 
+// Perpendicular Mandelbrot (Celtic): z_{n+1} = |Re(z^2)| + i·Im(z^2) + c
+// Abs applied to the real part of z^2 only (opposite of Buffalo).
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform vec2  uCenter;        // 3-4
@@ -22,6 +25,8 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
+// colorScheme 0-49: standard palette coloring.
+// colorScheme 50-63: normal-map (bas-relief) mode — 14 light angles × 4 base palettes.
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
@@ -53,8 +58,14 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
+  int schemeInt = int(uColorScheme);
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
   vec2 z = vec2(0.0);
+  // Derivative dz/dc for normal-map shading.
+  // z_{n+1} = |Re(z^2)| + i·Im(z^2) + c
+  // d(Re(z^2))/dc = Re(2z·der); abs gate: sign(Re(z^2)) * d(Re(z^2))/dc
+  // d(Im(z^2))/dc = Im(2z·der)
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
@@ -64,9 +75,14 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // Perpendicular Mandelbrot: z = abs(Re(z^2)) + i*Im(z^2) + c
-    float x2 = z.x * z.x - z.y * z.y;
-    float y2 = 2.0 * z.x * z.y;
+    float x2 = z.x * z.x - z.y * z.y;  // Re(z^2)
+    float y2 = 2.0 * z.x * z.y;         // Im(z^2)
+
+    // Derivative update (before z update)
+    float dx2 = 2.0 * (z.x * der.x - z.y * der.y);  // Re(2z·der)
+    float dy2 = 2.0 * (z.x * der.y + z.y * der.x);  // Im(2z·der)
+    der = vec2(sign(x2) * dx2 + 1.0, dy2);
+
     z = vec2(abs(x2) + c.x, y2 + c.y);
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
@@ -78,8 +94,31 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2));
+  float mag2      = max(1e-12, dot(z, z));
+  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }

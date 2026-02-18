@@ -57,8 +57,14 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
+  int schemeInt = int(uColorScheme);
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z = c; // Lambda map in complex plane
+  vec2 z = c; // Lambda map: z_0 = c
+
+  // Derivative dz/dc for normal-map shading.
+  // z_{n+1} = c*z*(1-z)
+  // dz_{n+1}/dc = z*(1-z) + c*(1-2z)*dz/dc
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
@@ -69,7 +75,10 @@ void main() {
     if (j >= target) { it = target; break; }
 
     // Lambda fractal: z = c * z * (1 - z)
-    vec2 oneMinusZ = vec2(1.0 - z.x, -z.y);
+    vec2 oneMinusZ    = vec2(1.0 - z.x, -z.y);
+    vec2 oneMinusTwoZ = vec2(1.0 - 2.0*z.x, -2.0*z.y);
+    // Derivative update (before z update)
+    der = cmul(z, oneMinusZ) + cmul(c, cmul(oneMinusTwoZ, der));
     z = cmul(c, cmul(z, oneMinusZ));
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
@@ -83,6 +92,29 @@ void main() {
 
   float mag2 = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }
