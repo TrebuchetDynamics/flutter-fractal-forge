@@ -32,9 +32,8 @@ class ArCoreAnchorScreen extends StatefulWidget {
 
   /// Returns `true` when the device reports ARCore compatibility.
   ///
-  /// Does NOT call `checkIsArCoreInstalled()` which triggers an install/update
-  /// prompt from a non-AR context in this legacy plugin. We only gate by
-  /// compatibility and let [ArCoreView] handle service flow.
+  /// This checks capability only. Installation readiness is handled separately
+  /// by [isInstalledOnDevice].
   static Future<bool> isSupportedOnDevice() async {
     try {
       final available = await ArCoreController.checkArCoreAvailability();

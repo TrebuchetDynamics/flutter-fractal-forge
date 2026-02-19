@@ -9,7 +9,7 @@ set -euo pipefail
 # Options:
 #   --output-dir DIR   Output folder for upload-ready artifacts
 #                      (default: play-console-upload)
-#   --skip-pub-get     Skip `flutter pub get`
+#   --skip-pub-get     Skip `flutter pub get` (build runs with --no-pub)
 #   --help             Show help
 #
 # Any unknown argument is forwarded to:
@@ -37,7 +37,7 @@ Usage:
 Options:
   --output-dir DIR   Output folder for upload-ready artifacts
                      (default: play-console-upload)
-  --skip-pub-get     Skip `flutter pub get`
+  --skip-pub-get     Skip `flutter pub get` (build runs with --no-pub)
   --help             Show this help
 
 Build number behavior:
@@ -132,6 +132,9 @@ if [[ "$OUTPUT_DIR" != /* ]]; then
   OUTPUT_DIR="$PROJECT_ROOT/$OUTPUT_DIR"
 fi
 LAST_BUILD_MARKER="$OUTPUT_DIR/LAST_BUILD_NUMBER.txt"
+REGISTRANT_FILE="$PROJECT_ROOT/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java"
+REGISTRANT_BACKUP=""
+RESTORE_REGISTRANT=0
 
 command -v flutter >/dev/null 2>&1 || die "flutter not found in PATH"
 command -v find >/dev/null 2>&1 || die "find not found in PATH"
@@ -153,12 +156,54 @@ STORE_FILE_RESOLVED="$(resolve_store_file "$STORE_FILE_RAW")" || die "Keystore f
 log "Using upload key alias: $KEY_ALIAS"
 log "Using keystore file: $STORE_FILE_RESOLVED"
 
+cleanup() {
+  if [[ "$RESTORE_REGISTRANT" -eq 1 && -n "$REGISTRANT_BACKUP" && -f "$REGISTRANT_BACKUP" ]]; then
+    cp "$REGISTRANT_BACKUP" "$REGISTRANT_FILE" >/dev/null 2>&1 || true
+    rm -f "$REGISTRANT_BACKUP" >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
+
+sanitize_release_registrant() {
+  if [[ ! -f "$REGISTRANT_FILE" ]]; then
+    return 0
+  fi
+
+  if ! grep -q 'dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin()' "$REGISTRANT_FILE"; then
+    return 0
+  fi
+
+  REGISTRANT_BACKUP="$(mktemp)"
+  cp "$REGISTRANT_FILE" "$REGISTRANT_BACKUP"
+  sed -i '/dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin()/d' "$REGISTRANT_FILE"
+
+  if grep -q 'dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin()' "$REGISTRANT_FILE"; then
+    die "Failed to sanitize GeneratedPluginRegistrant.java for release build"
+  fi
+
+  RESTORE_REGISTRANT=1
+  log "Temporarily removed integration_test native registration for release build compatibility"
+}
+
 cd "$PROJECT_ROOT"
 
 if [[ "$RUN_PUB_GET" -eq 1 ]]; then
   log "Running flutter pub get..."
   flutter pub get
 fi
+
+# Always force --no-pub for the build step so generated plugin registrants
+# are not rewritten in non-release mode during this script execution.
+SANITIZED_ARGS=()
+for arg in "${FORWARDED_ARGS[@]}"; do
+  case "$arg" in
+    --pub|--no-pub) ;;
+    *) SANITIZED_ARGS+=("$arg") ;;
+  esac
+done
+FORWARDED_ARGS=("${SANITIZED_ARGS[@]}" "--no-pub")
+
+sanitize_release_registrant
 
 PUBSPEC_VERSION_FULL="$(awk '/^version:[[:space:]]*/ { print $2; exit }' "$PROJECT_ROOT/pubspec.yaml")"
 PUBSPEC_VERSION_NAME="$PUBSPEC_VERSION_FULL"

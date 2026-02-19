@@ -17,3 +17,7 @@ using the highest known value from:
 - `pubspec.yaml` (`version: x.y.z+N`)
 - `android/local.properties` (`flutter.versionCode`)
 - `play-console-upload/LAST_BUILD_NUMBER.txt`
+
+The script also runs the release bundle build with `--no-pub` and applies a
+temporary release-only registrant workaround so `integration_test` dev plugin
+does not break Play Console `.aab` compilation.

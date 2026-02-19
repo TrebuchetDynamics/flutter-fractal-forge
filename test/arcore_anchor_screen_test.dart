@@ -91,8 +91,8 @@ void main() {
         (tester) async {
       // When fractalName is supplied it is displayed in the bottom panel
       // instead of the module id from FractalController.
-      await tester.pumpWidget(
-          buildTestWidget(fractalName: 'my_custom_fractal'));
+      await tester
+          .pumpWidget(buildTestWidget(fractalName: 'my_custom_fractal'));
       await tester.pump();
 
       expect(find.text('my_custom_fractal'), findsOneWidget);
@@ -168,6 +168,15 @@ void main() {
       // so checkArCoreAvailability() throws a MissingPluginException.
       // isSupportedOnDevice() catches any exception and returns false.
       final result = await ArCoreAnchorScreen.isSupportedOnDevice();
+      expect(result, isFalse);
+    });
+  });
+
+  group('ArCoreAnchorScreen.isInstalledOnDevice', () {
+    test('returns false on non-Android test platform', () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+
+      final result = await ArCoreAnchorScreen.isInstalledOnDevice();
       expect(result, isFalse);
     });
   });
