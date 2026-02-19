@@ -91,8 +91,9 @@ configurations.all {
 }
 
 dependencies {
-    // Required by Flutter engine when deferred components / split install classes are referenced.
-    implementation("com.google.android.play:core:1.10.3")
+    // Play Core modular library for SDK 34+ compatibility
+    // Replaces deprecated com.google.android.play:core:1.10.3
+    implementation("com.google.android.play:feature-delivery:2.1.0")
     // Belt-and-suspenders: explicitly request the fixed ARCore version so Gradle's
     // conflict resolution picks it up even without the resolutionStrategy above.
     implementation("com.google.ar:core:1.44.0")

@@ -50,6 +50,7 @@ android/app/*.jks
 android/app/*.keystore
 *.jks
 *.keystore
+CREDENTIALS.md
 
 
 .commit-push.pid

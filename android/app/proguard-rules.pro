@@ -27,3 +27,9 @@
 -dontwarn com.google.devtools.build.android.desugar.runtime.**
 -keep class com.google.ar.** { *; }
 -keep class com.difrancescogianmarco.arcore_flutter_plugin.** { *; }
+
+# Play Core compatibility for SDK 34+
+# Allow missing Play Core Task classes (app doesn't use deferred components)
+-dontwarn com.google.android.play.core.tasks.**
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.splitcompat.**
