@@ -361,8 +361,8 @@
   "hotPaths": [
     {
       "path": "pubspec.yaml",
-      "accessCount": 34,
-      "lastAccessed": 1771463628119,
+      "accessCount": 39,
+      "lastAccessed": 1771464740592,
       "type": "directory"
     },
     {
@@ -438,6 +438,12 @@
       "type": "directory"
     },
     {
+      "path": "shaders/multibrot5_gpu.frag",
+      "accessCount": 3,
+      "lastAccessed": 1771464277261,
+      "type": "file"
+    },
+    {
       "path": "shaders/tricorn_gpu.frag",
       "accessCount": 2,
       "lastAccessed": 1771453900864,
@@ -453,12 +459,6 @@
       "path": "shaders/multibrot4_gpu.frag",
       "accessCount": 2,
       "lastAccessed": 1771453946960,
-      "type": "file"
-    },
-    {
-      "path": "shaders/multibrot5_gpu.frag",
-      "accessCount": 2,
-      "lastAccessed": 1771453961024,
       "type": "file"
     },
     {
