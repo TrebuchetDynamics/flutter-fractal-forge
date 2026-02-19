@@ -354,3 +354,12 @@ flutter:
     - shaders/newton_z7_gpu.frag
     - shaders/feather_julia_gpu.frag
     - shaders/heart_julia_gpu.frag
+    - shaders/newton_z8_gpu.frag
+    - shaders/burning_ship_power4_julia_gpu.frag
+    - shaders/burning_ship_power5_julia_gpu.frag
+    - shaders/buffalo_power4_julia_gpu.frag
+    - shaders/celtic_power4_julia_gpu.frag
+    - shaders/tricorn_power4_julia_gpu.frag
+    - shaders/tricorn_power5_julia_gpu.frag
+    - shaders/perpendicular_burning_ship_julia_gpu.frag
+    - shaders/lambda_julia_gpu.frag
