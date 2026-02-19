@@ -3186,6 +3186,98 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 240,
     defaultBailout: 10.0,
   ),
+
+  // ── Batch 14 — Newton extensions, transcendental Julia, power-law families ─
+
+  // Newton z^4−1=0: four roots at ±1, ±i — cross-symmetric basin pattern.
+  EscapeTimeConfig(
+    id: 'newton_z4',
+    name: 'Newton z⁴−1',
+    shaderAsset: 'shaders/newton_z4_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+
+  // Newton z^6−1=0: six roots at 60° intervals — snowflake basin symmetry.
+  EscapeTimeConfig(
+    id: 'newton_z6',
+    name: 'Newton z⁶−1',
+    shaderAsset: 'shaders/newton_z6_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+
+  // Julia set of f(z)=c·tan(z), c=(0.12,0.48) — canals near tangent poles.
+  EscapeTimeConfig(
+    id: 'tangent_julia',
+    name: 'Tangent Julia',
+    shaderAsset: 'shaders/tangent_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 20.0,
+  ),
+
+  // Julia set of f(z)=c·sinh(z), c=(−0.65,0.45) — hyperbolic sine spirals.
+  EscapeTimeConfig(
+    id: 'sinh_julia',
+    name: 'Sinh Julia',
+    shaderAsset: 'shaders/sinh_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 20.0,
+  ),
+
+  // Julia set of f(z)=c·cosh(z), c=(0.55,0.40) — symmetric lenticular arms.
+  EscapeTimeConfig(
+    id: 'cosh_julia',
+    name: 'Cosh Julia',
+    shaderAsset: 'shaders/cosh_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 20.0,
+  ),
+
+  // Julia set of f(z)=c·tanh(z), c=(0.80,0.40) — quasi-circular Fatou disks.
+  EscapeTimeConfig(
+    id: 'tanh_julia',
+    name: 'Tanh Julia',
+    shaderAsset: 'shaders/tanh_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 20.0,
+  ),
+
+  // Burning Ship degree 4: (|Re|+i|Im|)^4+c — four-pronged hull structure.
+  EscapeTimeConfig(
+    id: 'burning_ship_power4',
+    name: 'Burning Ship ⁴',
+    shaderAsset: 'shaders/burning_ship_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+
+  // Multibrot degree 6: z^6+c — five-fold star branching at Misiurewicz pts.
+  EscapeTimeConfig(
+    id: 'multibrot6',
+    name: 'Multibrot ⁶',
+    shaderAsset: 'shaders/multibrot6_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+
+  // Mandelbar degree 4: conj(z)^4+c — anti-holomorphic 4-fold cusp symmetry.
+  EscapeTimeConfig(
+    id: 'tricorn_power4',
+    name: 'Tricorn ⁴ (Mandelbar)',
+    shaderAsset: 'shaders/tricorn_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+
+  // Buffalo degree 4: |Re(z^4)|+i|Im(z^4)|+c — post-fold abs on degree-4 orbit.
+  EscapeTimeConfig(
+    id: 'buffalo_power4',
+    name: 'Buffalo ⁴',
+    shaderAsset: 'shaders/buffalo_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.

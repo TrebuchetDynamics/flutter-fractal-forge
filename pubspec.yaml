@@ -219,6 +219,17 @@ flutter:
     - shaders/globo_toroid_gpu.frag
     - shaders/tamari_gpu.frag
     - shaders/wang_sun_cang_gpu.frag
+    - shaders/escape_time_perturb_gpu.frag
+    - shaders/newton_z4_gpu.frag
+    - shaders/newton_z6_gpu.frag
+    - shaders/tangent_julia_gpu.frag
+    - shaders/sinh_julia_gpu.frag
+    - shaders/cosh_julia_gpu.frag
+    - shaders/tanh_julia_gpu.frag
+    - shaders/burning_ship_power4_gpu.frag
+    - shaders/multibrot6_gpu.frag
+    - shaders/tricorn_power4_gpu.frag
+    - shaders/buffalo_power4_gpu.frag
     - shaders/quaternion_julia_2d_gpu.frag
     - shaders/tessarine_julia_gpu.frag
     - shaders/split_complex_gpu.frag
