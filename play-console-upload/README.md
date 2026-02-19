@@ -21,3 +21,10 @@ using the highest known value from:
 The script also runs the release bundle build with `--no-pub` and applies a
 temporary release-only registrant workaround so `integration_test` dev plugin
 does not break Play Console `.aab` compilation.
+
+Upload-key safety check:
+
+- The script verifies signing cert SHA1 against:
+  `android/play-upload-cert-sha1.txt`
+- You can override with `--expected-sha1 ...` or disable with
+  `--no-verify-sha1`

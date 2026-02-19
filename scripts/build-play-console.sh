@@ -9,6 +9,10 @@ set -euo pipefail
 # Options:
 #   --output-dir DIR   Output folder for upload-ready artifacts
 #                      (default: play-console-upload)
+#   --expected-sha1 S  Expected upload certificate SHA1 fingerprint.
+#                      Also supported via PLAY_UPLOAD_CERT_SHA1 env var or
+#                      android/play-upload-cert-sha1.txt.
+#   --no-verify-sha1   Skip upload certificate SHA1 verification.
 #   --skip-pub-get     Skip `flutter pub get` (build runs with --no-pub)
 #   --help             Show help
 #
@@ -22,6 +26,8 @@ export PATH="$HOME/.local/bin:/home/xel/flutter/bin:$PATH"
 
 OUTPUT_DIR="play-console-upload"
 RUN_PUB_GET=1
+VERIFY_SHA1=1
+EXPECTED_SHA1="${PLAY_UPLOAD_CERT_SHA1:-}"
 FORWARDED_ARGS=()
 
 log() { echo "[build-play-console] $*"; }
@@ -37,6 +43,8 @@ Usage:
 Options:
   --output-dir DIR   Output folder for upload-ready artifacts
                      (default: play-console-upload)
+  --expected-sha1 S  Expected upload certificate SHA1 fingerprint
+  --no-verify-sha1   Skip upload certificate SHA1 verification
   --skip-pub-get     Skip `flutter pub get` (build runs with --no-pub)
   --help             Show this help
 
@@ -51,6 +59,29 @@ Examples:
   scripts/build-play-console.sh --build-name 1.2.0 --build-number 42
   scripts/build-play-console.sh --output-dir release/play --dart-define=SAFE_MODE=false
 EOF
+}
+
+normalize_sha1() {
+  echo "$1" | tr '[:lower:]' '[:upper:]' | tr -cd '0-9A-F'
+}
+
+format_sha1() {
+  local normalized
+  normalized="$(normalize_sha1 "$1")"
+  if [[ ${#normalized} -ne 40 ]]; then
+    echo "$1"
+    return 0
+  fi
+
+  local out=""
+  local i
+  for ((i = 0; i < 40; i += 2)); do
+    if [[ -n "$out" ]]; then
+      out+=":"
+    fi
+    out+="${normalized:$i:2}"
+  done
+  echo "$out"
 }
 
 read_prop() {
@@ -99,12 +130,45 @@ resolve_store_file() {
   return 1
 }
 
+get_keystore_sha1() {
+  local keystore_file="$1"
+  local key_alias="$2"
+  local store_pass="$3"
+  local key_pass="$4"
+  local raw_sha1
+
+  raw_sha1="$(
+    keytool -list -v \
+      -keystore "$keystore_file" \
+      -storepass "$store_pass" \
+      -alias "$key_alias" \
+      -keypass "$key_pass" 2>/dev/null \
+      | awk '/SHA1:/ { print $2; exit }'
+  )"
+
+  [[ -n "$raw_sha1" ]] || die "Unable to read SHA1 from keystore=$keystore_file alias=$key_alias (check key.properties credentials)."
+  echo "$raw_sha1"
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --output-dir)
       [[ $# -ge 2 ]] || die "--output-dir requires a value"
       OUTPUT_DIR="$2"
       shift 2
+      ;;
+    --expected-sha1)
+      [[ $# -ge 2 ]] || die "--expected-sha1 requires a value"
+      EXPECTED_SHA1="$2"
+      shift 2
+      ;;
+    --expected-sha1=*)
+      EXPECTED_SHA1="${1#--expected-sha1=}"
+      shift
+      ;;
+    --no-verify-sha1)
+      VERIFY_SHA1=0
+      shift
       ;;
     --skip-pub-get)
       RUN_PUB_GET=0
@@ -138,9 +202,15 @@ RESTORE_REGISTRANT=0
 
 command -v flutter >/dev/null 2>&1 || die "flutter not found in PATH"
 command -v find >/dev/null 2>&1 || die "find not found in PATH"
+command -v keytool >/dev/null 2>&1 || die "keytool not found in PATH (install JDK)"
 
 KEY_PROPS="$PROJECT_ROOT/android/key.properties"
 [[ -f "$KEY_PROPS" ]] || die "Missing android/key.properties. Copy android/key.properties.example and set upload keystore values."
+EXPECTED_SHA1_FILE="$PROJECT_ROOT/android/play-upload-cert-sha1.txt"
+
+if [[ -z "$EXPECTED_SHA1" && -f "$EXPECTED_SHA1_FILE" ]]; then
+  EXPECTED_SHA1="$(head -n 1 "$EXPECTED_SHA1_FILE" | tr -d '\r\n')"
+fi
 
 STORE_PASSWORD="$(read_prop "storePassword" "$KEY_PROPS")"
 KEY_PASSWORD="$(read_prop "keyPassword" "$KEY_PROPS")"
@@ -155,6 +225,26 @@ STORE_FILE_RAW="$(read_prop "storeFile" "$KEY_PROPS")"
 STORE_FILE_RESOLVED="$(resolve_store_file "$STORE_FILE_RAW")" || die "Keystore file not found from storeFile=$STORE_FILE_RAW"
 log "Using upload key alias: $KEY_ALIAS"
 log "Using keystore file: $STORE_FILE_RESOLVED"
+
+ACTUAL_SHA1_RAW="$(get_keystore_sha1 "$STORE_FILE_RESOLVED" "$KEY_ALIAS" "$STORE_PASSWORD" "$KEY_PASSWORD")"
+ACTUAL_SHA1_NORM="$(normalize_sha1 "$ACTUAL_SHA1_RAW")"
+ACTUAL_SHA1_FMT="$(format_sha1 "$ACTUAL_SHA1_NORM")"
+log "Signing certificate SHA1: $ACTUAL_SHA1_FMT"
+
+if [[ "$VERIFY_SHA1" -eq 1 ]]; then
+  if [[ -n "$EXPECTED_SHA1" ]]; then
+    EXPECTED_SHA1_NORM="$(normalize_sha1 "$EXPECTED_SHA1")"
+    [[ ${#EXPECTED_SHA1_NORM} -eq 40 ]] || die "Invalid expected SHA1: $EXPECTED_SHA1"
+    if [[ "$ACTUAL_SHA1_NORM" != "$EXPECTED_SHA1_NORM" ]]; then
+      die "Upload key SHA1 mismatch. Expected $(format_sha1 "$EXPECTED_SHA1_NORM"), got $ACTUAL_SHA1_FMT. Update android/key.properties to the correct upload keystore."
+    fi
+    log "Upload key SHA1 verified against expected fingerprint."
+  else
+    log "No expected SHA1 configured; set --expected-sha1, PLAY_UPLOAD_CERT_SHA1, or android/play-upload-cert-sha1.txt"
+  fi
+else
+  log "Skipping upload certificate SHA1 verification (--no-verify-sha1)"
+fi
 
 cleanup() {
   if [[ "$RESTORE_REGISTRANT" -eq 1 && -n "$REGISTRANT_BACKUP" && -f "$REGISTRANT_BACKUP" ]]; then
@@ -319,6 +409,7 @@ printf '%s\n' "$USED_BUILD_NUMBER" > "$LAST_BUILD_MARKER"
 cat > "$OUTPUT_DIR/LATEST_BUILD_INFO.txt" <<EOF
 versionName=${PUBSPEC_VERSION_NAME:-unknown}
 buildNumber=$USED_BUILD_NUMBER
+signingSha1=$ACTUAL_SHA1_FMT
 sourceAab=$LATEST_BUNDLE
 outputAab=$DEST_AAB
 EOF
