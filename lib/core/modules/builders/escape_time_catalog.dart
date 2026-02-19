@@ -2918,6 +2918,94 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
   ),
+
+  // sin(z)+c — complex sine in Mandelbrot mode; spiral arms shaped by the
+  // cosh stretching of the imaginary axis, distinct from the cosine variant.
+  EscapeTimeConfig(
+    id: 'sine_mandelbrot',
+    name: 'Sine Mandelbrot',
+    shaderAsset: 'shaders/sine_mandelbrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 10.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'sine-mandelbrot-relief',
+        moduleId: 'sine_mandelbrot',
+        name: 'Sine Mandelbrot Relief',
+        params: {'iterations': 260, 'bailout': 10.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // √π·z²+c — standard Mandelbrot scaled by √π ≈ 1.7724; the extra factor
+  // stretches escape basins and produces elongated drill-bit filaments.
+  EscapeTimeConfig(
+    id: 'drill',
+    name: 'Drill Fractal',
+    shaderAsset: 'shaders/drill_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'drill-relief',
+        moduleId: 'drill',
+        name: 'Drill Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // |z|²·z+c — each component scaled by squared magnitude; non-analytic map
+  // with cubic radial growth; Julia sets appear to have pseudo-3D depth.
+  EscapeTimeConfig(
+    id: '3d_fractal',
+    name: '3D Fractal',
+    shaderAsset: 'shaders/3d_fractal_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: '3d-fractal-relief',
+        moduleId: '3d_fractal',
+        name: '3D Fractal Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // cos(z²+c) — complex cosine applied to the Mandelbrot step; cosh growth
+  // creates white "undefined" regions where the orbit diverges via cosh blow-up.
+  EscapeTimeConfig(
+    id: 'undefined',
+    name: 'Undefined Fractal',
+    shaderAsset: 'shaders/undefined_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 10.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'undefined-relief',
+        moduleId: 'undefined',
+        name: 'Undefined Relief',
+        params: {'iterations': 200, 'bailout': 10.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.

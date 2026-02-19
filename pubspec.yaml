@@ -296,3 +296,7 @@ flutter:
     - shaders/contused_fields_gpu.frag
     - shaders/car_road_gpu.frag
     - shaders/bullet_shot_gpu.frag
+    - shaders/sine_mandelbrot_gpu.frag
+    - shaders/drill_gpu.frag
+    - shaders/3d_fractal_gpu.frag
+    - shaders/undefined_gpu.frag
