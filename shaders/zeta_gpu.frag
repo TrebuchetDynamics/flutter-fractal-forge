@@ -2,6 +2,11 @@
 
 precision highp float;
 
+// Zeta fractal: z_{n+1} = ζ(z_n) + c  (partial Dirichlet sum ≈ Riemann zeta).
+// Julia-style with mutating c: z₀=c=pixel, der₀=(1,0).
+// Derivative d/dc: der_{n+1} = ζ'(z_n)·der_n + 1,
+//   ζ'(s) = -Σ_{n=2}^N log(n)·n^{-s}  (n=1 term vanishes since log(1)=0).
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;
 uniform vec2  uResolution;
 uniform vec2  uCenter;
@@ -53,13 +58,28 @@ vec2 zetaApprox(vec2 s, int terms) {
   return sum;
 }
 
+// ζ'(s) = -Σ_{n=2}^N log(n)·n^{-s}
+vec2 zetaApproxDeriv(vec2 s, int terms) {
+  vec2 sum = vec2(0.0);
+  for (int n = 2; n <= 32; n++) {
+    if (n > terms) break;
+    float lnN = log(float(n));
+    float amp = exp(-s.x * lnN);
+    float ph = -s.y * lnN;
+    sum -= lnN * amp * vec2(cos(ph), sin(ph));
+  }
+  return sum;
+}
+
 void main() {
   vec2 fc = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fc - 0.5 * uResolution) / max(1.0, scale);
 
+  int schemeInt = int(uColorScheme);
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
   vec2 z = c;
+  vec2 der = vec2(1.0, 0.0);  // dz₀/dc = 1 (Julia-style with additive c)
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
   int terms = int(clamp(6.0 + float(target) * 0.05, 6.0, 32.0));
@@ -68,6 +88,8 @@ void main() {
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) { it = target; break; }
+    // der_{n+1} = ζ'(z_n)·der_n + 1
+    der = cmul(zetaApproxDeriv(z, terms), der) + vec2(1.0, 0.0);
     z = zetaApprox(z, terms) + c;
     if (dot(z, z) > bailoutSq) { it = i; break; }
     it = i + 1;
@@ -80,6 +102,28 @@ void main() {
 
   float mag2 = max(1e-8, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2 + 1.0));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(getPaletteColor(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + 0.015 * float(terms) + uTime * 0.00007);
-  fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
+  fragColor = vec4(linearToSRGB(getPaletteColor(t, schemeInt)), 1.0);
 }

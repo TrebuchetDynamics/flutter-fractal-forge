@@ -1301,6 +1301,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/quaternion_julia_2d_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'quaternion_julia_2d-relief', moduleId: 'quaternion_julia_2d', name: 'Quaternion Relief',
+        params: {'iterations': 160, 'bailout': 8.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tessarine_julia',
@@ -1308,6 +1316,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/tessarine_julia_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'tessarine_julia-relief', moduleId: 'tessarine_julia', name: 'Tessarine Relief',
+        params: {'iterations': 160, 'bailout': 8.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'split_complex',
@@ -1337,6 +1353,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/bicomplex_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 12.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'bicomplex-relief', moduleId: 'bicomplex', name: 'Bicomplex Relief',
+        params: {'iterations': 180, 'bailout': 12.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
 
   // ── VII. Trigonometric ──────────────────────────────────
@@ -1528,6 +1552,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Rational Map Fractal',
     shaderAsset: 'shaders/rational_map_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'rational_map-relief', moduleId: 'rational_map', name: 'Rational Map Relief',
+        params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'barnsley_j2',
@@ -1990,6 +2022,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/lambda_w_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'lambda_w-relief', moduleId: 'lambda_w', name: 'Lambert W Relief',
+        params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'riemann_zeta',
@@ -1997,6 +2037,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/zeta_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'riemann_zeta-relief', moduleId: 'riemann_zeta', name: 'Zeta Relief',
+        params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'manair_fire',
@@ -2009,6 +2057,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Spider-X',
     shaderAsset: 'shaders/spider_x_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'spider_x-relief', moduleId: 'spider_x', name: 'Spider Relief',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'popcorn2',
@@ -2023,6 +2079,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/chebyshev_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 6.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'chebyshev-relief', moduleId: 'chebyshev', name: 'Chebyshev Relief',
+        params: {'iterations': 140, 'bailout': 6.0, 'colorScheme': 54},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'legendre',
