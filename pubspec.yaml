@@ -373,3 +373,13 @@ flutter:
     - shaders/tricorn_power6_julia_gpu.frag
     - shaders/perpendicular_bs_cubic_gpu.frag
     - shaders/perpendicular_bs_cubic_julia_gpu.frag
+    - shaders/schroeder_z3_gpu.frag
+    - shaders/schroeder_z4_gpu.frag
+    - shaders/nova_cubic_gpu.frag
+    - shaders/nova_cubic_julia_gpu.frag
+    - shaders/burning_ship_power6_gpu.frag
+    - shaders/buffalo_power6_gpu.frag
+    - shaders/celtic_power6_gpu.frag
+    - shaders/multibrot9_gpu.frag
+    - shaders/multijulia9_gpu.frag
+    - shaders/multibrot10_gpu.frag
