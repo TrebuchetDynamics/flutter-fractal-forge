@@ -1315,6 +1315,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/split_complex_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 10.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'split_complex-relief', moduleId: 'split_complex', name: 'Split-Complex Relief',
+        params: {'iterations': 180, 'bailout': 10.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'dual_complex',
@@ -1526,12 +1534,28 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Barnsley J2',
     shaderAsset: 'shaders/barnsley_j2_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'barnsley_j2-relief', moduleId: 'barnsley_j2', name: 'Barnsley J2 Relief',
+        params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 63},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'barnsley_j3',
     name: 'Barnsley J3',
     shaderAsset: 'shaders/barnsley_j3_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'barnsley_j3-relief', moduleId: 'barnsley_j3', name: 'Barnsley J3 Relief',
+        params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 60},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'celtic_julia',
@@ -2026,6 +2050,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Virial Fractal',
     shaderAsset: 'shaders/virial_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'virial-relief', moduleId: 'virial', name: 'Virial Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'newton_sin',
