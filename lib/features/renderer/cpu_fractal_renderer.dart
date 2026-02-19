@@ -334,8 +334,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     try {
       final baseIterations = readInt(widget.state.params, 'iterations', 220);
       final maxIterations = _iterationMaxForModule();
-      final bailout = readDouble(widget.state.params, 'bailout', 4.0);
-      final juliaC = _juliaC(widget.state.params);
+      final control = cpuControlScalarForModule(
+        widget.module.id,
+        widget.state.params,
+      );
+      final juliaC = cpuJuliaCForModule(widget.module.id, widget.state.params);
 
       // Increase iteration budget as zoom increases to avoid blotchy boundaries.
       final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
@@ -350,7 +353,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         width: w,
         height: h,
         iterations: iterations,
-        bailout: bailout,
+        bailout: control,
         juliaC: juliaC,
         sampleCount: 1,
         job: job,
@@ -368,14 +371,14 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
       // Ensure user always sees something.
       if (_isNearlyBlack(frame.rgba)) {
-        final fallback = _fallbackView(widget.module.id);
+        final fallback = _fallbackView(widget.module);
         final req = CpuTileRenderRequest(
           moduleId: widget.module.id,
           panX: fallback.$1.x,
           panY: fallback.$1.y,
           zoom: fallback.$2,
           iterations: iterations,
-          bailout: bailout,
+          bailout: control,
           juliaCX: juliaC.x,
           juliaCY: juliaC.y,
           fullWidth: w,
@@ -412,7 +415,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           width: w,
           height: h,
           iterations: iterations + 16,
-          bailout: bailout,
+          bailout: control,
           juliaC: juliaC,
           sampleCount: 1,
           job: job,
@@ -448,8 +451,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     try {
       final baseIterations = readInt(widget.state.params, 'iterations', 220);
       final maxIterations = _iterationMaxForModule();
-      final bailout = readDouble(widget.state.params, 'bailout', 4.0);
-      final juliaC = _juliaC(widget.state.params);
+      final control = cpuControlScalarForModule(
+        widget.module.id,
+        widget.state.params,
+      );
+      final juliaC = cpuJuliaCForModule(widget.module.id, widget.state.params);
 
       // Increase iteration budget as zoom increases to avoid blotchy boundaries.
       final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
@@ -464,7 +470,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         width: w,
         height: h,
         iterations: iterations,
-        bailout: bailout,
+        bailout: control,
         juliaC: juliaC,
         // Refine pass: use 2x2 supersampling for better edge quality.
         sampleCount: 4,
@@ -481,14 +487,14 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       );
 
       if (_isNearlyBlack(frame.rgba)) {
-        final fallback = _fallbackView(widget.module.id);
+        final fallback = _fallbackView(widget.module);
         final req = CpuTileRenderRequest(
           moduleId: widget.module.id,
           panX: fallback.$1.x,
           panY: fallback.$1.y,
           zoom: fallback.$2,
           iterations: iterations,
-          bailout: bailout,
+          bailout: control,
           juliaCX: juliaC.x,
           juliaCY: juliaC.y,
           fullWidth: w,
@@ -541,8 +547,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
       final baseIterations = readInt(widget.state.params, 'iterations', 220);
       final maxIterations = _iterationMaxForModule();
-      final bailout = readDouble(widget.state.params, 'bailout', 4.0);
-      final juliaC = _juliaC(widget.state.params);
+      final control = cpuControlScalarForModule(
+        widget.module.id,
+        widget.state.params,
+      );
+      final juliaC = cpuJuliaCForModule(widget.module.id, widget.state.params);
       final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
       final extra = (math.log(z) / math.ln2 * 32.0).round();
       final iterations = (baseIterations + extra).clamp(50, maxIterations);
@@ -559,7 +568,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           panY: widget.state.view.pan.y,
           zoom: widget.state.view.zoom,
           iterations: iterations,
-          bailout: bailout,
+          bailout: control,
           juliaCX: juliaC.x,
           juliaCY: juliaC.y,
           fullWidth: w,
@@ -622,19 +631,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     return ratio < 0.005;
   }
 
-  (Vector2, double) _fallbackView(String moduleId) {
-    switch (moduleId) {
-      case 'burning_ship':
-        return (Vector2(-1.75, -0.03), 1.4);
-      case 'julia':
-        return (Vector2(0.0, 0.0), 1.2);
-      case 'buffalo':
-      case 'celtic':
-      case 'tricorn':
-      case 'mandelbrot':
-      default:
-        return (Vector2(-0.5, 0.0), 1.0);
-    }
+  (Vector2, double) _fallbackView(FractalModule module) {
+    // Prefer each module's curated default preset (stable fallback baseline).
+    final view = module.defaultPreset.view;
+    final zoom = view.zoom > 0 ? view.zoom : 1.0;
+    return (Vector2(view.pan.x, view.pan.y), zoom);
   }
 
   int _iterationMaxForModule() {
@@ -784,8 +785,7 @@ Future<CpuRenderFrame> renderCpuFrame({
   final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
   final totalSamples = samplesPerAxis * samplesPerAxis;
 
-  final formula =
-      cpuFormulasByModuleId[moduleId] ?? cpuFormulasByModuleId['mandelbrot']!;
+  final formula = cpuFormulaForModuleId(moduleId);
 
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
@@ -881,7 +881,26 @@ double computeGrainScore(Uint8List rgba, int width, int height) {
   return sum / count;
 }
 
-Vector2 _juliaC(Map<String, Object> params) {
+/// Module-aware control scalar for CPU formulas.
+///
+/// Most formulas use `bailout`; Nova uses `relaxation` in that slot.
+double cpuControlScalarForModule(String moduleId, Map<String, Object> params) {
+  if (moduleId == 'nova') {
+    return readDouble(params, 'relaxation', 1.0);
+  }
+  return readDouble(params, 'bailout', 4.0);
+}
+
+/// Module-aware complex parameter passed to CPU formulas.
+///
+/// Julia-family formulas read `juliaC*`; Phoenix reads `phoenixC*`.
+Vector2 cpuJuliaCForModule(String moduleId, Map<String, Object> params) {
+  if (moduleId == 'phoenix') {
+    final x = readDouble(params, 'phoenixCReal', 0.5667);
+    final y = readDouble(params, 'phoenixCImag', 0.0);
+    return Vector2(x, y);
+  }
+
   final x = readDouble(params, 'juliaCReal', -0.8);
   final y = readDouble(params, 'juliaCImag', 0.156);
   return Vector2(x, y);

@@ -2,16 +2,11 @@
 
 precision highp float;
 
-// Burning Ship⁶ set: z_{n+1} = (|Re(z)| + i|Im(z)|)^6 + c.
-// Mandelbrot analogue — pixel = c, z₀ = 0.
-// The degree-6 Burning Ship applies the absolute-value fold to both components
-// of z before raising to the sixth power. The resulting parameter space shows
-// six-fold local symmetry with the characteristic ship-bow and crescent cusps
-// of the Burning Ship family at each arm tip. The increased degree compresses
-// the main body and expands the surrounding escape time gradient, revealing
-// richer secondary structures and deeper spiral decorations than lower-degree
-// variants. Smooth coloring uses log₂(6) = log2(6.0).
-// Supports normal-map shading (colorScheme 50-63).
+// Nova Degree-5 Julia: z_{n+1} = (4z⁵+1)/(5z⁴) + c, c = (0.0, 0.50).
+// Julia set of the degree-5 Nova map — pixel = z₀, c fixed.
+// Five basins of attraction (roots of z⁵=1) with fractal boundaries.
+// N'(z) = 4(z⁵−1)/(5z⁵). Julia derivative: no +1.
+// Smooth coloring: log₂(5). Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;
 uniform vec2  uResolution;
 uniform vec2  uCenter;
@@ -46,40 +41,42 @@ vec3 palette(float t, int scheme) {
 
 vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x-a.y*b.y, a.x*b.y+a.y*b.x); }
 
+vec2 cdiv(vec2 a, vec2 b) {
+  float d = dot(b, b);
+  return vec2(dot(a, b), a.y*b.x - a.x*b.y) / max(d, 1e-20);
+}
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5*uResolution) / max(1.0, scale);
 
   int schemeInt = int(uColorScheme);
-  vec2 c   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z   = vec2(0.0);
-  vec2 der = vec2(0.0);
+  vec2 z   = uv / max(0.000001, uZoom) + uCenter;  // pixel = z₀
+  vec2 c   = vec2(0.0, 0.50);  // fixed Nova Julia parameter
+  vec2 der = vec2(1.0, 0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
-  // Early-out: z0=0 => z1=c for Burning Ship power variants as well.
-  if (dot(c, c) > bailoutSq) {
-    z = c;
-    der = vec2(1.0, 0.0);
-    it = 0;
-  } else {
-    for (int j = 0; j < MAX_ITERS; j++) {
-      if (j >= target) { it = target; break; }
-      vec2 za  = vec2(abs(z.x), abs(z.y));
-      vec2 za2 = cmul(za, za);
-      vec2 za4 = cmul(za2, za2);
-      vec2 za5 = cmul(za4, za);
-      vec2 za6 = cmul(za4, za2);
-      // Derivative approximation: 6·za⁵·der + 1 (Mandelbrot mode)
-      der = 6.0 * cmul(za5, der) + vec2(1.0, 0.0);
-      z = za6 + c;
-      if (dot(z,z) > bailoutSq) { it = j; break; }
-      it = j + 1;
-    }
+  for (int j = 0; j < MAX_ITERS; j++) {
+    if (j >= target) { it = target; break; }
+    vec2 z2  = cmul(z, z);
+    vec2 z4  = cmul(z2, z2);
+    vec2 z5  = cmul(z4, z);
+    // Pole guard
+    if (dot(z4, z4) < 1e-12) { it = j; break; }
+    // N'(z) = 4(z⁵−1)/(5z⁵)
+    vec2 z5m1   = z5 - vec2(1.0, 0.0);
+    vec2 Nprime = cdiv(4.0 * z5m1, 5.0 * z5);
+    // Julia derivative: no +1
+    der = cmul(Nprime, der);
+    // Nova step
+    z = cdiv(4.0*z5 + vec2(1.0, 0.0), 5.0*z4) + c;
+    if (dot(z,z) > bailoutSq) { it = j; break; }
+    it = j + 1;
   }
 
   if (it >= target) {
@@ -87,9 +84,8 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
-  float logZn = 0.5 * log(mag2);
-  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(6.0);
+  float mag2      = max(1e-12, dot(z, z));
+  float smoothVal = float(it) - log2(log2(mag2)) / log2(5.0);
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);

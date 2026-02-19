@@ -64,7 +64,7 @@ class FractalController extends ChangeNotifier {
   bool _transparentBackground = false;
   bool _rotationLocked = false;
   bool _glowEnabled = false;
-  double _glowSigma = 1.0;    // blur radius multiplier: 1.0 = standard
+  double _glowSigma = 1.0; // blur radius multiplier: 1.0 = standard
   double _glowIntensity = 0.35; // opacity of glow layer
 
   // Animation state

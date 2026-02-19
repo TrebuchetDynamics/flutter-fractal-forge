@@ -44,14 +44,14 @@ extension ExportFormatExtension on ExportFormat {
 
 /// Preset resolution options for export
 enum ExportResolution {
-  screen,      // Current screen resolution
-  hd,          // 1280x720
-  fullHd,      // 1920x1080
-  quadHd,      // 2560x1440
-  uhd4k,       // 3840x2160
-  instagram,   // 1080x1080 (square)
+  screen, // Current screen resolution
+  hd, // 1280x720
+  fullHd, // 1920x1080
+  quadHd, // 2560x1440
+  uhd4k, // 3840x2160
+  instagram, // 1080x1080 (square)
   instagramStory, // 1080x1920 (9:16)
-  twitter,     // 1200x675 (16:9)
+  twitter, // 1200x675 (16:9)
   custom,
 }
 
@@ -132,7 +132,8 @@ class ExportMetadata extends Equatable {
   Map<String, String> toExifMap() {
     return {
       'Software': 'Flutter Fractals $appVersion',
-      'ImageDescription': description ?? 'Fractal artwork created with Flutter Fractals',
+      'ImageDescription':
+          description ?? 'Fractal artwork created with Flutter Fractals',
       'Artist': 'Flutter Fractals',
       'Copyright': '© ${createdAt.year} Flutter Fractals',
       'UserComment': _buildUserComment(),
@@ -151,7 +152,8 @@ class ExportMetadata extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title, description, fractalType, parameters, createdAt, appVersion];
+  List<Object?> get props =>
+      [title, description, fractalType, parameters, createdAt, appVersion];
 }
 
 /// Complete export configuration
@@ -188,13 +190,17 @@ class ExportOptions extends Equatable {
       final widthRatio = dims.$1 / screenWidth;
       final heightRatio = dims.$2 / screenHeight;
       // Use max to ensure we hit the target resolution on both axes
-      return (widthRatio > heightRatio ? widthRatio : heightRatio).clamp(1.0, 8.0);
+      return (widthRatio > heightRatio ? widthRatio : heightRatio)
+          .clamp(1.0, 8.0);
     }
-    
-    if (resolution == ExportResolution.custom && customWidth != null) {
-      return (customWidth! / screenWidth).clamp(1.0, 8.0);
+
+    if (resolution == ExportResolution.custom) {
+      final widthRatio = (customWidth ?? screenWidth.round()) / screenWidth;
+      final heightRatio = (customHeight ?? screenHeight.round()) / screenHeight;
+      return (widthRatio > heightRatio ? widthRatio : heightRatio)
+          .clamp(1.0, 8.0);
     }
-    
+
     return 2.5; // Default for screen resolution
   }
 
@@ -204,14 +210,14 @@ class ExportOptions extends Equatable {
     if (dims != null) {
       return dims;
     }
-    
+
     if (resolution == ExportResolution.custom) {
       return (
         customWidth ?? screenWidth.round(),
         customHeight ?? screenHeight.round(),
       );
     }
-    
+
     // Screen resolution
     return (screenWidth.round(), screenHeight.round());
   }
@@ -233,7 +239,8 @@ class ExportOptions extends Equatable {
       resolution: resolution ?? this.resolution,
       customWidth: customWidth ?? this.customWidth,
       customHeight: customHeight ?? this.customHeight,
-      transparentBackground: transparentBackground ?? this.transparentBackground,
+      transparentBackground:
+          transparentBackground ?? this.transparentBackground,
       quality: quality ?? this.quality,
       embedMetadata: embedMetadata ?? this.embedMetadata,
       metadata: metadata ?? this.metadata,

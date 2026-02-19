@@ -2,16 +2,14 @@
 
 precision highp float;
 
-// Burning Ship⁶ set: z_{n+1} = (|Re(z)| + i|Im(z)|)^6 + c.
+// Celtic²: z_{n+1} = |Re(z²)|+Im(z²) + c.
 // Mandelbrot analogue — pixel = c, z₀ = 0.
-// The degree-6 Burning Ship applies the absolute-value fold to both components
-// of z before raising to the sixth power. The resulting parameter space shows
-// six-fold local symmetry with the characteristic ship-bow and crescent cusps
-// of the Burning Ship family at each arm tip. The increased degree compresses
-// the main body and expands the surrounding escape time gradient, revealing
-// richer secondary structures and deeper spiral decorations than lower-degree
-// variants. Smooth coloring uses log₂(6) = log2(6.0).
-// Supports normal-map shading (colorScheme 50-63).
+// The Celtic fold applies absolute value only to Re(z²) = x²−y² after
+// the squaring, leaving Im(z²) = 2xy unchanged. This one-sided fold
+// creates a 2-armed fractal with bilateral symmetry about the imaginary
+// axis. The reflected real part produces a characteristic pinched-waist
+// shape with inward-curved cusp boundaries distinct from the Mandelbrot set.
+// Smooth coloring: log₂(2) = 1. Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;
 uniform vec2  uResolution;
 uniform vec2  uCenter;
@@ -61,25 +59,15 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
-  // Early-out: z0=0 => z1=c for Burning Ship power variants as well.
-  if (dot(c, c) > bailoutSq) {
-    z = c;
-    der = vec2(1.0, 0.0);
-    it = 0;
-  } else {
-    for (int j = 0; j < MAX_ITERS; j++) {
-      if (j >= target) { it = target; break; }
-      vec2 za  = vec2(abs(z.x), abs(z.y));
-      vec2 za2 = cmul(za, za);
-      vec2 za4 = cmul(za2, za2);
-      vec2 za5 = cmul(za4, za);
-      vec2 za6 = cmul(za4, za2);
-      // Derivative approximation: 6·za⁵·der + 1 (Mandelbrot mode)
-      der = 6.0 * cmul(za5, der) + vec2(1.0, 0.0);
-      z = za6 + c;
-      if (dot(z,z) > bailoutSq) { it = j; break; }
-      it = j + 1;
-    }
+  for (int j = 0; j < MAX_ITERS; j++) {
+    if (j >= target) { it = target; break; }
+    vec2 z2 = cmul(z, z);
+    // Derivative: 2·z·der + 1 (Mandelbrot mode; fold approx.)
+    der = 2.0 * cmul(z, der) + vec2(1.0, 0.0);
+    // Celtic fold: |Re(z²)| + Im(z²)
+    z = vec2(abs(z2.x), z2.y) + c;
+    if (dot(z,z) > bailoutSq) { it = j; break; }
+    it = j + 1;
   }
 
   if (it >= target) {
@@ -87,9 +75,8 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
-  float logZn = 0.5 * log(mag2);
-  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(6.0);
+  float mag2      = max(1e-12, dot(z, z));
+  float smoothVal = float(it) - log2(log2(mag2));  // log2(2)=1, so no division needed
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);

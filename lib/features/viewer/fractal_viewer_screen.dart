@@ -198,6 +198,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _autoExploreService?.onUserCorrection();
   }
 
+  void _onAutoExploreUserInteractionStart() {
+    _autoExploreService?.onUserInteractionStart();
+  }
+
+  void _onAutoExploreUserInteractionEnd() {
+    _autoExploreService?.onUserInteractionEnd();
+  }
+
   void _onControllerChanged() {
     if (!mounted) return;
 
@@ -312,35 +320,42 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
       final pan = controller.view.pan;
       controller.updatePan(Vector2(pan.x - panStep, pan.y));
+      _onAutoExploreUserCorrection();
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
       final pan = controller.view.pan;
       controller.updatePan(Vector2(pan.x + panStep, pan.y));
+      _onAutoExploreUserCorrection();
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       final pan = controller.view.pan;
       controller.updatePan(Vector2(pan.x, pan.y - panStep));
+      _onAutoExploreUserCorrection();
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       final pan = controller.view.pan;
       controller.updatePan(Vector2(pan.x, pan.y + panStep));
+      _onAutoExploreUserCorrection();
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.minus ||
         event.logicalKey == LogicalKeyboardKey.numpadSubtract) {
       controller.updateZoom(controller.view.zoom / 1.2);
+      _onAutoExploreUserCorrection();
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.equal ||
         event.logicalKey == LogicalKeyboardKey.numpadAdd) {
       controller.updateZoom(controller.view.zoom * 1.2);
+      _onAutoExploreUserCorrection();
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.keyR) {
       controller.resetView();
+      _onAutoExploreUserCorrection();
       return KeyEventResult.handled;
     }
 
@@ -383,16 +398,33 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   void _onRandomFractalFab(BuildContext context) {
+    // Random jump is an explicit user command; stop auto-zoom first so
+    // navigation does not continue moving the view on the newly selected fractal.
+    _autoExploreService?.stop();
+
     _jumpToRandomFractal(context);
     AccessibilityService.announce('Random fractal selected');
     HapticService.light();
   }
 
+  bool _shouldUseTransparentBackgroundInAr(FractalModule module) {
+    if (module.dimension != FractalDimension.twoD) {
+      return false;
+    }
+    final paramIds = module.parameters.map((p) => p.id).toSet();
+    return paramIds.contains('iterations') && paramIds.contains('bailout');
+  }
+
   Future<void> _openArOverlay(BuildContext context) async {
     final controller = context.read<FractalController>();
 
-    Future<void> openOverlayFallback() async {
+    Future<void> openOverlayFallback({String? notice}) async {
       if (!mounted) return;
+      if (notice != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(notice)),
+        );
+      }
       await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ChangeNotifierProvider.value(
@@ -408,40 +440,71 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       return;
     }
 
+    // ARCore availability checks can produce false negatives on some devices.
+    // We treat this as advisory and still attempt ARCore route push; if runtime
+    // init fails, we gracefully fall back to AR overlay.
     final supported = await ArCoreAnchorScreen.isSupportedOnDevice();
     if (!supported) {
-      await openOverlayFallback();
-      return;
+      _log.warn(
+        'ar',
+        'ARCore compatibility check reported unsupported; attempting ARCore route anyway',
+      );
     }
+
+    final shouldTransparent =
+        _shouldUseTransparentBackgroundInAr(controller.module);
+    final previousTransparency = controller.transparentBackground;
+    final appliedTemporaryTransparency =
+        shouldTransparent && !previousTransparency;
 
     Uint8List textureBytes;
     try {
+      if (appliedTemporaryTransparency) {
+        controller.setTransparentBackground(true);
+        await WidgetsBinding.instance.endOfFrame;
+        await Future<void>.delayed(const Duration(milliseconds: 16));
+      }
+
       textureBytes = await _exportService.capturePng(
         _activeBoundaryKey(),
         pixelRatio: 1.5,
       );
-    } catch (_) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content:
-                Text('Could not capture fractal texture, using AR overlay'),
-          ),
-        );
-      }
-      await openOverlayFallback();
+    } catch (e) {
+      _log.warn('ar', 'ARCore texture capture failed; using overlay fallback',
+          data: {'error': e.toString()});
+      await openOverlayFallback(
+        notice: 'Could not capture fractal texture, using AR overlay',
+      );
       return;
+    } finally {
+      if (appliedTemporaryTransparency) {
+        try {
+          controller.setTransparentBackground(previousTransparency);
+        } catch (e) {
+          _log.warn('ar', 'Failed to restore transparency after AR capture',
+              data: {'error': e.toString()});
+        }
+      }
     }
 
     if (!mounted) return;
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => ChangeNotifierProvider.value(
-          value: controller,
-          child: ArCoreAnchorScreen(fractalTextureBytes: textureBytes),
+
+    try {
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ChangeNotifierProvider.value(
+            value: controller,
+            child: ArCoreAnchorScreen(fractalTextureBytes: textureBytes),
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      _log.warn('ar', 'ARCore route failed; using overlay fallback',
+          data: {'error': e.toString()});
+      await openOverlayFallback(
+        notice: 'ARCore session failed, using AR overlay',
+      );
+    }
   }
 
   List<PopupMenuEntry<_ViewerMenuAction>> _viewerMenuEntries(
@@ -759,6 +822,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             onOpenPresets: () => _openPresets(context),
                             onOpenExport: () => _openExport(context),
                             onUserInteraction: _onAutoExploreUserCorrection,
+                            onUserInteractionStart:
+                                _onAutoExploreUserInteractionStart,
+                            onUserInteractionEnd:
+                                _onAutoExploreUserInteractionEnd,
                             freezeFrame: _freezeFrameForExport,
                           )
                         : (_backendDecision.backend == RendererBackend.cpu
@@ -768,6 +835,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                 onOpenPresets: () => _openPresets(context),
                                 onOpenExport: () => _openExport(context),
                                 onUserInteraction: _onAutoExploreUserCorrection,
+                                onUserInteractionStart:
+                                    _onAutoExploreUserInteractionStart,
+                                onUserInteractionEnd:
+                                    _onAutoExploreUserInteractionEnd,
                                 overrideChild: CpuFallbackPane(
                                   boundaryKey: _fractalKeyA,
                                   initialSnapshot: _lastGpuSnapshot,
@@ -800,6 +871,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                     onOpenExport: () => _openExport(context),
                                     onUserInteraction:
                                         _onAutoExploreUserCorrection,
+                                    onUserInteractionStart:
+                                        _onAutoExploreUserInteractionStart,
+                                    onUserInteractionEnd:
+                                        _onAutoExploreUserInteractionEnd,
                                   ))),
                   ),
 

@@ -29,6 +29,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   late TextEditingController _customWidthController;
   late TextEditingController _customHeightController;
   bool _showAdvanced = false;
+  bool _showCustomization = false;
 
   @override
   void initState() {
@@ -40,6 +41,12 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     _customHeightController = TextEditingController(
       text: _options.customHeight?.toString() ?? '1080',
     );
+
+    // Keep custom fields and option values in sync so summary/export payloads
+    // match what the user sees, even before they edit the text fields.
+    if (_options.resolution == ExportResolution.custom) {
+      _options = _effectiveOptionsForExport();
+    }
   }
 
   @override
@@ -47,6 +54,39 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     _customWidthController.dispose();
     _customHeightController.dispose();
     super.dispose();
+  }
+
+  int _sanitizeCustomDimension(
+    String text,
+    int? currentValue,
+    int fallback,
+  ) {
+    final parsed = int.tryParse(text.trim());
+    if (parsed != null && parsed > 0) return parsed;
+    if (currentValue != null && currentValue > 0) return currentValue;
+    return fallback;
+  }
+
+  ExportOptions _effectiveOptionsForExport() {
+    if (_options.resolution != ExportResolution.custom) {
+      return _options;
+    }
+
+    final width = _sanitizeCustomDimension(
+      _customWidthController.text,
+      _options.customWidth,
+      1920,
+    );
+    final height = _sanitizeCustomDimension(
+      _customHeightController.text,
+      _options.customHeight,
+      1080,
+    );
+
+    return _options.copyWith(
+      customWidth: width,
+      customHeight: height,
+    );
   }
 
   @override
@@ -104,31 +144,37 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                   controller: scrollController,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   children: [
-                    // Quick presets
+                    _buildSimpleModeCard(context, l10n),
+
+                    const SizedBox(height: 16),
+
+                    // Keep quick presets always visible for easy one-tap changes.
                     _buildQuickPresets(context, l10n),
 
-                    const SizedBox(height: 24),
+                    if (_showCustomization) ...[
+                      const SizedBox(height: 24),
 
-                    // Format selection
-                    _buildFormatSection(context, l10n),
+                      // Format selection
+                      _buildFormatSection(context, l10n),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // Resolution selection
-                    _buildResolutionSection(context, l10n),
+                      // Resolution selection
+                      _buildResolutionSection(context, l10n),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // Quality slider (for JPG/WebP)
-                    if (_options.format != ExportFormat.png)
-                      _buildQualitySection(context, l10n),
+                      // Quality slider (for JPG/WebP)
+                      if (_options.format != ExportFormat.png)
+                        _buildQualitySection(context, l10n),
 
-                    // Advanced options toggle
-                    _buildAdvancedToggle(context, l10n),
+                      // Advanced options toggle
+                      _buildAdvancedToggle(context, l10n),
 
-                    if (_showAdvanced) ...[
-                      const SizedBox(height: 16),
-                      _buildAdvancedOptions(context, l10n),
+                      if (_showAdvanced) ...[
+                        const SizedBox(height: 16),
+                        _buildAdvancedOptions(context, l10n),
+                      ],
                     ],
 
                     const SizedBox(height: 24),
@@ -147,6 +193,47 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSimpleModeCard(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceVariant.withOpacity(0.45),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.outline.withOpacity(0.25),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.flash_on_rounded, color: theme.colorScheme.primary),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              _showCustomization
+                  ? 'Customization enabled — full export controls visible.'
+                  : 'Simple mode — choose a quick preset, then tap Export or Share.',
+              style: theme.textTheme.bodySmall,
+            ),
+          ),
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                _showCustomization = !_showCustomization;
+                if (!_showCustomization) {
+                  _showAdvanced = false;
+                }
+              });
+            },
+            child: Text(_showCustomization ? 'Simple' : 'Customize'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -302,7 +389,13 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               onSelected: (selected) {
                 if (selected) {
                   setState(() {
-                    _options = _options.copyWith(resolution: resolution);
+                    if (resolution == ExportResolution.custom) {
+                      _options = _effectiveOptionsForExport().copyWith(
+                        resolution: ExportResolution.custom,
+                      );
+                    } else {
+                      _options = _options.copyWith(resolution: resolution);
+                    }
                   });
                 }
               },
@@ -462,16 +555,16 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
   Widget _buildExportSummary(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
-    final dims = _options.resolution.dimensions;
+    final effectiveOptions = _effectiveOptionsForExport();
+    final dims = effectiveOptions.resolution.dimensions;
 
     String resolutionText;
-    if (_options.resolution == ExportResolution.custom) {
-      final w = _options.customWidth ?? 1920;
-      final h = _options.customHeight ?? 1080;
+    if (effectiveOptions.resolution == ExportResolution.custom) {
+      final w = effectiveOptions.customWidth ?? 1920;
+      final h = effectiveOptions.customHeight ?? 1080;
       resolutionText = '$w×$h';
     } else if (dims != null) {
-      resolutionText =
-          '${dims.$1}×${dims.$2}'; // Using braces for tuple elements
+      resolutionText = '${dims.$1}×${dims.$2}';
     } else {
       resolutionText = l10n.exportScreenResolution;
     }
@@ -501,17 +594,17 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           _SummaryRow(
             icon: Icons.image,
             label: l10n.exportFormat,
-            value: _options.format.displayName,
+            value: effectiveOptions.format.displayName,
           ),
-          if (_options.format != ExportFormat.png) ...[
+          if (effectiveOptions.format != ExportFormat.png) ...[
             const SizedBox(height: 8),
             _SummaryRow(
               icon: Icons.tune,
               label: l10n.exportQuality,
-              value: '${_options.quality}%',
+              value: '${effectiveOptions.quality}%',
             ),
           ],
-          if (_options.transparentBackground) ...[
+          if (effectiveOptions.transparentBackground) ...[
             const SizedBox(height: 8),
             _SummaryRow(
               icon: Icons.layers,
@@ -519,7 +612,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               value: '✓',
             ),
           ],
-          if (_options.embedMetadata) ...[
+          if (effectiveOptions.embedMetadata) ...[
             const SizedBox(height: 8),
             _SummaryRow(
               icon: Icons.info_outline,
@@ -533,6 +626,8 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   }
 
   Widget _buildExportActions(BuildContext context, AppLocalizations l10n) {
+    final effectiveOptions = _effectiveOptionsForExport();
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -552,7 +647,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               child: OutlinedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  widget.onExport(_options, ExportAction.saveOnly);
+                  widget.onExport(effectiveOptions, ExportAction.saveOnly);
                 },
                 icon: const Icon(Icons.save_alt_rounded),
                 label: Text(l10n.exportNow),
@@ -566,7 +661,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               child: FilledButton.icon(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  widget.onExport(_options, ExportAction.saveAndShare);
+                  widget.onExport(effectiveOptions, ExportAction.saveAndShare);
                 },
                 icon: const Icon(Icons.share_rounded),
                 label: Text(l10n.share),

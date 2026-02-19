@@ -11,7 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class _DenyAllPermissions extends PermissionHandlerPlatform {
   @override
-  Future<Map<Permission, PermissionStatus>> requestPermissions(List<Permission> permissions) async {
+  Future<Map<Permission, PermissionStatus>> requestPermissions(
+      List<Permission> permissions) async {
     return {
       for (final permission in permissions) permission: PermissionStatus.denied,
     };
@@ -20,6 +21,19 @@ class _DenyAllPermissions extends PermissionHandlerPlatform {
   @override
   Future<PermissionStatus> checkPermissionStatus(Permission permission) async {
     return PermissionStatus.denied;
+  }
+}
+
+class _ThrowingPermissions extends PermissionHandlerPlatform {
+  @override
+  Future<Map<Permission, PermissionStatus>> requestPermissions(
+      List<Permission> permissions) async {
+    throw UnsupportedError('permission bridge unavailable');
+  }
+
+  @override
+  Future<PermissionStatus> checkPermissionStatus(Permission permission) async {
+    throw UnsupportedError('permission bridge unavailable');
   }
 }
 
@@ -54,7 +68,8 @@ void main() {
       );
     }
 
-    testWidgets('shows permission denied UI when camera denied', (tester) async {
+    testWidgets('shows permission denied UI when camera denied',
+        (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
@@ -62,13 +77,25 @@ void main() {
       expect(find.byType(Icon), findsWidgets);
     });
 
-    testWidgets('defaults to opaque painting background in AR', (tester) async {
+    testWidgets('shows camera unavailable state when permission bridge throws',
+        (tester) async {
+      PermissionHandlerPlatform.instance = _ThrowingPermissions();
+
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // In AR we default to an opaque "painting" so the set interior doesn't
-      // become see-through (camera noise shows through).
-      expect(controller.transparentBackground, isFalse);
+      expect(find.byIcon(Icons.warning_amber_rounded), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('defaults to transparent background for escape fractals in AR',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // Default module is Mandelbrot (escape-time), so the interior black set
+      // should be transparent in AR.
+      expect(controller.transparentBackground, isTrue);
     });
 
     testWidgets('renders without crashing', (tester) async {

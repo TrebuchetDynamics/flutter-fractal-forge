@@ -361,14 +361,20 @@
   "hotPaths": [
     {
       "path": "pubspec.yaml",
-      "accessCount": 39,
-      "lastAccessed": 1771464740592,
+      "accessCount": 58,
+      "lastAccessed": 1771468734248,
       "type": "directory"
     },
     {
       "path": "shaders/perpendicular_gpu.frag",
       "accessCount": 5,
       "lastAccessed": 1771454992924,
+      "type": "file"
+    },
+    {
+      "path": "shaders/nova_gpu.frag",
+      "accessCount": 5,
+      "lastAccessed": 1771465329731,
       "type": "file"
     },
     {
@@ -390,12 +396,6 @@
       "type": "file"
     },
     {
-      "path": "shaders/nova_gpu.frag",
-      "accessCount": 4,
-      "lastAccessed": 1771459476529,
-      "type": "file"
-    },
-    {
       "path": "android/app/src/main/AndroidManifest.xml",
       "accessCount": 4,
       "lastAccessed": 1771461295807,
@@ -408,6 +408,12 @@
       "type": "file"
     },
     {
+      "path": "shaders/magnet1_gpu.frag",
+      "accessCount": 4,
+      "lastAccessed": 1771465644004,
+      "type": "file"
+    },
+    {
       "path": "shaders/celtic_gpu.frag",
       "accessCount": 3,
       "lastAccessed": 1771453917073,
@@ -417,12 +423,6 @@
       "path": "shaders/burning_ship_gpu.frag",
       "accessCount": 3,
       "lastAccessed": 1771454840485,
-      "type": "file"
-    },
-    {
-      "path": "shaders/magnet1_gpu.frag",
-      "accessCount": 3,
-      "lastAccessed": 1771456192650,
       "type": "file"
     },
     {
@@ -534,6 +534,18 @@
       "type": "file"
     },
     {
+      "path": "shaders/celtic_cubic_gpu.frag",
+      "accessCount": 2,
+      "lastAccessed": 1771465621749,
+      "type": "file"
+    },
+    {
+      "path": "shaders/buffalo_cubic_gpu.frag",
+      "accessCount": 2,
+      "lastAccessed": 1771465636791,
+      "type": "file"
+    },
+    {
       "path": "android/settings.gradle.kts",
       "accessCount": 1,
       "lastAccessed": 1771452359877,
@@ -564,12 +576,6 @@
       "type": "file"
     },
     {
-      "path": "shaders/celtic_cubic_gpu.frag",
-      "accessCount": 1,
-      "lastAccessed": 1771454445467,
-      "type": "file"
-    },
-    {
       "path": "shaders/burning_ship_perp_gpu.frag",
       "accessCount": 1,
       "lastAccessed": 1771454698635,
@@ -591,12 +597,6 @@
       "path": "shaders/mandelbrot_tia_gpu.frag",
       "accessCount": 1,
       "lastAccessed": 1771455374137,
-      "type": "file"
-    },
-    {
-      "path": "shaders/buffalo_cubic_gpu.frag",
-      "accessCount": 1,
-      "lastAccessed": 1771455393308,
       "type": "file"
     },
     {

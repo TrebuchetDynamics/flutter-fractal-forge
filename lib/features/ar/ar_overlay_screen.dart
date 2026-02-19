@@ -142,10 +142,9 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
   double _overlayOpacity = 0.75;
   bool _overlayLocked = false;
   bool _anchorPlaced = false;
-  // In AR, users typically want a solid "painting". Transparent background makes the
-  // interior of escape-time sets see-through (camera shows through), which reads as
-  // gray/noisy texture. Default to opaque.
-  bool _transparentBackground = false;
+  // In AR, escape-time fractals look best when the interior black set is cut out.
+  // Default to transparent for those modules.
+  bool _transparentBackground = true;
   bool _panelCollapsed = true;
 
   bool _showGrid = true;
@@ -165,10 +164,20 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
   double? _lastZoom;
   String? _lastModuleId;
 
+  bool _shouldUseTransparentBackgroundInAr(FractalModule module) {
+    if (module.dimension != FractalDimension.twoD) {
+      return false;
+    }
+    final paramIds = module.parameters.map((p) => p.id).toSet();
+    return paramIds.contains('iterations') && paramIds.contains('bailout');
+  }
+
   @override
   void initState() {
     super.initState();
     _fractalController = context.read<FractalController>();
+    _transparentBackground =
+        _shouldUseTransparentBackgroundInAr(_fractalController.module);
     _statsService = context.read<ExplorationStatsService?>();
     _sessionStart = DateTime.now();
 
@@ -180,17 +189,19 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     _qualityPreset = context.read<ArQualityStore>().getPreset();
     _initCamera();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
       // Cache controller so dispose doesn't depend on context.
       _previousTransparency = _fractalController.transparentBackground;
 
-      // Default to an opaque "painting" in AR.
-      // (Transparent background makes most of the set see-through, which looks like noise.)
+      // For escape-time fractals, keep interior black regions transparent in AR.
       _fractalController.setTransparentBackground(_transparentBackground);
 
       _fractalController.applyArQualityPreset(_qualityPreset);
 
       // Sensible defaults per dimension.
       final dim = _fractalController.module.dimension;
+      if (!mounted) return;
       setState(() {
         if (dim == FractalDimension.threeD) {
           _overlayOpacity = 0.85;
@@ -207,7 +218,22 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
 
   Future<void> _initCamera() async {
     dev.log('initCamera: requesting permission', name: 'FF.AR');
-    final status = await Permission.camera.request();
+
+    PermissionStatus status;
+    try {
+      status = await Permission.camera.request();
+    } catch (e, st) {
+      dev.log('initCamera: permission request failed: $e',
+          name: 'FF.AR', error: e, stackTrace: st);
+      if (!mounted) return;
+      setState(() {
+        _permissionDenied = false;
+        _cameraFailureReason = 'Camera permission check failed: $e';
+        _initializing = false;
+      });
+      return;
+    }
+
     if (!status.isGranted) {
       if (!mounted) return;
       setState(() {
@@ -450,6 +476,16 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     if (_lastModuleId != id) {
       _lastModuleId = id;
       _statsService?.recordFractalExplored(id);
+
+      final shouldTransparent =
+          _shouldUseTransparentBackgroundInAr(_fractalController.module);
+      if (_transparentBackground != shouldTransparent) {
+        _transparentBackground = shouldTransparent;
+        _fractalController.setTransparentBackground(shouldTransparent);
+        if (mounted) {
+          setState(() {});
+        }
+      }
     }
   }
 
@@ -514,6 +550,8 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     final viewportSize = MediaQuery.of(context).size;
     final overlaySize = viewportSize.shortestSide *
         (dim == FractalDimension.threeD ? 0.55 : 0.62);
+    final transparencyForced =
+        _shouldUseTransparentBackgroundInAr(controller.module);
 
     final brightness = Theme.of(context).brightness;
 
@@ -687,6 +725,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
             opacity: _overlayOpacity,
             locked: _overlayLocked,
             transparent: _transparentBackground,
+            transparentLocked: transparencyForced,
             showGrid: _showGrid,
             showOutline: _showOutline,
             stylePreset: _stylePreset,
@@ -716,8 +755,9 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
               _overlayOpacity = 0.75;
             }),
             onTransparentChanged: (value) {
-              setState(() => _transparentBackground = value);
-              controller.setTransparentBackground(value);
+              final nextValue = transparencyForced ? true : value;
+              setState(() => _transparentBackground = nextValue);
+              controller.setTransparentBackground(nextValue);
             },
             onGridChanged: (value) => setState(() => _showGrid = value),
             onOutlineChanged: (value) => setState(() => _showOutline = value),
@@ -1120,17 +1160,25 @@ class _CrosshairPainter extends CustomPainter {
     const arm = 14.0;
     const gap = 24.0;
     // Top-left
-    canvas.drawLine(Offset(cx - gap, cy - gap), Offset(cx - gap + arm, cy - gap), paint);
-    canvas.drawLine(Offset(cx - gap, cy - gap), Offset(cx - gap, cy - gap + arm), paint);
+    canvas.drawLine(
+        Offset(cx - gap, cy - gap), Offset(cx - gap + arm, cy - gap), paint);
+    canvas.drawLine(
+        Offset(cx - gap, cy - gap), Offset(cx - gap, cy - gap + arm), paint);
     // Top-right
-    canvas.drawLine(Offset(cx + gap, cy - gap), Offset(cx + gap - arm, cy - gap), paint);
-    canvas.drawLine(Offset(cx + gap, cy - gap), Offset(cx + gap, cy - gap + arm), paint);
+    canvas.drawLine(
+        Offset(cx + gap, cy - gap), Offset(cx + gap - arm, cy - gap), paint);
+    canvas.drawLine(
+        Offset(cx + gap, cy - gap), Offset(cx + gap, cy - gap + arm), paint);
     // Bottom-left
-    canvas.drawLine(Offset(cx - gap, cy + gap), Offset(cx - gap + arm, cy + gap), paint);
-    canvas.drawLine(Offset(cx - gap, cy + gap), Offset(cx - gap, cy + gap - arm), paint);
+    canvas.drawLine(
+        Offset(cx - gap, cy + gap), Offset(cx - gap + arm, cy + gap), paint);
+    canvas.drawLine(
+        Offset(cx - gap, cy + gap), Offset(cx - gap, cy + gap - arm), paint);
     // Bottom-right
-    canvas.drawLine(Offset(cx + gap, cy + gap), Offset(cx + gap - arm, cy + gap), paint);
-    canvas.drawLine(Offset(cx + gap, cy + gap), Offset(cx + gap, cy + gap - arm), paint);
+    canvas.drawLine(
+        Offset(cx + gap, cy + gap), Offset(cx + gap - arm, cy + gap), paint);
+    canvas.drawLine(
+        Offset(cx + gap, cy + gap), Offset(cx + gap, cy + gap - arm), paint);
   }
 
   @override
@@ -1209,6 +1257,7 @@ class _ArControlsPanel extends StatelessWidget {
   final double opacity;
   final bool locked;
   final bool transparent;
+  final bool transparentLocked;
   final bool showGrid;
   final bool showOutline;
   final ArOverlayStylePreset stylePreset;
@@ -1236,6 +1285,7 @@ class _ArControlsPanel extends StatelessWidget {
     required this.opacity,
     required this.locked,
     required this.transparent,
+    required this.transparentLocked,
     required this.showGrid,
     required this.showOutline,
     required this.stylePreset,
@@ -1406,7 +1456,7 @@ class _ArControlsPanel extends StatelessWidget {
                   SwitchListTile(
                     title: Text(l10n.paramTransparentBg),
                     value: transparent,
-                    onChanged: onTransparentChanged,
+                    onChanged: transparentLocked ? null : onTransparentChanged,
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                   ),

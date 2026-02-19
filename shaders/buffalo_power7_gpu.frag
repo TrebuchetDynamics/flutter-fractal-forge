@@ -2,15 +2,12 @@
 
 precision highp float;
 
-// Burning Ship⁶ set: z_{n+1} = (|Re(z)| + i|Im(z)|)^6 + c.
+// Buffalo⁷: z_{n+1} = |Re(z⁷)|+i|Im(z⁷)| + c.
 // Mandelbrot analogue — pixel = c, z₀ = 0.
-// The degree-6 Burning Ship applies the absolute-value fold to both components
-// of z before raising to the sixth power. The resulting parameter space shows
-// six-fold local symmetry with the characteristic ship-bow and crescent cusps
-// of the Burning Ship family at each arm tip. The increased degree compresses
-// the main body and expands the surrounding escape time gradient, revealing
-// richer secondary structures and deeper spiral decorations than lower-degree
-// variants. Smooth coloring uses log₂(6) = log2(6.0).
+// The Buffalo fold applies absolute value to both components of z⁷ after
+// the power. Degree 7 produces seven chiral arms (odd degree, no bilateral
+// symmetry). Each arm contains buffalo-horn curvature at the branch tips.
+// z⁷ = z⁴·z³ via squarings. Smooth coloring: log₂(7).
 // Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;
 uniform vec2  uResolution;
@@ -61,25 +58,19 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
-  // Early-out: z0=0 => z1=c for Burning Ship power variants as well.
-  if (dot(c, c) > bailoutSq) {
-    z = c;
-    der = vec2(1.0, 0.0);
-    it = 0;
-  } else {
-    for (int j = 0; j < MAX_ITERS; j++) {
-      if (j >= target) { it = target; break; }
-      vec2 za  = vec2(abs(z.x), abs(z.y));
-      vec2 za2 = cmul(za, za);
-      vec2 za4 = cmul(za2, za2);
-      vec2 za5 = cmul(za4, za);
-      vec2 za6 = cmul(za4, za2);
-      // Derivative approximation: 6·za⁵·der + 1 (Mandelbrot mode)
-      der = 6.0 * cmul(za5, der) + vec2(1.0, 0.0);
-      z = za6 + c;
-      if (dot(z,z) > bailoutSq) { it = j; break; }
-      it = j + 1;
-    }
+  for (int j = 0; j < MAX_ITERS; j++) {
+    if (j >= target) { it = target; break; }
+    vec2 z2 = cmul(z, z);
+    vec2 z3 = cmul(z2, z);
+    vec2 z4 = cmul(z2, z2);
+    vec2 z6 = cmul(z4, z2);
+    vec2 z7 = cmul(z4, z3);
+    // Derivative: 7·z⁶·der + 1 (Mandelbrot mode; fold approx.)
+    der = 7.0 * cmul(z6, der) + vec2(1.0, 0.0);
+    // Buffalo fold: |Re(z⁷)| + i|Im(z⁷)|
+    z = vec2(abs(z7.x), abs(z7.y)) + c;
+    if (dot(z,z) > bailoutSq) { it = j; break; }
+    it = j + 1;
   }
 
   if (it >= target) {
@@ -87,9 +78,8 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
-  float logZn = 0.5 * log(mag2);
-  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(6.0);
+  float mag2      = max(1e-12, dot(z, z));
+  float smoothVal = float(it) - log2(log2(mag2)) / log2(7.0);
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);

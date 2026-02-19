@@ -57,18 +57,25 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
-  for (int j = 0; j < MAX_ITERS; j++) {
-    if (j >= target) { it = target; break; }
-    // Conjugate z, then raise to power 4
-    vec2 zc  = vec2(z.x, -z.y);   // conj(z)
-    vec2 zc2 = cmul(zc, zc);       // conj(z)^2
-    vec2 zc4 = cmul(zc2, zc2);     // conj(z)^4
-    // Derivative for normal map (anti-holomorphic: d/dc̄ is used, approximated)
-    vec2 zc3 = cmul(zc2, zc);
-    der = 4.0 * cmul(zc3, vec2(der.x, -der.y)) + vec2(1.0, 0.0);
-    z = zc4 + c;
-    if (dot(z,z) > bailoutSq) { it = j; break; }
-    it = j + 1;
+  // Early-out: z0=0 => z1=c for conjugate-power Mandelbrot variants too.
+  if (dot(c, c) > bailoutSq) {
+    z = c;
+    der = vec2(1.0, 0.0);
+    it = 0;
+  } else {
+    for (int j = 0; j < MAX_ITERS; j++) {
+      if (j >= target) { it = target; break; }
+      // Conjugate z, then raise to power 4
+      vec2 zc  = vec2(z.x, -z.y);   // conj(z)
+      vec2 zc2 = cmul(zc, zc);       // conj(z)^2
+      vec2 zc4 = cmul(zc2, zc2);     // conj(z)^4
+      // Derivative for normal map (anti-holomorphic: d/dc̄ is used, approximated)
+      vec2 zc3 = cmul(zc2, zc);
+      der = 4.0 * cmul(zc3, vec2(der.x, -der.y)) + vec2(1.0, 0.0);
+      z = zc4 + c;
+      if (dot(z,z) > bailoutSq) { it = j; break; }
+      it = j + 1;
+    }
   }
 
   if (it >= target) {
@@ -76,8 +83,9 @@ void main() {
     return;
   }
 
-  float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / log2(4.0);
+  float mag2 = max(1e-12, dot(z, z));
+  float logZn = 0.5 * log(mag2);
+  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(4.0);
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);

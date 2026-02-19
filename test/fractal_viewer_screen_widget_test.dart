@@ -3,21 +3,40 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/features/ar/ar_overlay_screen.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:permission_handler_platform_interface/permission_handler_platform_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
+
+class _DenyAllPermissions extends PermissionHandlerPlatform {
+  @override
+  Future<Map<Permission, PermissionStatus>> requestPermissions(
+      List<Permission> permissions) async {
+    return {
+      for (final permission in permissions) permission: PermissionStatus.denied,
+    };
+  }
+
+  @override
+  Future<PermissionStatus> checkPermissionStatus(Permission permission) async {
+    return PermissionStatus.denied;
+  }
+}
 
 void main() {
   group('FractalViewerScreen', () {
     late ModuleRegistry registry;
     late FractalController controller;
     late PresetStore presetStore;
+    late ArQualityStore arQualityStore;
     late RendererSettingsService rendererSettings;
     late HistoryStore historyStore;
     late HistoryProvider historyProvider;
@@ -25,9 +44,11 @@ void main() {
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
       SharedPreferences.setMockInitialValues({});
+      PermissionHandlerPlatform.instance = _DenyAllPermissions();
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
+      arQualityStore = await ArQualityStore.create();
       rendererSettings =
           RendererSettingsService(await SharedPreferences.getInstance());
       historyStore = await HistoryStore.create();
@@ -46,6 +67,7 @@ void main() {
           Provider.value(value: registry),
           ChangeNotifierProvider.value(value: controller),
           Provider.value(value: presetStore),
+          Provider.value(value: arQualityStore),
           ChangeNotifierProvider.value(value: rendererSettings),
           ChangeNotifierProvider.value(value: historyProvider),
         ],
@@ -120,6 +142,19 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.camera_rounded), findsOneWidget);
+    });
+
+    testWidgets('AR launch falls back to overlay screen safely',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(Icons.camera_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ArOverlayScreen), findsOneWidget);
+      expect(find.byIcon(Icons.no_photography), findsOneWidget);
+      expect(tester.takeException(), isNull);
     });
 
     testWidgets('tapping bookmark button saves a preset and shows snackbar',

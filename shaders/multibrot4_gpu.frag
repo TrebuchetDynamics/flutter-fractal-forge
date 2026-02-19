@@ -69,18 +69,25 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
-  for (int j = 0; j < MAX_ITERS; j++) {
-    if (j >= target) { it = target; break; }
+  // Early-out: z0=0 and z1=c for z -> z^d + c.
+  if (dot(c, c) > bailoutSq) {
+    z = c;
+    der = vec2(1.0, 0.0);
+    it = 0;
+  } else {
+    for (int j = 0; j < MAX_ITERS; j++) {
+      if (j >= target) { it = target; break; }
 
-    vec2 z2 = cmul(z, z);
-    vec2 z3 = cmul(z2, z);
-    // Derivative update using z^3: der = 4*z^3*der + 1
-    der = 4.0 * cmul(z3, der) + vec2(1.0, 0.0);
-    vec2 z4 = cmul(z2, z2);
-    z = z4 + c;
+      vec2 z2 = cmul(z, z);
+      vec2 z3 = cmul(z2, z);
+      // Derivative update using z^3: der = 4*z^3*der + 1
+      der = 4.0 * cmul(z3, der) + vec2(1.0, 0.0);
+      vec2 z4 = cmul(z2, z2);
+      z = z4 + c;
 
-    if (dot(z, z) > bailoutSq) { it = j; break; }
-    it = j + 1;
+      if (dot(z, z) > bailoutSq) { it = j; break; }
+      it = j + 1;
+    }
   }
 
   if (it >= target) {
@@ -88,8 +95,9 @@ void main() {
     return;
   }
 
-  float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / log2(4.0);
+  float mag2 = max(1e-12, dot(z, z));
+  float logZn = 0.5 * log(mag2);
+  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(4.0);
 
   // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
   if (schemeInt >= 50) {

@@ -35,11 +35,25 @@ void main() {
 
     test('includes timestamp for uniqueness', () {
       final name1 = service.generateFilename(format: ExportFormat.png);
-      final _  = service.generateFilename(format: ExportFormat.png);
+      final _ = service.generateFilename(format: ExportFormat.png);
       // Both should have numeric timestamps; may be equal if called in same ms
       final ts1 = RegExp(r'(\d+)\.png$').firstMatch(name1)?.group(1);
       expect(ts1, isNotNull);
       expect(int.tryParse(ts1!), isNotNull);
+    });
+  });
+
+  group('ExportService.resolveEffectiveFormat', () {
+    test('keeps PNG and JPG unchanged', () {
+      expect(
+          service.resolveEffectiveFormat(ExportFormat.png), ExportFormat.png);
+      expect(
+          service.resolveEffectiveFormat(ExportFormat.jpg), ExportFormat.jpg);
+    });
+
+    test('falls back WebP to PNG until native WebP encoding exists', () {
+      expect(
+          service.resolveEffectiveFormat(ExportFormat.webp), ExportFormat.png);
     });
   });
 
@@ -64,7 +78,8 @@ void main() {
     });
 
     test('homeOptimized returns valid PNG with different bytes', () {
-      final result = service.applyWallpaperStyle(testPng, style: 'homeOptimized');
+      final result =
+          service.applyWallpaperStyle(testPng, style: 'homeOptimized');
       // Should be a valid PNG (starts with PNG signature).
       expect(result.length, greaterThan(8));
       expect(result[0], 0x89); // PNG signature byte
@@ -77,7 +92,8 @@ void main() {
     });
 
     test('lockOptimized returns valid PNG', () {
-      final result = service.applyWallpaperStyle(testPng, style: 'lockOptimized');
+      final result =
+          service.applyWallpaperStyle(testPng, style: 'lockOptimized');
       final decoded = img.decodePng(result);
       expect(decoded, isNotNull);
       expect(decoded!.width, 4);
@@ -86,7 +102,8 @@ void main() {
 
     test('handles invalid PNG gracefully', () {
       final garbage = Uint8List.fromList([1, 2, 3, 4]);
-      final result = service.applyWallpaperStyle(garbage, style: 'homeOptimized');
+      final result =
+          service.applyWallpaperStyle(garbage, style: 'homeOptimized');
       // Should return original bytes on decode failure.
       expect(result, same(garbage));
     });
@@ -186,6 +203,16 @@ void main() {
       );
       // 800/400 = 2.0
       expect(opts.calculatePixelRatio(400, 300), 2.0);
+    });
+
+    test('calculatePixelRatio uses larger custom axis ratio', () {
+      const opts = ExportOptions(
+        resolution: ExportResolution.custom,
+        customWidth: 600,
+        customHeight: 1600,
+      );
+      // width ratio = 1.0, height ratio = 4.0
+      expect(opts.calculatePixelRatio(600, 400), 4.0);
     });
 
     test('calculatePixelRatio defaults for screen resolution', () {

@@ -184,7 +184,7 @@ Uint8List _renderRect({
   final totalSamples = samplesPerAxis * samplesPerAxis;
 
   final juliaC = Vector2(juliaCX, juliaCY);
-  final formula = cpuFormulasByModuleId[moduleId] ?? cpuFormulasByModuleId['mandelbrot']!;
+  final formula = cpuFormulaForModuleId(moduleId);
 
   for (int ty = 0; ty < h; ty++) {
     final y = y0 + ty;

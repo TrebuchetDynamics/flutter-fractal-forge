@@ -18,6 +18,8 @@ class CompareRenderer extends StatelessWidget {
   final VoidCallback onOpenPresets;
   final VoidCallback onOpenExport;
   final VoidCallback? onUserInteraction;
+  final VoidCallback? onUserInteractionStart;
+  final VoidCallback? onUserInteractionEnd;
   final bool freezeFrame;
 
   const CompareRenderer({
@@ -34,6 +36,8 @@ class CompareRenderer extends StatelessWidget {
     required this.onOpenPresets,
     required this.onOpenExport,
     this.onUserInteraction,
+    this.onUserInteractionStart,
+    this.onUserInteractionEnd,
     required this.freezeFrame,
   });
 
@@ -55,6 +59,8 @@ class CompareRenderer extends StatelessWidget {
           onOpenPresets: onOpenPresets,
           onOpenExport: onOpenExport,
           onUserInteraction: onUserInteraction,
+          onUserInteractionStart: onUserInteractionStart,
+          onUserInteractionEnd: onUserInteractionEnd,
         ),
       ),
     );
@@ -73,6 +79,8 @@ class CompareRenderer extends StatelessWidget {
           onOpenPresets: onOpenPresets,
           onOpenExport: onOpenExport,
           onUserInteraction: onUserInteraction,
+          onUserInteractionStart: onUserInteractionStart,
+          onUserInteractionEnd: onUserInteractionEnd,
         ),
       ),
     );

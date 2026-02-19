@@ -61,20 +61,28 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
-  for (int j = 0; j < MAX_ITERS; j++) {
-    if (j >= target) { it = target; break; }
+  // Early-out: for z0=0 in z -> z^d + c, first iterate is z1=c.
+  // If |c| already exceeds bailout, we can skip the loop safely.
+  if (dot(c, c) > bailoutSq) {
+    z = c;
+    der = vec2(1.0, 0.0);
+    it = 0;
+  } else {
+    for (int j = 0; j < MAX_ITERS; j++) {
+      if (j >= target) { it = target; break; }
 
-    // z^3 + c  (Multibrot d=3)
-    float x2 = z.x*z.x;
-    float y2 = z.y*z.y;
-    // Derivative update using z^2: der = 3*z^2*der + 1
-    vec2 z2v = vec2(x2 - y2, 2.0*z.x*z.y);
-    der = 3.0 * vec2(z2v.x*der.x - z2v.y*der.y,
-                     z2v.x*der.y + z2v.y*der.x) + vec2(1.0, 0.0);
-    z = vec2(z.x*(x2 - 3.0*y2) + c.x, z.y*(3.0*x2 - y2) + c.y);
+      // z^3 + c  (Multibrot d=3)
+      float x2 = z.x*z.x;
+      float y2 = z.y*z.y;
+      // Derivative update using z^2: der = 3*z^2*der + 1
+      vec2 z2v = vec2(x2 - y2, 2.0*z.x*z.y);
+      der = 3.0 * vec2(z2v.x*der.x - z2v.y*der.y,
+                       z2v.x*der.y + z2v.y*der.x) + vec2(1.0, 0.0);
+      z = vec2(z.x*(x2 - 3.0*y2) + c.x, z.y*(3.0*x2 - y2) + c.y);
 
-    if (dot(z, z) > bailoutSq) { it = j; break; }
-    it = j + 1;
+      if (dot(z, z) > bailoutSq) { it = j; break; }
+      it = j + 1;
+    }
   }
 
   if (it >= target) {
@@ -82,8 +90,11 @@ void main() {
     return;
   }
 
-  float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / log2(3.0);
+  float mag2 = max(1e-12, dot(z, z));
+  // Continuous potential for z -> z^p + c (Douady/Hubbard smooth coloring):
+  // nu = n + 1 - log(log|z_n|) / log(p).  Here |z| = sqrt(mag2).
+  float logZn = 0.5 * log(mag2);
+  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(3.0);
 
   // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
   if (schemeInt >= 50) {

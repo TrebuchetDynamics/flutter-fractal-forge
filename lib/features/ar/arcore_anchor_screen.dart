@@ -38,6 +38,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
   bool _planeDetected = false;
   bool _isPlacing = false;
   bool _placementLocked = false;
+  bool _planeRendererVisible = true;
   int _planeCount = 0;
 
   @override
@@ -107,7 +108,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
                     ),
                     IconButton(
                       tooltip: 'Place again',
-                      onPressed: () {
+                      onPressed: () async {
+                        await _setPlaneRendererVisible(true);
+                        if (!mounted) return;
                         setState(() {
                           _placementLocked = false;
                         });
@@ -173,6 +176,19 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
     );
   }
 
+  Future<void> _setPlaneRendererVisible(bool visible) async {
+    final controller = _controller;
+    if (controller == null) return;
+    if (_planeRendererVisible == visible) return;
+
+    try {
+      await controller.togglePlaneRenderer();
+      _planeRendererVisible = visible;
+    } catch (_) {
+      // Best effort only.
+    }
+  }
+
   void _onArCoreViewCreated(ArCoreController controller) {
     _controller = controller;
     controller.onPlaneDetected = (plane) {
@@ -200,7 +216,8 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
   Future<void> _onPlaneTap(List<ArCoreHitTestResult> hits) async {
     if (_placementLocked || _isPlacing || hits.isEmpty) return;
 
-    final hit = hits.first;
+    // Prefer the closest hit to reduce accidental distant placement.
+    final hit = hits.reduce((a, b) => a.distance <= b.distance ? a : b);
     final controller = _controller;
     if (controller == null) return;
 
@@ -219,7 +236,8 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
 
       final shape = ArCoreCube(
         materials: [material],
-        size: vector.Vector3(0.45, 0.45, 0.01),
+        // Slightly thicker plane improves visibility and avoids z-fighting.
+        size: vector.Vector3(0.45, 0.45, 0.015),
       );
 
       final nodeName = 'fractal_${DateTime.now().millisecondsSinceEpoch}';
@@ -242,15 +260,22 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
         h.w * qc - h.x * qs, // rw = w1·w2 - x1·x2
       );
 
+      // Lift slightly above detected plane to avoid depth fighting.
+      final anchoredPosition = vector.Vector3.copy(hit.pose.translation)
+        ..y += 0.004;
+
       final node = ArCoreNode(
         name: nodeName,
         shape: shape,
-        position: hit.pose.translation,
+        position: anchoredPosition,
         rotation: combinedRot,
       );
 
       await controller.addArCoreNodeWithAnchor(node);
       _placedNodeNames.add(nodeName);
+
+      // Hide plane renderer after successful placement so anchor reads stable.
+      await _setPlaneRendererVisible(false);
 
       if (!mounted) return;
       setState(() {
@@ -290,6 +315,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
     }
 
     _placedNodeNames.clear();
+    await _setPlaneRendererVisible(true);
     if (!mounted) return;
     setState(() {
       _placementLocked = false;

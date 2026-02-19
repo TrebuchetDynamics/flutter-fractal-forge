@@ -49,6 +49,9 @@ final Map<String, CpuIterator> cpuIteratorsByModuleId = <String, CpuIterator>{
   'burning_ship': _iterBurningShip,
   'tricorn': _iterTricorn,
   'julia': _iterJulia,
+  'multibrot4': _iterMultibrot4,
+  'multibrot5': _iterMultibrot5,
+  'phoenix': _iterPhoenix,
 
   // Start with the 30 modules that were GRADIENT_ONLY in the audit.
   // For many of these modules the shader/CPU path is not a classic escape-time
@@ -93,11 +96,12 @@ CpuIterator proxyIteratorForModule(String moduleId) {
 CpuIterator _proxyFromColor(String moduleId) {
   final seed = _fnv1a32(moduleId);
   return (x, y, iterations, bailout, juliaC) {
-    final f = cpuFormulasByModuleId[moduleId] ?? cpuFormulasByModuleId['mandelbrot']!;
+    final f = cpuFormulaForModuleId(moduleId);
     final c = f(x, y, iterations, bailout, juliaC);
 
     // Proxy scalar from color.
-    final lum = (0.2126 * c.$1 + 0.7152 * c.$2 + 0.0722 * c.$3).clamp(0.0, 255.0);
+    final lum =
+        (0.2126 * c.$1 + 0.7152 * c.$2 + 0.0722 * c.$3).clamp(0.0, 255.0);
     var it = ((lum / 255.0) * iterations).floor().clamp(0, iterations);
 
     // If the CPU formula returns a very flat color field (common for "synthetic"
@@ -108,7 +112,8 @@ CpuIterator _proxyFromColor(String moduleId) {
     final h = _mix32(seed ^ (xi * 374761393) ^ (yi * 668265263));
     it = (it ^ (h & 0x0F)).clamp(0, iterations);
 
-    return CpuIteratorResult(it: it, smoothIt: it.toDouble(), escaped: it < iterations);
+    return CpuIteratorResult(
+        it: it, smoothIt: it.toDouble(), escaped: it < iterations);
   };
 }
 
@@ -137,7 +142,8 @@ CpuIteratorResult _iterMandelbrot(
     zy = ny;
     it++;
   }
-  return CpuIteratorResult(it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
 }
 
 CpuIteratorResult _iterBurningShip(
@@ -167,7 +173,8 @@ CpuIteratorResult _iterBurningShip(
     zy = ny;
     it++;
   }
-  return CpuIteratorResult(it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
 }
 
 CpuIteratorResult _iterTricorn(
@@ -195,7 +202,8 @@ CpuIteratorResult _iterTricorn(
     zy = ny;
     it++;
   }
-  return CpuIteratorResult(it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
 }
 
 CpuIteratorResult _iterJulia(
@@ -223,7 +231,115 @@ CpuIteratorResult _iterJulia(
     zy = ny;
     it++;
   }
-  return CpuIteratorResult(it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+}
+
+CpuIteratorResult _iterMultibrot4(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  double zx = 0.0;
+  double zy = 0.0;
+  final bailout2 = bailout * bailout;
+  int it = 0;
+
+  while (it < iterations) {
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bailout2) {
+      final smooth = _smoothEscape(it: it, mag2: mag2, bailout: bailout);
+      return CpuIteratorResult(it: it, smoothIt: smooth, escaped: true);
+    }
+
+    final z2x = zx * zx - zy * zy;
+    final z2y = 2.0 * zx * zy;
+    final z4x = z2x * z2x - z2y * z2y;
+    final z4y = 2.0 * z2x * z2y;
+    zx = z4x + x;
+    zy = z4y + y;
+    it++;
+  }
+
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+}
+
+CpuIteratorResult _iterMultibrot5(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  double zx = 0.0;
+  double zy = 0.0;
+  final bailout2 = bailout * bailout;
+  int it = 0;
+
+  while (it < iterations) {
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bailout2) {
+      final smooth = _smoothEscape(it: it, mag2: mag2, bailout: bailout);
+      return CpuIteratorResult(it: it, smoothIt: smooth, escaped: true);
+    }
+
+    final z2x = zx * zx - zy * zy;
+    final z2y = 2.0 * zx * zy;
+    final z4x = z2x * z2x - z2y * z2y;
+    final z4y = 2.0 * z2x * z2y;
+    final z5x = z4x * zx - z4y * zy;
+    final z5y = z4x * zy + z4y * zx;
+    zx = z5x + x;
+    zy = z5y + y;
+    it++;
+  }
+
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+}
+
+CpuIteratorResult _iterPhoenix(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  // Stable CPU default for p matches phoenix module default.
+  const p = -0.5;
+
+  double zx = x;
+  double zy = y;
+  double zPrevX = 0.0;
+  double zPrevY = 0.0;
+
+  final cx = juliaC.x;
+  final cy = juliaC.y;
+  final bailout2 = bailout * bailout;
+
+  int it = 0;
+  while (it < iterations) {
+    final nx = zx * zx - zy * zy + cx + p * zPrevX;
+    final ny = 2.0 * zx * zy + cy + p * zPrevY;
+
+    zPrevX = zx;
+    zPrevY = zy;
+    zx = nx;
+    zy = ny;
+
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bailout2) {
+      final smooth = _smoothEscape(it: it, mag2: mag2, bailout: bailout);
+      return CpuIteratorResult(it: it, smoothIt: smooth, escaped: true);
+    }
+    it++;
+  }
+
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
 }
 
 CpuIteratorResult _iterDeltoid(
@@ -258,7 +374,8 @@ CpuIteratorResult _iterDeltoid(
     it++;
   }
 
-  return CpuIteratorResult(it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
 }
 
 CpuIteratorResult _iterEisenstein(
@@ -315,7 +432,8 @@ CpuIteratorResult _iterEisenstein(
     it++;
   }
 
-  return CpuIteratorResult(it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
 }
 
 int _fnv1a32(String s) {
@@ -337,10 +455,12 @@ int _mix32(int x) {
   return x & 0xFFFFFFFF;
 }
 
-double _smoothEscape({required int it, required double mag2, required double bailout}) {
+double _smoothEscape(
+    {required int it, required double mag2, required double bailout}) {
   // Standard continuous potential smoothing.
   // nu = log(log(|z|))/log(2)
   final r = math.sqrt(mag2);
-  final nu = math.log(math.max(1e-9, math.log(math.max(r, bailout)))) / math.ln2;
+  final nu =
+      math.log(math.max(1e-9, math.log(math.max(r, bailout)))) / math.ln2;
   return it + 1.0 - nu;
 }

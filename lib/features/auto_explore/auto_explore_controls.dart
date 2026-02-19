@@ -190,25 +190,18 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                   ),
                 ),
               const SizedBox(height: AppSpacing.md),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Mode', style: AppTypography.labelLarge),
-                  DropdownButton<AutoExploreMode>(
-                    value: svc.mode,
-                    dropdownColor: AppColors.surfaceVariant,
-                    onChanged: (v) {
-                      if (v == null) return;
-                      svc.mode = v;
-                    },
-                    items: const [
-                      DropdownMenuItem(
-                          value: AutoExploreMode.wander, child: Text('Wander')),
-                      DropdownMenuItem(
-                          value: AutoExploreMode.spiral, child: Text('Spiral')),
-                    ],
-                  ),
-                ],
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.04),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColors.border.withOpacity(0.35)),
+                ),
+                child: const Text(
+                  'Auto mode: Zoom-only (no auto-pan). You can pan freely.',
+                  style: TextStyle(fontSize: 12, color: Colors.white70),
+                ),
               ),
               const SizedBox(height: AppSpacing.md),
               Row(
