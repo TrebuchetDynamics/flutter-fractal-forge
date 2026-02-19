@@ -1,7 +1,7 @@
 # Play Store Listing Metadata — Flutter Fractals
 
 **Date:** 2026-02-13
-**Package:** com.fractals.flutter_fractals
+**Package:** com.trebuchetdynamics.fractal.forge
 **Developer:** ComplexChaos
 
 ---
