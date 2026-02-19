@@ -403,3 +403,7 @@ flutter:
     - shaders/tricorn_power8_julia_gpu.frag
     - shaders/perpendicular_bs_power4_gpu.frag
     - shaders/perpendicular_bs_power5_gpu.frag
+    - shaders/mandelpinski_gpu.frag
+    - shaders/blaschke_gpu.frag
+    - shaders/fatou_exp_gpu.frag
+    - shaders/sin_z2_gpu.frag
