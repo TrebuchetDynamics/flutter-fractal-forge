@@ -26,7 +26,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.fractals.flutter_fractals"
+    namespace = "com.trebuchetdynamics.fractal.forge"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
@@ -40,7 +40,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.fractals.flutter_fractals"
+        applicationId = "com.trebuchetdynamics.fractal.forge"
         // ARCore requirement baseline: API 24+
         minSdk = maxOf(flutter.minSdkVersion, 24)
         targetSdk = 34
@@ -66,8 +66,9 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            isMinifyEnabled = true
-            isShrinkResources = true
+            // Keep disabled while ARCore plugin is legacy/fragile under R8.
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -80,7 +81,19 @@ flutter {
     source = "../.."
 }
 
+// Force ARCore to 1.44.0+ so its InstallService sets RECEIVER_NOT_EXPORTED,
+// which Android 14 (API 34) requires.  arcore_flutter_plugin 0.1.0 bundles
+// the ancient 1.13.0 SDK that crashes with a SecurityException on Android 14.
+configurations.all {
+    resolutionStrategy {
+        force("com.google.ar:core:1.44.0")
+    }
+}
+
 dependencies {
     // Required by Flutter engine when deferred components / split install classes are referenced.
     implementation("com.google.android.play:core:1.10.3")
+    // Belt-and-suspenders: explicitly request the fixed ARCore version so Gradle's
+    // conflict resolution picks it up even without the resolutionStrategy above.
+    implementation("com.google.ar:core:1.44.0")
 }
