@@ -1,0 +1,197 @@
+import 'package:flutter_fractals/core/models/fractal_parameter.dart';
+import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/param_reader.dart';
+import 'package:vector_math/vector_math.dart';
+
+/// Declarative config for a standard 3D ray-marched fractal.
+///
+/// Adding a new ray-marched 3D fractal = one [Raymarched3DConfig] + one .frag shader.
+/// No separate Dart module file needed.
+///
+/// All 3D ray-marched fractals share this uniform layout (matching mandelbulb.frag):
+///   float 0:  uTime
+///   float 1-2: uResolution (vec2)
+///   float 3-4: uMousePos (vec2, unused placeholder)
+///   float 5:  uZoom
+///   float 6-8: uRotation (vec3)
+///   float 9:  uPower
+///   float 10: uIterations
+///   float 11: uSteps
+///   float 12: uBailout
+///   float 13: uColorScheme
+///   float 14: uFractalType
+///   float 15: uTransparentBg
+class Raymarched3DConfig {
+  final String id;
+  final String name;
+  final ModuleNameBuilder? displayName;
+  final String shaderAsset;
+  final String category;
+
+  // Default parameter values
+  final double defaultPower;
+  final double minPower;
+  final double maxPower;
+  final String powerLabel;
+  final double defaultIterations;
+  final double maxIterations;
+  final double defaultSteps;
+  final double defaultBailout;
+  final int defaultColorScheme;
+  final int maxColorScheme;
+  final int defaultFractalType;
+  final int maxFractalType;
+  final List<FractalParamOption> fractalTypeOptions;
+  final List<FractalPreset> extraPresets;
+
+  const Raymarched3DConfig({
+    required this.id,
+    required this.name,
+    required this.shaderAsset,
+    this.displayName,
+    this.category = '3D Fractals',
+    this.defaultPower = 8.0,
+    this.minPower = 2.0,
+    this.maxPower = 12.0,
+    this.powerLabel = 'Power',
+    this.defaultIterations = 50,
+    this.maxIterations = 100,
+    this.defaultSteps = 120,
+    this.defaultBailout = 2.0,
+    this.defaultColorScheme = 0,
+    this.maxColorScheme = 3,
+    this.defaultFractalType = 0,
+    this.maxFractalType = 0,
+    this.fractalTypeOptions = const [],
+    this.extraPresets = const [],
+  });
+}
+
+/// Builds a [FractalModule] from a declarative [Raymarched3DConfig].
+FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
+  final parameters = [
+    FractalParameter(
+      id: 'power',
+      label: (_) => config.powerLabel,
+      type: FractalParamType.float,
+      min: config.minPower,
+      max: config.maxPower,
+      step: 0.1,
+      defaultValue: config.defaultPower,
+    ),
+    FractalParameter(
+      id: 'iterations',
+      label: (l10n) => l10n.paramIterations,
+      type: FractalParamType.integer,
+      min: 5,
+      max: config.maxIterations,
+      step: 1,
+      defaultValue: config.defaultIterations,
+    ),
+    FractalParameter(
+      id: 'steps',
+      label: (l10n) => l10n.paramSteps,
+      type: FractalParamType.integer,
+      min: 20,
+      max: 200,
+      step: 1,
+      defaultValue: config.defaultSteps,
+    ),
+    FractalParameter(
+      id: 'bailout',
+      label: (l10n) => l10n.paramBailout,
+      type: FractalParamType.float,
+      min: 1.0,
+      max: 8.0,
+      step: 0.1,
+      defaultValue: config.defaultBailout,
+    ),
+    FractalParameter(
+      id: 'colorScheme',
+      label: (l10n) => l10n.paramColorScheme,
+      type: FractalParamType.enumeration,
+      min: 0,
+      max: config.maxColorScheme.toDouble(),
+      step: 1,
+      defaultValue: config.defaultColorScheme.toDouble(),
+      options: [
+        FractalParamOption(value: 0, label: (l10n) => l10n.colorFire),
+        FractalParamOption(value: 1, label: (l10n) => l10n.colorOcean),
+        FractalParamOption(value: 2, label: (l10n) => l10n.colorPsychedelic),
+        FractalParamOption(value: 3, label: (l10n) => l10n.colorGrayscale),
+      ],
+    ),
+    if (config.maxFractalType > 0)
+      FractalParameter(
+        id: 'fractalType',
+        label: (_) => 'Variant',
+        type: FractalParamType.enumeration,
+        min: 0,
+        max: config.maxFractalType.toDouble(),
+        step: 1,
+        defaultValue: config.defaultFractalType.toDouble(),
+        options: config.fractalTypeOptions,
+      ),
+  ];
+
+  final defaultParams = <String, Object>{
+    'power': config.defaultPower,
+    'iterations': config.defaultIterations,
+    'steps': config.defaultSteps,
+    'bailout': config.defaultBailout,
+    'colorScheme': config.defaultColorScheme,
+    if (config.maxFractalType > 0) 'fractalType': config.defaultFractalType,
+  };
+
+  final defaultPreset = FractalPreset(
+    id: '${config.id}-default',
+    moduleId: config.id,
+    name: 'Default',
+    params: defaultParams,
+    view: FractalViewState(
+      pan: Vector2.zero(),
+      zoom: 1.0,
+      rotation: Vector3(0.3, -0.4, 0.0),
+    ),
+    createdAt: DateTime.utc(2025, 1, 1),
+    isBuiltIn: true,
+  );
+
+  return FractalModule(
+    id: config.id,
+    displayName: config.displayName ?? ((_) => config.name),
+    dimension: FractalDimension.threeD,
+    shaderAsset: config.shaderAsset,
+    parameters: parameters,
+    defaultPreset: defaultPreset,
+    builtInPresets: [
+      defaultPreset.copyWith(id: '${config.id}-classic', name: 'Classic'),
+      ...config.extraPresets,
+    ],
+    setUniforms: (shader, state, size, time) {
+      shader.setFloat(0, time);
+      shader.setFloat(1, size.width);
+      shader.setFloat(2, size.height);
+      shader.setFloat(3, 0.0); // uMousePos.x (unused)
+      shader.setFloat(4, 0.0); // uMousePos.y (unused)
+      shader.setFloat(5, state.view.zoom);
+      shader.setFloat(6, state.view.rotation.x);
+      shader.setFloat(7, state.view.rotation.y);
+      shader.setFloat(8, state.view.rotation.z);
+      shader.setFloat(9, readDouble(state.params, 'power', config.defaultPower));
+      shader.setFloat(
+          10, readDouble(state.params, 'iterations', config.defaultIterations));
+      shader.setFloat(
+          11, readDouble(state.params, 'steps', config.defaultSteps));
+      shader.setFloat(
+          12, readDouble(state.params, 'bailout', config.defaultBailout));
+      shader.setFloat(13,
+          readDouble(state.params, 'colorScheme', config.defaultColorScheme.toDouble()));
+      shader.setFloat(14,
+          readDouble(state.params, 'fractalType', config.defaultFractalType.toDouble()));
+      shader.setFloat(15, state.transparentBackground ? 1.0 : 0.0);
+    },
+  );
+}

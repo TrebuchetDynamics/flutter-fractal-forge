@@ -1,4 +1,6 @@
+import 'dart:io' show Platform;
 import 'dart:math' as math;
+import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/features/ar/arcore_anchor_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'dart:developer' as dev;
 
@@ -608,17 +611,15 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                               child: Transform(
                                 alignment: Alignment.center,
                                 transform: Matrix4.identity()
-                                  ..translateByDouble(
+                                  ..translate(
                                     _overlayOffset.dx,
                                     _overlayOffset.dy,
                                     0.0,
-                                    1.0,
                                   )
                                   ..rotateZ(_overlayRotation)
-                                  ..scaleByDouble(
+                                  ..scale(
                                     _overlayScale,
                                     _overlayScale,
-                                    1.0,
                                     1.0,
                                   ),
                                 child: SizedBox(
@@ -770,6 +771,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
             onExportOverlay: _exporting ? null : () => _exportOverlay(context),
             onExportBaked: _exporting ? null : () => _exportBaked(context),
             onExportVideo: _exporting ? null : () => _exportVideo(context),
+            onSwitchToArCore: _exporting ? null : _switchToArCore,
           ),
         ),
         if (_exporting)
@@ -989,6 +991,55 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         });
       }
     }
+  }
+
+  Future<void> _switchToArCore() async {
+    final controller = context.read<FractalController>();
+
+    // Check ARCore availability
+    final supported = await ArCoreAnchorScreen.isSupportedOnDevice();
+    if (!supported) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('AR surface detection is not available on this device'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    // Capture current fractal as texture
+    Uint8List textureBytes;
+    try {
+      textureBytes = await const ExportService().capturePng(
+        _overlayKey,
+        pixelRatio: 1.5,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not capture fractal: $e'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    if (!mounted) return;
+
+    // Replace current route with ARCore screen
+    await Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => ChangeNotifierProvider.value(
+          value: controller,
+          child: ArCoreAnchorScreen(
+            fractalTextureBytes: textureBytes,
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -1279,6 +1330,7 @@ class _ArControlsPanel extends StatelessWidget {
   final VoidCallback? onExportOverlay;
   final VoidCallback? onExportBaked;
   final VoidCallback? onExportVideo;
+  final VoidCallback? onSwitchToArCore;
 
   const _ArControlsPanel({
     required this.collapsed,
@@ -1306,6 +1358,7 @@ class _ArControlsPanel extends StatelessWidget {
     required this.onExportOverlay,
     required this.onExportBaked,
     required this.onExportVideo,
+    this.onSwitchToArCore,
   });
 
   @override
@@ -1353,6 +1406,15 @@ class _ArControlsPanel extends StatelessWidget {
                 icon: const Icon(Icons.photo_camera),
                 visualDensity: VisualDensity.compact,
               ),
+              // "Switch to AR Surface Anchoring" button — only on Android
+              if (Platform.isAndroid)
+                IconButton(
+                  tooltip: 'Switch to surface anchoring',
+                  icon: const Icon(Icons.view_in_ar_rounded),
+                  color: Colors.cyanAccent,
+                  onPressed: onSwitchToArCore,
+                  visualDensity: VisualDensity.compact,
+                ),
             ],
           ),
         ),
@@ -1531,6 +1593,19 @@ class _ArControlsPanel extends StatelessWidget {
                   label: Text(l10n.arVideoExport),
                 ),
               ),
+              // "Switch to AR Surface Anchoring" button — only on Android
+              if (Platform.isAndroid) ...[
+                const SizedBox(height: 6),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: onSwitchToArCore,
+                    icon: const Icon(Icons.view_in_ar_rounded,
+                        color: Colors.cyanAccent),
+                    label: const Text('Switch to surface anchoring'),
+                  ),
+                ),
+              ],
             ],
           ),
         ),

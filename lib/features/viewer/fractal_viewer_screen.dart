@@ -494,7 +494,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         MaterialPageRoute(
           builder: (_) => ChangeNotifierProvider.value(
             value: controller,
-            child: ArCoreAnchorScreen(fractalTextureBytes: textureBytes),
+            child: ArCoreAnchorScreen(
+                fractalTextureBytes: textureBytes,
+                fractalName: controller.module.id,
+              ),
           ),
         ),
       );

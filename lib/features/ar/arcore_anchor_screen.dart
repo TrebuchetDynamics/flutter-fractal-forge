@@ -1,26 +1,43 @@
+import 'dart:io';
+import 'dart:math' as math;
 import 'dart:typed_data';
+import 'dart:ui' show ImageFilter;
 
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 
+// ---------------------------------------------------------------------------
+// ArCoreAnchorScreen
+//
+// Full-featured ARCore placement screen with glass-morphism UI, multiple
+// anchor support, pre-placement size control, share/export, and per-node
+// tap-to-remove confirmation.
+// ---------------------------------------------------------------------------
+
 class ArCoreAnchorScreen extends StatefulWidget {
   final Uint8List fractalTextureBytes;
+  final String? fractalName;
 
   const ArCoreAnchorScreen({
     super.key,
     required this.fractalTextureBytes,
+    this.fractalName,
   });
 
+  /// Returns `true` when the device reports ARCore compatibility.
+  ///
+  /// Does NOT call `checkIsArCoreInstalled()` which triggers an install/update
+  /// prompt from a non-AR context in this legacy plugin. We only gate by
+  /// compatibility and let [ArCoreView] handle service flow.
   static Future<bool> isSupportedOnDevice() async {
     try {
       final available = await ArCoreController.checkArCoreAvailability();
-      // Do NOT call checkIsArCoreInstalled() here: that API triggers an
-      // install/update prompt from a non-AR context in this legacy plugin.
-      // We only gate by compatibility and let ArCoreView handle service flow.
       return available == true;
     } catch (_) {
       return false;
@@ -31,23 +48,74 @@ class ArCoreAnchorScreen extends StatefulWidget {
   State<ArCoreAnchorScreen> createState() => _ArCoreAnchorScreenState();
 }
 
-class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
+// ---------------------------------------------------------------------------
+// State
+// ---------------------------------------------------------------------------
+
+class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
+    with TickerProviderStateMixin {
+  // -- ARCore --
   ArCoreController? _controller;
   final List<String> _placedNodeNames = <String>[];
 
   bool _planeDetected = false;
   bool _isPlacing = false;
-  bool _placementLocked = false;
   bool _planeRendererVisible = true;
   int _planeCount = 0;
+
+  // -- Size slider (meters) --
+  double _placementSize = 0.45;
+  static const double _minSize = 0.15;
+  static const double _maxSize = 1.50;
+
+  // -- Scanning reticle animation --
+  late final AnimationController _reticleController;
+
+  // -- Pulsing dot animation for scanning status --
+  late final AnimationController _pulseController;
+
+  // -- Node removal confirmation --
+  String? _pendingRemoveNode;
+
+  // -- Theme constants --
+  static const Color _cyanAccent = Color(0xFF00BCD4);
+
+  @override
+  void initState() {
+    super.initState();
+    _reticleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    )..repeat();
+
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _reticleController.dispose();
+    _pulseController.dispose();
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  // -----------------------------------------------------------------------
+  // Build
+  // -----------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
     final fractalController = context.watch<FractalController>();
+    final displayName = widget.fractalName ?? fractalController.module.id;
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
+          // -- AR camera view --
           ArCoreView(
             onArCoreViewCreated: _onArCoreViewCreated,
             enableTapRecognizer: true,
@@ -55,139 +123,371 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
             enableUpdateListener: true,
             debug: false,
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  _glassButton(
-                    icon: Icons.arrow_back,
-                    tooltip: 'Back',
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _statusChip(
-                      text: _placementLocked
-                          ? 'Anchored — fractal flat on surface'
-                          : (_planeDetected
-                              ? 'Tap surface to place · $_planeCount plane${_planeCount == 1 ? '' : 's'} found'
-                              : 'Scan slowly to detect a flat surface'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            left: 16,
-            right: 16,
-            bottom: 20,
-            child: SafeArea(
-              top: false,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.72),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white24),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        fractalController.module.id,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      tooltip: 'Place again',
-                      onPressed: () async {
-                        await _setPlaneRendererVisible(true);
-                        if (!mounted) return;
-                        setState(() {
-                          _placementLocked = false;
-                        });
-                      },
-                      icon: const Icon(Icons.push_pin_rounded,
-                          color: Colors.white),
-                    ),
-                    IconButton(
-                      tooltip: 'Clear',
-                      onPressed: _clearAllNodes,
-                      icon: const Icon(Icons.delete_outline_rounded,
-                          color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+
+          // -- Scanning reticle (center, fades out once plane found) --
+          if (!_planeDetected) _buildScanningReticle(),
+
+          // -- Top status bar --
+          _buildTopBar(context),
+
+          // -- Bottom controls panel --
+          _buildBottomPanel(context, displayName),
+
+          // -- Node removal confirmation chip --
+          if (_pendingRemoveNode != null)
+            _buildRemoveConfirmationChip(context),
         ],
       ),
     );
   }
 
-  Widget _glassButton({
-    required IconData icon,
-    required String tooltip,
-    required VoidCallback onPressed,
-  }) {
-    return Tooltip(
-      message: tooltip,
-      child: Material(
-        color: Colors.black.withOpacity(0.55),
-        borderRadius: BorderRadius.circular(20),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(20),
-          onTap: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Icon(icon, color: Colors.white),
+  // -----------------------------------------------------------------------
+  // Top status bar
+  // -----------------------------------------------------------------------
+
+  Widget _buildTopBar(BuildContext context) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            children: [
+              // Back button (glass pill)
+              _GlassPill(
+                onTap: () => Navigator.of(context).pop(),
+                child: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              // Status chip (center)
+              Expanded(child: _buildStatusChip()),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _statusChip({required String text}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.55),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white24),
-      ),
-      child: Text(
-        text,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
+  Widget _buildStatusChip() {
+    final int placed = _placedNodeNames.length;
+
+    // Determine state.
+    final _StatusState state;
+    if (placed > 0) {
+      state = _StatusState.placed;
+    } else if (_planeDetected) {
+      state = _StatusState.ready;
+    } else {
+      state = _StatusState.scanning;
+    }
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 320),
+      switchInCurve: Curves.easeOut,
+      switchOutCurve: Curves.easeIn,
+      child: _GlassContainer(
+        key: ValueKey(state),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildStatusIcon(state),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                _statusText(state),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Future<void> _setPlaneRendererVisible(bool visible) async {
-    final controller = _controller;
-    if (controller == null) return;
-    if (_planeRendererVisible == visible) return;
-
-    try {
-      await controller.togglePlaneRenderer();
-      _planeRendererVisible = visible;
-    } catch (_) {
-      // Best effort only.
+  Widget _buildStatusIcon(_StatusState state) {
+    switch (state) {
+      case _StatusState.scanning:
+        // Pulsing cyan dot
+        return AnimatedBuilder(
+          animation: _pulseController,
+          builder: (_, __) {
+            final opacity = 0.4 + 0.6 * _pulseController.value;
+            return Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _cyanAccent.withValues(alpha: opacity),
+              ),
+            );
+          },
+        );
+      case _StatusState.ready:
+        return const Icon(
+          Icons.check_circle_rounded,
+          color: _cyanAccent,
+          size: 16,
+        );
+      case _StatusState.placed:
+        return const Icon(
+          Icons.push_pin_rounded,
+          color: _cyanAccent,
+          size: 16,
+        );
     }
   }
+
+  String _statusText(_StatusState state) {
+    switch (state) {
+      case _StatusState.scanning:
+        return 'Scanning for surfaces...';
+      case _StatusState.ready:
+        final plural = _planeCount == 1 ? '' : 's';
+        return 'Tap a surface to place \u00B7 $_planeCount plane$plural found';
+      case _StatusState.placed:
+        final n = _placedNodeNames.length;
+        final plural = n == 1 ? '' : 's';
+        return '$n fractal$plural placed \u00B7 Tap to add more';
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Scanning reticle (animated, center)
+  // -----------------------------------------------------------------------
+
+  Widget _buildScanningReticle() {
+    return Center(
+      child: AnimatedOpacity(
+        opacity: _planeDetected ? 0.0 : 1.0,
+        duration: const Duration(milliseconds: 600),
+        child: AnimatedBuilder(
+          animation: _reticleController,
+          builder: (_, __) {
+            return Transform.rotate(
+              angle: _reticleController.value * 2 * math.pi,
+              child: CustomPaint(
+                size: const Size(100, 100),
+                painter: _DashedCirclePainter(
+                  color: _cyanAccent.withValues(alpha: 0.6),
+                  strokeWidth: 2.0,
+                  dashCount: 24,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Bottom controls panel
+  // -----------------------------------------------------------------------
+
+  Widget _buildBottomPanel(BuildContext context, String displayName) {
+    return Positioned(
+      left: 12,
+      right: 12,
+      bottom: 0,
+      child: SafeArea(
+        top: false,
+        child: _GlassContainer(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Row 1: Fractal name
+              Row(
+                children: [
+                  const Icon(
+                    Icons.auto_awesome,
+                    color: _cyanAccent,
+                    size: 18,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      displayName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // Row 2: Size slider
+              Row(
+                children: [
+                  Text(
+                    'Size: ${_placementSize.toStringAsFixed(2)}m',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.85),
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: SliderTheme(
+                      data: SliderThemeData(
+                        activeTrackColor: _cyanAccent,
+                        inactiveTrackColor:
+                            Colors.white.withValues(alpha: 0.15),
+                        thumbColor: _cyanAccent,
+                        overlayColor: _cyanAccent.withValues(alpha: 0.2),
+                        trackHeight: 3,
+                        thumbShape: const RoundSliderThumbShape(
+                          enabledThumbRadius: 7,
+                        ),
+                      ),
+                      child: Slider(
+                        value: _placementSize,
+                        min: _minSize,
+                        max: _maxSize,
+                        onChanged: (v) => setState(() => _placementSize = v),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+
+              // Row 3: Action buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _ActionButton(
+                    icon: Icons.share_rounded,
+                    label: 'Share',
+                    onPressed: _shareFractal,
+                  ),
+                  _ActionButton(
+                    icon: Icons.save_alt_rounded,
+                    label: 'Save',
+                    onPressed: _saveFractal,
+                  ),
+                  _ActionButton(
+                    icon: Icons.delete_sweep_rounded,
+                    label: 'Clear',
+                    onPressed:
+                        _placedNodeNames.isEmpty ? null : _clearAllNodes,
+                  ),
+                  _ActionButton(
+                    icon: Icons.refresh_rounded,
+                    label: 'Re-scan',
+                    onPressed: () async {
+                      await _setPlaneRendererVisible(true);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Node removal confirmation chip
+  // -----------------------------------------------------------------------
+
+  Widget _buildRemoveConfirmationChip(BuildContext context) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOutCubic,
+      top: _pendingRemoveNode != null
+          ? MediaQuery.of(context).padding.top + 70
+          : -60,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: _GlassContainer(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Remove this fractal?',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                ),
+              ),
+              const SizedBox(width: 12),
+              _GlassPill(
+                onTap: () => _confirmRemoveNode(true),
+                color: _cyanAccent.withValues(alpha: 0.3),
+                child: const Text(
+                  'Yes',
+                  style: TextStyle(color: _cyanAccent, fontSize: 13),
+                ),
+              ),
+              const SizedBox(width: 8),
+              _GlassPill(
+                onTap: () => _confirmRemoveNode(false),
+                child: Text(
+                  'No',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.8),
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _confirmRemoveNode(bool confirm) async {
+    final name = _pendingRemoveNode;
+    if (name == null) return;
+
+    setState(() => _pendingRemoveNode = null);
+
+    if (!confirm) return;
+
+    final controller = _controller;
+    if (controller == null) return;
+
+    try {
+      await controller.removeNode(nodeName: name);
+      _placedNodeNames.remove(name);
+      if (mounted) setState(() {});
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to remove node: $e')),
+        );
+      }
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // ARCore callbacks (preserved logic)
+  // -----------------------------------------------------------------------
 
   void _onArCoreViewCreated(ArCoreController controller) {
     _controller = controller;
@@ -207,14 +507,14 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
     };
     controller.onNodeTap = (name) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Selected: $name')),
-      );
+      if (_placedNodeNames.contains(name)) {
+        setState(() => _pendingRemoveNode = name);
+      }
     };
   }
 
   Future<void> _onPlaneTap(List<ArCoreHitTestResult> hits) async {
-    if (_placementLocked || _isPlacing || hits.isEmpty) return;
+    if (_isPlacing || hits.isEmpty) return;
 
     // Prefer the closest hit to reduce accidental distant placement.
     final hit = hits.reduce((a, b) => a.distance <= b.distance ? a : b);
@@ -236,28 +536,30 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
 
       final shape = ArCoreCube(
         materials: [material],
-        // Slightly thicker plane improves visibility and avoids z-fighting.
-        size: vector.Vector3(0.45, 0.45, 0.015),
+        // Use slider-controlled size; thin Z to keep it flat.
+        size: vector.Vector3(_placementSize, _placementSize, 0.015),
       );
 
       final nodeName = 'fractal_${DateTime.now().millisecondsSinceEpoch}';
 
-      // Apply -90° X rotation to lay the fractal flat on horizontal surfaces.
-      // ARCore hit-pose on a horizontal plane has Y pointing up (plane normal).
-      // The cube's visible face is +Z; rotating -90° around X maps +Z→+Y so
-      // the fractal image faces upward, lying flat on the detected surface.
+      // Apply -90 deg X rotation to lay the fractal flat on horizontal
+      // surfaces. ARCore hit-pose on a horizontal plane has Y pointing up
+      // (plane normal). The cube's visible face is +Z; rotating -90 deg
+      // around X maps +Z -> +Y so the fractal image faces upward, lying
+      // flat on the detected surface.
       //
-      // ArCoreNode.rotation is Vector4(x,y,z,w) quaternion.
-      // flatRot = -90° around X = (sin(-π/4), 0, 0, cos(-π/4)) ≈ (-0.7071, 0, 0, 0.7071).
+      // ArCoreNode.rotation is Vector4(x, y, z, w) quaternion.
+      // flatRot = -90 deg around X = (sin(-pi/4), 0, 0, cos(-pi/4))
+      //         ~ (-0.7071, 0, 0, 0.7071).
       // combined = hit.pose.rotation * flatRot (standard quaternion product).
       final h = hit.pose.rotation; // Vector4(x, y, z, w)
-      const double qs = -0.7071067811865476; // sin(-π/4)
-      const double qc = 0.7071067811865476; // cos(-π/4)
+      const double qs = -0.7071067811865476; // sin(-pi/4)
+      const double qc = 0.7071067811865476; // cos(-pi/4)
       final combinedRot = vector.Vector4(
-        h.w * qs + h.x * qc, // rx = w1·x2 + x1·w2
-        h.y * qc + h.z * qs, // ry = y1·w2 + z1·x2
-        h.z * qc - h.y * qs, // rz = z1·w2 - y1·x2
-        h.w * qc - h.x * qs, // rw = w1·w2 - x1·x2
+        h.w * qs + h.x * qc, // rx = w1*x2 + x1*w2
+        h.y * qc + h.z * qs, // ry = y1*w2 + z1*x2
+        h.z * qc - h.y * qs, // rz = z1*w2 - y1*x2
+        h.w * qc - h.x * qs, // rw = w1*w2 - x1*x2
       );
 
       // Lift slightly above detected plane to avoid depth fighting.
@@ -274,20 +576,13 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
       await controller.addArCoreNodeWithAnchor(node);
       _placedNodeNames.add(nodeName);
 
-      // Hide plane renderer after successful placement so anchor reads stable.
-      await _setPlaneRendererVisible(false);
+      // Hide plane renderer after first successful placement for cleaner view.
+      if (_planeRendererVisible) {
+        await _setPlaneRendererVisible(false);
+      }
 
       if (!mounted) return;
-      setState(() {
-        _placementLocked = true;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Fractal anchored to detected plane'),
-          duration: Duration(milliseconds: 1200),
-        ),
-      );
+      setState(() {});
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -302,6 +597,27 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
     }
   }
 
+  // -----------------------------------------------------------------------
+  // Plane renderer toggle
+  // -----------------------------------------------------------------------
+
+  Future<void> _setPlaneRendererVisible(bool visible) async {
+    final controller = _controller;
+    if (controller == null) return;
+    if (_planeRendererVisible == visible) return;
+
+    try {
+      await controller.togglePlaneRenderer();
+      _planeRendererVisible = visible;
+    } catch (_) {
+      // Best effort only.
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Clear all nodes
+  // -----------------------------------------------------------------------
+
   Future<void> _clearAllNodes() async {
     final controller = _controller;
     if (controller == null) return;
@@ -315,16 +631,219 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
     }
 
     _placedNodeNames.clear();
+    _pendingRemoveNode = null;
     await _setPlaneRendererVisible(true);
     if (!mounted) return;
-    setState(() {
-      _placementLocked = false;
-    });
+    setState(() {});
+  }
+
+  // -----------------------------------------------------------------------
+  // Share & save
+  // -----------------------------------------------------------------------
+
+  Future<void> _shareFractal() async {
+    try {
+      final dir = await getTemporaryDirectory();
+      final file = File(
+        '${dir.path}/fractal_ar_${DateTime.now().millisecondsSinceEpoch}.png',
+      );
+      await file.writeAsBytes(widget.fractalTextureBytes);
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        text: 'Fractal anchored in AR via Fractal Forge',
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Share failed: $e')),
+      );
+    }
+  }
+
+  Future<void> _saveFractal() async {
+    try {
+      final dir = await getTemporaryDirectory();
+      final file = File(
+        '${dir.path}/fractal_${DateTime.now().millisecondsSinceEpoch}.png',
+      );
+      await file.writeAsBytes(widget.fractalTextureBytes);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Saved to ${file.path}')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Save failed: $e')),
+      );
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Status state enum
+// ---------------------------------------------------------------------------
+
+enum _StatusState { scanning, ready, placed }
+
+// ---------------------------------------------------------------------------
+// Glass-morphism container
+// ---------------------------------------------------------------------------
+
+class _GlassContainer extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry padding;
+
+  const _GlassContainer({
+    super.key,
+    required this.child,
+    this.padding = EdgeInsets.zero,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+        child: Container(
+          padding: padding,
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.55),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.12),
+            ),
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Glass pill button
+// ---------------------------------------------------------------------------
+
+class _GlassPill extends StatelessWidget {
+  final VoidCallback onTap;
+  final Widget child;
+  final Color? color;
+
+  const _GlassPill({
+    required this.onTap,
+    required this.child,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: color ?? Colors.black.withValues(alpha: 0.45),
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Action button (icon + label, bottom panel)
+// ---------------------------------------------------------------------------
+
+class _ActionButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback? onPressed;
+
+  const _ActionButton({
+    required this.icon,
+    required this.label,
+    this.onPressed,
+  });
+
+  static const Color _cyan = Color(0xFF00BCD4);
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = onPressed != null;
+    final color = enabled
+        ? Colors.white.withValues(alpha: 0.9)
+        : Colors.white.withValues(alpha: 0.3);
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: enabled ? _cyan : color, size: 22),
+            const SizedBox(height: 4),
+            Text(label, style: TextStyle(color: color, fontSize: 11)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Dashed circle painter (scanning reticle)
+// ---------------------------------------------------------------------------
+
+class _DashedCirclePainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+  final int dashCount;
+
+  const _DashedCirclePainter({
+    required this.color,
+    this.strokeWidth = 2.0,
+    this.dashCount = 24,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.round;
+
+    final center = size.center(Offset.zero);
+    final radius = size.shortestSide / 2 - strokeWidth;
+    final dashArc = (2 * math.pi) / (dashCount * 2);
+
+    for (int i = 0; i < dashCount; i++) {
+      final startAngle = i * 2 * dashArc;
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: radius),
+        startAngle,
+        dashArc,
+        false,
+        paint,
+      );
+    }
+
+    // Center dot
+    final dotPaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(center, 3.0, dotPaint);
   }
 
   @override
-  void dispose() {
-    _controller?.dispose();
-    super.dispose();
-  }
+  bool shouldRepaint(covariant _DashedCirclePainter old) =>
+      old.color != color ||
+      old.strokeWidth != strokeWidth ||
+      old.dashCount != dashCount;
 }

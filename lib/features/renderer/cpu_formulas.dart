@@ -215,6 +215,11 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'hat_monotile': _cpu_hat_monotile,
   'spectre_monotile': _cpu_spectre_monotile,
   'sphinx_tiling': _cpu_sphinx_tiling,
+  // New fractals (v1.0.15)
+  'alternated_iteration': _cpu_alternated_iteration,
+  'domain_coloring': _cpu_domain_coloring,
+  'phase_portrait': _cpu_phase_portrait,
+  'sierpinski_julia_rational': _cpu_sierpinski_julia_rational,
   // Custom (non-catalog) module ids explicitly supported by CPU formulas.
   'julia': _cpu_julia,
   'phoenix': _cpu_phoenix,
@@ -3234,4 +3239,138 @@ typedef _ZUpdate = (double, double) Function(
 ) {
   // Ported from shaders/sphinx_tiling_gpu.frag (CPU approximation, seed=0x5ad318cf)
   return _cpu_synthetic(0x5ad318cf, x, y, iterations, bailout);
+}
+
+// ---------------------------------------------------------------------------
+// New fractal formulas (v1.0.15)
+// ---------------------------------------------------------------------------
+
+/// Alternated iteration: even steps use c1=(cx,cy), odd steps use c2=juliaC.
+(double r, double g, double b) _cpu_alternated_iteration(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  double zx = 0.0, zy = 0.0;
+  final c1x = x, c1y = y;
+  final c2x = juliaC.x, c2y = juliaC.y;
+  final bail2 = bailout * bailout;
+  int it = 0;
+  while (it < iterations) {
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bail2) {
+      return _palette(
+        _smoothEscape(it: it, iterations: iterations, mag2: mag2),
+      );
+    }
+    final nx = zx * zx - zy * zy;
+    final ny = 2.0 * zx * zy;
+    if (it.isEven) {
+      zx = nx + c1x;
+      zy = ny + c1y;
+    } else {
+      zx = nx + c2x;
+      zy = ny + c2y;
+    }
+    it++;
+  }
+  return _insideColor;
+}
+
+/// Domain coloring: evaluate f(z) = z^2 and color by phase + magnitude.
+(double r, double g, double b) _cpu_domain_coloring(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  // f(z) = z^2 (default funcId=0 in GPU shader)
+  final fx = x * x - y * y;
+  final fy = 2.0 * x * y;
+  final phase = math.atan2(fy, fx); // -pi..pi
+  final mag = math.sqrt(fx * fx + fy * fy);
+
+  // HSV → RGB: hue from phase, saturation from magnitude
+  final hue = (phase / (2.0 * math.pi) + 1.0) % 1.0;
+  final sat = 1.0 / (1.0 + 0.3 * mag);
+  final val = 1.0 - 1.0 / (1.0 + mag * mag);
+  return _hsv2rgb(hue, sat, val);
+}
+
+/// Phase portrait: color by argument of f(z) = z^2 with contour rings.
+(double r, double g, double b) _cpu_phase_portrait(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  final fx = x * x - y * y;
+  final fy = 2.0 * x * y;
+  final phase = math.atan2(fy, fx);
+  final mag = math.sqrt(fx * fx + fy * fy);
+
+  final hue = (phase / (2.0 * math.pi) + 1.0) % 1.0;
+  // Log-scale magnitude contour rings
+  final logMag = math.log(mag + 1e-10);
+  final ring = 0.7 + 0.3 * math.cos(logMag * 6.28318);
+  return _hsv2rgb(hue, 0.85, _clamp(ring, 0.0, 1.0));
+}
+
+/// Sierpinski-Julia rational map: f(z) = z^2 + c/z^2.
+(double r, double g, double b) _cpu_sierpinski_julia_rational(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  double zx = x, zy = y;
+  final cx = juliaC.x == 0.0 && juliaC.y == 0.0 ? -0.1 : juliaC.x;
+  final cy = juliaC.y;
+  final bail2 = bailout * bailout;
+  int it = 0;
+  while (it < iterations) {
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bail2) {
+      return _palette(
+        _smoothEscape(it: it, iterations: iterations, mag2: mag2),
+      );
+    }
+    // Guard singularity at z≈0
+    if (mag2 < 1e-12) {
+      return _insideColor;
+    }
+    // z^2
+    final z2x = zx * zx - zy * zy;
+    final z2y = 2.0 * zx * zy;
+    // c / z^2
+    final inv = _cdivSafe(cx, cy, z2x, z2y);
+    // f(z) = z^2 + c/z^2
+    zx = z2x + inv.$1;
+    zy = z2y + inv.$2;
+    it++;
+  }
+  return _insideColor;
+}
+
+/// HSV to RGB (h,s,v all 0..1) → (r,g,b) 0..255.
+(double r, double g, double b) _hsv2rgb(double h, double s, double v) {
+  final c = v * s;
+  final x = c * (1.0 - ((h * 6.0) % 2.0 - 1.0).abs());
+  final m = v - c;
+  double r, g, b;
+  final sector = (h * 6.0).floor() % 6;
+  switch (sector) {
+    case 0:  r = c; g = x; b = 0;
+    case 1:  r = x; g = c; b = 0;
+    case 2:  r = 0; g = c; b = x;
+    case 3:  r = 0; g = x; b = c;
+    case 4:  r = x; g = 0; b = c;
+    default: r = c; g = 0; b = x;
+  }
+  return ((r + m) * 255.0, (g + m) * 255.0, (b + m) * 255.0);
 }
