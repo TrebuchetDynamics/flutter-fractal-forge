@@ -1009,6 +1009,18 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
       return;
     }
 
+    final installed = await ArCoreAnchorScreen.isInstalledOnDevice();
+    if (!installed) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('ARCore services are unavailable on this device'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
     // Capture current fractal as texture
     Uint8List textureBytes;
     try {

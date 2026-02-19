@@ -439,15 +439,30 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       return;
     }
 
-    // ARCore availability checks can produce false negatives on some devices.
-    // We treat this as advisory and still attempt ARCore route push; if runtime
-    // init fails, we gracefully fall back to AR overlay.
+    // Gate ARCore launch to avoid plugin installer crashes on profiles without
+    // a Play Store handler (common on emulators and some custom ROMs).
     final supported = await ArCoreAnchorScreen.isSupportedOnDevice();
     if (!supported) {
       _log.warn(
         'ar',
-        'ARCore compatibility check reported unsupported; attempting ARCore route anyway',
+        'ARCore compatibility check reported unsupported; using overlay fallback',
       );
+      await openOverlayFallback(
+        notice: 'AR surface detection is unavailable. Using AR overlay.',
+      );
+      return;
+    }
+
+    final installed = await ArCoreAnchorScreen.isInstalledOnDevice();
+    if (!installed) {
+      _log.warn(
+        'ar',
+        'ARCore services unavailable; using overlay fallback',
+      );
+      await openOverlayFallback(
+        notice: 'ARCore services are unavailable. Using AR overlay.',
+      );
+      return;
     }
 
     final shouldTransparent =

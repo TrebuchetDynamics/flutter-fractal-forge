@@ -44,6 +44,22 @@ class ArCoreAnchorScreen extends StatefulWidget {
     }
   }
 
+  /// Returns `true` when ARCore services are already installed and ready.
+  ///
+  /// We intentionally avoid ARCore install flows that depend on a Play Store
+  /// handler because those can crash on emulator/device profiles without one.
+  static Future<bool> isInstalledOnDevice() async {
+    if (!Platform.isAndroid) {
+      return false;
+    }
+    try {
+      final installed = await ArCoreController.checkIsArCoreInstalled();
+      return installed == true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   @override
   State<ArCoreAnchorScreen> createState() => _ArCoreAnchorScreenState();
 }
@@ -134,8 +150,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
           _buildBottomPanel(context, displayName),
 
           // -- Node removal confirmation chip --
-          if (_pendingRemoveNode != null)
-            _buildRemoveConfirmationChip(context),
+          if (_pendingRemoveNode != null) _buildRemoveConfirmationChip(context),
         ],
       ),
     );
@@ -388,8 +403,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
                   _ActionButton(
                     icon: Icons.delete_sweep_rounded,
                     label: 'Clear',
-                    onPressed:
-                        _placedNodeNames.isEmpty ? null : _clearAllNodes,
+                    onPressed: _placedNodeNames.isEmpty ? null : _clearAllNodes,
                   ),
                   _ActionButton(
                     icon: Icons.refresh_rounded,
