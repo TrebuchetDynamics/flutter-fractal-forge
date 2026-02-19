@@ -50,9 +50,10 @@ Options:
 
 Build number behavior:
   - If --build-number is provided, that value is used.
-  - Otherwise, this script auto-increments from the highest of:
-    pubspec.yaml version +N, android/local.properties flutter.versionCode,
-    and play-console-upload/LAST_BUILD_NUMBER.txt.
+  - Otherwise:
+    * First build uses pubspec.yaml version +N as-is.
+    * Next builds increment from play-console-upload/LAST_BUILD_NUMBER.txt.
+    * If no +N exists in pubspec.yaml, starts at 1.
 
 Examples:
   scripts/build-play-console.sh
@@ -320,54 +321,43 @@ done
 USED_BUILD_NUMBER=""
 if [[ -n "$EXPLICIT_BUILD_NUMBER" ]]; then
   [[ "$EXPLICIT_BUILD_NUMBER" =~ ^[0-9]+$ ]] || die "Invalid --build-number: $EXPLICIT_BUILD_NUMBER"
+  EXPLICIT_BUILD_NUMBER="$((10#$EXPLICIT_BUILD_NUMBER))"
   if ((EXPLICIT_BUILD_NUMBER > 2100000000)); then
     die "Build number $EXPLICIT_BUILD_NUMBER exceeds Play Console limit (2100000000)"
   fi
   USED_BUILD_NUMBER="$EXPLICIT_BUILD_NUMBER"
   log "Using explicit build number: $USED_BUILD_NUMBER"
 else
-  highest=0
-  got_source=0
-  sources=()
-
+  pubspec_build=""
   if [[ "$PUBSPEC_VERSION_FULL" =~ \+([0-9]+)$ ]]; then
-    pubspec_build="${BASH_REMATCH[1]}"
-    sources+=("pubspec:$pubspec_build")
-    if ((pubspec_build > highest)); then
-      highest="$pubspec_build"
-    fi
-    got_source=1
+    pubspec_build="$((10#${BASH_REMATCH[1]}))"
   fi
 
-  LOCAL_PROPS="$PROJECT_ROOT/android/local.properties"
-  if [[ -f "$LOCAL_PROPS" ]]; then
-    local_build="$(read_prop "flutter.versionCode" "$LOCAL_PROPS" || true)"
-    if [[ "$local_build" =~ ^[0-9]+$ ]]; then
-      sources+=("local.properties:$local_build")
-      if ((local_build > highest)); then
-        highest="$local_build"
-      fi
-      got_source=1
-    fi
-  fi
-
+  last_build=""
   if [[ -f "$LAST_BUILD_MARKER" ]]; then
-    last_build="$(head -n 1 "$LAST_BUILD_MARKER" | tr -d '[:space:]')"
-    if [[ "$last_build" =~ ^[0-9]+$ ]]; then
-      sources+=("last-script-run:$last_build")
-      if ((last_build > highest)); then
-        highest="$last_build"
-      fi
-      got_source=1
+    last_build_raw="$(head -n 1 "$LAST_BUILD_MARKER" | tr -d '[:space:]')"
+    if [[ "$last_build_raw" =~ ^[0-9]+$ ]]; then
+      last_build="$((10#$last_build_raw))"
     fi
   fi
 
-  if ((got_source == 1)); then
+  if [[ -n "$last_build" ]]; then
+    highest="$last_build"
+    sources=("last-script-run:$last_build")
+    if [[ -n "$pubspec_build" ]]; then
+      sources+=("pubspec:$pubspec_build")
+      if ((pubspec_build > highest)); then
+        highest="$pubspec_build"
+      fi
+    fi
     USED_BUILD_NUMBER="$((highest + 1))"
-    log "Auto build number: $USED_BUILD_NUMBER (from highest of ${sources[*]})"
+    log "Auto build number: $USED_BUILD_NUMBER (increment from ${sources[*]})"
+  elif [[ -n "$pubspec_build" ]]; then
+    USED_BUILD_NUMBER="$pubspec_build"
+    log "Auto build number: $USED_BUILD_NUMBER (initial from pubspec version +N)"
   else
     USED_BUILD_NUMBER="1"
-    log "Auto build number: $USED_BUILD_NUMBER (no existing source found)"
+    log "Auto build number: $USED_BUILD_NUMBER (no pubspec +N and no previous builds)"
   fi
 
   if ((USED_BUILD_NUMBER > 2100000000)); then
