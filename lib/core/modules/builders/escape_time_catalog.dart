@@ -1320,6 +1320,51 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 10.0,
   ),
 
+  // Lorenz-84 atmospheric circulation / Rayleigh-Bénard model (Lorenz 1984).
+  EscapeTimeConfig(
+    id: 'rayleigh_benard',
+    name: 'Rayleigh-Bénard Attractor',
+    shaderAsset: 'shaders/rayleigh_benard_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Robinson attractor — Duffing double-well oscillator with z feedback.
+  EscapeTimeConfig(
+    id: 'robinson',
+    name: 'Robinson Attractor',
+    shaderAsset: 'shaders/robinson_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Globo-Toroid — toroidal winding chaotic system; a=0.5, b=0.5, c=1.0.
+  EscapeTimeConfig(
+    id: 'globo_toroid',
+    name: 'Globo-Toroid Attractor',
+    shaderAsset: 'shaders/globo_toroid_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Tamari — Lorenz-family with reversed xz coupling; a=50, b=0.833, c=20.
+  EscapeTimeConfig(
+    id: 'tamari',
+    name: 'Tamari Attractor',
+    shaderAsset: 'shaders/tamari_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Wang-Sun-Cang (2010) — tilted double-scroll; a=0.2, b=0.01, c=−0.4, d=0.5.
+  EscapeTimeConfig(
+    id: 'wang_sun_cang',
+    name: 'Wang-Sun-Cang Attractor',
+    shaderAsset: 'shaders/wang_sun_cang_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
   // ── II. Convergent/Root-Finding (escape-time variant) ───
   EscapeTimeConfig(
     id: 'newton_z3',

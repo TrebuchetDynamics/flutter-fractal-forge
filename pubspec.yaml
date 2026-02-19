@@ -214,6 +214,11 @@ flutter:
     - shaders/yu_wang_gpu.frag
     - shaders/zhou_chen_gpu.frag
     - shaders/tsucs_gpu.frag
+    - shaders/rayleigh_benard_gpu.frag
+    - shaders/robinson_gpu.frag
+    - shaders/globo_toroid_gpu.frag
+    - shaders/tamari_gpu.frag
+    - shaders/wang_sun_cang_gpu.frag
     - shaders/quaternion_julia_2d_gpu.frag
     - shaders/tessarine_julia_gpu.frag
     - shaders/split_complex_gpu.frag
