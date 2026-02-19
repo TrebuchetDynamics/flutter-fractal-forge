@@ -621,68 +621,59 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         Positioned(
           top: 0,
           left: 0,
+          right: 0,
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: IconButton(
-                tooltip: l10n.actionClose,
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.black54,
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-        if (_hasMultipleCameras)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: IconButton(
-                  tooltip: 'Switch camera',
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.black54,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              child: Row(
+                children: [
+                  IconButton(
+                    tooltip: l10n.actionClose,
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.black54,
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
-                  onPressed: _switchCamera,
-                  icon: const Icon(Icons.cameraswitch_rounded,
-                      color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-        Positioned(
-          top: 72,
-          left: 16,
-          right: 16,
-          child: SafeArea(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white24),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    _anchorPlaced
-                        ? 'Anchored • ${_activeCamera?.lensDirection.name ?? 'camera'} camera'
-                        : 'Tap to anchor fractal',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.black54,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.white24),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: Text(
+                          _anchorPlaced
+                              ? 'Anchored · ${_activeCamera?.lensDirection.name ?? 'camera'} camera'
+                              : 'Tap on surface to anchor fractal',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  if (_hasMultipleCameras) ...[
+                    const SizedBox(width: 8),
+                    IconButton(
+                      tooltip: 'Switch camera',
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black54,
+                      ),
+                      onPressed: _switchCamera,
+                      icon: const Icon(Icons.cameraswitch_rounded,
+                          color: Colors.white),
+                    ),
+                  ],
+                ],
               ),
             ),
           ),
@@ -1064,29 +1055,86 @@ class _ArAnchorReticle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.black26,
-          border: Border.all(color: Colors.white70, width: 1.2),
-          boxShadow: const [
-            BoxShadow(color: Colors.black38, blurRadius: 8, spreadRadius: 1),
-          ],
-        ),
-        child: const SizedBox(
-          width: 46,
-          height: 46,
-          child: Center(
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 80,
+            height: 80,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Outer ring
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white54, width: 1.0),
+                  ),
+                  child: const SizedBox(width: 80, height: 80),
+                ),
+                // Inner target crosshair
+                CustomPaint(
+                  size: const Size(80, 80),
+                  painter: _CrosshairPainter(),
+                ),
+                // Center dot
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: Colors.white70,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.black45,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Text(
+              'Tap anywhere to place',
+              style: TextStyle(color: Colors.white70, fontSize: 12),
+            ),
+          ),
+        ],
       ),
     );
   }
+}
+
+class _CrosshairPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white54
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+    // Corner brackets
+    const arm = 14.0;
+    const gap = 24.0;
+    // Top-left
+    canvas.drawLine(Offset(cx - gap, cy - gap), Offset(cx - gap + arm, cy - gap), paint);
+    canvas.drawLine(Offset(cx - gap, cy - gap), Offset(cx - gap, cy - gap + arm), paint);
+    // Top-right
+    canvas.drawLine(Offset(cx + gap, cy - gap), Offset(cx + gap - arm, cy - gap), paint);
+    canvas.drawLine(Offset(cx + gap, cy - gap), Offset(cx + gap, cy - gap + arm), paint);
+    // Bottom-left
+    canvas.drawLine(Offset(cx - gap, cy + gap), Offset(cx - gap + arm, cy + gap), paint);
+    canvas.drawLine(Offset(cx - gap, cy + gap), Offset(cx - gap, cy + gap - arm), paint);
+    // Bottom-right
+    canvas.drawLine(Offset(cx + gap, cy + gap), Offset(cx + gap - arm, cy + gap), paint);
+    canvas.drawLine(Offset(cx + gap, cy + gap), Offset(cx + gap, cy + gap - arm), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _CrosshairPainter _) => false;
 }
 
 class _ArStatusState extends StatelessWidget {

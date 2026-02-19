@@ -38,6 +38,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
   bool _planeDetected = false;
   bool _isPlacing = false;
   bool _placementLocked = false;
+  int _planeCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +68,10 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
                   Expanded(
                     child: _statusChip(
                       text: _placementLocked
-                          ? 'Anchored on plane'
+                          ? 'Anchored — fractal flat on surface'
                           : (_planeDetected
-                              ? 'Tap plane to place fractal'
-                              : 'Move phone to detect a plane'),
+                              ? 'Tap surface to place · $_planeCount plane${_planeCount == 1 ? '' : 's'} found'
+                              : 'Scan slowly to detect a flat surface'),
                     ),
                   ),
                 ],
@@ -176,11 +177,10 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
     _controller = controller;
     controller.onPlaneDetected = (plane) {
       if (!mounted) return;
-      if (!_planeDetected) {
-        setState(() {
-          _planeDetected = true;
-        });
-      }
+      setState(() {
+        _planeCount++;
+        _planeDetected = true;
+      });
     };
     controller.onPlaneTap = _onPlaneTap;
     controller.onError = (text) {
@@ -223,11 +223,30 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen> {
       );
 
       final nodeName = 'fractal_${DateTime.now().millisecondsSinceEpoch}';
+
+      // Apply -90° X rotation to lay the fractal flat on horizontal surfaces.
+      // ARCore hit-pose on a horizontal plane has Y pointing up (plane normal).
+      // The cube's visible face is +Z; rotating -90° around X maps +Z→+Y so
+      // the fractal image faces upward, lying flat on the detected surface.
+      //
+      // ArCoreNode.rotation is Vector4(x,y,z,w) quaternion.
+      // flatRot = -90° around X = (sin(-π/4), 0, 0, cos(-π/4)) ≈ (-0.7071, 0, 0, 0.7071).
+      // combined = hit.pose.rotation * flatRot (standard quaternion product).
+      final h = hit.pose.rotation; // Vector4(x, y, z, w)
+      const double qs = -0.7071067811865476; // sin(-π/4)
+      const double qc = 0.7071067811865476; // cos(-π/4)
+      final combinedRot = vector.Vector4(
+        h.w * qs + h.x * qc, // rx = w1·x2 + x1·w2
+        h.y * qc + h.z * qs, // ry = y1·w2 + z1·x2
+        h.z * qc - h.y * qs, // rz = z1·w2 - y1·x2
+        h.w * qc - h.x * qs, // rw = w1·w2 - x1·x2
+      );
+
       final node = ArCoreNode(
         name: nodeName,
         shape: shape,
         position: hit.pose.translation,
-        rotation: hit.pose.rotation,
+        rotation: combinedRot,
       );
 
       await controller.addArCoreNodeWithAnchor(node);
