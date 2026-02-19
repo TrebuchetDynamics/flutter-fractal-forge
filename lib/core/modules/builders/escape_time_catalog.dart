@@ -2640,6 +2640,196 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
   ),
+
+  // ── MandlebrotSetSFML batch 2 — 8 more unique formulas ──────────────────
+
+  // Prison fractal: w=(sin x, sin y);  z_{n+1} = w² + c.
+  // Component-wise sin then complex-square; creates banded prison-bar-like
+  // structures in Julia space. Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'prison',
+    name: 'Prison',
+    shaderAsset: 'shaders/prison_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'prison-relief',
+        moduleId: 'prison',
+        name: 'Prison Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Crazybrot: z_{n+1} = 1/z + c  (complex inversion).
+  // Maps exterior to interior, producing "ball" structures at the origin.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'crazybrot',
+    name: 'Crazybrot',
+    shaderAsset: 'shaders/crazybrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'crazybrot-relief',
+        moduleId: 'crazybrot',
+        name: 'Crazybrot Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Eaten fractal: a=z²;  z_{n+1} = a + c/(a+0.1).
+  // The 0.1 offset prevents the singularity at z²=0, creating "eaten" notches.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'eaten',
+    name: 'Eaten',
+    shaderAsset: 'shaders/eaten_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 6.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'eaten-relief',
+        moduleId: 'eaten',
+        name: 'Eaten Relief',
+        params: {'iterations': 280, 'bailout': 6.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Polar Cowlick: r=|z|; θ=arg(z); z_{n+1} = sin(3r)·exp(i(θ+r)) + c.
+  // Three radial sin-folds combined with an angular rotation by r itself.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'polar_cowlick',
+    name: 'Polar Cowlick',
+    shaderAsset: 'shaders/polar_cowlick_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'polar-cowlick-relief',
+        moduleId: 'polar_cowlick',
+        name: 'Cowlick Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Vase fractal: F(z) = z^{1−i} + c = exp((1−i)·log z) + c.
+  // Complex power (1−i) simultaneously scales and rotates, creating 3D-like
+  // vase shapes especially visible in Julia views.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'vase',
+    name: 'Vase',
+    shaderAsset: 'shaders/vase_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 8.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'vase-relief',
+        moduleId: 'vase',
+        name: 'Vase Relief',
+        params: {'iterations': 220, 'bailout': 8.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // LightningBrot: z_{n+1} = z² + cos(arg z) · c.
+  // The constant c is modulated by cos(angle of z), fading in/out with orbit
+  // direction and creating lightning-bolt-shaped Julia sets.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'lightningbrot',
+    name: 'LightningBrot',
+    shaderAsset: 'shaders/lightningbrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'lightningbrot-relief',
+        moduleId: 'lightningbrot',
+        name: 'Lightning Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Angrybrot: z_{n+1} = (atan(x)²−atan(y)², 2·atan(x)·y) + c.
+  // Real atan compresses axes nonlinearly (saturates at ±π/2), producing a
+  // sharper, more "aggressive" Mandelbrot variant with spiky filaments.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'angrybrot',
+    name: 'Angrybrot',
+    shaderAsset: 'shaders/angrybrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.3,
+    extraPresets: [
+      FractalPreset(
+        id: 'angrybrot-relief',
+        moduleId: 'angrybrot',
+        name: 'Angry Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(-0.3, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Singularity fractal: z_{n+1} = (x²−y²+c_x,  2·c_x·y + c_y).
+  // The imaginary update uses c_x (not x_n), creating unusual coupling:
+  // near c_x=0 the set collapses; near |c_x|=1 it tilts like Mandelbrot.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'singularity',
+    name: 'Singularity',
+    shaderAsset: 'shaders/singularity_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'singularity-relief',
+        moduleId: 'singularity',
+        name: 'Singularity Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.

@@ -284,3 +284,11 @@ flutter:
     - shaders/multibrot_15_gpu.frag
     - shaders/perp_celtic_cubic_gpu.frag
     - shaders/multibrot_25_gpu.frag
+    - shaders/prison_gpu.frag
+    - shaders/crazybrot_gpu.frag
+    - shaders/eaten_gpu.frag
+    - shaders/polar_cowlick_gpu.frag
+    - shaders/vase_gpu.frag
+    - shaders/lightningbrot_gpu.frag
+    - shaders/angrybrot_gpu.frag
+    - shaders/singularity_gpu.frag
