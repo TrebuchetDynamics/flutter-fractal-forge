@@ -331,3 +331,14 @@ flutter:
     - shaders/rucklidge_gpu.frag
     - shaders/shimizu_morioka_gpu.frag
     - shaders/chen_lee_gpu.frag
+    - shaders/newton_z5_gpu.frag
+    - shaders/biomorph_gpu.frag
+    - shaders/multijulia3_gpu.frag
+    - shaders/multijulia4_gpu.frag
+    - shaders/multijulia5_gpu.frag
+    - shaders/multijulia6_gpu.frag
+    - shaders/celtic_power4_gpu.frag
+    - shaders/burning_ship_cubic_julia_gpu.frag
+    - shaders/tricorn_power5_gpu.frag
+    - shaders/exponential_julia_gpu.frag
+    - shaders/buffalo_cubic_julia_gpu.frag

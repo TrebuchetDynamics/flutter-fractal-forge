@@ -3278,6 +3278,99 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
+
+  // Newton z^5−1=0: five roots at 5th roots of unity — pentagonal basin symmetry.
+  EscapeTimeConfig(
+    id: 'newton_z5',
+    name: 'Newton z⁵−1',
+    shaderAsset: 'shaders/newton_z5_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+
+  // Biomorph (Pickover 1986): z^2+c with |Re|<B OR |Im|<B escape test.
+  // Creates organic, cell-like shapes with dendritic filaments.
+  EscapeTimeConfig(
+    id: 'biomorph',
+    name: 'Biomorph',
+    shaderAsset: 'shaders/biomorph_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 10.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'biomorph-relief',
+        moduleId: 'biomorph',
+        name: 'Biomorph Relief',
+        params: {'iterations': 100, 'bailout': 10.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia3',
+    name: 'Multijulia ³',
+    shaderAsset: 'shaders/multijulia3_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia4',
+    name: 'Multijulia ⁴',
+    shaderAsset: 'shaders/multijulia4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia5',
+    name: 'Multijulia ⁵',
+    shaderAsset: 'shaders/multijulia5_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia6',
+    name: 'Multijulia ⁶',
+    shaderAsset: 'shaders/multijulia6_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_power4',
+    name: 'Celtic ⁴',
+    shaderAsset: 'shaders/celtic_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_cubic_julia',
+    name: 'Burning Ship Cubic Julia',
+    shaderAsset: 'shaders/burning_ship_cubic_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_power5',
+    name: 'Tricorn ⁵ (Mandelbar)',
+    shaderAsset: 'shaders/tricorn_power5_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'exponential_julia',
+    name: 'Exponential Julia',
+    shaderAsset: 'shaders/exponential_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 50.0,
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_cubic_julia',
+    name: 'Buffalo Cubic Julia',
+    shaderAsset: 'shaders/buffalo_cubic_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.
