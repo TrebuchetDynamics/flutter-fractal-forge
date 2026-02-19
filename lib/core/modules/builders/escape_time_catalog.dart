@@ -1800,13 +1800,18 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/cosine_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
+    // z_{n+1}=cos(z)+c is mostly bounded near c≈0. Centering at (0,0) with
+    // zoom=1 often looks fully black. Start wider and slightly left to reveal
+    // escape structure immediately.
+    defaultCenterX: -0.4,
+    defaultZoom: 0.3,
     extraPresets: [
       FractalPreset(
         id: 'cosine-mandel-relief',
         moduleId: 'cosine_mandelbrot',
         name: 'Cosine Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 50},
-        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        view: FractalViewState(pan: Vector2(-0.4, 0.0), zoom: 0.3, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),

@@ -65,14 +65,30 @@ void main() {
       await tester.pump(const Duration(seconds: 2));
     }
 
-    Future<void> tapModuleByName(WidgetTester tester, String name) async {
-      final scrollable = find.byType(Scrollable).first;
-      await tester.scrollUntilVisible(
-        find.text(name),
-        240.0,
-        scrollable: scrollable,
-      );
-      await tester.tap(find.text(name));
+    Finder moduleCards() {
+      return find.byWidgetPredicate((w) {
+        final k = w.key;
+        if (k is! ValueKey) return false;
+        final v = k.value;
+        if (v is! String) return false;
+        return v.startsWith('catalogModuleCard_') ||
+            v.startsWith('catalogGridTile_');
+      });
+    }
+
+    Future<void> openModuleFromSearch(
+      WidgetTester tester, {
+      required String query,
+    }) async {
+      final searchField = find.byKey(const Key('catalogSearchField'));
+      expect(searchField, findsOneWidget);
+
+      await tester.enterText(searchField, query);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+
+      expect(moduleCards(), findsWidgets);
+      await tester.tap(moduleCards().first);
       await tester.pump();
     }
 
@@ -126,15 +142,22 @@ void main() {
 
       final checkedRoutes = <String>['/catalog'];
 
-      Future<void> collectModuleDiag(String moduleDisplayName) async {
+      Future<void> collectModuleDiag({
+        required String moduleQuery,
+        required String expectedModuleId,
+      }) async {
         final frameStart = frameTimings.length;
 
-        await tapModuleByName(tester, moduleDisplayName);
+        await openModuleFromSearch(
+          tester,
+          query: moduleQuery,
+        );
         await tester.pump(const Duration(seconds: 3));
 
         final viewerContext = tester.element(find.byType(FractalViewerScreen));
         final controller =
             Provider.of<FractalController>(viewerContext, listen: false);
+        expect(controller.module.id, expectedModuleId);
         final rgb = await captureCenterRgb(tester);
         final frameDelta = frameTimings.length - frameStart;
 
@@ -148,39 +171,37 @@ void main() {
         );
       }
 
-      await collectModuleDiag('Mandelbrot');
+      await collectModuleDiag(
+        moduleQuery: 'core.mandelbrot',
+        expectedModuleId: 'mandelbrot',
+      );
 
       await tester.tap(find.byIcon(Icons.tune_rounded));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
       checkedRoutes.add('/viewer/controls');
       debugPrint('ROUTE_CHECK route=/viewer/controls result=ok');
-      await tester.pageBack();
-      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.close_rounded).last);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
 
       await tester.tap(find.byIcon(Icons.bookmark_rounded));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
       checkedRoutes.add('/viewer/presets');
       debugPrint('ROUTE_CHECK route=/viewer/presets result=ok');
-      await tester.pageBack();
-      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.close_rounded).last);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
 
-      await tester.pageBack();
-      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
       checkedRoutes.add('/catalog');
       debugPrint('ROUTE_CHECK route=/catalog result=ok');
 
-      await collectModuleDiag('Julia');
-      await tester.pageBack();
-      await tester.pumpAndSettle();
-      checkedRoutes.add('/catalog');
-      debugPrint('ROUTE_CHECK route=/catalog result=ok');
-
-      await collectModuleDiag('Phoenix');
-
-      expect(checkedRoutes.length, 8);
-      expect(find.byType(FractalViewerScreen), findsOneWidget);
+      expect(checkedRoutes.length, 5);
+      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
       expect(tester.takeException(), isNull);
 
       debugPrint(

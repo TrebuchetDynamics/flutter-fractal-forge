@@ -28,9 +28,17 @@ void main() {
       final iterations = controller.params['iterations'];
       final bailout = controller.params['bailout'];
       final colorScheme = controller.params['colorScheme'];
+      final iterationsParam =
+          controller.module.parameters.firstWhere((p) => p.id == 'iterations');
 
       expect(iterations, isA<int>());
-      expect(iterations as int, inInclusiveRange(20, 5000));
+      expect(
+        iterations as int,
+        inInclusiveRange(
+          iterationsParam.min.round(),
+          iterationsParam.max.round(),
+        ),
+      );
 
       expect(bailout, isA<double>());
       expect(bailout as double, inInclusiveRange(2.0, 50.0));
@@ -44,9 +52,11 @@ void main() {
 
     test('applyArQualityPreset updates known params and clamps to schema', () {
       final controller = FractalController(ModuleRegistry());
+      final iterationsParam =
+          controller.module.parameters.firstWhere((p) => p.id == 'iterations');
       // Force a clearly out-of-range value that should be clamped after applying.
       controller.updateParam('iterations', 9999);
-      expect(controller.params['iterations'], 5000);
+      expect(controller.params['iterations'], iterationsParam.max.round());
 
       controller.applyArQualityPreset(ArQualityPreset.high);
       // For mandelbrot, high -> iterations 220 (within [20,5000]).
@@ -60,20 +70,29 @@ void main() {
 
     test('updateZoom adaptively increases iterations when zooming in', () {
       final controller = FractalController(ModuleRegistry());
+      final startZoom = controller.view.zoom;
       final startIterations = controller.params['iterations'] as int;
+      final iterationsParam =
+          controller.module.parameters.firstWhere((p) => p.id == 'iterations');
 
-      controller.updateZoom(2.0);
+      controller.updateZoom(startZoom * 2.0);
       final afterZoom2 = controller.params['iterations'] as int;
 
-      controller.updateZoom(32.0);
+      controller.updateZoom(startZoom * 32.0);
       final afterZoom32 = controller.params['iterations'] as int;
 
-      controller.updateZoom(1.0);
+      controller.updateZoom(startZoom);
       final afterZoomOut = controller.params['iterations'] as int;
 
       expect(afterZoom2, greaterThan(startIterations));
       expect(afterZoom32, greaterThan(afterZoom2));
-      expect(afterZoom32, inInclusiveRange(20, 5000));
+      expect(
+        afterZoom32,
+        inInclusiveRange(
+          iterationsParam.min.round(),
+          iterationsParam.max.round(),
+        ),
+      );
       // Adaptive policy only raises while zooming in; zooming out keeps budget.
       expect(afterZoomOut, afterZoom32);
     });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +16,12 @@ void main() {
 
   setUpAll(() async {
     // Required on Android for IntegrationTest screenshot capture.
-    await binding.convertFlutterSurfaceToImage();
+    // Not all runners provide this plugin; degrade gracefully.
+    try {
+      await binding.convertFlutterSurfaceToImage();
+    } on MissingPluginException {
+      debugPrint('Screenshot surface conversion unavailable on this platform');
+    }
   });
 
   group('Backend screenshots', () {
@@ -66,7 +72,11 @@ void main() {
     Future<void> snapViewer(WidgetTester tester, String name) async {
       // Give the renderer time to produce a few frames.
       await tester.pump(const Duration(seconds: 3));
-      await binding.takeScreenshot(name);
+      try {
+        await binding.takeScreenshot(name);
+      } on MissingPluginException {
+        debugPrint('Screenshot plugin unavailable, skipping "$name"');
+      }
     }
 
     testWidgets('capture viewer screenshots (first visible modules)',

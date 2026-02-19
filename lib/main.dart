@@ -33,6 +33,7 @@ import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/home/home_screen.dart';
@@ -435,7 +436,7 @@ class _AppBootstrap extends StatefulWidget {
 }
 
 class _AppBootstrapState extends State<_AppBootstrap> {
-  bool _showSplash = true;
+  bool _showSplash = !RuntimeModeService.isAutomatedTest;
   bool _showOnboarding = false;
 
   @override

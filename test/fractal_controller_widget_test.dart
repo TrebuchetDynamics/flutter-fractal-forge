@@ -54,6 +54,7 @@ void main() {
     testWidgets('notifies listeners when params change', (tester) async {
       int notifyCount = 0;
       controller.addListener(() => notifyCount++);
+      final initialIterationsText = controller.params['iterations'].toString();
 
       await tester.pumpWidget(
         ChangeNotifierProvider.value(
@@ -72,7 +73,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('120'), findsOneWidget);
+      expect(find.text(initialIterationsText), findsOneWidget);
 
       controller.updateParam('iterations', 200);
       await tester.pumpAndSettle();
@@ -84,6 +85,7 @@ void main() {
     testWidgets('notifies listeners when view changes', (tester) async {
       int notifyCount = 0;
       controller.addListener(() => notifyCount++);
+      final initialZoomText = controller.view.zoom.toStringAsFixed(1);
 
       await tester.pumpWidget(
         ChangeNotifierProvider.value(
@@ -102,7 +104,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('1.0'), findsOneWidget);
+      expect(find.text(initialZoomText), findsOneWidget);
 
       controller.updateZoom(2.0);
       await tester.pumpAndSettle();
@@ -192,6 +194,7 @@ void main() {
     });
 
     testWidgets('resetSession triggers rebuild', (tester) async {
+      final defaultIterationsText = controller.params['iterations'].toString();
       controller.updateParam('iterations', 300);
       controller.updateZoom(2.0);
       controller.setTransparentBackground(true);
@@ -226,7 +229,7 @@ void main() {
       controller.resetSession();
       await tester.pumpAndSettle();
 
-      expect(find.text('120'), findsOneWidget);
+      expect(find.text(defaultIterationsText), findsOneWidget);
       expect(find.text('1.0'), findsOneWidget);
       expect(find.text('opaque'), findsOneWidget);
     });
@@ -267,8 +270,11 @@ void main() {
     testWidgets('applyPreset triggers rebuild', (tester) async {
       // Get a preset that has different iterations than default
       final presets = registry.byId('mandelbrot').builtInPresets;
+      final defaultIterations = (controller.params['iterations'] as num).round();
       final preset = presets.firstWhere(
-        (p) => (p.params['iterations'] as num?)?.toInt() != 120,
+        (p) =>
+            ((p.params['iterations'] as num?)?.round() ?? defaultIterations) !=
+            defaultIterations,
         orElse: () => presets.first,
       );
 
@@ -289,7 +295,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('120'), findsOneWidget);
+      expect(find.text(defaultIterations.toString()), findsOneWidget);
 
       controller.applyPreset(preset);
       await tester.pumpAndSettle();
@@ -299,6 +305,7 @@ void main() {
     });
 
     testWidgets('multiple widgets can listen to same controller', (tester) async {
+      final initialZoomText = controller.view.zoom.toStringAsFixed(1);
       await tester.pumpWidget(
         ChangeNotifierProvider.value(
           value: controller,
@@ -326,7 +333,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Module: mandelbrot'), findsOneWidget);
-      expect(find.text('Zoom: 1.0'), findsOneWidget);
+      expect(find.text('Zoom: $initialZoomText'), findsOneWidget);
 
       controller.selectModule(registry.byId('julia'));
       controller.updateZoom(3.0);

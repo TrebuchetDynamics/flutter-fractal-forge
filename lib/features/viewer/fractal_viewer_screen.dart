@@ -57,7 +57,6 @@ import 'package:flutter_fractals/features/debug/log_viewer_screen.dart';
 import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
-import 'package:flutter_fractals/features/viewer/components/fractal_app_bar.dart';
 import 'package:flutter_fractals/features/viewer/components/fractal_view_controls.dart';
 import 'package:flutter_fractals/features/viewer/components/cpu_fallback_pane.dart';
 import 'package:flutter_fractals/features/viewer/components/compare_renderer.dart';
@@ -495,9 +494,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           builder: (_) => ChangeNotifierProvider.value(
             value: controller,
             child: ArCoreAnchorScreen(
-                fractalTextureBytes: textureBytes,
-                fractalName: controller.module.id,
-              ),
+              fractalTextureBytes: textureBytes,
+              fractalName: controller.module.id,
+            ),
           ),
         ),
       );
@@ -510,67 +509,71 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
   }
 
-  List<PopupMenuEntry<_ViewerMenuAction>> _viewerMenuEntries(
-    BuildContext context,
-  ) {
-    return [
-      const PopupMenuItem<_ViewerMenuAction>(
-        value: _ViewerMenuAction.rendererMode,
-        child: ListTile(
-          dense: true,
-          leading: Icon(Icons.auto_mode_rounded),
-          title: Text('Renderer mode'),
-          contentPadding: EdgeInsets.zero,
-        ),
-      ),
-      PopupMenuItem<_ViewerMenuAction>(
-        value: _ViewerMenuAction.toggleRotation,
-        child: ListTile(
-          dense: true,
-          leading: Icon(
-            _activeController(context).rotationLocked
-                ? Icons.screen_lock_rotation_rounded
-                : Icons.screen_rotation_alt_rounded,
+  Future<void> _openViewerQuickActions(BuildContext context) async {
+    final selected = await showModalBottomSheet<_ViewerMenuAction>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) {
+        final rotationLocked = _activeController(context).rotationLocked;
+        return SafeArea(
+          child: Container(
+            margin: const EdgeInsets.all(AppSpacing.lg),
+            decoration: BoxDecoration(
+              color: AppColors.surface.withOpacity(0.95),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppColors.border.withOpacity(0.6)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.auto_mode_rounded),
+                  title: const Text('Renderer mode'),
+                  onTap: () =>
+                      Navigator.of(context).pop(_ViewerMenuAction.rendererMode),
+                ),
+                ListTile(
+                  leading: Icon(
+                    rotationLocked
+                        ? Icons.screen_lock_rotation_rounded
+                        : Icons.screen_rotation_alt_rounded,
+                  ),
+                  title: Text(
+                    rotationLocked ? 'Unlock rotation' : 'Lock rotation',
+                  ),
+                  onTap: () => Navigator.of(context)
+                      .pop(_ViewerMenuAction.toggleRotation),
+                ),
+                ListTile(
+                  leading: Icon(
+                      _showMiniMap ? Icons.map_rounded : Icons.map_outlined),
+                  title: Text(_showMiniMap ? 'Hide minimap' : 'Show minimap'),
+                  onTap: () => Navigator.of(context)
+                      .pop(_ViewerMenuAction.toggleMinimap),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: const Icon(Icons.receipt_long_rounded),
+                  title: const Text('View logs'),
+                  onTap: () =>
+                      Navigator.of(context).pop(_ViewerMenuAction.openLogs),
+                ),
+                if (kDebugMode)
+                  ListTile(
+                    leading: const Icon(Icons.bug_report_rounded),
+                    title: const Text('GPU debug report'),
+                    onTap: () =>
+                        Navigator.of(context).pop(_ViewerMenuAction.gpuDebug),
+                  ),
+              ],
+            ),
           ),
-          title: Text(
-            _activeController(context).rotationLocked
-                ? 'Unlock rotation'
-                : 'Lock rotation',
-          ),
-          contentPadding: EdgeInsets.zero,
-        ),
-      ),
-      PopupMenuItem<_ViewerMenuAction>(
-        value: _ViewerMenuAction.toggleMinimap,
-        child: ListTile(
-          dense: true,
-          leading: Icon(_showMiniMap ? Icons.map_rounded : Icons.map_outlined),
-          title: Text(_showMiniMap ? 'Hide minimap' : 'Show minimap'),
-          contentPadding: EdgeInsets.zero,
-        ),
-      ),
-      const PopupMenuDivider(),
-      // AR and random fractal actions are on right-side FABs for faster access.
-      const PopupMenuItem<_ViewerMenuAction>(
-        value: _ViewerMenuAction.openLogs,
-        child: ListTile(
-          dense: true,
-          leading: Icon(Icons.receipt_long_rounded),
-          title: Text('View logs'),
-          contentPadding: EdgeInsets.zero,
-        ),
-      ),
-      if (kDebugMode)
-        const PopupMenuItem<_ViewerMenuAction>(
-          value: _ViewerMenuAction.gpuDebug,
-          child: ListTile(
-            dense: true,
-            leading: Icon(Icons.bug_report_rounded),
-            title: Text('GPU debug report'),
-            contentPadding: EdgeInsets.zero,
-          ),
-        ),
-    ];
+        );
+      },
+    );
+
+    if (selected == null || !mounted) return;
+    _onViewerMenuSelected(context, selected);
   }
 
   void _onViewerMenuSelected(
@@ -672,6 +675,54 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
   }
 
+  Widget _buildTopFab({
+    required String heroTag,
+    required IconData icon,
+    required String tooltip,
+    required VoidCallback? onPressed,
+  }) {
+    return Semantics(
+      label: tooltip,
+      button: true,
+      child: Tooltip(
+        message: tooltip,
+        child: FloatingActionButton.small(
+          heroTag: heroTag,
+          onPressed: onPressed,
+          elevation: 4,
+          backgroundColor: AppColors.surface.withOpacity(0.9),
+          foregroundColor: AppColors.textPrimary,
+          child: Icon(icon),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildViewerTitleChip(
+    BuildContext context,
+    FractalController controller,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    return Container(
+      key: const Key('viewerTitleChip'),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.58),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.white24),
+      ),
+      child: Text(
+        controller.module.displayName(l10n),
+        key: const Key('viewerTitleChipText'),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
   String _formatZoomLabel(double zoom) {
     if (zoom == 0) return '0';
     if (zoom >= 1000 || zoom < 0.01) {
@@ -749,61 +800,13 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         focusNode: _keyboardFocusNode,
         onKeyEvent: (node, event) => _onKeyEvent(context, event),
         child: Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: FractalAppBar(
-            title: controller.module.displayName(l10n),
-            statusText: _backendDecision.toUserStatusText(),
-            onBack: () => Navigator.of(context).pop(),
-            actions: [
-              if (historyProvider != null && historyProvider.canGoBack)
-                AppBarIconButton(
-                  icon: Icons.undo_rounded,
-                  tooltip: 'Back in view history',
-                  onPressed: () => _goHistoryBack(context),
-                ),
-              if (historyProvider != null && historyProvider.canGoForward)
-                AppBarIconButton(
-                  icon: Icons.redo_rounded,
-                  tooltip: 'Forward in view history',
-                  onPressed: () => _goHistoryForward(context),
-                ),
-              // Keep bookmark as a quick one-tap action.
-              AppBarIconButton(
-                icon: Icons.bookmark_add_rounded,
-                tooltip: 'Save location',
-                onPressed: () => _saveBookmark(context),
-              ),
-              Semantics(
-                label: 'More options',
-                button: true,
-                child: Tooltip(
-                  message: 'More options',
-                  child: PopupMenuButton<_ViewerMenuAction>(
-                    onSelected: (action) =>
-                        _onViewerMenuSelected(context, action),
-                    itemBuilder: (_) => _viewerMenuEntries(context),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceVariant.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        Icons.more_horiz_rounded,
-                        size: 20,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          extendBody: true,
           body: LayoutBuilder(
             builder: (context, constraints) {
               final viewportSize =
                   Size(constraints.maxWidth, constraints.maxHeight);
+              final topInset = MediaQuery.of(context).padding.top;
+              final overlayTop = topInset + 56;
 
               return Stack(
                 children: [
@@ -882,17 +885,78 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   ),
 
                   Positioned(
-                    top: MediaQuery.of(context).padding.top +
-                        kToolbarHeight +
-                        (kDebugMode ? 48 : 8),
+                    top: topInset + 8,
+                    left: AppSpacing.md,
+                    right: AppSpacing.md,
+                    child: SizedBox(
+                      height: 44,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _buildTopFab(
+                              heroTag: 'viewer_back_fab',
+                              icon: Icons.arrow_back_rounded,
+                              tooltip: MaterialLocalizations.of(context)
+                                  .backButtonTooltip,
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            if (historyProvider != null &&
+                                historyProvider.canGoBack) ...[
+                              const SizedBox(width: 8),
+                              _buildTopFab(
+                                heroTag: 'viewer_history_back_fab',
+                                icon: Icons.undo_rounded,
+                                tooltip: 'Back in view history',
+                                onPressed: () => _goHistoryBack(context),
+                              ),
+                            ],
+                            if (historyProvider != null &&
+                                historyProvider.canGoForward) ...[
+                              const SizedBox(width: 8),
+                              _buildTopFab(
+                                heroTag: 'viewer_history_forward_fab',
+                                icon: Icons.redo_rounded,
+                                tooltip: 'Forward in view history',
+                                onPressed: () => _goHistoryForward(context),
+                              ),
+                            ],
+                            const SizedBox(width: 8),
+                            _buildTopFab(
+                              heroTag: 'viewer_save_location_fab',
+                              icon: Icons.bookmark_add_rounded,
+                              tooltip: 'Save location',
+                              onPressed: () => _saveBookmark(context),
+                            ),
+                            const SizedBox(width: 8),
+                            _buildTopFab(
+                              heroTag: 'viewer_more_actions_fab',
+                              icon: Icons.more_horiz_rounded,
+                              tooltip: 'More options',
+                              onPressed: () => _openViewerQuickActions(context),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Positioned(
+                    top: overlayTop,
                     left: 12,
-                    child: _buildViewerStatusChip(context, controller),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildViewerTitleChip(context, controller),
+                        const SizedBox(height: 6),
+                        _buildViewerStatusChip(context, controller),
+                      ],
+                    ),
                   ),
 
                   if (_backendDecision.backend == RendererBackend.cpu)
                     Positioned(
-                      // Avoid overlapping the ShaderDebugOverlay which is positioned at top:80, left:8.
-                      top: MediaQuery.of(context).padding.top + 8,
+                      top: overlayTop,
                       right: 12,
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 240),
@@ -916,7 +980,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   if (_deepZoomPrecisionActive &&
                       _backendDecision.backend != RendererBackend.cpu)
                     Positioned(
-                      top: MediaQuery.of(context).padding.top + 8,
+                      top: overlayTop,
                       right: 12,
                       child: GestureDetector(
                         onTap: () {
@@ -1002,9 +1066,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   // Dev-only performance overlay toggle button (top-left)
                   if (kDebugMode)
                     Positioned(
-                      top: MediaQuery.of(context).padding.top +
-                          kToolbarHeight +
-                          8,
+                      top: overlayTop + 68,
                       left: AppSpacing.md,
                       child: GestureDetector(
                         onLongPress:
@@ -1019,9 +1081,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   // Dev-only performance overlay (top-left, below toggle)
                   if (kDebugMode && _showPerformanceOverlay)
                     Positioned(
-                      top: MediaQuery.of(context).padding.top +
-                          kToolbarHeight +
-                          48,
+                      top: overlayTop + 108,
                       left: AppSpacing.md,
                       child: FractalPerformanceOverlay(
                         service: _performanceService,

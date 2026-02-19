@@ -62,7 +62,7 @@ void main() {
             presetStore: presetStore,
             arQualityStore: arQualityStore,
             accessibilityService: accessibilityService,
-          rendererSettingsService: rendererSettingsService,
+            rendererSettingsService: rendererSettingsService,
             locale: const Locale('en'),
           ),
         ),
@@ -123,15 +123,36 @@ void main() {
       }
     }
 
-    Future<void> tapModuleByName(WidgetTester tester, String name) async {
-      final scrollable = find.byType(Scrollable).first;
-      await tester.scrollUntilVisible(
-        find.text(name),
-        200.0,
-        scrollable: scrollable,
-      );
-      await tester.tap(find.text(name));
+    Finder moduleCards() {
+      return find.byWidgetPredicate((w) {
+        final key = w.key;
+        if (key is! ValueKey) return false;
+        final value = key.value;
+        if (value is! String) return false;
+        return value.startsWith('catalogGridTile_') ||
+            value.startsWith('catalogModuleCard_');
+      });
+    }
+
+    Future<void> tapModuleBySearch(
+      WidgetTester tester, {
+      required String query,
+    }) async {
+      final searchField = find.byKey(const Key('catalogSearchField'));
+      expect(searchField, findsOneWidget);
+
+      await tester.enterText(searchField, query);
       await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      final cards = moduleCards();
+      expect(cards, findsWidgets);
+      await tester.tap(cards.first);
+      await tester.pump();
+    }
+
+    void expectViewerOpened() {
+      expect(find.byKey(const Key('catalogSearchField')), findsNothing);
     }
 
     testWidgets('01_catalog', (tester) async {
@@ -148,52 +169,66 @@ void main() {
 
     testWidgets('02_viewer_mandelbulb', (tester) async {
       await pumpApp(tester);
-      await tapModuleByName(tester, 'Mandelbulb');
+      await tapModuleBySearch(
+        tester,
+        query: 'Mandelbulb',
+      );
       await tester.pump(const Duration(seconds: 3));
-      expect(find.byIcon(Icons.tune), findsOneWidget);
+      expectViewerOpened();
       await snap(tester, '02_viewer_mandelbulb');
     });
 
     testWidgets('03_viewer_mandelbrot', (tester) async {
       await pumpApp(tester);
-      await tapModuleByName(tester, 'Mandelbrot');
+      await tapModuleBySearch(
+        tester,
+        query: 'Mandelbrot',
+      );
       await tester.pump(const Duration(seconds: 3));
-      expect(find.byIcon(Icons.tune), findsOneWidget);
+      expectViewerOpened();
       await snap(tester, '03_viewer_mandelbrot');
     });
 
     testWidgets('04_viewer_julia', (tester) async {
       await pumpApp(tester);
-      await tapModuleByName(tester, 'Julia');
+      await tapModuleBySearch(tester, query: 'Julia');
       await tester.pump(const Duration(seconds: 3));
-      expect(find.byIcon(Icons.tune), findsOneWidget);
+      expectViewerOpened();
       await snap(tester, '04_viewer_julia');
     });
 
     testWidgets('05_viewer_burning_ship', (tester) async {
       await pumpApp(tester);
-      await tapModuleByName(tester, 'Burning Ship');
+      await tapModuleBySearch(
+        tester,
+        query: 'Burning',
+      );
       await tester.pump(const Duration(seconds: 3));
-      expect(find.byIcon(Icons.tune), findsOneWidget);
+      expectViewerOpened();
       await snap(tester, '05_viewer_burning_ship');
     });
 
     testWidgets('06_viewer_phoenix', (tester) async {
       await pumpApp(tester);
-      await tapModuleByName(tester, 'Phoenix');
+      await tapModuleBySearch(tester, query: 'Phoenix');
       await tester.pump(const Duration(seconds: 3));
-      expect(find.byIcon(Icons.tune), findsOneWidget);
+      expectViewerOpened();
       await snap(tester, '06_viewer_phoenix');
     });
 
     testWidgets('07_controls_panel', (tester) async {
       await pumpApp(tester);
-      // Open Mandelbulb (3D fractal for more interesting controls)
-      await tapModuleByName(tester, 'Mandelbulb');
+      // Open a 2D fractal to ensure controls affordances are present.
+      await tapModuleBySearch(
+        tester,
+        query: 'Mandelbrot',
+      );
       await tester.pump(const Duration(seconds: 3));
+      expectViewerOpened();
 
-      // Open controls panel (Icons.tune)
-      await tester.tap(find.byIcon(Icons.tune));
+      // Open controls panel (Icons.tune_rounded)
+      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.tune_rounded));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 800));
 
@@ -203,11 +238,13 @@ void main() {
     testWidgets('08_presets_panel', (tester) async {
       await pumpApp(tester);
       // Open Julia set (has nice presets)
-      await tapModuleByName(tester, 'Julia');
+      await tapModuleBySearch(tester, query: 'Julia');
       await tester.pump(const Duration(seconds: 3));
+      expectViewerOpened();
 
-      // Open presets panel (Icons.bookmark)
-      await tester.tap(find.byIcon(Icons.bookmark));
+      // Open presets panel (Icons.bookmark_rounded)
+      expect(find.byIcon(Icons.bookmark_rounded), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.bookmark_rounded));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 800));
 

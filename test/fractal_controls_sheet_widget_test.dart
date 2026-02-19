@@ -11,8 +11,8 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
 
     final controller = FractalController(ModuleRegistry());
-    // Sanity check: mandelbrot default has 120 iterations.
-    expect(controller.params['iterations'], 120);
+    final defaultIterations = controller.params['iterations'] as int;
+    expect(defaultIterations, greaterThan(0));
 
     await tester.pumpWidget(
       ChangeNotifierProvider.value(
@@ -40,7 +40,7 @@ void main() {
     await tester.tap(find.text('Reset Params'));
     await tester.pumpAndSettle();
 
-    expect(controller.params['iterations'], 120);
+    expect(controller.params['iterations'], defaultIterations);
 
     // Ensure we rendered sliders and chips for the default module.
     expect(find.byType(Slider), findsWidgets);

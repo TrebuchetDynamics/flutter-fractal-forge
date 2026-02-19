@@ -60,6 +60,7 @@ void main() {
     testWidgets('Reset Params restores defaults', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
+      final defaultIterations = controller.params['iterations'] as int;
 
       // Change a parameter
       controller.updateParam('iterations', 500);
@@ -68,7 +69,7 @@ void main() {
       await tester.tap(find.text('Reset Params'));
       await tester.pumpAndSettle();
 
-      expect(controller.params['iterations'], 120); // Default
+      expect(controller.params['iterations'], defaultIterations);
     });
 
     testWidgets('Reset View resets view state', (tester) async {

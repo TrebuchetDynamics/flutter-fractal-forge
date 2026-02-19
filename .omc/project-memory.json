@@ -361,8 +361,8 @@
   "hotPaths": [
     {
       "path": "pubspec.yaml",
-      "accessCount": 58,
-      "lastAccessed": 1771468734248,
+      "accessCount": 61,
+      "lastAccessed": 1771523586941,
       "type": "directory"
     },
     {

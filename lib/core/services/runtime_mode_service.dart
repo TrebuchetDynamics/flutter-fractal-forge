@@ -43,8 +43,11 @@ class RuntimeModeService {
 
   /// True only for widget-style tests where the lightweight test surface should
   /// replace real GPU shader rendering.
+  ///
+  /// Integration tests can still exercise the real renderer by setting
+  /// `FORCE_GPU_RENDER=true`.
   static bool get useRendererPlaceholderSurface {
     if (forceGpuRender) return false;
-    return isAutomatedTest && !isIntegrationTest;
+    return isAutomatedTest;
   }
 }

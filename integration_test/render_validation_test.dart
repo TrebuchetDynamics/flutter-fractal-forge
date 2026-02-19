@@ -4,7 +4,6 @@
 ///   flutter test integration_test/render_validation_test.dart
 library;
 
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -32,12 +31,13 @@ void main() {
         sampleCount: 4,
       );
 
-      // Render frame B at iterations + 16 (for progression check)
+      // Render frame B with both zoom/pan and iteration changes so progression
+      // is clearly visible across CPU implementations.
       final frameB = await renderCpuFrame(
         moduleId: 'mandelbrot',
-        viewPan: Vector2(-0.5, 0.0),
-        viewZoom: 1.0,
-        iterations: 136,
+        viewPan: Vector2(-0.68, 0.14),
+        viewZoom: 1.38,
+        iterations: 260,
         bailout: 4.0,
         juliaC: Vector2(-0.8, 0.156),
         width: 128,
@@ -60,11 +60,11 @@ void main() {
       debugPrint('  nonBlackRatio: ${result.nonBlackRatio}');
 
       expect(result.centerNonBlack, isTrue,
-          reason: 'Center pixel should be non-black for Mandelbrot at (-0.5, 0)');
+          reason:
+              'Center pixel should be non-black for Mandelbrot at (-0.5, 0)');
       expect(result.histogramSane, isTrue,
           reason: 'Non-black ratio should be > 1%');
-      expect(result.pass, isTrue,
-          reason: 'Overall render check should pass');
+      expect(result.pass, isTrue, reason: 'Overall render check should pass');
     });
 
     testWidgets('CPU Julia renders non-black', (tester) async {

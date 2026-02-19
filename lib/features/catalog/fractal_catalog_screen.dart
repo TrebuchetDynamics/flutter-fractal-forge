@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
@@ -22,27 +23,106 @@ enum _SortOrder { byCategory, alphabetical }
 
 /// IDs (without 'core.' prefix) that have a known thumbnail PNG.
 const _kKnownThumbnailIds = <String>{
-  'mandelbrot', 'julia', 'burning_ship', 'burning_ship_julia', 'buffalo',
-  'buffalo_julia', 'manowar', 'celtic', 'celtic_julia', 'cosine_mandelbrot',
-  'cosine_julia', 'cosh_mandelbrot', 'lambda', 'glynn', 'magnet_type_2',
-  'magnet_newton', 'halley', 'householder', 'legendre', 'laguerre',
-  'chebyshev', 'eisenstein', 'fatou', 'exponential', 'dual_complex',
-  'bicomplex', 'hypercomplex_newton', 'collatz', 'gamma_fractal', 'ducky',
-  'fish', 'druid', 'heart', 'day_night', 'barnsley_fern', 'barnsley_j1',
-  'barnsley_j2', 'barnsley_j3', 'cyclosorus_fern', 'arnold_cat', 'henon',
-  'hopalong', 'clifford', 'gumowski_mira', 'gingerbreadman', 'duffing',
-  'lyapunov', 'logistic_lyapunov', 'circle_map_lyapunov', 'gauss_map',
-  'feigenbaum', 'lorenz_2d', 'aizawa', 'arneodo', 'bouali', 'burke_shaw',
-  'chen', 'chua_circuit', 'dadras', 'four_wing', 'hadley', 'halvorsen',
-  'liu_chen', 'lu_chen', 'golden_dragon', 'fibonacci_spiral',
-  'fibonacci_word', 'log_spiral', 'astroid', 'hilbert_curve', 'gosper_curve',
-  'levy_c_curve', 'moore_curve', 'cesaro_fractal', 'fractal_canopy',
-  'koch_snowflake', 'hexaflake', 'cantor_set', 'cantor_dust',
-  'menger_sponge_2d', 'menger_3d_slice', 'apollonian_gasket', 'ford_circles',
-  'farey_diagram', 'cayley_graph', 'ammann_beenker', 'hat_monotile',
-  'chair_tiling', 'cactus', 'dla', 'eden_growth', 'forest_fire',
-  'langton_ant', 'brian_brain', 'kicked_rotator', 'benesi',
-  'anti_buddhabrot', 'buddhabrot_approx', 'manair_fire', 'jerusalem_cube',
+  'mandelbrot',
+  'julia',
+  'burning_ship',
+  'burning_ship_julia',
+  'buffalo',
+  'buffalo_julia',
+  'manowar',
+  'celtic',
+  'celtic_julia',
+  'cosine_mandelbrot',
+  'cosine_julia',
+  'cosh_mandelbrot',
+  'lambda',
+  'glynn',
+  'magnet_type_2',
+  'magnet_newton',
+  'halley',
+  'householder',
+  'legendre',
+  'laguerre',
+  'chebyshev',
+  'eisenstein',
+  'fatou',
+  'exponential',
+  'dual_complex',
+  'bicomplex',
+  'hypercomplex_newton',
+  'collatz',
+  'gamma_fractal',
+  'ducky',
+  'fish',
+  'druid',
+  'heart',
+  'day_night',
+  'barnsley_fern',
+  'barnsley_j1',
+  'barnsley_j2',
+  'barnsley_j3',
+  'cyclosorus_fern',
+  'arnold_cat',
+  'henon',
+  'hopalong',
+  'clifford',
+  'gumowski_mira',
+  'gingerbreadman',
+  'duffing',
+  'lyapunov',
+  'logistic_lyapunov',
+  'circle_map_lyapunov',
+  'gauss_map',
+  'feigenbaum',
+  'lorenz_2d',
+  'aizawa',
+  'arneodo',
+  'bouali',
+  'burke_shaw',
+  'chen',
+  'chua_circuit',
+  'dadras',
+  'four_wing',
+  'hadley',
+  'halvorsen',
+  'liu_chen',
+  'lu_chen',
+  'golden_dragon',
+  'fibonacci_spiral',
+  'fibonacci_word',
+  'log_spiral',
+  'astroid',
+  'hilbert_curve',
+  'gosper_curve',
+  'levy_c_curve',
+  'moore_curve',
+  'cesaro_fractal',
+  'fractal_canopy',
+  'koch_snowflake',
+  'hexaflake',
+  'cantor_set',
+  'cantor_dust',
+  'menger_sponge_2d',
+  'menger_3d_slice',
+  'apollonian_gasket',
+  'ford_circles',
+  'farey_diagram',
+  'cayley_graph',
+  'ammann_beenker',
+  'hat_monotile',
+  'chair_tiling',
+  'cactus',
+  'dla',
+  'eden_growth',
+  'forest_fire',
+  'langton_ant',
+  'brian_brain',
+  'kicked_rotator',
+  'benesi',
+  'anti_buddhabrot',
+  'buddhabrot_approx',
+  'manair_fire',
+  'jerusalem_cube',
 };
 
 class FractalCatalogScreen extends StatefulWidget {
@@ -290,8 +370,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
             duration: AppAnimations.fast,
             child: Icon(
               Icons.search_rounded,
-              color:
-                  _isSearchFocused ? AppColors.primary : AppColors.textMuted,
+              color: _isSearchFocused ? AppColors.primary : AppColors.textMuted,
             ),
           ),
           suffixIcon: AnimatedSwitcher(
@@ -454,8 +533,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     controller.selectModule(module);
     Navigator.of(context).push(
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            MultiProvider(
+        pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(
           providers: [
             ChangeNotifierProvider.value(value: controller),
           ],
@@ -799,8 +877,7 @@ class _ModuleCardState extends State<_ModuleCard>
     final dimensionLabel =
         is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
     final name = widget.entry.module.displayName(widget.l10n);
-    final semanticLabel =
-        widget.l10n.semanticFractalCard(name, dimensionLabel);
+    final semanticLabel = widget.l10n.semanticFractalCard(name, dimensionLabel);
 
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
@@ -958,6 +1035,7 @@ class _PreviewThumbnail extends StatefulWidget {
 class _PreviewThumbnailState extends State<_PreviewThumbnail>
     with SingleTickerProviderStateMixin {
   late final AnimationController _shimmerController;
+  late final bool _animateShimmer;
   bool _imageLoaded = false;
   bool _imageError = false;
 
@@ -971,10 +1049,32 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   @override
   void initState() {
     super.initState();
+    _animateShimmer = !RuntimeModeService.isAutomatedTest;
     _shimmerController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
-    )..repeat();
+    );
+    if (_animateShimmer) {
+      _shimmerController.repeat();
+    }
+  }
+
+  void _markImageLoaded() {
+    if (_imageLoaded) return;
+    if (_shimmerController.isAnimating) {
+      _shimmerController.stop();
+    }
+    if (!mounted) return;
+    setState(() => _imageLoaded = true);
+  }
+
+  void _markImageError() {
+    if (_imageError) return;
+    if (_shimmerController.isAnimating) {
+      _shimmerController.stop();
+    }
+    if (!mounted) return;
+    setState(() => _imageError = true);
   }
 
   @override
@@ -1013,23 +1113,25 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
               thumbAsset,
               fit: BoxFit.cover,
               filterQuality: FilterQuality.medium,
-              frameBuilder:
-                  (context, child, frame, wasSynchronouslyLoaded) {
-                if (frame != null && !_imageLoaded) {
+              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                final imageReady = wasSynchronouslyLoaded || frame != null;
+                if (imageReady && !_imageLoaded) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (mounted) setState(() => _imageLoaded = true);
+                    _markImageLoaded();
                   });
                 }
                 return AnimatedOpacity(
-                  opacity: frame != null ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 250),
+                  opacity: imageReady ? 1.0 : 0.0,
+                  duration: imageReady
+                      ? Duration.zero
+                      : const Duration(milliseconds: 250),
                   child: child,
                 );
               },
               errorBuilder: (context, error, stack) {
                 if (!_imageError) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (mounted) setState(() => _imageError = true);
+                    _markImageError();
                   });
                 }
                 return _GradientFallback(
@@ -1062,8 +1164,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
             top: 7,
             right: 6,
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
               decoration: BoxDecoration(
                 color: widget.is3D
                     ? const Color(0xFFFFB300).withOpacity(0.92)
@@ -1101,8 +1202,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
               left: 4,
               right: 4,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.6),
                   borderRadius: BorderRadius.circular(4),
@@ -1410,10 +1510,8 @@ class _FractalGradientPainter extends CustomPainter {
     final rows = (rect.height / step).floor();
     if (cols > 0 && rows > 0) {
       for (int i = 0; i < 6; i++) {
-        final col =
-            ((hash ~/ math.pow(3, i).toInt()) % cols).toDouble() * step;
-        final row =
-            ((hash ~/ math.pow(5, i).toInt()) % rows).toDouble() * step;
+        final col = ((hash ~/ math.pow(3, i).toInt()) % cols).toDouble() * step;
+        final row = ((hash ~/ math.pow(5, i).toInt()) % rows).toDouble() * step;
         canvas.drawRect(
             Rect.fromLTWH(col, row, step - 1, step - 1), accentPaint);
       }

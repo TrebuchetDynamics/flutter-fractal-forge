@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,11 @@ void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
-    await binding.convertFlutterSurfaceToImage();
+    try {
+      await binding.convertFlutterSurfaceToImage();
+    } on MissingPluginException {
+      debugPrint('Screenshot surface conversion unavailable on this platform');
+    }
   });
 
   Finder cardFinder(String catalogId) {

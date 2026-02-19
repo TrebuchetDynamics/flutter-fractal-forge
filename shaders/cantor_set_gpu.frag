@@ -51,7 +51,11 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
-  vec2 p = uv / max(0.000001, uZoom) + uCenter;
+  // Cantor Set becomes visually degenerate when zoomed too far out (very tiny
+  // uZoom values produce subpixel striping that reads as a black screen).
+  // Use a module-local floor so framing stays legible on device.
+  float effectiveZoom = max(0.2, uZoom);
+  vec2 p = uv / max(0.000001, effectiveZoom) + uCenter;
   p *= 2.2;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
