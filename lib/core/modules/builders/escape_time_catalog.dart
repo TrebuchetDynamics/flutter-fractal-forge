@@ -3914,6 +3914,148 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
   ),
+
+  // ── Batch 17: Weierstrass & Steffensen ──────────────────────────────────
+
+  EscapeTimeConfig(
+    id: 'weierstrass_p',
+    name: 'Weierstrass ℘ + c',
+    shaderAsset: 'shaders/weierstrass_p_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'wp-classic',
+        moduleId: 'weierstrass_p',
+        name: 'Square Lattice',
+        params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 0},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'wp-relief',
+        moduleId: 'weierstrass_p',
+        name: '℘ Relief',
+        params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  EscapeTimeConfig(
+    id: 'weierstrass_roots',
+    name: 'Weierstrass Roots',
+    shaderAsset: 'shaders/weierstrass_roots_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'wroots-basins',
+        moduleId: 'weierstrass_roots',
+        name: 'Three Basins',
+        params: {'iterations': 80, 'bailout': 4.0, 'colorScheme': 2},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.6, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'wroots-relief',
+        moduleId: 'weierstrass_roots',
+        name: 'Weierstrass Relief',
+        params: {'iterations': 100, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.6, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  EscapeTimeConfig(
+    id: 'steffensen_z3',
+    name: 'Steffensen z³−1',
+    shaderAsset: 'shaders/steffensen_z3_gpu.frag',
+    defaultIterations: 100,
+    defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'steff3-trefoil',
+        moduleId: 'steffensen_z3',
+        name: 'Trefoil Basins',
+        params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 0},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'steff3-golden',
+        moduleId: 'steffensen_z3',
+        name: 'Golden Ornaments',
+        params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 5},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  EscapeTimeConfig(
+    id: 'steffensen_z4',
+    name: 'Steffensen z⁴−1',
+    shaderAsset: 'shaders/steffensen_z4_gpu.frag',
+    defaultIterations: 100,
+    defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'steff4-cross',
+        moduleId: 'steffensen_z4',
+        name: 'Cross Basins',
+        params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 1},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'steff4-sapphire',
+        moduleId: 'steffensen_z4',
+        name: 'Sapphire Quatrefoil',
+        params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 4},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  EscapeTimeConfig(
+    id: 'steffensen_z5',
+    name: 'Steffensen z⁵−1',
+    shaderAsset: 'shaders/steffensen_z5_gpu.frag',
+    defaultIterations: 100,
+    defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'steff5-penta',
+        moduleId: 'steffensen_z5',
+        name: 'Pentagonal Basins',
+        params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 2},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'steff5-fire',
+        moduleId: 'steffensen_z5',
+        name: 'Fire Pentagon',
+        params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 6},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.

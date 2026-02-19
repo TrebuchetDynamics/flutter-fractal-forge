@@ -407,3 +407,8 @@ flutter:
     - shaders/blaschke_gpu.frag
     - shaders/fatou_exp_gpu.frag
     - shaders/sin_z2_gpu.frag
+    - shaders/weierstrass_p_gpu.frag
+    - shaders/weierstrass_roots_gpu.frag
+    - shaders/steffensen_z3_gpu.frag
+    - shaders/steffensen_z4_gpu.frag
+    - shaders/steffensen_z5_gpu.frag
