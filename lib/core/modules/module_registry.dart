@@ -48,8 +48,10 @@ class ModuleRegistry {
   }
 
   static List<FractalModule> _buildAll() {
-    // IDs already in the escape-time catalog (built declaratively)
-    final catalogModules = buildEscapeTimeCatalogModules();
+    // IDs already in the escape-time catalog (built declaratively).
+    // Defensive de-duplication keeps registry stable even if the catalog
+    // accidentally contains repeated ids.
+    final catalogModules = _dedupeById(buildEscapeTimeCatalogModules());
     final catalogIds = catalogModules.map((m) => m.id).toSet();
 
     // Custom modules with special params/uniforms
@@ -86,8 +88,10 @@ class ModuleRegistry {
     final result = <FractalModule>[];
 
     // Find key positions for insertion
-    final mandelbrotIdx = catalogModules.indexWhere((m) => m.id == 'mandelbrot');
-    final burningShipIdx = catalogModules.indexWhere((m) => m.id == 'burning_ship');
+    final mandelbrotIdx =
+        catalogModules.indexWhere((m) => m.id == 'mandelbrot');
+    final burningShipIdx =
+        catalogModules.indexWhere((m) => m.id == 'burning_ship');
     final novaJuliaIdx = catalogModules.indexWhere((m) => m.id == 'nova_julia');
 
     for (int i = 0; i < catalogModules.length; i++) {
@@ -119,6 +123,17 @@ class ModuleRegistry {
     }
 
     result.addAll(diagModules);
-    return result;
+    return _dedupeById(result);
+  }
+
+  static List<FractalModule> _dedupeById(List<FractalModule> modules) {
+    final seen = <String>{};
+    final unique = <FractalModule>[];
+    for (final module in modules) {
+      if (seen.add(module.id)) {
+        unique.add(module);
+      }
+    }
+    return unique;
   }
 }

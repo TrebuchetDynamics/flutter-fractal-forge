@@ -117,6 +117,46 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
+      // Normal-map (bas-relief) presets — colorScheme 50-63 activates 3D shading.
+      FractalPreset(
+        id: 'mandelbrot-relief-sunrise',
+        moduleId: 'mandelbrot',
+        name: 'Bas-Relief: Sunrise',
+        params: {'iterations': 280, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(
+          pan: Vector2(-0.5, 0.0),
+          zoom: 1.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-relief-seahorse',
+        moduleId: 'mandelbrot',
+        name: 'Bas-Relief: Seahorse',
+        params: {'iterations': 350, 'bailout': 4.0, 'colorScheme': 54},
+        view: FractalViewState(
+          pan: Vector2(-0.747, 0.1),
+          zoom: 25.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbrot-relief-moonlit',
+        moduleId: 'mandelbrot',
+        name: 'Bas-Relief: Moonlit',
+        params: {'iterations': 400, 'bailout': 4.0, 'colorScheme': 61},
+        view: FractalViewState(
+          pan: Vector2(-0.743643887037158, 0.131825904205330),
+          zoom: 500.0,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
     ],
   ),
   // Julia has extra params (seed cx, cy) — keep custom builder for now.
@@ -232,6 +272,19 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
+      FractalPreset(
+        id: 'burning-ship-relief',
+        moduleId: 'burning_ship',
+        name: 'Bas-Relief: Hull',
+        params: {'iterations': 320, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(
+          pan: Vector2(-0.5, -0.5),
+          zoom: 1.5,
+          rotation: Vector3.zero(),
+        ),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
     ],
   ),
   EscapeTimeConfig(
@@ -239,24 +292,95 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Tricorn',
     shaderAsset: 'shaders/tricorn_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'tricorn-relief-dawn',
+        moduleId: 'tricorn',
+        name: 'Bas-Relief: Dawn',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'tricorn-relief-dusk',
+        moduleId: 'tricorn',
+        name: 'Bas-Relief: Dusk',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(-0.16, 0.9), zoom: 30.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'celtic',
     name: 'Celtic',
     shaderAsset: 'shaders/celtic_gpu.frag',
     defaultIterations: 180,
+    extraPresets: [
+      FractalPreset(
+        id: 'celtic-relief-iron',
+        moduleId: 'celtic',
+        name: 'Bas-Relief: Iron',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'celtic-relief-storm',
+        moduleId: 'celtic',
+        name: 'Bas-Relief: Storm',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 4.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'buffalo',
     name: 'Buffalo',
     shaderAsset: 'shaders/buffalo_gpu.frag',
     defaultIterations: 180,
+    extraPresets: [
+      FractalPreset(
+        id: 'buffalo-relief-plains',
+        moduleId: 'buffalo',
+        name: 'Bas-Relief: Plains',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'buffalo-relief-stampede',
+        moduleId: 'buffalo',
+        name: 'Bas-Relief: Stampede',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(-0.3, 0.5), zoom: 8.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multibrot3',
     name: 'Multibrot d=3',
     shaderAsset: 'shaders/multibrot3_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot3-relief-trine',
+        moduleId: 'multibrot3',
+        name: 'Bas-Relief: Trine',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   // Nova has custom uniforms (relaxation instead of bailout) — keep custom builder.
   // See nova_module.dart.
@@ -287,42 +411,122 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Perpendicular Mandelbrot',
     shaderAsset: 'shaders/perpendicular_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-mandel-relief',
+        moduleId: 'perpendicular_mandelbrot',
+        name: 'Stone Fold',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'lambda',
     name: 'Lambda Fractal',
     shaderAsset: 'shaders/lambda_gpu.frag',
     defaultIterations: 120,
+    extraPresets: [
+      FractalPreset(
+        id: 'lambda-relief',
+        moduleId: 'lambda',
+        name: 'Lambda Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'magnet_type_1',
     name: 'Magnet Fractal (Type I)',
     shaderAsset: 'shaders/magnet1_gpu.frag',
     defaultIterations: 100,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'magnet1-relief',
+        moduleId: 'magnet_type_1',
+        name: 'Magnet Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'magnet_type_2',
     name: 'Magnet Fractal (Type II)',
     shaderAsset: 'shaders/magnet2_gpu.frag',
     defaultIterations: 100,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'magnet2-relief',
+        moduleId: 'magnet_type_2',
+        name: 'Magnet II Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'magnet_type_3',
     name: 'Magnet Fractal (Type III)',
     shaderAsset: 'shaders/magnet3_gpu.frag',
     defaultIterations: 100,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'magnet3-relief',
+        moduleId: 'magnet_type_3',
+        name: 'Rational Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'power_sum',
     name: 'Power Sum Fractal',
     shaderAsset: 'shaders/power_sum_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'power-sum-relief',
+        moduleId: 'power_sum',
+        name: 'Power Sum Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'cactus',
     name: 'Cactus Fractal',
     shaderAsset: 'shaders/cactus_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'cactus-relief',
+        moduleId: 'cactus',
+        name: 'Cactus Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'astroid',
@@ -347,48 +551,136 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Druid Fractal',
     shaderAsset: 'shaders/druid_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'druid-relief',
+        moduleId: 'druid',
+        name: 'Druid Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'inverse_mandelbrot',
     name: 'Inverse Mandelbrot',
     shaderAsset: 'shaders/inverse_mandelbrot_gpu.frag',
     defaultIterations: 120,
+    extraPresets: [
+      FractalPreset(
+        id: 'inverse-mandelbrot-relief',
+        moduleId: 'inverse_mandelbrot',
+        name: 'Inverse Mandelbrot Relief',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'glynn',
     name: 'Glynn Fractal',
     shaderAsset: 'shaders/glynn_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'glynn-relief',
+        moduleId: 'glynn',
+        name: 'Glynn Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'simonbrot',
     name: 'Simonbrot',
     shaderAsset: 'shaders/simonbrot_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'simonbrot-relief',
+        moduleId: 'simonbrot',
+        name: 'Simonbrot Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'shark_fin',
     name: 'Shark Fin',
     shaderAsset: 'shaders/shark_fin_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'shark-fin-relief',
+        moduleId: 'shark_fin',
+        name: 'Shark Fin Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'manowar',
     name: 'Manowar Fractal',
     shaderAsset: 'shaders/manowar_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'manowar-relief',
+        moduleId: 'manowar',
+        name: 'Manowar Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'spider',
     name: 'Spider Fractal',
     shaderAsset: 'shaders/spider_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'spider-relief',
+        moduleId: 'spider',
+        name: 'Spider Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'collatz',
     name: 'Collatz Fractal',
     shaderAsset: 'shaders/collatz_gpu.frag',
     defaultIterations: 120,
+    extraPresets: [
+      FractalPreset(
+        id: 'collatz-relief',
+        moduleId: 'collatz',
+        name: 'Collatz Relief',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'popcorn',
@@ -402,12 +694,34 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Talis Fractal',
     shaderAsset: 'shaders/talis_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'talis-relief',
+        moduleId: 'talis',
+        name: 'Talis Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tetration',
     name: 'Tetration Fractal',
     shaderAsset: 'shaders/tetration_gpu.frag',
     defaultIterations: 90,
+    extraPresets: [
+      FractalPreset(
+        id: 'tetration-relief',
+        moduleId: 'tetration',
+        name: 'Tetration Relief',
+        params: {'iterations': 130, 'bailout': 4.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
 
   // ── XI. IFS / Geometric Fractals ───────────────────────
@@ -943,6 +1257,114 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 16.0,
   ),
 
+  // Dequan Li (2008) — a=40, k=20, f=1.833, c=−11, d=0.16, e=0.65; dragon-wing attractor.
+  EscapeTimeConfig(
+    id: 'dequan_li',
+    name: 'Dequan Li Attractor',
+    shaderAsset: 'shaders/dequan_li_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Coullet-Tresser-Arneodo (1979) — cubic Duffing oscillator; double-well potential.
+  EscapeTimeConfig(
+    id: 'coullet',
+    name: 'Coullet Attractor',
+    shaderAsset: 'shaders/coullet_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sakarya — a=0.4, b=0.3; compact single-lobe attractor near origin.
+  EscapeTimeConfig(
+    id: 'sakarya',
+    name: 'Sakarya Attractor',
+    shaderAsset: 'shaders/sakarya_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Qi-Chen (2005) — a=14, b=43, c=13; four-wing chaotic system.
+  EscapeTimeConfig(
+    id: 'qi_chen',
+    name: 'Qi-Chen Attractor',
+    shaderAsset: 'shaders/qi_chen_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Yu-Wang (2012) — a=10, b=40, c=2, d=2.5; exponential coupling exp(xy).
+  EscapeTimeConfig(
+    id: 'yu_wang',
+    name: 'Yu-Wang Attractor',
+    shaderAsset: 'shaders/yu_wang_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Zhou-Chen (2004) — a=35, b=3, c=28; Lorenz-family four-wing system.
+  EscapeTimeConfig(
+    id: 'zhou_chen',
+    name: 'Zhou-Chen Attractor',
+    shaderAsset: 'shaders/zhou_chen_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // TSUCS — Two-Scroll Unified Chaotic System (Elabbasy 2007); double-scroll attractor.
+  EscapeTimeConfig(
+    id: 'tsucs',
+    name: 'TSUCS Attractor',
+    shaderAsset: 'shaders/tsucs_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Lorenz-84 atmospheric circulation / Rayleigh-Bénard model (Lorenz 1984).
+  EscapeTimeConfig(
+    id: 'rayleigh_benard',
+    name: 'Rayleigh-Bénard Attractor',
+    shaderAsset: 'shaders/rayleigh_benard_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Robinson attractor — Duffing double-well oscillator with z feedback.
+  EscapeTimeConfig(
+    id: 'robinson',
+    name: 'Robinson Attractor',
+    shaderAsset: 'shaders/robinson_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Globo-Toroid — toroidal winding chaotic system; a=0.5, b=0.5, c=1.0.
+  EscapeTimeConfig(
+    id: 'globo_toroid',
+    name: 'Globo-Toroid Attractor',
+    shaderAsset: 'shaders/globo_toroid_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Tamari — Lorenz-family with reversed xz coupling; a=50, b=0.833, c=20.
+  EscapeTimeConfig(
+    id: 'tamari',
+    name: 'Tamari Attractor',
+    shaderAsset: 'shaders/tamari_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Wang-Sun-Cang (2010) — tilted double-scroll; a=0.2, b=0.01, c=−0.4, d=0.5.
+  EscapeTimeConfig(
+    id: 'wang_sun_cang',
+    name: 'Wang-Sun-Cang Attractor',
+    shaderAsset: 'shaders/wang_sun_cang_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
   // ── II. Convergent/Root-Finding (escape-time variant) ───
   EscapeTimeConfig(
     id: 'newton_z3',
@@ -987,6 +1409,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/quaternion_julia_2d_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'quaternion_julia_2d-relief', moduleId: 'quaternion_julia_2d', name: 'Quaternion Relief',
+        params: {'iterations': 160, 'bailout': 8.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tessarine_julia',
@@ -994,6 +1424,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/tessarine_julia_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'tessarine_julia-relief', moduleId: 'tessarine_julia', name: 'Tessarine Relief',
+        params: {'iterations': 160, 'bailout': 8.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'split_complex',
@@ -1001,6 +1439,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/split_complex_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 10.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'split_complex-relief', moduleId: 'split_complex', name: 'Split-Complex Relief',
+        params: {'iterations': 180, 'bailout': 10.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'dual_complex',
@@ -1015,6 +1461,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/bicomplex_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 12.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'bicomplex-relief', moduleId: 'bicomplex', name: 'Bicomplex Relief',
+        params: {'iterations': 180, 'bailout': 12.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
 
   // ── VII. Trigonometric ──────────────────────────────────
@@ -1023,36 +1477,104 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Sine Julia',
     shaderAsset: 'shaders/sine_julia_gpu.frag',
     defaultIterations: 100,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'sine-julia-relief',
+        moduleId: 'sine_julia',
+        name: 'Sine Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'cosine_julia',
     name: 'Cosine Julia',
     shaderAsset: 'shaders/cosine_julia_gpu.frag',
     defaultIterations: 100,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'cosine-julia-relief',
+        moduleId: 'cosine_julia',
+        name: 'Cosine Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tangent',
     name: 'Tangent Fractal',
     shaderAsset: 'shaders/tangent_gpu.frag',
     defaultIterations: 100,
+    extraPresets: [
+      FractalPreset(
+        id: 'tangent-relief',
+        moduleId: 'tangent',
+        name: 'Tangent Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'sinh_cosh',
     name: 'Sinh Fractal',
     shaderAsset: 'shaders/sinh_cosh_gpu.frag',
     defaultIterations: 100,
+    extraPresets: [
+      FractalPreset(
+        id: 'sinh-cosh-relief',
+        moduleId: 'sinh_cosh',
+        name: 'Sinh Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'exponential',
     name: 'Exponential Fractal',
     shaderAsset: 'shaders/exponential_gpu.frag',
     defaultIterations: 100,
+    extraPresets: [
+      FractalPreset(
+        id: 'exponential-relief',
+        moduleId: 'exponential',
+        name: 'Exponential Relief',
+        params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'zircon_zity',
     name: 'Zircon Zity',
     shaderAsset: 'shaders/zircon_zity_gpu.frag',
     defaultIterations: 130,
+    extraPresets: [
+      FractalPreset(
+        id: 'zircon-zity-relief',
+        moduleId: 'zircon_zity',
+        name: 'Zircon Zity Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
 
   // ── VIII. Advanced Rational & Polynomial ─────────────────
@@ -1061,18 +1583,51 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: "Barnsley J1",
     shaderAsset: 'shaders/barnsley_j1_gpu.frag',
     defaultIterations: 120,
+    extraPresets: [
+      FractalPreset(
+        id: 'barnsley-j1-relief',
+        moduleId: 'barnsley_j1',
+        name: 'Barnsley J1 Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'fish',
     name: 'Fish Fractal',
     shaderAsset: 'shaders/fish_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'fish-relief',
+        moduleId: 'fish',
+        name: 'Fish Relief',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'ducky',
     name: 'Ducky Fractal',
     shaderAsset: 'shaders/ducky_gpu.frag',
     defaultIterations: 130,
+    extraPresets: [
+      FractalPreset(
+        id: 'ducky-relief',
+        moduleId: 'ducky',
+        name: 'Ducky Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 60},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'schroeder',
@@ -1105,48 +1660,127 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Rational Map Fractal',
     shaderAsset: 'shaders/rational_map_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'rational_map-relief', moduleId: 'rational_map', name: 'Rational Map Relief',
+        params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'barnsley_j2',
     name: 'Barnsley J2',
     shaderAsset: 'shaders/barnsley_j2_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'barnsley_j2-relief', moduleId: 'barnsley_j2', name: 'Barnsley J2 Relief',
+        params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 63},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'barnsley_j3',
     name: 'Barnsley J3',
     shaderAsset: 'shaders/barnsley_j3_gpu.frag',
     defaultIterations: 140,
+    extraPresets: [
+      FractalPreset(
+        id: 'barnsley_j3-relief', moduleId: 'barnsley_j3', name: 'Barnsley J3 Relief',
+        params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 60},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'celtic_julia',
     name: 'Celtic Julia',
     shaderAsset: 'shaders/celtic_julia_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'celtic-julia-relief',
+        moduleId: 'celtic_julia',
+        name: 'Ember Knot',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 54},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'buffalo_julia',
     name: 'Buffalo Julia',
     shaderAsset: 'shaders/buffalo_julia_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'buffalo-julia-relief',
+        moduleId: 'buffalo_julia',
+        name: 'Herd Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'perpendicular_julia',
     name: 'Perpendicular Julia',
     shaderAsset: 'shaders/perpendicular_julia_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-julia-relief',
+        moduleId: 'perpendicular_julia',
+        name: 'Mirror Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tricorn_julia',
     name: 'Tricorn Julia',
     shaderAsset: 'shaders/tricorn_julia_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'tricorn-julia-relief',
+        moduleId: 'tricorn_julia',
+        name: 'Horn Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'burning_ship_julia',
     name: 'Burning Ship Julia',
     shaderAsset: 'shaders/burning_ship_julia_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'ship-julia-relief',
+        moduleId: 'burning_ship_julia',
+        name: 'Flame Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multibrot_neg2',
@@ -1165,30 +1799,90 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Cosine Mandelbrot',
     shaderAsset: 'shaders/cosine_mandelbrot_gpu.frag',
     defaultIterations: 120,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'cosine-mandel-relief',
+        moduleId: 'cosine_mandelbrot',
+        name: 'Cosine Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tangent_mandelbrot',
     name: 'Tangent Mandelbrot',
     shaderAsset: 'shaders/tangent_mandelbrot_gpu.frag',
     defaultIterations: 110,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'tangent-mandel-relief',
+        moduleId: 'tangent_mandelbrot',
+        name: 'Tangent Relief',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'sinh_mandelbrot',
     name: 'Sinh Mandelbrot',
     shaderAsset: 'shaders/sinh_mandelbrot_gpu.frag',
     defaultIterations: 120,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'sinh-mandel-relief',
+        moduleId: 'sinh_mandelbrot',
+        name: 'Sinh Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 54},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'cosh_mandelbrot',
     name: 'Cosh Mandelbrot',
     shaderAsset: 'shaders/cosh_mandelbrot_gpu.frag',
     defaultIterations: 120,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'cosh-mandel-relief',
+        moduleId: 'cosh_mandelbrot',
+        name: 'Cosh Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tanh_mandelbrot',
     name: 'Tanh Mandelbrot',
     shaderAsset: 'shaders/tanh_mandelbrot_gpu.frag',
     defaultIterations: 120,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'tanh-mandel-relief',
+        moduleId: 'tanh_mandelbrot',
+        name: 'Tanh Relief',
+        params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 60},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'log_spiral',
@@ -1436,6 +2130,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/lambda_w_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'lambda_w-relief', moduleId: 'lambda_w', name: 'Lambert W Relief',
+        params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'riemann_zeta',
@@ -1443,6 +2145,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/zeta_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 8.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'riemann_zeta-relief', moduleId: 'riemann_zeta', name: 'Zeta Relief',
+        params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'manair_fire',
@@ -1455,6 +2165,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Spider-X',
     shaderAsset: 'shaders/spider_x_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'spider_x-relief', moduleId: 'spider_x', name: 'Spider Relief',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'popcorn2',
@@ -1469,6 +2187,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/chebyshev_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 6.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'chebyshev-relief', moduleId: 'chebyshev', name: 'Chebyshev Relief',
+        params: {'iterations': 140, 'bailout': 6.0, 'colorScheme': 54},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'legendre',
@@ -1496,6 +2222,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Virial Fractal',
     shaderAsset: 'shaders/virial_gpu.frag',
     defaultIterations: 150,
+    extraPresets: [
+      FractalPreset(
+        id: 'virial-relief', moduleId: 'virial', name: 'Virial Relief',
+        params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(), isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'newton_sin',
@@ -1516,12 +2250,34 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Multibrot d=4',
     shaderAsset: 'shaders/multibrot4_gpu.frag',
     defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot4-relief-quad',
+        moduleId: 'multibrot4',
+        name: 'Bas-Relief: Quad',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multibrot5',
     name: 'Multibrot d=5',
     shaderAsset: 'shaders/multibrot5_gpu.frag',
     defaultIterations: 170,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot5-relief-quint',
+        moduleId: 'multibrot5',
+        name: 'Bas-Relief: Quint',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'sierpinski_tetrahedron',
@@ -1577,6 +2333,1477 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Sphinx Tiling',
     shaderAsset: 'shaders/sphinx_tiling_gpu.frag',
     defaultIterations: 120,
+  ),
+
+  // ── From MandlebrotSetSFML open-source research ──────────────────────────
+
+  // Log-Rotation Mandelbrot: z_{n+1} = Rot(log|z|) * z^2 + c.
+  // The squared orbit is rotated by log|z_n| before adding c.
+  // Creates twisted, quasi-self-similar spirals unlike any standard set.
+  EscapeTimeConfig(
+    id: 'washed_away',
+    name: 'Washed Away',
+    shaderAsset: 'shaders/washed_away_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+  ),
+
+  // Golden-Ratio Mandelbrot: z_{n+1} = |z|^φ * exp(i·φ·arg(z)) + c
+  // where φ = (1+√5)/2 ≈ 1.618 (golden ratio).
+  // Irrational exponent destroys all rotational symmetry → aperiodic geometry.
+  EscapeTimeConfig(
+    id: 'damaged_doublebrot',
+    name: 'Damaged DoubleBrot',
+    shaderAsset: 'shaders/damaged_doublebrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 8.0,
+    defaultCenterX: -0.3,
+    extraPresets: [
+      FractalPreset(
+        id: 'damaged-doublebrot-relief',
+        moduleId: 'damaged_doublebrot',
+        name: 'Damaged DoubleBrot Relief',
+        params: {'iterations': 250, 'bailout': 8.0, 'colorScheme': 54},
+        view: FractalViewState(pan: Vector2(-0.3, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Perpendicular Celtic: z_{n+1} = Re(z^2) + i*|Im(z^2)| + c
+  // Complement to Celtic — abs on the imaginary component instead of real,
+  // producing different folding symmetry and distinct spiral arm geometry.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'perp_celtic',
+    name: 'Perpendicular Celtic',
+    shaderAsset: 'shaders/perp_celtic_gpu.frag',
+    defaultIterations: 180,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-celtic-relief-jade',
+        moduleId: 'perp_celtic',
+        name: 'Bas-Relief: Jade',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Feather Fractal: z_{n+1} = z^3 / (1 + |z|^2) + c
+  // The denominator damps large orbits, producing feather-like spiraling arms
+  // with rich filament structure distinct from polynomial escape-time sets.
+  EscapeTimeConfig(
+    id: 'feather',
+    name: 'Feather Fractal',
+    shaderAsset: 'shaders/feather_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'feather-relief',
+        moduleId: 'feather',
+        name: 'Feather Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Cubic Burning Ship: z_{n+1} = (|Re(z)| + i·|Im(z)|)^3 + c
+  // Extends the Burning Ship to power 3: richer 4-fold symmetric forms.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'burning_ship_cubic',
+    name: 'Cubic Burning Ship',
+    shaderAsset: 'shaders/burning_ship_cubic_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'burning-ship-cubic-relief',
+        moduleId: 'burning_ship_cubic',
+        name: 'Bas-Relief: Forge',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Celtic Cubic: z_{n+1} = |Re(z^3)| + i·Im(z^3) + c
+  // Extends Celtic to power 3 — richer aperiodic structure from 3-fold symmetry
+  // combined with the Celtic abs-fold. Supports normal-map shading (50-63).
+  EscapeTimeConfig(
+    id: 'celtic_cubic',
+    name: 'Celtic Cubic',
+    shaderAsset: 'shaders/celtic_cubic_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'celtic-cubic-relief',
+        moduleId: 'celtic_cubic',
+        name: 'Bas-Relief: Knot',
+        params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Mandelbrot Orbit Trap (Cross Trap)
+  // Colors by minimum orbit distance to real/imaginary axes instead of escape
+  // iteration count. Reveals rich banded structure in the classic black interior.
+  EscapeTimeConfig(
+    id: 'mandelbrot_orbit_trap',
+    name: 'Mandelbrot Orbit Trap',
+    shaderAsset: 'shaders/mandelbrot_orbit_trap_gpu.frag',
+    defaultIterations: 300,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'orbit-trap-deep',
+        moduleId: 'mandelbrot_orbit_trap',
+        name: 'Deep Trap',
+        params: {'iterations': 500, 'bailout': 6.0, 'colorScheme': 2},
+        view: FractalViewState(pan: Vector2(-0.747, 0.1), zoom: 20.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot_15',
+    name: 'Multibrot d=1.5',
+    shaderAsset: 'shaders/multibrot_15_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot15-relief',
+        moduleId: 'multibrot_15',
+        name: 'Half-Power Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'perp_celtic_cubic',
+    name: 'Perpendicular Celtic Cubic',
+    shaderAsset: 'shaders/perp_celtic_cubic_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-celtic-cubic-relief',
+        moduleId: 'perp_celtic_cubic',
+        name: 'Fold Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbrot_curvature_avg',
+    name: 'Mandelbrot Curvature Avg',
+    shaderAsset: 'shaders/mandelbrot_curvature_avg_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'curvature-bands',
+        moduleId: 'mandelbrot_curvature_avg',
+        name: 'Curvature Bands',
+        params: {'iterations': 300, 'bailout': 6.0, 'colorScheme': 2},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'curvature-relief',
+        moduleId: 'mandelbrot_curvature_avg',
+        name: 'Curvature Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'julia_de',
+    name: 'Julia DE Glow',
+    shaderAsset: 'shaders/julia_de_gpu.frag',
+    defaultIterations: 250,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'julia-de-dragon',
+        moduleId: 'julia_de',
+        name: 'Dragon Glow',
+        params: {'iterations': 350, 'bailout': 6.0, 'colorScheme': 0},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'julia-de-relief',
+        moduleId: 'julia_de',
+        name: 'Dragon Relief',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 60},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbrot_de',
+    name: 'Mandelbrot DE Glow',
+    shaderAsset: 'shaders/mandelbrot_de_gpu.frag',
+    defaultIterations: 250,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'de-wireframe',
+        moduleId: 'mandelbrot_de',
+        name: 'Boundary Glow',
+        params: {'iterations': 350, 'bailout': 6.0, 'colorScheme': 1},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'de-relief-glow',
+        moduleId: 'mandelbrot_de',
+        name: 'Relief Glow',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_cubic',
+    name: 'Tricorn Cubic',
+    shaderAsset: 'shaders/tricorn_cubic_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'tricorn-cubic-relief',
+        moduleId: 'tricorn_cubic',
+        name: 'Triple Horn',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbrot_tia',
+    name: 'Mandelbrot TIA',
+    shaderAsset: 'shaders/mandelbrot_tia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'tia-organic',
+        moduleId: 'mandelbrot_tia',
+        name: 'Organic Flow',
+        params: {'iterations': 300, 'bailout': 6.0, 'colorScheme': 3},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'tia-relief',
+        moduleId: 'mandelbrot_tia',
+        name: 'TIA Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_cubic',
+    name: 'Buffalo Cubic',
+    shaderAsset: 'shaders/buffalo_cubic_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'buffalo-cubic-relief',
+        moduleId: 'buffalo_cubic',
+        name: 'Prairie Thunder',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbrot_stripe_avg',
+    name: 'Mandelbrot Stripe Average',
+    shaderAsset: 'shaders/mandelbrot_stripe_avg_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'stripe-freq8',
+        moduleId: 'mandelbrot_stripe_avg',
+        name: 'Dense Stripe',
+        params: {'iterations': 300, 'bailout': 8.0, 'colorScheme': 5},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'stripe-relief',
+        moduleId: 'mandelbrot_stripe_avg',
+        name: 'Stripe Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_perp_julia',
+    name: 'Perpendicular Ship Julia',
+    shaderAsset: 'shaders/burning_ship_perp_julia_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-ship-julia-relief',
+        moduleId: 'burning_ship_perp_julia',
+        name: 'Filament Julia Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot_25',
+    name: 'Multibrot d=2.5',
+    shaderAsset: 'shaders/multibrot_25_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'multibrot25-relief',
+        moduleId: 'multibrot_25',
+        name: 'Two-and-Half Relief',
+        params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_perp',
+    name: 'Perpendicular Burning Ship',
+    shaderAsset: 'shaders/burning_ship_perp_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'perp-ship-relief',
+        moduleId: 'burning_ship_perp',
+        name: 'Filament Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 54},
+        view: FractalViewState(pan: Vector2(-0.5, -0.5), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // ── MandlebrotSetSFML batch 2 — 8 more unique formulas ──────────────────
+
+  // Prison fractal: w=(sin x, sin y);  z_{n+1} = w² + c.
+  // Component-wise sin then complex-square; creates banded prison-bar-like
+  // structures in Julia space. Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'prison',
+    name: 'Prison',
+    shaderAsset: 'shaders/prison_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'prison-relief',
+        moduleId: 'prison',
+        name: 'Prison Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Crazybrot: z_{n+1} = 1/z + c  (complex inversion).
+  // Maps exterior to interior, producing "ball" structures at the origin.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'crazybrot',
+    name: 'Crazybrot',
+    shaderAsset: 'shaders/crazybrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'crazybrot-relief',
+        moduleId: 'crazybrot',
+        name: 'Crazybrot Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Eaten fractal: a=z²;  z_{n+1} = a + c/(a+0.1).
+  // The 0.1 offset prevents the singularity at z²=0, creating "eaten" notches.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'eaten',
+    name: 'Eaten',
+    shaderAsset: 'shaders/eaten_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 6.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'eaten-relief',
+        moduleId: 'eaten',
+        name: 'Eaten Relief',
+        params: {'iterations': 280, 'bailout': 6.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Polar Cowlick: r=|z|; θ=arg(z); z_{n+1} = sin(3r)·exp(i(θ+r)) + c.
+  // Three radial sin-folds combined with an angular rotation by r itself.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'polar_cowlick',
+    name: 'Polar Cowlick',
+    shaderAsset: 'shaders/polar_cowlick_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'polar-cowlick-relief',
+        moduleId: 'polar_cowlick',
+        name: 'Cowlick Relief',
+        params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 51},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Vase fractal: F(z) = z^{1−i} + c = exp((1−i)·log z) + c.
+  // Complex power (1−i) simultaneously scales and rotates, creating 3D-like
+  // vase shapes especially visible in Julia views.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'vase',
+    name: 'Vase',
+    shaderAsset: 'shaders/vase_gpu.frag',
+    defaultIterations: 180,
+    defaultBailout: 8.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'vase-relief',
+        moduleId: 'vase',
+        name: 'Vase Relief',
+        params: {'iterations': 220, 'bailout': 8.0, 'colorScheme': 62},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // LightningBrot: z_{n+1} = z² + cos(arg z) · c.
+  // The constant c is modulated by cos(angle of z), fading in/out with orbit
+  // direction and creating lightning-bolt-shaped Julia sets.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'lightningbrot',
+    name: 'LightningBrot',
+    shaderAsset: 'shaders/lightningbrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'lightningbrot-relief',
+        moduleId: 'lightningbrot',
+        name: 'Lightning Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Angrybrot: z_{n+1} = (atan(x)²−atan(y)², 2·atan(x)·y) + c.
+  // Real atan compresses axes nonlinearly (saturates at ±π/2), producing a
+  // sharper, more "aggressive" Mandelbrot variant with spiky filaments.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'angrybrot',
+    name: 'Angrybrot',
+    shaderAsset: 'shaders/angrybrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.3,
+    extraPresets: [
+      FractalPreset(
+        id: 'angrybrot-relief',
+        moduleId: 'angrybrot',
+        name: 'Angry Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(-0.3, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Singularity fractal: z_{n+1} = (x²−y²+c_x,  2·c_x·y + c_y).
+  // The imaginary update uses c_x (not x_n), creating unusual coupling:
+  // near c_x=0 the set collapses; near |c_x|=1 it tilts like Mandelbrot.
+  // Supports normal-map shading (colorScheme 50-63).
+  EscapeTimeConfig(
+    id: 'singularity',
+    name: 'Singularity',
+    shaderAsset: 'shaders/singularity_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'singularity-relief',
+        moduleId: 'singularity',
+        name: 'Singularity Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 58},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // z² + c/(z+0.01) — offset denominator creates deep spiral arms reminiscent
+  // of galaxy structures; avoids true singularity at z=0.
+  EscapeTimeConfig(
+    id: 'space_fractal',
+    name: 'Space Fractal',
+    shaderAsset: 'shaders/space_fractal_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'space-fractal-relief',
+        moduleId: 'space_fractal',
+        name: 'Space Fractal Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Component-wise tan(z²+c) — tan singularities slice the plane into many
+  // near-copies of the base fractal, creating a "field of contused fractals".
+  EscapeTimeConfig(
+    id: 'contused_fields',
+    name: 'Contused Fields',
+    shaderAsset: 'shaders/contused_fields_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 10.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'contused-fields-relief',
+        moduleId: 'contused_fields',
+        name: 'Contused Fields Relief',
+        params: {'iterations': 200, 'bailout': 10.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Rot(|z|)·sinh(z)+c — hyperbolic geometry rotated by its own magnitude;
+  // creates road-like tunnel structures with distinctive symmetry.
+  EscapeTimeConfig(
+    id: 'car_road',
+    name: 'Car Road',
+    shaderAsset: 'shaders/car_road_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 8.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'car-road-relief',
+        moduleId: 'car_road',
+        name: 'Car Road Relief',
+        params: {'iterations': 260, 'bailout': 8.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // z²+sin(z·c)+cos(z+c) — three additive terms create a set split into
+  // halves with thin filaments resembling bullets shot through the fractal.
+  EscapeTimeConfig(
+    id: 'bullet_shot',
+    name: 'Bullet Shot',
+    shaderAsset: 'shaders/bullet_shot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'bullet-shot-relief',
+        moduleId: 'bullet_shot',
+        name: 'Bullet Shot Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 60},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // sin(z)+c — complex sine in Mandelbrot mode; spiral arms shaped by the
+  // cosh stretching of the imaginary axis, distinct from the cosine variant.
+  EscapeTimeConfig(
+    id: 'sine_mandelbrot',
+    name: 'Sine Mandelbrot',
+    shaderAsset: 'shaders/sine_mandelbrot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 10.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'sine-mandelbrot-relief',
+        moduleId: 'sine_mandelbrot',
+        name: 'Sine Mandelbrot Relief',
+        params: {'iterations': 260, 'bailout': 10.0, 'colorScheme': 53},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // √π·z²+c — standard Mandelbrot scaled by √π ≈ 1.7724; the extra factor
+  // stretches escape basins and produces elongated drill-bit filaments.
+  EscapeTimeConfig(
+    id: 'drill',
+    name: 'Drill Fractal',
+    shaderAsset: 'shaders/drill_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'drill-relief',
+        moduleId: 'drill',
+        name: 'Drill Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 56},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // |z|²·z+c — each component scaled by squared magnitude; non-analytic map
+  // with cubic radial growth; Julia sets appear to have pseudo-3D depth.
+  EscapeTimeConfig(
+    id: '3d_fractal',
+    name: '3D Fractal',
+    shaderAsset: 'shaders/3d_fractal_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: '3d-fractal-relief',
+        moduleId: '3d_fractal',
+        name: '3D Fractal Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 59},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // cos(z²+c) — complex cosine applied to the Mandelbrot step; cosh growth
+  // creates white "undefined" regions where the orbit diverges via cosh blow-up.
+  EscapeTimeConfig(
+    id: 'undefined',
+    name: 'Undefined Fractal',
+    shaderAsset: 'shaders/undefined_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 10.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'undefined-relief',
+        moduleId: 'undefined',
+        name: 'Undefined Relief',
+        params: {'iterations': 200, 'bailout': 10.0, 'colorScheme': 61},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Sprott B (1994) — dx=yz, dy=x-y, dz=1-xy. Single-scroll attractor.
+  EscapeTimeConfig(
+    id: 'sprott_b',
+    name: 'Sprott Case B',
+    shaderAsset: 'shaders/sprott_b_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sprott C (1994) — dx=yz, dy=x-y, dz=1-x². Double-lobe attractor.
+  EscapeTimeConfig(
+    id: 'sprott_c',
+    name: 'Sprott Case C',
+    shaderAsset: 'shaders/sprott_c_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sprott D (1994) — dx=-y, dy=x+z, dz=xz+3y². Three-wing attractor.
+  EscapeTimeConfig(
+    id: 'sprott_d',
+    name: 'Sprott Case D',
+    shaderAsset: 'shaders/sprott_d_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sprott E (1994) — dx=yz, dy=x²-y, dz=1-4x. Figure-eight cross-section.
+  EscapeTimeConfig(
+    id: 'sprott_e',
+    name: 'Sprott Case E',
+    shaderAsset: 'shaders/sprott_e_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sprott F (1994) — dx=y+z, dy=-x+y/2, dz=x²-z. C-shaped single-scroll.
+  EscapeTimeConfig(
+    id: 'sprott_f',
+    name: 'Sprott Case F',
+    shaderAsset: 'shaders/sprott_f_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Rucklidge (1992) — κ=2, λ=6.7; magnetoconvection model with spiral lobes.
+  EscapeTimeConfig(
+    id: 'rucklidge',
+    name: 'Rucklidge Attractor',
+    shaderAsset: 'shaders/rucklidge_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Shimizu-Morioka (1980) — a=0.75, b=0.45; period-doubling route to chaos.
+  EscapeTimeConfig(
+    id: 'shimizu_morioka',
+    name: 'Shimizu-Morioka Attractor',
+    shaderAsset: 'shaders/shimizu_morioka_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Chen-Lee (2004) — a=5, b=-10, c=-0.38; gyroscope rigid-body dynamics.
+  EscapeTimeConfig(
+    id: 'chen_lee',
+    name: 'Chen-Lee Attractor',
+    shaderAsset: 'shaders/chen_lee_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // ── Batch 14 — Newton extensions, transcendental Julia, power-law families ─
+
+  // Newton z^4−1=0: four roots at ±1, ±i — cross-symmetric basin pattern.
+  EscapeTimeConfig(
+    id: 'newton_z4',
+    name: 'Newton z⁴−1',
+    shaderAsset: 'shaders/newton_z4_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+
+  // Newton z^6−1=0: six roots at 60° intervals — snowflake basin symmetry.
+  EscapeTimeConfig(
+    id: 'newton_z6',
+    name: 'Newton z⁶−1',
+    shaderAsset: 'shaders/newton_z6_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+
+  // Julia set of f(z)=c·tan(z), c=(0.12,0.48) — canals near tangent poles.
+  EscapeTimeConfig(
+    id: 'tangent_julia',
+    name: 'Tangent Julia',
+    shaderAsset: 'shaders/tangent_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 20.0,
+  ),
+
+  // Julia set of f(z)=c·sinh(z), c=(−0.65,0.45) — hyperbolic sine spirals.
+  EscapeTimeConfig(
+    id: 'sinh_julia',
+    name: 'Sinh Julia',
+    shaderAsset: 'shaders/sinh_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 20.0,
+  ),
+
+  // Julia set of f(z)=c·cosh(z), c=(0.55,0.40) — symmetric lenticular arms.
+  EscapeTimeConfig(
+    id: 'cosh_julia',
+    name: 'Cosh Julia',
+    shaderAsset: 'shaders/cosh_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 20.0,
+  ),
+
+  // Julia set of f(z)=c·tanh(z), c=(0.80,0.40) — quasi-circular Fatou disks.
+  EscapeTimeConfig(
+    id: 'tanh_julia',
+    name: 'Tanh Julia',
+    shaderAsset: 'shaders/tanh_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 20.0,
+  ),
+
+  // Burning Ship degree 4: (|Re|+i|Im|)^4+c — four-pronged hull structure.
+  EscapeTimeConfig(
+    id: 'burning_ship_power4',
+    name: 'Burning Ship ⁴',
+    shaderAsset: 'shaders/burning_ship_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+
+  // Multibrot degree 6: z^6+c — five-fold star branching at Misiurewicz pts.
+  EscapeTimeConfig(
+    id: 'multibrot6',
+    name: 'Multibrot ⁶',
+    shaderAsset: 'shaders/multibrot6_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+
+  // Mandelbar degree 4: conj(z)^4+c — anti-holomorphic 4-fold cusp symmetry.
+  EscapeTimeConfig(
+    id: 'tricorn_power4',
+    name: 'Tricorn ⁴ (Mandelbar)',
+    shaderAsset: 'shaders/tricorn_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+
+  // Buffalo degree 4: |Re(z^4)|+i|Im(z^4)|+c — post-fold abs on degree-4 orbit.
+  EscapeTimeConfig(
+    id: 'buffalo_power4',
+    name: 'Buffalo ⁴',
+    shaderAsset: 'shaders/buffalo_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+
+  // Newton z^5−1=0: five roots at 5th roots of unity — pentagonal basin symmetry.
+  EscapeTimeConfig(
+    id: 'newton_z5',
+    name: 'Newton z⁵−1',
+    shaderAsset: 'shaders/newton_z5_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+
+  // Biomorph (Pickover 1986): z^2+c with |Re|<B OR |Im|<B escape test.
+  // Creates organic, cell-like shapes with dendritic filaments.
+  EscapeTimeConfig(
+    id: 'biomorph',
+    name: 'Biomorph',
+    shaderAsset: 'shaders/biomorph_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 10.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'biomorph-relief',
+        moduleId: 'biomorph',
+        name: 'Biomorph Relief',
+        params: {'iterations': 100, 'bailout': 10.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia3',
+    name: 'Multijulia ³',
+    shaderAsset: 'shaders/multijulia3_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia4',
+    name: 'Multijulia ⁴',
+    shaderAsset: 'shaders/multijulia4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia5',
+    name: 'Multijulia ⁵',
+    shaderAsset: 'shaders/multijulia5_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia6',
+    name: 'Multijulia ⁶',
+    shaderAsset: 'shaders/multijulia6_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_power4',
+    name: 'Celtic ⁴',
+    shaderAsset: 'shaders/celtic_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_cubic_julia',
+    name: 'Burning Ship Cubic Julia',
+    shaderAsset: 'shaders/burning_ship_cubic_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_power5',
+    name: 'Tricorn ⁵ (Mandelbar)',
+    shaderAsset: 'shaders/tricorn_power5_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'exponential_julia',
+    name: 'Exponential Julia',
+    shaderAsset: 'shaders/exponential_julia_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 50.0,
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_cubic_julia',
+    name: 'Buffalo Cubic Julia',
+    shaderAsset: 'shaders/buffalo_cubic_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'magnet1',
+    name: 'Magnet Type I',
+    shaderAsset: 'shaders/magnet1_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbar_cubic',
+    name: 'Mandelbar Cubic (Tricorn ³)',
+    shaderAsset: 'shaders/mandelbar_cubic_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'perpendicular_burning_ship',
+    name: 'Perpendicular Burning Ship',
+    shaderAsset: 'shaders/perpendicular_burning_ship_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_power5',
+    name: 'Burning Ship ⁵',
+    shaderAsset: 'shaders/burning_ship_power5_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_power5',
+    name: 'Celtic ⁵',
+    shaderAsset: 'shaders/celtic_power5_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_power5',
+    name: 'Buffalo ⁵',
+    shaderAsset: 'shaders/buffalo_power5_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot7',
+    name: 'Multibrot ⁷',
+    shaderAsset: 'shaders/multibrot7_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot8',
+    name: 'Multibrot ⁸',
+    shaderAsset: 'shaders/multibrot8_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia7',
+    name: 'Multijulia ⁷',
+    shaderAsset: 'shaders/multijulia7_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia8',
+    name: 'Multijulia ⁸',
+    shaderAsset: 'shaders/multijulia8_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'newton_z7',
+    name: 'Newton z⁷−1',
+    shaderAsset: 'shaders/newton_z7_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'feather_julia',
+    name: 'Feather Julia',
+    shaderAsset: 'shaders/feather_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'heart_julia',
+    name: 'Heart Julia',
+    shaderAsset: 'shaders/heart_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'newton_z8',
+    name: 'Newton z⁸−1',
+    shaderAsset: 'shaders/newton_z8_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_power4_julia',
+    name: 'Burning Ship⁴ Julia',
+    shaderAsset: 'shaders/burning_ship_power4_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_power5_julia',
+    name: 'Burning Ship⁵ Julia',
+    shaderAsset: 'shaders/burning_ship_power5_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_power4_julia',
+    name: 'Buffalo⁴ Julia',
+    shaderAsset: 'shaders/buffalo_power4_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_power4_julia',
+    name: 'Celtic⁴ Julia',
+    shaderAsset: 'shaders/celtic_power4_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_power4_julia',
+    name: 'Tricorn⁴ Julia',
+    shaderAsset: 'shaders/tricorn_power4_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_power5_julia',
+    name: 'Tricorn⁵ Julia',
+    shaderAsset: 'shaders/tricorn_power5_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'perpendicular_burning_ship_julia',
+    name: 'Perpendicular BS Julia',
+    shaderAsset: 'shaders/perpendicular_burning_ship_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'lambda_julia',
+    name: 'Lambda Julia',
+    shaderAsset: 'shaders/lambda_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_cubic_julia',
+    name: 'Celtic Cubic Julia',
+    shaderAsset: 'shaders/celtic_cubic_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_power5_julia',
+    name: 'Celtic⁵ Julia',
+    shaderAsset: 'shaders/celtic_power5_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_power5_julia',
+    name: 'Buffalo⁵ Julia',
+    shaderAsset: 'shaders/buffalo_power5_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_cubic_julia',
+    name: 'Tricorn Cubic Julia',
+    shaderAsset: 'shaders/tricorn_cubic_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'magnet1_julia',
+    name: 'Magnet I Julia',
+    shaderAsset: 'shaders/magnet1_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 10.0,
+  ),
+  EscapeTimeConfig(
+    id: 'magnet2_julia',
+    name: 'Magnet II Julia',
+    shaderAsset: 'shaders/magnet2_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 10.0,
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbar_power6',
+    name: 'Mandelbar⁶',
+    shaderAsset: 'shaders/mandelbar_power6_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_power6_julia',
+    name: 'Tricorn⁶ Julia',
+    shaderAsset: 'shaders/tricorn_power6_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'perpendicular_bs_cubic',
+    name: 'Perpendicular BS Cubic',
+    shaderAsset: 'shaders/perpendicular_bs_cubic_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'perpendicular_bs_cubic_julia',
+    name: 'Perp. BS Cubic Julia',
+    shaderAsset: 'shaders/perpendicular_bs_cubic_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'schroeder_z3',
+    name: 'Schröder z³−1',
+    shaderAsset: 'shaders/schroeder_z3_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'schroeder_z4',
+    name: 'Schröder z⁴−1',
+    shaderAsset: 'shaders/schroeder_z4_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'nova_cubic',
+    name: 'Nova Cubic',
+    shaderAsset: 'shaders/nova_cubic_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'nova_cubic_julia',
+    name: 'Nova Cubic Julia',
+    shaderAsset: 'shaders/nova_cubic_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_power6',
+    name: 'Burning Ship⁶',
+    shaderAsset: 'shaders/burning_ship_power6_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_power6',
+    name: 'Buffalo⁶',
+    shaderAsset: 'shaders/buffalo_power6_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_power6',
+    name: 'Celtic⁶',
+    shaderAsset: 'shaders/celtic_power6_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot9',
+    name: 'Multibrot⁹',
+    shaderAsset: 'shaders/multibrot9_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia9',
+    name: 'Multijulia⁹',
+    shaderAsset: 'shaders/multijulia9_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot10',
+    name: 'Multibrot¹⁰',
+    shaderAsset: 'shaders/multibrot10_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia10',
+    name: 'Multijulia¹⁰',
+    shaderAsset: 'shaders/multijulia10_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot11',
+    name: 'Multibrot¹¹',
+    shaderAsset: 'shaders/multibrot11_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multibrot12',
+    name: 'Multibrot¹²',
+    shaderAsset: 'shaders/multibrot12_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'burning_ship_power6_julia',
+    name: 'Burning Ship⁶ Julia',
+    shaderAsset: 'shaders/burning_ship_power6_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'buffalo_power6_julia',
+    name: 'Buffalo⁶ Julia',
+    shaderAsset: 'shaders/buffalo_power6_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_power6_julia',
+    name: 'Celtic⁶ Julia',
+    shaderAsset: 'shaders/celtic_power6_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'halley_z4',
+    name: 'Halley z⁴−1',
+    shaderAsset: 'shaders/halley_z4_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbar_power7',
+    name: 'Mandelbar⁷',
+    shaderAsset: 'shaders/mandelbar_power7_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'nova_degree4',
+    name: 'Nova⁴',
+    shaderAsset: 'shaders/nova_degree4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'nova_degree4_julia',
+    name: 'Nova⁴ Julia',
+    shaderAsset: 'shaders/nova_degree4_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia7',
+    name: 'Multijulia⁷',
+    shaderAsset: 'shaders/multijulia7_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia8',
+    name: 'Multijulia⁸',
+    shaderAsset: 'shaders/multijulia8_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia11',
+    name: 'Multijulia¹¹',
+    shaderAsset: 'shaders/multijulia11_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'multijulia12',
+    name: 'Multijulia¹²',
+    shaderAsset: 'shaders/multijulia12_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbar_power8',
+    name: 'Mandelbar⁸',
+    shaderAsset: 'shaders/mandelbar_power8_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbar_power9',
+    name: 'Mandelbar⁹',
+    shaderAsset: 'shaders/mandelbar_power9_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_power7_julia',
+    name: 'Tricorn⁷ Julia',
+    shaderAsset: 'shaders/tricorn_power7_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'tricorn_power8_julia',
+    name: 'Tricorn⁸ Julia',
+    shaderAsset: 'shaders/tricorn_power8_julia_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'perpendicular_bs_power4',
+    name: 'Perpendicular BS⁴',
+    shaderAsset: 'shaders/perpendicular_bs_power4_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'perpendicular_bs_power5',
+    name: 'Perpendicular BS⁵',
+    shaderAsset: 'shaders/perpendicular_bs_power5_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
   ),
 ];
 

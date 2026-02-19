@@ -98,8 +98,15 @@ class FractalRenderer extends StatefulWidget {
   /// Callback for when export should be opened.
   final VoidCallback? onOpenExport;
 
-  /// Called when the user manually starts pan/zoom interaction.
+  /// One-shot callback for user corrections (mouse wheel, keyboard-triggered
+  /// zoom, double-tap, etc).
   final VoidCallback? onUserInteraction;
+
+  /// Called when the user starts a continuous gesture (drag/pinch).
+  final VoidCallback? onUserInteractionStart;
+
+  /// Called when the user ends a continuous gesture (drag/pinch).
+  final VoidCallback? onUserInteractionEnd;
 
   /// Whether time-based animation should advance.
   ///
@@ -119,6 +126,8 @@ class FractalRenderer extends StatefulWidget {
     this.onOpenPresets,
     this.onOpenExport,
     this.onUserInteraction,
+    this.onUserInteractionStart,
+    this.onUserInteractionEnd,
     this.animationEnabled = true,
     this.overrideChild,
   }) : super(key: key);
@@ -314,15 +323,14 @@ class _FractalRendererState extends State<FractalRenderer>
       );
     }
 
-    final bool usesJuliaPerturb =
-        module.id == 'julia' &&
+    final bool usesJuliaPerturb = module.id == 'julia' &&
         controller.view.zoom >= 5e6 &&
         controller.view.zoom < 1e30;
 
     final bool usesEscapeTimePerturb =
         kPerturbableEscapeTimeIds.contains(module.id) &&
-        controller.view.zoom >= 5e6 &&
-        controller.view.zoom < 1e30;
+            controller.view.zoom >= 5e6 &&
+            controller.view.zoom < 1e30;
 
     final bool usesAnyPerturb = usesJuliaPerturb || usesEscapeTimePerturb;
 
@@ -401,7 +409,8 @@ class _FractalRendererState extends State<FractalRenderer>
     final effectiveModule = usesJuliaPerturb
         ? (_juliaPerturbModule ??= buildJuliaPerturbModule(module))
         : usesEscapeTimePerturb
-            ? (_escapeTimePerturbModule ??= buildEscapeTimePerturbModule(module))
+            ? (_escapeTimePerturbModule ??=
+                buildEscapeTimePerturbModule(module))
             : ((usesDf2 && module.id == 'mandelbrot')
                 ? (_df2Module ??= buildMandelbrotDf2Module(module))
                 : module);
@@ -443,7 +452,8 @@ class _FractalRendererState extends State<FractalRenderer>
       child: AnimatedBuilder(
         animation: _animationController,
         builder: (context, child) {
-          final baseIterations = (controller.params['iterations'] as num?)?.toInt() ?? 160;
+          final baseIterations =
+              (controller.params['iterations'] as num?)?.toInt() ?? 160;
           final scaledIterations = _precisionPolicy.scaledGpuIterations(
             baseIterations: baseIterations,
             zoom: controller.view.zoom,
@@ -521,9 +531,11 @@ class _FractalRendererState extends State<FractalRenderer>
         onDoubleTapDown: _onDoubleTapDown,
         onDoubleTap: _onDoubleTapGesture,
         onLongPressStart: _onLongPress,
-        onTapUp: (module.id == 'julia_dual') ? (details) {
-          _onJuliaDualTap(details.localPosition, controller);
-        } : null,
+        onTapUp: (module.id == 'julia_dual')
+            ? (details) {
+                _onJuliaDualTap(details.localPosition, controller);
+              }
+            : null,
         child: content,
       ),
     );

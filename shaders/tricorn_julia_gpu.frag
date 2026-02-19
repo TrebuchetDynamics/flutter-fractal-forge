@@ -13,6 +13,15 @@ uniform float uTransparentBg;
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
 const int MAX_ITERS = 500;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
@@ -71,9 +80,13 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
+  int schemeInt = int(uColorScheme);
   vec2 c = uv / max(uZoom, 1e-6) + uCenter;
   vec2 z = uv / max(uZoom, 1e-6) + uCenter;
   vec2 cSeed = vec2(-0.12, 0.74);
+  // dz/dz0 derivative for normal-map. Tricorn: z = conj(z)^2 + cSeed.
+  // d(conj(z)^2)/dz0 = 2*conj(z)*der (treating conj as the base).
+  vec2 der = vec2(1.0, 0.0);
 
   float bailoutSq = max(4.0, uBailout * uBailout);
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
@@ -81,8 +94,9 @@ void main() {
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
-    
+
     vec2 zc = cconj(z);
+    der = 2.0 * cmul(zc, der);
     z = cpow2(zc) + cSeed;
     if (dot(z, z) > bailoutSq) { it = j; break; }
   }
@@ -93,6 +107,25 @@ void main() {
   }
 
   float smoothVal = float(it) - log2(log2(max(1e-12, dot(z, z))));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(getPaletteColor(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(getPaletteColor(t, int(uColorScheme)), 1.0);
+  fragColor = vec4(linearToSRGB(getPaletteColor(t, schemeInt)), 1.0);
 }

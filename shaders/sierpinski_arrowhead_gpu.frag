@@ -13,6 +13,15 @@ uniform float uTransparentBg;
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
 const int MAX_ITERS = 500;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) { return a + b * cos(6.28318 * (c * t + d)); }
@@ -65,5 +74,5 @@ void main() {
   float t = fract(level / float(max(depth, 1)) + 0.2 * line + uTime * 0.0001);
   vec3 col = getPaletteColor(t, int(uColorScheme));
   col *= mix(0.25, 1.2, line);
-  fragColor = vec4(col, (uTransparentBg > 0.5) ? line : 1.0);
+  fragColor = vec4(linearToSRGB(col), (uTransparentBg > 0.5) ? line : 1.0);
 }

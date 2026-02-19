@@ -50,6 +50,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   DateTime? _lastRawTapAt;
   Offset? _lastRawTapPos;
   DateTime? _lastDoubleTapTriggeredAt;
+  bool _deferUserInteractionEndToAnimation = false;
 
   // Velocity history for Google Maps-style fling
   static const int _velHistorySize = 5;
@@ -165,7 +166,11 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   }
 
   void _onScaleStart(ScaleStartDetails details) {
-    widget.onUserInteraction?.call();
+    if (widget.onUserInteractionStart != null) {
+      widget.onUserInteractionStart!.call();
+    } else {
+      widget.onUserInteraction?.call();
+    }
 
     _zoomMomentumController.stop();
     _panMomentumController.stop();
@@ -191,6 +196,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _isTilting = false;
     _rotationGestureActive = false;
     _zoomPanGestureActive = false;
+    _deferUserInteractionEndToAnimation = false;
   }
 
   double _rubberBand(double value, double min, double max,
@@ -337,7 +343,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     // If scale deviates significantly BEFORE rotation threshold is reached,
     // classify this gesture as zoom/pan and block rotation for its lifetime.
-    if (!_rotationGestureActive && !_zoomPanGestureActive &&
+    if (!_rotationGestureActive &&
+        !_zoomPanGestureActive &&
         (details.scale - 1.0).abs() > _kIntentionalZoomThreshold) {
       _zoomPanGestureActive = true;
     }
@@ -389,6 +396,14 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   }
 
   void _onScaleEnd(ScaleEndDetails details) {
+    if (!_deferUserInteractionEndToAnimation) {
+      if (widget.onUserInteractionEnd != null) {
+        widget.onUserInteractionEnd!.call();
+      } else {
+        widget.onUserInteraction?.call();
+      }
+    }
+
     if (_isTilting) {
       _isTilting = false;
       _velHistory.clear();
@@ -462,11 +477,26 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
           ' target=$targetZoom targetPan=$targetPan');
     }
 
+    _deferUserInteractionEndToAnimation = true;
+    if (widget.onUserInteractionStart != null) {
+      widget.onUserInteractionStart!.call();
+    } else {
+      widget.onUserInteraction?.call();
+    }
     _animatePanZoomTo(
-        startPan: view.pan,
-        targetPan: targetPan,
-        fromZoom: currentZoom,
-        toZoom: targetZoom);
+      startPan: view.pan,
+      targetPan: targetPan,
+      fromZoom: currentZoom,
+      toZoom: targetZoom,
+      onCompleted: () {
+        _deferUserInteractionEndToAnimation = false;
+        if (widget.onUserInteractionEnd != null) {
+          widget.onUserInteractionEnd!.call();
+        } else {
+          widget.onUserInteraction?.call();
+        }
+      },
+    );
     HapticFeedback.mediumImpact();
   }
 
@@ -539,8 +569,25 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         );
         final controller = context.read<FractalController>();
         final zoom = controller.view.zoom;
+        _deferUserInteractionEndToAnimation = true;
+        if (widget.onUserInteractionStart != null) {
+          widget.onUserInteractionStart!.call();
+        } else {
+          widget.onUserInteraction?.call();
+        }
         _animateZoomTo(
-            zoom, (zoom * 0.5).clamp(_kMinZoom, _kMaxZoom), midpoint);
+          zoom,
+          (zoom * 0.5).clamp(_kMinZoom, _kMaxZoom),
+          focalPoint: midpoint,
+          onCompleted: () {
+            _deferUserInteractionEndToAnimation = false;
+            if (widget.onUserInteractionEnd != null) {
+              widget.onUserInteractionEnd!.call();
+            } else {
+              widget.onUserInteraction?.call();
+            }
+          },
+        );
         HapticFeedback.lightImpact();
       }
     }
@@ -587,9 +634,15 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       targetZoom: targetZoom,
       focalPoint: event.localPosition,
     );
+    widget.onUserInteraction?.call();
   }
 
-  void _animateZoomTo(double from, double to, [Offset? focalPoint]) {
+  void _animateZoomTo(
+    double from,
+    double to, {
+    Offset? focalPoint,
+    VoidCallback? onCompleted,
+  }) {
     final controller = context.read<FractalController>();
 
     _zoomAnimation?.dispose();
@@ -613,6 +666,13 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         );
       }
     });
+    if (onCompleted != null) {
+      _zoomAnimation!.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          onCompleted();
+        }
+      });
+    }
 
     unawaited(_zoomAnimation!.forward());
   }
@@ -625,6 +685,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     required Vector2 targetPan,
     required double fromZoom,
     required double toZoom,
+    VoidCallback? onCompleted,
   }) {
     final controller = context.read<FractalController>();
 
@@ -644,6 +705,13 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         startPan.y + (targetPan.y - startPan.y) * t,
       ));
     });
+    if (onCompleted != null) {
+      _zoomAnimation!.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          onCompleted();
+        }
+      });
+    }
 
     unawaited(_zoomAnimation!.forward());
   }

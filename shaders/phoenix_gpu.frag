@@ -3,6 +3,11 @@
 precision highp float;
 
 // IMPORTANT: uniform ORDER matches phoenix_module.dart setFloat indices.
+// Phoenix Fractal: z_{n+1} = z_n² + c + p·z_{n-1}  (memory / coupled iteration)
+// Julia-like: z₀ = pixel, c = (uPhoenixCReal, uPhoenixCImag), p = uPhoenixP.
+// The memory term p·z_{n-1} breaks symmetry, producing flame and feather shapes.
+// Derivative (dz/dz₀, Julia-style): derNew = 2z·der + p·derPrev, der₀=(1,0), derPrev₀=(0,0).
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform vec2  uCenter;        // 3-4
@@ -17,6 +22,17 @@ uniform float uTransparentBg; // 12
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
+// colorScheme 0-49: standard palette coloring.
+// colorScheme 50-63: normal-map (bas-relief) mode — 14 light angles × 4 base palettes.
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(
@@ -50,20 +66,26 @@ vec3 palette(float t, int scheme) {
   return clamp(col, 0.0, 1.0);
 }
 
+vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
-  // Start z from pixel coordinate
-  vec2 z = uv / max(0.000001, uZoom) + uCenter;
-  // Phoenix uses constant c + memory term
-  vec2 c = vec2(uPhoenixCReal, uPhoenixCImag);
-  float p = uPhoenixP;
+  int schemeInt = int(uColorScheme);
+
+  // Start z from pixel coordinate (Julia-like)
+  vec2 z    = uv / max(0.000001, uZoom) + uCenter;
+  vec2 c    = vec2(uPhoenixCReal, uPhoenixCImag);
+  float p   = uPhoenixP;
   vec2 zPrev = vec2(0.0);
 
-  float bailoutSq = uBailout * uBailout;
+  // Julia-style derivative dz/dz₀: der₀=(1,0), derPrev₀=(0,0)
+  vec2 der     = vec2(1.0, 0.0);
+  vec2 derPrev = vec2(0.0);
 
+  float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
@@ -71,12 +93,14 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    vec2 zNew;
-    zNew.x = z.x * z.x - z.y * z.y + c.x + p * zPrev.x;
-    zNew.y = 2.0 * z.x * z.y + c.y + p * zPrev.y;
-
-    zPrev = z;
-    z = zNew;
+    // z_{n+1} = z² + c + p·zPrev
+    vec2 zNew = cmul(z, z) + c + p * zPrev;
+    // d(z_{n+1})/dz₀ = 2z·der + p·derPrev
+    vec2 derNew = 2.0 * cmul(z, der) + p * derPrev;
+    derPrev = der;
+    der     = derNew;
+    zPrev   = z;
+    z       = zNew;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;
@@ -89,11 +113,31 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
+  float mag2      = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2));
-  float t = fract(smoothVal / 64.0);
-  t = fract(t + uTime * 0.0001);
 
-  vec3 color = palette(t, int(uColorScheme));
-  fragColor = vec4(color, 1.0);
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
+  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
+  vec3 color = palette(t, schemeInt);
+  fragColor = vec4(linearToSRGB(color), 1.0);
 }

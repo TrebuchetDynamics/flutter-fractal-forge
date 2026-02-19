@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-02-19T00:58:07.812Z",
+  "projectRoot": "/home/xel/git/flutter-fractal-forge",
+  "structure": {
+    "hasPackageJson": false,
+    "hasTsConfig": false,
+    "hasClaudeConfig": true,
+    "hasClaudeFlow": true
+  },
+  "scannedAt": 1771462687812
+}

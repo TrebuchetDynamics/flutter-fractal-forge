@@ -2,6 +2,12 @@
 
 precision highp float;
 
+// Tessarine Julia set: z_{n+1} = tMul(z_n, z_n) + c_fixed.
+// Tessarine t = a + bi + cj + dk, i²=-1, j²=+1, k=ij, commutative algebra.
+// Derivative dz/dz₀ via commutative product rule:
+//   tder_{n+1} = 2·tMul(z_n, tder_n).
+// Normal-map uses xy projection: z2 = z.xy, der = tder.xy.
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform vec2  uCenter;        // 3-4
@@ -13,6 +19,16 @@ uniform float uTransparentBg; // 9
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
+// colorScheme 0-49: standard palette. 50-63: normal-map (14 angles × 4 palettes).
 vec3 palette(float t, int scheme) {
   if (scheme == 0) return vec3(0.5) + 0.5 * cos(6.28318 * (vec3(t) + vec3(0.0, 0.4, 0.7)));
   if (scheme == 1) return vec3(0.5) + 0.5 * cos(6.28318 * (vec3(t) + vec3(0.5, 0.3, 0.0)));
@@ -44,10 +60,13 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
+  int schemeInt = int(uColorScheme);
   float jSlice = 0.18 * sin(uTime * 0.11);
   float kSlice = -0.21 * cos(uTime * 0.09);
   vec4 z = vec4(uv / max(0.000001, uZoom) + uCenter, jSlice, kSlice);
   vec4 c = vec4(-0.28, 0.62, 0.15, -0.12);
+  // Julia: tder₀ = identity tessarine (dz₀/dz₀)
+  vec4 tder = vec4(1.0, 0.0, 0.0, 0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
@@ -56,6 +75,8 @@ void main() {
 
   for (int n = 0; n < MAX_ITERS; n++) {
     if (n >= target) { it = target; break; }
+    // Commutative product rule: d(z²)/dz₀ = 2·tMul(z, tder)
+    tder = 2.0 * tMul(z, tder);
     z = tMul(z, z) + c;
     if (dot(z, z) > bailoutSq) { it = n; break; }
     it = n + 1;
@@ -68,6 +89,31 @@ void main() {
 
   float mag2 = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    // Project tessarine derivative to the 2D viewing plane (xy)
+    vec2 z2  = z.xy;
+    vec2 der = tder.xy;
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z2.x * der.x + z2.y * der.y,
+                    z2.y * der.x - z2.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(palette(t, int(uColorScheme)), 1.0);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }

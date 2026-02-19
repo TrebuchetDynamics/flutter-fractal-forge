@@ -1,4 +1,4 @@
-package com.fractals.flutter_fractals
+package com.trebuchetdynamics.fractal.forge
 
 import android.os.Build
 import io.flutter.embedding.engine.FlutterEngine

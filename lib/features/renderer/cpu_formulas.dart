@@ -215,9 +215,38 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'hat_monotile': _cpu_hat_monotile,
   'spectre_monotile': _cpu_spectre_monotile,
   'sphinx_tiling': _cpu_sphinx_tiling,
-  // Custom (non-catalog) module ids that still use the CPU fallback.
+  // Custom (non-catalog) module ids explicitly supported by CPU formulas.
   'julia': _cpu_julia,
+  'phoenix': _cpu_phoenix,
 };
+
+final Map<String, CpuFormula> _syntheticFallbackByModuleId =
+    <String, CpuFormula>{};
+
+/// True when [moduleId] has an explicit CPU implementation in this file.
+bool hasNativeCpuFormula(String moduleId) =>
+    cpuFormulasByModuleId.containsKey(moduleId);
+
+/// Resolves a CPU formula for [moduleId].
+///
+/// If no explicit implementation exists, returns a deterministic synthetic
+/// fallback keyed by module id (instead of silently reusing Mandelbrot).
+CpuFormula cpuFormulaForModuleId(String moduleId) {
+  final direct = cpuFormulasByModuleId[moduleId];
+  if (direct != null) return direct;
+
+  return _syntheticFallbackByModuleId.putIfAbsent(moduleId, () {
+    final seed = _fnv1a32(moduleId);
+    return (
+      double x,
+      double y,
+      int iterations,
+      double bailout,
+      Vector2 _,
+    ) =>
+        _cpu_synthetic(seed, x, y, iterations, bailout);
+  });
+}
 
 const (double r, double g, double b) _insideColor = (46.0, 120.0, 220.0);
 
@@ -241,6 +270,15 @@ double _cosh(double x) => (math.exp(x) + math.exp(-x)) * 0.5;
 double _tanh(double x) {
   final e2x = math.exp(2.0 * x);
   return (e2x - 1.0) / (e2x + 1.0);
+}
+
+int _fnv1a32(String s) {
+  int h = 0x811c9dc5;
+  for (final cu in s.codeUnits) {
+    h ^= cu;
+    h = (h * 0x01000193) & 0xFFFFFFFF;
+  }
+  return h;
 }
 
 @pragma('vm:prefer-inline')
@@ -307,9 +345,8 @@ double _smoothEscape({
   return _cexpSafe(logGammaX, logGammaY, clampX: 40.0);
 }
 
-
 typedef _ZUpdate = (double, double) Function(
-  double zx, double zy, double cx, double cy);
+    double zx, double zy, double cx, double cy);
 
 /// Higher-order escape-time formula.
 ///
@@ -344,6 +381,7 @@ typedef _ZUpdate = (double, double) Function(
     _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: power),
   );
 }
+
 (double r, double g, double b) _cpu_synthetic(
   int seed,
   double x,
@@ -433,8 +471,9 @@ typedef _ZUpdate = (double, double) Function(
   int iterations,
   double bailout,
   Vector2 juliaC,
-) => _escapeTime(x, y, iterations, bailout,
-    (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, 2.0 * zx * zy + cy));
+) =>
+    _escapeTime(x, y, iterations, bailout,
+        (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, 2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_julia(
   double x,
   double y,
@@ -446,29 +485,88 @@ typedef _ZUpdate = (double, double) Function(
   final c0x = juliaC.x;
   final c0y = juliaC.y;
   return _escapeTime(
-    x, y, iterations, bailout,
+    x,
+    y,
+    iterations,
+    bailout,
     (zx, zy, cx, cy) => (zx * zx - zy * zy + c0x, 2.0 * zx * zy + c0y),
-    zx0: x, zy0: y,
+    zx0: x,
+    zy0: y,
   );
 }
+
+(double r, double g, double b) _cpu_phoenix(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  // Phoenix recurrence used in open-source references (par-fractal) and our
+  // shader path: z(n+1) = z(n)^2 + c + p*z(n-1).
+  //
+  // CPU currently supports the stable module default for p (=-0.5); c comes
+  // from module params via juliaC (phoenixCReal/phoenixCImag in renderer path).
+  const p = -0.5;
+  final cx = juliaC.x;
+  final cy = juliaC.y;
+
+  double zx = x;
+  double zy = y;
+  double zPrevX = 0.0;
+  double zPrevY = 0.0;
+
+  final bailout2 = bailout * bailout;
+  int it = iterations;
+
+  for (int j = 0; j < iterations; j++) {
+    final nx = zx * zx - zy * zy + cx + p * zPrevX;
+    final ny = 2.0 * zx * zy + cy + p * zPrevY;
+
+    zPrevX = zx;
+    zPrevY = zy;
+    zx = nx;
+    zy = ny;
+
+    if (zx * zx + zy * zy > bailout2) {
+      it = j;
+      break;
+    }
+  }
+
+  if (it >= iterations) return _insideColor;
+  final mag2 = zx * zx + zy * zy;
+  return _palette(_smoothEscape(it: it, iterations: iterations, mag2: mag2));
+}
+
 (double r, double g, double b) _cpu_celtic(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) => _escapeTime(x, y, iterations, bailout,
-    (zx, zy, cx, cy) =>
-        ((zx * zx - zy * zy).abs() + cx, 2.0 * zx * zy + cy));
+) =>
+    _escapeTime(
+        x,
+        y,
+        iterations,
+        bailout,
+        (zx, zy, cx, cy) =>
+            ((zx * zx - zy * zy).abs() + cx, 2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_buffalo(
   double x,
   double y,
   int iterations,
   double bailout,
   Vector2 juliaC,
-) => _escapeTime(x, y, iterations, bailout,
-    (zx, zy, cx, cy) =>
-        ((zx * zx - zy * zy).abs() + cx, (2.0 * zx * zy).abs() + cy));
+) =>
+    _escapeTime(
+        x,
+        y,
+        iterations,
+        bailout,
+        (zx, zy, cx, cy) =>
+            ((zx * zx - zy * zy).abs() + cx, (2.0 * zx * zy).abs() + cy));
 (double r, double g, double b) _cpu_burning_ship(
   double x,
   double y,
@@ -725,7 +823,11 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/perpendicular_gpu.frag
-    _escapeTime(x, y, iterations, bailout,
+    _escapeTime(
+        x,
+        y,
+        iterations,
+        bailout,
         (zx, zy, cx, cy) =>
             ((zx * zx - zy * zy).abs() + cx, 2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_lambda(
@@ -974,12 +1076,17 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/deltoid_gpu.frag: z = z^2 + c*conj(z), z₀ = c
-    _escapeTime(x, y, iterations, bailout,
+    _escapeTime(
+        x,
+        y,
+        iterations,
+        bailout,
         (zx, zy, cx, cy) => (
               zx * zx - zy * zy + cx * zx + cy * zy,
               2.0 * zx * zy + cy * zx - cx * zy,
             ),
-        zx0: x, zy0: y);
+        zx0: x,
+        zy0: y);
 (double r, double g, double b) _cpu_eisenstein(
   double x,
   double y,
@@ -1095,8 +1202,7 @@ typedef _ZUpdate = (double, double) Function(
 ) =>
     // Ported from shaders/shark_fin_gpu.frag: z = zx^2 - |zy|^2 + cx, 2*zx*|zy| + cy
     _escapeTime(x, y, iterations, bailout,
-        (zx, zy, cx, cy) =>
-            (zx * zx - zy * zy + cx, 2.0 * zx * zy.abs() + cy));
+        (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, 2.0 * zx * zy.abs() + cy));
 (double r, double g, double b) _cpu_manowar(
   double x,
   double y,
@@ -3012,10 +3118,16 @@ typedef _ZUpdate = (double, double) Function(
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/multibrot4_gpu.frag (CPU approximation, seed=0x7451637b)
-  return _cpu_synthetic(0x7451637b, x, y, iterations, bailout);
-}
+) =>
+    // Ported from shaders/multibrot4_gpu.frag and common Multibrot references.
+    // z -> z^4 + c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final z2x = zx * zx - zy * zy;
+      final z2y = 2.0 * zx * zy;
+      final z4x = z2x * z2x - z2y * z2y;
+      final z4y = 2.0 * z2x * z2y;
+      return (z4x + cx, z4y + cy);
+    }, power: 4.0);
 
 (double r, double g, double b) _cpu_multibrot5(
   double x,
@@ -3023,10 +3135,18 @@ typedef _ZUpdate = (double, double) Function(
   int iterations,
   double bailout,
   Vector2 juliaC,
-) {
-  // Ported from shaders/multibrot5_gpu.frag (CPU approximation, seed=0x735161e8)
-  return _cpu_synthetic(0x735161e8, x, y, iterations, bailout);
-}
+) =>
+    // Ported from shaders/multibrot5_gpu.frag and common Multibrot references.
+    // z -> z^5 + c
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final z2x = zx * zx - zy * zy;
+      final z2y = 2.0 * zx * zy;
+      final z4x = z2x * z2x - z2y * z2y;
+      final z4y = 2.0 * z2x * z2y;
+      final z5x = z4x * zx - z4y * zy;
+      final z5y = z4x * zy + z4y * zx;
+      return (z5x + cx, z5y + cy);
+    }, power: 5.0);
 
 (double r, double g, double b) _cpu_sierpinski_tetrahedron(
   double x,

@@ -237,6 +237,24 @@ FractalModule buildPhoenixModule() {
           rotation: Vector3.zero(),
         ),
       ),
+      // Embossed Phoenix - normal-map bas-relief
+      defaultPreset.copyWith(
+        id: 'phoenix-relief',
+        name: 'Embossed Phoenix',
+        params: {
+          'iterations': 280,
+          'bailout': 4.0,
+          'colorScheme': 54, // normal-map angle 4, palette 0
+          'phoenixCReal': 0.5667,
+          'phoenixCImag': 0.0,
+          'phoenixP': -0.5,
+        },
+        view: FractalViewState(
+          pan: Vector2(-0.5, 0.0),
+          zoom: 1.0,
+          rotation: Vector3.zero(),
+        ),
+      ),
     ],
     setUniforms: (shader, state, size, time) {
       final iterations = readDouble(state.params, 'iterations', 180);

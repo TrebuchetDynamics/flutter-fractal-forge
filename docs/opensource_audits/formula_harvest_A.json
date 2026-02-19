@@ -1,0 +1,587 @@
+{
+  "generated_at": "2026-02-19T05:18:30.636328+00:00",
+  "scope": {
+    "sources_scanned": [
+      "opensource/par-fractal",
+      "opensource/shader-fractals",
+      "opensource/glChAoS.P",
+      "opensource/FractalExplorer"
+    ],
+    "catalog_file": "/home/xel/git/flutter-fractal-forge/lib/core/modules/builders/escape_time_catalog.dart",
+    "module_registry_file": "/home/xel/git/flutter-fractal-forge/lib/core/modules/module_registry.dart"
+  },
+  "current_coverage": {
+    "escape_time_catalog_ids": 332,
+    "custom_registry_ids": [
+      "julia",
+      "julia_dual",
+      "mandelbox",
+      "mandelbulb",
+      "nova",
+      "phoenix"
+    ],
+    "total_unique_ids_compared": 338
+  },
+  "notes": [
+    "Comparison is exact-ID plus manual semantic review against existing formulas.",
+    "FractalExplorer contributes mostly overlapping formulas (multibrot/multicorn/newton/polynomial); no clearly net-new formula family was harvested from it."
+  ],
+  "candidates": [
+    {
+      "proposed_id": "martin",
+      "source": "par-fractal",
+      "family": "2D strange attractor (iterative map)",
+      "formula": "x_{n+1}=y_n-sin(x_n), y_{n+1}=a-x_n",
+      "known_params": [
+        "a"
+      ],
+      "gpu_suitability": "High (compute-shader point accumulation)",
+      "cpu_complexity": "Medium (O(points*iterations))",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "hopalong",
+        "gingerbreadman"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1165"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "chip",
+      "source": "par-fractal",
+      "family": "2D strange attractor (hopalong variant)",
+      "formula": "x_{n+1}=y_n-sign(x_n)*cos(log^2|b*x_n-c|)*atan(log^2|c*x_n-b|), y_{n+1}=a-x_n",
+      "known_params": [
+        "a",
+        "b",
+        "c"
+      ],
+      "gpu_suitability": "High (same accumulation pipeline as hopalong)",
+      "cpu_complexity": "Medium-high (log/trig heavy per step)",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "hopalong",
+        "popcorn"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1275"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "quadruptwo",
+      "source": "par-fractal",
+      "family": "2D strange attractor (hopalong variant)",
+      "formula": "x_{n+1}=y_n-sign(x_n)*sin(log|b*x_n-c|)*atan(log^2|c*x_n-b|), y_{n+1}=a-x_n",
+      "known_params": [
+        "a",
+        "b",
+        "c"
+      ],
+      "gpu_suitability": "High (compute accumulation)",
+      "cpu_complexity": "Medium-high (log/trig heavy)",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "hopalong",
+        "popcorn"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1319"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "threeply",
+      "source": "par-fractal",
+      "family": "2D strange attractor (hopalong variant)",
+      "formula": "x_{n+1}=y_n-sign(x_n)*|sin(x_n)cos(b)+c-x_n*sin(a+b+c)|, y_{n+1}=a-x_n",
+      "known_params": [
+        "a",
+        "b",
+        "c"
+      ],
+      "gpu_suitability": "High (compute accumulation)",
+      "cpu_complexity": "Medium (trig + abs per step)",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "hopalong",
+        "gingerbreadman"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1363"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "octahedral_ifs",
+      "source": "par-fractal",
+      "family": "3D IFS / distance-estimated fractal",
+      "formula": "Iterative octahedral fold + scale transform; DE ~ (|p|-const)/dr",
+      "known_params": [
+        "fractal_scale",
+        "fractal_fold",
+        "max_steps"
+      ],
+      "gpu_suitability": "Very high (ray-marching DE on fragment shader)",
+      "cpu_complexity": "High (ray-march * DE iterations)",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "mandelbox",
+        "menger_3d_slice"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1658"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "icosahedral_ifs",
+      "source": "par-fractal",
+      "family": "3D IFS / kaleidoscopic DE fractal",
+      "formula": "Icosahedral mirror-plane folds (golden-ratio normals) + scale fold; DE via dr accumulator",
+      "known_params": [
+        "fractal_scale",
+        "fractal_fold",
+        "max_steps"
+      ],
+      "gpu_suitability": "Very high (GPU ray-marching; many plane folds)",
+      "cpu_complexity": "High-very high",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "mandelbox",
+        "pseudo_kleinian"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1698"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "hybrid_mandelbulb_julia",
+      "source": "par-fractal",
+      "family": "3D hybrid escape-time DE fractal",
+      "formula": "Alternates Mandelbulb step z<-z^n+pos and Julia step z<-z^n+c each iteration",
+      "known_params": [
+        "power",
+        "julia_c",
+        "fractal_scale",
+        "max_iterations"
+      ],
+      "gpu_suitability": "Very high (classic DE ray-march workload)",
+      "cpu_complexity": "Very high",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "mandelbulb",
+        "julia_de"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1860"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "quaternion_cubic_3d",
+      "source": "par-fractal",
+      "family": "3D quaternion Julia/deep escape-time",
+      "formula": "Quaternion iteration q_{n+1}=q_n^3+c with derivative-based distance estimate",
+      "known_params": [
+        "julia_c",
+        "fractal_scale",
+        "max_iterations"
+      ],
+      "gpu_suitability": "High (ray-march DE), math-heavy quaternion ops",
+      "cpu_complexity": "Very high",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "quaternion_julia_2d",
+        "julia_de"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1903"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "kleinian_3d",
+      "source": "par-fractal",
+      "family": "3D pseudo-kleinian / amazing-surface DE",
+      "formula": "Abs+coordinate-sort folds, box fold, sphere inversion, translation; DE from accumulated scale",
+      "known_params": [
+        "fractal_scale",
+        "fractal_fold",
+        "fractal_min_radius"
+      ],
+      "gpu_suitability": "Very high (DE ray-marching)",
+      "cpu_complexity": "High",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "pseudo_kleinian"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1818"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "sierpinski_gasket_3d",
+      "source": "par-fractal",
+      "family": "3D tetrahedral IFS + inversion",
+      "formula": "Tetrahedral fold + sphere inversion + scaling (gasket-style holes)",
+      "known_params": [
+        "fractal_scale",
+        "fractal_fold",
+        "fractal_min_radius",
+        "max_iterations"
+      ],
+      "gpu_suitability": "Very high (DE ray-marching)",
+      "cpu_complexity": "High",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "sierpinski_tetrahedron"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1935"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "julia_quaternion_3d",
+      "source": "par-fractal",
+      "family": "3D quaternion Julia DE",
+      "formula": "Quaternion squaring q_{n+1}=q_n^2+c with derivative-tracked distance estimate",
+      "known_params": [
+        "julia_c",
+        "fractal_scale"
+      ],
+      "gpu_suitability": "Very high (DE ray-march)",
+      "cpu_complexity": "Very high",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "quaternion_julia_2d",
+        "julia_de"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1578"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "apollonian_gasket_3d",
+      "source": "par-fractal",
+      "family": "3D sphere-packing / inversion fractal",
+      "formula": "Absolute fold + sphere inversion + coordinate sorting + scale/translation (Apollonian packing style)",
+      "known_params": [
+        "fractal_scale",
+        "fractal_fold",
+        "fractal_min_radius"
+      ],
+      "gpu_suitability": "Very high (DE ray-marching)",
+      "cpu_complexity": "High",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "apollonian_gasket"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1749"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "pickover_3d",
+      "source": "par-fractal",
+      "family": "3D strange attractor",
+      "formula": "x' = sin(a*y)-z*cos(b*x); y' = z*sin(c*x)-cos(d*y); z' = sin(x)",
+      "known_params": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "fractal_scale"
+      ],
+      "gpu_suitability": "High (compute cloud or DE cloud-distance approximation)",
+      "cpu_complexity": "Medium-high",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "pickover_biomorph"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1959"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "lorenz_3d",
+      "source": "par-fractal",
+      "family": "3D ODE strange attractor",
+      "formula": "dx/dt=σ(y-x), dy/dt=x(ρ-z)-y, dz/dt=xy-βz",
+      "known_params": [
+        "sigma",
+        "rho",
+        "beta",
+        "dt"
+      ],
+      "gpu_suitability": "High (compute particle integration)",
+      "cpu_complexity": "Medium-high",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "lorenz_2d"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/shaders/fractal.wgsl:1990"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "rossler_3d",
+      "source": "par-fractal",
+      "family": "3D ODE strange attractor",
+      "formula": "dx/dt=-y-z, dy/dt=x+a*y, dz/dt=b+z*(x-c)",
+      "known_params": [
+        "a",
+        "b",
+        "c",
+        "dt"
+      ],
+      "gpu_suitability": "High (compute particle integration)",
+      "cpu_complexity": "Medium",
+      "license_notes": "MIT (par-fractal) — code reuse allowed with attribution.",
+      "closest_existing_ids": [
+        "rossler_2d"
+      ],
+      "evidence": [
+        "opensource/par-fractal/src/fractal/types.rs:48"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "kings_dream",
+      "source": "glChAoS.P",
+      "family": "3D trig attractor map",
+      "formula": "x'=sin(z*k0)+k3*sin(x*k0); y'=sin(x*k1)+k4*sin(y*k1); z'=sin(y*k2)+k5*sin(z*k2)",
+      "known_params": [
+        "k0",
+        "k1",
+        "k2",
+        "k3",
+        "k4",
+        "k5"
+      ],
+      "gpu_suitability": "High (compute map iterations / particle emit)",
+      "cpu_complexity": "Medium",
+      "license_notes": "BSD-2-Clause (glChAoS.P) — permissive with notice retention.",
+      "closest_existing_ids": [
+        "clifford",
+        "peter_de_jong"
+      ],
+      "evidence": [
+        "opensource/glChAoS.P/src/src/attractorsTrigonom.cpp:15"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "sincos_3d",
+      "source": "glChAoS.P",
+      "family": "3D trigonometric coupled map",
+      "formula": "x'=cos(k0*x)+sin(k1*y)-sin(k2*z); y'=sin(k3*x)-cos(k4*y)+sin(k5*z); z'=-cos(k6*x)+cos(k7*y)+cos(k8*z)",
+      "known_params": [
+        "k0..k8"
+      ],
+      "gpu_suitability": "High (compute map iterations)",
+      "cpu_complexity": "Medium",
+      "license_notes": "BSD-2-Clause (glChAoS.P) — permissive with notice retention.",
+      "closest_existing_ids": [
+        "clifford",
+        "svensson"
+      ],
+      "evidence": [
+        "opensource/glChAoS.P/src/src/attractorsTrigonom.cpp:33"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "multichua_ii",
+      "source": "glChAoS.P",
+      "family": "3D piecewise-linear ODE attractor",
+      "formula": "Chua-like system with piecewise nonlinearity f(x) built from segment slopes m0..m5 and breakpoints c1..c5",
+      "known_params": [
+        "a",
+        "b",
+        "m0..m5",
+        "c1..c5",
+        "dt"
+      ],
+      "gpu_suitability": "High (compute integration), moderate branch divergence due piecewise f(x)",
+      "cpu_complexity": "High",
+      "license_notes": "BSD-2-Clause (glChAoS.P) — permissive with notice retention.",
+      "closest_existing_ids": [
+        "chua_circuit"
+      ],
+      "evidence": [
+        "opensource/glChAoS.P/src/src/attractorsDiffEq.cpp:201"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "chen_celikovsky",
+      "source": "glChAoS.P",
+      "family": "3D ODE strange attractor",
+      "formula": "x'=x+dt*a(y-x); y'=y+dt(-xz+c*y); z'=z+dt(xy-bz)",
+      "known_params": [
+        "a",
+        "b",
+        "c",
+        "dt"
+      ],
+      "gpu_suitability": "High (compute integration)",
+      "cpu_complexity": "Medium",
+      "license_notes": "BSD-2-Clause (glChAoS.P) — permissive with notice retention.",
+      "closest_existing_ids": [
+        "chen",
+        "chen_lee"
+      ],
+      "evidence": [
+        "opensource/glChAoS.P/src/src/attractorsDiffEq.cpp:23"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "popcorn_4d",
+      "source": "glChAoS.P",
+      "family": "4D map (Popcorn generalization)",
+      "formula": "x'=x-k0*fX(y+tan(k1*y)); y'=y-k2*fY(x+tan(k3*x)); z'=z-k4*fZ(w+tan(k5*w)); w'=w-k6*fW(z+tan(k7*z))",
+      "known_params": [
+        "k0..k7",
+        "fX/fY/fZ/fW in {sin,cos}"
+      ],
+      "gpu_suitability": "High on compute (4D state to 3D projection rendering)",
+      "cpu_complexity": "High",
+      "license_notes": "BSD-2-Clause (glChAoS.P) — permissive with notice retention.",
+      "closest_existing_ids": [
+        "popcorn",
+        "popcorn2"
+      ],
+      "evidence": [
+        "opensource/glChAoS.P/src/src/attractors2DTransf.cpp:49",
+        "opensource/glChAoS.P/src/src/attractors2DTransf.h:66"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "mira_4d",
+      "source": "glChAoS.P",
+      "family": "4D Mira map extension",
+      "formula": "Coupled Mira map using f(x,k)=k*x+2(1-k)x^2/(1+x^2) on (x,y) and (z,w) planes",
+      "known_params": [
+        "k0",
+        "k1",
+        "k2",
+        "k3"
+      ],
+      "gpu_suitability": "High on compute (iterative map)",
+      "cpu_complexity": "Medium-high",
+      "license_notes": "BSD-2-Clause (glChAoS.P) — permissive with notice retention.",
+      "closest_existing_ids": [
+        "gumowski_mira"
+      ],
+      "evidence": [
+        "opensource/glChAoS.P/src/src/attractors2DTransf.cpp:29"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "hopalong_4d",
+      "source": "glChAoS.P",
+      "family": "4D hopalong extension",
+      "formula": "Two coupled hopalong planes: (x,y) and (z,w) with sqrt(|k1*f-k2|) nonlinearity",
+      "known_params": [
+        "a1",
+        "b1",
+        "c1",
+        "a2",
+        "b2",
+        "c2"
+      ],
+      "gpu_suitability": "High on compute",
+      "cpu_complexity": "Medium",
+      "license_notes": "BSD-2-Clause (glChAoS.P) — permissive with notice retention.",
+      "closest_existing_ids": [
+        "hopalong"
+      ],
+      "evidence": [
+        "opensource/glChAoS.P/src/src/attractors2DTransf.cpp:115"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "kaneko_3d",
+      "source": "glChAoS.P",
+      "family": "3D iterative map / parametric slice",
+      "formula": "x'=a*x+(1-a)*(1-z*y^2); y'=x; z scanned as control dimension",
+      "known_params": [
+        "a",
+        "z_min",
+        "z_max",
+        "z_iter"
+      ],
+      "gpu_suitability": "High (compute map iterations)",
+      "cpu_complexity": "Medium",
+      "license_notes": "BSD-2-Clause (glChAoS.P) — permissive with notice retention.",
+      "closest_existing_ids": [
+        "henon",
+        "hopalong"
+      ],
+      "evidence": [
+        "opensource/glChAoS.P/src/src/attractors2DTransf.cpp:164"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "menger_broccoli",
+      "source": "shader-fractals",
+      "family": "3D non-canonical SDF fractal (Menger-derivative)",
+      "formula": "Sierpinski/Menger-style fold-and-scale DE with animated rotations and offsets (artistic variant)",
+      "known_params": [
+        "iterations",
+        "scale",
+        "offset",
+        "rotation"
+      ],
+      "gpu_suitability": "Very high (SDF ray marching)",
+      "cpu_complexity": "High",
+      "license_notes": "MIT (shader-fractals) — permissive; note author marks as non-canonical.",
+      "closest_existing_ids": [
+        "menger_sponge_2d"
+      ],
+      "evidence": [
+        "opensource/shader-fractals/3D/MengerBrocolli.glsl:1",
+        "opensource/shader-fractals/README.md"
+      ],
+      "present_in_current_ids_exact": false
+    },
+    {
+      "proposed_id": "menger_mushroom",
+      "source": "shader-fractals",
+      "family": "3D non-canonical SDF fractal (Menger-derivative)",
+      "formula": "Menger-derived fold/rotate/scale DE composition producing mushroom-like structures",
+      "known_params": [
+        "iterations",
+        "scale",
+        "offset",
+        "rotation",
+        "time"
+      ],
+      "gpu_suitability": "Very high (SDF ray marching)",
+      "cpu_complexity": "High",
+      "license_notes": "MIT (shader-fractals) — permissive; non-canonical artistic construction.",
+      "closest_existing_ids": [
+        "menger_sponge_2d"
+      ],
+      "evidence": [
+        "opensource/shader-fractals/3D/MengerMushroom.glsl:1",
+        "opensource/shader-fractals/README.md"
+      ],
+      "present_in_current_ids_exact": false
+    }
+  ]
+}

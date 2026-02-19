@@ -2,6 +2,10 @@
 
 precision highp float;
 
+// Glynn Fractal: z_{n+1} = z^1.5 + c  (Mandelbrot-style, z₀=0, c=pixel)
+// Fractional-power Mandelbrot producing 3-lobed self-similar spirals.
+// Derivative (dz/dc): der = 1.5·z^0.5·der + 1, der₀=(0,0).
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform vec2  uCenter;        // 3-4
@@ -13,6 +17,16 @@ uniform float uTransparentBg; // 9
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
+// colorScheme 0-49: standard palette. 50-63: normal-map (14 angles × 4 palettes).
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
@@ -39,13 +53,19 @@ vec3 palette(float t, int scheme) {
   return clamp(a + b * cos(6.28318 * (c4 * t + d)), 0.0, 1.0);
 }
 
+vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
+  int schemeInt = int(uColorScheme);
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z = c;
+  vec2 z = vec2(0.0);
+
+  // Mandelbrot-style derivative dz/dc: der₀=(0,0)
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
@@ -55,9 +75,15 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // Glynn: z = z^1.5 + c (polar form)
+    // z^1.5 in polar: r^1.5 at angle 1.5θ
     float r = length(z);
     float theta = atan(z.y, z.x);
+    // z^0.5 = sqrt(r)·e^(iθ/2): needed for derivative 1.5·z^0.5
+    float rsqrt = sqrt(max(r, 1e-12));
+    vec2 zhalf = vec2(rsqrt * cos(theta * 0.5), rsqrt * sin(theta * 0.5));
+    // d(z^1.5)/dc = 1.5·z^0.5·der + 1  (Mandelbrot-style dc/dc=1)
+    der = 1.5 * cmul(zhalf, der) + vec2(1.0, 0.0);
+
     float rp = pow(max(r, 1e-12), 1.5);
     float ang = 1.5 * theta;
     z = vec2(rp * cos(ang), rp * sin(ang)) + c;
@@ -71,8 +97,30 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
+  float mag2      = max(1e-12, dot(z, z));
   float smoothVal = float(it) - log2(log2(mag2));
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(palette(t, int(uColorScheme)), 1.0);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }

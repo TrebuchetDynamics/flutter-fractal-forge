@@ -19,7 +19,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.fractals.flutter_fractals"
+    namespace = "com.trebuchetdynamics.fractal.forge"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
@@ -33,7 +33,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.fractals.flutter_fractals"
+        applicationId = "com.trebuchetdynamics.fractal.forge"
         minSdk = flutter.minSdkVersion
         targetSdk = 35
         versionCode = flutter.versionCode

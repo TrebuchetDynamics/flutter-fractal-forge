@@ -8,6 +8,7 @@ void main() {
   Future<void> pumpSheet(
     WidgetTester tester, {
     required void Function(ExportOptions, ExportAction) onExport,
+    ExportOptions initialOptions = const ExportOptions(),
   }) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -16,7 +17,7 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: ExportOptionsSheet(
-            initialOptions: const ExportOptions(),
+            initialOptions: initialOptions,
             fractalType: 'mandelbrot',
             onExport: onExport,
           ),
@@ -53,5 +54,24 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(action, ExportAction.saveAndShare);
+  });
+
+  testWidgets('custom resolution export includes default dimensions',
+      (tester) async {
+    ExportOptions? exported;
+
+    await pumpSheet(
+      tester,
+      initialOptions: const ExportOptions(resolution: ExportResolution.custom),
+      onExport: (options, _) => exported = options,
+    );
+
+    await tester.tap(find.byIcon(Icons.save_alt_rounded));
+    await tester.pumpAndSettle();
+
+    expect(exported, isNotNull);
+    expect(exported!.resolution, ExportResolution.custom);
+    expect(exported!.customWidth, 1920);
+    expect(exported!.customHeight, 1080);
   });
 }

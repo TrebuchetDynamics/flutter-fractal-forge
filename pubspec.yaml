@@ -1,7 +1,7 @@
 name: flutter_fractals
 description: A Flutter app for rendering 3D Mandelbulb fractals with real-time interaction.
 publish_to: none
-version: 1.0.1+2
+version: 1.0.14+15
 environment:
   sdk: ^3.0.0
 dependencies:
@@ -20,6 +20,7 @@ dependencies:
   permission_handler: ^11.0.0
   camera: ^0.10.6
   image: ^4.0.0
+  arcore_flutter_plugin: ^0.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -206,6 +207,29 @@ flutter:
     - shaders/liu_chen_gpu.frag
     - shaders/newton_leipnik_gpu.frag
     - shaders/bouali_gpu.frag
+    - shaders/dequan_li_gpu.frag
+    - shaders/coullet_gpu.frag
+    - shaders/sakarya_gpu.frag
+    - shaders/qi_chen_gpu.frag
+    - shaders/yu_wang_gpu.frag
+    - shaders/zhou_chen_gpu.frag
+    - shaders/tsucs_gpu.frag
+    - shaders/rayleigh_benard_gpu.frag
+    - shaders/robinson_gpu.frag
+    - shaders/globo_toroid_gpu.frag
+    - shaders/tamari_gpu.frag
+    - shaders/wang_sun_cang_gpu.frag
+    - shaders/escape_time_perturb_gpu.frag
+    - shaders/newton_z4_gpu.frag
+    - shaders/newton_z6_gpu.frag
+    - shaders/tangent_julia_gpu.frag
+    - shaders/sinh_julia_gpu.frag
+    - shaders/cosh_julia_gpu.frag
+    - shaders/tanh_julia_gpu.frag
+    - shaders/burning_ship_power4_gpu.frag
+    - shaders/multibrot6_gpu.frag
+    - shaders/tricorn_power4_gpu.frag
+    - shaders/buffalo_power4_gpu.frag
     - shaders/quaternion_julia_2d_gpu.frag
     - shaders/tessarine_julia_gpu.frag
     - shaders/split_complex_gpu.frag
@@ -264,3 +288,118 @@ flutter:
     - shaders/menger_3d_slice_gpu.frag
     - shaders/pola_sierpinski_gpu.frag
     - shaders/fibonacci_spiral_gpu.frag
+    - shaders/washed_away_gpu.frag
+    - shaders/damaged_doublebrot_gpu.frag
+    - shaders/perp_celtic_gpu.frag
+    - shaders/feather_gpu.frag
+    - shaders/burning_ship_cubic_gpu.frag
+    - shaders/celtic_cubic_gpu.frag
+    - shaders/mandelbrot_orbit_trap_gpu.frag
+    - shaders/burning_ship_perp_gpu.frag
+    - shaders/mandelbrot_stripe_avg_gpu.frag
+    - shaders/burning_ship_perp_julia_gpu.frag
+    - shaders/mandelbrot_tia_gpu.frag
+    - shaders/buffalo_cubic_gpu.frag
+    - shaders/mandelbrot_de_gpu.frag
+    - shaders/tricorn_cubic_gpu.frag
+    - shaders/mandelbrot_curvature_avg_gpu.frag
+    - shaders/julia_de_gpu.frag
+    - shaders/multibrot_15_gpu.frag
+    - shaders/perp_celtic_cubic_gpu.frag
+    - shaders/multibrot_25_gpu.frag
+    - shaders/prison_gpu.frag
+    - shaders/crazybrot_gpu.frag
+    - shaders/eaten_gpu.frag
+    - shaders/polar_cowlick_gpu.frag
+    - shaders/vase_gpu.frag
+    - shaders/lightningbrot_gpu.frag
+    - shaders/angrybrot_gpu.frag
+    - shaders/singularity_gpu.frag
+    - shaders/space_fractal_gpu.frag
+    - shaders/contused_fields_gpu.frag
+    - shaders/car_road_gpu.frag
+    - shaders/bullet_shot_gpu.frag
+    - shaders/sine_mandelbrot_gpu.frag
+    - shaders/drill_gpu.frag
+    - shaders/3d_fractal_gpu.frag
+    - shaders/undefined_gpu.frag
+    - shaders/sprott_b_gpu.frag
+    - shaders/sprott_c_gpu.frag
+    - shaders/sprott_d_gpu.frag
+    - shaders/sprott_e_gpu.frag
+    - shaders/sprott_f_gpu.frag
+    - shaders/rucklidge_gpu.frag
+    - shaders/shimizu_morioka_gpu.frag
+    - shaders/chen_lee_gpu.frag
+    - shaders/newton_z5_gpu.frag
+    - shaders/biomorph_gpu.frag
+    - shaders/multijulia3_gpu.frag
+    - shaders/multijulia4_gpu.frag
+    - shaders/multijulia5_gpu.frag
+    - shaders/multijulia6_gpu.frag
+    - shaders/celtic_power4_gpu.frag
+    - shaders/burning_ship_cubic_julia_gpu.frag
+    - shaders/tricorn_power5_gpu.frag
+    - shaders/exponential_julia_gpu.frag
+    - shaders/buffalo_cubic_julia_gpu.frag
+    - shaders/mandelbar_cubic_gpu.frag
+    - shaders/perpendicular_burning_ship_gpu.frag
+    - shaders/burning_ship_power5_gpu.frag
+    - shaders/celtic_power5_gpu.frag
+    - shaders/buffalo_power5_gpu.frag
+    - shaders/multibrot7_gpu.frag
+    - shaders/multibrot8_gpu.frag
+    - shaders/multijulia7_gpu.frag
+    - shaders/multijulia8_gpu.frag
+    - shaders/newton_z7_gpu.frag
+    - shaders/feather_julia_gpu.frag
+    - shaders/heart_julia_gpu.frag
+    - shaders/newton_z8_gpu.frag
+    - shaders/burning_ship_power4_julia_gpu.frag
+    - shaders/burning_ship_power5_julia_gpu.frag
+    - shaders/buffalo_power4_julia_gpu.frag
+    - shaders/celtic_power4_julia_gpu.frag
+    - shaders/tricorn_power4_julia_gpu.frag
+    - shaders/tricorn_power5_julia_gpu.frag
+    - shaders/perpendicular_burning_ship_julia_gpu.frag
+    - shaders/lambda_julia_gpu.frag
+    - shaders/celtic_cubic_julia_gpu.frag
+    - shaders/celtic_power5_julia_gpu.frag
+    - shaders/buffalo_power5_julia_gpu.frag
+    - shaders/tricorn_cubic_julia_gpu.frag
+    - shaders/magnet1_julia_gpu.frag
+    - shaders/magnet2_julia_gpu.frag
+    - shaders/mandelbar_power6_gpu.frag
+    - shaders/tricorn_power6_julia_gpu.frag
+    - shaders/perpendicular_bs_cubic_gpu.frag
+    - shaders/perpendicular_bs_cubic_julia_gpu.frag
+    - shaders/schroeder_z3_gpu.frag
+    - shaders/schroeder_z4_gpu.frag
+    - shaders/nova_cubic_gpu.frag
+    - shaders/nova_cubic_julia_gpu.frag
+    - shaders/burning_ship_power6_gpu.frag
+    - shaders/buffalo_power6_gpu.frag
+    - shaders/celtic_power6_gpu.frag
+    - shaders/multibrot9_gpu.frag
+    - shaders/multijulia9_gpu.frag
+    - shaders/multibrot10_gpu.frag
+    - shaders/multijulia10_gpu.frag
+    - shaders/multibrot11_gpu.frag
+    - shaders/multibrot12_gpu.frag
+    - shaders/burning_ship_power6_julia_gpu.frag
+    - shaders/buffalo_power6_julia_gpu.frag
+    - shaders/celtic_power6_julia_gpu.frag
+    - shaders/halley_z4_gpu.frag
+    - shaders/mandelbar_power7_gpu.frag
+    - shaders/nova_degree4_gpu.frag
+    - shaders/nova_degree4_julia_gpu.frag
+    - shaders/multijulia7_gpu.frag
+    - shaders/multijulia8_gpu.frag
+    - shaders/multijulia11_gpu.frag
+    - shaders/multijulia12_gpu.frag
+    - shaders/mandelbar_power8_gpu.frag
+    - shaders/mandelbar_power9_gpu.frag
+    - shaders/tricorn_power7_julia_gpu.frag
+    - shaders/tricorn_power8_julia_gpu.frag
+    - shaders/perpendicular_bs_power4_gpu.frag
+    - shaders/perpendicular_bs_power5_gpu.frag

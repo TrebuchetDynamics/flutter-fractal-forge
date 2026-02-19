@@ -13,7 +13,7 @@ Legend:
 - ✅ Integration test green (`scripts/headless-emulator-test.sh`, 5/5 pass)
 
 ## 2) Android app configuration
-- ✅ `applicationId` set: `com.fractals.flutter_fractals`
+- ✅ `applicationId` set: `com.trebuchetdynamics.fractal.forge`
 - ✅ `versionCode=1` and `versionName=1.0.0`
 - ✅ `targetSdk=34`, `minSdk>=21`
 - ✅ Manifest permission minimization complete (`uses-permission` count: 0)

@@ -330,8 +330,8 @@ flutter test integration_test/ -d emulator-5554 --reporter expanded
 **AR permission path checks:**
 
 ```bash
-adb shell pm revoke com.fractals.flutter_fractals android.permission.CAMERA
-adb shell pm grant com.fractals.flutter_fractals android.permission.CAMERA
+adb shell pm revoke com.trebuchetdynamics.fractal.forge android.permission.CAMERA
+adb shell pm grant com.trebuchetdynamics.fractal.forge android.permission.CAMERA
 ```
 
 ### 4. Deterministic Artifact Capture
@@ -366,7 +366,7 @@ adb -s emulator-5554 logcat -d -v time > full.log
 **In-app debug logs:**
 
 ```bash
-adb shell run-as com.fractals.flutter_fractals \
+adb shell run-as com.trebuchetdynamics.fractal.forge \
   cat app_flutter/debug_logs/session_*.log
 ```
 

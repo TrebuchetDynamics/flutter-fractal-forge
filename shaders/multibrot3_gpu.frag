@@ -13,6 +13,17 @@ uniform float uTransparentBg; // 9
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
+// colorScheme 0-49: standard palette coloring.
+// colorScheme 50-63: normal-map (bas-relief) mode — 14 light angles × 4 base palettes.
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(0.5+0.5*cos(6.28318*(t+0.0)),0.5+0.5*cos(6.28318*(t+0.4)),0.5+0.5*cos(6.28318*(t+0.7)));
@@ -33,31 +44,45 @@ vec3 palette(float t, int scheme) {
   return clamp(col, 0.0, 1.0);
 }
 
-
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5*uResolution) / max(1.0, scale);
-  vec2 c = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z = vec2(0.0);
+
+  int schemeInt = int(uColorScheme);
+  vec2 c   = uv / max(0.000001, uZoom) + uCenter;
+  vec2 z   = vec2(0.0);
+  // Complex derivative dz/dc for normal-map shading.
+  // d(z^3)/dc = 3*z^2 * der  →  der_next = 3*z^2*der + 1
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
-  for (int j = 0; j < MAX_ITERS; j++) {
-    if (j >= target) { it = target; break; }
+  // Early-out: for z0=0 in z -> z^d + c, first iterate is z1=c.
+  // If |c| already exceeds bailout, we can skip the loop safely.
+  if (dot(c, c) > bailoutSq) {
+    z = c;
+    der = vec2(1.0, 0.0);
+    it = 0;
+  } else {
+    for (int j = 0; j < MAX_ITERS; j++) {
+      if (j >= target) { it = target; break; }
 
-    // z^3 + c  (Multibrot d=3)
-    float x2 = z.x*z.x;
-    float y2 = z.y*z.y;
-    float nx = z.x*(x2 - 3.0*y2) + c.x;
-    float ny = z.y*(3.0*x2 - y2) + c.y;
-    z = vec2(nx, ny);
+      // z^3 + c  (Multibrot d=3)
+      float x2 = z.x*z.x;
+      float y2 = z.y*z.y;
+      // Derivative update using z^2: der = 3*z^2*der + 1
+      vec2 z2v = vec2(x2 - y2, 2.0*z.x*z.y);
+      der = 3.0 * vec2(z2v.x*der.x - z2v.y*der.y,
+                       z2v.x*der.y + z2v.y*der.x) + vec2(1.0, 0.0);
+      z = vec2(z.x*(x2 - 3.0*y2) + c.x, z.y*(3.0*x2 - y2) + c.y);
 
-    if (dot(z, z) > bailoutSq) { it = j; break; }
-    it = j + 1;
+      if (dot(z, z) > bailoutSq) { it = j; break; }
+      it = j + 1;
+    }
   }
 
   if (it >= target) {
@@ -66,8 +91,36 @@ void main() {
   }
 
   float mag2 = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / log2(3.0);
+  // Continuous potential for z -> z^p + c (Douady/Hubbard smooth coloring):
+  // nu = n + 1 - log(log|z_n|) / log(p).  Here |z| = sqrt(mag2).
+  float logZn = 0.5 * log(mag2);
+  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(3.0);
+
+  // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
+  if (schemeInt >= 50) {
+    float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
+    vec2 lightDir = vec2(cos(angle), sin(angle));
+
+    // Normal estimate: nv = z / der  (complex division)
+    float denom = max(1e-12, dot(der, der));
+    vec2 nv = vec2( z.x * der.x + z.y * der.y,
+                    z.y * der.x - z.x * der.y) / denom;
+
+    float nLen = length(nv);
+    if (nLen > 1e-6) nv /= nLen;
+
+    const float HEIGHT = 0.5;
+    float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
+    light = pow(light, 1.0 / 1.8);
+
+    float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
+    int basePal = (schemeInt - 50) % 4;
+    vec3 col = palette(baseT, basePal) * light;
+    fragColor = vec4(linearToSRGB(col), 1.0);
+    return;
+  }
+
   float t = fract(smoothVal / 64.0 + uTime*0.0001);
-  vec3 color = palette(t, int(uColorScheme));
-  fragColor = vec4(color, 1.0);
+  vec3 color = palette(t, schemeInt);
+  fragColor = vec4(linearToSRGB(color), 1.0);
 }

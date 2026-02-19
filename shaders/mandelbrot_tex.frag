@@ -15,6 +15,15 @@ uniform sampler2D uPalette;
 
 out vec4 fragColor;
 
+// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
 
@@ -52,5 +61,5 @@ void main() {
   // Sample palette texture
   vec2 palUV = vec2(clamp(t, 0.0, 1.0), 0.5);
   vec3 col = texture(uPalette, palUV).rgb;
-  fragColor = vec4(col, 1.0);
+  fragColor = vec4(linearToSRGB(col), 1.0);
 }

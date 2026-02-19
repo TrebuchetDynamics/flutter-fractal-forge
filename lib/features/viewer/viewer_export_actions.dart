@@ -94,21 +94,40 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         await Future.delayed(const Duration(milliseconds: 100));
       }
 
-      final result = await _exportService.exportWithOptions(
-        boundaryKey,
-        options: options,
-        screenWidth: size.width,
-        screenHeight: size.height,
-        fractalType: controller.module.id,
-        parameters: controller.params,
-        onProgress: (progress) {
-          if (mounted) {
-            setState(() {
-              _exportProgress = progress;
-            });
-          }
-        },
-      );
+      ExportResult result;
+      var usedFallback = false;
+
+      try {
+        result = await _exportService.exportWithOptions(
+          boundaryKey,
+          options: options,
+          screenWidth: size.width,
+          screenHeight: size.height,
+          fractalType: controller.module.id,
+          parameters: controller.params,
+          onProgress: (progress) {
+            if (mounted) {
+              setState(() {
+                _exportProgress = progress;
+              });
+            }
+          },
+        );
+      } catch (primaryError) {
+        _log.error(
+          'export',
+          'Primary export failed, trying PNG fallback',
+          data: {'error': primaryError.toString()},
+        );
+        usedFallback = true;
+        result = await _performFallbackPngExport(
+          boundaryKey: boundaryKey,
+          options: options,
+          screenWidth: size.width,
+          screenHeight: size.height,
+          fractalType: controller.module.id,
+        );
+      }
 
       if (mounted) {
         await HapticService.heavy();
@@ -117,6 +136,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         if (shareAfterSave) {
           await _exportService.shareFile(result.file, text: l10n.exportTitle);
         }
+
+        final formatLabel =
+            usedFallback ? 'PNG (fallback)' : result.format.displayName;
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -132,7 +154,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
                     children: [
                       Text(l10n.exportSaved),
                       Text(
-                        '${result.resolution} • ${result.format.displayName} • ${result.formattedSize}',
+                        '${result.resolution} • $formatLabel • ${result.formattedSize}',
                         style: AppTypography.bodySmall.copyWith(
                           color: Colors.white.withOpacity(0.7),
                         ),
@@ -165,6 +187,47 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         });
       }
     }
+  }
+
+  Future<ExportResult> _performFallbackPngExport({
+    required GlobalKey boundaryKey,
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    required String fractalType,
+  }) async {
+    final pixelRatio =
+        options.calculatePixelRatio(screenWidth, screenHeight).clamp(1.0, 8.0);
+    final bytes = await _exportService.capturePng(
+      boundaryKey,
+      pixelRatio: pixelRatio,
+    );
+
+    final codec = await ui.instantiateImageCodec(bytes);
+    late final int width;
+    late final int height;
+    try {
+      final frame = await codec.getNextFrame();
+      width = frame.image.width;
+      height = frame.image.height;
+      frame.image.dispose();
+    } finally {
+      codec.dispose();
+    }
+
+    final filename = _exportService.generateFilename(
+      format: ExportFormat.png,
+      fractalType: fractalType,
+    );
+    final file = await _exportService.saveBytes(bytes, filename: filename);
+
+    return ExportResult(
+      file: file,
+      format: ExportFormat.png,
+      width: width,
+      height: height,
+      fileSize: bytes.length,
+    );
   }
 
   Future<void> _performVideoExport(

@@ -2,7 +2,7 @@
 
 **Effective Date:** February 13, 2026
 **Developer:** ComplexChaos
-**Package:** com.fractals.flutter_fractals
+**Package:** com.trebuchetdynamics.fractal.forge
 
 ## Summary
 

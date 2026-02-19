@@ -62,18 +62,21 @@ class _CelebrationEffectState extends State<CelebrationEffect>
 
   void _startCelebration() {
     HapticFeedback.mediumImpact();
-    _particles = List.generate(widget.particleCount, (_) => _Particle(
-      color: _randomColor(),
-      position: Offset.zero,
-      velocity: Offset(
-        (_random.nextDouble() - 0.5) * 8,
-        -_random.nextDouble() * 10 - 5,
-      ),
-      size: _random.nextDouble() * 8 + 4,
-      rotation: _random.nextDouble() * math.pi * 2,
-      rotationSpeed: (_random.nextDouble() - 0.5) * 0.3,
-      shape: _ParticleShape.values[_random.nextInt(_ParticleShape.values.length)],
-    ));
+    _particles = List.generate(
+        widget.particleCount,
+        (_) => _Particle(
+              color: _randomColor(),
+              position: Offset.zero,
+              velocity: Offset(
+                (_random.nextDouble() - 0.5) * 8,
+                -_random.nextDouble() * 10 - 5,
+              ),
+              size: _random.nextDouble() * 8 + 4,
+              rotation: _random.nextDouble() * math.pi * 2,
+              rotationSpeed: (_random.nextDouble() - 0.5) * 0.3,
+              shape: _ParticleShape
+                  .values[_random.nextInt(_ParticleShape.values.length)],
+            ));
     _controller.forward(from: 0);
   }
 
@@ -165,11 +168,13 @@ class _ParticlePainter extends CustomPainter {
       if (opacity <= 0) continue;
 
       // Physics simulation
-      final x = center.dx + particle.position.dx + particle.velocity.dx * t * 100;
-      final y = center.dy + particle.position.dy + 
-                particle.velocity.dy * t * 100 + 
-                0.5 * gravity * t * t * 100;
-      
+      final x =
+          center.dx + particle.position.dx + particle.velocity.dx * t * 100;
+      final y = center.dy +
+          particle.position.dy +
+          particle.velocity.dy * t * 100 +
+          0.5 * gravity * t * t * 100;
+
       final scale = 1.0 - t * 0.5;
       final currentSize = particle.size * scale;
       final rotation = particle.rotation + particle.rotationSpeed * t * 10;
@@ -255,7 +260,8 @@ class FractalLoadingIndicator extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<FractalLoadingIndicator> createState() => _FractalLoadingIndicatorState();
+  State<FractalLoadingIndicator> createState() =>
+      _FractalLoadingIndicatorState();
 }
 
 class _FractalLoadingIndicatorState extends State<FractalLoadingIndicator>
@@ -377,9 +383,11 @@ class _FractalLoadingPainter extends CustomPainter {
       for (var i = 0; i < points; i++) {
         final t = i / points;
         final angle = layerRotation + t * math.pi * 2 * 1.5;
-        final r = layerRadius * t * (1 + math.sin(morph * math.pi * 2 + t * math.pi * 4) * 0.1);
+        final r = layerRadius *
+            t *
+            (1 + math.sin(morph * math.pi * 2 + t * math.pi * 4) * 0.1);
         final point = center + Offset(math.cos(angle) * r, math.sin(angle) * r);
-        
+
         if (i == 0) {
           path.moveTo(point.dx, point.dy);
         } else {
@@ -393,19 +401,20 @@ class _FractalLoadingPainter extends CustomPainter {
     final centerPaint = Paint()
       ..color = color.withOpacity(0.8)
       ..style = PaintingStyle.fill;
-    
+
     canvas.drawCircle(center, 4 + pulse * 2, centerPaint);
 
     // Draw orbiting dots
     for (var i = 0; i < 5; i++) {
       final angle = rotation * math.pi * 2 * 2 + i * math.pi * 2 / 5;
       final orbitRadius = baseRadius * 0.6;
-      final dotPos = center + Offset(
-        math.cos(angle) * orbitRadius,
-        math.sin(angle) * orbitRadius,
-      );
+      final dotPos = center +
+          Offset(
+            math.cos(angle) * orbitRadius,
+            math.sin(angle) * orbitRadius,
+          );
       final dotSize = 3 + math.sin(morph * math.pi * 2 + i) * 1.5;
-      
+
       canvas.drawCircle(
         dotPos,
         dotSize,
@@ -490,7 +499,9 @@ class _FractalMorphTransitionState extends State<FractalMorphTransition>
           children: [
             // Apply morph effect
             Transform.scale(
-              scale: 1.0 - morphValue * 0.05 + (1 - morphValue) * 0.05,
+              // Keep a subtle cinematic pulse while avoiding the end-of-transition
+              // shrink (<1.0) that looks like a tiny unintended zoom-out.
+              scale: 1.02 - morphValue * 0.02,
               child: Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()
@@ -638,7 +649,7 @@ class _ParameterTransitionState extends State<ParameterTransition>
 
   Color _getTransitionColor() {
     if (_previousValue == null) return Colors.transparent;
-    
+
     final delta = widget.value - _previousValue!;
     final range = widget.max - widget.min;
     final normalizedDelta = (delta / range).abs();
@@ -655,7 +666,7 @@ class _ParameterTransitionState extends State<ParameterTransition>
       animation: _controller,
       builder: (context, child) {
         final isAnimating = _controller.isAnimating;
-        
+
         return Stack(
           children: [
             Transform.scale(
@@ -673,7 +684,8 @@ class _ParameterTransitionState extends State<ParameterTransition>
                         ),
                         width: 2,
                       ),
-                      borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                      borderRadius:
+                          BorderRadius.circular(AppSpacing.cardRadius),
                     ),
                   ),
                 ),
@@ -799,8 +811,8 @@ class _SparklePainter extends CustomPainter {
     final maxDist = math.min(size.width, size.height) / 2;
 
     for (final sparkle in sparkles) {
-      final adjustedProgress = ((progress - sparkle.delay) / (1 - sparkle.delay))
-          .clamp(0.0, 1.0);
+      final adjustedProgress =
+          ((progress - sparkle.delay) / (1 - sparkle.delay)).clamp(0.0, 1.0);
       if (adjustedProgress <= 0) continue;
 
       final dist = sparkle.distance * maxDist * adjustedProgress;

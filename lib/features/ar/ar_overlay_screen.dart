@@ -142,10 +142,9 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
   double _overlayOpacity = 0.75;
   bool _overlayLocked = false;
   bool _anchorPlaced = false;
-  // In AR, users typically want a solid "painting". Transparent background makes the
-  // interior of escape-time sets see-through (camera shows through), which reads as
-  // gray/noisy texture. Default to opaque.
-  bool _transparentBackground = false;
+  // In AR, escape-time fractals look best when the interior black set is cut out.
+  // Default to transparent for those modules.
+  bool _transparentBackground = true;
   bool _panelCollapsed = true;
 
   bool _showGrid = true;
@@ -165,10 +164,20 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
   double? _lastZoom;
   String? _lastModuleId;
 
+  bool _shouldUseTransparentBackgroundInAr(FractalModule module) {
+    if (module.dimension != FractalDimension.twoD) {
+      return false;
+    }
+    final paramIds = module.parameters.map((p) => p.id).toSet();
+    return paramIds.contains('iterations') && paramIds.contains('bailout');
+  }
+
   @override
   void initState() {
     super.initState();
     _fractalController = context.read<FractalController>();
+    _transparentBackground =
+        _shouldUseTransparentBackgroundInAr(_fractalController.module);
     _statsService = context.read<ExplorationStatsService?>();
     _sessionStart = DateTime.now();
 
@@ -180,17 +189,19 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     _qualityPreset = context.read<ArQualityStore>().getPreset();
     _initCamera();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
       // Cache controller so dispose doesn't depend on context.
       _previousTransparency = _fractalController.transparentBackground;
 
-      // Default to an opaque "painting" in AR.
-      // (Transparent background makes most of the set see-through, which looks like noise.)
+      // For escape-time fractals, keep interior black regions transparent in AR.
       _fractalController.setTransparentBackground(_transparentBackground);
 
       _fractalController.applyArQualityPreset(_qualityPreset);
 
       // Sensible defaults per dimension.
       final dim = _fractalController.module.dimension;
+      if (!mounted) return;
       setState(() {
         if (dim == FractalDimension.threeD) {
           _overlayOpacity = 0.85;
@@ -207,7 +218,22 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
 
   Future<void> _initCamera() async {
     dev.log('initCamera: requesting permission', name: 'FF.AR');
-    final status = await Permission.camera.request();
+
+    PermissionStatus status;
+    try {
+      status = await Permission.camera.request();
+    } catch (e, st) {
+      dev.log('initCamera: permission request failed: $e',
+          name: 'FF.AR', error: e, stackTrace: st);
+      if (!mounted) return;
+      setState(() {
+        _permissionDenied = false;
+        _cameraFailureReason = 'Camera permission check failed: $e';
+        _initializing = false;
+      });
+      return;
+    }
+
     if (!status.isGranted) {
       if (!mounted) return;
       setState(() {
@@ -450,6 +476,16 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     if (_lastModuleId != id) {
       _lastModuleId = id;
       _statsService?.recordFractalExplored(id);
+
+      final shouldTransparent =
+          _shouldUseTransparentBackgroundInAr(_fractalController.module);
+      if (_transparentBackground != shouldTransparent) {
+        _transparentBackground = shouldTransparent;
+        _fractalController.setTransparentBackground(shouldTransparent);
+        if (mounted) {
+          setState(() {});
+        }
+      }
     }
   }
 
@@ -514,6 +550,8 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     final viewportSize = MediaQuery.of(context).size;
     final overlaySize = viewportSize.shortestSide *
         (dim == FractalDimension.threeD ? 0.55 : 0.62);
+    final transparencyForced =
+        _shouldUseTransparentBackgroundInAr(controller.module);
 
     final brightness = Theme.of(context).brightness;
 
@@ -621,68 +659,59 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         Positioned(
           top: 0,
           left: 0,
+          right: 0,
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: IconButton(
-                tooltip: l10n.actionClose,
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.black54,
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-        if (_hasMultipleCameras)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: IconButton(
-                  tooltip: 'Switch camera',
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.black54,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              child: Row(
+                children: [
+                  IconButton(
+                    tooltip: l10n.actionClose,
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.black54,
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
-                  onPressed: _switchCamera,
-                  icon: const Icon(Icons.cameraswitch_rounded,
-                      color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-        Positioned(
-          top: 72,
-          left: 16,
-          right: 16,
-          child: SafeArea(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white24),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    _anchorPlaced
-                        ? 'Anchored • ${_activeCamera?.lensDirection.name ?? 'camera'} camera'
-                        : 'Tap to anchor fractal',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.black54,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.white24),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: Text(
+                          _anchorPlaced
+                              ? 'Anchored · ${_activeCamera?.lensDirection.name ?? 'camera'} camera'
+                              : 'Tap on surface to anchor fractal',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  if (_hasMultipleCameras) ...[
+                    const SizedBox(width: 8),
+                    IconButton(
+                      tooltip: 'Switch camera',
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black54,
+                      ),
+                      onPressed: _switchCamera,
+                      icon: const Icon(Icons.cameraswitch_rounded,
+                          color: Colors.white),
+                    ),
+                  ],
+                ],
               ),
             ),
           ),
@@ -696,6 +725,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
             opacity: _overlayOpacity,
             locked: _overlayLocked,
             transparent: _transparentBackground,
+            transparentLocked: transparencyForced,
             showGrid: _showGrid,
             showOutline: _showOutline,
             stylePreset: _stylePreset,
@@ -725,8 +755,9 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
               _overlayOpacity = 0.75;
             }),
             onTransparentChanged: (value) {
-              setState(() => _transparentBackground = value);
-              controller.setTransparentBackground(value);
+              final nextValue = transparencyForced ? true : value;
+              setState(() => _transparentBackground = nextValue);
+              controller.setTransparentBackground(nextValue);
             },
             onGridChanged: (value) => setState(() => _showGrid = value),
             onOutlineChanged: (value) => setState(() => _showOutline = value),
@@ -1064,29 +1095,94 @@ class _ArAnchorReticle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.black26,
-          border: Border.all(color: Colors.white70, width: 1.2),
-          boxShadow: const [
-            BoxShadow(color: Colors.black38, blurRadius: 8, spreadRadius: 1),
-          ],
-        ),
-        child: const SizedBox(
-          width: 46,
-          height: 46,
-          child: Center(
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 80,
+            height: 80,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Outer ring
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white54, width: 1.0),
+                  ),
+                  child: const SizedBox(width: 80, height: 80),
+                ),
+                // Inner target crosshair
+                CustomPaint(
+                  size: const Size(80, 80),
+                  painter: _CrosshairPainter(),
+                ),
+                // Center dot
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: Colors.white70,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.black45,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Text(
+              'Tap anywhere to place',
+              style: TextStyle(color: Colors.white70, fontSize: 12),
+            ),
+          ),
+        ],
       ),
     );
   }
+}
+
+class _CrosshairPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white54
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+    // Corner brackets
+    const arm = 14.0;
+    const gap = 24.0;
+    // Top-left
+    canvas.drawLine(
+        Offset(cx - gap, cy - gap), Offset(cx - gap + arm, cy - gap), paint);
+    canvas.drawLine(
+        Offset(cx - gap, cy - gap), Offset(cx - gap, cy - gap + arm), paint);
+    // Top-right
+    canvas.drawLine(
+        Offset(cx + gap, cy - gap), Offset(cx + gap - arm, cy - gap), paint);
+    canvas.drawLine(
+        Offset(cx + gap, cy - gap), Offset(cx + gap, cy - gap + arm), paint);
+    // Bottom-left
+    canvas.drawLine(
+        Offset(cx - gap, cy + gap), Offset(cx - gap + arm, cy + gap), paint);
+    canvas.drawLine(
+        Offset(cx - gap, cy + gap), Offset(cx - gap, cy + gap - arm), paint);
+    // Bottom-right
+    canvas.drawLine(
+        Offset(cx + gap, cy + gap), Offset(cx + gap - arm, cy + gap), paint);
+    canvas.drawLine(
+        Offset(cx + gap, cy + gap), Offset(cx + gap, cy + gap - arm), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _CrosshairPainter _) => false;
 }
 
 class _ArStatusState extends StatelessWidget {
@@ -1161,6 +1257,7 @@ class _ArControlsPanel extends StatelessWidget {
   final double opacity;
   final bool locked;
   final bool transparent;
+  final bool transparentLocked;
   final bool showGrid;
   final bool showOutline;
   final ArOverlayStylePreset stylePreset;
@@ -1188,6 +1285,7 @@ class _ArControlsPanel extends StatelessWidget {
     required this.opacity,
     required this.locked,
     required this.transparent,
+    required this.transparentLocked,
     required this.showGrid,
     required this.showOutline,
     required this.stylePreset,
@@ -1358,7 +1456,7 @@ class _ArControlsPanel extends StatelessWidget {
                   SwitchListTile(
                     title: Text(l10n.paramTransparentBg),
                     value: transparent,
-                    onChanged: onTransparentChanged,
+                    onChanged: transparentLocked ? null : onTransparentChanged,
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                   ),

@@ -11,6 +11,18 @@ import 'package:flutter_fractals/core/models/export_options.dart';
 class ExportService {
   const ExportService();
 
+  /// Returns the actual format we can encode today.
+  ///
+  /// WebP is exposed in the UI, but the current pure-Dart image pipeline
+  /// cannot encode WebP yet. We explicitly fall back to PNG so filename,
+  /// MIME expectations, and snackbar text stay truthful.
+  ExportFormat resolveEffectiveFormat(ExportFormat requested) {
+    if (requested == ExportFormat.webp) {
+      return ExportFormat.png;
+    }
+    return requested;
+  }
+
   /// Apply simple legibility overlays for wallpaper usage.
   ///
   /// This keeps the fractal intact while slightly darkening common UI areas.
@@ -22,7 +34,8 @@ class ExportService {
       // style: plain|homeOptimized|lockOptimized
       switch (style) {
         case 'homeOptimized':
-          return Uint8List.fromList(img.encodePng(_applyBottomGradient(decoded, strength: 0.28)));
+          return Uint8List.fromList(
+              img.encodePng(_applyBottomGradient(decoded, strength: 0.28)));
         case 'lockOptimized':
           var out = _applyTopGradient(decoded, strength: 0.30);
           out = _applyBottomGradient(out, strength: 0.18);
@@ -105,30 +118,49 @@ class ExportService {
   }
 
   /// Capture the widget as raw RGBA bytes at the specified pixel ratio
-  Future<Uint8List> capturePng(GlobalKey boundaryKey, {double pixelRatio = 2.0}) async {
-    RenderRepaintBoundary? boundary =
-        boundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
-    if (boundary == null) {
-      throw StateError('Boundary not found');
-    }
+  Future<Uint8List> capturePng(GlobalKey boundaryKey,
+      {double pixelRatio = 2.0}) async {
+    Object? lastError;
 
-    // Defensive: boundary.toImage() can throw if the layer hasn't painted yet.
-    if (boundary.debugNeedsPaint) {
-      // Wait for one frame and re-acquire boundary (it can change).
-      await WidgetsBinding.instance.endOfFrame;
-      boundary =
-          boundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
-      if (boundary == null) {
-        throw StateError('Boundary not found');
+    for (var attempt = 0; attempt < 3; attempt++) {
+      try {
+        RenderRepaintBoundary? boundary = boundaryKey.currentContext
+            ?.findRenderObject() as RenderRepaintBoundary?;
+        if (boundary == null) {
+          throw StateError('Boundary not found');
+        }
+
+        // Defensive: boundary.toImage() can throw if the layer hasn't painted yet.
+        if (boundary.debugNeedsPaint) {
+          await WidgetsBinding.instance.endOfFrame;
+          boundary = boundaryKey.currentContext?.findRenderObject()
+              as RenderRepaintBoundary?;
+          if (boundary == null) {
+            throw StateError('Boundary not found');
+          }
+        }
+
+        final image = await boundary.toImage(pixelRatio: pixelRatio);
+        try {
+          final byteData =
+              await image.toByteData(format: ui.ImageByteFormat.png);
+          if (byteData == null) {
+            throw StateError('Failed to encode PNG');
+          }
+          return byteData.buffer.asUint8List();
+        } finally {
+          image.dispose();
+        }
+      } catch (error) {
+        lastError = error;
+        if (attempt == 2) {
+          rethrow;
+        }
+        await WidgetsBinding.instance.endOfFrame;
       }
     }
 
-    final image = await boundary.toImage(pixelRatio: pixelRatio);
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    if (byteData == null) {
-      throw StateError('Failed to encode PNG');
-    }
-    return byteData.buffer.asUint8List();
+    throw StateError('Failed to capture PNG: $lastError');
   }
 
   /// Capture with advanced options (format, resolution, metadata)
@@ -143,7 +175,7 @@ class ExportService {
 
     // Calculate pixel ratio for target resolution
     final pixelRatio = options.calculatePixelRatio(screenWidth, screenHeight);
-    
+
     // Capture raw PNG from Flutter
     final rawPng = await capturePng(boundaryKey, pixelRatio: pixelRatio);
     onProgress?.call(0.4);
@@ -158,8 +190,9 @@ class ExportService {
     // Resize if needed for target resolution
     final targetDims = options.getTargetDimensions(screenWidth, screenHeight);
     img.Image processedImage;
-    
-    if (decodedImage.width != targetDims.$1 || decodedImage.height != targetDims.$2) {
+
+    if (decodedImage.width != targetDims.$1 ||
+        decodedImage.height != targetDims.$2) {
       processedImage = img.copyResize(
         decodedImage,
         width: targetDims.$1,
@@ -184,7 +217,8 @@ class ExportService {
     onProgress?.call(0.8);
 
     // Encode to target format
-    final encoded = _encodeToFormat(processedImage, options);
+    final effectiveFormat = resolveEffectiveFormat(options.format);
+    final encoded = _encodeToFormat(processedImage, options, effectiveFormat);
     onProgress?.call(1.0);
 
     return Uint8List.fromList(encoded);
@@ -194,7 +228,7 @@ class ExportService {
     // Simple text watermark in bottom-right corner
     final fontSize = (image.width / 40).round().clamp(12, 48);
     final padding = fontSize;
-    
+
     img.drawString(
       image,
       text,
@@ -203,7 +237,7 @@ class ExportService {
       y: image.height - fontSize - padding,
       color: img.ColorRgba8(255, 255, 255, 128),
     );
-    
+
     return image;
   }
 
@@ -211,30 +245,35 @@ class ExportService {
     // The image package stores metadata in the image object
     // This will be preserved when encoding to formats that support it
     final exifData = metadata.toExifMap();
-    
+
     // Add metadata as text chunks (supported in PNG)
     for (final entry in exifData.entries) {
       image.textData ??= {};
       image.textData![entry.key] = entry.value;
     }
-    
+
     return image;
   }
 
-  Uint8List _encodeToFormat(img.Image image, ExportOptions options) {
-    switch (options.format) {
+  Uint8List _encodeToFormat(
+    img.Image image,
+    ExportOptions options,
+    ExportFormat effectiveFormat,
+  ) {
+    switch (effectiveFormat) {
       case ExportFormat.png:
         return Uint8List.fromList(img.encodePng(image, level: 6));
-      
+
       case ExportFormat.jpg:
         // JPG doesn't support transparency - always composite onto background
         // transparentBackground option is ignored for JPG (use black background)
         final rgbImage = _removeAlpha(image);
-        return Uint8List.fromList(img.encodeJpg(rgbImage, quality: options.quality));
-      
+        return Uint8List.fromList(
+          img.encodeJpg(rgbImage, quality: options.quality),
+        );
+
       case ExportFormat.webp:
-        // WebP encoding not available in image package v4.x, fallback to PNG
-        // TODO: Add WebP support via platform-specific encoder or native plugin
+        // Guard rail: resolveEffectiveFormat currently maps WebP->PNG.
         return Uint8List.fromList(img.encodePng(image));
     }
   }
@@ -295,7 +334,12 @@ class ExportService {
           )
         : null;
 
-    final finalOptions = options.copyWith(metadata: metadata);
+    final effectiveFormat = resolveEffectiveFormat(options.format);
+
+    final finalOptions = options.copyWith(
+      metadata: metadata,
+      format: effectiveFormat,
+    );
 
     // Capture and process the image
     final bytes = await captureWithOptions(
@@ -308,16 +352,17 @@ class ExportService {
 
     // Generate filename and save
     final filename = generateFilename(
-      format: options.format,
+      format: effectiveFormat,
       fractalType: fractalType,
     );
-    
+
     final file = await saveBytes(bytes, filename: filename);
-    final targetDims = options.getTargetDimensions(screenWidth, screenHeight);
+    final targetDims =
+        finalOptions.getTargetDimensions(screenWidth, screenHeight);
 
     return ExportResult(
       file: file,
-      format: options.format,
+      format: effectiveFormat,
       width: targetDims.$1,
       height: targetDims.$2,
       fileSize: bytes.length,

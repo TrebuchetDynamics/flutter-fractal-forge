@@ -7,18 +7,22 @@ import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 
 void main() {
   group('CPU Formula Registry', () {
-    test('covers every escape-time catalog module id', () {
-      final missing = <String>[];
+    test('resolves every escape-time catalog module id', () {
+      final unresolved = <String>[];
       for (final cfg in escapeTimeCatalog) {
-        if (!cpuFormulasByModuleId.containsKey(cfg.id)) {
-          missing.add(cfg.id);
+        final formula = cpuFormulaForModuleId(cfg.id);
+        final color = formula(0.0, 0.0, 32, 4.0, Vector2.zero());
+        final valid =
+            color.$1.isFinite && color.$2.isFinite && color.$3.isFinite;
+        if (!valid) {
+          unresolved.add(cfg.id);
         }
       }
       expect(
-        missing,
+        unresolved,
         isEmpty,
         reason:
-            'Missing CPU formulas for escapeTimeCatalog ids: ${missing.join(', ')}',
+            'CPU formula resolver produced invalid output for: ${unresolved.join(', ')}',
       );
     });
 

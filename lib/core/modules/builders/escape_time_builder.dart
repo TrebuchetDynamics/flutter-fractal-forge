@@ -36,7 +36,9 @@ class EscapeTimeConfig {
     this.defaultCenterX = 0.0,
     this.defaultCenterY = 0.0,
     this.defaultZoom = 1.0,
-    this.maxIterations = 5000,
+    // Most runtime_effect escape-time shaders compile with a static loop cap of 500.
+    // Keep the UI/params cap aligned with shader reality to avoid misleading controls.
+    this.maxIterations = 500,
     this.category = 'Escape-Time',
     this.extraParams = const [],
     this.extraPresets = const [],
