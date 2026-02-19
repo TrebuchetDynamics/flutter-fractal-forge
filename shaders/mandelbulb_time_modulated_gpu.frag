@@ -112,7 +112,7 @@ float timeMandelbulbDE(vec3 pos) {
         if (r > uBailout) break;
 
         // Spherical coordinates with time-dependent phase shifts.
-        float theta = acos(z.z / r) + phaseShift;
+        float theta = acos(clamp(z.z / max(r, 1e-10), -1.0, 1.0)) + phaseShift;
         float phi = atan(z.y, z.x) + phaseShift * 0.7;
 
         // Running derivative.

@@ -64,6 +64,28 @@ subprojects {
     }
 }
 
+// AGP 8.8+ rejects the deprecated `package` attribute in source AndroidManifest.xml
+// files.  Old Flutter plugins (e.g. arcore_flutter_plugin 0.1.0) still carry it.
+// Strip it before Gradle manifest-merging kicks in.
+subprojects {
+    plugins.withId("com.android.library") {
+        afterEvaluate {
+            val manifestFile = file("src/main/AndroidManifest.xml")
+            if (manifestFile.exists()) {
+                val original = manifestFile.readText()
+                val patched = original.replace(
+                    Regex("""(\s+)package\s*=\s*"[^"]*""""),
+                    ""
+                )
+                if (patched != original) {
+                    manifestFile.writeText(patched)
+                    logger.lifecycle("manifest-patch: stripped package attr from ${project.name}")
+                }
+            }
+        }
+    }
+}
+
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }

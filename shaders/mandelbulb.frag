@@ -55,7 +55,7 @@ float mandelbulbDE(vec3 pos, int maxIter) {
         if (r > uBailout) break;
         
         // Spherical coordinates
-        float theta = acos(z.z / r);
+        float theta = acos(clamp(z.z / max(r, 1e-10), -1.0, 1.0));
         float phi = atan(z.y, z.x);
         
         // Power derivation
@@ -72,7 +72,7 @@ float mandelbulbDE(vec3 pos, int maxIter) {
         z = zr * vec3(sinTheta * cos(phi), sinTheta * sin(phi), cos(theta)) + pos;
     }
     
-    return 0.5 * log(r) * r / dr;
+    return 0.5 * log(r) * r / max(dr, 1e-12);
 }
 
 // Mandelbox distance estimation - optimized with reduced branching
@@ -125,7 +125,7 @@ float juliaDE(vec3 pos, int maxIter) {
         dr = 2.0 * r * dr + 1.0;
     }
     
-    return 0.5 * log(r) * r / dr;
+    return 0.5 * log(r) * r / max(dr, 1e-12);
 }
 
 // Sierpinski tetrahedron - optimized vertex selection

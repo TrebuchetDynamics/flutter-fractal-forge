@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/raymarched_3d_catalog.dart';
 import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
 import 'package:flutter_fractals/core/modules/julia_dual_module.dart';
@@ -121,6 +122,10 @@ class ModuleRegistry {
         result.add(m);
       }
     }
+
+    // 3D ray-marched catalog modules (KIFS, Quaternion, exotic)
+    final raymarched3DModules = buildRaymarched3DCatalogModules();
+    result.addAll(raymarched3DModules);
 
     result.addAll(diagModules);
     return _dedupeById(result);

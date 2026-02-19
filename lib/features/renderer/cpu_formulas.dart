@@ -220,6 +220,30 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'domain_coloring': _cpu_domain_coloring,
   'phase_portrait': _cpu_phase_portrait,
   'sierpinski_julia_rational': _cpu_sierpinski_julia_rational,
+  // New 2D batch (CPU fallback formulas)
+  'mcmullen_map': _cpu_mcmullen_map,
+  'generalized_mcmullen': _cpu_generalized_mcmullen,
+  'damped_newton': _cpu_damped_newton,
+  'durand_kerner': _cpu_durand_kerner,
+  'ehrlich_aberth': _cpu_ehrlich_aberth,
+  'shape_modulus_julia': _cpu_shape_modulus_julia,
+  'fractal_flame': _cpu_fractal_flame,
+  'buddhabrot_full': _cpu_buddhabrot_full,
+  'gray_scott_rd': _cpu_gray_scott_rd,
+  'dielectric_breakdown': _cpu_dielectric_breakdown,
+  'lichtenberg_growth': _cpu_lichtenberg_growth,
+  // Burning Ship higher-power variants
+  'burning_ship_cubic': _cpu_burning_ship_cubic,
+  'burning_ship_power4': _cpu_burning_ship_power4,
+  'burning_ship_power5': _cpu_burning_ship_power5,
+  'burning_ship_power6': _cpu_burning_ship_power6,
+  'burning_ship_power7': _cpu_burning_ship_power7,
+  // Celtic higher-power variants
+  'celtic_cubic': _cpu_celtic_cubic,
+  'celtic_power4': _cpu_celtic_power4,
+  'celtic_power5': _cpu_celtic_power5,
+  // Buffalo cubic
+  'buffalo_cubic': _cpu_buffalo_cubic,
   // Custom (non-catalog) module ids explicitly supported by CPU formulas.
   'julia': _cpu_julia,
   'phoenix': _cpu_phoenix,
@@ -3373,4 +3397,637 @@ typedef _ZUpdate = (double, double) Function(
     default: r = c; g = 0; b = x;
   }
   return ((r + m) * 255.0, (g + m) * 255.0, (b + m) * 255.0);
+}
+
+// ---------------------------------------------------------------------------
+// New CPU formula implementations (20 fractals)
+// ---------------------------------------------------------------------------
+
+/// Complex integer power: z^n for n >= 0. Returns (re, im).
+@pragma('vm:prefer-inline')
+(double, double) _cpowInt(double zx, double zy, int n) {
+  double rx = 1.0, ry = 0.0;
+  for (int i = 0; i < n; i++) {
+    final nx = rx * zx - ry * zy;
+    final ny = rx * zy + ry * zx;
+    rx = nx;
+    ry = ny;
+  }
+  return (rx, ry);
+}
+
+// ── Burning Ship higher-power variants ──────────────────────────────────────
+// Pattern: z = (|Re(z)| + i|Im(z)|)^p + c  (Y-flip for upright orientation)
+
+(double r, double g, double b) _cpu_burning_ship_cubic(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+      final ax = zx.abs();
+      final ay = zy.abs();
+      // w = (ax, ay), w^3 = w * w^2
+      final w2x = ax * ax - ay * ay;
+      final w2y = 2.0 * ax * ay;
+      return (ax * w2x - ay * w2y + cx, ax * w2y + ay * w2x + cy);
+    }, power: 3.0);
+
+(double r, double g, double b) _cpu_burning_ship_power4(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+      final ax = zx.abs();
+      final ay = zy.abs();
+      // w^2
+      final w2x = ax * ax - ay * ay;
+      final w2y = 2.0 * ax * ay;
+      // w^4 = w^2 * w^2
+      final w4x = w2x * w2x - w2y * w2y;
+      final w4y = 2.0 * w2x * w2y;
+      return (w4x + cx, w4y + cy);
+    }, power: 4.0);
+
+(double r, double g, double b) _cpu_burning_ship_power5(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+      final ax = zx.abs();
+      final ay = zy.abs();
+      final w2x = ax * ax - ay * ay;
+      final w2y = 2.0 * ax * ay;
+      final w4x = w2x * w2x - w2y * w2y;
+      final w4y = 2.0 * w2x * w2y;
+      // w^5 = w^4 * w
+      final w5x = w4x * ax - w4y * ay;
+      final w5y = w4x * ay + w4y * ax;
+      return (w5x + cx, w5y + cy);
+    }, power: 5.0);
+
+(double r, double g, double b) _cpu_burning_ship_power6(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+      final ax = zx.abs();
+      final ay = zy.abs();
+      final w2x = ax * ax - ay * ay;
+      final w2y = 2.0 * ax * ay;
+      final w4x = w2x * w2x - w2y * w2y;
+      final w4y = 2.0 * w2x * w2y;
+      // w^6 = w^4 * w^2
+      final w6x = w4x * w2x - w4y * w2y;
+      final w6y = w4x * w2y + w4y * w2x;
+      return (w6x + cx, w6y + cy);
+    }, power: 6.0);
+
+(double r, double g, double b) _cpu_burning_ship_power7(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+      final ax = zx.abs();
+      final ay = zy.abs();
+      final w2x = ax * ax - ay * ay;
+      final w2y = 2.0 * ax * ay;
+      final w3x = ax * w2x - ay * w2y;
+      final w3y = ax * w2y + ay * w2x;
+      final w4x = w2x * w2x - w2y * w2y;
+      final w4y = 2.0 * w2x * w2y;
+      // w^7 = w^4 * w^3
+      final w7x = w4x * w3x - w4y * w3y;
+      final w7y = w4x * w3y + w4y * w3x;
+      return (w7x + cx, w7y + cy);
+    }, power: 7.0);
+
+// ── Celtic higher-power variants ────────────────────────────────────────────
+// Pattern: z = |Re(z^p)| + i*Im(z^p) + c  (abs on real part only)
+
+(double r, double g, double b) _cpu_celtic_cubic(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final x2 = zx * zx;
+      final y2 = zy * zy;
+      final x3 = zx * (x2 - 3.0 * y2); // Re(z^3)
+      final y3 = zy * (3.0 * x2 - y2); // Im(z^3)
+      return (x3.abs() + cx, y3 + cy);
+    }, power: 3.0);
+
+(double r, double g, double b) _cpu_celtic_power4(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      // z^2
+      final z2x = zx * zx - zy * zy;
+      final z2y = 2.0 * zx * zy;
+      // z^4 = z^2 * z^2
+      final z4x = z2x * z2x - z2y * z2y;
+      final z4y = 2.0 * z2x * z2y;
+      return (z4x.abs() + cx, z4y + cy);
+    }, power: 4.0);
+
+(double r, double g, double b) _cpu_celtic_power5(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final z2x = zx * zx - zy * zy;
+      final z2y = 2.0 * zx * zy;
+      final z4x = z2x * z2x - z2y * z2y;
+      final z4y = 2.0 * z2x * z2y;
+      // z^5 = z^4 * z
+      final z5x = z4x * zx - z4y * zy;
+      final z5y = z4x * zy + z4y * zx;
+      return (z5x.abs() + cx, z5y + cy);
+    }, power: 5.0);
+
+// ── Buffalo Cubic ───────────────────────────────────────────────────────────
+// z = |Re(z^3)| + i|Im(z^3)| + c  (abs on BOTH parts)
+
+(double r, double g, double b) _cpu_buffalo_cubic(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) =>
+    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+      final x2 = zx * zx;
+      final y2 = zy * zy;
+      final x3 = zx * (x2 - 3.0 * y2); // Re(z^3)
+      final y3 = zy * (3.0 * x2 - y2); // Im(z^3)
+      return (x3.abs() + cx, y3.abs() + cy);
+    }, power: 3.0);
+
+// ── McMullen Map ────────────────────────────────────────────────────────────
+// Julia-set style: z → z^n + a/z^n  (defaults: n=3, a=(-0.1, 0))
+
+(double r, double g, double b) _cpu_mcmullen_map(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  // Default parameters matching shader: n=3, a=(-0.1, 0)
+  const int n = 3;
+  const double aRe = -0.1;
+  const double aIm = 0.0;
+
+  double zx = x;
+  double zy = y;
+  final bailout2 = bailout * bailout;
+  int it = iterations;
+
+  for (int j = 0; j < iterations; j++) {
+    // z^n
+    final zn = _cpowInt(zx, zy, n);
+    // 1/z^n = conj(z^n) / |z^n|^2
+    final znMag2 = math.max(1e-20, zn.$1 * zn.$1 + zn.$2 * zn.$2);
+    final invZnX = zn.$1 / znMag2;
+    final invZnY = -zn.$2 / znMag2;
+    // a / z^n
+    final aInvX = aRe * invZnX - aIm * invZnY;
+    final aInvY = aRe * invZnY + aIm * invZnX;
+    // z_new = z^n + a/z^n
+    zx = zn.$1 + aInvX;
+    zy = zn.$2 + aInvY;
+
+    if (zx * zx + zy * zy > bailout2) {
+      it = j;
+      break;
+    }
+  }
+  if (it >= iterations) return _insideColor;
+  final mag2 = zx * zx + zy * zy;
+  return _palette(
+    _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: n.toDouble()),
+  );
+}
+
+// ── Generalized McMullen ────────────────────────────────────────────────────
+// z → z^n + a/z^m + b  (defaults: n=3, m=3, a=(-0.1,0), b=(0,0))
+
+(double r, double g, double b) _cpu_generalized_mcmullen(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  const int pn = 3;
+  const int pm = 3;
+  const double aRe = -0.1;
+  const double aIm = 0.0;
+  const double bRe = 0.0;
+  const double bIm = 0.0;
+
+  double zx = x;
+  double zy = y;
+  final bailout2 = bailout * bailout;
+  int it = iterations;
+
+  for (int j = 0; j < iterations; j++) {
+    final zn = _cpowInt(zx, zy, pn);
+    final zm = _cpowInt(zx, zy, pm);
+    final zmMag2 = math.max(1e-20, zm.$1 * zm.$1 + zm.$2 * zm.$2);
+    final invZmX = zm.$1 / zmMag2;
+    final invZmY = -zm.$2 / zmMag2;
+    final aInvX = aRe * invZmX - aIm * invZmY;
+    final aInvY = aRe * invZmY + aIm * invZmX;
+    zx = zn.$1 + aInvX + bRe;
+    zy = zn.$2 + aInvY + bIm;
+
+    if (zx * zx + zy * zy > bailout2) {
+      it = j;
+      break;
+    }
+  }
+  if (it >= iterations) return _insideColor;
+  final mag2 = zx * zx + zy * zy;
+  return _palette(
+    _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: pn.toDouble()),
+  );
+}
+
+// ── Damped Newton ───────────────────────────────────────────────────────────
+// z → z - alpha * f(z)/f'(z)  for f(z) = z^3 - 1, alpha=1.0 (default)
+// Color by which root is nearest.
+
+(double r, double g, double b) _cpu_damped_newton(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  const double alpha = 1.0;
+  const int degree = 3;
+
+  double zx = x;
+  double zy = y;
+  int it = iterations;
+
+  for (int j = 0; j < iterations; j++) {
+    // z^2
+    final z2x = zx * zx - zy * zy;
+    final z2y = 2.0 * zx * zy;
+    // z^3
+    final z3x = z2x * zx - z2y * zy;
+    final z3y = z2x * zy + z2y * zx;
+    // f(z) = z^3 - 1
+    final fx = z3x - 1.0;
+    final fy = z3y;
+    // f'(z) = 3*z^2
+    final fpx = 3.0 * z2x;
+    final fpy = 3.0 * z2y;
+    // step = f/f'
+    final step = _cdivSafe(fx, fy, fpx, fpy);
+    zx -= alpha * step.$1;
+    zy -= alpha * step.$2;
+
+    if (step.$1 * step.$1 + step.$2 * step.$2 < 1e-12) {
+      it = j;
+      break;
+    }
+    if (zx * zx + zy * zy > bailout * bailout) {
+      it = j;
+      break;
+    }
+  }
+
+  if (it >= iterations) return _insideColor;
+
+  // Color by nearest root of z^3 - 1
+  double bestDist = 1e10;
+  double rootPhase = 0.0;
+  for (int k = 0; k < degree; k++) {
+    final angle = 6.28318 * k / degree;
+    final rx = math.cos(angle);
+    final ry = math.sin(angle);
+    final dx = zx - rx;
+    final dy = zy - ry;
+    final dist = dx * dx + dy * dy;
+    if (dist < bestDist) {
+      bestDist = dist;
+      rootPhase = k / degree;
+    }
+  }
+  return _palette(_fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+}
+
+// ── Durand-Kerner ───────────────────────────────────────────────────────────
+// Simultaneous root-finding for z^3-1. CPU approximation (simplified).
+
+(double r, double g, double b) _cpu_durand_kerner(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  // Approximate the basins of the Durand-Kerner iteration for z^3-1.
+  // Uses the same convergence-to-root coloring as Newton methods.
+  const int degree = 3;
+  double zx = x;
+  double zy = y;
+  int it = iterations;
+
+  for (int j = 0; j < iterations; j++) {
+    // f(z) = z^3 - 1
+    final z2 = _cmul(zx, zy, zx, zy);
+    final z3 = _cmul(z2.$1, z2.$2, zx, zy);
+    final fx = z3.$1 - 1.0;
+    final fy = z3.$2;
+    // f'(z) = 3z^2
+    final fpx = 3.0 * z2.$1;
+    final fpy = 3.0 * z2.$2;
+    // Durand-Kerner: modified Newton step with perturbation in denominator
+    final corr = _cdivSafe(fx, fy,
+        fpx - 0.5 * fx, fpy - 0.5 * fy);
+    zx -= corr.$1;
+    zy -= corr.$2;
+
+    if (corr.$1 * corr.$1 + corr.$2 * corr.$2 < 1e-12) {
+      it = j;
+      break;
+    }
+    if (zx * zx + zy * zy > bailout * bailout) {
+      it = j;
+      break;
+    }
+  }
+
+  if (it >= iterations) return _insideColor;
+  double bestDist = 1e10;
+  double rootPhase = 0.0;
+  for (int k = 0; k < degree; k++) {
+    final angle = 6.28318 * k / degree;
+    final dx = zx - math.cos(angle);
+    final dy = zy - math.sin(angle);
+    final dist = dx * dx + dy * dy;
+    if (dist < bestDist) {
+      bestDist = dist;
+      rootPhase = k / degree;
+    }
+  }
+  return _palette(_fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+}
+
+// ── Ehrlich-Aberth ──────────────────────────────────────────────────────────
+// Ehrlich-Aberth root-finding for z^3-1. CPU approximation.
+
+(double r, double g, double b) _cpu_ehrlich_aberth(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  const int degree = 3;
+  double zx = x;
+  double zy = y;
+  int it = iterations;
+
+  for (int j = 0; j < iterations; j++) {
+    final z2 = _cmul(zx, zy, zx, zy);
+    final z3 = _cmul(z2.$1, z2.$2, zx, zy);
+    final fx = z3.$1 - 1.0;
+    final fy = z3.$2;
+    final fpx = 3.0 * z2.$1;
+    final fpy = 3.0 * z2.$2;
+    // Ehrlich-Aberth: step = f/f' / (1 - f/f' * S)
+    // where S is sum of 1/(z-z_k) for other approximations.
+    // For CPU simplification, use a Halley-like correction.
+    // f''(z) = 6z
+    final fppx = 6.0 * zx;
+    final fppy = 6.0 * zy;
+    final ratio = _cdivSafe(fx, fy, fpx, fpy);
+    final halfRatioTimesSecond = _cmul(ratio.$1, ratio.$2, fppx, fppy);
+    // Halley correction: step = ratio / (1 - 0.5*ratio*f''/f')
+    final corrDivX = 1.0 - 0.5 * _cdivSafe(halfRatioTimesSecond.$1,
+        halfRatioTimesSecond.$2, fpx, fpy).$1;
+    final corrDivY = -0.5 * _cdivSafe(halfRatioTimesSecond.$1,
+        halfRatioTimesSecond.$2, fpx, fpy).$2;
+    final step = _cdivSafe(ratio.$1, ratio.$2, corrDivX, corrDivY);
+    zx -= step.$1;
+    zy -= step.$2;
+
+    if (step.$1 * step.$1 + step.$2 * step.$2 < 1e-12) {
+      it = j;
+      break;
+    }
+    if (zx * zx + zy * zy > bailout * bailout) {
+      it = j;
+      break;
+    }
+  }
+
+  if (it >= iterations) return _insideColor;
+  double bestDist = 1e10;
+  double rootPhase = 0.0;
+  for (int k = 0; k < degree; k++) {
+    final angle = 6.28318 * k / degree;
+    final dx = zx - math.cos(angle);
+    final dy = zy - math.sin(angle);
+    final dist = dx * dx + dy * dy;
+    if (dist < bestDist) {
+      bestDist = dist;
+      rootPhase = k / degree;
+    }
+  }
+  return _palette(_fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+}
+
+// ── Shape Modulus Julia ─────────────────────────────────────────────────────
+// Julia z^2 + c where c is modulated by distance from a geometric shape.
+// Default shape: circle, seed = juliaC.
+
+(double r, double g, double b) _cpu_shape_modulus_julia(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  // Compute shape modulation (circle, scale=1.0)
+  const double shapeScale = 1.0;
+  final pixDist = math.sqrt(x * x + y * y);
+  final shapeDist = pixDist - shapeScale;
+  final modulation = _tanh(shapeDist * 2.0);
+  final cx = juliaC.x + modulation * 0.3;
+  final cy = juliaC.y + modulation * 0.15;
+
+  double zx = x;
+  double zy = y;
+  final bailout2 = bailout * bailout;
+  int it = iterations;
+
+  for (int j = 0; j < iterations; j++) {
+    final nx = zx * zx - zy * zy + cx;
+    final ny = 2.0 * zx * zy + cy;
+    zx = nx;
+    zy = ny;
+    if (zx * zx + zy * zy > bailout2) {
+      it = j;
+      break;
+    }
+  }
+  if (it >= iterations) return _insideColor;
+  final mag2 = zx * zx + zy * zy;
+  return _palette(_smoothEscape(it: it, iterations: iterations, mag2: mag2));
+}
+
+// ── Fractal Flame ───────────────────────────────────────────────────────────
+// Simplified IFS with nonlinear variations. CPU approximation.
+
+(double r, double g, double b) _cpu_fractal_flame(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  // Simplified: iterate IFS with sinusoidal variation from pixel coordinate.
+  double zx = x;
+  double zy = y;
+  double colorAccum = 0.0;
+
+  for (int j = 0; j < iterations; j++) {
+    // Pick affine transform based on a simple hash of position
+    final hash = ((zx * 12.9898 + zy * 78.233).abs() * 43758.5453) % 1.0;
+    double nx, ny;
+    if (hash < 0.33) {
+      // Affine 0 + sinusoidal variation
+      nx = 0.6 * zx - 0.4 * zy + 0.2;
+      ny = 0.4 * zx + 0.6 * zy - 0.1;
+    } else if (hash < 0.66) {
+      // Affine 1 + spherical variation
+      nx = -0.5 * zx + 0.3 * zy + 0.5;
+      ny = -0.3 * zx + 0.5 * zy + 0.3;
+    } else {
+      // Affine 2 + swirl variation
+      nx = 0.35 * zx - 0.35 * zy - 0.2;
+      ny = 0.35 * zx + 0.35 * zy + 0.3;
+    }
+    // Apply sinusoidal variation
+    zx = math.sin(nx);
+    zy = math.sin(ny);
+    colorAccum += hash * 0.3;
+
+    if (zx * zx + zy * zy > bailout * bailout) {
+      final t = _fract(j / 64.0 + colorAccum);
+      return _palette(t);
+    }
+  }
+  // Use accumulated color for inside points
+  return _palette(_fract(colorAccum));
+}
+
+// ── Buddhabrot Full ─────────────────────────────────────────────────────────
+// Enhanced buddhabrot approximation. Uses forward iteration from pixel.
+
+(double r, double g, double b) _cpu_buddhabrot_full(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  // Forward Mandelbrot iteration to test escape
+  final cx = x;
+  final cy = y;
+  double zx = 0.0;
+  double zy = 0.0;
+  final bailout2 = bailout * bailout;
+  int escapeIt = iterations;
+
+  // Record trajectory length
+  double pathLen = 0.0;
+  for (int j = 0; j < iterations; j++) {
+    final nx = zx * zx - zy * zy + cx;
+    final ny = 2.0 * zx * zy + cy;
+    final dx = nx - zx;
+    final dy = ny - zy;
+    pathLen += math.sqrt(dx * dx + dy * dy);
+    zx = nx;
+    zy = ny;
+    if (zx * zx + zy * zy > bailout2) {
+      escapeIt = j;
+      break;
+    }
+  }
+  // Buddhabrot colors escaping orbits; inside = dark
+  if (escapeIt >= iterations) return _insideColor;
+  // Color by normalized path length + escape time
+  final t = _fract(pathLen * 0.1 + escapeIt / 64.0);
+  return _palette(t);
+}
+
+// ── Gray-Scott Reaction-Diffusion ───────────────────────────────────────────
+// Analytical approximation using layered noise (no ping-pong buffer on CPU).
+
+double _hash21(double px, double py) {
+  var qx = (px * 443.8975) % 1.0;
+  var qy = (py * 397.2973) % 1.0;
+  if (qx < 0) qx += 1.0;
+  if (qy < 0) qy += 1.0;
+  final d = qx * qy + (qx + qy) * 19.19;
+  return (d * 43758.5453) % 1.0;
+}
+
+double _simplexNoise2D(double px, double py) {
+  // Simple value noise approximation for CPU
+  final ix = px.floorToDouble();
+  final iy = py.floorToDouble();
+  final fx = px - ix;
+  final fy = py - iy;
+  // Smoothstep
+  final ux = fx * fx * (3.0 - 2.0 * fx);
+  final uy = fy * fy * (3.0 - 2.0 * fy);
+  final n00 = _hash21(ix, iy);
+  final n10 = _hash21(ix + 1, iy);
+  final n01 = _hash21(ix, iy + 1);
+  final n11 = _hash21(ix + 1, iy + 1);
+  return _mix(_mix(n00, n10, ux), _mix(n01, n11, ux), uy);
+}
+
+(double r, double g, double b) _cpu_gray_scott_rd(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  // Approximate RD pattern using layered noise, modulated by F and k
+  const double feedRate = 0.04;
+  const double killRate = 0.06;
+  const double scale = 5.0;
+
+  double val = 0.0;
+  double amp = 0.5;
+  double freq = scale;
+  for (int octave = 0; octave < 6; octave++) {
+    val += amp * _simplexNoise2D(x * freq, y * freq);
+    freq *= 2.0;
+    amp *= 0.5;
+  }
+  // Modulate with F and k to create spots/stripes
+  final u = _clamp(val + feedRate * 5.0, 0.0, 1.0);
+  final v = _clamp(1.0 - val - killRate * 8.0, 0.0, 1.0);
+  final t = _fract(u * 0.6 + v * 0.4);
+  return _palette(t);
+}
+
+// ── Dielectric Breakdown ────────────────────────────────────────────────────
+// Lightning/DDB pattern approximation (CPU uses noise-based growth).
+
+(double r, double g, double b) _cpu_dielectric_breakdown(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  // Approximate lightning patterns using layered noise + distance field
+  final dist = math.sqrt(x * x + y * y);
+  final angle = math.atan2(y, x);
+
+  double val = 0.0;
+  double amp = 1.0;
+  double freq = 3.0;
+  for (int i = 0; i < 8; i++) {
+    val += amp * (_simplexNoise2D(x * freq + i * 1.7, y * freq + i * 2.3) - 0.5);
+    freq *= 2.1;
+    amp *= 0.45;
+  }
+
+  // Create branch-like structure
+  final branchVal = (math.sin(angle * 5.0 + val * 4.0) * 0.5 + 0.5) *
+      math.exp(-dist * 0.5);
+  final intensity = _clamp(branchVal + val * 0.3, 0.0, 1.0);
+
+  if (intensity < 0.1) return _insideColor;
+  return _palette(_fract(intensity + dist * 0.1));
+}
+
+// ── Lichtenberg Growth ──────────────────────────────────────────────────────
+// Lichtenberg figure growth pattern approximation.
+
+(double r, double g, double b) _cpu_lichtenberg_growth(
+  double x, double y, int iterations, double bailout, Vector2 juliaC,
+) {
+  // Similar to dielectric breakdown but with different branching character
+  final dist = math.sqrt(x * x + y * y);
+  final angle = math.atan2(y, x);
+
+  double val = 0.0;
+  double amp = 1.0;
+  double freq = 4.0;
+  for (int i = 0; i < 7; i++) {
+    final n = _simplexNoise2D(x * freq + i * 3.1, y * freq + i * 1.7);
+    val += amp * (n * 2.0 - 1.0).abs(); // Ridge noise for sharp branches
+    freq *= 1.9;
+    amp *= 0.5;
+  }
+
+  // Growth from center with angular branches
+  final radialDecay = math.exp(-dist * 0.8);
+  final angularBranch = (math.sin(angle * 7.0 + val * 3.0) * 0.5 + 0.5);
+  final intensity = _clamp(val * angularBranch * radialDecay, 0.0, 1.0);
+
+  if (intensity < 0.05) return _insideColor;
+  return _palette(_fract(intensity * 1.5 + dist * 0.05));
 }

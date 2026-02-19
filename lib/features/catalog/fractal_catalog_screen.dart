@@ -22,6 +22,7 @@ enum _SortOrder { byCategory, alphabetical }
 
 /// IDs (without 'core.' prefix) that have a known thumbnail PNG.
 const _kKnownThumbnailIds = <String>{
+  // Original set
   'mandelbrot', 'julia', 'burning_ship', 'burning_ship_julia', 'buffalo',
   'buffalo_julia', 'manowar', 'celtic', 'celtic_julia', 'cosine_mandelbrot',
   'cosine_julia', 'cosh_mandelbrot', 'lambda', 'glynn', 'magnet_type_2',
@@ -43,6 +44,30 @@ const _kKnownThumbnailIds = <String>{
   'chair_tiling', 'cactus', 'dla', 'eden_growth', 'forest_fire',
   'langton_ant', 'brian_brain', 'kicked_rotator', 'benesi',
   'anti_buddhabrot', 'buddhabrot_approx', 'manair_fire', 'jerusalem_cube',
+  // Additional thumbnails present in assets/catalog_thumbs/
+  'deltoid', 'dragon_curve', 'genesio_tesi', 'greek_cross_fractal',
+  'hermite', 'highlife', 'ikeda', 'inverse_mandelbrot', 'koch_anti_snowflake',
+  'lambda_w', 'levy_tapestry', 'lozi', 'magnet_type_1', 'magnet_type_3',
+  'mcworter_pentigree', 'moore_spiegel', 'multibrot3', 'multibrot4',
+  'multibrot5', 'multibrot_neg2', 'nebulabrot', 'newton_general',
+  'newton_leipnik', 'newton_sin', 'newton_z3', 'nose_hoover', 'nova',
+  'nova_julia', 'peano_curve', 'penrose_tiling', 'pentaflake', 'percolation',
+  'perpendicular_julia', 'perpendicular_mandelbrot', 'peter_de_jong',
+  'phoenix', 'pickover_biomorph', 'pinwheel_tiling', 'pola_sierpinski',
+  'popcorn', 'popcorn2', 'power_sum', 'pseudo_kleinian', 'pythagorean_tree',
+  'quadratic_koch_island', 'quaternion_julia_2d', 'rabinovich_fabrikant',
+  'rational_map', 'rauzy_fractal', 'riemann_zeta', 'rikitake', 'rossler_2d',
+  'sandpile', 'schroeder', 'scroll_waves', 'secant_cosecant', 'secant_fractal',
+  'shark_fin', 'sierpinski_arrowhead', 'sierpinski_carpet',
+  'sierpinski_pentagon', 'sierpinski_tetrahedron', 'sierpinski_triangle',
+  'simonbrot', 'sine_julia', 'sine_map_lyapunov', 'sinh_cosh',
+  'sinh_mandelbrot', 'spectre_monotile', 'sphinx_tiling', 'spider',
+  'spider_x', 'split_complex', 'sprott_a', 'standard_map', 'steiner_chain',
+  'svensson', 'talis', 'tangent', 'tangent_mandelbrot', 'tanh_mandelbrot',
+  'taylor', 'tent_map', 'terdragon', 'tessarine_julia', 'tetration',
+  'thomas_attractor', 'tinkerbell', 'tricorn', 'tricorn_julia', 'turmite',
+  'twin_dragon', 'vicsek_fractal', 'virial', 'wireworld', 'wolfram_rule30',
+  'zaslavsky', 'zircon_zity', 'z_order_curve',
 };
 
 class FractalCatalogScreen extends StatefulWidget {
@@ -931,6 +956,14 @@ Color _categoryAccentColor(String category) {
   if (cat.contains('cellular') || cat.contains('automata')) {
     return const Color(0xFF7F8C8D);
   }
+  if (cat.contains('root') || cat.contains('finder')) {
+    return const Color(0xFF00BCD4);
+  }
+  if (cat.contains('julia')) return const Color(0xFFE040FB);
+  if (cat.contains('flame')) return const Color(0xFFFF5722);
+  if (cat.contains('buddhabrot')) return const Color(0xFF7C4DFF);
+  if (cat.contains('simulation')) return const Color(0xFF009688);
+  if (cat.contains('3d')) return const Color(0xFFFFB300);
   return const Color(0xFF2980B9);
 }
 
@@ -1209,6 +1242,18 @@ class _FractalGradientPainter extends CustomPainter {
       _paintAttractors(canvas, rect, hash);
     } else if (cat.contains('cellular') || cat.contains('automata')) {
       _paintCellular(canvas, rect, hash);
+    } else if (cat.contains('root') || cat.contains('finder')) {
+      _paintRootFinder(canvas, rect, hash);
+    } else if (cat.contains('julia')) {
+      _paintJulia(canvas, rect, hash);
+    } else if (cat.contains('flame')) {
+      _paintFractalFlame(canvas, rect, hash);
+    } else if (cat.contains('buddhabrot')) {
+      _paintBuddhabrot(canvas, rect, hash);
+    } else if (cat.contains('simulation')) {
+      _paintSimulation(canvas, rect, hash);
+    } else if (cat.contains('3d')) {
+      _paint3D(canvas, rect, hash);
     } else {
       _paintDefault(canvas, rect, hash);
     }
@@ -1418,6 +1463,295 @@ class _FractalGradientPainter extends CustomPainter {
             Rect.fromLTWH(col, row, step - 1, step - 1), accentPaint);
       }
     }
+  }
+
+  /// Cyan/electric-blue voronoi-like pattern (Root Finder / Newton basins).
+  void _paintRootFinder(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF000D1A));
+
+    final cx = (hash % 30 - 15) / 40.0;
+    final cy = ((hash ~/ 29) % 30 - 15) / 40.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(cx, cy),
+          radius: 0.75,
+          colors: const [
+            Color(0xFF00E5FF),
+            Color(0xFF0088CC),
+            Color(0xFF000D1A),
+          ],
+          stops: [0.0, 0.45, 1.0],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color(0x5500CFFF),
+            Color(0x000066AA),
+            Color(0x3300AADD),
+          ],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const RadialGradient(
+          center: Alignment(0.0, 0.0),
+          radius: 0.5,
+          colors: [
+            Color(0x00000000),
+            Color(0x99000D1A),
+          ],
+        ).createShader(rect),
+    );
+  }
+
+  /// Purple/magenta spiral gradient (Julia sets).
+  void _paintJulia(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF0A0015));
+
+    final angle = (hash % 72).toDouble() * math.pi / 180;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          transform: GradientRotation(angle),
+          colors: const [
+            Color(0xFFAA00FF),
+            Color(0xFF5500CC),
+            Color(0xFF1A0040),
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(rect),
+    );
+
+    final cx = (hash % 40 - 20) / 50.0;
+    final cy = ((hash ~/ 43) % 40 - 20) / 50.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(cx, cy),
+          radius: 0.55,
+          colors: const [
+            Color(0xCCFF40FF),
+            Color(0x88CC00CC),
+            Color(0x000A0015),
+          ],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const RadialGradient(
+          radius: 0.9,
+          colors: [Color(0x00000000), Color(0xBB0A0015)],
+        ).createShader(rect),
+    );
+  }
+
+  /// Warm fire gradient (Fractal Flame / IFS flame).
+  void _paintFractalFlame(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF0A0000));
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF220000),
+            Color(0xFFAA2200),
+            Color(0xFFFF6600),
+            Color(0xFFFFCC00),
+          ],
+          stops: [0.0, 0.35, 0.7, 1.0],
+        ).createShader(rect),
+    );
+
+    final bx = (hash % 30 - 15) / 40.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(bx, 0.2),
+          radius: 0.55,
+          colors: const [
+            Color(0xAAFFAA00),
+            Color(0x55FF4400),
+            Color(0x000A0000),
+          ],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const RadialGradient(
+          radius: 0.95,
+          colors: [Color(0x00000000), Color(0xCC0A0000)],
+        ).createShader(rect),
+    );
+  }
+
+  /// Dark background with nebula-like glow (Buddhabrot).
+  void _paintBuddhabrot(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF02010A));
+
+    final cx = (hash % 20 - 10) / 30.0;
+    final cy = ((hash ~/ 23) % 20 - 10) / 30.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(cx, cy),
+          radius: 0.65,
+          colors: const [
+            Color(0xFF5533AA),
+            Color(0xFF221166),
+            Color(0xFF02010A),
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(-cx * 0.6, -cy * 0.6),
+          radius: 0.35,
+          colors: const [
+            Color(0x994488FF),
+            Color(0x332255BB),
+            Color(0x0002010A),
+          ],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0x337700CC),
+            Color(0x00000000),
+            Color(0x224400AA),
+          ],
+        ).createShader(rect),
+    );
+  }
+
+  /// Organic green/cyan pattern (Simulation / Reaction-Diffusion).
+  void _paintSimulation(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF000E0C));
+
+    final angle = (hash % 45).toDouble() * math.pi / 180;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          transform: GradientRotation(angle),
+          colors: const [
+            Color(0xFF006655),
+            Color(0xFF00332A),
+            Color(0xFF000E0C),
+          ],
+          stops: [0.0, 0.55, 1.0],
+        ).createShader(rect),
+    );
+
+    final cx = (hash % 40 - 20) / 55.0;
+    final cy = ((hash ~/ 37) % 40 - 20) / 55.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(cx, cy),
+          radius: 0.6,
+          colors: const [
+            Color(0xFF00DDAA),
+            Color(0xFF009977),
+            Color(0x00000E0C),
+          ],
+          stops: [0.0, 0.4, 1.0],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const RadialGradient(
+          radius: 0.88,
+          colors: [Color(0x00000000), Color(0xCC000E0C)],
+        ).createShader(rect),
+    );
+  }
+
+  /// Metallic silver/dark gradient with depth effect (3D fractals).
+  void _paint3D(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF080A0E));
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF3A3F4A),
+            Color(0xFF1A1E26),
+            Color(0xFF080A0E),
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(rect),
+    );
+
+    final cx = (hash % 30 - 15) / 35.0;
+    final cy = ((hash ~/ 31) % 30 - 15) / 35.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(cx, cy),
+          radius: 0.6,
+          colors: const [
+            Color(0xCCC8D0DC),
+            Color(0x888899AA),
+            Color(0x00080A0E),
+          ],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.bottomRight,
+          end: Alignment.topLeft,
+          colors: [
+            Color(0x44445566),
+            Color(0x00000000),
+            Color(0x22334455),
+          ],
+        ).createShader(rect),
+    );
   }
 
   /// Default — HSV-based with overlapping gradients for depth.

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/raymarched_3d_catalog.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
@@ -16,6 +17,7 @@ class CatalogRepository {
   factory CatalogRepository.fromRegistry(ModuleRegistry registry) {
     final categoriesById = {
       for (final config in escapeTimeCatalog) config.id: config.category,
+      for (final config in raymarched3DCatalog) config.id: config.category,
     };
 
     return CatalogRepository(
