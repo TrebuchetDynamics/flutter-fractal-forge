@@ -344,3 +344,13 @@ flutter:
     - shaders/buffalo_cubic_julia_gpu.frag
     - shaders/mandelbar_cubic_gpu.frag
     - shaders/perpendicular_burning_ship_gpu.frag
+    - shaders/burning_ship_power5_gpu.frag
+    - shaders/celtic_power5_gpu.frag
+    - shaders/buffalo_power5_gpu.frag
+    - shaders/multibrot7_gpu.frag
+    - shaders/multibrot8_gpu.frag
+    - shaders/multijulia7_gpu.frag
+    - shaders/multijulia8_gpu.frag
+    - shaders/newton_z7_gpu.frag
+    - shaders/feather_julia_gpu.frag
+    - shaders/heart_julia_gpu.frag
