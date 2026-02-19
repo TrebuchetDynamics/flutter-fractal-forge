@@ -292,3 +292,7 @@ flutter:
     - shaders/lightningbrot_gpu.frag
     - shaders/angrybrot_gpu.frag
     - shaders/singularity_gpu.frag
+    - shaders/space_fractal_gpu.frag
+    - shaders/contused_fields_gpu.frag
+    - shaders/car_road_gpu.frag
+    - shaders/bullet_shot_gpu.frag

@@ -2830,6 +2830,94 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
   ),
+
+  // z² + c/(z+0.01) — offset denominator creates deep spiral arms reminiscent
+  // of galaxy structures; avoids true singularity at z=0.
+  EscapeTimeConfig(
+    id: 'space_fractal',
+    name: 'Space Fractal',
+    shaderAsset: 'shaders/space_fractal_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'space-fractal-relief',
+        moduleId: 'space_fractal',
+        name: 'Space Fractal Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 52},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Component-wise tan(z²+c) — tan singularities slice the plane into many
+  // near-copies of the base fractal, creating a "field of contused fractals".
+  EscapeTimeConfig(
+    id: 'contused_fields',
+    name: 'Contused Fields',
+    shaderAsset: 'shaders/contused_fields_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 10.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'contused-fields-relief',
+        moduleId: 'contused_fields',
+        name: 'Contused Fields Relief',
+        params: {'iterations': 200, 'bailout': 10.0, 'colorScheme': 55},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // Rot(|z|)·sinh(z)+c — hyperbolic geometry rotated by its own magnitude;
+  // creates road-like tunnel structures with distinctive symmetry.
+  EscapeTimeConfig(
+    id: 'car_road',
+    name: 'Car Road',
+    shaderAsset: 'shaders/car_road_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 8.0,
+    defaultCenterX: 0.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'car-road-relief',
+        moduleId: 'car_road',
+        name: 'Car Road Relief',
+        params: {'iterations': 260, 'bailout': 8.0, 'colorScheme': 57},
+        view: FractalViewState(pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  // z²+sin(z·c)+cos(z+c) — three additive terms create a set split into
+  // halves with thin filaments resembling bullets shot through the fractal.
+  EscapeTimeConfig(
+    id: 'bullet_shot',
+    name: 'Bullet Shot',
+    shaderAsset: 'shaders/bullet_shot_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+    defaultCenterX: -0.5,
+    extraPresets: [
+      FractalPreset(
+        id: 'bullet-shot-relief',
+        moduleId: 'bullet_shot',
+        name: 'Bullet Shot Relief',
+        params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 60},
+        view: FractalViewState(pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.
