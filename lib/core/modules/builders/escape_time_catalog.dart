@@ -3371,6 +3371,27 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
+  EscapeTimeConfig(
+    id: 'magnet1',
+    name: 'Magnet Type I',
+    shaderAsset: 'shaders/magnet1_gpu.frag',
+    defaultIterations: 150,
+    defaultBailout: 8.0,
+  ),
+  EscapeTimeConfig(
+    id: 'mandelbar_cubic',
+    name: 'Mandelbar Cubic (Tricorn ³)',
+    shaderAsset: 'shaders/mandelbar_cubic_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'perpendicular_burning_ship',
+    name: 'Perpendicular Burning Ship',
+    shaderAsset: 'shaders/perpendicular_burning_ship_gpu.frag',
+    defaultIterations: 200,
+    defaultBailout: 4.0,
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.

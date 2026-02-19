@@ -342,3 +342,5 @@ flutter:
     - shaders/tricorn_power5_gpu.frag
     - shaders/exponential_julia_gpu.frag
     - shaders/buffalo_cubic_julia_gpu.frag
+    - shaders/mandelbar_cubic_gpu.frag
+    - shaders/perpendicular_burning_ship_gpu.frag
