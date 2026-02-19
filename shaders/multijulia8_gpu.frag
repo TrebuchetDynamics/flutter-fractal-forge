@@ -2,13 +2,14 @@
 
 precision highp float;
 
-// Multijulia degree 8: z_{n+1} = z^8 + c, c = (0.27, 0.0).
-// Julia set of the octic Mandelbrot map — pixel = z₀, c is fixed.
-// Degree-8 maps produce 7-fold-symmetric Julia sets. Near c=(0.27, 0.0)
-// (on the real axis, inside the main cardioid of the octic Mandelbrot)
-// the Julia set is a connected Cantor dust-free curve with 7-armed star
-// topology and fine lace detail at each branch tip.
-// Derivative dz/dz₀ = 8z^7·der for normal-map shading (colorScheme 50-63).
+// Multijulia⁸ set: z_{n+1} = z^8 + c, c = (−0.15, 0.70).
+// Julia set of the degree-8 Multibrot map — pixel = z₀, c fixed.
+// The degree-8 Julia set has eight-fold base symmetry. Even degree produces
+// bilateral mirror symmetry, creating an octagonal arrangement with four
+// pairs of mirrored arms. At c = (−0.15, 0.70) the structure shows
+// connected octagonal symmetry with deep sub-arm branching.
+// z^8 computed as (z²)² ² via squarings. Smooth coloring: log₂(8) = 3.
+// Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;
 uniform vec2  uResolution;
 uniform vec2  uCenter;
@@ -50,7 +51,7 @@ void main() {
 
   int schemeInt = int(uColorScheme);
   vec2 z   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 c   = vec2(0.27, 0.0);   // fixed Julia parameter
+  vec2 c   = vec2(-0.15, 0.70);  // fixed Julia parameter
   vec2 der = vec2(1.0, 0.0);
 
   float bailoutSq = uBailout * uBailout;
@@ -61,11 +62,11 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
     vec2 z2 = cmul(z, z);
+    vec2 z3 = cmul(z2, z);
     vec2 z4 = cmul(z2, z2);
-    vec2 z6 = cmul(z4, z2);
-    vec2 z7 = cmul(z6, z);
+    vec2 z7 = cmul(z4, z3);
     vec2 z8 = cmul(z4, z4);
-    // der = 8z^7·der
+    // Derivative: 8·z⁷·der (Julia mode: no +1)
     der = 8.0 * cmul(z7, der);
     z = z8 + c;
     if (dot(z,z) > bailoutSq) { it = j; break; }
@@ -78,13 +79,13 @@ void main() {
   }
 
   float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / 3.0;  // log2(8) = 3
+  float smoothVal = float(it) - log2(log2(mag2)) / log2(8.0);
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
     vec2 lightDir = vec2(cos(angle), sin(angle));
-    float denom = max(1e-12, dot(der, der));
-    vec2 nv = vec2(z.x*der.x+z.y*der.y, z.y*der.x-z.x*der.y) / denom;
+    float denom2 = max(1e-12, dot(der, der));
+    vec2 nv = vec2(z.x*der.x+z.y*der.y, z.y*der.x-z.x*der.y) / denom2;
     float nLen = length(nv);
     if (nLen > 1e-6) nv /= nLen;
     const float HEIGHT = 0.5;

@@ -2,13 +2,13 @@
 
 precision highp float;
 
-// Multijulia⁷ set: z_{n+1} = z^7 + c, c = (−0.20, 0.70).
-// Julia set of the degree-7 Multibrot map — pixel = z₀, c fixed.
-// The degree-7 Julia set has seven-fold base symmetry producing seven primary
-// arms with a chiral twist (odd degree has no bilateral reflection symmetry).
-// At c = (−0.20, 0.70) the Julia set is connected with visible heptagonal
-// structure. Each arm branches recursively following septic self-similarity.
-// z^7 computed as z⁴·z³ = z⁴·(z²·z). Smooth coloring: log₂(7).
+// Multijulia¹² set: z_{n+1} = z^12 + c, c = (−0.08, 0.82).
+// Julia set of the degree-12 Multibrot map — pixel = z₀, c fixed.
+// The degree-12 Julia set has twelve-fold base symmetry. Even degree produces
+// bilateral mirror symmetry, creating six pairs of mirrored arms in a
+// dodecagonal arrangement. At c = (−0.08, 0.82) the set shows connected
+// dodecagonal structure with exquisite fine-grained self-similarity.
+// z^12 computed as z⁸·z⁴. Smooth coloring: log₂(12).
 // Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;
 uniform vec2  uResolution;
@@ -51,7 +51,7 @@ void main() {
 
   int schemeInt = int(uColorScheme);
   vec2 z   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 c   = vec2(-0.20, 0.70);  // fixed Julia parameter
+  vec2 c   = vec2(-0.08, 0.82);  // fixed Julia parameter
   vec2 der = vec2(1.0, 0.0);
 
   float bailoutSq = uBailout * uBailout;
@@ -61,14 +61,15 @@ void main() {
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
-    vec2 z2 = cmul(z, z);
-    vec2 z3 = cmul(z2, z);
-    vec2 z4 = cmul(z2, z2);
-    vec2 z6 = cmul(z4, z2);
-    vec2 z7 = cmul(z4, z3);
-    // Derivative: 7·z⁶·der (Julia mode: no +1)
-    der = 7.0 * cmul(z6, der);
-    z = z7 + c;
+    vec2 z2  = cmul(z, z);
+    vec2 z3  = cmul(z2, z);
+    vec2 z4  = cmul(z2, z2);
+    vec2 z8  = cmul(z4, z4);
+    vec2 z11 = cmul(z8, z3);
+    vec2 z12 = cmul(z8, z4);
+    // Derivative: 12·z¹¹·der (Julia mode: no +1)
+    der = 12.0 * cmul(z11, der);
+    z = z12 + c;
     if (dot(z,z) > bailoutSq) { it = j; break; }
     it = j + 1;
   }
@@ -79,7 +80,7 @@ void main() {
   }
 
   float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / log2(7.0);
+  float smoothVal = float(it) - log2(log2(mag2)) / log2(12.0);
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);

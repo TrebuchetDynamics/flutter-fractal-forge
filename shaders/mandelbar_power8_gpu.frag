@@ -2,13 +2,13 @@
 
 precision highp float;
 
-// Multijulia⁷ set: z_{n+1} = z^7 + c, c = (−0.20, 0.70).
-// Julia set of the degree-7 Multibrot map — pixel = z₀, c fixed.
-// The degree-7 Julia set has seven-fold base symmetry producing seven primary
-// arms with a chiral twist (odd degree has no bilateral reflection symmetry).
-// At c = (−0.20, 0.70) the Julia set is connected with visible heptagonal
-// structure. Each arm branches recursively following septic self-similarity.
-// z^7 computed as z⁴·z³ = z⁴·(z²·z). Smooth coloring: log₂(7).
+// Mandelbar⁸ (Tricorn⁸): z_{n+1} = conj(z)^8 + c.
+// Anti-holomorphic Mandelbrot analogue of degree 8 — pixel = c, z₀ = 0.
+// Even degree produces bilateral mirror symmetry in parameter space.
+// The eight-fold rotational structure forms a symmetric octagonal star
+// with characteristic Tricorn cusp boundaries at every bulb junction.
+// Anti-holomorphic derivative: d_{n+1} = 8·conj(z)^7·conj(d_n) + 1.
+// z^8 computed as (z⁴)² and z^7 as z⁴·z³ via squarings. Smooth coloring: log₂(8) = 3.
 // Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;
 uniform vec2  uResolution;
@@ -50,9 +50,9 @@ void main() {
   vec2 uv = (fragCoord - 0.5*uResolution) / max(1.0, scale);
 
   int schemeInt = int(uColorScheme);
-  vec2 z   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 c   = vec2(-0.20, 0.70);  // fixed Julia parameter
-  vec2 der = vec2(1.0, 0.0);
+  vec2 c   = uv / max(0.000001, uZoom) + uCenter;
+  vec2 z   = vec2(0.0);
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
@@ -61,14 +61,16 @@ void main() {
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
-    vec2 z2 = cmul(z, z);
-    vec2 z3 = cmul(z2, z);
-    vec2 z4 = cmul(z2, z2);
-    vec2 z6 = cmul(z4, z2);
-    vec2 z7 = cmul(z4, z3);
-    // Derivative: 7·z⁶·der (Julia mode: no +1)
-    der = 7.0 * cmul(z6, der);
-    z = z7 + c;
+    vec2 zc  = vec2(z.x, -z.y);   // conj(z)
+    vec2 zc2 = cmul(zc, zc);
+    vec2 zc3 = cmul(zc2, zc);
+    vec2 zc4 = cmul(zc2, zc2);
+    vec2 zc7 = cmul(zc4, zc3);
+    vec2 zc8 = cmul(zc4, zc4);
+    // Anti-holomorphic derivative: d_{n+1} = 8·zc^7·conj(d_n) + 1
+    vec2 derc = vec2(der.x, -der.y);
+    der = 8.0 * cmul(zc7, derc) + vec2(1.0, 0.0);
+    z = zc8 + c;
     if (dot(z,z) > bailoutSq) { it = j; break; }
     it = j + 1;
   }
@@ -79,7 +81,7 @@ void main() {
   }
 
   float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / log2(7.0);
+  float smoothVal = float(it) - log2(log2(mag2)) / log2(8.0);
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);
