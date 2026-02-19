@@ -383,3 +383,13 @@ flutter:
     - shaders/multibrot9_gpu.frag
     - shaders/multijulia9_gpu.frag
     - shaders/multibrot10_gpu.frag
+    - shaders/multijulia10_gpu.frag
+    - shaders/multibrot11_gpu.frag
+    - shaders/multibrot12_gpu.frag
+    - shaders/burning_ship_power6_julia_gpu.frag
+    - shaders/buffalo_power6_julia_gpu.frag
+    - shaders/celtic_power6_julia_gpu.frag
+    - shaders/halley_z4_gpu.frag
+    - shaders/mandelbar_power7_gpu.frag
+    - shaders/nova_degree4_gpu.frag
+    - shaders/nova_degree4_julia_gpu.frag
