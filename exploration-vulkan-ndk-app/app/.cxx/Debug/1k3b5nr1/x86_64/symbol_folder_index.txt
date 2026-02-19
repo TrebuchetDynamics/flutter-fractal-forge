@@ -1,1 +1,0 @@
-/home/xel/git/flutter-fractal-forge/exploration-vulkan-ndk-app/app/build/intermediates/cxx/Debug/1k3b5nr1/obj/x86_64

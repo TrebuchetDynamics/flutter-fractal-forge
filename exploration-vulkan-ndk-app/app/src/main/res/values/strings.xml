@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Fractal Vulkan Explorer</string>
-    <string name="mandelbrot">Mandelbrot</string>
-    <string name="mandelbulb">Mandelbulb</string>
-    <string name="error_no_vulkan">This device does not support Vulkan 1.1 compute shaders.</string>
-</resources>
