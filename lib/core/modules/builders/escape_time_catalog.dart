@@ -1257,6 +1257,69 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 16.0,
   ),
 
+  // Dequan Li (2008) — a=40, k=20, f=1.833, c=−11, d=0.16, e=0.65; dragon-wing attractor.
+  EscapeTimeConfig(
+    id: 'dequan_li',
+    name: 'Dequan Li Attractor',
+    shaderAsset: 'shaders/dequan_li_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Coullet-Tresser-Arneodo (1979) — cubic Duffing oscillator; double-well potential.
+  EscapeTimeConfig(
+    id: 'coullet',
+    name: 'Coullet Attractor',
+    shaderAsset: 'shaders/coullet_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sakarya — a=0.4, b=0.3; compact single-lobe attractor near origin.
+  EscapeTimeConfig(
+    id: 'sakarya',
+    name: 'Sakarya Attractor',
+    shaderAsset: 'shaders/sakarya_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Qi-Chen (2005) — a=14, b=43, c=13; four-wing chaotic system.
+  EscapeTimeConfig(
+    id: 'qi_chen',
+    name: 'Qi-Chen Attractor',
+    shaderAsset: 'shaders/qi_chen_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Yu-Wang (2012) — a=10, b=40, c=2, d=2.5; exponential coupling exp(xy).
+  EscapeTimeConfig(
+    id: 'yu_wang',
+    name: 'Yu-Wang Attractor',
+    shaderAsset: 'shaders/yu_wang_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Zhou-Chen (2004) — a=35, b=3, c=28; Lorenz-family four-wing system.
+  EscapeTimeConfig(
+    id: 'zhou_chen',
+    name: 'Zhou-Chen Attractor',
+    shaderAsset: 'shaders/zhou_chen_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // TSUCS — Two-Scroll Unified Chaotic System (Elabbasy 2007); double-scroll attractor.
+  EscapeTimeConfig(
+    id: 'tsucs',
+    name: 'TSUCS Attractor',
+    shaderAsset: 'shaders/tsucs_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
   // ── II. Convergent/Root-Finding (escape-time variant) ───
   EscapeTimeConfig(
     id: 'newton_z3',

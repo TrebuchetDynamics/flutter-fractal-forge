@@ -207,6 +207,13 @@ flutter:
     - shaders/liu_chen_gpu.frag
     - shaders/newton_leipnik_gpu.frag
     - shaders/bouali_gpu.frag
+    - shaders/dequan_li_gpu.frag
+    - shaders/coullet_gpu.frag
+    - shaders/sakarya_gpu.frag
+    - shaders/qi_chen_gpu.frag
+    - shaders/yu_wang_gpu.frag
+    - shaders/zhou_chen_gpu.frag
+    - shaders/tsucs_gpu.frag
     - shaders/quaternion_julia_2d_gpu.frag
     - shaders/tessarine_julia_gpu.frag
     - shaders/split_complex_gpu.frag
