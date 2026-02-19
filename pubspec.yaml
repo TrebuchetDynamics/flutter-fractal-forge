@@ -300,3 +300,11 @@ flutter:
     - shaders/drill_gpu.frag
     - shaders/3d_fractal_gpu.frag
     - shaders/undefined_gpu.frag
+    - shaders/sprott_b_gpu.frag
+    - shaders/sprott_c_gpu.frag
+    - shaders/sprott_d_gpu.frag
+    - shaders/sprott_e_gpu.frag
+    - shaders/sprott_f_gpu.frag
+    - shaders/rucklidge_gpu.frag
+    - shaders/shimizu_morioka_gpu.frag
+    - shaders/chen_lee_gpu.frag

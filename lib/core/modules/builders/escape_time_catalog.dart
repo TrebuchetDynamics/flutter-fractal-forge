@@ -3006,6 +3006,78 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
   ),
+
+  // Sprott B (1994) — dx=yz, dy=x-y, dz=1-xy. Single-scroll attractor.
+  EscapeTimeConfig(
+    id: 'sprott_b',
+    name: 'Sprott Case B',
+    shaderAsset: 'shaders/sprott_b_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sprott C (1994) — dx=yz, dy=x-y, dz=1-x². Double-lobe attractor.
+  EscapeTimeConfig(
+    id: 'sprott_c',
+    name: 'Sprott Case C',
+    shaderAsset: 'shaders/sprott_c_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sprott D (1994) — dx=-y, dy=x+z, dz=xz+3y². Three-wing attractor.
+  EscapeTimeConfig(
+    id: 'sprott_d',
+    name: 'Sprott Case D',
+    shaderAsset: 'shaders/sprott_d_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sprott E (1994) — dx=yz, dy=x²-y, dz=1-4x. Figure-eight cross-section.
+  EscapeTimeConfig(
+    id: 'sprott_e',
+    name: 'Sprott Case E',
+    shaderAsset: 'shaders/sprott_e_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Sprott F (1994) — dx=y+z, dy=-x+y/2, dz=x²-z. C-shaped single-scroll.
+  EscapeTimeConfig(
+    id: 'sprott_f',
+    name: 'Sprott Case F',
+    shaderAsset: 'shaders/sprott_f_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Rucklidge (1992) — κ=2, λ=6.7; magnetoconvection model with spiral lobes.
+  EscapeTimeConfig(
+    id: 'rucklidge',
+    name: 'Rucklidge Attractor',
+    shaderAsset: 'shaders/rucklidge_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Shimizu-Morioka (1980) — a=0.75, b=0.45; period-doubling route to chaos.
+  EscapeTimeConfig(
+    id: 'shimizu_morioka',
+    name: 'Shimizu-Morioka Attractor',
+    shaderAsset: 'shaders/shimizu_morioka_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
+
+  // Chen-Lee (2004) — a=5, b=-10, c=-0.38; gyroscope rigid-body dynamics.
+  EscapeTimeConfig(
+    id: 'chen_lee',
+    name: 'Chen-Lee Attractor',
+    shaderAsset: 'shaders/chen_lee_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 10.0,
+  ),
 ];
 
 /// Build all currently active escape-time modules from the catalog.
