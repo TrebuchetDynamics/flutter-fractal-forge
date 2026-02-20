@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 
@@ -22,9 +23,15 @@ class AppBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
+    // In landscape the screen height is much shorter (~360 px on phones), so
+    // allow the sheet to expand further so controls remain usable.
+    final isLandscape = mq.orientation == Orientation.landscape;
+    final effectiveFactor =
+        isLandscape ? maxHeightFactor.clamp(0.85, 0.92) : maxHeightFactor;
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * maxHeightFactor,
+        maxHeight: math.max(mq.size.height * effectiveFactor, 280),
       ),
       decoration: const BoxDecoration(
         color: AppColors.surface,

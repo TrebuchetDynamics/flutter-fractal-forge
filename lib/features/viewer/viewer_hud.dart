@@ -36,13 +36,18 @@ Widget _viewerBuildViewerTitleChip(
       borderRadius: BorderRadius.circular(10),
       border: Border.all(color: Colors.white24),
     ),
-    child: Text(
-      controller.module.displayName(l10n),
-      key: const Key('viewerTitleChipText'),
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 200),
+      child: Text(
+        controller.module.displayName(l10n),
+        key: const Key('viewerTitleChipText'),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     ),
   );

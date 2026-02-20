@@ -33,9 +33,9 @@ FractalModule buildNovaModule() {
     id: 'nova-default',
     moduleId: 'nova',
     name: 'Default',
-    params: {'iterations': 200, 'relaxation': 1.0, 'colorScheme': 0},
+    params: {'iterations': 200, 'relaxation': 1.0, 'colorScheme': 2},
     view: FractalViewState(
-        pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+        pan: Vector2(0.0, 0.0), zoom: 1.5, rotation: Vector3.zero()),
     createdAt: DateTime.now(),
     isBuiltIn: true,
   );
@@ -48,7 +48,21 @@ FractalModule buildNovaModule() {
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
-      defaultPreset.copyWith(id: 'nova-classic', name: 'Classic')
+      defaultPreset.copyWith(id: 'nova-classic', name: 'Classic'),
+      defaultPreset.copyWith(
+        id: 'nova-roots',
+        name: 'Three Roots',
+        params: {'iterations': 300, 'relaxation': 1.0, 'colorScheme': 1},
+        view: FractalViewState(
+            pan: Vector2(0.0, 0.0), zoom: 2.0, rotation: Vector3.zero()),
+      ),
+      defaultPreset.copyWith(
+        id: 'nova-overrelaxed',
+        name: 'Over-Relaxed',
+        params: {'iterations': 250, 'relaxation': 1.5, 'colorScheme': 0},
+        view: FractalViewState(
+            pan: Vector2(0.0, 0.0), zoom: 1.5, rotation: Vector3.zero()),
+      ),
     ],
     setUniforms: (shader, state, size, time) {
       shader.setFloat(0, time);

@@ -958,6 +958,8 @@ class _ModuleCardState extends State<_ModuleCard>
                 children: [
                   Text(
                     widget.entry.module.displayName(widget.l10n),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTypography.titleMedium.copyWith(
                       color: AppColors.textPrimary,
                     ),

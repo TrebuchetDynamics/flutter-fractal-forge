@@ -300,7 +300,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         name: 'Bas-Relief: Dawn',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
-            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+            pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
@@ -328,7 +328,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         name: 'Bas-Relief: Iron',
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
-            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+            pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
@@ -356,7 +356,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         name: 'Bas-Relief: Plains',
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
-            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+            pan: Vector2(-0.5, -0.5), zoom: 1.5, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
@@ -396,7 +396,29 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     id: 'nova_julia',
     name: 'Nova Julia',
     shaderAsset: 'shaders/nova_julia_gpu.frag',
-    defaultIterations: 140,
+    defaultIterations: 160,
+    extraPresets: [
+      FractalPreset(
+        id: 'nova-julia-classic',
+        moduleId: 'nova_julia',
+        name: 'Nova Classic',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 2},
+        view: FractalViewState(
+            pan: Vector2(0.0, 0.0), zoom: 1.5, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'nova-julia-spiral',
+        moduleId: 'nova_julia',
+        name: 'Nova Spiral',
+        params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 1},
+        view: FractalViewState(
+            pan: Vector2(0.0, 0.0), zoom: 3.0, rotation: Vector3.zero()),
+        createdAt: DateTime.now(),
+        isBuiltIn: true,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'fatou',
@@ -444,7 +466,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         name: 'Lambda Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
-            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+            pan: Vector2(0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
@@ -463,7 +485,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         name: 'Magnet Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
-            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+            pan: Vector2(1.0, 0.0), zoom: 1.2, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
@@ -482,7 +504,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         name: 'Magnet II Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
-            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+            pan: Vector2(1.0, 0.0), zoom: 1.2, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
@@ -734,7 +756,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     id: 'tetration',
     name: 'Tetration Fractal',
     shaderAsset: 'shaders/tetration_gpu.frag',
-    defaultIterations: 90,
+    defaultIterations: 120,
     extraPresets: [
       FractalPreset(
         id: 'tetration-relief',
@@ -742,7 +764,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         name: 'Tetration Relief',
         params: {'iterations': 130, 'bailout': 4.0, 'colorScheme': 61},
         view: FractalViewState(
-            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+            pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),

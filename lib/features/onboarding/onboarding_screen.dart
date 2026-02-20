@@ -184,54 +184,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   static const _pages = <_OnboardingPageData>[
     _OnboardingPageData(
       title: 'Welcome to Fractal Forge',
-      legacyTitle: 'Welcome to Flutter Fractals',
       description:
-          'Explore infinite mathematical beauty through interactive fractals designed for discovery and learning.',
+          'Explore infinite mathematical beauty through 200+ interactive fractals — from Mandelbrot sets to strange attractors.',
       icon: Icons.auto_awesome_rounded,
       highlightItems: [
-        'Discover structure, recursion, and emergent patterns.',
-        'Navigate from simple sets to complex chaotic systems.',
+        'Pan and pinch to navigate infinite detail',
+        'Discover structure in Mandelbrot, Julia, Newton and more',
+        'Browse strange attractors, cellular automata and space-filling curves',
       ],
     ),
     _OnboardingPageData(
-      title: '200+ Fractals',
-      legacyTitle: 'Discover Fractal Types',
+      title: 'Explore, Save & Share',
       description:
-          'Browse a large catalog with Mandelbrot family sets, Newton fractals, strange attractors, and more.',
-      icon: Icons.category_rounded,
-      highlightItems: [
-        'Mandelbrot',
-        'Julia',
-        'Newton fractals and root-finding maps',
-        'Strange attractors and dynamic systems',
-      ],
-    ),
-    _OnboardingPageData(
-      title: 'Touch to Explore',
-      legacyTitle: 'Intuitive Controls',
-      description:
-          'Use intuitive gestures to navigate the complex plane and examine local structure with precision.',
-      icon: Icons.gesture_rounded,
-      highlightItems: [
-        'Pan',
-        'Zoom',
-        'Pinch to zoom into mathematical detail',
-        'Drag to pan across regions quickly',
-        'Auto-pilot mode for guided exploration',
-      ],
-    ),
-    _OnboardingPageData(
-      title: 'Share Your Discoveries',
-      legacyTitle: 'Powerful Features',
-      description:
-          'Export high-resolution images and share the patterns you discover with students, colleagues, and friends.',
+          'Adjust parameters in real time, save your favourite views as presets, and export high-resolution images to share.',
       icon: Icons.ios_share_rounded,
       highlightItems: [
-        'Presets',
-        'Export',
-        'AR Mode',
-        'Export renders for presentations and study',
-        'Share directly to social apps and messaging',
+        'Real-time parameter controls and colour schemes',
+        'Built-in presets for every fractal type',
+        'Export to PNG — perfect for presentations and study',
       ],
     ),
   ];
@@ -366,14 +336,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
 class _OnboardingPageData {
   final String title;
-  final String? legacyTitle;
   final String description;
   final IconData icon;
   final List<String> highlightItems;
 
   const _OnboardingPageData({
     required this.title,
-    this.legacyTitle,
     required this.description,
     required this.icon,
     required this.highlightItems,
@@ -387,102 +355,145 @@ class _OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        if (orientation == Orientation.landscape) {
+          return _buildLandscape(context);
+        }
+        return _buildPortrait(context);
+      },
+    );
+  }
+
+  Widget _buildPortrait(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: AppSpacing.lg),
-          Semantics(
-            label: '${data.title} section',
-            child: Container(
-              width: 68,
-              height: 68,
-              decoration: BoxDecoration(
-                gradient: AppColors.accentGradient,
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withOpacity(0.35),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Icon(data.icon, color: Colors.white, size: 34),
-            ),
-          ),
+          _buildIcon(),
           const SizedBox(height: AppSpacing.xl),
-          Text(
-            data.title,
-            style: AppTypography.displayMedium.copyWith(
-              fontWeight: FontWeight.w700,
-              height: 1.2,
-            ),
-          ),
-          if (data.legacyTitle != null) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              data.legacyTitle!,
-              style: AppTypography.bodySmall.copyWith(
-                color: AppColors.textMuted,
-              ),
-            ),
-          ],
+          _buildTitle(),
           const SizedBox(height: AppSpacing.md),
-          Text(
-            data.description,
-            style: AppTypography.bodyLarge
-                .copyWith(color: AppColors.textSecondary),
-          ),
+          _buildDescription(),
           const SizedBox(height: AppSpacing.xl),
+          Expanded(child: _buildHighlightList()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLandscape(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.xl,
+        vertical: AppSpacing.md,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.xl),
+            child: _buildIcon(),
+          ),
           Expanded(
-            child: ListView.separated(
-              itemCount: data.highlightItems.length,
-              separatorBuilder: (_, __) =>
-                  const SizedBox(height: AppSpacing.md),
-              itemBuilder: (context, index) {
-                final item = data.highlightItems[index];
-                return Semantics(
-                  label: item,
-                  child: Container(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      border:
-                          Border.all(color: AppColors.border.withOpacity(0.7)),
-                      borderRadius:
-                          BorderRadius.circular(AppSpacing.cardRadius),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 2),
-                          child: Icon(
-                            Icons.check_circle_rounded,
-                            color: AppColors.secondary,
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.md),
-                        Expanded(
-                          child: Text(
-                            item,
-                            style: AppTypography.bodyMedium.copyWith(
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildTitle(),
+                const SizedBox(height: AppSpacing.sm),
+                _buildDescription(),
+                const SizedBox(height: AppSpacing.md),
+                Expanded(child: _buildHighlightList()),
+              ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildIcon() {
+    return Semantics(
+      label: '${data.title} section',
+      child: Container(
+        width: 68,
+        height: 68,
+        decoration: BoxDecoration(
+          gradient: AppColors.accentGradient,
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withOpacity(0.35),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Icon(data.icon, color: Colors.white, size: 34),
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return Text(
+      data.title,
+      style: AppTypography.displayMedium.copyWith(
+        fontWeight: FontWeight.w700,
+        height: 1.2,
+      ),
+    );
+  }
+
+  Widget _buildDescription() {
+    return Text(
+      data.description,
+      style: AppTypography.bodyLarge.copyWith(color: AppColors.textSecondary),
+    );
+  }
+
+  Widget _buildHighlightList() {
+    return ListView.separated(
+      itemCount: data.highlightItems.length,
+      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
+      itemBuilder: (context, index) {
+        final item = data.highlightItems[index];
+        return Semantics(
+          label: item,
+          child: Container(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              border: Border.all(color: AppColors.border.withOpacity(0.7)),
+              borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 2),
+                  child: Icon(
+                    Icons.check_circle_rounded,
+                    color: AppColors.secondary,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Text(
+                    item,
+                    style: AppTypography.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
