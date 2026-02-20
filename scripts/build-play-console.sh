@@ -382,10 +382,10 @@ LATEST_BUNDLE="$(
 
 [[ -n "$LATEST_BUNDLE" ]] || die "No .aab produced under $BUNDLE_ROOT"
 
-TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
+DATESTAMP="$(date +%Y-%m-%d)"
 VERSION_TAG="${PUBSPEC_VERSION_NAME:-unknown}"
 VERSION_TAG="${VERSION_TAG//[^0-9A-Za-z._-]/_}"
-ARTIFACT_NAME="fractal-forge-v${VERSION_TAG}-b${USED_BUILD_NUMBER}-${TIMESTAMP}.aab"
+ARTIFACT_NAME="fractal-forge-v${VERSION_TAG}-build${USED_BUILD_NUMBER}-${DATESTAMP}.aab"
 
 mkdir -p "$OUTPUT_DIR"
 DEST_AAB="$OUTPUT_DIR/$ARTIFACT_NAME"
