@@ -446,31 +446,18 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                   },
                                 ),
                               )
-                            : ((controller.module.dimension ==
-                                        FractalDimension.threeD) &&
-                                    !_isTest
-                                ? Center(
-                                    child: Text(
-                                      l10n.disable3dMessage,
-                                      style: const TextStyle(
-                                          color: Colors.white70),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                                : FractalRenderer(
-                                    boundaryKey: _fractalKeyA,
-                                    animationEnabled: !_freezeFrameForExport,
-                                    onOpenControls: () =>
-                                        _openControls(context),
-                                    onOpenPresets: () => _openPresets(context),
-                                    onOpenExport: () => _openExport(context),
-                                    onUserInteraction:
-                                        _onAutoExploreUserCorrection,
-                                    onUserInteractionStart:
-                                        _onAutoExploreUserInteractionStart,
-                                    onUserInteractionEnd:
-                                        _onAutoExploreUserInteractionEnd,
-                                  ))),
+                            : FractalRenderer(
+                                boundaryKey: _fractalKeyA,
+                                animationEnabled: !_freezeFrameForExport,
+                                onOpenControls: () => _openControls(context),
+                                onOpenPresets: () => _openPresets(context),
+                                onOpenExport: () => _openExport(context),
+                                onUserInteraction: _onAutoExploreUserCorrection,
+                                onUserInteractionStart:
+                                    _onAutoExploreUserInteractionStart,
+                                onUserInteractionEnd:
+                                    _onAutoExploreUserInteractionEnd,
+                              )),
                   ),
 
                   if (_fullscreenUnobtrusive)

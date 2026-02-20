@@ -1,7 +1,7 @@
 name: flutter_fractals
 description: A Flutter app for rendering 3D Mandelbulb fractals with real-time interaction.
 publish_to: none
-version: 0.1.1+1
+version: 1.0.22+23
 environment:
   sdk: ^3.0.0
 dependencies:
@@ -412,3 +412,10 @@ flutter:
     - shaders/steffensen_z3_gpu.frag
     - shaders/steffensen_z4_gpu.frag
     - shaders/steffensen_z5_gpu.frag
+    - shaders/damped_newton_gpu.frag
+    - shaders/durand_kerner_gpu.frag
+    - shaders/ehrlich_aberth_gpu.frag
+    - shaders/mcmullen_map_gpu.frag
+    - shaders/generalized_mcmullen_gpu.frag
+    - shaders/fractal_flame_gpu.frag
+    - shaders/dielectric_breakdown_gpu.frag
