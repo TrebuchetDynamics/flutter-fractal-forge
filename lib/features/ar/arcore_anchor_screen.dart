@@ -349,39 +349,64 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
               ),
               const SizedBox(height: 12),
 
-              // Row 2: Size slider
-              Row(
-                children: [
-                  Text(
-                    'Size: ${_placementSize.toStringAsFixed(2)}m',
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.85),
-                      fontSize: 13,
+              // Row 2: Scanning hint OR size slider
+              AnimatedCrossFade(
+                duration: const Duration(milliseconds: 400),
+                crossFadeState: _planeDetected
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                firstChild: Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline_rounded,
+                      color: _cyanAccent.withValues(alpha: 0.85),
+                      size: 16,
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: SliderTheme(
-                      data: SliderThemeData(
-                        activeTrackColor: _cyanAccent,
-                        inactiveTrackColor:
-                            Colors.white.withValues(alpha: 0.15),
-                        thumbColor: _cyanAccent,
-                        overlayColor: _cyanAccent.withValues(alpha: 0.2),
-                        trackHeight: 3,
-                        thumbShape: const RoundSliderThumbShape(
-                          enabledThumbRadius: 7,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Move the camera slowly over a flat surface to detect it',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.75),
+                          fontSize: 12,
                         ),
                       ),
-                      child: Slider(
-                        value: _placementSize,
-                        min: _minSize,
-                        max: _maxSize,
-                        onChanged: (v) => setState(() => _placementSize = v),
+                    ),
+                  ],
+                ),
+                secondChild: Row(
+                  children: [
+                    Text(
+                      'Size: ${_placementSize.toStringAsFixed(2)}m',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.85),
+                        fontSize: 13,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: SliderTheme(
+                        data: SliderThemeData(
+                          activeTrackColor: _cyanAccent,
+                          inactiveTrackColor:
+                              Colors.white.withValues(alpha: 0.15),
+                          thumbColor: _cyanAccent,
+                          overlayColor: _cyanAccent.withValues(alpha: 0.2),
+                          trackHeight: 3,
+                          thumbShape: const RoundSliderThumbShape(
+                            enabledThumbRadius: 7,
+                          ),
+                        ),
+                        child: Slider(
+                          value: _placementSize,
+                          min: _minSize,
+                          max: _maxSize,
+                          onChanged: (v) => setState(() => _placementSize = v),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 10),
 
