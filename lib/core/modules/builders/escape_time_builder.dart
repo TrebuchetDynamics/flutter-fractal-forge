@@ -76,9 +76,15 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
     if (it is num) {
       effectiveIterations = it.toDouble();
     }
-    effectiveCenterX = curated.view.pan.x;
-    effectiveCenterY = curated.view.pan.y;
-    effectiveZoom = curated.view.zoom;
+    // Only use first preset's view if no explicit center/zoom was configured.
+    final hasExplicitView = config.defaultCenterX != 0.0 ||
+        config.defaultCenterY != 0.0 ||
+        config.defaultZoom != 1.0;
+    if (!hasExplicitView) {
+      effectiveCenterX = curated.view.pan.x;
+      effectiveCenterY = curated.view.pan.y;
+      effectiveZoom = curated.view.zoom;
+    }
   } else {
     // For modules that still use baseline constructor defaults, generate
     // deterministic per-module defaults from the module id.

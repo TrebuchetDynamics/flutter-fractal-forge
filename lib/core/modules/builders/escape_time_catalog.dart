@@ -26,6 +26,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/mandel_step_smooth.frag',
     defaultIterations: 120,
     defaultCenterX: -0.5,
+    defaultZoom: 0.35,
     extraPresets: [
       FractalPreset(
         id: 'mandelbrot-seahorse',
@@ -168,6 +169,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     displayName: (l10n) => l10n.moduleBurningShip,
     shaderAsset: 'shaders/burning_ship_gpu.frag',
     defaultIterations: 200,
+    defaultCenterX: -0.5,
+    defaultZoom: 0.35,
     extraPresets: [
       FractalPreset(
         id: 'burning-ship-vessel',
@@ -321,6 +324,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Celtic',
     shaderAsset: 'shaders/celtic_gpu.frag',
     defaultIterations: 180,
+    defaultCenterX: -0.5,
+    defaultZoom: 0.35,
     extraPresets: [
       FractalPreset(
         id: 'celtic-relief-iron',
@@ -349,6 +354,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Buffalo',
     shaderAsset: 'shaders/buffalo_gpu.frag',
     defaultIterations: 180,
+    defaultCenterX: -0.5,
+    defaultZoom: 0.35,
     extraPresets: [
       FractalPreset(
         id: 'buffalo-relief-plains',

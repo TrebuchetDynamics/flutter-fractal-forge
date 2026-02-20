@@ -346,9 +346,165 @@
       "type": "file"
     },
     {
+      "path": "lib/features/onboarding/onboarding_screen.dart",
+      "accessCount": 9,
+      "lastAccessed": 1771603397560,
+      "type": "file"
+    },
+    {
+      "path": "lib/shared/widgets/app_bottom_sheet.dart",
+      "accessCount": 8,
+      "lastAccessed": 1771603478556,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/components/fractal_view_controls.dart",
+      "accessCount": 7,
+      "lastAccessed": 1771603432314,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/catalog/fractal_catalog_screen.dart",
+      "accessCount": 5,
+      "lastAccessed": 1771603441436,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/fractal_viewer_screen.dart",
+      "accessCount": 3,
+      "lastAccessed": 1771603417964,
+      "type": "file"
+    },
+    {
+      "path": "lib/main.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771603248545,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/home/home_screen.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771603263205,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/julia_module.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771603363336,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 2,
+      "lastAccessed": 1771603414317,
+      "type": "directory"
+    },
+    {
+      "path": "lib/features/viewer/viewer_hud.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771603437686,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/controls/fractal_controls.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771603442177,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/nova_module.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771603450483,
+      "type": "file"
+    },
+    {
       "path": "lib/features/ar/ar_overlay_screen.dart",
+      "accessCount": 2,
+      "lastAccessed": 1771615655048,
+      "type": "file"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "accessCount": 2,
+      "lastAccessed": 1771615663286,
+      "type": "file"
+    },
+    {
+      "path": "pubspec.yaml",
       "accessCount": 1,
-      "lastAccessed": 1771547873793,
+      "lastAccessed": 1771603142849,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/module_registry.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603150963,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/services/onboarding_service.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603151546,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/providers/fractal_provider.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603154770,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/gesture_handler.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603155044,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/fractal_canvas.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603155359,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/fractal_module.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603155628,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/modules/phoenix_module.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603363667,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/renderer/fractal_renderer.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603368577,
+      "type": "file"
+    },
+    {
+      "path": "lib/features",
+      "accessCount": 1,
+      "lastAccessed": 1771603408657,
+      "type": "directory"
+    },
+    {
+      "path": "lib/features/viewer/components/fractal_navigation_dock.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603418465,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/controls",
+      "accessCount": 1,
+      "lastAccessed": 1771603439137,
+      "type": "directory"
+    },
+    {
+      "path": "lib/features/viewer/components/fractal_app_bar.dart",
+      "accessCount": 1,
+      "lastAccessed": 1771603480745,
       "type": "file"
     }
   ],
