@@ -182,9 +182,29 @@ class ExportOptions extends Equatable {
     this.watermarkText,
   });
 
+  (int, int)? _orientedPresetDimensions(
+      double screenWidth, double screenHeight) {
+    final dims = resolution.dimensions;
+    if (dims == null) return null;
+
+    final width = dims.$1;
+    final height = dims.$2;
+    final isPresetSquare = width == height;
+    if (isPresetSquare) return dims;
+
+    final screenPortrait = screenHeight > screenWidth;
+    final presetPortrait = height > width;
+
+    if (screenPortrait != presetPortrait) {
+      return (height, width);
+    }
+
+    return dims;
+  }
+
   /// Calculate the pixel ratio needed to achieve target resolution
   double calculatePixelRatio(double screenWidth, double screenHeight) {
-    final dims = resolution.dimensions;
+    final dims = _orientedPresetDimensions(screenWidth, screenHeight);
     if (dims != null) {
       // Use the larger ratio to ensure we meet target resolution
       final widthRatio = dims.$1 / screenWidth;
@@ -206,7 +226,7 @@ class ExportOptions extends Equatable {
 
   /// Get the target dimensions for this export
   (int, int) getTargetDimensions(double screenWidth, double screenHeight) {
-    final dims = resolution.dimensions;
+    final dims = _orientedPresetDimensions(screenWidth, screenHeight);
     if (dims != null) {
       return dims;
     }

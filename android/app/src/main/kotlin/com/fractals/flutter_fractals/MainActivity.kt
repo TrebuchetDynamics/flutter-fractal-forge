@@ -93,6 +93,7 @@ class MainActivity : FlutterActivity() {
                         put(MediaStore.Images.Media.DISPLAY_NAME, safeName)
                         put(MediaStore.Images.Media.MIME_TYPE, mimeType)
                         put(MediaStore.Images.Media.RELATIVE_PATH, relativePath)
+                        put(MediaStore.Images.Media.ORIENTATION, 0)
                         put(MediaStore.Images.Media.IS_PENDING, 1)
                     }
 
