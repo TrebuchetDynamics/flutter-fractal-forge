@@ -230,15 +230,7 @@ class _FractalRendererState extends State<FractalRenderer>
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.black54),
                 ),
-                child: Text(
-                  'Renderer: $mode | fallback: $fallbackActive',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
+              
               ),
             ),
           ),
