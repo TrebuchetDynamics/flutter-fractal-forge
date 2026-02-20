@@ -76,7 +76,6 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   bool _planeDetected = false;
   bool _isPlacing = false;
   bool _planeRendererVisible = true;
-  int _planeCount = 0;
 
   // -- Size slider (meters) --
   double _placementSize = 0.45;
@@ -269,8 +268,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       case _StatusState.scanning:
         return 'Scanning for surfaces...';
       case _StatusState.ready:
-        final plural = _planeCount == 1 ? '' : 's';
-        return 'Tap a surface to place \u00B7 $_planeCount plane$plural found';
+        return 'Surface detected \u00B7 Tap on a highlighted area to place';
       case _StatusState.placed:
         final n = _placedNodeNames.length;
         final plural = n == 1 ? '' : 's';
@@ -532,7 +530,6 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
     controller.onPlaneDetected = (plane) {
       if (!mounted) return;
       setState(() {
-        _planeCount++;
         _planeDetected = true;
       });
     };
@@ -552,7 +549,23 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   }
 
   Future<void> _onPlaneTap(List<ArCoreHitTestResult> hits) async {
-    if (_isPlacing || hits.isEmpty) return;
+    if (_isPlacing) return;
+    if (hits.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
+            const SnackBar(
+              content: Text(
+                'No surface hit \u2014 tap directly on a highlighted (blue) area',
+              ),
+              duration: Duration(milliseconds: 2000),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+      }
+      return;
+    }
 
     // Prefer the closest hit to reduce accidental distant placement.
     final hit = hits.reduce((a, b) => a.distance <= b.distance ? a : b);
