@@ -1,19 +1,33 @@
-Flutter Fractal Forge is a high-performance fractal explorer built for deep zoom discovery and creative experimentation. Navigate mathematically rich worlds with fluid gestures, responsive rendering, and a robust fallback architecture designed for reliability across Android devices.
+Flutter Fractal Forge is the only fractal explorer that lets you place living fractals onto the real world using your camera and ARCore — point your phone at a surface and watch Mandelbrot, Julia, Burning Ship, and more come to life in augmented reality.
 
-What you can do:
-- Explore classic and advanced fractal sets with interactive pan and zoom.
-- Use polished touch gestures for precise navigation and fast framing.
-- Switch rendering behavior with backend controls (Auto / CPU-only / GPU-only debug mode).
-- Recover automatically with CPU fallback if GPU health checks fail.
-- Inspect rendering behavior with built-in diagnostics and export logs for troubleshooting.
+Augmented Reality overlay
+Use your camera to place fractal overlays on floors, tables, and walls. Tap any surface detected by ARCore to anchor a fractal in your real environment. No audio captured. No data leaves your device.
 
-Why it feels good to use:
-- Gesture interactions are tuned for smooth, predictable movement.
-- Rendering pipeline is optimized for stability and consistent output.
-- App architecture is designed to keep the experience responsive under load.
+20+ fractal types rendered by the GPU
+Mandelbrot, Julia sets, Burning Ship, Tricorn, Newton basins, Mandelbox 3D, Mandelbulb 3D, Phoenix, Sinh-Julia, and many more — all rendered in real time by fragment shaders for smooth, responsive zoom.
 
-Accessibility and reliability:
-- The app is developed with automation-first validation and measurable quality gates.
-- Core rendering quality, performance checks, and viewer behavior are continuously tested.
+Deep zoom with double-precision
+A double-float shader engine provides up to 10¹⁴× magnification before floating-point breakdown — far beyond standard 32-bit rendering.
 
-Whether you are curious about fractal math, looking for mesmerizing visuals, or validating rendering systems, Flutter Fractal Forge gives you a practical and powerful workspace for fractal exploration on Android.
+Dual Mandelbrot / Julia viewer
+See Mandelbrot and its corresponding Julia set side by side. Tap any point in the Mandelbrot half to instantly update the Julia seed.
+
+Smooth colour science
+sRGB-correct rendering, smooth colouring (continuous iteration count), orbit traps, and an optional glow post-processing effect.
+
+Export your discoveries
+Save any fractal as a PNG or animated GIF and share directly from the app.
+
+50+ built-in presets
+Jump straight to famous regions — Seahorse Valley, Elephant Valley, deep spiral arms, Julia islands, and more.
+
+No ads. No data collection.
+The camera is used only for AR surface detection. No images or personal data are collected or transmitted.
+
+Perfect for:
+• Math and science learners
+• Digital artists seeking procedural inspiration
+• Classroom demos and visual explanation
+• Anyone who wants to see fractals in the real world
+
+Download and explore infinite mathematical worlds — on your screen and in your room.

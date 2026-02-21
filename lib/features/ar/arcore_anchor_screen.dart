@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
@@ -77,6 +78,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   bool _isPlacing = false;
   bool _planeRendererVisible = true;
   bool _panelExpanded = false;
+  bool _showScanTips = false;
 
   // -- Size slider (meters) --
   double _placementSize = 0.45;
@@ -88,6 +90,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
 
   // -- Pulsing dot animation for scanning status --
   late final AnimationController _pulseController;
+
+  // -- Scan tips timer --
+  Timer? _scanTipsTimer;
 
   // -- Node removal confirmation --
   String? _pendingRemoveNode;
@@ -107,10 +112,17 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     )..repeat(reverse: true);
+
+    _scanTipsTimer = Timer(const Duration(seconds: 10), () {
+      if (mounted && !_planeDetected) {
+        setState(() => _showScanTips = true);
+      }
+    });
   }
 
   @override
   void dispose() {
+    _scanTipsTimer?.cancel();
     _reticleController.dispose();
     _pulseController.dispose();
     _controller?.dispose();
@@ -141,6 +153,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
 
           // -- Scanning reticle (center, fades out once plane found) --
           if (!_planeDetected) _buildScanningReticle(),
+
+          // -- Scan tips card (appears after 10 s with no plane) --
+          if (_showScanTips) _buildScanTips(),
 
           // -- Top status bar --
           _buildTopBar(context),
@@ -275,6 +290,75 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
         final plural = n == 1 ? '' : 's';
         return '$n fractal$plural placed \u00B7 Tap to add more';
     }
+  }
+
+  // -----------------------------------------------------------------------
+  // Scan tips card (shown after 10 s without plane detection)
+  // -----------------------------------------------------------------------
+
+  Widget _buildScanTips() {
+    return Positioned(
+      left: 24,
+      right: 24,
+      bottom: 100,
+      child: _GlassContainer(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.tips_and_updates_rounded,
+                    color: _cyanAccent, size: 16),
+                const SizedBox(width: 8),
+                const Expanded(
+                  child: Text(
+                    'Having trouble detecting a surface?',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => setState(() => _showScanTips = false),
+                  child: const Icon(Icons.close_rounded,
+                      color: Colors.white54, size: 18),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            ...[
+              'Point at a textured surface (table, floor, carpet)',
+              'Move the camera slowly — avoid fast sweeping',
+              'Ensure good lighting (avoid very dark rooms)',
+              'Plain white walls and glass surfaces are hard to detect',
+            ].map(
+              (tip) => Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('• ',
+                        style:
+                            TextStyle(color: _cyanAccent, fontSize: 12)),
+                    Expanded(
+                      child: Text(
+                        tip,
+                        style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.8),
+                            fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // -----------------------------------------------------------------------
@@ -601,8 +685,10 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
     _controller = controller;
     controller.onPlaneDetected = (plane) {
       if (!mounted) return;
+      _scanTipsTimer?.cancel();
       setState(() {
         _planeDetected = true;
+        _showScanTips = false;
       });
     };
     controller.onPlaneTap = _onPlaneTap;

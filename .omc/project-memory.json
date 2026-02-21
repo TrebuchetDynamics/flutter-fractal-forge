@@ -341,8 +341,8 @@
   "hotPaths": [
     {
       "path": "lib/features/ar/arcore_anchor_screen.dart",
-      "accessCount": 20,
-      "lastAccessed": 1771549082778,
+      "accessCount": 28,
+      "lastAccessed": 1771628328987,
       "type": "file"
     },
     {
@@ -370,9 +370,33 @@
       "type": "file"
     },
     {
+      "path": "",
+      "accessCount": 4,
+      "lastAccessed": 1771625877163,
+      "type": "directory"
+    },
+    {
       "path": "lib/features/viewer/fractal_viewer_screen.dart",
       "accessCount": 3,
       "lastAccessed": 1771603417964,
+      "type": "file"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "accessCount": 3,
+      "lastAccessed": 1771615776066,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/ar/ar_overlay_screen.dart",
+      "accessCount": 3,
+      "lastAccessed": 1771628179162,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/viewer/viewer_interactions.dart",
+      "accessCount": 3,
+      "lastAccessed": 1771628220876,
       "type": "file"
     },
     {
@@ -394,12 +418,6 @@
       "type": "file"
     },
     {
-      "path": "",
-      "accessCount": 2,
-      "lastAccessed": 1771603414317,
-      "type": "directory"
-    },
-    {
       "path": "lib/features/viewer/viewer_hud.dart",
       "accessCount": 2,
       "lastAccessed": 1771603437686,
@@ -418,21 +436,33 @@
       "type": "file"
     },
     {
-      "path": "lib/features/ar/ar_overlay_screen.dart",
-      "accessCount": 2,
-      "lastAccessed": 1771615655048,
-      "type": "file"
-    },
-    {
-      "path": "android/app/src/main/AndroidManifest.xml",
-      "accessCount": 2,
-      "lastAccessed": 1771615663286,
-      "type": "file"
-    },
-    {
       "path": "pubspec.yaml",
-      "accessCount": 1,
-      "lastAccessed": 1771603142849,
+      "accessCount": 2,
+      "lastAccessed": 1771619382361,
+      "type": "file"
+    },
+    {
+      "path": "store-listing/short_description.txt",
+      "accessCount": 2,
+      "lastAccessed": 1771625938238,
+      "type": "file"
+    },
+    {
+      "path": "store-listing/full_description.txt",
+      "accessCount": 2,
+      "lastAccessed": 1771625946756,
+      "type": "file"
+    },
+    {
+      "path": "store_listing/full_description.txt",
+      "accessCount": 2,
+      "lastAccessed": 1771625961417,
+      "type": "file"
+    },
+    {
+      "path": "store_listing/short_description.txt",
+      "accessCount": 2,
+      "lastAccessed": 1771625973729,
       "type": "file"
     },
     {
@@ -506,6 +536,12 @@
       "accessCount": 1,
       "lastAccessed": 1771603480745,
       "type": "file"
+    },
+    {
+      "path": "lib",
+      "accessCount": 1,
+      "lastAccessed": 1771628210220,
+      "type": "directory"
     }
   ],
   "userDirectives": []

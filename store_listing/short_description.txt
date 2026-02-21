@@ -1,1 +1,1 @@
-Explore, render, and navigate stunning fractals with smooth touch gestures.
+Place fractals in AR. Explore 20+ types with deep zoom & GPU rendering.
