@@ -151,6 +151,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
             debug: false,
           ),
 
+          // -- Safety banner (always visible) --
+          _buildSafetyBanner(context),
+
           // -- Scanning reticle (center, fades out once plane found) --
           if (!_planeDetected) _buildScanningReticle(),
 
@@ -166,6 +169,41 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
           // -- Node removal confirmation chip --
           if (_pendingRemoveNode != null) _buildRemoveConfirmationChip(context),
         ],
+      ),
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Safety banner
+  // -----------------------------------------------------------------------
+
+  Widget _buildSafetyBanner(BuildContext context) {
+    return Positioned(
+      top: MediaQuery.of(context).padding.top + 56,
+      left: 12,
+      right: 12,
+      child: IgnorePointer(
+        child: _GlassContainer(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Row(
+            children: const [
+              Icon(Icons.warning_amber_rounded, color: _cyanAccent, size: 16),
+              SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'AR Safety: Parental supervision recommended. Be aware of your surroundings.',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

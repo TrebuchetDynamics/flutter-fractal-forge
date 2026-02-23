@@ -119,6 +119,45 @@ bool _viewerShouldUseTransparentBackgroundInAr(FractalModule module) {
   return paramIds.contains('iterations') && paramIds.contains('bailout');
 }
 
+Future<bool> _viewerConfirmArSafety(
+  _FractalViewerScreenState state,
+  BuildContext context,
+) async {
+  final l10n = AppLocalizations.of(context)!;
+  final prefs = await SharedPreferences.getInstance();
+  const prefsKey = 'ar_safety_warning_ack_v1';
+  if (prefs.getBool(prefsKey) == true) {
+    return true;
+  }
+
+  final accepted = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (dialogContext) {
+          return AlertDialog(
+            title: Text(l10n.arSafetyWarningTitle),
+            content: Text(l10n.arSafetyWarningBody),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(false),
+                child: Text(l10n.actionClose),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(dialogContext).pop(true),
+                child: Text(l10n.arSafetyContinue),
+              ),
+            ],
+          );
+        },
+      ) ??
+      false;
+
+  if (accepted) {
+    await prefs.setBool(prefsKey, true);
+  }
+  return accepted;
+}
+
 Future<void> _viewerOpenArOverlay(
   _FractalViewerScreenState state,
   BuildContext context,
@@ -140,6 +179,11 @@ Future<void> _viewerOpenArOverlay(
         ),
       ),
     );
+  }
+
+  final confirmed = await state._confirmArSafety(context);
+  if (!confirmed) {
+    return;
   }
 
   if (!Platform.isAndroid) {

@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -312,6 +313,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   Future<void> _openArOverlay(BuildContext context) =>
       _viewerOpenArOverlay(this, context);
+
+  Future<bool> _confirmArSafety(BuildContext context) =>
+      _viewerConfirmArSafety(this, context);
 
   Future<void> _openViewerQuickActions(BuildContext context) =>
       _viewerOpenViewerQuickActions(this, context);

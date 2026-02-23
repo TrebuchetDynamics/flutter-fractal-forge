@@ -710,6 +710,24 @@ abstract class AppLocalizations {
   /// **'Make sure another app isn’t using the camera, then try again.'**
   String get arCameraUnavailableHelp;
 
+  /// No description provided for @arSafetyWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AR Safety Warning'**
+  String get arSafetyWarningTitle;
+
+  /// No description provided for @arSafetyWarningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'• Parental supervision is recommended when children use AR.\n• Be aware of your surroundings and keep a safe distance from objects.\n• No headset or wearable device is required.'**
+  String get arSafetyWarningBody;
+
+  /// No description provided for @arSafetyContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get arSafetyContinue;
+
   /// No description provided for @arOverlayOnlyExport.
   ///
   /// In en, this message translates to:

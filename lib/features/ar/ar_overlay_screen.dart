@@ -995,6 +995,33 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
 
   Future<void> _switchToArCore() async {
     final controller = context.read<FractalController>();
+    final l10n = AppLocalizations.of(context)!;
+
+    final confirmed = await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (dialogContext) {
+            return AlertDialog(
+              title: Text(l10n.arSafetyWarningTitle),
+              content: Text(l10n.arSafetyWarningBody),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(false),
+                  child: Text(l10n.actionClose),
+                ),
+                FilledButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(true),
+                  child: Text(l10n.arSafetyContinue),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
+
+    if (!confirmed) {
+      return;
+    }
 
     // Check ARCore availability
     final supported = await ArCoreAnchorScreen.isSupportedOnDevice();

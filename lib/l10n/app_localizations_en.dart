@@ -326,6 +326,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Make sure another app isn’t using the camera, then try again.';
 
   @override
+  String get arSafetyWarningTitle => 'AR Safety Warning';
+
+  @override
+  String get arSafetyWarningBody =>
+      '• Parental supervision is recommended when children use AR.\n• Be aware of your surroundings and keep a safe distance from objects.\n• No headset or wearable device is required.';
+
+  @override
+  String get arSafetyContinue => 'Continue';
+
+  @override
   String get arOverlayOnlyExport => 'Overlay-only PNG';
 
   @override

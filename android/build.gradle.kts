@@ -86,6 +86,15 @@ subprojects {
     }
 }
 
+// Force compileSdk for legacy plugins so newer Android attrs (e.g. lStar) resolve.
+subprojects {
+    plugins.withId("com.android.library") {
+        extensions.configure<com.android.build.gradle.LibraryExtension>("android") {
+            compileSdk = 36
+        }
+    }
+}
+
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }

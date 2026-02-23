@@ -16,6 +16,9 @@ analyzer:
     # Flutter/Dart deprecations are tracked separately; don't block analysis.
     deprecated_member_use: ignore
 
+  exclude:
+    - third_party/**
+
 linter:
   rules:
     # Keep these disabled to avoid style churn.
