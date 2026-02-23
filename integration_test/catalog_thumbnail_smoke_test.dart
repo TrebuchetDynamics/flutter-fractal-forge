@@ -1,4 +1,4 @@
-/// Smoke test: Verify catalog thumbnails load (not gradient fallbacks).
+/// Smoke test: verify catalog thumbnails load from assets in integration mode.
 library;
 
 import 'package:flutter/material.dart';
@@ -6,56 +6,47 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_fractals/core/services/onboarding_service.dart';
-import 'package:flutter_fractals/main.dart' as app;
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/ar_quality_store.dart';
+import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/main.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('Catalog thumbnails load', (tester) async {
-    SharedPreferences.setMockInitialValues({
-      'onboarding_complete': true,
-      'onboarding_version': OnboardingService.currentVersion,
-    });
+    SharedPreferences.setMockInitialValues({});
+    final presetStore = await PresetStore.create();
+    final arQualityStore = await ArQualityStore.create();
+    final accessibilityService = await AccessibilityService.create();
+    final rendererSettingsService = await RendererSettingsService.create();
 
-    app.main();
-    await tester.pumpAndSettle();
-    await tester.pumpAndSettle();
-    await tester.pumpAndSettle();
+    await tester.pumpWidget(
+      FlutterFractalsApp(
+        presetStore: presetStore,
+        arQualityStore: arQualityStore,
+        accessibilityService: accessibilityService,
+        rendererSettingsService: rendererSettingsService,
+        locale: const Locale('en'),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 3));
 
-    // Navigate to catalog
-    final catalogButton = find.byIcon(Icons.grid_view);
-    expect(catalogButton, findsOneWidget);
-    await tester.tap(catalogButton);
-    await tester.pumpAndSettle();
+    // App now starts directly on catalog; verify catalog UI is present.
+    expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
 
-    // Check that catalog screen loaded
-    expect(find.text('ESCAPE-TIME'), findsOneWidget);
-
-    // Look for AssetImage widgets (thumbnails)
-    // Gradient fallbacks use LinearGradient, not AssetImage
     final assetImages = find.byWidgetPredicate(
       (widget) =>
           widget is Image &&
           widget.image is AssetImage &&
-          (widget.image as AssetImage)
-              .assetName
-              .contains('catalog_thumbs/'),
-    );
-
-    final fallbacks = find.byWidgetPredicate(
-      (widget) =>
-          widget is Container &&
-          widget.decoration != null &&
-          widget.decoration is BoxDecoration &&
-          (widget.decoration as BoxDecoration).gradient != null,
+          (widget.image as AssetImage).assetName.contains('catalog_thumbs/'),
     );
 
     debugPrint('Asset thumbnails found: ${assetImages.evaluate().length}');
-    debugPrint('Gradient fallbacks found: ${fallbacks.evaluate().length}');
 
-    // At least 10 real thumbnails should load (catalog has 197 entries)
-    expect(assetImages.evaluate().length, greaterThan(10),
-        reason: 'Expected asset thumbnails to load, not gradient fallbacks');
+    // Ensure real thumbnail assets are being used (not just placeholders).
+    expect(assetImages.evaluate().length, greaterThan(10));
   });
 }

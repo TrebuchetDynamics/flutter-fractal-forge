@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
@@ -32,13 +33,28 @@ class ArCoreAnchorScreen extends StatefulWidget {
 
   /// Returns `true` when the device reports ARCore compatibility.
   ///
-  /// Does NOT call `checkIsArCoreInstalled()` which triggers an install/update
-  /// prompt from a non-AR context in this legacy plugin. We only gate by
-  /// compatibility and let [ArCoreView] handle service flow.
+  /// This checks capability only. Installation readiness is handled separately
+  /// by [isInstalledOnDevice].
   static Future<bool> isSupportedOnDevice() async {
     try {
       final available = await ArCoreController.checkArCoreAvailability();
       return available == true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Returns `true` when ARCore services are already installed and ready.
+  ///
+  /// We intentionally avoid ARCore install flows that depend on a Play Store
+  /// handler because those can crash on emulator/device profiles without one.
+  static Future<bool> isInstalledOnDevice() async {
+    if (!Platform.isAndroid) {
+      return false;
+    }
+    try {
+      final installed = await ArCoreController.checkIsArCoreInstalled();
+      return installed == true;
     } catch (_) {
       return false;
     }
@@ -61,7 +77,8 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   bool _planeDetected = false;
   bool _isPlacing = false;
   bool _planeRendererVisible = true;
-  int _planeCount = 0;
+  bool _panelExpanded = false;
+  bool _showScanTips = false;
 
   // -- Size slider (meters) --
   double _placementSize = 0.45;
@@ -73,6 +90,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
 
   // -- Pulsing dot animation for scanning status --
   late final AnimationController _pulseController;
+
+  // -- Scan tips timer --
+  Timer? _scanTipsTimer;
 
   // -- Node removal confirmation --
   String? _pendingRemoveNode;
@@ -92,10 +112,17 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     )..repeat(reverse: true);
+
+    _scanTipsTimer = Timer(const Duration(seconds: 10), () {
+      if (mounted && !_planeDetected) {
+        setState(() => _showScanTips = true);
+      }
+    });
   }
 
   @override
   void dispose() {
+    _scanTipsTimer?.cancel();
     _reticleController.dispose();
     _pulseController.dispose();
     _controller?.dispose();
@@ -127,6 +154,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
           // -- Scanning reticle (center, fades out once plane found) --
           if (!_planeDetected) _buildScanningReticle(),
 
+          // -- Scan tips card (appears after 10 s with no plane) --
+          if (_showScanTips) _buildScanTips(),
+
           // -- Top status bar --
           _buildTopBar(context),
 
@@ -134,8 +164,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
           _buildBottomPanel(context, displayName),
 
           // -- Node removal confirmation chip --
-          if (_pendingRemoveNode != null)
-            _buildRemoveConfirmationChip(context),
+          if (_pendingRemoveNode != null) _buildRemoveConfirmationChip(context),
         ],
       ),
     );
@@ -255,13 +284,81 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       case _StatusState.scanning:
         return 'Scanning for surfaces...';
       case _StatusState.ready:
-        final plural = _planeCount == 1 ? '' : 's';
-        return 'Tap a surface to place \u00B7 $_planeCount plane$plural found';
+        return 'Surface detected \u00B7 Tap on a highlighted area to place';
       case _StatusState.placed:
         final n = _placedNodeNames.length;
         final plural = n == 1 ? '' : 's';
         return '$n fractal$plural placed \u00B7 Tap to add more';
     }
+  }
+
+  // -----------------------------------------------------------------------
+  // Scan tips card (shown after 10 s without plane detection)
+  // -----------------------------------------------------------------------
+
+  Widget _buildScanTips() {
+    return Positioned(
+      left: 24,
+      right: 24,
+      bottom: 100,
+      child: _GlassContainer(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.tips_and_updates_rounded,
+                    color: _cyanAccent, size: 16),
+                const SizedBox(width: 8),
+                const Expanded(
+                  child: Text(
+                    'Having trouble detecting a surface?',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => setState(() => _showScanTips = false),
+                  child: const Icon(Icons.close_rounded,
+                      color: Colors.white54, size: 18),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            ...[
+              'Point at a textured surface (table, floor, carpet)',
+              'Move the camera slowly — avoid fast sweeping',
+              'Ensure good lighting (avoid very dark rooms)',
+              'Plain white walls and glass surfaces are hard to detect',
+            ].map(
+              (tip) => Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('• ',
+                        style:
+                            TextStyle(color: _cyanAccent, fontSize: 12)),
+                    Expanded(
+                      child: Text(
+                        tip,
+                        style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.8),
+                            fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // -----------------------------------------------------------------------
@@ -304,103 +401,198 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       bottom: 0,
       child: SafeArea(
         top: false,
-        child: _GlassContainer(
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Row 1: Fractal name
-              Row(
-                children: [
-                  const Icon(
-                    Icons.auto_awesome,
-                    color: _cyanAccent,
-                    size: 18,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      displayName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
+        child: AnimatedCrossFade(
+          duration: const Duration(milliseconds: 220),
+          crossFadeState: _panelExpanded
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
+          // -- Collapsed: minimal floating icon bar --
+          firstChild: Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Center(
+              child: _GlassContainer(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      tooltip: 'More options',
+                      onPressed: () =>
+                          setState(() => _panelExpanded = true),
+                      icon: const Icon(Icons.expand_less_rounded,
+                          color: Colors.white70, size: 20),
+                      visualDensity: VisualDensity.compact,
                     ),
-                  ),
-                ],
+                    const _VerticalDivider(),
+                    IconButton(
+                      tooltip: 'Share',
+                      onPressed: _shareFractal,
+                      icon: const Icon(Icons.share_rounded,
+                          color: _cyanAccent, size: 20),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    IconButton(
+                      tooltip: 'Save',
+                      onPressed: _saveFractal,
+                      icon: const Icon(Icons.save_alt_rounded,
+                          color: _cyanAccent, size: 20),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    IconButton(
+                      tooltip: 'Clear all',
+                      onPressed:
+                          _placedNodeNames.isEmpty ? null : _clearAllNodes,
+                      icon: Icon(Icons.delete_sweep_rounded,
+                          color: _placedNodeNames.isEmpty
+                              ? Colors.white24
+                              : _cyanAccent,
+                          size: 20),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    IconButton(
+                      tooltip: 'Re-scan',
+                      onPressed: () async {
+                        await _setPlaneRendererVisible(true);
+                      },
+                      icon: const Icon(Icons.refresh_rounded,
+                          color: _cyanAccent, size: 20),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 12),
-
-              // Row 2: Size slider
-              Row(
-                children: [
-                  Text(
-                    'Size: ${_placementSize.toStringAsFixed(2)}m',
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.85),
-                      fontSize: 13,
+            ),
+          ),
+          // -- Expanded: full panel with collapse handle --
+          secondChild: _GlassContainer(
+            padding: const EdgeInsets.fromLTRB(16, 6, 16, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Collapse handle
+                Center(
+                  child: GestureDetector(
+                    onTap: () => setState(() => _panelExpanded = false),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Icon(Icons.expand_more_rounded,
+                          color: Colors.white38, size: 22),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: SliderTheme(
-                      data: SliderThemeData(
-                        activeTrackColor: _cyanAccent,
-                        inactiveTrackColor:
-                            Colors.white.withValues(alpha: 0.15),
-                        thumbColor: _cyanAccent,
-                        overlayColor: _cyanAccent.withValues(alpha: 0.2),
-                        trackHeight: 3,
-                        thumbShape: const RoundSliderThumbShape(
-                          enabledThumbRadius: 7,
+                ),
+
+                // Row 1: Fractal name
+                Row(
+                  children: [
+                    const Icon(Icons.auto_awesome,
+                        color: _cyanAccent, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        displayName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
                         ),
                       ),
-                      child: Slider(
-                        value: _placementSize,
-                        min: _minSize,
-                        max: _maxSize,
-                        onChanged: (v) => setState(() => _placementSize = v),
-                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
+                  ],
+                ),
+                const SizedBox(height: 12),
 
-              // Row 3: Action buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _ActionButton(
-                    icon: Icons.share_rounded,
-                    label: 'Share',
-                    onPressed: _shareFractal,
+                // Row 2: Scanning hint OR size slider
+                AnimatedCrossFade(
+                  duration: const Duration(milliseconds: 400),
+                  crossFadeState: _planeDetected
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
+                  firstChild: Row(
+                    children: [
+                      Icon(Icons.info_outline_rounded,
+                          color: _cyanAccent.withValues(alpha: 0.85),
+                          size: 16),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Move the camera slowly over a flat surface to detect it',
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.75),
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  _ActionButton(
-                    icon: Icons.save_alt_rounded,
-                    label: 'Save',
-                    onPressed: _saveFractal,
+                  secondChild: Row(
+                    children: [
+                      Text(
+                        'Size: ${_placementSize.toStringAsFixed(2)}m',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.85),
+                          fontSize: 13,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: SliderTheme(
+                          data: SliderThemeData(
+                            activeTrackColor: _cyanAccent,
+                            inactiveTrackColor:
+                                Colors.white.withValues(alpha: 0.15),
+                            thumbColor: _cyanAccent,
+                            overlayColor:
+                                _cyanAccent.withValues(alpha: 0.2),
+                            trackHeight: 3,
+                            thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 7),
+                          ),
+                          child: Slider(
+                            value: _placementSize,
+                            min: _minSize,
+                            max: _maxSize,
+                            onChanged: (v) =>
+                                setState(() => _placementSize = v),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  _ActionButton(
-                    icon: Icons.delete_sweep_rounded,
-                    label: 'Clear',
-                    onPressed:
-                        _placedNodeNames.isEmpty ? null : _clearAllNodes,
-                  ),
-                  _ActionButton(
-                    icon: Icons.refresh_rounded,
-                    label: 'Re-scan',
-                    onPressed: () async {
-                      await _setPlaneRendererVisible(true);
-                    },
-                  ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 10),
+
+                // Row 3: Action buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _ActionButton(
+                        icon: Icons.share_rounded,
+                        label: 'Share',
+                        onPressed: _shareFractal),
+                    _ActionButton(
+                        icon: Icons.save_alt_rounded,
+                        label: 'Save',
+                        onPressed: _saveFractal),
+                    _ActionButton(
+                        icon: Icons.delete_sweep_rounded,
+                        label: 'Clear',
+                        onPressed: _placedNodeNames.isEmpty
+                            ? null
+                            : _clearAllNodes),
+                    _ActionButton(
+                        icon: Icons.refresh_rounded,
+                        label: 'Re-scan',
+                        onPressed: () async {
+                          await _setPlaneRendererVisible(true);
+                        }),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -493,9 +685,10 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
     _controller = controller;
     controller.onPlaneDetected = (plane) {
       if (!mounted) return;
+      _scanTipsTimer?.cancel();
       setState(() {
-        _planeCount++;
         _planeDetected = true;
+        _showScanTips = false;
       });
     };
     controller.onPlaneTap = _onPlaneTap;
@@ -514,7 +707,23 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   }
 
   Future<void> _onPlaneTap(List<ArCoreHitTestResult> hits) async {
-    if (_isPlacing || hits.isEmpty) return;
+    if (_isPlacing) return;
+    if (hits.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
+            const SnackBar(
+              content: Text(
+                'No surface hit \u2014 tap directly on a highlighted (blue) area',
+              ),
+              duration: Duration(milliseconds: 2000),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+      }
+      return;
+    }
 
     // Prefer the closest hit to reduce accidental distant placement.
     final hit = hits.reduce((a, b) => a.distance <= b.distance ? a : b);
@@ -689,6 +898,20 @@ enum _StatusState { scanning, ready, placed }
 // ---------------------------------------------------------------------------
 // Glass-morphism container
 // ---------------------------------------------------------------------------
+
+class _VerticalDivider extends StatelessWidget {
+  const _VerticalDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1,
+      height: 20,
+      color: Colors.white.withValues(alpha: 0.15),
+      margin: const EdgeInsets.symmetric(horizontal: 2),
+    );
+  }
+}
 
 class _GlassContainer extends StatelessWidget {
   final Widget child;

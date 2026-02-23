@@ -110,19 +110,29 @@ class RendererBackendPolicy {
       );
     }
 
+    if (input.dimension != FractalDimension.twoD) {
+      // 3D modules (e.g. Mandelbulb/Mandelbox) currently rely on GPU shader
+      // rendering. Forcing CPU here only produces a disabled placeholder pane.
+      // Keep these modules on GPU by default.
+      if (input.userMode == RendererBackendMode.cpuOnly) {
+        return const BackendDecision(
+          backend: RendererBackend.gpu,
+          reasonCode: FallbackReasonCode.moduleUnsupported,
+          detail: 'cpu_only_ignored_for_3d_gpu_required',
+        );
+      }
+      return const BackendDecision(
+        backend: RendererBackend.gpu,
+        reasonCode: FallbackReasonCode.none,
+        detail: '3d_gpu_path',
+      );
+    }
+
     if (input.userMode == RendererBackendMode.cpuOnly) {
       return const BackendDecision(
         backend: RendererBackend.cpu,
         reasonCode: FallbackReasonCode.manualToggle,
         detail: 'cpu_only',
-      );
-    }
-
-    if (input.dimension != FractalDimension.twoD) {
-      return const BackendDecision(
-        backend: RendererBackend.cpu,
-        reasonCode: FallbackReasonCode.moduleUnsupported,
-        detail: 'cpu_path_only_for_unsupported_gpu_module',
       );
     }
 

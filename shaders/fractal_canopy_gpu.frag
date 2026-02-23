@@ -62,20 +62,28 @@ void main() {
   vec2 p = uv / max(0.000001, uZoom) + uCenter;
   p *= 2.8;
 
+  // Cheap viewport reject to keep GPU cost stable on mobile.
+  if (abs(p.x) > 2.2 || p.y < -1.4 || p.y > 2.4) {
+    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    return;
+  }
+
   int target = int(clamp(uIterations, 8.0, float(MAX_ITERS)));
-  int depthMax = int(clamp(float(target) * 0.10 + 5.0, 5.0, 11.0));
+  // Hard cap recursion depth to avoid exponential explosion on device GPUs.
+  int depthMax = int(clamp(float(target) * 0.08 + 4.0, 4.0, 8.0));
   float branchAngle = mix(0.32, 0.78, clamp((uBailout - 2.0) / 6.0, 0.0, 1.0));
 
   float trap = 1e9;
   float colorAcc = 0.0;
 
   int branchCount = 1;
-  for (int i = 0; i < 11; i++) {
+  for (int i = 0; i < 8; i++) {
     if (i >= depthMax) break;
     branchCount *= 2;
   }
 
-  const int MAX_BRANCHES = 2048;
+  const int MAX_BRANCHES = 256;
+  branchCount = min(branchCount, MAX_BRANCHES);
   for (int i = 0; i < MAX_BRANCHES; i++) {
     if (i >= branchCount) break;
 
@@ -84,7 +92,7 @@ void main() {
     float len = 0.75;
     float idx = float(i);
 
-    for (int d = 0; d < 11; d++) {
+    for (int d = 0; d < 8; d++) {
       if (d >= depthMax) break;
 
       vec2 dir = vec2(cos(ang), sin(ang));

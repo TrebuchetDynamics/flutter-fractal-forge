@@ -304,12 +304,23 @@ class FractalController extends ChangeNotifier {
         'stateChange', 'randomize', 'Randomized params for ${_module.id}');
   }
 
+  double _moduleMinZoom(String moduleId) {
+    switch (moduleId) {
+      case 'cantor_set':
+        // Prevent ultra-zoomed-out aliasing that appears as black vertical bands.
+        return 0.2;
+      default:
+        return 1e-9;
+    }
+  }
+
   /// Updates the zoom level.
   ///
-  /// The [zoom] value is clamped to range [1e-9, 1e12] to support
+  /// The [zoom] value is clamped to range [moduleMinZoom, 1e12] to support
   /// deep-zoom exploration before precision fallback kicks in.
   void updateZoom(double zoom) {
-    final clampedZoom = zoom.clamp(1e-9, 1e12).toDouble();
+    final minZoom = _moduleMinZoom(_module.id);
+    final clampedZoom = zoom.clamp(minZoom, 1e12).toDouble();
     final zoomingIn = clampedZoom > (_lastAdaptiveZoom * _adaptiveZoomEpsilon);
     _view = _view.copyWith(zoom: clampedZoom);
     _lastAdaptiveZoom = clampedZoom;

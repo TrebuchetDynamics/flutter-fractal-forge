@@ -51,11 +51,13 @@ void main() {
       expect(options.transparentBackground, isFalse);
     });
 
-    test('calculatePixelRatio returns correct ratio for preset resolutions', () {
+    test('calculatePixelRatio returns correct ratio for preset resolutions',
+        () {
       const options = ExportOptions(resolution: ExportResolution.fullHd);
-      // Screen 400x800 -> need ratio 1920/400 = 4.8
+      // Portrait screen 400x800 -> Full HD adapts to 1080x1920.
+      // Ratios: 1080/400 = 2.7, 1920/800 = 2.4 -> max = 2.7
       final ratio = options.calculatePixelRatio(400, 800);
-      expect(ratio, closeTo(4.8, 0.1));
+      expect(ratio, closeTo(2.7, 0.1));
     });
 
     test('calculatePixelRatio is clamped to 8.0 max', () {
@@ -69,6 +71,13 @@ void main() {
       const options = ExportOptions(resolution: ExportResolution.instagram);
       final dims = options.getTargetDimensions(400, 800);
       expect(dims, (1080, 1080));
+    });
+
+    test('getTargetDimensions adapts preset orientation to screen orientation',
+        () {
+      const options = ExportOptions(resolution: ExportResolution.fullHd);
+      final dims = options.getTargetDimensions(400, 800);
+      expect(dims, (1080, 1920));
     });
 
     test('custom resolution uses customWidth and customHeight', () {
@@ -87,7 +96,7 @@ void main() {
         format: ExportFormat.jpg,
         quality: 80,
       );
-      
+
       expect(updated.format, ExportFormat.jpg);
       expect(updated.quality, 80);
       expect(updated.resolution, original.resolution); // Unchanged
@@ -101,7 +110,7 @@ void main() {
         parameters: const {'iterations': 100},
         createdAt: DateTime(2024, 1, 15),
       );
-      
+
       final exif = metadata.toExifMap();
       expect(exif, containsPair('Software', contains('Flutter Fractals')));
       expect(exif, containsPair('Artist', 'Flutter Fractals'));

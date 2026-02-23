@@ -1,14 +1,16 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 
 class ExportService {
+  static const MethodChannel _mediaStoreChannel =
+      MethodChannel('fractalforge/media_store');
   const ExportService();
 
   /// Returns the actual format we can encode today.
@@ -308,11 +310,55 @@ class ExportService {
 
   Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
     final file = await createExportFile(filename: filename);
-    return file.writeAsBytes(bytes, flush: true);
+    final written = await file.writeAsBytes(bytes, flush: true);
+    await _mirrorImageToMediaStoreIfNeeded(bytes, filename);
+    return written;
   }
 
   Future<void> shareFile(File file, {String? text}) async {
     await Share.shareXFiles([XFile(file.path)], text: text);
+  }
+
+  bool _isImageFilename(String filename) {
+    final lower = filename.toLowerCase();
+    return lower.endsWith('.png') ||
+        lower.endsWith('.jpg') ||
+        lower.endsWith('.jpeg') ||
+        lower.endsWith('.gif') ||
+        lower.endsWith('.webp');
+  }
+
+  String _mimeTypeForFilename(String filename) {
+    final lower = filename.toLowerCase();
+    if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) {
+      return 'image/jpeg';
+    }
+    if (lower.endsWith('.webp')) {
+      return 'image/webp';
+    }
+    if (lower.endsWith('.gif')) {
+      return 'image/gif';
+    }
+    return 'image/png';
+  }
+
+  Future<void> _mirrorImageToMediaStoreIfNeeded(
+    Uint8List bytes,
+    String filename,
+  ) async {
+    if (!Platform.isAndroid || !_isImageFilename(filename)) {
+      return;
+    }
+
+    try {
+      await _mediaStoreChannel.invokeMethod<String>('saveImage', {
+        'bytes': bytes,
+        'filename': filename,
+        'mimeType': _mimeTypeForFilename(filename),
+      });
+    } catch (_) {
+      // Best-effort only: keep local export path working even if MediaStore fails.
+    }
   }
 
   /// Export with full options and sharing

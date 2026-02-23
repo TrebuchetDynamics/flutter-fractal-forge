@@ -8,6 +8,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:image/image.dart' as img;
@@ -39,16 +40,24 @@ void main() {
     final accessibilityService = await AccessibilityService.create();
     final registry = ModuleRegistry();
 
-    // Write to app's external files directory on device, then pull via adb
-    final extDir = Directory('/sdcard/Download/catalog_thumbs');
-    if (!extDir.existsSync()) extDir.createSync(recursive: true);
-    final outDir = extDir;
-
     int generated = 0;
     int failed = 0;
 
     // Required for takeScreenshot on Android
-    await binding.convertFlutterSurfaceToImage();
+    try {
+      await binding.convertFlutterSurfaceToImage();
+    } on MissingPluginException {
+      debugPrint(
+        'Screenshot plugin unavailable; skipping GPU thumbnail generation',
+      );
+      return;
+    }
+
+    // Android writes to external storage for adb pull; desktop writes locally.
+    final outDir = Platform.isAndroid
+        ? Directory('/sdcard/Download/catalog_thumbs')
+        : Directory('build/test_output/catalog_thumbs');
+    if (!outDir.existsSync()) outDir.createSync(recursive: true);
 
     for (final config in escapeTimeCatalog) {
       try {
@@ -59,7 +68,7 @@ void main() {
 
         final controller = FractalController(registry);
         controller.selectModule(module);
-        
+
         // Zoom to show fractal features - 5.0 shows edge detail without going into black interior
         controller.updateZoom(5.0);
 
@@ -97,7 +106,8 @@ void main() {
           File('${outDir.path}/${config.id}.png')
               .writeAsBytesSync(img.encodePng(thumb));
           generated++;
-          if (generated % 20 == 0) debugPrint('  Progress: $generated/${escapeTimeCatalog.length}');
+          if (generated % 20 == 0)
+            debugPrint('  Progress: $generated/${escapeTimeCatalog.length}');
         } else {
           debugPrint('  FAIL ${config.id}: decode failed');
           failed++;
@@ -105,12 +115,20 @@ void main() {
 
         controller.dispose();
       } catch (e) {
+        if (e is MissingPluginException) {
+          debugPrint(
+            'Screenshot plugin unavailable during capture; '
+            'skipping GPU thumbnail generation',
+          );
+          return;
+        }
         debugPrint('  ERROR ${config.id}: $e');
         failed++;
       }
     }
 
     debugPrint('\n=== GPU Thumbnail Generation ===');
-    debugPrint('Generated: $generated / Failed: $failed / Total: ${escapeTimeCatalog.length}');
+    debugPrint(
+        'Generated: $generated / Failed: $failed / Total: ${escapeTimeCatalog.length}');
   });
 }

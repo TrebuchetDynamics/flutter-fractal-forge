@@ -225,6 +225,12 @@ void main() {
       expect(opts.getTargetDimensions(400, 300), (1920, 1080));
     });
 
+    test('getTargetDimensions adapts preset dimensions for portrait screens',
+        () {
+      const opts = ExportOptions(resolution: ExportResolution.fullHd);
+      expect(opts.getTargetDimensions(400, 800), (1080, 1920));
+    });
+
     test('getTargetDimensions returns screen size for screen resolution', () {
       const opts = ExportOptions(resolution: ExportResolution.screen);
       expect(opts.getTargetDimensions(412.5, 892.0), (413, 892));

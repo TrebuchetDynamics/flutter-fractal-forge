@@ -107,23 +107,23 @@ void main() {
       expect(find.byTooltip('Back'), findsOneWidget);
     });
 
-    testWidgets('bookmark button is present in app bar', (tester) async {
+    testWidgets('save location is available from more options', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byTooltip('Save location'), findsOneWidget);
+      await tester.tap(find.byTooltip('More options'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Save location'), findsOneWidget);
     });
 
-    testWidgets('random fractal FAB is present and switches module',
-        (tester) async {
+    testWidgets('random fractal action switches module', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      final randomFab = find.byIcon(Icons.shuffle_rounded);
-      expect(randomFab, findsOneWidget);
       expect(controller.module.id, equals('mandelbrot'));
 
-      await tester.tap(randomFab);
+      await tester.tap(find.byIcon(Icons.shuffle_rounded));
       await tester.pumpAndSettle();
 
       expect(controller.module.id, isNot(equals('mandelbrot')));
@@ -142,6 +142,33 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.camera_rounded), findsOneWidget);
+    });
+
+    testWidgets(
+        'fullscreen FAB collapses controls for unobtrusive fullscreen viewing',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byTooltip('Fullscreen view'), findsOneWidget);
+      expect(find.byTooltip('Back'), findsOneWidget);
+      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
+      expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
+
+      await tester.tap(find.byTooltip('Fullscreen view'));
+      await tester.pumpAndSettle();
+
+      expect(find.byTooltip('Exit fullscreen view'), findsOneWidget);
+      expect(find.byTooltip('Back'), findsNothing);
+      expect(find.byIcon(Icons.tune_rounded), findsNothing);
+      expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
+
+      await tester.tap(find.byTooltip('Exit fullscreen view'));
+      await tester.pumpAndSettle();
+
+      expect(find.byTooltip('Back'), findsOneWidget);
+      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
+      expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
     });
 
     testWidgets('AR launch falls back to overlay screen safely',
@@ -166,8 +193,10 @@ void main() {
       final before = await presetStore.loadUserPresets('mandelbrot');
       expect(before, isEmpty);
 
-      // Tap the bookmark button.
-      await tester.tap(find.byTooltip('Save location'));
+      // Open quick actions and tap Save location.
+      await tester.tap(find.byTooltip('More options'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Save location'));
       await tester.pumpAndSettle();
 
       // SnackBar should appear with bookmark_added icon.
@@ -260,7 +289,9 @@ void main() {
 
       expect(find.text('Julia'), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.undo_rounded));
+      await tester.tap(find.byTooltip('More options'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Back in view history'));
       await tester.pumpAndSettle();
 
       expect(find.text('Mandelbrot'), findsOneWidget);

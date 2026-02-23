@@ -61,6 +61,23 @@ void main() {
       expect(decision.reasonCode, FallbackReasonCode.gpuHealthCheckFailed);
       expect(decision.reasonToken, 'gpu_health_check_failed');
     });
+
+    test('keeps 3D modules on GPU in auto mode', () {
+      final decision = policy.decide(
+        const BackendPolicyInput(
+          isAndroid: true,
+          isWeb: false,
+          isEmulator: false,
+          userMode: RendererBackendMode.auto,
+          gpuHealthFailed: true,
+          deepZoomNeedsCpu: false,
+          dimension: FractalDimension.threeD,
+        ),
+      );
+
+      expect(decision.backend, RendererBackend.gpu);
+      expect(decision.reasonCode, FallbackReasonCode.none);
+    });
   });
 
   group('Render validation', () {

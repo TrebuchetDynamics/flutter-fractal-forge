@@ -141,7 +141,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
             level: LogLevel.error);
 
         // Report to crash reporter
-        CrashReporter.instance.record(
+        CrashReporter.instanceOrNull?.record(
           e,
           stack,
           source: 'shader_load',

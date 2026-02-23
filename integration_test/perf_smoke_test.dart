@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_fractals/main.dart' as app;
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/ar_quality_store.dart';
+import 'package:flutter_fractals/core/services/onboarding_service.dart';
+import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/main.dart';
 
 /// Basic desktop perf smoke test.
 ///
@@ -26,15 +32,38 @@ void main() {
       collector.start();
       addTearDown(collector.stop);
 
-      app.main();
+      SharedPreferences.setMockInitialValues({
+        'onboarding_complete': true,
+        'onboarding_version': OnboardingService.currentVersion,
+      });
+      final presetStore = await PresetStore.create();
+      final arQualityStore = await ArQualityStore.create();
+      final accessibilityService = await AccessibilityService.create();
+      final rendererSettingsService = await RendererSettingsService.create();
+
+      await tester.pumpWidget(
+        FlutterFractalsApp(
+          presetStore: presetStore,
+          arQualityStore: arQualityStore,
+          accessibilityService: accessibilityService,
+          rendererSettingsService: rendererSettingsService,
+          locale: const Locale('en'),
+        ),
+      );
       await tester.pump();
 
-      // Open the first module in the catalog.
-      // (List tiles are populated from ModuleRegistry.)
+      // Open the first module in the catalog (supports grid/list variants).
       await tester.pump(const Duration(milliseconds: 250));
-      final firstTile = find.byType(ListTile).first;
-      expect(firstTile, findsOneWidget);
-      await tester.tap(firstTile);
+      final firstModuleCard = find.byWidgetPredicate((w) {
+        final k = w.key;
+        if (k is! ValueKey) return false;
+        final v = k.value;
+        if (v is! String) return false;
+        return v.startsWith('catalogModuleCard_') ||
+            v.startsWith('catalogGridTile_');
+      }).first;
+      expect(firstModuleCard, findsOneWidget);
+      await tester.tap(firstModuleCard);
       await tester.pump();
 
       // Wait for shader load (progress indicator disappears) while continuing

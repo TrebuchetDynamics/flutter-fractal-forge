@@ -215,28 +215,29 @@ class _FractalRendererState extends State<FractalRenderer>
             ),
           ),
 
-        // Debug-only details.
+        // Debug-only details. Keep this compact so it does not look like a
+        // bottom band in debug builds.
         if (kDebugMode)
           Positioned(
             left: 12,
-            right: 12,
             bottom: 18,
             child: IgnorePointer(
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.amber.withOpacity(0.9),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.black54),
+                  color: Colors.black.withOpacity(0.72),
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(color: Colors.white24),
                 ),
                 child: Text(
-                  'Renderer: $mode | fallback: $fallbackActive',
-                  textAlign: TextAlign.center,
+                  fallbackActive
+                      ? 'Renderer: $mode (fallback)'
+                      : 'Renderer: $mode',
                   style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),

@@ -8,6 +8,7 @@ void main() {
 
   test('FractalController.resetSession resets params + view + transparency', () {
     final controller = FractalController(ModuleRegistry());
+    final initialIterations = controller.params['iterations'];
 
     // Mutate away from defaults.
     controller.updateParam('iterations', 500);
@@ -22,7 +23,7 @@ void main() {
     controller.resetSession();
 
     // Defaults for the initial module (mandelbrot).
-    expect(controller.params['iterations'], 120);
+    expect(controller.params['iterations'], initialIterations);
     expect(controller.view.zoom, 1.0);
     expect(controller.view.pan, Vector2.zero());
     expect(controller.transparentBackground, isFalse);

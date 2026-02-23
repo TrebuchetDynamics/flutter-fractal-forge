@@ -11,10 +11,13 @@ class FractalViewControls extends StatelessWidget {
   final AnimationController fabController;
   final AutoExploreService? autoExploreService;
   final bool isExporting;
+  final String backTooltip;
+  final VoidCallback onGoBack;
+  final VoidCallback onOpenMoreActions;
+  final VoidCallback onEnterFullscreen;
   final VoidCallback onOpenAutoExploreSettings;
-  final VoidCallback onOpenControls;
-  final VoidCallback onOpenPresets;
   final VoidCallback onOpenRandomFractal;
+  final VoidCallback onOpenControls;
   final VoidCallback onOpenArViewer;
   final VoidCallback onOpenExport;
 
@@ -23,10 +26,13 @@ class FractalViewControls extends StatelessWidget {
     required this.fabController,
     this.autoExploreService,
     required this.isExporting,
+    required this.backTooltip,
+    required this.onGoBack,
+    required this.onOpenMoreActions,
+    required this.onEnterFullscreen,
     required this.onOpenAutoExploreSettings,
-    required this.onOpenControls,
-    required this.onOpenPresets,
     required this.onOpenRandomFractal,
+    required this.onOpenControls,
     required this.onOpenArViewer,
     required this.onOpenExport,
   });
@@ -34,6 +40,8 @@ class FractalViewControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return FadeTransition(
       opacity: fabController,
@@ -45,57 +53,78 @@ class FractalViewControls extends StatelessWidget {
           parent: fabController,
           curve: AppAnimations.defaultCurve,
         )),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Auto-explore button
-            if (autoExploreService != null)
-              ChangeNotifierProvider<AutoExploreService>.value(
-                value: autoExploreService!,
-                child: AutoExploreButton(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: screenHeight * 0.85),
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButtonWidget(
+                  icon: Icons.arrow_back_rounded,
+                  tooltip: backTooltip,
+                  onPressed: isExporting ? null : onGoBack,
                   delay: const Duration(milliseconds: 0),
-                  onLongPress: isExporting ? null : onOpenAutoExploreSettings,
                 ),
-              ),
-            if (autoExploreService != null)
-              const SizedBox(height: AppSpacing.md),
-            // Keep the viewer uncluttered: only core actions here.
-            FloatingActionButtonWidget(
-              icon: Icons.tune_rounded,
-              tooltip: l10n.tooltipOpenControls,
-              onPressed: isExporting ? null : onOpenControls,
-              delay: const Duration(milliseconds: 50),
+                const SizedBox(height: AppSpacing.md),
+                FloatingActionButtonWidget(
+                  icon: Icons.more_horiz_rounded,
+                  tooltip: 'More options',
+                  onPressed: isExporting ? null : onOpenMoreActions,
+                  delay: const Duration(milliseconds: 30),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                FloatingActionButtonWidget(
+                  icon: Icons.fullscreen_rounded,
+                  tooltip: 'Fullscreen view',
+                  onPressed: isExporting ? null : onEnterFullscreen,
+                  delay: const Duration(milliseconds: 60),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                // Auto-explore button
+                if (autoExploreService != null)
+                  ChangeNotifierProvider<AutoExploreService>.value(
+                    value: autoExploreService!,
+                    child: AutoExploreButton(
+                      delay: const Duration(milliseconds: 90),
+                      onLongPress:
+                          isExporting ? null : onOpenAutoExploreSettings,
+                    ),
+                  ),
+                if (autoExploreService != null)
+                  const SizedBox(height: AppSpacing.md),
+                // Keep the viewer uncluttered: only core actions here.
+                FloatingActionButtonWidget(
+                  icon: Icons.tune_rounded,
+                  tooltip: l10n.tooltipOpenControls,
+                  onPressed: isExporting ? null : onOpenControls,
+                  delay: const Duration(milliseconds: 120),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                FloatingActionButtonWidget(
+                  icon: Icons.shuffle_rounded,
+                  tooltip: l10n.tooltipRandomFractal,
+                  onPressed: isExporting ? null : onOpenRandomFractal,
+                  isPrimary: true,
+                  delay: const Duration(milliseconds: 135),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                FloatingActionButtonWidget(
+                  icon: Icons.camera_rounded,
+                  tooltip: l10n.arTitle,
+                  onPressed: isExporting ? null : onOpenArViewer,
+                  delay: const Duration(milliseconds: 150),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                FloatingActionButtonWidget(
+                  icon: Icons.download_rounded,
+                  tooltip: l10n.tooltipExport,
+                  onPressed: isExporting ? null : onOpenExport,
+                  delay: const Duration(milliseconds: 180),
+                ),
+              ],
             ),
-            const SizedBox(height: AppSpacing.md),
-            FloatingActionButtonWidget(
-              icon: Icons.bookmark_rounded,
-              tooltip: l10n.tooltipOpenPresets,
-              onPressed: isExporting ? null : onOpenPresets,
-              delay: const Duration(milliseconds: 100),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            FloatingActionButtonWidget(
-              icon: Icons.shuffle_rounded,
-              tooltip: l10n.tooltipRandomFractal,
-              onPressed: isExporting ? null : onOpenRandomFractal,
-              delay: const Duration(milliseconds: 150),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            FloatingActionButtonWidget(
-              icon: Icons.camera_rounded,
-              tooltip: l10n.arTitle,
-              onPressed: isExporting ? null : onOpenArViewer,
-              delay: const Duration(milliseconds: 190),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            FloatingActionButtonWidget(
-              icon: Icons.download_rounded,
-              tooltip: l10n.tooltipExport,
-              onPressed: isExporting ? null : onOpenExport,
-              isPrimary: true,
-              delay: const Duration(milliseconds: 230),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -119,7 +148,8 @@ class FloatingActionButtonWidget extends StatefulWidget {
   });
 
   @override
-  State<FloatingActionButtonWidget> createState() => _FloatingActionButtonWidgetState();
+  State<FloatingActionButtonWidget> createState() =>
+      _FloatingActionButtonWidgetState();
 }
 
 class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>

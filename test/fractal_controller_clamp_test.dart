@@ -31,8 +31,13 @@ void main() {
 
     controller.applyPreset(badPreset);
 
-    expect(controller.params['iterations'], 5000);
-    expect(controller.params['bailout'], 8.0);
+    final iterationsParam =
+        controller.module.parameters.firstWhere((p) => p.id == 'iterations');
+    final bailoutParam =
+        controller.module.parameters.firstWhere((p) => p.id == 'bailout');
+
+    expect(controller.params['iterations'], iterationsParam.max.round());
+    expect(controller.params['bailout'], bailoutParam.max);
     // Enumeration invalid -> default for module.
     expect(controller.params['colorScheme'], 0);
   });

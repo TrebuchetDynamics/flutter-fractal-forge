@@ -107,6 +107,9 @@ void main() {
     await tester.pumpWidget(buildTestWidget(controller));
     await tester.pumpAndSettle();
 
+    final initialZoom = controller.view.zoom;
+    final initialPan = controller.view.pan.clone();
+
     final renderer = find.byType(FractalRenderer);
     final topLeft = tester.getTopLeft(renderer);
     final tapPoint = topLeft + const Offset(60, 60);
@@ -116,9 +119,9 @@ void main() {
     await tester.tapAt(tapPoint);
     await tester.pumpAndSettle();
 
-    expect(controller.view.zoom, greaterThan(1.0));
-    expect(controller.view.pan.x, lessThan(0.0));
-    expect(controller.view.pan.y, lessThan(0.0));
+    expect(controller.view.zoom, greaterThan(initialZoom));
+    expect(controller.view.pan.x, lessThan(initialPan.x));
+    expect(controller.view.pan.y, lessThan(initialPan.y));
   });
 
   testWidgets('Long-press shows context menu', (tester) async {
