@@ -88,8 +88,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   final WallpaperService _wallpaperService = const WallpaperService();
 
   // Compare mode state
-  bool _compareMode = false;
-  bool _compareSliderMode =
+  @override
+  final bool _compareMode = false;
+  final bool _compareSliderMode =
       false; // false: side-by-side, true: sliding divider
   double _compareDivider = 0.5; // 0..1 (only used for slider mode)
   int _activePane = 0; // 0: A (primary/provider), 1: B (secondary)
