@@ -334,7 +334,12 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     return CpuRenderFrame(rgba: full, width: width, height: height);
   }
 
-  Future<void> _renderPreview() async {
+  Future<void> _renderPass({
+    required double resolutionScale,
+    required int sampleCount,
+    Duration? maxTime,
+    bool isPreview = false,
+  }) async {
     final int job = ++_job;
     try {
       final baseIterations = readInt(widget.state.params, 'iterations', 220);
@@ -350,9 +355,12 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       final extra = (math.log(z) / math.ln2 * 32.0).round();
       final iterations = (baseIterations + extra).clamp(50, maxIterations);
 
-      // During interaction we render a smaller buffer for speed.
-      final w = (widget.width * 0.8).round().clamp(200, widget.width);
-      final h = (widget.height * 0.8).round().clamp(200, widget.height);
+      final w = resolutionScale < 1.0
+          ? (widget.width * resolutionScale).round().clamp(200, widget.width)
+          : widget.width;
+      final h = resolutionScale < 1.0
+          ? (widget.height * resolutionScale).round().clamp(200, widget.height)
+          : widget.height;
 
       var frame = await _renderFrameTiled(
         width: w,
@@ -360,10 +368,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         iterations: iterations,
         bailout: control,
         juliaC: juliaC,
-        sampleCount: 1,
+        sampleCount: sampleCount,
         job: job,
-        // Preview should stay responsive; allow partial frame.
-        maxTime: const Duration(milliseconds: 140),
+        maxTime: maxTime,
         onPartial: (img) {
           if (!mounted || job != _job) return;
           final oldImage = _image;
@@ -405,140 +412,63 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
       final img = await frame.toImage();
 
-      // Check convergence for adaptive iteration adjustment (after first few frames).
-      if (_lastIterations > 0 && !_isConverged) {
-        // Use current iterations for display, but track for next frame comparison.
-        _checkConvergence(frame.rgba, frame.width, frame.height, iterations);
-      } else {
-        // Store first frame for subsequent comparisons.
-        _previousFrameBuffer = Uint8List.fromList(frame.rgba);
-        _lastIterations = iterations;
-      }
-
-      // Optional validation only in debug builds.
-      RenderCheckResult? validation;
-      if (kDebugMode) {
-        final probe = await _renderFrameTiled(
-          width: w,
-          height: h,
-          iterations: iterations + 16,
-          bailout: control,
-          juliaC: juliaC,
-          sampleCount: 1,
-          job: job,
-          maxTime: null,
-          onPartial: (_) {},
-        );
-        validation = validateRenderPair(
-          frameA: frame.rgba,
-          frameB: probe.rgba,
-          width: frame.width,
-          height: frame.height,
-        );
-        debugPrint(validation.summary('cpu'));
-      }
-
-      if (!mounted || job != _job) return;
-      final oldImage = _image;
-      setState(() {
-        _image = img;
-        _error = null;
-        _lastValidation = validation;
-      });
-      oldImage?.dispose();
-    } catch (e) {
-      if (!mounted || job != _job) return;
-      final oldImage = _image;
-      setState(() {
-        _image = null;
-        _error = e;
-      });
-      oldImage?.dispose();
-    }
-  }
-
-  Future<void> _renderRefine() async {
-    final int job = ++_job;
-    try {
-      final baseIterations = readInt(widget.state.params, 'iterations', 220);
-      final maxIterations = _iterationMaxForModule();
-      final control = cpuControlScalarForModule(
-        widget.module.id,
-        widget.state.params,
-      );
-      final juliaC = cpuJuliaCForModule(widget.module.id, widget.state.params);
-
-      // Increase iteration budget as zoom increases to avoid blotchy boundaries.
-      final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
-      final extra = (math.log(z) / math.ln2 * 32.0).round();
-      final iterations = (baseIterations + extra).clamp(50, maxIterations);
-
-      // When the user stops, refine at full widget resolution.
-      final w = widget.width;
-      final h = widget.height;
-
-      var frame = await _renderFrameTiled(
-        width: w,
-        height: h,
-        iterations: iterations,
-        bailout: control,
-        juliaC: juliaC,
-        // Refine pass: use 2x2 supersampling for better edge quality.
-        sampleCount: 4,
-        job: job,
-        maxTime: null,
-        onPartial: (img) {
-          if (!mounted || job != _job) return;
-          final oldImage = _image;
-          setState(() {
-            _image = img;
-            _error = null;
-          });
-          oldImage?.dispose();
-          widget.onPartial?.call();
-        },
-      );
-
-      if (_isNearlyBlack(frame.rgba)) {
-        final fallback = _fallbackView(widget.module);
-        final req = CpuTileRenderRequest(
-          moduleId: widget.module.id,
-          panX: fallback.$1.x,
-          panY: fallback.$1.y,
-          zoom: fallback.$2,
-          iterations: iterations,
-          bailout: control,
-          juliaCX: juliaC.x,
-          juliaCY: juliaC.y,
-          fullWidth: w,
-          fullHeight: h,
-          x0: 0,
-          y0: 0,
-          w: w,
-          h: h,
-          sampleCount: 1,
-        );
-        final worker = _worker;
-        if (worker != null) {
-          final resp = await worker.renderTile(req);
-          frame = CpuRenderFrame(rgba: resp.rgba, width: w, height: h);
+      if (isPreview) {
+        // Check convergence for adaptive iteration adjustment (after first few frames).
+        if (_lastIterations > 0 && !_isConverged) {
+          // Use current iterations for display, but track for next frame comparison.
+          _checkConvergence(frame.rgba, frame.width, frame.height, iterations);
+        } else {
+          // Store first frame for subsequent comparisons.
+          _previousFrameBuffer = Uint8List.fromList(frame.rgba);
+          _lastIterations = iterations;
         }
+
+        // Optional validation only in debug builds.
+        RenderCheckResult? validation;
+        if (kDebugMode) {
+          final probe = await _renderFrameTiled(
+            width: w,
+            height: h,
+            iterations: iterations + 16,
+            bailout: control,
+            juliaC: juliaC,
+            sampleCount: 1,
+            job: job,
+            maxTime: null,
+            onPartial: (_) {},
+          );
+          validation = validateRenderPair(
+            frameA: frame.rgba,
+            frameB: probe.rgba,
+            width: frame.width,
+            height: frame.height,
+          );
+          debugPrint(validation.summary('cpu'));
+        }
+
+        if (!mounted || job != _job) return;
+        final oldImage = _image;
+        setState(() {
+          _image = img;
+          _error = null;
+          _lastValidation = validation;
+        });
+        oldImage?.dispose();
+      } else {
+        // Refine pass completion.
+        if (!mounted || job != _job) return;
+        final oldImage = _image;
+        setState(() {
+          _image = img;
+          _error = null;
+          _slowModeRow = null;
+          _slowModeTotal = null;
+        });
+        oldImage?.dispose();
+
+        // Start slow mode after refine completes.
+        _renderSlowMode();
       }
-
-      final img = await frame.toImage();
-
-      if (!mounted || job != _job) return;
-      final oldImage = _image;
-      setState(() {
-        _image = img;
-        _error = null;
-        _slowModeRow = null;
-        _slowModeTotal = null;
-      });
-      oldImage?.dispose();
-
-      // Start slow mode after refine completes.
-      _renderSlowMode();
     } catch (e) {
       if (!mounted || job != _job) return;
       final oldImage = _image;
@@ -549,6 +479,20 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       oldImage?.dispose();
     }
   }
+
+  Future<void> _renderPreview() => _renderPass(
+        resolutionScale: 0.8,
+        sampleCount: 1,
+        maxTime: const Duration(milliseconds: 140),
+        isPreview: true,
+      );
+
+  Future<void> _renderRefine() => _renderPass(
+        resolutionScale: 1.0,
+        sampleCount: 4,
+        maxTime: null,
+        isPreview: false,
+      );
 
   Future<void> _renderSlowMode() async {
     final int job = ++_job;

@@ -177,6 +177,30 @@ class _FractalRendererState extends State<FractalRenderer>
     super.dispose();
   }
 
+  /// Wraps [content] with gesture detection when [widget.gesturesEnabled] is
+  /// true. The optional [onTapUp] callback is forwarded to [GestureDetector]
+  /// for module-specific tap handling (e.g. julia_dual).
+  Widget _wrapWithGestures(Widget content, {GestureTapUpCallback? onTapUp}) {
+    if (!widget.gesturesEnabled) return content;
+    return Listener(
+      onPointerDown: _onPointerDown,
+      onPointerMove: _onPointerMove,
+      onPointerUp: _onPointerUp,
+      onPointerCancel: _onPointerUp,
+      onPointerSignal: _onPointerSignal,
+      child: GestureDetector(
+        onScaleStart: _onScaleStart,
+        onScaleUpdate: _onScaleUpdate,
+        onScaleEnd: _onScaleEnd,
+        onDoubleTapDown: _onDoubleTapDown,
+        onDoubleTap: _onDoubleTapGesture,
+        onLongPressStart: _onLongPress,
+        onTapUp: onTapUp,
+        child: content,
+      ),
+    );
+  }
+
   Widget _withRendererIndicator({
     required Widget child,
     required String mode,
@@ -278,50 +302,11 @@ class _FractalRendererState extends State<FractalRenderer>
           ),
         ),
       );
-
-      if (!widget.gesturesEnabled) {
-        return content;
-      }
-
-      return Listener(
-        onPointerDown: _onPointerDown,
-        onPointerMove: _onPointerMove,
-        onPointerUp: _onPointerUp,
-        onPointerCancel: _onPointerUp,
-        onPointerSignal: _onPointerSignal,
-        child: GestureDetector(
-          onScaleStart: _onScaleStart,
-          onScaleUpdate: _onScaleUpdate,
-          onScaleEnd: _onScaleEnd,
-          onDoubleTapDown: _onDoubleTapDown,
-          onDoubleTap: _onDoubleTapGesture,
-          onLongPressStart: _onLongPress,
-          child: content,
-        ),
-      );
+      return _wrapWithGestures(content);
     }
 
     if (widget.overrideChild != null) {
-      final content = widget.overrideChild!;
-      if (!widget.gesturesEnabled) {
-        return content;
-      }
-      return Listener(
-        onPointerDown: _onPointerDown,
-        onPointerMove: _onPointerMove,
-        onPointerUp: _onPointerUp,
-        onPointerCancel: _onPointerUp,
-        onPointerSignal: _onPointerSignal,
-        child: GestureDetector(
-          onScaleStart: _onScaleStart,
-          onScaleUpdate: _onScaleUpdate,
-          onScaleEnd: _onScaleEnd,
-          onDoubleTapDown: _onDoubleTapDown,
-          onDoubleTap: _onDoubleTapGesture,
-          onLongPressStart: _onLongPress,
-          child: content,
-        ),
-      );
+      return _wrapWithGestures(widget.overrideChild!);
     }
 
     final bool usesJuliaPerturb = module.id == 'julia' &&
@@ -370,27 +355,7 @@ class _FractalRendererState extends State<FractalRenderer>
           ),
         ),
       );
-
-      if (!widget.gesturesEnabled) {
-        return cpuContent;
-      }
-
-      return Listener(
-        onPointerDown: _onPointerDown,
-        onPointerMove: _onPointerMove,
-        onPointerUp: _onPointerUp,
-        onPointerCancel: _onPointerUp,
-        onPointerSignal: _onPointerSignal,
-        child: GestureDetector(
-          onScaleStart: _onScaleStart,
-          onScaleUpdate: _onScaleUpdate,
-          onScaleEnd: _onScaleEnd,
-          onDoubleTapDown: _onDoubleTapDown,
-          onDoubleTap: _onDoubleTapGesture,
-          onLongPressStart: _onLongPress,
-          child: cpuContent,
-        ),
-      );
+      return _wrapWithGestures(cpuContent);
     }
 
     // Select df2 shader for deep-zoom Mandelbrot.
@@ -515,30 +480,13 @@ class _FractalRendererState extends State<FractalRenderer>
       ),
     );
 
-    if (!widget.gesturesEnabled) {
-      return content;
-    }
-
-    return Listener(
-      onPointerDown: _onPointerDown,
-      onPointerMove: _onPointerMove,
-      onPointerUp: _onPointerUp,
-      onPointerCancel: _onPointerUp,
-      onPointerSignal: _onPointerSignal,
-      child: GestureDetector(
-        onScaleStart: _onScaleStart,
-        onScaleUpdate: _onScaleUpdate,
-        onScaleEnd: _onScaleEnd,
-        onDoubleTapDown: _onDoubleTapDown,
-        onDoubleTap: _onDoubleTapGesture,
-        onLongPressStart: _onLongPress,
-        onTapUp: (module.id == 'julia_dual')
-            ? (details) {
-                _onJuliaDualTap(details.localPosition, controller);
-              }
-            : null,
-        child: content,
-      ),
+    return _wrapWithGestures(
+      content,
+      onTapUp: (module.id == 'julia_dual')
+          ? (details) {
+              _onJuliaDualTap(details.localPosition, controller);
+            }
+          : null,
     );
   }
 }
