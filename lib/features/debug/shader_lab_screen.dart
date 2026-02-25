@@ -123,7 +123,7 @@ class _ShaderLabScreenState extends State<ShaderLabScreen> {
                 borderRadius: BorderRadius.circular(12),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.amber.withOpacity(0.6)),
+                    border: Border.all(color: Colors.amber.withValues(alpha: 0.6)),
                     color: Colors.black,
                   ),
                   child: child,

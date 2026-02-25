@@ -1,9 +1,7 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 
@@ -107,7 +105,7 @@ class _CpuFallbackPaneState extends State<CpuFallbackPane> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.68),
+                color: Colors.black.withValues(alpha: 0.68),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.white24),
               ),
@@ -142,9 +140,9 @@ class CpuFallbackBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.65),
+        color: Colors.black.withValues(alpha: 0.65),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.amber.withOpacity(0.8)),
+        border: Border.all(color: Colors.amber.withValues(alpha: 0.8)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -164,7 +162,7 @@ class CpuFallbackBanner extends StatelessWidget {
                 onPressed: onTryGpu,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  side: BorderSide(color: Colors.white.withOpacity(0.6)),
+                  side: BorderSide(color: Colors.white.withValues(alpha: 0.6)),
                   visualDensity: VisualDensity.compact,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -175,7 +173,7 @@ class CpuFallbackBanner extends StatelessWidget {
                 onPressed: onReport,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.amber,
-                  side: BorderSide(color: Colors.amber.withOpacity(0.8)),
+                  side: BorderSide(color: Colors.amber.withValues(alpha: 0.8)),
                   visualDensity: VisualDensity.compact,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -232,7 +230,7 @@ class _DeterministicVisibleFallbackPainter extends CustomPainter {
     final stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2
-      ..color = Colors.white.withOpacity(0.18);
+      ..color = Colors.white.withValues(alpha: 0.18);
 
     final c = Offset(size.width * 0.5, size.height * 0.52);
     for (double r = 22; r < size.shortestSide * 0.6; r += 24) {

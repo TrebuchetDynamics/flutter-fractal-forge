@@ -93,7 +93,7 @@ class AccessibilityService extends ChangeNotifier {
 
   /// Announces a message to screen readers.
   ///
-  /// Uses [SemanticsService.announce] to make the message
+  /// Uses [SemanticsService] to make the message
   /// audible to TalkBack/VoiceOver users.
   ///
   /// [politeness] controls interruption behavior:
@@ -103,6 +103,7 @@ class AccessibilityService extends ChangeNotifier {
     String message, {
     Assertiveness politeness = Assertiveness.polite,
   }) {
+    // ignore: deprecated_member_use
     SemanticsService.announce(message, TextDirection.ltr, assertiveness: politeness);
   }
 

@@ -62,9 +62,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify first visible modules render; others may be off-screen.
-      expect(find.text('Mandelbrot'), findsOneWidget);
+      expect(find.text('Mandelbrot'), findsWidgets);
       expect(find.textContaining('Julia'), findsWidgets);
-      expect(find.text('Burning Ship'), findsOneWidget);
+      expect(find.text('Burning Ship'), findsWidgets);
     });
 
     testWidgets('has search field in catalog', (tester) async {

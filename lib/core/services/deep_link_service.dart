@@ -189,8 +189,9 @@ class DeepLinkService {
       return null;
     }
 
-    // For https, check the host matches
-    if (uri.scheme == 'https' && !uri.host.contains('fractalforge')) {
+    // For https, check the host matches exactly
+    const allowedHosts = {'fractalforge.app', 'www.fractalforge.app'};
+    if (uri.scheme == 'https' && !allowedHosts.contains(uri.host)) {
       return null;
     }
 
@@ -207,6 +208,11 @@ class DeepLinkService {
       return null;
     }
 
+    // Reject type strings with unsafe characters (defense-in-depth)
+    if (!RegExp(r'^[a-z0-9_]+$').hasMatch(type)) {
+      return null;
+    }
+
     // Validate fractal type if validation list provided
     if (validFractalTypes != null && !validFractalTypes.contains(type)) {
       return null;
@@ -214,16 +220,16 @@ class DeepLinkService {
 
     return DeepLinkData(
       type: type,
-      zoom: _parseDouble(params['zoom']),
+      zoom: _parseBoundedDouble(params['zoom'], 0.1, 1e15),
       x: _parseDouble(params['x']),
       y: _parseDouble(params['y']),
       rotX: _parseDouble(params['rotX']),
       rotY: _parseDouble(params['rotY']),
       rotZ: _parseDouble(params['rotZ']),
-      iterations: _parseInt(params['iterations']),
-      bailout: _parseDouble(params['bailout']),
+      iterations: _parseBoundedInt(params['iterations'], 10, 5000),
+      bailout: _parseBoundedDouble(params['bailout'], 0.1, 1000),
       colorScheme: _parseInt(params['colorScheme']),
-      power: _parseDouble(params['power']),
+      power: _parseBoundedDouble(params['power'], 1, 20),
       juliaX: _parseDouble(params['juliaX']),
       juliaY: _parseDouble(params['juliaY']),
     );
@@ -314,6 +320,18 @@ class DeepLinkService {
   static int? _parseInt(String? value) {
     if (value == null) return null;
     return int.tryParse(value);
+  }
+
+  static double? _parseBoundedDouble(String? v, double min, double max) {
+    final d = double.tryParse(v ?? '');
+    if (d == null || d.isNaN || d.isInfinite) return null;
+    return d.clamp(min, max);
+  }
+
+  static int? _parseBoundedInt(String? v, int min, int max) {
+    final i = int.tryParse(v ?? '');
+    if (i == null) return null;
+    return i.clamp(min, max);
   }
 
   static String _formatDouble(double value) {

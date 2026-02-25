@@ -211,7 +211,8 @@ class FractalController extends ChangeNotifier {
   /// controller.updateParam('colorScheme', 2);
   /// ```
   void updateParam(String id, Object value) {
-    final schema = _module.parameters.firstWhere((param) => param.id == id);
+    final schema = _findParam(id);
+    if (schema == null) return;
     _params = Map<String, Object>.from(_params);
     _params[id] = _clampValue(schema, value);
     notifyListeners();

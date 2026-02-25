@@ -156,7 +156,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
                       Text(
                         '${result.resolution} • $formatLabel • ${result.formattedSize}',
                         style: AppTypography.bodySmall.copyWith(
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withValues(alpha: 0.7),
                         ),
                       ),
                     ],
@@ -302,7 +302,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
                       Text(
                         '${result.resolution} • ${result.format.displayName} • ${result.formattedSize}',
                         style: AppTypography.bodySmall.copyWith(
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withValues(alpha: 0.7),
                         ),
                       ),
                     ],

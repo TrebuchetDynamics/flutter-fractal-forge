@@ -65,7 +65,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     }
     _loading = true;
     _shaderLoadStartedAt = DateTime.now();
-    debugPrint('[renderer] shader_load_start asset=$asset');
+    if (kDebugMode) debugPrint('[renderer] shader_load_start asset=$asset');
     setState(() {
       _shaderError = null;
       _shaderErrorDetails = null;
@@ -92,7 +92,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
       final dt = DateTime.now()
           .difference(_shaderLoadStartedAt ?? DateTime.now())
           .inMilliseconds;
-      debugPrint(
+      if (kDebugMode) debugPrint(
           '[renderer] shader_cache_hit asset=$asset load_ms=$dt cache_size=${_programCache.length}');
       AppLogger.instance.logState('gpu', 'Shader loaded', {
         'asset': asset,
@@ -120,14 +120,14 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
         final dt = DateTime.now()
             .difference(_shaderLoadStartedAt ?? DateTime.now())
             .inMilliseconds;
-        debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
+        if (kDebugMode) debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
         AppLogger.instance.logState(
             'gpu', 'Shader loaded', {'asset': asset, 'compileMs': dt});
         _loading = false;
         return;
       } catch (e, stack) {
         final errorType = _categorizeShaderError(e);
-        debugPrint(
+        if (kDebugMode) debugPrint(
             '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
         AppLogger.instance.logState(
             'gpu',

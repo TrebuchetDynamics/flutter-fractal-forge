@@ -1,5 +1,4 @@
 // Test modules for debugging GPU rendering on emulator (SwiftShader)
-import 'dart:ui';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';

@@ -58,9 +58,9 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
                 endAngle: _controller.value * math.pi + (math.pi * 2),
                 colors: [
                   const Color(0xFF090A17),
-                  AppColors.primary.withOpacity(0.45),
+                  AppColors.primary.withValues(alpha: 0.45),
                   const Color(0xFF0C2233),
-                  AppColors.secondary.withOpacity(0.30),
+                  AppColors.secondary.withValues(alpha: 0.30),
                   const Color(0xFF090A17),
                 ],
               ),
@@ -97,7 +97,7 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
                                   const Rect.fromLTWH(0, 0, 300, 60)),
                             shadows: [
                               Shadow(
-                                color: AppColors.primary.withOpacity(0.5),
+                                color: AppColors.primary.withValues(alpha: 0.5),
                                 blurRadius: 24,
                               ),
                             ],
@@ -152,7 +152,7 @@ class _SplashFractalPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.4
         ..color = (branch.isEven ? AppColors.primary : AppColors.secondary)
-            .withOpacity(0.16);
+            .withValues(alpha: 0.16);
       canvas.drawPath(path, paint);
     }
   }
@@ -185,23 +185,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _OnboardingPageData(
       title: 'Welcome to Fractal Forge',
       description:
-          'Explore infinite mathematical beauty through 200+ interactive fractals — from Mandelbrot sets to strange attractors.',
+          'Explore infinite mathematical beauty through 350+ interactive fractals with GPU-accelerated rendering — from Mandelbrot sets to strange attractors.',
       icon: Icons.auto_awesome_rounded,
       highlightItems: [
-        'Pan and pinch to navigate infinite detail',
-        'Discover structure in Mandelbrot, Julia, Newton and more',
-        'Browse strange attractors, cellular automata and space-filling curves',
+        'Pan and pinch to navigate with deep zoom and infinite precision',
+        'Discover structure in Mandelbrot, Julia, Newton and 350+ fractal types',
+        'GPU-accelerated rendering for smooth, real-time exploration',
       ],
     ),
     _OnboardingPageData(
-      title: 'Explore, Save & Share',
+      title: 'Create, Export & Experience in AR',
       description:
-          'Adjust parameters in real time, save your favourite views as presets, and export high-resolution images to share.',
+          'Adjust parameters in real time, place fractals on real surfaces with AR, and export stunning high-resolution images to share.',
       icon: Icons.ios_share_rounded,
       highlightItems: [
-        'Real-time parameter controls and colour schemes',
-        'Built-in presets for every fractal type',
-        'Export to PNG — perfect for presentations and study',
+        'Real-time parameter controls with 60+ colour schemes',
+        'Augmented Reality — anchor fractals on real-world surfaces',
+        'Export to PNG and share — perfect for art, presentations and study',
       ],
     ),
   ];
@@ -246,12 +246,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: LinearProgressIndicator(
-                      value: (_currentPage + 1) / _pages.length,
-                      minHeight: 4,
-                      borderRadius: BorderRadius.circular(100),
-                      backgroundColor: AppColors.surfaceVariant,
-                      color: AppColors.primary,
+                    child: Semantics(
+                      label:
+                          'Onboarding progress, step ${_currentPage + 1} of ${_pages.length}',
+                      value:
+                          '${((_currentPage + 1) / _pages.length * 100).round()}%',
+                      child: LinearProgressIndicator(
+                        value: (_currentPage + 1) / _pages.length,
+                        minHeight: 4,
+                        borderRadius: BorderRadius.circular(100),
+                        backgroundColor: AppColors.surfaceVariant,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                   if (!isLastPage)
@@ -426,7 +432,7 @@ class _OnboardingPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.35),
+              color: AppColors.primary.withValues(alpha: 0.35),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -466,7 +472,7 @@ class _OnboardingPage extends StatelessWidget {
             padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
               color: AppColors.surface,
-              border: Border.all(color: AppColors.border.withOpacity(0.7)),
+              border: Border.all(color: AppColors.border.withValues(alpha: 0.7)),
               borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
             ),
             child: Row(

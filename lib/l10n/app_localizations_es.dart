@@ -9,7 +9,7 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appTitle => 'Fractales Flutter';
+  String get appTitle => 'Fractal Forge';
 
   @override
   String get tabExplore => 'Explorar';

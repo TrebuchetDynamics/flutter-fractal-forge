@@ -31,4 +31,5 @@ ios/Pods/
 
 # Local embeds
 third_party/
+!third_party/arcore_flutter_plugin/
 .flutter-plugins-dependencies

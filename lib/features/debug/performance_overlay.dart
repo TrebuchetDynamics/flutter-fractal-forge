@@ -51,7 +51,7 @@ class _CompactOverlay extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.7),
+        color: Colors.black.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
@@ -77,7 +77,7 @@ class _CompactOverlay extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.3),
+                color: Colors.orange.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(3),
               ),
               child: Text(
@@ -117,10 +117,10 @@ class _FullOverlay extends StatelessWidget {
           width: 220,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.75),
+            color: Colors.black.withValues(alpha: 0.75),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: AppColors.border.withOpacity(0.3),
+              color: AppColors.border.withValues(alpha: 0.3),
             ),
           ),
           child: Column(
@@ -218,7 +218,7 @@ class _FpsDisplay extends StatelessWidget {
           child: Text(
             'FPS',
             style: TextStyle(
-              color: fpsColor.withOpacity(0.7),
+              color: fpsColor.withValues(alpha: 0.7),
               fontSize: 12,
               fontWeight: FontWeight.w600,
             ),
@@ -228,7 +228,7 @@ class _FpsDisplay extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-            color: fpsColor.withOpacity(0.2),
+            color: fpsColor.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
@@ -270,11 +270,11 @@ class _FrameTimeGraphPainter extends CustomPainter {
     if (samples.isEmpty) return;
 
     final targetPaint = Paint()
-      ..color = Colors.green.withOpacity(0.3)
+      ..color = Colors.green.withValues(alpha: 0.3)
       ..style = PaintingStyle.fill;
 
     final warnPaint = Paint()
-      ..color = Colors.orange.withOpacity(0.2)
+      ..color = Colors.orange.withValues(alpha: 0.2)
       ..style = PaintingStyle.fill;
 
     // Draw target zone (0-16.67ms)
@@ -315,12 +315,12 @@ class _FrameTimeGraphPainter extends CustomPainter {
         barHeight,
       );
 
-      canvas.drawRect(rect, Paint()..color = barColor.withOpacity(0.8));
+      canvas.drawRect(rect, Paint()..color = barColor.withValues(alpha: 0.8));
     }
 
     // Draw 16.67ms line
     final linePaint = Paint()
-      ..color = Colors.white.withOpacity(0.5)
+      ..color = Colors.white.withValues(alpha: 0.5)
       ..strokeWidth = 1;
     
     final lineY = size.height - targetHeight;
@@ -398,8 +398,8 @@ class _StatItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       decoration: BoxDecoration(
         color: highlight
-            ? Colors.orange.withOpacity(0.15)
-            : Colors.white.withOpacity(0.05),
+            ? Colors.orange.withValues(alpha: 0.15)
+            : Colors.white.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
@@ -439,10 +439,10 @@ class _ShaderWarning extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.2),
+        color: Colors.purple.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(6),
         border: Border.all(
-          color: Colors.purple.withOpacity(0.4),
+          color: Colors.purple.withValues(alpha: 0.4),
         ),
       ),
       child: Row(
@@ -504,13 +504,13 @@ class PerformanceToggleButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: isEnabled
-              ? AppColors.primary.withOpacity(0.2)
-              : Colors.black.withOpacity(0.5),
+              ? AppColors.primary.withValues(alpha: 0.2)
+              : Colors.black.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isEnabled
-                ? AppColors.primary.withOpacity(0.5)
-                : AppColors.border.withOpacity(0.3),
+                ? AppColors.primary.withValues(alpha: 0.5)
+                : AppColors.border.withValues(alpha: 0.3),
           ),
         ),
         child: Row(

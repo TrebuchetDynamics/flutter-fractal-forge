@@ -23,7 +23,7 @@ class ExportOverlay extends StatelessWidget {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
       child: Container(
-        color: AppColors.background.withOpacity(0.7),
+        color: AppColors.background.withValues(alpha: 0.7),
         child: Center(
           child: FadeIn(
             child: Container(
@@ -31,10 +31,10 @@ class ExportOverlay extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(AppSpacing.xl),
-                border: Border.all(color: AppColors.border.withOpacity(0.5)),
+                border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -117,7 +117,7 @@ class ShareSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: AppColors.border.withOpacity(0.3)),
+        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
       ),
       child: SafeArea(
         child: Padding(
@@ -132,7 +132,7 @@ class ShareSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.textMuted.withOpacity(0.3),
+                    color: AppColors.textMuted.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -160,7 +160,7 @@ class ShareSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border.withOpacity(0.3)),
+                  border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   children: [
@@ -293,7 +293,7 @@ class _ShareButtonState extends State<_ShareButton>
             border: widget.isPrimary
                 ? null
                 : Border.all(
-                    color: AppColors.border.withOpacity(0.3),
+                    color: AppColors.border.withValues(alpha: 0.3),
                   ),
           ),
           child: Row(

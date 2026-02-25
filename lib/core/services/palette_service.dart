@@ -186,9 +186,9 @@ class PaletteService extends ChangeNotifier {
       final c = Color(s.colorArgb);
       final idx = baseIndex + 1 + i * 4;
       // Flutter 3.19 Color channels are 0-255 ints; normalize to 0.0-1.0.
-      shader.setFloat(idx + 0, c.red / 255.0);
-      shader.setFloat(idx + 1, c.green / 255.0);
-      shader.setFloat(idx + 2, c.blue / 255.0);
+      shader.setFloat(idx + 0, (c.r * 255.0).round().clamp(0, 255) / 255.0);
+      shader.setFloat(idx + 1, (c.g * 255.0).round().clamp(0, 255) / 255.0);
+      shader.setFloat(idx + 2, (c.b * 255.0).round().clamp(0, 255) / 255.0);
       shader.setFloat(idx + 3, s.position.clamp(0.0, 1.0));
     }
   }

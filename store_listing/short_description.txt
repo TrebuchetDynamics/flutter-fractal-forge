@@ -1,1 +1,1 @@
-Place fractals in AR. Explore 20+ types with deep zoom & GPU rendering.
+Explore 350+ GPU-rendered fractals with AR overlay, deep zoom & 60+ palettes.

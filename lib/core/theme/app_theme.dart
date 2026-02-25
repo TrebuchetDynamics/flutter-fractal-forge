@@ -61,8 +61,8 @@ class AppColors {
   static const Color error = Color(0xFFEF5350);
 
   // Glassmorphism
-  static Color glassBackground = Colors.white.withOpacity(0.05);
-  static Color glassBorder = Colors.white.withOpacity(0.1);
+  static Color glassBackground = Colors.white.withValues(alpha: 0.05);
+  static Color glassBorder = Colors.white.withValues(alpha: 0.1);
 }
 
 /// High contrast color palette for accessibility.
@@ -366,11 +366,9 @@ class AppTheme {
         secondary: AppColors.secondary,
         secondaryContainer: AppColors.secondaryDark,
         surface: AppColors.surface,
-        background: AppColors.background,
         onPrimary: Colors.white,
         onSecondary: Colors.black,
         onSurface: AppColors.textPrimary,
-        onBackground: AppColors.textPrimary,
         error: AppColors.error,
       ),
       textTheme: TextTheme(
@@ -388,7 +386,7 @@ class AppTheme {
         labelSmall: AppTypography.labelSmall,
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.surface.withOpacity(0.85),
+        backgroundColor: AppColors.surface.withValues(alpha: 0.85),
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
@@ -400,7 +398,7 @@ class AppTheme {
         elevation: AppSpacing.cardElevation,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-          side: BorderSide(color: AppColors.border.withOpacity(0.5)),
+          side: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
         ),
         margin: EdgeInsets.zero,
       ),
@@ -471,7 +469,7 @@ class AppTheme {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-          borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+          borderSide: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
@@ -486,7 +484,7 @@ class AppTheme {
         activeTrackColor: AppColors.primary,
         inactiveTrackColor: AppColors.surfaceVariant,
         thumbColor: AppColors.primary,
-        overlayColor: AppColors.primary.withOpacity(0.12),
+        overlayColor: AppColors.primary.withValues(alpha: 0.12),
         trackHeight: 4,
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
@@ -494,27 +492,27 @@ class AppTheme {
         valueIndicatorTextStyle: AppTypography.labelMedium.copyWith(color: Colors.white),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primary;
           }
           return AppColors.textMuted;
         }),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return AppColors.primary.withOpacity(0.4);
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return AppColors.primary.withValues(alpha: 0.4);
           }
           return AppColors.surfaceVariant;
         }),
-        trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
+        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surfaceVariant,
-        selectedColor: AppColors.primary.withOpacity(0.2),
-        disabledColor: AppColors.surfaceVariant.withOpacity(0.5),
+        selectedColor: AppColors.primary.withValues(alpha: 0.2),
+        disabledColor: AppColors.surfaceVariant.withValues(alpha: 0.5),
         labelStyle: AppTypography.labelMedium,
         secondaryLabelStyle: AppTypography.labelMedium.copyWith(color: AppColors.primary),
-        side: BorderSide(color: AppColors.border.withOpacity(0.5)),
+        side: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
         ),
@@ -570,11 +568,9 @@ class AppTheme {
         secondary: HighContrastColors.secondary,
         secondaryContainer: HighContrastColors.secondaryDark,
         surface: HighContrastColors.surface,
-        background: HighContrastColors.background,
         onPrimary: Colors.black,
         onSecondary: Colors.black,
         onSurface: HighContrastColors.textPrimary,
-        onBackground: HighContrastColors.textPrimary,
         error: HighContrastColors.error,
       ),
       textTheme: TextTheme(
@@ -699,9 +695,9 @@ class AppTheme {
         ),
       ),
       focusColor: HighContrastColors.focusIndicator,
-      hoverColor: HighContrastColors.primary.withOpacity(0.2),
-      splashColor: HighContrastColors.primary.withOpacity(0.3),
-      highlightColor: HighContrastColors.primary.withOpacity(0.2),
+      hoverColor: HighContrastColors.primary.withValues(alpha: 0.2),
+      splashColor: HighContrastColors.primary.withValues(alpha: 0.3),
+      highlightColor: HighContrastColors.primary.withValues(alpha: 0.2),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: HighContrastColors.surfaceVariant,
@@ -738,19 +734,19 @@ class AppTheme {
         ),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return HighContrastColors.primary;
           }
           return HighContrastColors.textSecondary;
         }),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return HighContrastColors.primaryDark;
           }
           return HighContrastColors.surfaceVariant;
         }),
-        trackOutlineColor: MaterialStateProperty.all(HighContrastColors.border),
+        trackOutlineColor: WidgetStateProperty.all(HighContrastColors.border),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: HighContrastColors.surfaceElevated,

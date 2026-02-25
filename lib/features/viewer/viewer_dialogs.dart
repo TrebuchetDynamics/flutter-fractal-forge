@@ -21,7 +21,7 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-              border: Border.all(color: AppColors.border.withOpacity(0.6)),
+              border: Border.all(color: AppColors.border.withValues(alpha: 0.6)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -111,9 +111,12 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
         contentPadding: EdgeInsets.zero,
         title: Text(title, style: AppTypography.titleMedium),
         subtitle: Text(subtitle, style: AppTypography.bodySmall),
+        // ignore: deprecated_member_use
         trailing: Radio<RendererBackendMode>(
           value: value,
+          // ignore: deprecated_member_use
           groupValue: groupValue,
+          // ignore: deprecated_member_use
           onChanged: (v) {
             if (v != null) onChanged(v);
           },

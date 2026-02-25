@@ -11,7 +11,6 @@ library;
 
 import 'dart:math' as math;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart' show Vector2;
 
 // ─── Inline CPU escape-time engine ──────────────────────────────────────────
 // Replicated from lib/features/renderer/cpu_formulas.dart to avoid import

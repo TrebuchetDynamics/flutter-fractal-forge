@@ -10,14 +10,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
-import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/debug_runner_service.dart';
-import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
@@ -26,7 +24,6 @@ import 'package:flutter_fractals/core/services/wallpaper_service.dart';
 import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
@@ -46,7 +43,6 @@ import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
 import 'package:flutter_fractals/features/renderer/backend_policy.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
-import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
@@ -92,9 +88,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   final WallpaperService _wallpaperService = const WallpaperService();
 
   // Compare mode state
-  @override
-  final bool _compareMode = false;
-  final bool _compareSliderMode =
+  bool _compareMode = false;
+  bool _compareSliderMode =
       false; // false: side-by-side, true: sliding divider
   double _compareDivider = 0.5; // 0..1 (only used for slider mode)
   int _activePane = 0; // 0: A (primary/provider), 1: B (secondary)
@@ -193,7 +188,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void _onControllerChanged() {
     if (!mounted) return;
 
-    final controller = context.read<FractalController>();
+    final controller = _lastController!;
     if (_lastModuleId != null && _lastModuleId != controller.module.id) {
       _gpuHealthFailed = false;
       _gpuHealthFailureStreak = 0;
@@ -370,14 +365,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
-    // Debounce backend decision refresh to prevent excessive recalculation
-    _backendDebounceTimer?.cancel();
-    _backendDebounceTimer = Timer(const Duration(milliseconds: 16), () {
-      if (mounted) {
-        _refreshBackendDecision();
-      }
-    });
-
     final decision = _backendDecision.toLogLine(moduleId: controller.module.id);
     if (_lastBackendDecisionLogged != decision) {
       _lastBackendDecisionLogged = decision;
@@ -533,10 +520,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.6),
+                            color: Colors.black.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(8),
                             border:
-                                Border.all(color: Colors.cyan.withOpacity(0.7)),
+                                Border.all(color: Colors.cyan.withValues(alpha: 0.7)),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -601,12 +588,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                     ),
 
-                  // Export overlay
-                  if (_exporting)
-                    ExportOverlay(
-                      progress: _exportProgress,
-                      l10n: l10n,
-                    ),
                 ],
               );
             },

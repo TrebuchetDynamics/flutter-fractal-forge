@@ -66,9 +66,9 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            // Keep disabled while ARCore plugin is legacy/fragile under R8.
-            isMinifyEnabled = false
-            isShrinkResources = false
+            // R8 safe with ARCore — see proguard-rules.pro for keep rules.
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",

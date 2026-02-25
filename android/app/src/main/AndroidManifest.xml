@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" tools:node="remove" />
-    <uses-feature android:name="android.hardware.camera.ar" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.ar" android:required="false" />
 
     <application
-        android:label="Flutter Fractal Forge"
+        android:label="Fractal Forge"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
         android:extractNativeLibs="true">
         <activity
             android:name=".MainActivity"
@@ -48,7 +49,7 @@
             android:value="2" />
         <meta-data
             android:name="com.google.ar.core"
-            android:value="required"
+            android:value="optional"
             tools:replace="android:value" />
         <!-- Impeller (Vulkan) enabled: Skia GLES SkRuntimeEffect is broken on
              Android emulator v35+, but Impeller/Vulkan executes custom

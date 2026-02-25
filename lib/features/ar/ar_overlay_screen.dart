@@ -611,15 +611,17 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                               child: Transform(
                                 alignment: Alignment.center,
                                 transform: Matrix4.identity()
-                                  ..translate(
+                                  ..translateByDouble(
                                     _overlayOffset.dx,
                                     _overlayOffset.dy,
                                     0.0,
+                                    0.0,
                                   )
                                   ..rotateZ(_overlayRotation)
-                                  ..scale(
+                                  ..scaleByDouble(
                                     _overlayScale,
                                     _overlayScale,
+                                    1.0,
                                     1.0,
                                   ),
                                 child: SizedBox(

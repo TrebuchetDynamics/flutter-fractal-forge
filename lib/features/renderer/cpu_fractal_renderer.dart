@@ -3,8 +3,6 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'dart:isolate';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
@@ -78,11 +76,17 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   @override
   void initState() {
     super.initState();
-    () async {
+    _spawnWorker();
+  }
+
+  Future<void> _spawnWorker() async {
+    try {
       _worker = await CpuTileWorker.spawn();
-      if (!mounted) return;
+      if (!mounted) { _worker?.dispose(); return; }
       _scheduleRender();
-    }();
+    } catch (e) {
+      if (mounted) setState(() => _error = e);
+    }
   }
 
   @override
@@ -103,6 +107,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     _refineTimer?.cancel();
     _setSlowModeActive(false);
     _worker?.dispose();
+    _image?.dispose();
     super.dispose();
   }
 
@@ -361,10 +366,12 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         maxTime: const Duration(milliseconds: 140),
         onPartial: (img) {
           if (!mounted || job != _job) return;
+          final oldImage = _image;
           setState(() {
             _image = img;
             _error = null;
           });
+          oldImage?.dispose();
           widget.onPartial?.call();
         },
       );
@@ -432,17 +439,21 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       }
 
       if (!mounted || job != _job) return;
+      final oldImage = _image;
       setState(() {
         _image = img;
         _error = null;
         _lastValidation = validation;
       });
+      oldImage?.dispose();
     } catch (e) {
       if (!mounted || job != _job) return;
+      final oldImage = _image;
       setState(() {
         _image = null;
         _error = e;
       });
+      oldImage?.dispose();
     }
   }
 
@@ -478,10 +489,12 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         maxTime: null,
         onPartial: (img) {
           if (!mounted || job != _job) return;
+          final oldImage = _image;
           setState(() {
             _image = img;
             _error = null;
           });
+          oldImage?.dispose();
           widget.onPartial?.call();
         },
       );
@@ -515,21 +528,25 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       final img = await frame.toImage();
 
       if (!mounted || job != _job) return;
+      final oldImage = _image;
       setState(() {
         _image = img;
         _error = null;
         _slowModeRow = null;
         _slowModeTotal = null;
       });
+      oldImage?.dispose();
 
       // Start slow mode after refine completes.
       _renderSlowMode();
     } catch (e) {
       if (!mounted || job != _job) return;
+      final oldImage = _image;
       setState(() {
         _image = null;
         _error = e;
       });
+      oldImage?.dispose();
     }
   }
 
@@ -597,12 +614,14 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
             _setSlowModeActive(false);
             return;
           }
+          final oldImage = _image;
           setState(() {
             _image = img;
             _slowModeRow = row;
             _slowModeTotal = h;
             _error = null;
           });
+          oldImage?.dispose();
           widget.onPartial?.call();
         }
       }
@@ -614,21 +633,25 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         });
       }
       _setSlowModeActive(false);
-    } catch (_) {
+    } catch (e) {
       _setSlowModeActive(false);
-      rethrow;
+      if (mounted) {
+        setState(() { _error = e; });
+      }
     }
   }
 
   bool _isNearlyBlack(Uint8List rgba) {
+    final totalPixels = rgba.length ~/ 4;
+    final threshold = (totalPixels * 0.005).ceil();
     int nonBlack = 0;
     for (int i = 0; i < rgba.length; i += 4) {
       if (rgba[i] > 8 || rgba[i + 1] > 8 || rgba[i + 2] > 8) {
         nonBlack++;
+        if (nonBlack >= threshold) return false;
       }
     }
-    final ratio = nonBlack / (rgba.length ~/ 4);
-    return ratio < 0.005;
+    return true;
   }
 
   (Vector2, double) _fallbackView(FractalModule module) {
@@ -685,7 +708,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
                 left: 0,
                 right: 0,
                 height: 2,
-                child: Container(color: Colors.cyan.withOpacity(0.6)),
+                child: Container(color: Colors.cyan.withValues(alpha: 0.6)),
               ),
             if (_slowModeActive)
               Positioned(
@@ -695,9 +718,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.68),
+                    color: Colors.black.withValues(alpha: 0.68),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.cyan.withOpacity(0.7)),
+                    border: Border.all(color: Colors.cyan.withValues(alpha: 0.7)),
                   ),
                   child: const Text(
                     'High Res ✦',
@@ -717,7 +740,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.7),
+                    color: Colors.black.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(

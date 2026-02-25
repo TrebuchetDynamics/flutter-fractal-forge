@@ -17,6 +17,7 @@ class HistoryStore {
   static const String _historyKey = 'exploration_history';
   static const String _favoritesKey = 'exploration_favorites';
   static const int maxHistoryEntries = 100;
+  static const int _maxFavorites = 500;
 
   HistoryStore._(this._prefs);
 
@@ -51,8 +52,13 @@ class HistoryStore {
   }
 
   /// Saves the user's favorite locations.
+  ///
+  /// Capped at [_maxFavorites] to prevent unbounded storage growth.
   Future<void> saveFavorites(List<HistoryEntry> favorites) async {
-    await _prefs.setString(_favoritesKey, _serializeEntries(favorites));
+    final capped = favorites.length > _maxFavorites
+        ? favorites.sublist(favorites.length - _maxFavorites)
+        : favorites;
+    await _prefs.setString(_favoritesKey, _serializeEntries(capped));
   }
 
   /// Adds an entry to favorites.

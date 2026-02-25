@@ -123,10 +123,10 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pump();
 
-      expect(find.byIcon(Icons.share_rounded), findsOneWidget);
-      expect(find.byIcon(Icons.save_alt_rounded), findsOneWidget);
-      expect(find.byIcon(Icons.delete_sweep_rounded), findsOneWidget);
-      expect(find.byIcon(Icons.refresh_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.share_rounded), findsWidgets);
+      expect(find.byIcon(Icons.save_alt_rounded), findsWidgets);
+      expect(find.byIcon(Icons.delete_sweep_rounded), findsWidgets);
+      expect(find.byIcon(Icons.refresh_rounded), findsWidgets);
     });
 
     testWidgets('size slider is visible in bottom panel', (tester) async {

@@ -21,6 +21,18 @@ enum _DimensionFilter { all, twoD, threeD }
 
 enum _SortOrder { byCategory, alphabetical }
 
+/// Featured fractal IDs shown in the hero carousel at the top of the catalog.
+const _kFeaturedFractalIds = <String>[
+  'mandelbrot',
+  'julia',
+  'burning_ship',
+  'newton_z3',
+  'mandelbulb',
+  'buddhabrot',
+  'sierpinski_triangle',
+  'barnsley_fern',
+];
+
 /// IDs (without 'core.' prefix) that have a known thumbnail PNG.
 const _kKnownThumbnailIds = <String>{
   'mandelbrot',
@@ -249,7 +261,13 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
             ],
           ),
         ),
-        _buildFilterAndSortBar(context, l10n),
+        _buildFilterAndSortBar(context, l10n, allEntries),
+        if (query.isEmpty)
+          _FeaturedSection(
+            catalog: _catalog!,
+            l10n: l10n,
+            onTap: (module, catalogId) => _openViewer(context, module, heroTag: catalogId),
+          ),
         Expanded(
           child: allEntries.isEmpty
               ? _EmptyState(
@@ -268,7 +286,43 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     );
   }
 
-  Widget _buildFilterAndSortBar(BuildContext context, AppLocalizations l10n) {
+  Widget _buildFilterAndSortBar(
+    BuildContext context,
+    AppLocalizations l10n,
+    List<CatalogEntry> currentEntries,
+  ) {
+    // Compute counts for each dimension tab based on the unfiltered catalog
+    // so the badges always reflect what each tab would show at current search.
+    final allCount = _catalog!.entries.where((e) {
+      final q = _searchController.text.trim().toLowerCase();
+      if (q.isEmpty) return true;
+      final name = e.module.displayName(l10n).toLowerCase();
+      return name.contains(q) ||
+          e.aliases.any((a) => a.toLowerCase().contains(q)) ||
+          e.catalogId.contains(q) ||
+          e.category.toLowerCase().contains(q);
+    }).length;
+    final twoDCount = _catalog!.entries.where((e) {
+      if (e.module.dimension != FractalDimension.twoD) return false;
+      final q = _searchController.text.trim().toLowerCase();
+      if (q.isEmpty) return true;
+      final name = e.module.displayName(l10n).toLowerCase();
+      return name.contains(q) ||
+          e.aliases.any((a) => a.toLowerCase().contains(q)) ||
+          e.catalogId.contains(q) ||
+          e.category.toLowerCase().contains(q);
+    }).length;
+    final threeDCount = _catalog!.entries.where((e) {
+      if (e.module.dimension != FractalDimension.threeD) return false;
+      final q = _searchController.text.trim().toLowerCase();
+      if (q.isEmpty) return true;
+      final name = e.module.displayName(l10n).toLowerCase();
+      return name.contains(q) ||
+          e.aliases.any((a) => a.toLowerCase().contains(q)) ||
+          e.catalogId.contains(q) ||
+          e.category.toLowerCase().contains(q);
+    }).length;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -276,9 +330,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
       ),
       child: Row(
         children: [
-          // Dimension filters
+          // Dimension filters with counts
           _DimChip(
             label: 'All',
+            count: allCount,
             selected: _dimensionFilter == _DimensionFilter.all,
             onTap: () =>
                 setState(() => _dimensionFilter = _DimensionFilter.all),
@@ -286,6 +341,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           const SizedBox(width: AppSpacing.xs),
           _DimChip(
             label: '2D',
+            count: twoDCount,
             selected: _dimensionFilter == _DimensionFilter.twoD,
             onTap: () =>
                 setState(() => _dimensionFilter = _DimensionFilter.twoD),
@@ -293,6 +349,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           const SizedBox(width: AppSpacing.xs),
           _DimChip(
             label: '3D',
+            count: threeDCount,
             selected: _dimensionFilter == _DimensionFilter.threeD,
             onTap: () =>
                 setState(() => _dimensionFilter = _DimensionFilter.threeD),
@@ -343,14 +400,14 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
         borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
         border: Border.all(
           color: _isSearchFocused
-              ? AppColors.primary.withOpacity(0.6)
-              : AppColors.border.withOpacity(0.3),
+              ? AppColors.primary.withValues(alpha: 0.6)
+              : AppColors.border.withValues(alpha: 0.3),
           width: _isSearchFocused ? 1.5 : 1,
         ),
         boxShadow: _isSearchFocused
             ? [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                   blurRadius: 12,
                   spreadRadius: 0,
                 ),
@@ -464,7 +521,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           case 'card':
             return _ModuleCard(
               entry: item.entry!,
-              onTap: () => _openViewer(context, item.entry!.module),
+              onTap: () => _openViewer(context, item.entry!.module, heroTag: item.entry!.catalogId),
               l10n: l10n,
             );
           case 'spacer':
@@ -517,7 +574,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                 return _ModuleGridTile(
                   entry: entry,
                   l10n: l10n,
-                  onTap: () => _openViewer(context, entry.module),
+                  onTap: () => _openViewer(context, entry.module, heroTag: entry.catalogId),
                 );
               },
             ),
@@ -528,7 +585,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     );
   }
 
-  void _openViewer(BuildContext context, FractalModule module) {
+  void _openViewer(BuildContext context, FractalModule module, {String? heroTag}) {
     final controller = context.read<FractalController>();
     controller.selectModule(module);
     Navigator.of(context).push(
@@ -555,7 +612,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
             ),
           );
         },
-        transitionDuration: AppAnimations.normal,
+        transitionDuration: heroTag != null
+            ? AppAnimations.slow
+            : AppAnimations.normal,
       ),
     );
   }
@@ -604,7 +663,7 @@ class _SectionHeader extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.12),
+              color: AppColors.primary.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
@@ -627,11 +686,13 @@ class _SectionHeader extends StatelessWidget {
 
 class _DimChip extends StatelessWidget {
   final String label;
+  final int count;
   final bool selected;
   final VoidCallback onTap;
 
   const _DimChip({
     required this.label,
+    required this.count,
     required this.selected,
     required this.onTap,
   });
@@ -642,25 +703,51 @@ class _DimChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: AppAnimations.fast,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
           color: selected
-              ? AppColors.primary.withOpacity(0.18)
+              ? AppColors.primary.withValues(alpha: 0.18)
               : AppColors.surfaceVariant,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: selected
-                ? AppColors.primary.withOpacity(0.5)
-                : AppColors.border.withOpacity(0.3),
+                ? AppColors.primary.withValues(alpha: 0.5)
+                : AppColors.border.withValues(alpha: 0.3),
             width: selected ? 1.5 : 1,
           ),
         ),
-        child: Text(
-          label,
-          style: AppTypography.labelSmall.copyWith(
-            color: selected ? AppColors.primary : AppColors.textSecondary,
-            fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: AppTypography.labelSmall.copyWith(
+                color: selected ? AppColors.primary : AppColors.textSecondary,
+                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 5),
+            AnimatedContainer(
+              duration: AppAnimations.fast,
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+              decoration: BoxDecoration(
+                color: selected
+                    ? AppColors.primary.withValues(alpha: 0.28)
+                    : AppColors.border.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                '$count',
+                style: AppTypography.labelSmall.copyWith(
+                  color: selected
+                      ? AppColors.primary
+                      : AppColors.textMuted,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 9,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -671,7 +758,7 @@ class _DimChip extends StatelessWidget {
 // Grid tile with elevation, gradient overlay, and better text readability
 // ---------------------------------------------------------------------------
 
-class _ModuleGridTile extends StatelessWidget {
+class _ModuleGridTile extends StatefulWidget {
   final CatalogEntry entry;
   final AppLocalizations l10n;
   final VoidCallback onTap;
@@ -683,81 +770,171 @@ class _ModuleGridTile extends StatelessWidget {
   });
 
   @override
+  State<_ModuleGridTile> createState() => _ModuleGridTileState();
+}
+
+class _ModuleGridTileState extends State<_ModuleGridTile>
+    with SingleTickerProviderStateMixin {
+  bool _isHovered = false;
+  bool _isPressed = false;
+  late final AnimationController _glowController;
+  late final Animation<double> _glowAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _glowController = AnimationController(
+      vsync: this,
+      duration: AppAnimations.fast,
+    );
+    _glowAnim = CurvedAnimation(
+      parent: _glowController,
+      curve: AppAnimations.snappyCurve,
+    );
+  }
+
+  @override
+  void dispose() {
+    _glowController.dispose();
+    super.dispose();
+  }
+
+  void _setHighlight(bool on) {
+    setState(() {
+      _isHovered = on;
+    });
+    if (on) {
+      _glowController.forward();
+    } else {
+      _glowController.reverse();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final is3D = entry.module.dimension == FractalDimension.threeD;
-    final dimensionLabel = is3D ? l10n.dimension3d : l10n.dimension2d;
-    final name = entry.module.displayName(l10n);
+    final is3D = widget.entry.module.dimension == FractalDimension.threeD;
+    final dimensionLabel = is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
+    final name = widget.entry.module.displayName(widget.l10n);
+    final accentColor = _categoryAccentColor(widget.entry.category);
 
     return Semantics(
-      label: l10n.semanticFractalCard(name, dimensionLabel),
+      label: widget.l10n.semanticFractalCard(name, dimensionLabel),
       button: true,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          key: Key('catalogGridTile_${entry.catalogId}'),
-          borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.18),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Thumbnail (fills the tile)
-                  _PreviewThumbnail(
-                    catalogId: entry.catalogId,
-                    is3D: is3D,
-                    category: entry.category,
-                  ),
-                  // Gradient overlay for text readability
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withOpacity(0.72),
-                          ],
-                        ),
+      child: MouseRegion(
+        onEnter: (_) => _setHighlight(true),
+        onExit: (_) => _setHighlight(false),
+        child: GestureDetector(
+          onTapDown: (_) => setState(() => _isPressed = true),
+          onTapUp: (_) => setState(() => _isPressed = false),
+          onTapCancel: () => setState(() => _isPressed = false),
+          onTap: widget.onTap,
+          child: AnimatedBuilder(
+            animation: _glowAnim,
+            builder: (context, child) {
+              final glow = _glowAnim.value;
+              return AnimatedContainer(
+                duration: AppAnimations.fast,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.22),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                    if (_isHovered || _isPressed)
+                      BoxShadow(
+                        color: accentColor.withValues(alpha: 0.35 * glow),
+                        blurRadius: 16,
+                        spreadRadius: 1,
+                        offset: Offset.zero,
                       ),
-                      child: Text(
-                        name,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: AppTypography.labelSmall.copyWith(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          shadows: [
-                            const Shadow(
-                              color: Colors.black54,
-                              blurRadius: 4,
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          // Thumbnail
+                          _PreviewThumbnail(
+                            catalogId: widget.entry.catalogId,
+                            is3D: is3D,
+                            category: widget.entry.category,
+                          ),
+                          // Gradient overlay for text
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(6, 20, 6, 7),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.transparent,
+                                    Colors.black.withValues(alpha: 0.78),
+                                  ],
+                                ),
+                              ),
+                              child: Text(
+                                name,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                                style: AppTypography.labelSmall.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  shadows: const [
+                                    Shadow(
+                                      color: Colors.black54,
+                                      blurRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                          // Press darkening overlay
+                          if (_isPressed)
+                            Positioned.fill(
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withValues(alpha: 0.15),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                    // Animated shimmer border overlay on hover/press
+                    if (_isHovered || _isPressed)
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          child: AnimatedOpacity(
+                            opacity: glow,
+                            duration: AppAnimations.fast,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                                border: Border.all(
+                                  color: accentColor.withValues(alpha: 0.75),
+                                  width: 1.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -792,7 +969,7 @@ class _EmptyState extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(AppSpacing.xl),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant.withOpacity(0.5),
+                  color: AppColors.surfaceVariant.withValues(alpha: 0.5),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -821,6 +998,365 @@ class _EmptyState extends StatelessWidget {
                 ),
               ],
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Featured hero carousel
+// ---------------------------------------------------------------------------
+
+class _FeaturedSection extends StatelessWidget {
+  final CatalogRepository catalog;
+  final AppLocalizations l10n;
+  final void Function(FractalModule, String catalogId) onTap;
+
+  const _FeaturedSection({
+    required this.catalog,
+    required this.l10n,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Resolve featured entries from the catalog, preserving order.
+    final featured = _kFeaturedFractalIds
+        .map((id) {
+          try {
+            return catalog.entries.firstWhere(
+              (e) => e.catalogId == id || e.catalogId == 'core.$id',
+            );
+          } catch (_) {
+            return null;
+          }
+        })
+        .whereType<CatalogEntry>()
+        .toList();
+
+    if (featured.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.sm,
+            AppSpacing.lg,
+            AppSpacing.sm,
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF7C4DFF), Color(0xFF18FFFF)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.45),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.auto_awesome_rounded,
+                  size: 11,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                'FEATURED',
+                style: AppTypography.labelSmall.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.6,
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 180,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            itemCount: featured.length,
+            itemBuilder: (context, index) {
+              final entry = featured[index];
+              return Padding(
+                padding: EdgeInsets.only(
+                  right: index < featured.length - 1 ? AppSpacing.sm : 0,
+                ),
+                child: _FeaturedCard(
+                  entry: entry,
+                  l10n: l10n,
+                  onTap: () => onTap(entry.module, entry.catalogId),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          child: Container(
+            height: 1,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  AppColors.border.withValues(alpha: 0.6),
+                  AppColors.border.withValues(alpha: 0.6),
+                  Colors.transparent,
+                ],
+                stops: const [0, 0.15, 0.85, 1],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+      ],
+    );
+  }
+}
+
+class _FeaturedCard extends StatefulWidget {
+  final CatalogEntry entry;
+  final AppLocalizations l10n;
+  final VoidCallback onTap;
+
+  const _FeaturedCard({
+    required this.entry,
+    required this.l10n,
+    required this.onTap,
+  });
+
+  @override
+  State<_FeaturedCard> createState() => _FeaturedCardState();
+}
+
+class _FeaturedCardState extends State<_FeaturedCard>
+    with SingleTickerProviderStateMixin {
+  bool _isHovered = false;
+  bool _isPressed = false;
+  late final AnimationController _scaleController;
+  late final Animation<double> _scaleAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: AppAnimations.fast,
+    );
+    _scaleAnim = Tween<double>(begin: 1.0, end: 1.03).animate(
+      CurvedAnimation(
+          parent: _scaleController, curve: AppAnimations.snappyCurve),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    super.dispose();
+  }
+
+  void _setHover(bool on) {
+    setState(() => _isHovered = on);
+    if (on) {
+      _scaleController.forward();
+    } else {
+      _scaleController.reverse();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final is3D = widget.entry.module.dimension == FractalDimension.threeD;
+    final name = widget.entry.module.displayName(widget.l10n);
+    final accentColor = _categoryAccentColor(widget.entry.category);
+
+    return MouseRegion(
+      onEnter: (_) => _setHover(true),
+      onExit: (_) => _setHover(false),
+      child: GestureDetector(
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapCancel: () => setState(() => _isPressed = false),
+        onTap: widget.onTap,
+        child: ScaleTransition(
+          scale: _scaleAnim,
+          child: AnimatedContainer(
+            duration: AppAnimations.fast,
+            width: 180,
+            height: 180,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+                if (_isHovered || _isPressed)
+                  BoxShadow(
+                    color: accentColor.withValues(alpha: 0.45),
+                    blurRadius: 20,
+                    spreadRadius: 1,
+                  ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _PreviewThumbnail(
+                        catalogId: widget.entry.catalogId,
+                        is3D: is3D,
+                        category: widget.entry.category,
+                      ),
+                      // Deep bottom gradient for name legibility
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        height: 90,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withValues(alpha: 0.85),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Name label
+                      Positioned(
+                        left: 8,
+                        right: 8,
+                        bottom: 8,
+                        child: Text(
+                          name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: AppTypography.labelSmall.copyWith(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            shadows: const [
+                              Shadow(color: Colors.black87, blurRadius: 6),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Top accent gradient strip
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: 3,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topLeft:
+                                  Radius.circular(AppSpacing.cardRadius),
+                              topRight:
+                                  Radius.circular(AppSpacing.cardRadius),
+                            ),
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors.primary.withValues(alpha: 0.9),
+                                accentColor.withValues(alpha: 0.9),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      // 3D badge
+                      if (is3D)
+                        Positioned(
+                          top: 10,
+                          right: 8,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFB300)
+                                  .withValues(alpha: 0.92),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: const Color(0xFFFFB300),
+                                width: 1,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.25),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              '3D',
+                              style: AppTypography.labelSmall.copyWith(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 10,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                          ),
+                        ),
+                      // Press overlay
+                      if (_isPressed)
+                        Positioned.fill(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.18),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                // Glow border on hover / press
+                if (_isHovered || _isPressed)
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(AppSpacing.cardRadius),
+                          border: Border.all(
+                            color: accentColor.withValues(alpha: 0.8),
+                            width: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -927,13 +1463,13 @@ class _ModuleCardState extends State<_ModuleCard>
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
           color: _isPressed
-              ? AppColors.primary.withOpacity(0.4)
-              : AppColors.border.withOpacity(0.4),
+              ? AppColors.primary.withValues(alpha: 0.4)
+              : AppColors.border.withValues(alpha: 0.4),
         ),
         boxShadow: _isPressed
             ? [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha: 0.1),
                   blurRadius: 16,
                   offset: const Offset(0, 4),
                 ),
@@ -979,7 +1515,7 @@ class _ModuleCardState extends State<_ModuleCard>
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: _isPressed
-                    ? AppColors.primary.withOpacity(0.2)
+                    ? AppColors.primary.withValues(alpha: 0.2)
                     : AppColors.surfaceVariant,
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -1100,7 +1636,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border.withOpacity(0.5)),
+        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
       ),
       child: Stack(
         fit: StackFit.expand,
@@ -1152,7 +1688,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
             child: Container(
               height: 3,
               decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.85),
+                color: accentColor.withValues(alpha: 0.85),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),
@@ -1169,18 +1705,18 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
               decoration: BoxDecoration(
                 color: widget.is3D
-                    ? const Color(0xFFFFB300).withOpacity(0.92)
-                    : Colors.white.withOpacity(0.18),
+                    ? const Color(0xFFFFB300).withValues(alpha: 0.92)
+                    : Colors.white.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: widget.is3D
                       ? const Color(0xFFFFB300)
-                      : Colors.white.withOpacity(0.45),
+                      : Colors.white.withValues(alpha: 0.45),
                   width: 1,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.25),
+                    color: Colors.black.withValues(alpha: 0.25),
                     blurRadius: 4,
                   ),
                 ],
@@ -1206,7 +1742,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.6),
+                  color: Colors.black.withValues(alpha: 0.6),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
@@ -1546,7 +2082,7 @@ class _FractalGradientPainter extends CustomPainter {
           center: const Alignment(-0.3, -0.3),
           radius: 0.9,
           colors: [
-            colorMid.withOpacity(0.55),
+            colorMid.withValues(alpha: 0.55),
             Colors.transparent,
           ],
         ).createShader(rect),
@@ -1561,9 +2097,9 @@ class _FractalGradientPainter extends CustomPainter {
           end: Alignment.topRight,
           transform: GradientRotation(angle),
           colors: [
-            colorB.withOpacity(0.4),
+            colorB.withValues(alpha: 0.4),
             Colors.transparent,
-            colorA.withOpacity(0.3),
+            colorA.withValues(alpha: 0.3),
           ],
         ).createShader(rect),
     );

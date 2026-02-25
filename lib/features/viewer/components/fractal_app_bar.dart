@@ -32,8 +32,8 @@ class FractalAppBar extends StatelessWidget implements PreferredSizeWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                AppColors.background.withOpacity(0.9),
-                AppColors.background.withOpacity(0.7),
+                AppColors.background.withValues(alpha: 0.9),
+                AppColors.background.withValues(alpha: 0.7),
               ],
             ),
           ),
@@ -111,7 +111,7 @@ class AppBarIconButton extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 4),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: AppColors.surfaceVariant.withOpacity(0.5),
+              color: AppColors.surfaceVariant.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, size: 20, color: AppColors.textPrimary),
@@ -174,7 +174,7 @@ class _AnimatedBackButtonState extends State<_AnimatedBackButton>
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: AppColors.surfaceVariant.withOpacity(0.5),
+                color: AppColors.surfaceVariant.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(

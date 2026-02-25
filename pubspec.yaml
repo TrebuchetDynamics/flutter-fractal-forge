@@ -1,7 +1,7 @@
 name: flutter_fractals
-description: A Flutter app for rendering 3D Mandelbulb fractals with real-time interaction.
+description: GPU-accelerated fractal exploration with 350+ types, AR overlay, deep zoom, and real-time rendering.
 publish_to: none
-version: 1.0.22+23
+version: 1.1.0+24
 environment:
   sdk: ^3.0.0
 dependencies:

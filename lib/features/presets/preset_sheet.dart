@@ -58,7 +58,7 @@ class _PresetSheetState extends State<PresetSheet> {
           icon: Icons.bookmark_rounded,
           iconGradient: LinearGradient(
             colors: [
-              AppColors.secondary.withOpacity(0.8),
+              AppColors.secondary.withValues(alpha: 0.8),
               AppColors.secondaryDark,
             ],
           ),
@@ -82,12 +82,12 @@ class _PresetSheetState extends State<PresetSheet> {
                     duration: AppAnimations.normal,
                     padding: const EdgeInsets.all(AppSpacing.lg),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceVariant.withOpacity(0.5),
+                      color: AppColors.surfaceVariant.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
                       border: Border.all(
                         color: _isInputFocused
-                            ? AppColors.primary.withOpacity(0.4)
-                            : AppColors.border.withOpacity(0.3),
+                            ? AppColors.primary.withValues(alpha: 0.4)
+                            : AppColors.border.withValues(alpha: 0.3),
                       ),
                     ),
                     child: Column(
@@ -99,8 +99,8 @@ class _PresetSheetState extends State<PresetSheet> {
                             borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
                             border: Border.all(
                               color: _isInputFocused
-                                  ? AppColors.primary.withOpacity(0.6)
-                                  : AppColors.border.withOpacity(0.4),
+                                  ? AppColors.primary.withValues(alpha: 0.6)
+                                  : AppColors.border.withValues(alpha: 0.4),
                               width: _isInputFocused ? 1.5 : 1,
                             ),
                           ),
@@ -139,7 +139,7 @@ class _PresetSheetState extends State<PresetSheet> {
                                 : () => _savePreset(context, controller, presetStore, l10n),
                             gradient: LinearGradient(
                               colors: [
-                                AppColors.secondary.withOpacity(0.9),
+                                AppColors.secondary.withValues(alpha: 0.9),
                                 AppColors.secondaryDark,
                               ],
                             ),
@@ -371,16 +371,16 @@ class _PresetChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isPressed
               ? (isBuiltIn
-                  ? AppColors.primary.withOpacity(0.25)
-                  : AppColors.secondary.withOpacity(0.25))
+                  ? AppColors.primary.withValues(alpha: 0.25)
+                  : AppColors.secondary.withValues(alpha: 0.25))
               : AppColors.surfaceVariant,
           borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
           border: Border.all(
             color: isPressed
                 ? (isBuiltIn
-                    ? AppColors.primary.withOpacity(0.6)
-                    : AppColors.secondary.withOpacity(0.6))
-                : AppColors.border.withOpacity(0.4),
+                    ? AppColors.primary.withValues(alpha: 0.6)
+                    : AppColors.secondary.withValues(alpha: 0.6))
+                : AppColors.border.withValues(alpha: 0.4),
           ),
         ),
         child: Row(
@@ -419,10 +419,10 @@ class _EmptyUserPresets extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.xl),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant.withOpacity(0.3),
+        color: AppColors.surfaceVariant.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
-          color: AppColors.border.withOpacity(0.2),
+          color: AppColors.border.withValues(alpha: 0.2),
           style: BorderStyle.solid,
         ),
       ),
@@ -431,7 +431,7 @@ class _EmptyUserPresets extends StatelessWidget {
           Icon(
             Icons.bookmark_add_rounded,
             size: 32,
-            color: AppColors.textMuted.withOpacity(0.6),
+            color: AppColors.textMuted.withValues(alpha: 0.6),
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
@@ -463,10 +463,10 @@ class _ErrorState extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.error.withOpacity(0.1),
+        color: AppColors.error.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
-          color: AppColors.error.withOpacity(0.3),
+          color: AppColors.error.withValues(alpha: 0.3),
         ),
       ),
       child: Row(

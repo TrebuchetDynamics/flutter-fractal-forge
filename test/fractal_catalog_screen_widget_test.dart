@@ -55,8 +55,9 @@ void main() {
       expect(ids, containsAll(['mandelbrot', 'julia', 'burning_ship', 'phoenix', 'mandelbulb']));
 
       // Verify key entries render in the default view.
-      expect(find.text('Mandelbrot'), findsOneWidget);
-      expect(find.text('Burning Ship'), findsOneWidget);
+      // Featured section may duplicate names, so use findsWidgets.
+      expect(find.text('Mandelbrot'), findsWidgets);
+      expect(find.text('Burning Ship'), findsWidgets);
       expect(find.byKey(const Key('catalogViewToggleButton')), findsOneWidget);
     });
 
@@ -134,8 +135,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // Module text should render.
-      expect(find.text('Mandelbrot'), findsOneWidget);
+      // Module text should render (featured + grid may both show it).
+      expect(find.text('Mandelbrot'), findsWidgets);
     });
 
     testWidgets('search miss shows empty state and clear restores results',
@@ -155,7 +156,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
-      expect(find.text('Mandelbrot'), findsOneWidget);
+      // Featured section reappears after clearing search.
+      expect(find.text('Mandelbrot'), findsWidgets);
     });
 
     testWidgets('respects saved list-view preference at startup',

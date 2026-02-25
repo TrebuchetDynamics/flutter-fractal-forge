@@ -36,7 +36,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 700));
 
       // Check welcome page content
-      expect(find.text('Welcome to Flutter Fractals'), findsOneWidget);
+      expect(find.text('Welcome to Fractal Forge'), findsOneWidget);
       expect(find.text('Skip'), findsOneWidget);
       expect(find.text('Next'), findsOneWidget);
     });
@@ -50,31 +50,19 @@ void main() {
       await tester.pump(const Duration(milliseconds: 700));
 
       // Page 1: Welcome
-      expect(find.text('Welcome to Flutter Fractals'), findsOneWidget);
+      expect(find.text('Welcome to Fractal Forge'), findsOneWidget);
 
-      // Tap Next to go to page 2
+      // Tap Next to go to page 2 — step through the 350 ms page transition
       await tester.tap(find.text('Next'));
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 200));
 
-      // Page 2: Fractal Types
-      expect(find.text('Discover Fractal Types'), findsOneWidget);
-
-      // Tap Next to go to page 3
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-
-      // Page 3: Gestures
-      expect(find.text('Intuitive Controls'), findsOneWidget);
-
-      // Tap Next to go to page 4
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-
-      // Page 4: Features - should show "Get Started" button
-      expect(find.text('Powerful Features'), findsOneWidget);
+      // Page 2: Create, Export & Experience in AR - should show "Get Started" button
+      expect(find.text('Create, Export & Experience in AR'), findsOneWidget);
       expect(find.text('Get Started'), findsOneWidget);
     });
 
@@ -86,16 +74,14 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
 
-      // Navigate to last page
+      // Navigate to last page (page 2 of 2) — step through the 350 ms transition
       await tester.tap(find.text('Next'));
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 200));
 
       // Tap Get Started
       await tester.tap(find.text('Get Started'));
@@ -137,12 +123,11 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
 
-      // Should have 4 page indicators (AnimatedContainers)
-      // This is a basic check - more detailed checks would require finding specific widgets
+      // Should have 2 page indicators (AnimatedContainers)
       expect(find.byType(AnimatedContainer), findsWidgets);
     });
 
-    testWidgets('displays fractal types on second page', (tester) async {
+    testWidgets('displays fractal types on first page', (tester) async {
       bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
@@ -150,17 +135,19 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
 
-      // Navigate to fractal types page
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-
-      // Check for fractal names
-      expect(find.text('Mandelbrot'), findsOneWidget);
-      expect(find.text('Julia'), findsOneWidget);
+      // Check for fractal type mentions in the highlight items
+      expect(
+        find.textContaining('Mandelbrot', findRichText: true),
+        findsWidgets,
+      );
+      expect(
+        find.textContaining('Julia', findRichText: true),
+        findsWidgets,
+      );
     });
 
-    testWidgets('displays gesture controls on third page', (tester) async {
+    testWidgets('displays export and preset features on second page',
+        (tester) async {
       bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
@@ -168,21 +155,21 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
 
-      // Navigate to gestures page
+      // Navigate to second page — step through the 350 ms page transition
       await tester.tap(find.text('Next'));
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 200));
 
-      // Check for gesture names
-      expect(find.text('Pan'), findsOneWidget);
-      expect(find.text('Zoom'), findsOneWidget);
-      // Rotate/Double Tap are optional depending on the onboarding copy.
+      // Check for export and AR features present on page 2
+      expect(find.textContaining('Export'), findsWidgets);
+      expect(find.textContaining('colour schemes'), findsWidgets);
     });
 
-    testWidgets('displays features on fourth page', (tester) async {
+    testWidgets('displays gesture controls on first page', (tester) async {
       bool completed = false; // ignore: unused_local_variable
       await tester.pumpWidget(buildTestWidget(
         onComplete: () => completed = true,
@@ -190,21 +177,9 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
 
-      // Navigate to features page
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-
-      // Check for feature names
-      expect(find.text('Presets'), findsOneWidget);
-      expect(find.text('Export'), findsOneWidget);
-      expect(find.text('AR Mode'), findsOneWidget);
+      // Pan and pinch are mentioned in the first page highlight items
+      expect(find.textContaining('Pan'), findsWidgets);
+      expect(find.textContaining('pinch'), findsWidgets);
     });
   });
 

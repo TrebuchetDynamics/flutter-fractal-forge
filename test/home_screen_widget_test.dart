@@ -61,7 +61,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('Mandelbrot'), findsOneWidget);
+      expect(find.text('Mandelbrot'), findsWidgets);
       expect(find.textContaining('Julia'), findsWidgets);
     });
 

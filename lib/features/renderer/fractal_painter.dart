@@ -94,16 +94,16 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                     child: Container(
                       padding: const EdgeInsets.all(AppSpacing.lg),
                       decoration: BoxDecoration(
-                        color: _errorColor.withOpacity(0.1),
+                        color: _errorColor.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: _errorColor.withOpacity(0.3),
+                          color: _errorColor.withValues(alpha: 0.3),
                           width: 2,
                         ),
                         boxShadow: [
                           BoxShadow(
                             color: _errorColor
-                                .withOpacity(0.2 * _pulseController.value),
+                                .withValues(alpha: 0.2 * _pulseController.value),
                             blurRadius: 20,
                             spreadRadius: 5,
                           ),
@@ -156,7 +156,7 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: AppColors.border.withOpacity(0.3),
+                    color: AppColors.border.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Text(
@@ -199,7 +199,7 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.textSecondary,
                       side: BorderSide(
-                        color: AppColors.border.withOpacity(0.5),
+                        color: AppColors.border.withValues(alpha: 0.5),
                       ),
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.lg,
@@ -243,7 +243,7 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                       color: AppColors.surface,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: AppColors.border.withOpacity(0.2),
+                        color: AppColors.border.withValues(alpha: 0.2),
                       ),
                     ),
                     child: SelectableText(
@@ -263,17 +263,17 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
               Container(
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.05),
+                  color: AppColors.primary.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: AppColors.primary.withOpacity(0.2),
+                    color: AppColors.primary.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.lightbulb_outline_rounded,
-                      color: AppColors.primary.withOpacity(0.7),
+                      color: AppColors.primary.withValues(alpha: 0.7),
                       size: 20,
                     ),
                     const SizedBox(width: AppSpacing.sm),

@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
@@ -12,7 +11,7 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
-const bool kSafeMode = bool.fromEnvironment('SAFE_MODE', defaultValue: false);
+const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -37,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Home no longer animates tab transitions.
 
     // Set up deep link handling (skip in SAFE_MODE)
-    if (!kSafeMode) {
+    if (kSafeMode == 0) {
       _initDeepLinks();
     }
   }
@@ -160,9 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
         value: _exploreController,
         child: Column(
           children: [
-            if (kSafeMode)
+            if (kSafeMode >= 1)
               MaterialBanner(
-                backgroundColor: AppColors.warning.withOpacity(0.15),
+                backgroundColor: AppColors.warning.withValues(alpha: 0.15),
                 content: Text(
                   'SAFE MODE: AR & shader rendering disabled for device crash triage.',
                   style: Theme.of(context)
@@ -187,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _PremiumAppBar extends StatelessWidget implements PreferredSizeWidget {
+class _PremiumAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
 
   const _PremiumAppBar({required this.title});
@@ -196,147 +195,116 @@ class _PremiumAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
-  Widget build(BuildContext context) {
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.surface.withOpacity(0.85),
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.border.withOpacity(0.3),
-              ),
-            ),
-          ),
-          child: SafeArea(
-            bottom: false,
-            child: SizedBox(
-              height: kToolbarHeight,
-              child: Center(
-                child: AnimatedSwitcher(
-                  duration: AppAnimations.fast,
-                  child: Text(
-                    title,
-                    key: ValueKey(title),
-                    style: AppTypography.titleLarge,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  State<_PremiumAppBar> createState() => _PremiumAppBarState();
 }
 
-
-class _NavBarItem extends StatefulWidget {
-  final IconData icon;
-  final String label;
-  final String semanticLabel;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _NavBarItem({
-    required this.icon,
-    required this.label,
-    required this.semanticLabel,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  State<_NavBarItem> createState() => _NavBarItemState();
-}
-
-class _NavBarItemState extends State<_NavBarItem>
+class _PremiumAppBarState extends State<_PremiumAppBar>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
+  late final AnimationController _shimmerController;
+  late final Animation<double> _shimmerAnim;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
+    _shimmerController = AnimationController(
       vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
+      duration: const Duration(milliseconds: 2800),
+    )..forward();
+    _shimmerAnim = CurvedAnimation(
+      parent: _shimmerController,
+      curve: Curves.easeInOut,
     );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _shimmerController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final color = widget.isSelected ? AppColors.primary : AppColors.textMuted;
-    final anim = AppAnimations.of(context);
-    
-    // Check if we should reduce motion
-    final reduceMotion = context.shouldReduceMotion ||
-        (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
-
-    return Semantics(
-      label: widget.semanticLabel,
-      button: true,
-      selected: widget.isSelected,
-      child: GestureDetector(
-        onTapDown: reduceMotion ? null : (_) => _controller.forward(),
-        onTapUp: reduceMotion ? null : (_) => _controller.reverse(),
-        onTapCancel: reduceMotion ? null : () => _controller.reverse(),
-        onTap: widget.onTap,
-        behavior: HitTestBehavior.opaque,
-        child: reduceMotion
-            ? _buildContent(color, anim)
-            : ScaleTransition(
-                scale: _scaleAnimation,
-                child: _buildContent(color, anim),
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: AnimatedBuilder(
+          animation: _shimmerAnim,
+          builder: (context, child) {
+            // Shimmer sweeps left-to-right across the bottom border only.
+            final sweep = _shimmerAnim.value;
+            return Container(
+              decoration: BoxDecoration(
+                color: AppColors.surface.withValues(alpha: 0.85),
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppColors.border.withValues(alpha: 0.3),
+                  ),
+                ),
               ),
-      ),
-    );
-  }
-
-  Widget _buildContent(Color color, AccessibleAnimations anim) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedContainer(
-            duration: anim.normal,
-            curve: anim.curve,
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: widget.isSelected
-                  ? AppColors.primary.withOpacity(0.15)
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              widget.icon,
-              color: color,
-              size: 22,
+              foregroundDecoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color.lerp(
+                      AppColors.border.withValues(alpha: 0.0),
+                      AppColors.primaryLight.withValues(alpha: 0.55),
+                      // Bell-curve brightness: peak at sweep == 0.5
+                      (1.0 - (sweep - 0.5).abs() * 2.0).clamp(0.0, 1.0),
+                    )!,
+                    width: 1.0,
+                  ),
+                ),
+              ),
+              child: child,
+            );
+          },
+          child: SafeArea(
+            bottom: false,
+            child: SizedBox(
+              height: kToolbarHeight,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Title centred in bar
+                  AnimatedSwitcher(
+                    duration: AppAnimations.fast,
+                    child: Text(
+                      widget.title,
+                      key: ValueKey(widget.title),
+                      style: AppTypography.titleLarge,
+                    ),
+                  ),
+                  // "350+ fractals" badge — right-aligned
+                  Positioned(
+                    right: AppSpacing.lg,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: AppColors.primary.withValues(alpha: 0.28),
+                          width: 1,
+                        ),
+                      ),
+                      child: Text(
+                        '350+ fractals',
+                        style: AppTypography.labelSmall.copyWith(
+                          color: AppColors.primaryLight,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 4),
-          AnimatedDefaultTextStyle(
-            duration: anim.normal,
-            style: AppTypography.labelSmall.copyWith(
-              color: color,
-              fontWeight: widget.isSelected
-                  ? FontWeight.w600
-                  : FontWeight.w400,
-            ),
-            child: Text(widget.label),
-          ),
-        ],
+        ),
       ),
     );
   }

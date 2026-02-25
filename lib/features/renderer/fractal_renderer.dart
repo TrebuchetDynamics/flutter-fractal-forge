@@ -199,7 +199,7 @@ class _FractalRendererState extends State<FractalRenderer>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.65),
+                  color: Colors.black.withValues(alpha: 0.65),
                   borderRadius: BorderRadius.circular(999),
                   border: Border.all(color: Colors.white24),
                 ),
@@ -226,7 +226,7 @@ class _FractalRendererState extends State<FractalRenderer>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.72),
+                  color: Colors.black.withValues(alpha: 0.72),
                   borderRadius: BorderRadius.circular(999),
                   border: Border.all(color: Colors.white24),
                 ),

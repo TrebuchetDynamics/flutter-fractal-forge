@@ -83,12 +83,12 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                           border: active
                               ? null
                               : Border.all(
-                                  color: AppColors.border.withOpacity(0.5)),
+                                  color: AppColors.border.withValues(alpha: 0.5)),
                           boxShadow: [
                             BoxShadow(
                               color: active
-                                  ? AppColors.primary.withOpacity(0.35)
-                                  : Colors.black.withOpacity(0.18),
+                                  ? AppColors.primary.withValues(alpha: 0.35)
+                                  : Colors.black.withValues(alpha: 0.18),
                               blurRadius: active ? 16 : 12,
                               offset: const Offset(0, 4),
                             ),
@@ -113,7 +113,7 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.72),
+                      color: Colors.black.withValues(alpha: 0.72),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.white12),
                     ),
@@ -144,7 +144,7 @@ class AutoExploreSettingsSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: AppColors.border.withOpacity(0.3)),
+        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
       ),
       child: SafeArea(
         child: Padding(
@@ -158,7 +158,7 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.textMuted.withOpacity(0.3),
+                    color: AppColors.textMuted.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -179,10 +179,10 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.04),
+                    color: Colors.white.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(10),
                     border:
-                        Border.all(color: AppColors.border.withOpacity(0.35)),
+                        Border.all(color: AppColors.border.withValues(alpha: 0.35)),
                   ),
                   child: const Text(
                     'Auto-pilot paused (user correction)',
@@ -194,9 +194,9 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.04),
+                  color: Colors.white.withValues(alpha: 0.04),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.border.withOpacity(0.35)),
+                  border: Border.all(color: AppColors.border.withValues(alpha: 0.35)),
                 ),
                 child: const Text(
                   'Auto mode: Zoom-only (no auto-pan). You can pan freely.',

@@ -173,6 +173,11 @@ void main() {
 
     testWidgets('AR launch falls back to overlay screen safely',
         (tester) async {
+      // Pre-acknowledge the AR safety warning so the dialog does not block
+      // the camera button from opening the overlay screen.
+      SharedPreferences.setMockInitialValues(
+          {'ar_safety_warning_ack_v1': true});
+
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 

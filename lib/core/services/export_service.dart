@@ -297,6 +297,10 @@ class ExportService {
     return result;
   }
 
+  /// Strips unsafe characters from a name used in file paths.
+  static String _sanitizeName(String name) =>
+      name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9_\-]'), '_');
+
   /// Generate a filename with timestamp and format extension
   String generateFilename({
     String prefix = 'fractal',
@@ -304,7 +308,8 @@ class ExportService {
     String? fractalType,
   }) {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final typePart = fractalType != null ? '_${fractalType.toLowerCase()}' : '';
+    final typePart =
+        fractalType != null ? '_${_sanitizeName(fractalType)}' : '';
     return '$prefix${typePart}_$timestamp.${format.extension}';
   }
 

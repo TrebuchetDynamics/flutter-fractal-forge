@@ -373,6 +373,12 @@ class CrashReporter {
       '/\$1/…',
     );
 
+    // Android internal app data paths
+    s = s.replaceAll(
+      RegExp(r'/data/(data|user/\d+)/[^/\s]+'),
+      '/data/.../',
+    );
+
     return s;
   }
 

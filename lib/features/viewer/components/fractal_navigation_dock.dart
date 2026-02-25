@@ -26,12 +26,12 @@ class FractalNavigationDock extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.55),
+          color: Colors.black.withValues(alpha: 0.55),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.white24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.22),
+              color: Colors.black.withValues(alpha: 0.22),
               blurRadius: 14,
               offset: const Offset(0, 6),
             ),
@@ -108,7 +108,7 @@ class _DockButton extends StatelessWidget {
                       icon,
                       size: 18,
                       color: onTap == null
-                          ? AppColors.textMuted.withOpacity(0.6)
+                          ? AppColors.textMuted.withValues(alpha: 0.6)
                           : Colors.white,
                     ),
                     const SizedBox(height: 2),
@@ -118,7 +118,7 @@ class _DockButton extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: AppTypography.labelSmall.copyWith(
                         color: onTap == null
-                            ? AppColors.textMuted.withOpacity(0.7)
+                            ? AppColors.textMuted.withValues(alpha: 0.7)
                             : Colors.white,
                         fontWeight: FontWeight.w600,
                         fontSize: 10,

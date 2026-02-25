@@ -236,14 +236,14 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
             ? null
             : Border.all(
                 color: _isPressed
-                    ? AppColors.primary.withOpacity(0.5)
-                    : AppColors.border.withOpacity(0.5),
+                    ? AppColors.primary.withValues(alpha: 0.5)
+                    : AppColors.border.withValues(alpha: 0.5),
               ),
         boxShadow: [
           BoxShadow(
             color: widget.isPrimary
-                ? AppColors.primary.withOpacity(_isPressed ? 0.5 : 0.3)
-                : Colors.black.withOpacity(0.2),
+                ? AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3)
+                : Colors.black.withValues(alpha: 0.2),
             blurRadius: _isPressed ? 16 : 12,
             offset: const Offset(0, 4),
           ),

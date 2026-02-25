@@ -69,9 +69,9 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.85),
+                color: Colors.black.withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.amber.withOpacity(0.8)),
+                border: Border.all(color: Colors.amber.withValues(alpha: 0.8)),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

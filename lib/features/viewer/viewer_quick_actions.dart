@@ -27,94 +27,99 @@ Future<void> _viewerOpenViewerQuickActions(
       final canGoForward = historyProvider?.canGoForward ?? false;
       final maxSheetHeight = MediaQuery.of(context).size.height * 0.72;
       return SafeArea(
-        child: Container(
-          margin: const EdgeInsets.all(AppSpacing.lg),
-          decoration: BoxDecoration(
-            color: AppColors.surface.withOpacity(0.95),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.border.withOpacity(0.6)),
-          ),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: maxSheetHeight),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.bookmark_add_rounded),
-                    title: const Text('Save location'),
-                    onTap: () => Navigator.of(context)
-                        .pop(_ViewerMenuAction.saveLocation),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.bookmark_rounded),
-                    title: const Text('Open presets'),
-                    onTap: () => Navigator.of(context)
-                        .pop(_ViewerMenuAction.openPresets),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.shuffle_rounded),
-                    title: const Text('Random fractal'),
-                    onTap: () => Navigator.of(context)
-                        .pop(_ViewerMenuAction.randomFractal),
-                  ),
-                  if (canGoBack)
+        child: Semantics(
+          label: 'Quick actions menu',
+          container: true,
+          child: Container(
+            margin: const EdgeInsets.all(AppSpacing.lg),
+            decoration: BoxDecoration(
+              color: AppColors.surface.withValues(alpha: 0.95),
+              borderRadius: BorderRadius.circular(20),
+              border:
+                  Border.all(color: AppColors.border.withValues(alpha: 0.6)),
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: maxSheetHeight),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     ListTile(
-                      leading: const Icon(Icons.undo_rounded),
-                      title: const Text('Back in view history'),
+                      leading: const Icon(Icons.bookmark_add_rounded),
+                      title: const Text('Save location'),
                       onTap: () => Navigator.of(context)
-                          .pop(_ViewerMenuAction.historyBack),
+                          .pop(_ViewerMenuAction.saveLocation),
                     ),
-                  if (canGoForward)
                     ListTile(
-                      leading: const Icon(Icons.redo_rounded),
-                      title: const Text('Forward in view history'),
+                      leading: const Icon(Icons.bookmark_rounded),
+                      title: const Text('Open presets'),
                       onTap: () => Navigator.of(context)
-                          .pop(_ViewerMenuAction.historyForward),
+                          .pop(_ViewerMenuAction.openPresets),
                     ),
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: const Icon(Icons.auto_mode_rounded),
-                    title: const Text('Renderer mode'),
-                    onTap: () => Navigator.of(context)
-                        .pop(_ViewerMenuAction.rendererMode),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      rotationLocked
-                          ? Icons.screen_lock_rotation_rounded
-                          : Icons.screen_rotation_alt_rounded,
-                    ),
-                    title: Text(
-                      rotationLocked ? 'Unlock rotation' : 'Lock rotation',
-                    ),
-                    onTap: () => Navigator.of(context)
-                        .pop(_ViewerMenuAction.toggleRotation),
-                  ),
-                  ListTile(
-                    leading: Icon(state._showMiniMap
-                        ? Icons.map_rounded
-                        : Icons.map_outlined),
-                    title: Text(
-                        state._showMiniMap ? 'Hide minimap' : 'Show minimap'),
-                    onTap: () => Navigator.of(context)
-                        .pop(_ViewerMenuAction.toggleMinimap),
-                  ),
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: const Icon(Icons.receipt_long_rounded),
-                    title: const Text('View logs'),
-                    onTap: () =>
-                        Navigator.of(context).pop(_ViewerMenuAction.openLogs),
-                  ),
-                  if (kDebugMode)
                     ListTile(
-                      leading: const Icon(Icons.bug_report_rounded),
-                      title: const Text('GPU debug report'),
-                      onTap: () =>
-                          Navigator.of(context).pop(_ViewerMenuAction.gpuDebug),
+                      leading: const Icon(Icons.shuffle_rounded),
+                      title: const Text('Random fractal'),
+                      onTap: () => Navigator.of(context)
+                          .pop(_ViewerMenuAction.randomFractal),
                     ),
-                ],
+                    if (canGoBack)
+                      ListTile(
+                        leading: const Icon(Icons.undo_rounded),
+                        title: const Text('Back in view history'),
+                        onTap: () => Navigator.of(context)
+                            .pop(_ViewerMenuAction.historyBack),
+                      ),
+                    if (canGoForward)
+                      ListTile(
+                        leading: const Icon(Icons.redo_rounded),
+                        title: const Text('Forward in view history'),
+                        onTap: () => Navigator.of(context)
+                            .pop(_ViewerMenuAction.historyForward),
+                      ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const Icon(Icons.auto_mode_rounded),
+                      title: const Text('Renderer mode'),
+                      onTap: () => Navigator.of(context)
+                          .pop(_ViewerMenuAction.rendererMode),
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        rotationLocked
+                            ? Icons.screen_lock_rotation_rounded
+                            : Icons.screen_rotation_alt_rounded,
+                      ),
+                      title: Text(
+                        rotationLocked ? 'Unlock rotation' : 'Lock rotation',
+                      ),
+                      onTap: () => Navigator.of(context)
+                          .pop(_ViewerMenuAction.toggleRotation),
+                    ),
+                    ListTile(
+                      leading: Icon(state._showMiniMap
+                          ? Icons.map_rounded
+                          : Icons.map_outlined),
+                      title: Text(
+                          state._showMiniMap ? 'Hide minimap' : 'Show minimap'),
+                      onTap: () => Navigator.of(context)
+                          .pop(_ViewerMenuAction.toggleMinimap),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const Icon(Icons.receipt_long_rounded),
+                      title: const Text('View logs'),
+                      onTap: () => Navigator.of(context)
+                          .pop(_ViewerMenuAction.openLogs),
+                    ),
+                    if (kDebugMode)
+                      ListTile(
+                        leading: const Icon(Icons.bug_report_rounded),
+                        title: const Text('GPU debug report'),
+                        onTap: () => Navigator.of(context)
+                            .pop(_ViewerMenuAction.gpuDebug),
+                      ),
+                  ],
+                ),
               ),
             ),
           ),

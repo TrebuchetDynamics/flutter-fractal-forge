@@ -15,7 +15,7 @@ Widget _viewerBuildTopFab({
         heroTag: heroTag,
         onPressed: onPressed,
         elevation: 4,
-        backgroundColor: AppColors.surface.withOpacity(0.9),
+        backgroundColor: AppColors.surface.withValues(alpha: 0.9),
         foregroundColor: AppColors.textPrimary,
         child: Icon(icon),
       ),
@@ -32,7 +32,7 @@ Widget _viewerBuildViewerTitleChip(
     key: const Key('viewerTitleChip'),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     decoration: BoxDecoration(
-      color: Colors.black.withOpacity(0.58),
+      color: Colors.black.withValues(alpha: 0.58),
       borderRadius: BorderRadius.circular(10),
       border: Border.all(color: Colors.white24),
     ),
@@ -85,7 +85,7 @@ Widget _viewerBuildViewerStatusChip(
       key: const Key('viewerStatusChip'),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.58),
+        color: Colors.black.withValues(alpha: 0.58),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.white24),
       ),

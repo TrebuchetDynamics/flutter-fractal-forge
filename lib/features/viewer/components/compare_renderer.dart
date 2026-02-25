@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
-import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
-
 class CompareRenderer extends StatelessWidget {
   final GlobalKey keyA;
   final GlobalKey keyB;
@@ -89,7 +87,7 @@ class CompareRenderer extends StatelessWidget {
       return Row(
         children: [
           Expanded(child: paneA),
-          Container(width: 1, color: AppColors.surfaceVariant.withOpacity(0.6)),
+          Container(width: 1, color: AppColors.surfaceVariant.withValues(alpha: 0.6)),
           Expanded(child: paneB),
         ],
       );
@@ -167,10 +165,10 @@ class _ComparePane extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: (isActive ? AppColors.primary : AppColors.surfaceVariant)
-                    .withOpacity(0.65),
+                    .withValues(alpha: 0.65),
                 borderRadius: BorderRadius.circular(999),
                 border: Border.all(
-                  color: Colors.white.withOpacity(isActive ? 0.35 : 0.15),
+                  color: Colors.white.withValues(alpha: isActive ? 0.35 : 0.15),
                 ),
               ),
               child: Text(
@@ -187,7 +185,7 @@ class _ComparePane extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: AppColors.primary.withOpacity(0.35),
+                      color: AppColors.primary.withValues(alpha: 0.35),
                       width: 2,
                     ),
                   ),
@@ -229,12 +227,12 @@ class _CompareDividerHandle extends StatelessWidget {
           width: 28,
           height: 64,
           decoration: BoxDecoration(
-            color: AppColors.surfaceVariant.withOpacity(0.75),
+            color: AppColors.surfaceVariant.withValues(alpha: 0.75),
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: Colors.white.withOpacity(0.18)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.35),
+                color: Colors.black.withValues(alpha: 0.35),
                 blurRadius: 14,
                 offset: const Offset(0, 6),
               ),
