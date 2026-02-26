@@ -1062,8 +1062,8 @@ class _FeaturedSection extends StatelessWidget {
                 height: 20,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF7C4DFF), Color(0xFF18FFFF)],
+                  gradient: LinearGradient(
+                    colors: [AppColors.primary, AppColors.secondary],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -1317,11 +1317,11 @@ class _FeaturedCardState extends State<_FeaturedCard>
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFFB300)
+                              color: AppColors.warning
                                   .withValues(alpha: 0.92),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: const Color(0xFFFFB300),
+                                color: AppColors.warning,
                                 width: 1,
                               ),
                               boxShadow: [
@@ -1721,12 +1721,12 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
               decoration: BoxDecoration(
                 color: widget.is3D
-                    ? const Color(0xFFFFB300).withValues(alpha: 0.92)
+                    ? AppColors.warning.withValues(alpha: 0.92)
                     : Colors.white.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: widget.is3D
-                      ? const Color(0xFFFFB300)
+                      ? AppColors.warning
                       : Colors.white.withValues(alpha: 0.45),
                   width: 1,
                 ),

@@ -79,7 +79,7 @@ class AccessibilitySettingsScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.xxl),
 
             // System settings hint
-            _SystemSettingsHint(),
+            const _SystemSettingsHint(),
           ],
         ),
       ),
@@ -228,6 +228,8 @@ class _SettingTile extends StatelessWidget {
 }
 
 class _SystemSettingsHint extends StatelessWidget {
+  const _SystemSettingsHint();
+
   @override
   Widget build(BuildContext context) {
     final prefersReducedMotion = context.shouldReduceMotion;

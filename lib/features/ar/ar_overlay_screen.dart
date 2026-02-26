@@ -1211,7 +1211,7 @@ class _ArAnchorReticle extends StatelessWidget {
                 // Inner target crosshair
                 CustomPaint(
                   size: const Size(80, 80),
-                  painter: _CrosshairPainter(),
+                  painter: const _CrosshairPainter(),
                 ),
                 // Center dot
                 Container(
@@ -1244,6 +1244,8 @@ class _ArAnchorReticle extends StatelessWidget {
 }
 
 class _CrosshairPainter extends CustomPainter {
+  const _CrosshairPainter();
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
