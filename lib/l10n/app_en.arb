@@ -730,5 +730,15 @@
       "min": {},
       "max": {}
     }
-  }
+  },
+
+  "semanticSectionHeader": "{name} section, {count} fractals",
+  "@semanticSectionHeader": {
+    "placeholders": {
+      "name": {},
+      "count": {}
+    }
+  },
+  "semanticFeaturedSection": "Featured fractals carousel",
+  "semanticControlsSectionHeader": "{title} controls section"
 }

@@ -10,21 +10,20 @@ void main() {
     const policy = DeepZoomPrecisionPolicy();
 
     test('uses per-fractal thresholds for CPU fallback', () {
-      // Mandelbrot: df2 shader covers [5e6, 1e14), CPU above 1e14.
-      expect(policy.thresholdFor('mandelbrot'), 1e14);
-      // Perturbation fractals: perturb shader covers [5e6, 1e30),
-      // so CPU fallback only triggers at 1e30.
-      expect(policy.thresholdFor('julia'), 1e30);
-      expect(policy.thresholdFor('celtic'), 1e30);
-      expect(policy.thresholdFor('buffalo'), 1e30);
-      expect(policy.thresholdFor('burning_ship'), 1e30);
-      expect(policy.thresholdFor('tricorn'), 1e30);
-      expect(policy.thresholdFor('phoenix'), 1e30);
+      // Mandelbrot: df2 shader covers [5e6, 1e12), CPU above 1e12.
+      expect(policy.thresholdFor('mandelbrot'), 1e12);
+      // Escape-time fractals: GPU precision degrades around ~1e9.
+      expect(policy.thresholdFor('julia'), 1e9);
+      expect(policy.thresholdFor('celtic'), 1e9);
+      expect(policy.thresholdFor('buffalo'), 1e9);
+      expect(policy.thresholdFor('burning_ship'), 1e9);
+      expect(policy.thresholdFor('tricorn'), 1e9);
+      expect(policy.thresholdFor('phoenix'), 1e9);
     });
 
     test('provides default threshold for unlisted fractals', () {
-      // Raised from 2e5 to 1e8: simple fractals tolerate higher GPU zoom.
-      expect(policy.thresholdFor('some_unknown'), 1e8);
+      // Default threshold is 1e7 for safe float32 precision.
+      expect(policy.thresholdFor('some_unknown'), 1e7);
     });
 
     test('fallback toggles at threshold', () {
@@ -34,17 +33,17 @@ void main() {
         isFalse,
       );
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e14),
+        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e12),
         isTrue,
       );
-      // Unlisted fractals use default threshold (1e8)
+      // Unlisted fractals use default threshold (1e7)
       // 'some_unknown' is not in the per-module map, so it gets _defaultThreshold.
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'some_unknown', zoom: 5e7),
+        policy.shouldUseCpuFallback(moduleId: 'some_unknown', zoom: 5e6),
         isFalse,
       );
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'some_unknown', zoom: 1e8),
+        policy.shouldUseCpuFallback(moduleId: 'some_unknown', zoom: 1e7),
         isTrue,
       );
     });

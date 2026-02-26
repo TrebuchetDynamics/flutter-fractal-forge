@@ -51,26 +51,26 @@ class DeepZoomPrecisionPolicy {
   /// Other escape-time fractals still use float32 GPU up to their threshold,
   /// then fall back to CPU (no df2 variant available yet).
   static const Map<String, double> _cpuFallbackZoomThresholds = {
-    // Mandelbrot: df2 shader covers zoom [5e6, 1e14), so CPU fallback only
-    // kicks in above 1e14 (the df2 upper bound).
-    'mandelbrot': 1e14,
-    // Julia & escape-time perturbation fractals: perturbation shader covers
-    // [5e6, 1e30), so CPU fallback only activates above 1e30.
-    'julia': 1e30,
-    'celtic': 1e30,
-    'buffalo': 1e30,
-    'burning_ship': 1e30,
-    'tricorn': 1e30,
-    'multibrot3': 1e30,
-    'multibrot4': 1e30,
-    'multibrot5': 1e30,
-    'phoenix': 1e30,
+    // Mandelbrot: df2 shader covers zoom [5e6, 1e12), so CPU fallback only
+    // kicks in above 1e12 (the df2 upper bound).
+    'mandelbrot': 1e12,
+    // Julia & related escape-time fractals: GPU precision degrades sooner,
+    // so switch to CPU around ~1e9.
+    'julia': 1e9,
+    'celtic': 1e9,
+    'buffalo': 1e9,
+    'burning_ship': 1e9,
+    'tricorn': 1e9,
+    'multibrot3': 1e9,
+    'multibrot4': 1e9,
+    'multibrot5': 1e9,
+    'phoenix': 1e9,
   };
 
   /// Default threshold for any fractal type not listed above.
   /// Simple orbit fractals and non-escape-time types lose precision more
   /// slowly; 1e8 is a safe upper bound for float32 at 1080p.
-  static const double _defaultThreshold = 1e8;
+  static const double _defaultThreshold = 1e7;
 
   /// Zoom range where the double-float (DS) shader [mandelbrot_df2.frag]
   /// should be used instead of the standard float32 shader.
@@ -79,12 +79,12 @@ class DeepZoomPrecisionPolicy {
   /// Between [_df2LowerThreshold] and [_df2UpperThreshold]: DS shader.
   /// Above [_df2UpperThreshold]: CPU fallback required.
   static const double _df2LowerThreshold = 5e6;
-  static const double _df2UpperThreshold = 1e14;
+  static const double _df2UpperThreshold = 1e12;
 
   /// Number of consecutive evaluations above the zoom threshold required
   /// before committing to CPU fallback. Prevents rapid GPU↔CPU flicker
   /// when zooming near the boundary.
-  static const int _hysteresisFrames = 6;
+  static const int _hysteresisFrames = 2;
 
   const DeepZoomPrecisionPolicy();
 

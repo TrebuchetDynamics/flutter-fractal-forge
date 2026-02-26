@@ -489,36 +489,41 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: Row(
-        children: [
-          Text(
-            title.toUpperCase(),
-            style: AppTypography.labelSmall.copyWith(
-              color: AppColors.textMuted,
-              letterSpacing: 1.2,
+    return Semantics(
+      header: true,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: AppSpacing.md),
+        child: Row(
+          children: [
+            Text(
+              title.toUpperCase(),
+              style: AppTypography.labelSmall.copyWith(
+                color: AppColors.textMuted,
+                letterSpacing: 1.2,
+              ),
             ),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Container(
-              height: 1,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.border.withValues(alpha: 0.5),
-                    Colors.transparent,
-                  ],
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: ExcludeSemantics(
+                child: Container(
+                  height: 1,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.border.withValues(alpha: 0.5),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          if (trailing != null) ...[
-            const SizedBox(width: AppSpacing.md),
-            trailing!,
+            if (trailing != null) ...[
+              const SizedBox(width: AppSpacing.md),
+              trailing!,
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

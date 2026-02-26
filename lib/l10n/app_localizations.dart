@@ -2887,6 +2887,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adjust from {min} to {max}'**
   String semanticSliderAdjust(Object min, Object max);
+
+  /// No description provided for @semanticSectionHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} section, {count} fractals'**
+  String semanticSectionHeader(Object name, Object count);
+
+  /// No description provided for @semanticFeaturedSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured fractals carousel'**
+  String get semanticFeaturedSection;
+
+  /// No description provided for @semanticControlsSectionHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} controls section'**
+  String semanticControlsSectionHeader(Object title);
 }
 
 class _AppLocalizationsDelegate

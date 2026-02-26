@@ -392,7 +392,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
   }
 
   Widget _buildSearchField(BuildContext context, AppLocalizations l10n) {
-    return AnimatedContainer(
+    return Semantics(
+      label: l10n.semanticSearchField,
+      textField: true,
+      child: AnimatedContainer(
       duration: AppAnimations.normal,
       curve: AppAnimations.defaultCurve,
       decoration: BoxDecoration(
@@ -460,6 +463,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           });
         },
       ),
+    ),
     );
   }
 
@@ -632,49 +636,58 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: AppSpacing.md,
-        bottom: AppSpacing.sm,
-      ),
-      child: Row(
-        children: [
-          // Colored left accent border
-          Container(
-            width: 3,
-            height: 20,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              title,
-              style: AppTypography.bodyMedium.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.2,
+    final l10n = AppLocalizations.of(context)!;
+    return Semantics(
+      header: true,
+      label: l10n.semanticSectionHeader(title, count),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: AppSpacing.md,
+          bottom: AppSpacing.sm,
+        ),
+        child: Row(
+          children: [
+            // Colored left accent border
+            ExcludeSemantics(
+              child: Container(
+                width: 3,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
             ),
-          ),
-          // Count badge
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              '$count',
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w600,
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: Text(
+                title,
+                style: AppTypography.bodyMedium.copyWith(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.2,
+                ),
               ),
             ),
-          ),
-        ],
+            // Count badge (decorative — count is already in the Semantics label)
+            ExcludeSemantics(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '$count',
+                  style: AppTypography.labelSmall.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1048,49 +1061,54 @@ class _FeaturedSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.lg,
-            AppSpacing.sm,
-            AppSpacing.lg,
-            AppSpacing.sm,
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: [AppColors.primary, AppColors.secondary],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.45),
-                      blurRadius: 8,
+        Semantics(
+          label: l10n.semanticFeaturedSection,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.sm,
+              AppSpacing.lg,
+              AppSpacing.sm,
+            ),
+            child: Row(
+              children: [
+                ExcludeSemantics(
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [AppColors.primary, AppColors.secondary],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.45),
+                          blurRadius: 8,
+                        ),
+                      ],
                     ),
-                  ],
+                    child: const Icon(
+                      Icons.auto_awesome_rounded,
+                      size: 11,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                child: const Icon(
-                  Icons.auto_awesome_rounded,
-                  size: 11,
-                  color: Colors.white,
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  l10n.catalogFeatured,
+                  style: AppTypography.labelSmall.copyWith(
+                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.6,
+                    fontSize: 10,
+                  ),
                 ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                l10n.catalogFeatured,
-                style: AppTypography.labelSmall.copyWith(
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.6,
-                  fontSize: 10,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         SizedBox(
@@ -1713,37 +1731,41 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
             ),
           ),
 
-          // Dimension badge — pill shape, amber for 3D, subtle for 2D
+          // Dimension badge — pill shape, amber for 3D, subtle for 2D.
+          // ExcludeSemantics: the parent card widget already announces the
+          // dimension in its semanticFractalCard label.
           Positioned(
             top: 7,
             right: 6,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-              decoration: BoxDecoration(
-                color: widget.is3D
-                    ? AppColors.warning.withValues(alpha: 0.92)
-                    : Colors.white.withValues(alpha: 0.18),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
+            child: ExcludeSemantics(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                decoration: BoxDecoration(
                   color: widget.is3D
-                      ? AppColors.warning
-                      : Colors.white.withValues(alpha: 0.45),
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.25),
-                    blurRadius: 4,
+                      ? AppColors.warning.withValues(alpha: 0.92)
+                      : Colors.white.withValues(alpha: 0.18),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: widget.is3D
+                        ? AppColors.warning
+                        : Colors.white.withValues(alpha: 0.45),
+                    width: 1,
                   ),
-                ],
-              ),
-              child: Text(
-                widget.is3D ? '3D' : '2D',
-                style: AppTypography.labelSmall.copyWith(
-                  color: widget.is3D ? Colors.black87 : Colors.white,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 10,
-                  letterSpacing: 0.3,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.25),
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+                child: Text(
+                  widget.is3D ? '3D' : '2D',
+                  style: AppTypography.labelSmall.copyWith(
+                    color: widget.is3D ? Colors.black87 : Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 10,
+                    letterSpacing: 0.3,
+                  ),
                 ),
               ),
             ),

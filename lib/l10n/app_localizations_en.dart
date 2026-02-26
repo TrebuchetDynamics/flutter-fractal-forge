@@ -1525,4 +1525,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String semanticSliderAdjust(Object min, Object max) {
     return 'Adjust from $min to $max';
   }
+
+  @override
+  String semanticSectionHeader(Object name, Object count) {
+    return '$name section, $count fractals';
+  }
+
+  @override
+  String get semanticFeaturedSection => 'Featured fractals carousel';
+
+  @override
+  String semanticControlsSectionHeader(Object title) {
+    return '$title controls section';
+  }
 }

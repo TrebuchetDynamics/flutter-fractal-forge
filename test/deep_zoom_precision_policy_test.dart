@@ -20,14 +20,14 @@ void main() {
     });
 
     test('uses default threshold for unknown module', () {
-      // Default threshold is 1e8; zoom just below should be false.
+      // Default threshold is 1e7; zoom just below should be false.
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'unknown_fractal', zoom: 9.9e7),
+        policy.shouldUseCpuFallback(moduleId: 'unknown_fractal', zoom: 9.9e6),
         isFalse,
       );
-      // At or above default threshold (1e8) should be true.
+      // At or above default threshold (1e7) should be true.
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'unknown_fractal', zoom: 1e8),
+        policy.shouldUseCpuFallback(moduleId: 'unknown_fractal', zoom: 1e7),
         isTrue,
       );
     });
