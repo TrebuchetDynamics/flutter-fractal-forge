@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/ar/arcore_anchor_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 // A minimal 1x1 white pixel PNG for use as a dummy fractal texture.
 // Generated from the standard PNG byte sequence for a 1x1 RGB image.
@@ -42,6 +43,9 @@ void main() {
           ChangeNotifierProvider.value(value: controller),
         ],
         child: MaterialApp(
+          locale: const Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: ArCoreAnchorScreen(
             fractalTextureBytes: textureBytes ?? _dummyTexture,
             fractalName: fractalName,

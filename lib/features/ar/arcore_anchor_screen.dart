@@ -12,6 +12,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 // ---------------------------------------------------------------------------
 // ArCoreAnchorScreen
@@ -178,23 +179,24 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   // -----------------------------------------------------------------------
 
   Widget _buildSafetyBanner(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Positioned(
       top: MediaQuery.of(context).padding.top + 56,
       left: 12,
       right: 12,
       child: Semantics(
-        label: 'Safety warning: Parental supervision recommended. Be aware of your surroundings.',
+        label: l10n.arSafetyBannerLabel,
         child: IgnorePointer(
           child: _GlassContainer(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Row(
-              children: const [
-                Icon(Icons.warning_amber_rounded, color: _cyanAccent, size: 16),
-                SizedBox(width: 8),
+              children: [
+                const Icon(Icons.warning_amber_rounded, color: _cyanAccent, size: 16),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'AR Safety: Parental supervision recommended. Be aware of your surroundings.',
-                    style: TextStyle(
+                    l10n.arSafetyBannerText,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
@@ -245,6 +247,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   }
 
   Widget _buildStatusChip() {
+    final l10n = AppLocalizations.of(context)!;
     final int placed = _placedNodeNames.length;
 
     // Determine state.
@@ -271,7 +274,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
             const SizedBox(width: 8),
             Flexible(
               child: Text(
-                _statusText(state),
+                _statusText(state, l10n),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -320,16 +323,17 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
     }
   }
 
-  String _statusText(_StatusState state) {
+  String _statusText(_StatusState state, AppLocalizations l10n) {
     switch (state) {
       case _StatusState.scanning:
-        return 'Scanning for surfaces...';
+        return l10n.arStatusScanning;
       case _StatusState.ready:
-        return 'Surface detected \u00B7 Tap on a highlighted area to place';
+        return l10n.arStatusSurfaceDetected;
       case _StatusState.placed:
         final n = _placedNodeNames.length;
-        final plural = n == 1 ? '' : 's';
-        return '$n fractal$plural placed \u00B7 Tap to add more';
+        return n == 1
+            ? l10n.arStatusFractalsPlaced(n)
+            : l10n.arStatusFractalsPlacedPlural(n);
     }
   }
 
@@ -338,6 +342,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   // -----------------------------------------------------------------------
 
   Widget _buildScanTips() {
+    final l10n = AppLocalizations.of(context)!;
     return Positioned(
       left: 24,
       right: 24,
@@ -353,10 +358,10 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
                 const Icon(Icons.tips_and_updates_rounded,
                     color: _cyanAccent, size: 16),
                 const SizedBox(width: 8),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Having trouble detecting a surface?',
-                    style: TextStyle(
+                    l10n.arScanTipsTitle,
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                         fontSize: 13),
@@ -371,10 +376,10 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
             ),
             const SizedBox(height: 10),
             ...[
-              'Point at a textured surface (table, floor, carpet)',
-              'Move the camera slowly — avoid fast sweeping',
-              'Ensure good lighting (avoid very dark rooms)',
-              'Plain white walls and glass surfaces are hard to detect',
+              l10n.arScanTip1,
+              l10n.arScanTip2,
+              l10n.arScanTip3,
+              l10n.arScanTip4,
             ].map(
               (tip) => Padding(
                 padding: const EdgeInsets.only(bottom: 5),
@@ -436,6 +441,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   // -----------------------------------------------------------------------
 
   Widget _buildBottomPanel(BuildContext context, String displayName) {
+    final l10n = AppLocalizations.of(context)!;
     return Positioned(
       left: 12,
       right: 12,
@@ -458,7 +464,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      tooltip: 'More options',
+                      tooltip: l10n.arTooltipMoreOptions,
                       onPressed: () =>
                           setState(() => _panelExpanded = true),
                       icon: const Icon(Icons.expand_less_rounded,
@@ -467,21 +473,21 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
                     ),
                     const _VerticalDivider(),
                     IconButton(
-                      tooltip: 'Share',
+                      tooltip: l10n.arTooltipShare,
                       onPressed: _shareFractal,
                       icon: const Icon(Icons.share_rounded,
                           color: _cyanAccent, size: 20),
                       visualDensity: VisualDensity.compact,
                     ),
                     IconButton(
-                      tooltip: 'Save',
+                      tooltip: l10n.arTooltipSave,
                       onPressed: _saveFractal,
                       icon: const Icon(Icons.save_alt_rounded,
                           color: _cyanAccent, size: 20),
                       visualDensity: VisualDensity.compact,
                     ),
                     IconButton(
-                      tooltip: 'Clear all',
+                      tooltip: l10n.arTooltipClearAll,
                       onPressed:
                           _placedNodeNames.isEmpty ? null : _clearAllNodes,
                       icon: Icon(Icons.delete_sweep_rounded,
@@ -492,7 +498,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
                       visualDensity: VisualDensity.compact,
                     ),
                     IconButton(
-                      tooltip: 'Re-scan',
+                      tooltip: l10n.arTooltipRescan,
                       onPressed: () async {
                         await _setPlaneRendererVisible(true);
                       },
@@ -560,7 +566,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'Move the camera slowly over a flat surface to detect it',
+                          l10n.arScanHint,
                           style: TextStyle(
                             color: Colors.white.withValues(alpha: 0.75),
                             fontSize: 12,
@@ -572,7 +578,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
                   secondChild: Row(
                     children: [
                       Text(
-                        'Size: ${_placementSize.toStringAsFixed(2)}m',
+                        l10n.arPlacementSize(_placementSize.toStringAsFixed(2)),
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.85),
                           fontSize: 13,
@@ -612,21 +618,21 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
                   children: [
                     _ActionButton(
                         icon: Icons.share_rounded,
-                        label: 'Share',
+                        label: l10n.arActionShare,
                         onPressed: _shareFractal),
                     _ActionButton(
                         icon: Icons.save_alt_rounded,
-                        label: 'Save',
+                        label: l10n.arActionSave,
                         onPressed: _saveFractal),
                     _ActionButton(
                         icon: Icons.delete_sweep_rounded,
-                        label: 'Clear',
+                        label: l10n.arActionClear,
                         onPressed: _placedNodeNames.isEmpty
                             ? null
                             : _clearAllNodes),
                     _ActionButton(
                         icon: Icons.refresh_rounded,
-                        label: 'Re-scan',
+                        label: l10n.arActionRescan,
                         onPressed: () async {
                           await _setPlaneRendererVisible(true);
                         }),
@@ -645,6 +651,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   // -----------------------------------------------------------------------
 
   Widget _buildRemoveConfirmationChip(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 260),
       curve: Curves.easeOutCubic,
@@ -659,9 +666,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Remove this fractal?',
-                style: TextStyle(
+              Text(
+                l10n.arRemoveFractalPrompt,
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
@@ -671,16 +678,16 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
               _GlassPill(
                 onTap: () => _confirmRemoveNode(true),
                 color: _cyanAccent.withValues(alpha: 0.3),
-                child: const Text(
-                  'Yes',
-                  style: TextStyle(color: _cyanAccent, fontSize: 13),
+                child: Text(
+                  l10n.arConfirmYes,
+                  style: const TextStyle(color: _cyanAccent, fontSize: 13),
                 ),
               ),
               const SizedBox(width: 8),
               _GlassPill(
                 onTap: () => _confirmRemoveNode(false),
                 child: Text(
-                  'No',
+                  l10n.arConfirmNo,
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.8),
                     fontSize: 13,
@@ -711,8 +718,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       if (mounted) setState(() {});
     } catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to remove node: $e')),
+          SnackBar(content: Text(l10n.arErrorRemoveNode(e.toString()))),
         );
       }
     }
@@ -735,8 +743,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
     controller.onPlaneTap = _onPlaneTap;
     controller.onError = (text) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('ARCore error: $text')),
+        SnackBar(content: Text(l10n.arErrorArCore(text))),
       );
     };
     controller.onNodeTap = (name) {
@@ -751,14 +760,13 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
     if (_isPlacing) return;
     if (hits.isEmpty) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(
-            const SnackBar(
-              content: Text(
-                'No surface hit \u2014 tap directly on a highlighted (blue) area',
-              ),
-              duration: Duration(milliseconds: 2000),
+            SnackBar(
+              content: Text(l10n.arNoSurfaceHit),
+              duration: const Duration(milliseconds: 2000),
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -835,8 +843,9 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       setState(() {});
     } catch (e) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to place fractal: $e')),
+        SnackBar(content: Text(l10n.arErrorPlaceFractal(e.toString()))),
       );
     } finally {
       if (mounted) {
@@ -893,6 +902,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
 
   Future<void> _shareFractal() async {
     try {
+      final l10n = AppLocalizations.of(context)!;
       final dir = await getTemporaryDirectory();
       final file = File(
         '${dir.path}/fractal_ar_${DateTime.now().millisecondsSinceEpoch}.png',
@@ -900,12 +910,13 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       await file.writeAsBytes(widget.fractalTextureBytes);
       await Share.shareXFiles(
         [XFile(file.path)],
-        text: 'Fractal anchored in AR via Fractal Forge',
+        text: l10n.arShareText,
       );
     } catch (e) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Share failed: $e')),
+        SnackBar(content: Text(l10n.arErrorShareFailed(e.toString()))),
       );
     }
   }
@@ -918,13 +929,15 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       );
       await file.writeAsBytes(widget.fractalTextureBytes);
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Saved to ${file.path}')),
+        SnackBar(content: Text(l10n.arSavedTo(file.path))),
       );
     } catch (e) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Save failed: $e')),
+        SnackBar(content: Text(l10n.arErrorSaveFailed(e.toString()))),
       );
     }
   }

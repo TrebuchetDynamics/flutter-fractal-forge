@@ -215,8 +215,8 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           Expanded(
             child: Text(
               _showCustomization
-                  ? 'Customization enabled — full export controls visible.'
-                  : 'Simple mode — choose a quick preset, then tap Export or Share.',
+                  ? l10n.exportCustomizeModeHint
+                  : l10n.exportSimpleModeHint,
               style: theme.textTheme.bodySmall,
             ),
           ),
@@ -230,7 +230,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 }
               });
             },
-            child: Text(_showCustomization ? 'Simple' : 'Customize'),
+            child: Text(_showCustomization ? l10n.exportButtonSimple : l10n.exportButtonCustomize),
           ),
         ],
       ),
@@ -306,20 +306,20 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
         ),
         const SizedBox(height: 12),
         SegmentedButton<ExportFormat>(
-          segments: const [
+          segments: [
             ButtonSegment(
               value: ExportFormat.png,
-              label: const Text('PNG'),
+              label: Text(l10n.exportFormatPng),
               icon: const Icon(Icons.image),
             ),
             ButtonSegment(
               value: ExportFormat.jpg,
-              label: const Text('JPG'),
+              label: Text(l10n.exportFormatJpg),
               icon: const Icon(Icons.photo),
             ),
             ButtonSegment(
               value: ExportFormat.webp,
-              label: const Text('WebP'),
+              label: Text(l10n.exportFormatWebp),
               icon: const Icon(Icons.web_asset),
             ),
           ],

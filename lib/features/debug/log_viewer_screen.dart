@@ -5,6 +5,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Full-screen log viewer with export capability.
 class LogViewerScreen extends StatefulWidget {
@@ -65,6 +66,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
   }
 
   Future<void> _exportLog() async {
+    final l10n = AppLocalizations.of(context)!;
     final text = _log.exportText(minLevel: _filter);
     final json = _log.exportJson(minLevel: _filter);
 
@@ -85,7 +87,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Export Log (${_log.length} entries)',
+              Text(l10n.logExportTitle(_log.length),
                   style: AppTypography.titleMedium),
               const SizedBox(height: 16),
               Row(
@@ -93,12 +95,12 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
                   Expanded(
                     child: _ExportButton(
                       icon: Icons.copy_rounded,
-                      label: 'Copy Text',
+                      label: l10n.logCopyText,
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: text));
                         Navigator.pop(ctx);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Log copied to clipboard')),
+                          SnackBar(content: Text(l10n.logCopied)),
                         );
                       },
                     ),
@@ -107,7 +109,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
                   Expanded(
                     child: _ExportButton(
                       icon: Icons.share_rounded,
-                      label: 'Share Text',
+                      label: l10n.logShareText,
                       onTap: () async {
                         Navigator.pop(ctx);
                         await _shareText(text, 'fractal_log_$ts.txt');
@@ -118,7 +120,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
                   Expanded(
                     child: _ExportButton(
                       icon: Icons.data_object_rounded,
-                      label: 'Share JSON',
+                      label: l10n.logShareJson,
                       onTap: () async {
                         Navigator.pop(ctx);
                         await _shareText(json, 'fractal_log_$ts.json');
@@ -148,19 +150,20 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Share failed: $e')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.logShareFailed(e.toString()))),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final entries = _filtered;
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Log (${entries.length}/${_log.length})'),
+        title: Text(l10n.logViewerTitle(entries.length, _log.length)),
         backgroundColor: Colors.black,
         actions: [
           // Filter chips
@@ -169,24 +172,24 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
               Icons.filter_list_rounded,
               color: _filter != null ? Colors.amber : Colors.white,
             ),
-            tooltip: 'Filter level',
+            tooltip: l10n.logFilterTooltip,
             onSelected: (v) => setState(() => _filter = v),
             itemBuilder: (_) => [
-              const PopupMenuItem(value: null, child: Text('All')),
-              const PopupMenuItem(value: LogLevel.debug, child: Text('Debug+')),
-              const PopupMenuItem(value: LogLevel.info, child: Text('Info+')),
-              const PopupMenuItem(value: LogLevel.warn, child: Text('Warn+')),
-              const PopupMenuItem(value: LogLevel.error, child: Text('Error')),
+              PopupMenuItem(value: null, child: Text(l10n.logFilterAll)),
+              PopupMenuItem(value: LogLevel.debug, child: Text(l10n.logFilterDebug)),
+              PopupMenuItem(value: LogLevel.info, child: Text(l10n.logFilterInfo)),
+              PopupMenuItem(value: LogLevel.warn, child: Text(l10n.logFilterWarn)),
+              PopupMenuItem(value: LogLevel.error, child: Text(l10n.logFilterError)),
             ],
           ),
           IconButton(
             icon: const Icon(Icons.file_upload_outlined),
-            tooltip: 'Export',
+            tooltip: l10n.logTooltipExport,
             onPressed: _exportLog,
           ),
           IconButton(
             icon: const Icon(Icons.delete_outline_rounded),
-            tooltip: 'Clear',
+            tooltip: l10n.logTooltipClear,
             onPressed: () {
               _log.clear();
               setState(() {});
@@ -195,9 +198,9 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
         ],
       ),
       body: entries.isEmpty
-          ? const Center(
-              child: Text('No log entries',
-                  style: TextStyle(color: Colors.white38)))
+          ? Center(
+              child: Text(l10n.logNoEntries,
+                  style: const TextStyle(color: Colors.white38)))
           : ListView.builder(
               controller: _scroll,
               itemCount: entries.length,

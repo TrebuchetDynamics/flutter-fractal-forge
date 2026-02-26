@@ -1340,17 +1340,89 @@ abstract class AppLocalizations {
   /// **'Get Started'**
   String get onboardingGetStarted;
 
+  /// No description provided for @semanticSplashScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractal Forge splash screen'**
+  String get semanticSplashScreen;
+
+  /// No description provided for @splashTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore infinite mathematical patterns'**
+  String get splashTagline;
+
+  /// No description provided for @semanticOnboardingProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Onboarding progress, step {step} of {total}'**
+  String semanticOnboardingProgress(Object step, Object total);
+
+  /// No description provided for @semanticSkipOnboarding.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip onboarding'**
+  String get semanticSkipOnboarding;
+
   /// No description provided for @onboardingWelcomeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Flutter Fractals'**
+  /// **'Welcome to Fractal Forge'**
   String get onboardingWelcomeTitle;
 
   /// No description provided for @onboardingWelcomeDescription.
   ///
   /// In en, this message translates to:
-  /// **'Explore the infinite beauty of mathematical fractals with real-time GPU-accelerated rendering.'**
+  /// **'Explore infinite mathematical beauty through 350+ interactive fractals with GPU-accelerated rendering — from Mandelbrot sets to strange attractors.'**
   String get onboardingWelcomeDescription;
+
+  /// No description provided for @onboardingWelcomeHighlight1.
+  ///
+  /// In en, this message translates to:
+  /// **'Pan and pinch to navigate with deep zoom and infinite precision'**
+  String get onboardingWelcomeHighlight1;
+
+  /// No description provided for @onboardingWelcomeHighlight2.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover structure in Mandelbrot, Julia, Newton and 350+ fractal types'**
+  String get onboardingWelcomeHighlight2;
+
+  /// No description provided for @onboardingWelcomeHighlight3.
+  ///
+  /// In en, this message translates to:
+  /// **'GPU-accelerated rendering for smooth, real-time exploration'**
+  String get onboardingWelcomeHighlight3;
+
+  /// No description provided for @onboardingCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create, Export & Experience in AR'**
+  String get onboardingCreateTitle;
+
+  /// No description provided for @onboardingCreateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust parameters in real time, place fractals on real surfaces with AR, and export stunning high-resolution images to share.'**
+  String get onboardingCreateDescription;
+
+  /// No description provided for @onboardingCreateHighlight1.
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time parameter controls with 60+ colour schemes'**
+  String get onboardingCreateHighlight1;
+
+  /// No description provided for @onboardingCreateHighlight2.
+  ///
+  /// In en, this message translates to:
+  /// **'Augmented Reality — anchor fractals on real-world surfaces'**
+  String get onboardingCreateHighlight2;
+
+  /// No description provided for @onboardingCreateHighlight3.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to PNG and share — perfect for art, presentations and study'**
+  String get onboardingCreateHighlight3;
 
   /// No description provided for @onboardingFractalTypesTitle.
   ///
@@ -1471,6 +1543,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Overlay fractals on your camera view'**
   String get onboardingFeatureArDesc;
+
+  /// No description provided for @tooltipExitFullscreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit fullscreen view'**
+  String get tooltipExitFullscreen;
+
+  /// No description provided for @announceEnteredFullscreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Entered fullscreen view'**
+  String get announceEnteredFullscreen;
+
+  /// No description provided for @announceExitedFullscreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Exited fullscreen view'**
+  String get announceExitedFullscreen;
+
+  /// No description provided for @announceMinimapShown.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimap shown'**
+  String get announceMinimapShown;
+
+  /// No description provided for @announceMinimapHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimap hidden'**
+  String get announceMinimapHidden;
 
   /// No description provided for @shareTitle.
   ///
@@ -2173,6 +2275,450 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go Back'**
   String get shaderErrorGoBack;
+
+  /// No description provided for @logViewerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log ({filtered}/{total})'**
+  String logViewerTitle(Object filtered, Object total);
+
+  /// No description provided for @logExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Log ({count} entries)'**
+  String logExportTitle(Object count);
+
+  /// No description provided for @logCopyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Text'**
+  String get logCopyText;
+
+  /// No description provided for @logShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Text'**
+  String get logShareText;
+
+  /// No description provided for @logShareJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Share JSON'**
+  String get logShareJson;
+
+  /// No description provided for @logCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Log copied to clipboard'**
+  String get logCopied;
+
+  /// No description provided for @logShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Share failed: {error}'**
+  String logShareFailed(Object error);
+
+  /// No description provided for @logFilterTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter level'**
+  String get logFilterTooltip;
+
+  /// No description provided for @logFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get logFilterAll;
+
+  /// No description provided for @logFilterDebug.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug+'**
+  String get logFilterDebug;
+
+  /// No description provided for @logFilterInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Info+'**
+  String get logFilterInfo;
+
+  /// No description provided for @logFilterWarn.
+  ///
+  /// In en, this message translates to:
+  /// **'Warn+'**
+  String get logFilterWarn;
+
+  /// No description provided for @logFilterError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get logFilterError;
+
+  /// No description provided for @logNoEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'No log entries'**
+  String get logNoEntries;
+
+  /// No description provided for @logTooltipExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get logTooltipExport;
+
+  /// No description provided for @logTooltipClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get logTooltipClear;
+
+  /// No description provided for @exportSimpleModeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple mode — choose a quick preset, then tap Export or Share.'**
+  String get exportSimpleModeHint;
+
+  /// No description provided for @exportCustomizeModeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Customization enabled — full export controls visible.'**
+  String get exportCustomizeModeHint;
+
+  /// No description provided for @exportButtonSimple.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple'**
+  String get exportButtonSimple;
+
+  /// No description provided for @exportButtonCustomize.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize'**
+  String get exportButtonCustomize;
+
+  /// No description provided for @exportFormatPng.
+  ///
+  /// In en, this message translates to:
+  /// **'PNG'**
+  String get exportFormatPng;
+
+  /// No description provided for @exportFormatJpg.
+  ///
+  /// In en, this message translates to:
+  /// **'JPG'**
+  String get exportFormatJpg;
+
+  /// No description provided for @exportFormatWebp.
+  ///
+  /// In en, this message translates to:
+  /// **'WebP'**
+  String get exportFormatWebp;
+
+  /// No description provided for @homeUnknownFractalType.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown fractal type: {type}'**
+  String homeUnknownFractalType(Object type);
+
+  /// No description provided for @homeFractalCountBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'350+ fractals'**
+  String get homeFractalCountBadge;
+
+  /// No description provided for @arSafetyBannerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Safety warning: Parental supervision recommended. Be aware of your surroundings.'**
+  String get arSafetyBannerLabel;
+
+  /// No description provided for @arSafetyBannerText.
+  ///
+  /// In en, this message translates to:
+  /// **'AR Safety: Parental supervision recommended. Be aware of your surroundings.'**
+  String get arSafetyBannerText;
+
+  /// No description provided for @arStatusScanning.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning for surfaces...'**
+  String get arStatusScanning;
+
+  /// No description provided for @arStatusSurfaceDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Surface detected · Tap on a highlighted area to place'**
+  String get arStatusSurfaceDetected;
+
+  /// No description provided for @arStatusFractalsPlaced.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} fractal placed · Tap to add more'**
+  String arStatusFractalsPlaced(Object count);
+
+  /// No description provided for @arStatusFractalsPlacedPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} fractals placed · Tap to add more'**
+  String arStatusFractalsPlacedPlural(Object count);
+
+  /// No description provided for @arScanTipsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Having trouble detecting a surface?'**
+  String get arScanTipsTitle;
+
+  /// No description provided for @arScanTip1.
+  ///
+  /// In en, this message translates to:
+  /// **'Point at a textured surface (table, floor, carpet)'**
+  String get arScanTip1;
+
+  /// No description provided for @arScanTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the camera slowly — avoid fast sweeping'**
+  String get arScanTip2;
+
+  /// No description provided for @arScanTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'Ensure good lighting (avoid very dark rooms)'**
+  String get arScanTip3;
+
+  /// No description provided for @arScanTip4.
+  ///
+  /// In en, this message translates to:
+  /// **'Plain white walls and glass surfaces are hard to detect'**
+  String get arScanTip4;
+
+  /// No description provided for @arTooltipMoreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get arTooltipMoreOptions;
+
+  /// No description provided for @arTooltipShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get arTooltipShare;
+
+  /// No description provided for @arTooltipSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get arTooltipSave;
+
+  /// No description provided for @arTooltipClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get arTooltipClearAll;
+
+  /// No description provided for @arTooltipRescan.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-scan'**
+  String get arTooltipRescan;
+
+  /// No description provided for @arScanHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the camera slowly over a flat surface to detect it'**
+  String get arScanHint;
+
+  /// No description provided for @arPlacementSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size: {size}m'**
+  String arPlacementSize(Object size);
+
+  /// No description provided for @arActionShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get arActionShare;
+
+  /// No description provided for @arActionSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get arActionSave;
+
+  /// No description provided for @arActionClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get arActionClear;
+
+  /// No description provided for @arActionRescan.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-scan'**
+  String get arActionRescan;
+
+  /// No description provided for @arRemoveFractalPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this fractal?'**
+  String get arRemoveFractalPrompt;
+
+  /// No description provided for @arConfirmYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get arConfirmYes;
+
+  /// No description provided for @arConfirmNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get arConfirmNo;
+
+  /// No description provided for @arErrorRemoveNode.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to remove node: {error}'**
+  String arErrorRemoveNode(Object error);
+
+  /// No description provided for @arErrorArCore.
+  ///
+  /// In en, this message translates to:
+  /// **'ARCore error: {error}'**
+  String arErrorArCore(Object error);
+
+  /// No description provided for @arNoSurfaceHit.
+  ///
+  /// In en, this message translates to:
+  /// **'No surface hit — tap directly on a highlighted (blue) area'**
+  String get arNoSurfaceHit;
+
+  /// No description provided for @arErrorPlaceFractal.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to place fractal: {error}'**
+  String arErrorPlaceFractal(Object error);
+
+  /// No description provided for @arShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractal anchored in AR via Fractal Forge'**
+  String get arShareText;
+
+  /// No description provided for @arErrorShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Share failed: {error}'**
+  String arErrorShareFailed(Object error);
+
+  /// No description provided for @arSavedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to {path}'**
+  String arSavedTo(Object path);
+
+  /// No description provided for @arErrorSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Save failed: {error}'**
+  String arErrorSaveFailed(Object error);
+
+  /// No description provided for @arFractalAnchored.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractal anchored to tapped surface'**
+  String get arFractalAnchored;
+
+  /// No description provided for @arAnchoredStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Anchored · {camera} camera'**
+  String arAnchoredStatus(Object camera);
+
+  /// No description provided for @arTapToAnchor.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap on surface to anchor fractal'**
+  String get arTapToAnchor;
+
+  /// No description provided for @arTooltipSwitchCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch camera'**
+  String get arTooltipSwitchCamera;
+
+  /// No description provided for @arErrorSurfaceDetectionUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'AR surface detection is not available on this device'**
+  String get arErrorSurfaceDetectionUnavailable;
+
+  /// No description provided for @arErrorArCoreUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'ARCore services are unavailable on this device'**
+  String get arErrorArCoreUnavailable;
+
+  /// No description provided for @arErrorCaptureFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not capture fractal: {error}'**
+  String arErrorCaptureFailed(Object error);
+
+  /// No description provided for @arTapAnywhereToPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap anywhere to place'**
+  String get arTapAnywhereToPlace;
+
+  /// No description provided for @arTooltipReAnchor.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-anchor'**
+  String get arTooltipReAnchor;
+
+  /// No description provided for @arTooltipAnchorToSurface.
+  ///
+  /// In en, this message translates to:
+  /// **'Anchor to surface'**
+  String get arTooltipAnchorToSurface;
+
+  /// No description provided for @arTooltipSwitchToSurfaceAnchoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to surface anchoring'**
+  String get arTooltipSwitchToSurfaceAnchoring;
+
+  /// No description provided for @arAnchoredToSurface.
+  ///
+  /// In en, this message translates to:
+  /// **'Anchored to tapped surface'**
+  String get arAnchoredToSurface;
+
+  /// No description provided for @arTapToAnchorFractal.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to anchor this fractal'**
+  String get arTapToAnchorFractal;
+
+  /// No description provided for @arButtonReAnchor.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-anchor'**
+  String get arButtonReAnchor;
+
+  /// No description provided for @arButtonAnchor.
+  ///
+  /// In en, this message translates to:
+  /// **'Anchor'**
+  String get arButtonAnchor;
+
+  /// No description provided for @arSwitchToSurfaceAnchoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to surface anchoring'**
+  String get arSwitchToSurfaceAnchoring;
 }
 
 class _AppLocalizationsDelegate

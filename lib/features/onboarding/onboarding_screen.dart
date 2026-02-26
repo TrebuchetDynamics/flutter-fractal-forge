@@ -50,6 +50,7 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: AnimatedBuilder(
@@ -80,12 +81,12 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
                 Center(
                   child: Semantics(
                     header: true,
-                    label: 'Fractal Forge splash screen',
+                    label: l10n.semanticSplashScreen,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Fractal Forge',
+                          l10n.appTitle,
                           textAlign: TextAlign.center,
                           style: AppTypography.displayLarge.copyWith(
                             fontSize: 44,
@@ -110,7 +111,7 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
                         ),
                         const SizedBox(height: AppSpacing.md),
                         Text(
-                          'Explore infinite mathematical patterns',
+                          l10n.splashTagline,
                           style: AppTypography.bodyLarge.copyWith(
                             color: AppColors.textSecondary,
                           ),
@@ -185,31 +186,31 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  // Page count is fixed at 2; updated lazily when l10n pages are built.
+  int _pageCount = 2;
 
-  static const _pages = <_OnboardingPageData>[
-    _OnboardingPageData(
-      title: 'Welcome to Fractal Forge',
-      description:
-          'Explore infinite mathematical beauty through 350+ interactive fractals with GPU-accelerated rendering — from Mandelbrot sets to strange attractors.',
-      icon: Icons.auto_awesome_rounded,
-      highlightItems: [
-        'Pan and pinch to navigate with deep zoom and infinite precision',
-        'Discover structure in Mandelbrot, Julia, Newton and 350+ fractal types',
-        'GPU-accelerated rendering for smooth, real-time exploration',
-      ],
-    ),
-    _OnboardingPageData(
-      title: 'Create, Export & Experience in AR',
-      description:
-          'Adjust parameters in real time, place fractals on real surfaces with AR, and export stunning high-resolution images to share.',
-      icon: Icons.ios_share_rounded,
-      highlightItems: [
-        'Real-time parameter controls with 60+ colour schemes',
-        'Augmented Reality — anchor fractals on real-world surfaces',
-        'Export to PNG and share — perfect for art, presentations and study',
-      ],
-    ),
-  ];
+  List<_OnboardingPageData> _buildPages(AppLocalizations l10n) => [
+        _OnboardingPageData(
+          title: l10n.onboardingWelcomeTitle,
+          description: l10n.onboardingWelcomeDescription,
+          icon: Icons.auto_awesome_rounded,
+          highlightItems: [
+            l10n.onboardingWelcomeHighlight1,
+            l10n.onboardingWelcomeHighlight2,
+            l10n.onboardingWelcomeHighlight3,
+          ],
+        ),
+        _OnboardingPageData(
+          title: l10n.onboardingCreateTitle,
+          description: l10n.onboardingCreateDescription,
+          icon: Icons.ios_share_rounded,
+          highlightItems: [
+            l10n.onboardingCreateHighlight1,
+            l10n.onboardingCreateHighlight2,
+            l10n.onboardingCreateHighlight3,
+          ],
+        ),
+      ];
 
   @override
   void dispose() {
@@ -223,7 +224,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _nextPage() {
-    if (_currentPage < _pages.length - 1) {
+    if (_currentPage < _pageCount - 1) {
       _pageController.nextPage(
         duration: AppAnimations.slow,
         curve: AppAnimations.smoothCurve,
@@ -236,7 +237,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isLastPage = _currentPage == _pages.length - 1;
+    final pages = _buildPages(l10n);
+    _pageCount = pages.length;
+    final isLastPage = _currentPage == pages.length - 1;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -252,12 +255,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 children: [
                   Expanded(
                     child: Semantics(
-                      label:
-                          'Onboarding progress, step ${_currentPage + 1} of ${_pages.length}',
+                      label: l10n.semanticOnboardingProgress(
+                        _currentPage + 1,
+                        pages.length,
+                      ),
                       value:
-                          '${((_currentPage + 1) / _pages.length * 100).round()}%',
+                          '${((_currentPage + 1) / pages.length * 100).round()}%',
                       child: LinearProgressIndicator(
-                        value: (_currentPage + 1) / _pages.length,
+                        value: (_currentPage + 1) / pages.length,
                         minHeight: 4,
                         borderRadius: BorderRadius.circular(100),
                         backgroundColor: AppColors.surfaceVariant,
@@ -270,7 +275,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       onPressed: _completeOnboarding,
                       child: Text(
                         l10n.onboardingSkip,
-                        semanticsLabel: 'Skip onboarding',
+                        semanticsLabel: l10n.semanticSkipOnboarding,
                         style: AppTypography.labelLarge.copyWith(
                           color: AppColors.textSecondary,
                         ),
@@ -282,12 +287,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
-                itemCount: _pages.length,
+                itemCount: pages.length,
                 onPageChanged: (index) {
                   setState(() => _currentPage = index);
                 },
                 itemBuilder: (context, index) =>
-                    _OnboardingPage(data: _pages[index]),
+                    _OnboardingPage(data: pages[index]),
               ),
             ),
             Padding(
@@ -302,7 +307,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Expanded(
                     child: Wrap(
                       spacing: AppSpacing.sm,
-                      children: List.generate(_pages.length, (index) {
+                      children: List.generate(pages.length, (index) {
                         final selected = index == _currentPage;
                         return AnimatedContainer(
                           duration: AppAnimations.normal,

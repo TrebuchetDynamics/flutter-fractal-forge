@@ -220,18 +220,18 @@ class DeepLinkService {
 
     return DeepLinkData(
       type: type,
-      zoom: _parseBoundedDouble(params['zoom'], 0.1, 1e15),
-      x: _parseDouble(params['x']),
-      y: _parseDouble(params['y']),
-      rotX: _parseDouble(params['rotX']),
-      rotY: _parseDouble(params['rotY']),
-      rotZ: _parseDouble(params['rotZ']),
-      iterations: _parseBoundedInt(params['iterations'], 10, 5000),
-      bailout: _parseBoundedDouble(params['bailout'], 0.1, 1000),
-      colorScheme: _parseInt(params['colorScheme']),
-      power: _parseBoundedDouble(params['power'], 1, 20),
-      juliaX: _parseDouble(params['juliaX']),
-      juliaY: _parseDouble(params['juliaY']),
+      zoom: _parseBoundedDouble(params['zoom'], 0.001, 1e15, 'zoom'),
+      x: _parseBoundedDouble(params['x'], -1e10, 1e10, 'x'),
+      y: _parseBoundedDouble(params['y'], -1e10, 1e10, 'y'),
+      rotX: _parseBoundedDouble(params['rotX'], -1e10, 1e10, 'rotX'),
+      rotY: _parseBoundedDouble(params['rotY'], -1e10, 1e10, 'rotY'),
+      rotZ: _parseBoundedDouble(params['rotZ'], -1e10, 1e10, 'rotZ'),
+      iterations: _parseBoundedInt(params['iterations'], 1, 10000, 'iterations'),
+      bailout: _parseBoundedDouble(params['bailout'], 1.0, 1e10, 'bailout'),
+      colorScheme: _parseBoundedInt(params['colorScheme'], 0, 9999, 'colorScheme'),
+      power: _parseBoundedDouble(params['power'], 1, 20, 'power'),
+      juliaX: _parseBoundedDouble(params['juliaX'], -1e10, 1e10, 'juliaX'),
+      juliaY: _parseBoundedDouble(params['juliaY'], -1e10, 1e10, 'juliaY'),
     );
   }
 
@@ -312,26 +312,38 @@ class DeepLinkService {
     );
   }
 
-  static double? _parseDouble(String? value) {
-    if (value == null) return null;
-    return double.tryParse(value);
+  static double? _parseBoundedDouble(
+      String? v, double min, double max, String paramName) {
+    if (v == null) return null;
+    final d = double.tryParse(v);
+    if (d == null || d.isNaN || d.isInfinite) {
+      debugPrint(
+          'DeepLink: invalid value for "$paramName": "$v" — ignoring');
+      return null;
+    }
+    final clamped = d.clamp(min, max);
+    if (clamped != d) {
+      debugPrint(
+          'DeepLink: "$paramName" value $d out of [$min, $max] — clamped to $clamped');
+    }
+    return clamped;
   }
 
-  static int? _parseInt(String? value) {
-    if (value == null) return null;
-    return int.tryParse(value);
-  }
-
-  static double? _parseBoundedDouble(String? v, double min, double max) {
-    final d = double.tryParse(v ?? '');
-    if (d == null || d.isNaN || d.isInfinite) return null;
-    return d.clamp(min, max);
-  }
-
-  static int? _parseBoundedInt(String? v, int min, int max) {
-    final i = int.tryParse(v ?? '');
-    if (i == null) return null;
-    return i.clamp(min, max);
+  static int? _parseBoundedInt(
+      String? v, int min, int max, String paramName) {
+    if (v == null) return null;
+    final i = int.tryParse(v);
+    if (i == null) {
+      debugPrint(
+          'DeepLink: invalid value for "$paramName": "$v" — ignoring');
+      return null;
+    }
+    final clamped = i.clamp(min, max);
+    if (clamped != i) {
+      debugPrint(
+          'DeepLink: "$paramName" value $i out of [$min, $max] — clamped to $clamped');
+    }
+    return clamped;
   }
 
   static String _formatDouble(double value) {

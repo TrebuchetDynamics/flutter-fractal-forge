@@ -260,10 +260,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     setState(() {
       _fullscreenUnobtrusive = !_fullscreenUnobtrusive;
     });
+    final l10n = AppLocalizations.of(context);
     AccessibilityService.announce(
       _fullscreenUnobtrusive
-          ? 'Entered fullscreen view'
-          : 'Exited fullscreen view',
+          ? (l10n?.announceEnteredFullscreen ?? 'Entered fullscreen view')
+          : (l10n?.announceExitedFullscreen ?? 'Exited fullscreen view'),
     );
     HapticService.light();
   }
@@ -272,8 +273,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     setState(() {
       _showMiniMap = !_showMiniMap;
     });
+    final l10n = AppLocalizations.of(context);
     AccessibilityService.announce(
-      _showMiniMap ? 'Minimap shown' : 'Minimap hidden',
+      _showMiniMap
+          ? (l10n?.announceMinimapShown ?? 'Minimap shown')
+          : (l10n?.announceMinimapHidden ?? 'Minimap hidden'),
     );
   }
 
@@ -458,7 +462,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       child: _buildTopFab(
                         heroTag: 'viewer_restore_ui_fab',
                         icon: Icons.fullscreen_exit_rounded,
-                        tooltip: 'Exit fullscreen view',
+                        tooltip: l10n.tooltipExitFullscreen,
                         onPressed: _toggleFullscreenUnobtrusive,
                       ),
                     ),

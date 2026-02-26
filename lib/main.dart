@@ -167,6 +167,14 @@ Future<void> main() async {
 ///   ),
 /// );
 /// ```
+// NOTE: The diagnostic widgets below (_UltraSafeApp, _SafeScaffoldApp,
+// _Step1ThemeOnlyApp, _Step2MinimalProviderApp, _Step3DeepLinkInitApp) use
+// hardcoded English strings intentionally. They are developer-only diagnostic
+// screens activated via --dart-define=SAFE_MODE=N or --dart-define=BOOT_STEP=N
+// and are never shown to end users in normal builds. AppLocalizations is
+// unavailable at this point because MaterialApp (and its localization
+// delegates) has not yet been configured.
+
 class _UltraSafeApp extends StatelessWidget {
   const _UltraSafeApp();
 

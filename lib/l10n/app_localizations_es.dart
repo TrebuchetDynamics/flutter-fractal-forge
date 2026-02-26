@@ -682,11 +682,57 @@ class AppLocalizationsEs extends AppLocalizations {
   String get onboardingGetStarted => 'Comenzar';
 
   @override
-  String get onboardingWelcomeTitle => 'Bienvenido a Flutter Fractales';
+  String get semanticSplashScreen =>
+      'Pantalla de presentación de Fractal Forge';
+
+  @override
+  String get splashTagline => 'Explora patrones matemáticos infinitos';
+
+  @override
+  String semanticOnboardingProgress(Object step, Object total) {
+    return 'Progreso de incorporación, paso $step de $total';
+  }
+
+  @override
+  String get semanticSkipOnboarding => 'Omitir incorporación';
+
+  @override
+  String get onboardingWelcomeTitle => 'Bienvenido a Fractal Forge';
 
   @override
   String get onboardingWelcomeDescription =>
-      'Explora la belleza infinita de los fractales matemáticos con renderizado en tiempo real acelerado por GPU.';
+      'Explora belleza matemática infinita a través de más de 350 fractales interactivos con renderizado acelerado por GPU, desde conjuntos de Mandelbrot hasta atractores extraños.';
+
+  @override
+  String get onboardingWelcomeHighlight1 =>
+      'Desplaza y pellizca para navegar con zoom profundo y precisión infinita';
+
+  @override
+  String get onboardingWelcomeHighlight2 =>
+      'Descubre estructura en Mandelbrot, Julia, Newton y más de 350 tipos de fractales';
+
+  @override
+  String get onboardingWelcomeHighlight3 =>
+      'Renderizado acelerado por GPU para una exploración suave en tiempo real';
+
+  @override
+  String get onboardingCreateTitle => 'Crea, exporta y experimenta en AR';
+
+  @override
+  String get onboardingCreateDescription =>
+      'Ajusta parámetros en tiempo real, coloca fractales en superficies reales con AR y exporta impresionantes imágenes de alta resolución para compartir.';
+
+  @override
+  String get onboardingCreateHighlight1 =>
+      'Controles de parámetros en tiempo real con más de 60 esquemas de color';
+
+  @override
+  String get onboardingCreateHighlight2 =>
+      'Realidad Aumentada: ancla fractales en superficies del mundo real';
+
+  @override
+  String get onboardingCreateHighlight3 =>
+      'Exporta a PNG y comparte, perfecto para arte, presentaciones y estudio';
 
   @override
   String get onboardingFractalTypesTitle => 'Descubre Tipos de Fractales';
@@ -755,6 +801,21 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get onboardingFeatureArDesc =>
       'Superpone fractales en la vista de tu cámara';
+
+  @override
+  String get tooltipExitFullscreen => 'Salir de pantalla completa';
+
+  @override
+  String get announceEnteredFullscreen => 'Pantalla completa activada';
+
+  @override
+  String get announceExitedFullscreen => 'Pantalla completa desactivada';
+
+  @override
+  String get announceMinimapShown => 'Minimapa mostrado';
+
+  @override
+  String get announceMinimapHidden => 'Minimapa oculto';
 
   @override
   String get shareTitle => 'Compartir Fractal';
@@ -1130,4 +1191,270 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get shaderErrorGoBack => 'Volver';
+
+  @override
+  String logViewerTitle(Object filtered, Object total) {
+    return 'Registro ($filtered/$total)';
+  }
+
+  @override
+  String logExportTitle(Object count) {
+    return 'Exportar registro ($count entradas)';
+  }
+
+  @override
+  String get logCopyText => 'Copiar texto';
+
+  @override
+  String get logShareText => 'Compartir texto';
+
+  @override
+  String get logShareJson => 'Compartir JSON';
+
+  @override
+  String get logCopied => 'Registro copiado al portapapeles';
+
+  @override
+  String logShareFailed(Object error) {
+    return 'Error al compartir: $error';
+  }
+
+  @override
+  String get logFilterTooltip => 'Filtrar nivel';
+
+  @override
+  String get logFilterAll => 'Todos';
+
+  @override
+  String get logFilterDebug => 'Debug+';
+
+  @override
+  String get logFilterInfo => 'Info+';
+
+  @override
+  String get logFilterWarn => 'Advertencia+';
+
+  @override
+  String get logFilterError => 'Error';
+
+  @override
+  String get logNoEntries => 'Sin entradas de registro';
+
+  @override
+  String get logTooltipExport => 'Exportar';
+
+  @override
+  String get logTooltipClear => 'Limpiar';
+
+  @override
+  String get exportSimpleModeHint =>
+      'Modo simple — elige un preset rápido, luego toca Exportar o Compartir.';
+
+  @override
+  String get exportCustomizeModeHint =>
+      'Personalización activada — todos los controles de exportación visibles.';
+
+  @override
+  String get exportButtonSimple => 'Simple';
+
+  @override
+  String get exportButtonCustomize => 'Personalizar';
+
+  @override
+  String get exportFormatPng => 'PNG';
+
+  @override
+  String get exportFormatJpg => 'JPG';
+
+  @override
+  String get exportFormatWebp => 'WebP';
+
+  @override
+  String homeUnknownFractalType(Object type) {
+    return 'Tipo de fractal desconocido: $type';
+  }
+
+  @override
+  String get homeFractalCountBadge => '350+ fractales';
+
+  @override
+  String get arSafetyBannerLabel =>
+      'Advertencia de seguridad: Se recomienda supervisión parental. Mantente atento a tu entorno.';
+
+  @override
+  String get arSafetyBannerText =>
+      'Seguridad AR: Se recomienda supervisión parental. Mantente atento a tu entorno.';
+
+  @override
+  String get arStatusScanning => 'Buscando superficies...';
+
+  @override
+  String get arStatusSurfaceDetected =>
+      'Superficie detectada · Toca un área resaltada para colocar';
+
+  @override
+  String arStatusFractalsPlaced(Object count) {
+    return '$count fractal colocado · Toca para agregar más';
+  }
+
+  @override
+  String arStatusFractalsPlacedPlural(Object count) {
+    return '$count fractales colocados · Toca para agregar más';
+  }
+
+  @override
+  String get arScanTipsTitle => '¿Problemas para detectar una superficie?';
+
+  @override
+  String get arScanTip1 =>
+      'Apunta a una superficie con textura (mesa, piso, alfombra)';
+
+  @override
+  String get arScanTip2 =>
+      'Mueve la cámara lentamente — evita movimientos bruscos';
+
+  @override
+  String get arScanTip3 =>
+      'Asegura buena iluminación (evita habitaciones muy oscuras)';
+
+  @override
+  String get arScanTip4 =>
+      'Las paredes blancas lisas y superficies de vidrio son difíciles de detectar';
+
+  @override
+  String get arTooltipMoreOptions => 'Más opciones';
+
+  @override
+  String get arTooltipShare => 'Compartir';
+
+  @override
+  String get arTooltipSave => 'Guardar';
+
+  @override
+  String get arTooltipClearAll => 'Borrar todo';
+
+  @override
+  String get arTooltipRescan => 'Volver a escanear';
+
+  @override
+  String get arScanHint =>
+      'Mueve la cámara lentamente sobre una superficie plana para detectarla';
+
+  @override
+  String arPlacementSize(Object size) {
+    return 'Tamaño: ${size}m';
+  }
+
+  @override
+  String get arActionShare => 'Compartir';
+
+  @override
+  String get arActionSave => 'Guardar';
+
+  @override
+  String get arActionClear => 'Borrar';
+
+  @override
+  String get arActionRescan => 'Reescanear';
+
+  @override
+  String get arRemoveFractalPrompt => '¿Eliminar este fractal?';
+
+  @override
+  String get arConfirmYes => 'Sí';
+
+  @override
+  String get arConfirmNo => 'No';
+
+  @override
+  String arErrorRemoveNode(Object error) {
+    return 'Error al eliminar nodo: $error';
+  }
+
+  @override
+  String arErrorArCore(Object error) {
+    return 'Error de ARCore: $error';
+  }
+
+  @override
+  String get arNoSurfaceHit =>
+      'Sin superficie — toca directamente sobre un área resaltada (azul)';
+
+  @override
+  String arErrorPlaceFractal(Object error) {
+    return 'Error al colocar el fractal: $error';
+  }
+
+  @override
+  String get arShareText => 'Fractal anclado en AR con Fractal Forge';
+
+  @override
+  String arErrorShareFailed(Object error) {
+    return 'Error al compartir: $error';
+  }
+
+  @override
+  String arSavedTo(Object path) {
+    return 'Guardado en $path';
+  }
+
+  @override
+  String arErrorSaveFailed(Object error) {
+    return 'Error al guardar: $error';
+  }
+
+  @override
+  String get arFractalAnchored => 'Fractal anclado a la superficie tocada';
+
+  @override
+  String arAnchoredStatus(Object camera) {
+    return 'Anclado · cámara $camera';
+  }
+
+  @override
+  String get arTapToAnchor => 'Toca una superficie para anclar el fractal';
+
+  @override
+  String get arTooltipSwitchCamera => 'Cambiar cámara';
+
+  @override
+  String get arErrorSurfaceDetectionUnavailable =>
+      'La detección de superficies AR no está disponible en este dispositivo';
+
+  @override
+  String get arErrorArCoreUnavailable =>
+      'Los servicios ARCore no están disponibles en este dispositivo';
+
+  @override
+  String arErrorCaptureFailed(Object error) {
+    return 'No se pudo capturar el fractal: $error';
+  }
+
+  @override
+  String get arTapAnywhereToPlace => 'Toca en cualquier lugar para colocar';
+
+  @override
+  String get arTooltipReAnchor => 'Reanclaje';
+
+  @override
+  String get arTooltipAnchorToSurface => 'Anclar a superficie';
+
+  @override
+  String get arTooltipSwitchToSurfaceAnchoring =>
+      'Cambiar a anclaje de superficie';
+
+  @override
+  String get arAnchoredToSurface => 'Anclado a la superficie tocada';
+
+  @override
+  String get arTapToAnchorFractal => 'Toca para anclar este fractal';
+
+  @override
+  String get arButtonReAnchor => 'Reanclar';
+
+  @override
+  String get arButtonAnchor => 'Anclar';
+
+  @override
+  String get arSwitchToSurfaceAnchoring => 'Cambiar a anclaje de superficie';
 }

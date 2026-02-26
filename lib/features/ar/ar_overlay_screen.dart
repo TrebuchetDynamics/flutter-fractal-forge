@@ -578,11 +578,11 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                               _overlayLocked = true;
                             });
                             if (mounted) {
+                              final l10n = AppLocalizations.of(context)!;
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'Fractal anchored to tapped surface'),
-                                  duration: Duration(milliseconds: 1200),
+                                SnackBar(
+                                  content: Text(l10n.arFractalAnchored),
+                                  duration: const Duration(milliseconds: 1200),
                                 ),
                               );
                             }
@@ -689,8 +689,8 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                             horizontal: 12, vertical: 8),
                         child: Text(
                           _anchorPlaced
-                              ? 'Anchored · ${_activeCamera?.lensDirection.name ?? 'camera'} camera'
-                              : 'Tap on surface to anchor fractal',
+                              ? l10n.arAnchoredStatus(_activeCamera?.lensDirection.name ?? 'camera')
+                              : l10n.arTapToAnchor,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
@@ -705,7 +705,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
                   if (_hasMultipleCameras) ...[
                     const SizedBox(width: 8),
                     IconButton(
-                      tooltip: 'Switch camera',
+                      tooltip: l10n.arTooltipSwitchCamera,
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.black54,
                       ),
@@ -1029,9 +1029,10 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     final supported = await ArCoreAnchorScreen.isSupportedOnDevice();
     if (!supported) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('AR surface detection is not available on this device'),
+        SnackBar(
+          content: Text(l10n.arErrorSurfaceDetectionUnavailable),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -1041,9 +1042,10 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
     final installed = await ArCoreAnchorScreen.isInstalledOnDevice();
     if (!installed) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ARCore services are unavailable on this device'),
+        SnackBar(
+          content: Text(l10n.arErrorArCoreUnavailable),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -1059,9 +1061,10 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
       );
     } catch (e) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Could not capture fractal: $e'),
+          content: Text(l10n.arErrorCaptureFailed(e.toString())),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -1228,9 +1231,9 @@ class _ArAnchorReticle extends StatelessWidget {
               color: Colors.black45,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Text(
-              'Tap anywhere to place',
-              style: TextStyle(color: Colors.white70, fontSize: 12),
+            child: Text(
+              AppLocalizations.of(context)!.arTapAnywhereToPlace,
+              style: const TextStyle(color: Colors.white70, fontSize: 12),
             ),
           ),
         ],
@@ -1427,7 +1430,7 @@ class _ArControlsPanel extends StatelessWidget {
                 ),
               ),
               IconButton(
-                tooltip: isAnchored ? 'Re-anchor' : 'Anchor to surface',
+                tooltip: isAnchored ? l10n.arTooltipReAnchor : l10n.arTooltipAnchorToSurface,
                 onPressed: onBeginAnchoring,
                 icon: Icon(
                   isAnchored ? Icons.push_pin_rounded : Icons.push_pin_outlined,
@@ -1450,7 +1453,7 @@ class _ArControlsPanel extends StatelessWidget {
               // "Switch to AR Surface Anchoring" button — only on Android
               if (Platform.isAndroid)
                 IconButton(
-                  tooltip: 'Switch to surface anchoring',
+                  tooltip: l10n.arTooltipSwitchToSurfaceAnchoring,
                   icon: const Icon(Icons.view_in_ar_rounded),
                   color: Colors.cyanAccent,
                   onPressed: onSwitchToArCore,
@@ -1495,8 +1498,8 @@ class _ArControlsPanel extends StatelessWidget {
                   Expanded(
                     child: Text(
                       isAnchored
-                          ? 'Anchored to tapped surface'
-                          : 'Tap to anchor this fractal',
+                          ? l10n.arAnchoredToSurface
+                          : l10n.arTapToAnchorFractal,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall,
@@ -1506,7 +1509,7 @@ class _ArControlsPanel extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: onBeginAnchoring,
                     icon: const Icon(Icons.push_pin_rounded),
-                    label: Text(isAnchored ? 'Re-anchor' : 'Anchor'),
+                    label: Text(isAnchored ? l10n.arButtonReAnchor : l10n.arButtonAnchor),
                   ),
                   const SizedBox(width: 8),
                   OutlinedButton.icon(
@@ -1643,7 +1646,7 @@ class _ArControlsPanel extends StatelessWidget {
                     onPressed: onSwitchToArCore,
                     icon: const Icon(Icons.view_in_ar_rounded,
                         color: Colors.cyanAccent),
-                    label: const Text('Switch to surface anchoring'),
+                    label: Text(l10n.arSwitchToSurfaceAnchoring),
                   ),
                 ),
               ],

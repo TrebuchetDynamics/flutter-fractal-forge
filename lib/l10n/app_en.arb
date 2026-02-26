@@ -301,13 +301,33 @@
   "onboardingSkip": "Skip",
   "onboardingNext": "Next",
   "onboardingGetStarted": "Get Started",
-  
-  "onboardingWelcomeTitle": "Welcome to Flutter Fractals",
-  "onboardingWelcomeDescription": "Explore the infinite beauty of mathematical fractals with real-time GPU-accelerated rendering.",
-  
+
+  "semanticSplashScreen": "Fractal Forge splash screen",
+  "splashTagline": "Explore infinite mathematical patterns",
+  "semanticOnboardingProgress": "Onboarding progress, step {step} of {total}",
+  "@semanticOnboardingProgress": {
+    "placeholders": {
+      "step": {},
+      "total": {}
+    }
+  },
+  "semanticSkipOnboarding": "Skip onboarding",
+
+  "onboardingWelcomeTitle": "Welcome to Fractal Forge",
+  "onboardingWelcomeDescription": "Explore infinite mathematical beauty through 350+ interactive fractals with GPU-accelerated rendering — from Mandelbrot sets to strange attractors.",
+  "onboardingWelcomeHighlight1": "Pan and pinch to navigate with deep zoom and infinite precision",
+  "onboardingWelcomeHighlight2": "Discover structure in Mandelbrot, Julia, Newton and 350+ fractal types",
+  "onboardingWelcomeHighlight3": "GPU-accelerated rendering for smooth, real-time exploration",
+
+  "onboardingCreateTitle": "Create, Export & Experience in AR",
+  "onboardingCreateDescription": "Adjust parameters in real time, place fractals on real surfaces with AR, and export stunning high-resolution images to share.",
+  "onboardingCreateHighlight1": "Real-time parameter controls with 60+ colour schemes",
+  "onboardingCreateHighlight2": "Augmented Reality — anchor fractals on real-world surfaces",
+  "onboardingCreateHighlight3": "Export to PNG and share — perfect for art, presentations and study",
+
   "onboardingFractalTypesTitle": "Discover Fractal Types",
   "onboardingFractalTypesDescription": "From classic 2D fractals to stunning 3D Mandelbulb, explore a variety of mathematical art.",
-  
+
   "onboardingGesturesTitle": "Intuitive Controls",
   "onboardingGesturesDescription": "Navigate fractals with simple, natural gestures.",
   "onboardingGesturePan": "Pan",
@@ -318,7 +338,7 @@
   "onboardingGestureRotateDesc": "Two-finger rotate for 3D fractals",
   "onboardingGestureDoubleTap": "Double Tap",
   "onboardingGestureDoubleTapDesc": "Quick reset to default view",
-  
+
   "onboardingFeaturesTitle": "Powerful Features",
   "onboardingFeaturesDescription": "Create, customize, and share your fractal creations.",
   "onboardingFeaturePresets": "Presets",
@@ -327,6 +347,12 @@
   "onboardingFeatureExportDesc": "Save high-quality images in multiple formats",
   "onboardingFeatureAr": "AR Mode",
   "onboardingFeatureArDesc": "Overlay fractals on your camera view",
+
+  "tooltipExitFullscreen": "Exit fullscreen view",
+  "announceEnteredFullscreen": "Entered fullscreen view",
+  "announceExitedFullscreen": "Exited fullscreen view",
+  "announceMinimapShown": "Minimap shown",
+  "announceMinimapHidden": "Minimap hidden",
 
   "shareTitle": "Share Fractal",
   "shareSubtitle": "Check out this {fractalName} fractal I created!",
@@ -506,5 +532,159 @@
   "cpuFallbackReport": "Report",
 
   "shaderErrorTryAgain": "Try Again",
-  "shaderErrorGoBack": "Go Back"
+  "shaderErrorGoBack": "Go Back",
+
+  "logViewerTitle": "Log ({filtered}/{total})",
+  "@logViewerTitle": {
+    "placeholders": {
+      "filtered": {},
+      "total": {}
+    }
+  },
+  "logExportTitle": "Export Log ({count} entries)",
+  "@logExportTitle": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "logCopyText": "Copy Text",
+  "logShareText": "Share Text",
+  "logShareJson": "Share JSON",
+  "logCopied": "Log copied to clipboard",
+  "logShareFailed": "Share failed: {error}",
+  "@logShareFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "logFilterTooltip": "Filter level",
+  "logFilterAll": "All",
+  "logFilterDebug": "Debug+",
+  "logFilterInfo": "Info+",
+  "logFilterWarn": "Warn+",
+  "logFilterError": "Error",
+  "logNoEntries": "No log entries",
+  "logTooltipExport": "Export",
+  "logTooltipClear": "Clear",
+
+  "exportSimpleModeHint": "Simple mode — choose a quick preset, then tap Export or Share.",
+  "exportCustomizeModeHint": "Customization enabled — full export controls visible.",
+  "exportButtonSimple": "Simple",
+  "exportButtonCustomize": "Customize",
+  "exportFormatPng": "PNG",
+  "exportFormatJpg": "JPG",
+  "exportFormatWebp": "WebP",
+
+  "homeUnknownFractalType": "Unknown fractal type: {type}",
+  "@homeUnknownFractalType": {
+    "placeholders": {
+      "type": {}
+    }
+  },
+  "homeFractalCountBadge": "350+ fractals",
+
+  "arSafetyBannerLabel": "Safety warning: Parental supervision recommended. Be aware of your surroundings.",
+  "arSafetyBannerText": "AR Safety: Parental supervision recommended. Be aware of your surroundings.",
+  "arStatusScanning": "Scanning for surfaces...",
+  "arStatusSurfaceDetected": "Surface detected \u00B7 Tap on a highlighted area to place",
+  "arStatusFractalsPlaced": "{count} fractal placed \u00B7 Tap to add more",
+  "@arStatusFractalsPlaced": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "arStatusFractalsPlacedPlural": "{count} fractals placed \u00B7 Tap to add more",
+  "@arStatusFractalsPlacedPlural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "arScanTipsTitle": "Having trouble detecting a surface?",
+  "arScanTip1": "Point at a textured surface (table, floor, carpet)",
+  "arScanTip2": "Move the camera slowly \u2014 avoid fast sweeping",
+  "arScanTip3": "Ensure good lighting (avoid very dark rooms)",
+  "arScanTip4": "Plain white walls and glass surfaces are hard to detect",
+  "arTooltipMoreOptions": "More options",
+  "arTooltipShare": "Share",
+  "arTooltipSave": "Save",
+  "arTooltipClearAll": "Clear all",
+  "arTooltipRescan": "Re-scan",
+  "arScanHint": "Move the camera slowly over a flat surface to detect it",
+  "arPlacementSize": "Size: {size}m",
+  "@arPlacementSize": {
+    "placeholders": {
+      "size": {}
+    }
+  },
+  "arActionShare": "Share",
+  "arActionSave": "Save",
+  "arActionClear": "Clear",
+  "arActionRescan": "Re-scan",
+  "arRemoveFractalPrompt": "Remove this fractal?",
+  "arConfirmYes": "Yes",
+  "arConfirmNo": "No",
+  "arErrorRemoveNode": "Failed to remove node: {error}",
+  "@arErrorRemoveNode": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "arErrorArCore": "ARCore error: {error}",
+  "@arErrorArCore": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "arNoSurfaceHit": "No surface hit \u2014 tap directly on a highlighted (blue) area",
+  "arErrorPlaceFractal": "Failed to place fractal: {error}",
+  "@arErrorPlaceFractal": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "arShareText": "Fractal anchored in AR via Fractal Forge",
+  "arErrorShareFailed": "Share failed: {error}",
+  "@arErrorShareFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "arSavedTo": "Saved to {path}",
+  "@arSavedTo": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "arErrorSaveFailed": "Save failed: {error}",
+  "@arErrorSaveFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "arFractalAnchored": "Fractal anchored to tapped surface",
+  "arAnchoredStatus": "Anchored \u00B7 {camera} camera",
+  "@arAnchoredStatus": {
+    "placeholders": {
+      "camera": {}
+    }
+  },
+  "arTapToAnchor": "Tap on surface to anchor fractal",
+  "arTooltipSwitchCamera": "Switch camera",
+  "arErrorSurfaceDetectionUnavailable": "AR surface detection is not available on this device",
+  "arErrorArCoreUnavailable": "ARCore services are unavailable on this device",
+  "arErrorCaptureFailed": "Could not capture fractal: {error}",
+  "@arErrorCaptureFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "arTapAnywhereToPlace": "Tap anywhere to place",
+  "arTooltipReAnchor": "Re-anchor",
+  "arTooltipAnchorToSurface": "Anchor to surface",
+  "arTooltipSwitchToSurfaceAnchoring": "Switch to surface anchoring",
+  "arAnchoredToSurface": "Anchored to tapped surface",
+  "arTapToAnchorFractal": "Tap to anchor this fractal",
+  "arButtonReAnchor": "Re-anchor",
+  "arButtonAnchor": "Anchor",
+  "arSwitchToSurfaceAnchoring": "Switch to surface anchoring"
 }

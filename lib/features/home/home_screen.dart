@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // Module not found, show error
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Unknown fractal type: ${data.type}'),
+          content: Text(AppLocalizations.of(context)!.homeUnknownFractalType(data.type)),
           backgroundColor: AppColors.error,
         ),
       );
@@ -290,7 +290,7 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
                         ),
                       ),
                       child: Text(
-                        '350+ fractals',
+                        AppLocalizations.of(context)!.homeFractalCountBadge,
                         style: AppTypography.labelSmall.copyWith(
                           color: AppColors.primaryLight,
                           fontWeight: FontWeight.w600,
