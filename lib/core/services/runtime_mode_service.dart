@@ -19,7 +19,8 @@ class RuntimeModeService {
   static String _bindingTypeName() {
     try {
       return WidgetsBinding.instance.runtimeType.toString();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('[FF] silent catch: $e');
       return '';
     }
   }

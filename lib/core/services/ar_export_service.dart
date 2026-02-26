@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:camera/camera.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter_fractals/core/services/export_service.dart';
@@ -21,7 +21,7 @@ class ArExportService {
     if (cameraController.value.isStreamingImages) {
       try {
         await cameraController.stopImageStream();
-      } catch (_) {}
+      } catch (e) { debugPrint('[FF] silent catch: $e'); }
     }
     final photoFile = await cameraController.takePicture();
     final photoBytes = await photoFile.readAsBytes();

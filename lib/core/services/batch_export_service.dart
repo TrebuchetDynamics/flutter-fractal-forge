@@ -109,7 +109,7 @@ class BatchExportService {
         final out = File('${directory.path}/$name');
         await out.writeAsBytes(pngBytes, flush: true);
         contactSheet = out;
-      } catch (_) {}
+      } catch (e) { debugPrint('[FF] silent catch: $e'); }
     }
 
     onProgress?.call(1.0, 'Done');

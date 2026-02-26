@@ -479,5 +479,32 @@
   "presetRenamed": "Preset renamed",
   "presetRenameFailed": "Couldn't rename preset",
   "tooltipDeletePreset": "Delete preset",
-  "tooltipRenamePreset": "Rename preset"
+  "tooltipRenamePreset": "Rename preset",
+
+  "quickActionSaveLocation": "Save location",
+  "quickActionOpenPresets": "Open presets",
+  "quickActionRandomFractal": "Random fractal",
+  "quickActionBackInHistory": "Back in view history",
+  "quickActionForwardInHistory": "Forward in view history",
+  "quickActionRendererMode": "Renderer mode",
+  "quickActionViewLogs": "View logs",
+  "quickActionGpuDebugReport": "GPU debug report",
+
+  "debugReportOpenShaderLab": "Open Shader Lab",
+  "debugReportCopyJson": "Copy JSON",
+
+  "rendererBackendTitle": "Renderer Backend",
+  "rendererBackendSubtitle": "Choose how fractals are rendered. Auto is recommended.",
+  "rendererBackendAuto": "Auto",
+  "rendererBackendAutoSubtitle": "Use GPU when healthy; fall back to CPU when needed.",
+  "rendererBackendCpuOnly": "CPU only (stable)",
+  "rendererBackendCpuOnlySubtitle": "Always use the stable CPU renderer.",
+  "rendererBackendGpuOnly": "GPU only (debug)",
+  "rendererBackendGpuOnlySubtitle": "Always try GPU rendering. May show black/invalid output on some devices.",
+
+  "cpuFallbackTryGpu": "Try GPU",
+  "cpuFallbackReport": "Report",
+
+  "shaderErrorTryAgain": "Try Again",
+  "shaderErrorGoBack": "Go Back"
 }

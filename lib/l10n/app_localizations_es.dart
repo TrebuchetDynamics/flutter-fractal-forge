@@ -1060,4 +1060,74 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tooltipRenamePreset => 'Renombrar preset';
+
+  @override
+  String get quickActionSaveLocation => 'Guardar ubicación';
+
+  @override
+  String get quickActionOpenPresets => 'Abrir presets';
+
+  @override
+  String get quickActionRandomFractal => 'Fractal aleatorio';
+
+  @override
+  String get quickActionBackInHistory => 'Atrás en el historial';
+
+  @override
+  String get quickActionForwardInHistory => 'Adelante en el historial';
+
+  @override
+  String get quickActionRendererMode => 'Modo de renderizado';
+
+  @override
+  String get quickActionViewLogs => 'Ver registros';
+
+  @override
+  String get quickActionGpuDebugReport => 'Informe de depuración GPU';
+
+  @override
+  String get debugReportOpenShaderLab => 'Abrir Shader Lab';
+
+  @override
+  String get debugReportCopyJson => 'Copiar JSON';
+
+  @override
+  String get rendererBackendTitle => 'Motor de renderizado';
+
+  @override
+  String get rendererBackendSubtitle =>
+      'Elige cómo se renderizan los fractales. Se recomienda Automático.';
+
+  @override
+  String get rendererBackendAuto => 'Automático';
+
+  @override
+  String get rendererBackendAutoSubtitle =>
+      'Usa GPU cuando está sana; cambia a CPU cuando es necesario.';
+
+  @override
+  String get rendererBackendCpuOnly => 'Solo CPU (estable)';
+
+  @override
+  String get rendererBackendCpuOnlySubtitle =>
+      'Usa siempre el renderizador CPU estable.';
+
+  @override
+  String get rendererBackendGpuOnly => 'Solo GPU (depuración)';
+
+  @override
+  String get rendererBackendGpuOnlySubtitle =>
+      'Siempre intenta el renderizado GPU. Puede mostrar salida negra o inválida en algunos dispositivos.';
+
+  @override
+  String get cpuFallbackTryGpu => 'Probar GPU';
+
+  @override
+  String get cpuFallbackReport => 'Reportar';
+
+  @override
+  String get shaderErrorTryAgain => 'Intentar de nuevo';
+
+  @override
+  String get shaderErrorGoBack => 'Volver';
 }

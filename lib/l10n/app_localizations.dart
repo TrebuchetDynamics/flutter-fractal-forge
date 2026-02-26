@@ -2041,6 +2041,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rename preset'**
   String get tooltipRenamePreset;
+
+  /// No description provided for @quickActionSaveLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Save location'**
+  String get quickActionSaveLocation;
+
+  /// No description provided for @quickActionOpenPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Open presets'**
+  String get quickActionOpenPresets;
+
+  /// No description provided for @quickActionRandomFractal.
+  ///
+  /// In en, this message translates to:
+  /// **'Random fractal'**
+  String get quickActionRandomFractal;
+
+  /// No description provided for @quickActionBackInHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Back in view history'**
+  String get quickActionBackInHistory;
+
+  /// No description provided for @quickActionForwardInHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Forward in view history'**
+  String get quickActionForwardInHistory;
+
+  /// No description provided for @quickActionRendererMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Renderer mode'**
+  String get quickActionRendererMode;
+
+  /// No description provided for @quickActionViewLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'View logs'**
+  String get quickActionViewLogs;
+
+  /// No description provided for @quickActionGpuDebugReport.
+  ///
+  /// In en, this message translates to:
+  /// **'GPU debug report'**
+  String get quickActionGpuDebugReport;
+
+  /// No description provided for @debugReportOpenShaderLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Shader Lab'**
+  String get debugReportOpenShaderLab;
+
+  /// No description provided for @debugReportCopyJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy JSON'**
+  String get debugReportCopyJson;
+
+  /// No description provided for @rendererBackendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Renderer Backend'**
+  String get rendererBackendTitle;
+
+  /// No description provided for @rendererBackendSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how fractals are rendered. Auto is recommended.'**
+  String get rendererBackendSubtitle;
+
+  /// No description provided for @rendererBackendAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get rendererBackendAuto;
+
+  /// No description provided for @rendererBackendAutoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use GPU when healthy; fall back to CPU when needed.'**
+  String get rendererBackendAutoSubtitle;
+
+  /// No description provided for @rendererBackendCpuOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU only (stable)'**
+  String get rendererBackendCpuOnly;
+
+  /// No description provided for @rendererBackendCpuOnlySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Always use the stable CPU renderer.'**
+  String get rendererBackendCpuOnlySubtitle;
+
+  /// No description provided for @rendererBackendGpuOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'GPU only (debug)'**
+  String get rendererBackendGpuOnly;
+
+  /// No description provided for @rendererBackendGpuOnlySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Always try GPU rendering. May show black/invalid output on some devices.'**
+  String get rendererBackendGpuOnlySubtitle;
+
+  /// No description provided for @cpuFallbackTryGpu.
+  ///
+  /// In en, this message translates to:
+  /// **'Try GPU'**
+  String get cpuFallbackTryGpu;
+
+  /// No description provided for @cpuFallbackReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get cpuFallbackReport;
+
+  /// No description provided for @shaderErrorTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get shaderErrorTryAgain;
+
+  /// No description provided for @shaderErrorGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Back'**
+  String get shaderErrorGoBack;
 }
 
 class _AppLocalizationsDelegate

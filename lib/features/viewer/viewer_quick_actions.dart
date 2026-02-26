@@ -46,40 +46,40 @@ Future<void> _viewerOpenViewerQuickActions(
                   children: [
                     ListTile(
                       leading: const Icon(Icons.bookmark_add_rounded),
-                      title: const Text('Save location'),
+                      title: Text(AppLocalizations.of(context)!.quickActionSaveLocation),
                       onTap: () => Navigator.of(context)
                           .pop(_ViewerMenuAction.saveLocation),
                     ),
                     ListTile(
                       leading: const Icon(Icons.bookmark_rounded),
-                      title: const Text('Open presets'),
+                      title: Text(AppLocalizations.of(context)!.quickActionOpenPresets),
                       onTap: () => Navigator.of(context)
                           .pop(_ViewerMenuAction.openPresets),
                     ),
                     ListTile(
                       leading: const Icon(Icons.shuffle_rounded),
-                      title: const Text('Random fractal'),
+                      title: Text(AppLocalizations.of(context)!.quickActionRandomFractal),
                       onTap: () => Navigator.of(context)
                           .pop(_ViewerMenuAction.randomFractal),
                     ),
                     if (canGoBack)
                       ListTile(
                         leading: const Icon(Icons.undo_rounded),
-                        title: const Text('Back in view history'),
+                        title: Text(AppLocalizations.of(context)!.quickActionBackInHistory),
                         onTap: () => Navigator.of(context)
                             .pop(_ViewerMenuAction.historyBack),
                       ),
                     if (canGoForward)
                       ListTile(
                         leading: const Icon(Icons.redo_rounded),
-                        title: const Text('Forward in view history'),
+                        title: Text(AppLocalizations.of(context)!.quickActionForwardInHistory),
                         onTap: () => Navigator.of(context)
                             .pop(_ViewerMenuAction.historyForward),
                       ),
                     const Divider(height: 1),
                     ListTile(
                       leading: const Icon(Icons.auto_mode_rounded),
-                      title: const Text('Renderer mode'),
+                      title: Text(AppLocalizations.of(context)!.quickActionRendererMode),
                       onTap: () => Navigator.of(context)
                           .pop(_ViewerMenuAction.rendererMode),
                     ),
@@ -107,14 +107,14 @@ Future<void> _viewerOpenViewerQuickActions(
                     const Divider(height: 1),
                     ListTile(
                       leading: const Icon(Icons.receipt_long_rounded),
-                      title: const Text('View logs'),
+                      title: Text(AppLocalizations.of(context)!.quickActionViewLogs),
                       onTap: () => Navigator.of(context)
                           .pop(_ViewerMenuAction.openLogs),
                     ),
                     if (kDebugMode)
                       ListTile(
                         leading: const Icon(Icons.bug_report_rounded),
-                        title: const Text('GPU debug report'),
+                        title: Text(AppLocalizations.of(context)!.quickActionGpuDebugReport),
                         onTap: () => Navigator.of(context)
                             .pop(_ViewerMenuAction.gpuDebug),
                       ),

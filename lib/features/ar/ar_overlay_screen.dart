@@ -335,7 +335,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
           );
           try {
             await candidate?.dispose();
-          } catch (_) {}
+          } catch (e) { debugPrint('[FF] silent catch: $e'); }
         }
       }
     }
@@ -417,7 +417,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         lastError = e;
         try {
           await candidate?.dispose();
-        } catch (_) {}
+        } catch (e) { debugPrint('[FF] silent catch: $e'); }
       }
     }
 

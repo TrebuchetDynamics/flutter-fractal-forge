@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 class CpuFallbackPane extends StatefulWidget {
   final GlobalKey boundaryKey;
@@ -167,7 +168,7 @@ class CpuFallbackBanner extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 ),
-                child: const Text('Try GPU'),
+                child: Text(AppLocalizations.of(context)!.cpuFallbackTryGpu),
               ),
               OutlinedButton(
                 onPressed: onReport,
@@ -178,7 +179,7 @@ class CpuFallbackBanner extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 ),
-                child: const Text('Report'),
+                child: Text(AppLocalizations.of(context)!.cpuFallbackReport),
               ),
             ],
           ),

@@ -28,20 +28,19 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Renderer Backend',
+                  AppLocalizations.of(context)!.rendererBackendTitle,
                   style: AppTypography.titleLarge,
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
-                  'Choose how fractals are rendered. Auto is recommended.',
+                  AppLocalizations.of(context)!.rendererBackendSubtitle,
                   style: AppTypography.bodySmall,
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 _backendModeTile(
                   context: context,
-                  title: 'Auto',
-                  subtitle:
-                      'Use GPU when healthy; fall back to CPU when needed.',
+                  title: AppLocalizations.of(context)!.rendererBackendAuto,
+                  subtitle: AppLocalizations.of(context)!.rendererBackendAutoSubtitle,
                   value: RendererBackendMode.auto,
                   groupValue: mode,
                   onChanged: (v) async {
@@ -52,8 +51,8 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
                 ),
                 _backendModeTile(
                   context: context,
-                  title: 'CPU only (stable)',
-                  subtitle: 'Always use the stable CPU renderer.',
+                  title: AppLocalizations.of(context)!.rendererBackendCpuOnly,
+                  subtitle: AppLocalizations.of(context)!.rendererBackendCpuOnlySubtitle,
                   value: RendererBackendMode.cpuOnly,
                   groupValue: mode,
                   onChanged: (v) async {
@@ -64,9 +63,8 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
                 ),
                 _backendModeTile(
                   context: context,
-                  title: 'GPU only (debug)',
-                  subtitle:
-                      'Always try GPU rendering. May show black/invalid output on some devices.',
+                  title: AppLocalizations.of(context)!.rendererBackendGpuOnly,
+                  subtitle: AppLocalizations.of(context)!.rendererBackendGpuOnlySubtitle,
                   value: RendererBackendMode.gpuOnly,
                   groupValue: mode,
                   onChanged: (v) async {
@@ -80,7 +78,7 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
                   alignment: Alignment.centerRight,
                   child: OutlinedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Close'),
+                    child: Text(AppLocalizations.of(context)!.actionClose),
                   ),
                 ),
               ],

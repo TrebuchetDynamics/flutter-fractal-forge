@@ -480,5 +480,32 @@
   "presetRenamed": "Preset renombrado",
   "presetRenameFailed": "No se pudo renombrar el preset",
   "tooltipDeletePreset": "Eliminar preset",
-  "tooltipRenamePreset": "Renombrar preset"
+  "tooltipRenamePreset": "Renombrar preset",
+
+  "quickActionSaveLocation": "Guardar ubicación",
+  "quickActionOpenPresets": "Abrir presets",
+  "quickActionRandomFractal": "Fractal aleatorio",
+  "quickActionBackInHistory": "Atrás en el historial",
+  "quickActionForwardInHistory": "Adelante en el historial",
+  "quickActionRendererMode": "Modo de renderizado",
+  "quickActionViewLogs": "Ver registros",
+  "quickActionGpuDebugReport": "Informe de depuración GPU",
+
+  "debugReportOpenShaderLab": "Abrir Shader Lab",
+  "debugReportCopyJson": "Copiar JSON",
+
+  "rendererBackendTitle": "Motor de renderizado",
+  "rendererBackendSubtitle": "Elige cómo se renderizan los fractales. Se recomienda Automático.",
+  "rendererBackendAuto": "Automático",
+  "rendererBackendAutoSubtitle": "Usa GPU cuando está sana; cambia a CPU cuando es necesario.",
+  "rendererBackendCpuOnly": "Solo CPU (estable)",
+  "rendererBackendCpuOnlySubtitle": "Usa siempre el renderizador CPU estable.",
+  "rendererBackendGpuOnly": "Solo GPU (depuración)",
+  "rendererBackendGpuOnlySubtitle": "Siempre intenta el renderizado GPU. Puede mostrar salida negra o inválida en algunos dispositivos.",
+
+  "cpuFallbackTryGpu": "Probar GPU",
+  "cpuFallbackReport": "Reportar",
+
+  "shaderErrorTryAgain": "Intentar de nuevo",
+  "shaderErrorGoBack": "Volver"
 }

@@ -1045,4 +1045,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tooltipRenamePreset => 'Rename preset';
+
+  @override
+  String get quickActionSaveLocation => 'Save location';
+
+  @override
+  String get quickActionOpenPresets => 'Open presets';
+
+  @override
+  String get quickActionRandomFractal => 'Random fractal';
+
+  @override
+  String get quickActionBackInHistory => 'Back in view history';
+
+  @override
+  String get quickActionForwardInHistory => 'Forward in view history';
+
+  @override
+  String get quickActionRendererMode => 'Renderer mode';
+
+  @override
+  String get quickActionViewLogs => 'View logs';
+
+  @override
+  String get quickActionGpuDebugReport => 'GPU debug report';
+
+  @override
+  String get debugReportOpenShaderLab => 'Open Shader Lab';
+
+  @override
+  String get debugReportCopyJson => 'Copy JSON';
+
+  @override
+  String get rendererBackendTitle => 'Renderer Backend';
+
+  @override
+  String get rendererBackendSubtitle =>
+      'Choose how fractals are rendered. Auto is recommended.';
+
+  @override
+  String get rendererBackendAuto => 'Auto';
+
+  @override
+  String get rendererBackendAutoSubtitle =>
+      'Use GPU when healthy; fall back to CPU when needed.';
+
+  @override
+  String get rendererBackendCpuOnly => 'CPU only (stable)';
+
+  @override
+  String get rendererBackendCpuOnlySubtitle =>
+      'Always use the stable CPU renderer.';
+
+  @override
+  String get rendererBackendGpuOnly => 'GPU only (debug)';
+
+  @override
+  String get rendererBackendGpuOnlySubtitle =>
+      'Always try GPU rendering. May show black/invalid output on some devices.';
+
+  @override
+  String get cpuFallbackTryGpu => 'Try GPU';
+
+  @override
+  String get cpuFallbackReport => 'Report';
+
+  @override
+  String get shaderErrorTryAgain => 'Try Again';
+
+  @override
+  String get shaderErrorGoBack => 'Go Back';
 }

@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:async' show Timer, unawaited;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
@@ -141,7 +141,7 @@ class HistoryProvider extends ChangeNotifier {
     _currentIndex = _history.length - 1;
     _lastRecorded = entry;
 
-    _store.saveHistory(_history);
+    unawaited(_store.saveHistory(_history));
     notifyListeners();
   }
 

@@ -73,7 +73,7 @@ class ArVideoExporter {
       finished = true;
       try {
         await cameraController.stopImageStream();
-      } catch (_) {}
+      } catch (e) { debugPrint('[FF] silent catch: $e'); }
       try {
         if (frames.isEmpty) {
           completer.complete(null);

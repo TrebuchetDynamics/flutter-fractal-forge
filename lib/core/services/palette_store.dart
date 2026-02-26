@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
 
@@ -33,7 +34,8 @@ class PaletteStore {
           .map((m) => FractalPalette.fromJson(m.cast<String, Object?>()))
           .where((p) => p.id.isNotEmpty)
           .toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('[FF] silent catch: $e');
       return const [];
     }
   }

@@ -96,8 +96,8 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                           },
                           icon: const Icon(Icons.science_rounded,
                               color: Colors.amber),
-                          label: const Text('Open Shader Lab',
-                              style: TextStyle(color: Colors.amber)),
+                          label: Text(AppLocalizations.of(context)!.debugReportOpenShaderLab,
+                              style: const TextStyle(color: Colors.amber)),
                         ),
                       ),
                     ],
@@ -142,11 +142,11 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                                     'Copied GPU debug JSON to clipboard. Paste it into Telegram.')),
                           );
                         },
-                        child: const Text('Copy JSON'),
+                        child: Text(AppLocalizations.of(context)!.debugReportCopyJson),
                       ),
                       OutlinedButton(
                         onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Close'),
+                        child: Text(AppLocalizations.of(context)!.actionClose),
                       ),
                     ],
                   )

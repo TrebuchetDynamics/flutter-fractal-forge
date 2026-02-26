@@ -179,7 +179,7 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                     ElevatedButton.icon(
                       onPressed: widget.onRetry,
                       icon: const Icon(Icons.refresh_rounded, size: 18),
-                      label: const Text('Try Again'),
+                      label: Text(AppLocalizations.of(context)!.shaderErrorTryAgain),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
@@ -195,7 +195,7 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                   OutlinedButton.icon(
                     onPressed: widget.onGoBack,
                     icon: const Icon(Icons.arrow_back_rounded, size: 18),
-                    label: const Text('Go Back'),
+                    label: Text(AppLocalizations.of(context)!.shaderErrorGoBack),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.textSecondary,
                       side: BorderSide(

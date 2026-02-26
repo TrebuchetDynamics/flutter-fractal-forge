@@ -323,11 +323,13 @@ class CrashReporter {
 
     final level = e.fatal ? 'FATAL' : 'ERROR';
     debugPrint('[FF_CRASH][$level][${e.source}] ${e.error}');
-    if (e.context != null) {
-      debugPrint('[FF_CRASH][CTX] ${e.context}');
-    }
-    if (e.stack != null && e.stack!.isNotEmpty) {
-      debugPrint('[FF_CRASH][STACK] ${e.stack}');
+    if (kDebugMode) {
+      if (e.context != null) {
+        debugPrint('[FF_CRASH][CTX] ${e.context}');
+      }
+      if (e.stack != null && e.stack!.isNotEmpty) {
+        debugPrint('[FF_CRASH][STACK] ${e.stack}');
+      }
     }
   }
 

@@ -1,3 +1,4 @@
+import 'dart:async' show unawaited;
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +47,8 @@ class ExplorationStatsService extends ChangeNotifier {
         .map((name) {
           try {
             return Achievement.values.firstWhere((a) => a.name == name);
-          } catch (_) {
+          } catch (e) {
+            debugPrint('[FF] silent catch: $e');
             return null;
           }
         })
@@ -69,7 +71,7 @@ class ExplorationStatsService extends ChangeNotifier {
       firstExplorationDate: _stats.firstExplorationDate ?? DateTime.now(),
     );
     _checkAchievements();
-    _save();
+    unawaited(_save());
     notifyListeners();
   }
 
@@ -79,7 +81,7 @@ class ExplorationStatsService extends ChangeNotifier {
       totalTimeSeconds: _stats.totalTimeSeconds + seconds,
     );
     _checkAchievements();
-    _save();
+    unawaited(_save());
     notifyListeners();
   }
 
@@ -93,7 +95,7 @@ class ExplorationStatsService extends ChangeNotifier {
       firstExplorationDate: _stats.firstExplorationDate ?? DateTime.now(),
     );
     _checkAchievements();
-    _save();
+    unawaited(_save());
     notifyListeners();
   }
 
@@ -103,7 +105,7 @@ class ExplorationStatsService extends ChangeNotifier {
       screenshotsTaken: _stats.screenshotsTaken + 1,
     );
     _checkAchievements();
-    _save();
+    unawaited(_save());
     notifyListeners();
   }
 
@@ -115,7 +117,7 @@ class ExplorationStatsService extends ChangeNotifier {
       firstExplorationDate: _stats.firstExplorationDate ?? DateTime.now(),
     );
     _checkAchievements();
-    _save();
+    unawaited(_save());
     notifyListeners();
   }
 
