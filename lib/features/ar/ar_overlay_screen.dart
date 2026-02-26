@@ -1,5 +1,5 @@
 import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
@@ -336,7 +336,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
           );
           try {
             await candidate?.dispose();
-          } catch (e) { debugPrint('[FF] silent catch: $e'); }
+          } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
         }
       }
     }
@@ -418,7 +418,7 @@ class _ArOverlayScreenState extends State<ArOverlayScreen> {
         lastError = e;
         try {
           await candidate?.dispose();
-        } catch (e) { debugPrint('[FF] silent catch: $e'); }
+        } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
       }
     }
 

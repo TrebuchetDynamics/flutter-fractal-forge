@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -94,7 +95,7 @@ class ExportService {
   }
 
   Future<Directory> getExportDirectory() async {
-    if (Platform.isAndroid) {
+    if (!kIsWeb && Platform.isAndroid) {
       // On Android 10+ (API 29+) apps can write to their own external storage
       // directories without the WRITE_EXTERNAL_STORAGE permission via scoped
       // storage. On older devices (minSdk 21, Android 5+) the legacy permission
@@ -370,7 +371,7 @@ class ExportService {
     Uint8List bytes,
     String filename,
   ) async {
-    if (!Platform.isAndroid || !_isImageFilename(filename)) {
+    if (kIsWeb || !Platform.isAndroid || !_isImageFilename(filename)) {
       return;
     }
 

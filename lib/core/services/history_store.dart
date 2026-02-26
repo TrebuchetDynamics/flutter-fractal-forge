@@ -98,13 +98,13 @@ class HistoryStore {
           entries.add(entry);
         } catch (e) {
           // Skip corrupted entry, continue with others
-          debugPrint('Failed to parse history entry: $e');
+          if (kDebugMode) debugPrint('Failed to parse history entry: $e');
         }
       }
       return entries;
     } catch (e) {
       // Corrupted JSON, return empty list
-      debugPrint('Failed to parse history JSON: $e');
+      if (kDebugMode) debugPrint('Failed to parse history JSON: $e');
       return [];
     }
   }

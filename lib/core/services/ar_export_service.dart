@@ -14,6 +14,7 @@ class ArExportService {
     required Uint8List overlayPng,
     required String filename,
   }) async {
+    if (kIsWeb) throw UnsupportedError('exportBakedScreenshot is not supported on web');
     if (!cameraController.value.isInitialized) {
       throw StateError('Camera not initialized');
     }
@@ -21,7 +22,7 @@ class ArExportService {
     if (cameraController.value.isStreamingImages) {
       try {
         await cameraController.stopImageStream();
-      } catch (e) { debugPrint('[FF] silent catch: $e'); }
+      } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
     }
     final photoFile = await cameraController.takePicture();
     final photoBytes = await photoFile.readAsBytes();

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kDebugMode, debugPrint;
 import 'package:flutter/widgets.dart';
 
 /// Centralized runtime mode detection used by renderer/viewer/controller.
@@ -20,7 +21,7 @@ class RuntimeModeService {
     try {
       return WidgetsBinding.instance.runtimeType.toString();
     } catch (e) {
-      debugPrint('[FF] silent catch: $e');
+      if (kDebugMode) debugPrint('[FF] silent catch: $e');
       return '';
     }
   }

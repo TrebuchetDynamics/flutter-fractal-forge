@@ -441,7 +441,7 @@ class _FractalRendererState extends State<FractalRenderer>
             final dt = DateTime.now()
                 .difference(_shaderLoadStartedAt ?? DateTime.now())
                 .inMilliseconds;
-            debugPrint(
+            if (kDebugMode) debugPrint(
                 '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
           }
 

@@ -75,13 +75,13 @@ class TestLogger {
     _sink = file.openWrite(mode: FileMode.append);
     _initialized = true;
 
-    debugPrint('TestLogger initialized: $logFilePath');
+    if (kDebugMode) debugPrint('TestLogger initialized: $logFilePath');
   }
 
   /// Log an event to buffer, console, and file (if initialized).
   void log(LogEvent event) {
     _buffer.add(event);
-    debugPrint(event.toString());
+    if (kDebugMode) debugPrint(event.toString());
 
     if (_initialized && _sink != null) {
       _sink!.writeln(event.toString());

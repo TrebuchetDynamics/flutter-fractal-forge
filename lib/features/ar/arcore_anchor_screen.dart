@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'dart:ui' show ImageFilter;
 
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +51,7 @@ class ArCoreAnchorScreen extends StatefulWidget {
   /// We intentionally avoid ARCore install flows that depend on a Play Store
   /// handler because those can crash on emulator/device profiles without one.
   static Future<bool> isInstalledOnDevice() async {
-    if (!Platform.isAndroid) {
+    if (kIsWeb || !Platform.isAndroid) {
       return false;
     }
     try {
@@ -901,6 +902,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   // -----------------------------------------------------------------------
 
   Future<void> _shareFractal() async {
+    if (kIsWeb) return;
     try {
       final l10n = AppLocalizations.of(context)!;
       final dir = await getTemporaryDirectory();
@@ -922,6 +924,7 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
   }
 
   Future<void> _saveFractal() async {
+    if (kIsWeb) return;
     try {
       final dir = await getTemporaryDirectory();
       final file = File(

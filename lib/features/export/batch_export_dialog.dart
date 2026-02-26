@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,13 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
   }
 
   Future<void> _run() async {
+    if (kIsWeb) {
+      setState(() {
+        _running = false;
+        _error = UnsupportedError('Batch export is not supported on web');
+      });
+      return;
+    }
     final controller = context.read<FractalController>();
     final presetStore = context.read<PresetStore>();
     final l10n = AppLocalizations.of(context)!;

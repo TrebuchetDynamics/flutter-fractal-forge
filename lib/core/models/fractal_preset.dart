@@ -185,13 +185,13 @@ class FractalPreset {
           presets.add(preset);
         } catch (e) {
           // Skip corrupted preset, continue with others
-          debugPrint('Failed to parse preset: $e');
+          if (kDebugMode) debugPrint('Failed to parse preset: $e');
         }
       }
       return presets;
     } catch (e) {
       // Corrupted JSON, return empty list
-      debugPrint('Failed to parse presets JSON: $e');
+      if (kDebugMode) debugPrint('Failed to parse presets JSON: $e');
       return [];
     }
   }

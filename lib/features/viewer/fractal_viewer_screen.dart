@@ -372,7 +372,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final decision = _backendDecision.toLogLine(moduleId: controller.module.id);
     if (_lastBackendDecisionLogged != decision) {
       _lastBackendDecisionLogged = decision;
-      debugPrint(decision);
+      if (kDebugMode) debugPrint(decision);
     }
 
     if (_compareMode) {

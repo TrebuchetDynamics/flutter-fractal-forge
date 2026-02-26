@@ -155,7 +155,7 @@ class DeepLinkService {
           }
         } catch (e) {
           // Malformed URI, ignore
-          debugPrint('Failed to parse initial deep link URI: $e');
+          if (kDebugMode) debugPrint('Failed to parse initial deep link URI: $e');
         }
       }
     } on PlatformException {
@@ -174,7 +174,7 @@ class DeepLinkService {
         }
       } catch (e) {
         // Malformed URI, ignore
-        debugPrint('Failed to parse deep link URI: $e');
+        if (kDebugMode) debugPrint('Failed to parse deep link URI: $e');
       }
     }
   }
@@ -317,13 +317,13 @@ class DeepLinkService {
     if (v == null) return null;
     final d = double.tryParse(v);
     if (d == null || d.isNaN || d.isInfinite) {
-      debugPrint(
+      if (kDebugMode) debugPrint(
           'DeepLink: invalid value for "$paramName": "$v" — ignoring');
       return null;
     }
     final clamped = d.clamp(min, max);
     if (clamped != d) {
-      debugPrint(
+      if (kDebugMode) debugPrint(
           'DeepLink: "$paramName" value $d out of [$min, $max] — clamped to $clamped');
     }
     return clamped;
@@ -334,13 +334,13 @@ class DeepLinkService {
     if (v == null) return null;
     final i = int.tryParse(v);
     if (i == null) {
-      debugPrint(
+      if (kDebugMode) debugPrint(
           'DeepLink: invalid value for "$paramName": "$v" — ignoring');
       return null;
     }
     final clamped = i.clamp(min, max);
     if (clamped != i) {
-      debugPrint(
+      if (kDebugMode) debugPrint(
           'DeepLink: "$paramName" value $i out of [$min, $max] — clamped to $clamped');
     }
     return clamped;

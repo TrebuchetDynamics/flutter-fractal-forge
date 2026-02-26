@@ -290,12 +290,12 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
 
         _refreshBackendDecision();
 
-        debugPrint(stats.summary('gpu'));
+        if (kDebugMode) debugPrint(stats.summary('gpu'));
         final moduleId = controller.module.id;
-        debugPrint(
+        if (kDebugMode) debugPrint(
           '[renderer] gpu_health module=$moduleId nonBlackRatio=${stats.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${stats.centerNonBlack} histogramSane=${stats.histogramSane} sampleCount=${width * height} backendSwitchesDuringProbe=$_gpuProbeBackendSwitches forcedProbeFailure=$_forceGpuHealthProbeFailure',
         );
-        debugPrint(
+        if (kDebugMode) debugPrint(
           '[renderer] gpu_health_probe side_effects backendSwitchesDuringProbe=$_gpuProbeBackendSwitches (expected 0 on healthy GPU)',
         );
 

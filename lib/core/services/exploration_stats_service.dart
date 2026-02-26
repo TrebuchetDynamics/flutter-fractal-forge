@@ -48,7 +48,7 @@ class ExplorationStatsService extends ChangeNotifier {
           try {
             return Achievement.values.firstWhere((a) => a.name == name);
           } catch (e) {
-            debugPrint('[FF] silent catch: $e');
+            if (kDebugMode) debugPrint('[FF] silent catch: $e');
             return null;
           }
         })

@@ -184,28 +184,28 @@ Future<bool> detectAndroidEmulator() async {
         c.contains('android virtual processor')) {
       return true;
     }
-  } catch (e) { debugPrint('[FF] silent catch: $e'); }
+  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
 
   // 2. getprop — most reliable on modern emulators
   try {
     final result = await Process.run('getprop', ['ro.hardware']);
     final hw = (result.stdout as String).trim().toLowerCase();
     if (hw == 'ranchu' || hw == 'goldfish') return true;
-  } catch (e) { debugPrint('[FF] silent catch: $e'); }
+  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
 
   try {
     final result = await Process.run('getprop', ['ro.build.characteristics']);
     if ((result.stdout as String).trim().toLowerCase().contains('emulator')) {
       return true;
     }
-  } catch (e) { debugPrint('[FF] silent catch: $e'); }
+  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
 
   try {
     final result = await Process.run('getprop', ['ro.product.model']);
     if ((result.stdout as String).trim().toLowerCase().contains('sdk_gphone')) {
       return true;
     }
-  } catch (e) { debugPrint('[FF] silent catch: $e'); }
+  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
 
   // 3. /system/build.prop — fallback file check
   try {
@@ -217,7 +217,7 @@ Future<bool> detectAndroidEmulator() async {
         b.contains('generic_x86')) {
       return true;
     }
-  } catch (e) { debugPrint('[FF] silent catch: $e'); }
+  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
 
   return false;
 }

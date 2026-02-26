@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:developer' as dev;
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as img;
 // import 'package:path_provider/path_provider.dart'; // unused
@@ -23,6 +24,7 @@ class ArVideoExporter {
     int targetShortSide = 720,
     ValueChanged<double>? onProgress,
   }) async {
+    if (kIsWeb) return null;
     if (!cameraController.value.isInitialized) {
       return null;
     }
@@ -73,7 +75,7 @@ class ArVideoExporter {
       finished = true;
       try {
         await cameraController.stopImageStream();
-      } catch (e) { debugPrint('[FF] silent catch: $e'); }
+      } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
       try {
         if (frames.isEmpty) {
           completer.complete(null);

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
@@ -141,6 +142,7 @@ class VideoExportService {
     required Future<Uint8List> Function() captureFrame,
     void Function(double progress, String status)? onProgress,
   }) async {
+    if (kIsWeb) throw UnsupportedError('exportVideo is not supported on web');
     final totalFrames = options.totalFrames;
 
     // Capture and decode frames incrementally to avoid RAM exhaustion

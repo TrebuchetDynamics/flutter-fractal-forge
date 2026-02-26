@@ -270,6 +270,7 @@ class CrashReporter {
   }
 
   Future<void> _initDiskPersistence() async {
+    if (kIsWeb) return;
     try {
       final dir = await getApplicationDocumentsDirectory();
       final logsDir = Directory('${dir.path}/crash_logs');
@@ -300,7 +301,7 @@ class CrashReporter {
       );
       _diskInitialized = true;
     } catch (e) {
-      debugPrint('[FF_CRASH][WARN] Failed to init disk persistence: $e');
+      if (kDebugMode) debugPrint('[FF_CRASH][WARN] Failed to init disk persistence: $e');
     }
   }
 
@@ -322,7 +323,7 @@ class CrashReporter {
     }
 
     final level = e.fatal ? 'FATAL' : 'ERROR';
-    debugPrint('[FF_CRASH][$level][${e.source}] ${e.error}');
+    if (kDebugMode) debugPrint('[FF_CRASH][$level][${e.source}] ${e.error}');
     if (kDebugMode) {
       if (e.context != null) {
         debugPrint('[FF_CRASH][CTX] ${e.context}');

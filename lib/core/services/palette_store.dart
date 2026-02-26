@@ -35,7 +35,7 @@ class PaletteStore {
           .where((p) => p.id.isNotEmpty)
           .toList();
     } catch (e) {
-      debugPrint('[FF] silent catch: $e');
+      if (kDebugMode) debugPrint('[FF] silent catch: $e');
       return const [];
     }
   }
