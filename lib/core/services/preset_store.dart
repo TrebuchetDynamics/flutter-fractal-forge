@@ -38,5 +38,14 @@ class PresetStore {
     await _prefs.setString(_key(moduleId), FractalPreset.listToPrefs(updated));
   }
 
+  Future<void> updatePreset(String moduleId, String presetId, {required String name}) async {
+    final presets = await loadUserPresets(moduleId);
+    final index = presets.indexWhere((p) => p.id == presetId);
+    if (index < 0) return;
+    final updated = [...presets];
+    updated[index] = presets[index].copyWith(name: name);
+    await _prefs.setString(_key(moduleId), FractalPreset.listToPrefs(updated));
+  }
+
   String _key(String moduleId) => 'user_presets_$moduleId';
 }

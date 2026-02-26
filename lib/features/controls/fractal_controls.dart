@@ -208,12 +208,18 @@ class _CompactParamSlider extends StatelessWidget {
             inactiveTrackColor: AppColors.surfaceVariant,
             thumbColor: Colors.white,
           ),
-          child: Slider(
-            value: value,
-            min: min,
-            max: max,
-            divisions: divisions,
-            onChanged: onChanged,
+          child: Semantics(
+            label: label,
+            value: valueLabel,
+            hint: 'Adjust from $min to $max',
+            slider: true,
+            child: Slider(
+              value: value,
+              min: min,
+              max: max,
+              divisions: divisions,
+              onChanged: onChanged,
+            ),
           ),
         ),
       ],
@@ -341,30 +347,35 @@ class _OptionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PressableScale(
-      onTap: onSelected,
-      builder: (isPressed) => AnimatedContainer(
-        duration: AppAnimations.normal,
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm,
-        ),
-        decoration: BoxDecoration(
-          color: selected
-              ? AppColors.primary.withValues(alpha: 0.2)
-              : AppColors.surfaceVariant,
-          borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-          border: Border.all(
-            color: selected
-                ? AppColors.primary.withValues(alpha: 0.6)
-                : AppColors.border.withValues(alpha: 0.4),
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: selected ? '$label, selected' : label,
+      child: PressableScale(
+        onTap: onSelected,
+        builder: (isPressed) => AnimatedContainer(
+          duration: AppAnimations.normal,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
           ),
-        ),
-        child: Text(
-          label,
-          style: AppTypography.labelMedium.copyWith(
-            color: selected ? AppColors.primary : AppColors.textSecondary,
-            fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+          decoration: BoxDecoration(
+            color: selected
+                ? AppColors.primary.withValues(alpha: 0.2)
+                : AppColors.surfaceVariant,
+            borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+            border: Border.all(
+              color: selected
+                  ? AppColors.primary.withValues(alpha: 0.6)
+                  : AppColors.border.withValues(alpha: 0.4),
+            ),
+          ),
+          child: Text(
+            label,
+            style: AppTypography.labelMedium.copyWith(
+              color: selected ? AppColors.primary : AppColors.textSecondary,
+              fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+            ),
           ),
         ),
       ),
@@ -385,7 +396,13 @@ class _PremiumSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final l10n = AppLocalizations.of(context)!;
+    return Semantics(
+      toggled: value,
+      label: value
+          ? l10n.semanticToggleOn(label)
+          : l10n.semanticToggleOff(label),
+      child: GestureDetector(
       onTap: () => onChanged(!value),
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
@@ -420,6 +437,7 @@ class _PremiumSwitch extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -515,7 +533,11 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
 
   @override
   Widget build(BuildContext context) {
-    return SparkleEffect(
+    final l10n = AppLocalizations.of(context)!;
+    return Semantics(
+      button: true,
+      label: l10n.semanticRandomizeButton,
+      child: SparkleEffect(
       isActive: _showSparkle,
       sparkleCount: 8,
       child: GestureDetector(
@@ -608,6 +630,7 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
           },
         ),
       ),
+    ),
     );
   }
 }

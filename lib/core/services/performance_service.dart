@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_fractals/core/services/app_logger_service.dart';
 
 /// Performance metrics collected during rendering.
 ///
@@ -226,6 +227,24 @@ class PerformanceService extends ChangeNotifier {
       _updateMetrics();
       notifyListeners();
     }
+
+    // Log performance snapshot every ~1 second (60 frames) — sampled to avoid noise
+    if (_samples.length % 60 == 0) {
+      _logPerformanceSnapshot();
+    }
+  }
+
+  /// Logs a concise FPS/frame-time snapshot via [AppLogger].
+  void _logPerformanceSnapshot() {
+    final m = _currentMetrics;
+    if (m.frameCount == 0) return;
+    AppLogger.instance.debug('perf', 'fps_snapshot', data: {
+      'fps': m.fps.toStringAsFixed(1),
+      'avg_ms': m.avgFrameTimeMs.toStringAsFixed(2),
+      'p95_ms': m.p95FrameTimeMs.toStringAsFixed(2),
+      'dropped': m.droppedFrames,
+      'frames': m.frameCount,
+    });
   }
 
   void _updateMemoryUsage() {

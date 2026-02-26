@@ -15,11 +15,22 @@ Owner: Sidon
 
 ## P0 — MUST SHIP NEXT
 
+### 0) Critical render regressions (user report 2026-02-25)
+- [ ] Investigate GPU render showing large color blocks/grid at z≈5.10e+6, it=500 (screenshot)
+- [ ] Investigate KIFS Menger Sponge stuck on “Loading shaders…” (screenshot)
+- [ ] Validate GPU backend shader load + palette/precision for both cases
+
+### 1) User-reported blockers (2026-02-25)
+- [ ] GPU→CPU fallback too slow when zooming deep; reduce hysteresis/threshold so CPU engages faster
+- [ ] Controls too big/too intrusive; redesign for smaller, less cluttered UI
+- [ ] 3D fractals not working at all; investigate 3D pipeline/shaders and fix
+
+
 ### 1) Dynamic iteration adjustment based on zoom — **NEW**
 - [x] Increase max iteration slider beyond 500 (now 5000)
 - [x] Automatically raise iteration count when zooming in (adaptive step-up in controller)
 - [x] Adaptive logic: start low, progressively increase based on zoom growth
-- [ ] Convergence detection: compare previous frame, stop when changes < threshold
+- [x] Convergence detection: compare previous frame, stop when changes < threshold
 - [x] Works on both GPU (shader uniform) and CPU fallback paths
 
 ### 2) GPU visual quality — smooth coloring + palette system
@@ -74,8 +85,8 @@ Owner: Sidon
 ### 9) In-app diagnostic logger enhancements
 - [x] Core logger with export (text/JSON/share) — commit 5ae1c9e
 - [x] Logs: lifecycle, GPU health, shader load, backend switches, user actions, state snapshots
-- [ ] Add gesture logging (pan/zoom start/end with coordinates)
-- [ ] Add performance metrics logging (frame time, fps)
+- [x] Add gesture logging (pan/zoom start/end with coordinates)
+- [x] Add performance metrics logging (frame time, fps)
 - [ ] Persist log across app restarts (write to file)
 
 ### 10) GPU health check improvements
@@ -87,8 +98,8 @@ Owner: Sidon
 ## P2 — IMPORTANT PRODUCT POLISH
 
 ### 11) Preset management
-- [ ] Delete preset
-- [ ] Rename/edit preset
+- [x] Delete preset
+- [x] Rename/edit preset
 - [ ] Preset thumbnail generation
 
 ### 12) User-defined color palettes

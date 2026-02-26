@@ -456,5 +456,21 @@
   },
   "buttonDelete": "Eliminar",
   "alreadyFavorite": "Ya guardado",
-  "saveAsFavorite": "Guardar como favorito"
+  "saveAsFavorite": "Guardar como favorito",
+
+  "deletePresetTitle": "Eliminar preset",
+  "deletePresetMessage": "¿Eliminar \"{name}\"? Esto no se puede deshacer.",
+  "@deletePresetMessage": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "presetDeleted": "Preset eliminado",
+  "presetDeleteFailed": "No se pudo eliminar el preset",
+  "renamePresetTitle": "Renombrar preset",
+  "renamePresetHint": "Nuevo nombre del preset",
+  "presetRenamed": "Preset renombrado",
+  "presetRenameFailed": "No se pudo renombrar el preset",
+  "tooltipDeletePreset": "Eliminar preset",
+  "tooltipRenamePreset": "Renombrar preset"
 }

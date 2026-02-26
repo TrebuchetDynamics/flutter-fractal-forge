@@ -246,17 +246,30 @@ class _PresetSheetState extends State<PresetSheet> {
                       spacing: AppSpacing.sm,
                       runSpacing: AppSpacing.sm,
                       children: presets.asMap().entries.map((entry) {
+                        final preset = entry.value;
                         return StaggeredItem(
                           index: entry.key,
                           itemDelay: const Duration(milliseconds: 40),
-                          child: _PresetChip(
-                            label: entry.value.name,
-                            icon: Icons.bookmark_outline_rounded,
-                            isBuiltIn: false,
+                          child: _UserPresetChip(
+                            label: preset.name,
                             onTap: () {
-                              controller.applyPreset(entry.value);
+                              controller.applyPreset(preset);
                               Navigator.of(context).pop();
                             },
+                            onDelete: () => _confirmDeletePreset(
+                              context,
+                              controller,
+                              presetStore,
+                              preset,
+                              l10n,
+                            ),
+                            onRename: () => _showRenameDialog(
+                              context,
+                              controller,
+                              presetStore,
+                              preset,
+                              l10n,
+                            ),
                           ),
                         );
                       }).toList(),
@@ -322,6 +335,123 @@ class _PresetSheetState extends State<PresetSheet> {
     } finally {
       if (mounted) {
         setState(() => _saving = false);
+      }
+    }
+  }
+
+  Future<void> _confirmDeletePreset(
+    BuildContext context,
+    FractalController controller,
+    PresetStore presetStore,
+    FractalPreset preset,
+    AppLocalizations l10n,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surface,
+        title: Text(
+          l10n.deletePresetTitle,
+          style: AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
+        ),
+        content: Text(
+          l10n.deletePresetMessage(preset.name),
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(l10n.buttonCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            style: TextButton.styleFrom(foregroundColor: AppColors.error),
+            child: Text(l10n.buttonDelete),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    try {
+      await presetStore.deleteUserPreset(preset.moduleId, preset.id);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.presetDeleted)),
+        );
+        setState(() {
+          _userPresetsFuture = presetStore.loadUserPresets(controller.module.id);
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.presetDeleteFailed)),
+        );
+      }
+    }
+  }
+
+  Future<void> _showRenameDialog(
+    BuildContext context,
+    FractalController controller,
+    PresetStore presetStore,
+    FractalPreset preset,
+    AppLocalizations l10n,
+  ) async {
+    final renameController = TextEditingController(text: preset.name);
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surface,
+        title: Text(
+          l10n.renamePresetTitle,
+          style: AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
+        ),
+        content: TextField(
+          controller: renameController,
+          autofocus: true,
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+          decoration: InputDecoration(
+            hintText: l10n.renamePresetHint,
+            hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+          ),
+          onSubmitted: (v) {
+            final trimmed = v.trim();
+            if (trimmed.isNotEmpty) Navigator.of(ctx).pop(trimmed);
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text(l10n.buttonCancel),
+          ),
+          TextButton(
+            onPressed: () {
+              final trimmed = renameController.text.trim();
+              if (trimmed.isNotEmpty) Navigator.of(ctx).pop(trimmed);
+            },
+            child: Text(l10n.buttonSave),
+          ),
+        ],
+      ),
+    );
+    renameController.dispose();
+    if (newName == null || newName.isEmpty) return;
+    try {
+      await presetStore.updatePreset(preset.moduleId, preset.id, name: newName);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.presetRenamed)),
+        );
+        setState(() {
+          _userPresetsFuture = presetStore.loadUserPresets(controller.module.id);
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.presetRenameFailed)),
+        );
       }
     }
   }
@@ -400,6 +530,96 @@ class _PresetChip extends StatelessWidget {
                 color: isPressed
                     ? (isBuiltIn ? AppColors.primary : AppColors.secondary)
                     : AppColors.textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _UserPresetChip extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final VoidCallback onDelete;
+  final VoidCallback onRename;
+
+  const _UserPresetChip({
+    required this.label,
+    required this.onTap,
+    required this.onDelete,
+    required this.onRename,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return PressableScale(
+      onTap: onTap,
+      builder: (isPressed) => AnimatedContainer(
+        duration: AppAnimations.normal,
+        padding: const EdgeInsets.only(
+          left: AppSpacing.md,
+          top: AppSpacing.sm,
+          bottom: AppSpacing.sm,
+          right: AppSpacing.xs,
+        ),
+        decoration: BoxDecoration(
+          color: isPressed
+              ? AppColors.secondary.withValues(alpha: 0.25)
+              : AppColors.surfaceVariant,
+          borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+          border: Border.all(
+            color: isPressed
+                ? AppColors.secondary.withValues(alpha: 0.6)
+                : AppColors.border.withValues(alpha: 0.4),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.bookmark_outline_rounded,
+              size: 16,
+              color: isPressed ? AppColors.secondary : AppColors.textMuted,
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Text(
+              label,
+              style: AppTypography.labelMedium.copyWith(
+                color: isPressed ? AppColors.secondary : AppColors.textSecondary,
+              ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Tooltip(
+              message: l10n.tooltipRenamePreset,
+              child: InkWell(
+                onTap: onRename,
+                borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.edit_outlined,
+                    size: 14,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              ),
+            ),
+            Tooltip(
+              message: l10n.tooltipDeletePreset,
+              child: InkWell(
+                onTap: onDelete,
+                borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.close_rounded,
+                    size: 14,
+                    color: AppColors.textMuted,
+                  ),
+                ),
               ),
             ),
           ],

@@ -699,7 +699,13 @@ class _DimChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: selected
+          ? '$label filter, selected, $count fractals'
+          : '$label filter, $count fractals',
+      child: GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: AppAnimations.fast,
@@ -750,6 +756,7 @@ class _DimChip extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }
@@ -1187,7 +1194,15 @@ class _FeaturedCardState extends State<_FeaturedCard>
     final name = widget.entry.module.displayName(widget.l10n);
     final accentColor = _categoryAccentColor(widget.entry.category);
 
-    return MouseRegion(
+    final is3DLabel = widget.entry.module.dimension == FractalDimension.threeD
+        ? widget.l10n.dimension3d
+        : widget.l10n.dimension2d;
+    final featuredName = widget.entry.module.displayName(widget.l10n);
+
+    return Semantics(
+      label: widget.l10n.semanticFractalCard(featuredName, is3DLabel),
+      button: true,
+      child: MouseRegion(
       onEnter: (_) => _setHover(true),
       onExit: (_) => _setHover(false),
       child: GestureDetector(
@@ -1360,6 +1375,7 @@ class _FeaturedCardState extends State<_FeaturedCard>
           ),
         ),
       ),
+    ),
     );
   }
 }

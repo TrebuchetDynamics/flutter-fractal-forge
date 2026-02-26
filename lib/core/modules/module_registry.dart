@@ -37,11 +37,11 @@ import 'package:flutter_fractals/core/modules/test_shaders_module.dart';
 ///
 /// {@category Modules}
 class ModuleRegistry {
-  /// All available fractal modules.
-  final List<FractalModule> modules;
+  /// All available fractal modules (built lazily on first access).
+  late final List<FractalModule> modules = _buildAll();
 
-  /// Creates the registry by merging declarative catalog + custom modules.
-  ModuleRegistry() : modules = _buildAll();
+  /// Creates the registry.
+  ModuleRegistry();
 
   /// Look up a module by [id]. Throws if not found.
   FractalModule byId(String id) {

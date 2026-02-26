@@ -1981,6 +1981,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Random Fractal'**
   String get tooltipRandomFractal;
+
+  /// No description provided for @deletePresetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Preset'**
+  String get deletePresetTitle;
+
+  /// No description provided for @deletePresetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"? This cannot be undone.'**
+  String deletePresetMessage(Object name);
+
+  /// No description provided for @presetDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Preset deleted'**
+  String get presetDeleted;
+
+  /// No description provided for @presetDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete preset'**
+  String get presetDeleteFailed;
+
+  /// No description provided for @renamePresetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Preset'**
+  String get renamePresetTitle;
+
+  /// No description provided for @renamePresetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'New preset name'**
+  String get renamePresetHint;
+
+  /// No description provided for @presetRenamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Preset renamed'**
+  String get presetRenamed;
+
+  /// No description provided for @presetRenameFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t rename preset'**
+  String get presetRenameFailed;
+
+  /// No description provided for @tooltipDeletePreset.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete preset'**
+  String get tooltipDeletePreset;
+
+  /// No description provided for @tooltipRenamePreset.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename preset'**
+  String get tooltipRenamePreset;
 }
 
 class _AppLocalizationsDelegate

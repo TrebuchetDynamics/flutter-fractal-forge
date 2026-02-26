@@ -197,6 +197,18 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _rotationGestureActive = false;
     _zoomPanGestureActive = false;
     _deferUserInteractionEndToAnimation = false;
+
+    if (details.pointerCount == 1) {
+      AppLogger.instance.debug('gesture', 'pan_start', data: {
+        'x': localFocal.dx.toStringAsFixed(1),
+        'y': localFocal.dy.toStringAsFixed(1),
+      });
+    } else {
+      AppLogger.instance.debug('gesture', 'zoom_start', data: {
+        'scale': _startZoom.toStringAsExponential(3),
+        'pointers': details.pointerCount,
+      });
+    }
   }
 
   double _rubberBand(double value, double min, double max,
@@ -411,6 +423,26 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       return;
     }
 
+    final controller = context.read<FractalController>();
+    if (_activePointers.isEmpty || _activePointers.length == 1) {
+      // Pan end: log final position and delta from start
+      final endFocal = _velHistory.isNotEmpty ? _velHistory.last.pos : _startFocalPoint;
+      final dx = endFocal.dx - _startFocalPoint.dx;
+      final dy = endFocal.dy - _startFocalPoint.dy;
+      AppLogger.instance.debug('gesture', 'pan_end', data: {
+        'x': endFocal.dx.toStringAsFixed(1),
+        'y': endFocal.dy.toStringAsFixed(1),
+        'dx': dx.toStringAsFixed(1),
+        'dy': dy.toStringAsFixed(1),
+      });
+    } else {
+      // Zoom end: log final scale and zoom level
+      AppLogger.instance.debug('gesture', 'zoom_end', data: {
+        'zoom': controller.view.zoom.toStringAsExponential(3),
+        'scale': _lastScale.toStringAsFixed(3),
+      });
+    }
+
     // Google Maps fling: compute velocity from history buffer
     // Spec: fling threshold = 0.3 px/ms = ~5 px/frame at 60fps
     if (_velHistory.length >= 2) {
@@ -476,6 +508,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
           '[gesture] double_tap trigger tap=$tapPosition zoom=$currentZoom'
           ' target=$targetZoom targetPan=$targetPan');
     }
+
+    AppLogger.instance.debug('gesture', 'double_tap', data: {
+      if (tapPosition != null) 'x': tapPosition.dx.toStringAsFixed(1),
+      if (tapPosition != null) 'y': tapPosition.dy.toStringAsFixed(1),
+      'zoom': currentZoom.toStringAsExponential(3),
+    });
 
     _deferUserInteractionEndToAnimation = true;
     if (widget.onUserInteractionStart != null) {
@@ -718,6 +756,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
   void _onLongPress(LongPressStartDetails details) {
     HapticFeedback.heavyImpact();
+    AppLogger.instance.debug('gesture', 'long_press', data: {
+      'x': details.localPosition.dx.toStringAsFixed(1),
+      'y': details.localPosition.dy.toStringAsFixed(1),
+    });
     _showContextMenu(details.globalPosition);
   }
 

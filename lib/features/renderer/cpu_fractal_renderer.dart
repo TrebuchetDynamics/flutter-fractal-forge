@@ -61,7 +61,6 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   // Convergence detection for adaptive iteration adjustment.
   final ConvergenceDetector _convergenceDetector = const ConvergenceDetector();
   Uint8List? _previousFrameBuffer;
-  int _lastIterations = 0;
   bool _isConverged = false;
 
   CpuTileWorker? _worker;
@@ -126,7 +125,6 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     if (prev == null || prev.length != currentBuffer.length) {
       // First frame - store and return current iterations.
       _previousFrameBuffer = Uint8List.fromList(currentBuffer);
-      _lastIterations = currentIterations;
       _isConverged = false;
       return currentIterations;
     }
@@ -173,6 +171,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         // Still moving; we'll get rescheduled by later updates.
         return;
       }
+      // Skip refine pass if the preview frame already converged — no
+      // visible change would result from the extra CPU work.
+      if (_isConverged) return;
       _renderRefine();
     });
   }
@@ -413,15 +414,10 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       final img = await frame.toImage();
 
       if (isPreview) {
-        // Check convergence for adaptive iteration adjustment (after first few frames).
-        if (_lastIterations > 0 && !_isConverged) {
-          // Use current iterations for display, but track for next frame comparison.
-          _checkConvergence(frame.rgba, frame.width, frame.height, iterations);
-        } else {
-          // Store first frame for subsequent comparisons.
-          _previousFrameBuffer = Uint8List.fromList(frame.rgba);
-          _lastIterations = iterations;
-        }
+        // Always run convergence check after preview pass.
+        // On first frame _checkConvergence stores the buffer and returns;
+        // on subsequent frames it compares and updates _isConverged.
+        _checkConvergence(frame.rgba, frame.width, frame.height, iterations);
 
         // Optional validation only in debug builds.
         RenderCheckResult? validation;

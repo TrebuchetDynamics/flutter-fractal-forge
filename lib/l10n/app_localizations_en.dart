@@ -1013,4 +1013,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tooltipRandomFractal => 'Random Fractal';
+
+  @override
+  String get deletePresetTitle => 'Delete Preset';
+
+  @override
+  String deletePresetMessage(Object name) {
+    return 'Delete \"$name\"? This cannot be undone.';
+  }
+
+  @override
+  String get presetDeleted => 'Preset deleted';
+
+  @override
+  String get presetDeleteFailed => 'Couldn\'t delete preset';
+
+  @override
+  String get renamePresetTitle => 'Rename Preset';
+
+  @override
+  String get renamePresetHint => 'New preset name';
+
+  @override
+  String get presetRenamed => 'Preset renamed';
+
+  @override
+  String get presetRenameFailed => 'Couldn\'t rename preset';
+
+  @override
+  String get tooltipDeletePreset => 'Delete preset';
+
+  @override
+  String get tooltipRenamePreset => 'Rename preset';
 }

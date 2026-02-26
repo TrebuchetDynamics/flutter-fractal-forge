@@ -103,11 +103,18 @@ Future<void> main() async {
       return;
     }
 
-    final presetStore = await PresetStore.create();
-    final arQualityStore = await ArQualityStore.create();
-    final historyStore = await HistoryStore.create();
-    final accessibilityService = await AccessibilityService.create();
-    final rendererSettingsService = await RendererSettingsService.create();
+    final results = await Future.wait([
+      PresetStore.create(),
+      ArQualityStore.create(),
+      HistoryStore.create(),
+      AccessibilityService.create(),
+      RendererSettingsService.create(),
+    ]);
+    final presetStore = results[0] as PresetStore;
+    final arQualityStore = results[1] as ArQualityStore;
+    final historyStore = results[2] as HistoryStore;
+    final accessibilityService = results[3] as AccessibilityService;
+    final rendererSettingsService = results[4] as RendererSettingsService;
     final onboardingService = await OnboardingService.create();
     DeepLinkService? deepLinkService;
     if (kEnableDeepLinks == 1) {

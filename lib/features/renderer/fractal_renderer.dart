@@ -155,6 +155,10 @@ class _FractalRendererState extends State<FractalRenderer>
   FractalModule? _escapeTimePerturbModule;
   String _escapeTimePerturbModuleId = '';
 
+  // Frame metrics for sampled performance logging.
+  int _gpuFrameCount = 0;
+  DateTime? _gpuLastFrameAt;
+
   @override
   void initState() {
     super.initState();
@@ -440,6 +444,21 @@ class _FractalRendererState extends State<FractalRenderer>
             debugPrint(
                 '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
           }
+
+          // Sampled frame-time logging: measure and log every 10th GPU frame.
+          _gpuFrameCount++;
+          final now = DateTime.now();
+          final prev = _gpuLastFrameAt;
+          _gpuLastFrameAt = now;
+          if (_gpuFrameCount % 10 == 0 && prev != null) {
+            final frameMs = now.difference(prev).inMicroseconds / 1000.0;
+            AppLogger.instance.debug('perf', 'gpu_frame', data: {
+              'frame_ms': frameMs.toStringAsFixed(2),
+              'frame': _gpuFrameCount,
+              'module': controller.module.id,
+            });
+          }
+
           return CustomPaint(
             painter: FractalCanvas(
               module: effectiveModule,

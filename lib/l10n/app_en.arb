@@ -463,5 +463,21 @@
   "rendererCpu": "Renderer preference: CPU only",
   "rendererGpu": "Renderer preference: GPU only (debug)",
   "tooltipGpuDebug": "GPU debug report",
-  "tooltipRandomFractal": "Random Fractal"
+  "tooltipRandomFractal": "Random Fractal",
+
+  "deletePresetTitle": "Delete Preset",
+  "deletePresetMessage": "Delete \"{name}\"? This cannot be undone.",
+  "@deletePresetMessage": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "presetDeleted": "Preset deleted",
+  "presetDeleteFailed": "Couldn't delete preset",
+  "renamePresetTitle": "Rename Preset",
+  "renamePresetHint": "New preset name",
+  "presetRenamed": "Preset renamed",
+  "presetRenameFailed": "Couldn't rename preset",
+  "tooltipDeletePreset": "Delete preset",
+  "tooltipRenamePreset": "Rename preset"
 }

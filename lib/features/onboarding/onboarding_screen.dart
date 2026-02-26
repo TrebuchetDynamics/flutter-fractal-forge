@@ -30,7 +30,12 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 6),
-    )..repeat();
+    );
+
+    // Defer animation start to avoid competing with first-frame layout.
+    Future<void>.delayed(const Duration(milliseconds: 200), () {
+      if (mounted) _controller.repeat();
+    });
 
     Future<void>.delayed(widget.duration, () {
       if (mounted) widget.onFinished();
