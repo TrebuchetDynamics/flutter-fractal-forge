@@ -469,7 +469,7 @@ class _FractalRendererState extends State<FractalRenderer>
               glowSigma: controller.glowSigma,
               glowIntensity: controller.glowIntensity,
             ),
-            child: Container(),
+            child: const SizedBox.shrink(),
           );
         },
       ),

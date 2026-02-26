@@ -182,26 +182,29 @@ class _ArCoreAnchorScreenState extends State<ArCoreAnchorScreen>
       top: MediaQuery.of(context).padding.top + 56,
       left: 12,
       right: 12,
-      child: IgnorePointer(
-        child: _GlassContainer(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Row(
-            children: const [
-              Icon(Icons.warning_amber_rounded, color: _cyanAccent, size: 16),
-              SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'AR Safety: Parental supervision recommended. Be aware of your surroundings.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+      child: Semantics(
+        label: 'Safety warning: Parental supervision recommended. Be aware of your surroundings.',
+        child: IgnorePointer(
+          child: _GlassContainer(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              children: const [
+                Icon(Icons.warning_amber_rounded, color: _cyanAccent, size: 16),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'AR Safety: Parental supervision recommended. Be aware of your surroundings.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -1039,18 +1042,23 @@ class _ActionButton extends StatelessWidget {
         ? Colors.white.withValues(alpha: 0.9)
         : Colors.white.withValues(alpha: 0.3);
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onPressed,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: enabled ? _cyan : color, size: 22),
-            const SizedBox(height: 4),
-            Text(label, style: TextStyle(color: color, fontSize: 11)),
-          ],
+    return Semantics(
+      label: label,
+      button: true,
+      enabled: onPressed != null,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: enabled ? _cyan : color, size: 22),
+              const SizedBox(height: 4),
+              Text(label, style: TextStyle(color: color, fontSize: 11)),
+            ],
+          ),
         ),
       ),
     );

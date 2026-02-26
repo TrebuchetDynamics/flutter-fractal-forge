@@ -94,8 +94,21 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       // G15 color cycling speed (cycles per second via uExtra1).
       final colorSpeed = readDouble(state.params, 'colorCycleSpeed', 0.0);
 
-      final palette = PaletteService.instance.paletteAtIndex(colorScheme);
-      final paletteTex = PaletteService.instance.paletteTexture(palette);
+      ui.Image paletteTex;
+      try {
+        final palette =
+            PaletteService.instance.paletteAtIndex(colorScheme);
+        paletteTex = PaletteService.instance.paletteTexture(palette);
+      } catch (_) {
+        // PaletteService unavailable; use a 1×1 black fallback texture.
+        final rec = ui.PictureRecorder();
+        final canvas = ui.Canvas(rec);
+        canvas.drawRect(
+          const ui.Rect.fromLTWH(0, 0, 1, 1),
+          ui.Paint()..color = const ui.Color(0xFF000000),
+        );
+        paletteTex = rec.endRecording().toImageSync(1, 1);
+      }
       final orbitTex = _EscapeTimePerturbOrbitCache.instance.orbitTexture(
         moduleId: id,
         centerX: state.view.pan.x,

@@ -458,6 +458,14 @@
   "alreadyFavorite": "Ya guardado",
   "saveAsFavorite": "Guardar como favorito",
 
+  "disable3dMessage": "Los fractales 3D están desactivados en este dispositivo.\n(La carga del shader Mandelbulb se detiene.)",
+  "deepZoomCpuFallback": "Zoom profundo — toca para precisión CPU",
+  "rendererAuto": "Preferencia de renderizado: Automático",
+  "rendererCpu": "Preferencia de renderizado: Solo CPU",
+  "rendererGpu": "Preferencia de renderizado: Solo GPU (depuración)",
+  "tooltipGpuDebug": "Informe de depuración GPU",
+  "tooltipRandomFractal": "Fractal aleatorio",
+
   "deletePresetTitle": "Eliminar preset",
   "deletePresetMessage": "¿Eliminar \"{name}\"? Esto no se puede deshacer.",
   "@deletePresetMessage": {

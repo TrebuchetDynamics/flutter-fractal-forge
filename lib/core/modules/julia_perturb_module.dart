@@ -32,8 +32,21 @@ FractalModule buildJuliaPerturbModule(FractalModule standardModule) {
       final cReal = readDouble(state.params, 'juliaCReal', -0.8);
       final cImag = readDouble(state.params, 'juliaCImag', 0.156);
 
-      final palette = PaletteService.instance.paletteAtIndex(colorScheme);
-      final paletteTex = PaletteService.instance.paletteTexture(palette);
+      ui.Image paletteTex;
+      try {
+        final palette =
+            PaletteService.instance.paletteAtIndex(colorScheme);
+        paletteTex = PaletteService.instance.paletteTexture(palette);
+      } catch (_) {
+        // PaletteService unavailable; use a 1×1 black fallback texture.
+        final rec = ui.PictureRecorder();
+        final canvas = ui.Canvas(rec);
+        canvas.drawRect(
+          const ui.Rect.fromLTWH(0, 0, 1, 1),
+          ui.Paint()..color = const ui.Color(0xFF000000),
+        );
+        paletteTex = rec.endRecording().toImageSync(1, 1);
+      }
       final orbitTex = _OrbitTextureCache.instance.juliaOrbitTexture(
         centerX: state.view.pan.x,
         centerY: state.view.pan.y,

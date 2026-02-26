@@ -394,8 +394,6 @@ flutter:
     - shaders/mandelbar_power7_gpu.frag
     - shaders/nova_degree4_gpu.frag
     - shaders/nova_degree4_julia_gpu.frag
-    - shaders/multijulia7_gpu.frag
-    - shaders/multijulia8_gpu.frag
     - shaders/multijulia11_gpu.frag
     - shaders/multijulia12_gpu.frag
     - shaders/mandelbar_power8_gpu.frag
@@ -429,3 +427,71 @@ flutter:
     - shaders/mandelbox_shape_inversion_gpu.frag
     - shaders/inversive_limit_set_3d_gpu.frag
     - shaders/mandelbulb_time_modulated_gpu.frag
+    - shaders/alternated_iteration_gpu.frag
+    - shaders/bedhead_gpu.frag
+    - shaders/bogdanov_map_gpu.frag
+    - shaders/buddhabrot_full_gpu.frag
+    - shaders/buffalo2_gpu.frag
+    - shaders/buffalo_power7_gpu.frag
+    - shaders/burning_ship_power7_gpu.frag
+    - shaders/burning_ship_power7_julia_gpu.frag
+    - shaders/celtic2_gpu.frag
+    - shaders/celtic_power7_gpu.frag
+    - shaders/chebyshev_fractal_gpu.frag
+    - shaders/chebyshev_halley_param_gpu.frag
+    - shaders/cosecant_julia_gpu.frag
+    - shaders/cosecant_mandelbrot_gpu.frag
+    - shaders/cotangent_julia_gpu.frag
+    - shaders/cotangent_mandelbrot_gpu.frag
+    - shaders/dirichlet_eta_gpu.frag
+    - shaders/domain_coloring_gpu.frag
+    - shaders/exp_additive_mandelbrot_gpu.frag
+    - shaders/fractal_dream_gpu.frag
+    - shaders/gray_scott_rd_gpu.frag
+    - shaders/hofstadter_butterfly_gpu.frag
+    - shaders/inverse_quadratic_gpu.frag
+    - shaders/jacobi_sn_gpu.frag
+    - shaders/jarratt_gpu.frag
+    - shaders/jason_rampe_1_gpu.frag
+    - shaders/jason_rampe_2_gpu.frag
+    - shaders/king_gpu.frag
+    - shaders/kleinian_limit_set_gpu.frag
+    - shaders/laguerre_fractal_gpu.frag
+    - shaders/lichtenberg_growth_gpu.frag
+    - shaders/magnetic_pendulum_gpu.frag
+    - shaders/muller_gpu.frag
+    - shaders/neta_order16_gpu.frag
+    - shaders/noor_newton_gpu.frag
+    - shaders/nova_degree5_gpu.frag
+    - shaders/nova_degree5_julia_gpu.frag
+    - shaders/nova_mandelbrot_gpu.frag
+    - shaders/orbit_trap_cross_gpu.frag
+    - shaders/orbit_trap_point_gpu.frag
+    - shaders/orbit_trap_ring_gpu.frag
+    - shaders/ostrowski_gpu.frag
+    - shaders/phase_portrait_gpu.frag
+    - shaders/picard_mann_newton_gpu.frag
+    - shaders/schroeder_z5_gpu.frag
+    - shaders/schroeder_z6_gpu.frag
+    - shaders/secant_julia_gpu.frag
+    - shaders/secant_mandelbrot_gpu.frag
+    - shaders/shape_modulus_julia_gpu.frag
+    - shaders/sierpinski_julia_rational_gpu.frag
+    - shaders/sprott_g_gpu.frag
+    - shaders/sprott_h_gpu.frag
+    - shaders/sprott_i_gpu.frag
+    - shaders/sprott_k_gpu.frag
+    - shaders/sprott_l_gpu.frag
+    - shaders/sprott_m_gpu.frag
+    - shaders/sprott_n_gpu.frag
+    - shaders/sprott_o_gpu.frag
+    - shaders/sprott_s_gpu.frag
+    - shaders/steffensen_gpu.frag
+    - shaders/steffensen_order8_gpu.frag
+    - shaders/superexponential_gpu.frag
+    - shaders/super_halley_gpu.frag
+    - shaders/symmetric_icon_gpu.frag
+    - shaders/transcendental_sin_gpu.frag
+    - shaders/traub_ostrowski_gpu.frag
+    - shaders/weierstrass_elliptic_gpu.frag
+    - shaders/weierstrass_function_gpu.frag

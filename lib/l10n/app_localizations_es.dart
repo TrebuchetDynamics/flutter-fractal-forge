@@ -1009,25 +1009,25 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get disable3dMessage =>
-      '3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)';
+      'Los fractales 3D están desactivados en este dispositivo.\n(La carga del shader Mandelbulb se detiene.)';
 
   @override
-  String get deepZoomCpuFallback => 'Deep Zoom — tap for CPU precision';
+  String get deepZoomCpuFallback => 'Zoom profundo — toca para precisión CPU';
 
   @override
-  String get rendererAuto => 'Renderer preference: Auto';
+  String get rendererAuto => 'Preferencia de renderizado: Automático';
 
   @override
-  String get rendererCpu => 'Renderer preference: CPU only';
+  String get rendererCpu => 'Preferencia de renderizado: Solo CPU';
 
   @override
-  String get rendererGpu => 'Renderer preference: GPU only (debug)';
+  String get rendererGpu => 'Preferencia de renderizado: Solo GPU (depuración)';
 
   @override
-  String get tooltipGpuDebug => 'GPU debug report';
+  String get tooltipGpuDebug => 'Informe de depuración GPU';
 
   @override
-  String get tooltipRandomFractal => 'Random Fractal';
+  String get tooltipRandomFractal => 'Fractal aleatorio';
 
   @override
   String get deletePresetTitle => 'Eliminar preset';

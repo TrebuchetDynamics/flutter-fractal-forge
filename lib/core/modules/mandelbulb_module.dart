@@ -308,8 +308,13 @@ FractalModule buildMandelbulbModule() {
       shader.setFloat(14, fractalType);
       shader.setFloat(15, state.transparentBackground ? 1.0 : 0.0);
 
-      final palette = PaletteService.instance.paletteAtIndex(colorScheme.round());
-      PaletteService.instance.setCustomPaletteUniforms(shader, 16, palette);
+      try {
+        final palette =
+            PaletteService.instance.paletteAtIndex(colorScheme.round());
+        PaletteService.instance.setCustomPaletteUniforms(shader, 16, palette);
+      } catch (_) {
+        // PaletteService unavailable; shader built-in color schemes apply.
+      }
     },
   );
 }
