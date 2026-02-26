@@ -32,6 +32,7 @@ import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
+import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
@@ -109,12 +110,14 @@ Future<void> main() async {
       HistoryStore.create(),
       AccessibilityService.create(),
       RendererSettingsService.create(),
+      PaletteService.create(),
     ]);
     final presetStore = results[0] as PresetStore;
     final arQualityStore = results[1] as ArQualityStore;
     final historyStore = results[2] as HistoryStore;
     final accessibilityService = results[3] as AccessibilityService;
     final rendererSettingsService = results[4] as RendererSettingsService;
+    // PaletteService (results[5]) is a singleton — accessed via PaletteService.instance.
     final onboardingService = await OnboardingService.create();
     DeepLinkService? deepLinkService;
     if (kEnableDeepLinks == 1) {

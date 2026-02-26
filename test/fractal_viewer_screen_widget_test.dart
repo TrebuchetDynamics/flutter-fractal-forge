@@ -173,15 +173,16 @@ void main() {
 
     testWidgets('AR launch falls back to overlay screen safely',
         (tester) async {
-      // Pre-acknowledge the AR safety warning so the dialog does not block
-      // the camera button from opening the overlay screen.
-      SharedPreferences.setMockInitialValues(
-          {'ar_safety_warning_ack_v1': true});
-
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       await tester.tap(find.byIcon(Icons.camera_rounded));
+      await tester.pumpAndSettle();
+
+      // AR safety warning dialog is shown every time (Families Policy).
+      // Dismiss it by tapping "Continue".
+      expect(find.text('AR Safety Warning'), findsOneWidget);
+      await tester.tap(find.text('Continue'));
       await tester.pumpAndSettle();
 
       expect(find.byType(ArOverlayScreen), findsOneWidget);

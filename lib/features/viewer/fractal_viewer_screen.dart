@@ -10,7 +10,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';

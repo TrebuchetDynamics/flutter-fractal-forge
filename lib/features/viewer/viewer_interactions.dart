@@ -124,12 +124,9 @@ Future<bool> _viewerConfirmArSafety(
   BuildContext context,
 ) async {
   final l10n = AppLocalizations.of(context)!;
-  final prefs = await SharedPreferences.getInstance();
-  const prefsKey = 'ar_safety_warning_ack_v1';
-  if (prefs.getBool(prefsKey) == true) {
-    return true;
-  }
 
+  // Google Play Families Policy requires the AR safety warning to be shown
+  // every time the AR section launches — not just the first time.
   final accepted = await showDialog<bool>(
         context: context,
         barrierDismissible: false,
@@ -152,9 +149,6 @@ Future<bool> _viewerConfirmArSafety(
       ) ??
       false;
 
-  if (accepted) {
-    await prefs.setBool(prefsKey, true);
-  }
   return accepted;
 }
 
