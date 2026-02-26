@@ -211,7 +211,7 @@ class _CompactParamSlider extends StatelessWidget {
           child: Semantics(
             label: label,
             value: valueLabel,
-            hint: 'Adjust from $min to $max',
+            hint: AppLocalizations.of(context)!.semanticSliderAdjust(min, max),
             slider: true,
             child: Slider(
               value: value,

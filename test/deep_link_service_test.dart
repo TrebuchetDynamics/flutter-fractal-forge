@@ -278,6 +278,300 @@ void main() {
         expect(parsed.iterations, 350);
         expect(parsed.colorScheme, 1);
       });
+
+      test('complete round-trip with all parameters preserves values', () {
+        final originalView = FractalViewState(
+          pan: Vector2(0.3, -0.15),
+          zoom: 42.0,
+          rotation: Vector3(0.5, 0.3, 0.1),
+        );
+        final originalParams = {
+          'iterations': 500,
+          'colorScheme': 3,
+          'bailout': 8.0,
+          'power': 8.0,
+          'juliaX': -0.7,
+          'juliaY': 0.27,
+        };
+
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'julia',
+          params: originalParams,
+          view: originalView,
+        );
+
+        final parsed = DeepLinkService.parseUri(uri);
+
+        expect(parsed, isNotNull);
+        expect(parsed!.type, 'julia');
+        expect(parsed.zoom, closeTo(42.0, 0.001));
+        expect(parsed.x, closeTo(0.3, 0.001));
+        expect(parsed.y, closeTo(-0.15, 0.001));
+        expect(parsed.rotX, closeTo(0.5, 0.001));
+        expect(parsed.rotY, closeTo(0.3, 0.001));
+        expect(parsed.rotZ, closeTo(0.1, 0.001));
+        expect(parsed.iterations, 500);
+        expect(parsed.colorScheme, 3);
+        expect(parsed.bailout, closeTo(8.0, 0.001));
+        expect(parsed.power, closeTo(8.0, 0.001));
+        expect(parsed.juliaX, closeTo(-0.7, 0.001));
+        expect(parsed.juliaY, closeTo(0.27, 0.001));
+      });
+    });
+
+    group('parameter validation — bounds clamping', () {
+      test('valid deep link with all parameters is parsed correctly', () {
+        final uri = Uri.parse(
+          'fractalforge://view?type=mandelbulb'
+          '&zoom=50&x=-1.5&y=2.3'
+          '&rotX=0.5&rotY=0.3&rotZ=0.1'
+          '&iterations=500&bailout=6.0&colorScheme=3'
+          '&power=8&juliaX=-0.7&juliaY=0.27',
+        );
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.type, 'mandelbulb');
+        expect(data.zoom, closeTo(50.0, 0.001));
+        expect(data.x, closeTo(-1.5, 0.001));
+        expect(data.y, closeTo(2.3, 0.001));
+        expect(data.rotX, closeTo(0.5, 0.001));
+        expect(data.rotY, closeTo(0.3, 0.001));
+        expect(data.rotZ, closeTo(0.1, 0.001));
+        expect(data.iterations, 500);
+        expect(data.bailout, closeTo(6.0, 0.001));
+        expect(data.colorScheme, 3);
+        expect(data.power, closeTo(8.0, 0.001));
+        expect(data.juliaX, closeTo(-0.7, 0.001));
+        expect(data.juliaY, closeTo(0.27, 0.001));
+      });
+
+      test('missing optional parameters return null (not crash)', () {
+        final uri = Uri.parse('fractalforge://view?type=mandelbrot');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.type, 'mandelbrot');
+        expect(data.zoom, isNull);
+        expect(data.x, isNull);
+        expect(data.y, isNull);
+        expect(data.rotX, isNull);
+        expect(data.rotY, isNull);
+        expect(data.rotZ, isNull);
+        expect(data.iterations, isNull);
+        expect(data.bailout, isNull);
+        expect(data.colorScheme, isNull);
+        expect(data.power, isNull);
+        expect(data.juliaX, isNull);
+        expect(data.juliaY, isNull);
+      });
+
+      test('malformed zoom value "abc" returns null for zoom', () {
+        final uri = Uri.parse('fractalforge://view?type=mandelbrot&zoom=abc');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.zoom, isNull);
+      });
+
+      test('malformed iterations value "xyz" returns null for iterations', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&iterations=xyz');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.iterations, isNull);
+      });
+
+      test('malformed bailout value "notanumber" returns null for bailout', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&bailout=notanumber');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.bailout, isNull);
+      });
+
+      test('zoom above 1e15 is clamped to 1e15', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&zoom=9999999999999999');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.zoom, closeTo(1e15, 1e10));
+      });
+
+      test('zoom below 0.001 is clamped to 0.001', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&zoom=0.00000001');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.zoom, closeTo(0.001, 1e-6));
+      });
+
+      test('iterations above 10000 is clamped to 10000', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&iterations=99999');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.iterations, 10000);
+      });
+
+      test('negative iterations is clamped to 1', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&iterations=-50');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.iterations, 1);
+      });
+
+      test('bailout below minimum (1.0) is clamped to 1.0', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&bailout=0.001');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.bailout, closeTo(1.0, 1e-6));
+      });
+
+      test('bailout above 1e10 is clamped to 1e10', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&bailout=99999999999');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.bailout, closeTo(1e10, 1e6));
+      });
+
+      test('pan x beyond 1e10 is clamped to 1e10', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&x=99999999999');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.x, closeTo(1e10, 1e6));
+      });
+
+      test('pan x below -1e10 is clamped to -1e10', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&x=-99999999999');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.x, closeTo(-1e10, 1e6));
+      });
+
+      test('pan y beyond 1e10 is clamped to 1e10', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&y=50000000000');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.y, closeTo(1e10, 1e6));
+      });
+
+      test('pan y below -1e10 is clamped to -1e10', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&y=-50000000000');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.y, closeTo(-1e10, 1e6));
+      });
+
+      test('module ID with uppercase letters is rejected', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=Mandelbrot');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNull);
+      });
+
+      test('module ID with special characters is rejected', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=../etc/passwd');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNull);
+      });
+
+      test('module ID with spaces is rejected', () {
+        final uri = Uri.parse('fractalforge://view?type=mandel+brot');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNull);
+      });
+
+      test('empty type parameter is rejected', () {
+        final uri = Uri.parse('fractalforge://view?type=');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNull);
+      });
+
+      test('fractalforge:// URL with empty path returns null', () {
+        final uri = Uri.parse('fractalforge://other?type=mandelbrot');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNull);
+      });
+
+      test('zoom of exactly 0.001 is accepted (at min boundary)', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&zoom=0.001');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.zoom, closeTo(0.001, 1e-9));
+      });
+
+      test('zoom of exactly 1e15 is accepted (at max boundary)', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&zoom=1000000000000000');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.zoom, closeTo(1e15, 1e10));
+      });
+
+      test('iterations of exactly 1 is accepted (at min boundary)', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&iterations=1');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.iterations, 1);
+      });
+
+      test('iterations of exactly 10000 is accepted (at max boundary)', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&iterations=10000');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.iterations, 10000);
+      });
+
+      test('NaN string for zoom returns null', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&zoom=NaN');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.zoom, isNull);
+      });
+
+      test('Infinity string for zoom returns null', () {
+        final uri =
+            Uri.parse('fractalforge://view?type=mandelbrot&zoom=Infinity');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.zoom, isNull);
+      });
     });
   });
 }

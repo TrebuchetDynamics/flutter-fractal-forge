@@ -69,14 +69,14 @@ class FractalViewControls extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 FloatingActionButtonWidget(
                   icon: Icons.more_horiz_rounded,
-                  tooltip: 'More options',
+                  tooltip: l10n.tooltipMoreOptions,
                   onPressed: isExporting ? null : onOpenMoreActions,
                   delay: const Duration(milliseconds: 30),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 FloatingActionButtonWidget(
                   icon: Icons.fullscreen_rounded,
-                  tooltip: 'Fullscreen view',
+                  tooltip: l10n.tooltipFullscreen,
                   onPressed: isExporting ? null : onEnterFullscreen,
                   delay: const Duration(milliseconds: 60),
                 ),

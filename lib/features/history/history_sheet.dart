@@ -723,29 +723,39 @@ class _HistoryEntryTile extends StatelessWidget {
 
                 // Current indicator or save button
                 if (isCurrent)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      'HERE',
-                      style: AppTypography.labelSmall.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  Builder(
+                    builder: (context) {
+                      final l10n = AppLocalizations.of(context)!;
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          l10n.historyCurrentLocation,
+                          style: AppTypography.labelSmall.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      );
+                    },
                   )
                 else
-                  IconButton(
-                    icon: const Icon(Icons.star_outline_rounded, size: 20),
-                    color: AppColors.textMuted,
-                    onPressed: onSaveAsFavorite,
-                    tooltip: 'Save as favorite',
+                  Builder(
+                    builder: (context) {
+                      final l10n = AppLocalizations.of(context)!;
+                      return IconButton(
+                        icon: const Icon(Icons.star_outline_rounded, size: 20),
+                        color: AppColors.textMuted,
+                        onPressed: onSaveAsFavorite,
+                        tooltip: l10n.historySaveAsFavorite,
+                      );
+                    },
                   ),
               ],
             ),
@@ -827,9 +837,14 @@ class _FavoriteEntryTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        entry.name ?? 'Unnamed',
-                        style: AppTypography.titleMedium,
+                      Builder(
+                        builder: (context) {
+                          final l10n = AppLocalizations.of(context)!;
+                          return Text(
+                            entry.name ?? l10n.historyUnnamed,
+                            style: AppTypography.titleMedium,
+                          );
+                        },
                       ),
                       const SizedBox(height: 2),
                       Text(
@@ -847,28 +862,31 @@ class _FavoriteEntryTile extends StatelessWidget {
                     size: 20,
                     color: AppColors.textMuted,
                   ),
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(
-                      value: 'rename',
-                      child: Row(
-                        children: [
-                          Icon(Icons.edit_rounded, size: 18),
-                          SizedBox(width: 8),
-                          Text('Rename'),
-                        ],
+                  itemBuilder: (context) {
+                    final l10n = AppLocalizations.of(context)!;
+                    return [
+                      PopupMenuItem(
+                        value: 'rename',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.edit_rounded, size: 18),
+                            const SizedBox(width: 8),
+                            Text(l10n.historyRename),
+                          ],
+                        ),
                       ),
-                    ),
-                    const PopupMenuItem(
-                      value: 'delete',
-                      child: Row(
-                        children: [
-                          Icon(Icons.delete_rounded, size: 18, color: AppColors.error),
-                          SizedBox(width: 8),
-                          Text('Delete', style: TextStyle(color: AppColors.error)),
-                        ],
+                      PopupMenuItem(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.delete_rounded, size: 18, color: AppColors.error),
+                            const SizedBox(width: 8),
+                            Text(l10n.historyDelete, style: const TextStyle(color: AppColors.error)),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ];
+                  },
                   onSelected: (value) {
                     if (value == 'rename') {
                       onRename();

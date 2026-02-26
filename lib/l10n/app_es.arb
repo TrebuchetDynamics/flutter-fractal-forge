@@ -687,5 +687,49 @@
   "arTapToAnchorFractal": "Toca para anclar este fractal",
   "arButtonReAnchor": "Reanclar",
   "arButtonAnchor": "Anclar",
-  "arSwitchToSurfaceAnchoring": "Cambiar a anclaje de superficie"
+  "arSwitchToSurfaceAnchoring": "Cambiar a anclaje de superficie",
+
+  "catalogAllFractals": "Todos los fractales",
+  "catalogFilterAll": "Todos",
+  "catalogFilterSortOrder": "Orden",
+  "catalogSortByCategory": "Por categoría",
+  "catalogSortAlphabetical": "Alfabético A-Z",
+  "catalogSortAlphabeticalShort": "A-Z",
+  "catalogSwitchToList": "Cambiar a vista de lista",
+  "catalogSwitchToGrid": "Cambiar a vista de cuadrícula",
+  "catalogListView": "Vista de lista",
+  "catalogGridView": "Vista de cuadrícula",
+  "catalogFeatured": "DESTACADOS",
+
+  "historyCurrentLocation": "AQUÍ",
+  "historySaveAsFavorite": "Guardar como favorito",
+  "historyUnnamed": "Sin nombre",
+  "historyRename": "Renombrar",
+  "historyDelete": "Eliminar",
+
+  "navBack": "Atrás",
+  "navDockZoomOut": "Alejar",
+  "navDockZoomOutTooltip": "Alejar",
+  "navDockReset": "Inicio",
+  "navDockResetTooltip": "Restablecer vista",
+  "navDockZoomIn": "Acercar",
+  "navDockZoomInTooltip": "Acercar",
+  "navDockRandom": "Aleatorio",
+  "navDockQuickNavLabel": "Navegación rápida. Zoom actual {zoom}. Acciones: alejar, restablecer vista, acercar, fractal aleatorio.",
+  "@navDockQuickNavLabel": {
+    "placeholders": {
+      "zoom": {}
+    }
+  },
+
+  "tooltipMoreOptions": "Más opciones",
+  "tooltipFullscreen": "Pantalla completa",
+
+  "semanticSliderAdjust": "Ajustar de {min} a {max}",
+  "@semanticSliderAdjust": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  }
 }

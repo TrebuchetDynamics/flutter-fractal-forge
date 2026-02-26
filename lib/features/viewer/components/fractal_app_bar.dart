@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 class FractalAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -156,11 +157,12 @@ class _AnimatedBackButtonState extends State<_AnimatedBackButton>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Semantics(
-      label: 'Back',
+      label: l10n.navBack,
       button: true,
       child: Tooltip(
-        message: 'Back',
+        message: l10n.navBack,
         child: GestureDetector(
           onTapDown: (_) {
             _controller.forward();

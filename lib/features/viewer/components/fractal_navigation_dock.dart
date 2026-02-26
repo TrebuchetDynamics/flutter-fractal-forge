@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 class FractalNavigationDock extends StatelessWidget {
   final String zoomLabel;
@@ -19,10 +20,10 @@ class FractalNavigationDock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Semantics(
       container: true,
-      label:
-          'Quick navigation. Current zoom $zoomLabel. Actions: zoom out, reset view, zoom in, random fractal.',
+      label: l10n.navDockQuickNavLabel(zoomLabel),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
         decoration: BoxDecoration(
@@ -42,26 +43,26 @@ class FractalNavigationDock extends StatelessWidget {
           children: [
             _DockButton(
               icon: Icons.remove_rounded,
-              label: 'Out',
-              tooltip: 'Zoom out',
+              label: l10n.navDockZoomOut,
+              tooltip: l10n.navDockZoomOutTooltip,
               onTap: onZoomOut,
             ),
             _DockButton(
               icon: Icons.home_filled,
-              label: 'Reset',
-              tooltip: 'Reset view',
+              label: l10n.navDockReset,
+              tooltip: l10n.navDockResetTooltip,
               onTap: onResetView,
             ),
             _DockButton(
               icon: Icons.add_rounded,
-              label: 'In',
-              tooltip: 'Zoom in',
+              label: l10n.navDockZoomIn,
+              tooltip: l10n.navDockZoomInTooltip,
               onTap: onZoomIn,
             ),
             _DockButton(
               icon: Icons.shuffle_rounded,
-              label: 'Random',
-              tooltip: 'Random fractal',
+              label: l10n.navDockRandom,
+              tooltip: l10n.tooltipRandomFractal,
               onTap: onRandom,
             ),
           ],

@@ -686,5 +686,49 @@
   "arTapToAnchorFractal": "Tap to anchor this fractal",
   "arButtonReAnchor": "Re-anchor",
   "arButtonAnchor": "Anchor",
-  "arSwitchToSurfaceAnchoring": "Switch to surface anchoring"
+  "arSwitchToSurfaceAnchoring": "Switch to surface anchoring",
+
+  "catalogAllFractals": "All Fractals",
+  "catalogFilterAll": "All",
+  "catalogFilterSortOrder": "Sort order",
+  "catalogSortByCategory": "By Category",
+  "catalogSortAlphabetical": "Alphabetical A-Z",
+  "catalogSortAlphabeticalShort": "A-Z",
+  "catalogSwitchToList": "Switch to list view",
+  "catalogSwitchToGrid": "Switch to grid view",
+  "catalogListView": "List view",
+  "catalogGridView": "Grid view",
+  "catalogFeatured": "FEATURED",
+
+  "historyCurrentLocation": "HERE",
+  "historySaveAsFavorite": "Save as favorite",
+  "historyUnnamed": "Unnamed",
+  "historyRename": "Rename",
+  "historyDelete": "Delete",
+
+  "navBack": "Back",
+  "navDockZoomOut": "Out",
+  "navDockZoomOutTooltip": "Zoom out",
+  "navDockReset": "Reset",
+  "navDockResetTooltip": "Reset view",
+  "navDockZoomIn": "In",
+  "navDockZoomInTooltip": "Zoom in",
+  "navDockRandom": "Random",
+  "navDockQuickNavLabel": "Quick navigation. Current zoom {zoom}. Actions: zoom out, reset view, zoom in, random fractal.",
+  "@navDockQuickNavLabel": {
+    "placeholders": {
+      "zoom": {}
+    }
+  },
+
+  "tooltipMoreOptions": "More options",
+  "tooltipFullscreen": "Fullscreen view",
+
+  "semanticSliderAdjust": "Adjust from {min} to {max}",
+  "@semanticSliderAdjust": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  }
 }

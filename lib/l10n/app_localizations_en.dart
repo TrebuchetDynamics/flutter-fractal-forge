@@ -1437,4 +1437,92 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get arSwitchToSurfaceAnchoring => 'Switch to surface anchoring';
+
+  @override
+  String get catalogAllFractals => 'All Fractals';
+
+  @override
+  String get catalogFilterAll => 'All';
+
+  @override
+  String get catalogFilterSortOrder => 'Sort order';
+
+  @override
+  String get catalogSortByCategory => 'By Category';
+
+  @override
+  String get catalogSortAlphabetical => 'Alphabetical A-Z';
+
+  @override
+  String get catalogSortAlphabeticalShort => 'A-Z';
+
+  @override
+  String get catalogSwitchToList => 'Switch to list view';
+
+  @override
+  String get catalogSwitchToGrid => 'Switch to grid view';
+
+  @override
+  String get catalogListView => 'List view';
+
+  @override
+  String get catalogGridView => 'Grid view';
+
+  @override
+  String get catalogFeatured => 'FEATURED';
+
+  @override
+  String get historyCurrentLocation => 'HERE';
+
+  @override
+  String get historySaveAsFavorite => 'Save as favorite';
+
+  @override
+  String get historyUnnamed => 'Unnamed';
+
+  @override
+  String get historyRename => 'Rename';
+
+  @override
+  String get historyDelete => 'Delete';
+
+  @override
+  String get navBack => 'Back';
+
+  @override
+  String get navDockZoomOut => 'Out';
+
+  @override
+  String get navDockZoomOutTooltip => 'Zoom out';
+
+  @override
+  String get navDockReset => 'Reset';
+
+  @override
+  String get navDockResetTooltip => 'Reset view';
+
+  @override
+  String get navDockZoomIn => 'In';
+
+  @override
+  String get navDockZoomInTooltip => 'Zoom in';
+
+  @override
+  String get navDockRandom => 'Random';
+
+  @override
+  String navDockQuickNavLabel(Object zoom) {
+    return 'Quick navigation. Current zoom $zoom. Actions: zoom out, reset view, zoom in, random fractal.';
+  }
+
+  @override
+  String get tooltipMoreOptions => 'More options';
+
+  @override
+  String get tooltipFullscreen => 'Fullscreen view';
+
+  @override
+  String semanticSliderAdjust(Object min, Object max) {
+    return 'Adjust from $min to $max';
+  }
 }

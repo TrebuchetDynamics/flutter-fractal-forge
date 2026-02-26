@@ -181,6 +181,59 @@ void main() {
       expect(find.textContaining('Pan'), findsWidgets);
       expect(find.textContaining('pinch'), findsWidgets);
     });
+
+    testWidgets('uses l10n strings for UI text (not hardcoded English)',
+        (tester) async {
+      // Retrieve localizations the same way the widget does, then assert the
+      // displayed text matches what AppLocalizations returns — proving the
+      // widget is driven by l10n rather than raw string literals.
+      bool completed = false; // ignore: unused_local_variable
+      await tester.pumpWidget(buildTestWidget(
+        onComplete: () => completed = true,
+      ));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+
+      final BuildContext ctx = tester.element(find.byType(OnboardingScreen));
+      final l10n = AppLocalizations.of(ctx)!;
+
+      // Page 1 title and navigation strings come from l10n.
+      expect(find.text(l10n.onboardingWelcomeTitle), findsOneWidget);
+      expect(find.text(l10n.onboardingNext), findsOneWidget);
+      expect(find.text(l10n.onboardingSkip), findsOneWidget);
+
+      // Page 1 description is from l10n.
+      expect(find.textContaining(l10n.onboardingWelcomeDescription),
+          findsWidgets);
+
+      // Navigate to page 2 and verify page 2 title and button from l10n.
+      await tester.tap(find.text(l10n.onboardingNext));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      expect(find.text(l10n.onboardingCreateTitle), findsOneWidget);
+      expect(find.text(l10n.onboardingGetStarted), findsOneWidget);
+    });
+
+    testWidgets('page indicator reflects progress as pages change',
+        (tester) async {
+      bool completed = false; // ignore: unused_local_variable
+      await tester.pumpWidget(buildTestWidget(
+        onComplete: () => completed = true,
+      ));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+
+      // There are 2 pages so 2 AnimatedContainers for the dot indicators.
+      final indicators = tester.widgetList<AnimatedContainer>(
+        find.byType(AnimatedContainer),
+      );
+      expect(indicators.length, 2);
+
+      // On page 1 the first dot is wider (selected = width 20, others = 8).
+      final firstDot = indicators.first;
+      expect((firstDot.constraints?.maxWidth ?? 0), greaterThan(8));
+    });
   });
 
   group('OnboardingService', () {

@@ -2719,6 +2719,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Switch to surface anchoring'**
   String get arSwitchToSurfaceAnchoring;
+
+  /// No description provided for @catalogAllFractals.
+  ///
+  /// In en, this message translates to:
+  /// **'All Fractals'**
+  String get catalogAllFractals;
+
+  /// No description provided for @catalogFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get catalogFilterAll;
+
+  /// No description provided for @catalogFilterSortOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort order'**
+  String get catalogFilterSortOrder;
+
+  /// No description provided for @catalogSortByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'By Category'**
+  String get catalogSortByCategory;
+
+  /// No description provided for @catalogSortAlphabetical.
+  ///
+  /// In en, this message translates to:
+  /// **'Alphabetical A-Z'**
+  String get catalogSortAlphabetical;
+
+  /// No description provided for @catalogSortAlphabeticalShort.
+  ///
+  /// In en, this message translates to:
+  /// **'A-Z'**
+  String get catalogSortAlphabeticalShort;
+
+  /// No description provided for @catalogSwitchToList.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to list view'**
+  String get catalogSwitchToList;
+
+  /// No description provided for @catalogSwitchToGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to grid view'**
+  String get catalogSwitchToGrid;
+
+  /// No description provided for @catalogListView.
+  ///
+  /// In en, this message translates to:
+  /// **'List view'**
+  String get catalogListView;
+
+  /// No description provided for @catalogGridView.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid view'**
+  String get catalogGridView;
+
+  /// No description provided for @catalogFeatured.
+  ///
+  /// In en, this message translates to:
+  /// **'FEATURED'**
+  String get catalogFeatured;
+
+  /// No description provided for @historyCurrentLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'HERE'**
+  String get historyCurrentLocation;
+
+  /// No description provided for @historySaveAsFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as favorite'**
+  String get historySaveAsFavorite;
+
+  /// No description provided for @historyUnnamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed'**
+  String get historyUnnamed;
+
+  /// No description provided for @historyRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get historyRename;
+
+  /// No description provided for @historyDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get historyDelete;
+
+  /// No description provided for @navBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get navBack;
+
+  /// No description provided for @navDockZoomOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Out'**
+  String get navDockZoomOut;
+
+  /// No description provided for @navDockZoomOutTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom out'**
+  String get navDockZoomOutTooltip;
+
+  /// No description provided for @navDockReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get navDockReset;
+
+  /// No description provided for @navDockResetTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset view'**
+  String get navDockResetTooltip;
+
+  /// No description provided for @navDockZoomIn.
+  ///
+  /// In en, this message translates to:
+  /// **'In'**
+  String get navDockZoomIn;
+
+  /// No description provided for @navDockZoomInTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom in'**
+  String get navDockZoomInTooltip;
+
+  /// No description provided for @navDockRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get navDockRandom;
+
+  /// No description provided for @navDockQuickNavLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick navigation. Current zoom {zoom}. Actions: zoom out, reset view, zoom in, random fractal.'**
+  String navDockQuickNavLabel(Object zoom);
+
+  /// No description provided for @tooltipMoreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get tooltipMoreOptions;
+
+  /// No description provided for @tooltipFullscreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Fullscreen view'**
+  String get tooltipFullscreen;
+
+  /// No description provided for @semanticSliderAdjust.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust from {min} to {max}'**
+  String semanticSliderAdjust(Object min, Object max);
 }
 
 class _AppLocalizationsDelegate

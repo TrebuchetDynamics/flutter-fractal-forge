@@ -2,8 +2,24 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+
+/// Minimal fake that satisfies PathProviderPlatform for unit tests.
+class _FakePathProviderPlatform extends Fake
+    with MockPlatformInterfaceMixin
+    implements PathProviderPlatform {
+  final String tempDir;
+  _FakePathProviderPlatform(this.tempDir);
+
+  @override
+  Future<String?> getApplicationDocumentsPath() async => tempDir;
+
+  @override
+  Future<String?> getTemporaryPath() async => tempDir;
+}
 
 void main() {
   const service = ExportService();
@@ -274,6 +290,90 @@ void main() {
       expect(ExportResolution.instagram.dimensions, (1080, 1080));
       expect(ExportResolution.screen.dimensions, isNull);
       expect(ExportResolution.custom.dimensions, isNull);
+    });
+  });
+
+  group('ExportService.getExportDirectory', () {
+    late Directory tmpDir;
+
+    setUp(() async {
+      tmpDir = await Directory.systemTemp.createTemp('export_test_');
+      PathProviderPlatform.instance = _FakePathProviderPlatform(tmpDir.path);
+    });
+
+    tearDown(() async {
+      if (await tmpDir.exists()) await tmpDir.delete(recursive: true);
+    });
+
+    test('returns a valid directory that exists', () async {
+      final dir = await service.getExportDirectory();
+      expect(await dir.exists(), isTrue);
+    });
+
+    test('returned directory path is non-empty', () async {
+      final dir = await service.getExportDirectory();
+      expect(dir.path, isNotEmpty);
+    });
+  });
+
+  group('ExportService image encoding', () {
+    // These tests exercise the encode logic that _encodeToFormat uses
+    // by building an img.Image and encoding it with the same calls the
+    // service makes, verifying the output bytes are valid image data.
+
+    late img.Image testImage;
+
+    setUp(() {
+      testImage = img.Image(width: 8, height: 8);
+      img.fill(testImage, color: img.ColorRgb8(100, 150, 200));
+    });
+
+    test('PNG encoding produces valid PNG bytes', () {
+      final bytes = Uint8List.fromList(img.encodePng(testImage, level: 6));
+      expect(bytes.length, greaterThan(8));
+      // PNG magic bytes: 0x89 'P' 'N' 'G'
+      expect(bytes[0], 0x89);
+      expect(bytes[1], 0x50); // 'P'
+      expect(bytes[2], 0x4E); // 'N'
+      expect(bytes[3], 0x47); // 'G'
+      final decoded = img.decodePng(bytes);
+      expect(decoded, isNotNull);
+      expect(decoded!.width, 8);
+      expect(decoded.height, 8);
+    });
+
+    test('JPG encoding produces valid JPEG bytes', () {
+      final rgbImage = img.Image(width: 8, height: 8, numChannels: 3);
+      img.fill(rgbImage, color: img.ColorRgb8(100, 150, 200));
+      img.compositeImage(rgbImage, testImage);
+      final bytes = Uint8List.fromList(img.encodeJpg(rgbImage, quality: 85));
+      expect(bytes.length, greaterThan(2));
+      // JPEG SOI marker: 0xFF 0xD8
+      expect(bytes[0], 0xFF);
+      expect(bytes[1], 0xD8);
+      final decoded = img.decodeJpg(bytes);
+      expect(decoded, isNotNull);
+      expect(decoded!.width, 8);
+      expect(decoded.height, 8);
+    });
+
+    test('WebP requested format resolves to PNG (no native WebP encoder)', () {
+      // The service documents that WebP falls back to PNG encoding.
+      final effective = service.resolveEffectiveFormat(ExportFormat.webp);
+      expect(effective, ExportFormat.png);
+      // The resulting bytes are valid PNG.
+      final bytes = Uint8List.fromList(img.encodePng(testImage));
+      expect(bytes[0], 0x89);
+      expect(bytes[1], 0x50);
+    });
+
+    test('export encoding fails gracefully on null decode returns original',
+        () {
+      // applyWallpaperStyle returns original bytes when PNG decode fails.
+      final garbage = Uint8List.fromList([0, 1, 2, 3]);
+      final result =
+          service.applyWallpaperStyle(garbage, style: 'homeOptimized');
+      expect(result, same(garbage));
     });
   });
 

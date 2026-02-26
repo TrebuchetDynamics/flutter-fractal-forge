@@ -1457,4 +1457,92 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get arSwitchToSurfaceAnchoring => 'Cambiar a anclaje de superficie';
+
+  @override
+  String get catalogAllFractals => 'Todos los fractales';
+
+  @override
+  String get catalogFilterAll => 'Todos';
+
+  @override
+  String get catalogFilterSortOrder => 'Orden';
+
+  @override
+  String get catalogSortByCategory => 'Por categoría';
+
+  @override
+  String get catalogSortAlphabetical => 'Alfabético A-Z';
+
+  @override
+  String get catalogSortAlphabeticalShort => 'A-Z';
+
+  @override
+  String get catalogSwitchToList => 'Cambiar a vista de lista';
+
+  @override
+  String get catalogSwitchToGrid => 'Cambiar a vista de cuadrícula';
+
+  @override
+  String get catalogListView => 'Vista de lista';
+
+  @override
+  String get catalogGridView => 'Vista de cuadrícula';
+
+  @override
+  String get catalogFeatured => 'DESTACADOS';
+
+  @override
+  String get historyCurrentLocation => 'AQUÍ';
+
+  @override
+  String get historySaveAsFavorite => 'Guardar como favorito';
+
+  @override
+  String get historyUnnamed => 'Sin nombre';
+
+  @override
+  String get historyRename => 'Renombrar';
+
+  @override
+  String get historyDelete => 'Eliminar';
+
+  @override
+  String get navBack => 'Atrás';
+
+  @override
+  String get navDockZoomOut => 'Alejar';
+
+  @override
+  String get navDockZoomOutTooltip => 'Alejar';
+
+  @override
+  String get navDockReset => 'Inicio';
+
+  @override
+  String get navDockResetTooltip => 'Restablecer vista';
+
+  @override
+  String get navDockZoomIn => 'Acercar';
+
+  @override
+  String get navDockZoomInTooltip => 'Acercar';
+
+  @override
+  String get navDockRandom => 'Aleatorio';
+
+  @override
+  String navDockQuickNavLabel(Object zoom) {
+    return 'Navegación rápida. Zoom actual $zoom. Acciones: alejar, restablecer vista, acercar, fractal aleatorio.';
+  }
+
+  @override
+  String get tooltipMoreOptions => 'Más opciones';
+
+  @override
+  String get tooltipFullscreen => 'Pantalla completa';
+
+  @override
+  String semanticSliderAdjust(Object min, Object max) {
+    return 'Ajustar de $min a $max';
+  }
 }

@@ -226,7 +226,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
       final sorted = List<CatalogEntry>.from(entries)
         ..sort((a, b) =>
             a.module.displayName(l10n).compareTo(b.module.displayName(l10n)));
-      return {'All Fractals': sorted};
+      return {l10n.catalogAllFractals: sorted};
     }
 
     final grouped = <String, List<CatalogEntry>>{};
@@ -332,7 +332,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
         children: [
           // Dimension filters with counts
           _DimChip(
-            label: 'All',
+            label: l10n.catalogFilterAll,
             count: allCount,
             selected: _dimensionFilter == _DimensionFilter.all,
             onTap: () =>
@@ -340,7 +340,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           ),
           const SizedBox(width: AppSpacing.xs),
           _DimChip(
-            label: '2D',
+            label: l10n.dimension2d,
             count: twoDCount,
             selected: _dimensionFilter == _DimensionFilter.twoD,
             onTap: () =>
@@ -348,7 +348,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           ),
           const SizedBox(width: AppSpacing.xs),
           _DimChip(
-            label: '3D',
+            label: l10n.dimension3d,
             count: threeDCount,
             selected: _dimensionFilter == _DimensionFilter.threeD,
             onTap: () =>
@@ -357,17 +357,17 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           const Spacer(),
           // Sort dropdown
           PopupMenuButton<_SortOrder>(
-            tooltip: 'Sort order',
+            tooltip: l10n.catalogFilterSortOrder,
             initialValue: _sortOrder,
             onSelected: (value) => setState(() => _sortOrder = value),
             itemBuilder: (_) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: _SortOrder.byCategory,
-                child: Text('By Category'),
+                child: Text(l10n.catalogSortByCategory),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: _SortOrder.alphabetical,
-                child: Text('Alphabetical A-Z'),
+                child: Text(l10n.catalogSortAlphabetical),
               ),
             ],
             child: Row(
@@ -376,7 +376,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                 Icon(Icons.sort_rounded, size: 16, color: AppColors.textMuted),
                 const SizedBox(width: 4),
                 Text(
-                  _sortOrder == _SortOrder.byCategory ? 'By Category' : 'A-Z',
+                  _sortOrder == _SortOrder.byCategory ? l10n.catalogSortByCategory : l10n.catalogSortAlphabeticalShort,
                   style: AppTypography.labelSmall.copyWith(
                     color: AppColors.textMuted,
                   ),
@@ -467,9 +467,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     final isGrid = _viewMode == CatalogViewMode.grid;
     return Semantics(
       button: true,
-      label: isGrid ? 'Switch to list view' : 'Switch to grid view',
+      label: isGrid ? l10n.catalogSwitchToList : l10n.catalogSwitchToGrid,
       child: Tooltip(
-        message: isGrid ? 'List view' : 'Grid view',
+        message: isGrid ? l10n.catalogListView : l10n.catalogGridView,
         child: IconButton(
           key: const Key('catalogViewToggleButton'),
           onPressed: () => _setViewMode(
@@ -1082,7 +1082,7 @@ class _FeaturedSection extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.sm),
               Text(
-                'FEATURED',
+                l10n.catalogFeatured,
                 style: AppTypography.labelSmall.copyWith(
                   color: AppColors.textSecondary,
                   fontWeight: FontWeight.w700,
