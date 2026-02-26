@@ -22,7 +22,13 @@ HistoryEntry _makeEntry(String id, {String moduleId = 'mandelbrot'}) {
 void main() {
   group('HistoryStore', () {
     setUp(() {
+      TestWidgetsFlutterBinding.ensureInitialized();
       SharedPreferences.setMockInitialValues({});
+    });
+
+    test('create() factory returns a valid store', () async {
+      final store = await HistoryStore.create();
+      expect(store, isNotNull);
     });
 
     test('loadHistory returns empty list when no data stored', () async {
@@ -45,6 +51,23 @@ void main() {
       expect(loaded[0].moduleId, equals('mandelbrot'));
       expect(loaded[1].id, equals('2'));
       expect(loaded[1].moduleId, equals('julia'));
+    });
+
+    test('history entries maintain insertion order', () async {
+      final store = await HistoryStore.create();
+      final entries = [
+        _makeEntry('first',  moduleId: 'mandelbrot'),
+        _makeEntry('second', moduleId: 'julia'),
+        _makeEntry('third',  moduleId: 'burning_ship'),
+      ];
+
+      await store.saveHistory(entries);
+      final loaded = store.loadHistory();
+
+      expect(loaded, hasLength(3));
+      expect(loaded[0].id, equals('first'));
+      expect(loaded[1].id, equals('second'));
+      expect(loaded[2].id, equals('third'));
     });
 
     test('loadFavorites returns empty list when no data stored', () async {

@@ -180,7 +180,7 @@ Future<void> _viewerOpenArOverlay(
     return;
   }
 
-  if (!Platform.isAndroid) {
+  if (kIsWeb || !Platform.isAndroid) {
     await openOverlayFallback();
     return;
   }

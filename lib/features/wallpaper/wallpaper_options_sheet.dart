@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
@@ -76,7 +77,7 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   children: [
                     Text(
-                      Platform.isIOS
+                      (!kIsWeb && Platform.isIOS)
                           ? l10n.wallpaperIosNote
                           : l10n.wallpaperAndroidNote,
                       style: theme.textTheme.bodyMedium?.copyWith(

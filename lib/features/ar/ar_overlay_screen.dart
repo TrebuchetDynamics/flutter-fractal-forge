@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
@@ -1451,7 +1452,7 @@ class _ArControlsPanel extends StatelessWidget {
                 visualDensity: VisualDensity.compact,
               ),
               // "Switch to AR Surface Anchoring" button — only on Android
-              if (Platform.isAndroid)
+              if (!kIsWeb && Platform.isAndroid)
                 IconButton(
                   tooltip: l10n.arTooltipSwitchToSurfaceAnchoring,
                   icon: const Icon(Icons.view_in_ar_rounded),
@@ -1638,7 +1639,7 @@ class _ArControlsPanel extends StatelessWidget {
                 ),
               ),
               // "Switch to AR Surface Anchoring" button — only on Android
-              if (Platform.isAndroid) ...[
+              if (!kIsWeb && Platform.isAndroid) ...[
                 const SizedBox(height: 6),
                 SizedBox(
                   width: double.infinity,
