@@ -1,7 +1,9 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// Severity levels for log entries.
 enum LogLevel { debug, info, warn, error }
@@ -34,6 +36,27 @@ class LogEntry {
         if (data != null) 'data': data,
       };
 
+  /// Serialises to a JSONL line using the on-disk schema.
+  Map<String, Object?> toDiskJson() => {
+        'timestamp': timestamp.toIso8601String(),
+        'level': level.name,
+        'tag': category,
+        'message': message,
+      };
+
+  /// Deserialises from the on-disk JSONL schema.
+  factory LogEntry.fromDiskJson(Map<String, dynamic> json) {
+    return LogEntry(
+      timestamp: DateTime.parse(json['timestamp'] as String),
+      level: LogLevel.values.firstWhere(
+        (l) => l.name == (json['level'] as String),
+        orElse: () => LogLevel.info,
+      ),
+      category: json['tag'] as String? ?? '',
+      message: json['message'] as String? ?? '',
+    );
+  }
+
   String toLogLine() {
     final ts =
         '${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}:${timestamp.second.toString().padLeft(2, '0')}.${timestamp.millisecond.toString().padLeft(3, '0')}';
@@ -42,10 +65,15 @@ class LogEntry {
   }
 }
 
-/// Global in-memory ring-buffer logger.
+/// Global in-memory ring-buffer logger with optional persistent JSONL storage.
 ///
 /// Keeps the last [maxEntries] log entries in memory. Export as text or JSON
 /// at any time via [exportText] / [exportJson].
+///
+/// Call [init] once at app startup to enable persistence:
+/// ```dart
+/// await AppLogger.instance.init();
+/// ```
 ///
 /// Usage:
 /// ```dart
@@ -60,12 +88,108 @@ class AppLogger extends ChangeNotifier {
   /// Maximum entries kept in the ring buffer.
   final int maxEntries;
 
+  /// Maximum entries persisted to disk (rotation threshold).
+  static const int _maxDiskEntries = 5000;
+
+  /// Approximate size cap for the on-disk file (~2 MB).
+  static const int _maxDiskBytes = 2 * 1024 * 1024;
+
   final Queue<LogEntry> _entries = Queue<LogEntry>();
+
+  File? _logFile;
+  IOSink? _sink;
+  bool _persistenceReady = false;
 
   /// Read-only view of all entries (oldest first).
   List<LogEntry> get entries => _entries.toList(growable: false);
 
   int get length => _entries.length;
+
+  // ── Initialisation ──────────────────────────────────────────────────
+
+  /// Initialise persistent storage. Safe to call multiple times; subsequent
+  /// calls are no-ops. Skipped automatically on web (no filesystem).
+  Future<void> init() async {
+    if (_persistenceReady) return;
+    if (kIsWeb) return;
+
+    try {
+      final cacheDir = await getApplicationCacheDirectory();
+      _logFile = File('${cacheDir.path}/fractal_forge_logs.jsonl');
+      await _loadFromDisk();
+      _sink = _logFile!.openWrite(mode: FileMode.append);
+      _persistenceReady = true;
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('[AppLogger] Failed to init persistence: $e');
+      }
+      // Graceful degradation: continue with in-memory only.
+      _logFile = null;
+      _sink = null;
+    }
+  }
+
+  // ── Disk I/O ────────────────────────────────────────────────────────
+
+  Future<void> _loadFromDisk() async {
+    final file = _logFile;
+    if (file == null || !file.existsSync()) return;
+
+    try {
+      final lines = await file.readAsLines();
+
+      // Rotation: keep only the last _maxDiskEntries lines that fit within
+      // _maxDiskBytes when re-encoded.
+      final validLines = <String>[];
+      int totalBytes = 0;
+      for (final line in lines.reversed) {
+        if (line.trim().isEmpty) continue;
+        totalBytes += line.length + 1; // +1 for newline
+        if (validLines.length >= _maxDiskEntries || totalBytes > _maxDiskBytes) {
+          break;
+        }
+        validLines.add(line);
+      }
+      // Restore chronological order.
+      final keptLines = validLines.reversed.toList();
+
+      // If we trimmed anything, rewrite the file to reclaim space.
+      if (keptLines.length < lines.where((l) => l.trim().isNotEmpty).length) {
+        await file.writeAsString(keptLines.map((l) => '$l\n').join());
+      }
+
+      // Parse and load into ring buffer (in-memory max still applies).
+      for (final line in keptLines) {
+        try {
+          final json = jsonDecode(line) as Map<String, dynamic>;
+          final entry = LogEntry.fromDiskJson(json);
+          _entries.addLast(entry);
+          while (_entries.length > maxEntries) {
+            _entries.removeFirst();
+          }
+        } catch (_) {
+          // Skip malformed lines.
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('[AppLogger] Failed to load log from disk: $e');
+      }
+    }
+  }
+
+  void _appendToDisk(LogEntry entry) {
+    final sink = _sink;
+    if (sink == null) return;
+
+    try {
+      sink.writeln(jsonEncode(entry.toDiskJson()));
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('[AppLogger] Failed to write log entry to disk: $e');
+      }
+    }
+  }
 
   // ── Logging methods ────────────────────────────────────────────────
 
@@ -85,6 +209,7 @@ class AppLogger extends ChangeNotifier {
     if (kDebugMode) {
       debugPrint(entry.toLogLine());
     }
+    _appendToDisk(entry);
     notifyListeners();
   }
 
@@ -127,9 +252,49 @@ class AppLogger extends ChangeNotifier {
         : jsonEncode(list);
   }
 
-  /// Clear all entries.
+  // ── Clear ────────────────────────────────────────────────────────────
+
+  /// Clear all entries from memory and truncate the on-disk file.
+  Future<void> clearLog() async {
+    _entries.clear();
+    await _truncateDisk();
+    notifyListeners();
+  }
+
+  /// Synchronous clear (in-memory only; schedules disk truncation).
   void clear() {
     _entries.clear();
+    _truncateDisk(); // fire-and-forget
     notifyListeners();
+  }
+
+  Future<void> _truncateDisk() async {
+    final file = _logFile;
+    if (file == null || !_persistenceReady) return;
+
+    try {
+      // Close the current sink, truncate the file, reopen for append.
+      await _sink?.flush();
+      await _sink?.close();
+      _sink = null;
+      await file.writeAsString('');
+      _sink = file.openWrite(mode: FileMode.append);
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('[AppLogger] Failed to truncate log file: $e');
+      }
+    }
+  }
+
+  // ── Dispose ──────────────────────────────────────────────────────────
+
+  @override
+  Future<void> dispose() async {
+    try {
+      await _sink?.flush();
+      await _sink?.close();
+    } catch (_) {}
+    _sink = null;
+    super.dispose();
   }
 }

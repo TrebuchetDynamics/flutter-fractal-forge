@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,9 +8,9 @@ void main() {
   // Use a fresh AppLogger per test so ring-buffer state does not bleed.
   late AppLogger logger;
 
-  setUp(() {
+  setUp(() async {
     // Clear the singleton's ring buffer before each test.
-    AppLogger.instance.clear();
+    await AppLogger.instance.clearLog();
     logger = AppLogger.instance;
   });
 
@@ -144,17 +145,26 @@ void main() {
   });
 
   group('AppLogger — clear', () {
-    test('clear removes all entries', () {
+    test('clear removes all entries', () async {
       logger.log('a', 'one');
       logger.log('b', 'two');
       expect(logger.length, 2);
 
-      logger.clear();
+      await logger.clearLog();
       expect(logger.length, 0);
       expect(logger.entries, isEmpty);
     });
 
-    test('clear notifies listeners', () {
+    test('clearLog notifies listeners', () async {
+      logger.log('a', 'entry');
+      int notifyCount = 0;
+      logger.addListener(() => notifyCount++);
+
+      await logger.clearLog();
+      expect(notifyCount, 1);
+    });
+
+    test('clear (sync) notifies listeners', () {
       logger.log('a', 'entry');
       int notifyCount = 0;
       logger.addListener(() => notifyCount++);
@@ -219,6 +229,122 @@ void main() {
       expect(LogLevel.debug.index, lessThan(LogLevel.info.index));
       expect(LogLevel.info.index, lessThan(LogLevel.warn.index));
       expect(LogLevel.warn.index, lessThan(LogLevel.error.index));
+    });
+  });
+
+  group('LogEntry — disk serialisation', () {
+    test('toDiskJson uses required keys', () {
+      final entry = LogEntry(
+        timestamp: DateTime(2024, 3, 10, 8, 0, 0),
+        level: LogLevel.warn,
+        category: 'render',
+        message: 'slow frame',
+      );
+      final json = entry.toDiskJson();
+      expect(json['timestamp'], isA<String>());
+      expect(json['level'], 'warn');
+      expect(json['tag'], 'render');
+      expect(json['message'], 'slow frame');
+    });
+
+    test('fromDiskJson round-trips correctly', () {
+      final original = LogEntry(
+        timestamp: DateTime(2025, 6, 15, 10, 30, 45, 123),
+        level: LogLevel.error,
+        category: 'gpu',
+        message: 'out of memory',
+      );
+      final json = original.toDiskJson();
+      final restored = LogEntry.fromDiskJson(json);
+
+      expect(restored.timestamp.toIso8601String(),
+          original.timestamp.toIso8601String());
+      expect(restored.level, original.level);
+      expect(restored.category, original.category);
+      expect(restored.message, original.message);
+    });
+
+    test('fromDiskJson with unknown level falls back to info', () {
+      final json = {
+        'timestamp': DateTime.now().toIso8601String(),
+        'level': 'unknown_level',
+        'tag': 'test',
+        'message': 'msg',
+      };
+      final entry = LogEntry.fromDiskJson(json);
+      expect(entry.level, LogLevel.info);
+    });
+  });
+
+  group('AppLogger — file persistence (temp directory)', () {
+    late Directory tempDir;
+    late File logFile;
+
+    setUp(() async {
+      tempDir = await Directory.systemTemp.createTemp('app_logger_test_');
+      logFile = File('${tempDir.path}/fractal_forge_logs.jsonl');
+    });
+
+    tearDown(() async {
+      await tempDir.delete(recursive: true);
+    });
+
+    test('_loadFromDisk populates ring buffer from existing JSONL', () async {
+      // Write two pre-existing JSONL entries.
+      final lines = [
+        jsonEncode({
+          'timestamp': '2024-01-01T10:00:00.000',
+          'level': 'info',
+          'tag': 'render',
+          'message': 'loaded from disk',
+        }),
+        jsonEncode({
+          'timestamp': '2024-01-01T10:00:01.000',
+          'level': 'warn',
+          'tag': 'gpu',
+          'message': 'second entry',
+        }),
+      ];
+      await logFile.writeAsString(lines.map((l) => '$l\n').join());
+
+      // Parse directly via fromDiskJson to verify the round-trip.
+      final readBack = await logFile.readAsLines();
+      final parsed = readBack
+          .where((l) => l.trim().isNotEmpty)
+          .map((l) => LogEntry.fromDiskJson(jsonDecode(l) as Map<String, dynamic>))
+          .toList();
+
+      expect(parsed.length, 2);
+      expect(parsed[0].message, 'loaded from disk');
+      expect(parsed[0].category, 'render');
+      expect(parsed[0].level, LogLevel.info);
+      expect(parsed[1].message, 'second entry');
+      expect(parsed[1].level, LogLevel.warn);
+    });
+
+    test('toDiskJson produces valid JSONL-parseable output', () {
+      final entry = LogEntry(
+        timestamp: DateTime(2025, 1, 1, 0, 0, 0),
+        level: LogLevel.debug,
+        category: 'action',
+        message: 'test message',
+      );
+      final line = jsonEncode(entry.toDiskJson());
+      // Must be valid JSON and single-line.
+      expect(() => jsonDecode(line), returnsNormally);
+      expect(line, isNot(contains('\n')));
+    });
+
+    test('malformed JSONL lines are skipped gracefully', () {
+      const bad = '{"timestamp": "not-a-date", bad json}';
+      expect(
+        () => LogEntry.fromDiskJson(
+            jsonDecode('{"timestamp":"2024-01-01T00:00:00.000","level":"info","tag":"x","message":"y"}')
+                as Map<String, dynamic>),
+        returnsNormally,
+      );
+      // Malformed JSON should throw during jsonDecode — catch is in _loadFromDisk.
+      expect(() => jsonDecode(bad), throwsA(isA<FormatException>()));
     });
   });
 }

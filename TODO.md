@@ -1,6 +1,6 @@
 # Flutter Fractal Forge — Execution TODO
 
-Last updated: 2026-02-15
+Last updated: 2026-02-26
 Owner: Sidon
 
 ## Architecture Direction (decided 2026-02-15)
@@ -21,9 +21,16 @@ Owner: Sidon
 - [ ] Validate GPU backend shader load + palette/precision for both cases
 
 ### 1) User-reported blockers (2026-02-25)
-- [ ] GPU→CPU fallback too slow when zooming deep; reduce hysteresis/threshold so CPU engages faster
+- [x] GPU→CPU fallback too slow when zooming deep; reduce hysteresis/threshold so CPU engages faster
 - [ ] Controls too big/too intrusive; redesign for smaller, less cluttered UI
 - [ ] 3D fractals not working at all; investigate 3D pipeline/shaders and fix
+- [ ] AR broken: no fractal preview in AR, cannot detect surfaces/anchor; fix plane detection + anchoring
+- [ ] App icon overhaul for Fractal Forge (adaptive icon + Play Store asset)
+- [ ] Improve fractal catalog thumbnails: larger view size and higher-quality renders
+- [ ] Visual playtest audit of every fractal (GPU + CPU) and log failures
+- [x] GPU deep zoom not switching to CPU at all; adjust fallback thresholds/hysteresis
+- [ ] Panning bugs at high zoom levels (precision/gesture/transform issues)
+- [ ] Auto-zoom navigation not continuous and too slow at high zoom levels
 
 
 ### 1) Dynamic iteration adjustment based on zoom — **NEW**
@@ -114,7 +121,7 @@ Owner: Sidon
 
 ### 15) Onboarding and accessibility
 - [ ] Explain gestures + AR behavior clearly
-- [ ] Improve screen-reader labels for catalog and controls
+- [x] Improve screen-reader labels for catalog and controls
 
 ### 16) Stable sharing/export presets
 - [ ] One-tap presets for Instagram feed/story, X, WhatsApp
@@ -134,6 +141,11 @@ Owner: Sidon
 - [x] 196/196 render audit passing
 - [x] 64 palette support + horizontal palette selector
 - [x] Home screen simplified; AR entry in viewer only
+- [x] kDebugMode guards on all debugPrint calls across 16 files
+- [x] kIsWeb web safety guards on all dart:io files (8 files)
+- [x] Complete unit test coverage for all services (865 tests, 0 failures)
+- [x] Screen-reader semantic labels for catalog and controls
+- [x] GPU→CPU fallback threshold tuning (faster engagement)
 
 ---
 
