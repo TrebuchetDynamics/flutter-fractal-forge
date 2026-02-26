@@ -420,3 +420,12 @@ flutter:
     - shaders/generalized_mcmullen_gpu.frag
     - shaders/fractal_flame_gpu.frag
     - shaders/dielectric_breakdown_gpu.frag
+    - shaders/kifs_menger_gpu.frag
+    - shaders/kifs_sierpinski_tetra_gpu.frag
+    - shaders/kifs_koch_fold_gpu.frag
+    - shaders/kifs_snowflake_fold_gpu.frag
+    - shaders/quaternion_julia_3d_gpu.frag
+    - shaders/dual_quaternion_julia_gpu.frag
+    - shaders/mandelbox_shape_inversion_gpu.frag
+    - shaders/inversive_limit_set_3d_gpu.frag
+    - shaders/mandelbulb_time_modulated_gpu.frag
