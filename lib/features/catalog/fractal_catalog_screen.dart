@@ -380,7 +380,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
               ),
             ],
             child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 48),
+              constraints: const BoxConstraints(minHeight: 48, maxWidth: 150),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1128,7 +1128,7 @@ class _FeaturedSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 180,
+          height: MediaQuery.textScalerOf(context).scale(1) > 2.0 ? 140 : 180,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
