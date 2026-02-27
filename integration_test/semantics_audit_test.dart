@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/ar_quality_store.dart';
+import 'package:flutter_fractals/core/services/history_store.dart';
+import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/palette_service.dart';
+import 'package:flutter_fractals/main.dart';
+
+// Re-use the semantics tree traversal helper from unit tests.
+import '../test/helpers/semantics_test_helper.dart';
+
+void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  group('Semantics Audit — Home / Catalog', () {
+    testWidgets('Catalog screen has correct semantic properties',
+        (WidgetTester tester) async {
+      // --- Bootstrap services ---
+      SharedPreferences.setMockInitialValues({});
+      final results = await Future.wait([
+        PresetStore.create(),
+        ArQualityStore.create(),
+        HistoryStore.create(),
+        AccessibilityService.create(),
+        RendererSettingsService.create(),
+        PaletteService.create(),
+      ]);
+      final presetStore = results[0] as PresetStore;
+      final arQualityStore = results[1] as ArQualityStore;
+      final historyStore = results[2] as HistoryStore;
+      final accessibilityService = results[3] as AccessibilityService;
+      final rendererSettingsService = results[4] as RendererSettingsService;
+
+      // --- Launch app ---
+      await tester.pumpWidget(FlutterFractalsApp(
+        presetStore: presetStore,
+        arQualityStore: arQualityStore,
+        historyStore: historyStore,
+        accessibilityService: accessibilityService,
+        rendererSettingsService: rendererSettingsService,
+        locale: const Locale('en'),
+      ));
+      await tester.pumpAndSettle();
+
+      // --- Enable semantics ---
+      final semanticsHandle = tester.ensureSemantics();
+
+      // --- Extract & print the semantics narrative ---
+      final narrative = extractSemanticsNarrative(tester);
+      // ignore: avoid_print
+      print('=== SEMANTICS NARRATIVE (Catalog Screen) ===');
+      // ignore: avoid_print
+      print(narrative);
+      // ignore: avoid_print
+      print('=== END NARRATIVE ===');
+
+      // --- Structural assertions ---
+
+      // 1. The search field should exist and be identifiable.
+      expect(
+        find.byKey(const Key('catalogSearchField')),
+        findsOneWidget,
+        reason: 'Catalog search field must be present',
+      );
+
+      // 2. At least one fractal card should have a semantic label.
+      expect(
+        find.bySemanticsLabel(
+            RegExp(r'.*fractal.*', caseSensitive: false)),
+        findsWidgets,
+        reason: 'Fractal catalog cards must have semantic labels',
+      );
+
+      // 3. View toggle button must be present.
+      expect(
+        find.byKey(const Key('catalogViewToggleButton')),
+        findsOneWidget,
+        reason: 'View toggle button must be present',
+      );
+
+      // 4. The narrative should not be empty.
+      expect(narrative.trim().isNotEmpty, isTrue,
+          reason: 'Semantics narrative must not be empty');
+
+      // 5. Verify the narrative mentions at least one "isButton" flag
+      //    (proof that interactive elements expose button semantics).
+      expect(
+        narrative.contains('isButton'),
+        isTrue,
+        reason:
+            'At least one interactive element must expose isButton semantics',
+      );
+
+      // 6. Verify fractal module card keys are present for reliable
+      //    non-visual identification.
+      expect(
+        find.byKey(const Key('catalogModuleCard_core.mandelbrot')),
+        findsOneWidget,
+        reason:
+            'Mandelbrot fractal card must be identifiable via ValueKey',
+      );
+
+      semanticsHandle.dispose();
+    });
+  });
+}

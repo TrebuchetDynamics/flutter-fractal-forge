@@ -1,0 +1,55 @@
+appId: com.trebuchetdynamics.fractal.forge
+name: "02 — Catalog Navigation: Search, Scroll, Tap"
+tags:
+  - navigation
+  - catalog
+---
+# Launch and wait for catalog to load.
+- launchApp:
+    appId: com.trebuchetdynamics.fractal.forge
+    clearState: true
+
+- extendedWaitUntil:
+    visible: "Fractal Catalog"
+    timeout: 8000
+
+# Step 1: Search for a fractal by name.
+- tapOn:
+    id: "catalogSearchField"
+
+- inputText: "Julia"
+
+# Verify search results appear.
+- assertVisible: "Julia"
+
+# Take screenshot of search results.
+- takeScreenshot: "02_search_results_julia"
+
+# Clear the search field.
+- tapOn:
+    id: "catalogSearchField"
+- eraseText: 5
+
+# Step 2: Scroll down in the catalog grid.
+- scroll:
+    direction: DOWN
+    duration: 1500
+
+- takeScreenshot: "02_catalog_scrolled"
+
+# Step 3: Tap on a fractal to open the viewer.
+- scroll:
+    direction: UP
+    duration: 1500
+
+- tapOn: "Mandelbrot"
+
+# Wait for the viewer screen to appear.
+- extendedWaitUntil:
+    visible: "Mandelbrot"
+    timeout: 5000
+
+- takeScreenshot: "02_viewer_opened"
+
+# Go back to catalog.
+- pressKey: back

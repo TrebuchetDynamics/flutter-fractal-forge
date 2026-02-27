@@ -1,0 +1,49 @@
+appId: com.trebuchetdynamics.fractal.forge
+name: "04 — Export Flow: Save and Share"
+tags:
+  - export
+  - share
+---
+# Launch and navigate to a fractal viewer.
+- launchApp:
+    appId: com.trebuchetdynamics.fractal.forge
+    clearState: true
+
+- extendedWaitUntil:
+    visible: "Fractal Catalog"
+    timeout: 8000
+
+# Open a fractal.
+- tapOn: "Mandelbrot"
+
+- extendedWaitUntil:
+    visible: "Mandelbrot"
+    timeout: 5000
+
+# Step 1: Open export options.
+- tapOn:
+    id: "viewerExportButton"
+
+- takeScreenshot: "04_export_options"
+
+# Step 2: Try the save action (first export button visible).
+# Look for the Save PNG option.
+- tapOn: "Save PNG"
+
+# Wait for export to complete (up to 10 seconds).
+- extendedWaitUntil:
+    notVisible: "Exporting"
+    timeout: 10000
+
+- takeScreenshot: "04_export_saved"
+
+# Step 3: Open export again for share.
+- tapOn:
+    id: "viewerExportButton"
+
+- tapOn: "Share"
+
+- takeScreenshot: "04_share_dialog"
+
+# Dismiss share sheet.
+- pressKey: back

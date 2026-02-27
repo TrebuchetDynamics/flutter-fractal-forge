@@ -95,6 +95,7 @@ class FractalViewControls extends StatelessWidget {
                   const SizedBox(height: AppSpacing.md),
                 // Keep the viewer uncluttered: only core actions here.
                 FloatingActionButtonWidget(
+                  key: const ValueKey('viewerControlsButton'),
                   icon: Icons.tune_rounded,
                   tooltip: l10n.tooltipOpenControls,
                   onPressed: isExporting ? null : onOpenControls,
@@ -102,6 +103,7 @@ class FractalViewControls extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 FloatingActionButtonWidget(
+                  key: const ValueKey('viewerRandomButton'),
                   icon: Icons.shuffle_rounded,
                   tooltip: l10n.tooltipRandomFractal,
                   onPressed: isExporting ? null : onOpenRandomFractal,
@@ -110,6 +112,7 @@ class FractalViewControls extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 FloatingActionButtonWidget(
+                  key: const ValueKey('viewerArButton'),
                   icon: Icons.camera_rounded,
                   tooltip: l10n.arTitle,
                   onPressed: isExporting ? null : onOpenArViewer,
@@ -117,6 +120,7 @@ class FractalViewControls extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 FloatingActionButtonWidget(
+                  key: const ValueKey('viewerExportButton'),
                   icon: Icons.download_rounded,
                   tooltip: l10n.tooltipExport,
                   onPressed: isExporting ? null : onOpenExport,

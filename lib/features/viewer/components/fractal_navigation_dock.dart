@@ -42,24 +42,28 @@ class FractalNavigationDock extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _DockButton(
+              key: const ValueKey('dockZoomOut'),
               icon: Icons.remove_rounded,
               label: l10n.navDockZoomOut,
               tooltip: l10n.navDockZoomOutTooltip,
               onTap: onZoomOut,
             ),
             _DockButton(
+              key: const ValueKey('dockResetView'),
               icon: Icons.home_filled,
               label: l10n.navDockReset,
               tooltip: l10n.navDockResetTooltip,
               onTap: onResetView,
             ),
             _DockButton(
+              key: const ValueKey('dockZoomIn'),
               icon: Icons.add_rounded,
               label: l10n.navDockZoomIn,
               tooltip: l10n.navDockZoomInTooltip,
               onTap: onZoomIn,
             ),
             _DockButton(
+              key: const ValueKey('dockRandom'),
               icon: Icons.shuffle_rounded,
               label: l10n.navDockRandom,
               tooltip: l10n.tooltipRandomFractal,
@@ -79,6 +83,7 @@ class _DockButton extends StatelessWidget {
   final VoidCallback? onTap;
 
   const _DockButton({
+    super.key,
     required this.icon,
     required this.label,
     required this.tooltip,

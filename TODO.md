@@ -174,6 +174,107 @@ The CPU renderer works and passes all tests. No further performance investment.
 
 ---
 
+## Semantic-First QA Framework — Non-Visual Playtesting & Automation
+
+> Architecting Semantic-First Quality Assurance: A Comprehensive Framework for Non-Visual Playtesting and Automation in Flutter. This section tracks implementation of a robust, automated playtesting strategy prioritizing the semantics tree, accessibility compliance, and performance metrics over visual inspection.
+
+### Phase 1: Foundation — Flutter-First Testing Tools (Week 1-2)
+
+- [x] Add `integration_test` package to dev_dependencies _(was already present in pubspec.yaml)_
+- [x] Write first integration test for the most critical user journey (e.g., launch → browse catalog → select fractal → view/zoom → export) _(integration_test/critical_journey_test.dart: launch -> catalog -> tap Mandelbrot -> verify viewer controls -> tap export -> verify export sheet -> go back)_
+- [x] Assign `ValueKey`s to all interactive and structurally important widgets (buttons, sliders, controls, catalog items) _(added ValueKeys to: export save/share buttons, viewer control FABs [controls, random, AR, export], navigation dock buttons [zoom in/out, reset, random]; catalog cards and search already had Keys)_
+- [x] Use `find.byKey()` with `ValueKey`s for reliable, non-visual widget identification _(integration test uses find.byKey for catalogSearchField, catalogViewToggleButton, catalogModuleCard_*)_
+- [x] Implement `pumpAndSettle()` waits for animation completion in all integration tests _(semantics_audit_test.dart uses pumpAndSettle)_
+- [x] Add `find.text()` + `expect()` assertions to confirm correct text after each interaction _(critical_journey_test.dart and app_test.dart use find.text + find.byKey + expect for post-interaction verification)_
+- [ ] Adopt `Semantics.identifier` (Flutter 3.19+) for stable, language-independent selectors on key widgets _(audit: not yet used anywhere in the codebase; ValueKeys serve a similar purpose for now)_
+- [x] Write unit/widget tests (`flutter_test`) for isolated widget verification and regression catching _(865+ existing unit/widget tests; semantics_test_helper.dart added)_
+
+### Phase 2: Semantic Verification (Week 3-4)
+
+- [x] Audit the Semantics Tree: ensure all custom widgets expose correct `SemanticsNode` properties (`label`, `hint`, `value`, `isButton`, `isTextField`, `isChecked`, `hasTapAction`) _(audit completed 2026-02-26 — see findings below)_
+- [ ] Add `Semantics` widgets to all custom UI components lacking semantic annotations
+- [ ] Review and strategically use `MergeSemantics`, `ExcludeSemantics`, and `explicitChildNodes` to keep the tree both navigable and testable
+- [x] Write helper function to traverse the `SemanticsNode` tree and produce a text-based "narrative" of each screen _(test/helpers/semantics_test_helper.dart: traverseSemanticsTree(), buildSemanticsNarrative(), compareSemanticsNarrative(), extractSemanticsNarrative())_
+- [ ] Create "golden narrative" baseline files for critical screens (catalog, viewer, controls, export, AR)
+- [x] Add integration test assertions using `tester.getSemantics(find.byType(...))` to verify semantic properties (label, isButton, hasTapAction) _(integration_test/semantics_audit_test.dart verifies isButton flags, semantic labels on catalog cards, and key widgets)_
+- [ ] Validate semantic labels for all 196+ fractal catalog entries
+- [ ] Test semantics for GPU/CPU renderer toggle, zoom controls, palette selector
+
+### Phase 3: Layout & Visual Regression (Week 5-6)
+
+- [x] Integrate `golden_toolkit` and/or `alchemist` package for snapshot (golden) testing _(golden_toolkit ^0.15.0 added to dev_dependencies)_
+- [x] Generate baseline golden images for core widgets and screens _(test/golden/goldens/ contains 4 baselines: phone/tablet x dark/highContrast)_
+- [x] Configure golden tests for multiple device sizes via `DeviceBuilder` _(test/golden/catalog_golden_test.dart: Device.phone and Device.tabletLandscape)_
+- [x] Add golden test scenarios for large text scaling (`textScaleFactor: 3.0`) to catch overflow _(test/golden/overflow_detection_test.dart: tests at 1.0x and 3.0x; detected real overflow in catalog search bar at 3.0x)_
+- [x] Add golden test scenarios for dark mode / light mode themes _(both dark and high-contrast themes tested in overflow_detection_test.dart and catalog_golden_test.dart)_
+- [x] Implement `FlutterError.onError` override in tests to programmatically catch and fail on RenderFlex overflow errors _(test/golden/overflow_detection_test.dart: assertNoOverflow() captures overflow errors via FlutterError.onError override)_
+- [x] Set up golden test update workflow (`flutter test --update-goldens`) for intentional UI changes _(golden baselines generated; update via `flutter test --update-goldens test/golden/`)_
+
+### Phase 4: Performance & Stability Monitoring (Week 7-8)
+
+- [ ] Integrate `flutter_dev_panel_performance` for programmatic FPS, memory, and timer leak monitoring
+- [ ] Add `traceAction` calls in integration tests to record timeline events for complex operations (scrolling catalog, deep zoom, shader load)
+- [ ] Assert average frame build time < threshold (e.g., 16ms for 60fps) in integration tests
+- [ ] Assert 90th percentile frame build time is under acceptable threshold
+- [ ] Assert `DevPanel.get().performance?.hasPotentialLeak == false` after critical user flows
+- [ ] Assert average FPS > 55 during GPU rendering and zoom operations
+- [ ] Monitor rasterization times for shader-heavy fractal rendering
+
+### Phase 5: Accessibility Automation (Screen Reader Simulation)
+
+- [x] Build integration test that navigates to each major screen, extracts full `SemanticsNode` tree, and logs label/value/hint/actions for each node _(integration_test/semantics_audit_test.dart — catalog screen; prints full narrative for review)_
+- [x] Compare extracted semantic narratives against stored expected narratives (semantic golden tests) _(compareSemanticsNarrative() helper implemented in test/helpers/semantics_test_helper.dart; baseline capture pending first device run)_
+- [ ] Verify focus order matches logical navigation flow for screen reader users
+- [ ] Test TalkBack/VoiceOver compatibility via platform automation (`adb shell` commands) in conjunction with Flutter integration tests
+- [ ] Ensure all interactive elements have tap actions exposed in semantics
+- [ ] Verify fractal catalog is navigable via accessibility services
+
+### Phase 6: Cross-Platform UI Automation
+
+- [ ] Evaluate Appium + Flutter Driver for cross-device testing coverage
+- [ ] Evaluate Maestro for YAML-based test stability and simplicity
+- [ ] Set up cross-platform test suite using chosen framework
+- [ ] Ensure all test selectors use `ValueKey`s for robustness across platforms
+- [ ] Note: Detox is NOT viable for Flutter — do not invest time here
+
+### Phase 7: CI/CD Pipeline Automation
+
+- [x] Set up GitHub Actions (or Codemagic/Bitrise) workflow for automated test execution on every PR _(.github/workflows/flutter_qa.yml — triggers on push/PR to main)_
+- [x] Job 1: `unit_widget_tests` — run `flutter test` on `ubuntu-latest` (fast feedback) _(includes flutter analyze + flutter test)_
+- [x] Job 2: `integration_tests` — start Android emulator (x86), run `flutter test integration_test` with performance assertions _(android-34 x86_64 emulator setup + flutter test integration_test/)_
+- [x] Job 3: `golden_tests` — run `flutter test --update-goldens` on schedule or PR label, fail on diffs _(runs flutter test test/golden/)_
+- [x] Cache Flutter SDK and `~/.pub-cache` for pipeline speed _(subosito/flutter-action@v2 with cache: true)_
+- [ ] Report test results back to PR; block merging on golden or performance regression failures
+- [ ] Add semantic narrative diff checks to CI pipeline
+
+### Phase 8: Agent/LLM-Assisted Testing (Future)
+
+- [ ] Experiment with LLM-generated integration test scripts from feature requirements/PRD
+- [ ] Implement LLM-based comparison of expected UI spec vs extracted semantics tree
+- [ ] Explore multimodal LLM analysis of golden test failure screenshots for text-based regression reports
+- [ ] Evaluate AToMIC-style framework for generating Gherkin scenarios and Page Objects from requirements
+
+### Audit Findings (2026-02-26)
+
+**Semantics coverage is strong.** The codebase already has extensive Semantics widget usage across 26+ lib/ files. Key findings:
+
+- **Well-annotated:** Catalog cards (`fractal_catalog_screen.dart`), viewer controls (`fractal_view_controls.dart`, `fractal_navigation_dock.dart`), app bar buttons (`fractal_app_bar.dart`), export options (`export_options_sheet.dart`), onboarding, accessibility settings, auto-explore controls, viewer HUD, and viewer quick actions all have proper Semantics with label, button, enabled, and container properties.
+- **Accessibility widgets library:** `core/widgets/accessibility_widgets.dart` provides reusable AccessibleWrapper, AccessibleButton, AccessibleSlider, AccessibleToggle, AccessibleGroup, LiveRegion, and MinTouchTarget.
+- **ExcludeSemantics used strategically:** Decorative thumbnails in catalog cards are excluded from the semantics tree (parent card announces them).
+- **ValueKey coverage before audit:** Only 4 ValueKeys existed (catalogSearchField, catalogViewToggleButton, catalogClearSearchButton, catalogModuleCard_{id}). **Added 8 more:** exportSaveButton, exportShareButton, viewerControlsButton, viewerRandomButton, viewerArButton, viewerExportButton, dockZoomOut, dockZoomIn, dockResetView, dockRandom.
+- **Semantics.identifier:** Not used anywhere. ValueKeys serve a similar role for test selectors; Semantics.identifier could be adopted later for language-independent screen reader identification.
+- **Widgets still lacking semantic annotations:** FractalPainter/FractalCanvas (rendering surface — may not need it), performance overlay, shader lab debug screen, minimap widget. These are low-priority since they are not part of the primary user journey.
+- **Existing test suite:** 872 unit/widget tests passing (3 skipped), 0 failures. 19 integration test files exist covering app flows, screenshots, navigation, GPU rendering, and performance.
+
+### Limitations & Notes
+
+- Golden test failures require sighted assistance or LLM vision to diagnose image diffs
+- Semantics tree captures logical structure and order but not precise visual layout (spacing, padding, centering) — golden tests cover this
+- Golden image updates for intentional UI changes require manual approval
+- LLM-generated tests may hallucinate steps — always validate against actual widget tree
+
+---
+
 ## Working agreement (Juan)
 
 - Use multiple subagents for independent tracks in parallel.

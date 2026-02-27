@@ -330,7 +330,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
       ),
       child: Row(
         children: [
-          // Dimension filters with counts
+          // Dimension filters — horizontally scrollable (C1 overflow fix)
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
           _DimChip(
             label: l10n.catalogFilterAll,
             count: allCount,
@@ -354,8 +359,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
             onTap: () =>
                 setState(() => _dimensionFilter = _DimensionFilter.threeD),
           ),
-          const Spacer(),
-          // Sort dropdown
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          // Sort dropdown — min 48px tap target (C5 fix)
           PopupMenuButton<_SortOrder>(
             tooltip: l10n.catalogFilterSortOrder,
             initialValue: _sortOrder,
@@ -370,20 +379,27 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                 child: Text(l10n.catalogSortAlphabetical),
               ),
             ],
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.sort_rounded, size: 16, color: AppColors.textMuted),
-                const SizedBox(width: 4),
-                Text(
-                  _sortOrder == _SortOrder.byCategory ? l10n.catalogSortByCategory : l10n.catalogSortAlphabeticalShort,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.textMuted,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 48),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.sort_rounded, size: 16, color: AppColors.textSecondary),
+                  const SizedBox(width: 4),
+                  Flexible(
+                    child: Text(
+                      _sortOrder == _SortOrder.byCategory ? l10n.catalogSortByCategory : l10n.catalogSortAlphabeticalShort,
+                      style: AppTypography.labelSmall.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                Icon(Icons.arrow_drop_down,
-                    size: 18, color: AppColors.textMuted),
-              ],
+                  Icon(Icons.arrow_drop_down,
+                      size: 18, color: AppColors.textSecondary),
+                ],
+              ),
             ),
           ),
         ],
@@ -722,7 +738,7 @@ class _DimChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: AppAnimations.fast,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: BoxDecoration(
           color: selected
               ? AppColors.primary.withValues(alpha: 0.18)

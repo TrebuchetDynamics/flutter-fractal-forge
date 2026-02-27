@@ -1,0 +1,28 @@
+appId: com.trebuchetdynamics.fractal.forge
+name: "01 — App Launch and Catalog Load"
+tags:
+  - smoke
+  - launch
+---
+# Launch the app and verify the catalog screen loads successfully.
+- launchApp:
+    appId: com.trebuchetdynamics.fractal.forge
+    clearState: true
+
+# Wait for the splash screen to finish (up to 5 seconds).
+- extendedWaitUntil:
+    visible: "Fractal Catalog"
+    timeout: 8000
+
+# Verify the main catalog title is visible.
+- assertVisible: "Fractal Catalog"
+
+# Verify the search field is present.
+- assertVisible:
+    id: "catalogSearchField"
+
+# Verify at least one fractal category is displayed.
+- assertVisible: "Mandelbrot"
+
+# Take a screenshot of the catalog for visual review.
+- takeScreenshot: "01_catalog_loaded"

@@ -1,0 +1,53 @@
+appId: com.trebuchetdynamics.fractal.forge
+name: "03 — Viewer Controls: Zoom, Export, Navigate"
+tags:
+  - viewer
+  - controls
+---
+# Launch and navigate to a fractal viewer.
+- launchApp:
+    appId: com.trebuchetdynamics.fractal.forge
+    clearState: true
+
+- extendedWaitUntil:
+    visible: "Fractal Catalog"
+    timeout: 8000
+
+# Open a fractal.
+- tapOn: "Mandelbrot"
+
+- extendedWaitUntil:
+    visible: "Mandelbrot"
+    timeout: 5000
+
+# Step 1: Zoom in using pinch gesture.
+- pinch:
+    direction: OUT
+    duration: 1000
+
+- takeScreenshot: "03_zoomed_in"
+
+# Step 2: Zoom out.
+- pinch:
+    direction: IN
+    duration: 1000
+
+- takeScreenshot: "03_zoomed_out"
+
+# Step 3: Open controls panel via the tune button.
+- tapOn:
+    id: "viewerControlsButton"
+
+- takeScreenshot: "03_controls_open"
+
+# Step 4: Open the export panel.
+- pressKey: back
+
+- tapOn:
+    id: "viewerExportButton"
+
+- takeScreenshot: "03_export_panel"
+
+# Step 5: Navigate back to catalog.
+- pressKey: back
+- pressKey: back

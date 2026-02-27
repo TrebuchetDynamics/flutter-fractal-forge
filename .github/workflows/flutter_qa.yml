@@ -1,0 +1,56 @@
+name: Flutter QA Pipeline
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  unit_widget_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+        working-directory: flutter-fractal-forge
+      - run: flutter analyze
+        working-directory: flutter-fractal-forge
+      - run: flutter test
+        working-directory: flutter-fractal-forge
+
+  golden_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+        working-directory: flutter-fractal-forge
+      - run: flutter test test/golden/
+        working-directory: flutter-fractal-forge
+
+  integration_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Start emulator
+        run: |
+          echo "y" | sdkmanager "system-images;android-34;google_apis;x86_64"
+          avdmanager create avd -n test_device -k "system-images;android-34;google_apis;x86_64" --force
+          emulator -avd test_device -no-window -no-audio -no-boot-anim &
+          adb wait-for-device
+      - run: flutter pub get
+        working-directory: flutter-fractal-forge
+      - run: flutter test integration_test/
+        working-directory: flutter-fractal-forge

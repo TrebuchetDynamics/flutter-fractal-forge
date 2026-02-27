@@ -645,6 +645,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           children: [
             Expanded(
               child: OutlinedButton.icon(
+                key: const ValueKey('exportSaveButton'),
                 onPressed: () {
                   Navigator.of(context).pop();
                   widget.onExport(effectiveOptions, ExportAction.saveOnly);
@@ -659,6 +660,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
             const SizedBox(width: 12),
             Expanded(
               child: FilledButton.icon(
+                key: const ValueKey('exportShareButton'),
                 onPressed: () {
                   Navigator.of(context).pop();
                   widget.onExport(effectiveOptions, ExportAction.saveAndShare);
