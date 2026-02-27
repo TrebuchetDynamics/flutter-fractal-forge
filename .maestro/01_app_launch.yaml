@@ -4,12 +4,11 @@ tags:
   - smoke
   - launch
 ---
-# App must be launched via adb before running Maestro (launchApp unreliable on emulator).
-# Skip onboarding if it appears.
+# App launched by run_all.sh before each test. No launchApp to avoid driver reinstall issues.
 - extendedWaitUntil:
     visible:
       text: ".*Fractal.*"
-    timeout: 60000
+    timeout: 90000
 
 - tapOn:
     text: ".*Skip.*"

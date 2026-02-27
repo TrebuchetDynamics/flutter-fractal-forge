@@ -4,21 +4,21 @@ tags:
   - viewer
   - controls
 ---
-# Skip onboarding if it appears.
+# App launched by run_all.sh before each test.
 - extendedWaitUntil:
     visible:
       text: ".*Fractal.*"
-    timeout: 60000
+    timeout: 90000
 
 - tapOn:
     text: ".*Skip.*"
     optional: true
 
-# Wait for catalog.
+# Wait for catalog (longer timeout for swiftshader emulator).
 - extendedWaitUntil:
     visible:
       text: ".*Fractal Catalog.*"
-    timeout: 15000
+    timeout: 60000
 
 # Open a fractal.
 - tapOn:
