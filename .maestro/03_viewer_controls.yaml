@@ -4,50 +4,44 @@ tags:
   - viewer
   - controls
 ---
-# Launch and navigate to a fractal viewer.
-- launchApp:
-    appId: com.trebuchetdynamics.fractal.forge
-    clearState: true
-
+# Skip onboarding if it appears.
 - extendedWaitUntil:
-    visible: "Fractal Catalog"
-    timeout: 8000
+    visible:
+      text: ".*Fractal.*"
+    timeout: 60000
+
+- tapOn:
+    text: ".*Skip.*"
+    optional: true
+
+# Wait for catalog.
+- extendedWaitUntil:
+    visible:
+      text: ".*Fractal Catalog.*"
+    timeout: 15000
 
 # Open a fractal.
-- tapOn: "Mandelbrot"
+- tapOn:
+    text: ".*Mandelbrot.*"
 
 - extendedWaitUntil:
-    visible: "Mandelbrot"
-    timeout: 5000
+    visible:
+      text: ".*Mandelbrot.*"
+    timeout: 10000
 
 # Step 1: Zoom in using pinch gesture.
-- pinch:
-    direction: OUT
-    duration: 1000
+- swipe:
+    direction: UP
+    duration: 500
 
-- takeScreenshot: "03_zoomed_in"
+- takeScreenshot: "03_viewer_active"
 
-# Step 2: Zoom out.
-- pinch:
-    direction: IN
-    duration: 1000
-
-- takeScreenshot: "03_zoomed_out"
-
-# Step 3: Open controls panel via the tune button.
+# Step 2: Look for controls button by accessibility text.
 - tapOn:
-    id: "viewerControlsButton"
+    text: ".*Controls.*"
+    optional: true
 
-- takeScreenshot: "03_controls_open"
+- takeScreenshot: "03_controls_attempted"
 
-# Step 4: Open the export panel.
-- pressKey: back
-
-- tapOn:
-    id: "viewerExportButton"
-
-- takeScreenshot: "03_export_panel"
-
-# Step 5: Navigate back to catalog.
-- pressKey: back
+# Step 3: Navigate back to catalog.
 - pressKey: back

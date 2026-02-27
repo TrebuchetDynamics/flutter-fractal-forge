@@ -4,25 +4,34 @@ tags:
   - smoke
   - launch
 ---
-# Launch the app and verify the catalog screen loads successfully.
-- launchApp:
-    appId: com.trebuchetdynamics.fractal.forge
-    clearState: true
-
-# Wait for the splash screen to finish (up to 5 seconds).
+# App must be launched via adb before running Maestro (launchApp unreliable on emulator).
+# Skip onboarding if it appears.
 - extendedWaitUntil:
-    visible: "Fractal Catalog"
-    timeout: 8000
+    visible:
+      text: ".*Fractal.*"
+    timeout: 60000
+
+- tapOn:
+    text: ".*Skip.*"
+    optional: true
+
+# Wait for the catalog to load.
+- extendedWaitUntil:
+    visible:
+      text: ".*Fractal Catalog.*"
+    timeout: 15000
 
 # Verify the main catalog title is visible.
-- assertVisible: "Fractal Catalog"
-
-# Verify the search field is present.
 - assertVisible:
-    id: "catalogSearchField"
+    text: ".*Fractal Catalog.*"
+
+# Verify the search field is present (by hint text).
+- assertVisible:
+    text: ".*Search fractals.*"
 
 # Verify at least one fractal category is displayed.
-- assertVisible: "Mandelbrot"
+- assertVisible:
+    text: ".*Mandelbrot.*"
 
 # Take a screenshot of the catalog for visual review.
 - takeScreenshot: "01_catalog_loaded"

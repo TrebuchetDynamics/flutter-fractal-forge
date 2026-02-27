@@ -4,50 +4,65 @@ tags:
   - navigation
   - catalog
 ---
-# Launch and wait for catalog to load.
-- launchApp:
-    appId: com.trebuchetdynamics.fractal.forge
-    clearState: true
-
+# Skip onboarding if it appears.
 - extendedWaitUntil:
-    visible: "Fractal Catalog"
-    timeout: 8000
+    visible:
+      text: ".*Fractal.*"
+    timeout: 60000
+
+- tapOn:
+    text: ".*Skip.*"
+    optional: true
+
+# Wait for catalog.
+- extendedWaitUntil:
+    visible:
+      text: ".*Fractal Catalog.*"
+    timeout: 15000
 
 # Step 1: Search for a fractal by name.
 - tapOn:
-    id: "catalogSearchField"
+    text: ".*Search fractals.*"
 
 - inputText: "Julia"
 
 # Verify search results appear.
-- assertVisible: "Julia"
+- assertVisible:
+    text: ".*Julia.*"
 
-# Take screenshot of search results.
 - takeScreenshot: "02_search_results_julia"
 
 # Clear the search field.
-- tapOn:
-    id: "catalogSearchField"
 - eraseText: 5
 
+# Wait for catalog to repopulate.
+- extendedWaitUntil:
+    visible:
+      text: ".*Mandelbrot.*"
+    timeout: 8000
+
 # Step 2: Scroll down in the catalog grid.
-- scroll:
-    direction: DOWN
+- swipe:
+    direction: UP
     duration: 1500
 
 - takeScreenshot: "02_catalog_scrolled"
 
-# Step 3: Tap on a fractal to open the viewer.
-- scroll:
-    direction: UP
-    duration: 1500
+# Step 3: Scroll back up and tap on Mandelbrot.
+- scrollUntilVisible:
+    element:
+      text: ".*Mandelbrot.*"
+    direction: DOWN
+    timeout: 10000
 
-- tapOn: "Mandelbrot"
+- tapOn:
+    text: ".*Mandelbrot.*"
 
-# Wait for the viewer screen to appear.
+# Wait for the viewer.
 - extendedWaitUntil:
-    visible: "Mandelbrot"
-    timeout: 5000
+    visible:
+      text: ".*Mandelbrot.*"
+    timeout: 10000
 
 - takeScreenshot: "02_viewer_opened"
 

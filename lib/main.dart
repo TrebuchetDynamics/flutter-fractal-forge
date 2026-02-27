@@ -104,6 +104,42 @@ Future<void> main() async {
       return;
     }
 
+    // Launch UI immediately to prevent Android from killing the process
+    // for taking too long to attach (process start timeout ~10-12s).
+    // Services are initialized asynchronously after the first frame.
+    runApp(const _DeferredStartupApp());
+  }, (Object error, StackTrace stack) {
+    CrashReporter.instance.record(
+      error,
+      stack,
+      source: 'zone',
+      fatal: true,
+    );
+  });
+}
+
+/// Deferred startup widget that renders a lightweight splash immediately,
+/// then initializes services asynchronously and transitions to the full app.
+///
+/// This prevents Android from killing the process for taking too long to
+/// attach (process start timeout ~10-12s on emulators with swiftshader).
+class _DeferredStartupApp extends StatefulWidget {
+  const _DeferredStartupApp();
+
+  @override
+  State<_DeferredStartupApp> createState() => _DeferredStartupAppState();
+}
+
+class _DeferredStartupAppState extends State<_DeferredStartupApp> {
+  Widget? _fullApp;
+
+  @override
+  void initState() {
+    super.initState();
+    _initServices();
+  }
+
+  Future<void> _initServices() async {
     final results = await Future.wait([
       PresetStore.create(),
       ArQualityStore.create(),
@@ -117,7 +153,6 @@ Future<void> main() async {
     final historyStore = results[2] as HistoryStore;
     final accessibilityService = results[3] as AccessibilityService;
     final rendererSettingsService = results[4] as RendererSettingsService;
-    // PaletteService (results[5]) is a singleton — accessed via PaletteService.instance.
     final onboardingService = await OnboardingService.create();
     DeepLinkService? deepLinkService;
     if (kEnableDeepLinks == 1) {
@@ -125,8 +160,9 @@ Future<void> main() async {
       await deepLinkService.initialize();
     }
 
-    runApp(
-      FlutterFractalsApp(
+    if (!mounted) return;
+    setState(() {
+      _fullApp = FlutterFractalsApp(
         presetStore: presetStore,
         arQualityStore: arQualityStore,
         historyStore: historyStore,
@@ -134,16 +170,39 @@ Future<void> main() async {
         rendererSettingsService: rendererSettingsService,
         onboardingService: onboardingService,
         deepLinkService: deepLinkService,
+        skipSplash: true, // Deferred startup already showed loading UI.
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_fullApp != null) return _fullApp!;
+
+    // Minimal static splash — no animations, no CustomPaint.
+    // Just enough to satisfy Android's process attach requirement.
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: AppColors.background,
+      ),
+      home: const Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(color: AppColors.primary),
+              SizedBox(height: 16),
+              Text(
+                'Loading...',
+                style: TextStyle(color: Colors.white70, fontSize: 16),
+              ),
+            ],
+          ),
+        ),
       ),
     );
-  }, (Object error, StackTrace stack) {
-    CrashReporter.instance.record(
-      error,
-      stack,
-      source: 'zone',
-      fatal: true,
-    );
-  });
+  }
 }
 
 /// The root widget for Flutter Fractal Forge.
@@ -326,6 +385,10 @@ class FlutterFractalsApp extends StatelessWidget {
   /// When null, the system locale is used.
   final Locale? locale;
 
+  /// When true, skip the animated splash screen (e.g. deferred startup
+  /// already showed a loading indicator).
+  final bool skipSplash;
+
   /// Creates the root app widget.
   const FlutterFractalsApp({
     Key? key,
@@ -337,6 +400,7 @@ class FlutterFractalsApp extends StatelessWidget {
     this.onboardingService,
     this.deepLinkService,
     this.locale,
+    this.skipSplash = false,
   }) : super(key: key);
 
   @override
@@ -350,6 +414,7 @@ class FlutterFractalsApp extends StatelessWidget {
       onboardingService: onboardingService,
       deepLinkService: deepLinkService,
       locale: locale,
+      skipSplash: skipSplash,
     );
   }
 }
@@ -364,6 +429,7 @@ class _AppProviders extends StatelessWidget {
   final OnboardingService? onboardingService;
   final DeepLinkService? deepLinkService;
   final Locale? locale;
+  final bool skipSplash;
 
   const _AppProviders({
     required this.presetStore,
@@ -374,6 +440,7 @@ class _AppProviders extends StatelessWidget {
     required this.onboardingService,
     required this.deepLinkService,
     required this.locale,
+    this.skipSplash = false,
   });
 
   @override
@@ -403,6 +470,7 @@ class _AppProviders extends StatelessWidget {
       child: _AppShell(
         locale: locale,
         onboardingService: onboardingService,
+        skipSplash: skipSplash,
       ),
     );
   }
@@ -412,10 +480,12 @@ class _AppProviders extends StatelessWidget {
 class _AppShell extends StatelessWidget {
   final Locale? locale;
   final OnboardingService? onboardingService;
+  final bool skipSplash;
 
   const _AppShell({
     required this.locale,
     required this.onboardingService,
+    this.skipSplash = false,
   });
 
   @override
@@ -435,7 +505,10 @@ class _AppShell extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: theme,
-          home: _AppBootstrap(onboardingService: onboardingService),
+          home: _AppBootstrap(
+            onboardingService: onboardingService,
+            skipSplash: skipSplash,
+          ),
           debugShowCheckedModeBanner: false,
         );
       },
@@ -446,15 +519,17 @@ class _AppShell extends StatelessWidget {
 /// Handles splash -> onboarding -> home startup flow.
 class _AppBootstrap extends StatefulWidget {
   final OnboardingService? onboardingService;
+  final bool skipSplash;
 
-  const _AppBootstrap({required this.onboardingService});
+  const _AppBootstrap({required this.onboardingService, this.skipSplash = false});
 
   @override
   State<_AppBootstrap> createState() => _AppBootstrapState();
 }
 
 class _AppBootstrapState extends State<_AppBootstrap> {
-  bool _showSplash = !RuntimeModeService.isAutomatedTest;
+  late bool _showSplash =
+      !RuntimeModeService.isAutomatedTest && !widget.skipSplash;
   bool _showOnboarding = false;
 
   @override
