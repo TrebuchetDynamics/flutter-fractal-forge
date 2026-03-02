@@ -110,12 +110,6 @@ abstract class AppLocalizations {
   /// **'Explore'**
   String get tabExplore;
 
-  /// No description provided for @tabAr.
-  ///
-  /// In en, this message translates to:
-  /// **'AR'**
-  String get tabAr;
-
   /// No description provided for @catalogTitle.
   ///
   /// In en, this message translates to:
@@ -452,24 +446,6 @@ abstract class AppLocalizations {
   /// **'Transparent PNG'**
   String get exportTransparentPng;
 
-  /// No description provided for @exportArScreenshot.
-  ///
-  /// In en, this message translates to:
-  /// **'Baked AR Screenshot'**
-  String get exportArScreenshot;
-
-  /// No description provided for @exportArVideo.
-  ///
-  /// In en, this message translates to:
-  /// **'Baked AR Video'**
-  String get exportArVideo;
-
-  /// No description provided for @exportArVideoStub.
-  ///
-  /// In en, this message translates to:
-  /// **'AR video export is scaffolded but not baked yet.'**
-  String get exportArVideoStub;
-
   /// No description provided for @exportFailed.
   ///
   /// In en, this message translates to:
@@ -638,42 +614,6 @@ abstract class AppLocalizations {
   /// **'Transparent Background'**
   String get paramTransparentBg;
 
-  /// No description provided for @arQualityPreset.
-  ///
-  /// In en, this message translates to:
-  /// **'AR Quality'**
-  String get arQualityPreset;
-
-  /// No description provided for @arQualityLow.
-  ///
-  /// In en, this message translates to:
-  /// **'Low'**
-  String get arQualityLow;
-
-  /// No description provided for @arQualityMedium.
-  ///
-  /// In en, this message translates to:
-  /// **'Medium'**
-  String get arQualityMedium;
-
-  /// No description provided for @arQualityHigh.
-  ///
-  /// In en, this message translates to:
-  /// **'High'**
-  String get arQualityHigh;
-
-  /// No description provided for @arTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'AR Overlay'**
-  String get arTitle;
-
-  /// No description provided for @arSelectFractal.
-  ///
-  /// In en, this message translates to:
-  /// **'Fractal'**
-  String get arSelectFractal;
-
   /// No description provided for @fractalSection2d.
   ///
   /// In en, this message translates to:
@@ -685,96 +625,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'3D'**
   String get fractalSection3d;
-
-  /// No description provided for @arPermissionRequest.
-  ///
-  /// In en, this message translates to:
-  /// **'Camera permission is required for AR mode.'**
-  String get arPermissionRequest;
-
-  /// No description provided for @arPermissionDenied.
-  ///
-  /// In en, this message translates to:
-  /// **'Camera permission denied.'**
-  String get arPermissionDenied;
-
-  /// No description provided for @arCameraUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'No camera available.'**
-  String get arCameraUnavailable;
-
-  /// No description provided for @arCameraUnavailableHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'Make sure another app isn’t using the camera, then try again.'**
-  String get arCameraUnavailableHelp;
-
-  /// No description provided for @arSafetyWarningTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'AR Safety Warning'**
-  String get arSafetyWarningTitle;
-
-  /// No description provided for @arSafetyWarningBody.
-  ///
-  /// In en, this message translates to:
-  /// **'• Parental supervision is recommended when children use AR.\n• Be aware of your surroundings and keep a safe distance from objects.\n• No headset or wearable device is required.'**
-  String get arSafetyWarningBody;
-
-  /// No description provided for @arSafetyContinue.
-  ///
-  /// In en, this message translates to:
-  /// **'Continue'**
-  String get arSafetyContinue;
-
-  /// No description provided for @arOverlayOnlyExport.
-  ///
-  /// In en, this message translates to:
-  /// **'Overlay-only PNG'**
-  String get arOverlayOnlyExport;
-
-  /// No description provided for @arBakedScreenshotExport.
-  ///
-  /// In en, this message translates to:
-  /// **'Baked camera + overlay'**
-  String get arBakedScreenshotExport;
-
-  /// No description provided for @arVideoExport.
-  ///
-  /// In en, this message translates to:
-  /// **'Record AR Video'**
-  String get arVideoExport;
-
-  /// No description provided for @arVideoExportFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'AR video export failed.'**
-  String get arVideoExportFailed;
-
-  /// No description provided for @arVideoFallbackNotice.
-  ///
-  /// In en, this message translates to:
-  /// **'FFmpeg unavailable or failed. Exported a low-FPS GIF fallback (larger file, no audio).'**
-  String get arVideoFallbackNotice;
-
-  /// No description provided for @arDuration5.
-  ///
-  /// In en, this message translates to:
-  /// **'5s'**
-  String get arDuration5;
-
-  /// No description provided for @arDuration10.
-  ///
-  /// In en, this message translates to:
-  /// **'10s'**
-  String get arDuration10;
-
-  /// No description provided for @arDuration15.
-  ///
-  /// In en, this message translates to:
-  /// **'15s'**
-  String get arDuration15;
 
   /// No description provided for @colorFire.
   ///
@@ -986,54 +836,6 @@ abstract class AppLocalizations {
   /// **'Deep Bloom'**
   String get presetDeepBloom;
 
-  /// No description provided for @arStyleNeon.
-  ///
-  /// In en, this message translates to:
-  /// **'Neon'**
-  String get arStyleNeon;
-
-  /// No description provided for @arStyleSoft.
-  ///
-  /// In en, this message translates to:
-  /// **'Soft'**
-  String get arStyleSoft;
-
-  /// No description provided for @arStyleMono.
-  ///
-  /// In en, this message translates to:
-  /// **'Mono'**
-  String get arStyleMono;
-
-  /// No description provided for @arStyleTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Style'**
-  String get arStyleTitle;
-
-  /// No description provided for @arShowGrid.
-  ///
-  /// In en, this message translates to:
-  /// **'Grid'**
-  String get arShowGrid;
-
-  /// No description provided for @arShowOutline.
-  ///
-  /// In en, this message translates to:
-  /// **'Outline'**
-  String get arShowOutline;
-
-  /// No description provided for @arCenter.
-  ///
-  /// In en, this message translates to:
-  /// **'Center'**
-  String get arCenter;
-
-  /// No description provided for @arMoreOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'More'**
-  String get arMoreOptions;
-
   /// No description provided for @tooltipExpand.
   ///
   /// In en, this message translates to:
@@ -1195,12 +997,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Explore tab. Browse fractal catalog.'**
   String get semanticNavExplore;
-
-  /// No description provided for @semanticNavAr.
-  ///
-  /// In en, this message translates to:
-  /// **'AR tab. View fractals in augmented reality.'**
-  String get semanticNavAr;
 
   /// No description provided for @semanticBackButton.
   ///
@@ -1397,13 +1193,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingCreateTitle.
   ///
   /// In en, this message translates to:
-  /// **'Create, Export & Experience in AR'**
+  /// **'Create, Export & Share'**
   String get onboardingCreateTitle;
 
   /// No description provided for @onboardingCreateDescription.
   ///
   /// In en, this message translates to:
-  /// **'Adjust parameters in real time, place fractals on real surfaces with AR, and export stunning high-resolution images to share.'**
+  /// **'Adjust parameters in real time and export stunning high-resolution images to share.'**
   String get onboardingCreateDescription;
 
   /// No description provided for @onboardingCreateHighlight1.
@@ -1415,14 +1211,8 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingCreateHighlight2.
   ///
   /// In en, this message translates to:
-  /// **'Augmented Reality — anchor fractals on real-world surfaces'**
-  String get onboardingCreateHighlight2;
-
-  /// No description provided for @onboardingCreateHighlight3.
-  ///
-  /// In en, this message translates to:
   /// **'Export to PNG and share — perfect for art, presentations and study'**
-  String get onboardingCreateHighlight3;
+  String get onboardingCreateHighlight2;
 
   /// No description provided for @onboardingFractalTypesTitle.
   ///
@@ -1531,18 +1321,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save high-quality images in multiple formats'**
   String get onboardingFeatureExportDesc;
-
-  /// No description provided for @onboardingFeatureAr.
-  ///
-  /// In en, this message translates to:
-  /// **'AR Mode'**
-  String get onboardingFeatureAr;
-
-  /// No description provided for @onboardingFeatureArDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Overlay fractals on your camera view'**
-  String get onboardingFeatureArDesc;
 
   /// No description provided for @tooltipExitFullscreen.
   ///
@@ -2425,300 +2203,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'350+ fractals'**
   String get homeFractalCountBadge;
-
-  /// No description provided for @arSafetyBannerLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Safety warning: Parental supervision recommended. Be aware of your surroundings.'**
-  String get arSafetyBannerLabel;
-
-  /// No description provided for @arSafetyBannerText.
-  ///
-  /// In en, this message translates to:
-  /// **'AR Safety: Parental supervision recommended. Be aware of your surroundings.'**
-  String get arSafetyBannerText;
-
-  /// No description provided for @arStatusScanning.
-  ///
-  /// In en, this message translates to:
-  /// **'Scanning for surfaces...'**
-  String get arStatusScanning;
-
-  /// No description provided for @arStatusSurfaceDetected.
-  ///
-  /// In en, this message translates to:
-  /// **'Surface detected · Tap on a highlighted area to place'**
-  String get arStatusSurfaceDetected;
-
-  /// No description provided for @arStatusFractalsPlaced.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} fractal placed · Tap to add more'**
-  String arStatusFractalsPlaced(Object count);
-
-  /// No description provided for @arStatusFractalsPlacedPlural.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} fractals placed · Tap to add more'**
-  String arStatusFractalsPlacedPlural(Object count);
-
-  /// No description provided for @arScanTipsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Having trouble detecting a surface?'**
-  String get arScanTipsTitle;
-
-  /// No description provided for @arScanTip1.
-  ///
-  /// In en, this message translates to:
-  /// **'Point at a textured surface (table, floor, carpet)'**
-  String get arScanTip1;
-
-  /// No description provided for @arScanTip2.
-  ///
-  /// In en, this message translates to:
-  /// **'Move the camera slowly — avoid fast sweeping'**
-  String get arScanTip2;
-
-  /// No description provided for @arScanTip3.
-  ///
-  /// In en, this message translates to:
-  /// **'Ensure good lighting (avoid very dark rooms)'**
-  String get arScanTip3;
-
-  /// No description provided for @arScanTip4.
-  ///
-  /// In en, this message translates to:
-  /// **'Plain white walls and glass surfaces are hard to detect'**
-  String get arScanTip4;
-
-  /// No description provided for @arTooltipMoreOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'More options'**
-  String get arTooltipMoreOptions;
-
-  /// No description provided for @arTooltipShare.
-  ///
-  /// In en, this message translates to:
-  /// **'Share'**
-  String get arTooltipShare;
-
-  /// No description provided for @arTooltipSave.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get arTooltipSave;
-
-  /// No description provided for @arTooltipClearAll.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear all'**
-  String get arTooltipClearAll;
-
-  /// No description provided for @arTooltipRescan.
-  ///
-  /// In en, this message translates to:
-  /// **'Re-scan'**
-  String get arTooltipRescan;
-
-  /// No description provided for @arScanHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Move the camera slowly over a flat surface to detect it'**
-  String get arScanHint;
-
-  /// No description provided for @arPlacementSize.
-  ///
-  /// In en, this message translates to:
-  /// **'Size: {size}m'**
-  String arPlacementSize(Object size);
-
-  /// No description provided for @arActionShare.
-  ///
-  /// In en, this message translates to:
-  /// **'Share'**
-  String get arActionShare;
-
-  /// No description provided for @arActionSave.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get arActionSave;
-
-  /// No description provided for @arActionClear.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear'**
-  String get arActionClear;
-
-  /// No description provided for @arActionRescan.
-  ///
-  /// In en, this message translates to:
-  /// **'Re-scan'**
-  String get arActionRescan;
-
-  /// No description provided for @arRemoveFractalPrompt.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove this fractal?'**
-  String get arRemoveFractalPrompt;
-
-  /// No description provided for @arConfirmYes.
-  ///
-  /// In en, this message translates to:
-  /// **'Yes'**
-  String get arConfirmYes;
-
-  /// No description provided for @arConfirmNo.
-  ///
-  /// In en, this message translates to:
-  /// **'No'**
-  String get arConfirmNo;
-
-  /// No description provided for @arErrorRemoveNode.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to remove node: {error}'**
-  String arErrorRemoveNode(Object error);
-
-  /// No description provided for @arErrorArCore.
-  ///
-  /// In en, this message translates to:
-  /// **'ARCore error: {error}'**
-  String arErrorArCore(Object error);
-
-  /// No description provided for @arNoSurfaceHit.
-  ///
-  /// In en, this message translates to:
-  /// **'No surface hit — tap directly on a highlighted (blue) area'**
-  String get arNoSurfaceHit;
-
-  /// No description provided for @arErrorPlaceFractal.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to place fractal: {error}'**
-  String arErrorPlaceFractal(Object error);
-
-  /// No description provided for @arShareText.
-  ///
-  /// In en, this message translates to:
-  /// **'Fractal anchored in AR via Fractal Forge'**
-  String get arShareText;
-
-  /// No description provided for @arErrorShareFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Share failed: {error}'**
-  String arErrorShareFailed(Object error);
-
-  /// No description provided for @arSavedTo.
-  ///
-  /// In en, this message translates to:
-  /// **'Saved to {path}'**
-  String arSavedTo(Object path);
-
-  /// No description provided for @arErrorSaveFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Save failed: {error}'**
-  String arErrorSaveFailed(Object error);
-
-  /// No description provided for @arFractalAnchored.
-  ///
-  /// In en, this message translates to:
-  /// **'Fractal anchored to tapped surface'**
-  String get arFractalAnchored;
-
-  /// No description provided for @arAnchoredStatus.
-  ///
-  /// In en, this message translates to:
-  /// **'Anchored · {camera} camera'**
-  String arAnchoredStatus(Object camera);
-
-  /// No description provided for @arTapToAnchor.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap on surface to anchor fractal'**
-  String get arTapToAnchor;
-
-  /// No description provided for @arTooltipSwitchCamera.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch camera'**
-  String get arTooltipSwitchCamera;
-
-  /// No description provided for @arErrorSurfaceDetectionUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'AR surface detection is not available on this device'**
-  String get arErrorSurfaceDetectionUnavailable;
-
-  /// No description provided for @arErrorArCoreUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'ARCore services are unavailable on this device'**
-  String get arErrorArCoreUnavailable;
-
-  /// No description provided for @arErrorCaptureFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not capture fractal: {error}'**
-  String arErrorCaptureFailed(Object error);
-
-  /// No description provided for @arTapAnywhereToPlace.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap anywhere to place'**
-  String get arTapAnywhereToPlace;
-
-  /// No description provided for @arTooltipReAnchor.
-  ///
-  /// In en, this message translates to:
-  /// **'Re-anchor'**
-  String get arTooltipReAnchor;
-
-  /// No description provided for @arTooltipAnchorToSurface.
-  ///
-  /// In en, this message translates to:
-  /// **'Anchor to surface'**
-  String get arTooltipAnchorToSurface;
-
-  /// No description provided for @arTooltipSwitchToSurfaceAnchoring.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch to surface anchoring'**
-  String get arTooltipSwitchToSurfaceAnchoring;
-
-  /// No description provided for @arAnchoredToSurface.
-  ///
-  /// In en, this message translates to:
-  /// **'Anchored to tapped surface'**
-  String get arAnchoredToSurface;
-
-  /// No description provided for @arTapToAnchorFractal.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to anchor this fractal'**
-  String get arTapToAnchorFractal;
-
-  /// No description provided for @arButtonReAnchor.
-  ///
-  /// In en, this message translates to:
-  /// **'Re-anchor'**
-  String get arButtonReAnchor;
-
-  /// No description provided for @arButtonAnchor.
-  ///
-  /// In en, this message translates to:
-  /// **'Anchor'**
-  String get arButtonAnchor;
-
-  /// No description provided for @arSwitchToSurfaceAnchoring.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch to surface anchoring'**
-  String get arSwitchToSurfaceAnchoring;
 
   /// No description provided for @catalogAllFractals.
   ///

@@ -3,9 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
-import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/ar/ar_overlay_screen.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
@@ -36,7 +34,6 @@ void main() {
     late ModuleRegistry registry;
     late FractalController controller;
     late PresetStore presetStore;
-    late ArQualityStore arQualityStore;
     late RendererSettingsService rendererSettings;
     late HistoryStore historyStore;
     late HistoryProvider historyProvider;
@@ -48,7 +45,6 @@ void main() {
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
-      arQualityStore = await ArQualityStore.create();
       rendererSettings =
           RendererSettingsService(await SharedPreferences.getInstance());
       historyStore = await HistoryStore.create();
@@ -67,7 +63,6 @@ void main() {
           Provider.value(value: registry),
           ChangeNotifierProvider.value(value: controller),
           Provider.value(value: presetStore),
-          Provider.value(value: arQualityStore),
           ChangeNotifierProvider.value(value: rendererSettings),
           ChangeNotifierProvider.value(value: historyProvider),
         ],
@@ -169,25 +164,6 @@ void main() {
       expect(find.byTooltip('Back'), findsOneWidget);
       expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
       expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
-    });
-
-    testWidgets('AR launch falls back to overlay screen safely',
-        (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.camera_rounded));
-      await tester.pumpAndSettle();
-
-      // AR safety warning dialog is shown every time (Families Policy).
-      // Dismiss it by tapping "Continue".
-      expect(find.text('AR Safety Warning'), findsOneWidget);
-      await tester.tap(find.text('Continue'));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ArOverlayScreen), findsOneWidget);
-      expect(find.byIcon(Icons.no_photography), findsOneWidget);
-      expect(tester.takeException(), isNull);
     });
 
     testWidgets('tapping bookmark button saves a preset and shows snackbar',

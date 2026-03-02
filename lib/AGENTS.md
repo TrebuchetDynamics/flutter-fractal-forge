@@ -25,7 +25,7 @@ Main application source code for Flutter Fractal Forge. Organized into core infr
 
 ### Working In This Directory
 - Entry point is `main.dart` which sets up the Provider tree
-- FractalController is created per-tab (Explore vs AR) in HomeScreen, NOT at root
+- FractalController is created in HomeScreen, NOT at root
 - All fractal modules are registered via `ModuleRegistry` at startup
 - Services (PresetStore, HistoryStore, etc.) are initialized async before `runApp`
 
@@ -34,11 +34,10 @@ Main application source code for Flutter Fractal Forge. Organized into core infr
 main.dart -> FlutterFractalsApp (providers) -> HomeScreen
   -> FractalCatalogScreen (browse fractals)
   -> FractalViewerScreen (render + interact)
-  -> ArOverlayScreen (camera + fractal overlay)
 ```
 
 ### Testing Requirements
-- Widget tests need mock stores: `PresetStore`, `ArQualityStore`, `HistoryStore`
+- Widget tests need mock stores: `PresetStore`, `HistoryStore`
 - Use `FlutterFractalsApp` constructor with test parameters for integration tests
 
 ### Common Patterns

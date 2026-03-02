@@ -1,0 +1,74 @@
+{
+  "runDir": "agent_test_logs/gpu_proof/20260216_063935",
+  "logFile": "agent_test_logs/gpu_proof/20260216_063935/flutter_test.log",
+  "thresholds": {
+    "minNonBlackRatio": 0.02,
+    "minLumaVariance": 150.0
+  },
+  "results": [
+    {
+      "fractal": "mandelbrot",
+      "screenshot": "agent_test_logs/gpu_proof/20260216_063935/gpu_proof_mandelbrot.png",
+      "timestampIso": "2026-02-16T06:40:20.342615",
+      "catalogId": "core.mandelbrot",
+      "moduleId": "mandelbrot",
+      "backendDecisionLog": "[renderer] backend_decision backend=gpu reason=none module=mandelbrot detail=healthy_gpu_target",
+      "healthLog": "[renderer] gpu_health module=mandelbrot nonBlackRatio=0.000 centerNonBlack=false histogramSane=false sampleCount=3780 backendSwitchesDuringProbe=0 forcedProbeFailure=false",
+      "imageStats": {
+        "nonBlackRatio": 0.21220510351468463,
+        "lumaVariance": 255.0734174548306,
+        "thresholds": {
+          "minNonBlackRatio": 0.02,
+          "minLumaVariance": 150.0
+        },
+        "passNonBlack": true,
+        "passLumaVariance": true
+      },
+      "fallback": null,
+      "verdict": "PASS"
+    },
+    {
+      "fractal": "burning_ship",
+      "screenshot": "agent_test_logs/gpu_proof/20260216_063935/gpu_proof_burning_ship.png",
+      "timestampIso": "2026-02-16T06:40:27.722775",
+      "catalogId": "core.burning_ship",
+      "moduleId": "burning_ship",
+      "backendDecisionLog": "[renderer] backend_decision backend=gpu reason=none module=burning_ship detail=healthy_gpu_target",
+      "healthLog": "[renderer] gpu_health module=burning_ship nonBlackRatio=0.000 centerNonBlack=false histogramSane=false sampleCount=3780 backendSwitchesDuringProbe=0 forcedProbeFailure=false",
+      "imageStats": {
+        "nonBlackRatio": 0.21051998074145403,
+        "lumaVariance": 257.0808281151591,
+        "thresholds": {
+          "minNonBlackRatio": 0.02,
+          "minLumaVariance": 150.0
+        },
+        "passNonBlack": true,
+        "passLumaVariance": true
+      },
+      "fallback": null,
+      "verdict": "PASS"
+    },
+    {
+      "fractal": "tricorn",
+      "screenshot": "agent_test_logs/gpu_proof/20260216_063935/gpu_proof_tricorn.png",
+      "timestampIso": "2026-02-16T06:40:35.077410",
+      "catalogId": "core.tricorn",
+      "moduleId": "tricorn",
+      "backendDecisionLog": "[renderer] backend_decision backend=gpu reason=none module=tricorn detail=healthy_gpu_target",
+      "healthLog": "[renderer] gpu_health module=tricorn nonBlackRatio=0.000 centerNonBlack=false histogramSane=false sampleCount=3780 backendSwitchesDuringProbe=0 forcedProbeFailure=false",
+      "imageStats": {
+        "nonBlackRatio": 0.21051998074145403,
+        "lumaVariance": 236.305100567835,
+        "thresholds": {
+          "minNonBlackRatio": 0.02,
+          "minLumaVariance": 150.0
+        },
+        "passNonBlack": true,
+        "passLumaVariance": true
+      },
+      "fallback": null,
+      "verdict": "PASS"
+    }
+  ],
+  "errors": []
+}

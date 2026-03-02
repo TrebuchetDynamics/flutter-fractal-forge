@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -20,14 +19,12 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late PresetStore presetStore;
-  late ArQualityStore arQualityStore;
   late AccessibilityService accessibilityService;
   late RendererSettingsService rendererSettingsService;
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     presetStore = await PresetStore.create();
-    arQualityStore = await ArQualityStore.create();
     accessibilityService = await AccessibilityService.create();
     rendererSettingsService = await RendererSettingsService.create();
   });
@@ -36,7 +33,6 @@ void main() {
     testWidgets('Fractal catalog items have semantic labels', (tester) async {
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,
       ));
@@ -55,7 +51,6 @@ void main() {
     testWidgets('Navigation tabs have semantic labels', (tester) async {
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,
       ));
@@ -83,7 +78,6 @@ void main() {
     testWidgets('Search field has semantic label', (tester) async {
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,
       ));
@@ -106,7 +100,6 @@ void main() {
     testWidgets('Interactive elements meet minimum 48x48 touch target', (tester) async {
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,
       ));
@@ -134,7 +127,6 @@ void main() {
 
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,
       ));
@@ -158,7 +150,6 @@ void main() {
 
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,
       ));
@@ -251,7 +242,6 @@ void main() {
     testWidgets('Focus can traverse interactive elements', (tester) async {
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,
       ));
@@ -267,13 +257,11 @@ void main() {
 /// Builds a test app with all required providers.
 Widget _buildTestApp({
   required PresetStore presetStore,
-  required ArQualityStore arQualityStore,
   required AccessibilityService accessibilityService,
   required RendererSettingsService rendererSettingsService,
 }) {
   return FlutterFractalsApp(
     presetStore: presetStore,
-    arQualityStore: arQualityStore,
     accessibilityService: accessibilityService,
     rendererSettingsService: rendererSettingsService,
     locale: const Locale('en'),

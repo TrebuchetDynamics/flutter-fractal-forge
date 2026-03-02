@@ -18,7 +18,6 @@ class FractalViewControls extends StatelessWidget {
   final VoidCallback onOpenAutoExploreSettings;
   final VoidCallback onOpenRandomFractal;
   final VoidCallback onOpenControls;
-  final VoidCallback onOpenArViewer;
   final VoidCallback onOpenExport;
 
   const FractalViewControls({
@@ -33,7 +32,6 @@ class FractalViewControls extends StatelessWidget {
     required this.onOpenAutoExploreSettings,
     required this.onOpenRandomFractal,
     required this.onOpenControls,
-    required this.onOpenArViewer,
     required this.onOpenExport,
   });
 
@@ -109,14 +107,6 @@ class FractalViewControls extends StatelessWidget {
                   onPressed: isExporting ? null : onOpenRandomFractal,
                   isPrimary: true,
                   delay: const Duration(milliseconds: 135),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                FloatingActionButtonWidget(
-                  key: const ValueKey('viewerArButton'),
-                  icon: Icons.camera_rounded,
-                  tooltip: l10n.arTitle,
-                  onPressed: isExporting ? null : onOpenArViewer,
-                  delay: const Duration(milliseconds: 150),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 FloatingActionButtonWidget(

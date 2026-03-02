@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated fractal exploration with 350+ types, AR overlay, deep zoom, and real-time rendering.
+description: GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.
 publish_to: none
 version: 1.1.0+24
 environment:
@@ -18,10 +18,7 @@ dependencies:
   path_provider: ^2.1.0
   share_plus: ^7.0.0
   permission_handler: ^11.0.0
-  camera: ^0.10.6
   image: ^4.0.0
-  arcore_flutter_plugin:
-    path: third_party/arcore_flutter_plugin
 dev_dependencies:
   flutter_test:
     sdk: flutter

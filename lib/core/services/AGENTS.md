@@ -18,9 +18,6 @@ Application services providing business logic, persistence, and platform integra
 | `export_service.dart` | PNG/image export with resolution scaling and transparency |
 | `video_export_service.dart` | Video/GIF export pipeline |
 | `batch_export_service.dart` | Batch export of multiple fractals |
-| `ar_export_service.dart` | AR-specific export with camera compositing |
-| `ar_quality_store.dart` | AR quality preference persistence |
-| `ar_video_exporter.dart` | AR video capture and encoding |
 | `accessibility_service.dart` | Accessibility settings (high contrast, reduced motion) as ChangeNotifier |
 | `onboarding_service.dart` | First-launch onboarding state tracking |
 | `deep_link_service.dart` | Parse and handle incoming deep links |
@@ -58,7 +55,6 @@ Application services providing business logic, persistence, and platform integra
 - `shared_preferences` - Local key-value persistence
 - `path_provider` - File system paths
 - `share_plus` - Share/export
-- `camera` - Camera feed for AR
 - `image` - Image encoding
 - `permission_handler` - Runtime permissions
 

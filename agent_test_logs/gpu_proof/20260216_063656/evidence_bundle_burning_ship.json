@@ -1,0 +1,21 @@
+{
+  "fractal": "burning_ship",
+  "screenshot": "agent_test_logs/gpu_proof/20260216_063656/gpu_proof_burning_ship.png",
+  "timestampIso": "2026-02-16T06:37:49.760853",
+  "catalogId": "core.burning_ship",
+  "moduleId": "burning_ship",
+  "backendDecisionLog": "[renderer] backend_decision backend=gpu reason=none module=burning_ship detail=healthy_gpu_target",
+  "healthLog": "[renderer] gpu_health module=burning_ship nonBlackRatio=0.000 centerNonBlack=false histogramSane=false sampleCount=3780 backendSwitchesDuringProbe=0 forcedProbeFailure=false",
+  "imageStats": {
+    "nonBlackRatio": 0.0022800925925925927,
+    "lumaVariance": 112.19411265499734,
+    "thresholds": {
+      "minNonBlackRatio": 0.02,
+      "minLumaVariance": 150.0
+    },
+    "passNonBlack": false,
+    "passLumaVariance": false
+  },
+  "fallback": null,
+  "verdict": "FAIL"
+}

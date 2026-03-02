@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
@@ -15,7 +14,6 @@ void main() {
     late ModuleRegistry registry;
     late FractalController controller;
     late PresetStore presetStore;
-    late ArQualityStore arQualityStore;
     late RendererSettingsService rendererSettings;
 
     setUp(() async {
@@ -24,7 +22,6 @@ void main() {
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
-      arQualityStore = await ArQualityStore.create();
       rendererSettings = RendererSettingsService(await SharedPreferences.getInstance());
     });
 
@@ -34,7 +31,6 @@ void main() {
           Provider.value(value: registry),
           ChangeNotifierProvider.value(value: controller),
           Provider.value(value: presetStore),
-          Provider.value(value: arQualityStore),
           ChangeNotifierProvider.value(value: rendererSettings),
         ],
         child: MaterialApp(
@@ -167,7 +163,6 @@ void main() {
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
-      arQualityStore = await ArQualityStore.create();
       rendererSettings =
           RendererSettingsService(await SharedPreferences.getInstance());
 

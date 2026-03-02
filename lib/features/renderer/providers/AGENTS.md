@@ -4,7 +4,7 @@
 # providers
 
 ## Purpose
-Contains FractalController - the central state manager for fractal rendering. Manages module selection, parameter values, view transformations, presets, AR mode, and animations.
+Contains FractalController - the central state manager for fractal rendering. Manages module selection, parameter values, view transformations, presets, and animations.
 
 ## Key Files
 

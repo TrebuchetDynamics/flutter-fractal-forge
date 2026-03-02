@@ -15,6 +15,8 @@ Owner: Sidon
 
 ## P0 — MUST SHIP NEXT
 
+**Reaffirmed 2026-02-27:** All open (unchecked) items in this section remain P0 until resolved.
+
 ### 0) Critical render regressions (user report 2026-02-25)
 - [ ] Investigate GPU render showing large color blocks/grid at z≈5.10e+6, it=500 (screenshot)
 - [ ] Investigate KIFS Menger Sponge stuck on “Loading shaders…” (screenshot)

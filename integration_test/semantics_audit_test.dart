@@ -4,7 +4,6 @@ import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
@@ -24,22 +23,19 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       final results = await Future.wait([
         PresetStore.create(),
-        ArQualityStore.create(),
         HistoryStore.create(),
         AccessibilityService.create(),
         RendererSettingsService.create(),
         PaletteService.create(),
       ]);
       final presetStore = results[0] as PresetStore;
-      final arQualityStore = results[1] as ArQualityStore;
-      final historyStore = results[2] as HistoryStore;
-      final accessibilityService = results[3] as AccessibilityService;
-      final rendererSettingsService = results[4] as RendererSettingsService;
+      final historyStore = results[1] as HistoryStore;
+      final accessibilityService = results[2] as AccessibilityService;
+      final rendererSettingsService = results[3] as RendererSettingsService;
 
       // --- Launch app ---
       await tester.pumpWidget(FlutterFractalsApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         historyStore: historyStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,

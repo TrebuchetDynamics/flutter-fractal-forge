@@ -15,9 +15,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabExplore => 'Explore';
 
   @override
-  String get tabAr => 'AR';
-
-  @override
   String get catalogTitle => 'Fractal Catalog';
 
   @override
@@ -192,16 +189,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportTransparentPng => 'Transparent PNG';
 
   @override
-  String get exportArScreenshot => 'Baked AR Screenshot';
-
-  @override
-  String get exportArVideo => 'Baked AR Video';
-
-  @override
-  String get exportArVideoStub =>
-      'AR video export is scaffolded but not baked yet.';
-
-  @override
   String exportFailed(Object error) {
     return 'Export failed: $error';
   }
@@ -288,77 +275,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paramTransparentBg => 'Transparent Background';
 
   @override
-  String get arQualityPreset => 'AR Quality';
-
-  @override
-  String get arQualityLow => 'Low';
-
-  @override
-  String get arQualityMedium => 'Medium';
-
-  @override
-  String get arQualityHigh => 'High';
-
-  @override
-  String get arTitle => 'AR Overlay';
-
-  @override
-  String get arSelectFractal => 'Fractal';
-
-  @override
   String get fractalSection2d => '2D';
 
   @override
   String get fractalSection3d => '3D';
-
-  @override
-  String get arPermissionRequest =>
-      'Camera permission is required for AR mode.';
-
-  @override
-  String get arPermissionDenied => 'Camera permission denied.';
-
-  @override
-  String get arCameraUnavailable => 'No camera available.';
-
-  @override
-  String get arCameraUnavailableHelp =>
-      'Make sure another app isn’t using the camera, then try again.';
-
-  @override
-  String get arSafetyWarningTitle => 'AR Safety Warning';
-
-  @override
-  String get arSafetyWarningBody =>
-      '• Parental supervision is recommended when children use AR.\n• Be aware of your surroundings and keep a safe distance from objects.\n• No headset or wearable device is required.';
-
-  @override
-  String get arSafetyContinue => 'Continue';
-
-  @override
-  String get arOverlayOnlyExport => 'Overlay-only PNG';
-
-  @override
-  String get arBakedScreenshotExport => 'Baked camera + overlay';
-
-  @override
-  String get arVideoExport => 'Record AR Video';
-
-  @override
-  String get arVideoExportFailed => 'AR video export failed.';
-
-  @override
-  String get arVideoFallbackNotice =>
-      'FFmpeg unavailable or failed. Exported a low-FPS GIF fallback (larger file, no audio).';
-
-  @override
-  String get arDuration5 => '5s';
-
-  @override
-  String get arDuration10 => '10s';
-
-  @override
-  String get arDuration15 => '15s';
 
   @override
   String get colorFire => 'Fire';
@@ -471,30 +391,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get presetDeepBloom => 'Deep Bloom';
 
   @override
-  String get arStyleNeon => 'Neon';
-
-  @override
-  String get arStyleSoft => 'Soft';
-
-  @override
-  String get arStyleMono => 'Mono';
-
-  @override
-  String get arStyleTitle => 'Style';
-
-  @override
-  String get arShowGrid => 'Grid';
-
-  @override
-  String get arShowOutline => 'Outline';
-
-  @override
-  String get arCenter => 'Center';
-
-  @override
-  String get arMoreOptions => 'More';
-
-  @override
   String get tooltipExpand => 'Expand';
 
   @override
@@ -583,9 +479,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get semanticNavExplore => 'Explore tab. Browse fractal catalog.';
-
-  @override
-  String get semanticNavAr => 'AR tab. View fractals in augmented reality.';
 
   @override
   String get semanticBackButton => 'Go back to previous screen';
@@ -704,11 +597,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'GPU-accelerated rendering for smooth, real-time exploration';
 
   @override
-  String get onboardingCreateTitle => 'Create, Export & Experience in AR';
+  String get onboardingCreateTitle => 'Create, Export & Share';
 
   @override
   String get onboardingCreateDescription =>
-      'Adjust parameters in real time, place fractals on real surfaces with AR, and export stunning high-resolution images to share.';
+      'Adjust parameters in real time and export stunning high-resolution images to share.';
 
   @override
   String get onboardingCreateHighlight1 =>
@@ -716,10 +609,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingCreateHighlight2 =>
-      'Augmented Reality — anchor fractals on real-world surfaces';
-
-  @override
-  String get onboardingCreateHighlight3 =>
       'Export to PNG and share — perfect for art, presentations and study';
 
   @override
@@ -780,12 +669,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingFeatureExportDesc =>
       'Save high-quality images in multiple formats';
-
-  @override
-  String get onboardingFeatureAr => 'AR Mode';
-
-  @override
-  String get onboardingFeatureArDesc => 'Overlay fractals on your camera view';
 
   @override
   String get tooltipExitFullscreen => 'Exit fullscreen view';
@@ -1260,183 +1143,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeFractalCountBadge => '350+ fractals';
-
-  @override
-  String get arSafetyBannerLabel =>
-      'Safety warning: Parental supervision recommended. Be aware of your surroundings.';
-
-  @override
-  String get arSafetyBannerText =>
-      'AR Safety: Parental supervision recommended. Be aware of your surroundings.';
-
-  @override
-  String get arStatusScanning => 'Scanning for surfaces...';
-
-  @override
-  String get arStatusSurfaceDetected =>
-      'Surface detected · Tap on a highlighted area to place';
-
-  @override
-  String arStatusFractalsPlaced(Object count) {
-    return '$count fractal placed · Tap to add more';
-  }
-
-  @override
-  String arStatusFractalsPlacedPlural(Object count) {
-    return '$count fractals placed · Tap to add more';
-  }
-
-  @override
-  String get arScanTipsTitle => 'Having trouble detecting a surface?';
-
-  @override
-  String get arScanTip1 => 'Point at a textured surface (table, floor, carpet)';
-
-  @override
-  String get arScanTip2 => 'Move the camera slowly — avoid fast sweeping';
-
-  @override
-  String get arScanTip3 => 'Ensure good lighting (avoid very dark rooms)';
-
-  @override
-  String get arScanTip4 =>
-      'Plain white walls and glass surfaces are hard to detect';
-
-  @override
-  String get arTooltipMoreOptions => 'More options';
-
-  @override
-  String get arTooltipShare => 'Share';
-
-  @override
-  String get arTooltipSave => 'Save';
-
-  @override
-  String get arTooltipClearAll => 'Clear all';
-
-  @override
-  String get arTooltipRescan => 'Re-scan';
-
-  @override
-  String get arScanHint =>
-      'Move the camera slowly over a flat surface to detect it';
-
-  @override
-  String arPlacementSize(Object size) {
-    return 'Size: ${size}m';
-  }
-
-  @override
-  String get arActionShare => 'Share';
-
-  @override
-  String get arActionSave => 'Save';
-
-  @override
-  String get arActionClear => 'Clear';
-
-  @override
-  String get arActionRescan => 'Re-scan';
-
-  @override
-  String get arRemoveFractalPrompt => 'Remove this fractal?';
-
-  @override
-  String get arConfirmYes => 'Yes';
-
-  @override
-  String get arConfirmNo => 'No';
-
-  @override
-  String arErrorRemoveNode(Object error) {
-    return 'Failed to remove node: $error';
-  }
-
-  @override
-  String arErrorArCore(Object error) {
-    return 'ARCore error: $error';
-  }
-
-  @override
-  String get arNoSurfaceHit =>
-      'No surface hit — tap directly on a highlighted (blue) area';
-
-  @override
-  String arErrorPlaceFractal(Object error) {
-    return 'Failed to place fractal: $error';
-  }
-
-  @override
-  String get arShareText => 'Fractal anchored in AR via Fractal Forge';
-
-  @override
-  String arErrorShareFailed(Object error) {
-    return 'Share failed: $error';
-  }
-
-  @override
-  String arSavedTo(Object path) {
-    return 'Saved to $path';
-  }
-
-  @override
-  String arErrorSaveFailed(Object error) {
-    return 'Save failed: $error';
-  }
-
-  @override
-  String get arFractalAnchored => 'Fractal anchored to tapped surface';
-
-  @override
-  String arAnchoredStatus(Object camera) {
-    return 'Anchored · $camera camera';
-  }
-
-  @override
-  String get arTapToAnchor => 'Tap on surface to anchor fractal';
-
-  @override
-  String get arTooltipSwitchCamera => 'Switch camera';
-
-  @override
-  String get arErrorSurfaceDetectionUnavailable =>
-      'AR surface detection is not available on this device';
-
-  @override
-  String get arErrorArCoreUnavailable =>
-      'ARCore services are unavailable on this device';
-
-  @override
-  String arErrorCaptureFailed(Object error) {
-    return 'Could not capture fractal: $error';
-  }
-
-  @override
-  String get arTapAnywhereToPlace => 'Tap anywhere to place';
-
-  @override
-  String get arTooltipReAnchor => 'Re-anchor';
-
-  @override
-  String get arTooltipAnchorToSurface => 'Anchor to surface';
-
-  @override
-  String get arTooltipSwitchToSurfaceAnchoring => 'Switch to surface anchoring';
-
-  @override
-  String get arAnchoredToSurface => 'Anchored to tapped surface';
-
-  @override
-  String get arTapToAnchorFractal => 'Tap to anchor this fractal';
-
-  @override
-  String get arButtonReAnchor => 'Re-anchor';
-
-  @override
-  String get arButtonAnchor => 'Anchor';
-
-  @override
-  String get arSwitchToSurfaceAnchoring => 'Switch to surface anchoring';
 
   @override
   String get catalogAllFractals => 'All Fractals';

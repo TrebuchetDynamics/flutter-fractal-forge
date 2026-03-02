@@ -4,7 +4,6 @@ import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/palette_service.dart';
@@ -23,7 +22,6 @@ void main() {
 
   group('Critical User Journey', () {
     late PresetStore presetStore;
-    late ArQualityStore arQualityStore;
     late HistoryStore historyStore;
     late AccessibilityService accessibilityService;
     late RendererSettingsService rendererSettingsService;
@@ -35,17 +33,15 @@ void main() {
       });
       final results = await Future.wait([
         PresetStore.create(),
-        ArQualityStore.create(),
         HistoryStore.create(),
         AccessibilityService.create(),
         RendererSettingsService.create(),
         PaletteService.create(),
       ]);
       presetStore = results[0] as PresetStore;
-      arQualityStore = results[1] as ArQualityStore;
-      historyStore = results[2] as HistoryStore;
-      accessibilityService = results[3] as AccessibilityService;
-      rendererSettingsService = results[4] as RendererSettingsService;
+      historyStore = results[1] as HistoryStore;
+      accessibilityService = results[2] as AccessibilityService;
+      rendererSettingsService = results[3] as RendererSettingsService;
     });
 
     /// Pumps the full app and waits for initial frames to render.
@@ -55,7 +51,6 @@ void main() {
     Future<void> pumpApp(WidgetTester tester) async {
       await tester.pumpWidget(FlutterFractalsApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         historyStore: historyStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,

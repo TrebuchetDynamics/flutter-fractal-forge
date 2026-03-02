@@ -7,12 +7,11 @@
 // - Multiple fractal types (Mandelbrot, Julia, Mandelbulb, etc.)
 // - Real-time parameter adjustment
 // - 2D and 3D fractal rendering
-// - AR camera overlay mode
 // - Export to PNG with transparency support
 //
 // Architecture:
 // - Core: Models, modules, services, and theming
-// - Features: Screen-level components (catalog, viewer, AR, etc.)
+// - Features: Screen-level components (catalog, viewer, etc.)
 // - Shared: Cross-cutting utilities
 //
 // State management is handled via Provider with FractalController
@@ -28,7 +27,6 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
-import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
@@ -40,8 +38,6 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/home/home_screen.dart';
 import 'package:flutter_fractals/features/onboarding/onboarding_screen.dart';
 import 'package:flutter_fractals/core/services/onboarding_service.dart';
-// FractalController is provided per tab (Explore vs AR).
-
 const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
 const int kBootStep = int.fromEnvironment('BOOT_STEP', defaultValue: 0);
 
@@ -142,17 +138,15 @@ class _DeferredStartupAppState extends State<_DeferredStartupApp> {
   Future<void> _initServices() async {
     final results = await Future.wait([
       PresetStore.create(),
-      ArQualityStore.create(),
       HistoryStore.create(),
       AccessibilityService.create(),
       RendererSettingsService.create(),
       PaletteService.create(),
     ]);
     final presetStore = results[0] as PresetStore;
-    final arQualityStore = results[1] as ArQualityStore;
-    final historyStore = results[2] as HistoryStore;
-    final accessibilityService = results[3] as AccessibilityService;
-    final rendererSettingsService = results[4] as RendererSettingsService;
+    final historyStore = results[1] as HistoryStore;
+    final accessibilityService = results[2] as AccessibilityService;
+    final rendererSettingsService = results[3] as RendererSettingsService;
     final onboardingService = await OnboardingService.create();
     DeepLinkService? deepLinkService;
     if (kEnableDeepLinks == 1) {
@@ -164,7 +158,6 @@ class _DeferredStartupAppState extends State<_DeferredStartupApp> {
     setState(() {
       _fullApp = FlutterFractalsApp(
         presetStore: presetStore,
-        arQualityStore: arQualityStore,
         historyStore: historyStore,
         accessibilityService: accessibilityService,
         rendererSettingsService: rendererSettingsService,
@@ -212,7 +205,6 @@ class _DeferredStartupAppState extends State<_DeferredStartupApp> {
 /// This widget provides:
 /// - [ModuleRegistry]: Available fractal modules
 /// - [PresetStore]: User preset persistence
-/// - [ArQualityStore]: AR quality preference storage
 /// - [AccessibilityService]: Accessibility settings management
 ///
 /// Example usage in tests:
@@ -220,7 +212,6 @@ class _DeferredStartupAppState extends State<_DeferredStartupApp> {
 /// await tester.pumpWidget(
 ///   FlutterFractalsApp(
 ///     presetStore: mockPresetStore,
-///     arQualityStore: mockArQualityStore,
 ///     accessibilityService: mockAccessibilityService,
 ///     locale: const Locale('en'),
 ///   ),
@@ -244,7 +235,7 @@ class _UltraSafeApp extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: Text(
-            'ULTRA SAFE MODE\nIf this screen shows, the crash is NOT from shaders/AR/providers.\n\nReport: "ultra safe mode opens".',
+            'ULTRA SAFE MODE\nIf this screen shows, the crash is NOT from shaders/providers.\n\nReport: "ultra safe mode opens".',
             textAlign: TextAlign.center,
           ),
         ),
@@ -362,9 +353,6 @@ class FlutterFractalsApp extends StatelessWidget {
   /// Storage service for user-created presets.
   final PresetStore presetStore;
 
-  /// Storage service for AR quality preferences.
-  final ArQualityStore arQualityStore;
-
   /// Storage service for exploration history.
   final HistoryStore? historyStore;
 
@@ -393,7 +381,6 @@ class FlutterFractalsApp extends StatelessWidget {
   const FlutterFractalsApp({
     Key? key,
     required this.presetStore,
-    required this.arQualityStore,
     this.historyStore,
     required this.accessibilityService,
     required this.rendererSettingsService,
@@ -407,7 +394,6 @@ class FlutterFractalsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return _AppProviders(
       presetStore: presetStore,
-      arQualityStore: arQualityStore,
       historyStore: historyStore,
       accessibilityService: accessibilityService,
       rendererSettingsService: rendererSettingsService,
@@ -422,7 +408,6 @@ class FlutterFractalsApp extends StatelessWidget {
 /// Provides app-scoped dependencies and stores.
 class _AppProviders extends StatelessWidget {
   final PresetStore presetStore;
-  final ArQualityStore arQualityStore;
   final HistoryStore? historyStore;
   final AccessibilityService accessibilityService;
   final RendererSettingsService rendererSettingsService;
@@ -433,7 +418,6 @@ class _AppProviders extends StatelessWidget {
 
   const _AppProviders({
     required this.presetStore,
-    required this.arQualityStore,
     required this.historyStore,
     required this.accessibilityService,
     required this.rendererSettingsService,
@@ -449,7 +433,6 @@ class _AppProviders extends StatelessWidget {
       providers: [
         Provider<ModuleRegistry>(create: (_) => ModuleRegistry()),
         Provider<PresetStore>.value(value: presetStore),
-        Provider<ArQualityStore>.value(value: arQualityStore),
         if (historyStore != null)
           Provider<HistoryStore>.value(value: historyStore!),
         if (historyStore != null)

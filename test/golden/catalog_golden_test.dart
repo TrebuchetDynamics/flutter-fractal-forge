@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/ar_quality_store.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/palette_service.dart';
@@ -26,7 +25,6 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 /// Update goldens: flutter test --update-goldens test/golden/catalog_golden_test.dart
 void main() {
   late PresetStore presetStore;
-  late ArQualityStore arQualityStore;
   late HistoryStore historyStore;
   late AccessibilityService accessibilityService;
   late RendererSettingsService rendererSettingsService;
@@ -38,17 +36,15 @@ void main() {
     });
     final results = await Future.wait([
       PresetStore.create(),
-      ArQualityStore.create(),
       HistoryStore.create(),
       AccessibilityService.create(),
       RendererSettingsService.create(),
       PaletteService.create(),
     ]);
     presetStore = results[0] as PresetStore;
-    arQualityStore = results[1] as ArQualityStore;
-    historyStore = results[2] as HistoryStore;
-    accessibilityService = results[3] as AccessibilityService;
-    rendererSettingsService = results[4] as RendererSettingsService;
+    historyStore = results[1] as HistoryStore;
+    accessibilityService = results[2] as AccessibilityService;
+    rendererSettingsService = results[3] as RendererSettingsService;
   });
 
   /// Builds the catalog screen inside a fully-provided MaterialApp shell.
@@ -60,7 +56,6 @@ void main() {
       providers: [
         Provider<ModuleRegistry>(create: (_) => registry),
         Provider<PresetStore>.value(value: presetStore),
-        Provider<ArQualityStore>.value(value: arQualityStore),
         Provider<HistoryStore>.value(value: historyStore),
         ChangeNotifierProvider<AccessibilityService>.value(
           value: accessibilityService,

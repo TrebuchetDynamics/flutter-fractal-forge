@@ -1,0 +1,511 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1772208054963,
+  "projectRoot": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "assets",
+      "docs",
+      "lib",
+      "scripts",
+      "test"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "agent_test_logs": {
+      "path": "agent_test_logs",
+      "purpose": null,
+      "fileCount": 3576,
+      "lastAccessed": 1772208054947,
+      "keyFiles": [
+        "app_front.png",
+        "app_now.png",
+        "build_100_20260208_024805.log",
+        "build_100_20260208_135332.log",
+        "build_101_20260208_024918.log"
+      ]
+    },
+    "agent_ui_logs": {
+      "path": "agent_ui_logs",
+      "purpose": null,
+      "fileCount": 12,
+      "lastAccessed": 1772208054949,
+      "keyFiles": [
+        "logcat_1_20260208_083400.log",
+        "logcat_2_20260208_083441.log",
+        "logcat_3_20260208_083527.log",
+        "monkey_1_20260208_083400.log",
+        "monkey_2_20260208_083441.log"
+      ]
+    },
+    "android": {
+      "path": "android",
+      "purpose": null,
+      "fileCount": 16,
+      "lastAccessed": 1772208054949,
+      "keyFiles": [
+        "build.gradle.kts",
+        "build.gradle.kts.bak",
+        "build.gradle.legacy",
+        "flutter_fractals_android.iml",
+        "gradle.properties"
+      ]
+    },
+    "assets": {
+      "path": "assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1772208054949,
+      "keyFiles": [
+        "AGENTS.md",
+        "feature-graphic.png"
+      ]
+    },
+    "build": {
+      "path": "build",
+      "purpose": "Build output",
+      "fileCount": 1,
+      "lastAccessed": 1772208054950,
+      "keyFiles": []
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 22,
+      "lastAccessed": 1772208054950,
+      "keyFiles": [
+        "AR_ARCHITECTURE_FULL_REPORT.md",
+        "END_VISION.md",
+        "IMPROVEMENTS.md",
+        "PLAYTESTING_QA_GUIDE.md",
+        "PRD.md"
+      ]
+    },
+    "fractals-library": {
+      "path": "fractals-library",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1772208054950,
+      "keyFiles": [
+        "AGENTS.md",
+        "fractal-library.md",
+        "fractal_manifest.json",
+        "fractali-library.md"
+      ]
+    },
+    "integration_test": {
+      "path": "integration_test",
+      "purpose": null,
+      "fileCount": 21,
+      "lastAccessed": 1772208054950,
+      "keyFiles": [
+        "AGENTS.md",
+        "app_test.dart",
+        "backend_screenshot_test.dart",
+        "catalog_thumbnail_smoke_test.dart",
+        "cpu_fallback_gestures_test.dart"
+      ]
+    },
+    "ios": {
+      "path": "ios",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1772208054950,
+      "keyFiles": []
+    },
+    "lib": {
+      "path": "lib",
+      "purpose": "Library code",
+      "fileCount": 2,
+      "lastAccessed": 1772208054950,
+      "keyFiles": [
+        "AGENTS.md",
+        "main.dart"
+      ]
+    },
+    "linux": {
+      "path": "linux",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1772208054950,
+      "keyFiles": [
+        "CMakeLists.txt"
+      ]
+    },
+    "macos": {
+      "path": "macos",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1772208054951,
+      "keyFiles": []
+    },
+    "opensource": {
+      "path": "opensource",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1772208054951,
+      "keyFiles": [
+        "CATALOG.md",
+        "clone-all.sh",
+        "opensource-tools-fractals.md",
+        "refactor-plan.md"
+      ]
+    },
+    "play-console-upload": {
+      "path": "play-console-upload",
+      "purpose": null,
+      "fileCount": 35,
+      "lastAccessed": 1772208054951,
+      "keyFiles": [
+        "LAST_BUILD_NUMBER.txt",
+        "LATEST_AAB.txt",
+        "LATEST_BUILD_INFO.txt",
+        "README.md",
+        "fractal-forge-v0.1.1-b1-20260219-170442.aab"
+      ]
+    },
+    "screenshots": {
+      "path": "screenshots",
+      "purpose": null,
+      "fileCount": 8,
+      "lastAccessed": 1772208054951,
+      "keyFiles": [
+        "01_catalog.png",
+        "02_viewer_mandelbulb.png",
+        "03_viewer_mandelbrot.png",
+        "04_viewer_julia.png",
+        "05_viewer_burning_ship.png"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 11,
+      "lastAccessed": 1772208054951,
+      "keyFiles": [
+        "AGENTS.md",
+        "add_srgb.py",
+        "build-play-console.sh",
+        "desktop-screenshots.sh",
+        "emu-status.sh"
+      ]
+    },
+    "shaders": {
+      "path": "shaders",
+      "purpose": null,
+      "fileCount": 456,
+      "lastAccessed": 1772208054952,
+      "keyFiles": [
+        "3d_fractal_gpu.frag",
+        "AGENTS.md",
+        "aizawa_gpu.frag",
+        "alternated_iteration_gpu.frag",
+        "ammann_beenker_gpu.frag"
+      ]
+    },
+    "store-listing": {
+      "path": "store-listing",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1772208054952,
+      "keyFiles": [
+        "feature_graphic.png",
+        "full_description.txt",
+        "short_description.txt"
+      ]
+    },
+    "store_listing": {
+      "path": "store_listing",
+      "purpose": null,
+      "fileCount": 10,
+      "lastAccessed": 1772208054953,
+      "keyFiles": [
+        "ASSET_SPECS.md",
+        "PLAY_UPLOAD_CHECKLIST.md",
+        "UPLOAD_CHECKLIST.md",
+        "content_rating_readiness.md",
+        "feature_graphic.png"
+      ]
+    },
+    "test": {
+      "path": "test",
+      "purpose": "Test files",
+      "fileCount": 84,
+      "lastAccessed": 1772208054953,
+      "keyFiles": [
+        "AGENTS.md",
+        "README.md",
+        "accessibility_service_test.dart",
+        "accessibility_settings_screen_test.dart",
+        "accessibility_test.dart"
+      ]
+    },
+    "third_party": {
+      "path": "third_party",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1772208054953,
+      "keyFiles": []
+    },
+    "tool": {
+      "path": "tool",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1772208054953,
+      "keyFiles": [
+        "render_cpu_png.dart",
+        "render_cpu_png_isolate.dart"
+      ]
+    },
+    "web": {
+      "path": "web",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1772208054953,
+      "keyFiles": [
+        "favicon.png",
+        "index.html",
+        "manifest.json"
+      ]
+    },
+    "windows": {
+      "path": "windows",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1772208054953,
+      "keyFiles": [
+        "CMakeLists.txt"
+      ]
+    },
+    "android/app": {
+      "path": "android/app",
+      "purpose": "Application code",
+      "fileCount": 5,
+      "lastAccessed": 1772208054960,
+      "keyFiles": [
+        "build.gradle.kts",
+        "build.gradle.kts.bak",
+        "build.gradle.legacy"
+      ]
+    },
+    "android/build": {
+      "path": "android/build",
+      "purpose": "Build output",
+      "fileCount": 0,
+      "lastAccessed": 1772208054960,
+      "keyFiles": []
+    },
+    "fractals-library/scripts": {
+      "path": "fractals-library/scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 1,
+      "lastAccessed": 1772208054961,
+      "keyFiles": [
+        "validate_manifest.py"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "lib/features/catalog/fractal_catalog_screen.dart",
+      "accessCount": 26,
+      "lastAccessed": 1772212862100,
+      "type": "file"
+    },
+    {
+      "path": "lib/features/home/home_screen.dart",
+      "accessCount": 6,
+      "lastAccessed": 1772212914649,
+      "type": "file"
+    },
+    {
+      "path": "PLAYTEST_REPORT.md",
+      "accessCount": 3,
+      "lastAccessed": 1772209982013,
+      "type": "file"
+    },
+    {
+      "path": "lib",
+      "accessCount": 2,
+      "lastAccessed": 1772213090264,
+      "type": "directory"
+    },
+    {
+      "path": "pubspec.yaml",
+      "accessCount": 1,
+      "lastAccessed": 1772208096835,
+      "type": "file"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "accessCount": 1,
+      "lastAccessed": 1772208107505,
+      "type": "file"
+    },
+    {
+      "path": "lib/main.dart",
+      "accessCount": 1,
+      "lastAccessed": 1772208108055,
+      "type": "file"
+    },
+    {
+      "path": "TODO.md",
+      "accessCount": 1,
+      "lastAccessed": 1772208108536,
+      "type": "file"
+    },
+    {
+      "path": "lib/core/theme/app_theme.dart",
+      "accessCount": 1,
+      "lastAccessed": 1772208439291,
+      "type": "directory"
+    },
+    {
+      "path": "test/a11y/home_screen_a11y_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1772208771209,
+      "type": "file"
+    },
+    {
+      "path": "screenshots/02_viewer_mandelbulb.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208926965,
+      "type": "file"
+    },
+    {
+      "path": "screenshots/03_viewer_mandelbrot.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208928020,
+      "type": "file"
+    },
+    {
+      "path": "screenshots/04_viewer_julia.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208929022,
+      "type": "file"
+    },
+    {
+      "path": "screenshots/01_catalog.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208929594,
+      "type": "file"
+    },
+    {
+      "path": "screenshots/05_viewer_burning_ship.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208934199,
+      "type": "file"
+    },
+    {
+      "path": "screenshots/06_viewer_phoenix.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208934729,
+      "type": "file"
+    },
+    {
+      "path": "screenshots/08_presets_panel.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208936325,
+      "type": "file"
+    },
+    {
+      "path": "screenshots/07_controls_panel.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208936584,
+      "type": "file"
+    },
+    {
+      "path": "test/golden/goldens/catalog_phone_dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208941434,
+      "type": "file"
+    },
+    {
+      "path": "test/golden/goldens/catalog_tablet_dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208942186,
+      "type": "file"
+    },
+    {
+      "path": "test/golden/goldens/catalog_phone_high_contrast.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208942550,
+      "type": "file"
+    },
+    {
+      "path": "test/golden/goldens/catalog_tablet_high_contrast.png",
+      "accessCount": 1,
+      "lastAccessed": 1772208943208,
+      "type": "file"
+    },
+    {
+      "path": ".maestro/02_catalog_navigation.yaml",
+      "accessCount": 1,
+      "lastAccessed": 1772209318160,
+      "type": "file"
+    },
+    {
+      "path": ".maestro/04_export_flow.yaml",
+      "accessCount": 1,
+      "lastAccessed": 1772209319294,
+      "type": "file"
+    },
+    {
+      "path": "integration_test/perf_smoke_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1772209326269,
+      "type": "file"
+    },
+    {
+      "path": "integration_test/shader_benchmark_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1772209326810,
+      "type": "file"
+    },
+    {
+      "path": "integration_test/app_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1772209344539,
+      "type": "file"
+    },
+    {
+      "path": "integration_test/critical_journey_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1772209345297,
+      "type": "file"
+    },
+    {
+      "path": "test/layout/overflow_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1772212742883,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

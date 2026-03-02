@@ -6,7 +6,6 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
-// AR entry lives in FractalViewer; home no longer hosts AR tab.
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -30,10 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     final registry = context.read<ModuleRegistry>();
-    // Keep controller state scoped per tab so AR-specific tweaks (quality presets,
-    // transparent background) don't leak into the Explore/catalog/viewer flow.
     _exploreController = FractalController(registry);
-    // Home no longer animates tab transitions.
 
     // Set up deep link handling (skip in SAFE_MODE)
     if (kSafeMode == 0) {
@@ -132,8 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  // AR tab removed: AR entry is inside FractalViewer app bar.
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -163,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
               MaterialBanner(
                 backgroundColor: AppColors.warning.withValues(alpha: 0.15),
                 content: Text(
-                  'SAFE MODE: AR & shader rendering disabled for device crash triage.',
+                  'SAFE MODE: Shader rendering disabled for device crash triage.',
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium

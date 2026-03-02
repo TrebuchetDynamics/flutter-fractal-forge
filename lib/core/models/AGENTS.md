@@ -17,7 +17,6 @@ Immutable data classes representing the application's domain model. These define
 | `fractal_palette.dart` | `FractalPalette` - color palette definition for fractal coloring |
 | `export_options.dart` | `ExportOptions` - image export configuration (resolution, format, transparency) |
 | `video_export_options.dart` | `VideoExportOptions` - video/GIF export settings (duration, FPS, resolution) |
-| `ar_quality_preset.dart` | `ArQualityPreset` - AR mode quality configuration (resolution scaling, iteration limits) |
 | `exploration_stats.dart` | `ExplorationStats` - statistics tracking for exploration sessions |
 | `wallpaper_options.dart` | `WallpaperOptions` - wallpaper export settings (placement, scaling) |
 

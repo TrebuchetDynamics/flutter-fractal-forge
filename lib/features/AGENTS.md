@@ -10,7 +10,6 @@ Feature-level screens and UI components, organized by domain. Each subdirectory 
 
 | Directory | Purpose |
 |-----------|---------|
-| `ar/` | AR camera overlay screen (see `ar/AGENTS.md`) |
 | `auto_explore/` | Autonomous fractal exploration with auto-animation (see `auto_explore/AGENTS.md`) |
 | `catalog/` | Fractal catalog browser with search and thumbnails (see `catalog/AGENTS.md`) |
 | `controls/` | Parameter control panel (sliders, toggles) (see `controls/AGENTS.md`) |

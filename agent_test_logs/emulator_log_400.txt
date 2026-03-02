@@ -1,0 +1,17 @@
+--------- beginning of system
+02-09 09:31:30.581 W/ProcessStats(  551): Tracking association SourceState{eadfcb com.google.android.gms.persistent/10128 BFgs #561982} whose proc state 4 is better than process ProcessState{edbe6f6 com.google.android.gms/10128 pkg=com.google.android.gms} proc state 8 (53 skipped)
+02-09 09:31:30.614 D/ActivityManager(  551): sync unfroze 17869 com.google.android.apps.messaging for 6
+--------- beginning of main
+02-09 09:31:30.623 W/TimedProcessReaper(17869): Memory state is: 230
+02-09 09:31:30.633 I/netd    (  361): tetherGetStats() -> {[]} <2.82ms>
+02-09 09:31:30.636 I/netd    (  361): bandwidthSetGlobalAlert(2097152) <0.24ms>
+02-09 09:31:30.639 I/netd    (  361): bandwidthRemoveInterfaceQuota(eth0) <0.95ms>
+02-09 09:31:30.641 I/netd    (  361): bandwidthSetInterfaceQuota(eth0, 9223372036854775807) <2.73ms>
+02-09 09:31:30.644 D/NetworkStatsObservers(  551): Unregistering RequestInfo from pid/uid:551/1000(android) for DataUsageRequest [ requestId=74, networkTemplate=NetworkTemplate: matchRule=MOBILE, matchSubscriberIds=[310260...], matchWifiNetworkKeys=[], metered=YES, defaultNetwork=NO, thresholdInBytes=4048430 ] accessLevel:3
+02-09 09:31:30.644 D/NetworkStatsObservers(  551): Registering observer for RequestInfo from pid/uid:551/1000(android) for DataUsageRequest [ requestId=75, networkTemplate=NetworkTemplate: matchRule=MOBILE, matchSubscriberIds=[310260...], matchWifiNetworkKeys=[], metered=YES, defaultNetwork=NO, thresholdInBytes=4048331 ] accessLevel:3
+02-09 09:31:30.658 I/netd    (  361): tetherGetStats() -> {[]} <0.20ms>
+02-09 09:31:30.661 I/Bugle   (17869): BroadcastReceiverAsyncWorkTracker: Acknowledging broadcast of bdxy@4a6ac92
+02-09 09:31:30.661 I/Bugle   (17869): BroadcastReceiverAsyncWorkTracker: Acknowledging broadcast of bdxy@4a6ac92
+02-09 09:31:30.662 I/Bugle   (17869): BroadcastReceiverAsyncWorkTracker: Acknowledging broadcast of bdxy@4a6ac92
+02-09 09:31:30.674 I/WM-WorkerWrapper(17869): Worker result SUCCESS for Work [ id=09c66bff-9532-4585-8608-85b7ecbd67cd, tags={ com.google.apps.tiktok.contrib.work.TikTokListenableWorker, TikTokWorker#com.google.apps.tiktok.sync.impl.workmanager.SyncWorker } ]
+02-09 09:31:30.681 W/Bugle   (17869): TextClassifierLibManagerImpl: Reclaiming memory at level: 40

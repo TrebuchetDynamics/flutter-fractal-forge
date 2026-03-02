@@ -26,8 +26,6 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
-import 'package:flutter_fractals/features/ar/ar_overlay_screen.dart';
-import 'package:flutter_fractals/features/ar/arcore_anchor_screen.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
@@ -307,15 +305,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void _onRandomFractalFab(BuildContext context) =>
       _viewerOnRandomFractalFab(this, context);
 
-  bool _shouldUseTransparentBackgroundInAr(FractalModule module) =>
-      _viewerShouldUseTransparentBackgroundInAr(module);
-
-  Future<void> _openArOverlay(BuildContext context) =>
-      _viewerOpenArOverlay(this, context);
-
-  Future<bool> _confirmArSafety(BuildContext context) =>
-      _viewerConfirmArSafety(this, context);
-
   Future<void> _openViewerQuickActions(BuildContext context) =>
       _viewerOpenViewerQuickActions(this, context);
 
@@ -578,7 +567,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             _openAutoExploreSettings(context),
                         onOpenRandomFractal: () => _onRandomFractalFab(context),
                         onOpenControls: () => _openControls(context),
-                        onOpenArViewer: () => _openArOverlay(context),
                         onOpenExport: () => _openExport(context),
                       ),
                     ),

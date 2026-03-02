@@ -2,7 +2,6 @@
   "@@locale": "es",
   "appTitle": "Fractal Forge",
   "tabExplore": "Explorar",
-  "tabAr": "AR",
   "catalogTitle": "Catálogo de fractales",
   "catalogSearchHint": "Buscar fractales",
   "catalogSearchEmpty": "No hay fractales que coincidan con tu búsqueda.",
@@ -59,9 +58,6 @@
   "exportNow": "Exportar",
   "exportPng": "PNG",
   "exportTransparentPng": "PNG transparente",
-  "exportArScreenshot": "Captura AR horneada",
-  "exportArVideo": "Video AR horneado",
-  "exportArVideoStub": "La exportación de video AR está en andamiaje pero aún no se hornea.",
   "exportFailed": "Error al exportar: {error}",
   "exportSaved": "Exportación guardada",
   "exporting": "Exportando...",
@@ -90,29 +86,8 @@
   "paramOpacity": "Opacidad",
   "paramLockOverlay": "Bloquear superposición",
   "paramTransparentBg": "Fondo transparente",
-  "arQualityPreset": "Calidad AR",
-  "arQualityLow": "Baja",
-  "arQualityMedium": "Media",
-  "arQualityHigh": "Alta",
-  "arTitle": "Superposición AR",
-  "arSelectFractal": "Fractal",
   "fractalSection2d": "2D",
   "fractalSection3d": "3D",
-  "arPermissionRequest": "Se requiere permiso de cámara para el modo AR.",
-  "arPermissionDenied": "Permiso de cámara denegado.",
-  "arCameraUnavailable": "No hay cámara disponible.",
-  "arCameraUnavailableHelp": "Asegúrate de que otra app no esté usando la cámara e inténtalo de nuevo.",
-  "arSafetyWarningTitle": "Advertencia de seguridad AR",
-  "arSafetyWarningBody": "• Se recomienda supervisión parental cuando niñas y niños usan AR.\n• Mantente atento a tu entorno y guarda distancia de objetos.\n• No se requiere casco ni dispositivo ponible.",
-  "arSafetyContinue": "Continuar",
-  "arOverlayOnlyExport": "PNG solo superposición",
-  "arBakedScreenshotExport": "Cámara + superposición horneadas",
-  "arVideoExport": "Grabar video AR",
-  "arVideoExportFailed": "La exportación de video AR falló.",
-  "arVideoFallbackNotice": "FFmpeg no está disponible o falló. Se exportó un GIF de baja fps (archivo grande, sin audio).",
-  "arDuration5": "5s",
-  "arDuration10": "10s",
-  "arDuration15": "15s",
   "colorFire": "Fuego",
   "colorOcean": "Océano",
   "colorPsychedelic": "Psicodélico",
@@ -177,14 +152,6 @@
   "exportSummary": "Resumen de Exportación",
   "exportNow": "Exportar Ahora",
   
-  "arStyleNeon": "Neón",
-  "arStyleSoft": "Suave",
-  "arStyleMono": "Mono",
-  "arStyleTitle": "Estilo",
-  "arShowGrid": "Cuadrícula",
-  "arShowOutline": "Contorno",
-  "arCenter": "Centrar",
-  "arMoreOptions": "Más",
   "tooltipExpand": "Expandir",
   "tooltipCollapse": "Contraer",
   "errorOverlayNotReady": "Superposición no lista",
@@ -241,7 +208,6 @@
     }
   },
   "semanticNavExplore": "Pestaña Explorar. Navegar por el catálogo de fractales.",
-  "semanticNavAr": "Pestaña AR. Ver fractales en realidad aumentada.",
   "semanticBackButton": "Volver a la pantalla anterior",
   "semanticCloseButton": "Cerrar este diálogo",
   "semanticSearchField": "Buscar fractales por nombre",
@@ -320,11 +286,10 @@
   "onboardingWelcomeHighlight2": "Descubre estructura en Mandelbrot, Julia, Newton y más de 350 tipos de fractales",
   "onboardingWelcomeHighlight3": "Renderizado acelerado por GPU para una exploración suave en tiempo real",
 
-  "onboardingCreateTitle": "Crea, exporta y experimenta en AR",
-  "onboardingCreateDescription": "Ajusta parámetros en tiempo real, coloca fractales en superficies reales con AR y exporta impresionantes imágenes de alta resolución para compartir.",
+  "onboardingCreateTitle": "Crea, exporta y comparte",
+  "onboardingCreateDescription": "Ajusta parámetros en tiempo real y exporta impresionantes imágenes de alta resolución para compartir.",
   "onboardingCreateHighlight1": "Controles de parámetros en tiempo real con más de 60 esquemas de color",
-  "onboardingCreateHighlight2": "Realidad Aumentada: ancla fractales en superficies del mundo real",
-  "onboardingCreateHighlight3": "Exporta a PNG y comparte, perfecto para arte, presentaciones y estudio",
+  "onboardingCreateHighlight2": "Exporta a PNG y comparte, perfecto para arte, presentaciones y estudio",
 
   "onboardingFractalTypesTitle": "Descubre Tipos de Fractales",
   "onboardingFractalTypesDescription": "Desde fractales 2D clásicos hasta el impresionante Mandelbulb 3D, explora una variedad de arte matemático.",
@@ -346,8 +311,6 @@
   "onboardingFeaturePresetsDesc": "Guarda y carga tus configuraciones favoritas",
   "onboardingFeatureExport": "Exportar",
   "onboardingFeatureExportDesc": "Guarda imágenes de alta calidad en múltiples formatos",
-  "onboardingFeatureAr": "Modo AR",
-  "onboardingFeatureArDesc": "Superpone fractales en la vista de tu cámara",
 
   "tooltipExitFullscreen": "Salir de pantalla completa",
   "announceEnteredFullscreen": "Pantalla completa activada",
@@ -583,111 +546,6 @@
     }
   },
   "homeFractalCountBadge": "350+ fractales",
-
-  "arSafetyBannerLabel": "Advertencia de seguridad: Se recomienda supervisión parental. Mantente atento a tu entorno.",
-  "arSafetyBannerText": "Seguridad AR: Se recomienda supervisión parental. Mantente atento a tu entorno.",
-  "arStatusScanning": "Buscando superficies...",
-  "arStatusSurfaceDetected": "Superficie detectada \u00B7 Toca un área resaltada para colocar",
-  "arStatusFractalsPlaced": "{count} fractal colocado \u00B7 Toca para agregar más",
-  "@arStatusFractalsPlaced": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "arStatusFractalsPlacedPlural": "{count} fractales colocados \u00B7 Toca para agregar más",
-  "@arStatusFractalsPlacedPlural": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "arScanTipsTitle": "\u00BFProblemas para detectar una superficie?",
-  "arScanTip1": "Apunta a una superficie con textura (mesa, piso, alfombra)",
-  "arScanTip2": "Mueve la cámara lentamente \u2014 evita movimientos bruscos",
-  "arScanTip3": "Asegura buena iluminación (evita habitaciones muy oscuras)",
-  "arScanTip4": "Las paredes blancas lisas y superficies de vidrio son difíciles de detectar",
-  "arTooltipMoreOptions": "Más opciones",
-  "arTooltipShare": "Compartir",
-  "arTooltipSave": "Guardar",
-  "arTooltipClearAll": "Borrar todo",
-  "arTooltipRescan": "Volver a escanear",
-  "arScanHint": "Mueve la cámara lentamente sobre una superficie plana para detectarla",
-  "arPlacementSize": "Tamaño: {size}m",
-  "@arPlacementSize": {
-    "placeholders": {
-      "size": {}
-    }
-  },
-  "arActionShare": "Compartir",
-  "arActionSave": "Guardar",
-  "arActionClear": "Borrar",
-  "arActionRescan": "Reescanear",
-  "arRemoveFractalPrompt": "\u00BFEliminar este fractal?",
-  "arConfirmYes": "Sí",
-  "arConfirmNo": "No",
-  "arErrorRemoveNode": "Error al eliminar nodo: {error}",
-  "@arErrorRemoveNode": {
-    "placeholders": {
-      "error": {}
-    }
-  },
-  "arErrorArCore": "Error de ARCore: {error}",
-  "@arErrorArCore": {
-    "placeholders": {
-      "error": {}
-    }
-  },
-  "arNoSurfaceHit": "Sin superficie \u2014 toca directamente sobre un área resaltada (azul)",
-  "arErrorPlaceFractal": "Error al colocar el fractal: {error}",
-  "@arErrorPlaceFractal": {
-    "placeholders": {
-      "error": {}
-    }
-  },
-  "arShareText": "Fractal anclado en AR con Fractal Forge",
-  "arErrorShareFailed": "Error al compartir: {error}",
-  "@arErrorShareFailed": {
-    "placeholders": {
-      "error": {}
-    }
-  },
-  "arSavedTo": "Guardado en {path}",
-  "@arSavedTo": {
-    "placeholders": {
-      "path": {}
-    }
-  },
-  "arErrorSaveFailed": "Error al guardar: {error}",
-  "@arErrorSaveFailed": {
-    "placeholders": {
-      "error": {}
-    }
-  },
-  "arFractalAnchored": "Fractal anclado a la superficie tocada",
-  "arAnchoredStatus": "Anclado \u00B7 cámara {camera}",
-  "@arAnchoredStatus": {
-    "placeholders": {
-      "camera": {}
-    }
-  },
-  "arTapToAnchor": "Toca una superficie para anclar el fractal",
-  "arTooltipSwitchCamera": "Cambiar cámara",
-  "arErrorSurfaceDetectionUnavailable": "La detección de superficies AR no está disponible en este dispositivo",
-  "arErrorArCoreUnavailable": "Los servicios ARCore no están disponibles en este dispositivo",
-  "arErrorCaptureFailed": "No se pudo capturar el fractal: {error}",
-  "@arErrorCaptureFailed": {
-    "placeholders": {
-      "error": {}
-    }
-  },
-  "arTapAnywhereToPlace": "Toca en cualquier lugar para colocar",
-  "arTooltipReAnchor": "Reanclaje",
-  "arTooltipAnchorToSurface": "Anclar a superficie",
-  "arTooltipSwitchToSurfaceAnchoring": "Cambiar a anclaje de superficie",
-  "arAnchoredToSurface": "Anclado a la superficie tocada",
-  "arTapToAnchorFractal": "Toca para anclar este fractal",
-  "arButtonReAnchor": "Reanclar",
-  "arButtonAnchor": "Anclar",
-  "arSwitchToSurfaceAnchoring": "Cambiar a anclaje de superficie",
 
   "catalogAllFractals": "Todos los fractales",
   "catalogFilterAll": "Todos",

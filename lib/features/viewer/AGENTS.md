@@ -10,7 +10,7 @@ Full fractal viewer screen - the main interactive experience. Integrates the ren
 
 | File | Description |
 |------|-------------|
-| `fractal_viewer_screen.dart` | `FractalViewerScreen` - full-screen fractal viewer with bottom sheet controls, toolbar buttons (presets, export, AR), and overlay widgets (minimap, debug, auto-explore) |
+| `fractal_viewer_screen.dart` | `FractalViewerScreen` - full-screen fractal viewer with bottom sheet controls, toolbar buttons (presets, export), and overlay widgets (minimap, debug, auto-explore) |
 
 ## For AI Agents
 
@@ -18,7 +18,7 @@ Full fractal viewer screen - the main interactive experience. Integrates the ren
 - Requires FractalController provided via Provider ancestor
 - Known issue: `ProviderNotFoundException` if provider not wrapped around viewer route
 - Assembles multiple feature widgets: renderer, controls, presets, export, minimap
-- Toolbar provides access to presets sheet, export sheet, AR mode
+- Toolbar provides access to presets sheet, export sheet
 
 ### Testing Requirements
 - `test/fractal_viewer_screen_widget_test.dart`

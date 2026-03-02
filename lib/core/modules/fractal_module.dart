@@ -159,7 +159,7 @@ class FractalRenderState {
   /// Whether to render with a transparent background.
   ///
   /// When true, the shader should output alpha=0 for background pixels.
-  /// Used for AR overlay mode and transparent PNG export.
+  /// Used for transparent PNG export.
   final bool transparentBackground;
 
   /// Creates a new [FractalRenderState] with the given values.

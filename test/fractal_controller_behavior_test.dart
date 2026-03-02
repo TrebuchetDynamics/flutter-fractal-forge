@@ -1,4 +1,3 @@
-import 'package:flutter_fractals/core/models/ar_quality_preset.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -48,24 +47,6 @@ void main() {
 
       expect(colorScheme, isA<int>());
       expect(colorScheme as int, inInclusiveRange(0, 63));
-    });
-
-    test('applyArQualityPreset updates known params and clamps to schema', () {
-      final controller = FractalController(ModuleRegistry());
-      final iterationsParam =
-          controller.module.parameters.firstWhere((p) => p.id == 'iterations');
-      // Force a clearly out-of-range value that should be clamped after applying.
-      controller.updateParam('iterations', 9999);
-      expect(controller.params['iterations'], iterationsParam.max.round());
-
-      controller.applyArQualityPreset(ArQualityPreset.high);
-      // For mandelbrot, high -> iterations 220 (within [20,5000]).
-      expect(controller.params['iterations'], 220);
-
-      // Julia has AR overrides in this build; verify it updates safely.
-      controller.selectModule(controller.registry.byId('julia'));
-      controller.applyArQualityPreset(ArQualityPreset.high);
-      expect(controller.params['iterations'], 200);
     });
 
     test('updateZoom adaptively increases iterations when zooming in', () {

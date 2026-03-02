@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
-import 'package:flutter_fractals/core/models/ar_quality_preset.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
@@ -20,7 +19,6 @@ import 'package:vector_math/vector_math.dart';
 /// - **Parameter updates**: Modifying fractal settings with validation
 /// - **View transformations**: Pan, zoom, and rotation
 /// - **Preset management**: Applying and randomizing configurations
-/// - **AR mode**: Transparent background toggle
 ///
 /// This controller uses [ChangeNotifier] for reactive updates and is
 /// typically provided via the Provider package.
@@ -124,7 +122,7 @@ class FractalController extends ChangeNotifier {
 
   /// Whether the fractal should render with a transparent background.
   ///
-  /// Used for AR overlay mode and transparent PNG export.
+  /// Used for transparent PNG export.
   bool get transparentBackground => _transparentBackground;
 
   /// Whether gesture-based rotation is locked.
@@ -398,7 +396,7 @@ class FractalController extends ChangeNotifier {
   /// Sets whether the background should be transparent.
   ///
   /// When [value] is true, the shader renders background pixels
-  /// with alpha=0, suitable for AR overlay or PNG export.
+  /// with alpha=0, suitable for transparent PNG export.
   void setTransparentBackground(bool value) {
     _transparentBackground = value;
     notifyListeners();
@@ -475,31 +473,6 @@ class FractalController extends ChangeNotifier {
     _celebrationTimer?.cancel();
     _celebrationController.close();
     super.dispose();
-  }
-
-  /// Applies an AR quality preset to the current parameters.
-  ///
-  /// AR quality presets adjust iteration counts and other
-  /// performance-sensitive parameters to balance quality vs.
-  /// frame rate during camera overlay.
-  ///
-  /// The [preset] affects only parameters relevant to the
-  /// current module; other parameters are unchanged.
-  void applyArQualityPreset(ArQualityPreset preset) {
-    final overrides = arQualityParamsForModule(preset, _module.id);
-    if (overrides.isEmpty) {
-      return;
-    }
-    final updated = Map<String, Object>.from(_params);
-    for (final entry in overrides.entries) {
-      final schema = _findParam(entry.key);
-      if (schema == null) {
-        continue;
-      }
-      updated[entry.key] = _clampValue(schema, entry.value);
-    }
-    _params = updated;
-    notifyListeners();
   }
 
   void _applyPreset(FractalPreset preset) {

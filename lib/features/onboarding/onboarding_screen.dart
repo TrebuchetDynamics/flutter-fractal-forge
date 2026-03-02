@@ -207,7 +207,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           highlightItems: [
             l10n.onboardingCreateHighlight1,
             l10n.onboardingCreateHighlight2,
-            l10n.onboardingCreateHighlight3,
           ],
         ),
       ];

@@ -168,7 +168,7 @@ void _viewerOnViewerMenuSelected(
     case _ViewerMenuAction.toggleMinimap:
       state._toggleMiniMapVisibility();
       break;
-    // Random fractal and AR mode are handled by dedicated viewer FABs.
+    // Random fractal is handled by a dedicated viewer FAB.
     case _ViewerMenuAction.openLogs:
       final controller = context.read<FractalController>();
       state._log.logState('state', 'Snapshot at log open', {
