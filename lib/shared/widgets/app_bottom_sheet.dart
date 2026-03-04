@@ -127,6 +127,7 @@ class AppBottomSheetHeader extends StatelessWidget {
           ),
           if (onClose != null)
             IconButton(
+              tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
               onPressed: onClose,
               icon: Icon(Icons.close_rounded, color: AppColors.textMuted),
             ),

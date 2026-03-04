@@ -46,6 +46,7 @@ class VideoExportSheet extends StatelessWidget {
                   child: Text('Export Video', style: AppTypography.headlineMedium),
                 ),
                 IconButton(
+                  tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                   onPressed: () => Navigator.of(context).pop(),
                   icon: const Icon(Icons.close_rounded),
                 ),
