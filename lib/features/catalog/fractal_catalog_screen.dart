@@ -492,6 +492,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
         message: isGrid ? l10n.catalogListView : l10n.catalogGridView,
         child: IconButton(
           key: const Key('catalogViewToggleButton'),
+          tooltip: isGrid ? l10n.catalogListView : l10n.catalogGridView,
           onPressed: () => _setViewMode(
             isGrid ? CatalogViewMode.list : CatalogViewMode.grid,
           ),
