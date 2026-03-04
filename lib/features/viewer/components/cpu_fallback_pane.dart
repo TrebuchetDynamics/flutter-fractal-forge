@@ -238,7 +238,7 @@ class _DeterministicVisibleFallbackPainter extends CustomPainter {
       canvas.drawCircle(c, r, stroke);
     }
 
-    // Checkerboard is useful only when previewing transparency (AR/export).
+    // Checkerboard is useful only when previewing transparency (export).
     // In normal viewing it looks noisy and reduces perceived quality.
     if (transparentBackground) {
       final checkerA = Paint()..color = const Color(0x22000000);
