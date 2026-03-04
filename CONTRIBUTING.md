@@ -83,7 +83,6 @@ lib/
 │   ├── services/            # Business services (export, storage)
 │   └── theme/               # App theming
 ├── features/                # Feature modules (screens, widgets)
-│   ├── ar/                  # AR overlay feature
 │   ├── catalog/             # Fractal browser
 │   ├── controls/            # Parameter controls
 │   ├── home/                # Home screen
@@ -179,7 +178,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 ```
 feat: add new Phoenix fractal module
 fix: correct zoom clamping for 2D fractals
-docs: update README with AR instructions
+docs: update README with instructions
 refactor: extract shader loading to service
 test: add widget tests for preset sheet
 ```

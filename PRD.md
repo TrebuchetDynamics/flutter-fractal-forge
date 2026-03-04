@@ -1,7 +1,6 @@
 # PRD - Flutter Fractals (Android, Free)
 
 ## 1) Product statement
-A free Android app for exploring many fractals with high-performance GLSL fragment shader rendering, sliders, and auto-animations, plus exports (including transparent PNG and short baked AR videos) for sharing/creation.
 
 ## 2) Goals / Non-goals
 ### Goals
@@ -19,12 +18,10 @@ A free Android app for exploring many fractals with high-performance GLSL fragme
 - iOS release.
 - Accounts/cloud sync.
 - Community marketplace.
-- World-anchored AR (ARCore plane detection/occlusion) - later.
 
 ## 3) Target users & use cases
 - Casual users: "Show me cool fractals" -> presets + autoplay.
 - Hobbyists: tweak parameters precisely, save favorites, export high-res.
-- Creators: generate visuals for videos/thumbnails, AR overlays.
 
 ## 4) Key user flows
 1. Open app -> Explore fractal catalog.
@@ -32,8 +29,6 @@ A free Android app for exploring many fractals with high-performance GLSL fragme
 3. Explore: gestures + sliders + palette + auto-animate.
 4. Save preset.
 5. Export/share image.
-6. Switch to AR mode -> camera background + fractal overlay.
-7. Export/share baked AR video (<= 15s).
 
 ## 5) MVP scope (must ship)
 
@@ -82,10 +77,8 @@ Additionally in MVP:
   - UI toggle: "Premultiplied Alpha" (on/off).
 - Share sheet integration with standardized filename (e.g., `FractalName_Date.png`).
 
-## 6) AR (MVP = "easy AR" / AR-0)
 
 ### 6.1 Definition
-AR-0 = camera background + fractal overlay (not world-tracked AR).
 
 ### 6.2 Features
 - Camera preview background.
@@ -102,11 +95,9 @@ AR-0 = camera background + fractal overlay (not world-tracked AR).
 
 ### 6.3 Permissions
 - Camera permission with clear rationale.
-- AR mode disabled gracefully if denied.
 
 ## 7) Short video export (MVP)
 
-### 7.1 AR video (screen recording approach)
 - Method: capture the composite Flutter view (camera texture + shader layer) via a view recorder / surface frame grabber.
 - Constraint: resolution matches the device screen aspect ratio.
 - Duration: max 15s. Presets: 5s / 10s / 15s.
@@ -116,7 +107,6 @@ AR-0 = camera background + fractal overlay (not world-tracked AR).
 ### 7.2 Nice-to-have: overlay-only alpha video
 - Only if straightforward; otherwise defer.
 
-### 7.3 High-quality loop export (non-AR)
 - Method: frame-by-frame off-screen rendering + FFmpeg stitching (`ffmpeg_kit` or similar).
 - Benefit: perfect 60fps loops even if the device lags during live preview.
 - Format: MP4 (H.264), seamless loop.
@@ -150,11 +140,8 @@ Suggested `FractalModule` interface:
 - Transparent exports composite cleanly (no black halos; correct premultiplied-alpha handling).
 - Visuals: no banding artifacts in gradients (dither in shader or use 32-bit color where supported).
 - UX: Android Back gesture closes the Palette/Settings sheet before exiting the Viewer.
-- AR mode:
   - Camera starts reliably on common devices.
   - Overlay transforms feel responsive.
-  - Baked AR video exports successfully and matches on-screen view.
-  - Thermals: AR mode auto-dims screen or throttles frame rate if thermal state reaches Critical.
 
 ## 11) Risks / constraints
 - GPU-heavy fractals + camera can overheat devices -> implement quality presets + throttling.
@@ -170,7 +157,6 @@ Suggested `FractalModule` interface:
 2. Fractals: port Mandelbrot and Julia first to test the engine.
 3. UI: build the dynamic slider system based on the schema.
 4. Export: implement image export (easy).
-5. AR: implement camera preview + overlay (harder).
 6. Video: implement FFmpeg binding for video export (hardest).
 
 ## 14) Fractal Catalog Roadmap (100+ Fractals)
@@ -245,8 +231,6 @@ Each new fractal must pass:
 ### Implemented
 - 6 fractal modules: Mandelbrot, Julia, Burning Ship, Phoenix, Mandelbulb
 - In-app FFmpeg via `ffmpeg_kit_flutter_min_gpl` for video export
-- AR baked video composition (720p default)
-- Export progress UI for PNG + AR exports
 - Dedicated export directory (Android Pictures/FlutterFractals)
 - Schema-driven controls per fractal
 - Minimap navigation overlay
@@ -264,4 +248,3 @@ Each new fractal must pass:
 - Add 99 more fractals per roadmap (Section 14)
 - Verify FFmpeg kit on real Android devices
 - MediaStore integration for Android 10+ gallery visibility
-- Audio encoding in AR exports

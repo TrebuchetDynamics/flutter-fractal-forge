@@ -87,7 +87,7 @@ if (zMagSq > bailoutSq) {
 
 **Impact:** Reduces color banding artifacts without additional iterations.
 
-### 5. Branchless Alpha (AR Mode)
+### 5. Branchless Alpha (Mode)
 
 **Before:**
 ```glsl

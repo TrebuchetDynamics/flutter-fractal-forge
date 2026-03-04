@@ -66,7 +66,6 @@ Size: 55.7 MB
 | formulas | 4 | frm_parser_test | — | ⚠️ Partial — FRM parser tested; formula registry not |
 | history | 4 | — | — | ❌ No test coverage |
 | presets | 1 | preset_sheet_widget_test, preset_sheet_comprehensive_test | user_flows (save/apply) | ✅ Covered |
-| ar | 1 | ar_overlay_screen_widget_test (10 tests) | — | ⚠️ Partial — permission UI tested; camera render not |
 | minimap | 1 | — | — | ❌ No test coverage |
 | onboarding | 1 | onboarding_test | — | ✅ Covered |
 | export | 3 | export_service_test, export_options_sheet_widget_test | user_flows (export sheet opens) | ⚠️ Partial — file write to MediaStore not tested |
@@ -76,7 +75,6 @@ Size: 55.7 MB
 | auto_explore | 3 | — | — | ❌ No test coverage |
 | home | 1 | home_screen_widget_test (6 tests) | — | ✅ Covered |
 
-**Summary:** 10 modules covered, 5 partial (formulas/ar/export), 5 with zero test coverage (history, minimap, wallpaper, settings, auto_explore).
 
 ---
 
@@ -103,7 +101,6 @@ Size: 55.7 MB
 | Export PNG/JPG/WebP | ✅ Shipped | ExportService generates filenames, applies wallpaper styles | P0 |
 | Export to MediaStore (gallery) | ⚠️ Untested | Needs real-device test — MediaStore write not in emulator suite | P0 |
 | Wallpaper set | ⚠️ Partial | WallpaperManager code exists; no integration test | P1 |
-| AR overlay | ⚠️ Partial | Permission UI tested; camera render untested; orientation crash risk | P2 |
 | Onboarding | ✅ Shipped | 3-step walkthrough; skippable; version-gated | P0 |
 | Minimap | ⚠️ Partial | Widget exists; 0 test coverage; visually unpolished | P2 |
 | Settings (renderer backend) | ✅ Shipped | Auto/CPU/GPU modes; persisted in SharedPreferences | P1 |
@@ -256,12 +253,10 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
 | MediaStore export fails on Android 10+ (scoped storage) | High | P0 — users cannot save images | Real-device export test before release; verify `MediaStore.Images.Media.insertImage()` path |
-| AR camera crash on orientation change | Medium | P1 — crash with camera open | AR not in 1.0 critical path; mark as beta; add `try/catch` around camera session |
 | GPU health probe timeout on slow real devices | Low | P2 — noisy logs, delayed health confirmation | Increase timeout; detect GPU tier at startup |
 | Mandelbulb/Mandelbox CPU render freeze (> 5 s) | Medium | P1 — ANR if called on main thread | These modules use CPU path; verify they use isolate renderer and are time-bounded |
 | Perturbation theory for all escape-time fractals not shipped | Certain | P2 — deep zoom breaks for 9 non-Mandelbrot escape-time fractals | Prioritize; shared `escape_time_perturb_gpu.frag` with uFormula selector already planned |
 | 7 missing Spanish translations | Certain | P2 — bad UX for ES users | Translate before 1.0; file: `lib/l10n/app_es.arb` |
-| Play Store review rejection | Low | P0 — blocks release | All permissions reviewed; 0 in main manifest; camera only for AR (requested at runtime) |
 | History module regression (0 test coverage) | Medium | P2 — silent breakage | Add tests before 1.0 |
 | `full_screenshots_test.dart` Julia finder bug | Certain | P1 — CI test fails | Fix scrollUntilVisible; low effort |
 | Emulator probe timeout noise | Certain (emulator only) | P3 — confusing logs | Add EMU_PROBE_TIMEOUT_MS dart define |
@@ -302,7 +297,6 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 - [ ] Wallpaper integration test on real device (WallpaperManager API 27+)
 - [ ] Add test coverage for settings and auto_explore
 - [ ] deltoid/eisenstein visual QA — confirm blank at default zoom is expected
-- [ ] AR stability test — orientation change without crash
 
 ### M4: Release Gate (Target: 4 weeks)
 - [ ] All 10 hard gates GREEN (currently 9/10)

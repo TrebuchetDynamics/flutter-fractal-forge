@@ -132,11 +132,11 @@ void main() {
       await tester.pump(const Duration(milliseconds: 50));
     });
 
-    testWidgets('AR FAB is present for quick access', (tester) async {
+    testWidgets('camera FAB is not shown (feature removed)', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.camera_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.camera_rounded), findsNothing);
     });
 
     testWidgets(

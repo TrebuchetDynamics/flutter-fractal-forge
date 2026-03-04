@@ -4,7 +4,6 @@
   <img src="assets/feature-graphic.png" alt="Flutter Fractal Forge" width="600"/>
 </p>
 
-The most comprehensive fractal explorer on mobile — 350+ GPU-accelerated fractal types across 15+ categories, ARCore overlay to place living fractals on real surfaces, and a three-tier deep-zoom engine that reaches 10^14x magnification.
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?logo=flutter)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart)](https://dart.dev)
@@ -42,9 +41,7 @@ Mandelbulb, Mandelbox, pseudo-Kleinian, and other distance-estimated 3D structur
 
 All 350+ types are rendered in real time entirely on the GPU via GLSL fragment shaders.
 
-### 📡 Augmented Reality Overlay
 
-Place fractal overlays on floors, tables, and walls using your camera and ARCore surface detection. Tap any detected surface to anchor a fractal in your real environment. No images or audio are captured. No data leaves your device.
 
 ### 🔬 Deep Zoom — Multi-Precision Rendering
 
@@ -96,13 +93,11 @@ Save any fractal as a high-resolution PNG with optional transparency and share d
 
 ### 🔒 No Ads. No Tracking. No Data Collection.
 
-The camera is used only for AR surface detection. No images, usage data, or personal information are collected or transmitted.
 
 ---
 
 ## 📸 Screenshots
 
-| Fractal Catalog | Viewer with Controls | AR Overlay |
 | :---: | :---: | :---: |
 | Browse 350+ fractal types | Interactive viewer with deep zoom | Place fractals on real surfaces |
 
@@ -175,7 +170,6 @@ lib/
 │   │   ├── fractal_parameter.dart      # Parameter schema definition
 │   │   ├── fractal_preset.dart         # Preset storage model
 │   │   ├── fractal_view_state.dart     # Camera/view state
-│   │   ├── ar_quality_preset.dart      # AR quality settings
 │   │   └── export_options.dart         # Export configuration
 │   ├── modules/                        # Fractal module definitions
 │   │   ├── fractal_module.dart         # Base module interface
@@ -187,7 +181,6 @@ lib/
 │   └── theme/                          # Theming system
 │       └── app_theme.dart
 ├── features/                           # Feature modules
-│   ├── ar/                             # ARCore camera overlay
 │   ├── auto_explore/                   # Intelligent auto-zoom
 │   ├── catalog/                        # Fractal catalog browser
 │   ├── controls/                       # Parameter controls UI
@@ -288,7 +281,6 @@ void main() {
 
 | Platform | Minimum | Notes |
 | :------- | :------ | :---- |
-| Android  | API 21 (5.0) | OpenGL ES 3.0 required; ARCore for AR features |
 | iOS      | 10.0 | Metal-backed shaders |
 | Web      | Chrome 70+ | WebGL 2.0 required |
 | Desktop  | Varies | GPU driver dependent |

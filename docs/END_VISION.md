@@ -13,7 +13,6 @@
 - Perturbation theory deep zoom on escape-time fractals extending GPU zoom range to ~10³⁰ before float precision breaks down
 - Smooth escape-time coloring + sampler2D palette texture on all 10 core escape-time shaders — color bands eliminated at all zoom levels
 - In-app diagnostic logger exportable as text/JSON — fractal coordinates, backend decisions, shader compile times, GPU health — for power users and bug reports
-- AR overlay mode: fractal rendered live over camera feed
 
 ---
 
@@ -65,9 +64,6 @@
 **Done:** Every fractal the user opens is logged in a session history list (module ID + timestamp + thumbnail). User can navigate backward through history from the viewer via a back button that restores the previous view state. History persists across cold starts (stored in SharedPreferences).  
 *Not done: history UI surface not yet accessible from the catalog screen; only accessible from viewer.*
 
-### AR
-**Done:** Camera permission requested with rationale. Fractal overlay rendered at configurable opacity over live camera feed. Zoom gesture works in AR mode. Frame rate target ≥ 15 fps on mid-range device in AR mode. User can exit AR and return to viewer.  
-*Not done: AR is not stable on all Android camera HALs; crashes on some devices when camera session changes orientation.*
 
 ### Minimap
 **Done:** Small inset viewport showing where the current view sits within the full fractal extent. Tapping the minimap teleports to that location. Minimap updates in real time as the user pans/zooms.  
@@ -79,7 +75,6 @@
 
 ### Onboarding
 **Done:** First-launch walkthrough covers: (1) how to navigate (pan/zoom), (2) how to browse the catalog, (3) one CTA to explore a featured fractal. Onboarding is skippable. Onboarding version is persisted; updated versions re-trigger for existing users.  
-*Not done: onboarding does not demonstrate tilt, rotation, or AR.*
 
 ### Export
 **Done:** User can export the current fractal view as PNG, JPG, or WebP at screen / HD / Full HD / 4K / custom resolution. Export file is written to the device gallery (MediaStore on API 29+). Share sheet can be triggered directly from export. Export metadata (EXIF: fractal type, parameters, creation date) is embedded in PNG.  
@@ -138,8 +133,6 @@
 3. WallpaperManager called (API 27+) or gallery deeplink (older)
 4. **Done: wallpaper set without leaving the app on API 27+.**
 
-### CUJ-8: AR Mode
-1. Viewer → overflow menu → AR Mode
 2. Camera permission dialog → Grant
 3. Fractal renders over camera at 50% opacity
 4. User pinches to zoom fractal overlay
@@ -156,7 +149,6 @@
 | First GPU frame (emulator, SwiftShader) | ≤ 500 ms | SwiftShader ~3× slower |
 | Shader cache hit frame time | ≤ 5 ms | Module switches feel instant |
 | Sustained FPS (2D fractal, mid-range) | ≥ 30 fps | Smooth enough for gesture navigation |
-| Sustained FPS (AR mode, mid-range) | ≥ 15 fps | Camera + render budget |
 | Cold start to catalog visible | ≤ 3 s | P90 on Pixel 6a |
 | Crash rate (Google Play Vitals) | < 0.5% sessions | Store listing requirement |
 | ANR rate | < 0.1% sessions | Store listing requirement |

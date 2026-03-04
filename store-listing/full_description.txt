@@ -1,10 +1,9 @@
-Fractal Forge is the most comprehensive fractal explorer on mobile — with 350+ GPU-accelerated fractal types and the ability to place living fractals onto real-world surfaces using your camera and ARCore.
+Fractal Forge is the most comprehensive fractal explorer on mobile — with 350+ GPU-accelerated fractal types and the ability to place living fractals onto real-world surfaces using your camera and camera.
 
 350+ fractal types — the largest collection on any mobile app
 Mandelbrot, Julia sets, Burning Ship, Tricorn, Celtic, Buffalo, Newton basins, Nova, Phoenix, Lyapunov, Buddhabrot and hundreds more — spanning escape-time fractals, strange attractors, cellular automata, space-filling curves, tilings, root-finding methods, and 3D ray-marched fractals (Mandelbulb, Mandelbox). All rendered in real time by GLSL fragment shaders on the GPU.
 
-Augmented Reality overlay
-Use your camera to place fractal overlays on floors, tables, and walls. Tap any surface detected by ARCore to anchor a fractal in your real environment. No audio captured. No data leaves your device.
+Use your camera to place fractal overlays on floors, tables, and walls. Tap any surface detected by camera to anchor a fractal in your real environment. No audio captured. No data leaves your device.
 
 Deep zoom with multi-precision rendering
 A three-tier precision engine provides float32 GPU rendering, double-float GPU emulation (up to 10^14x magnification), and CPU fallback with full double-precision math — far beyond standard 32-bit rendering.
@@ -28,7 +27,7 @@ Accessibility built in
 WCAG AAA high-contrast theme, reduced-motion support, screen reader labels, and configurable touch targets.
 
 No ads. No data collection. No tracking.
-The camera is used only for AR surface detection. No images or personal data are collected or transmitted. Your exploration is entirely private.
+The camera is used only for surface detection. No images or personal data are collected or transmitted. Your exploration is entirely private.
 
 Perfect for:
 - Math and science learners exploring complex dynamics

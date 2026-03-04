@@ -68,7 +68,6 @@ One critical issue (C4: unlabeled button) remains for developer investigation.
 - permission_handler ^11.0.0
 - camera ^0.10.6
 - image ^4.0.0
-- arcore_flutter_plugin (local, third_party/)
 
 ### Dev Dependencies (test infrastructure)
 - alchemist ^0.10.0 (golden testing)
@@ -91,13 +90,11 @@ One critical issue (C4: unlabeled button) remains for developer investigation.
    Grid/list of 370+ fractals, search, dimension filters, sort, featured carousel.
 
 5. **FractalViewerScreen** -- lib/features/viewer/fractal_viewer_screen.dart:65
-   GPU/CPU renderer, minimap, export overlay, AR entry, HUD, controls dock.
+   GPU/CPU renderer, minimap, export overlay, entry, HUD, controls dock.
 
-6. **ArOverlayScreen** -- lib/features/ar/ar_overlay_screen.dart:120
-   Camera-based AR overlay with fractal compositing, quality presets, video export.
+   Camera-based overlay with fractal compositing, quality presets, video export.
 
-7. **ArCoreAnchorScreen** -- lib/features/ar/arcore_anchor_screen.dart:26
-   ARCore surface detection, fractal placement, share/save, glass-morphism UI.
+   camera surface detection, fractal placement, share/save, glass-morphism UI.
 
 8. **LogViewerScreen** -- lib/features/debug/log_viewer_screen.dart:12
    Debug log viewer with filters, export, share.
@@ -422,16 +419,10 @@ run on physical device or linux desktop for reliable baselines.
 - File: lib/features/viewer/fractal_viewer_screen.dart:514
 - Fix: Wrap with Semantics(label: 'Switch to CPU for deep zoom', button: true).
 
-### W5. ArCoreAnchorScreen back button (_GlassPill) lacks Semantics label
-- File: lib/features/ar/arcore_anchor_screen.dart:232-239
 - Fix: Wrap with Semantics(label: 'Go back', button: true).
 
-### W6. ArCoreAnchorScreen collapse handle GestureDetector lacks Semantics
-- File: lib/features/ar/arcore_anchor_screen.dart:524-530
 - Fix: Add Semantics(label: 'Collapse panel', button: true).
 
-### W7. ArCoreAnchorScreen scan tips close button lacks Semantics
-- File: lib/features/ar/arcore_anchor_screen.dart:371-373
 - Fix: Add Semantics(label: 'Dismiss tips', button: true).
 
 ### W8. Shader Lab screen uses hardcoded English strings
@@ -509,12 +500,11 @@ Results same as HomeScreen above.
 | Check              | Result  | Notes                                    |
 |--------------------|---------|------------------------------------------|
 | All checks         | N/A     | Requires camera hardware                 |
-| Semantic tree      | REVIEW  | Complex AR UI, manual audit recommended  |
+| Semantic tree      | REVIEW  | Complex UI, manual audit recommended  |
 
-### Screen 7: ArCoreAnchorScreen
 | Check              | Result  | Notes                                    |
 |--------------------|---------|------------------------------------------|
-| All checks         | N/A     | Requires ARCore hardware                 |
+| All checks         | N/A     | Requires camera hardware                 |
 | Labeled targets    | WARN    | W5, W6, W7: 3 unlabeled GestureDetectors|
 
 ### Screen 8: LogViewerScreen
@@ -716,7 +706,7 @@ maestro test .maestro/04_export_flow.yaml
 
 ### Priority 3 (nice to have)
 - **W3** -- Splash skip for screen readers
-- **W5, W6, W7** -- ARCore screen Semantics gaps
+- **W5, W6, W7** -- camera screen Semantics gaps
 - **W8** -- Shader Lab localization (developer-only)
 
 ------------------------------------------------------------------------

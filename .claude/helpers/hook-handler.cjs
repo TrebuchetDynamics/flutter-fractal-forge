@@ -74,6 +74,53 @@ const handlers = {
     console.log('[OK] Command validated');
   },
 
+  'post-bash': () => {
+    if (session && session.metric) {
+      try { session.metric('commands'); } catch (e) { /* no active session */ }
+    }
+
+    var errored = false;
+    var exitCodeRaw = process.env.TOOL_EXIT_CODE || process.env.EXIT_CODE || '';
+    if (exitCodeRaw !== '') {
+      var exitCode = Number(exitCodeRaw);
+      if (!Number.isNaN(exitCode)) {
+        errored = exitCode !== 0;
+      }
+    }
+
+    if (!errored) {
+      var errorFlags = [
+        process.env.TOOL_ERROR,
+        process.env.TOOL_RESULT_ERROR,
+        process.env.IS_ERROR,
+      ];
+      for (var j = 0; j < errorFlags.length; j++) {
+        var flag = errorFlags[j];
+        if (typeof flag === 'string' && ['1', 'true', 'yes'].includes(flag.toLowerCase())) {
+          errored = true;
+          break;
+        }
+      }
+    }
+
+    if (!errored && process.env.TOOL_RESULT) {
+      try {
+        var parsedResult = JSON.parse(process.env.TOOL_RESULT);
+        errored = Boolean(parsedResult && (parsedResult.is_error === true || parsedResult.error));
+      } catch (e) { /* non-json result */ }
+    }
+
+    if (errored && session && session.metric) {
+      try { session.metric('errors'); } catch (e) { /* no active session */ }
+    }
+
+    if (errored) {
+      console.log('[WARN] Command completed with error');
+    } else {
+      console.log('[OK] Command recorded');
+    }
+  },
+
   'post-edit': () => {
     if (session && session.metric) {
       try { session.metric('edits'); } catch (e) { /* no active session */ }
@@ -187,5 +234,5 @@ if (command && handlers[command]) {
 } else if (command) {
   console.log('[OK] Hook: ' + command);
 } else {
-  console.log('Usage: hook-handler.cjs <route|pre-bash|post-edit|session-restore|session-end|pre-task|post-task|compact-manual|compact-auto|status|stats>');
+  console.log('Usage: hook-handler.cjs <route|pre-bash|post-bash|post-edit|session-restore|session-end|pre-task|post-task|compact-manual|compact-auto|status|stats>');
 }

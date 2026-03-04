@@ -49,7 +49,6 @@ For this app specifically, capture:
 
 ## 5) Data safety form (Play Console)
 - [ ] Fill Data Safety section
-- [ ] Declare camera permission usage (AR overlay) if present
 - [ ] Declare storage/file access (import/export)
 - [ ] Declare any sharing endpoints
 

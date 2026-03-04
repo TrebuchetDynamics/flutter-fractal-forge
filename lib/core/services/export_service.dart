@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 
@@ -96,34 +95,18 @@ class ExportService {
 
   Future<Directory> getExportDirectory() async {
     if (!kIsWeb && Platform.isAndroid) {
-      // On Android 10+ (API 29+) apps can write to their own external storage
-      // directories without the WRITE_EXTERNAL_STORAGE permission via scoped
-      // storage. On older devices (minSdk 21, Android 5+) the legacy permission
-      // is still required. We request it here and fall back to internal storage
-      // if the user denies it.
-      bool canUseExternal = false;
-
-      final storageStatus = await Permission.storage.status;
-      if (storageStatus.isGranted) {
-        canUseExternal = true;
-      } else if (storageStatus.isDenied) {
-        final result = await Permission.storage.request();
-        canUseExternal = result.isGranted;
-      }
-      // If permanently denied, canUseExternal stays false → fall back below.
-
-      if (canUseExternal) {
-        final dirs = await getExternalStorageDirectories(
-          type: StorageDirectory.pictures,
-        );
-        final baseDir = dirs?.isNotEmpty == true ? dirs!.first : null;
-        if (baseDir != null) {
-          final exportDir = Directory('${baseDir.path}/FlutterFractals');
-          if (!await exportDir.exists()) {
-            await exportDir.create(recursive: true);
-          }
-          return exportDir;
+      // Avoid runtime storage permission prompts. Use app-scoped external
+      // pictures dir when available; otherwise fall back to app documents.
+      final dirs = await getExternalStorageDirectories(
+        type: StorageDirectory.pictures,
+      );
+      final baseDir = dirs?.isNotEmpty == true ? dirs!.first : null;
+      if (baseDir != null) {
+        final exportDir = Directory('${baseDir.path}/FlutterFractals');
+        if (!await exportDir.exists()) {
+          await exportDir.create(recursive: true);
         }
+        return exportDir;
       }
     }
     final dir = await getApplicationDocumentsDirectory();

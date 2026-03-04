@@ -6,9 +6,9 @@
 
 ## Short Description (max 80 chars)
 
-**EN (66 chars):** Real-time fractal explorer with shaders, presets, exports, and AR.
+**EN (66 chars):** Real-time fractal explorer with shaders, presets, exports,.
 
-**ES (72 chars):** Explora fractales en tiempo real con shaders, presets, exportación y AR.
+**ES (72 chars):** Explora fractales en tiempo real con shaders, presets, exportación.
 
 ---
 
@@ -43,10 +43,9 @@ Discover a growing catalog of fractals rendered with high‑performance fragment
 #### Export and share
 - Export PNG images at selectable resolutions (up to 4K)
 - Optional transparent PNG export (when enabled)
-- AR overlay mode (camera background + fractal overlay)
-- Export short AR videos (up to 15 seconds)
-- Three AR style presets (Neon, Soft, Mono)
-- AR quality presets (Low, Medium, High) for performance tuning
+- Export short videos (up to 15 seconds)
+- Three style presets (Neon, Soft, Mono)
+- quality presets (Low, Medium, High) for performance tuning
 
 #### Privacy‑first
 - No accounts
@@ -54,7 +53,7 @@ Discover a growing catalog of fractals rendered with high‑performance fragment
 - No tracking or analytics
 - Works offline for core features
 
-If you enable AR overlay, the camera is used only to show a live preview on your device and to render your chosen fractal overlay. Camera frames are not transmitted anywhere.
+If you enable overlay, the camera is used only to show a live preview on your device and to render your chosen fractal overlay. Camera frames are not transmitted anywhere.
 
 #### Perfect For
 - Math enthusiasts exploring the beauty of fractals
@@ -92,10 +91,10 @@ Explora un catálogo creciente de fractales renderizados con shaders (fragment s
 #### Exporta y comparte
 - Exporta imágenes PNG en resoluciones seleccionables (hasta 4K)
 - Exportación opcional de PNG con transparencia
-- Modo AR de superposición (cámara + fractal)
-- Exporta videos cortos en AR (hasta 15 segundos)
-- Tres presets de estilo AR (Neón, Suave, Mono)
-- Presets de calidad AR (Bajo, Medio, Alto) para ajustar rendimiento
+- Modo de superposición (cámara + fractal)
+- Exporta videos cortos en (hasta 15 segundos)
+- Tres presets de estilo (Neón, Suave, Mono)
+- Presets de calidad (Bajo, Medio, Alto) para ajustar rendimiento
 
 #### Privacidad primero
 - Sin cuentas
@@ -103,7 +102,6 @@ Explora un catálogo creciente de fractales renderizados con shaders (fragment s
 - Sin rastreo ni analíticas
 - Funciona sin internet para las funciones principales
 
-Si activas el modo AR, la cámara se usa solo para mostrar una vista previa en tu dispositivo y superponer el fractal. Las imágenes de la cámara no se transmiten a ningún servidor.
 
 ---
 
@@ -120,8 +118,7 @@ Welcome to Flutter Fractals! 🎨
 - Over 20 built-in presets to inspire exploration
 - Custom preset saving and randomization
 - Export to PNG (including transparent PNG, up to 4K)
-- AR mode with camera background integration
-- Export AR videos up to 15 seconds
+- Export videos up to 15 seconds
 - English and Spanish localization
 - Privacy-first design with no ads or tracking
 
@@ -137,7 +134,6 @@ Explore infinite mathematical beauty. Get started now!
 - Parameter controls + palettes + randomize
 - Save local presets
 - Export PNG (optional transparent background, up to 4K)
-- Optional AR overlay mode with short video export
 - Privacy‑first: no accounts, no ads, no tracking/analytics
 
 ---
@@ -145,7 +141,6 @@ Explore infinite mathematical beauty. Get started now!
 ## Permissions & Data Safety
 
 ### Permissions (expected)
-- **Camera (optional):** Used only for the AR overlay mode (live preview + fractal overlay). Not recorded/saved unless you explicitly export.
 - **Photos/Media/Files (storage access, where applicable):** Used to save your exported images/videos and to store your local presets/configuration.
 
 > Note: Exact permission names vary by Android version (e.g., MediaStore / Photos & Videos). Describe them in Play Console according to the manifest.
@@ -156,7 +151,6 @@ Explore infinite mathematical beauty. Get started now!
 - **Tracking:** None.
 
 ### Data handling
-- **On-device processing:** Fractal rendering and camera overlay processing happen on-device.
 - **Local storage only:** Presets/config and exports are stored locally and remain under user control.
 
 ---
@@ -176,8 +170,7 @@ Explore infinite mathematical beauty. Get started now!
 - abstract visuals
 
 **Secondary:**
-- augmented reality overlay
-- ar camera
+- camera
 - real-time rendering
 - png export
 - transparent png
@@ -199,7 +192,7 @@ Explore infinite mathematical beauty. Get started now!
 - Lifestyle
 - Education (secondary – due to mathematical/educational value)
 
-**Reasoning:** The app's primary use case is visual exploration and content creation, with strong appeal for wallpapers, AR overlays, and creative inspiration. Personalization captures users seeking visual experiences and customization tools.
+**Reasoning:** The app's primary use case is visual exploration and content creation, with strong appeal for wallpapers, overlays, and creative inspiration. Personalization captures users seeking visual experiences and customization tools.
 
 ---
 
@@ -237,12 +230,11 @@ Explore infinite mathematical beauty. Get started now!
 
 ### App content / compliance
 - [ ] Declare **Data Safety** answers consistent with privacy policy (no collection, no sharing, no tracking)
-- [ ] Declare **Permissions** with clear justification (camera only for AR overlay; media/files only for export)
+- [ ] Declare **Permissions** with clear justification (camera only for overlay; media/files only for export)
 - [ ] Content rating (IARC) questionnaire completed
 
 ### Build & QA
-- [ ] Verify AR mode behavior when camera permission is denied (graceful disable)
-- [ ] Test exports: PNG and AR video on at least 2 real devices
+- [ ] Test exports: PNG and video on at least 2 real devices
 - [ ] Confirm exported files go to the intended directory and are visible to the user
 - [ ] Confirm app works offline (no required network for core features)
 - [ ] Smoke test: startup, shader compilation, navigation, no crashes during slider scrubbing
@@ -261,8 +253,7 @@ Explore infinite mathematical beauty. Get started now!
 2. **Screenshot 2:** Mandelbulb 3D fractal showcasing the rotation and zoom controls
 3. **Screenshot 3:** Julia set 2D fractal with color customization
 4. **Screenshot 4:** Parameter sliders showing real-time customization
-5. **Screenshot 5:** AR mode showing fractal overlay on camera
-6. **Screenshot 6:** Export options (PNG and AR video)
+6. **Screenshot 6:** Export options (PNG and video)
 
 ### Feature Graphic Suggestions
 - Showcase a stunning Mandelbulb or Julia fractal in the center

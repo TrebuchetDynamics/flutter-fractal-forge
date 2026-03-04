@@ -65,12 +65,6 @@ void main() {
         reason: 'Explore tab should have a semantic label',
       );
 
-      // Check for AR tab semantic label
-      expect(
-        find.bySemanticsLabel(RegExp(r'.*AR.*|.*augmented.*', caseSensitive: false)),
-        findsWidgets,
-        reason: 'AR tab should have a semantic label',
-      );
 
       semanticsHandle.dispose();
     });

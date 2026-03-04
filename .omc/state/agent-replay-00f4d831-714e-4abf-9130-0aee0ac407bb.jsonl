@@ -1,6 +1,0 @@
-{"t":0,"agent":"system","event":"keyword_detected","keyword":"sciomc"}
-{"t":0,"agent":"system","event":"skill_invoked","skill_name":"oh-my-claudecode:sciomc"}
-{"t":0,"agent":"ad703a9","agent_type":"researcher","event":"agent_start","parent_mode":"none"}
-{"t":0,"agent":"ad703a9","agent_type":"researcher","event":"agent_stop","success":true,"duration_ms":170492}
-{"t":0,"agent":"a7c7ad9","agent_type":"unknown","event":"agent_stop","success":true}
-{"t":0,"agent":"ab9dfd4","agent_type":"unknown","event":"agent_stop","success":true}

@@ -32,7 +32,6 @@ Status: Finalized for first upload (pending actual Play Console form submission)
 ## Notes for first submission
 - Content is mathematical/visual fractal rendering only.
 - There are no backend servers required for app operation.
-- If optional AR/camera features are re-introduced later, re-run this checklist before the next release.
 
 ## Remaining manual console steps
 - Submit these answers inside Play Console IARC flow.

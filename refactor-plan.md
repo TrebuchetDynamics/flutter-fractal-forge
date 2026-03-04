@@ -17,7 +17,6 @@ lib/
 ├── features/
 │   ├── viewer/        (1 file)       — fractal_viewer_screen.dart ⚠️ 2929 lines
 │   ├── renderer/      (12 files)     — GPU/CPU rendering + gestures
-│   ├── ar/            (1 file)       — ar_overlay_screen.dart ⚠️ 1202 lines
 │   ├── catalog/       (3 files)      — fractal catalog browser
 │   ├── controls/      (1 file)       — parameter controls sheet
 │   ├── export/        (3 files)      — image/video export
@@ -229,11 +228,10 @@ _cpu_burning_ship(...) => escapeTimeFormula(x, y, iterations, bailout,
 
 ### R6. Introduce shared UI patterns in `lib/shared/`
 
-Create reusable widgets for patterns duplicated across viewer, AR, and catalog screens:
 
 | New file | Widget | Used by |
 |---|---|---|
-| `shared/widgets/module_selector_sheet.dart` | `ModuleSelectorSheet` | viewer, AR overlay |
+| `shared/widgets/module_selector_sheet.dart` | `ModuleSelectorSheet` | viewer, overlay |
 | `shared/widgets/bottom_sheet_scaffold.dart` | `AppBottomSheet` (consistent drag handle, padding, glass effect) | controls, presets, history, export, wallpaper |
 | `shared/widgets/section_header.dart` | `SectionHeader` (title + optional action) | controls, export, presets |
 
@@ -283,7 +281,7 @@ Key files that will act as regression guards:
 - `test/cpu_mandelbrot_visual_gate_test.dart` — CPU formula correctness
 - `test/cpu_formula_coverage_test.dart` — CPU formula coverage
 - `test/export_service_test.dart` — export logic
-- `test/ar_overlay_screen_widget_test.dart` — AR screen tests
+- `test/ar_overlay_screen_widget_test.dart` — screen tests
 - `test/crash_reporter_test.dart` — crash reporter
 
 ### Test Strategy Per Refactoring

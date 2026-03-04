@@ -30,7 +30,6 @@ All data created by the app stays on your device:
 
 ## Permissions
 
-- **Camera:** Used only for the AR overlay feature (fractal + camera composite). Camera data is processed locally and never transmitted or stored beyond the current session.
 - **Storage:** Used to save exported images and videos to your device.
 
 ## Third-Party Services

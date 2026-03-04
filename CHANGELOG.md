@@ -8,14 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0+24] - 2026-02-25
 
 ### Added
-- AR surface detection with scan tips and enhanced user guidance
 - Improved fractal catalog with comprehensive 196+ entry collection
 - Enhanced visual assets for better user experience
 
 ### Changed
 - Updated store listing descriptions with accurate fractal counts
 - Improved onboarding flow with reduced page count and better landscape layout
-- Enhanced AR overlay functionality with improved surface detection feedback
 
 ### Fixed
 - Fixed project memory access counts and last accessed timestamps
@@ -26,7 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - GPU-accelerated fractal rendering with 196+ fractal types
-- Augmented Reality overlay with ARCore surface detection
 - Deep zoom with multi-precision rendering (float32 GPU, double-float GPU emulation, CPU fallback)
 - 60+ colour schemes with sRGB-correct rendering
 - Dual Mandelbrot/Julia viewer with real-time seed parameter adjustment
@@ -50,7 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Smooth coloring and palette system improvements
 - Perturbation theory for GPU deep zoom beyond float32 limits
-- True AR plane anchoring (vertical and horizontal surfaces)
 - Improved auto-pilot navigation with manual correction acceptance
 - Enhanced preset management (delete, rename, thumbnail generation)
 - User-defined color palette support

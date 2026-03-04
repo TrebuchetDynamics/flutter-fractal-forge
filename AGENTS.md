@@ -3,7 +3,6 @@
 # Flutter Fractal Forge
 
 ## Purpose
-A free, cross-platform Flutter application for exploring 200+ mathematical fractals with GPU-accelerated GLSL fragment shader rendering. Features real-time parameter adjustment, auto-animations, AR camera overlay, and export capabilities (PNG, GIF, video). Supports EN + ES localization.
 
 ## Key Files
 
@@ -77,7 +76,7 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 - `vector_math` ^2.1.4 - Math for 3D transforms
 - `image` ^4.0.0 - Image encoding/export
 - `shared_preferences` ^2.2.0 - Local persistence
-- `camera` ^0.10.6 - AR overlay camera feed
+- `camera` ^0.10.6 - overlay camera feed
 - `path_provider` ^2.1.0 - File system paths
 - `share_plus` ^7.0.0 - Share/export
 - `permission_handler` ^11.0.0 - Runtime permissions

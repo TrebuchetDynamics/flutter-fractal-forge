@@ -17,16 +17,15 @@ dependencies:
   shared_preferences: ^2.2.0
   path_provider: ^2.1.0
   share_plus: ^7.0.0
-  permission_handler: ^11.0.0
   image: ^4.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
   integration_test:
     sdk: flutter
-  permission_handler_platform_interface: ^4.2.0
   path_provider_platform_interface: ^2.1.0
   plugin_platform_interface: ^2.1.0
+  permission_handler_platform_interface: ^4.2.3
   flutter_lints: ^4.0.0
   golden_toolkit: ^0.15.0
   flutter_launcher_icons: ^0.14.3

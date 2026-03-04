@@ -26,7 +26,6 @@ Owner: Sidon
 - [x] GPU→CPU fallback too slow when zooming deep; reduce hysteresis/threshold so CPU engages faster
 - [ ] Controls too big/too intrusive; redesign for smaller, less cluttered UI
 - [ ] 3D fractals not working at all; investigate 3D pipeline/shaders and fix
-- [ ] AR broken: no fractal preview in AR, cannot detect surfaces/anchor; fix plane detection + anchoring
 - [ ] App icon overhaul for Fractal Forge (adaptive icon + Play Store asset)
 - [ ] Improve fractal catalog thumbnails: larger view size and higher-quality renders
 - [ ] Visual playtest audit of every fractal (GPU + CPU) and log failures
@@ -81,10 +80,8 @@ Owner: Sidon
 - [ ] Enable zoom beyond float32 precision wall (~10^7) on GPU
 - [ ] CPU fallback remains for non-perturbation fractals at extreme zoom
 
-### 7) AR real anchoring (wall/floor/table)
 - [ ] Integrate true plane anchors (vertical + horizontal)
 - [ ] Tap-to-place fractal on detected plane
-- [ ] Keep overlay mode as fallback when ARCore/ARKit unavailable
 
 ### 8) Auto-Pilot navigation improvements
 - [ ] Improve path smoothness and dwell behavior
@@ -122,7 +119,6 @@ Owner: Sidon
 - [ ] Move non-critical actions into compact overflow
 
 ### 15) Onboarding and accessibility
-- [ ] Explain gestures + AR behavior clearly
 - [x] Improve screen-reader labels for catalog and controls
 
 ### 16) Stable sharing/export presets
@@ -142,7 +138,6 @@ Owner: Sidon
 - [x] CPU tile renderer (96px, center-first spiral, cancel-on-gesture)
 - [x] 196/196 render audit passing
 - [x] 64 palette support + horizontal palette selector
-- [x] Home screen simplified; AR entry in viewer only
 - [x] kDebugMode guards on all debugPrint calls across 16 files
 - [x] kIsWeb web safety guards on all dart:io files (8 files)
 - [x] Complete unit test coverage for all services (865 tests, 0 failures)
@@ -184,7 +179,6 @@ The CPU renderer works and passes all tests. No further performance investment.
 
 - [x] Add `integration_test` package to dev_dependencies _(was already present in pubspec.yaml)_
 - [x] Write first integration test for the most critical user journey (e.g., launch → browse catalog → select fractal → view/zoom → export) _(integration_test/critical_journey_test.dart: launch -> catalog -> tap Mandelbrot -> verify viewer controls -> tap export -> verify export sheet -> go back)_
-- [x] Assign `ValueKey`s to all interactive and structurally important widgets (buttons, sliders, controls, catalog items) _(added ValueKeys to: export save/share buttons, viewer control FABs [controls, random, AR, export], navigation dock buttons [zoom in/out, reset, random]; catalog cards and search already had Keys)_
 - [x] Use `find.byKey()` with `ValueKey`s for reliable, non-visual widget identification _(integration test uses find.byKey for catalogSearchField, catalogViewToggleButton, catalogModuleCard_*)_
 - [x] Implement `pumpAndSettle()` waits for animation completion in all integration tests _(semantics_audit_test.dart uses pumpAndSettle)_
 - [x] Add `find.text()` + `expect()` assertions to confirm correct text after each interaction _(critical_journey_test.dart and app_test.dart use find.text + find.byKey + expect for post-interaction verification)_
@@ -197,7 +191,6 @@ The CPU renderer works and passes all tests. No further performance investment.
 - [ ] Add `Semantics` widgets to all custom UI components lacking semantic annotations
 - [ ] Review and strategically use `MergeSemantics`, `ExcludeSemantics`, and `explicitChildNodes` to keep the tree both navigable and testable
 - [x] Write helper function to traverse the `SemanticsNode` tree and produce a text-based "narrative" of each screen _(test/helpers/semantics_test_helper.dart: traverseSemanticsTree(), buildSemanticsNarrative(), compareSemanticsNarrative(), extractSemanticsNarrative())_
-- [ ] Create "golden narrative" baseline files for critical screens (catalog, viewer, controls, export, AR)
 - [x] Add integration test assertions using `tester.getSemantics(find.byType(...))` to verify semantic properties (label, isButton, hasTapAction) _(integration_test/semantics_audit_test.dart verifies isButton flags, semantic labels on catalog cards, and key widgets)_
 - [ ] Validate semantic labels for all 196+ fractal catalog entries
 - [ ] Test semantics for GPU/CPU renderer toggle, zoom controls, palette selector

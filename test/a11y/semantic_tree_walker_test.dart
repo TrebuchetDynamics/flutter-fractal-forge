@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
@@ -53,7 +54,7 @@ class _NodeReport {
 ///   4. Image nodes (isImage flag) must have a descriptive label.
 ///
 /// Returns a list of [_NodeReport] entries with any issues found.
-List<_NodeReport> walkSemanticsTree(SemanticsNode node, {int depth = 0}) {
+List<_NodeReport> _walkSemanticsTree(SemanticsNode node, {int depth = 0}) {
   final reports = <_NodeReport>[];
   _walkRecursive(node, depth, reports, <String>{});
   return reports;
@@ -79,7 +80,6 @@ void _walkRecursive(
       (data.actions & SemanticsAction.scrollLeft.index != 0) ||
       (data.actions & SemanticsAction.scrollRight.index != 0);
 
-  // ignore: deprecated_member_use
   final isImage = data.flags & SemanticsFlag.isImage.index != 0;
 
   final hasLabel = label.isNotEmpty;
@@ -130,7 +130,7 @@ void _walkRecursive(
 }
 
 /// Prints the full semantics tree for manual inspection.
-String formatSemanticsTree(List<_NodeReport> nodes) {
+String _formatSemanticsTree(List<_NodeReport> nodes) {
   final buf = StringBuffer();
   for (final node in nodes) {
     final indent = '  ' * node.depth;
@@ -179,13 +179,12 @@ void main() {
         await tester.pumpWidget(buildApp());
         await tester.pumpAndSettle();
 
-        // ignore: deprecated_member_use
         final root =
             tester.binding.pipelineOwner.semanticsOwner?.rootSemanticsNode;
         expect(root, isNotNull, reason: 'Semantics tree root must exist');
 
-        final nodes = walkSemanticsTree(root!);
-        final tree = formatSemanticsTree(nodes);
+        final nodes = _walkSemanticsTree(root!);
+        final tree = _formatSemanticsTree(nodes);
 
         // Print full tree for manual inspection by sighted colleagues.
         // ignore: avoid_print
@@ -227,12 +226,11 @@ void main() {
         await tester.pumpWidget(buildApp());
         await tester.pumpAndSettle();
 
-        // ignore: deprecated_member_use
         final root =
             tester.binding.pipelineOwner.semanticsOwner?.rootSemanticsNode;
         expect(root, isNotNull);
 
-        final nodes = walkSemanticsTree(root!);
+        final nodes = _walkSemanticsTree(root!);
 
         final unlabeled = nodes
             .where((n) => n.isInteractive && !n.hasLabel && n.value.isEmpty)

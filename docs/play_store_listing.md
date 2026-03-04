@@ -10,7 +10,6 @@
 Flutter Fractals
 
 ## Short Description (max 80 chars)
-Explore 200+ real-time fractals with GPU shaders, AR mode, and deep zoom.
 
 ## Full Description (max 4000 chars)
 
@@ -36,8 +35,6 @@ Browse 200+ fractals across 10 categories:
 
 📸 POWERFUL EXPORT
 • High-resolution PNG up to 4K with transparent background option
-• AR camera overlay — see fractals in the real world
-• AR video capture up to 15 seconds
 • Batch export with contact sheet
 • Wallpaper-ready formats (home screen, lock screen)
 

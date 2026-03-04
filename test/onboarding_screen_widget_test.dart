@@ -163,7 +163,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 200));
 
-      // Check for export and AR features present on page 2
+      // Check for export-focused features present on page 2
       expect(find.textContaining('Export'), findsWidgets);
       expect(find.textContaining('colour schemes'), findsWidgets);
     });

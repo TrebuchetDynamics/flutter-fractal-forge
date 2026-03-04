@@ -327,7 +327,7 @@ flutter test integration_test/ -d emulator-5554 --reporter expanded
 - `integration_test/perf_smoke_test.dart`
 - `integration_test/shader_benchmark_test.dart`
 
-**AR permission path checks:**
+**permission path checks:**
 
 ```bash
 adb shell pm revoke com.trebuchetdynamics.fractal.forge android.permission.CAMERA

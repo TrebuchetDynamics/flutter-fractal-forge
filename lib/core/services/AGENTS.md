@@ -56,6 +56,5 @@ Application services providing business logic, persistence, and platform integra
 - `path_provider` - File system paths
 - `share_plus` - Share/export
 - `image` - Image encoding
-- `permission_handler` - Runtime permissions
 
 <!-- MANUAL: -->

@@ -88,7 +88,6 @@ mat3 gRotation = rotationMatrix(uRotation);
 if (dist < 0.001 * t) break;
 if (t > 10.0) break;
 
-// Reduced iteration count for AR mode
 float lodIter = uIterations * 0.7;
 ```
 
@@ -183,7 +182,6 @@ The performance service detects shader compilation stalls when frame time exceed
 
 1. **Dispose unused shaders**: When switching fractal types, the old shader can be garbage collected.
 
-2. **Resolution scaling**: For AR mode, consider rendering at 0.5x or 0.75x resolution.
 
 3. **Avoid texture leaks**: Ensure `RepaintBoundary` captures are properly disposed.
 
@@ -199,7 +197,6 @@ The performance overlay is accessible in the Fractal Viewer screen:
 2. The overlay displays real-time metrics
 3. Long-press the PERF button to toggle compact mode
 
-### Overlay Modes
 
 **Full Mode:**
 - FPS counter with rating (Excellent/Good/Fair/Poor)
@@ -399,7 +396,7 @@ Future<void> benchmarkZoomPerformance() async {
 2. **3D Fractals** (Mandelbulb):
    - Achieve 30-50 FPS depending on complexity
    - Raymarching steps have the biggest impact
-   - AR quality presets successfully reduce load
+   - quality presets successfully reduce load
 
 3. **Shader Compilation**:
    - First-load jank is significant (100-400ms)
@@ -416,7 +413,6 @@ Future<void> benchmarkZoomPerformance() async {
 2. Implement shader warming during splash screen
 3. Add resolution scaling option for low-end devices
 4. Consider 30 FPS cap option for battery-conscious users
-5. Use AR quality presets for camera overlay mode
 
 ---
 
