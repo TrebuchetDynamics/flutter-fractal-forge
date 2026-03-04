@@ -188,6 +188,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentPage = 0;
   // Page count is fixed at 2; updated lazily when l10n pages are built.
   int _pageCount = 2;
+  bool _arSafetyWarningShown = false;
 
   List<_OnboardingPageData> _buildPages(AppLocalizations l10n) => [
         _OnboardingPageData(
@@ -220,6 +221,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Future<void> _completeOnboarding() async {
     await widget.onboardingService.completeOnboarding();
     if (mounted) widget.onComplete();
+  }
+
+  Future<void> _showArSafetyWarningIfNeeded(int index) async {
+    // Page index 1 is the AR-related onboarding page.
+    if (index != 1 || _arSafetyWarningShown || !mounted) return;
+    _arSafetyWarningShown = true;
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('AR Safety Warning'),
+        content: const Text(
+          'For children, parental supervision is important while using AR features.\n\n'
+          'Always be aware of your surroundings when using AR.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('I understand'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _nextPage() {
@@ -289,6 +313,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemCount: pages.length,
                 onPageChanged: (index) {
                   setState(() => _currentPage = index);
+                  _showArSafetyWarningIfNeeded(index);
                 },
                 itemBuilder: (context, index) =>
                     _OnboardingPage(data: pages[index]),

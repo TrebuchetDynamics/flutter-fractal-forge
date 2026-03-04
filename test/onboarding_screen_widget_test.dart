@@ -61,8 +61,12 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 200));
 
-      // Page 2: Create, Export & Experience in AR - should show "Get Started" button
-      expect(find.text('Create, Export & Experience in AR'), findsOneWidget);
+      // Mandatory AR safety warning should appear at AR section start.
+      expect(find.text('AR Safety Warning'), findsOneWidget);
+      await tester.tap(find.text('I understand'));
+      await tester.pumpAndSettle();
+
+      // AR onboarding section should proceed to final CTA.
       expect(find.text('Get Started'), findsOneWidget);
     });
 
@@ -82,6 +86,11 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 200));
+
+      // Dismiss AR safety warning shown when entering AR onboarding section.
+      expect(find.text('AR Safety Warning'), findsOneWidget);
+      await tester.tap(find.text('I understand'));
+      await tester.pumpAndSettle();
 
       // Tap Get Started
       await tester.tap(find.text('Get Started'));
