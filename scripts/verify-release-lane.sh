@@ -8,6 +8,7 @@ cd "$(dirname "$0")/.."
 "$FLUTTER_BIN" analyze
 "$FLUTTER_BIN" test --reporter compact
 "$FLUTTER_BIN" build apk --release
+scripts/release-proof.sh >/tmp/ff_release_proof_verify.log
 
 APK="build/app/outputs/flutter-apk/app-release.apk"
 echo "artifact_path=$APK"
