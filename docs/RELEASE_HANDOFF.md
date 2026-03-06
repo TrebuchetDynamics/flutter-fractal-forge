@@ -13,6 +13,7 @@ Commit: `17e98cb`
 - `tests.failed == 0`
 - `runtime_checks.fractal_render_audit_marker == true`
 - `artifact_proof_match == true` (sha256 + size_bytes match APK)
+- `proof_test_*` counters are machine-output totals and may differ from compact `flutter test` display counts
 
 ## Under the hood
 - `/home/xel/flutter/bin/flutter analyze`
