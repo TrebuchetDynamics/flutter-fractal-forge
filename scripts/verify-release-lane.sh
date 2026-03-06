@@ -5,9 +5,7 @@ FLUTTER_BIN="${FLUTTER_BIN:-/home/xel/flutter/bin/flutter}"
 
 cd "$(dirname "$0")/.."
 
-"$FLUTTER_BIN" analyze
-"$FLUTTER_BIN" test --reporter compact
-"$FLUTTER_BIN" build apk --release
+# Canonical gate: release-proof executes analyze + tests + build + runtime checks.
 scripts/release-proof.sh >/tmp/ff_release_proof_verify.log
 python3 - <<'PY'
 import json, sys
@@ -26,7 +24,20 @@ if proof.get('tests', {}).get('failed', 1) != 0:
 if not proof.get('runtime_checks', {}).get('fractal_render_audit_marker', False):
     print('ERROR: fractal_render_audit_marker=false', file=sys.stderr)
     sys.exit(5)
+artifact = Path(proof.get('artifact', {}).get('path', ''))
+if not artifact.exists():
+    print(f"ERROR: artifact_missing={artifact}", file=sys.stderr)
+    sys.exit(6)
+import hashlib
+actual_sha = hashlib.sha256(artifact.read_bytes()).hexdigest()
+if actual_sha != proof.get('artifact', {}).get('sha256'):
+    print('ERROR: artifact_sha_mismatch', file=sys.stderr)
+    sys.exit(7)
+if artifact.stat().st_size != int(proof.get('artifact', {}).get('size_bytes', -1)):
+    print('ERROR: artifact_size_mismatch', file=sys.stderr)
+    sys.exit(8)
 print('runtime_check=fractal_render_audit_marker:true')
+print('artifact_proof_match=true')
 print(f"proof_test_passed={proof['tests']['passed']}")
 print(f"proof_test_failed={proof['tests']['failed']}")
 print(f"proof_test_skipped={proof['tests']['skipped']}")
