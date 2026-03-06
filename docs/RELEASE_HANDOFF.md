@@ -4,7 +4,10 @@ Timestamp: 2026-03-05 16:52 CST
 Branch: `main`
 Commit: `16f7a45`
 
-## Validation commands
+## Canonical release-lane command
+- `scripts/verify-release-lane.sh`
+
+## Under the hood
 - `/home/xel/flutter/bin/flutter analyze`
 - `/home/xel/flutter/bin/flutter test --reporter compact`
 - `/home/xel/flutter/bin/flutter build apk --release`
