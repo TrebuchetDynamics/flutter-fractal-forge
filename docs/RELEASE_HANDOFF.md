@@ -1,11 +1,12 @@
 # Release Handoff
 
-Timestamp: 2026-03-05 16:52 CST
+Timestamp: 2026-03-06 04:40 CST
 Branch: `main`
-Commit: `16f7a45`
+Commit: `c0d0ddd`
 
 ## Canonical release-lane command
 - `scripts/verify-release-lane.sh`
+- delegated runtime/artifact proof: `scripts/release-proof.sh`
 
 ## Under the hood
 - `/home/xel/flutter/bin/flutter analyze`
