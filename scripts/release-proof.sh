@@ -7,6 +7,7 @@ cd "$ROOT"
 
 ANALYZE_LOG="build/analyze.log"
 TEST_MACHINE_LOG="build/test_machine.jsonl"
+RUNTIME_LOG="build/runtime_path.log"
 BUILD_LOG="build/build_release.log"
 PROOF_JSON="build/release_proof.json"
 APK="build/app/outputs/flutter-apk/app-release.apk"
@@ -15,6 +16,8 @@ mkdir -p build
 
 "$FLUTTER_BIN" analyze | tee "$ANALYZE_LOG"
 "$FLUTTER_BIN" test --machine > "$TEST_MACHINE_LOG"
+"$FLUTTER_BIN" test --reporter compact test/fractal_render_audit_test.dart | tee "$RUNTIME_LOG"
+grep -q "Audit complete\. .*passed variance check\." "$RUNTIME_LOG"
 "$FLUTTER_BIN" build apk --release | tee "$BUILD_LOG"
 
 python3 - <<'PY'
@@ -23,6 +26,7 @@ from pathlib import Path
 
 root = Path('.').resolve()
 test_log = root / 'build/test_machine.jsonl'
+runtime_log = root / 'build/runtime_path.log'
 apk = root / 'build/app/outputs/flutter-apk/app-release.apk'
 
 passed = failed = skipped = 0
@@ -55,9 +59,14 @@ import hashlib
 sha = hashlib.sha256(apk.read_bytes()).hexdigest()
 size = apk.stat().st_size
 
+runtime_ok = 'Audit complete.' in runtime_log.read_text() and 'passed variance check.' in runtime_log.read_text()
+
 proof = {
     'analyze_issues': 0,
     'tests': {'passed': passed, 'failed': failed, 'skipped': skipped},
+    'runtime_checks': {
+        'fractal_render_audit_marker': runtime_ok,
+    },
     'artifact': {
         'path': str(apk.relative_to(root)),
         'size_bytes': size,
