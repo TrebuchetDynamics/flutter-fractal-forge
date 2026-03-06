@@ -1,8 +1,8 @@
 # Release Handoff
 
-Timestamp: 2026-03-06 06:08 CST
+Timestamp: 2026-03-06 07:36 CST
 Branch: `main`
-Commit: `dce1900`
+Commit: `17e98cb`
 
 ## Canonical release-lane command
 - `scripts/verify-release-lane.sh`
