@@ -17,9 +17,15 @@ if not p.exists():
     print('ERROR: missing build/release_proof.json', file=sys.stderr)
     sys.exit(2)
 proof = json.loads(p.read_text())
+if proof.get('analyze_issues', 1) != 0:
+    print(f"ERROR: analyze_issues={proof.get('analyze_issues')}", file=sys.stderr)
+    sys.exit(3)
+if proof.get('tests', {}).get('failed', 1) != 0:
+    print(f"ERROR: proof_test_failed={proof.get('tests', {}).get('failed')}", file=sys.stderr)
+    sys.exit(4)
 if not proof.get('runtime_checks', {}).get('fractal_render_audit_marker', False):
     print('ERROR: fractal_render_audit_marker=false', file=sys.stderr)
-    sys.exit(3)
+    sys.exit(5)
 print('runtime_check=fractal_render_audit_marker:true')
 print(f"proof_test_passed={proof['tests']['passed']}")
 print(f"proof_test_failed={proof['tests']['failed']}")
