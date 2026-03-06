@@ -1,12 +1,18 @@
 # Release Handoff
 
-Timestamp: 2026-03-06 04:40 CST
+Timestamp: 2026-03-06 06:08 CST
 Branch: `main`
-Commit: `c0d0ddd`
+Commit: `dce1900`
 
 ## Canonical release-lane command
 - `scripts/verify-release-lane.sh`
 - delegated runtime/artifact proof: `scripts/release-proof.sh`
+
+## Verify gate assertions
+- `analyze_issues == 0`
+- `tests.failed == 0`
+- `runtime_checks.fractal_render_audit_marker == true`
+- `artifact_proof_match == true` (sha256 + size_bytes match APK)
 
 ## Under the hood
 - `/home/xel/flutter/bin/flutter analyze`
