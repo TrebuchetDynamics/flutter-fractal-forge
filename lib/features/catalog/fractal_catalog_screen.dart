@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -149,11 +148,11 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
 
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
-  Timer? _debounce;
   bool _isSearchFocused = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
   _DimensionFilter _dimensionFilter = _DimensionFilter.all;
   _SortOrder _sortOrder = _SortOrder.byCategory;
+  String? _selectedCategory;
 
   // Cached catalog — rebuilt only when registry changes.
   CatalogRepository? _catalog;
@@ -193,31 +192,113 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
 
   @override
   void dispose() {
-    _debounce?.cancel();
     _searchController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
 
-  List<CatalogEntry> _filteredEntries(AppLocalizations l10n) {
+  bool get _hasActiveCatalogRefinements =>
+      _searchController.text.trim().isNotEmpty ||
+      _dimensionFilter != _DimensionFilter.all ||
+      _selectedCategory != null ||
+      _sortOrder != _SortOrder.byCategory;
+
+  bool _matchesDimension(CatalogEntry entry, _DimensionFilter filter) {
+    switch (filter) {
+      case _DimensionFilter.all:
+        return true;
+      case _DimensionFilter.twoD:
+        return entry.module.dimension == FractalDimension.twoD;
+      case _DimensionFilter.threeD:
+        return entry.module.dimension == FractalDimension.threeD;
+    }
+  }
+
+  bool _matchesSearch(
+    CatalogEntry entry,
+    AppLocalizations l10n,
+    String query,
+  ) {
+    if (query.isEmpty) return true;
+    final name = entry.module.displayName(l10n).toLowerCase();
+    final matchesAlias =
+        entry.aliases.any((alias) => alias.toLowerCase().contains(query));
+    return name.contains(query) ||
+        matchesAlias ||
+        entry.catalogId.contains(query) ||
+        entry.category.toLowerCase().contains(query);
+  }
+
+  List<CatalogEntry> _entriesMatchingSearch(AppLocalizations l10n) {
     final query = _searchController.text.trim().toLowerCase();
     return _catalog!.entries.where((entry) {
-      // Dimension filter
-      if (_dimensionFilter == _DimensionFilter.twoD &&
-          entry.module.dimension != FractalDimension.twoD) return false;
-      if (_dimensionFilter == _DimensionFilter.threeD &&
-          entry.module.dimension != FractalDimension.threeD) return false;
+      return _matchesSearch(entry, l10n, query);
+    }).toList(growable: false);
+  }
 
-      // Search query
-      if (query.isEmpty) return true;
-      final name = entry.module.displayName(l10n).toLowerCase();
-      final matchesAlias =
-          entry.aliases.any((a) => a.toLowerCase().contains(query));
-      return name.contains(query) ||
-          matchesAlias ||
-          entry.catalogId.contains(query) ||
-          entry.category.toLowerCase().contains(query);
-    }).toList();
+  List<CatalogEntry> _entriesForDimensionCounts(AppLocalizations l10n) {
+    final matchesSearch = _entriesMatchingSearch(l10n);
+    return matchesSearch.where((entry) {
+      if (_selectedCategory == null) return true;
+      return entry.category == _selectedCategory;
+    }).toList(growable: false);
+  }
+
+  List<CatalogEntry> _entriesForCategoryCounts(AppLocalizations l10n) {
+    final matchesSearch = _entriesMatchingSearch(l10n);
+    return matchesSearch.where((entry) {
+      return _matchesDimension(entry, _dimensionFilter);
+    }).toList(growable: false);
+  }
+
+  List<CatalogEntry> _filteredEntries(AppLocalizations l10n) {
+    final matchesSearchAndDimension = _entriesForCategoryCounts(l10n);
+    return matchesSearchAndDimension.where((entry) {
+      if (_selectedCategory == null) return true;
+      return entry.category == _selectedCategory;
+    }).toList(growable: false);
+  }
+
+  Map<String, int> _categoryCounts(List<CatalogEntry> entries) {
+    final counts = <String, int>{};
+    for (final entry in entries) {
+      counts.update(entry.category, (count) => count + 1, ifAbsent: () => 1);
+    }
+    return counts;
+  }
+
+  List<String> _sortedCategories(Map<String, int> categoryCounts) {
+    final categories = categoryCounts.keys.toList()
+      ..sort((a, b) {
+        final countCompare = (categoryCounts[b] ?? 0).compareTo(
+          categoryCounts[a] ?? 0,
+        );
+        if (countCompare != 0) return countCompare;
+        return a.compareTo(b);
+      });
+
+    final selected = _selectedCategory;
+    if (selected != null && !categories.contains(selected)) {
+      categories.insert(0, selected);
+    }
+
+    return categories;
+  }
+
+  void _updateDimensionFilter(_DimensionFilter filter) {
+    setState(() {
+      _dimensionFilter = filter;
+    });
+  }
+
+  void _clearCatalogRefinements() {
+    _searchController.clear();
+    _focusNode.unfocus();
+    setState(() {
+      _dimensionFilter = _DimensionFilter.all;
+      _selectedCategory = null;
+      _sortOrder = _SortOrder.byCategory;
+    });
   }
 
   Map<String, List<CatalogEntry>> _groupAndSort(
@@ -233,15 +314,35 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     for (final entry in entries) {
       grouped.putIfAbsent(entry.category, () => []).add(entry);
     }
-    return grouped;
+
+    final sortedEntries = grouped.entries.toList()
+      ..sort((a, b) {
+        final countCompare = b.value.length.compareTo(a.value.length);
+        if (countCompare != 0) return countCompare;
+        return a.key.compareTo(b.key);
+      });
+
+    return {
+      for (final section in sortedEntries)
+        section.key: List<CatalogEntry>.from(section.value)
+          ..sort((a, b) =>
+              a.module.displayName(l10n).compareTo(b.module.displayName(l10n))),
+    };
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final query = _searchController.text.trim().toLowerCase();
-    final allEntries = _filteredEntries(l10n);
-    final groupedEntries = _groupAndSort(allEntries, l10n);
+    final filteredEntries = _filteredEntries(l10n);
+    final groupedEntries = _groupAndSort(filteredEntries, l10n);
+    final categoryBaseEntries = _entriesForCategoryCounts(l10n);
+    final categoryCounts = _categoryCounts(categoryBaseEntries);
+    final sortedCategories = _sortedCategories(categoryCounts);
+    final showFeatured = query.isEmpty &&
+        _dimensionFilter == _DimensionFilter.all &&
+        _selectedCategory == null &&
+        _sortOrder == _SortOrder.byCategory;
 
     return Column(
       children: [
@@ -261,21 +362,33 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
             ],
           ),
         ),
-        _buildFilterAndSortBar(context, l10n, allEntries),
-        if (query.isEmpty)
+        _buildFilterAndSortBar(context, l10n),
+        _buildCategoryBar(
+          context,
+          l10n,
+          categories: sortedCategories,
+          categoryCounts: categoryCounts,
+        ),
+        _buildCatalogSummary(
+          context,
+          l10n,
+          resultCount: filteredEntries.length,
+          categoryCount: categoryCounts.length,
+        ),
+        if (showFeatured)
           _FeaturedSection(
             catalog: _catalog!,
             l10n: l10n,
-            onTap: (module, catalogId) => _openViewer(context, module, heroTag: catalogId),
+            onTap: (module, catalogId) =>
+                _openViewer(context, module, heroTag: catalogId),
           ),
         Expanded(
-          child: allEntries.isEmpty
+          child: filteredEntries.isEmpty
               ? _EmptyState(
                   query: query,
                   l10n: l10n,
                   onClear: () {
-                    _searchController.clear();
-                    setState(() {});
+                    _clearCatalogRefinements();
                   },
                 )
               : _viewMode == CatalogViewMode.grid
@@ -289,39 +402,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
   Widget _buildFilterAndSortBar(
     BuildContext context,
     AppLocalizations l10n,
-    List<CatalogEntry> currentEntries,
   ) {
-    // Compute counts for each dimension tab based on the unfiltered catalog
-    // so the badges always reflect what each tab would show at current search.
-    final allCount = _catalog!.entries.where((e) {
-      final q = _searchController.text.trim().toLowerCase();
-      if (q.isEmpty) return true;
-      final name = e.module.displayName(l10n).toLowerCase();
-      return name.contains(q) ||
-          e.aliases.any((a) => a.toLowerCase().contains(q)) ||
-          e.catalogId.contains(q) ||
-          e.category.toLowerCase().contains(q);
-    }).length;
-    final twoDCount = _catalog!.entries.where((e) {
-      if (e.module.dimension != FractalDimension.twoD) return false;
-      final q = _searchController.text.trim().toLowerCase();
-      if (q.isEmpty) return true;
-      final name = e.module.displayName(l10n).toLowerCase();
-      return name.contains(q) ||
-          e.aliases.any((a) => a.toLowerCase().contains(q)) ||
-          e.catalogId.contains(q) ||
-          e.category.toLowerCase().contains(q);
-    }).length;
-    final threeDCount = _catalog!.entries.where((e) {
-      if (e.module.dimension != FractalDimension.threeD) return false;
-      final q = _searchController.text.trim().toLowerCase();
-      if (q.isEmpty) return true;
-      final name = e.module.displayName(l10n).toLowerCase();
-      return name.contains(q) ||
-          e.aliases.any((a) => a.toLowerCase().contains(q)) ||
-          e.catalogId.contains(q) ||
-          e.category.toLowerCase().contains(q);
-    }).length;
+    final dimensionBaseEntries = _entriesForDimensionCounts(l10n);
+    final allCount = dimensionBaseEntries.length;
+    final twoDCount = dimensionBaseEntries
+        .where((entry) => entry.module.dimension == FractalDimension.twoD)
+        .length;
+    final threeDCount = dimensionBaseEntries
+        .where((entry) => entry.module.dimension == FractalDimension.threeD)
+        .length;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -336,29 +425,30 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-          _DimChip(
-            label: l10n.catalogFilterAll,
-            count: allCount,
-            selected: _dimensionFilter == _DimensionFilter.all,
-            onTap: () =>
-                setState(() => _dimensionFilter = _DimensionFilter.all),
-          ),
-          const SizedBox(width: AppSpacing.xs),
-          _DimChip(
-            label: l10n.dimension2d,
-            count: twoDCount,
-            selected: _dimensionFilter == _DimensionFilter.twoD,
-            onTap: () =>
-                setState(() => _dimensionFilter = _DimensionFilter.twoD),
-          ),
-          const SizedBox(width: AppSpacing.xs),
-          _DimChip(
-            label: l10n.dimension3d,
-            count: threeDCount,
-            selected: _dimensionFilter == _DimensionFilter.threeD,
-            onTap: () =>
-                setState(() => _dimensionFilter = _DimensionFilter.threeD),
-          ),
+                  _DimChip(
+                    chipKey: const Key('catalogDimensionChip_all'),
+                    label: l10n.catalogFilterAll,
+                    count: allCount,
+                    selected: _dimensionFilter == _DimensionFilter.all,
+                    onTap: () => _updateDimensionFilter(_DimensionFilter.all),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  _DimChip(
+                    chipKey: const Key('catalogDimensionChip_2d'),
+                    label: l10n.dimension2d,
+                    count: twoDCount,
+                    selected: _dimensionFilter == _DimensionFilter.twoD,
+                    onTap: () => _updateDimensionFilter(_DimensionFilter.twoD),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  _DimChip(
+                    chipKey: const Key('catalogDimensionChip_3d'),
+                    label: l10n.dimension3d,
+                    count: threeDCount,
+                    selected: _dimensionFilter == _DimensionFilter.threeD,
+                    onTap: () =>
+                        _updateDimensionFilter(_DimensionFilter.threeD),
+                  ),
                 ],
               ),
             ),
@@ -380,29 +470,163 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
               ),
             ],
             child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 48, maxWidth: 150),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.sort_rounded, size: 16, color: AppColors.textSecondary),
-                  const SizedBox(width: 4),
-                  Flexible(
-                    child: Text(
-                      _sortOrder == _SortOrder.byCategory ? l10n.catalogSortByCategory : l10n.catalogSortAlphabeticalShort,
-                      style: AppTypography.labelSmall.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(Icons.arrow_drop_down,
-                      size: 18, color: AppColors.textSecondary),
-                ],
+              constraints: const BoxConstraints(minHeight: 48, minWidth: 48),
+              child: Icon(
+                Icons.sort_rounded,
+                size: 20,
+                color: AppColors.textSecondary,
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryBar(
+    BuildContext context,
+    AppLocalizations l10n, {
+    required List<String> categories,
+    required Map<String, int> categoryCounts,
+  }) {
+    if (categories.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.xs,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.catalogFilterCategories,
+            style: AppTypography.labelSmall.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.8,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          SizedBox(
+            height: 52,
+            child: ListView.separated(
+              key: const Key('catalogCategoryScroll'),
+              scrollDirection: Axis.horizontal,
+              itemCount: categories.length + 1,
+              separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.xs),
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _DimChip(
+                    chipKey: const Key('catalogCategoryChip_all'),
+                    label: l10n.catalogFilterAll,
+                    count: _entriesForCategoryCounts(l10n).length,
+                    selected: _selectedCategory == null,
+                    onTap: () {
+                      setState(() {
+                        _selectedCategory = null;
+                      });
+                    },
+                  );
+                }
+
+                final category = categories[index - 1];
+                return _DimChip(
+                  chipKey: Key(
+                    'catalogCategoryChip_${_keySegment(category)}',
+                  ),
+                  label: category,
+                  count: categoryCounts[category] ?? 0,
+                  selected: _selectedCategory == category,
+                  onTap: () {
+                    setState(() {
+                      _selectedCategory =
+                          _selectedCategory == category ? null : category;
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCatalogSummary(
+    BuildContext context,
+    AppLocalizations l10n, {
+    required int resultCount,
+    required int categoryCount,
+  }) {
+    final sortLabel = _sortOrder == _SortOrder.byCategory
+        ? l10n.catalogSortByCategory
+        : l10n.catalogSortAlphabeticalShort;
+    final viewLabel = _viewMode == CatalogViewMode.grid
+        ? l10n.catalogGridView
+        : l10n.catalogListView;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.sm,
+      ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppSpacing.md),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceVariant.withValues(alpha: 0.72),
+          borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+          border: Border.all(
+            color: AppColors.border.withValues(alpha: 0.35),
+          ),
+        ),
+        child: Wrap(
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.sm,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            _SummaryPill(
+              icon: Icons.auto_awesome_mosaic_rounded,
+              label: l10n.catalogResults,
+              value: '$resultCount',
+            ),
+            _SummaryPill(
+              icon: Icons.category_rounded,
+              label: l10n.catalogCategories,
+              value: '$categoryCount',
+            ),
+            _SummaryPill(
+              icon: _viewMode == CatalogViewMode.grid
+                  ? Icons.grid_view_rounded
+                  : Icons.view_list_rounded,
+              label: viewLabel,
+            ),
+            _SummaryPill(
+              icon: Icons.sort_rounded,
+              label: sortLabel,
+            ),
+            if (_selectedCategory != null)
+              _SummaryPill(
+                icon: Icons.filter_alt_rounded,
+                label: _selectedCategory!,
+              ),
+            if (_hasActiveCatalogRefinements)
+              TextButton.icon(
+                key: const Key('catalogClearFiltersButton'),
+                onPressed: _clearCatalogRefinements,
+                icon: const Icon(Icons.refresh_rounded, size: 18),
+                label: Text(l10n.actionClearFilters),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -412,74 +636,73 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
       label: l10n.semanticSearchField,
       textField: true,
       child: AnimatedContainer(
-      duration: AppAnimations.normal,
-      curve: AppAnimations.defaultCurve,
-      decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
-        borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-        border: Border.all(
-          color: _isSearchFocused
-              ? AppColors.primary.withValues(alpha: 0.6)
-              : AppColors.border.withValues(alpha: 0.3),
-          width: _isSearchFocused ? 1.5 : 1,
+        duration: AppAnimations.normal,
+        curve: AppAnimations.defaultCurve,
+        decoration: BoxDecoration(
+          color: AppColors.surfaceVariant,
+          borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+          border: Border.all(
+            color: _isSearchFocused
+                ? AppColors.primary.withValues(alpha: 0.6)
+                : AppColors.border.withValues(alpha: 0.3),
+            width: _isSearchFocused ? 1.5 : 1,
+          ),
+          boxShadow: _isSearchFocused
+              ? [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.15),
+                    blurRadius: 12,
+                    spreadRadius: 0,
+                  ),
+                ]
+              : null,
         ),
-        boxShadow: _isSearchFocused
-            ? [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.15),
-                  blurRadius: 12,
-                  spreadRadius: 0,
-                ),
-              ]
-            : null,
-      ),
-      child: TextField(
-        key: const Key('catalogSearchField'),
-        controller: _searchController,
-        focusNode: _focusNode,
-        style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
-        decoration: InputDecoration(
-          hintText: l10n.catalogSearchHint,
-          hintStyle:
-              AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
-          prefixIcon: AnimatedContainer(
-            duration: AppAnimations.fast,
-            child: Icon(
-              Icons.search_rounded,
-              color: _isSearchFocused ? AppColors.primary : AppColors.textMuted,
+        child: TextField(
+          key: const Key('catalogSearchField'),
+          controller: _searchController,
+          focusNode: _focusNode,
+          style:
+              AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+          decoration: InputDecoration(
+            hintText: l10n.catalogSearchHint,
+            hintStyle:
+                AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+            prefixIcon: AnimatedContainer(
+              duration: AppAnimations.fast,
+              child: Icon(
+                Icons.search_rounded,
+                color:
+                    _isSearchFocused ? AppColors.primary : AppColors.textMuted,
+              ),
+            ),
+            suffixIcon: AnimatedSwitcher(
+              duration: AppAnimations.fast,
+              child: _searchController.text.isEmpty
+                  ? const SizedBox.shrink()
+                  : IconButton(
+                      key: const ValueKey('clear'),
+                      tooltip:
+                          MaterialLocalizations.of(context).deleteButtonTooltip,
+                      icon: const Icon(Icons.close_rounded, size: 20),
+                      onPressed: () {
+                        _searchController.clear();
+                        setState(() {});
+                      },
+                    ),
+            ),
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.md,
             ),
           ),
-          suffixIcon: AnimatedSwitcher(
-            duration: AppAnimations.fast,
-            child: _searchController.text.isEmpty
-                ? const SizedBox.shrink()
-                : IconButton(
-                    key: const ValueKey('clear'),
-                    tooltip:
-                        MaterialLocalizations.of(context).deleteButtonTooltip,
-                    icon: const Icon(Icons.close_rounded, size: 20),
-                    onPressed: () {
-                      _searchController.clear();
-                      setState(() {});
-                    },
-                  ),
-          ),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.md,
-          ),
-        ),
-        onChanged: (_) {
-          _debounce?.cancel();
-          _debounce = Timer(const Duration(milliseconds: 200), () {
+          onChanged: (_) {
             setState(() {});
-          });
-        },
+          },
+        ),
       ),
-    ),
     );
   }
 
@@ -542,7 +765,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           case 'card':
             return _ModuleCard(
               entry: item.entry!,
-              onTap: () => _openViewer(context, item.entry!.module, heroTag: item.entry!.catalogId),
+              onTap: () => _openViewer(context, item.entry!.module,
+                  heroTag: item.entry!.catalogId),
               l10n: l10n,
             );
           case 'spacer':
@@ -595,7 +819,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                 return _ModuleGridTile(
                   entry: entry,
                   l10n: l10n,
-                  onTap: () => _openViewer(context, entry.module, heroTag: entry.catalogId),
+                  onTap: () => _openViewer(context, entry.module,
+                      heroTag: entry.catalogId),
                 );
               },
             ),
@@ -606,7 +831,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     );
   }
 
-  void _openViewer(BuildContext context, FractalModule module, {String? heroTag}) {
+  void _openViewer(BuildContext context, FractalModule module,
+      {String? heroTag}) {
     final controller = context.read<FractalController>();
     controller.selectModule(module);
     Navigator.of(context).push(
@@ -633,9 +859,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
             ),
           );
         },
-        transitionDuration: heroTag != null
-            ? AppAnimations.slow
-            : AppAnimations.normal,
+        transitionDuration:
+            heroTag != null ? AppAnimations.slow : AppAnimations.normal,
       ),
     );
   }
@@ -715,12 +940,14 @@ class _SectionHeader extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _DimChip extends StatelessWidget {
+  final Key? chipKey;
   final String label;
   final int count;
   final bool selected;
   final VoidCallback onTap;
 
   const _DimChip({
+    this.chipKey,
     required this.label,
     required this.count,
     required this.selected,
@@ -736,57 +963,113 @@ class _DimChip extends StatelessWidget {
           ? '$label filter, selected, $count fractals'
           : '$label filter, $count fractals',
       child: GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: AppAnimations.fast,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-        decoration: BoxDecoration(
-          color: selected
-              ? AppColors.primary.withValues(alpha: 0.18)
-              : AppColors.surfaceVariant,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
+        key: chipKey,
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: AppAnimations.fast,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+          decoration: BoxDecoration(
             color: selected
-                ? AppColors.primary.withValues(alpha: 0.5)
-                : AppColors.border.withValues(alpha: 0.3),
-            width: selected ? 1.5 : 1,
+                ? AppColors.primary.withValues(alpha: 0.18)
+                : AppColors.surfaceVariant,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: selected
+                  ? AppColors.primary.withValues(alpha: 0.5)
+                  : AppColors.border.withValues(alpha: 0.3),
+              width: selected ? 1.5 : 1,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                label,
+                style: AppTypography.labelSmall.copyWith(
+                  color: selected ? AppColors.primary : AppColors.textSecondary,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 5),
+              AnimatedContainer(
+                duration: AppAnimations.fast,
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                decoration: BoxDecoration(
+                  color: selected
+                      ? AppColors.primary.withValues(alpha: 0.28)
+                      : AppColors.border.withValues(alpha: 0.5),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '$count',
+                  style: AppTypography.labelSmall.copyWith(
+                    color: selected ? AppColors.primary : AppColors.textMuted,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 9,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: AppTypography.labelSmall.copyWith(
-                color: selected ? AppColors.primary : AppColors.textSecondary,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-              ),
+      ),
+    );
+  }
+}
+
+class _SummaryPill extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String? value;
+
+  const _SummaryPill({
+    required this.icon,
+    required this.label,
+    this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: 7,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.surface.withValues(alpha: 0.75),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: AppColors.border.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 14,
+            color: AppColors.textMuted,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: AppTypography.labelSmall.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w600,
             ),
-            const SizedBox(width: 5),
-            AnimatedContainer(
-              duration: AppAnimations.fast,
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-              decoration: BoxDecoration(
-                color: selected
-                    ? AppColors.primary.withValues(alpha: 0.28)
-                    : AppColors.border.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                '$count',
-                style: AppTypography.labelSmall.copyWith(
-                  color: selected
-                      ? AppColors.primary
-                      : AppColors.textMuted,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 9,
-                ),
+          ),
+          if (value != null) ...[
+            const SizedBox(width: 6),
+            Text(
+              value!,
+              style: AppTypography.labelSmall.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
-        ),
+        ],
       ),
-    ),
     );
   }
 }
@@ -850,7 +1133,8 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
   @override
   Widget build(BuildContext context) {
     final is3D = widget.entry.module.dimension == FractalDimension.threeD;
-    final dimensionLabel = is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
+    final dimensionLabel =
+        is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
     final name = widget.entry.module.displayName(widget.l10n);
     final accentColor = _categoryAccentColor(widget.entry.category);
 
@@ -861,6 +1145,7 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
         onEnter: (_) => _setHighlight(true),
         onExit: (_) => _setHighlight(false),
         child: GestureDetector(
+          key: Key('catalogModuleCard_${widget.entry.catalogId}'),
           onTapDown: (_) => setState(() => _isPressed = true),
           onTapUp: (_) => setState(() => _isPressed = false),
           onTapCancel: () => setState(() => _isPressed = false),
@@ -891,7 +1176,8 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                 child: Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                      borderRadius:
+                          BorderRadius.circular(AppSpacing.cardRadius),
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
@@ -958,7 +1244,8 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                             duration: AppAnimations.fast,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                                borderRadius: BorderRadius.circular(
+                                    AppSpacing.cardRadius),
                                 border: Border.all(
                                   color: accentColor.withValues(alpha: 0.75),
                                   width: 1.5,
@@ -1238,179 +1525,178 @@ class _FeaturedCardState extends State<_FeaturedCard>
       label: widget.l10n.semanticFractalCard(featuredName, is3DLabel),
       button: true,
       child: MouseRegion(
-      onEnter: (_) => _setHover(true),
-      onExit: (_) => _setHover(false),
-      child: GestureDetector(
-        onTapDown: (_) => setState(() => _isPressed = true),
-        onTapUp: (_) => setState(() => _isPressed = false),
-        onTapCancel: () => setState(() => _isPressed = false),
-        onTap: widget.onTap,
-        child: ScaleTransition(
-          scale: _scaleAnim,
-          child: AnimatedContainer(
-            duration: AppAnimations.fast,
-            width: 180,
-            height: 180,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-                if (_isHovered || _isPressed)
+        onEnter: (_) => _setHover(true),
+        onExit: (_) => _setHover(false),
+        child: GestureDetector(
+          onTapDown: (_) => setState(() => _isPressed = true),
+          onTapUp: (_) => setState(() => _isPressed = false),
+          onTapCancel: () => setState(() => _isPressed = false),
+          onTap: widget.onTap,
+          child: ScaleTransition(
+            scale: _scaleAnim,
+            child: AnimatedContainer(
+              duration: AppAnimations.fast,
+              width: 180,
+              height: 180,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                boxShadow: [
                   BoxShadow(
-                    color: accentColor.withValues(alpha: 0.45),
-                    blurRadius: 20,
-                    spreadRadius: 1,
+                    color: Colors.black.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
                   ),
-              ],
-            ),
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      _PreviewThumbnail(
-                        catalogId: widget.entry.catalogId,
-                        is3D: is3D,
-                        category: widget.entry.category,
-                      ),
-                      // Deep bottom gradient for name legibility
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        height: 90,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                Colors.black.withValues(alpha: 0.85),
-                              ],
-                            ),
-                          ),
+                  if (_isHovered || _isPressed)
+                    BoxShadow(
+                      color: accentColor.withValues(alpha: 0.45),
+                      blurRadius: 20,
+                      spreadRadius: 1,
+                    ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        _PreviewThumbnail(
+                          catalogId: widget.entry.catalogId,
+                          is3D: is3D,
+                          category: widget.entry.category,
                         ),
-                      ),
-                      // Name label
-                      Positioned(
-                        left: 8,
-                        right: 8,
-                        bottom: 8,
-                        child: Text(
-                          name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: AppTypography.labelSmall.copyWith(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            shadows: const [
-                              Shadow(color: Colors.black87, blurRadius: 6),
-                            ],
-                          ),
-                        ),
-                      ),
-                      // Top accent gradient strip
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          height: 3,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                              topLeft:
-                                  Radius.circular(AppSpacing.cardRadius),
-                              topRight:
-                                  Radius.circular(AppSpacing.cardRadius),
-                            ),
-                            gradient: LinearGradient(
-                              colors: [
-                                AppColors.primary.withValues(alpha: 0.9),
-                                accentColor.withValues(alpha: 0.9),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      // 3D badge
-                      if (is3D)
+                        // Deep bottom gradient for name legibility
                         Positioned(
-                          top: 10,
-                          right: 8,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 7,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.warning
-                                  .withValues(alpha: 0.92),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: AppColors.warning,
-                                width: 1,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.25),
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              '3D',
-                              style: AppTypography.labelSmall.copyWith(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 10,
-                                letterSpacing: 0.3,
-                              ),
-                            ),
-                          ),
-                        ),
-                      // Press overlay
-                      if (_isPressed)
-                        Positioned.fill(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          height: 90,
                           child: DecoratedBox(
                             decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.18),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withValues(alpha: 0.85),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                    ],
+                        // Name label
+                        Positioned(
+                          left: 8,
+                          right: 8,
+                          bottom: 8,
+                          child: Text(
+                            name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: AppTypography.labelSmall.copyWith(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              shadows: const [
+                                Shadow(color: Colors.black87, blurRadius: 6),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // Top accent gradient strip
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(AppSpacing.cardRadius),
+                                topRight:
+                                    Radius.circular(AppSpacing.cardRadius),
+                              ),
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColors.primary.withValues(alpha: 0.9),
+                                  accentColor.withValues(alpha: 0.9),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // 3D badge
+                        if (is3D)
+                          Positioned(
+                            top: 10,
+                            right: 8,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 7,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    AppColors.warning.withValues(alpha: 0.92),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: AppColors.warning,
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.25),
+                                    blurRadius: 4,
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                '3D',
+                                style: AppTypography.labelSmall.copyWith(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 10,
+                                  letterSpacing: 0.3,
+                                ),
+                              ),
+                            ),
+                          ),
+                        // Press overlay
+                        if (_isPressed)
+                          Positioned.fill(
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withValues(alpha: 0.18),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-                // Glow border on hover / press
-                if (_isHovered || _isPressed)
-                  Positioned.fill(
-                    child: IgnorePointer(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(AppSpacing.cardRadius),
-                          border: Border.all(
-                            color: accentColor.withValues(alpha: 0.8),
-                            width: 1.5,
+                  // Glow border on hover / press
+                  if (_isHovered || _isPressed)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(AppSpacing.cardRadius),
+                            border: Border.all(
+                              color: accentColor.withValues(alpha: 0.8),
+                              width: 1.5,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
     );
   }
 }
@@ -1553,7 +1839,7 @@ class _ModuleCardState extends State<_ModuleCard>
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    dimensionLabel,
+                    '$dimensionLabel / ${widget.entry.category}',
                     style: AppTypography.bodySmall.copyWith(
                       color: AppColors.textMuted,
                     ),
@@ -1586,6 +1872,13 @@ class _ModuleCardState extends State<_ModuleCard>
 // ---------------------------------------------------------------------------
 // Category color helpers
 // ---------------------------------------------------------------------------
+
+String _keySegment(String value) {
+  return value
+      .toLowerCase()
+      .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
+      .replaceAll(RegExp(r'^_+|_+$'), '');
+}
 
 /// Returns the accent color for a given fractal category string.
 Color _categoryAccentColor(String category) {

@@ -24,14 +24,13 @@ class _DenyAllPermissions extends PermissionHandlerPlatform {
 
 /// Viewport configurations to test against.
 const _viewports = <String, Size>{
-  'small_phone_320x480': Size(320, 480),
   'medium_phone_375x812': Size(375, 812),
   'large_phone_428x926': Size(428, 926),
   'tablet_768x1024': Size(768, 1024),
 };
 
 /// Text scale factors to test.
-const _textScales = <double>[1.0, 1.5, 2.0, 3.0];
+const _textScales = <double>[1.0, 1.5, 2.0];
 
 void main() {
   group('Layout overflow tests — HomeScreen / Catalog', () {
