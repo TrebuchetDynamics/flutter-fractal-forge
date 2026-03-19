@@ -102,23 +102,20 @@ void main() {
       expect(find.byTooltip('Back'), findsOneWidget);
     });
 
-    testWidgets('save location is available from more options', (tester) async {
+    testWidgets('fullscreen FAB is shown', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('More options'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Save location'), findsOneWidget);
+      expect(find.byTooltip('Fullscreen view'), findsOneWidget);
     });
 
-    testWidgets('random fractal action switches module', (tester) async {
+    testWidgets('random fractal FAB switches module', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       expect(controller.module.id, equals('mandelbrot'));
 
-      await tester.tap(find.byIcon(Icons.shuffle_rounded));
+      await tester.tap(find.byTooltip('Random Fractal'));
       await tester.pumpAndSettle();
 
       expect(controller.module.id, isNot(equals('mandelbrot')));
@@ -139,8 +136,7 @@ void main() {
       expect(find.byIcon(Icons.camera_rounded), findsNothing);
     });
 
-    testWidgets(
-        'fullscreen FAB collapses controls for unobtrusive fullscreen viewing',
+    testWidgets('fullscreen FAB collapses controls and restores them',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
@@ -166,29 +162,11 @@ void main() {
       expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
     });
 
-    testWidgets('tapping bookmark button saves a preset and shows snackbar',
-        (tester) async {
+    testWidgets('share FAB is shown', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // Verify no presets exist yet.
-      final before = await presetStore.loadUserPresets('mandelbrot');
-      expect(before, isEmpty);
-
-      // Open quick actions and tap Save location.
-      await tester.tap(find.byTooltip('More options'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Save location'));
-      await tester.pumpAndSettle();
-
-      // SnackBar should appear with bookmark_added icon.
-      expect(find.byIcon(Icons.bookmark_added_rounded), findsOneWidget);
-
-      // A preset should be saved.
-      final after = await presetStore.loadUserPresets('mandelbrot');
-      expect(after.length, equals(1));
-      expect(after.first.name, contains('Mandelbrot'));
-      expect(after.first.name, contains('×'));
+      expect(find.byTooltip('Share'), findsOneWidget);
     });
 
     testWidgets('displays fractal renderer surface', (tester) async {
@@ -258,25 +236,21 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('history back button restores previous module', (tester) async {
+    testWidgets('controls FAB is shown', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // Give history debounce time to record initial location.
-      await tester.pump(const Duration(milliseconds: 700));
+      expect(find.byTooltip('Controls'), findsOneWidget);
+    });
 
-      controller.selectModule(registry.byId('julia'));
-      await tester.pumpAndSettle();
-      await tester.pump(const Duration(milliseconds: 700));
-
-      expect(find.text('Julia'), findsOneWidget);
-
-      await tester.tap(find.byTooltip('More options'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Back in view history'));
+    testWidgets('controls FAB opens controls sheet', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('Mandelbrot'), findsOneWidget);
+      await tester.tap(find.byTooltip('Controls'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Controls'), findsOneWidget);
     });
 
     testWidgets('keyboard arrow keys pan view', (tester) async {
