@@ -16,11 +16,8 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
-import 'package:flutter_fractals/core/services/wallpaper_service.dart';
-import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
@@ -29,12 +26,7 @@ import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
-import 'package:flutter_fractals/features/export/video_export_sheet.dart';
-import 'package:flutter_fractals/core/models/video_export_options.dart';
-import 'package:flutter_fractals/core/services/video_export_service.dart';
-import 'package:flutter_fractals/features/history/history_entry.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
-import 'package:flutter_fractals/features/history/history_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
 import 'package:flutter_fractals/features/renderer/backend_policy.dart';
@@ -43,21 +35,20 @@ import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
-import 'package:flutter_fractals/features/debug/log_viewer_screen.dart';
-import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/features/viewer/components/fractal_view_controls.dart';
 import 'package:flutter_fractals/features/viewer/components/cpu_fallback_pane.dart';
 import 'package:flutter_fractals/features/viewer/components/compare_renderer.dart';
 import 'package:flutter_fractals/features/viewer/components/viewer_export_overlay.dart';
+import 'package:flutter_fractals/features/viewer/viewer_export_session.dart';
 
 part 'viewer_gpu_health.dart';
 part 'viewer_debug_report.dart';
 part 'viewer_dialogs.dart';
 part 'viewer_export_actions.dart';
 part 'viewer_interactions.dart';
-part 'viewer_quick_actions.dart';
+part 'viewer_history.dart';
 part 'viewer_hud.dart';
 
 class FractalViewerScreen extends StatefulWidget {
@@ -81,8 +72,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   final GlobalKey _fractalKeyB = GlobalKey();
   @override
   final ExportService _exportService = const ExportService();
-  @override
-  final WallpaperService _wallpaperService = const WallpaperService();
 
   // Compare mode state
   @override
@@ -305,24 +294,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void _onRandomFractalFab(BuildContext context) =>
       _viewerOnRandomFractalFab(this, context);
 
-  Future<void> _openViewerQuickActions(BuildContext context) =>
-      _viewerOpenViewerQuickActions(this, context);
-
-  void _onViewerMenuSelected(
-    BuildContext context,
-    _ViewerMenuAction action,
-  ) =>
-      _viewerOnViewerMenuSelected(this, context, action);
-
-  void _applyHistoryEntry(BuildContext context, HistoryEntry entry) =>
-      _viewerApplyHistoryEntry(context, entry);
-
-  void _goHistoryBack(BuildContext context) =>
-      _viewerGoHistoryBack(this, context);
-
-  void _goHistoryForward(BuildContext context) =>
-      _viewerGoHistoryForward(this, context);
-
   /// Records the current location in history.
   void _recordHistory(BuildContext context) => _viewerRecordHistory(context);
 
@@ -515,8 +486,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           decoration: BoxDecoration(
                             color: Colors.black.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(8),
-                            border:
-                                Border.all(color: Colors.cyan.withValues(alpha: 0.7)),
+                            border: Border.all(
+                                color: Colors.cyan.withValues(alpha: 0.7)),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -560,14 +531,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         backTooltip:
                             MaterialLocalizations.of(context).backButtonTooltip,
                         onGoBack: () => Navigator.of(context).pop(),
-                        onOpenMoreActions: () =>
-                            _openViewerQuickActions(context),
-                        onEnterFullscreen: _toggleFullscreenUnobtrusive,
+                        onToggleFullscreen: _toggleFullscreenUnobtrusive,
                         onOpenAutoExploreSettings: () =>
                             _openAutoExploreSettings(context),
-                        onOpenRandomFractal: () => _onRandomFractalFab(context),
                         onOpenControls: () => _openControls(context),
                         onOpenExport: () => _openExport(context),
+                        onRandomFractal: () => _onRandomFractalFab(context),
                       ),
                     ),
 
@@ -579,7 +548,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         l10n: l10n,
                       ),
                     ),
-
                 ],
               );
             },

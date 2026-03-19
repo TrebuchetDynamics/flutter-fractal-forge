@@ -5,73 +5,107 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  Future<void> pumpSheet(
+  Future<ExportSheetSubmission?> pumpSheetAndSubmit(
     WidgetTester tester, {
-    required void Function(ExportOptions, ExportAction) onExport,
+    required Finder submitButton,
     ExportOptions initialOptions = const ExportOptions(),
   }) async {
+    ExportSheetSubmission? submission;
     await tester.pumpWidget(
       MaterialApp(
         locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
-          body: ExportOptionsSheet(
-            initialOptions: initialOptions,
-            fractalType: 'mandelbrot',
-            onExport: onExport,
+          body: Builder(
+            builder: (context) => Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  submission = await ExportOptionsSheet.show(
+                    context,
+                    initialOptions: initialOptions,
+                    fractalType: 'mandelbrot',
+                  );
+                },
+                child: const Text('Open'),
+              ),
+            ),
           ),
         ),
       ),
     );
+    await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
+    await tester.tap(submitButton);
+    await tester.pumpAndSettle();
+    return submission;
   }
 
   testWidgets('save action triggers saveOnly export action', (tester) async {
-    ExportAction? action;
-
-    await pumpSheet(
+    final submission = await pumpSheetAndSubmit(
       tester,
-      onExport: (_, a) => action = a,
+      submitButton: find.byKey(const ValueKey('exportSaveButton')),
     );
 
-    await tester.tap(find.byIcon(Icons.save_alt_rounded));
-    await tester.pumpAndSettle();
-
-    expect(action, ExportAction.saveOnly);
+    expect(submission?.action, ExportAction.saveOnly);
   });
 
   testWidgets('share action triggers saveAndShare export action',
       (tester) async {
-    ExportAction? action;
-
-    await pumpSheet(
+    final submission = await pumpSheetAndSubmit(
       tester,
-      onExport: (_, a) => action = a,
+      submitButton: find.byKey(const ValueKey('exportShareButton')),
     );
 
-    await tester.tap(find.byIcon(Icons.share_rounded));
-    await tester.pumpAndSettle();
-
-    expect(action, ExportAction.saveAndShare);
+    expect(submission?.action, ExportAction.saveAndShare);
   });
 
   testWidgets('custom resolution export includes default dimensions',
       (tester) async {
-    ExportOptions? exported;
-
-    await pumpSheet(
+    final submission = await pumpSheetAndSubmit(
       tester,
+      submitButton: find.byKey(const ValueKey('exportSaveButton')),
       initialOptions: const ExportOptions(resolution: ExportResolution.custom),
-      onExport: (options, _) => exported = options,
     );
 
-    await tester.tap(find.byIcon(Icons.save_alt_rounded));
+    expect(submission, isNotNull);
+    expect(submission!.options.resolution, ExportResolution.custom);
+    expect(submission.options.customWidth, 1920);
+    expect(submission.options.customHeight, 1080);
+  });
+
+  testWidgets('sheet helper returns null when dismissed', (tester) async {
+    ExportSheetSubmission? submission;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  submission = await ExportOptionsSheet.show(
+                    context,
+                    initialOptions: const ExportOptions(),
+                    fractalType: 'mandelbrot',
+                  );
+                },
+                child: const Text('Open'),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+    await tester.tapAt(const Offset(20, 20));
     await tester.pumpAndSettle();
 
-    expect(exported, isNotNull);
-    expect(exported!.resolution, ExportResolution.custom);
-    expect(exported!.customWidth, 1920);
-    expect(exported!.customHeight, 1080);
+    expect(submission, isNull);
   });
 }

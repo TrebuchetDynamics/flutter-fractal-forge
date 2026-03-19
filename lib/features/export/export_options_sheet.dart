@@ -7,18 +7,42 @@ enum ExportAction {
   saveAndShare,
 }
 
+class ExportSheetSubmission {
+  final ExportOptions options;
+  final ExportAction action;
+
+  const ExportSheetSubmission({
+    required this.options,
+    required this.action,
+  });
+}
+
 /// A bottom sheet for configuring export options
 class ExportOptionsSheet extends StatefulWidget {
   final ExportOptions initialOptions;
   final String fractalType;
-  final void Function(ExportOptions options, ExportAction action) onExport;
 
   const ExportOptionsSheet({
     Key? key,
     required this.initialOptions,
     required this.fractalType,
-    required this.onExport,
   }) : super(key: key);
+
+  static Future<ExportSheetSubmission?> show(
+    BuildContext context, {
+    required ExportOptions initialOptions,
+    required String fractalType,
+  }) {
+    return showModalBottomSheet<ExportSheetSubmission>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => ExportOptionsSheet(
+        initialOptions: initialOptions,
+        fractalType: fractalType,
+      ),
+    );
+  }
 
   @override
   State<ExportOptionsSheet> createState() => _ExportOptionsSheetState();
@@ -123,8 +147,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
-                    Icon(Icons.download_rounded,
-                        color: theme.colorScheme.primary),
+                    Icon(Icons.share_rounded, color: theme.colorScheme.primary),
                     const SizedBox(width: 12),
                     Text(
                       l10n.exportTitle,
@@ -202,7 +225,8 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.45),
+        color:
+            theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.45),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: theme.colorScheme.outline.withValues(alpha: 0.25),
@@ -230,7 +254,9 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 }
               });
             },
-            child: Text(_showCustomization ? l10n.exportButtonSimple : l10n.exportButtonCustomize),
+            child: Text(_showCustomization
+                ? l10n.exportButtonSimple
+                : l10n.exportButtonCustomize),
           ),
         ],
       ),
@@ -647,8 +673,12 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               child: OutlinedButton.icon(
                 key: const ValueKey('exportSaveButton'),
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  widget.onExport(effectiveOptions, ExportAction.saveOnly);
+                  Navigator.of(context).pop(
+                    ExportSheetSubmission(
+                      options: effectiveOptions,
+                      action: ExportAction.saveOnly,
+                    ),
+                  );
                 },
                 icon: const Icon(Icons.save_alt_rounded),
                 label: Text(l10n.exportNow),
@@ -662,8 +692,12 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               child: FilledButton.icon(
                 key: const ValueKey('exportShareButton'),
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  widget.onExport(effectiveOptions, ExportAction.saveAndShare);
+                  Navigator.of(context).pop(
+                    ExportSheetSubmission(
+                      options: effectiveOptions,
+                      action: ExportAction.saveAndShare,
+                    ),
+                  );
                 },
                 icon: const Icon(Icons.share_rounded),
                 label: Text(l10n.share),
@@ -699,7 +733,9 @@ class _QuickPresetChip extends StatelessWidget {
     return Semantics(
       button: true,
       selected: isSelected,
-      label: isSelected ? '$label export preset, selected' : '$label export preset',
+      label: isSelected
+          ? '$label export preset, selected'
+          : '$label export preset',
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
