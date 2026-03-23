@@ -136,6 +136,35 @@ const _kKnownThumbnailIds = <String>{
   'jerusalem_cube',
 };
 
+/// Global shimmer animation controller shared by all thumbnails.
+/// Single controller instead of one per thumbnail (350+ savings).
+class _GlobalShimmerController {
+  static _GlobalShimmerController? _instance;
+  late final AnimationController controller;
+  bool _isDisposed = false;
+
+  _GlobalShimmerController(TickerProvider vsync)
+      : controller = AnimationController(
+          vsync: vsync,
+          duration: const Duration(milliseconds: 1500),
+        ) {
+    controller.repeat();
+  }
+
+  factory _GlobalShimmerController.of(TickerProvider vsync) {
+    _instance ??= _GlobalShimmerController(vsync);
+    return _instance!;
+  }
+
+  void dispose() {
+    if (!_isDisposed) {
+      _isDisposed = true;
+      controller.dispose();
+      _instance = null;
+    }
+  }
+}
+
 class FractalCatalogScreen extends StatefulWidget {
   const FractalCatalogScreen({Key? key}) : super(key: key);
 
@@ -143,7 +172,8 @@ class FractalCatalogScreen extends StatefulWidget {
   State<FractalCatalogScreen> createState() => _FractalCatalogScreenState();
 }
 
-class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
+class _FractalCatalogScreenState extends State<FractalCatalogScreen>
+    with TickerProviderStateMixin {
   static const _viewPrefKey = 'catalog_view_grid';
 
   final _searchController = TextEditingController();
@@ -155,16 +185,41 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
   _SortOrder _sortOrder = _SortOrder.byCategory;
   String? _selectedCategory;
 
+  // Search debounce - prevents rebuild on every keystroke
+  String _debouncedQuery = '';
+
   // Cached catalog — rebuilt only when registry changes.
   CatalogRepository? _catalog;
+
+  // Global shimmer controller
+  late final _GlobalShimmerController _shimmerController;
 
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() {
-      setState(() => _isSearchFocused = _focusNode.hasFocus);
-    });
+    _shimmerController = _GlobalShimmerController.of(this);
+    _searchController.addListener(_onSearchChanged);
     _loadViewPreference();
+  }
+
+  void _onSearchChanged() {
+    // Debounce: only rebuild after 300ms of no typing
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (!mounted) return;
+      if (_searchController.text != _debouncedQuery) {
+        _debouncedQuery = _searchController.text;
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _shimmerController.dispose();
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -189,13 +244,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     setState(() => _viewMode = mode);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_viewPrefKey, mode == CatalogViewMode.grid);
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    _focusNode.dispose();
-    super.dispose();
   }
 
   bool get _hasActiveCatalogRefinements =>
@@ -231,7 +279,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
   }
 
   List<CatalogEntry> _entriesMatchingSearch(AppLocalizations l10n) {
-    final query = _searchController.text.trim().toLowerCase();
+    final query = _debouncedQuery.trim().toLowerCase();
     return _catalog!.entries.where((entry) {
       return _matchesSearch(entry, l10n, query);
     }).toList(growable: false);
@@ -350,7 +398,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final query = _searchController.text.trim().toLowerCase();
+    final query = _debouncedQuery.trim().toLowerCase();
     final filteredEntries = _filteredEntries(l10n);
     final groupedEntries = _groupAndSort(filteredEntries, l10n);
     final categoryBaseEntries = _entriesForCategoryCounts(l10n);
@@ -370,12 +418,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
           l10n,
           categories: sortedCategories,
           categoryCounts: categoryCounts,
-        ),
-        _buildCatalogSummary(
-          context,
-          l10n,
-          resultCount: filteredEntries.length,
-          categoryCount: categoryCounts.length,
         ),
         if (showFeatured)
           _FeaturedSection(
@@ -820,42 +862,54 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                 ? 4
                 : 3;
 
-    return ListView(
+    // Flatten sections into a single lazy list
+    // Each section: [header_item, ...grid_items, spacer_item]
+    final flatItems =
+        <({String? type, String? title, int? count, CatalogEntry? entry})>[];
+    for (final section in groupedEntries.entries) {
+      flatItems.add((
+        type: 'header',
+        title: section.key,
+        count: section.value.length,
+        entry: null
+      ));
+      for (final entry in section.value) {
+        flatItems.add((type: 'tile', title: null, count: null, entry: entry));
+      }
+      flatItems.add((type: 'spacer', title: null, count: null, entry: null));
+    }
+
+    return ListView.builder(
       padding: EdgeInsets.only(
         left: AppSpacing.lg,
         right: AppSpacing.lg,
         top: AppSpacing.sm,
         bottom: MediaQuery.of(context).padding.bottom + 100,
       ),
-      children: groupedEntries.entries.map((section) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _SectionHeader(title: section.key, count: section.value.length),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: section.value.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                crossAxisSpacing: AppSpacing.xs,
-                mainAxisSpacing: AppSpacing.xs,
-                childAspectRatio: 0.82,
+      cacheExtent: 500, // Pre-render items outside viewport
+      itemCount: flatItems.length,
+      itemExtent: 200, // Approximate height per item (grid tiles + header)
+      itemBuilder: (context, index) {
+        final item = flatItems[index];
+        switch (item.type) {
+          case 'header':
+            return _SectionHeader(title: item.title!, count: item.count!);
+          case 'tile':
+            return RepaintBoundary(
+              child: _ModuleGridTile(
+                entry: item.entry!,
+                l10n: l10n,
+                shimmerController: _shimmerController,
+                onTap: () => _openViewer(context, item.entry!.module,
+                    heroTag: item.entry!.catalogId),
               ),
-              itemBuilder: (context, index) {
-                final entry = section.value[index];
-                return _ModuleGridTile(
-                  entry: entry,
-                  l10n: l10n,
-                  onTap: () => _openViewer(context, entry.module,
-                      heroTag: entry.catalogId),
-                );
-              },
-            ),
-            const SizedBox(height: AppSpacing.md),
-          ],
-        );
-      }).toList(growable: false),
+            );
+          case 'spacer':
+            return const SizedBox(height: AppSpacing.md);
+          default:
+            return const SizedBox.shrink();
+        }
+      },
     );
   }
 
@@ -1153,11 +1207,13 @@ class _ModuleGridTile extends StatefulWidget {
   final CatalogEntry entry;
   final AppLocalizations l10n;
   final VoidCallback onTap;
+  final _GlobalShimmerController? shimmerController;
 
   const _ModuleGridTile({
     required this.entry,
     required this.l10n,
     required this.onTap,
+    this.shimmerController,
   });
 
   @override
@@ -1257,6 +1313,7 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                             catalogId: widget.entry.catalogId,
                             is3D: is3D,
                             category: widget.entry.category,
+                            shimmerController: widget.shimmerController,
                           ),
                           // Gradient overlay for text
                           Positioned(
@@ -1973,12 +2030,14 @@ class _PreviewThumbnail extends StatefulWidget {
   final bool is3D;
   final String category;
   final double? size;
+  final _GlobalShimmerController? shimmerController;
 
   const _PreviewThumbnail({
     required this.catalogId,
     required this.is3D,
     required this.category,
     this.size,
+    this.shimmerController,
   });
 
   @override
@@ -1987,8 +2046,7 @@ class _PreviewThumbnail extends StatefulWidget {
 
 class _PreviewThumbnailState extends State<_PreviewThumbnail>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _shimmerController;
-  late final bool _animateShimmer;
+  late final AnimationController _localShimmerController;
   bool _imageLoaded = false;
   bool _imageError = false;
 
@@ -2002,38 +2060,39 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   @override
   void initState() {
     super.initState();
-    _animateShimmer = !RuntimeModeService.isAutomatedTest;
-    _shimmerController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    );
-    if (_animateShimmer) {
-      _shimmerController.repeat();
+    // Use global controller if available, otherwise local fallback
+    if (widget.shimmerController != null) {
+      _localShimmerController = widget.shimmerController!.controller;
+    } else {
+      _localShimmerController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 1200),
+      );
+      if (!RuntimeModeService.isAutomatedTest) {
+        _localShimmerController.repeat();
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    // Only dispose local controller, not the global one
+    if (widget.shimmerController == null) {
+      _localShimmerController.dispose();
+    }
+    super.dispose();
   }
 
   void _markImageLoaded() {
     if (_imageLoaded) return;
-    if (_shimmerController.isAnimating) {
-      _shimmerController.stop();
-    }
     if (!mounted) return;
     setState(() => _imageLoaded = true);
   }
 
   void _markImageError() {
     if (_imageError) return;
-    if (_shimmerController.isAnimating) {
-      _shimmerController.stop();
-    }
     if (!mounted) return;
     setState(() => _imageError = true);
-  }
-
-  @override
-  void dispose() {
-    _shimmerController.dispose();
-    super.dispose();
   }
 
   @override
@@ -2058,12 +2117,16 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
         children: [
           // Shimmer shown while image is loading
           if (!_imageLoaded && !_imageError)
-            _ShimmerSkeleton(controller: _shimmerController),
+            _ShimmerSkeleton(controller: _localShimmerController),
 
           // Image (or gradient fallback on error)
           Positioned.fill(
-            child: Image.asset(
-              thumbAsset,
+            child: Image(
+              image: ResizeImage(
+                AssetImage(thumbAsset),
+                width: 256,
+                height: 256,
+              ),
               fit: BoxFit.cover,
               filterQuality: FilterQuality.medium,
               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
