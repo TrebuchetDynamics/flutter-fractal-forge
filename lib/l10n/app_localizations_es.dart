@@ -1192,6 +1192,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get catalogFeatured => 'DESTACADOS';
 
   @override
+  String get catalogFilterCategories => 'Categorías';
+
+  @override
+  String get catalogResults => 'Resultados';
+
+  @override
+  String get catalogCategories => 'Categorías';
+
+  @override
+  String get actionClearFilters => 'Limpiar filtros';
+
+  @override
   String get historyCurrentLocation => 'AQUÍ';
 
   @override

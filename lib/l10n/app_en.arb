@@ -557,6 +557,10 @@
   "catalogListView": "List view",
   "catalogGridView": "Grid view",
   "catalogFeatured": "FEATURED",
+  "catalogFilterCategories": "Categories",
+  "catalogResults": "Results",
+  "catalogCategories": "Categories",
+  "actionClearFilters": "Clear filters",
 
   "historyCurrentLocation": "HERE",
   "historySaveAsFavorite": "Save as favorite",

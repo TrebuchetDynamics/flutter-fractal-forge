@@ -2270,6 +2270,30 @@ abstract class AppLocalizations {
   /// **'FEATURED'**
   String get catalogFeatured;
 
+  /// No description provided for @catalogFilterCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get catalogFilterCategories;
+
+  /// No description provided for @catalogResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Results'**
+  String get catalogResults;
+
+  /// No description provided for @catalogCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get catalogCategories;
+
+  /// No description provided for @actionClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get actionClearFilters;
+
   /// No description provided for @historyCurrentLocation.
   ///
   /// In en, this message translates to:

@@ -558,6 +558,10 @@
   "catalogListView": "Vista de lista",
   "catalogGridView": "Vista de cuadrícula",
   "catalogFeatured": "DESTACADOS",
+  "catalogFilterCategories": "Categorías",
+  "catalogResults": "Resultados",
+  "catalogCategories": "Categorías",
+  "actionClearFilters": "Limpiar filtros",
 
   "historyCurrentLocation": "AQUÍ",
   "historySaveAsFavorite": "Guardar como favorito",
