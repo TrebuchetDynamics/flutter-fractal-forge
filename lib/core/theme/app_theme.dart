@@ -114,12 +114,90 @@ class HighContrastColors {
   static const Color focusIndicator = Color(0xFFFFFF00);
 }
 
-/// Premium typography with careful weight and spacing.
-class AppTypography {
-  static const String fontFamily = 'Inter';
+/// OLED-optimized color palette with pure black backgrounds.
+///
+/// Saves battery on OLED/AMOLED displays by using true black (#000000)
+/// instead of dark grays. The cosmic accent colors remain vibrant
+/// against the pure black background.
+class OledColors {
+  OledColors._();
 
+  // Primary backgrounds - PURE BLACK for OLED
+  static const Color background = Color(0xFF000000);
+  static const Color surface = Color(0xFF0A0A0A);
+  static const Color surfaceVariant = Color(0xFF141414);
+  static const Color surfaceElevated = Color(0xFF1E1E1E);
+
+  // Accent colors - same cosmic purple/blue
+  static const Color primary = Color(0xFF7C4DFF);
+  static const Color primaryLight = Color(0xFFB388FF);
+  static const Color primaryDark = Color(0xFF5C3DBF);
+
+  // Secondary - same cyan/teal
+  static const Color secondary = Color(0xFF18FFFF);
+  static const Color secondaryLight = Color(0xFF76FFFF);
+  static const Color secondaryDark = Color(0xFF00E5CC);
+
+  // Gradients
+  static const LinearGradient primaryGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF7C4DFF), Color(0xFF536DFE)],
+  );
+
+  static const LinearGradient cosmicGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF000000),
+      Color(0xFF0D0620),
+      Color(0xFF000D1A),
+    ],
+  );
+
+  static const LinearGradient accentGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF7C4DFF), Color(0xFF18FFFF)],
+  );
+
+  // Text colors - slightly brighter for contrast on black
+  static const Color textPrimary = Color(0xFFFFFFFF);
+  static const Color textSecondary = Color(0xFFCCCCCC);
+  static const Color textMuted = Color(0xFF888888);
+
+  // Borders - subtle gray for depth
+  static const Color border = Color(0xFF2A2A2A);
+  static const Color borderLight = Color(0xFF404040);
+  static const Color divider = Color(0xFF1A1A1A);
+
+  // Status colors - same vibrant colors
+  static const Color success = Color(0xFF4CAF50);
+  static const Color warning = Color(0xFFFFB74D);
+  static const Color error = Color(0xFFEF5350);
+
+  // Glassmorphism - darker for OLED
+  static Color glassBackground = Colors.white.withValues(alpha: 0.03);
+  static Color glassBorder = Colors.white.withValues(alpha: 0.08);
+}
+
+/// Premium typography with careful weight and spacing.
+/// Uses Poppins for titles, Inter for body, JetBrains Mono for numbers.
+class AppTypography {
+  // Font families - using google_fonts package
+  static const String titleFont = 'Poppins';
+  static const String bodyFont = 'Inter';
+  static const String monoFont = 'JetBrains Mono';
+
+  // Base styles
+  static const TextStyle _baseStyle = TextStyle(
+    fontFamily: bodyFont,
+    color: AppColors.textPrimary,
+  );
+
+  // Title styles - Poppins for more personality
   static const TextStyle displayLarge = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: titleFont,
     fontSize: 32,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.5,
@@ -128,7 +206,7 @@ class AppTypography {
   );
 
   static const TextStyle displayMedium = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: titleFont,
     fontSize: 24,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.25,
@@ -137,7 +215,7 @@ class AppTypography {
   );
 
   static const TextStyle headlineLarge = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: titleFont,
     fontSize: 20,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.15,
@@ -146,7 +224,7 @@ class AppTypography {
   );
 
   static const TextStyle headlineMedium = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: titleFont,
     fontSize: 18,
     fontWeight: FontWeight.w500,
     letterSpacing: -0.1,
@@ -155,7 +233,7 @@ class AppTypography {
   );
 
   static const TextStyle headlineSmall = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: titleFont,
     fontSize: 16,
     fontWeight: FontWeight.w500,
     letterSpacing: -0.05,
@@ -164,7 +242,7 @@ class AppTypography {
   );
 
   static const TextStyle titleLarge = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: titleFont,
     fontSize: 16,
     fontWeight: FontWeight.w600,
     letterSpacing: 0,
@@ -173,7 +251,7 @@ class AppTypography {
   );
 
   static const TextStyle titleMedium = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: titleFont,
     fontSize: 14,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.1,
@@ -181,8 +259,9 @@ class AppTypography {
     color: AppColors.textPrimary,
   );
 
+  // Body styles - Inter for readability
   static const TextStyle bodyLarge = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: bodyFont,
     fontSize: 15,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.15,
@@ -191,7 +270,7 @@ class AppTypography {
   );
 
   static const TextStyle bodyMedium = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: bodyFont,
     fontSize: 14,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.15,
@@ -200,7 +279,7 @@ class AppTypography {
   );
 
   static const TextStyle bodySmall = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: bodyFont,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.2,
@@ -208,8 +287,9 @@ class AppTypography {
     color: AppColors.textMuted,
   );
 
+  // Label styles
   static const TextStyle labelLarge = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: bodyFont,
     fontSize: 14,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.1,
@@ -218,7 +298,7 @@ class AppTypography {
   );
 
   static const TextStyle labelMedium = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: bodyFont,
     fontSize: 12,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.4,
@@ -227,12 +307,31 @@ class AppTypography {
   );
 
   static const TextStyle labelSmall = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: bodyFont,
     fontSize: 10,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.5,
     height: 1.4,
     color: AppColors.textMuted,
+  );
+
+  // Monospace for numeric values - JetBrains Mono
+  static const TextStyle numericValue = TextStyle(
+    fontFamily: monoFont,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0,
+    height: 1.4,
+    color: AppColors.textPrimary,
+  );
+
+  static const TextStyle numericValueSmall = TextStyle(
+    fontFamily: monoFont,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    letterSpacing: 0,
+    height: 1.4,
+    color: AppColors.textSecondary,
   );
 }
 
@@ -305,8 +404,7 @@ class AccessibleAnimations {
   ///
   /// Returns [Curves.linear] for reduced motion (instant feel)
   /// or the default curve otherwise.
-  Curve get curve =>
-      reduceMotion ? Curves.linear : AppAnimations.defaultCurve;
+  Curve get curve => reduceMotion ? Curves.linear : AppAnimations.defaultCurve;
 }
 
 /// Spacing and sizing constants.
@@ -409,8 +507,10 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
         elevation: 0,
         showUnselectedLabels: true,
-        selectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-        unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+        selectedLabelStyle:
+            TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+        unselectedLabelStyle:
+            TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: AppColors.surface,
@@ -450,7 +550,8 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          textStyle: AppTypography.labelLarge.copyWith(color: AppColors.primary),
+          textStyle:
+              AppTypography.labelLarge.copyWith(color: AppColors.primary),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
@@ -462,20 +563,23 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surfaceVariant,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-          borderSide: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
+          borderSide:
+              BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
           borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
-        hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+        hintStyle:
+            AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
         labelStyle: AppTypography.bodyMedium,
         prefixIconColor: AppColors.textMuted,
         suffixIconColor: AppColors.textMuted,
@@ -489,7 +593,8 @@ class AppTheme {
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
         valueIndicatorColor: AppColors.primary,
-        valueIndicatorTextStyle: AppTypography.labelMedium.copyWith(color: Colors.white),
+        valueIndicatorTextStyle:
+            AppTypography.labelMedium.copyWith(color: Colors.white),
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
@@ -511,7 +616,8 @@ class AppTheme {
         selectedColor: AppColors.primary.withValues(alpha: 0.2),
         disabledColor: AppColors.surfaceVariant.withValues(alpha: 0.5),
         labelStyle: AppTypography.labelMedium,
-        secondaryLabelStyle: AppTypography.labelMedium.copyWith(color: AppColors.primary),
+        secondaryLabelStyle:
+            AppTypography.labelMedium.copyWith(color: AppColors.primary),
         side: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
@@ -648,8 +754,10 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
         elevation: 0,
         showUnselectedLabels: true,
-        selectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-        unselectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+        selectedLabelStyle:
+            TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+        unselectedLabelStyle:
+            TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: HighContrastColors.surface,
@@ -669,7 +777,8 @@ class AppTheme {
           foregroundColor: Colors.black,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          minimumSize: const Size(AccessibleSizing.minTouchTarget, AccessibleSizing.minTouchTarget),
+          minimumSize: const Size(
+              AccessibleSizing.minTouchTarget, AccessibleSizing.minTouchTarget),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
             side: const BorderSide(color: HighContrastColors.border, width: 2),
@@ -685,7 +794,8 @@ class AppTheme {
           foregroundColor: HighContrastColors.textPrimary,
           side: const BorderSide(color: HighContrastColors.border, width: 2),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          minimumSize: const Size(AccessibleSizing.minTouchTarget, AccessibleSizing.minTouchTarget),
+          minimumSize: const Size(
+              AccessibleSizing.minTouchTarget, AccessibleSizing.minTouchTarget),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
           ),
@@ -701,21 +811,27 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: HighContrastColors.surfaceVariant,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-          borderSide: const BorderSide(color: HighContrastColors.border, width: 2),
+          borderSide:
+              const BorderSide(color: HighContrastColors.border, width: 2),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-          borderSide: const BorderSide(color: HighContrastColors.border, width: 2),
+          borderSide:
+              const BorderSide(color: HighContrastColors.border, width: 2),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-          borderSide: const BorderSide(color: HighContrastColors.primary, width: 3),
+          borderSide:
+              const BorderSide(color: HighContrastColors.primary, width: 3),
         ),
-        hintStyle: AppTypography.bodyMedium.copyWith(color: HighContrastColors.textMuted),
-        labelStyle: AppTypography.bodyMedium.copyWith(color: HighContrastColors.textPrimary),
+        hintStyle: AppTypography.bodyMedium
+            .copyWith(color: HighContrastColors.textMuted),
+        labelStyle: AppTypography.bodyMedium
+            .copyWith(color: HighContrastColors.textPrimary),
         prefixIconColor: HighContrastColors.textSecondary,
         suffixIconColor: HighContrastColors.textSecondary,
       ),
@@ -778,6 +894,233 @@ class AppTheme {
         contentTextStyle: AppTypography.bodyMedium.copyWith(
           color: HighContrastColors.textSecondary,
         ),
+      ),
+    );
+  }
+
+  /// OLED-optimized theme for AMOLED displays.
+  ///
+  /// Uses pure black (#000000) backgrounds for maximum battery savings
+  /// on OLED/AMOLED screens. Cosmic purple accents remain vibrant
+  /// against the true black background.
+  static ThemeData get oled {
+    return ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: OledColors.background,
+      primaryColor: OledColors.primary,
+      colorScheme: const ColorScheme.dark(
+        primary: OledColors.primary,
+        primaryContainer: OledColors.primaryDark,
+        secondary: OledColors.secondary,
+        secondaryContainer: OledColors.secondaryDark,
+        surface: OledColors.surface,
+        onPrimary: Colors.white,
+        onSecondary: Colors.black,
+        onSurface: OledColors.textPrimary,
+        error: OledColors.error,
+      ),
+      textTheme: TextTheme(
+        displayLarge:
+            AppTypography.displayLarge.copyWith(color: OledColors.textPrimary),
+        displayMedium:
+            AppTypography.displayMedium.copyWith(color: OledColors.textPrimary),
+        headlineLarge:
+            AppTypography.headlineLarge.copyWith(color: OledColors.textPrimary),
+        headlineMedium: AppTypography.headlineMedium
+            .copyWith(color: OledColors.textPrimary),
+        titleLarge:
+            AppTypography.titleLarge.copyWith(color: OledColors.textPrimary),
+        titleMedium:
+            AppTypography.titleMedium.copyWith(color: OledColors.textPrimary),
+        bodyLarge:
+            AppTypography.bodyLarge.copyWith(color: OledColors.textSecondary),
+        bodyMedium:
+            AppTypography.bodyMedium.copyWith(color: OledColors.textSecondary),
+        bodySmall:
+            AppTypography.bodySmall.copyWith(color: OledColors.textMuted),
+        labelLarge:
+            AppTypography.labelLarge.copyWith(color: OledColors.textPrimary),
+        labelMedium:
+            AppTypography.labelMedium.copyWith(color: OledColors.textSecondary),
+        labelSmall:
+            AppTypography.labelSmall.copyWith(color: OledColors.textMuted),
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: OledColors.background,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        centerTitle: true,
+        titleTextStyle:
+            AppTypography.titleLarge.copyWith(color: OledColors.textPrimary),
+        iconTheme: const IconThemeData(color: OledColors.textPrimary, size: 22),
+      ),
+      cardTheme: CardThemeData(
+        color: OledColors.surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+          side: BorderSide(color: OledColors.border.withValues(alpha: 0.5)),
+        ),
+        margin: EdgeInsets.zero,
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: OledColors.background,
+        selectedItemColor: OledColors.primary,
+        unselectedItemColor: OledColors.textMuted,
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+        showUnselectedLabels: true,
+        selectedLabelStyle:
+            TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+        unselectedLabelStyle:
+            TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: OledColors.surface,
+        modalBackgroundColor: OledColors.surface,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        dragHandleColor: OledColors.border,
+        dragHandleSize: const Size(40, 4),
+        elevation: AppSpacing.modalElevation,
+        showDragHandle: true,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: OledColors.primary,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          ),
+          textStyle: AppTypography.labelLarge.copyWith(color: Colors.white),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: OledColors.textPrimary,
+          side: BorderSide(color: OledColors.border),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          ),
+          textStyle: AppTypography.labelLarge,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: OledColors.primary,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          textStyle:
+              AppTypography.labelLarge.copyWith(color: OledColors.primary),
+        ),
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          foregroundColor: OledColors.textPrimary,
+          padding: const EdgeInsets.all(12),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: OledColors.surfaceVariant,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+          borderSide:
+              BorderSide(color: OledColors.border.withValues(alpha: 0.5)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+          borderSide: const BorderSide(color: OledColors.primary, width: 1.5),
+        ),
+        hintStyle:
+            AppTypography.bodyMedium.copyWith(color: OledColors.textMuted),
+        labelStyle: AppTypography.bodyMedium,
+        prefixIconColor: OledColors.textMuted,
+        suffixIconColor: OledColors.textMuted,
+      ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: OledColors.primary,
+        inactiveTrackColor: OledColors.surfaceVariant,
+        thumbColor: OledColors.primary,
+        overlayColor: OledColors.primary.withValues(alpha: 0.12),
+        trackHeight: 4,
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+        overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
+        valueIndicatorColor: OledColors.primary,
+        valueIndicatorTextStyle:
+            AppTypography.labelMedium.copyWith(color: Colors.white),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return OledColors.primary;
+          }
+          return OledColors.textMuted;
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return OledColors.primary.withValues(alpha: 0.4);
+          }
+          return OledColors.surfaceVariant;
+        }),
+        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: OledColors.surfaceVariant,
+        selectedColor: OledColors.primary.withValues(alpha: 0.2),
+        disabledColor: OledColors.surfaceVariant.withValues(alpha: 0.5),
+        labelStyle: AppTypography.labelMedium,
+        secondaryLabelStyle:
+            AppTypography.labelMedium.copyWith(color: OledColors.primary),
+        side: BorderSide(color: OledColors.border.withValues(alpha: 0.5)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      ),
+      listTileTheme: const ListTileThemeData(
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        dense: false,
+        iconColor: OledColors.textMuted,
+        textColor: OledColors.textPrimary,
+      ),
+      dividerTheme: const DividerThemeData(
+        color: OledColors.divider,
+        thickness: 1,
+        space: 1,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: OledColors.surfaceElevated,
+        contentTextStyle:
+            AppTypography.bodyMedium.copyWith(color: OledColors.textPrimary),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: OledColors.primary,
+        linearTrackColor: OledColors.surfaceVariant,
+        circularTrackColor: OledColors.surfaceVariant,
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: OledColors.surface,
+        elevation: 16,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        titleTextStyle: AppTypography.headlineMedium
+            .copyWith(color: OledColors.textPrimary),
+        contentTextStyle:
+            AppTypography.bodyMedium.copyWith(color: OledColors.textSecondary),
       ),
     );
   }

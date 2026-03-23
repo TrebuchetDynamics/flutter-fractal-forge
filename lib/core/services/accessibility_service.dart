@@ -2,6 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Theme mode options for the app.
+enum AppThemeMode {
+  dark,
+  oled,
+  highContrast;
+
+  String get displayName {
+    switch (this) {
+      case AppThemeMode.dark:
+        return 'Dark';
+      case AppThemeMode.oled:
+        return 'OLED Black';
+      case AppThemeMode.highContrast:
+        return 'High Contrast';
+    }
+  }
+
+  String get description {
+    switch (this) {
+      case AppThemeMode.dark:
+        return 'Cosmic purple theme with dark gray background';
+      case AppThemeMode.oled:
+        return 'Pure black background for OLED displays';
+      case AppThemeMode.highContrast:
+        return 'Maximum contrast for accessibility';
+    }
+  }
+}
+
 /// Service for managing accessibility settings across the app.
 ///
 /// Provides:
@@ -30,18 +59,22 @@ class AccessibilityService extends ChangeNotifier {
   static const String _keyHighContrast = 'accessibility_high_contrast';
   static const String _keyReducedMotion = 'accessibility_reduced_motion';
   static const String _keyLargeTargets = 'accessibility_large_targets';
+  static const String _keyThemeMode = 'app_theme_mode';
 
   final SharedPreferences _prefs;
 
   bool _highContrastEnabled;
   bool _reducedMotionEnabled;
   bool _largeTargetsEnabled;
+  AppThemeMode _themeMode;
 
   /// Creates an [AccessibilityService] with the given [SharedPreferences].
   AccessibilityService(this._prefs)
       : _highContrastEnabled = _prefs.getBool(_keyHighContrast) ?? false,
         _reducedMotionEnabled = _prefs.getBool(_keyReducedMotion) ?? false,
-        _largeTargetsEnabled = _prefs.getBool(_keyLargeTargets) ?? false;
+        _largeTargetsEnabled = _prefs.getBool(_keyLargeTargets) ?? false,
+        _themeMode = AppThemeMode.values[(_prefs.getInt(_keyThemeMode) ?? 0)
+            .clamp(0, AppThemeMode.values.length - 1)];
 
   /// Creates an instance asynchronously by loading SharedPreferences.
   static Future<AccessibilityService> create() async {
@@ -67,6 +100,9 @@ class AccessibilityService extends ChangeNotifier {
   /// (minimum 48x48 logical pixels per WCAG guidelines).
   bool get largeTargetsEnabled => _largeTargetsEnabled;
 
+  /// The current app theme mode.
+  AppThemeMode get themeMode => _themeMode;
+
   /// Enables or disables high contrast mode.
   Future<void> setHighContrast(bool enabled) async {
     if (_highContrastEnabled == enabled) return;
@@ -91,6 +127,14 @@ class AccessibilityService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Sets the app theme mode.
+  Future<void> setThemeMode(AppThemeMode mode) async {
+    if (_themeMode == mode) return;
+    _themeMode = mode;
+    await _prefs.setInt(_keyThemeMode, mode.index);
+    notifyListeners();
+  }
+
   /// Announces a message to screen readers.
   ///
   /// Uses [SemanticsService] to make the message
@@ -104,7 +148,8 @@ class AccessibilityService extends ChangeNotifier {
     Assertiveness politeness = Assertiveness.polite,
   }) {
     // ignore: deprecated_member_use
-    SemanticsService.announce(message, TextDirection.ltr, assertiveness: politeness);
+    SemanticsService.announce(message, TextDirection.ltr,
+        assertiveness: politeness);
   }
 
   /// Checks if the system has accessibility features enabled.

@@ -38,6 +38,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/home/home_screen.dart';
 import 'package:flutter_fractals/features/onboarding/onboarding_screen.dart';
 import 'package:flutter_fractals/core/services/onboarding_service.dart';
+
 const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
 const int kBootStep = int.fromEnvironment('BOOT_STEP', defaultValue: 0);
 
@@ -475,12 +476,12 @@ class _AppShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AccessibilityService>(
       builder: (context, accessibility, child) {
-        // Use high contrast theme when enabled (in-app or system).
-        final mediaHighContrast =
-            MediaQuery.maybeOf(context)?.highContrast ?? false;
-        final useHighContrast =
-            accessibility.highContrastEnabled || mediaHighContrast;
-        final theme = useHighContrast ? AppTheme.highContrast : AppTheme.dark;
+        // Determine which theme to use based on user selection
+        final theme = switch (accessibility.themeMode) {
+          AppThemeMode.dark => AppTheme.dark,
+          AppThemeMode.oled => AppTheme.oled,
+          AppThemeMode.highContrast => AppTheme.highContrast,
+        };
 
         return MaterialApp(
           locale: locale,
@@ -504,7 +505,8 @@ class _AppBootstrap extends StatefulWidget {
   final OnboardingService? onboardingService;
   final bool skipSplash;
 
-  const _AppBootstrap({required this.onboardingService, this.skipSplash = false});
+  const _AppBootstrap(
+      {required this.onboardingService, this.skipSplash = false});
 
   @override
   State<_AppBootstrap> createState() => _AppBootstrapState();

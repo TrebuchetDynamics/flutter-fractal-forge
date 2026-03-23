@@ -149,6 +149,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
   bool _isSearchFocused = false;
+  bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
   _DimensionFilter _dimensionFilter = _DimensionFilter.all;
   _SortOrder _sortOrder = _SortOrder.byCategory;
@@ -291,10 +292,26 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
     });
   }
 
+  void _toggleSearch() {
+    setState(() {
+      _isSearchVisible = !_isSearchVisible;
+      if (!_isSearchVisible) {
+        _searchController.clear();
+        _focusNode.unfocus();
+      } else {
+        // Auto focus the search field
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _focusNode.requestFocus();
+        });
+      }
+    });
+  }
+
   void _clearCatalogRefinements() {
     _searchController.clear();
     _focusNode.unfocus();
     setState(() {
+      _isSearchVisible = false;
       _dimensionFilter = _DimensionFilter.all;
       _selectedCategory = null;
       _sortOrder = _SortOrder.byCategory;
@@ -346,23 +363,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.lg,
-            AppSpacing.lg,
-            AppSpacing.lg,
-            AppSpacing.sm,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _buildSearchField(context, l10n)),
-              const SizedBox(width: AppSpacing.sm),
-              _buildViewToggle(context, l10n),
-            ],
-          ),
-        ),
         _buildFilterAndSortBar(context, l10n),
+        if (_isSearchVisible) _buildSearchField(context, l10n),
         _buildCategoryBar(
           context,
           l10n,
@@ -419,7 +421,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
       ),
       child: Row(
         children: [
-          // Dimension filters — horizontally scrollable (C1 overflow fix)
+          // Dimension filters + Search — horizontally scrollable
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -449,34 +451,60 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
                     onTap: () =>
                         _updateDimensionFilter(_DimensionFilter.threeD),
                   ),
+                  const SizedBox(width: AppSpacing.md),
                 ],
               ),
             ),
           ),
-          const SizedBox(width: AppSpacing.xs),
-          // Sort dropdown — min 48px tap target (C5 fix)
-          PopupMenuButton<_SortOrder>(
-            tooltip: l10n.catalogFilterSortOrder,
-            initialValue: _sortOrder,
-            onSelected: (value) => setState(() => _sortOrder = value),
-            itemBuilder: (_) => [
-              PopupMenuItem(
-                value: _SortOrder.byCategory,
-                child: Text(l10n.catalogSortByCategory),
+          // Action buttons on the right
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Search button
+              _SimpleIconButton(
+                icon: Icons.search_rounded,
+                isActive: _isSearchVisible,
+                onTap: _toggleSearch,
               ),
-              PopupMenuItem(
-                value: _SortOrder.alphabetical,
-                child: Text(l10n.catalogSortAlphabetical),
+              const SizedBox(width: AppSpacing.xs),
+              // View toggle button
+              _SimpleIconButton(
+                icon: _viewMode == CatalogViewMode.grid
+                    ? Icons.view_list_rounded
+                    : Icons.grid_view_rounded,
+                onTap: () => setState(() {
+                  _viewMode = _viewMode == CatalogViewMode.grid
+                      ? CatalogViewMode.list
+                      : CatalogViewMode.grid;
+                }),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              // Sort dropdown
+              PopupMenuButton<_SortOrder>(
+                tooltip: l10n.catalogFilterSortOrder,
+                initialValue: _sortOrder,
+                onSelected: (value) => setState(() => _sortOrder = value),
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    value: _SortOrder.byCategory,
+                    child: Text(l10n.catalogSortByCategory),
+                  ),
+                  PopupMenuItem(
+                    value: _SortOrder.alphabetical,
+                    child: Text(l10n.catalogSortAlphabetical),
+                  ),
+                ],
+                child: ConstrainedBox(
+                  constraints:
+                      const BoxConstraints(minHeight: 48, minWidth: 48),
+                  child: Icon(
+                    Icons.sort_rounded,
+                    size: 22,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ),
             ],
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 48, minWidth: 48),
-              child: Icon(
-                Icons.sort_rounded,
-                size: 20,
-                color: AppColors.textSecondary,
-              ),
-            ),
           ),
         ],
       ),
@@ -929,6 +957,49 @@ class _SectionHeader extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Simple icon button
+// ---------------------------------------------------------------------------
+
+class _SimpleIconButton extends StatelessWidget {
+  final IconData icon;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  const _SimpleIconButton({
+    required this.icon,
+    this.isActive = false,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      selected: isActive,
+      label: 'Button',
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: AppAnimations.fast,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: isActive
+                ? AppColors.primary.withValues(alpha: 0.2)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(
+            icon,
+            size: 22,
+            color: isActive ? AppColors.primary : AppColors.textSecondary,
+          ),
         ),
       ),
     );

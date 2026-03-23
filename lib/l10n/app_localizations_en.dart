@@ -15,6 +15,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabExplore => 'Explore';
 
   @override
+  String get tabFavorites => 'Favorites';
+
+  @override
+  String get tabSettings => 'Settings';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
   String get catalogTitle => 'Fractal Catalog';
 
   @override
