@@ -6,6 +6,8 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
+import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
+import 'package:flutter_fractals/features/library/fractal_library_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/features/settings/settings_screen.dart';
@@ -26,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   late final ModuleRegistry _registry;
   late final FractalController _exploreController;
+  late final CatalogRepository _catalog;
 
   StreamSubscription<DeepLinkData>? _deepLinkSubscription;
   bool _handledInitialLink = false;
@@ -35,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
     _registry = context.read<ModuleRegistry>();
     _exploreController = FractalController(_registry);
+    _catalog = CatalogRepository.fromRegistry(_registry);
 
     // Set up deep link handling (skip in SAFE_MODE)
     if (kSafeMode == 0) {
@@ -159,6 +163,27 @@ class _HomeScreenState extends State<HomeScreen>
       ),
     );
 
+    final libraryTab = ChangeNotifierProvider.value(
+      key: const ValueKey('library'),
+      value: _exploreController,
+      child: FractalLibraryScreen(
+        catalog: _catalog,
+        onEntryTap: (entry) {
+          _exploreController.selectModule(entry.module);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => MultiProvider(
+                providers: [
+                  ChangeNotifierProvider.value(value: _exploreController),
+                ],
+                child: const FractalViewerScreen(),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+
     final settingsTab = const SettingsScreen();
 
     return Scaffold(
@@ -166,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen>
       appBar: _PremiumAppBar(title: l10n.catalogTitle),
       body: IndexedStack(
         index: _selectedIndex,
-        children: [exploreTab, settingsTab],
+        children: [exploreTab, libraryTab, settingsTab],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
@@ -178,6 +203,11 @@ class _HomeScreenState extends State<HomeScreen>
             icon: const Icon(Icons.explore_outlined),
             selectedIcon: const Icon(Icons.explore),
             label: l10n.tabExplore,
+          ),
+          const NavigationDestination(
+            icon: Icon(Icons.library_books_outlined),
+            selectedIcon: Icon(Icons.library_books),
+            label: 'Library',
           ),
           NavigationDestination(
             icon: const Icon(Icons.settings_outlined),

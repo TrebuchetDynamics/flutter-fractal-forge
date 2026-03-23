@@ -10,15 +10,15 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/core/widgets/catalog_thumbnail.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:m3_carousel/m3_carousel.dart';
 
 enum CatalogViewMode { grid, list }
 
 enum _DimensionFilter { all, twoD, threeD }
-
-enum _SortOrder { byCategory, alphabetical }
 
 /// Featured fractal IDs shown in the hero carousel at the top of the catalog.
 const _kFeaturedFractalIds = <String>[
@@ -182,7 +182,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
   _DimensionFilter _dimensionFilter = _DimensionFilter.all;
-  _SortOrder _sortOrder = _SortOrder.byCategory;
   String? _selectedCategory;
 
   // Search debounce - prevents rebuild on every keystroke
@@ -232,11 +231,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   Future<void> _loadViewPreference() async {
-    final prefs = await SharedPreferences.getInstance();
-    final useGrid = prefs.getBool(_viewPrefKey) ?? true;
+    // Always default to grid view
     if (!mounted) return;
     setState(() {
-      _viewMode = useGrid ? CatalogViewMode.grid : CatalogViewMode.list;
+      _viewMode = CatalogViewMode.grid;
     });
   }
 
@@ -249,8 +247,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   bool get _hasActiveCatalogRefinements =>
       _searchController.text.trim().isNotEmpty ||
       _dimensionFilter != _DimensionFilter.all ||
-      _selectedCategory != null ||
-      _sortOrder != _SortOrder.byCategory;
+      _selectedCategory != null;
 
   bool _matchesDimension(CatalogEntry entry, _DimensionFilter filter) {
     switch (filter) {
@@ -362,19 +359,11 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       _isSearchVisible = false;
       _dimensionFilter = _DimensionFilter.all;
       _selectedCategory = null;
-      _sortOrder = _SortOrder.byCategory;
     });
   }
 
   Map<String, List<CatalogEntry>> _groupAndSort(
       List<CatalogEntry> entries, AppLocalizations l10n) {
-    if (_sortOrder == _SortOrder.alphabetical) {
-      final sorted = List<CatalogEntry>.from(entries)
-        ..sort((a, b) =>
-            a.module.displayName(l10n).compareTo(b.module.displayName(l10n)));
-      return {l10n.catalogAllFractals: sorted};
-    }
-
     final grouped = <String, List<CatalogEntry>>{};
     for (final entry in entries) {
       grouped.putIfAbsent(entry.category, () => []).add(entry);
@@ -406,39 +395,38 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final sortedCategories = _sortedCategories(categoryCounts);
     final showFeatured = query.isEmpty &&
         _dimensionFilter == _DimensionFilter.all &&
-        _selectedCategory == null &&
-        _sortOrder == _SortOrder.byCategory;
+        _selectedCategory == null;
 
-    return Column(
-      children: [
-        _buildFilterAndSortBar(context, l10n),
-        if (_isSearchVisible) _buildSearchField(context, l10n),
-        _buildCategoryBar(
-          context,
-          l10n,
-          categories: sortedCategories,
-          categoryCounts: categoryCounts,
-        ),
-        if (showFeatured)
-          _FeaturedSection(
-            catalog: _catalog!,
-            l10n: l10n,
-            onTap: (module, catalogId) =>
-                _openViewer(context, module, heroTag: catalogId),
-          ),
-        Expanded(
-          child: filteredEntries.isEmpty
-              ? _EmptyState(
-                  query: query,
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Column(
+            children: [
+              _buildFilterAndSortBar(context, l10n),
+              if (_isSearchVisible) _buildSearchField(context, l10n),
+              if (showFeatured && _viewMode == CatalogViewMode.grid)
+                _FeaturedSection(
+                  catalog: _catalog!,
                   l10n: l10n,
-                  onClear: () {
-                    _clearCatalogRefinements();
-                  },
-                )
-              : _viewMode == CatalogViewMode.grid
-                  ? _buildGridContent(context, groupedEntries, l10n)
-                  : _buildListContent(context, groupedEntries, l10n),
+                  onTap: (module, catalogId) =>
+                      _openViewer(context, module, heroTag: catalogId),
+                ),
+            ],
+          ),
         ),
+        if (filteredEntries.isEmpty)
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: _EmptyState(
+              query: query,
+              l10n: l10n,
+              onClear: _clearCatalogRefinements,
+            ),
+          )
+        else if (_viewMode == CatalogViewMode.grid)
+          _buildGridContentSliver(groupedEntries, l10n)
+        else
+          _buildListContentSliver(groupedEntries, l10n),
       ],
     );
   }
@@ -520,32 +508,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                       : CatalogViewMode.grid;
                 }),
               ),
-              const SizedBox(width: AppSpacing.xs),
-              // Sort dropdown
-              PopupMenuButton<_SortOrder>(
-                tooltip: l10n.catalogFilterSortOrder,
-                initialValue: _sortOrder,
-                onSelected: (value) => setState(() => _sortOrder = value),
-                itemBuilder: (_) => [
-                  PopupMenuItem(
-                    value: _SortOrder.byCategory,
-                    child: Text(l10n.catalogSortByCategory),
-                  ),
-                  PopupMenuItem(
-                    value: _SortOrder.alphabetical,
-                    child: Text(l10n.catalogSortAlphabetical),
-                  ),
-                ],
-                child: ConstrainedBox(
-                  constraints:
-                      const BoxConstraints(minHeight: 48, minWidth: 48),
-                  child: Icon(
-                    Icons.sort_rounded,
-                    size: 22,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ),
             ],
           ),
         ],
@@ -581,7 +543,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           ),
           const SizedBox(height: AppSpacing.xs),
           SizedBox(
-            height: 52,
+            height: 40,
             child: ListView.separated(
               key: const Key('catalogCategoryScroll'),
               scrollDirection: Axis.horizontal,
@@ -621,82 +583,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildCatalogSummary(
-    BuildContext context,
-    AppLocalizations l10n, {
-    required int resultCount,
-    required int categoryCount,
-  }) {
-    final sortLabel = _sortOrder == _SortOrder.byCategory
-        ? l10n.catalogSortByCategory
-        : l10n.catalogSortAlphabeticalShort;
-    final viewLabel = _viewMode == CatalogViewMode.grid
-        ? l10n.catalogGridView
-        : l10n.catalogListView;
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.lg,
-        AppSpacing.xs,
-        AppSpacing.lg,
-        AppSpacing.sm,
-      ),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: AppColors.surfaceVariant.withValues(alpha: 0.72),
-          borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-          border: Border.all(
-            color: AppColors.border.withValues(alpha: 0.35),
-          ),
-        ),
-        child: Wrap(
-          spacing: AppSpacing.sm,
-          runSpacing: AppSpacing.sm,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            _SummaryPill(
-              icon: Icons.auto_awesome_mosaic_rounded,
-              label: l10n.catalogResults,
-              value: '$resultCount',
-            ),
-            _SummaryPill(
-              icon: Icons.category_rounded,
-              label: l10n.catalogCategories,
-              value: '$categoryCount',
-            ),
-            _SummaryPill(
-              icon: _viewMode == CatalogViewMode.grid
-                  ? Icons.grid_view_rounded
-                  : Icons.view_list_rounded,
-              label: viewLabel,
-            ),
-            _SummaryPill(
-              icon: Icons.sort_rounded,
-              label: sortLabel,
-            ),
-            if (_selectedCategory != null)
-              _SummaryPill(
-                icon: Icons.filter_alt_rounded,
-                label: _selectedCategory!,
-              ),
-            if (_hasActiveCatalogRefinements)
-              TextButton.icon(
-                key: const Key('catalogClearFiltersButton'),
-                onPressed: _clearCatalogRefinements,
-                icon: const Icon(Icons.refresh_rounded, size: 18),
-                label: Text(l10n.actionClearFilters),
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                ),
-              ),
-          ],
-        ),
       ),
     );
   }
@@ -799,57 +685,51 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     );
   }
 
-  Widget _buildListContent(
-    BuildContext context,
+  Widget _buildListContentSliver(
     Map<String, List<CatalogEntry>> groupedEntries,
     AppLocalizations l10n,
   ) {
-    final flatItems =
-        <({String type, CatalogEntry? entry, String? title, int count})>[];
+    final bottomPadding = MediaQuery.of(context).padding.bottom + 100;
+    final widgets = <Widget>[];
+
     for (final section in groupedEntries.entries) {
-      flatItems.add((
-        type: 'header',
-        entry: null,
-        title: section.key,
-        count: section.value.length
-      ));
+      widgets.add(
+        Padding(
+          padding: const EdgeInsets.only(
+            left: AppSpacing.lg,
+            right: AppSpacing.lg,
+            top: AppSpacing.md,
+          ),
+          child:
+              _SectionHeader(title: section.key, count: section.value.length),
+        ),
+      );
       for (final entry in section.value) {
-        flatItems.add((type: 'card', entry: entry, title: null, count: 0));
+        widgets.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            child: _ModuleCard(
+              entry: entry,
+              onTap: () =>
+                  _openViewer(context, entry.module, heroTag: entry.catalogId),
+              l10n: l10n,
+            ),
+          ),
+        );
       }
-      flatItems.add((type: 'spacer', entry: null, title: null, count: 0));
+      widgets.add(SizedBox(height: AppSpacing.lg));
     }
 
-    return ListView.builder(
-      padding: EdgeInsets.only(
-        left: AppSpacing.lg,
-        right: AppSpacing.lg,
-        top: AppSpacing.sm,
-        bottom: MediaQuery.of(context).padding.bottom + 100,
+    return SliverList(
+      delegate: SliverChildListDelegate(
+        widgets,
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: false,
       ),
-      itemCount: flatItems.length,
-      itemBuilder: (context, index) {
-        final item = flatItems[index];
-        switch (item.type) {
-          case 'header':
-            return _SectionHeader(title: item.title!, count: item.count);
-          case 'card':
-            return _ModuleCard(
-              entry: item.entry!,
-              onTap: () => _openViewer(context, item.entry!.module,
-                  heroTag: item.entry!.catalogId),
-              l10n: l10n,
-            );
-          case 'spacer':
-            return const SizedBox(height: AppSpacing.lg);
-          default:
-            return const SizedBox.shrink();
-        }
-      },
     );
   }
 
-  Widget _buildGridContent(
-    BuildContext context,
+  Widget _buildGridContentSliver(
     Map<String, List<CatalogEntry>> groupedEntries,
     AppLocalizations l10n,
   ) {
@@ -861,56 +741,68 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             : width >= 600
                 ? 4
                 : 3;
+    final itemWidth = (width - AppSpacing.lg * 2) / crossAxisCount;
+    final tileHeight = itemWidth * 0.68;
 
-    // Flatten sections into a single lazy list
-    // Each section: [header_item, ...grid_items, spacer_item]
-    final flatItems =
-        <({String? type, String? title, int? count, CatalogEntry? entry})>[];
+    final children = <Widget>[];
+
     for (final section in groupedEntries.entries) {
-      flatItems.add((
-        type: 'header',
-        title: section.key,
-        count: section.value.length,
-        entry: null
-      ));
-      for (final entry in section.value) {
-        flatItems.add((type: 'tile', title: null, count: null, entry: entry));
-      }
-      flatItems.add((type: 'spacer', title: null, count: null, entry: null));
+      children.add(
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: AppSpacing.lg,
+              right: AppSpacing.lg,
+              top: AppSpacing.md,
+            ),
+            child:
+                _SectionHeader(title: section.key, count: section.value.length),
+          ),
+        ),
+      );
+      children.add(
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          sliver: SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final entry = section.value[index];
+                return RepaintBoundary(
+                  child: _ModuleGridTile(
+                    entry: entry,
+                    l10n: l10n,
+                    shimmerController: _shimmerController,
+                    onTap: () => _openViewer(context, entry.module,
+                        heroTag: entry.catalogId),
+                  ),
+                );
+              },
+              childCount: section.value.length,
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: AppSpacing.sm,
+              crossAxisSpacing: AppSpacing.sm,
+              childAspectRatio: 1 / 0.68,
+            ),
+          ),
+        ),
+      );
+      children.add(
+        const SliverToBoxAdapter(
+          child: SizedBox(height: AppSpacing.md),
+        ),
+      );
     }
 
-    return ListView.builder(
-      padding: EdgeInsets.only(
-        left: AppSpacing.lg,
-        right: AppSpacing.lg,
-        top: AppSpacing.sm,
-        bottom: MediaQuery.of(context).padding.bottom + 100,
+    // Add bottom padding
+    children.add(
+      SliverToBoxAdapter(
+        child: SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
       ),
-      cacheExtent: 500, // Pre-render items outside viewport
-      itemCount: flatItems.length,
-      itemExtent: 200, // Approximate height per item (grid tiles + header)
-      itemBuilder: (context, index) {
-        final item = flatItems[index];
-        switch (item.type) {
-          case 'header':
-            return _SectionHeader(title: item.title!, count: item.count!);
-          case 'tile':
-            return RepaintBoundary(
-              child: _ModuleGridTile(
-                entry: item.entry!,
-                l10n: l10n,
-                shimmerController: _shimmerController,
-                onTap: () => _openViewer(context, item.entry!.module,
-                    heroTag: item.entry!.catalogId),
-              ),
-            );
-          case 'spacer':
-            return const SizedBox(height: AppSpacing.md);
-          default:
-            return const SizedBox.shrink();
-        }
-      },
     );
+
+    return SliverMainAxisGroup(slivers: children);
   }
 
   void _openViewer(BuildContext context, FractalModule module,
@@ -1061,7 +953,7 @@ class _SimpleIconButton extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Dimension filter chip
+// Dimension filter chip - pill style
 // ---------------------------------------------------------------------------
 
 class _DimChip extends StatelessWidget {
@@ -1091,19 +983,36 @@ class _DimChip extends StatelessWidget {
         key: chipKey,
         onTap: onTap,
         child: AnimatedContainer(
-          duration: AppAnimations.fast,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: selected
-                ? AppColors.primary.withValues(alpha: 0.18)
-                : AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(20),
+            gradient: selected
+                ? LinearGradient(
+                    colors: [
+                      AppColors.primary,
+                      AppColors.primary.withValues(alpha: 0.8),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+            color: selected ? null : AppColors.surface.withValues(alpha: 0.8),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: selected
-                  ? AppColors.primary.withValues(alpha: 0.5)
-                  : AppColors.border.withValues(alpha: 0.3),
-              width: selected ? 1.5 : 1,
+                  ? Colors.transparent
+                  : AppColors.border.withValues(alpha: 0.4),
+              width: 1,
             ),
+            boxShadow: selected
+                ? [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.35),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -1111,89 +1020,35 @@ class _DimChip extends StatelessWidget {
               Text(
                 label,
                 style: AppTypography.labelSmall.copyWith(
-                  color: selected ? AppColors.primary : AppColors.textSecondary,
-                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                  color: selected ? Colors.white : AppColors.textSecondary,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                  letterSpacing: 0.3,
                 ),
               ),
-              const SizedBox(width: 5),
+              const SizedBox(width: 6),
               AnimatedContainer(
-                duration: AppAnimations.fast,
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: selected
-                      ? AppColors.primary.withValues(alpha: 0.28)
-                      : AppColors.border.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(8),
+                      ? Colors.white.withValues(alpha: 0.2)
+                      : AppColors.textMuted.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   '$count',
-                  style: AppTypography.labelSmall.copyWith(
-                    color: selected ? AppColors.primary : AppColors.textMuted,
+                  style: TextStyle(
+                    color: selected
+                        ? Colors.white.withValues(alpha: 0.9)
+                        : AppColors.textMuted,
                     fontWeight: FontWeight.w700,
-                    fontSize: 9,
+                    fontSize: 10,
                   ),
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _SummaryPill extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String? value;
-
-  const _SummaryPill({
-    required this.icon,
-    required this.label,
-    this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: 7,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.75),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: AppColors.border.withValues(alpha: 0.3),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 14,
-            color: AppColors.textMuted,
-          ),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: AppTypography.labelSmall.copyWith(
-              color: AppColors.textPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          if (value != null) ...[
-            const SizedBox(width: 6),
-            Text(
-              value!,
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ],
       ),
     );
   }
@@ -1493,78 +1348,71 @@ class _FeaturedSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Semantics(
-          label: l10n.semanticFeaturedSection,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.lg,
-              AppSpacing.sm,
-              AppSpacing.lg,
-              AppSpacing.sm,
-            ),
-            child: Row(
-              children: [
-                ExcludeSemantics(
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [AppColors.primary, AppColors.secondary],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.45),
-                          blurRadius: 8,
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.auto_awesome_rounded,
-                      size: 11,
-                      color: Colors.white,
-                    ),
+        // Header
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.sm,
+            AppSpacing.lg,
+            AppSpacing.sm,
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [AppColors.primary, AppColors.secondary],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.45),
+                      blurRadius: 8,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  l10n.catalogFeatured,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.6,
-                    fontSize: 10,
-                  ),
+                child: const Icon(
+                  Icons.auto_awesome_rounded,
+                  size: 11,
+                  color: Colors.white,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                l10n.catalogFeatured,
+                style: AppTypography.labelSmall.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.6,
+                  fontSize: 10,
+                ),
+              ),
+            ],
           ),
         ),
+        // Featured cards - M3 Carousel
         SizedBox(
-          height: MediaQuery.textScalerOf(context).scale(1) > 2.0 ? 140 : 180,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            itemCount: featured.length,
-            itemBuilder: (context, index) {
-              final entry = featured[index];
-              return Padding(
-                padding: EdgeInsets.only(
-                  right: index < featured.length - 1 ? AppSpacing.sm : 0,
-                ),
-                child: _FeaturedCard(
-                  entry: entry,
-                  l10n: l10n,
-                  onTap: () => onTap(entry.module, entry.catalogId),
-                ),
-              );
-            },
+          height: 380,
+          child: M3Carousel(
+            type: CarouselType.hero,
+            heroAlignment: HeroAlignment.center,
+            onTap: (index) =>
+                onTap(featured[index].module, featured[index].catalogId),
+            children: featured
+                .map((entry) => _FeaturedHeroCard(
+                      entry: entry,
+                      l10n: l10n,
+                      onTap: () => onTap(entry.module, entry.catalogId),
+                    ))
+                .toList(),
           ),
         ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.sm),
+        // Divider
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Container(
@@ -1584,6 +1432,199 @@ class _FeaturedSection extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.xs),
       ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Hero Featured Card - Full width card with category, name, and tags
+// ---------------------------------------------------------------------------
+
+class _FeaturedHeroCard extends StatefulWidget {
+  final CatalogEntry entry;
+  final AppLocalizations l10n;
+  final VoidCallback onTap;
+
+  const _FeaturedHeroCard({
+    required this.entry,
+    required this.l10n,
+    required this.onTap,
+  });
+
+  @override
+  State<_FeaturedHeroCard> createState() => _FeaturedHeroCardState();
+}
+
+class _FeaturedHeroCardState extends State<_FeaturedHeroCard> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final is3D = widget.entry.module.dimension == FractalDimension.threeD;
+    final name = widget.entry.module.displayName(widget.l10n);
+    final category = widget.entry.category.toUpperCase();
+
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      onTap: widget.onTap,
+      child: AnimatedScale(
+        scale: _isPressed ? 0.98 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.4),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+              if (_isPressed)
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 24,
+                  spreadRadius: 2,
+                ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Background image
+                _PreviewThumbnail(
+                  catalogId: widget.entry.catalogId,
+                  is3D: is3D,
+                  category: widget.entry.category,
+                ),
+                // Gradient overlays
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black.withValues(alpha: 0.1),
+                        Colors.black.withValues(alpha: 0.3),
+                        Colors.black.withValues(alpha: 0.85),
+                      ],
+                      stops: const [0, 0.4, 1],
+                    ),
+                  ),
+                ),
+                // Content
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Category badge
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColors.secondary.withValues(alpha: 0.5),
+                          ),
+                        ),
+                        child: Text(
+                          category,
+                          style: AppTypography.labelSmall.copyWith(
+                            color: AppColors.secondary,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      // Title and tags
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTypography.headlineMedium.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withValues(alpha: 0.5),
+                                  blurRadius: 8,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          // Tags row
+                          Wrap(
+                            spacing: 6,
+                            runSpacing: 4,
+                            children: [
+                              // Dimension tag
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  is3D ? '3D' : '2D',
+                                  style: AppTypography.labelSmall.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              // Category tag
+                              Flexible(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.15),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    category,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTypography.labelSmall.copyWith(
+                                      color:
+                                          Colors.white.withValues(alpha: 0.8),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -2102,16 +2143,9 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
         : widget.catalogId;
     final thumbAsset = 'assets/catalog_thumbs/$thumbId.png';
     final isApproximate = !_hasExactCpuThumbnail;
-    final accentColor = _categoryAccentColor(widget.category);
 
-    return Container(
-      width: widget.size ?? double.infinity,
-      height: widget.size ?? double.infinity,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
-      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -2120,64 +2154,43 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
             _ShimmerSkeleton(controller: _localShimmerController),
 
           // Image (or gradient fallback on error)
-          Positioned.fill(
-            child: Image(
-              image: ResizeImage(
-                AssetImage(thumbAsset),
-                width: 256,
-                height: 256,
-              ),
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.medium,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                final imageReady = wasSynchronouslyLoaded || frame != null;
-                if (imageReady && !_imageLoaded) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _markImageLoaded();
-                  });
-                }
-                return AnimatedOpacity(
-                  opacity: imageReady ? 1.0 : 0.0,
-                  duration: imageReady
-                      ? Duration.zero
-                      : const Duration(milliseconds: 250),
-                  child: child,
-                );
-              },
-              errorBuilder: (context, error, stack) {
-                if (!_imageError) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _markImageError();
-                  });
-                }
-                return _GradientFallback(
-                  catalogId: widget.catalogId,
-                  category: widget.category,
-                );
-              },
+          Image(
+            image: ResizeImage(
+              AssetImage(thumbAsset),
+              width: 256,
+              height: 256,
             ),
-          ),
-
-          // Category accent bar — 3px strip at top edge
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 3,
-              decoration: BoxDecoration(
-                color: accentColor.withValues(alpha: 0.85),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                ),
-              ),
-            ),
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.medium,
+            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              final imageReady = wasSynchronouslyLoaded || frame != null;
+              if (imageReady && !_imageLoaded) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _markImageLoaded();
+                });
+              }
+              return AnimatedOpacity(
+                opacity: imageReady ? 1.0 : 0.0,
+                duration: imageReady
+                    ? Duration.zero
+                    : const Duration(milliseconds: 250),
+                child: child,
+              );
+            },
+            errorBuilder: (context, error, stack) {
+              if (!_imageError) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _markImageError();
+                });
+              }
+              return _GradientFallback(
+                catalogId: widget.catalogId,
+                category: widget.category,
+              );
+            },
           ),
 
           // Dimension badge — pill shape, amber for 3D, subtle for 2D.
-          // ExcludeSemantics: the parent card widget already announces the
-          // dimension in its semanticFractalCard label.
           Positioned(
             top: 7,
             right: 6,
