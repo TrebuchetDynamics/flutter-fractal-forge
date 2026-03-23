@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.fractals.flutter_fractals",
+      "sha256_cert_fingerprints": [
+        "62:5B:A5:BC:BD:B1:97:2F:46:2A:6D:86:64:E4:A9:B2:EE:BA:31:CB:55:1E:1E:CD:4E:CF:D3:1F:78:90:FE:BD"
+      ]
+    }
+  }
+]
