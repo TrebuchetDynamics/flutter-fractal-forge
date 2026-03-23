@@ -1,5 +1,0 @@
-TS=20260218_104728
-DEVICE=emulator-5554
-STARTED_EMULATOR=1
-RC=79
-TEST_LOG=/home/xel/git/flutter-fractal-forge/agent_test_logs/headless/test_20260218_104728.log

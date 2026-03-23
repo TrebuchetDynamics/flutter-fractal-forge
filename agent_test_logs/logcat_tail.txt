@@ -1,2 +1,0 @@
---------- beginning of kernel
-02-09 09:28:31.283     0     0 I logd    : logdr: UID=2000 GID=2000 PID=13585 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
