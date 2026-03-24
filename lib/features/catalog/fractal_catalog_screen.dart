@@ -1405,24 +1405,27 @@ class _FeaturedSection extends StatelessWidget {
             ],
           ),
         ),
-        // Featured cards - M3 Carousel
+        // Featured cards - PageView Carousel
         SizedBox(
           height: 380,
-          child: M3Carousel(
-            type: CarouselType.hero,
-            heroAlignment: HeroAlignment.center,
-            onTap: (index) =>
-                onTap(featured[index].module, featured[index].catalogId),
-            children: featured
-                .map((entry) => SizedBox(
-                      width: 320,
-                      child: _FeaturedHeroCard(
-                        entry: entry,
-                        l10n: l10n,
-                        onTap: () => onTap(entry.module, entry.catalogId),
-                      ),
-                    ))
-                .toList(),
+          child: PageView.builder(
+            itemCount: featured.length,
+            controller: PageController(viewportFraction: 0.85),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: GestureDetector(
+                  onTap: () =>
+                      onTap(featured[index].module, featured[index].catalogId),
+                  child: _FeaturedHeroCard(
+                    entry: featured[index],
+                    l10n: l10n,
+                    onTap: () => onTap(
+                        featured[index].module, featured[index].catalogId),
+                  ),
+                ),
+              );
+            },
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
