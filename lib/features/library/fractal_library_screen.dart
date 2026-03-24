@@ -465,56 +465,79 @@ class _LibraryCardState extends State<_LibraryCard>
               ]
             : null,
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         child: Row(
           children: [
+            // Thumbnail que cubre todo el lado izquierdo
             SizedBox(
-              width: 48,
-              height: 48,
-              child: CatalogThumbnail(
-                catalogId: widget.entry.catalogId,
-                is3D: is3D,
-                category: widget.entry.category,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              width: 100,
+              height: 80,
+              child: Stack(
                 children: [
-                  Text(
-                    widget.entry.module.displayName(widget.l10n),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.titleMedium.copyWith(
-                      color: AppColors.textPrimary,
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(AppSpacing.cardRadius),
+                      bottomLeft: Radius.circular(AppSpacing.cardRadius),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '$dimensionLabel / ${widget.entry.category}',
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.textMuted,
+                    child: CatalogThumbnail(
+                      catalogId: widget.entry.catalogId,
+                      is3D: is3D,
+                      category: widget.entry.category,
                     ),
                   ),
                 ],
               ),
             ),
-            AnimatedContainer(
-              duration: AppAnimations.fast,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: _isPressed
-                    ? AppColors.primary.withValues(alpha: 0.2)
-                    : AppColors.surfaceVariant,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(
-                Icons.arrow_forward_rounded,
-                size: 18,
-                color: _isPressed ? AppColors.primary : AppColors.textMuted,
+            // Contenido de la card
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            widget.entry.module.displayName(widget.l10n),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTypography.titleMedium.copyWith(
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            widget.entry.category,
+                            style: AppTypography.bodySmall.copyWith(
+                              color: AppColors.textMuted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    AnimatedContainer(
+                      duration: AppAnimations.fast,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: _isPressed
+                            ? AppColors.primary.withValues(alpha: 0.2)
+                            : AppColors.surfaceVariant,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        Icons.arrow_forward_rounded,
+                        size: 18,
+                        color: _isPressed
+                            ? AppColors.primary
+                            : AppColors.textMuted,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
