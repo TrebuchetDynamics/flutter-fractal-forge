@@ -14,7 +14,6 @@ import 'package:flutter_fractals/core/widgets/catalog_thumbnail.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
-import 'package:m3_carousel/m3_carousel.dart';
 
 enum CatalogViewMode { grid, list }
 
@@ -1405,23 +1404,27 @@ class _FeaturedSection extends StatelessWidget {
             ],
           ),
         ),
-        // Featured cards - PageView Carousel
+        // Featured cards - Basic Carousel
         SizedBox(
           height: 380,
-          child: PageView.builder(
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: featured.length,
-            controller: PageController(viewportFraction: 0.85),
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: GestureDetector(
-                  onTap: () =>
-                      onTap(featured[index].module, featured[index].catalogId),
-                  child: _FeaturedHeroCard(
-                    entry: featured[index],
-                    l10n: l10n,
+              return SizedBox(
+                width: 320,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: GestureDetector(
                     onTap: () => onTap(
                         featured[index].module, featured[index].catalogId),
+                    child: _FeaturedHeroCard(
+                      entry: featured[index],
+                      l10n: l10n,
+                      onTap: () => onTap(
+                          featured[index].module, featured[index].catalogId),
+                    ),
                   ),
                 ),
               );
