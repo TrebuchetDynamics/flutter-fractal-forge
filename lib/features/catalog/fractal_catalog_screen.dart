@@ -231,10 +231,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   Future<void> _loadViewPreference() async {
-    // Always default to grid view
+    if (!mounted) return;
+    final prefs = await SharedPreferences.getInstance();
+    final isGrid = prefs.getBool(_viewPrefKey) ?? true;
     if (!mounted) return;
     setState(() {
-      _viewMode = CatalogViewMode.grid;
+      _viewMode = isGrid ? CatalogViewMode.grid : CatalogViewMode.list;
     });
   }
 
@@ -502,11 +504,11 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                 icon: _viewMode == CatalogViewMode.grid
                     ? Icons.view_list_rounded
                     : Icons.grid_view_rounded,
-                onTap: () => setState(() {
-                  _viewMode = _viewMode == CatalogViewMode.grid
+                onTap: () => _setViewMode(
+                  _viewMode == CatalogViewMode.grid
                       ? CatalogViewMode.list
-                      : CatalogViewMode.grid;
-                }),
+                      : CatalogViewMode.grid,
+                ),
               ),
             ],
           ),
@@ -689,42 +691,51 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     Map<String, List<CatalogEntry>> groupedEntries,
     AppLocalizations l10n,
   ) {
-    final bottomPadding = MediaQuery.of(context).padding.bottom + 100;
-    final widgets = <Widget>[];
-
+    // Flatten grouped entries into a flat list where each item is either
+    // a section header, a card, or spacing.
+    final flatItems = <_ListItem>[];
     for (final section in groupedEntries.entries) {
-      widgets.add(
-        Padding(
-          padding: const EdgeInsets.only(
-            left: AppSpacing.lg,
-            right: AppSpacing.lg,
-            top: AppSpacing.md,
-          ),
-          child:
-              _SectionHeader(title: section.key, count: section.value.length),
-        ),
-      );
+      flatItems.add(_ListItem.header(section.key, section.value.length));
       for (final entry in section.value) {
-        widgets.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: _ModuleCard(
-              entry: entry,
-              onTap: () =>
-                  _openViewer(context, entry.module, heroTag: entry.catalogId),
-              l10n: l10n,
-            ),
-          ),
-        );
+        flatItems.add(_ListItem.card(entry));
       }
-      widgets.add(SizedBox(height: AppSpacing.lg));
+      flatItems.add(_ListItem.spacing());
     }
+    // Bottom padding
+    flatItems.add(_ListItem.spacing());
 
     return SliverList(
-      delegate: SliverChildListDelegate(
-        widgets,
-        addAutomaticKeepAlives: false,
-        addRepaintBoundaries: false,
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final item = flatItems[index];
+          if (item.isHeader) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                left: AppSpacing.lg,
+                right: AppSpacing.lg,
+                top: AppSpacing.md,
+              ),
+              child: _SectionHeader(title: item.title!, count: item.count!),
+            );
+          } else if (item.isSpacing) {
+            return const SizedBox(height: AppSpacing.lg);
+          } else {
+            final entry = item.entry!;
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: RepaintBoundary(
+                child: _ModuleCard(
+                  entry: entry,
+                  onTap: () => _openViewer(context, entry.module,
+                      heroTag: entry.catalogId),
+                  l10n: l10n,
+                  shimmerController: _shimmerController,
+                ),
+              ),
+            );
+          }
+        },
+        childCount: flatItems.length,
       ),
     );
   }
@@ -1878,11 +1889,13 @@ class _ModuleCard extends StatefulWidget {
   final CatalogEntry entry;
   final VoidCallback onTap;
   final AppLocalizations l10n;
+  final _GlobalShimmerController? shimmerController;
 
   const _ModuleCard({
     required this.entry,
     required this.onTap,
     required this.l10n,
+    this.shimmerController,
   });
 
   @override
@@ -1987,11 +2000,15 @@ class _ModuleCardState extends State<_ModuleCard>
             horizontal: AppSpacing.md, vertical: AppSpacing.sm),
         child: Row(
           children: [
-            _PreviewThumbnail(
-              catalogId: widget.entry.catalogId,
-              is3D: is3D,
-              category: widget.entry.category,
-              size: 48,
+            SizedBox(
+              width: 48,
+              height: 48,
+              child: _PreviewThumbnail(
+                catalogId: widget.entry.catalogId,
+                is3D: is3D,
+                category: widget.entry.category,
+                shimmerController: widget.shimmerController,
+              ),
             ),
             const SizedBox(width: AppSpacing.md),
             Expanded(
@@ -2070,14 +2087,12 @@ class _PreviewThumbnail extends StatefulWidget {
   final String catalogId;
   final bool is3D;
   final String category;
-  final double? size;
   final _GlobalShimmerController? shimmerController;
 
   const _PreviewThumbnail({
     required this.catalogId,
     required this.is3D,
     required this.category,
-    this.size,
     this.shimmerController,
   });
 
@@ -2603,4 +2618,30 @@ class _FractalGradientPainter extends CustomPainter {
   @override
   bool shouldRepaint(_FractalGradientPainter old) =>
       old.catalogId != catalogId || old.category != category;
+}
+
+// ---------------------------------------------------------------------------
+// Flat list item type for lazy list view rendering
+// ---------------------------------------------------------------------------
+
+enum _ListItemType { header, card, spacing }
+
+class _ListItem {
+  final _ListItemType type;
+  final CatalogEntry? entry;
+  final String? title;
+  final int? count;
+
+  const _ListItem._({required this.type, this.entry, this.title, this.count});
+
+  factory _ListItem.header(String title, int count) =>
+      _ListItem._(type: _ListItemType.header, title: title, count: count);
+
+  factory _ListItem.card(CatalogEntry entry) =>
+      _ListItem._(type: _ListItemType.card, entry: entry);
+
+  factory _ListItem.spacing() => _ListItem._(type: _ListItemType.spacing);
+
+  bool get isHeader => type == _ListItemType.header;
+  bool get isSpacing => type == _ListItemType.spacing;
 }
