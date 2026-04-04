@@ -43,7 +43,9 @@ mat3 rotationMatrix(vec3 angles) {
 }
 
 vec3 palette(float t, float scheme) {
-    int s = int(scheme) % 8;
+    // Note: SkSL doesn't support % operator
+    int schemeInt = int(scheme);
+    int s = schemeInt - (schemeInt / 8) * 8;
     vec3 a, b, c, d;
     if (s == 0) {
         a = vec3(0.5, 0.1, 0.0); b = vec3(0.5, 0.3, 0.1);
@@ -80,7 +82,9 @@ vec3 palette(float t, float scheme) {
 //   0 = smooth sine, 1 = double-frequency, 2 = asymmetric, 3 = chaotic.
 float timeMandelbulbDE(vec3 pos) {
     int maxIter = int(clamp(uIterations, 1.0, 20.0));
-    int modStyle = int(uFractalType) % 4;
+    // Note: SkSL doesn't support % operator
+    int fractalTypeInt = int(uFractalType);
+    int modStyle = fractalTypeInt - (fractalTypeInt / 4) * 4;
 
     // Time modulation of power.
     float timeScale;

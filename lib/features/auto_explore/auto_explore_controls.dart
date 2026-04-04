@@ -7,6 +7,16 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+/// Compact control button sizes - matching fractal_view_controls.dart.
+class _ControlSizes {
+  static const double buttonSize = 40;
+  static const double borderRadius = 10;
+  static const double iconSize = 20;
+  static const double shadowBlur = 6;
+  static const double shadowBlurActive = 8;
+  static const Offset shadowOffset = Offset(0, 2);
+}
+
 /// Compact play/pause button shown in the viewer FAB stack.
 class AutoExploreButton extends StatefulWidget {
   final VoidCallback? onLongPress;
@@ -23,7 +33,7 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
     with SingleTickerProviderStateMixin {
   late final AnimationController _pulse = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1400),
+    duration: AppAnimations.autoExploreControlPulse,
   );
 
   @override
@@ -74,23 +84,27 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                     return Transform.scale(
                       scale: scale,
                       child: Container(
-                        width: 52,
-                        height: 52,
+                        width: _ControlSizes.buttonSize,
+                        height: _ControlSizes.buttonSize,
                         decoration: BoxDecoration(
                           gradient: active ? AppColors.primaryGradient : null,
                           color: active ? null : AppColors.surface,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius:
+                              BorderRadius.circular(_ControlSizes.borderRadius),
                           border: active
                               ? null
                               : Border.all(
-                                  color: AppColors.border.withValues(alpha: 0.5)),
+                                  color:
+                                      AppColors.border.withValues(alpha: 0.5)),
                           boxShadow: [
                             BoxShadow(
                               color: active
                                   ? AppColors.primary.withValues(alpha: 0.35)
                                   : Colors.black.withValues(alpha: 0.18),
-                              blurRadius: active ? 16 : 12,
-                              offset: const Offset(0, 4),
+                              blurRadius: active
+                                  ? _ControlSizes.shadowBlurActive
+                                  : _ControlSizes.shadowBlur,
+                              offset: _ControlSizes.shadowOffset,
                             ),
                           ],
                         ),
@@ -98,7 +112,7 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                           active ? Icons.pause_rounded : Icons.explore_rounded,
                           color:
                               active ? Colors.white : AppColors.textSecondary,
-                          size: 24,
+                          size: _ControlSizes.iconSize,
                         ),
                       ),
                     );
@@ -181,8 +195,8 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(10),
-                    border:
-                        Border.all(color: AppColors.border.withValues(alpha: 0.35)),
+                    border: Border.all(
+                        color: AppColors.border.withValues(alpha: 0.35)),
                   ),
                   child: const Text(
                     'Auto-pilot paused (user correction)',
@@ -196,7 +210,8 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.04),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.border.withValues(alpha: 0.35)),
+                  border: Border.all(
+                      color: AppColors.border.withValues(alpha: 0.35)),
                 ),
                 child: const Text(
                   'Auto mode: Zoom-only (no auto-pan). You can pan freely.',

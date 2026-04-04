@@ -65,9 +65,10 @@ void main() {
     // Normalize coordinates (FlutterFragCoord is required for Skia/Flutter)
     vec2 fragCoord = FlutterFragCoord().xy;
     vec2 uv = (fragCoord - 0.5 * uResolution) / min(uResolution.x, uResolution.y);
-    
-    // Apply zoom and pan (flip Y for typical Burning Ship orientation)
-    vec2 c = vec2(uv.x, -uv.y) / uZoom + uCenter;
+
+    // Apply zoom and pan with improved precision (flip Y for typical Burning Ship orientation)
+    // High-precision: multiply by inverse zoom to avoid precision loss at high zoom levels
+    vec2 c = uCenter + vec2(uv.x, -uv.y) * (1.0 / uZoom);
     
     // Burning Ship uses absolute values in iteration
     vec2 z = vec2(0.0);
@@ -83,8 +84,10 @@ void main() {
         z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
         
         if (dot(z, z) > bailoutSq) {
-            // Smooth iteration count
-            iterations = float(i) - log2(log2(dot(z, z))) + 4.0;
+            // Standard smooth iteration formula for reduced banding
+            // smoothIter = iter + 1.0 - log2(log2(zMagSq) * 0.5)
+            float mag2 = dot(z, z);
+            iterations = float(i) + 1.0 - log2(log2(mag2) * 0.5);
             break;
         }
         iterations = float(i);

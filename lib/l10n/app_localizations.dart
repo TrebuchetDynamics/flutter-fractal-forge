@@ -110,24 +110,6 @@ abstract class AppLocalizations {
   /// **'Explore'**
   String get tabExplore;
 
-  /// No description provided for @tabFavorites.
-  ///
-  /// In en, this message translates to:
-  /// **'Favorites'**
-  String get tabFavorites;
-
-  /// No description provided for @tabSettings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get tabSettings;
-
-  /// No description provided for @settingsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settingsTitle;
-
   /// No description provided for @catalogTitle.
   ///
   /// In en, this message translates to:
@@ -1370,6 +1352,30 @@ abstract class AppLocalizations {
   /// **'Minimap hidden'**
   String get announceMinimapHidden;
 
+  /// No description provided for @announceRotationLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotation locked'**
+  String get announceRotationLocked;
+
+  /// No description provided for @announceRotationUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotation unlocked'**
+  String get announceRotationUnlocked;
+
+  /// No description provided for @announceMovedToPreviousView.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to previous view'**
+  String get announceMovedToPreviousView;
+
+  /// No description provided for @announceMovedToNextView.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to next view'**
+  String get announceMovedToNextView;
+
   /// No description provided for @shareTitle.
   ///
   /// In en, this message translates to:
@@ -1976,6 +1982,30 @@ abstract class AppLocalizations {
   /// **'Renderer mode'**
   String get quickActionRendererMode;
 
+  /// No description provided for @quickActionLockRotation.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock rotation'**
+  String get quickActionLockRotation;
+
+  /// No description provided for @quickActionUnlockRotation.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock rotation'**
+  String get quickActionUnlockRotation;
+
+  /// No description provided for @quickActionShowMinimap.
+  ///
+  /// In en, this message translates to:
+  /// **'Show minimap'**
+  String get quickActionShowMinimap;
+
+  /// No description provided for @quickActionHideMinimap.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide minimap'**
+  String get quickActionHideMinimap;
+
   /// No description provided for @quickActionViewLogs.
   ///
   /// In en, this message translates to:
@@ -2234,6 +2264,12 @@ abstract class AppLocalizations {
   /// **'All'**
   String get catalogFilterAll;
 
+  /// No description provided for @catalogFilterCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get catalogFilterCategories;
+
   /// No description provided for @catalogFilterSortOrder.
   ///
   /// In en, this message translates to:
@@ -2287,12 +2323,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'FEATURED'**
   String get catalogFeatured;
-
-  /// No description provided for @catalogFilterCategories.
-  ///
-  /// In en, this message translates to:
-  /// **'Categories'**
-  String get catalogFilterCategories;
 
   /// No description provided for @catalogResults.
   ///

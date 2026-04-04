@@ -1,6 +1,8 @@
 
 Date: 2026-02-18
 
+> Archived architecture report. The camera/AR path described below is not part of the current release scope.
+
 ## 1) Current Reality (Short Version)
 
 
@@ -143,5 +145,4 @@ Given current architecture, these outcomes are expected:
 ---
 
 ## 11) Bottom Line
-
 

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 
@@ -34,7 +35,7 @@ class AutoExploreConfig {
     this.cycleMaxMultiplier = 120.0,
     this.maxLegSpanDecades = 3.2,
     this.precisionHeadroom = 0.92,
-    this.travelDuration = const Duration(milliseconds: 9000),
+    this.travelDuration = AppAnimations.autoExploreTravelSlow,
     this.maxDurationScale = 4.0,
   });
 }

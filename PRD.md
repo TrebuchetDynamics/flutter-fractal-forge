@@ -1,5 +1,7 @@
 # PRD - Flutter Fractals (Android, Free)
 
+> Archived planning document. This file preserves an earlier product scope that included camera/AR and video-export ideas and no longer matches the current release. Use `README.md`, `status.md`, `TODO.md`, `STORE_LISTING.md`, and `docs/privacy_policy.md` for current product and release behavior.
+
 ## 1) Product statement
 
 ## 2) Goals / Non-goals

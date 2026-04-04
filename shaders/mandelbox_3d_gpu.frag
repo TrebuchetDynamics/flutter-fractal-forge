@@ -42,7 +42,9 @@ mat3 rotationMatrix(vec3 angles) {
 
 // Palette: cosine color palette (IQ-style) driven by colorScheme index.
 vec3 palette(float t, float scheme) {
-    int s = int(scheme) % 8;
+    // Note: SkSL doesn't support % operator
+    int schemeInt = int(scheme);
+    int s = schemeInt - (schemeInt / 8) * 8;
     vec3 a, b, c, d;
     if (s == 0) {
         // Fire

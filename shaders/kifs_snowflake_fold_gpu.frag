@@ -63,12 +63,15 @@ float snowflakeDE(vec3 p, int maxIter) {
         p = abs(p);
 
         // Hexagonal fold 1: reflect across n1 plane
-        float k1 = max(0.0, dot(p.xy, n1));
-        p.xy -= 2.0 * n1 * k1;
+        // Note: SkSL doesn't support swizzle writes, expand to components
+        float k1 = max(0.0, dot(vec2(p.x, p.y), n1));
+        p.x -= 2.0 * n1.x * k1;
+        p.y -= 2.0 * n1.y * k1;
 
         // Hexagonal fold 2: reflect across n2 plane
-        float k2 = max(0.0, dot(p.xy, n2));
-        p.xy -= 2.0 * n2 * k2;
+        float k2 = max(0.0, dot(vec2(p.x, p.y), n2));
+        p.x -= 2.0 * n2.x * k2;
+        p.y -= 2.0 * n2.y * k2;
 
         // Bounded Z fold: clamp keeps the fractal finite in Z
         p.z -= clamp(p.z, -1.0, 1.0);

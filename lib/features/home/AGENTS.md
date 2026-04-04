@@ -1,28 +1,27 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-02-13 | Updated: 2026-02-13 -->
+<!-- Generated: 2026-02-13 | Updated: 2026-03-21 -->
 
 # home
 
 ## Purpose
-Main home screen - the primary entry point after splash/onboarding. Creates a FractalController scoped to the Explore tab and handles deep link navigation.
+Primary post-onboarding entry point. Owns the explore `FractalController`, hosts the catalog screen, and optionally handles deep-link navigation into the viewer when `DeepLinkService` is provided.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
-| `home_screen.dart` | `HomeScreen` - creates FractalController, sets up deep link handling, navigates to catalog/viewer |
+| `home_screen.dart` | Creates the explore controller, wires optional deep links, shows the premium app bar, and embeds `FractalCatalogScreen` |
 
 ## For AI Agents
 
 ### Working In This Directory
-- FractalController is created HERE (not at app root) and scoped per-tab
-- Deep links are handled by parsing `DeepLinkData` and applying to the controller
-- Navigation: HomeScreen embeds FractalCatalogScreen, navigates to FractalViewerScreen on selection
-- Safe mode flag skips deep link initialization
+- `FractalController` is created here and reused when deep links push the viewer
+- Deep-link handling is optional; tests may omit `DeepLinkService` entirely
+- `SAFE_MODE` skips deep-link setup and surfaces a diagnostic banner
+- The default UI in this directory is the catalog, not a tab shell
 
 ### Testing Requirements
 - `test/home_screen_widget_test.dart`
-- `test/home_ar_tab_opens_test.dart`
 
 ## Dependencies
 

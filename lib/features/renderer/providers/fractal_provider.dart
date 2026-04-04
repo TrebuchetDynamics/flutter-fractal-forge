@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
@@ -9,6 +8,10 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
+import 'package:flutter_fractals/features/renderer/providers/adaptive_iterations_service.dart';
+import 'package:flutter_fractals/features/renderer/providers/animation_manager.dart';
+import 'package:flutter_fractals/features/renderer/providers/param_validation_service.dart';
+import 'package:flutter_fractals/features/renderer/providers/viewport_constraints.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Manages the state of fractal rendering and user interactions.
@@ -22,6 +25,14 @@ import 'package:vector_math/vector_math.dart';
 ///
 /// This controller uses [ChangeNotifier] for reactive updates and is
 /// typically provided via the Provider package.
+///
+/// Architecture Note:
+/// This class follows the Facade pattern, delegating specialized
+/// responsibilities to focused services:
+/// - [AnimationManager]: Morph transitions and celebrations
+/// - [AdaptiveIterationsService]: Zoom-based iteration adjustment
+/// - [ParamValidationService]: Parameter clamping and validation
+/// - [ViewportConstraints]: Module-specific viewport limits
 ///
 /// {@category State Management}
 ///
@@ -42,87 +53,102 @@ import 'package:vector_math/vector_math.dart';
 /// controller.resetSession();
 /// ```
 class FractalController extends ChangeNotifier {
-  static const bool _adaptiveIterationsEnabled = bool.fromEnvironment(
-    'ADAPTIVE_ITERATIONS',
-    defaultValue: true,
-  );
-  static const int _adaptiveIterationsMinStep = 8;
   static const double _adaptiveZoomEpsilon = 1.01;
 
-  // Test mode detection - skip timer-based animations in automated tests.
-  bool get _isTest => RuntimeModeService.isAutomatedTest;
+  // ========================================================================
+  // Dependencies (injected for testability and SOLID compliance)
+  // ========================================================================
 
-  /// The module registry containing all available fractal types.
   final ModuleRegistry registry;
-
   final TestLogger? _logger;
+
+  // Delegated services following Single Responsibility Principle
+  late final AnimationManager _animationManager;
+  late final AdaptiveIterationsService _adaptiveIterations;
+  late final ParamValidationService _paramValidation;
+  late final ViewportConstraints _viewportConstraints;
+
+  // ========================================================================
+  // Core State
+  // ========================================================================
+
   late FractalModule _module;
   Map<String, Object> _params = {};
   FractalViewState _view = FractalViewState.initial();
   bool _transparentBackground = false;
   bool _rotationLocked = false;
   bool _glowEnabled = false;
-  double _glowSigma = 1.0; // blur radius multiplier: 1.0 = standard
-  double _glowIntensity = 0.35; // opacity of glow layer
-
-  // Animation state
-  bool _isMorphing = false;
-  double _morphProgress = 1.0;
-  String? _previousModuleId;
-  Timer? _morphTimer;
-  bool _isCelebrating = false;
-  Timer? _celebrationTimer;
+  double _glowSigma = 1.0;
+  double _glowIntensity = 0.35;
+  double _lastAdaptiveZoom = 1.0;
 
   // Interesting spot tracking for celebrations
   int _consecutiveInterestingSpots = 0;
   DateTime? _lastInterestingSpotTime;
-  final _celebrationController = StreamController<void>.broadcast();
-  double _lastAdaptiveZoom = 1.0;
+
+  // ========================================================================
+  // Constructor
+  // ========================================================================
 
   /// Creates a new [FractalController] with the given [registry].
   ///
   /// Optionally accepts a [logger] for test instrumentation.
   /// Initializes with the first module in the registry.
   FractalController(this.registry, {TestLogger? logger}) : _logger = logger {
+    _initServices();
     _module = registry.modules.first;
     _applyPreset(_module.defaultPreset);
     _lastAdaptiveZoom = _view.zoom;
   }
 
+  /// Initializes delegated services.
+  ///
+  /// Extracted to a method for clarity and testability.
+  void _initServices() {
+    _animationManager = AnimationManager(
+      isTest: RuntimeModeService.isAutomatedTest,
+      notifyListeners: () => notifyListeners(),
+      logChange: _logChange,
+    );
+
+    _adaptiveIterations = AdaptiveIterationsService();
+    _paramValidation = ParamValidationService();
+    _viewportConstraints = ViewportConstraints();
+  }
+
+  // ========================================================================
+  // Animation State (Delegated to AnimationManager)
+  // ========================================================================
+
   /// Whether a module morph transition is in progress.
-  bool get isMorphing => _isMorphing;
+  bool get isMorphing => _animationManager.isMorphing;
 
   /// Progress of the current morph transition (0.0 to 1.0).
-  double get morphProgress => _morphProgress;
+  double get morphProgress => _animationManager.morphProgress;
 
   /// The previous module ID during a morph transition.
-  String? get previousModuleId => _previousModuleId;
+  String? get previousModuleId => _animationManager.previousModuleId;
 
   /// Whether a celebration effect should be shown.
-  bool get isCelebrating => _isCelebrating;
+  bool get isCelebrating => _animationManager.isCelebrating;
 
   /// Stream that emits when a celebration should be triggered.
-  Stream<void> get onCelebration => _celebrationController.stream;
+  Stream<void> get onCelebration => _animationManager.onCelebration;
+
+  // ========================================================================
+  // Module & Parameter State
+  // ========================================================================
 
   /// The currently selected fractal module.
-  ///
-  /// Determines which fractal type is being rendered and
-  /// what parameters are available.
   FractalModule get module => _module;
 
   /// Current parameter values keyed by parameter ID.
-  ///
-  /// These are passed to the shader each frame via [FractalRenderState].
   Map<String, Object> get params => _params;
 
   /// Current view state (pan, zoom, rotation).
-  ///
-  /// Updated by gesture handlers and preset application.
   FractalViewState get view => _view;
 
   /// Whether the fractal should render with a transparent background.
-  ///
-  /// Used for transparent PNG export.
   bool get transparentBackground => _transparentBackground;
 
   /// Whether gesture-based rotation is locked.
@@ -131,6 +157,10 @@ class FractalController extends ChangeNotifier {
   bool get glowEnabled => _glowEnabled;
   double get glowSigma => _glowSigma;
   double get glowIntensity => _glowIntensity;
+
+  // ========================================================================
+  // Module Selection
+  // ========================================================================
 
   /// Switches to a different fractal module.
   ///
@@ -149,54 +179,16 @@ class FractalController extends ChangeNotifier {
     _applyPreset(module.defaultPreset);
 
     if (animate) {
-      _startMorphTransition(previousId);
+      _animationManager.startMorphTransition(previousId);
     }
 
     notifyListeners();
     _logChange('stateChange', 'moduleSwitch', 'Switched to ${module.id}');
   }
 
-  /// Starts a morph transition animation between fractal types.
-  void _startMorphTransition(String fromModuleId) {
-    // Skip timer-based animations in test mode
-    if (_isTest) {
-      _morphProgress = 1.0;
-      _isMorphing = false;
-      return;
-    }
-
-    _previousModuleId = fromModuleId;
-    _isMorphing = true;
-    _morphProgress = 0.0;
-
-    HapticFeedback.lightImpact();
-
-    _morphTimer?.cancel();
-
-    const duration = Duration(milliseconds: 600);
-    const fps = 60;
-    final steps = (duration.inMilliseconds / (1000 / fps)).round();
-    var step = 0;
-
-    _morphTimer = Timer.periodic(
-      Duration(milliseconds: 1000 ~/ fps),
-      (timer) {
-        step++;
-        // Use ease-out cubic curve
-        final t = step / steps;
-        _morphProgress = 1.0 - pow(1.0 - t, 3);
-        notifyListeners();
-
-        if (step >= steps) {
-          timer.cancel();
-          _morphProgress = 1.0;
-          _isMorphing = false;
-          _previousModuleId = null;
-          notifyListeners();
-        }
-      },
-    );
-  }
+  // ========================================================================
+  // Parameter Updates
+  // ========================================================================
 
   /// Updates a single fractal parameter.
   ///
@@ -209,10 +201,10 @@ class FractalController extends ChangeNotifier {
   /// controller.updateParam('colorScheme', 2);
   /// ```
   void updateParam(String id, Object value) {
-    final schema = _findParam(id);
+    final schema = _paramValidation.findParam(id, _module.parameters);
     if (schema == null) return;
     _params = Map<String, Object>.from(_params);
-    _params[id] = _clampValue(schema, value);
+    _params[id] = _paramValidation.clampValue(schema, value);
     notifyListeners();
     _logChange('stateChange', 'paramUpdate', 'Updated $id',
         metadata: {'value': value.toString()});
@@ -303,30 +295,31 @@ class FractalController extends ChangeNotifier {
         'stateChange', 'randomize', 'Randomized params for ${_module.id}');
   }
 
-  double _moduleMinZoom(String moduleId) {
-    switch (moduleId) {
-      case 'cantor_set':
-        // Prevent ultra-zoomed-out aliasing that appears as black vertical bands.
-        return 0.2;
-      default:
-        return 1e-9;
-    }
-  }
+  // ========================================================================
+  // View Transformations
+  // ========================================================================
 
   /// Updates the zoom level.
   ///
   /// The [zoom] value is clamped to range [moduleMinZoom, 1e12] to support
   /// deep-zoom exploration before precision fallback kicks in.
   void updateZoom(double zoom) {
-    final minZoom = _moduleMinZoom(_module.id);
-    final clampedZoom = zoom.clamp(minZoom, 1e12).toDouble();
+    final minZoom = _viewportConstraints.minZoom(_module.id);
+    final clampedZoom = zoom.clamp(minZoom, _viewportConstraints.maxZoom);
     final zoomingIn = clampedZoom > (_lastAdaptiveZoom * _adaptiveZoomEpsilon);
     _view = _view.copyWith(zoom: clampedZoom);
     _lastAdaptiveZoom = clampedZoom;
 
-    final autoIterations = _applyAdaptiveIterationsForZoom(
+    final autoIterations = _adaptiveIterations.applyAdaptiveIterationsForZoom(
       zoom: clampedZoom,
       zoomingIn: zoomingIn,
+      is2D: _module.dimension == FractalDimension.twoD,
+      iterationsSchema:
+          _paramValidation.findParam('iterations', _module.parameters),
+      params: _params,
+      updateParams: (updated) => _params = updated,
+      logChange: _logChange,
+      moduleId: _module.id,
     );
 
     notifyListeners();
@@ -343,8 +336,8 @@ class FractalController extends ChangeNotifier {
   void updatePan(Vector2 pan) {
     _view = _view.copyWith(
       pan: Vector2(
-        pan.x.clamp(-3.0, 3.0),
-        pan.y.clamp(-3.0, 3.0),
+        pan.x.clamp(ViewportConstraints.panMin, ViewportConstraints.panMax),
+        pan.y.clamp(ViewportConstraints.panMin, ViewportConstraints.panMax),
       ),
     );
     notifyListeners();
@@ -359,6 +352,10 @@ class FractalController extends ChangeNotifier {
     _view = _view.copyWith(rotation: rotation);
     notifyListeners();
   }
+
+  // ========================================================================
+  // Rotation Lock
+  // ========================================================================
 
   /// Locks or unlocks gesture-based rotation.
   void setRotationLocked(bool value) {
@@ -377,6 +374,10 @@ class FractalController extends ChangeNotifier {
     setRotationLocked(!_rotationLocked);
   }
 
+  // ========================================================================
+  // Glow Effects
+  // ========================================================================
+
   void setGlowEnabled(bool value) {
     if (_glowEnabled == value) return;
     _glowEnabled = value;
@@ -393,6 +394,10 @@ class FractalController extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ========================================================================
+  // Transparency
+  // ========================================================================
+
   /// Sets whether the background should be transparent.
   ///
   /// When [value] is true, the shader renders background pixels
@@ -401,6 +406,10 @@ class FractalController extends ChangeNotifier {
     _transparentBackground = value;
     notifyListeners();
   }
+
+  // ========================================================================
+  // Logging
+  // ========================================================================
 
   void _logChange(String type, String category, String message,
       {Map<String, dynamic>? metadata}) {
@@ -412,6 +421,10 @@ class FractalController extends ChangeNotifier {
       metadata: metadata,
     ));
   }
+
+  // ========================================================================
+  // Discovery & Celebrations
+  // ========================================================================
 
   /// Records finding an interesting spot in the fractal.
   ///
@@ -427,7 +440,7 @@ class FractalController extends ChangeNotifier {
 
         // Trigger celebration after finding 3 interesting spots quickly
         if (_consecutiveInterestingSpots >= 3) {
-          celebrate();
+          _animationManager.celebrate();
           _consecutiveInterestingSpots = 0;
         }
       } else {
@@ -443,138 +456,30 @@ class FractalController extends ChangeNotifier {
 
   /// Manually triggers a celebration effect.
   void celebrate() {
-    if (_isCelebrating) return;
-
-    _isCelebrating = true;
-    if (!_isTest) {
-      HapticFeedback.mediumImpact();
-    }
-    _celebrationController.add(null);
-    notifyListeners();
-
-    // Skip timer in test mode
-    if (_isTest) {
-      _isCelebrating = false;
-      return;
-    }
-
-    _celebrationTimer?.cancel();
-    _celebrationTimer = Timer(const Duration(milliseconds: 2500), () {
-      _isCelebrating = false;
-      notifyListeners();
-    });
-
-    _logChange('event', 'celebration', 'Celebration triggered');
+    _animationManager.celebrate();
   }
+
+  // ========================================================================
+  // Lifecycle
+  // ========================================================================
 
   @override
   void dispose() {
-    _morphTimer?.cancel();
-    _celebrationTimer?.cancel();
-    _celebrationController.close();
+    _animationManager.dispose();
     super.dispose();
   }
 
+  // ========================================================================
+  // Private Helpers
+  // ========================================================================
+
   void _applyPreset(FractalPreset preset) {
-    final defaults = <String, Object>{
-      for (final param in _module.parameters) param.id: param.defaultValue,
-    };
-
-    final merged = {
-      ...defaults,
-      ...preset.params,
-    };
-
-    final clamped = <String, Object>{};
-    for (final param in _module.parameters) {
-      clamped[param.id] =
-          _clampValue(param, merged[param.id] ?? param.defaultValue);
-    }
-
-    _params = clamped;
+    _params = _paramValidation.clampPresetParams(
+      parameters: _module.parameters,
+      presetParams: preset.params,
+    );
     _view = preset.view;
     _lastAdaptiveZoom = _view.zoom;
-  }
-
-  int? _applyAdaptiveIterationsForZoom({
-    required double zoom,
-    required bool zoomingIn,
-  }) {
-    if (!_adaptiveIterationsEnabled || !zoomingIn) {
-      return null;
-    }
-    if (_module.dimension != FractalDimension.twoD) {
-      return null;
-    }
-
-    final iterationsSchema = _findParam('iterations');
-    if (iterationsSchema == null ||
-        iterationsSchema.type != FractalParamType.integer) {
-      return null;
-    }
-
-    final minIterations = iterationsSchema.min.round();
-    final maxIterations = iterationsSchema.max.round();
-    final currentValue = _params['iterations'];
-    final currentIterations = currentValue is num
-        ? currentValue.round()
-        : (iterationsSchema.defaultValue as num).round();
-    final baseIterations = (iterationsSchema.defaultValue as num).round();
-
-    final targetIterations = _suggestIterationsForZoom(
-      zoom: zoom,
-      baseIterations: baseIterations,
-      minIterations: minIterations,
-      maxIterations: maxIterations,
-    );
-    if (targetIterations <= currentIterations) {
-      return null;
-    }
-
-    final delta = targetIterations - currentIterations;
-    final step = delta >= 256
-        ? 64
-        : delta >= 96
-            ? 32
-            : delta >= 32
-                ? 16
-                : _adaptiveIterationsMinStep;
-    final nextIterations =
-        (currentIterations + step).clamp(minIterations, maxIterations);
-    if (nextIterations <= currentIterations) {
-      return null;
-    }
-
-    _params = Map<String, Object>.from(_params);
-    _params['iterations'] = nextIterations;
-    _logChange(
-      'stateChange',
-      'adaptiveIterations',
-      'Adaptive iterations increased',
-      metadata: {
-        'module': _module.id,
-        'zoom': zoom,
-        'from': currentIterations,
-        'to': nextIterations,
-        'target': targetIterations,
-      },
-    );
-    return nextIterations;
-  }
-
-  int _suggestIterationsForZoom({
-    required double zoom,
-    required int baseIterations,
-    required int minIterations,
-    required int maxIterations,
-  }) {
-    final safeZoom = max(1.0, zoom);
-    final zoomOctaves = log(safeZoom) / ln2;
-    final extra = max(0, (zoomOctaves * 48.0).round());
-    final raw = baseIterations + extra;
-    // Snap to a small step to avoid jittery one-by-one jumps.
-    final snapped = ((raw + 3) ~/ 4) * 4;
-    return snapped.clamp(minIterations, maxIterations);
   }
 
   double _roundToStep(double value, double step) {
@@ -586,38 +491,19 @@ class FractalController extends ChangeNotifier {
     return double.parse(snapped.toStringAsFixed(6));
   }
 
-  Object _clampValue(FractalParameter schema, Object value) {
-    if (schema.type == FractalParamType.boolean) {
-      return value is bool ? value : false;
-    }
-    if (schema.type == FractalParamType.enumeration) {
-      final optionValues = schema.options.map((option) => option.value).toSet();
-      return optionValues.contains(value) ? value : schema.defaultValue;
-    }
-    if (value is num) {
-      final clamped = value.toDouble().clamp(schema.min, schema.max);
-      if (schema.type == FractalParamType.integer) {
-        return clamped.round();
-      }
-      return clamped;
-    }
-    return schema.defaultValue;
-  }
-
-  FractalParameter? _findParam(String id) {
-    for (final param in _module.parameters) {
-      if (param.id == id) {
-        return param;
-      }
-    }
-    return null;
-  }
+  // ========================================================================
+  // Backward Compatibility Aliases
+  // ========================================================================
 
   /// Alias for [view] for backward compatibility.
   FractalViewState get viewState => _view;
 
   /// The currently selected fractal module (alias for [module]).
   FractalModule get currentModule => _module;
+
+  // ========================================================================
+  // State Loading
+  // ========================================================================
 
   /// Loads a complete state from another controller or snapshot.
   ///
@@ -657,12 +543,10 @@ class FractalController extends ChangeNotifier {
     }
 
     // Apply parameters with clamping
-    final clamped = <String, Object>{};
-    for (final param in _module.parameters) {
-      final value = params[param.id] ?? param.defaultValue;
-      clamped[param.id] = _clampValue(param, value);
-    }
-    _params = clamped;
+    _params = _paramValidation.clampParams(
+      parameters: _module.parameters,
+      values: params,
+    );
 
     // Set view state
     _view = view;

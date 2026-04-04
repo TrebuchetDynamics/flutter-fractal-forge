@@ -1,5 +1,7 @@
 # Refactoring Plan — Flutter Fractal Forge
 
+> Archived refactor planning document. The file preserves earlier file counts and feature assumptions; use it as historical context, not as current architecture documentation.
+
 > **Goal**: Maximize code reuse, streamline architecture for easier maintenance, debugging, and readability.
 
 ## Current Architecture Summary

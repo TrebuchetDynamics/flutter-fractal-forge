@@ -25,7 +25,7 @@ The app does not require an account and does not depend on remote servers for co
 The app content is mathematical/educational visual content. No social interaction features are provided.
 
 ## Permissions
-Current release is configured without runtime Android data-access permissions for camera/media/storage.
+Current release does not include camera access. Export-related photo or media access is requested only when the operating system requires it for saving files you explicitly choose to export.
 
 ## Data Security
 Because no personal data is collected by the app, there is no personal profile database maintained by the app.

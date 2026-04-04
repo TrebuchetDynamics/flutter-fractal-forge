@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
-import 'package:flutter_fractals/core/widgets/animation_effects.dart';
+import 'package:flutter_fractals/features/controls/fractal_control_value_resolver.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
@@ -16,9 +16,10 @@ class FractalControlsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
+    final actions = _buildActions(controller, l10n);
 
     return AppBottomSheet(
-      maxHeightFactor: 0.68,
+      maxHeightFactor: 0.48,
       children: [
         AppBottomSheetHeader(
           icon: Icons.tune_rounded,
@@ -31,64 +32,20 @@ class FractalControlsSheet extends StatelessWidget {
         Flexible(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
-              AppSpacing.lg,
               AppSpacing.md,
-              AppSpacing.lg,
-              AppSpacing.lg,
+              AppSpacing.sm,
+              AppSpacing.md,
+              AppSpacing.md,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionHeader(title: l10n.controlsTitle),
-                ...controller.module.parameters.asMap().entries.map((entry) {
-                  return StaggeredItem(
-                    index: entry.key,
-                    itemDelay: const Duration(milliseconds: 30),
-                    child: _ParamControl(
-                      param: entry.value,
-                      value: controller.params[entry.value.id] ??
-                          entry.value.defaultValue,
-                      onChanged: (value) =>
-                          controller.updateParam(entry.value.id, value),
-                    ),
-                  );
-                }),
-                const SizedBox(height: AppSpacing.xl),
-                SectionHeader(title: l10n.sectionActions),
+                _ParameterControlList(controller: controller),
                 const SizedBox(height: AppSpacing.sm),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _ActionButton(
-                        icon: Icons.restart_alt_rounded,
-                        label: l10n.resetView,
-                        onPressed: controller.resetView,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: _ActionButton(
-                        icon: Icons.settings_backup_restore_rounded,
-                        label: l10n.resetParams,
-                        onPressed: controller.resetParams,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.md),
+                _ActionButtonRow(actions: actions),
                 SizedBox(
-                  width: double.infinity,
-                  child: _AnimatedRandomizeButton(
-                    label: l10n.randomize,
-                    onPressed: () {
-                      HapticFeedback.mediumImpact();
-                      controller.randomizeParams();
-                      // Trigger a small celebration for discovering new fractals
-                      controller.recordInterestingSpot();
-                    },
-                  ),
+                  height: MediaQuery.of(context).padding.bottom + AppSpacing.sm,
                 ),
-                SizedBox(height: MediaQuery.of(context).padding.bottom + AppSpacing.lg),
               ],
             ),
           ),
@@ -96,56 +53,148 @@ class FractalControlsSheet extends StatelessWidget {
       ],
     );
   }
+
+  List<_ControlAction> _buildActions(
+    FractalController controller,
+    AppLocalizations l10n,
+  ) {
+    return [
+      _ControlAction(
+        icon: Icons.restart_alt_rounded,
+        label: l10n.resetView,
+        onPressed: controller.resetView,
+      ),
+      _ControlAction(
+        icon: Icons.settings_backup_restore_rounded,
+        label: l10n.resetParams,
+        onPressed: controller.resetParams,
+      ),
+      _ControlAction(
+        icon: Icons.shuffle_rounded,
+        label: l10n.randomize,
+        onPressed: () {
+          HapticFeedback.mediumImpact();
+          controller.randomizeParams();
+          controller.recordInterestingSpot();
+        },
+      ),
+    ];
+  }
 }
 
-class _ActionButton extends StatelessWidget {
+class _ParameterControlList extends StatelessWidget {
+  final FractalController controller;
+
+  const _ParameterControlList({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    final parameters = controller.module.parameters;
+
+    return Column(
+      children: [
+        for (final entry in parameters.asMap().entries)
+          StaggeredItem(
+            index: entry.key,
+            itemDelay: const Duration(milliseconds: 30),
+            child: _ParameterControl(
+              parameter: entry.value,
+              rawValue:
+                  controller.params[entry.value.id] ?? entry.value.defaultValue,
+              onChanged: (value) =>
+                  controller.updateParam(entry.value.id, value),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _ActionButtonRow extends StatelessWidget {
+  final List<_ControlAction> actions;
+
+  const _ActionButtonRow({required this.actions});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        for (int index = 0; index < actions.length; index++) ...[
+          if (index > 0) const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: _ActionButton(
+              action: actions[index],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _ControlAction {
   final IconData icon;
   final String label;
   final VoidCallback onPressed;
 
-  const _ActionButton({
+  const _ControlAction({
     required this.icon,
     required this.label,
     required this.onPressed,
   });
+}
+
+class _ActionButton extends StatelessWidget {
+  final _ControlAction action;
+
+  const _ActionButton({
+    required this.action,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return PressableScale(
-      onTap: onPressed,
-      builder: (isPressed) => AnimatedContainer(
-        duration: AppAnimations.fast,
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        decoration: BoxDecoration(
-          color: isPressed
-              ? AppColors.surfaceElevated
-              : AppColors.surfaceVariant,
-          borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-          border: Border.all(
-            color: isPressed
-                ? AppColors.primary.withValues(alpha: 0.3)
-                : AppColors.border.withValues(alpha: 0.5),
+    return Semantics(
+      button: true,
+      label: action.label,
+      child: PressableScale(
+        onTap: action.onPressed,
+        builder: (isPressed) => AnimatedContainer(
+          duration: AppAnimations.fast,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xs,
+            vertical: AppSpacing.sm,
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 18,
-              color: isPressed ? AppColors.primary : AppColors.textSecondary,
+          decoration: BoxDecoration(
+            color: isPressed
+                ? AppColors.surfaceElevated
+                : AppColors.surfaceVariant,
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+            border: Border.all(
+              color: isPressed
+                  ? AppColors.primary.withValues(alpha: 0.3)
+                  : AppColors.border.withValues(alpha: 0.5),
             ),
-            const SizedBox(width: AppSpacing.sm),
-            Text(
-              label,
-              style: AppTypography.labelMedium.copyWith(
-                color: isPressed ? AppColors.primary : AppColors.textPrimary,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                action.icon,
+                size: 18,
+                color: isPressed ? AppColors.primary : AppColors.textSecondary,
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              Text(
+                action.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTypography.labelSmall.copyWith(
+                  color: isPressed ? AppColors.primary : AppColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -227,14 +276,14 @@ class _CompactParamSlider extends StatelessWidget {
   }
 }
 
-class _ParamControl extends StatelessWidget {
-  final FractalParameter param;
-  final Object value;
+class _ParameterControl extends StatelessWidget {
+  final FractalParameter parameter;
+  final Object rawValue;
   final ValueChanged<Object> onChanged;
 
-  const _ParamControl({
-    required this.param,
-    required this.value,
+  const _ParameterControl({
+    required this.parameter,
+    required this.rawValue,
     required this.onChanged,
   });
 
@@ -242,95 +291,110 @@ class _ParamControl extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    switch (param.type) {
+    switch (parameter.type) {
       case FractalParamType.float:
       case FractalParamType.integer:
-        final v = value;
-        final doubleValue = v is num ? v.toDouble() : param.min;
-        final divisions = ((param.max - param.min) / param.step).round();
-
-        return Padding(
-          padding: const EdgeInsets.only(bottom: AppSpacing.md),
-          child: _CompactParamSlider(
-            label: param.label(l10n),
-            value: doubleValue.clamp(param.min, param.max),
-            min: param.min,
-            max: param.max,
-            divisions: divisions > 0 ? divisions : null,
-            valueLabel: param.type == FractalParamType.integer
-                ? doubleValue.round().toString()
-                : doubleValue.toStringAsFixed(2),
-            onChanged: (newValue) {
-              if (param.type == FractalParamType.integer) {
-                onChanged(newValue.round());
-              } else {
-                onChanged(double.parse(newValue.toStringAsFixed(2)));
-              }
-            },
-          ),
-        );
+        return _buildNumericControl(l10n);
 
       case FractalParamType.enumeration:
-        // Use horizontal scroll for large option sets (e.g. 64 palettes).
-        final useScroll = param.options.length > 8;
-        return Padding(
-          padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                param.label(l10n),
-                style: AppTypography.bodyMedium.copyWith(
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              if (useScroll)
-                SizedBox(
-                  height: 40,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: param.options.length,
-                    separatorBuilder: (_, __) =>
-                        const SizedBox(width: AppSpacing.sm),
-                    itemBuilder: (context, index) {
-                      final option = param.options[index];
-                      final selected = option.value == value;
-                      return _OptionChip(
-                        label: option.label(l10n),
-                        selected: selected,
-                        onSelected: () => onChanged(option.value),
-                      );
-                    },
-                  ),
-                )
-              else
-                Wrap(
-                  spacing: AppSpacing.sm,
-                  runSpacing: AppSpacing.sm,
-                  children: param.options.map((option) {
-                    final selected = option.value == value;
-                    return _OptionChip(
-                      label: option.label(l10n),
-                      selected: selected,
-                      onSelected: () => onChanged(option.value),
-                    );
-                  }).toList(),
-                ),
-            ],
-          ),
-        );
+        return _buildEnumerationControl(l10n);
 
       case FractalParamType.boolean:
-        return Padding(
-          padding: const EdgeInsets.only(bottom: AppSpacing.md),
-          child: _PremiumSwitch(
-            label: param.label(l10n),
-            value: value == true,
-            onChanged: (newValue) => onChanged(newValue),
-          ),
-        );
+        return _buildBooleanControl(l10n);
     }
+  }
+
+  Widget _buildNumericControl(AppLocalizations l10n) {
+    final resolvedValue = FractalControlValueResolver.resolveNumeric(
+      parameter: parameter,
+      rawValue: rawValue,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+      child: _CompactParamSlider(
+        label: parameter.label(l10n),
+        value: resolvedValue.sliderValue,
+        min: resolvedValue.min,
+        max: resolvedValue.max,
+        divisions: resolvedValue.divisions,
+        valueLabel: resolvedValue.valueLabel,
+        onChanged: (newValue) => onChanged(
+          resolvedValue.valueFromSlider(newValue),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEnumerationControl(AppLocalizations l10n) {
+    final selectedValue = FractalControlValueResolver.normalizeEnumerationValue(
+      parameter: parameter,
+      rawValue: rawValue,
+    );
+    final useScrollableOptions =
+        FractalControlValueResolver.useScrollableOptions(parameter);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            parameter.label(l10n),
+            style: AppTypography.bodyMedium.copyWith(
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          if (useScrollableOptions)
+            SizedBox(
+              height: 40,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: parameter.options.length,
+                separatorBuilder: (_, __) =>
+                    const SizedBox(width: AppSpacing.sm),
+                itemBuilder: (context, index) {
+                  final option = parameter.options[index];
+                  return _OptionChip(
+                    label: option.label(l10n),
+                    selected: option.value == selectedValue,
+                    onSelected: () => onChanged(option.value),
+                  );
+                },
+              ),
+            )
+          else
+            Wrap(
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.sm,
+              children: parameter.options.map((option) {
+                return _OptionChip(
+                  label: option.label(l10n),
+                  selected: option.value == selectedValue,
+                  onSelected: () => onChanged(option.value),
+                );
+              }).toList(),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBooleanControl(AppLocalizations l10n) {
+    final value = FractalControlValueResolver.normalizeBooleanValue(
+      parameter: parameter,
+      rawValue: rawValue,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+      child: _BooleanSwitchTile(
+        label: parameter.label(l10n),
+        value: value,
+        onChanged: (newValue) => onChanged(newValue),
+      ),
+    );
   }
 }
 
@@ -383,12 +447,12 @@ class _OptionChip extends StatelessWidget {
   }
 }
 
-class _PremiumSwitch extends StatelessWidget {
+class _BooleanSwitchTile extends StatelessWidget {
   final String label;
   final bool value;
   final ValueChanged<bool> onChanged;
 
-  const _PremiumSwitch({
+  const _BooleanSwitchTile({
     required this.label,
     required this.value,
     required this.onChanged,
@@ -399,238 +463,56 @@ class _PremiumSwitch extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Semantics(
       toggled: value,
-      label: value
-          ? l10n.semanticToggleOn(label)
-          : l10n.semanticToggleOff(label),
-      child: GestureDetector(
-      onTap: () => onChanged(!value),
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: AppAnimations.normal,
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        decoration: BoxDecoration(
-          color: value
-              ? AppColors.primary.withValues(alpha: 0.1)
-              : AppColors.surfaceVariant.withValues(alpha: 0.5),
+      button: true,
+      label:
+          value ? l10n.semanticToggleOn(label) : l10n.semanticToggleOff(label),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => onChanged(!value),
           borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-          border: Border.all(
-            color: value
-                ? AppColors.primary.withValues(alpha: 0.3)
-                : AppColors.border.withValues(alpha: 0.3),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label,
-              style: AppTypography.bodyMedium.copyWith(
-                color: AppColors.textPrimary,
+          child: AnimatedContainer(
+            duration: AppAnimations.normal,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.md,
+            ),
+            decoration: BoxDecoration(
+              color: value
+                  ? AppColors.primary.withValues(alpha: 0.1)
+                  : AppColors.surfaceVariant.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+              border: Border.all(
+                color: value
+                    ? AppColors.primary.withValues(alpha: 0.3)
+                    : AppColors.border.withValues(alpha: 0.3),
               ),
             ),
-            Switch(
-              value: value,
-              onChanged: onChanged,
-            ),
-          ],
-        ),
-      ),
-      ),
-    );
-  }
-}
-
-/// Animated randomize button with sparkle effects.
-class _AnimatedRandomizeButton extends StatefulWidget {
-  final String label;
-  final VoidCallback onPressed;
-
-  const _AnimatedRandomizeButton({
-    required this.label,
-    required this.onPressed,
-  });
-
-  @override
-  State<_AnimatedRandomizeButton> createState() => _AnimatedRandomizeButtonState();
-}
-
-class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
-    with TickerProviderStateMixin {
-  late AnimationController _scaleController;
-  late AnimationController _shakeController;
-  late AnimationController _glowController;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _shakeAnimation;
-  late Animation<double> _glowAnimation;
-  bool _isPressed = false;
-  bool _showSparkle = false;
-
-  @override
-  void initState() {
-    super.initState();
-    
-    _scaleController = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _scaleController, curve: AppAnimations.snappyCurve),
-    );
-
-    _shakeController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _shakeAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 0.0, end: -0.03), weight: 1),
-      TweenSequenceItem(tween: Tween(begin: -0.03, end: 0.03), weight: 2),
-      TweenSequenceItem(tween: Tween(begin: 0.03, end: -0.02), weight: 2),
-      TweenSequenceItem(tween: Tween(begin: -0.02, end: 0.01), weight: 2),
-      TweenSequenceItem(tween: Tween(begin: 0.01, end: 0.0), weight: 1),
-    ]).animate(CurvedAnimation(
-      parent: _shakeController,
-      curve: Curves.easeOut,
-    ));
-
-    _glowController = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-    _glowAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0), weight: 1),
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.0), weight: 2),
-    ]).animate(CurvedAnimation(
-      parent: _glowController,
-      curve: Curves.easeOut,
-    ));
-  }
-
-  @override
-  void dispose() {
-    _scaleController.dispose();
-    _shakeController.dispose();
-    _glowController.dispose();
-    super.dispose();
-  }
-
-  void _handleTap() {
-    widget.onPressed();
-    
-    // Trigger animations
-    _shakeController.forward(from: 0);
-    _glowController.forward(from: 0);
-    
-    setState(() => _showSparkle = true);
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      if (mounted) {
-        setState(() => _showSparkle = false);
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Semantics(
-      button: true,
-      label: l10n.semanticRandomizeButton,
-      child: SparkleEffect(
-      isActive: _showSparkle,
-      sparkleCount: 8,
-      child: GestureDetector(
-        onTapDown: (_) {
-          setState(() => _isPressed = true);
-          _scaleController.forward();
-        },
-        onTapUp: (_) {
-          setState(() => _isPressed = false);
-          _scaleController.reverse();
-        },
-        onTapCancel: () {
-          setState(() => _isPressed = false);
-          _scaleController.reverse();
-        },
-        onTap: _handleTap,
-        child: AnimatedBuilder(
-          animation: Listenable.merge([_scaleAnimation, _shakeAnimation, _glowAnimation]),
-          builder: (context, child) {
-            return Transform.scale(
-              scale: _scaleAnimation.value,
-              child: Transform.rotate(
-                angle: _shakeAnimation.value,
-                child: Stack(
-                children: [
-                  // Glow effect
-                  if (_glowAnimation.value > 0)
-                    Positioned.fill(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: _glowAnimation.value * 0.5),
-                              blurRadius: 20,
-                              spreadRadius: 2,
-                            ),
-                            BoxShadow(
-                              color: AppColors.secondary.withValues(alpha: _glowAnimation.value * 0.3),
-                              blurRadius: 30,
-                              spreadRadius: 5,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  // Button
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.xxl,
-                      vertical: AppSpacing.md + 2,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: AppColors.primaryGradient,
-                      borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3),
-                          blurRadius: _isPressed ? 16 : 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnimatedRotation(
-                          turns: _shakeController.isAnimating ? 0.5 : 0,
-                          duration: const Duration(milliseconds: 300),
-                          child: const Icon(
-                            Icons.shuffle_rounded,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.sm),
-                        Text(
-                          widget.label,
-                          style: AppTypography.labelLarge.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    label,
+                    style: AppTypography.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
-                ],
-              ),
-              ),
-            );
-          },
+                ),
+                const SizedBox(width: AppSpacing.md),
+                ExcludeSemantics(
+                  child: IgnorePointer(
+                    child: Switch(
+                      value: value,
+                      onChanged: (_) {},
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
-    ),
     );
   }
 }

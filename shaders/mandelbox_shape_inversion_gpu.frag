@@ -45,7 +45,9 @@ mat3 rotationMatrix(vec3 angles) {
 }
 
 vec3 palette(float t, float scheme) {
-    int s = int(scheme) % 8;
+    // Note: SkSL doesn't support % operator
+    int schemeInt = int(scheme);
+    int s = schemeInt - (schemeInt / 8) * 8;
     vec3 a, b, c, d;
     if (s == 0) {
         a = vec3(0.5, 0.1, 0.0); b = vec3(0.5, 0.3, 0.1);
@@ -98,7 +100,9 @@ float shapeR2(vec3 z, int shape) {
 // Shape-inversion Mandelbox distance estimator.
 float shapeMandelboxDE(vec3 pos) {
     int maxIter = int(clamp(uIterations, 1.0, 20.0));
-    int shape = int(uFractalType) % 4;
+    // Note: SkSL doesn't support % operator
+    int fractalTypeInt = int(uFractalType);
+    int shape = fractalTypeInt - (fractalTypeInt / 4) * 4;
     float scale = uPower;
     vec3 z = pos;
     float dr = 1.0;

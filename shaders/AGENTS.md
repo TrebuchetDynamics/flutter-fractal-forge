@@ -1,22 +1,20 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-02-13 | Updated: 2026-02-13 -->
+<!-- Generated: 2026-02-13 | Updated: 2026-03-21 -->
 
 # shaders
 
 ## Purpose
-220+ GLSL fragment shaders for GPU-accelerated fractal rendering. Each shader implements one fractal type's rendering algorithm. Shaders receive uniforms from Dart (resolution, pan, zoom, iterations, colors, etc.) and output pixel colors. Organized into subdirectories by fractal category.
+450+ shader assets used for fractal rendering, diagnostics, experiments, and legacy implementations. Production shaders are registered in `pubspec.yaml`; many additional `.frag` files are retained for development, migration, and research.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
 | `common.vert` | Shared vertex shader used by all fragment shaders |
-| `mandelbrot.frag` | Classic Mandelbrot set (legacy) |
-| `julia.frag` | Julia set (legacy) |
-| `burning_ship.frag` | Burning Ship fractal (legacy) |
-| `phoenix.frag` | Phoenix fractal (legacy) |
-| `mandelbulb.frag` | 3D Mandelbulb with raymarching |
-| `mandelbrot_simple.frag` | Mandelbrot via escape-time builder |
+| `mandelbrot_et.frag` | Escape-time Mandelbrot baseline used in renderer experiments |
+| `escape_time_perturb_gpu.frag` | Shared perturbation-oriented shader path for supported escape-time formulas |
+| `mandelbulb.frag` | 3D Mandelbulb raymarching shader |
+| `mandel_julia_dual_gpu.frag` | Dual-view shader for Mandelbrot/Julia exploration |
 | `ink_sparkle.frag` | Material Design ink sparkle effect |
 
 ## Subdirectories
@@ -58,10 +56,10 @@ uniform float uTime;       // Animation time
 - Diagnostic shaders (`diag_*.frag`) used for GPU capability testing
 
 ### Common Patterns
-- Root-level `.frag` files are directly referenced by `pubspec.yaml`
-- Subdirectory shaders may also be referenced from `pubspec.yaml`
-- Naming convention: `{fractal_name}_gpu.frag` for escape-time catalog shaders
-- Legacy shaders (without `_gpu` suffix) are older implementations
+- Most production shader assets currently live at the root of `shaders/`
+- `pubspec.yaml` is the source of truth for which shaders ship in the app bundle
+- Naming convention is usually `{fractal_name}_gpu.frag` for production shaders
+- Legacy or diagnostic shaders are retained for debugging and migration work; do not assume every `.frag` is user-facing
 
 ## Dependencies
 

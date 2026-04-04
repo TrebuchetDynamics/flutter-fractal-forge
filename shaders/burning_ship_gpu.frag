@@ -65,7 +65,8 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   // Flip Y for standard Burning Ship orientation (ship appears upright).
-  vec2 c = vec2(uv.x, -uv.y) / max(0.000001, uZoom) + uCenter;
+  // High-precision coordinate calculation: multiply uv by inverse zoom
+  vec2 c = uCenter + vec2(uv.x, -uv.y) * (1.0 / max(0.000001, uZoom));
 
   int schemeInt = int(uColorScheme);
 
@@ -113,7 +114,9 @@ void main() {
   }
 
   float mag2     = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
+  // Standard smooth iteration formula for reduced banding
+  // smoothIter = iter + 1.0 - log2(log2(zMagSq) * 0.5)
+  float smoothVal = float(it) + 1.0 - log2(log2(mag2) * 0.5);
 
   // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
   // Same MV2 / Quilez bas-relief algorithm as mandel_step_smooth.frag,

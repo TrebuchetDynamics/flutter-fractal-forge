@@ -1,5 +1,7 @@
 # Release Handoff
 
+> Point-in-time release artifact note. This file records one release-lane run and should not be treated as the current repo status.
+
 Timestamp: 2026-03-06 16:40 CST
 Branch: `main`
 Commit: `de92184`

@@ -1,17 +1,17 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-02-13 | Updated: 2026-02-13 -->
+<!-- Generated: 2026-02-13 | Updated: 2026-03-21 -->
 
 # export
 
 ## Purpose
-Image and video export UI dialogs. Provides resolution selection, format options, transparency toggle, and batch export functionality.
+Export-related UI and helper surfaces. The current viewer release is centered on still-image export; this directory also contains batch export and video/GIF scaffolding that is not the primary shipped flow.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
 | `export_options_sheet.dart` | `ExportOptionsSheet` - bottom sheet for single-image export (resolution, transparency, format) |
-| `video_export_sheet.dart` | `VideoExportSheet` - bottom sheet for video/GIF export (duration, FPS, resolution) |
+| `video_export_sheet.dart` | Minimal UI scaffold for video/GIF export options |
 | `batch_export_dialog.dart` | `BatchExportDialog` - dialog for exporting multiple fractals at once |
 
 ## For AI Agents
@@ -19,7 +19,7 @@ Image and video export UI dialogs. Provides resolution selection, format options
 ### Working In This Directory
 - Export uses `RenderRepaintBoundary` to capture the rendered fractal
 - Transparent PNG export sets alpha=0 for background pixels
-- Video export uses the `image` package v4.x API (frame list + `addFrame`/`encodeGif`)
+- Video/GIF code exists, but store-facing docs should not assume it is part of the current primary release flow
 - Batch export iterates through selected modules
 
 ### Testing Requirements

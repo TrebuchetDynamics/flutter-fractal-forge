@@ -1,1 +1,1 @@
-Explore 350+ GPU-rendered fractals with overlay, deep zoom & 60+ palettes.
+Explore 370+ real-time fractals with presets, filters, and PNG export.

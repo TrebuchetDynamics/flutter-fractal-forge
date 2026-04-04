@@ -15,15 +15,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tabExplore => 'Explorar';
 
   @override
-  String get tabFavorites => 'Favoritos';
-
-  @override
-  String get tabSettings => 'Ajustes';
-
-  @override
-  String get settingsTitle => 'Ajustes';
-
-  @override
   String get catalogTitle => 'Catálogo de fractales';
 
   @override
@@ -708,6 +699,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get announceMinimapHidden => 'Minimapa oculto';
 
   @override
+  String get announceRotationLocked => 'Rotación bloqueada';
+
+  @override
+  String get announceRotationUnlocked => 'Rotación desbloqueada';
+
+  @override
+  String get announceMovedToPreviousView => 'Vista anterior';
+
+  @override
+  String get announceMovedToNextView => 'Vista siguiente';
+
+  @override
   String get shareTitle => 'Compartir Fractal';
 
   @override
@@ -1031,6 +1034,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get quickActionRendererMode => 'Modo de renderizado';
 
   @override
+  String get quickActionLockRotation => 'Bloquear rotación';
+
+  @override
+  String get quickActionUnlockRotation => 'Desbloquear rotación';
+
+  @override
+  String get quickActionShowMinimap => 'Mostrar minimapa';
+
+  @override
+  String get quickActionHideMinimap => 'Ocultar minimapa';
+
+  @override
   String get quickActionViewLogs => 'Ver registros';
 
   @override
@@ -1174,6 +1189,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get catalogFilterAll => 'Todos';
 
   @override
+  String get catalogFilterCategories => 'Categorías';
+
+  @override
   String get catalogFilterSortOrder => 'Orden';
 
   @override
@@ -1201,16 +1219,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get catalogFeatured => 'DESTACADOS';
 
   @override
-  String get catalogFilterCategories => 'Categorías';
-
-  @override
   String get catalogResults => 'Resultados';
 
   @override
   String get catalogCategories => 'Categorías';
 
   @override
-  String get actionClearFilters => 'Limpiar filtros';
+  String get actionClearFilters => 'Borrar filtros';
 
   @override
   String get historyCurrentLocation => 'AQUÍ';

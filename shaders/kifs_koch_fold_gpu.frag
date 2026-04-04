@@ -57,9 +57,22 @@ float kochDE(vec3 p, int maxIter) {
         p = abs(p);
 
         // Fold across diagonal planes (Koch-style reflections)
-        if (p.x + p.y < 0.0) p.xy = -p.yx;
-        if (p.x + p.z < 0.0) p.xz = -p.zx;
-        if (p.y + p.z < 0.0) p.yz = -p.zy;
+        // Note: SkSL doesn't support swizzle writes, use explicit swaps
+        if (p.x + p.y < 0.0) {
+            float tmp = p.x;
+            p.x = -p.y;
+            p.y = -tmp;
+        }
+        if (p.x + p.z < 0.0) {
+            float tmp = p.x;
+            p.x = -p.z;
+            p.z = -tmp;
+        }
+        if (p.y + p.z < 0.0) {
+            float tmp = p.y;
+            p.y = -p.z;
+            p.z = -tmp;
+        }
 
         // Scale and translate
         p = p * scale - offset * (scale - 1.0);

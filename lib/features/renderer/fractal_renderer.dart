@@ -17,6 +17,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/constants/physics_constants.dart';
 import './providers/fractal_provider.dart';
 import 'cpu_fractal_renderer.dart';
 import 'deep_zoom_precision_policy.dart';
@@ -207,70 +208,35 @@ class _FractalRendererState extends State<FractalRenderer>
 
   Widget _withRendererIndicator({
     required Widget child,
-    required String mode,
-    required bool fallbackActive,
     required bool highPrecisionActive,
   }) {
-    if (!kDebugMode && !highPrecisionActive) return child;
+    if (!highPrecisionActive) return child;
 
     return Stack(
       children: [
         Positioned.fill(child: child),
-
-        // Ship-visible indicator: CPU == high precision path.
-        if (highPrecisionActive)
-          Positioned(
-            left: 12,
-            top: 12,
-            child: IgnorePointer(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.65),
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: Colors.white24),
-                ),
-                child: const Text(
-                  'High precision (CPU)',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
+        Positioned(
+          left: 12,
+          top: 12,
+          child: IgnorePointer(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.65),
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: Colors.white24),
+              ),
+              child: const Text(
+                'High precision (CPU)',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
           ),
-
-        // Debug-only details. Keep this compact so it does not look like a
-        // bottom band in debug builds.
-        if (kDebugMode)
-          Positioned(
-            left: 12,
-            bottom: 18,
-            child: IgnorePointer(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.72),
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: Colors.white24),
-                ),
-                child: Text(
-                  fallbackActive
-                      ? 'Renderer: $mode (fallback)'
-                      : 'Renderer: $mode',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          ),
+        ),
       ],
     );
   }
@@ -332,8 +298,6 @@ class _FractalRendererState extends State<FractalRenderer>
 
     if (shouldUseCpuFallback && module.dimension == FractalDimension.twoD) {
       final cpuContent = _withRendererIndicator(
-        mode: 'CPU',
-        fallbackActive: true,
         highPrecisionActive: true,
         child: RepaintBoundary(
           key: widget.boundaryKey,
@@ -441,8 +405,9 @@ class _FractalRendererState extends State<FractalRenderer>
             final dt = DateTime.now()
                 .difference(_shaderLoadStartedAt ?? DateTime.now())
                 .inMilliseconds;
-            if (kDebugMode) debugPrint(
-                '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
+            if (kDebugMode)
+              debugPrint(
+                  '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
           }
 
           // Sampled frame-time logging: measure and log every 10th GPU frame.
@@ -490,8 +455,6 @@ class _FractalRendererState extends State<FractalRenderer>
     );
 
     final content = _withRendererIndicator(
-      mode: usesDf2 ? 'GPU-DF2' : 'GPU',
-      fallbackActive: false,
       highPrecisionActive: usesDf2,
       child: RepaintBoundary(
         key: widget.boundaryKey,

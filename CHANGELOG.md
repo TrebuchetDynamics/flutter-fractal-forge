@@ -44,6 +44,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Synced README, AGENTS, status, TODO, privacy, and store-listing docs with the current 370-module catalog and release scope
+- Clarified that current release docs should not advertise camera/AR or video export features
+
 ### Planned
 - Smooth coloring and palette system improvements
 - Perturbation theory for GPU deep zoom beyond float32 limits

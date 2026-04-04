@@ -2,6 +2,8 @@
 *Authored: 2026-02-17 by Sidon (fractal domain lead)*  
 *All gates verified live on this date. No assumptions.*
 
+> Archived validation snapshot. This file captures a 2026-02-17 readiness pass and older catalog counts. Use `README.md`, `status.md`, and `TODO.md` for the current project state.
+
 ---
 
 ## 1. Current State Audit

@@ -342,6 +342,7 @@ class AppTypography {
 class AppAnimations {
   AppAnimations._();
 
+  // Basic durations
   static const Duration fast = Duration(milliseconds: 150);
   static const Duration normal = Duration(milliseconds: 250);
   static const Duration slow = Duration(milliseconds: 350);
@@ -350,6 +351,113 @@ class AppAnimations {
   /// Duration.zero for instant transitions (reduced motion mode).
   static const Duration instant = Duration.zero;
 
+  // Named animation durations for common patterns
+  /// Shimmer/loading animation duration (1200ms).
+  static const Duration shimmer = Duration(milliseconds: 1200);
+
+  /// Fade-in animation duration (300ms).
+  static const Duration fadeIn = Duration(milliseconds: 300);
+
+  /// Fade-out animation duration (400ms).
+  static const Duration fadeOut = Duration(milliseconds: 400);
+
+  /// Thumbnail fade duration (250ms).
+  static const Duration thumbnailFade = Duration(milliseconds: 250);
+
+  /// Viewer pan/zoom transition duration (800ms).
+  static const Duration viewerPan = Duration(milliseconds: 800);
+
+  /// Stagger delay between items (30ms).
+  static const Duration staggerDelay = Duration(milliseconds: 30);
+
+  /// Palette selector transition (100ms).
+  static const Duration paletteSelector = Duration(milliseconds: 100);
+
+  /// CPU fallback pane transition (400ms).
+  static const Duration cpuPaneTransition = Duration(milliseconds: 400);
+
+  /// Gesture handler double-tap timeout (800ms).
+  static const Duration gestureDoubleTap = Duration(milliseconds: 800);
+
+  /// Control item reveal delay (20ms).
+  static const Duration controlReveal = Duration(milliseconds: 20);
+
+  /// Auto-explore travel duration (6000ms).
+  static const Duration autoExploreTravel = Duration(milliseconds: 6000);
+
+  /// Auto-explore minimum duration (2000ms).
+  static const Duration autoExploreMin = Duration(milliseconds: 2000);
+
+  /// Onboarding duration (2400ms).
+  static const Duration onboarding = Duration(milliseconds: 2400);
+
+  /// Home screen animation (2800ms).
+  static const Duration homeAnimation = Duration(milliseconds: 2800);
+
+  /// GPU health check timeout (220ms).
+  static const Duration gpuHealthTimeout = Duration(milliseconds: 220);
+
+  /// GPU celebration timer (2500ms).
+  static const Duration gpuCelebration = Duration(milliseconds: 2500);
+
+  /// Celebration particle animation (2000ms).
+  static const Duration celebration = Duration(milliseconds: 2000);
+
+  /// Loading indicator rotation (3000ms).
+  static const Duration loadingRotation = Duration(milliseconds: 3000);
+
+  /// Loading indicator pulse (1500ms).
+  static const Duration loadingPulse = Duration(milliseconds: 1500);
+
+  /// Morph transition (4000ms).
+  static const Duration morphTransition = Duration(milliseconds: 4000);
+
+  /// Value change feedback (300ms).
+  static const Duration valueChange = Duration(milliseconds: 300);
+
+  /// Quick transition (200ms).
+  static const Duration quickTransition = Duration(milliseconds: 200);
+
+  /// Stagger item delay (50ms).
+  static const Duration staggerItem = Duration(milliseconds: 50);
+
+  /// Video frame duration for 60fps (16ms).
+  static const Duration videoFrame = Duration(milliseconds: 16);
+
+  /// Preset item stagger delay (40ms).
+  static const Duration presetItemDelay = Duration(milliseconds: 40);
+
+  /// Control reveal delay (60ms).
+  static const Duration controlRevealDelay = Duration(milliseconds: 60);
+
+  /// Viewer control reveal delay stage 1 (90ms).
+  static const Duration viewerControlReveal1 = Duration(milliseconds: 90);
+
+  /// Viewer control reveal delay stage 2 (120ms).
+  static const Duration viewerControlReveal2 = Duration(milliseconds: 120);
+
+  /// Viewer control reveal delay stage 3 (80ms).
+  static const Duration viewerControlReveal3 = Duration(milliseconds: 80);
+
+  /// Viewer control reveal delay stage 4 (100ms).
+  static const Duration viewerControlReveal4 = Duration(milliseconds: 100);
+
+  /// Parameter morph duration (600ms).
+  static const Duration morphDuration = Duration(milliseconds: 600);
+
+  /// Auto-explore slow travel duration (9000ms).
+  static const Duration autoExploreTravelSlow = Duration(milliseconds: 9000);
+
+  /// Auto-explore control pulse animation (1400ms).
+  static const Duration autoExploreControlPulse = Duration(milliseconds: 1400);
+
+  /// CPU render debounce delay (260ms).
+  static const Duration cpuRenderDebounce = Duration(milliseconds: 260);
+
+  /// CPU render iteration timeout (140ms).
+  static const Duration cpuRenderIteration = Duration(milliseconds: 140);
+
+  // Curves
   static const Curve defaultCurve = Curves.easeOutCubic;
   static const Curve bouncyCurve = Curves.elasticOut;
   static const Curve smoothCurve = Curves.easeInOutCubic;
@@ -399,6 +507,148 @@ class AccessibleAnimations {
   /// Slower animation duration (500ms or instant).
   Duration get slower =>
       reduceMotion ? AppAnimations.instant : AppAnimations.slower;
+
+  /// Shimmer animation duration (1200ms or instant).
+  Duration get shimmer =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.shimmer;
+
+  /// Fade-in duration (300ms or instant).
+  Duration get fadeIn =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.fadeIn;
+
+  /// Fade-out duration (400ms or instant).
+  Duration get fadeOut =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.fadeOut;
+
+  /// Thumbnail fade duration (250ms or instant).
+  Duration get thumbnailFade =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.thumbnailFade;
+
+  /// Viewer pan/zoom duration (800ms or instant).
+  Duration get viewerPan =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.viewerPan;
+
+  /// Stagger delay (30ms or instant).
+  Duration get staggerDelay =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.staggerDelay;
+
+  /// Palette selector transition (100ms or instant).
+  Duration get paletteSelector =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.paletteSelector;
+
+  /// CPU pane transition (400ms or instant).
+  Duration get cpuPaneTransition =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.cpuPaneTransition;
+
+  /// Gesture double-tap timeout (800ms or instant).
+  Duration get gestureDoubleTap =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.gestureDoubleTap;
+
+  /// Control reveal delay (20ms or instant).
+  Duration get controlReveal =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.controlReveal;
+
+  /// Auto-explore travel duration (6000ms or instant).
+  Duration get autoExploreTravel =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.autoExploreTravel;
+
+  /// Auto-explore minimum duration (2000ms or instant).
+  Duration get autoExploreMin =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.autoExploreMin;
+
+  /// Onboarding duration (2400ms or instant).
+  Duration get onboarding =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.onboarding;
+
+  /// Home screen animation (2800ms or instant).
+  Duration get homeAnimation =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.homeAnimation;
+
+  /// GPU health timeout (220ms or instant).
+  Duration get gpuHealthTimeout =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.gpuHealthTimeout;
+
+  /// GPU celebration timer (2500ms or instant).
+  Duration get gpuCelebration =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.gpuCelebration;
+
+  /// Celebration animation (2000ms or instant).
+  Duration get celebration =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.celebration;
+
+  /// Loading rotation (3000ms or instant).
+  Duration get loadingRotation =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.loadingRotation;
+
+  /// Loading pulse (1500ms or instant).
+  Duration get loadingPulse =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.loadingPulse;
+
+  /// Morph transition (4000ms or instant).
+  Duration get morphTransition =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.morphTransition;
+
+  /// Value change feedback (300ms or instant).
+  Duration get valueChange =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.valueChange;
+
+  /// Quick transition (200ms or instant).
+  Duration get quickTransition =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.quickTransition;
+
+  /// Stagger item delay (50ms or instant).
+  Duration get staggerItem =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.staggerItem;
+
+  /// Video frame duration (16ms or instant).
+  Duration get videoFrame =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.videoFrame;
+
+  /// Preset item stagger delay (40ms or instant).
+  Duration get presetItemDelay =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.presetItemDelay;
+
+  /// Control reveal delay (60ms or instant).
+  Duration get controlRevealDelay =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.controlRevealDelay;
+
+  /// Viewer control reveal delay stage 1 (90ms or instant).
+  Duration get viewerControlReveal1 =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.viewerControlReveal1;
+
+  /// Viewer control reveal delay stage 2 (120ms or instant).
+  Duration get viewerControlReveal2 =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.viewerControlReveal2;
+
+  /// Viewer control reveal delay stage 3 (80ms or instant).
+  Duration get viewerControlReveal3 =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.viewerControlReveal3;
+
+  /// Viewer control reveal delay stage 4 (100ms or instant).
+  Duration get viewerControlReveal4 =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.viewerControlReveal4;
+
+  /// Parameter morph duration (600ms or instant).
+  Duration get morphDuration =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.morphDuration;
+
+  /// Auto-explore slow travel (9000ms or instant).
+  Duration get autoExploreTravelSlow => reduceMotion
+      ? AppAnimations.instant
+      : AppAnimations.autoExploreTravelSlow;
+
+  /// Auto-explore control pulse (1400ms or instant).
+  Duration get autoExploreControlPulse => reduceMotion
+      ? AppAnimations.instant
+      : AppAnimations.autoExploreControlPulse;
+
+  /// CPU render debounce (260ms or instant).
+  Duration get cpuRenderDebounce =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.cpuRenderDebounce;
+
+  /// CPU render iteration timeout (140ms or instant).
+  Duration get cpuRenderIteration =>
+      reduceMotion ? AppAnimations.instant : AppAnimations.cpuRenderIteration;
 
   /// Recommended curve for animations.
   ///

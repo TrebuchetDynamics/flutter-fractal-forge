@@ -24,13 +24,13 @@ Flutter Fractals does not collect, store, transmit, or share any personal data. 
 All data created by the app stays on your device:
 
 - Saved presets are stored locally using Android SharedPreferences
-- Exported images and videos are saved to your device's storage
+- Exported images are saved to your device's storage when you explicitly choose to save or share them
 - Exploration history is stored locally only
 - Crash logs (debug builds only) are written to local storage and never transmitted
 
 ## Permissions
 
-- **Storage:** Used to save exported images and videos to your device.
+- **Storage / Photos access (if requested by the OS):** Used only when you explicitly save exported images to your device.
 
 ## Third-Party Services
 

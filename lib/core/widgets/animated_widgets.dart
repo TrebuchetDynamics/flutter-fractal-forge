@@ -74,8 +74,8 @@ class _GlassCardState extends State<GlassCard>
 
   @override
   Widget build(BuildContext context) {
-    final radius = widget.borderRadius ??
-        BorderRadius.circular(AppSpacing.cardRadius);
+    final radius =
+        widget.borderRadius ?? BorderRadius.circular(AppSpacing.cardRadius);
 
     return Padding(
       padding: widget.margin ?? EdgeInsets.zero,
@@ -169,23 +169,29 @@ class _GradientButtonState extends State<GradientButton>
   @override
   Widget build(BuildContext context) {
     final gradient = widget.gradient ?? AppColors.primaryGradient;
-    final radius = widget.borderRadius ??
-        BorderRadius.circular(AppSpacing.buttonRadius);
+    final radius =
+        widget.borderRadius ?? BorderRadius.circular(AppSpacing.buttonRadius);
     final isEnabled = widget.onPressed != null;
 
     return GestureDetector(
-      onTapDown: isEnabled ? (_) {
-        setState(() => _isPressed = true);
-        _controller.forward();
-      } : null,
-      onTapUp: isEnabled ? (_) {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      } : null,
-      onTapCancel: isEnabled ? () {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      } : null,
+      onTapDown: isEnabled
+          ? (_) {
+              setState(() => _isPressed = true);
+              _controller.forward();
+            }
+          : null,
+      onTapUp: isEnabled
+          ? (_) {
+              setState(() => _isPressed = false);
+              _controller.reverse();
+            }
+          : null,
+      onTapCancel: isEnabled
+          ? () {
+              setState(() => _isPressed = false);
+              _controller.reverse();
+            }
+          : null,
       onTap: widget.onPressed,
       child: ScaleTransition(
         scale: _scaleAnimation,
@@ -202,7 +208,8 @@ class _GradientButtonState extends State<GradientButton>
                       borderRadius: radius,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3),
+                          color: AppColors.primary
+                              .withValues(alpha: _isPressed ? 0.5 : 0.3),
                           blurRadius: _isPressed ? 16 : 12,
                           spreadRadius: _isPressed ? 2 : 0,
                         ),
@@ -287,7 +294,8 @@ class _AnimatedIconButtonState extends State<AnimatedIconButton>
     Widget button = GestureDetector(
       onTapDown: widget.onPressed != null ? (_) => _controller.forward() : null,
       onTapUp: widget.onPressed != null ? (_) => _controller.reverse() : null,
-      onTapCancel: widget.onPressed != null ? () => _controller.reverse() : null,
+      onTapCancel:
+          widget.onPressed != null ? () => _controller.reverse() : null,
       onTap: widget.onPressed,
       child: ScaleTransition(
         scale: _scaleAnimation,
@@ -396,8 +404,8 @@ class StaggeredItem extends StatelessWidget {
     Key? key,
     required this.index,
     required this.child,
-    this.baseDelay = const Duration(milliseconds: 50),
-    this.itemDelay = const Duration(milliseconds: 50),
+    this.baseDelay = AppAnimations.staggerItem,
+    this.itemDelay = AppAnimations.staggerItem,
   }) : super(key: key);
 
   @override
@@ -435,7 +443,7 @@ class _ShimmerLoadingState extends State<ShimmerLoading>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: AppAnimations.shimmer,
       vsync: this,
     )..repeat();
     _shimmerAnimation = Tween<double>(begin: -1.0, end: 2.0).animate(
@@ -580,7 +588,8 @@ class _PressableScaleState extends State<PressableScale>
   @override
   void didUpdateWidget(PressableScale oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.scaleEnd != oldWidget.scaleEnd || widget.curve != oldWidget.curve) {
+    if (widget.scaleEnd != oldWidget.scaleEnd ||
+        widget.curve != oldWidget.curve) {
       _scaleAnimation = Tween<double>(begin: 1.0, end: widget.scaleEnd).animate(
         CurvedAnimation(parent: _controller, curve: widget.curve),
       );
@@ -597,18 +606,24 @@ class _PressableScaleState extends State<PressableScale>
   Widget build(BuildContext context) {
     final enabled = widget.onTap != null;
     return GestureDetector(
-      onTapDown: enabled ? (_) {
-        setState(() => _isPressed = true);
-        _controller.forward();
-      } : null,
-      onTapUp: enabled ? (_) {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      } : null,
-      onTapCancel: enabled ? () {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      } : null,
+      onTapDown: enabled
+          ? (_) {
+              setState(() => _isPressed = true);
+              _controller.forward();
+            }
+          : null,
+      onTapUp: enabled
+          ? (_) {
+              setState(() => _isPressed = false);
+              _controller.reverse();
+            }
+          : null,
+      onTapCancel: enabled
+          ? () {
+              setState(() => _isPressed = false);
+              _controller.reverse();
+            }
+          : null,
       onTap: widget.onTap,
       child: ScaleTransition(
         scale: _scaleAnimation,
@@ -654,7 +669,7 @@ class _PremiumSliderState extends State<PremiumSlider>
   void initState() {
     super.initState();
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: AppAnimations.quickTransition,
       vsync: this,
     );
     _pulseAnimation = TweenSequence<double>([
@@ -683,7 +698,7 @@ class _PremiumSliderState extends State<PremiumSlider>
 
   Color _getValueColor() {
     if (_previousValue == null) return AppColors.primary;
-    
+
     final delta = widget.value - _previousValue!;
     final range = widget.max - widget.min;
     final normalizedDelta = (delta / range).abs();
@@ -723,15 +738,18 @@ class _PremiumSliderState extends State<PremiumSlider>
                       color: _isDragging
                           ? _getValueColor().withValues(alpha: 0.15)
                           : AppColors.surfaceVariant,
-                      borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+                      borderRadius:
+                          BorderRadius.circular(AppSpacing.chipRadius),
                       border: _isDragging
-                          ? Border.all(color: _getValueColor().withValues(alpha: 0.3))
+                          ? Border.all(
+                              color: _getValueColor().withValues(alpha: 0.3))
                           : null,
                     ),
                     child: Text(
                       widget.valueLabel ?? widget.value.toStringAsFixed(2),
                       style: AppTypography.labelSmall.copyWith(
-                        color: _isDragging ? _getValueColor() : AppColors.primary,
+                        color:
+                            _isDragging ? _getValueColor() : AppColors.primary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -750,7 +768,8 @@ class _PremiumSliderState extends State<PremiumSlider>
               isActive: _isDragging,
             ),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 22),
-            activeTrackColor: _isDragging ? _getValueColor() : AppColors.primary,
+            activeTrackColor:
+                _isDragging ? _getValueColor() : AppColors.primary,
             inactiveTrackColor: AppColors.surfaceVariant,
             thumbColor: Colors.white,
           ),
@@ -800,32 +819,34 @@ class _AnimatedSliderThumbShape extends SliderComponentShape {
     required Size sizeWithOverflow,
   }) {
     final canvas = context.canvas;
-    
+
     final radius = enabledThumbRadius * (1 + activationAnimation.value * 0.15);
-    
+
     // Draw shadow
     final shadowPaint = Paint()
       ..color = Colors.black.withValues(alpha: 0.2)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
     canvas.drawCircle(center + const Offset(0, 2), radius, shadowPaint);
-    
+
     // Draw glow when active
     if (isActive || activationAnimation.value > 0) {
       final glowPaint = Paint()
-        ..color = AppColors.primary.withValues(alpha: 0.3 * activationAnimation.value)
+        ..color =
+            AppColors.primary.withValues(alpha: 0.3 * activationAnimation.value)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
       canvas.drawCircle(center, radius * 1.5, glowPaint);
     }
-    
+
     // Draw thumb
     final paint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius, paint);
-    
+
     // Draw inner circle accent
     final accentPaint = Paint()
-      ..color = AppColors.primary.withValues(alpha: 0.1 + activationAnimation.value * 0.2)
+      ..color = AppColors.primary
+          .withValues(alpha: 0.1 + activationAnimation.value * 0.2)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius * 0.4, accentPaint);
   }

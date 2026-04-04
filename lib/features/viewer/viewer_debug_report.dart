@@ -39,7 +39,7 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
 
       final ts = DateTime.now().millisecondsSinceEpoch;
       final reportFile = await _exportService.saveBytes(
-        Uint8List.fromList(reportText.codeUnits),
+        Uint8List.fromList(utf8.encode(reportText)),
         filename: 'gpu_debug_${controller.module.id}_$ts.json',
       );
 
@@ -96,7 +96,9 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                           },
                           icon: const Icon(Icons.science_rounded,
                               color: Colors.amber),
-                          label: Text(AppLocalizations.of(context)!.debugReportOpenShaderLab,
+                          label: Text(
+                              AppLocalizations.of(context)!
+                                  .debugReportOpenShaderLab,
                               style: const TextStyle(color: Colors.amber)),
                         ),
                       ),
@@ -142,7 +144,8 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                                     'Copied GPU debug JSON to clipboard. Paste it into Telegram.')),
                           );
                         },
-                        child: Text(AppLocalizations.of(context)!.debugReportCopyJson),
+                        child: Text(
+                            AppLocalizations.of(context)!.debugReportCopyJson),
                       ),
                       OutlinedButton(
                         onPressed: () => Navigator.of(context).pop(),

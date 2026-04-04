@@ -1,4 +1,5 @@
 import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 
@@ -23,7 +24,18 @@ class FractalCanvas extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    module.setUniforms(shader, state, size, time);
+    try {
+      module.setUniforms(shader, state, size, time);
+    } catch (e) {
+      // Log uniform setting errors but don't crash the renderer
+      debugPrint(
+          '[fractal_canvas] Uniform setting failed for ${module.id}: $e');
+      // Re-throw in debug mode to catch issues during development
+      if (kDebugMode) {
+        rethrow;
+      }
+      return;
+    }
 
     final rect = Offset.zero & size;
     final basePaint = Paint()
@@ -41,7 +53,8 @@ class FractalCanvas extends CustomPainter {
         rect,
         Paint()
           ..blendMode = BlendMode.screen
-          ..color = Color.fromRGBO(255, 255, 255, glowIntensity.clamp(0.0, 1.0)),
+          ..color = Color.fromARGB(
+              (glowIntensity.clamp(0.0, 1.0) * 255).round(), 255, 255, 255),
       );
       canvas.drawRect(
         rect,

@@ -33,6 +33,7 @@ import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/shader_warming_service.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/home/home_screen.dart';
@@ -137,6 +138,10 @@ class _DeferredStartupAppState extends State<_DeferredStartupApp> {
   }
 
   Future<void> _initServices() async {
+    // Start shader warming in parallel with other services
+    final shaderWarming = ShaderWarmingService();
+    shaderWarming.warmShaders(priorityCount: 5, backgroundCount: 5);
+
     final results = await Future.wait([
       PresetStore.create(),
       HistoryStore.create(),
@@ -174,24 +179,63 @@ class _DeferredStartupAppState extends State<_DeferredStartupApp> {
     if (_fullApp != null) return _fullApp!;
 
     // Minimal static splash — no animations, no CustomPaint.
-    // Just enough to satisfy Android's process attach requirement.
+    // Just enough to satisfy Android's process attach requirement while still
+    // giving automated UI flows and real users a visible branded state.
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: AppColors.background,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(color: AppColors.primary),
-              SizedBox(height: 16),
-              Text(
-                'Loading...',
-                style: TextStyle(color: Colors.white70, fontSize: 16),
-              ),
-            ],
+      home: Scaffold(
+        body: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF0F1622),
+                Color(0xFF080B12),
+              ],
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(
+                  Icons.auto_awesome,
+                  size: 40,
+                  color: AppColors.primaryLight,
+                ),
+                SizedBox(height: 18),
+                Text(
+                  'Fractal Forge',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.4,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Loading fractal catalog...',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 15,
+                  ),
+                ),
+                SizedBox(height: 24),
+                SizedBox(
+                  width: 28,
+                  height: 28,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

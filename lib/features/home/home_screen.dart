@@ -6,11 +6,8 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
-import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
-import 'package:flutter_fractals/features/library/fractal_library_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
-import 'package:flutter_fractals/features/settings/settings_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
@@ -22,13 +19,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  int _selectedIndex = 0;
-
-  late final ModuleRegistry _registry;
+class _HomeScreenState extends State<HomeScreen> {
   late final FractalController _exploreController;
-  late final CatalogRepository _catalog;
 
   StreamSubscription<DeepLinkData>? _deepLinkSubscription;
   bool _handledInitialLink = false;
@@ -36,21 +28,13 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    _registry = context.read<ModuleRegistry>();
-    _exploreController = FractalController(_registry);
-    _catalog = CatalogRepository.fromRegistry(_registry);
+    final registry = context.read<ModuleRegistry>();
+    _exploreController = FractalController(registry);
 
     // Set up deep link handling (skip in SAFE_MODE)
     if (kSafeMode == 0) {
       _initDeepLinks();
     }
-  }
-
-  @override
-  void dispose() {
-    _exploreController.dispose();
-    _deepLinkSubscription?.cancel();
-    super.dispose();
   }
 
   void _initDeepLinks() {
@@ -76,9 +60,11 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _handleDeepLink(DeepLinkData data) {
+    final registry = context.read<ModuleRegistry>();
+
     // Try to find the module by type
     try {
-      final module = _registry.byId(data.type);
+      final module = registry.byId(data.type);
 
       // Apply the configuration to the explore controller
       _exploreController.selectModule(module);
@@ -128,8 +114,7 @@ class _HomeScreenState extends State<HomeScreen>
       // Module not found, show error
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-              AppLocalizations.of(context)!.homeUnknownFractalType(data.type)),
+          content: Text(AppLocalizations.of(context)!.homeUnknownFractalType(data.type)),
           backgroundColor: AppColors.error,
         ),
       );
@@ -137,85 +122,62 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   @override
+  void dispose() {
+    _deepLinkSubscription?.cancel();
+    _exploreController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Build tab content
-    final exploreTab = ChangeNotifierProvider.value(
-      key: const ValueKey('explore'),
-      value: _exploreController,
-      child: Column(
-        children: [
-          if (kSafeMode >= 1)
-            MaterialBanner(
-              backgroundColor: AppColors.warning.withValues(alpha: 0.15),
-              content: Text(
-                'SAFE MODE: Shader rendering disabled for device crash triage.',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: AppColors.warning),
-              ),
-              actions: const [],
+    final body = AnimatedSwitcher(
+      duration: AppAnimations.normal,
+      switchInCurve: AppAnimations.defaultCurve,
+      switchOutCurve: AppAnimations.defaultCurve,
+      transitionBuilder: (child, animation) {
+        return ClipRect(
+          child: FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.02),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
             ),
-          const Expanded(child: FractalCatalogScreen()),
-        ],
+          ),
+        );
+      },
+      child: ChangeNotifierProvider.value(
+        key: const ValueKey('explore'),
+        value: _exploreController,
+        child: Column(
+          children: [
+            if (kSafeMode >= 1)
+              MaterialBanner(
+                backgroundColor: AppColors.warning.withValues(alpha: 0.15),
+                content: Text(
+                  'SAFE MODE: Shader rendering disabled for device crash triage.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: AppColors.warning),
+                ),
+                actions: const [],
+              ),
+            const Expanded(child: FractalCatalogScreen()),
+          ],
+        ),
       ),
     );
-
-    final libraryTab = ChangeNotifierProvider.value(
-      key: const ValueKey('library'),
-      value: _exploreController,
-      child: FractalLibraryScreen(
-        catalog: _catalog,
-        onEntryTap: (entry) {
-          _exploreController.selectModule(entry.module);
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => MultiProvider(
-                providers: [
-                  ChangeNotifierProvider.value(value: _exploreController),
-                ],
-                child: const FractalViewerScreen(),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-
-    final settingsTab = const SettingsScreen();
 
     return Scaffold(
       extendBody: true,
       appBar: _PremiumAppBar(title: l10n.catalogTitle),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: [exploreTab, libraryTab, settingsTab],
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() => _selectedIndex = index);
-        },
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.explore_outlined),
-            selectedIcon: const Icon(Icons.explore),
-            label: l10n.tabExplore,
-          ),
-          const NavigationDestination(
-            icon: Icon(Icons.library_books_outlined),
-            selectedIcon: Icon(Icons.library_books),
-            label: 'Library',
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.settings_outlined),
-            selectedIcon: const Icon(Icons.settings),
-            label: l10n.tabSettings,
-          ),
-        ],
-      ),
+      body: body,
+      bottomNavigationBar: null,
     );
   }
 }
@@ -298,53 +260,13 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Logo + App name on the left
-                  Positioned(
-                    left: AppSpacing.lg,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.3),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              'assets/icon/Gemini_Generated_Image_ccd4rgccd4rgccd4.png',
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  color:
-                                      AppColors.primary.withValues(alpha: 0.2),
-                                  child: const Icon(
-                                    Icons.blur_circular,
-                                    color: AppColors.primary,
-                                    size: 24,
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.sm),
-                        Text(
-                          'Fractal Forge',
-                          style: AppTypography.titleLarge.copyWith(
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
+                  // Title centred in bar
+                  AnimatedSwitcher(
+                    duration: AppAnimations.fast,
+                    child: Text(
+                      widget.title,
+                      key: ValueKey(widget.title),
+                      style: AppTypography.titleLarge,
                     ),
                   ),
                   // "350+ fractals" badge — right-aligned

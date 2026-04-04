@@ -39,7 +39,7 @@ class _CelebrationEffectState extends State<CelebrationEffect>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: AppAnimations.celebration,
       vsync: this,
     );
     _particles = [];
@@ -96,6 +96,7 @@ class _CelebrationEffectState extends State<CelebrationEffect>
 
   @override
   void dispose() {
+    _controller.removeStatusListener(_onAnimationStatus);
     _controller.dispose();
     super.dispose();
   }
@@ -274,17 +275,17 @@ class _FractalLoadingIndicatorState extends State<FractalLoadingIndicator>
   void initState() {
     super.initState();
     _rotationController = AnimationController(
-      duration: const Duration(milliseconds: 3000),
+      duration: AppAnimations.loadingRotation,
       vsync: this,
     )..repeat();
 
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: AppAnimations.loadingPulse,
       vsync: this,
     )..repeat(reverse: true);
 
     _morphController = AnimationController(
-      duration: const Duration(milliseconds: 4000),
+      duration: AppAnimations.morphTransition,
       vsync: this,
     )..repeat();
   }
@@ -444,7 +445,7 @@ class FractalMorphTransition extends StatefulWidget {
     Key? key,
     required this.currentFractalType,
     required this.child,
-    this.duration = const Duration(milliseconds: 600),
+    this.duration = AppAnimations.slower,
   }) : super(key: key);
 
   @override
@@ -454,7 +455,6 @@ class FractalMorphTransition extends StatefulWidget {
 class _FractalMorphTransitionState extends State<FractalMorphTransition>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _morphAnimation;
   late Animation<double> _glowAnimation;
 
   @override
@@ -463,11 +463,6 @@ class _FractalMorphTransitionState extends State<FractalMorphTransition>
     _controller = AnimationController(
       duration: widget.duration,
       vsync: this,
-    );
-
-    _morphAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.0, 0.6, curve: Curves.easeInOut),
     );
 
     _glowAnimation = TweenSequence<double>([
@@ -499,27 +494,11 @@ class _FractalMorphTransitionState extends State<FractalMorphTransition>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        final morphValue = _morphAnimation.value;
         final glowValue = _glowAnimation.value;
 
         return Stack(
           children: [
-            // Apply morph effect
-            Transform.scale(
-              // Keep a subtle cinematic pulse while avoiding the end-of-transition
-              // shrink (<1.0) that looks like a tiny unintended zoom-out.
-              scale: 1.02 - morphValue * 0.02,
-              child: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.identity()
-                  ..setEntry(3, 2, 0.001)
-                  ..rotateY(morphValue * math.pi * 0.1),
-                child: Opacity(
-                  opacity: 1.0 - morphValue * 0.3,
-                  child: widget.child,
-                ),
-              ),
-            ),
+            widget.child,
 
             // Glow overlay during transition
             if (glowValue > 0)
@@ -530,7 +509,8 @@ class _FractalMorphTransitionState extends State<FractalMorphTransition>
                       gradient: RadialGradient(
                         colors: [
                           AppColors.primary.withValues(alpha: glowValue * 0.3),
-                          AppColors.secondary.withValues(alpha: glowValue * 0.15),
+                          AppColors.secondary
+                              .withValues(alpha: glowValue * 0.15),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.5, 1.0],
@@ -609,7 +589,7 @@ class ParameterTransition extends StatefulWidget {
     required this.min,
     required this.max,
     required this.child,
-    this.duration = const Duration(milliseconds: 300),
+    this.duration = AppAnimations.valueChange,
   }) : super(key: key);
 
   @override
@@ -686,7 +666,8 @@ class _ParameterTransitionState extends State<ParameterTransition>
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: _getTransitionColor().withValues(alpha: (1 - _controller.value) * 0.5),
+                        color: _getTransitionColor()
+                            .withValues(alpha: (1 - _controller.value) * 0.5),
                         width: 2,
                       ),
                       borderRadius:
@@ -729,7 +710,7 @@ class _SparkleEffectState extends State<SparkleEffect>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: AppAnimations.loadingPulse,
       vsync: this,
     );
     _generateSparkles();
@@ -889,7 +870,7 @@ class AnimatedValueDisplay extends StatefulWidget {
     required this.value,
     required this.formatter,
     this.style,
-    this.duration = const Duration(milliseconds: 200),
+    this.duration = AppAnimations.quickTransition,
   }) : super(key: key);
 
   @override
@@ -967,7 +948,7 @@ class BreathingAnimation extends StatefulWidget {
     required this.child,
     this.minScale = 0.98,
     this.maxScale = 1.02,
-    this.duration = const Duration(milliseconds: 3000),
+    this.duration = AppAnimations.loadingRotation,
   }) : super(key: key);
 
   @override

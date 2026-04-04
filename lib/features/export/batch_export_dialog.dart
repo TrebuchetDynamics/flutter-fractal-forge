@@ -179,7 +179,8 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
                   ),
                   TextButton(
                     onPressed: _cancelOrClose,
-                    child: Text(_running ? l10n.batchExportCancel : l10n.actionClose),
+                    child: Text(
+                        _running ? l10n.batchExportCancel : l10n.actionClose),
                   ),
                 ],
               ),
@@ -215,16 +216,19 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
                   decoration: BoxDecoration(
                     color: AppColors.error.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+                    border: Border.all(
+                        color: AppColors.error.withValues(alpha: 0.3)),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.error_outline_rounded, color: AppColors.error),
+                      const Icon(Icons.error_outline_rounded,
+                          color: AppColors.error),
                       const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Text(
                           l10n.exportFailed(_error.toString()),
-                          style: AppTypography.bodySmall.copyWith(color: AppColors.error),
+                          style: AppTypography.bodySmall
+                              .copyWith(color: AppColors.error),
                         ),
                       ),
                     ],
@@ -235,16 +239,20 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
               child: _items.isEmpty
                   ? Center(
                       child: Text(
-                        _running ? l10n.batchExportPreparing : l10n.batchExportDone,
+                        _running
+                            ? l10n.batchExportPreparing
+                            : l10n.batchExportDone,
                         style: AppTypography.bodyMedium.copyWith(
                           color: AppColors.textMuted,
                         ),
                       ),
                     )
                   : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                       child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
@@ -253,6 +261,7 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
                         itemBuilder: (context, index) {
                           final item = _items[index];
                           return _ExportThumbTile(
+                            key: ValueKey('export_thumb_${item.file.path}'),
                             name: item.preset.name,
                             file: item.file,
                           );
@@ -273,14 +282,16 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
                   children: [
                     Text(
                       '${l10n.batchExportSavedTo} ${_outDir!.path}',
-                      style: AppTypography.bodySmall.copyWith(color: AppColors.textMuted),
+                      style: AppTypography.bodySmall
+                          .copyWith(color: AppColors.textMuted),
                     ),
                     if (_contactSheet != null)
                       Padding(
                         padding: const EdgeInsets.only(top: AppSpacing.xs),
                         child: Text(
                           '${l10n.batchExportContactSheet}: ${_contactSheet!.path}',
-                          style: AppTypography.bodySmall.copyWith(color: AppColors.textMuted),
+                          style: AppTypography.bodySmall
+                              .copyWith(color: AppColors.textMuted),
                         ),
                       ),
                   ],
@@ -298,6 +309,7 @@ class _ExportThumbTile extends StatelessWidget {
   final File file;
 
   const _ExportThumbTile({
+    super.key,
     required this.name,
     required this.file,
   });

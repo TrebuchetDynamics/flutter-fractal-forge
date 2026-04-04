@@ -167,25 +167,25 @@
         </section>
 
         <section>
-            <p class="section-intro">Flutter Fractals requests camera permission for the optional overlay feature only.</p>
+            <h2>3. Permissions and On-Device Processing</h2>
+            <p class="section-intro">This release does not use camera-based or augmented reality features.</p>
 
-            <h3>How Camera Permission Is Used:</h3>
+            <h3>Permissions Used by the App:</h3>
             <ul>
-                <li>Display a live camera preview from your device's rear camera</li>
-                <li>Overlay fractal patterns and visualizations on top of the camera feed in real-time</li>
-                <li>Create an interactive overlay experience experience</li>
+                <li><strong>No camera access:</strong> Flutter Fractals does not request camera permission in this release</li>
+                <li><strong>No microphone access:</strong> The app does not record audio</li>
+                <li><strong>Optional export access only:</strong> On some platforms, the operating system may ask for permission when you explicitly save an exported image to your device library</li>
             </ul>
 
-            <h3>Camera Data Privacy:</h3>
+            <h3>Processing and Privacy:</h3>
             <ul>
-                <li><strong>No recording:</strong> Camera data is never recorded, saved, or stored unless you explicitly choose to capture and export an image or video</li>
-                <li><strong>No transmission:</strong> Camera data is never transmitted to external servers or third parties</li>
-                <li><strong>On-device processing:</strong> All camera processing is done entirely on your device in real-time</li>
-                <li><strong>No access logs:</strong> We do not log or track when you use the camera feature</li>
+                <li><strong>On-device rendering:</strong> Fractals are rendered locally on your device</li>
+                <li><strong>No transmission:</strong> Rendered content and exports are not transmitted to external servers or third parties by the app</li>
+                <li><strong>User initiated saves only:</strong> Images are written only when you explicitly choose to export them</li>
             </ul>
 
             <div class="highlight">
-                <p><strong>Key Point:</strong> The camera feed is displayed only to you on your device. We have no access to it and cannot see what your camera captures at any time.</p>
+                <p><strong>Key Point:</strong> Flutter Fractals renders and stores content locally. The app does not collect or upload your creations.</p>
             </div>
         </section>
 
@@ -196,14 +196,14 @@
             <h3>What Is Stored Locally:</h3>
             <ul>
                 <li><strong>User Presets:</strong> Fractal parameters and settings you create and save are stored locally using Android SharedPreferences. These are stored only on your device.</li>
-                <li><strong>Exports:</strong> Any images or videos you export (render and save) are stored in your device's local file system. You have full control over these files and can delete them at any time.</li>
+                <li><strong>Exports:</strong> Any images you export are stored in your device's local file system. You have full control over these files and can delete them at any time.</li>
                 <li><strong>App Configuration:</strong> Basic app preferences and UI settings are stored locally</li>
             </ul>
 
             <h3>Local Storage Privacy:</h3>
             <ul>
                 <li>All local data remains on your device under your control</li>
-                <li>Exported images and videos are saved to your device's media library or storage location of your choice</li>
+                <li>Exported images are saved to your device's media library or storage location of your choice</li>
                 <li>No backup is automatically sent to cloud services or external servers</li>
                 <li>You can delete all app data by uninstalling the app or clearing the app's cache/storage through device settings</li>
             </ul>

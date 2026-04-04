@@ -31,7 +31,7 @@ tags:
 
 # Step 1: Look for export button by accessibility text.
 - tapOn:
-    text: ".*Export.*"
+    text: ".*(Export|Share).*"
     optional: true
 
 - takeScreenshot: "04_export_attempted"

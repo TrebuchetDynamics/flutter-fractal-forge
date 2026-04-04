@@ -7,18 +7,31 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+/// Compact control button sizes (WCAG 2.2 minimum 48x48px touch target).
+class _ControlSizes {
+  static const double primaryButton = 48;
+  static const double secondaryButton = 48;
+  static const double borderRadius = 10;
+  static const double iconSize = 18;
+  static const double primaryIconSize = 20;
+  static const double spacing = 6;
+  static const double groupSpacing = 4;
+  static const double shadowBlur = 6;
+  static const double shadowBlurPressed = 8;
+  static const Offset shadowOffset = Offset(0, 2);
+}
+
 class FractalViewControls extends StatelessWidget {
   final AnimationController fabController;
   final AutoExploreService? autoExploreService;
   final bool isExporting;
   final String backTooltip;
   final VoidCallback onGoBack;
-  final VoidCallback onOpenMoreActions;
-  final VoidCallback onEnterFullscreen;
+  final VoidCallback onToggleFullscreen;
   final VoidCallback onOpenAutoExploreSettings;
-  final VoidCallback onOpenRandomFractal;
   final VoidCallback onOpenControls;
   final VoidCallback onOpenExport;
+  final VoidCallback onRandomFractal;
 
   const FractalViewControls({
     super.key,
@@ -27,12 +40,11 @@ class FractalViewControls extends StatelessWidget {
     required this.isExporting,
     required this.backTooltip,
     required this.onGoBack,
-    required this.onOpenMoreActions,
-    required this.onEnterFullscreen,
+    required this.onToggleFullscreen,
     required this.onOpenAutoExploreSettings,
-    required this.onOpenRandomFractal,
     required this.onOpenControls,
     required this.onOpenExport,
+    required this.onRandomFractal,
   });
 
   @override
@@ -58,63 +70,58 @@ class FractalViewControls extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Navigation group
                 FloatingActionButtonWidget(
                   icon: Icons.arrow_back_rounded,
                   tooltip: backTooltip,
                   onPressed: isExporting ? null : onGoBack,
-                  delay: const Duration(milliseconds: 0),
+                  delay: Duration.zero,
                 ),
-                const SizedBox(height: AppSpacing.md),
-                FloatingActionButtonWidget(
-                  icon: Icons.more_horiz_rounded,
-                  tooltip: l10n.tooltipMoreOptions,
-                  onPressed: isExporting ? null : onOpenMoreActions,
-                  delay: const Duration(milliseconds: 30),
-                ),
-                const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: _ControlSizes.groupSpacing),
                 FloatingActionButtonWidget(
                   icon: Icons.fullscreen_rounded,
                   tooltip: l10n.tooltipFullscreen,
-                  onPressed: isExporting ? null : onEnterFullscreen,
-                  delay: const Duration(milliseconds: 60),
+                  onPressed: isExporting ? null : onToggleFullscreen,
+                  delay: AppAnimations.controlReveal,
                 ),
-                const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: _ControlSizes.spacing),
                 // Auto-explore button
                 if (autoExploreService != null)
                   ChangeNotifierProvider<AutoExploreService>.value(
                     value: autoExploreService!,
                     child: AutoExploreButton(
-                      delay: const Duration(milliseconds: 90),
+                      delay: AppAnimations.presetItemDelay,
                       onLongPress:
                           isExporting ? null : onOpenAutoExploreSettings,
                     ),
                   ),
                 if (autoExploreService != null)
-                  const SizedBox(height: AppSpacing.md),
-                // Keep the viewer uncluttered: only core actions here.
+                  const SizedBox(height: _ControlSizes.spacing),
+                // Action group
+                FloatingActionButtonWidget(
+                  key: const ValueKey('viewerRandomFractalButton'),
+                  icon: Icons.shuffle_rounded,
+                  tooltip: l10n.tooltipRandomFractal,
+                  onPressed: isExporting ? null : onRandomFractal,
+                  delay: AppAnimations.controlRevealDelay,
+                ),
+                const SizedBox(height: _ControlSizes.groupSpacing),
+                FloatingActionButtonWidget(
+                  key: const ValueKey('viewerExportButton'),
+                  icon: Icons.share_rounded,
+                  tooltip: l10n.tooltipShare,
+                  onPressed: isExporting ? null : onOpenExport,
+                  delay: AppAnimations.viewerControlReveal3,
+                ),
+                const SizedBox(height: _ControlSizes.spacing),
+                // Primary control button
                 FloatingActionButtonWidget(
                   key: const ValueKey('viewerControlsButton'),
                   icon: Icons.tune_rounded,
                   tooltip: l10n.tooltipOpenControls,
                   onPressed: isExporting ? null : onOpenControls,
-                  delay: const Duration(milliseconds: 120),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                FloatingActionButtonWidget(
-                  key: const ValueKey('viewerRandomButton'),
-                  icon: Icons.shuffle_rounded,
-                  tooltip: l10n.tooltipRandomFractal,
-                  onPressed: isExporting ? null : onOpenRandomFractal,
                   isPrimary: true,
-                  delay: const Duration(milliseconds: 135),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                FloatingActionButtonWidget(
-                  key: const ValueKey('viewerExportButton'),
-                  icon: Icons.download_rounded,
-                  tooltip: l10n.tooltipExport,
-                  onPressed: isExporting ? null : onOpenExport,
-                  delay: const Duration(milliseconds: 180),
+                  delay: AppAnimations.viewerControlReveal4,
                 ),
               ],
             ),
@@ -146,35 +153,22 @@ class FloatingActionButtonWidget extends StatefulWidget {
       _FloatingActionButtonWidgetState();
 }
 
-class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
+class _FloatingActionButtonWidgetState
+    extends State<FloatingActionButtonWidget> {
   bool _isPressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     // Check for reduced motion preference
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
+
+    final buttonSize = widget.isPrimary
+        ? _ControlSizes.primaryButton
+        : _ControlSizes.secondaryButton;
+    final iconSize = widget.isPrimary
+        ? _ControlSizes.primaryIconSize
+        : _ControlSizes.iconSize;
 
     return FadeIn(
       delay: reduceMotion ? Duration.zero : widget.delay,
@@ -185,70 +179,64 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
         child: Tooltip(
           message: widget.tooltip,
           child: GestureDetector(
-            onTapDown: (widget.onPressed != null && !reduceMotion)
+            onTapDown: (widget.onPressed != null)
                 ? (_) {
                     setState(() => _isPressed = true);
-                    _controller.forward();
                     HapticService.medium();
                   }
                 : null,
-            onTapUp: (widget.onPressed != null && !reduceMotion)
+            onTapUp: (widget.onPressed != null)
                 ? (_) {
                     setState(() => _isPressed = false);
-                    _controller.reverse();
                   }
                 : null,
-            onTapCancel: (widget.onPressed != null && !reduceMotion)
+            onTapCancel: (widget.onPressed != null)
                 ? () {
                     setState(() => _isPressed = false);
-                    _controller.reverse();
                   }
                 : null,
             onTap: widget.onPressed,
-            child: reduceMotion
-                ? _buildButtonContent()
-                : ScaleTransition(
-                    scale: _scaleAnimation,
-                    child: _buildButtonContent(),
+            child: AnimatedContainer(
+              duration: reduceMotion ? Duration.zero : AppAnimations.fast,
+              width: buttonSize,
+              height: buttonSize,
+              decoration: BoxDecoration(
+                gradient: widget.isPrimary ? AppColors.primaryGradient : null,
+                color: widget.isPrimary ? null : AppColors.surface,
+                borderRadius: BorderRadius.circular(_ControlSizes.borderRadius),
+                border: widget.isPrimary
+                    ? null
+                    : Border.all(
+                        color: _isPressed
+                            ? AppColors.primary.withValues(alpha: 0.4)
+                            : AppColors.border.withValues(alpha: 0.3),
+                        width: _isPressed ? 1.5 : 1,
+                      ),
+                boxShadow: [
+                  BoxShadow(
+                    color: widget.isPrimary
+                        ? AppColors.primary
+                            .withValues(alpha: _isPressed ? 0.4 : 0.25)
+                        : Colors.black.withValues(alpha: 0.15),
+                    blurRadius: _isPressed
+                        ? _ControlSizes.shadowBlurPressed
+                        : _ControlSizes.shadowBlur,
+                    offset: _ControlSizes.shadowOffset,
                   ),
+                ],
+              ),
+              child: Icon(
+                widget.icon,
+                size: iconSize,
+                color: widget.isPrimary
+                    ? Colors.white
+                    : (_isPressed
+                        ? AppColors.primary
+                        : AppColors.textSecondary),
+              ),
+            ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildButtonContent() {
-    return AnimatedContainer(
-      duration: AppAnimations.fast,
-      width: 52,
-      height: 52,
-      decoration: BoxDecoration(
-        gradient: widget.isPrimary ? AppColors.primaryGradient : null,
-        color: widget.isPrimary ? null : AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: widget.isPrimary
-            ? null
-            : Border.all(
-                color: _isPressed
-                    ? AppColors.primary.withValues(alpha: 0.5)
-                    : AppColors.border.withValues(alpha: 0.5),
-              ),
-        boxShadow: [
-          BoxShadow(
-            color: widget.isPrimary
-                ? AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3)
-                : Colors.black.withValues(alpha: 0.2),
-            blurRadius: _isPressed ? 16 : 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Icon(
-        widget.icon,
-        size: 22,
-        color: widget.isPrimary
-            ? Colors.white
-            : (_isPressed ? AppColors.primary : AppColors.textSecondary),
       ),
     );
   }

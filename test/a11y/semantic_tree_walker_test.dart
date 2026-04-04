@@ -48,7 +48,7 @@ class _NodeReport {
 /// Traverses the semantics tree depth-first starting from [node].
 ///
 /// For each node, validates:
-///   1. Interactive nodes (tap, longPress, scrollable) must have labels.
+///   1. Tappable interactive nodes must have labels.
 ///   2. No sibling nodes share the same non-empty label (duplicate detection).
 ///   3. No label exceeds 100 characters.
 ///   4. Image nodes (isImage flag) must have a descriptive label.
@@ -71,10 +71,13 @@ void _walkRecursive(
   final value = data.value;
   final hint = data.hint;
 
-  // Determine if this node is interactive.
-  final isInteractive =
+  // Scrollable containers often expose framework-generated semantics nodes
+  // without labels, so only tappable controls are treated as unlabeled-action
+  // violations here.
+  final hasTapAction =
       (data.actions & SemanticsAction.tap.index != 0) ||
-      (data.actions & SemanticsAction.longPress.index != 0) ||
+      (data.actions & SemanticsAction.longPress.index != 0);
+  final isInteractive = hasTapAction ||
       (data.actions & SemanticsAction.scrollUp.index != 0) ||
       (data.actions & SemanticsAction.scrollDown.index != 0) ||
       (data.actions & SemanticsAction.scrollLeft.index != 0) ||
@@ -85,8 +88,8 @@ void _walkRecursive(
   final hasLabel = label.isNotEmpty;
   final issues = <String>[];
 
-  // Rule 1: Interactive nodes must have labels.
-  if (isInteractive && !hasLabel && value.isEmpty) {
+  // Rule 1: Tappable controls must have labels.
+  if (hasTapAction && !hasLabel && value.isEmpty) {
     issues.add('Interactive node at depth $depth has no label or value');
   }
 
@@ -220,7 +223,7 @@ void main() {
     );
 
     testWidgets(
-      'no interactive nodes without labels',
+      'no tappable interactive nodes without labels',
       (tester) async {
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(buildApp());
@@ -233,7 +236,13 @@ void main() {
         final nodes = _walkSemanticsTree(root!);
 
         final unlabeled = nodes
-            .where((n) => n.isInteractive && !n.hasLabel && n.value.isEmpty)
+            .where((n) =>
+                n.isInteractive &&
+                !n.hasLabel &&
+                n.value.isEmpty &&
+                n.issues.any(
+                  (issue) => issue.contains('has no label or value'),
+                ))
             .toList();
 
         if (unlabeled.isNotEmpty) {

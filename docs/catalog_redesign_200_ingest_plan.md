@@ -1,5 +1,7 @@
 # Catalog Redesign + PRD-200 Ingest Plan
 
+> Archived catalog planning note. The app has since moved beyond the original 200-entry redesign target; keep this file as historical context only.
+
 _Last updated: 2026-02-11_
 
 ## Goals

@@ -1,12 +1,12 @@
 # Flutter Fractal Forge — Execution TODO
 
-Last updated: 2026-02-26
+Last updated: 2026-03-21
 Owner: Sidon
 
 ## Architecture Direction (decided 2026-02-15)
 
 **GPU-primary, CPU safety net.**
-- GPU is the default renderer (196 pre-compiled fragment shaders, one per fractal)
+- GPU is the default renderer for the shipped module catalog (370 non-debug modules in `ModuleRegistry`)
 - CPU fallback auto-activates via 2s health check when GPU output is invalid
 - CPU path is maintenance-only (no further performance investment)
 - GPU investment: coloring quality, smooth iteration, deep zoom, new formulas
@@ -57,12 +57,13 @@ Owner: Sidon
 - [ ] Signing key + upload to Play Console
 - [ ] Internal testing track → closed beta → production
 
-### 4) Catalog expansion toward 200+
-- [x] 196 escape-time fractals with GPU shaders
+### 4) Catalog hardening for the expanded registry
+- [x] Stable registry now covers 350 escape-time entries, 9 raymarched 3D entries, and 6 custom modules
 - [ ] Add PRD manifest loader (`assets/catalog/prd_catalog.json`)
-- [ ] Add ID lock/integrity tests for full catalog
-- [ ] Add filter/sort + list/grid toggle for large catalogs
-- [ ] Add 4+ new fractal formulas (target 200+)
+- [x] Add ID lock/integrity tests for the full catalog
+- [x] Add filter/sort + list/grid toggle for large catalogs
+- [x] Persist catalog view mode preference
+- [ ] Add 4+ new fractal formulas beyond the current 370-module registry
 
 ### 5) Export behavior hardening
 - [x] Opening Export pauses auto-navigation and freezes frame
@@ -136,13 +137,14 @@ Owner: Sidon
 - [x] CPU quality: zoom-scaled iterations + 2x2 AA refine pass (commit 7767213)
 - [x] Renderer backend setting (Auto/CPU/GPU) with persistence (commit 2c24554)
 - [x] CPU tile renderer (96px, center-first spiral, cancel-on-gesture)
-- [x] 196/196 render audit passing
+- [x] Catalog integrity tests lock 350 raw escape-time entries and 370 non-debug registry modules
 - [x] 64 palette support + horizontal palette selector
 - [x] kDebugMode guards on all debugPrint calls across 16 files
 - [x] kIsWeb web safety guards on all dart:io files (8 files)
 - [x] Complete unit test coverage for all services (865 tests, 0 failures)
 - [x] Screen-reader semantic labels for catalog and controls
 - [x] GPU→CPU fallback threshold tuning (faster engagement)
+- [x] Catalog screen data builder, dimension filters, sort order, and persisted grid/list view
 
 ---
 
@@ -192,7 +194,7 @@ The CPU renderer works and passes all tests. No further performance investment.
 - [ ] Review and strategically use `MergeSemantics`, `ExcludeSemantics`, and `explicitChildNodes` to keep the tree both navigable and testable
 - [x] Write helper function to traverse the `SemanticsNode` tree and produce a text-based "narrative" of each screen _(test/helpers/semantics_test_helper.dart: traverseSemanticsTree(), buildSemanticsNarrative(), compareSemanticsNarrative(), extractSemanticsNarrative())_
 - [x] Add integration test assertions using `tester.getSemantics(find.byType(...))` to verify semantic properties (label, isButton, hasTapAction) _(integration_test/semantics_audit_test.dart verifies isButton flags, semantic labels on catalog cards, and key widgets)_
-- [ ] Validate semantic labels for all 196+ fractal catalog entries
+- [ ] Validate semantic labels for all 370+ fractal catalog entries
 - [ ] Test semantics for GPU/CPU renderer toggle, zoom controls, palette selector
 
 ### Phase 3: Layout & Visual Regression (Week 5-6)
