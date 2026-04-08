@@ -1,7 +1,5 @@
 # Release Evidence Bundle
 
-> Point-in-time evidence snapshot. This file records one specific release verification run and is not the source of truth for current status.
-
 Updated: 2026-03-05 12:40 CST
 Branch: `main`
 Commit: `919af05`

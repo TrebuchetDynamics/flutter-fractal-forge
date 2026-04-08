@@ -13,6 +13,8 @@
 -keep class com.arthenica.ffmpegkit.** { *; }
 -keep class com.arthenica.mobileffmpeg.** { *; }
 
+# Camera plugin
+-keep class io.flutter.plugins.camera.** { *; }
 
 # Prevent R8 from stripping interfaces
 -keep,allowobfuscation,allowshrinking interface * {

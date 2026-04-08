@@ -15,6 +15,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabExplore => 'Explore';
 
   @override
+  String get tabFavorites => 'Favorites';
+
+  @override
+  String get tabSettings => 'Settings';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
   String get catalogTitle => 'Fractal Catalog';
 
   @override
@@ -686,18 +695,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get announceMinimapHidden => 'Minimap hidden';
 
   @override
-  String get announceRotationLocked => 'Rotation locked';
-
-  @override
-  String get announceRotationUnlocked => 'Rotation unlocked';
-
-  @override
-  String get announceMovedToPreviousView => 'Moved to previous view';
-
-  @override
-  String get announceMovedToNextView => 'Moved to next view';
-
-  @override
   String get shareTitle => 'Share Fractal';
 
   @override
@@ -1020,18 +1017,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickActionRendererMode => 'Renderer mode';
 
   @override
-  String get quickActionLockRotation => 'Lock rotation';
-
-  @override
-  String get quickActionUnlockRotation => 'Unlock rotation';
-
-  @override
-  String get quickActionShowMinimap => 'Show minimap';
-
-  @override
-  String get quickActionHideMinimap => 'Hide minimap';
-
-  @override
   String get quickActionViewLogs => 'View logs';
 
   @override
@@ -1175,9 +1160,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catalogFilterAll => 'All';
 
   @override
-  String get catalogFilterCategories => 'Categories';
-
-  @override
   String get catalogFilterSortOrder => 'Sort order';
 
   @override
@@ -1203,6 +1185,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get catalogFeatured => 'FEATURED';
+
+  @override
+  String get catalogFilterCategories => 'Categories';
 
   @override
   String get catalogResults => 'Results';

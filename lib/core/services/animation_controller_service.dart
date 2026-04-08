@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 
-import '../theme/app_theme.dart';
-
 /// Service that manages smooth animated transitions for fractal parameters.
 ///
 /// This service provides interpolated values for parameters during transitions,
@@ -23,12 +21,12 @@ class AnimatedFractalController extends ChangeNotifier {
   _AnimatedValue<double>? _animatedZoom;
   _AnimatedValue<Vector2>? _animatedPan;
   _AnimatedValue<Vector3>? _animatedRotation;
-
+  
   String? _previousModuleId;
   String? _currentModuleId;
   double _morphProgress = 1.0;
   Timer? _morphTimer;
-
+  
   bool _isCelebrating = false;
   bool _isTransitioning = false;
 
@@ -39,7 +37,7 @@ class AnimatedFractalController extends ChangeNotifier {
 
   AnimatedFractalController({
     this.parameterDuration = const Duration(milliseconds: 250),
-    this.morphDuration = AppAnimations.morphDuration,
+    this.morphDuration = const Duration(milliseconds: 600),
     this.curve = Curves.easeOutCubic,
   });
 
@@ -205,17 +203,17 @@ class AnimatedFractalController extends ChangeNotifier {
   Vector3? get interpolatedRotation => _animatedRotation?.currentValue;
 
   /// Record when the user finds an interesting spot.
-  ///
+  /// 
   /// Triggers celebration effects when multiple interesting spots
   /// are found in quick succession.
   void recordInterestingSpot() {
     final now = DateTime.now();
-
+    
     if (_lastInterestingSpotTime != null) {
       final elapsed = now.difference(_lastInterestingSpotTime!);
       if (elapsed.inSeconds < 30) {
         _interestingSpotCount++;
-
+        
         // Trigger celebration after finding 3 interesting spots quickly
         if (_interestingSpotCount >= 3) {
           _triggerCelebration();
@@ -227,7 +225,7 @@ class AnimatedFractalController extends ChangeNotifier {
     } else {
       _interestingSpotCount = 1;
     }
-
+    
     _lastInterestingSpotTime = now;
     _interestingSpotController.add(null);
   }
@@ -237,7 +235,7 @@ class AnimatedFractalController extends ChangeNotifier {
     notifyListeners();
 
     // Reset celebration after animation
-    Future.delayed(AppAnimations.gpuCelebration, () {
+    Future.delayed(const Duration(milliseconds: 2500), () {
       _isCelebrating = false;
       notifyListeners();
     });

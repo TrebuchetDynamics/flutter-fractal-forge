@@ -18,6 +18,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   // If scale deviates this much BEFORE rotation threshold is reached, the
   // gesture is classified as zoom/pan and rotation is locked out entirely.
   static const double _kIntentionalZoomThreshold = 0.05;
+  static const int _kRawDoubleTapMaxGapMs = 280;
+  static const double _kRawDoubleTapMaxDistancePx = 28.0;
 
   // Momentum controllers for smooth deceleration
   late AnimationController _zoomMomentumController;
@@ -66,12 +68,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     // without triggering a conflicting-generic-interfaces error.
     final vsync = this as TickerProvider;
     _zoomMomentumController = AnimationController(
-      duration: AppAnimations.viewerPan,
+      duration: const Duration(milliseconds: 800),
       vsync: vsync,
     )..addListener(_applyZoomMomentum);
 
     _panMomentumController = AnimationController(
-      duration: AppAnimations.slower,
+      duration: const Duration(milliseconds: 500),
       vsync: vsync,
     )..addListener(_applyPanMomentum);
   }
@@ -96,10 +98,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     final view = controller.view;
 
     // Google Maps spec: zoom friction 0.92 per frame
-    _zoomVelocity = _zoomVelocity * PhysicsConstants.zoomFriction;
+    _zoomVelocity = _zoomVelocity * 0.92;
 
     // Stop threshold: 0.0001 zoom levels/ms
-    if (_zoomVelocity.abs() < PhysicsConstants.zoomVelocityThreshold) {
+    if (_zoomVelocity.abs() < 0.0001) {
       _zoomMomentumController.stop();
       _zoomVelocity = 0.0;
       return;
@@ -126,10 +128,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     final module = controller.module;
 
     // Google Maps spec: friction 0.95 per frame at 60fps
-    _panVelocity = _panVelocity * PhysicsConstants.panFriction;
+    _panVelocity = _panVelocity * 0.95;
 
     // Stop threshold: 0.1 px/frame
-    if (_panVelocity.distance < PhysicsConstants.panVelocityThreshold) {
+    if (_panVelocity.distance < 0.1) {
       _panMomentumController.stop();
       _panVelocity = Offset.zero;
       return;
@@ -141,33 +143,16 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
             Vector3(_panVelocity.dy * 0.0008, _panVelocity.dx * 0.0008, 0),
       );
     } else {
-      // Map pixel velocity to world coordinates with precision safeguards
+      // Map pixel velocity to world coordinates — divide by zoom (linear)
       final renderBox = context.findRenderObject() as RenderBox?;
       final size = renderBox?.size;
       final scalePx = (size == null)
           ? 1.0
           : math.max(1.0, math.min(size.width, size.height));
-
-      // Use precision-aware zoom handling
-      final zoom = view.zoom;
-      double worldDeltaX;
-      double worldDeltaY;
-
-      if (zoom > _kHighZoomThreshold) {
-        // High zoom: use reciprocal for better precision
-        final invZoom = 1.0 / zoom.clamp(1e-12, _kMaxSafeZoom);
-        worldDeltaX = (_panVelocity.dx / scalePx) * invZoom;
-        worldDeltaY = (_panVelocity.dy / scalePx) * invZoom;
-      } else {
-        // Normal zoom: direct division is safe
-        final safeZoom = math.max(1e-12, zoom);
-        worldDeltaX = (_panVelocity.dx / scalePx) / safeZoom;
-        worldDeltaY = (_panVelocity.dy / scalePx) / safeZoom;
-      }
-
+      final safeZoom = math.max(1e-9, view.zoom);
       final nextPan = Vector2(
-        view.pan.x - worldDeltaX,
-        view.pan.y - worldDeltaY,
+        view.pan.x - (_panVelocity.dx / scalePx) / safeZoom,
+        view.pan.y - (_panVelocity.dy / scalePx) / safeZoom,
       );
       final boundedPan = Vector2(
         _rubberBand(nextPan.x, _kPanMin, _kPanMax),
@@ -246,18 +231,6 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     );
   }
 
-  /// Precision threshold for switching to logarithmic coordinate transformation.
-  /// Above this zoom level, direct division loses too much precision.
-  static const double _kHighZoomThreshold = 1e6;
-
-  /// Maximum zoom for safe direct division before precision loss.
-  static const double _kMaxSafeZoom = 1e12;
-
-  /// Converts screen pixel delta to world coordinate delta with precision
-  /// safeguards for high zoom levels.
-  ///
-  /// At normal zoom levels, this uses direct division by zoom.
-  /// At high zoom (>1e6), uses logarithmic scaling to maintain precision.
   Vector2 _screenDeltaToWorldDelta({
     required Offset deltaPx,
     required double scalePx,
@@ -268,21 +241,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     final rawDy = deltaPx.dy / scalePx;
     final cosR = math.cos(rotationZ);
     final sinR = math.sin(rotationZ);
-
-    // For high zoom, use precision-aware transformation
-    if (zoom > _kHighZoomThreshold) {
-      // Use logarithmic scaling: worldDelta = screenDelta / zoom
-      // At high zoom, compute as: screenDelta * (1/zoom) with extra precision
-      // Use reciprocal to maintain precision: 1/zoom is more precise when zoom is large
-      final invZoom = 1.0 / zoom.clamp(1e-12, _kMaxSafeZoom);
-      return Vector2(
-        (rawDx * cosR + rawDy * sinR) * invZoom,
-        (-rawDx * sinR + rawDy * cosR) * invZoom,
-      );
-    }
-
-    // Normal zoom: direct division is safe
-    final safeZoom = math.max(1e-12, zoom);
+    final safeZoom = math.max(1e-9, zoom);
     return Vector2(
       (rawDx * cosR + rawDy * sinR) / safeZoom,
       (-rawDx * sinR + rawDy * cosR) / safeZoom,
@@ -304,37 +263,13 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       final scalePx = math.max(1.0, math.min(size.width, size.height));
       final n = _normalizedPoint(focalPoint, size, scalePx);
       final rotationZ = explicitRotationZ ?? view.rotation.z;
-
-      // Use precision-aware division for world delta calculations
-      final rotatedN = _rotateInv2d(n, rotationZ);
-      double oldWorldDeltaX, oldWorldDeltaY;
-      double newWorldDeltaX, newWorldDeltaY;
-
-      if (view.zoom > _kHighZoomThreshold) {
-        final invOldZoom = 1.0 / view.zoom.clamp(1e-12, _kMaxSafeZoom);
-        oldWorldDeltaX = rotatedN.x * invOldZoom;
-        oldWorldDeltaY = rotatedN.y * invOldZoom;
-      } else {
-        final safeOldZoom = math.max(1e-12, view.zoom);
-        oldWorldDeltaX = rotatedN.x / safeOldZoom;
-        oldWorldDeltaY = rotatedN.y / safeOldZoom;
-      }
-
-      if (zoom > _kHighZoomThreshold) {
-        final invNewZoom = 1.0 / zoom.clamp(1e-12, _kMaxSafeZoom);
-        newWorldDeltaX = rotatedN.x * invNewZoom;
-        newWorldDeltaY = rotatedN.y * invNewZoom;
-      } else {
-        final safeNewZoom = math.max(1e-12, zoom);
-        newWorldDeltaX = rotatedN.x / safeNewZoom;
-        newWorldDeltaY = rotatedN.y / safeNewZoom;
-      }
-
-      final worldX = view.pan.x + oldWorldDeltaX;
-      final worldY = view.pan.y + oldWorldDeltaY;
+      final oldWorldDelta = _rotateInv2d(n, rotationZ) / view.zoom;
+      final newWorldDelta = _rotateInv2d(n, rotationZ) / zoom;
+      final worldX = view.pan.x + oldWorldDelta.x;
+      final worldY = view.pan.y + oldWorldDelta.y;
       controller.updatePan(Vector2(
-        _rubberBand(worldX - newWorldDeltaX, _kPanMin, _kPanMax),
-        _rubberBand(worldY - newWorldDeltaY, _kPanMin, _kPanMax),
+        _rubberBand(worldX - newWorldDelta.x, _kPanMin, _kPanMax),
+        _rubberBand(worldY - newWorldDelta.y, _kPanMin, _kPanMax),
       ));
     }
 
@@ -441,41 +376,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       final startN = _normalizedPoint(_startFocalPoint, size, scalePx);
       final curN = _normalizedPoint(localFocal, size, scalePx);
 
-      // Use precision-aware calculations for world coordinates
-      final rotatedStartN = _rotateInv2d(startN, _startRotationZ);
-      final rotatedCurN = _rotateInv2d(curN, newRotationZ);
-
-      double startWorldX, startWorldY;
-      double curWorldX, curWorldY;
-
-      if (_startZoom > _kHighZoomThreshold) {
-        final invStartZoom = 1.0 / _startZoom.clamp(1e-12, _kMaxSafeZoom);
-        startWorldX = rotatedStartN.x * invStartZoom;
-        startWorldY = rotatedStartN.y * invStartZoom;
-      } else {
-        final safeStartZoom = math.max(1e-12, _startZoom);
-        startWorldX = rotatedStartN.x / safeStartZoom;
-        startWorldY = rotatedStartN.y / safeStartZoom;
-      }
-
-      if (newZoom > _kHighZoomThreshold) {
-        final invNewZoom = 1.0 / newZoom.clamp(1e-12, _kMaxSafeZoom);
-        curWorldX = rotatedCurN.x * invNewZoom;
-        curWorldY = rotatedCurN.y * invNewZoom;
-      } else {
-        final safeNewZoom = math.max(1e-12, newZoom);
-        curWorldX = rotatedCurN.x / safeNewZoom;
-        curWorldY = rotatedCurN.y / safeNewZoom;
-      }
-
-      final worldAtStart = Vector2(
-        startWorldX + _startPan.x,
-        startWorldY + _startPan.y,
-      );
-      final newCenter = Vector2(
-        worldAtStart.x - curWorldX,
-        worldAtStart.y - curWorldY,
-      );
+      final worldAtStart =
+          _rotateInv2d(startN, _startRotationZ) / _startZoom + _startPan;
+      final newCenter =
+          worldAtStart - (_rotateInv2d(curN, newRotationZ) / newZoom);
 
       controller.updatePan(Vector2(
         _rubberBand(newCenter.x, _kPanMin, _kPanMax),
@@ -522,8 +426,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     final controller = context.read<FractalController>();
     if (_activePointers.isEmpty || _activePointers.length == 1) {
       // Pan end: log final position and delta from start
-      final endFocal =
-          _velHistory.isNotEmpty ? _velHistory.last.pos : _startFocalPoint;
+      final endFocal = _velHistory.isNotEmpty ? _velHistory.last.pos : _startFocalPoint;
       final dx = endFocal.dx - _startFocalPoint.dx;
       final dy = endFocal.dy - _startFocalPoint.dy;
       AppLogger.instance.debug('gesture', 'pan_end', data: {
@@ -587,36 +490,15 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         final scalePx = math.max(1.0, math.min(size.width, size.height));
         final n = _normalizedPoint(tapPosition, size, scalePx);
         final rotated = _rotateInv2d(n, view.rotation.z);
-
-        // Use precision-aware zoom calculations
-        double currentWorldDeltaX, currentWorldDeltaY;
-        double targetWorldDeltaX, targetWorldDeltaY;
-
-        if (currentZoom > _kHighZoomThreshold) {
-          final invCurrentZoom = 1.0 / currentZoom.clamp(1e-12, _kMaxSafeZoom);
-          currentWorldDeltaX = rotated.x * invCurrentZoom;
-          currentWorldDeltaY = rotated.y * invCurrentZoom;
-        } else {
-          final safeCurrentZoom = math.max(1e-12, currentZoom);
-          currentWorldDeltaX = rotated.x / safeCurrentZoom;
-          currentWorldDeltaY = rotated.y / safeCurrentZoom;
-        }
-
-        if (targetZoom > _kHighZoomThreshold) {
-          final invTargetZoom = 1.0 / targetZoom.clamp(1e-12, _kMaxSafeZoom);
-          targetWorldDeltaX = rotated.x * invTargetZoom;
-          targetWorldDeltaY = rotated.y * invTargetZoom;
-        } else {
-          final safeTargetZoom = math.max(1e-12, targetZoom);
-          targetWorldDeltaX = rotated.x / safeTargetZoom;
-          targetWorldDeltaY = rotated.y / safeTargetZoom;
-        }
-
         targetPan = Vector2(
-          _rubberBand(view.pan.x + currentWorldDeltaX - targetWorldDeltaX,
-              _kPanMin, _kPanMax),
-          _rubberBand(view.pan.y + currentWorldDeltaY - targetWorldDeltaY,
-              _kPanMin, _kPanMax),
+          _rubberBand(
+              view.pan.x + rotated.x / currentZoom - rotated.x / targetZoom,
+              _kPanMin,
+              _kPanMax),
+          _rubberBand(
+              view.pan.y + rotated.y / currentZoom - rotated.y / targetZoom,
+              _kPanMin,
+              _kPanMax),
         );
       }
     }
@@ -757,8 +639,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       if (prevAt != null && prevPos != null) {
         final dtMs = now.difference(prevAt).inMilliseconds;
         final distPx = (event.localPosition - prevPos).distance;
-        if (dtMs <= PhysicsConstants.doubleTapMaxGapMs &&
-            distPx <= PhysicsConstants.doubleTapMaxDistancePx) {
+        if (dtMs <= _kRawDoubleTapMaxGapMs &&
+            distPx <= _kRawDoubleTapMaxDistancePx) {
           _triggerDoubleTapAt(event.localPosition);
           _lastRawTapAt = null;
           _lastRawTapPos = null;
@@ -803,7 +685,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     _zoomAnimation?.dispose();
     _zoomAnimation = AnimationController(
-      duration: AppAnimations.quickTransition,
+      duration: const Duration(milliseconds: 200),
       vsync: this as TickerProvider,
     );
 
@@ -847,7 +729,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     _zoomAnimation?.dispose();
     _zoomAnimation = AnimationController(
-      duration: AppAnimations.quickTransition,
+      duration: const Duration(milliseconds: 200),
       vsync: this as TickerProvider,
     );
 
@@ -901,19 +783,9 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     final uvX = (localPos.dx - halfW * 0.5) / scale;
     final uvY = (localPos.dy - size.height * 0.5) / scale;
 
-    // Apply zoom and pan to get fractal coordinates with precision safeguards.
-    final zoom = view.zoom;
-    final double fracX, fracY;
-    if (zoom > _kHighZoomThreshold) {
-      // Use reciprocal for better precision at high zoom
-      final invZoom = 1.0 / zoom.clamp(1e-12, _kMaxSafeZoom);
-      fracX = uvX * invZoom + view.pan.x;
-      fracY = uvY * invZoom + view.pan.y;
-    } else {
-      final safeZoom = math.max(1e-12, zoom);
-      fracX = uvX / safeZoom + view.pan.x;
-      fracY = uvY / safeZoom + view.pan.y;
-    }
+    // Apply zoom and pan to get fractal coordinates.
+    final fracX = uvX / view.zoom + view.pan.x;
+    final fracY = uvY / view.zoom + view.pan.y;
 
     controller.updateParam('juliaCReal', fracX.clamp(-2.0, 2.0));
     controller.updateParam('juliaCImag', fracY.clamp(-2.0, 2.0));

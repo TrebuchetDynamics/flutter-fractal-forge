@@ -42,9 +42,7 @@ mat3 rotationMatrix(vec3 angles) {
 }
 
 vec3 palette(float t, float scheme) {
-    // Note: SkSL doesn't support % operator, use manual modulo
-    int schemeInt = int(scheme);
-    int s = schemeInt - (schemeInt / 8) * 8;
+    int s = int(scheme) % 8;
     vec3 a, b, c, d;
     if (s == 0) {
         a = vec3(0.5, 0.1, 0.0); b = vec3(0.5, 0.3, 0.1);
@@ -77,9 +75,7 @@ vec3 palette(float t, float scheme) {
 // Select quaternion Julia constant based on uFractalType and uPower.
 vec4 getJuliaC() {
     float mag = max(uPower, 0.1) / 2.0;
-    // Note: SkSL doesn't support % operator, use manual modulo
-    int fractalTypeInt = int(uFractalType);
-    int preset = fractalTypeInt - (fractalTypeInt / 4) * 4;
+    int preset = int(uFractalType) % 4;
     if (preset == 0) return mag * vec4(-0.2, 0.6, 0.2, 0.2);
     if (preset == 1) return mag * vec4(-0.4, 0.4, -0.3, 0.1);
     if (preset == 2) return mag * vec4(0.3, -0.5, 0.1, -0.2);
@@ -101,11 +97,8 @@ float quatJuliaDE(vec3 pos) {
         // Quaternion square: z = z*z + c
         // For q = (w,x,y,z): q^2 = (w^2 - |v|^2, 2*w*v)
         vec4 zsq;
-        zsq.x = z.x * z.x - dot(vec3(z.y, z.z, z.w), vec3(z.y, z.z, z.w));
-        // Note: SkSL doesn't support swizzle writes, expand to components
-        zsq.y = 2.0 * z.x * z.y;
-        zsq.z = 2.0 * z.x * z.z;
-        zsq.w = 2.0 * z.x * z.w;
+        zsq.x = z.x * z.x - dot(z.yzw, z.yzw);
+        zsq.yzw = 2.0 * z.x * z.yzw;
         z = zsq + c;
         if (dot(z, z) > bailSq) break;
     }

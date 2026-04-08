@@ -1,92 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
+import 'package:flutter_fractals/core/services/export_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/features/debug/log_share_service.dart';
-import 'package:flutter_fractals/features/debug/log_viewer_state.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Full-screen log viewer with export capability.
 class LogViewerScreen extends StatefulWidget {
-  final AppLogger logger;
-  final LogShareService shareService;
-
-  LogViewerScreen({
-    super.key,
-    AppLogger? logger,
-    this.shareService = const SharePlusLogShareService(),
-  }) : logger = logger ?? AppLogger.instance;
+  const LogViewerScreen({super.key});
 
   @override
   State<LogViewerScreen> createState() => _LogViewerScreenState();
 }
 
 class _LogViewerScreenState extends State<LogViewerScreen> {
+  final AppLogger _log = AppLogger.instance;
   final ScrollController _scroll = ScrollController();
   LogLevel? _filter;
+  final bool _autoScroll = true;
 
   @override
   void initState() {
     super.initState();
-    widget.logger.addListener(_onLogChanged);
+    _log.addListener(_onLogChanged);
   }
 
   @override
   void dispose() {
-    widget.logger.removeListener(_onLogChanged);
+    _log.removeListener(_onLogChanged);
     _scroll.dispose();
     super.dispose();
   }
 
   void _onLogChanged() {
-    if (!mounted) {
-      return;
+    if (mounted) {
+      setState(() {});
+      if (_autoScroll) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_scroll.hasClients) {
+            _scroll.jumpTo(_scroll.position.maxScrollExtent);
+          }
+        });
+      }
     }
-
-    setState(() {});
-    _scheduleAutoScroll();
   }
 
-  void _scheduleAutoScroll() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_scroll.hasClients) {
-        return;
-      }
-
-      final position = _scroll.position;
-      if (!position.hasPixels) {
-        return;
-      }
-
-      try {
-        _scroll.jumpTo(position.maxScrollExtent);
-      } catch (_) {
-        // The logger can update while the list is still attaching. Missing one
-        // auto-scroll event is acceptable; crashing the screen is not.
-      }
-    });
+  List<LogEntry> get _filtered {
+    if (_filter == null) return _log.entries;
+    return _log.entries.where((e) => e.level.index >= _filter!.index).toList();
   }
 
-  LogViewerState get _state {
-    return LogViewerStateFactory.build(
-      entries: widget.logger.entries,
-      filter: _filter,
-    );
+  Color _colorForLevel(LogLevel level) {
+    switch (level) {
+      case LogLevel.debug:
+        return Colors.grey;
+      case LogLevel.info:
+        return Colors.white;
+      case LogLevel.warn:
+        return Colors.amber;
+      case LogLevel.error:
+        return Colors.redAccent;
+    }
   }
 
   Future<void> _exportLog() async {
     final l10n = AppLocalizations.of(context)!;
-    final exportData = LogViewerStateFactory.buildExportData(
-      text: widget.logger.exportText(minLevel: _filter),
-      json: widget.logger.exportJson(minLevel: _filter),
-      timestamp: DateTime.now(),
-    );
+    final text = _log.exportText(minLevel: _filter);
+    final json = _log.exportJson(minLevel: _filter);
+
+    final ts = DateTime.now().millisecondsSinceEpoch;
 
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (sheetContext) => SafeArea(
+      builder: (ctx) => SafeArea(
         child: Container(
           margin: const EdgeInsets.all(12),
           padding: const EdgeInsets.all(16),
@@ -98,7 +87,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(l10n.logExportTitle(widget.logger.length),
+              Text(l10n.logExportTitle(_log.length),
                   style: AppTypography.titleMedium),
               const SizedBox(height: 16),
               Row(
@@ -108,10 +97,10 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
                       icon: Icons.copy_rounded,
                       label: l10n.logCopyText,
                       onTap: () {
-                        _copyToClipboard(
-                          sheetContext: sheetContext,
-                          content: exportData.text,
-                          confirmationMessage: l10n.logCopied,
+                        Clipboard.setData(ClipboardData(text: text));
+                        Navigator.pop(ctx);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.logCopied)),
                         );
                       },
                     ),
@@ -122,11 +111,8 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
                       icon: Icons.share_rounded,
                       label: l10n.logShareText,
                       onTap: () async {
-                        await _shareText(
-                          sheetContext: sheetContext,
-                          content: exportData.text,
-                          filename: exportData.textFilename,
-                        );
+                        Navigator.pop(ctx);
+                        await _shareText(text, 'fractal_log_$ts.txt');
                       },
                     ),
                   ),
@@ -136,11 +122,8 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
                       icon: Icons.data_object_rounded,
                       label: l10n.logShareJson,
                       onTap: () async {
-                        await _shareText(
-                          sheetContext: sheetContext,
-                          content: exportData.json,
-                          filename: exportData.jsonFilename,
-                        );
+                        Navigator.pop(ctx);
+                        await _shareText(json, 'fractal_log_$ts.json');
                       },
                     ),
                   ),
@@ -153,113 +136,78 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
     );
   }
 
-  void _copyToClipboard({
-    required BuildContext sheetContext,
-    required String content,
-    required String confirmationMessage,
-  }) {
-    Clipboard.setData(ClipboardData(text: content));
-    Navigator.of(sheetContext).pop();
-    _showSnackBar(confirmationMessage);
-  }
-
-  Future<void> _shareText({
-    required BuildContext sheetContext,
-    required String content,
-    required String filename,
-  }) async {
-    Navigator.of(sheetContext).pop();
-
+  Future<void> _shareText(String content, String filename) async {
     try {
-      await widget.shareService.shareText(
-        content: content,
+      const exportService = ExportService();
+      final file = await exportService.saveBytes(
+        Uint8List.fromList(content.codeUnits),
         filename: filename,
       );
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        text: 'Flutter Fractal Forge diagnostic log',
+      );
     } catch (e) {
-      if (!mounted) {
-        return;
-      }
-      _showSnackBar(AppLocalizations.of(context)!.logShareFailed(e.toString()));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.logShareFailed(e.toString()))),
+      );
     }
-  }
-
-  void _showSnackBar(String message) {
-    if (!mounted) {
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  List<LogFilterOption> _buildFilterOptions(AppLocalizations l10n) {
-    return [
-      LogFilterOption(level: null, label: l10n.logFilterAll),
-      LogFilterOption(level: LogLevel.debug, label: l10n.logFilterDebug),
-      LogFilterOption(level: LogLevel.info, label: l10n.logFilterInfo),
-      LogFilterOption(level: LogLevel.warn, label: l10n.logFilterWarn),
-      LogFilterOption(level: LogLevel.error, label: l10n.logFilterError),
-    ];
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final state = _state;
-    final filterOptions = _buildFilterOptions(l10n);
+    final entries = _filtered;
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(l10n.logViewerTitle(state.visibleCount, state.totalCount)),
+        title: Text(l10n.logViewerTitle(entries.length, _log.length)),
         backgroundColor: Colors.black,
         actions: [
+          // Filter chips
           PopupMenuButton<LogLevel?>(
-            key: const ValueKey('logFilterButton'),
             icon: Icon(
               Icons.filter_list_rounded,
               color: _filter != null ? Colors.amber : Colors.white,
             ),
             tooltip: l10n.logFilterTooltip,
             onSelected: (v) => setState(() => _filter = v),
-            itemBuilder: (_) => filterOptions
-                .map(
-                  (option) => PopupMenuItem<LogLevel?>(
-                    value: option.level,
-                    child: Text(option.label),
-                  ),
-                )
-                .toList(growable: false),
+            itemBuilder: (_) => [
+              PopupMenuItem(value: null, child: Text(l10n.logFilterAll)),
+              PopupMenuItem(value: LogLevel.debug, child: Text(l10n.logFilterDebug)),
+              PopupMenuItem(value: LogLevel.info, child: Text(l10n.logFilterInfo)),
+              PopupMenuItem(value: LogLevel.warn, child: Text(l10n.logFilterWarn)),
+              PopupMenuItem(value: LogLevel.error, child: Text(l10n.logFilterError)),
+            ],
           ),
           IconButton(
-            key: const ValueKey('logExportButton'),
             icon: const Icon(Icons.file_upload_outlined),
             tooltip: l10n.logTooltipExport,
             onPressed: _exportLog,
           ),
           IconButton(
-            key: const ValueKey('logClearButton'),
             icon: const Icon(Icons.delete_outline_rounded),
             tooltip: l10n.logTooltipClear,
-            onPressed: widget.logger.clear,
+            onPressed: () {
+              _log.clear();
+              setState(() {});
+            },
           ),
         ],
       ),
-      body: state.isEmpty
+      body: entries.isEmpty
           ? Center(
               child: Text(l10n.logNoEntries,
                   style: const TextStyle(color: Colors.white38)))
           : ListView.builder(
               controller: _scroll,
-              itemCount: state.visibleEntries.length,
+              itemCount: entries.length,
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               itemBuilder: (context, index) {
-                final entry = state.visibleEntries[index];
-                return _LogTile(
-                  entry: entry,
-                  color: LogViewerStateFactory.colorForLevel(entry.level),
-                );
+                final e = entries[index];
+                return _LogTile(entry: e, color: _colorForLevel(e.level));
               },
             ),
     );

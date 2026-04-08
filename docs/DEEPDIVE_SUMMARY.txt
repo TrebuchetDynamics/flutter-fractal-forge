@@ -3,9 +3,6 @@ DEEP-DIVE ANALYSIS: FOUR OPEN-SOURCE FRACTAL PROJECTS
 Completed: February 18, 2026
 ================================================================================
 
-RESEARCH SNAPSHOT ONLY
-This file summarizes external-project analysis. It is not current product or release documentation.
-
 MISSION ACCOMPLISHED
 ─────────────────────────────────────────────────────────────────────────────
 

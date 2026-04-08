@@ -1,7 +1,5 @@
 # Play Store Listing Metadata — Flutter Fractals
 
-> Archived draft. This document predates the current store copy and release scope. Use `STORE_LISTING.md`, `store_listing/full_description.txt`, and `store_listing/short_description.txt` as the current source of truth.
-
 **Date:** 2026-02-13
 **Package:** com.trebuchetdynamics.fractal.forge
 **Developer:** ComplexChaos

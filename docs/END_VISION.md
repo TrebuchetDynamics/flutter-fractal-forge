@@ -1,8 +1,6 @@
 # END_VISION.md — Flutter Fractal Forge
 *Authored: 2026-02-17 by Sidon (fractal domain lead)*
 
-> Archived vision document. It captures an aspirational scope and older counts, including ideas that are not in the current release. Use `README.md`, `TODO.md`, and `status.md` for the current state.
-
 ---
 
 ## 1. Product Summary

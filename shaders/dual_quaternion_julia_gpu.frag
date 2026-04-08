@@ -44,9 +44,7 @@ mat3 rotationMatrix(vec3 angles) {
 }
 
 vec3 palette(float t, float scheme) {
-    // Note: SkSL doesn't support % operator, use manual modulo
-    int schemeInt = int(scheme);
-    int s = schemeInt - (schemeInt / 8) * 8;
+    int s = int(scheme) % 8;
     vec3 a, b, c, d;
     if (s == 0) {
         a = vec3(0.5, 0.1, 0.0); b = vec3(0.5, 0.3, 0.1);
@@ -78,9 +76,7 @@ vec3 palette(float t, float scheme) {
 
 // Select c constant for dual-quaternion Julia.
 vec4 getDualJuliaC() {
-    // Note: SkSL doesn't support % operator, use manual modulo
-    int fractalTypeInt = int(uFractalType);
-    int preset = fractalTypeInt - (fractalTypeInt / 4) * 4;
+    int preset = int(uFractalType) % 4;
     if (preset == 0) return vec4(-0.2, 0.4, 0.2, -0.3);
     if (preset == 1) return vec4(0.3, -0.3, 0.4, 0.1);
     if (preset == 2) return vec4(-0.4, 0.1, -0.2, 0.5);

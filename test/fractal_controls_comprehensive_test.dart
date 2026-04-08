@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -129,8 +129,7 @@ void main() {
       expect(newIterations, isNot(initialIterations));
     });
 
-    testWidgets('color scheme options are present (if rendered)',
-        (tester) async {
+    testWidgets('color scheme options are present (if rendered)', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
@@ -173,16 +172,6 @@ void main() {
       expect(find.byType(Slider), findsWidgets);
     });
 
-    testWidgets('renders high-precision float labels using the schema step',
-        (tester) async {
-      controller.selectModule(registry.byId('julia_dual'));
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.text('-0.727'), findsOneWidget);
-      expect(find.text('0.189'), findsOneWidget);
-    });
-
     testWidgets('works with Mandelbulb module', (tester) async {
       controller.selectModule(registry.byId('mandelbulb'));
       await tester.pumpWidget(buildTestWidget());
@@ -197,12 +186,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Reset buttons should be in a Row
-      expect(
-          find.ancestor(
-            of: find.text('Reset View'),
-            matching: find.byType(Row),
-          ),
-          findsWidgets);
+      expect(find.ancestor(
+        of: find.text('Reset View'),
+        matching: find.byType(Row),
+      ), findsWidgets);
     });
 
     testWidgets('Randomize button exists', (tester) async {

@@ -1,33 +1,31 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-02-13 | Updated: 2026-03-21 -->
+<!-- Generated: 2026-02-13 | Updated: 2026-02-13 -->
 
 # catalog
 
 ## Purpose
-Fractal catalog browser screen. Displays the current module registry in a searchable grid or list, with featured entries, dimension filtering, category chips, sort order, and persisted view mode preference.
+Fractal catalog browser screen. Displays all available fractals in a searchable grid with thumbnail previews. Users select a fractal here to open the viewer.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
-| `fractal_catalog_screen.dart` | Main catalog UI; handles search, filters, sort, category scoping, grid/list layout, and navigation into the viewer |
+| `fractal_catalog_screen.dart` | `FractalCatalogScreen` - grid of fractal cards with search, category filtering, and thumbnail display |
 | `catalog_entry.dart` | `CatalogEntry` - data model for a catalog item (module reference + thumbnail path + metadata) |
-| `catalog_repository.dart` | Builds stable `catalogId` entries from `ModuleRegistry` and assigns aliases/category metadata |
-| `catalog_screen_data.dart` | Immutable presentation model and builder for filtered/grouped catalog state |
-| `catalog_view_mode_store.dart` | SharedPreferences-backed persistence for the grid/list preference |
+| `catalog_repository.dart` | `CatalogRepository` - data layer for catalog entries, manages thumbnail lookup and category grouping |
 
 ## For AI Agents
 
 ### Working In This Directory
-- Stable IDs are `core.{moduleId}` so future catalog refactors do not break persisted references
-- Search matches localized names, aliases, category text, and the stable catalog IDs
-- Supporting chrome is intentionally reduced while the search field is focused
-- The screen chooses between grid and list layouts and persists that preference through `CatalogViewModeStore`
+- Thumbnails loaded from `assets/catalog_thumbs/{fractal_id}.png`
+- CPU-fallback thumbnails show an approximate indicator (~) when GPU rendering unavailable
+- Search filters by fractal name (localized)
 - Selecting a catalog entry navigates to FractalViewerScreen
 
 ### Testing Requirements
-- Widget tests: `test/fractal_catalog_screen_widget_test.dart`
-- Data tests: `test/catalog_screen_data_test.dart`, `test/catalog_view_mode_store_test.dart`, `test/catalog_id_integrity_test.dart`
+- Widget tests: `test/fractal_catalog_screen_widget_test.dart`, `test/catalog_search_widget_test.dart`
+- Data tests: `test/catalog_repository_test.dart`
+- Thumbnail audit: `test/catalog_thumbnail_audit_test.dart`
 
 ## Dependencies
 

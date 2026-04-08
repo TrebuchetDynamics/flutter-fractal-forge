@@ -92,9 +92,8 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
       final dt = DateTime.now()
           .difference(_shaderLoadStartedAt ?? DateTime.now())
           .inMilliseconds;
-      if (kDebugMode)
-        debugPrint(
-            '[renderer] shader_cache_hit asset=$asset load_ms=$dt cache_size=${_programCache.length}');
+      if (kDebugMode) debugPrint(
+          '[renderer] shader_cache_hit asset=$asset load_ms=$dt cache_size=${_programCache.length}');
       AppLogger.instance.logState('gpu', 'Shader loaded', {
         'asset': asset,
         'compileMs': dt,
@@ -121,17 +120,15 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
         final dt = DateTime.now()
             .difference(_shaderLoadStartedAt ?? DateTime.now())
             .inMilliseconds;
-        if (kDebugMode)
-          debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
+        if (kDebugMode) debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
         AppLogger.instance.logState(
             'gpu', 'Shader loaded', {'asset': asset, 'compileMs': dt});
         _loading = false;
         return;
       } catch (e, stack) {
         final errorType = _categorizeShaderError(e);
-        if (kDebugMode)
-          debugPrint(
-              '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
+        if (kDebugMode) debugPrint(
+            '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
         AppLogger.instance.logState(
             'gpu',
             'Shader load failed',
@@ -170,14 +167,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
             _shaderErrorDetails = e.toString();
             _shaderErrorType = errorType;
             _shaderRetryCount = attempt;
-            _loading = false;
           });
-        } else {
-          _shaderError = _getShaderErrorMessage(e, errorType);
-          _shaderErrorDetails = e.toString();
-          _shaderErrorType = errorType;
-          _shaderRetryCount = attempt;
-          _loading = false;
         }
       }
     }

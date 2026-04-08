@@ -145,8 +145,7 @@ class AppLogger extends ChangeNotifier {
       for (final line in lines.reversed) {
         if (line.trim().isEmpty) continue;
         totalBytes += line.length + 1; // +1 for newline
-        if (validLines.length >= _maxDiskEntries ||
-            totalBytes > _maxDiskBytes) {
+        if (validLines.length >= _maxDiskEntries || totalBytes > _maxDiskBytes) {
           break;
         }
         validLines.add(line);
@@ -294,13 +293,7 @@ class AppLogger extends ChangeNotifier {
     try {
       await _sink?.flush();
       await _sink?.close();
-    } catch (e) {
-      // Swallow errors during dispose to prevent cascades
-      assert(() {
-        debugPrint('[AppLogger] dispose error: $e');
-        return true;
-      }());
-    }
+    } catch (_) {}
     _sink = null;
     super.dispose();
   }

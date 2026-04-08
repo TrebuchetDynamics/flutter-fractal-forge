@@ -35,8 +35,11 @@ tags:
 # Clear the search field.
 - eraseText: 5
 
-# Dismiss the keyboard so the grid can settle before scrolling.
-- pressKey: back
+# Wait for catalog to repopulate.
+- extendedWaitUntil:
+    visible:
+      text: ".*Mandelbrot.*"
+    timeout: 8000
 
 # Step 2: Scroll down in the catalog grid.
 - swipe:

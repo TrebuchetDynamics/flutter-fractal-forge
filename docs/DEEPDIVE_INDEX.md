@@ -1,7 +1,5 @@
 # Open-Source Fractal Projects: Deep-Dive Index
 
-> Research reference. This index summarizes external project analysis and may recommend ideas that are not part of the current app.
-
 **Primary Document:** `/home/xel/git/flutter-fractal-forge/OPENSOURCE_DEEPDIVE.md` (1,480 lines)
 
 ## Quick Reference by Project

@@ -1,226 +1,594 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
-import 'package:flutter_fractals/features/catalog/catalog_exports.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
-import 'package:flutter_fractals/features/catalog/catalog_screen_data.dart';
-import 'package:flutter_fractals/features/catalog/catalog_view_mode_store.dart';
+import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/core/widgets/catalog_thumbnail.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
-class FractalCatalogScreen extends StatefulWidget {
-  final CatalogViewModeStore viewModeStore;
+enum CatalogViewMode { grid, list }
 
-  const FractalCatalogScreen({
-    super.key,
-    this.viewModeStore = const SharedPreferencesCatalogViewModeStore(),
-  });
+enum _DimensionFilter { all, twoD, threeD }
+
+/// Featured fractal IDs shown in the hero carousel at the top of the catalog.
+const _kFeaturedFractalIds = <String>[
+  'mandelbrot',
+  'julia',
+  'burning_ship',
+  'newton_z3',
+  'mandelbulb',
+  'buddhabrot',
+  'sierpinski_triangle',
+  'barnsley_fern',
+];
+
+/// IDs (without 'core.' prefix) that have a known thumbnail PNG.
+const _kKnownThumbnailIds = <String>{
+  'mandelbrot',
+  'julia',
+  'burning_ship',
+  'burning_ship_julia',
+  'buffalo',
+  'buffalo_julia',
+  'manowar',
+  'celtic',
+  'celtic_julia',
+  'cosine_mandelbrot',
+  'cosine_julia',
+  'cosh_mandelbrot',
+  'lambda',
+  'glynn',
+  'magnet_type_2',
+  'magnet_newton',
+  'halley',
+  'householder',
+  'legendre',
+  'laguerre',
+  'chebyshev',
+  'eisenstein',
+  'fatou',
+  'exponential',
+  'dual_complex',
+  'bicomplex',
+  'hypercomplex_newton',
+  'collatz',
+  'gamma_fractal',
+  'ducky',
+  'fish',
+  'druid',
+  'heart',
+  'day_night',
+  'barnsley_fern',
+  'barnsley_j1',
+  'barnsley_j2',
+  'barnsley_j3',
+  'cyclosorus_fern',
+  'arnold_cat',
+  'henon',
+  'hopalong',
+  'clifford',
+  'gumowski_mira',
+  'gingerbreadman',
+  'duffing',
+  'lyapunov',
+  'logistic_lyapunov',
+  'circle_map_lyapunov',
+  'gauss_map',
+  'feigenbaum',
+  'lorenz_2d',
+  'aizawa',
+  'arneodo',
+  'bouali',
+  'burke_shaw',
+  'chen',
+  'chua_circuit',
+  'dadras',
+  'four_wing',
+  'hadley',
+  'halvorsen',
+  'liu_chen',
+  'lu_chen',
+  'golden_dragon',
+  'fibonacci_spiral',
+  'fibonacci_word',
+  'log_spiral',
+  'astroid',
+  'hilbert_curve',
+  'gosper_curve',
+  'levy_c_curve',
+  'moore_curve',
+  'cesaro_fractal',
+  'fractal_canopy',
+  'koch_snowflake',
+  'hexaflake',
+  'cantor_set',
+  'cantor_dust',
+  'menger_sponge_2d',
+  'menger_3d_slice',
+  'apollonian_gasket',
+  'ford_circles',
+  'farey_diagram',
+  'cayley_graph',
+  'ammann_beenker',
+  'hat_monotile',
+  'chair_tiling',
+  'cactus',
+  'dla',
+  'eden_growth',
+  'forest_fire',
+  'langton_ant',
+  'brian_brain',
+  'kicked_rotator',
+  'benesi',
+  'anti_buddhabrot',
+  'buddhabrot_approx',
+  'manair_fire',
+  'jerusalem_cube',
+};
+
+/// Global shimmer animation controller shared by all thumbnails.
+/// Single controller instead of one per thumbnail (350+ savings).
+class _GlobalShimmerController {
+  static _GlobalShimmerController? _instance;
+  late final AnimationController controller;
+  bool _isDisposed = false;
+
+  _GlobalShimmerController(TickerProvider vsync)
+      : controller = AnimationController(
+          vsync: vsync,
+          duration: const Duration(milliseconds: 1500),
+        ) {
+    controller.repeat();
+  }
+
+  factory _GlobalShimmerController.of(TickerProvider vsync) {
+    _instance ??= _GlobalShimmerController(vsync);
+    return _instance!;
+  }
+
+  void dispose() {
+    if (!_isDisposed) {
+      _isDisposed = true;
+      controller.dispose();
+      _instance = null;
+    }
+  }
+}
+
+class FractalCatalogScreen extends StatefulWidget {
+  const FractalCatalogScreen({Key? key}) : super(key: key);
 
   @override
   State<FractalCatalogScreen> createState() => _FractalCatalogScreenState();
 }
 
-class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+class _FractalCatalogScreenState extends State<FractalCatalogScreen>
+    with TickerProviderStateMixin {
+  static const _viewPrefKey = 'catalog_view_grid';
 
-  ModuleRegistry? _registry;
-  CatalogScreenDataBuilder? _catalogDataBuilder;
+  final _searchController = TextEditingController();
+  final _focusNode = FocusNode();
   bool _isSearchFocused = false;
-  bool _hasUserChangedViewMode = false;
+  bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
-  CatalogDimensionFilter _dimensionFilter = CatalogDimensionFilter.all;
-  CatalogSortOrder _sortOrder = CatalogSortOrder.byCategory;
+  _DimensionFilter _dimensionFilter = _DimensionFilter.all;
   String? _selectedCategory;
-  Future<void> _pendingViewModeSave = Future<void>.value();
+
+  // Search debounce - prevents rebuild on every keystroke
+  String _debouncedQuery = '';
+
+  // Cached catalog — rebuilt only when registry changes.
+  CatalogRepository? _catalog;
+
+  // Global shimmer controller
+  late final _GlobalShimmerController _shimmerController;
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_handleSearchChanged);
-    _focusNode.addListener(_handleFocusChanged);
+    _shimmerController = _GlobalShimmerController.of(this);
+    _searchController.addListener(_onSearchChanged);
     _loadViewPreference();
+  }
+
+  void _onSearchChanged() {
+    // Debounce: only rebuild after 300ms of no typing
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (!mounted) return;
+      if (_searchController.text != _debouncedQuery) {
+        _debouncedQuery = _searchController.text;
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _shimmerController.dispose();
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final registry = context.read<ModuleRegistry>();
-    if (identical(_registry, registry)) {
-      return;
-    }
-
-    _registry = registry;
-    final catalog = CatalogRepository.fromRegistry(registry);
-    _catalogDataBuilder = CatalogScreenDataBuilder(entries: catalog.entries);
-  }
-
-  void _handleSearchChanged() {
-    setState(() {});
-  }
-
-  void _handleFocusChanged() {
-    final isFocused = _focusNode.hasFocus;
-    if (_isSearchFocused == isFocused) {
-      return;
-    }
-
-    setState(() {
-      _isSearchFocused = isFocused;
-    });
+    // Only rebuild if not yet initialised (registry is effectively immutable
+    // after app start, so identity check is sufficient).
+    _catalog ??= CatalogRepository.fromRegistry(registry);
   }
 
   Future<void> _loadViewPreference() async {
-    final viewMode = await widget.viewModeStore.load();
-    if (!mounted || _hasUserChangedViewMode) {
-      return;
-    }
-
+    if (!mounted) return;
+    final prefs = await SharedPreferences.getInstance();
+    final isGrid = prefs.getBool(_viewPrefKey) ?? true;
+    if (!mounted) return;
     setState(() {
-      _viewMode = viewMode;
+      _viewMode = isGrid ? CatalogViewMode.grid : CatalogViewMode.list;
     });
   }
 
   Future<void> _setViewMode(CatalogViewMode mode) async {
-    if (_viewMode == mode) {
-      return;
-    }
-
-    _hasUserChangedViewMode = true;
     setState(() => _viewMode = mode);
-    _pendingViewModeSave = _pendingViewModeSave
-        .catchError((Object _) {})
-        .then((_) => widget.viewModeStore.save(mode));
-    await _pendingViewModeSave;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_viewPrefKey, mode == CatalogViewMode.grid);
   }
 
-  @override
-  void dispose() {
-    _searchController.removeListener(_handleSearchChanged);
-    _focusNode.removeListener(_handleFocusChanged);
-    _searchController.dispose();
-    _focusNode.dispose();
-    super.dispose();
+  bool get _hasActiveCatalogRefinements =>
+      _searchController.text.trim().isNotEmpty ||
+      _dimensionFilter != _DimensionFilter.all ||
+      _selectedCategory != null;
+
+  bool _matchesDimension(CatalogEntry entry, _DimensionFilter filter) {
+    switch (filter) {
+      case _DimensionFilter.all:
+        return true;
+      case _DimensionFilter.twoD:
+        return entry.module.dimension == FractalDimension.twoD;
+      case _DimensionFilter.threeD:
+        return entry.module.dimension == FractalDimension.threeD;
+    }
+  }
+
+  bool _matchesSearch(
+    CatalogEntry entry,
+    AppLocalizations l10n,
+    String query,
+  ) {
+    if (query.isEmpty) return true;
+    final name = entry.module.displayName(l10n).toLowerCase();
+    final matchesAlias =
+        entry.aliases.any((alias) => alias.toLowerCase().contains(query));
+    return name.contains(query) ||
+        matchesAlias ||
+        entry.catalogId.contains(query) ||
+        entry.category.toLowerCase().contains(query);
+  }
+
+  List<CatalogEntry> _entriesMatchingSearch(AppLocalizations l10n) {
+    final query = _debouncedQuery.trim().toLowerCase();
+    return _catalog!.entries.where((entry) {
+      return _matchesSearch(entry, l10n, query);
+    }).toList(growable: false);
+  }
+
+  List<CatalogEntry> _entriesForDimensionCounts(AppLocalizations l10n) {
+    final matchesSearch = _entriesMatchingSearch(l10n);
+    return matchesSearch.where((entry) {
+      if (_selectedCategory == null) return true;
+      return entry.category == _selectedCategory;
+    }).toList(growable: false);
+  }
+
+  List<CatalogEntry> _entriesForCategoryCounts(AppLocalizations l10n) {
+    final matchesSearch = _entriesMatchingSearch(l10n);
+    return matchesSearch.where((entry) {
+      return _matchesDimension(entry, _dimensionFilter);
+    }).toList(growable: false);
+  }
+
+  List<CatalogEntry> _filteredEntries(AppLocalizations l10n) {
+    final matchesSearchAndDimension = _entriesForCategoryCounts(l10n);
+    return matchesSearchAndDimension.where((entry) {
+      if (_selectedCategory == null) return true;
+      return entry.category == _selectedCategory;
+    }).toList(growable: false);
+  }
+
+  Map<String, int> _categoryCounts(List<CatalogEntry> entries) {
+    final counts = <String, int>{};
+    for (final entry in entries) {
+      counts.update(entry.category, (count) => count + 1, ifAbsent: () => 1);
+    }
+    return counts;
+  }
+
+  List<String> _sortedCategories(Map<String, int> categoryCounts) {
+    final categories = categoryCounts.keys.toList()
+      ..sort((a, b) {
+        final countCompare = (categoryCounts[b] ?? 0).compareTo(
+          categoryCounts[a] ?? 0,
+        );
+        if (countCompare != 0) return countCompare;
+        return a.compareTo(b);
+      });
+
+    final selected = _selectedCategory;
+    if (selected != null && !categories.contains(selected)) {
+      categories.insert(0, selected);
+    }
+
+    return categories;
+  }
+
+  void _updateDimensionFilter(_DimensionFilter filter) {
+    setState(() {
+      _dimensionFilter = filter;
+    });
+  }
+
+  void _toggleSearch() {
+    setState(() {
+      _isSearchVisible = !_isSearchVisible;
+      if (!_isSearchVisible) {
+        _searchController.clear();
+        _focusNode.unfocus();
+      } else {
+        // Auto focus the search field
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _focusNode.requestFocus();
+        });
+      }
+    });
   }
 
   void _clearCatalogRefinements() {
     _searchController.clear();
     _focusNode.unfocus();
     setState(() {
-      _dimensionFilter = CatalogDimensionFilter.all;
-      _sortOrder = CatalogSortOrder.byCategory;
+      _isSearchVisible = false;
+      _dimensionFilter = _DimensionFilter.all;
       _selectedCategory = null;
     });
   }
 
-  void _updateDimensionFilter(CatalogDimensionFilter filter) {
-    if (_dimensionFilter == filter) {
-      return;
+  Map<String, List<CatalogEntry>> _groupAndSort(
+      List<CatalogEntry> entries, AppLocalizations l10n) {
+    final grouped = <String, List<CatalogEntry>>{};
+    for (final entry in entries) {
+      grouped.putIfAbsent(entry.category, () => []).add(entry);
     }
 
-    setState(() {
-      _dimensionFilter = filter;
-    });
+    final sortedEntries = grouped.entries.toList()
+      ..sort((a, b) {
+        final countCompare = b.value.length.compareTo(a.value.length);
+        if (countCompare != 0) return countCompare;
+        return a.key.compareTo(b.key);
+      });
+
+    return {
+      for (final section in sortedEntries)
+        section.key: List<CatalogEntry>.from(section.value)
+          ..sort((a, b) =>
+              a.module.displayName(l10n).compareTo(b.module.displayName(l10n))),
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    final catalogDataBuilder = _catalogDataBuilder;
-    if (catalogDataBuilder == null) {
-      return const SizedBox.shrink();
-    }
-
-    final mediaQuery = MediaQuery.of(context);
-    final isKeyboardVisible = mediaQuery.viewInsets.bottom > 0;
     final l10n = AppLocalizations.of(context)!;
-    final screenData = catalogDataBuilder.build(
-      l10n: l10n,
-      searchQuery: _searchController.text,
-      dimensionFilter: _dimensionFilter,
-      sortOrder: _sortOrder,
-      selectedCategory: _selectedCategory,
-    );
-    final showSupportingChrome = !_isSearchFocused &&
-        screenData.normalizedQuery.isEmpty &&
-        !screenData.isEmpty &&
-        !isKeyboardVisible;
+    final query = _debouncedQuery.trim().toLowerCase();
+    final filteredEntries = _filteredEntries(l10n);
+    final groupedEntries = _groupAndSort(filteredEntries, l10n);
+    final categoryBaseEntries = _entriesForCategoryCounts(l10n);
+    final categoryCounts = _categoryCounts(categoryBaseEntries);
+    final sortedCategories = _sortedCategories(categoryCounts);
+    final showFeatured = query.isEmpty &&
+        _dimensionFilter == _DimensionFilter.all &&
+        _selectedCategory == null;
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.lg,
-            AppSpacing.lg,
-            AppSpacing.lg,
-            AppSpacing.sm,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Column(
             children: [
-              Expanded(
-                child: _buildSearchField(
-                  context,
-                  l10n,
-                  hasActiveQuery: screenData.normalizedQuery.isNotEmpty,
+              _buildFilterAndSortBar(context, l10n),
+              if (_isSearchVisible) _buildSearchField(context, l10n),
+              if (showFeatured && _viewMode == CatalogViewMode.grid)
+                _FeaturedSection(
+                  catalog: _catalog!,
+                  l10n: l10n,
+                  onTap: (module, catalogId) =>
+                      _openViewer(context, module, heroTag: catalogId),
                 ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              _buildViewToggle(context, l10n),
             ],
           ),
         ),
-        Expanded(
-          child: screenData.isEmpty
-              ? CatalogEmptyState(
-                  query: screenData.normalizedQuery,
-                  l10n: l10n,
-                  onClear: _clearCatalogRefinements,
-                )
-              : _buildCatalogContent(
-                  context,
-                  screenData,
-                  l10n,
-                  showSupportingChrome: showSupportingChrome,
-                ),
-        ),
+        if (filteredEntries.isEmpty)
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: _EmptyState(
+              query: query,
+              l10n: l10n,
+              onClear: _clearCatalogRefinements,
+            ),
+          )
+        else if (_viewMode == CatalogViewMode.grid)
+          _buildGridContentSliver(groupedEntries, l10n)
+        else
+          _buildListContentSliver(groupedEntries, l10n),
       ],
     );
   }
 
-  Widget _buildCatalogContent(
+  Widget _buildFilterAndSortBar(
     BuildContext context,
-    CatalogScreenData screenData,
-    AppLocalizations l10n, {
-    required bool showSupportingChrome,
-  }) {
-    if (_viewMode == CatalogViewMode.grid) {
-      return _buildGridContent(
-        context,
-        screenData,
-        l10n,
-        showSupportingChrome: showSupportingChrome,
-      );
-    }
+    AppLocalizations l10n,
+  ) {
+    final dimensionBaseEntries = _entriesForDimensionCounts(l10n);
+    final allCount = dimensionBaseEntries.length;
+    final twoDCount = dimensionBaseEntries
+        .where((entry) => entry.module.dimension == FractalDimension.twoD)
+        .length;
+    final threeDCount = dimensionBaseEntries
+        .where((entry) => entry.module.dimension == FractalDimension.threeD)
+        .length;
 
-    return _buildListContent(
-      context,
-      screenData,
-      l10n,
-      showSupportingChrome: showSupportingChrome,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.xs,
+      ),
+      child: Row(
+        children: [
+          // Dimension filters + Search — horizontally scrollable
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _DimChip(
+                    chipKey: const Key('catalogDimensionChip_all'),
+                    label: l10n.catalogFilterAll,
+                    count: allCount,
+                    selected: _dimensionFilter == _DimensionFilter.all,
+                    onTap: () => _updateDimensionFilter(_DimensionFilter.all),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  _DimChip(
+                    chipKey: const Key('catalogDimensionChip_2d'),
+                    label: l10n.dimension2d,
+                    count: twoDCount,
+                    selected: _dimensionFilter == _DimensionFilter.twoD,
+                    onTap: () => _updateDimensionFilter(_DimensionFilter.twoD),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  _DimChip(
+                    chipKey: const Key('catalogDimensionChip_3d'),
+                    label: l10n.dimension3d,
+                    count: threeDCount,
+                    selected: _dimensionFilter == _DimensionFilter.threeD,
+                    onTap: () =>
+                        _updateDimensionFilter(_DimensionFilter.threeD),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                ],
+              ),
+            ),
+          ),
+          // Action buttons on the right
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Search button
+              _SimpleIconButton(
+                icon: Icons.search_rounded,
+                isActive: _isSearchVisible,
+                onTap: _toggleSearch,
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              // View toggle button
+              _SimpleIconButton(
+                icon: _viewMode == CatalogViewMode.grid
+                    ? Icons.view_list_rounded
+                    : Icons.grid_view_rounded,
+                onTap: () => _setViewMode(
+                  _viewMode == CatalogViewMode.grid
+                      ? CatalogViewMode.list
+                      : CatalogViewMode.grid,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildSearchField(
+  Widget _buildCategoryBar(
     BuildContext context,
     AppLocalizations l10n, {
-    required bool hasActiveQuery,
+    required List<String> categories,
+    required Map<String, int> categoryCounts,
   }) {
+    if (categories.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.xs,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.catalogFilterCategories,
+            style: AppTypography.labelSmall.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.8,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          SizedBox(
+            height: 40,
+            child: ListView.separated(
+              key: const Key('catalogCategoryScroll'),
+              scrollDirection: Axis.horizontal,
+              itemCount: categories.length + 1,
+              separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.xs),
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _DimChip(
+                    chipKey: const Key('catalogCategoryChip_all'),
+                    label: l10n.catalogFilterAll,
+                    count: _entriesForCategoryCounts(l10n).length,
+                    selected: _selectedCategory == null,
+                    onTap: () {
+                      setState(() {
+                        _selectedCategory = null;
+                      });
+                    },
+                  );
+                }
+
+                final category = categories[index - 1];
+                return _DimChip(
+                  chipKey: Key(
+                    'catalogCategoryChip_${_keySegment(category)}',
+                  ),
+                  label: category,
+                  count: categoryCounts[category] ?? 0,
+                  selected: _selectedCategory == category,
+                  onTap: () {
+                    setState(() {
+                      _selectedCategory =
+                          _selectedCategory == category ? null : category;
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchField(BuildContext context, AppLocalizations l10n) {
     return Semantics(
       label: l10n.semanticSearchField,
       textField: true,
@@ -266,15 +634,18 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
             ),
             suffixIcon: AnimatedSwitcher(
               duration: AppAnimations.fast,
-              child: hasActiveQuery
-                  ? IconButton(
+              child: _searchController.text.isEmpty
+                  ? const SizedBox.shrink()
+                  : IconButton(
                       key: const ValueKey('clear'),
                       tooltip:
                           MaterialLocalizations.of(context).deleteButtonTooltip,
                       icon: const Icon(Icons.close_rounded, size: 20),
-                      onPressed: _searchController.clear,
-                    )
-                  : const SizedBox.shrink(),
+                      onPressed: () {
+                        _searchController.clear();
+                        setState(() {});
+                      },
+                    ),
             ),
             border: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -284,6 +655,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
               vertical: AppSpacing.md,
             ),
           ),
+          onChanged: (_) {
+            setState(() {});
+          },
         ),
       ),
     );
@@ -291,396 +665,154 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
 
   Widget _buildViewToggle(BuildContext context, AppLocalizations l10n) {
     final isGrid = _viewMode == CatalogViewMode.grid;
-    final nextMode = isGrid ? CatalogViewMode.list : CatalogViewMode.grid;
-    final actionLabel =
-        isGrid ? l10n.catalogSwitchToList : l10n.catalogSwitchToGrid;
-
     return Semantics(
       button: true,
-      label: actionLabel,
+      label: isGrid ? l10n.catalogSwitchToList : l10n.catalogSwitchToGrid,
       child: Tooltip(
         message: isGrid ? l10n.catalogListView : l10n.catalogGridView,
-        child: ExcludeSemantics(
-          child: IconButton(
-            key: const Key('catalogViewToggleButton'),
-            tooltip: actionLabel,
-            onPressed: () => _setViewMode(nextMode),
-            icon: Icon(
-              isGrid ? Icons.view_list_rounded : Icons.grid_view_rounded,
-              color: AppColors.textMuted,
-              size: 22,
-            ),
+        child: IconButton(
+          key: const Key('catalogViewToggleButton'),
+          tooltip: isGrid ? l10n.catalogListView : l10n.catalogGridView,
+          onPressed: () => _setViewMode(
+            isGrid ? CatalogViewMode.list : CatalogViewMode.grid,
+          ),
+          icon: Icon(
+            isGrid ? Icons.view_list_rounded : Icons.grid_view_rounded,
+            color: AppColors.textMuted,
+            size: 22,
           ),
         ),
       ),
     );
   }
 
-  Widget _buildFilterAndSortBar(
-    BuildContext context,
+  Widget _buildListContentSliver(
+    Map<String, List<CatalogEntry>> groupedEntries,
     AppLocalizations l10n,
-    CatalogScreenData screenData,
   ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
-        vertical: AppSpacing.xs,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CatalogDimChip(
-                    chipKey: const Key('catalogDimensionChip_all'),
-                    label: l10n.catalogFilterAll,
-                    count: screenData.dimensionCounts.all,
-                    selected: _dimensionFilter == CatalogDimensionFilter.all,
-                    onTap: () =>
-                        _updateDimensionFilter(CatalogDimensionFilter.all),
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  CatalogDimChip(
-                    chipKey: const Key('catalogDimensionChip_2d'),
-                    label: l10n.dimension2d,
-                    count: screenData.dimensionCounts.twoD,
-                    selected: _dimensionFilter == CatalogDimensionFilter.twoD,
-                    onTap: () =>
-                        _updateDimensionFilter(CatalogDimensionFilter.twoD),
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  CatalogDimChip(
-                    chipKey: const Key('catalogDimensionChip_3d'),
-                    label: l10n.dimension3d,
-                    count: screenData.dimensionCounts.threeD,
-                    selected: _dimensionFilter == CatalogDimensionFilter.threeD,
-                    onTap: () =>
-                        _updateDimensionFilter(CatalogDimensionFilter.threeD),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.xs),
-          PopupMenuButton<CatalogSortOrder>(
-            tooltip: l10n.catalogFilterSortOrder,
-            initialValue: _sortOrder,
-            onSelected: (value) {
-              if (_sortOrder == value) {
-                return;
-              }
-
-              setState(() {
-                _sortOrder = value;
-              });
-            },
-            itemBuilder: (_) => [
-              PopupMenuItem<CatalogSortOrder>(
-                value: CatalogSortOrder.byCategory,
-                child: Text(l10n.catalogSortByCategory),
-              ),
-              PopupMenuItem<CatalogSortOrder>(
-                value: CatalogSortOrder.alphabetical,
-                child: Text(l10n.catalogSortAlphabetical),
-              ),
-            ],
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 48, minWidth: 48),
-              child: Icon(
-                Icons.sort_rounded,
-                size: 20,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCategoryBar(
-    BuildContext context,
-    AppLocalizations l10n,
-    CatalogScreenData screenData,
-  ) {
-    if (screenData.sortedCategories.isEmpty) {
-      return const SizedBox.shrink();
+    // Flatten grouped entries into a flat list where each item is either
+    // a section header, a card, or spacing.
+    final flatItems = <_ListItem>[];
+    for (final section in groupedEntries.entries) {
+      flatItems.add(_ListItem.header(section.key, section.value.length));
+      for (final entry in section.value) {
+        flatItems.add(_ListItem.card(entry));
+      }
+      flatItems.add(_ListItem.spacing());
     }
+    // Bottom padding
+    flatItems.add(_ListItem.spacing());
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.lg,
-        AppSpacing.xs,
-        AppSpacing.lg,
-        AppSpacing.xs,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.catalogFilterCategories,
-            style: AppTypography.labelSmall.copyWith(
-              color: AppColors.textPrimary,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.8,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          SizedBox(
-            height: 52,
-            child: ListView.separated(
-              key: const Key('catalogCategoryScroll'),
-              scrollDirection: Axis.horizontal,
-              itemCount: screenData.sortedCategories.length + 1,
-              separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.xs),
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return CatalogDimChip(
-                    chipKey: const Key('catalogCategoryChip_all'),
-                    label: l10n.catalogFilterAll,
-                    count: screenData.categoryScopeCount,
-                    selected: _selectedCategory == null,
-                    onTap: () {
-                      if (_selectedCategory == null) {
-                        return;
-                      }
-
-                      setState(() {
-                        _selectedCategory = null;
-                      });
-                    },
-                  );
-                }
-
-                final category = screenData.sortedCategories[index - 1];
-                return CatalogDimChip(
-                  chipKey:
-                      Key('catalogCategoryChip_${catalogKeySegment(category)}'),
-                  label: category,
-                  count: screenData.categoryCounts[category] ?? 0,
-                  selected: _selectedCategory == category,
-                  onTap: () {
-                    setState(() {
-                      _selectedCategory =
-                          _selectedCategory == category ? null : category;
-                    });
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCatalogSummary(
-    BuildContext context,
-    AppLocalizations l10n,
-    CatalogScreenData screenData,
-  ) {
-    final sortLabel = _sortOrder == CatalogSortOrder.byCategory
-        ? l10n.catalogSortByCategory
-        : l10n.catalogSortAlphabeticalShort;
-    final viewLabel = _viewMode == CatalogViewMode.grid
-        ? l10n.catalogGridView
-        : l10n.catalogListView;
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.lg,
-        AppSpacing.xs,
-        AppSpacing.lg,
-        AppSpacing.sm,
-      ),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: AppColors.surfaceVariant.withValues(alpha: 0.72),
-          borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-          border: Border.all(
-            color: AppColors.border.withValues(alpha: 0.35),
-          ),
-        ),
-        child: Wrap(
-          spacing: AppSpacing.sm,
-          runSpacing: AppSpacing.sm,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            CatalogSummaryPill(
-              icon: Icons.auto_awesome_mosaic_rounded,
-              label: l10n.catalogResults,
-              value: '${screenData.resultCount}',
-            ),
-            CatalogSummaryPill(
-              icon: Icons.category_rounded,
-              label: l10n.catalogCategories,
-              value: '${screenData.visibleCategoryCount}',
-            ),
-            CatalogSummaryPill(
-              icon: _viewMode == CatalogViewMode.grid
-                  ? Icons.grid_view_rounded
-                  : Icons.view_list_rounded,
-              label: viewLabel,
-            ),
-            CatalogSummaryPill(
-              icon: Icons.sort_rounded,
-              label: sortLabel,
-            ),
-            if (_selectedCategory != null)
-              CatalogSummaryPill(
-                icon: Icons.filter_alt_rounded,
-                label: _selectedCategory!,
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final item = flatItems[index];
+          if (item.isHeader) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                left: AppSpacing.lg,
+                right: AppSpacing.lg,
+                top: AppSpacing.md,
               ),
-            if (screenData.hasActiveRefinements)
-              TextButton.icon(
-                key: const Key('catalogClearFiltersButton'),
-                onPressed: _clearCatalogRefinements,
-                icon: const Icon(Icons.refresh_rounded, size: 18),
-                label: Text(l10n.actionClearFilters),
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primary,
+              child: _SectionHeader(title: item.title!, count: item.count!),
+            );
+          } else if (item.isSpacing) {
+            return const SizedBox(height: AppSpacing.lg);
+          } else {
+            final entry = item.entry!;
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: RepaintBoundary(
+                child: _ModuleCard(
+                  entry: entry,
+                  onTap: () => _openViewer(context, entry.module,
+                      heroTag: entry.catalogId),
+                  l10n: l10n,
+                  shimmerController: _shimmerController,
                 ),
               ),
-          ],
-        ),
+            );
+          }
+        },
+        childCount: flatItems.length,
       ),
     );
   }
 
-  Widget _buildListContent(
-    BuildContext context,
-    CatalogScreenData screenData,
-    AppLocalizations l10n, {
-    required bool showSupportingChrome,
-  }) {
-    final children = <Widget>[
-      ..._buildScrollableSupportingChrome(
-        context,
-        l10n,
-        screenData,
-        showSupportingChrome: showSupportingChrome,
-      ),
-    ];
+  Widget _buildGridContentSliver(
+    Map<String, List<CatalogEntry>> groupedEntries,
+    AppLocalizations l10n,
+  ) {
+    final width = MediaQuery.of(context).size.width;
+    final crossAxisCount = width >= 1024
+        ? 6
+        : width >= 840
+            ? 5
+            : width >= 600
+                ? 4
+                : 3;
+    final itemWidth = (width - AppSpacing.lg * 2) / crossAxisCount;
+    final tileHeight = itemWidth * 0.68;
 
-    for (final section in screenData.sections) {
+    final children = <Widget>[];
+
+    for (final section in groupedEntries.entries) {
       children.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-          child:
-              CatalogSectionHeader(title: section.title, count: section.count),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: AppSpacing.lg,
+              right: AppSpacing.lg,
+              top: AppSpacing.md,
+            ),
+            child:
+                _SectionHeader(title: section.key, count: section.value.length),
+          ),
         ),
       );
-      for (final entry in section.entries) {
-        children.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: CatalogListCard(
-              entry: entry,
-              semanticLabel: screenData.semanticLabelFor(entry),
-              onTap: () =>
-                  _openViewer(context, entry.module, heroTag: entry.catalogId),
-              l10n: l10n,
+      children.add(
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          sliver: SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final entry = section.value[index];
+                return RepaintBoundary(
+                  child: _ModuleGridTile(
+                    entry: entry,
+                    l10n: l10n,
+                    shimmerController: _shimmerController,
+                    onTap: () => _openViewer(context, entry.module,
+                        heroTag: entry.catalogId),
+                  ),
+                );
+              },
+              childCount: section.value.length,
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: AppSpacing.sm,
+              crossAxisSpacing: AppSpacing.sm,
+              childAspectRatio: 1 / 0.68,
             ),
           ),
-        );
-      }
-      children.add(const SizedBox(height: AppSpacing.lg));
+        ),
+      );
+      children.add(
+        const SliverToBoxAdapter(
+          child: SizedBox(height: AppSpacing.md),
+        ),
+      );
     }
 
-    return ListView(
-      padding: EdgeInsets.only(
-        top: AppSpacing.sm,
-        bottom: MediaQuery.of(context).padding.bottom + 100,
+    // Add bottom padding
+    children.add(
+      SliverToBoxAdapter(
+        child: SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
       ),
-      children: children,
     );
-  }
 
-  Widget _buildGridContent(
-    BuildContext context,
-    CatalogScreenData screenData,
-    AppLocalizations l10n, {
-    required bool showSupportingChrome,
-  }) {
-    final width = MediaQuery.of(context).size.width;
-    final crossAxisCount = CatalogConstants.gridCrossAxisCount(width);
-
-    return ListView(
-      padding: EdgeInsets.only(
-        top: AppSpacing.sm,
-        bottom: MediaQuery.of(context).padding.bottom + 100,
-      ),
-      children: [
-        ..._buildScrollableSupportingChrome(
-          context,
-          l10n,
-          screenData,
-          showSupportingChrome: showSupportingChrome,
-        ),
-        ...screenData.sections.map((section) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CatalogSectionHeader(
-                    title: section.title, count: section.count),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: section.entries.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    crossAxisSpacing: AppSpacing.sm,
-                    mainAxisSpacing: AppSpacing.sm,
-                    childAspectRatio: 0.9,
-                  ),
-                  itemBuilder: (context, index) {
-                    final entry = section.entries[index];
-                    return CatalogGridTile(
-                      entry: entry,
-                      semanticLabel: screenData.semanticLabelFor(entry),
-                      l10n: l10n,
-                      onTap: () => _openViewer(context, entry.module,
-                          heroTag: entry.catalogId),
-                    );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-              ],
-            ),
-          );
-        }),
-      ],
-    );
-  }
-
-  List<Widget> _buildScrollableSupportingChrome(
-    BuildContext context,
-    AppLocalizations l10n,
-    CatalogScreenData screenData, {
-    required bool showSupportingChrome,
-  }) {
-    if (!showSupportingChrome) {
-      return const <Widget>[];
-    }
-
-    return <Widget>[
-      _buildFilterAndSortBar(context, l10n, screenData),
-      _buildCategoryBar(context, l10n, screenData),
-      _buildCatalogSummary(context, l10n, screenData),
-      if (screenData.showFeatured)
-        CatalogFeaturedSection(
-          screenData: screenData,
-          l10n: l10n,
-          onTap: (entry) =>
-              _openViewer(context, entry.module, heroTag: entry.catalogId),
-        ),
-    ];
+    return SliverMainAxisGroup(slivers: children);
   }
 
   void _openViewer(BuildContext context, FractalModule module,
@@ -718,47 +850,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen> {
   }
 }
 
-enum _CatalogListItemType { header, entry, spacer }
-
-@immutable
-class _CatalogListItem {
-  final _CatalogListItemType type;
-  final CatalogSection? section;
-  final CatalogEntry? entry;
-
-  const _CatalogListItem._({
-    required this.type,
-    this.section,
-    this.entry,
-  });
-
-  const _CatalogListItem.header(CatalogSection section)
-      : this._(
-          type: _CatalogListItemType.header,
-          section: section,
-        );
-
-  const _CatalogListItem.entry(CatalogEntry entry)
-      : this._(
-          type: _CatalogListItemType.entry,
-          entry: entry,
-        );
-
-  const _CatalogListItem.spacer()
-      : this._(
-          type: _CatalogListItemType.spacer,
-        );
-}
-
 // ---------------------------------------------------------------------------
 // Shared section header with colored left border and count badge
 // ---------------------------------------------------------------------------
 
-class CatalogSectionHeader extends StatelessWidget {
+class _SectionHeader extends StatelessWidget {
   final String title;
   final int count;
 
-  const CatalogSectionHeader({required this.title, required this.count});
+  const _SectionHeader({required this.title, required this.count});
 
   @override
   Widget build(BuildContext context) {
@@ -820,17 +920,60 @@ class CatalogSectionHeader extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Dimension filter chip
+// Simple icon button
 // ---------------------------------------------------------------------------
 
-class CatalogDimChip extends StatelessWidget {
+class _SimpleIconButton extends StatelessWidget {
+  final IconData icon;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  const _SimpleIconButton({
+    required this.icon,
+    this.isActive = false,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      selected: isActive,
+      label: 'Button',
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: AppAnimations.fast,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: isActive
+                ? AppColors.primary.withValues(alpha: 0.2)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(
+            icon,
+            size: 22,
+            color: isActive ? AppColors.primary : AppColors.textSecondary,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Dimension filter chip - pill style
+// ---------------------------------------------------------------------------
+
+class _DimChip extends StatelessWidget {
   final Key? chipKey;
   final String label;
   final int count;
   final bool selected;
   final VoidCallback onTap;
 
-  const CatalogDimChip({
+  const _DimChip({
     this.chipKey,
     required this.label,
     required this.count,
@@ -850,19 +993,36 @@ class CatalogDimChip extends StatelessWidget {
         key: chipKey,
         onTap: onTap,
         child: AnimatedContainer(
-          duration: AppAnimations.fast,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: selected
-                ? AppColors.primary.withValues(alpha: 0.18)
-                : AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(20),
+            gradient: selected
+                ? LinearGradient(
+                    colors: [
+                      AppColors.primary,
+                      AppColors.primary.withValues(alpha: 0.8),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+            color: selected ? null : AppColors.surface.withValues(alpha: 0.8),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: selected
-                  ? AppColors.primary.withValues(alpha: 0.5)
-                  : AppColors.border.withValues(alpha: 0.3),
-              width: selected ? 1.5 : 1,
+                  ? Colors.transparent
+                  : AppColors.border.withValues(alpha: 0.4),
+              width: 1,
             ),
+            boxShadow: selected
+                ? [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.35),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -870,26 +1030,29 @@ class CatalogDimChip extends StatelessWidget {
               Text(
                 label,
                 style: AppTypography.labelSmall.copyWith(
-                  color: selected ? AppColors.primary : AppColors.textSecondary,
-                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                  color: selected ? Colors.white : AppColors.textSecondary,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                  letterSpacing: 0.3,
                 ),
               ),
-              const SizedBox(width: 5),
+              const SizedBox(width: 6),
               AnimatedContainer(
-                duration: AppAnimations.fast,
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: selected
-                      ? AppColors.primary.withValues(alpha: 0.28)
-                      : AppColors.border.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(8),
+                      ? Colors.white.withValues(alpha: 0.2)
+                      : AppColors.textMuted.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   '$count',
-                  style: AppTypography.labelSmall.copyWith(
-                    color: selected ? AppColors.primary : AppColors.textMuted,
+                  style: TextStyle(
+                    color: selected
+                        ? Colors.white.withValues(alpha: 0.9)
+                        : AppColors.textMuted,
                     fontWeight: FontWeight.w700,
-                    fontSize: 9,
+                    fontSize: 10,
                   ),
                 ),
               ),
@@ -901,85 +1064,28 @@ class CatalogDimChip extends StatelessWidget {
   }
 }
 
-class CatalogSummaryPill extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String? value;
-
-  const CatalogSummaryPill({
-    required this.icon,
-    required this.label,
-    this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: 7,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.75),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: AppColors.border.withValues(alpha: 0.3),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 14,
-            color: AppColors.textMuted,
-          ),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: AppTypography.labelSmall.copyWith(
-              color: AppColors.textPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          if (value != null) ...[
-            const SizedBox(width: 6),
-            Text(
-              value!,
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Grid tile with elevation, gradient overlay, and better text readability
 // ---------------------------------------------------------------------------
 
-class CatalogGridTile extends StatefulWidget {
+class _ModuleGridTile extends StatefulWidget {
   final CatalogEntry entry;
-  final String semanticLabel;
   final AppLocalizations l10n;
   final VoidCallback onTap;
+  final _GlobalShimmerController? shimmerController;
 
-  const CatalogGridTile({
+  const _ModuleGridTile({
     required this.entry,
-    required this.semanticLabel,
     required this.l10n,
     required this.onTap,
+    this.shimmerController,
   });
 
   @override
-  State<CatalogGridTile> createState() => CatalogGridTileState();
+  State<_ModuleGridTile> createState() => _ModuleGridTileState();
 }
 
-class CatalogGridTileState extends State<CatalogGridTile>
+class _ModuleGridTileState extends State<_ModuleGridTile>
     with SingleTickerProviderStateMixin {
   bool _isHovered = false;
   bool _isPressed = false;
@@ -1022,10 +1128,10 @@ class CatalogGridTileState extends State<CatalogGridTile>
     final dimensionLabel =
         is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
     final name = widget.entry.module.displayName(widget.l10n);
-    final accentColor = categoryAccentColor(widget.entry.category);
+    final accentColor = _categoryAccentColor(widget.entry.category);
 
     return Semantics(
-      label: widget.semanticLabel,
+      label: widget.l10n.semanticFractalCard(name, dimensionLabel),
       button: true,
       child: MouseRegion(
         onEnter: (_) => _setHighlight(true),
@@ -1068,45 +1174,44 @@ class CatalogGridTileState extends State<CatalogGridTile>
                         fit: StackFit.expand,
                         children: [
                           // Thumbnail
-                          CatalogPreviewThumbnail(
+                          _PreviewThumbnail(
                             catalogId: widget.entry.catalogId,
                             is3D: is3D,
                             category: widget.entry.category,
+                            shimmerController: widget.shimmerController,
                           ),
                           // Gradient overlay for text
                           Positioned(
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            child: ExcludeSemantics(
-                              child: Container(
-                                padding: const EdgeInsets.fromLTRB(6, 20, 6, 7),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Colors.transparent,
-                                      Colors.black.withValues(alpha: 0.78),
-                                    ],
-                                  ),
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(6, 20, 6, 7),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.transparent,
+                                    Colors.black.withValues(alpha: 0.78),
+                                  ],
                                 ),
-                                child: Text(
-                                  name,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                  style: AppTypography.labelSmall.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    shadows: const [
-                                      Shadow(
-                                        color: Colors.black54,
-                                        blurRadius: 4,
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              child: Text(
+                                name,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                                style: AppTypography.labelSmall.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  shadows: const [
+                                    Shadow(
+                                      color: Colors.black54,
+                                      blurRadius: 4,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -1158,12 +1263,12 @@ class CatalogGridTileState extends State<CatalogGridTile>
 // Empty state
 // ---------------------------------------------------------------------------
 
-class CatalogEmptyState extends StatelessWidget {
+class _EmptyState extends StatelessWidget {
   final String query;
   final AppLocalizations l10n;
   final VoidCallback onClear;
 
-  const CatalogEmptyState({
+  const _EmptyState({
     required this.query,
     required this.l10n,
     required this.onClear,
@@ -1171,64 +1276,47 @@ class CatalogEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 0, end: 1),
-      duration: AppAnimations.normal,
-      curve: AppAnimations.defaultCurve,
-      builder: (context, opacity, child) {
-        return Opacity(
-          opacity: opacity,
-          child: child,
-        );
-      },
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final isCompact = constraints.maxHeight < 280;
-          final contentPadding = isCompact ? AppSpacing.lg : AppSpacing.xxxl;
-          final iconPadding = isCompact ? AppSpacing.md : AppSpacing.xl;
-          final iconSize = isCompact ? 28.0 : 36.0;
-          final spacing = isCompact ? AppSpacing.sm : AppSpacing.lg;
-
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(contentPadding),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(iconPadding),
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceVariant.withValues(alpha: 0.5),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.search_off_rounded,
-                    size: iconSize,
-                    color: AppColors.textMuted,
+    return FadeIn(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.xxxl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.xl),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceVariant.withValues(alpha: 0.5),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.search_off_rounded,
+                  size: 36,
+                  color: AppColors.textMuted,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                l10n.catalogSearchEmpty,
+                style: AppTypography.bodyLarge
+                    .copyWith(color: AppColors.textSecondary),
+                textAlign: TextAlign.center,
+              ),
+              if (query.isNotEmpty) ...[
+                const SizedBox(height: AppSpacing.lg),
+                TextButton.icon(
+                  key: const Key('catalogClearSearchButton'),
+                  onPressed: onClear,
+                  icon: const Icon(Icons.close_rounded, size: 18),
+                  label: Text(l10n.actionClearSearch),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.primary,
                   ),
                 ),
-                SizedBox(height: spacing),
-                Text(
-                  l10n.catalogSearchEmpty,
-                  style: AppTypography.bodyLarge
-                      .copyWith(color: AppColors.textSecondary),
-                  textAlign: TextAlign.center,
-                ),
-                if (query.isNotEmpty) ...[
-                  SizedBox(height: spacing),
-                  TextButton.icon(
-                    key: const Key('catalogClearSearchButton'),
-                    onPressed: onClear,
-                    icon: const Icon(Icons.close_rounded, size: 18),
-                    label: Text(l10n.actionClearSearch),
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppColors.primary,
-                    ),
-                  ),
-                ],
               ],
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -1238,102 +1326,113 @@ class CatalogEmptyState extends StatelessWidget {
 // Featured hero carousel
 // ---------------------------------------------------------------------------
 
-class CatalogFeaturedSection extends StatelessWidget {
-  final CatalogScreenData screenData;
+class _FeaturedSection extends StatelessWidget {
+  final CatalogRepository catalog;
   final AppLocalizations l10n;
-  final ValueChanged<CatalogEntry> onTap;
+  final void Function(FractalModule, String catalogId) onTap;
 
-  const CatalogFeaturedSection({
-    required this.screenData,
+  const _FeaturedSection({
+    required this.catalog,
     required this.l10n,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (screenData.featuredEntries.isEmpty) {
-      return const SizedBox.shrink();
-    }
+    // Resolve featured entries from the catalog, preserving order.
+    final featured = _kFeaturedFractalIds
+        .map((id) {
+          try {
+            return catalog.entries.firstWhere(
+              (e) => e.catalogId == id || e.catalogId == 'core.$id',
+            );
+          } catch (_) {
+            return null;
+          }
+        })
+        .whereType<CatalogEntry>()
+        .toList();
+
+    if (featured.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Semantics(
-          label: l10n.semanticFeaturedSection,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.lg,
-              AppSpacing.sm,
-              AppSpacing.lg,
-              AppSpacing.sm,
-            ),
-            child: Row(
-              children: [
-                ExcludeSemantics(
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [AppColors.primary, AppColors.secondary],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.45),
-                          blurRadius: 8,
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.auto_awesome_rounded,
-                      size: 11,
-                      color: Colors.white,
-                    ),
+        // Header
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.sm,
+            AppSpacing.lg,
+            AppSpacing.sm,
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [AppColors.primary, AppColors.secondary],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.45),
+                      blurRadius: 8,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  l10n.catalogFeatured,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.6,
-                    fontSize: 10,
-                  ),
+                child: const Icon(
+                  Icons.auto_awesome_rounded,
+                  size: 11,
+                  color: Colors.white,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                l10n.catalogFeatured,
+                style: AppTypography.labelSmall.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.6,
+                  fontSize: 10,
+                ),
+              ),
+            ],
           ),
         ),
+        // Featured cards - Basic Carousel
         SizedBox(
-          height: MediaQuery.textScalerOf(context).scale(1) > 2.0 ? 140 : 180,
+          height: 380,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            itemCount: screenData.featuredEntries.length,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: featured.length,
             itemBuilder: (context, index) {
-              final entry = screenData.featuredEntries[index];
-              return Padding(
-                key: ValueKey('featured_${entry.catalogId}'),
-                padding: EdgeInsets.only(
-                  right: index < screenData.featuredEntries.length - 1
-                      ? AppSpacing.sm
-                      : 0,
-                ),
-                child: CatalogFeaturedCard(
-                  entry: entry,
-                  semanticLabel: screenData.semanticLabelFor(entry),
-                  l10n: l10n,
-                  onTap: () => onTap(entry),
+              return SizedBox(
+                width: 320,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: GestureDetector(
+                    onTap: () => onTap(
+                        featured[index].module, featured[index].catalogId),
+                    child: _FeaturedHeroCard(
+                      entry: featured[index],
+                      l10n: l10n,
+                      onTap: () => onTap(
+                          featured[index].module, featured[index].catalogId),
+                    ),
+                  ),
                 ),
               );
             },
           ),
         ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.sm),
+        // Divider
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Container(
@@ -1357,24 +1456,220 @@ class CatalogFeaturedSection extends StatelessWidget {
   }
 }
 
-class CatalogFeaturedCard extends StatefulWidget {
+// ---------------------------------------------------------------------------
+// Hero Featured Card - Full width card with category, name, and tags
+// ---------------------------------------------------------------------------
+
+class _FeaturedHeroCard extends StatefulWidget {
   final CatalogEntry entry;
-  final String semanticLabel;
   final AppLocalizations l10n;
   final VoidCallback onTap;
 
-  const CatalogFeaturedCard({
+  const _FeaturedHeroCard({
     required this.entry,
-    required this.semanticLabel,
     required this.l10n,
     required this.onTap,
   });
 
   @override
-  State<CatalogFeaturedCard> createState() => CatalogFeaturedCardState();
+  State<_FeaturedHeroCard> createState() => _FeaturedHeroCardState();
 }
 
-class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
+class _FeaturedHeroCardState extends State<_FeaturedHeroCard> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final is3D = widget.entry.module.dimension == FractalDimension.threeD;
+    final name = widget.entry.module.displayName(widget.l10n);
+    final category = widget.entry.category.toUpperCase();
+
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      onTap: widget.onTap,
+      child: AnimatedScale(
+        scale: _isPressed ? 0.98 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        child: SizedBox(
+          height: 380,
+          width: 320,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.4),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+                if (_isPressed)
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    blurRadius: 24,
+                    spreadRadius: 2,
+                  ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  // Background image
+                  _PreviewThumbnail(
+                    catalogId: widget.entry.catalogId,
+                    is3D: is3D,
+                    category: widget.entry.category,
+                  ),
+                  // Gradient overlays
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.1),
+                          Colors.black.withValues(alpha: 0.3),
+                          Colors.black.withValues(alpha: 0.85),
+                        ],
+                        stops: const [0, 0.4, 1],
+                      ),
+                    ),
+                  ),
+                  // Content
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Category badge
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.secondary.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppColors.secondary.withValues(alpha: 0.5),
+                            ),
+                          ),
+                          child: Text(
+                            category,
+                            style: AppTypography.labelSmall.copyWith(
+                              color: AppColors.secondary,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        // Title and tags
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.headlineMedium.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black.withValues(alpha: 0.5),
+                                    blurRadius: 8,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            // Tags row
+                            Wrap(
+                              spacing: 6,
+                              runSpacing: 4,
+                              children: [
+                                // Dimension tag
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.15),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    is3D ? '3D' : '2D',
+                                    style: AppTypography.labelSmall.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                // Category tag
+                                Flexible(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Colors.white.withValues(alpha: 0.15),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      category,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppTypography.labelSmall.copyWith(
+                                        color:
+                                            Colors.white.withValues(alpha: 0.8),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FeaturedCard extends StatefulWidget {
+  final CatalogEntry entry;
+  final AppLocalizations l10n;
+  final VoidCallback onTap;
+
+  const _FeaturedCard({
+    required this.entry,
+    required this.l10n,
+    required this.onTap,
+  });
+
+  @override
+  State<_FeaturedCard> createState() => _FeaturedCardState();
+}
+
+class _FeaturedCardState extends State<_FeaturedCard>
     with SingleTickerProviderStateMixin {
   bool _isHovered = false;
   bool _isPressed = false;
@@ -1390,9 +1685,7 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
     );
     _scaleAnim = Tween<double>(begin: 1.0, end: 1.03).animate(
       CurvedAnimation(
-        parent: _scaleController,
-        curve: AppAnimations.snappyCurve,
-      ),
+          parent: _scaleController, curve: AppAnimations.snappyCurve),
     );
   }
 
@@ -1415,10 +1708,15 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
   Widget build(BuildContext context) {
     final is3D = widget.entry.module.dimension == FractalDimension.threeD;
     final name = widget.entry.module.displayName(widget.l10n);
-    final accentColor = categoryAccentColor(widget.entry.category);
+    final accentColor = _categoryAccentColor(widget.entry.category);
+
+    final is3DLabel = widget.entry.module.dimension == FractalDimension.threeD
+        ? widget.l10n.dimension3d
+        : widget.l10n.dimension2d;
+    final featuredName = widget.entry.module.displayName(widget.l10n);
 
     return Semantics(
-      label: widget.semanticLabel,
+      label: widget.l10n.semanticFractalCard(featuredName, is3DLabel),
       button: true,
       child: MouseRegion(
         onEnter: (_) => _setHover(true),
@@ -1457,11 +1755,12 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
-                        CatalogPreviewThumbnail(
+                        _PreviewThumbnail(
                           catalogId: widget.entry.catalogId,
                           is3D: is3D,
                           category: widget.entry.category,
                         ),
+                        // Deep bottom gradient for name legibility
                         Positioned(
                           left: 0,
                           right: 0,
@@ -1480,6 +1779,7 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
                             ),
                           ),
                         ),
+                        // Name label
                         Positioned(
                           left: 8,
                           right: 8,
@@ -1499,6 +1799,7 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
                             ),
                           ),
                         ),
+                        // Top accent gradient strip
                         Positioned(
                           top: 0,
                           left: 0,
@@ -1520,6 +1821,7 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
                             ),
                           ),
                         ),
+                        // 3D badge
                         if (is3D)
                           Positioned(
                             top: 10,
@@ -1555,6 +1857,7 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
                               ),
                             ),
                           ),
+                        // Press overlay
                         if (_isPressed)
                           Positioned.fill(
                             child: DecoratedBox(
@@ -1566,6 +1869,7 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
                       ],
                     ),
                   ),
+                  // Glow border on hover / press
                   if (_isHovered || _isPressed)
                     Positioned.fill(
                       child: IgnorePointer(
@@ -1595,24 +1899,24 @@ class CatalogFeaturedCardState extends State<CatalogFeaturedCard>
 // List-mode card
 // ---------------------------------------------------------------------------
 
-class CatalogListCard extends StatefulWidget {
+class _ModuleCard extends StatefulWidget {
   final CatalogEntry entry;
-  final String semanticLabel;
   final VoidCallback onTap;
   final AppLocalizations l10n;
+  final _GlobalShimmerController? shimmerController;
 
-  const CatalogListCard({
+  const _ModuleCard({
     required this.entry,
-    required this.semanticLabel,
     required this.onTap,
     required this.l10n,
+    this.shimmerController,
   });
 
   @override
-  State<CatalogListCard> createState() => CatalogListCardState();
+  State<_ModuleCard> createState() => _ModuleCardState();
 }
 
-class CatalogListCardState extends State<CatalogListCard>
+class _ModuleCardState extends State<_ModuleCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
@@ -1641,6 +1945,8 @@ class CatalogListCardState extends State<CatalogListCard>
     final is3D = widget.entry.module.dimension == FractalDimension.threeD;
     final dimensionLabel =
         is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
+    final name = widget.entry.module.displayName(widget.l10n);
+    final semanticLabel = widget.l10n.semanticFractalCard(name, dimensionLabel);
 
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
@@ -1648,7 +1954,7 @@ class CatalogListCardState extends State<CatalogListCard>
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Semantics(
-        label: widget.semanticLabel,
+        label: semanticLabel,
         button: true,
         child: GestureDetector(
           key: Key('catalogModuleCard_${widget.entry.catalogId}'),
@@ -1708,11 +2014,15 @@ class CatalogListCardState extends State<CatalogListCard>
             horizontal: AppSpacing.md, vertical: AppSpacing.sm),
         child: Row(
           children: [
-            CatalogPreviewThumbnail(
-              catalogId: widget.entry.catalogId,
-              is3D: is3D,
-              category: widget.entry.category,
-              size: 48,
+            SizedBox(
+              width: 48,
+              height: 48,
+              child: _PreviewThumbnail(
+                catalogId: widget.entry.catalogId,
+                is3D: is3D,
+                category: widget.entry.category,
+                shimmerController: widget.shimmerController,
+              ),
             ),
             const SizedBox(width: AppSpacing.md),
             Expanded(
@@ -1763,7 +2073,7 @@ class CatalogListCardState extends State<CatalogListCard>
 // Category color helpers
 // ---------------------------------------------------------------------------
 
-String catalogKeySegment(String value) {
+String _keySegment(String value) {
   return value
       .toLowerCase()
       .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
@@ -1771,7 +2081,7 @@ String catalogKeySegment(String value) {
 }
 
 /// Returns the accent color for a given fractal category string.
-Color categoryAccentColor(String category) {
+Color _categoryAccentColor(String category) {
   final cat = category.toLowerCase();
   if (cat.contains('escape')) return const Color(0xFF5B6FD4);
   if (cat.contains('complex')) return const Color(0xFF9B59B6);
@@ -1787,28 +2097,26 @@ Color categoryAccentColor(String category) {
 // Preview thumbnail with shimmer, improved badge, and category accent bar
 // ---------------------------------------------------------------------------
 
-class CatalogPreviewThumbnail extends StatefulWidget {
+class _PreviewThumbnail extends StatefulWidget {
   final String catalogId;
   final bool is3D;
   final String category;
-  final double? size;
+  final _GlobalShimmerController? shimmerController;
 
-  const CatalogPreviewThumbnail({
+  const _PreviewThumbnail({
     required this.catalogId,
     required this.is3D,
     required this.category,
-    this.size,
+    this.shimmerController,
   });
 
   @override
-  State<CatalogPreviewThumbnail> createState() =>
-      CatalogPreviewThumbnailState();
+  State<_PreviewThumbnail> createState() => _PreviewThumbnailState();
 }
 
-class CatalogPreviewThumbnailState extends State<CatalogPreviewThumbnail>
+class _PreviewThumbnailState extends State<_PreviewThumbnail>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _shimmerController;
-  late final bool _animateShimmer;
+  late final AnimationController _localShimmerController;
   bool _imageLoaded = false;
   bool _imageError = false;
 
@@ -1816,44 +2124,45 @@ class CatalogPreviewThumbnailState extends State<CatalogPreviewThumbnail>
     final thumbId = widget.catalogId.startsWith('core.')
         ? widget.catalogId.substring(5)
         : widget.catalogId;
-    return kKnownThumbnailIds.contains(thumbId);
+    return _kKnownThumbnailIds.contains(thumbId);
   }
 
   @override
   void initState() {
     super.initState();
-    _animateShimmer = !RuntimeModeService.isAutomatedTest;
-    _shimmerController = AnimationController(
-      vsync: this,
-      duration: AppAnimations.shimmer,
-    );
-    if (_animateShimmer) {
-      _shimmerController.repeat();
+    // Use global controller if available, otherwise local fallback
+    if (widget.shimmerController != null) {
+      _localShimmerController = widget.shimmerController!.controller;
+    } else {
+      _localShimmerController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 1200),
+      );
+      if (!RuntimeModeService.isAutomatedTest) {
+        _localShimmerController.repeat();
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    // Only dispose local controller, not the global one
+    if (widget.shimmerController == null) {
+      _localShimmerController.dispose();
+    }
+    super.dispose();
   }
 
   void _markImageLoaded() {
     if (_imageLoaded) return;
-    if (_shimmerController.isAnimating) {
-      _shimmerController.stop();
-    }
     if (!mounted) return;
     setState(() => _imageLoaded = true);
   }
 
   void _markImageError() {
     if (_imageError) return;
-    if (_shimmerController.isAnimating) {
-      _shimmerController.stop();
-    }
     if (!mounted) return;
     setState(() => _imageError = true);
-  }
-
-  @override
-  void dispose() {
-    _shimmerController.dispose();
-    super.dispose();
   }
 
   @override
@@ -1863,77 +2172,54 @@ class CatalogPreviewThumbnailState extends State<CatalogPreviewThumbnail>
         : widget.catalogId;
     final thumbAsset = 'assets/catalog_thumbs/$thumbId.png';
     final isApproximate = !_hasExactCpuThumbnail;
-    final accentColor = categoryAccentColor(widget.category);
 
-    return Container(
-      width: widget.size ?? double.infinity,
-      height: widget.size ?? double.infinity,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
-      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
       child: Stack(
         fit: StackFit.expand,
         children: [
           // Shimmer shown while image is loading
           if (!_imageLoaded && !_imageError)
-            ThumbnailShimmerSkeleton(controller: _shimmerController),
+            _ShimmerSkeleton(controller: _localShimmerController),
 
           // Image (or gradient fallback on error)
-          Positioned.fill(
-            child: Image.asset(
-              thumbAsset,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.medium,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                final imageReady = wasSynchronouslyLoaded || frame != null;
-                if (imageReady && !_imageLoaded) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _markImageLoaded();
-                  });
-                }
-                return AnimatedOpacity(
-                  opacity: imageReady ? 1.0 : 0.0,
-                  duration:
-                      imageReady ? Duration.zero : AppAnimations.thumbnailFade,
-                  child: child,
-                );
-              },
-              errorBuilder: (context, error, stack) {
-                if (!_imageError) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _markImageError();
-                  });
-                }
-                return ThumbnailGradientFallback(
-                  catalogId: widget.catalogId,
-                  category: widget.category,
-                );
-              },
+          Image(
+            image: ResizeImage(
+              AssetImage(thumbAsset),
+              width: 256,
+              height: 256,
             ),
-          ),
-
-          // Category accent bar — 3px strip at top edge
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 3,
-              decoration: BoxDecoration(
-                color: accentColor.withValues(alpha: 0.85),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                ),
-              ),
-            ),
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.medium,
+            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              final imageReady = wasSynchronouslyLoaded || frame != null;
+              if (imageReady && !_imageLoaded) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _markImageLoaded();
+                });
+              }
+              return AnimatedOpacity(
+                opacity: imageReady ? 1.0 : 0.0,
+                duration: imageReady
+                    ? Duration.zero
+                    : const Duration(milliseconds: 250),
+                child: child,
+              );
+            },
+            errorBuilder: (context, error, stack) {
+              if (!_imageError) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _markImageError();
+                });
+              }
+              return _GradientFallback(
+                catalogId: widget.catalogId,
+                category: widget.category,
+              );
+            },
           ),
 
           // Dimension badge — pill shape, amber for 3D, subtle for 2D.
-          // ExcludeSemantics: the parent card widget already announces the
-          // dimension in its semanticFractalCard label.
           Positioned(
             top: 7,
             right: 6,
@@ -2003,9 +2289,9 @@ class CatalogPreviewThumbnailState extends State<CatalogPreviewThumbnail>
 // Shimmer skeleton shown while thumbnail image is loading
 // ---------------------------------------------------------------------------
 
-class ThumbnailShimmerSkeleton extends StatelessWidget {
+class _ShimmerSkeleton extends StatelessWidget {
   final AnimationController controller;
-  const ThumbnailShimmerSkeleton({required this.controller});
+  const _ShimmerSkeleton({required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -2034,4 +2320,342 @@ class ThumbnailShimmerSkeleton extends StatelessWidget {
       },
     );
   }
+}
+
+// ---------------------------------------------------------------------------
+// Category-aware gradient fallback using CustomPainter
+// ---------------------------------------------------------------------------
+
+class _GradientFallback extends StatelessWidget {
+  final String catalogId;
+  final String category;
+
+  const _GradientFallback({
+    required this.catalogId,
+    required this.category,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _FractalGradientPainter(
+        catalogId: catalogId,
+        category: category,
+      ),
+    );
+  }
+}
+
+class _FractalGradientPainter extends CustomPainter {
+  final String catalogId;
+  final String category;
+
+  const _FractalGradientPainter({
+    required this.catalogId,
+    required this.category,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    final cat = category.toLowerCase();
+    final hash = catalogId.hashCode.abs();
+
+    if (cat.contains('escape')) {
+      _paintEscapeTime(canvas, rect, hash);
+    } else if (cat.contains('complex')) {
+      _paintComplexViz(canvas, rect, hash);
+    } else if (cat.contains('rational')) {
+      _paintRationalMaps(canvas, rect, hash);
+    } else if (cat.contains('attract')) {
+      _paintAttractors(canvas, rect, hash);
+    } else if (cat.contains('cellular') || cat.contains('automata')) {
+      _paintCellular(canvas, rect, hash);
+    } else {
+      _paintDefault(canvas, rect, hash);
+    }
+  }
+
+  /// Deep blue/purple with radial glow (Escape-Time fractals).
+  void _paintEscapeTime(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF040820));
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const RadialGradient(
+          center: Alignment.center,
+          radius: 1.0,
+          colors: [
+            Color(0xFF3B1FA0),
+            Color(0xFF1A0A50),
+            Color(0xFF040820),
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(rect),
+    );
+
+    final offsetX = (hash % 40 - 20) / 60.0;
+    final offsetY = ((hash ~/ 37) % 40 - 20) / 60.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(offsetX, offsetY),
+          radius: 0.38,
+          colors: const [
+            Color(0xCCBBDDFF),
+            Color(0x885599FF),
+            Color(0x003311AA),
+          ],
+        ).createShader(rect),
+    );
+
+    final angle = (hash % 60).toDouble() * math.pi / 180;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          transform: GradientRotation(angle),
+          colors: const [
+            Color(0x004488FF),
+            Color(0x336699FF),
+            Color(0x004488FF),
+          ],
+        ).createShader(rect),
+    );
+  }
+
+  /// Rainbow/spectrum sweep (Complex Visualization).
+  void _paintComplexViz(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF0D0015));
+
+    final sweepAngle = (hash % 45).toDouble() * math.pi / 180;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          transform: GradientRotation(sweepAngle),
+          colors: const [
+            Color(0xFFFF0080),
+            Color(0xFFFF6600),
+            Color(0xFFFFDD00),
+            Color(0xFF00FF88),
+            Color(0xFF0088FF),
+            Color(0xFF8800FF),
+            Color(0xFFFF0080),
+          ],
+          stops: [0.0, 0.17, 0.33, 0.5, 0.67, 0.83, 1.0],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const RadialGradient(
+          radius: 0.85,
+          colors: [
+            Color(0x00000000),
+            Color(0xAA000000),
+          ],
+        ).createShader(rect),
+    );
+  }
+
+  /// Warm red/orange (Rational Maps).
+  void _paintRationalMaps(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF1A0500));
+
+    final cx = (hash % 30 - 20) / 40.0;
+    final cy = ((hash ~/ 31) % 30 - 20) / 40.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(cx, cy),
+          radius: 0.85,
+          colors: const [
+            Color(0xFFFF6B00),
+            Color(0xFFCC2200),
+            Color(0xFF1A0500),
+          ],
+          stops: [0.0, 0.45, 1.0],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color(0x55FF9900),
+            Color(0x00FF5500),
+            Color(0x33FF2200),
+          ],
+        ).createShader(rect),
+    );
+  }
+
+  /// Green/teal (Attractors).
+  void _paintAttractors(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF010E06));
+
+    final cx = (hash % 40 - 20) / 50.0;
+    final cy = ((hash ~/ 41) % 40 - 20) / 50.0;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment(cx, cy),
+          radius: 0.9,
+          colors: const [
+            Color(0xFF00C864),
+            Color(0xFF006644),
+            Color(0xFF010E06),
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0x4400E5CC),
+            Color(0x0000CC99),
+            Color(0x2200AAAA),
+          ],
+        ).createShader(rect),
+    );
+  }
+
+  /// Monochrome geometric (Cellular Automata).
+  void _paintCellular(Canvas canvas, Rect rect, int hash) {
+    canvas.drawRect(rect, Paint()..color = const Color(0xFF111111));
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF2E2E2E),
+            Color(0xFF111111),
+          ],
+        ).createShader(rect),
+    );
+
+    final linePaint = Paint()
+      ..color = const Color(0x22FFFFFF)
+      ..strokeWidth = 0.8;
+
+    final step = 8.0 + (hash % 6).toDouble();
+    for (double x = 0; x < rect.width; x += step) {
+      canvas.drawLine(Offset(x, 0), Offset(x, rect.height), linePaint);
+    }
+    for (double y = 0; y < rect.height; y += step) {
+      canvas.drawLine(Offset(0, y), Offset(rect.width, y), linePaint);
+    }
+
+    final accentPaint = Paint()..color = const Color(0x44FFFFFF);
+    final cols = (rect.width / step).floor();
+    final rows = (rect.height / step).floor();
+    if (cols > 0 && rows > 0) {
+      for (int i = 0; i < 6; i++) {
+        final col = ((hash ~/ math.pow(3, i).toInt()) % cols).toDouble() * step;
+        final row = ((hash ~/ math.pow(5, i).toInt()) % rows).toDouble() * step;
+        canvas.drawRect(
+            Rect.fromLTWH(col, row, step - 1, step - 1), accentPaint);
+      }
+    }
+  }
+
+  /// Default — HSV-based with overlapping gradients for depth.
+  void _paintDefault(Canvas canvas, Rect rect, int hash) {
+    final hueA = (hash % 360).toDouble();
+    final hueB = ((hash ~/ 11) % 360).toDouble();
+    final colorA = HSVColor.fromAHSV(1, hueA, 0.58, 0.92).toColor();
+    final colorB = HSVColor.fromAHSV(1, hueB, 0.66, 0.78).toColor();
+    final colorMid =
+        HSVColor.fromAHSV(1, (hueA + hueB) / 2, 0.72, 0.55).toColor();
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [colorA, colorB],
+        ).createShader(rect),
+    );
+
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = RadialGradient(
+          center: const Alignment(-0.3, -0.3),
+          radius: 0.9,
+          colors: [
+            colorMid.withValues(alpha: 0.55),
+            Colors.transparent,
+          ],
+        ).createShader(rect),
+    );
+
+    final angle = (hash % 90).toDouble() * math.pi / 180;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          transform: GradientRotation(angle),
+          colors: [
+            colorB.withValues(alpha: 0.4),
+            Colors.transparent,
+            colorA.withValues(alpha: 0.3),
+          ],
+        ).createShader(rect),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_FractalGradientPainter old) =>
+      old.catalogId != catalogId || old.category != category;
+}
+
+// ---------------------------------------------------------------------------
+// Flat list item type for lazy list view rendering
+// ---------------------------------------------------------------------------
+
+enum _ListItemType { header, card, spacing }
+
+class _ListItem {
+  final _ListItemType type;
+  final CatalogEntry? entry;
+  final String? title;
+  final int? count;
+
+  const _ListItem._({required this.type, this.entry, this.title, this.count});
+
+  factory _ListItem.header(String title, int count) =>
+      _ListItem._(type: _ListItemType.header, title: title, count: count);
+
+  factory _ListItem.card(CatalogEntry entry) =>
+      _ListItem._(type: _ListItemType.card, entry: entry);
+
+  factory _ListItem.spacing() => _ListItem._(type: _ListItemType.spacing);
+
+  bool get isHeader => type == _ListItemType.header;
+  bool get isSpacing => type == _ListItemType.spacing;
 }

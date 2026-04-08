@@ -114,12 +114,10 @@ bool inMainBulb(vec2 c) {
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
 
-  // Map pixels -> complex plane with improved precision for high zoom
+  // Map pixels -> complex plane
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
-  // High-precision coordinate calculation: multiply uv by inverse zoom to avoid precision loss
-  // This preserves more significant digits when uZoom is very large (e.g., 5.10e+6)
-  vec2 c = uCenter + uv * (1.0 / max(0.000001, uZoom));
+  vec2 c = uv / max(0.000001, uZoom) + uCenter;
 
   vec2 z = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
@@ -177,9 +175,7 @@ void main() {
   }
 
   float mag2 = max(1e-12, dot(z, z));
-  // Standard smooth iteration formula for reduced banding
-  // smoothIter = iter + 1.0 - log2(log2(zMagSq) * 0.5)
-  float smoothVal = float(it) + 1.0 - log2(log2(mag2) * 0.5);
+  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
   float t = fract(smoothVal / 64.0);
   t = fract(t + uTime * 0.0001);
 

@@ -2,7 +2,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -87,7 +86,7 @@ class _CpuFallbackPaneState extends State<CpuFallbackPane> {
               child: IgnorePointer(
                 child: AnimatedOpacity(
                   opacity: _showSnapshot ? 1.0 : 0.0,
-                  duration: AppAnimations.fadeOut,
+                  duration: const Duration(milliseconds: 400),
                   onEnd: () {
                     if (!_showSnapshot) {
                       widget.onSnapshotFadeComplete?.call();

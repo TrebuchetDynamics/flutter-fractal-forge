@@ -81,9 +81,8 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   int schemeInt = int(uColorScheme);
-  // High-precision coordinate calculation: multiply uv by inverse zoom
-  vec2 c = uCenter + uv * (1.0 / max(uZoom, 1e-6));
-  vec2 z = uCenter + uv * (1.0 / max(uZoom, 1e-6));
+  vec2 c = uv / max(uZoom, 1e-6) + uCenter;
+  vec2 z = uv / max(uZoom, 1e-6) + uCenter;
   vec2 cSeed = vec2(-0.52, -0.42);
   // dz/dz0 derivative. Burning Ship Julia: z = abs(z)^2 + cSeed.
   // dw/dz0 = (sign(z.x)*der.x, sign(z.y)*der.y); der = 2*cmul(abs(z), dw)
@@ -108,10 +107,7 @@ void main() {
     return;
   }
 
-  // Standard smooth iteration formula for reduced banding
-  // smoothIter = iter + 1.0 - log2(log2(zMagSq) * 0.5)
-  float mag2 = max(1e-12, dot(z, z));
-  float smoothVal = float(it) + 1.0 - log2(log2(mag2) * 0.5);
+  float smoothVal = float(it) - log2(log2(max(1e-12, dot(z, z))));
 
   // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
   if (schemeInt >= 50) {

@@ -1,10 +1,10 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-02-13 | Updated: 2026-03-21 -->
+<!-- Generated: 2026-02-13 | Updated: 2026-02-13 -->
 
 # lib
 
 ## Purpose
-Main application source code for Flutter Fractal Forge. Organized into core infrastructure, feature surfaces, generated localizations, and shared utilities. Uses Provider for app-scoped services and a `FractalController` created in `HomeScreen` for the explore/viewer flow.
+Main application source code for Flutter Fractal Forge. Organized into core infrastructure (models, modules, services), feature screens, and shared utilities. Uses Provider for state management with FractalController as the primary state holder.
 
 ## Key Files
 
@@ -25,22 +25,20 @@ Main application source code for Flutter Fractal Forge. Organized into core infr
 
 ### Working In This Directory
 - Entry point is `main.dart` which sets up the Provider tree
-- `main.dart` starts with a deferred splash, then initializes services asynchronously
-- `FractalController` is created in `HomeScreen`, not at the app root
-- `ModuleRegistry` is provided app-wide and currently builds 370 non-debug modules
-- Services such as `PresetStore`, `HistoryStore`, `AccessibilityService`, and `RendererSettingsService` are initialized before the full app shell is shown
+- FractalController is created in HomeScreen, NOT at root
+- All fractal modules are registered via `ModuleRegistry` at startup
+- Services (PresetStore, HistoryStore, etc.) are initialized async before `runApp`
 
 ### Architecture Flow
 ```
-main.dart -> _DeferredStartupApp -> FlutterFractalsApp
-  -> onboarding or HomeScreen
-  -> FractalCatalogScreen
-  -> FractalViewerScreen
+main.dart -> FlutterFractalsApp (providers) -> HomeScreen
+  -> FractalCatalogScreen (browse fractals)
+  -> FractalViewerScreen (render + interact)
 ```
 
 ### Testing Requirements
-- Widget tests usually need `PresetStore`, `RendererSettingsService`, and a provided `ModuleRegistry`
-- Use `FlutterFractalsApp` constructor parameters to inject test services and locale overrides
+- Widget tests need mock stores: `PresetStore`, `HistoryStore`
+- Use `FlutterFractalsApp` constructor with test parameters for integration tests
 
 ### Common Patterns
 - Provider-based DI: services provided at root, consumed via `context.read<T>()`

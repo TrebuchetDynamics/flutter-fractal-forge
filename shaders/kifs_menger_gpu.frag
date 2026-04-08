@@ -59,22 +59,9 @@ float mengerDE(vec3 p, int maxIter) {
         p = abs(p);
 
         // Sort axes so p.x >= p.y >= p.z (conditional swaps)
-        // Note: SkSL doesn't support swizzle writes, use explicit swaps
-        if (p.x < p.y) {
-            float tmp = p.x;
-            p.x = p.y;
-            p.y = tmp;
-        }
-        if (p.x < p.z) {
-            float tmp = p.x;
-            p.x = p.z;
-            p.z = tmp;
-        }
-        if (p.y < p.z) {
-            float tmp = p.y;
-            p.y = p.z;
-            p.z = tmp;
-        }
+        if (p.x < p.y) p.xy = p.yx;
+        if (p.x < p.z) p.xz = p.zx;
+        if (p.y < p.z) p.yz = p.zy;
 
         s *= scale;
         p = p * scale - vec3(scale - 1.0);

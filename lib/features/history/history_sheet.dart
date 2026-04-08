@@ -253,7 +253,6 @@ class _HistorySheetState extends State<HistorySheet>
             final entry = entries[index];
             final isCurrent = entry.id == currentId;
             return FadeIn(
-              key: ValueKey('history_${entry.id}'),
               delay: Duration(milliseconds: index * 30),
               child: _HistoryEntryTile(
                 entry: entry,
@@ -299,13 +298,11 @@ class _HistorySheetState extends State<HistorySheet>
           itemBuilder: (context, index) {
             final entry = favorites[index];
             return FadeIn(
-              key: ValueKey('favorite_${entry.id}'),
               delay: Duration(milliseconds: index * 30),
               child: _FavoriteEntryTile(
                 entry: entry,
                 onTap: () => _applyFavorite(context, history, entry),
-                onRename: () =>
-                    _showRenameFavoriteDialog(context, history, entry),
+                onRename: () => _showRenameFavoriteDialog(context, history, entry),
                 onDelete: () => _confirmDeleteFavorite(context, history, entry),
               ),
             );
@@ -347,7 +344,7 @@ class _HistorySheetState extends State<HistorySheet>
   ) {
     final controller = context.read<FractalController>();
     history.applyToController(entry, controller);
-
+    
     // Record this navigation in history
     history.recordLocation(
       moduleId: entry.moduleId,
@@ -697,8 +694,7 @@ class _HistoryEntryTile extends StatelessWidget {
                   child: Icon(
                     _getModuleIcon(entry.moduleId),
                     size: 20,
-                    color:
-                        isCurrent ? AppColors.primary : AppColors.textSecondary,
+                    color: isCurrent ? AppColors.primary : AppColors.textSecondary,
                   ),
                 ),
                 const SizedBox(width: AppSpacing.md),
@@ -883,11 +879,9 @@ class _FavoriteEntryTile extends StatelessWidget {
                         value: 'delete',
                         child: Row(
                           children: [
-                            const Icon(Icons.delete_rounded,
-                                size: 18, color: AppColors.error),
+                            const Icon(Icons.delete_rounded, size: 18, color: AppColors.error),
                             const SizedBox(width: 8),
-                            Text(l10n.historyDelete,
-                                style: const TextStyle(color: AppColors.error)),
+                            Text(l10n.historyDelete, style: const TextStyle(color: AppColors.error)),
                           ],
                         ),
                       ),

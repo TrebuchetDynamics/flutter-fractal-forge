@@ -83,8 +83,7 @@ class _PresetSheetState extends State<PresetSheet> {
                     padding: const EdgeInsets.all(AppSpacing.lg),
                     decoration: BoxDecoration(
                       color: AppColors.surfaceVariant.withValues(alpha: 0.5),
-                      borderRadius:
-                          BorderRadius.circular(AppSpacing.cardRadius),
+                      borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
                       border: Border.all(
                         color: _isInputFocused
                             ? AppColors.primary.withValues(alpha: 0.4)
@@ -97,8 +96,7 @@ class _PresetSheetState extends State<PresetSheet> {
                           duration: AppAnimations.normal,
                           decoration: BoxDecoration(
                             color: AppColors.surface,
-                            borderRadius:
-                                BorderRadius.circular(AppSpacing.inputRadius),
+                            borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
                             border: Border.all(
                               color: _isInputFocused
                                   ? AppColors.primary.withValues(alpha: 0.6)
@@ -136,11 +134,9 @@ class _PresetSheetState extends State<PresetSheet> {
                         SizedBox(
                           width: double.infinity,
                           child: GradientButton(
-                            onPressed:
-                                (_saving || _nameController.text.trim().isEmpty)
-                                    ? null
-                                    : () => _savePreset(
-                                        context, controller, presetStore, l10n),
+                            onPressed: (_saving || _nameController.text.trim().isEmpty)
+                                ? null
+                                : () => _savePreset(context, controller, presetStore, l10n),
                             gradient: LinearGradient(
                               colors: [
                                 AppColors.secondary.withValues(alpha: 0.9),
@@ -178,13 +174,10 @@ class _PresetSheetState extends State<PresetSheet> {
                 Wrap(
                   spacing: AppSpacing.sm,
                   runSpacing: AppSpacing.sm,
-                  children: controller.module.builtInPresets
-                      .asMap()
-                      .entries
-                      .map((entry) {
+                  children: controller.module.builtInPresets.asMap().entries.map((entry) {
                     return StaggeredItem(
                       index: entry.key,
-                      itemDelay: AppAnimations.presetItemDelay,
+                      itemDelay: const Duration(milliseconds: 40),
                       child: _PresetChip(
                         label: _presetName(context, entry.value),
                         icon: Icons.auto_awesome_rounded,
@@ -207,8 +200,7 @@ class _PresetSheetState extends State<PresetSheet> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Padding(
-                        padding:
-                            const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                         child: Row(
                           children: [
                             SizedBox(
@@ -236,8 +228,8 @@ class _PresetSheetState extends State<PresetSheet> {
                           message: l10n.presetsLoadFailed,
                           onRetry: () {
                             setState(() {
-                              _userPresetsFuture = presetStore
-                                  .loadUserPresets(controller.module.id);
+                              _userPresetsFuture =
+                                  presetStore.loadUserPresets(controller.module.id);
                             });
                           },
                           l10n: l10n,
@@ -257,7 +249,7 @@ class _PresetSheetState extends State<PresetSheet> {
                         final preset = entry.value;
                         return StaggeredItem(
                           index: entry.key,
-                          itemDelay: AppAnimations.presetItemDelay,
+                          itemDelay: const Duration(milliseconds: 40),
                           child: _UserPresetChip(
                             label: preset.name,
                             onTap: () {
@@ -284,9 +276,7 @@ class _PresetSheetState extends State<PresetSheet> {
                     );
                   },
                 ),
-                SizedBox(
-                    height:
-                        MediaQuery.of(context).padding.bottom + AppSpacing.lg),
+                SizedBox(height: MediaQuery.of(context).padding.bottom + AppSpacing.lg),
               ],
             ),
           ),
@@ -324,8 +314,7 @@ class _PresetSheetState extends State<PresetSheet> {
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.check_circle_rounded,
-                    color: AppColors.success),
+                const Icon(Icons.check_circle_rounded, color: AppColors.success),
                 const SizedBox(width: AppSpacing.sm),
                 Text(l10n.presetSaved),
               ],
@@ -363,13 +352,11 @@ class _PresetSheetState extends State<PresetSheet> {
         backgroundColor: AppColors.surface,
         title: Text(
           l10n.deletePresetTitle,
-          style:
-              AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
+          style: AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
         ),
         content: Text(
           l10n.deletePresetMessage(preset.name),
-          style:
-              AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
@@ -392,8 +379,7 @@ class _PresetSheetState extends State<PresetSheet> {
           SnackBar(content: Text(l10n.presetDeleted)),
         );
         setState(() {
-          _userPresetsFuture =
-              presetStore.loadUserPresets(controller.module.id);
+          _userPresetsFuture = presetStore.loadUserPresets(controller.module.id);
         });
       }
     } catch (_) {
@@ -419,18 +405,15 @@ class _PresetSheetState extends State<PresetSheet> {
         backgroundColor: AppColors.surface,
         title: Text(
           l10n.renamePresetTitle,
-          style:
-              AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
+          style: AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
         ),
         content: TextField(
           controller: renameController,
           autofocus: true,
-          style:
-              AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
           decoration: InputDecoration(
             hintText: l10n.renamePresetHint,
-            hintStyle:
-                AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+            hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
           ),
           onSubmitted: (v) {
             final trimmed = v.trim();
@@ -461,8 +444,7 @@ class _PresetSheetState extends State<PresetSheet> {
           SnackBar(content: Text(l10n.presetRenamed)),
         );
         setState(() {
-          _userPresetsFuture =
-              presetStore.loadUserPresets(controller.module.id);
+          _userPresetsFuture = presetStore.loadUserPresets(controller.module.id);
         });
       }
     } catch (_) {
@@ -606,8 +588,7 @@ class _UserPresetChip extends StatelessWidget {
             Text(
               label,
               style: AppTypography.labelMedium.copyWith(
-                color:
-                    isPressed ? AppColors.secondary : AppColors.textSecondary,
+                color: isPressed ? AppColors.secondary : AppColors.textSecondary,
               ),
             ),
             const SizedBox(width: AppSpacing.xs),
@@ -616,9 +597,8 @@ class _UserPresetChip extends StatelessWidget {
               child: InkWell(
                 onTap: onRename,
                 borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-                // WCAG 2.2 minimum 48x48px touch target
                 child: Padding(
-                  padding: const EdgeInsets.all(17),
+                  padding: const EdgeInsets.all(4),
                   child: Icon(
                     Icons.edit_outlined,
                     size: 14,
@@ -632,9 +612,8 @@ class _UserPresetChip extends StatelessWidget {
               child: InkWell(
                 onTap: onDelete,
                 borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-                // WCAG 2.2 minimum 48x48px touch target
                 child: Padding(
-                  padding: const EdgeInsets.all(17),
+                  padding: const EdgeInsets.all(4),
                   child: Icon(
                     Icons.close_rounded,
                     size: 14,

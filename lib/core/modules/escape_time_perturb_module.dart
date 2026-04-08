@@ -87,15 +87,17 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       final colorScheme = readDouble(state.params, 'colorScheme', 0.0).round();
 
       // Phoenix extra param: p (memory term)
-      final phoenixP =
-          id == 'phoenix' ? readDouble(state.params, 'phoenixP', 0.0) : 0.0;
+      final phoenixP = id == 'phoenix'
+          ? readDouble(state.params, 'phoenixP', 0.0)
+          : 0.0;
 
       // G15 color cycling speed (cycles per second via uExtra1).
       final colorSpeed = readDouble(state.params, 'colorCycleSpeed', 0.0);
 
       ui.Image paletteTex;
       try {
-        final palette = PaletteService.instance.paletteAtIndex(colorScheme);
+        final palette =
+            PaletteService.instance.paletteAtIndex(colorScheme);
         paletteTex = PaletteService.instance.paletteTexture(palette);
       } catch (_) {
         // PaletteService unavailable; use a 1×1 black fallback texture.
@@ -125,9 +127,9 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       shader.setFloat(7, bailout);
       shader.setFloat(8, state.transparentBackground ? 1.0 : 0.0);
       shader.setFloat(9, formula.toDouble());
-      shader.setFloat(10, phoenixP); // uExtra0
+      shader.setFloat(10, phoenixP);   // uExtra0
       shader.setFloat(11, colorSpeed); // uExtra1 = color cycle speed (G15)
-      shader.setFloat(12, 0.0); // uExtra2
+      shader.setFloat(12, 0.0);        // uExtra2
 
       shader.setImageSampler(0, paletteTex);
       shader.setImageSampler(1, orbitTex);
@@ -329,3 +331,4 @@ class _EscapeTimePerturbOrbitCache {
     out[offset + 3] = 255;
   }
 }
+

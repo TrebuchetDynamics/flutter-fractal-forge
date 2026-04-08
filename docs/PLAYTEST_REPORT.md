@@ -1,8 +1,6 @@
 ========================================================
 PLAYTEST REPORT -- Flutter Fractal Forge v1.1.0+24
 ========================================================
-Archived QA report. This file captures a point-in-time playtest run and includes findings against older scope assumptions. Do not treat it as the current product or release summary; use `status.md` for current repo state.
-
 Date: 2026-02-27
 Agent: QA Playtesting Pipeline (8-phase)
 Platform: Linux 6.17.0-14-generic

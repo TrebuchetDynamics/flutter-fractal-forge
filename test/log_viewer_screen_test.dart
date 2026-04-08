@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
-import 'package:flutter_fractals/features/debug/log_share_service.dart';
 import 'package:flutter_fractals/features/debug/log_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _wrap({
-  AppLogger? logger,
-  LogShareService shareService = const SharePlusLogShareService(),
-}) =>
-    MaterialApp(
-      locale: const Locale('en'),
+Widget _wrap() => const MaterialApp(
+      locale: Locale('en'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: LogViewerScreen(
-        logger: logger ?? AppLogger.instance,
-        shareService: shareService,
-      ),
+      home: LogViewerScreen(),
     );
 
 void main() {
@@ -61,7 +53,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // PopupMenuButton uses filter_list_rounded icon
-      expect(find.byKey(const ValueKey('logFilterButton')), findsOneWidget);
+      expect(find.byIcon(Icons.filter_list_rounded), findsOneWidget);
     });
 
     testWidgets('filter popup shows All, Debug, Info, Warn, Error items',
@@ -69,7 +61,7 @@ void main() {
       await tester.pumpWidget(_wrap());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('logFilterButton')));
+      await tester.tap(find.byIcon(Icons.filter_list_rounded));
       await tester.pumpAndSettle();
 
       expect(find.text('All'), findsOneWidget);
@@ -83,14 +75,14 @@ void main() {
       await tester.pumpWidget(_wrap());
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const ValueKey('logExportButton')), findsOneWidget);
+      expect(find.byIcon(Icons.file_upload_outlined), findsOneWidget);
     });
 
     testWidgets('clear action button is present', (tester) async {
       await tester.pumpWidget(_wrap());
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const ValueKey('logClearButton')), findsOneWidget);
+      expect(find.byIcon(Icons.delete_outline_rounded), findsOneWidget);
     });
 
     testWidgets('shows "No log entries" when logger is empty', (tester) async {
@@ -130,7 +122,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Open filter menu and select Warn+
-      await tester.tap(find.byKey(const ValueKey('logFilterButton')));
+      await tester.tap(find.byIcon(Icons.filter_list_rounded));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Warn+'));
       await tester.pumpAndSettle();
@@ -148,7 +140,7 @@ void main() {
       await tester.pumpWidget(_wrap());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('logFilterButton')));
+      await tester.tap(find.byIcon(Icons.filter_list_rounded));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Error'));
       await tester.pumpAndSettle();
@@ -186,7 +178,7 @@ void main() {
       expect(find.text('Log (2/2)'), findsOneWidget);
 
       // Filter to Error only → 1 filtered, 2 total
-      await tester.tap(find.byKey(const ValueKey('logFilterButton')));
+      await tester.tap(find.byIcon(Icons.filter_list_rounded));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Error'));
       await tester.pumpAndSettle();
@@ -202,7 +194,7 @@ void main() {
 
       expect(find.text('will be cleared'), findsOneWidget);
 
-      await tester.tap(find.byKey(const ValueKey('logClearButton')));
+      await tester.tap(find.byIcon(Icons.delete_outline_rounded));
       await tester.pumpAndSettle();
 
       expect(find.text('No log entries'), findsOneWidget);
@@ -230,34 +222,5 @@ void main() {
       // Screen stays intact with updated entry count
       expect(find.text('Log (31/31)'), findsOneWidget);
     });
-
-    testWidgets('share failure shows snackbar instead of crashing',
-        (tester) async {
-      AppLogger.instance.info('cat', 'share me');
-
-      await tester.pumpWidget(
-        _wrap(shareService: _ThrowingLogShareService()),
-      );
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byKey(const ValueKey('logExportButton')));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Share Text'));
-      await tester.pumpAndSettle();
-
-      expect(find.textContaining('Share failed:'), findsOneWidget);
-      expect(tester.takeException(), isNull);
-    });
   });
-}
-
-class _ThrowingLogShareService implements LogShareService {
-  @override
-  Future<void> shareText({
-    required String content,
-    required String filename,
-  }) {
-    throw StateError('boom');
-  }
 }

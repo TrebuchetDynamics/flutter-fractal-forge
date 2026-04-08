@@ -1,5 +1,5 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-02-13 | Updated: 2026-03-21 -->
+<!-- Generated: 2026-02-13 | Updated: 2026-02-13 -->
 
 # auto_explore
 
@@ -17,7 +17,7 @@ Autonomous fractal exploration feature. Automatically pans, zooms, and adjusts p
 ## For AI Agents
 
 ### Working In This Directory
-- Auto-explore is only enabled for supported modules; do not assume every fractal in the current 370-module registry can use it
+- Auto-explore only enabled for supported fractals (not all 200+ support it)
 - The service manipulates FractalController's view state and parameters
 - Speed and exploration mode are user-configurable
 

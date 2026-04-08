@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/catalog/catalog_view_mode_store.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -25,15 +22,10 @@ void main() {
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
-      rendererSettings =
-          RendererSettingsService(await SharedPreferences.getInstance());
+      rendererSettings = RendererSettingsService(await SharedPreferences.getInstance());
     });
 
-    Widget buildTestWidget({
-      CatalogViewModeStore viewModeStore =
-          const SharedPreferencesCatalogViewModeStore(),
-      EdgeInsets viewInsets = EdgeInsets.zero,
-    }) {
+    Widget buildTestWidget() {
       return MultiProvider(
         providers: [
           Provider.value(value: registry),
@@ -45,39 +37,21 @@ void main() {
           locale: const Locale('en'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: Builder(
-            builder: (context) {
-              final mediaQuery = MediaQuery.of(context);
-              return MediaQuery(
-                data: mediaQuery.copyWith(viewInsets: viewInsets),
-                child: Scaffold(
-                  body: FractalCatalogScreen(viewModeStore: viewModeStore),
-                ),
-              );
-            },
-          ),
+          home: const Scaffold(body: FractalCatalogScreen()),
         ),
       );
     }
 
-    testWidgets('displays catalog modules in default grid view',
-        (tester) async {
+    testWidgets('displays catalog modules in default grid view', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Verify registry has all expected modules by ID.
       final ids = registry.modules.map((m) => m.id).toList();
-      expect(
-          ids,
-          containsAll([
-            'mandelbrot',
-            'julia',
-            'burning_ship',
-            'phoenix',
-            'mandelbulb'
-          ]));
+      expect(ids, containsAll(['mandelbrot', 'julia', 'burning_ship', 'phoenix', 'mandelbulb']));
 
       // Verify key entries render in the default view.
+      // Featured section may duplicate names, so use findsWidgets.
       expect(find.text('Mandelbrot'), findsWidgets);
       expect(find.text('Burning Ship'), findsWidgets);
       expect(find.byKey(const Key('catalogViewToggleButton')), findsOneWidget);
@@ -94,8 +68,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.enterText(
-          find.byKey(const Key('catalogSearchField')), 'Burning');
+      await tester.enterText(find.byKey(const Key('catalogSearchField')), 'Burning');
       await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
@@ -109,8 +82,7 @@ void main() {
 
       expect(find.text('2D'), findsWidgets);
 
-      await tester.enterText(
-          find.byKey(const Key('catalogSearchField')), 'Mandelbulb');
+      await tester.enterText(find.byKey(const Key('catalogSearchField')), 'Mandelbulb');
       await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
@@ -123,16 +95,11 @@ void main() {
 
       expect(controller.module.id, 'mandelbrot');
 
-      await tester.tap(find.byKey(const Key('catalogViewToggleButton')));
+      await tester.enterText(find.byKey(const Key('catalogSearchField')), 'Julia');
+      await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
-      await tester.enterText(
-          find.byKey(const Key('catalogSearchField')), 'core.julia');
-      await tester.pumpAndSettle();
-
-      expect(find.byKey(const Key('catalogModuleCard_core.julia')),
-          findsOneWidget);
-      await tester.tap(find.byKey(const Key('catalogModuleCard_core.julia')));
+      await tester.tap(find.text('Julia').last);
       await tester.pumpAndSettle();
 
       expect(controller.module.id, 'julia');
@@ -164,6 +131,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
+      // Module text should render (featured + grid may both show it).
       expect(find.text('Mandelbrot'), findsWidgets);
     });
 
@@ -184,29 +152,13 @@ void main() {
       await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
+      // Featured section reappears after clearing search.
       expect(find.text('Mandelbrot'), findsWidgets);
-    });
-
-    testWidgets('search focus hides supporting catalog chrome immediately',
-        (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byKey(const Key('catalogDimensionChip_all')), findsOneWidget);
-      expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
-
-      await tester.tap(find.byKey(const Key('catalogSearchField')));
-      await tester.pump();
-
-      expect(find.byKey(const Key('catalogDimensionChip_all')), findsNothing);
-      expect(find.byKey(const Key('catalogCategoryScroll')), findsNothing);
     });
 
     testWidgets('respects saved list-view preference at startup',
         (tester) async {
-      SharedPreferences.setMockInitialValues({
-        SharedPreferencesCatalogViewModeStore.preferenceKey: false,
-      });
+      SharedPreferences.setMockInitialValues({'catalog_view_grid': false});
 
       registry = ModuleRegistry();
       controller = FractalController(registry);
@@ -218,21 +170,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // In list mode, toggle button should show "switch to grid" icon.
-      final toggle = find.byKey(const Key('catalogViewToggleButton'));
-      expect(
-        find.descendant(
-          of: toggle,
-          matching: find.byIcon(Icons.grid_view_rounded),
-        ),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(
-          of: toggle,
-          matching: find.byIcon(Icons.view_list_rounded),
-        ),
-        findsNothing,
-      );
+      expect(find.byIcon(Icons.grid_view_rounded), findsOneWidget);
+      // And the opposite icon should not be the active toggle icon.
+      expect(find.byIcon(Icons.view_list_rounded), findsNothing);
     });
 
     testWidgets('view toggle switches to list mode and persists preference',
@@ -241,93 +181,17 @@ void main() {
       await tester.pumpAndSettle();
 
       // Starts in grid mode, so icon indicates switch-to-list.
-      final toggle = find.byKey(const Key('catalogViewToggleButton'));
-      expect(
-        find.descendant(
-          of: toggle,
-          matching: find.byIcon(Icons.view_list_rounded),
-        ),
-        findsOneWidget,
-      );
+      expect(find.byIcon(Icons.view_list_rounded), findsOneWidget);
 
       await tester.tap(find.byKey(const Key('catalogViewToggleButton')));
       await tester.pumpAndSettle();
 
       // After toggle, icon indicates switch back to grid.
-      expect(
-        find.descendant(
-          of: toggle,
-          matching: find.byIcon(Icons.grid_view_rounded),
-        ),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(
-          of: toggle,
-          matching: find.byIcon(Icons.view_list_rounded),
-        ),
-        findsNothing,
-      );
+      expect(find.byIcon(Icons.grid_view_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.view_list_rounded), findsNothing);
 
       final prefs = await SharedPreferences.getInstance();
-      expect(
-        prefs.getBool(SharedPreferencesCatalogViewModeStore.preferenceKey),
-        isFalse,
-      );
-    });
-
-    testWidgets('late preference load does not override a user toggle',
-        (tester) async {
-      final store = _DelayedCatalogViewModeStore();
-
-      await tester.pumpWidget(buildTestWidget(viewModeStore: store));
-      await tester.pump();
-
-      final toggle = find.byKey(const Key('catalogViewToggleButton'));
-      await tester.tap(toggle);
-      await tester.pump();
-
-      expect(
-        find.descendant(
-          of: toggle,
-          matching: find.byIcon(Icons.grid_view_rounded),
-        ),
-        findsOneWidget,
-      );
-
-      store.completeLoad(CatalogViewMode.grid);
-      await tester.pumpAndSettle();
-
-      expect(
-        find.descendant(
-          of: toggle,
-          matching: find.byIcon(Icons.grid_view_rounded),
-        ),
-        findsOneWidget,
-      );
-      expect(store.savedModes, [CatalogViewMode.list]);
+      expect(prefs.getBool('catalog_view_grid'), isFalse);
     });
   });
-}
-
-class _DelayedCatalogViewModeStore implements CatalogViewModeStore {
-  final Completer<CatalogViewMode> _loadCompleter =
-      Completer<CatalogViewMode>();
-  final List<CatalogViewMode> savedModes = <CatalogViewMode>[];
-
-  @override
-  Future<CatalogViewMode> load() => _loadCompleter.future;
-
-  @override
-  Future<void> save(CatalogViewMode mode) async {
-    savedModes.add(mode);
-  }
-
-  void completeLoad(CatalogViewMode mode) {
-    if (_loadCompleter.isCompleted) {
-      return;
-    }
-
-    _loadCompleter.complete(mode);
-  }
 }

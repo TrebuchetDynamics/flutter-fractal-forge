@@ -12,7 +12,6 @@ import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
-import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/main.dart';
 
 void main() {
@@ -87,9 +86,7 @@ void main() {
 
     Future<void> openFirstModule(WidgetTester tester) async {
       expect(moduleCards(), findsWidgets);
-      final firstCard = moduleCards().first;
-      await tester.ensureVisible(firstCard);
-      await tester.tap(firstCard);
+      await tester.tap(moduleCards().first);
       await tester.pump(const Duration(seconds: 2));
       drainKnownShaderExceptions(tester);
     }
@@ -109,22 +106,9 @@ void main() {
       final moduleName = find.text(displayName);
       expect(moduleName, findsWidgets);
 
-      await tester.ensureVisible(moduleName.first);
       await tester.tap(moduleName.first);
       await tester.pump(const Duration(seconds: 2));
       drainKnownShaderExceptions(tester);
-    }
-
-    Future<void> openPresetsFromContextMenu(WidgetTester tester) async {
-      final renderer = find.byType(FractalRenderer);
-      expect(renderer, findsOneWidget);
-
-      await tester.longPressAt(tester.getCenter(renderer));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
-
-      await tester.tap(find.text('Open Presets'));
-      await safeSettle(tester);
     }
 
     testWidgets('catalog search and empty-state flow works', (tester) async {
@@ -145,8 +129,6 @@ void main() {
 
       final clearSearch = find.byKey(const Key('catalogClearSearchButton'));
       expect(clearSearch, findsOneWidget);
-      await tester.ensureVisible(clearSearch);
-      await tester.pump(const Duration(milliseconds: 300));
       await tester.tap(clearSearch);
       await safeSettle(tester);
 
@@ -157,9 +139,9 @@ void main() {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
-      expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
-      expect(find.byKey(const Key('viewerRandomFractalButton')), findsOneWidget);
+      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.bookmark_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.download_rounded), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded));
       await tester.pump();
@@ -173,7 +155,7 @@ void main() {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      await tester.tap(find.byKey(const Key('viewerControlsButton')));
+      await tester.tap(find.byIcon(Icons.tune_rounded));
       await safeSettle(tester);
 
       expect(find.byType(FractalControlsSheet), findsOneWidget);
@@ -198,7 +180,8 @@ void main() {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      await openPresetsFromContextMenu(tester);
+      await tester.tap(find.byIcon(Icons.bookmark_rounded));
+      await safeSettle(tester);
 
       expect(find.byType(PresetSheet), findsOneWidget);
       expect(find.byIcon(Icons.auto_awesome_rounded), findsWidgets);
@@ -228,13 +211,14 @@ void main() {
         displayName: 'Burning Ship',
       );
 
-      await tester.tap(find.byKey(const Key('viewerControlsButton')));
+      await tester.tap(find.byIcon(Icons.tune_rounded));
       await safeSettle(tester);
       expect(find.byType(FractalControlsSheet), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);
       await safeSettle(tester);
 
-      await openPresetsFromContextMenu(tester);
+      await tester.tap(find.byIcon(Icons.bookmark_rounded));
+      await safeSettle(tester);
       expect(find.byType(PresetSheet), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);
       await safeSettle(tester);

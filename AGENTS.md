@@ -1,9 +1,8 @@
-<!-- Generated: 2026-02-13 | Updated: 2026-03-21 -->
+<!-- Generated: 2026-02-13 | Updated: 2026-02-13 -->
 
 # Flutter Fractal Forge
 
 ## Purpose
-Flutter Fractal Forge is a Flutter app for browsing and exploring a large fractal catalog with GPU-first rendering, fallback backend controls, presets/history, export, accessibility features, and localized UI.
 
 ## Key Files
 
@@ -23,8 +22,8 @@ Flutter Fractal Forge is a Flutter app for browsing and exploring a large fracta
 | Directory | Purpose |
 |-----------|---------|
 | `lib/` | Application source code - models, modules, services, features (see `lib/AGENTS.md`) |
-| `shaders/` | 450+ shader assets, including production fractal shaders, diagnostics, and legacy experiments (see `shaders/AGENTS.md`) |
-| `fractals-library/` | Reference library and manifest for 200 catalog definitions used as source material (see `fractals-library/AGENTS.md`) |
+| `shaders/` | 220+ GLSL fragment shaders for GPU fractal rendering (see `shaders/AGENTS.md`) |
+| `fractals-library/` | 200 fractal definitions organized by mathematical category (see `fractals-library/AGENTS.md`) |
 | `test/` | Unit and widget tests (see `test/AGENTS.md`) |
 | `integration_test/` | Integration and screenshot tests (see `integration_test/AGENTS.md`) |
 | `assets/` | App icons and 250+ catalog thumbnail images (see `assets/AGENTS.md`) |
@@ -44,7 +43,7 @@ Flutter Fractal Forge is a Flutter app for browsing and exploring a large fracta
 State Management: Provider + ChangeNotifier (FractalController)
 Rendering: GLSL fragment shaders via Flutter's FragmentShader API
 Module System: Declarative EscapeTimeConfig catalog + custom builder functions
-Navigation: deferred startup -> onboarding/home -> catalog -> viewer
+Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 ```
 
 ### Working In This Directory
@@ -52,14 +51,11 @@ Navigation: deferred startup -> onboarding/home -> catalog -> viewer
 - Dart SDK 3.10.7, Flutter desktop (Linux primary)
 - `lld` linker workaround: shell script at `~/.local/bin/clang++`
 - Provider is used for DI; FractalController is the primary state holder
-- `ModuleRegistry` currently exposes 370 non-debug modules
-- Most 2D fractals use the escape-time builder pattern (declarative config + shader)
-- Current release scope excludes AR/camera flows and video export
+- Most fractals use the escape-time builder pattern (declarative config + shader)
 
 ### Key Patterns
 - **Module system**: `FractalModule` defines a fractal type (id, shader, params, presets, uniform setter). Registered in `ModuleRegistry`
-- **Escape-time catalog**: 350 raw `EscapeTimeConfig` entries live in `escape_time_catalog.dart`; custom modules such as Julia/Phoenix/Nova/Mandelbulb still have dedicated builders
-- **Catalog browser**: `FractalCatalogScreen` uses stable `catalogId`s plus presentation data from `catalog_screen_data.dart`
+- **Escape-time catalog**: Standard fractals defined declaratively in `escape_time_catalog.dart`; custom fractals (Julia, Phoenix, Mandelbulb) have dedicated builders
 - **Shader uniforms**: Each module's `setUniforms` callback maps Dart params to GLSL uniforms
 - **Safe/boot modes**: `SAFE_MODE` and `BOOT_STEP` environment vars for incremental debugging
 
@@ -80,7 +76,9 @@ Navigation: deferred startup -> onboarding/home -> catalog -> viewer
 - `vector_math` ^2.1.4 - Math for 3D transforms
 - `image` ^4.0.0 - Image encoding/export
 - `shared_preferences` ^2.2.0 - Local persistence
+- `camera` ^0.10.6 - overlay camera feed
 - `path_provider` ^2.1.0 - File system paths
 - `share_plus` ^7.0.0 - Share/export
+- `permission_handler` ^11.0.0 - Runtime permissions
 
 <!-- MANUAL: -->

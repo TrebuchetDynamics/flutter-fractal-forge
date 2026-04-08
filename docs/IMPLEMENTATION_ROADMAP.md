@@ -1,7 +1,5 @@
 # Flutter Fractal Forge — Implementation Roadmap
 
-> Research roadmap. This file summarizes external ideas and speculative implementation options; it is not a statement of the currently shipped feature set.
-
 Actionable techniques extracted from 4 major open-source fractal projects.
 
 ---

@@ -9,7 +9,6 @@ import 'package:vector_math/vector_math.dart' show Vector2;
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
@@ -82,10 +81,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Future<void> _spawnWorker() async {
     try {
       _worker = await CpuTileWorker.spawn();
-      if (!mounted) {
-        _worker?.dispose();
-        return;
-      }
+      if (!mounted) { _worker?.dispose(); return; }
       _scheduleRender();
     } catch (e) {
       if (mounted) setState(() => _error = e);
@@ -160,16 +156,16 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   bool _shouldStillBeInteracting() {
     final t = _lastInteractionAt;
     if (t == null) return false;
-    return DateTime.now().difference(t) < AppAnimations.gpuHealthTimeout;
+    return DateTime.now().difference(t) < const Duration(milliseconds: 220);
   }
 
   void _scheduleRender() {
     _debounce?.cancel();
-    _debounce = Timer(AppAnimations.controlRevealDelay, _renderPreview);
+    _debounce = Timer(const Duration(milliseconds: 60), _renderPreview);
 
     // Schedule a refine pass after user stops touching.
     _refineTimer?.cancel();
-    _refineTimer = Timer(AppAnimations.cpuRenderDebounce, () {
+    _refineTimer = Timer(const Duration(milliseconds: 260), () {
       if (!mounted) return;
       if (_shouldStillBeInteracting()) {
         // Still moving; we'll get rescheduled by later updates.
@@ -325,7 +321,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       final now = DateTime.now();
       final shouldUpdate = tilesDone == 1 ||
           tilesDone % 6 == 0 ||
-          now.difference(lastUpdate) > AppAnimations.viewerControlReveal3;
+          now.difference(lastUpdate) > const Duration(milliseconds: 80);
       if (shouldUpdate) {
         lastUpdate = now;
         final img =
@@ -483,7 +479,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Future<void> _renderPreview() => _renderPass(
         resolutionScale: 0.8,
         sampleCount: 1,
-        maxTime: AppAnimations.cpuRenderIteration,
+        maxTime: const Duration(milliseconds: 140),
         isPreview: true,
       );
 
@@ -580,9 +576,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     } catch (e) {
       _setSlowModeActive(false);
       if (mounted) {
-        setState(() {
-          _error = e;
-        });
+        setState(() { _error = e; });
       }
     }
   }
@@ -666,8 +660,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.68),
                     borderRadius: BorderRadius.circular(8),
-                    border:
-                        Border.all(color: Colors.cyan.withValues(alpha: 0.7)),
+                    border: Border.all(color: Colors.cyan.withValues(alpha: 0.7)),
                   ),
                   child: const Text(
                     'High Res ✦',

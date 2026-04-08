@@ -1,8 +1,6 @@
 # Automated Playtesting & QA Guide for Blind Developers
 ## Flutter on Android Emulators — Complete Tool Ecosystem
 
-> QA strategy reference. Examples and counts here reflect the period when the guide was written and may not match the current widget tree exactly.
-
 **Project:** Flutter Fractal Forge
 **Last Updated:** 2026-02-27
 **Audience:** Blind developers, CI/CD pipelines, headless environments

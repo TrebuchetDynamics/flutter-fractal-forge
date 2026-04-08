@@ -4,4 +4,3 @@
 
 export 'auto_explore_service.dart';
 export 'auto_explore_controls.dart';
-export 'enhanced_auto_explore_service.dart';

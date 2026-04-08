@@ -5,49 +5,11 @@ set -e
 
 APP_ID="com.trebuchetdynamics.fractal.forge"
 ACTIVITY="$APP_ID/.MainActivity"
-# Standalone debug installs can stall on the native splash on real devices,
-# while profile builds launch normally without needing the Flutter tool attached.
-APK_PATH="${APK_PATH:-build/app/outputs/flutter-apk/app-profile.apk}"
+APK_PATH="build/app/outputs/flutter-apk/app-debug.apk"
 PASS=0
 FAIL=0
 RESULTS=()
 FIRST_RUN=true
-
-wait_for_awake_screen() {
-  local attempts=0
-  while [ "$attempts" -lt 10 ]; do
-    if adb shell dumpsys power 2>/dev/null | grep -q "mWakefulness=Awake"; then
-      return 0
-    fi
-    attempts=$((attempts + 1))
-    sleep 1
-  done
-  return 1
-}
-
-dismiss_play_protect() {
-  local focus
-  focus=$(adb shell dumpsys window 2>/dev/null | grep "mCurrentFocus" || true)
-  if echo "$focus" | grep -q "PlayProtectDialogsActivity"; then
-    echo "--- Play Protect dialog detected, dismissing ---"
-    adb shell input tap 540 1630 2>/dev/null || true
-    sleep 2
-  fi
-}
-
-prepare_device() {
-  echo "--- Waking and unlocking device ---"
-  adb shell input keyevent KEYCODE_WAKEUP 2>/dev/null || true
-  adb shell input keyevent KEYCODE_MENU 2>/dev/null || true
-  adb shell wm dismiss-keyguard 2>/dev/null || true
-  adb shell input swipe 540 1800 540 600 250 2>/dev/null || true
-  wait_for_awake_screen || true
-
-  echo "--- Collapsing system panels ---"
-  adb shell cmd statusbar collapse 2>/dev/null || true
-  adb shell input keyevent KEYCODE_BACK 2>/dev/null || true
-  sleep 2
-}
 
 dismiss_anr() {
   # Dismiss ANR dialog if present (tap "Wait" button).
@@ -73,14 +35,19 @@ ensure_app_installed() {
   if ! adb shell pm list packages 2>/dev/null | grep -q "$APP_ID"; then
     echo "--- App not installed, reinstalling ---"
     adb install -r "$APK_PATH" 2>/dev/null || true
+  else
+    # Verify the activity is resolvable (package can exist but be broken).
+    if ! adb shell am start -n "$ACTIVITY" 2>&1 | grep -q "Status: ok"; then
+      echo "--- App broken, reinstalling ---"
+      adb uninstall "$APP_ID" 2>/dev/null || true
+      adb install -r "$APK_PATH" 2>/dev/null || true
+    else
+      return 0
+    fi
   fi
-
-  dismiss_play_protect
 }
 
 launch_app() {
-  prepare_device
-
   echo "--- Ensuring app is installed ---"
   ensure_app_installed
 
@@ -116,7 +83,6 @@ install_maestro_driver() {
   echo "=============================="
   echo "  Installing Maestro driver"
   echo "=============================="
-  prepare_device
   disable_interfering_apps
   ensure_app_installed
   adb shell am start -n "$ACTIVITY" 2>/dev/null || true

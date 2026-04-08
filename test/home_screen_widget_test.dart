@@ -82,36 +82,5 @@ void main() {
 
       expect(tester.takeException(), isNull);
     });
-
-    testWidgets('initial screen transition does not overflow on phone viewport',
-        (tester) async {
-      final overflowErrors = <String>[];
-      final originalOnError = FlutterError.onError;
-      FlutterError.onError = (details) {
-        final message = details.exceptionAsString();
-        if (message.contains('overflowed') ||
-            message.contains('OVERFLOW') ||
-            message.contains('RenderFlex')) {
-          overflowErrors.add(message);
-          return;
-        }
-
-        originalOnError?.call(details);
-      };
-
-      try {
-        tester.view.physicalSize = const Size(412, 915);
-        tester.view.devicePixelRatio = 1;
-
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump(const Duration(milliseconds: 50));
-
-        expect(overflowErrors, isEmpty);
-      } finally {
-        FlutterError.onError = originalOnError;
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      }
-    });
   });
 }

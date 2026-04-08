@@ -21,21 +21,19 @@ class CatalogRepository {
     };
 
     return CatalogRepository(
-      entries: registry.modules.map(
-        (module) {
-          final category = categoriesById[module.id] ??
-              (module.dimension == FractalDimension.threeD
-                  ? '3D Fractals'
-                  : 'Other');
-          return CatalogEntry(
-            // Stable prefix to decouple future module refactors from IDs.
-            catalogId: 'core.${module.id}',
-            module: module,
-            category: category,
-            aliases: _buildAliases(module: module, category: category),
-          );
-        },
-      ).toList(growable: false),
+      entries: registry.modules
+          .map(
+            (module) => CatalogEntry(
+              // Stable prefix to decouple future module refactors from IDs.
+              catalogId: 'core.${module.id}',
+              module: module,
+              category: categoriesById[module.id] ??
+                  (module.dimension == FractalDimension.threeD
+                      ? '3D Fractals'
+                      : 'Other'),
+            ),
+          )
+          .toList(growable: false),
     );
   }
 
@@ -45,31 +43,4 @@ class CatalogRepository {
 
   @visibleForTesting
   Set<String> allIds() => entries.map((e) => e.catalogId).toSet();
-
-  static List<String> _buildAliases({
-    required FractalModule module,
-    required String category,
-  }) {
-    final rawAliases = <String>{
-      module.id,
-      module.id.replaceAll('_', ' '),
-      module.id.replaceAll('_', ''),
-      category,
-      module.dimension == FractalDimension.threeD ? '3d' : '2d',
-    };
-
-    final expandedAliases = <String>{};
-    for (final alias in rawAliases) {
-      final normalized = alias.trim().toLowerCase();
-      if (normalized.isEmpty) continue;
-      expandedAliases.add(normalized);
-      expandedAliases.addAll(
-        normalized
-            .split(RegExp(r'[^a-z0-9]+'))
-            .where((token) => token.isNotEmpty),
-      );
-    }
-
-    return expandedAliases.toList(growable: false)..sort();
-  }
 }

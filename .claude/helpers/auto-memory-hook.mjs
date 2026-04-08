@@ -17,7 +17,7 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const PROJECT_ROOT = process.env.CLAUDE_PROJECT_DIR || join(__dirname, '../..');
+const PROJECT_ROOT = join(__dirname, '../..');
 const DATA_DIR = join(PROJECT_ROOT, '.claude-flow', 'data');
 const STORE_PATH = join(DATA_DIR, 'auto-memory-store.json');
 

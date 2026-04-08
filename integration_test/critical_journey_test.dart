@@ -125,8 +125,6 @@ void main() {
         // ------------------------------------------------------------------
         // Step 3: Tap on Mandelbrot card to open viewer
         // ------------------------------------------------------------------
-        await tester.ensureVisible(mandelbrotCard);
-        await tester.pump(const Duration(milliseconds: 300));
         await tester.tap(mandelbrotCard);
         // Shader animation frames may never settle; use bounded pumps.
         await tester.pump(const Duration(seconds: 2));
@@ -162,7 +160,7 @@ void main() {
 
         // Random fractal button (shuffle icon)
         expect(
-          find.byKey(const Key('viewerRandomFractalButton')),
+          find.byKey(const Key('viewerRandomButton')),
           findsOneWidget,
           reason: 'Viewer random button must be present',
         );

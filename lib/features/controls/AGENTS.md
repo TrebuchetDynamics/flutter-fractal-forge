@@ -1,29 +1,28 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-02-13 | Updated: 2026-03-21 -->
+<!-- Generated: 2026-02-13 | Updated: 2026-02-13 -->
 
 # controls
 
 ## Purpose
-Parameter control sheet for adjusting fractal parameters in real time. Generates compact sliders, toggles, and selectors dynamically from the active module schema and includes quick actions for reset/randomize.
+Parameter control panel for adjusting fractal parameters in real-time. Generates sliders, toggles, and dropdowns dynamically from the active module's parameter schema.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
-| `fractal_controls.dart` | Bottom-sheet UI for parameter controls and quick actions |
-| `fractal_control_value_resolver.dart` | Resolves raw controller values into typed values used by the control widgets |
+| `fractal_controls.dart` | `FractalControls` - schema-driven control panel that renders sliders/toggles based on `FractalParameter` definitions. Handles float, int, boolean, and enum parameter types |
 
 ## For AI Agents
 
 ### Working In This Directory
 - Controls are generated dynamically from `FractalModule.parameters`
-- Each parameter type maps to a compact widget variant tuned for the viewer bottom sheet
+- Each parameter type maps to a specific widget (Slider, Switch, DropdownButton)
 - Parameter values stored as `Object` in FractalController - use local variable for type promotion
 - Dart gotcha: `Object` fields do NOT type-promote; assign to `final v = value;` first
 
 ### Testing Requirements
 - `test/fractal_controls_comprehensive_test.dart`
-- `test/fractal_control_value_resolver_test.dart`
+- `test/fractal_controls_sheet_widget_test.dart`
 
 ## Dependencies
 
