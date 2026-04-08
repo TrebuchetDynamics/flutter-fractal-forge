@@ -1404,27 +1404,26 @@ class _FeaturedSection extends StatelessWidget {
             ],
           ),
         ),
-        // Featured cards - Basic Carousel
+        // Featured cards - PageView carousel with snapping
         SizedBox(
           height: 380,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: PageView.builder(
+            controller: PageController(
+              viewportFraction: 0.85,
+              initialPage: 0,
+            ),
             itemCount: featured.length,
             itemBuilder: (context, index) {
-              return SizedBox(
-                width: 320,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: GestureDetector(
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: GestureDetector(
+                  onTap: () =>
+                      onTap(featured[index].module, featured[index].catalogId),
+                  child: _FeaturedHeroCard(
+                    entry: featured[index],
+                    l10n: l10n,
                     onTap: () => onTap(
                         featured[index].module, featured[index].catalogId),
-                    child: _FeaturedHeroCard(
-                      entry: featured[index],
-                      l10n: l10n,
-                      onTap: () => onTap(
-                          featured[index].module, featured[index].catalogId),
-                    ),
                   ),
                 ),
               );
@@ -2142,6 +2141,12 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
         _localShimmerController.repeat();
       }
     }
+    // Force show image or fallback after timeout - prevents infinite gray in release
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted && !_imageLoaded && !_imageError) {
+        setState(() => _imageError = true);
+      }
+    });
   }
 
   @override
@@ -2178,19 +2183,23 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Shimmer shown while image is loading
+          // Show shimmer while loading OR show gradient fallback on error
           if (!_imageLoaded && !_imageError)
-            _ShimmerSkeleton(controller: _localShimmerController),
-
-          // Image (or gradient fallback on error)
-          Image(
-            image: ResizeImage(
-              AssetImage(thumbAsset),
-              width: 256,
-              height: 256,
+            _ShimmerSkeleton(controller: _localShimmerController)
+          else if (_imageError)
+            _GradientFallback(
+              catalogId: widget.catalogId,
+              category: widget.category,
             ),
+
+          // Image - always rendered but may be transparent until loaded
+          Image.asset(
+            thumbAsset,
+            width: 256,
+            height: 256,
             fit: BoxFit.cover,
             filterQuality: FilterQuality.medium,
+            gaplessPlayback: true,
             frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
               final imageReady = wasSynchronouslyLoaded || frame != null;
               if (imageReady && !_imageLoaded) {
@@ -2207,15 +2216,10 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
               );
             },
             errorBuilder: (context, error, stack) {
-              if (!_imageError) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _markImageError();
-                });
-              }
-              return _GradientFallback(
-                catalogId: widget.catalogId,
-                category: widget.category,
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _markImageError();
+              });
+              return const SizedBox.shrink(); // Fallback already shown above
             },
           ),
 
