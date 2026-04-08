@@ -1,7 +1,7 @@
 name: flutter_fractals
 description: GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.
 publish_to: none
-version: 1.1.0+34
+version: 1.1.0+35
 environment:
   sdk: ^3.0.0
 dependencies:
