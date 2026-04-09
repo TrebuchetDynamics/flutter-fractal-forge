@@ -1,11 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
-import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 const _kKnownThumbnailIds = <String>{
   'mandelbrot',

@@ -18,7 +18,7 @@ class FractalControlsSheet extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return AppBottomSheet(
-      maxHeightFactor: 0.68,
+      maxHeightFactor: 0.38,
       children: [
         AppBottomSheetHeader(
           icon: Icons.tune_rounded,
@@ -31,10 +31,10 @@ class FractalControlsSheet extends StatelessWidget {
         Flexible(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
-              AppSpacing.lg,
-              AppSpacing.md,
-              AppSpacing.lg,
-              AppSpacing.lg,
+              AppSpacing.sm,
+              AppSpacing.xs,
+              AppSpacing.sm,
+              AppSpacing.sm,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,41 +111,43 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PressableScale(
-      onTap: onPressed,
-      builder: (isPressed) => AnimatedContainer(
-        duration: AppAnimations.fast,
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        decoration: BoxDecoration(
-          color: isPressed
-              ? AppColors.surfaceElevated
-              : AppColors.surfaceVariant,
-          borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-          border: Border.all(
+    return Semantics(
+      button: true,
+      label: label,
+      child: PressableScale(
+        onTap: onPressed,
+        builder: (isPressed) => AnimatedContainer(
+          duration: AppAnimations.fast,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xs,
+            vertical: AppSpacing.xs,
+          ),
+          decoration: BoxDecoration(
             color: isPressed
                 ? AppColors.primary.withValues(alpha: 0.3)
                 : AppColors.border.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 18,
-              color: isPressed ? AppColors.primary : AppColors.textSecondary,
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Text(
-              label,
-              style: AppTypography.labelMedium.copyWith(
-                color: isPressed ? AppColors.primary : AppColors.textPrimary,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: isPressed ? AppColors.primary : AppColors.textSecondary,
               ),
-            ),
-          ],
+              const SizedBox(height: 2),
+              Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTypography.labelSmall.copyWith(
+                  color: isPressed ? AppColors.primary : AppColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -356,8 +358,8 @@ class _OptionChip extends StatelessWidget {
         builder: (isPressed) => AnimatedContainer(
           duration: AppAnimations.normal,
           padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
+            horizontal: 10,
+            vertical: 6,
           ),
           decoration: BoxDecoration(
             color: selected

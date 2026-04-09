@@ -97,7 +97,7 @@ void main() {
   if (converged) {
     float dist = length(z);
     float t = fract(dist * 2.0 + atan(z.y, z.x) / 6.28318 + uTime * 0.0001);
-    vec3 col = palette(t, schemeInt < 50 ? schemeInt : (schemeInt - 50) % 4);
+    vec3 col = palette(t, schemeInt < 50 ? schemeInt : (schemeInt - 50) - ((schemeInt - 50) / 4) * 4);
     fragColor = vec4(linearToSRGB(col * 0.8), 1.0);
     return;
   }
@@ -118,7 +118,7 @@ void main() {
     float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
     light = pow(light, 1.0 / 1.8);
     float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
-    int basePal = (schemeInt - 50) % 4;
+    int basePal = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
     fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
     return;
   }

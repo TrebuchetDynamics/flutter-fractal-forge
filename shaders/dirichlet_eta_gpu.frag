@@ -106,7 +106,7 @@ void main() {
     float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
     light = pow(light, 1.0 / 1.8);
     float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
-    int basePal = (schemeInt - 50) % 4;
+    int basePal = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
     fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
     return;
   }

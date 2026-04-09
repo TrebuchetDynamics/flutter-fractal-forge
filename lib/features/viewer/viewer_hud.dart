@@ -30,10 +30,10 @@ Widget _viewerBuildViewerTitleChip(
   final l10n = AppLocalizations.of(context)!;
   return Container(
     key: const Key('viewerTitleChip'),
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
     decoration: BoxDecoration(
       color: Colors.black.withValues(alpha: 0.58),
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8),
       border: Border.all(color: Colors.white24),
     ),
     child: ConstrainedBox(
@@ -45,8 +45,8 @@ Widget _viewerBuildViewerTitleChip(
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
         ),
       ),
     ),
@@ -83,19 +83,19 @@ Widget _viewerBuildViewerStatusChip(
     label: semanticsLabel,
     child: Container(
       key: const Key('viewerStatusChip'),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.58),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.white24),
       ),
       child: Text(
         '$backendLabel · z=$zoomLabel · it=$iterations',
         key: const Key('viewerStatusChipText'),
         style: const TextStyle(
-          color: Colors.white,
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
+          color: Colors.white70,
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
         ),
       ),
     ),

@@ -531,13 +531,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         backTooltip:
                             MaterialLocalizations.of(context).backButtonTooltip,
                         onGoBack: () => Navigator.of(context).pop(),
-                        onOpenMoreActions: () {},
-                        onEnterFullscreen: _toggleFullscreenUnobtrusive,
+                        onToggleFullscreen: _toggleFullscreenUnobtrusive,
                         onOpenAutoExploreSettings: () =>
                             _openAutoExploreSettings(context),
                         onOpenRandomFractal: () => _onRandomFractalFab(context),
-                        onOpenExport: () => _openExport(context),
                         onOpenControls: () => _openControls(context),
+                        onOpenExport: () => _openExport(context),
                       ),
                     ),
 

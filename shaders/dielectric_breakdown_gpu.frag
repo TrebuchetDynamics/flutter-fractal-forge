@@ -267,7 +267,7 @@ void main() {
     light = pow(light, 1.0 / 1.8);
 
     float baseT = fract(gen * 0.2 + dist * 5.0 + uTime * 0.0001);
-    int basePal = (schemeInt - 50) % 4;
+    int basePal = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
     vec3 col = palette(baseT, basePal) * light * max(intensity, 0.15);
     fragColor = vec4(linearToSRGB(col), 1.0);
     return;

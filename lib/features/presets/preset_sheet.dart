@@ -70,7 +70,7 @@ class _PresetSheetState extends State<PresetSheet> {
         // Scrollable content
         Flexible(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.xl),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -80,7 +80,7 @@ class _PresetSheetState extends State<PresetSheet> {
                 FadeIn(
                   child: AnimatedContainer(
                     duration: AppAnimations.normal,
-                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    padding: const EdgeInsets.all(AppSpacing.md),
                     decoration: BoxDecoration(
                       color: AppColors.surfaceVariant.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
@@ -124,8 +124,8 @@ class _PresetSheetState extends State<PresetSheet> {
                               ),
                               border: InputBorder.none,
                               contentPadding: const EdgeInsets.symmetric(
-                                horizontal: AppSpacing.lg,
-                                vertical: AppSpacing.md,
+                                horizontal: 12,
+                                vertical: 10,
                               ),
                             ),
                           ),

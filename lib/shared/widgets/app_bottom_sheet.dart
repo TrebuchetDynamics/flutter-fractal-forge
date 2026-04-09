@@ -94,27 +94,27 @@ class AppBottomSheetHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-        AppSpacing.xl,
-        AppSpacing.lg,
-        AppSpacing.xl,
+        AppSpacing.md,
         AppSpacing.sm,
+        AppSpacing.md,
+        AppSpacing.xs,
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               gradient: iconGradient ?? AppColors.primaryGradient,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: Colors.white, size: 20),
+            child: Icon(icon, color: Colors.white, size: 18),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: AppTypography.headlineMedium),
+                Text(title, style: AppTypography.titleMedium),
                 if (subtitle != null)
                   Text(
                     subtitle!,

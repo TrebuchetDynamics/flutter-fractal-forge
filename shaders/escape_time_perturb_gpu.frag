@@ -162,7 +162,13 @@ void main() {
       dzNew = 2.0 * cmul(Zn, dz) + cmul(dz, dz) + p * dzPrev + dc;
     }
 
-    if (dot(dzNew, dzNew) > dot(Zn, Zn) * 1e6) {
+    // Overflow protection: use a much larger threshold (1e12) to avoid false triggers
+    // at deep zoom where deltas naturally grow large. The original 1e6 threshold
+    // was too aggressive and caused visible grid artifacts (color blocks) at z≈5e6.
+    // At deep zoom, accumulated deltas can legitimately exceed the reference orbit
+    // magnitude by large factors without indicating an actual overflow.
+    // The bailout check later will handle true overflow cases.
+    if (dot(dzNew, dzNew) > dot(Zn, Zn) * 1e12) {
       dzNew = Zn + dzNew;
     }
 

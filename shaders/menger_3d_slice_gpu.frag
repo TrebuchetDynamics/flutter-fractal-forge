@@ -73,7 +73,7 @@ void main() {
 
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 20 + 1, 1, 8);
+  int depth = int(clamp(float(target / 20 + 1), 1.0, 8.0));
 
   vec3 p = vec3(p2, 0.0);
   float hole = 0.0;

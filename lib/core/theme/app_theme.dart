@@ -189,12 +189,6 @@ class AppTypography {
   static const String bodyFont = 'Inter';
   static const String monoFont = 'JetBrains Mono';
 
-  // Base styles
-  static const TextStyle _baseStyle = TextStyle(
-    fontFamily: bodyFont,
-    color: AppColors.textPrimary,
-  );
-
   // Title styles - Poppins for more personality
   static const TextStyle displayLarge = TextStyle(
     fontFamily: titleFont,

@@ -111,7 +111,8 @@ void main() {
     light = pow(light, 1.0 / 1.8);
 
     float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
-    int basePal = (schemeInt - 50) % 4;
+    // Note: SkSL doesn't support % operator; use integer division trick
+    int basePal = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
     fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
     return;
   }

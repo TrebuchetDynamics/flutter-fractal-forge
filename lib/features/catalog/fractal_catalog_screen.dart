@@ -651,8 +651,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.md,
+              horizontal: 12,
+              vertical: 10,
             ),
           ),
           onChanged: (_) {
@@ -993,8 +993,8 @@ class _DimChip extends StatelessWidget {
         key: chipKey,
         onTap: onTap,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          duration: AppAnimations.fast,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(
             gradient: selected
                 ? LinearGradient(
@@ -1059,6 +1059,63 @@ class _DimChip extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CatalogSummaryPill extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String? value;
+
+  const CatalogSummaryPill({
+    required this.icon,
+    required this.label,
+    this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.surface.withValues(alpha: 0.75),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: AppColors.border.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 12,
+            color: AppColors.textMuted,
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          Text(
+            label,
+            style: AppTypography.labelSmall.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          if (value != null) ...[
+            const SizedBox(width: AppSpacing.xs),
+            Text(
+              value!,
+              style: AppTypography.labelSmall.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
@@ -1790,7 +1847,6 @@ class _FeaturedCardState extends State<_FeaturedCard>
                             textAlign: TextAlign.center,
                             style: AppTypography.labelSmall.copyWith(
                               color: Colors.white,
-                              fontSize: 12,
                               fontWeight: FontWeight.w700,
                               shadows: const [
                                 Shadow(color: Colors.black87, blurRadius: 6),
@@ -2010,7 +2066,7 @@ class _ModuleCardState extends State<_ModuleCard>
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+            horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
         child: Row(
           children: [
             SizedBox(

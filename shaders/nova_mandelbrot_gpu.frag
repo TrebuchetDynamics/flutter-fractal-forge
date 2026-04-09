@@ -104,7 +104,7 @@ void main() {
   if (rootId >= 0) {
     float smoothVal = float(it) + 1.0;
     float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-    int pal = schemeInt < 50 ? schemeInt : (schemeInt - 50) % 4;
+    int pal = schemeInt < 50 ? schemeInt : (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
     vec3 baseCol = palette(t, pal);
     // Tint by root
     if (rootId == 0) baseCol *= vec3(1.0, 0.7, 0.7);
@@ -132,7 +132,7 @@ void main() {
     float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
     light = pow(light, 1.0 / 1.8);
     float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
-    int basePal = (schemeInt - 50) % 4;
+    int basePal = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
     fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
     return;
   }

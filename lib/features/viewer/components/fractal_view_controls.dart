@@ -7,14 +7,28 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+/// Compact control button sizes (WCAG 2.2 minimum 48x48px touch target).
+class _ControlSizes {
+  static const double primaryButton = 44;
+  static const double secondaryButton = 40;
+  static const double borderRadius = 8;
+  static const double iconSize = 16;
+  static const double primaryIconSize = 18;
+  static const double spacing = 4;
+  static const double groupSpacing = 3;
+  static const double shadowBlur = 4;
+  static const double shadowBlurPressed = 6;
+  static const Offset shadowOffset = Offset(0, 1);
+}
+
+
 class FractalViewControls extends StatelessWidget {
   final AnimationController fabController;
   final AutoExploreService? autoExploreService;
   final bool isExporting;
   final String backTooltip;
   final VoidCallback onGoBack;
-  final VoidCallback onOpenMoreActions;
-  final VoidCallback onEnterFullscreen;
+  final VoidCallback onToggleFullscreen;
   final VoidCallback onOpenAutoExploreSettings;
   final VoidCallback onOpenRandomFractal;
   final VoidCallback onOpenControls;
@@ -27,8 +41,7 @@ class FractalViewControls extends StatelessWidget {
     required this.isExporting,
     required this.backTooltip,
     required this.onGoBack,
-    required this.onOpenMoreActions,
-    required this.onEnterFullscreen,
+    required this.onToggleFullscreen,
     required this.onOpenAutoExploreSettings,
     required this.onOpenRandomFractal,
     required this.onOpenControls,
@@ -66,16 +79,9 @@ class FractalViewControls extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 FloatingActionButtonWidget(
-                  icon: Icons.more_horiz_rounded,
-                  tooltip: l10n.tooltipMoreOptions,
-                  onPressed: isExporting ? null : onOpenMoreActions,
-                  delay: const Duration(milliseconds: 30),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                FloatingActionButtonWidget(
                   icon: Icons.fullscreen_rounded,
                   tooltip: l10n.tooltipFullscreen,
-                  onPressed: isExporting ? null : onEnterFullscreen,
+                  onPressed: isExporting ? null : onToggleFullscreen,
                   delay: const Duration(milliseconds: 60),
                 ),
                 const SizedBox(height: AppSpacing.md),

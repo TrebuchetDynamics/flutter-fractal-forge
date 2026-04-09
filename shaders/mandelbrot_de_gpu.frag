@@ -100,7 +100,7 @@ void main() {
     float light = clamp((dot(nv, lightDir) + HEIGHT) / (1.0 + HEIGHT), 0.0, 1.0);
     light = pow(light, 1.0 / 1.8);
     float baseT = fract(smoothVal / 64.0 + uTime * 0.0001);
-    int basePal = (schemeInt - 50) % 4;
+    int basePal = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
     vec3 col = palette(baseT, basePal) * light;
     // Brighten near boundary using DE glow.
     col = mix(col, vec3(1.0), glow * 0.6);

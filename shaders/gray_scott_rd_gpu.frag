@@ -226,7 +226,7 @@ void main() {
     light = pow(light, 1.0 / 1.8);
 
     float baseT = fract(pattern + uTime * 0.00005);
-    int basePal = (schemeInt - 50) % 4;
+    int basePal = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
     fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
     return;
   }

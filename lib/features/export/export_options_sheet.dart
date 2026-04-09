@@ -144,7 +144,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
               // Title
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
                     Icon(Icons.share_rounded, color: theme.colorScheme.primary),
@@ -159,33 +159,33 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
 
               // Content
               Expanded(
                 child: ListView(
                   controller: scrollController,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
                     _buildSimpleModeCard(context, l10n),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
 
                     // Keep quick presets always visible for easy one-tap changes.
                     _buildQuickPresets(context, l10n),
 
                     if (_showCustomization) ...[
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 16),
 
                       // Format selection
                       _buildFormatSection(context, l10n),
 
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16),
 
                       // Resolution selection
                       _buildResolutionSection(context, l10n),
 
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16),
 
                       // Quality slider (for JPG/WebP)
                       if (_options.format != ExportFormat.png)
@@ -195,7 +195,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                       _buildAdvancedToggle(context, l10n),
 
                       if (_showAdvanced) ...[
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 12),
                         _buildAdvancedOptions(context, l10n),
                       ],
                     ],
