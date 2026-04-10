@@ -45,7 +45,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon/
-    - assets/catalog_thumbs
+    - assets/catalog_thumbs/
   shaders:
     - shaders/test_always_red.frag
     - shaders/test_uniform_only.frag
