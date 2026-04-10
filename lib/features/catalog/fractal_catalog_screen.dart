@@ -20,13 +20,14 @@ enum CatalogViewMode { grid, list }
 enum _DimensionFilter { all, twoD, threeD }
 
 /// Featured fractal IDs shown in the hero carousel at the top of the catalog.
+/// NOTE: These IDs MUST have corresponding thumbnails in assets/catalog_thumbs/.
 const _kFeaturedFractalIds = <String>[
   'mandelbrot',
   'julia',
   'burning_ship',
   'newton_z3',
-  'mandelbulb',
-  'buddhabrot',
+  'menger_3d_slice', // mandelbulb.png does not exist
+  'buddhabrot_approx', // buddhabrot.png does not exist
   'sierpinski_triangle',
   'barnsley_fern',
 ];
