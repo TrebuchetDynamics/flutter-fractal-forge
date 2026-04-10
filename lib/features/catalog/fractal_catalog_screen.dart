@@ -406,13 +406,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             children: [
               _buildFilterAndSortBar(context, l10n),
               if (_isSearchVisible) _buildSearchField(context, l10n),
-              if (showFeatured && _viewMode == CatalogViewMode.grid)
-                _FeaturedSection(
-                  catalog: _catalog!,
-                  l10n: l10n,
-                  onTap: (module, catalogId) =>
-                      _openViewer(context, module, heroTag: catalogId),
-                ),
+              // Featured carousel disabled - TEMPORARILY DISABLED (assets issue)
+              // if (showFeatured && _viewMode == CatalogViewMode.grid)
+              //   _FeaturedSection(...),
             ],
           ),
         ),
