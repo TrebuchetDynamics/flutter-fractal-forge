@@ -33,3 +33,6 @@ ios/Pods/
 third_party/
 !third_party/arcore_flutter_plugin/
 .flutter-plugins-dependencies
+
+# Worktrees
+.worktrees/
