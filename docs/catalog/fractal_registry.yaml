@@ -12520,3 +12520,367 @@ fractals:
         approved_by: admit
         batch: bridges2019_mitchell
       confidence: 0.8
+  - id: f0006_halley_s_method
+    name: "Halley's Method"
+    shader: shaders/f0006_halley_s_method_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - cubic
+      - quartic
+      - quintic
+    variants: []
+    references:
+      - author: "Edmond Halley"
+        title: "Methodus nova, accurata, et facilis inveniendi radices"
+        year: 1694
+        url: "https://mathworld.wolfram.com/HalleysMethod.html"
+    tier: reference
+    formula_hash: sha256:af6b4ea8b528c44a903bbdeacadb600ad56189f759bd40a3856ed4a490728d4f
+    aliases: ["Halley", "Halley's cubic method", "Tangent hyperbolas method"]
+    canonical_name: "Halley's Method"
+    quality:
+      formula_hash: sha256:af6b4ea8b528c44a903bbdeacadb600ad56189f759bd40a3856ed4a490728d4f
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 4.243
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: newton_family
+      confidence: 0.95
+  - id: f0007_schr_der_s_method
+    name: "Schröder's Method"
+    shader: shaders/f0007_schr_der_s_method_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - classic_order_2
+      - order_3
+      - order_1_is_newton
+    variants: []
+    references:
+      - author: "Ernst Schröder"
+        title: "Über unendlich viele Algorithmen zur Auflösung der Gleichungen"
+        year: 1870
+        url: "https://en.wikipedia.org/wiki/Schr%C3%B6der%27s_iteration"
+    tier: reference
+    formula_hash: sha256:f1688c35600896925e6a1af78a6f48ea62e6f36dd7cd907cb818a2ebea9e6450
+    aliases: ["Schroder", "Schröder iteration", "Konig's method", "Modified Newton for multiple roots"]
+    canonical_name: "Schröder's Method"
+    quality:
+      formula_hash: sha256:f1688c35600896925e6a1af78a6f48ea62e6f36dd7cd907cb818a2ebea9e6450
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 5.262
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: newton_family
+      confidence: 0.9
+  - id: f0008_chebyshev_s_method
+    name: "Chebyshev's Method"
+    shader: shaders/f0008_chebyshev_s_method_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - cubic
+      - quartic
+    variants: []
+    references:
+      - author: "Pafnuty Chebyshev"
+        title: "Chebyshev iteration (MathWorld)"
+        year: 1838
+        url: "https://mathworld.wolfram.com/ChebyshevIteration.html"
+    tier: reference
+    formula_hash: sha256:16fd1de44d67d8f01d3bded4eb1a9c05195507743ebb6529286be0a7459e96b6
+    aliases: ["Chebyshev iteration", "Chebyshev-Halley method"]
+    canonical_name: "Chebyshev's Method"
+    quality:
+      formula_hash: sha256:16fd1de44d67d8f01d3bded4eb1a9c05195507743ebb6529286be0a7459e96b6
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 5.551
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: newton_family
+      confidence: 0.9
+  - id: f0009_householder_s_method_3rd_order
+    name: "Householder's Method (3rd Order)"
+    shader: shaders/f0009_householder_s_method_3rd_order_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 48.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - h3_cubic
+      - h2_is_halley
+    variants: []
+    references:
+      - author: "Alston Scott Householder"
+        title: "The Numerical Treatment of a Single Nonlinear Equation"
+        year: 1970
+        url: "https://en.wikipedia.org/wiki/Householder%27s_method"
+    tier: reference
+    formula_hash: sha256:f495d8417e821742c9df289ef3b162a9356a78de3ed23c17cf0d82b4e309ed9a
+    aliases: ["Householder", "Householder-3", "H3 method"]
+    canonical_name: "Householder's Method (3rd Order)"
+    quality:
+      formula_hash: sha256:f495d8417e821742c9df289ef3b162a9356a78de3ed23c17cf0d82b4e309ed9a
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 6.033
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: newton_family
+      confidence: 0.85
+  - id: f0010_secant_method
+    name: "Secant Method"
+    shader: shaders/f0010_secant_method_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 80.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - cubic
+      - quartic
+    variants: []
+    references:
+      - title: "Secant method (Wikipedia)"
+        url: "https://en.wikipedia.org/wiki/Secant_method"
+    tier: reference
+    formula_hash: sha256:809f6c5c8c80d6c0fe6e83b9e4aa107e557c369f7df8ab7749632a650dd85b88
+    aliases: ["Secant", "Two-point method", "Discrete Newton"]
+    canonical_name: "Secant Method"
+    quality:
+      formula_hash: sha256:809f6c5c8c80d6c0fe6e83b9e4aa107e557c369f7df8ab7749632a650dd85b88
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 5.136
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: newton_family
+      confidence: 0.85
+  - id: f0011_m_ller_s_method
+    name: "Müller's Method"
+    shader: shaders/f0011_m_ller_s_method_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - cubic
+      - quartic
+    variants: []
+    references:
+      - author: "David E. Müller"
+        title: "A Method for Solving Algebraic Equations Using an Automatic Computer"
+        year: 1956
+        url: "https://en.wikipedia.org/wiki/M%C3%BCller%27s_method"
+    tier: reference
+    formula_hash: sha256:481d6abb22c692edad42fc046d62220a993d0a29950bacbb976394a055f47b51
+    aliases: ["Muller", "Mueller", "Quadratic interpolation method"]
+    canonical_name: "Müller's Method"
+    quality:
+      formula_hash: sha256:481d6abb22c692edad42fc046d62220a993d0a29950bacbb976394a055f47b51
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 5.338
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: newton_family
+      confidence: 0.8
+  - id: f0012_nova_fractal
+    name: "Nova Fractal"
+    shader: shaders/f0012_nova_fractal_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - classic_nova
+      - offset_nova
+      - under_relaxed
+      - over_relaxed
+    variants:
+      - quartic_nova
+    references:
+      - author: "Damien Jones"
+        title: "Nova Fractals"
+        year: 1995
+        url: "http://paulbourke.net/fractals/newtonraphson/"
+    tier: reference
+    formula_hash: sha256:d0cfb43d42dad7f9a339a7127b9c7e1a1a4867d0473075170e2831a89aceab07
+    aliases: ["Nova", "Damien Jones Nova", "Newton with c-offset", "Relaxed Newton"]
+    canonical_name: "Nova Fractal"
+    quality:
+      formula_hash: sha256:d0cfb43d42dad7f9a339a7127b9c7e1a1a4867d0473075170e2831a89aceab07
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 6.34
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: newton_family
+      confidence: 0.95
+  - id: f0013_polynomiography_basic_family_iteration
+    name: "Polynomiography (Basic Family Iteration)"
+    shader: shaders/f0013_polynomiography_basic_family_iteration_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - m2_cubic
+      - m3_cubic
+      - m1_is_newton
+    variants: []
+    references:
+      - author: "Bahman Kalantari"
+        title: "Polynomial Root-Finding and Polynomiography"
+        year: 2009
+        url: "https://en.wikipedia.org/wiki/Polynomiography"
+    tier: reference
+    formula_hash: sha256:bb98888909aaae8f0c5825f855aab27065440897c906cd55f2e6d4925693c352
+    aliases: ["Polynomiography", "Kalantari B_m iteration", "Basic family"]
+    canonical_name: "Polynomiography (Basic Family Iteration)"
+    quality:
+      formula_hash: sha256:bb98888909aaae8f0c5825f855aab27065440897c906cd55f2e6d4925693c352
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 5.572
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: newton_family
+      confidence: 0.9
