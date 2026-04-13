@@ -45,6 +45,12 @@ def _camel(s: str) -> str:
     return "".join(t[:1].upper() + t[1:] for t in tokens if t)
 
 
+def _lower_camel(s: str) -> str:
+    """Convert to lowerCamelCase for Dart identifiers."""
+    pascal = _camel(s)
+    return pascal[:1].lower() + pascal[1:] if pascal else pascal
+
+
 def _slugify(cat: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", cat.lower()).strip("_") or "unknown"
 
@@ -62,6 +68,7 @@ def _env() -> Environment:
         keep_trailing_newline=True,
     )
     env.filters["camel"] = _camel
+    env.filters["lower_camel"] = _lower_camel
     return env
 
 
