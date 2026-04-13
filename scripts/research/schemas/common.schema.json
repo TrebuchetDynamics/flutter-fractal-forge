@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractal-forge.local/schemas/common.schema.json",
+  "title": "Fractal pipeline common sub-schemas",
+  "$defs": {
+    "formula_ast": {
+      "type": "object",
+      "required": ["iteration_type"],
+      "properties": {
+        "iteration_type": {
+          "type": "string",
+          "enum": [
+            "escape_time",
+            "newton",
+            "strange_attractor",
+            "ifs",
+            "l_system",
+            "raymarch_3d",
+            "cellular",
+            "lyapunov",
+            "tiling",
+            "reaction_diffusion",
+            "number_theory",
+            "other"
+          ]
+        },
+        "variables": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "update": {"type": "string"},
+        "init": {"type": "string"},
+        "family": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "params": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["default"],
+        "properties": {
+          "default": {"type": ["number", "integer", "boolean", "string"]},
+          "range": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {"type": "number"}
+          },
+          "description": {"type": "string"}
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "anyOf": [
+        {"required": ["url"]},
+        {"required": ["doi"]}
+      ],
+      "properties": {
+        "author": {"type": "string"},
+        "title": {"type": "string"},
+        "year": {"type": "integer", "minimum": 1600, "maximum": 2100},
+        "url": {"type": "string", "format": "uri"},
+        "doi": {"type": "string"},
+        "archived_url": {"type": "string", "format": "uri"}
+      },
+      "additionalProperties": false
+    },
+    "quality_block": {
+      "type": "object",
+      "properties": {
+        "formula_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "citation_health": {
+          "type": "object",
+          "properties": {
+            "last_checked": {"type": "string", "format": "date"},
+            "status": {"type": "string", "enum": ["ok", "warn", "red", "unchecked"]}
+          }
+        },
+        "shader_compile": {
+          "type": "object",
+          "properties": {
+            "sksl": {"type": "string", "enum": ["ok", "fail", "unchecked", "n/a"]},
+            "glsl": {"type": "string", "enum": ["ok", "fail", "unchecked", "n/a"]},
+            "checked": {"type": "string", "format": "date"}
+          }
+        },
+        "thumbnail": {
+          "type": "object",
+          "properties": {
+            "entropy": {"type": "number"},
+            "checked": {"type": "string", "format": "date"}
+          }
+        },
+        "review": {
+          "type": "object",
+          "properties": {
+            "approved_by": {"type": "string"},
+            "batch": {"type": "string"}
+          }
+        },
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false
+    }
+  }
+}
