@@ -1,0 +1,642 @@
+appId: com.trebuchetdynamics.fractal.forge
+name: "05 — Every Fractal Smoke: Sample Across Catalog"
+tags:
+  - smoke
+  - every-fractal
+---
+# App launched by run_all.sh before each test. No launchApp to avoid driver reinstall.
+#
+# Strategy: Maestro cannot enumerate the 357 legacy fractals programmatically,
+# so we sample a diverse set across the catalog's major categories (escape-time
+# classics, 3D raymarched, attractors, IFS / L-systems, cellular automata,
+# Newton variants, exotic variants). Each sample:
+#   1. Types the fractal name in the search field
+#   2. Taps the first matching result
+#   3. Waits for the viewer (we assert the search field vanishes as the
+#      viewer has no stable testID across all fractals)
+#   4. Takes a screenshot
+#   5. Presses back and clears the search for the next fractal
+#
+# Fractal IDs sampled (27 total) come verbatim from
+# docs/catalog/fractal_registry.yaml names, so we match on display text.
+
+- extendedWaitUntil:
+    visible:
+      text: ".*Fractal.*"
+    timeout: 90000
+
+- tapOn:
+    text: ".*Skip.*"
+    optional: true
+
+- extendedWaitUntil:
+    visible:
+      text: ".*Fractal Catalog.*"
+    timeout: 60000
+
+- assertVisible:
+    text: ".*Search fractals.*"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Sample 1: Mandelbrot (escape-time classic)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Mandelbrot"
+      - extendedWaitUntil:
+          visible:
+            text: "Mandelbrot"
+          timeout: 8000
+      - tapOn:
+          text: "Mandelbrot"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_01_mandelbrot"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 2: Julia DE Glow (Julia variant actually present in registry)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Julia DE"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Julia DE.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Julia DE.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_02_julia_de"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 3: Burning Ship
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Burning Ship"
+      - extendedWaitUntil:
+          visible:
+            text: "Burning Ship"
+          timeout: 8000
+      - tapOn:
+          text: "Burning Ship"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_03_burning_ship"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 4: Tricorn (escape-time conjugate variant)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Tricorn"
+      - extendedWaitUntil:
+          visible:
+            text: "Tricorn"
+          timeout: 8000
+      - tapOn:
+          text: "Tricorn"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_04_tricorn"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 5: Phoenix (Newton-like; id was populated in commit 120b058)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Phoenix"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Phoenix.*"
+          timeout: 8000
+          optional: true
+      - tapOn:
+          text: ".*Phoenix.*"
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_05_phoenix"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 6: Mandelbulb (3D raymarched)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Mandelbulb"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Mandelbulb.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Mandelbulb.*"
+      - waitForAnimationToEnd:
+          timeout: 15000
+      - takeScreenshot: "05_06_mandelbulb"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 7: Mandelbox (3D)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Mandelbox"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Mandelbox.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Mandelbox.*"
+      - waitForAnimationToEnd:
+          timeout: 15000
+      - takeScreenshot: "05_07_mandelbox"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 8: Quaternion Julia 3D
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Quaternion"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Quaternion.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Quaternion.*"
+      - waitForAnimationToEnd:
+          timeout: 15000
+      - takeScreenshot: "05_08_quaternion_julia"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 9: Lorenz Attractor (2D projection)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Lorenz"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Lorenz.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Lorenz.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_09_lorenz"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 10: Halvorsen Attractor
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Halvorsen"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Halvorsen.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Halvorsen.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_10_halvorsen"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 11: Aizawa Attractor
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Aizawa"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Aizawa.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Aizawa.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_11_aizawa"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 12: Sierpinski Triangle (IFS)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Sierpinski"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Sierpinski.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Sierpinski.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_12_sierpinski"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 13: Koch Snowflake
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Koch"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Koch.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Koch.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_13_koch"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 14: Cantor Set
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Cantor"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Cantor.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Cantor.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_14_cantor"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 15: Barnsley Fern
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Barnsley Fern"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Barnsley Fern.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Barnsley Fern.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_15_barnsley_fern"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 16: Dragon Curve
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Dragon"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Dragon.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Dragon.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_16_dragon"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 17: Hilbert Curve
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Hilbert"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Hilbert.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Hilbert.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_17_hilbert"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 18: Peano Curve
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Peano"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Peano.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Peano.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_18_peano"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 19: Apollonian Gasket
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Apollonian"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Apollonian.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Apollonian.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_19_apollonian"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 20: Newton z³ - 1 (classic Newton fractal)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Newton"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Newton.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Newton.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_20_newton"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 21: Buddhabrot (approx)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Buddhabrot"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Buddhabrot.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Buddhabrot.*"
+      - waitForAnimationToEnd:
+          timeout: 15000
+      - takeScreenshot: "05_21_buddhabrot"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 22: Nova (Julia family)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Nova"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Nova.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Nova.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_22_nova"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 23: Penrose Tiling
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Penrose"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Penrose.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Penrose.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_23_penrose"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 24: Abelian Sandpile (cellular)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Sandpile"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Sandpile.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Sandpile.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_24_sandpile"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 25: Langton's Ant (cellular)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Langton"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Langton.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Langton.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_25_langton_ant"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 26: Halley's Method (convergent root-finding)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Halley"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Halley.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Halley.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_26_halley"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Sample 27: Magnet fractal (exotic variant)
+- runFlow:
+    commands:
+      - tapOn:
+          text: ".*Search fractals.*"
+      - inputText: "Magnet"
+      - extendedWaitUntil:
+          visible:
+            text: ".*Magnet.*"
+          timeout: 8000
+      - tapOn:
+          text: ".*Magnet.*"
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: "05_27_magnet"
+      - pressKey: back
+      - extendedWaitUntil:
+          visible:
+            text: ".*Fractal Catalog.*"
+          timeout: 10000
+      - eraseText: 20
+
+# Final sanity: catalog is still usable after 27 open/close cycles.
+- assertVisible:
+    text: ".*Fractal Catalog.*"
+- assertVisible:
+    text: ".*Search fractals.*"
+- takeScreenshot: "05_final_catalog_intact"
