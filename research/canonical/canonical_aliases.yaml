@@ -1,0 +1,2142 @@
+dual_quaternion_julia:
+  canonical_name: Dual-Quaternion Julia
+  aliases:
+    - Dual-Quaternion Julia
+    - dual_quaternion_julia
+  family: 3d_fractals
+inversive_limit_set_3d:
+  canonical_name: Inversive Limit Set 3D
+  aliases:
+    - Inversive Limit Set 3D
+    - inversive_limit_set_3d
+  family: 3d_fractals
+kifs_koch_fold:
+  canonical_name: KIFS Koch 3D
+  aliases:
+    - KIFS Koch 3D
+    - kifs_koch_fold
+  family: 3d_fractals
+kifs_menger:
+  canonical_name: KIFS Menger Sponge
+  aliases:
+    - KIFS Menger Sponge
+    - kifs_menger
+  family: 3d_fractals
+kifs_sierpinski_tetra:
+  canonical_name: KIFS Sierpinski Tetrahedron
+  aliases:
+    - KIFS Sierpinski Tetrahedron
+    - kifs_sierpinski_tetra
+  family: 3d_fractals
+kifs_snowflake_fold:
+  canonical_name: KIFS Snowflake 3D
+  aliases:
+    - KIFS Snowflake 3D
+    - kifs_snowflake_fold
+  family: 3d_fractals
+mandelbox_shape_inversion:
+  canonical_name: Mandelbox Shape Inversion
+  aliases:
+    - Mandelbox Shape Inversion
+    - mandelbox_shape_inversion
+  family: 3d_fractals
+quaternion_julia_3d:
+  canonical_name: Quaternion Julia 3D
+  aliases:
+    - Quaternion Julia 3D
+    - quaternion_julia_3d
+  family: 3d_fractals
+mandelbulb_time_modulated:
+  canonical_name: Time-Modulated Mandelbulb
+  aliases:
+    - Time-Modulated Mandelbulb
+    - mandelbulb_time_modulated
+  family: 3d_fractals
+generalized_mcmullen:
+  canonical_name: Generalized McMullen
+  aliases:
+    - Generalized McMullen
+    - generalized_mcmullen
+  family: advanced_rational_&_polynomial
+mcmullen_map:
+  canonical_name: McMullen Map
+  aliases:
+    - McMullen Map
+    - mcmullen_map
+  family: advanced_rational_&_polynomial
+dielectric_breakdown:
+  canonical_name: Dielectric Breakdown
+  aliases:
+    - Dielectric Breakdown
+    - dielectric_breakdown
+  family: cellular_&_stochastic_growth
+damped_newton:
+  canonical_name: Damped Newton
+  aliases:
+    - Damped Newton
+    - damped_newton
+  family: convergent_&_root_finding
+durand_kerner:
+  canonical_name: Durand-Kerner
+  aliases:
+    - Durand-Kerner
+    - durand_kerner
+  family: convergent_&_root_finding
+ehrlich_aberth:
+  canonical_name: Ehrlich-Aberth
+  aliases:
+    - Ehrlich-Aberth
+    - ehrlich_aberth
+  family: convergent_&_root_finding
+arnold_cat:
+  canonical_name: "Arnold's Cat Map"
+  aliases:
+    - "Arnold's Cat Map"
+    - arnold_cat
+  family: escape_time
+chua_circuit:
+  canonical_name: "Chua's Circuit"
+  aliases:
+    - "Chua's Circuit"
+    - chua_circuit
+  family: escape_time
+halley:
+  canonical_name: "Halley"
+  aliases:
+    - "Halley"
+    - halley
+  family: escape_time
+schroeder:
+  canonical_name: "Schröder"
+  aliases:
+    - "Schröder"
+    - schroeder
+  family: escape_time
+langton_ant:
+  canonical_name: "Langton's Ant"
+  aliases:
+    - "Langton's Ant"
+    - langton_ant
+  family: escape_time
+brian_brain:
+  canonical_name: "Brian's Brain"
+  aliases:
+    - "Brian's Brain"
+    - brian_brain
+  family: escape_time
+mcworter_pentigree:
+  canonical_name: "McWorter Pentigree"
+  aliases:
+    - "McWorter Pentigree"
+    - mcworter_pentigree
+  family: escape_time
+3d_fractal:
+  canonical_name: 3D Fractal
+  aliases:
+    - 3D Fractal
+    - 3d_fractal
+  family: escape_time
+sandpile:
+  canonical_name: Abelian Sandpile
+  aliases:
+    - Abelian Sandpile
+    - sandpile
+  family: escape_time
+aizawa:
+  canonical_name: Aizawa Attractor
+  aliases:
+    - Aizawa Attractor
+    - aizawa
+  family: escape_time
+ammann_beenker:
+  canonical_name: Ammann-Beenker Tiling
+  aliases:
+    - Ammann-Beenker Tiling
+    - ammann_beenker
+  family: escape_time
+angrybrot:
+  canonical_name: Angrybrot
+  aliases:
+    - Angrybrot
+    - angrybrot
+  family: escape_time
+anti_buddhabrot:
+  canonical_name: Anti-Buddhabrot
+  aliases:
+    - Anti-Buddhabrot
+    - anti_buddhabrot
+  family: escape_time
+apollonian_gasket:
+  canonical_name: Apollonian Gasket
+  aliases:
+    - Apollonian Gasket
+    - apollonian_gasket
+  family: escape_time
+arneodo:
+  canonical_name: Arneodo Attractor
+  aliases:
+    - Arneodo Attractor
+    - arneodo
+  family: escape_time
+astroid:
+  canonical_name: Astroid Fractal
+  aliases:
+    - Astroid Fractal
+    - astroid
+  family: escape_time
+barnsley_fern:
+  canonical_name: Barnsley Fern
+  aliases:
+    - Barnsley Fern
+    - barnsley_fern
+  family: escape_time
+barnsley_j1:
+  canonical_name: Barnsley J1 Relief
+  aliases:
+    - Barnsley J1 Relief
+    - barnsley_j1
+  family: escape_time
+barnsley_j2:
+  canonical_name: Barnsley J2
+  aliases:
+    - Barnsley J2
+    - barnsley_j2
+  family: escape_time
+barnsley_j3:
+  canonical_name: Barnsley J3
+  aliases:
+    - Barnsley J3
+    - barnsley_j3
+  family: escape_time
+benesi:
+  canonical_name: Benesi Fractal
+  aliases:
+    - Benesi Fractal
+    - benesi
+  family: escape_time
+bicomplex:
+  canonical_name: Bicomplex Mandelbrot
+  aliases:
+    - Bicomplex Mandelbrot
+    - bicomplex
+  family: escape_time
+biomorph:
+  canonical_name: Biomorph
+  aliases:
+    - Biomorph
+    - biomorph
+  family: escape_time
+blaschke:
+  canonical_name: Blaschke Product
+  aliases:
+    - Blaschke Product
+    - blaschke
+  family: escape_time
+bouali:
+  canonical_name: Bouali Attractor
+  aliases:
+    - Bouali Attractor
+    - bouali
+  family: escape_time
+buddhabrot_approx:
+  canonical_name: Buddhabrot (Approx)
+  aliases:
+    - Buddhabrot (Approx)
+    - buddhabrot_approx
+  family: escape_time
+buffalo:
+  canonical_name: Buffalo
+  aliases:
+    - Buffalo
+    - buffalo
+  family: escape_time
+buffalo_cubic:
+  canonical_name: Buffalo Cubic
+  aliases:
+    - Buffalo Cubic
+    - buffalo_cubic
+  family: escape_time
+buffalo_cubic_julia:
+  canonical_name: Buffalo Cubic Julia
+  aliases:
+    - Buffalo Cubic Julia
+    - buffalo_cubic_julia
+  family: escape_time
+buffalo_julia:
+  canonical_name: Buffalo Julia
+  aliases:
+    - Buffalo Julia
+    - buffalo_julia
+  family: escape_time
+buffalo_power4:
+  canonical_name: Buffalo ⁴
+  aliases:
+    - Buffalo ⁴
+    - buffalo_power4
+  family: escape_time
+buffalo_power5:
+  canonical_name: Buffalo ⁵
+  aliases:
+    - Buffalo ⁵
+    - buffalo_power5
+  family: escape_time
+buffalo_power4_julia:
+  canonical_name: Buffalo⁴ Julia
+  aliases:
+    - Buffalo⁴ Julia
+    - buffalo_power4_julia
+  family: escape_time
+buffalo_power5_julia:
+  canonical_name: Buffalo⁵ Julia
+  aliases:
+    - Buffalo⁵ Julia
+    - buffalo_power5_julia
+  family: escape_time
+buffalo_power6:
+  canonical_name: Buffalo⁶
+  aliases:
+    - Buffalo⁶
+    - buffalo_power6
+  family: escape_time
+buffalo_power6_julia:
+  canonical_name: Buffalo⁶ Julia
+  aliases:
+    - Buffalo⁶ Julia
+    - buffalo_power6_julia
+  family: escape_time
+bullet_shot:
+  canonical_name: Bullet Shot
+  aliases:
+    - Bullet Shot
+    - bullet_shot
+  family: escape_time
+burke_shaw:
+  canonical_name: Burke-Shaw Attractor
+  aliases:
+    - Burke-Shaw Attractor
+    - burke_shaw
+  family: escape_time
+burning_ship:
+  canonical_name: Burning Ship
+  aliases:
+    - Burning Ship
+    - burning_ship
+  family: escape_time
+burning_ship_cubic_julia:
+  canonical_name: Burning Ship Cubic Julia
+  aliases:
+    - Burning Ship Cubic Julia
+    - burning_ship_cubic_julia
+  family: escape_time
+burning_ship_julia:
+  canonical_name: Burning Ship Julia
+  aliases:
+    - Burning Ship Julia
+    - burning_ship_julia
+  family: escape_time
+burning_ship_power4:
+  canonical_name: Burning Ship ⁴
+  aliases:
+    - Burning Ship ⁴
+    - burning_ship_power4
+  family: escape_time
+burning_ship_power5:
+  canonical_name: Burning Ship ⁵
+  aliases:
+    - Burning Ship ⁵
+    - burning_ship_power5
+  family: escape_time
+burning_ship_power4_julia:
+  canonical_name: Burning Ship⁴ Julia
+  aliases:
+    - Burning Ship⁴ Julia
+    - burning_ship_power4_julia
+  family: escape_time
+burning_ship_power5_julia:
+  canonical_name: Burning Ship⁵ Julia
+  aliases:
+    - Burning Ship⁵ Julia
+    - burning_ship_power5_julia
+  family: escape_time
+burning_ship_power6:
+  canonical_name: Burning Ship⁶
+  aliases:
+    - Burning Ship⁶
+    - burning_ship_power6
+  family: escape_time
+burning_ship_power6_julia:
+  canonical_name: Burning Ship⁶ Julia
+  aliases:
+    - Burning Ship⁶ Julia
+    - burning_ship_power6_julia
+  family: escape_time
+cactus:
+  canonical_name: Cactus Fractal
+  aliases:
+    - Cactus Fractal
+    - cactus
+  family: escape_time
+cantor_dust:
+  canonical_name: Cantor Dust
+  aliases:
+    - Cantor Dust
+    - cantor_dust
+  family: escape_time
+cantor_set:
+  canonical_name: Cantor Set
+  aliases:
+    - Cantor Set
+    - cantor_set
+  family: escape_time
+car_road:
+  canonical_name: Car Road
+  aliases:
+    - Car Road
+    - car_road
+  family: escape_time
+cayley_graph:
+  canonical_name: Cayley Graph Fractal
+  aliases:
+    - Cayley Graph Fractal
+    - cayley_graph
+  family: escape_time
+celtic:
+  canonical_name: Celtic
+  aliases:
+    - Celtic
+    - celtic
+  family: escape_time
+celtic_cubic:
+  canonical_name: Celtic Cubic
+  aliases:
+    - Celtic Cubic
+    - celtic_cubic
+  family: escape_time
+celtic_cubic_julia:
+  canonical_name: Celtic Cubic Julia
+  aliases:
+    - Celtic Cubic Julia
+    - celtic_cubic_julia
+  family: escape_time
+celtic_julia:
+  canonical_name: Celtic Julia
+  aliases:
+    - Celtic Julia
+    - celtic_julia
+  family: escape_time
+celtic_power4:
+  canonical_name: Celtic ⁴
+  aliases:
+    - Celtic ⁴
+    - celtic_power4
+  family: escape_time
+celtic_power5:
+  canonical_name: Celtic ⁵
+  aliases:
+    - Celtic ⁵
+    - celtic_power5
+  family: escape_time
+celtic_power4_julia:
+  canonical_name: Celtic⁴ Julia
+  aliases:
+    - Celtic⁴ Julia
+    - celtic_power4_julia
+  family: escape_time
+celtic_power5_julia:
+  canonical_name: Celtic⁵ Julia
+  aliases:
+    - Celtic⁵ Julia
+    - celtic_power5_julia
+  family: escape_time
+celtic_power6:
+  canonical_name: Celtic⁶
+  aliases:
+    - Celtic⁶
+    - celtic_power6
+  family: escape_time
+celtic_power6_julia:
+  canonical_name: Celtic⁶ Julia
+  aliases:
+    - Celtic⁶ Julia
+    - celtic_power6_julia
+  family: escape_time
+cesaro_fractal:
+  canonical_name: Cesàro Fractal
+  aliases:
+    - Cesàro Fractal
+    - cesaro_fractal
+  family: escape_time
+chair_tiling:
+  canonical_name: Chair Tiling
+  aliases:
+    - Chair Tiling
+    - chair_tiling
+  family: escape_time
+chebyshev:
+  canonical_name: Chebyshev Fractal
+  aliases:
+    - Chebyshev Fractal
+    - chebyshev
+  family: escape_time
+chen:
+  canonical_name: Chen Attractor
+  aliases:
+    - Chen Attractor
+    - chen
+  family: escape_time
+chen_lee:
+  canonical_name: Chen-Lee Attractor
+  aliases:
+    - Chen-Lee Attractor
+    - chen_lee
+  family: escape_time
+circle_map_lyapunov:
+  canonical_name: Circle Map Lyapunov
+  aliases:
+    - Circle Map Lyapunov
+    - circle_map_lyapunov
+  family: escape_time
+clifford:
+  canonical_name: Clifford Attractor
+  aliases:
+    - Clifford Attractor
+    - clifford
+  family: escape_time
+collatz:
+  canonical_name: Collatz Fractal
+  aliases:
+    - Collatz Fractal
+    - collatz
+  family: escape_time
+contused_fields:
+  canonical_name: Contused Fields
+  aliases:
+    - Contused Fields
+    - contused_fields
+  family: escape_time
+cosh_julia:
+  canonical_name: Cosh Julia
+  aliases:
+    - Cosh Julia
+    - cosh_julia
+  family: escape_time
+cosh_mandelbrot:
+  canonical_name: Cosh Mandelbrot
+  aliases:
+    - Cosh Mandelbrot
+    - cosh_mandelbrot
+  family: escape_time
+cosine_julia:
+  canonical_name: Cosine Julia
+  aliases:
+    - Cosine Julia
+    - cosine_julia
+  family: escape_time
+cosine_mandelbrot:
+  canonical_name: Cosine Mandelbrot
+  aliases:
+    - Cosine Mandelbrot
+    - cosine_mandelbrot
+  family: escape_time
+coullet:
+  canonical_name: Coullet Attractor
+  aliases:
+    - Coullet Attractor
+    - coullet
+  family: escape_time
+crazybrot:
+  canonical_name: Crazybrot
+  aliases:
+    - Crazybrot
+    - crazybrot
+  family: escape_time
+burning_ship_cubic:
+  canonical_name: Cubic Burning Ship
+  aliases:
+    - Cubic Burning Ship
+    - burning_ship_cubic
+  family: escape_time
+cyclosorus_fern:
+  canonical_name: Cyclosorus Fern
+  aliases:
+    - Cyclosorus Fern
+    - cyclosorus_fern
+  family: escape_time
+dla:
+  canonical_name: DLA (Approximation)
+  aliases:
+    - DLA (Approximation)
+    - dla
+  family: escape_time
+dadras:
+  canonical_name: Dadras Attractor
+  aliases:
+    - Dadras Attractor
+    - dadras
+  family: escape_time
+damaged_doublebrot:
+  canonical_name: Damaged DoubleBrot
+  aliases:
+    - Damaged DoubleBrot
+    - damaged_doublebrot
+  family: escape_time
+day_night:
+  canonical_name: Day & Night
+  aliases:
+    - Day & Night
+    - day_night
+  family: escape_time
+deltoid:
+  canonical_name: Deltoid Fractal
+  aliases:
+    - Deltoid Fractal
+    - deltoid
+  family: escape_time
+dequan_li:
+  canonical_name: Dequan Li Attractor
+  aliases:
+    - Dequan Li Attractor
+    - dequan_li
+  family: escape_time
+dragon_curve:
+  canonical_name: Dragon Curve
+  aliases:
+    - Dragon Curve
+    - dragon_curve
+  family: escape_time
+drill:
+  canonical_name: Drill Fractal
+  aliases:
+    - Drill Fractal
+    - drill
+  family: escape_time
+druid:
+  canonical_name: Druid Fractal
+  aliases:
+    - Druid Fractal
+    - druid
+  family: escape_time
+dual_complex:
+  canonical_name: Dual-Complex Fractal
+  aliases:
+    - Dual-Complex Fractal
+    - dual_complex
+  family: escape_time
+ducky:
+  canonical_name: Ducky Fractal
+  aliases:
+    - Ducky Fractal
+    - ducky
+  family: escape_time
+duffing:
+  canonical_name: Duffing Map
+  aliases:
+    - Duffing Map
+    - duffing
+  family: escape_time
+eaten:
+  canonical_name: Eaten
+  aliases:
+    - Eaten
+    - eaten
+  family: escape_time
+eden_growth:
+  canonical_name: Eden Growth Model
+  aliases:
+    - Eden Growth Model
+    - eden_growth
+  family: escape_time
+eisenstein:
+  canonical_name: Eisenstein Fractal
+  aliases:
+    - Eisenstein Fractal
+    - eisenstein
+  family: escape_time
+exponential:
+  canonical_name: Exponential Fractal
+  aliases:
+    - Exponential Fractal
+    - exponential
+  family: escape_time
+exponential_julia:
+  canonical_name: Exponential Julia
+  aliases:
+    - Exponential Julia
+    - exponential_julia
+  family: escape_time
+farey_diagram:
+  canonical_name: Farey Diagram
+  aliases:
+    - Farey Diagram
+    - farey_diagram
+  family: escape_time
+fatou_exp:
+  canonical_name: Fatou Exponential
+  aliases:
+    - Fatou Exponential
+    - fatou_exp
+  family: escape_time
+fatou:
+  canonical_name: Fatou Set
+  aliases:
+    - Fatou Set
+    - fatou
+  family: escape_time
+feather:
+  canonical_name: Feather Fractal
+  aliases:
+    - Feather Fractal
+    - feather
+  family: escape_time
+feather_julia:
+  canonical_name: Feather Julia
+  aliases:
+    - Feather Julia
+    - feather_julia
+  family: escape_time
+feigenbaum:
+  canonical_name: Feigenbaum Logistic Map
+  aliases:
+    - Feigenbaum Logistic Map
+    - feigenbaum
+  family: escape_time
+fibonacci_spiral:
+  canonical_name: Fibonacci Spiral Fractal
+  aliases:
+    - Fibonacci Spiral Fractal
+    - fibonacci_spiral
+  family: escape_time
+fibonacci_word:
+  canonical_name: Fibonacci Word Fractal
+  aliases:
+    - Fibonacci Word Fractal
+    - fibonacci_word
+  family: escape_time
+fish:
+  canonical_name: Fish Fractal
+  aliases:
+    - Fish Fractal
+    - fish
+  family: escape_time
+ford_circles:
+  canonical_name: Ford Circles
+  aliases:
+    - Ford Circles
+    - ford_circles
+  family: escape_time
+forest_fire:
+  canonical_name: Forest Fire Model
+  aliases:
+    - Forest Fire Model
+    - forest_fire
+  family: escape_time
+four_wing:
+  canonical_name: Four-Wing Attractor
+  aliases:
+    - Four-Wing Attractor
+    - four_wing
+  family: escape_time
+fractal_canopy:
+  canonical_name: Fractal Canopy
+  aliases:
+    - Fractal Canopy
+    - fractal_canopy
+  family: escape_time
+gamma_fractal:
+  canonical_name: Gamma Fractal
+  aliases:
+    - Gamma Fractal
+    - gamma_fractal
+  family: escape_time
+gauss_map:
+  canonical_name: Gauss Map
+  aliases:
+    - Gauss Map
+    - gauss_map
+  family: escape_time
+genesio_tesi:
+  canonical_name: Genesio-Tesi Attractor
+  aliases:
+    - Genesio-Tesi Attractor
+    - genesio_tesi
+  family: escape_time
+gingerbreadman:
+  canonical_name: Gingerbreadman Map
+  aliases:
+    - Gingerbreadman Map
+    - gingerbreadman
+  family: escape_time
+globo_toroid:
+  canonical_name: Globo-Toroid Attractor
+  aliases:
+    - Globo-Toroid Attractor
+    - globo_toroid
+  family: escape_time
+glynn:
+  canonical_name: Glynn Fractal
+  aliases:
+    - Glynn Fractal
+    - glynn
+  family: escape_time
+golden_dragon:
+  canonical_name: Golden Dragon
+  aliases:
+    - Golden Dragon
+    - golden_dragon
+  family: escape_time
+gosper_curve:
+  canonical_name: Gosper Curve
+  aliases:
+    - Gosper Curve
+    - gosper_curve
+  family: escape_time
+greek_cross_fractal:
+  canonical_name: Greek Cross Fractal
+  aliases:
+    - Greek Cross Fractal
+    - greek_cross_fractal
+  family: escape_time
+gumowski_mira:
+  canonical_name: Gumowski-Mira Map
+  aliases:
+    - Gumowski-Mira Map
+    - gumowski_mira
+  family: escape_time
+hadley:
+  canonical_name: Hadley Circulation
+  aliases:
+    - Hadley Circulation
+    - hadley
+  family: escape_time
+halley_z4:
+  canonical_name: Halley z⁴−1
+  aliases:
+    - Halley z⁴−1
+    - halley_z4
+  family: escape_time
+halvorsen:
+  canonical_name: Halvorsen Attractor
+  aliases:
+    - Halvorsen Attractor
+    - halvorsen
+  family: escape_time
+heart:
+  canonical_name: Heart Fractal
+  aliases:
+    - Heart Fractal
+    - heart
+  family: escape_time
+heart_julia:
+  canonical_name: Heart Julia
+  aliases:
+    - Heart Julia
+    - heart_julia
+  family: escape_time
+hermite:
+  canonical_name: Hermite Fractal
+  aliases:
+    - Hermite Fractal
+    - hermite
+  family: escape_time
+hexaflake:
+  canonical_name: Hexaflake
+  aliases:
+    - Hexaflake
+    - hexaflake
+  family: escape_time
+highlife:
+  canonical_name: HighLife
+  aliases:
+    - HighLife
+    - highlife
+  family: escape_time
+hilbert_curve:
+  canonical_name: Hilbert Curve
+  aliases:
+    - Hilbert Curve
+    - hilbert_curve
+  family: escape_time
+hopalong:
+  canonical_name: Hopalong Attractor
+  aliases:
+    - Hopalong Attractor
+    - hopalong
+  family: escape_time
+householder:
+  canonical_name: Householder Fractal
+  aliases:
+    - Householder Fractal
+    - householder
+  family: escape_time
+hypercomplex_newton:
+  canonical_name: Hypercomplex Newton (Quaternion z³ - 1)
+  aliases:
+    - Hypercomplex Newton (Quaternion z³ - 1)
+    - hypercomplex_newton
+  family: escape_time
+henon:
+  canonical_name: Hénon Map
+  aliases:
+    - Hénon Map
+    - henon
+  family: escape_time
+ikeda:
+  canonical_name: Ikeda Map
+  aliases:
+    - Ikeda Map
+    - ikeda
+  family: escape_time
+inverse_mandelbrot:
+  canonical_name: Inverse Mandelbrot
+  aliases:
+    - Inverse Mandelbrot
+    - inverse_mandelbrot
+  family: escape_time
+jerusalem_cube:
+  canonical_name: Jerusalem Cube (2D Cross-Section)
+  aliases:
+    - Jerusalem Cube (2D Cross-Section)
+    - jerusalem_cube
+  family: escape_time
+julia_de:
+  canonical_name: Julia DE Glow
+  aliases:
+    - Julia DE Glow
+    - julia_de
+  family: escape_time
+kicked_rotator:
+  canonical_name: Kicked Rotator
+  aliases:
+    - Kicked Rotator
+    - kicked_rotator
+  family: escape_time
+koch_anti_snowflake:
+  canonical_name: Koch Anti-Snowflake
+  aliases:
+    - Koch Anti-Snowflake
+    - koch_anti_snowflake
+  family: escape_time
+koch_snowflake:
+  canonical_name: Koch Snowflake
+  aliases:
+    - Koch Snowflake
+    - koch_snowflake
+  family: escape_time
+laguerre:
+  canonical_name: Laguerre Fractal
+  aliases:
+    - Laguerre Fractal
+    - laguerre
+  family: escape_time
+lambda:
+  canonical_name: Lambda Fractal
+  aliases:
+    - Lambda Fractal
+    - lambda
+  family: escape_time
+lambda_julia:
+  canonical_name: Lambda Julia
+  aliases:
+    - Lambda Julia
+    - lambda_julia
+  family: escape_time
+lambda_w:
+  canonical_name: Lambda W Fractal
+  aliases:
+    - Lambda W Fractal
+    - lambda_w
+  family: escape_time
+legendre:
+  canonical_name: Legendre Fractal
+  aliases:
+    - Legendre Fractal
+    - legendre
+  family: escape_time
+lightningbrot:
+  canonical_name: LightningBrot
+  aliases:
+    - LightningBrot
+    - lightningbrot
+  family: escape_time
+liu_chen:
+  canonical_name: Liu-Chen Attractor
+  aliases:
+    - Liu-Chen Attractor
+    - liu_chen
+  family: escape_time
+log_spiral:
+  canonical_name: Log Spiral Fractal
+  aliases:
+    - Log Spiral Fractal
+    - log_spiral
+  family: escape_time
+logistic_lyapunov:
+  canonical_name: Logistic Lyapunov
+  aliases:
+    - Logistic Lyapunov
+    - logistic_lyapunov
+  family: escape_time
+lorenz_2d:
+  canonical_name: Lorenz Attractor (2D)
+  aliases:
+    - Lorenz Attractor (2D)
+    - lorenz_2d
+  family: escape_time
+lozi:
+  canonical_name: Lozi Map
+  aliases:
+    - Lozi Map
+    - lozi
+  family: escape_time
+lu_chen:
+  canonical_name: Lu-Chen Attractor
+  aliases:
+    - Lu-Chen Attractor
+    - lu_chen
+  family: escape_time
+lyapunov:
+  canonical_name: Lyapunov Fractal
+  aliases:
+    - Lyapunov Fractal
+    - lyapunov
+  family: escape_time
+levy_c_curve:
+  canonical_name: Lévy C Curve
+  aliases:
+    - Lévy C Curve
+    - levy_c_curve
+  family: escape_time
+levy_tapestry:
+  canonical_name: Lévy Tapestry
+  aliases:
+    - Lévy Tapestry
+    - levy_tapestry
+  family: escape_time
+magnet_type_1:
+  canonical_name: Magnet Fractal (Type I)
+  aliases:
+    - Magnet Fractal (Type I)
+    - magnet_type_1
+  family: escape_time
+magnet_type_2:
+  canonical_name: Magnet Fractal (Type II)
+  aliases:
+    - Magnet Fractal (Type II)
+    - magnet_type_2
+  family: escape_time
+magnet_type_3:
+  canonical_name: Magnet Fractal (Type III)
+  aliases:
+    - Magnet Fractal (Type III)
+    - magnet_type_3
+  family: escape_time
+magnet1_julia:
+  canonical_name: Magnet I Julia
+  aliases:
+    - Magnet I Julia
+    - magnet1_julia
+  family: escape_time
+magnet2_julia:
+  canonical_name: Magnet II Julia
+  aliases:
+    - Magnet II Julia
+    - magnet2_julia
+  family: escape_time
+magnet_newton:
+  canonical_name: Magnet Newton
+  aliases:
+    - Magnet Newton
+    - magnet_newton
+  family: escape_time
+magnet1:
+  canonical_name: Magnet Type I
+  aliases:
+    - Magnet Type I
+    - magnet1
+  family: escape_time
+manair_fire:
+  canonical_name: Man-Air-Fire
+  aliases:
+    - Man-Air-Fire
+    - manair_fire
+  family: escape_time
+mandelbar_cubic:
+  canonical_name: Mandelbar Cubic (Tricorn ³)
+  aliases:
+    - Mandelbar Cubic (Tricorn ³)
+    - mandelbar_cubic
+  family: escape_time
+mandelbar_power6:
+  canonical_name: Mandelbar⁶
+  aliases:
+    - Mandelbar⁶
+    - mandelbar_power6
+  family: escape_time
+mandelbar_power7:
+  canonical_name: Mandelbar⁷
+  aliases:
+    - Mandelbar⁷
+    - mandelbar_power7
+  family: escape_time
+mandelbar_power8:
+  canonical_name: Mandelbar⁸
+  aliases:
+    - Mandelbar⁸
+    - mandelbar_power8
+  family: escape_time
+mandelbar_power9:
+  canonical_name: Mandelbar⁹
+  aliases:
+    - Mandelbar⁹
+    - mandelbar_power9
+  family: escape_time
+mandelbrot:
+  canonical_name: Mandelbrot
+  aliases:
+    - Mandelbrot
+    - mandelbrot
+  family: escape_time
+mandelbrot_curvature_avg:
+  canonical_name: Mandelbrot Curvature Avg
+  aliases:
+    - Mandelbrot Curvature Avg
+    - mandelbrot_curvature_avg
+  family: escape_time
+mandelbrot_de:
+  canonical_name: Mandelbrot DE Glow
+  aliases:
+    - Mandelbrot DE Glow
+    - mandelbrot_de
+  family: escape_time
+mandelbrot_orbit_trap:
+  canonical_name: Mandelbrot Orbit Trap
+  aliases:
+    - Mandelbrot Orbit Trap
+    - mandelbrot_orbit_trap
+  family: escape_time
+mandelbrot_stripe_avg:
+  canonical_name: Mandelbrot Stripe Average
+  aliases:
+    - Mandelbrot Stripe Average
+    - mandelbrot_stripe_avg
+  family: escape_time
+mandelbrot_tia:
+  canonical_name: Mandelbrot TIA
+  aliases:
+    - Mandelbrot TIA
+    - mandelbrot_tia
+  family: escape_time
+mandelpinski:
+  canonical_name: Mandelpinski Necklaces
+  aliases:
+    - Mandelpinski Necklaces
+    - mandelpinski
+  family: escape_time
+manowar:
+  canonical_name: Manowar Fractal
+  aliases:
+    - Manowar Fractal
+    - manowar
+  family: escape_time
+menger_sponge_2d:
+  canonical_name: Menger Sponge (2D Cross-Section)
+  aliases:
+    - Menger Sponge (2D Cross-Section)
+    - menger_sponge_2d
+  family: escape_time
+menger_3d_slice:
+  canonical_name: Menger Sponge (3D Slice)
+  aliases:
+    - Menger Sponge (3D Slice)
+    - menger_3d_slice
+  family: escape_time
+moore_curve:
+  canonical_name: Moore Curve
+  aliases:
+    - Moore Curve
+    - moore_curve
+  family: escape_time
+moore_spiegel:
+  canonical_name: Moore-Spiegel Attractor
+  aliases:
+    - Moore-Spiegel Attractor
+    - moore_spiegel
+  family: escape_time
+multibrot_neg2:
+  canonical_name: Multibrot d=-2
+  aliases:
+    - Multibrot d=-2
+    - multibrot_neg2
+  family: escape_time
+multibrot_15:
+  canonical_name: Multibrot d=1.5
+  aliases:
+    - Multibrot d=1.5
+    - multibrot_15
+  family: escape_time
+multibrot_25:
+  canonical_name: Multibrot d=2.5
+  aliases:
+    - Multibrot d=2.5
+    - multibrot_25
+  family: escape_time
+multibrot3:
+  canonical_name: Multibrot d=3
+  aliases:
+    - Multibrot d=3
+    - multibrot3
+  family: escape_time
+multibrot4:
+  canonical_name: Multibrot d=4
+  aliases:
+    - Multibrot d=4
+    - multibrot4
+  family: escape_time
+multibrot5:
+  canonical_name: Multibrot d=5
+  aliases:
+    - Multibrot d=5
+    - multibrot5
+  family: escape_time
+multibrot6:
+  canonical_name: Multibrot ⁶
+  aliases:
+    - Multibrot ⁶
+    - multibrot6
+  family: escape_time
+multibrot7:
+  canonical_name: Multibrot ⁷
+  aliases:
+    - Multibrot ⁷
+    - multibrot7
+  family: escape_time
+multibrot8:
+  canonical_name: Multibrot ⁸
+  aliases:
+    - Multibrot ⁸
+    - multibrot8
+  family: escape_time
+multibrot12:
+  canonical_name: Multibrot¹²
+  aliases:
+    - Multibrot¹²
+    - multibrot12
+  family: escape_time
+multibrot11:
+  canonical_name: Multibrot¹¹
+  aliases:
+    - Multibrot¹¹
+    - multibrot11
+  family: escape_time
+multibrot10:
+  canonical_name: Multibrot¹⁰
+  aliases:
+    - Multibrot¹⁰
+    - multibrot10
+  family: escape_time
+multibrot9:
+  canonical_name: Multibrot⁹
+  aliases:
+    - Multibrot⁹
+    - multibrot9
+  family: escape_time
+multijulia3:
+  canonical_name: Multijulia ³
+  aliases:
+    - Multijulia ³
+    - multijulia3
+  family: escape_time
+multijulia4:
+  canonical_name: Multijulia ⁴
+  aliases:
+    - Multijulia ⁴
+    - multijulia4
+  family: escape_time
+multijulia5:
+  canonical_name: Multijulia ⁵
+  aliases:
+    - Multijulia ⁵
+    - multijulia5
+  family: escape_time
+multijulia6:
+  canonical_name: Multijulia ⁶
+  aliases:
+    - Multijulia ⁶
+    - multijulia6
+  family: escape_time
+multijulia7:
+  canonical_name: Multijulia ⁷
+  aliases:
+    - Multijulia ⁷
+    - multijulia7
+  family: escape_time
+multijulia8:
+  canonical_name: Multijulia ⁸
+  aliases:
+    - Multijulia ⁸
+    - multijulia8
+  family: escape_time
+multijulia12:
+  canonical_name: Multijulia¹²
+  aliases:
+    - Multijulia¹²
+    - multijulia12
+  family: escape_time
+multijulia11:
+  canonical_name: Multijulia¹¹
+  aliases:
+    - Multijulia¹¹
+    - multijulia11
+  family: escape_time
+multijulia10:
+  canonical_name: Multijulia¹⁰
+  aliases:
+    - Multijulia¹⁰
+    - multijulia10
+  family: escape_time
+multijulia9:
+  canonical_name: Multijulia⁹
+  aliases:
+    - Multijulia⁹
+    - multijulia9
+  family: escape_time
+nebulabrot:
+  canonical_name: Nebulabrot (Approx)
+  aliases:
+    - Nebulabrot (Approx)
+    - nebulabrot
+  family: escape_time
+newton_z3:
+  canonical_name: Newton Fractal (z³ - 1)
+  aliases:
+    - Newton Fractal (z³ - 1)
+    - newton_z3
+  family: escape_time
+newton_general:
+  canonical_name: Newton Fractal (z⁴ - 1)
+  aliases:
+    - Newton Fractal (z⁴ - 1)
+    - newton_general
+  family: escape_time
+newton_sin:
+  canonical_name: Newton sin(z)
+  aliases:
+    - Newton sin(z)
+    - newton_sin
+  family: escape_time
+newton_z4:
+  canonical_name: Newton z⁴−1
+  aliases:
+    - Newton z⁴−1
+    - newton_z4
+  family: escape_time
+newton_z5:
+  canonical_name: Newton z⁵−1
+  aliases:
+    - Newton z⁵−1
+    - newton_z5
+  family: escape_time
+newton_z6:
+  canonical_name: Newton z⁶−1
+  aliases:
+    - Newton z⁶−1
+    - newton_z6
+  family: escape_time
+newton_z7:
+  canonical_name: Newton z⁷−1
+  aliases:
+    - Newton z⁷−1
+    - newton_z7
+  family: escape_time
+newton_z8:
+  canonical_name: Newton z⁸−1
+  aliases:
+    - Newton z⁸−1
+    - newton_z8
+  family: escape_time
+newton_leipnik:
+  canonical_name: Newton-Leipnik Attractor
+  aliases:
+    - Newton-Leipnik Attractor
+    - newton_leipnik
+  family: escape_time
+nose_hoover:
+  canonical_name: Nosé-Hoover Attractor
+  aliases:
+    - Nosé-Hoover Attractor
+    - nose_hoover
+  family: escape_time
+nova_cubic:
+  canonical_name: Nova Cubic
+  aliases:
+    - Nova Cubic
+    - nova_cubic
+  family: escape_time
+nova_cubic_julia:
+  canonical_name: Nova Cubic Julia
+  aliases:
+    - Nova Cubic Julia
+    - nova_cubic_julia
+  family: escape_time
+nova_julia:
+  canonical_name: Nova Julia
+  aliases:
+    - Nova Julia
+    - nova_julia
+  family: escape_time
+nova_degree4:
+  canonical_name: Nova⁴
+  aliases:
+    - Nova⁴
+    - nova_degree4
+  family: escape_time
+nova_degree4_julia:
+  canonical_name: Nova⁴ Julia
+  aliases:
+    - Nova⁴ Julia
+    - nova_degree4_julia
+  family: escape_time
+peano_curve:
+  canonical_name: Peano Curve
+  aliases:
+    - Peano Curve
+    - peano_curve
+  family: escape_time
+penrose_tiling:
+  canonical_name: Penrose Tiling (P3)
+  aliases:
+    - Penrose Tiling (P3)
+    - penrose_tiling
+  family: escape_time
+pentaflake:
+  canonical_name: Pentaflake
+  aliases:
+    - Pentaflake
+    - pentaflake
+  family: escape_time
+percolation:
+  canonical_name: Percolation Cluster
+  aliases:
+    - Percolation Cluster
+    - percolation
+  family: escape_time
+perpendicular_bs_cubic_julia:
+  canonical_name: Perp. BS Cubic Julia
+  aliases:
+    - Perp. BS Cubic Julia
+    - perpendicular_bs_cubic_julia
+  family: escape_time
+perpendicular_bs_cubic:
+  canonical_name: Perpendicular BS Cubic
+  aliases:
+    - Perpendicular BS Cubic
+    - perpendicular_bs_cubic
+  family: escape_time
+perpendicular_burning_ship_julia:
+  canonical_name: Perpendicular BS Julia
+  aliases:
+    - Perpendicular BS Julia
+    - perpendicular_burning_ship_julia
+  family: escape_time
+perpendicular_bs_power4:
+  canonical_name: Perpendicular BS⁴
+  aliases:
+    - Perpendicular BS⁴
+    - perpendicular_bs_power4
+  family: escape_time
+perpendicular_bs_power5:
+  canonical_name: Perpendicular BS⁵
+  aliases:
+    - Perpendicular BS⁵
+    - perpendicular_bs_power5
+  family: escape_time
+burning_ship_perp:
+  canonical_name: Perpendicular Burning Ship
+  aliases:
+    - Perpendicular Burning Ship
+    - burning_ship_perp
+  family: escape_time
+perpendicular_burning_ship:
+  canonical_name: Perpendicular Burning Ship
+  aliases:
+    - Perpendicular Burning Ship
+    - perpendicular_burning_ship
+  family: escape_time
+perp_celtic:
+  canonical_name: Perpendicular Celtic
+  aliases:
+    - Perpendicular Celtic
+    - perp_celtic
+  family: escape_time
+perp_celtic_cubic:
+  canonical_name: Perpendicular Celtic Cubic
+  aliases:
+    - Perpendicular Celtic Cubic
+    - perp_celtic_cubic
+  family: escape_time
+perpendicular_julia:
+  canonical_name: Perpendicular Julia
+  aliases:
+    - Perpendicular Julia
+    - perpendicular_julia
+  family: escape_time
+perpendicular_mandelbrot:
+  canonical_name: Perpendicular Mandelbrot
+  aliases:
+    - Perpendicular Mandelbrot
+    - perpendicular_mandelbrot
+  family: escape_time
+burning_ship_perp_julia:
+  canonical_name: Perpendicular Ship Julia
+  aliases:
+    - Perpendicular Ship Julia
+    - burning_ship_perp_julia
+  family: escape_time
+peter_de_jong:
+  canonical_name: Peter de Jong Attractor
+  aliases:
+    - Peter de Jong Attractor
+    - peter_de_jong
+  family: escape_time
+pickover_biomorph:
+  canonical_name: Pickover Biomorph
+  aliases:
+    - Pickover Biomorph
+    - pickover_biomorph
+  family: escape_time
+pinwheel_tiling:
+  canonical_name: Pinwheel Tiling
+  aliases:
+    - Pinwheel Tiling
+    - pinwheel_tiling
+  family: escape_time
+pola_sierpinski:
+  canonical_name: Pola-Sierpinski Hybrid
+  aliases:
+    - Pola-Sierpinski Hybrid
+    - pola_sierpinski
+  family: escape_time
+polar_cowlick:
+  canonical_name: Polar Cowlick
+  aliases:
+    - Polar Cowlick
+    - polar_cowlick
+  family: escape_time
+popcorn:
+  canonical_name: Popcorn Fractal
+  aliases:
+    - Popcorn Fractal
+    - popcorn
+  family: escape_time
+popcorn2:
+  canonical_name: Popcorn II
+  aliases:
+    - Popcorn II
+    - popcorn2
+  family: escape_time
+power_sum:
+  canonical_name: Power Sum Fractal
+  aliases:
+    - Power Sum Fractal
+    - power_sum
+  family: escape_time
+prison:
+  canonical_name: Prison
+  aliases:
+    - Prison
+    - prison
+  family: escape_time
+pseudo_kleinian:
+  canonical_name: Pseudo-Kleinian
+  aliases:
+    - Pseudo-Kleinian
+    - pseudo_kleinian
+  family: escape_time
+pythagorean_tree:
+  canonical_name: Pythagorean Tree
+  aliases:
+    - Pythagorean Tree
+    - pythagorean_tree
+  family: escape_time
+qi_chen:
+  canonical_name: Qi-Chen Attractor
+  aliases:
+    - Qi-Chen Attractor
+    - qi_chen
+  family: escape_time
+quadratic_koch_island:
+  canonical_name: Quadratic Koch Island
+  aliases:
+    - Quadratic Koch Island
+    - quadratic_koch_island
+  family: escape_time
+quaternion_julia_2d:
+  canonical_name: Quaternion Julia (2D Slice)
+  aliases:
+    - Quaternion Julia (2D Slice)
+    - quaternion_julia_2d
+  family: escape_time
+rabinovich_fabrikant:
+  canonical_name: Rabinovich-Fabrikant Attractor
+  aliases:
+    - Rabinovich-Fabrikant Attractor
+    - rabinovich_fabrikant
+  family: escape_time
+rational_map:
+  canonical_name: Rational Map Fractal
+  aliases:
+    - Rational Map Fractal
+    - rational_map
+  family: escape_time
+rauzy_fractal:
+  canonical_name: Rauzy Fractal
+  aliases:
+    - Rauzy Fractal
+    - rauzy_fractal
+  family: escape_time
+rayleigh_benard:
+  canonical_name: Rayleigh-Bénard Attractor
+  aliases:
+    - Rayleigh-Bénard Attractor
+    - rayleigh_benard
+  family: escape_time
+riemann_zeta:
+  canonical_name: Riemann Zeta Fractal
+  aliases:
+    - Riemann Zeta Fractal
+    - riemann_zeta
+  family: escape_time
+rikitake:
+  canonical_name: Rikitake Dynamo
+  aliases:
+    - Rikitake Dynamo
+    - rikitake
+  family: escape_time
+robinson:
+  canonical_name: Robinson Attractor
+  aliases:
+    - Robinson Attractor
+    - robinson
+  family: escape_time
+rossler_2d:
+  canonical_name: Rossler Attractor (2D)
+  aliases:
+    - Rossler Attractor (2D)
+    - rossler_2d
+  family: escape_time
+rucklidge:
+  canonical_name: Rucklidge Attractor
+  aliases:
+    - Rucklidge Attractor
+    - rucklidge
+  family: escape_time
+sakarya:
+  canonical_name: Sakarya Attractor
+  aliases:
+    - Sakarya Attractor
+    - sakarya
+  family: escape_time
+schroeder_z3:
+  canonical_name: Schröder z³−1
+  aliases:
+    - Schröder z³−1
+    - schroeder_z3
+  family: escape_time
+schroeder_z4:
+  canonical_name: Schröder z⁴−1
+  aliases:
+    - Schröder z⁴−1
+    - schroeder_z4
+  family: escape_time
+scroll_waves:
+  canonical_name: Scroll Waves Attractor
+  aliases:
+    - Scroll Waves Attractor
+    - scroll_waves
+  family: escape_time
+secant_fractal:
+  canonical_name: Secant Fractal
+  aliases:
+    - Secant Fractal
+    - secant_fractal
+  family: escape_time
+secant_cosecant:
+  canonical_name: Secant/Cosecant Map
+  aliases:
+    - Secant/Cosecant Map
+    - secant_cosecant
+  family: escape_time
+shark_fin:
+  canonical_name: Shark Fin
+  aliases:
+    - Shark Fin
+    - shark_fin
+  family: escape_time
+shimizu_morioka:
+  canonical_name: Shimizu-Morioka Attractor
+  aliases:
+    - Shimizu-Morioka Attractor
+    - shimizu_morioka
+  family: escape_time
+sierpinski_arrowhead:
+  canonical_name: Sierpinski Arrowhead
+  aliases:
+    - Sierpinski Arrowhead
+    - sierpinski_arrowhead
+  family: escape_time
+sierpinski_carpet:
+  canonical_name: Sierpinski Carpet
+  aliases:
+    - Sierpinski Carpet
+    - sierpinski_carpet
+  family: escape_time
+sierpinski_pentagon:
+  canonical_name: Sierpinski Pentagon
+  aliases:
+    - Sierpinski Pentagon
+    - sierpinski_pentagon
+  family: escape_time
+sierpinski_tetrahedron:
+  canonical_name: Sierpinski Tetrahedron (2D Projection)
+  aliases:
+    - Sierpinski Tetrahedron (2D Projection)
+    - sierpinski_tetrahedron
+  family: escape_time
+sierpinski_triangle:
+  canonical_name: Sierpinski Triangle
+  aliases:
+    - Sierpinski Triangle
+    - sierpinski_triangle
+  family: escape_time
+simonbrot:
+  canonical_name: Simonbrot
+  aliases:
+    - Simonbrot
+    - simonbrot
+  family: escape_time
+sine_julia:
+  canonical_name: Sine Julia
+  aliases:
+    - Sine Julia
+    - sine_julia
+  family: escape_time
+sine_mandelbrot:
+  canonical_name: Sine Mandelbrot
+  aliases:
+    - Sine Mandelbrot
+    - sine_mandelbrot
+  family: escape_time
+sine_map_lyapunov:
+  canonical_name: Sine Map Lyapunov
+  aliases:
+    - Sine Map Lyapunov
+    - sine_map_lyapunov
+  family: escape_time
+singularity:
+  canonical_name: Singularity
+  aliases:
+    - Singularity
+    - singularity
+  family: escape_time
+sinh_cosh:
+  canonical_name: Sinh Fractal
+  aliases:
+    - Sinh Fractal
+    - sinh_cosh
+  family: escape_time
+sinh_julia:
+  canonical_name: Sinh Julia
+  aliases:
+    - Sinh Julia
+    - sinh_julia
+  family: escape_time
+sinh_mandelbrot:
+  canonical_name: Sinh Mandelbrot
+  aliases:
+    - Sinh Mandelbrot
+    - sinh_mandelbrot
+  family: escape_time
+space_fractal:
+  canonical_name: Space Fractal
+  aliases:
+    - Space Fractal
+    - space_fractal
+  family: escape_time
+sphinx_tiling:
+  canonical_name: Sphinx Tiling
+  aliases:
+    - Sphinx Tiling
+    - sphinx_tiling
+  family: escape_time
+spider:
+  canonical_name: Spider Fractal
+  aliases:
+    - Spider Fractal
+    - spider
+  family: escape_time
+spider_x:
+  canonical_name: Spider-X
+  aliases:
+    - Spider-X
+    - spider_x
+  family: escape_time
+split_complex:
+  canonical_name: Split-Complex Fractal
+  aliases:
+    - Split-Complex Fractal
+    - split_complex
+  family: escape_time
+sprott_a:
+  canonical_name: Sprott Case A
+  aliases:
+    - Sprott Case A
+    - sprott_a
+  family: escape_time
+sprott_b:
+  canonical_name: Sprott Case B
+  aliases:
+    - Sprott Case B
+    - sprott_b
+  family: escape_time
+sprott_c:
+  canonical_name: Sprott Case C
+  aliases:
+    - Sprott Case C
+    - sprott_c
+  family: escape_time
+sprott_d:
+  canonical_name: Sprott Case D
+  aliases:
+    - Sprott Case D
+    - sprott_d
+  family: escape_time
+sprott_e:
+  canonical_name: Sprott Case E
+  aliases:
+    - Sprott Case E
+    - sprott_e
+  family: escape_time
+sprott_f:
+  canonical_name: Sprott Case F
+  aliases:
+    - Sprott Case F
+    - sprott_f
+  family: escape_time
+standard_map:
+  canonical_name: Standard Map (Chirikov)
+  aliases:
+    - Standard Map (Chirikov)
+    - standard_map
+  family: escape_time
+steffensen_z3:
+  canonical_name: Steffensen z³−1
+  aliases:
+    - Steffensen z³−1
+    - steffensen_z3
+  family: escape_time
+steffensen_z4:
+  canonical_name: Steffensen z⁴−1
+  aliases:
+    - Steffensen z⁴−1
+    - steffensen_z4
+  family: escape_time
+steffensen_z5:
+  canonical_name: Steffensen z⁵−1
+  aliases:
+    - Steffensen z⁵−1
+    - steffensen_z5
+  family: escape_time
+steiner_chain:
+  canonical_name: Steiner Chain
+  aliases:
+    - Steiner Chain
+    - steiner_chain
+  family: escape_time
+svensson:
+  canonical_name: Svensson Attractor
+  aliases:
+    - Svensson Attractor
+    - svensson
+  family: escape_time
+tsucs:
+  canonical_name: TSUCS Attractor
+  aliases:
+    - TSUCS Attractor
+    - tsucs
+  family: escape_time
+talis:
+  canonical_name: Talis Fractal
+  aliases:
+    - Talis Fractal
+    - talis
+  family: escape_time
+tamari:
+  canonical_name: Tamari Attractor
+  aliases:
+    - Tamari Attractor
+    - tamari
+  family: escape_time
+tangent:
+  canonical_name: Tangent Fractal
+  aliases:
+    - Tangent Fractal
+    - tangent
+  family: escape_time
+tangent_julia:
+  canonical_name: Tangent Julia
+  aliases:
+    - Tangent Julia
+    - tangent_julia
+  family: escape_time
+tangent_mandelbrot:
+  canonical_name: Tangent Mandelbrot
+  aliases:
+    - Tangent Mandelbrot
+    - tangent_mandelbrot
+  family: escape_time
+tanh_julia:
+  canonical_name: Tanh Julia
+  aliases:
+    - Tanh Julia
+    - tanh_julia
+  family: escape_time
+tanh_mandelbrot:
+  canonical_name: Tanh Mandelbrot
+  aliases:
+    - Tanh Mandelbrot
+    - tanh_mandelbrot
+  family: escape_time
+taylor:
+  canonical_name: Taylor Series Fractal
+  aliases:
+    - Taylor Series Fractal
+    - taylor
+  family: escape_time
+tent_map:
+  canonical_name: Tent Map
+  aliases:
+    - Tent Map
+    - tent_map
+  family: escape_time
+terdragon:
+  canonical_name: Terdragon
+  aliases:
+    - Terdragon
+    - terdragon
+  family: escape_time
+tessarine_julia:
+  canonical_name: Tessarine Julia
+  aliases:
+    - Tessarine Julia
+    - tessarine_julia
+  family: escape_time
+tetration:
+  canonical_name: Tetration Fractal
+  aliases:
+    - Tetration Fractal
+    - tetration
+  family: escape_time
+hat_monotile:
+  canonical_name: The Hat Monotile
+  aliases:
+    - The Hat Monotile
+    - hat_monotile
+  family: escape_time
+spectre_monotile:
+  canonical_name: The Spectre Monotile
+  aliases:
+    - The Spectre Monotile
+    - spectre_monotile
+  family: escape_time
+thomas_attractor:
+  canonical_name: Thomas Attractor
+  aliases:
+    - Thomas Attractor
+    - thomas_attractor
+  family: escape_time
+tinkerbell:
+  canonical_name: Tinkerbell Map
+  aliases:
+    - Tinkerbell Map
+    - tinkerbell
+  family: escape_time
+tricorn:
+  canonical_name: Tricorn
+  aliases:
+    - Tricorn
+    - tricorn
+  family: escape_time
+tricorn_cubic:
+  canonical_name: Tricorn Cubic
+  aliases:
+    - Tricorn Cubic
+    - tricorn_cubic
+  family: escape_time
+tricorn_cubic_julia:
+  canonical_name: Tricorn Cubic Julia
+  aliases:
+    - Tricorn Cubic Julia
+    - tricorn_cubic_julia
+  family: escape_time
+tricorn_julia:
+  canonical_name: Tricorn Julia
+  aliases:
+    - Tricorn Julia
+    - tricorn_julia
+  family: escape_time
+tricorn_power4:
+  canonical_name: Tricorn ⁴ (Mandelbar)
+  aliases:
+    - Tricorn ⁴ (Mandelbar)
+    - tricorn_power4
+  family: escape_time
+tricorn_power5:
+  canonical_name: Tricorn ⁵ (Mandelbar)
+  aliases:
+    - Tricorn ⁵ (Mandelbar)
+    - tricorn_power5
+  family: escape_time
+tricorn_power4_julia:
+  canonical_name: Tricorn⁴ Julia
+  aliases:
+    - Tricorn⁴ Julia
+    - tricorn_power4_julia
+  family: escape_time
+tricorn_power5_julia:
+  canonical_name: Tricorn⁵ Julia
+  aliases:
+    - Tricorn⁵ Julia
+    - tricorn_power5_julia
+  family: escape_time
+tricorn_power6_julia:
+  canonical_name: Tricorn⁶ Julia
+  aliases:
+    - Tricorn⁶ Julia
+    - tricorn_power6_julia
+  family: escape_time
+tricorn_power7_julia:
+  canonical_name: Tricorn⁷ Julia
+  aliases:
+    - Tricorn⁷ Julia
+    - tricorn_power7_julia
+  family: escape_time
+tricorn_power8_julia:
+  canonical_name: Tricorn⁸ Julia
+  aliases:
+    - Tricorn⁸ Julia
+    - tricorn_power8_julia
+  family: escape_time
+turmite:
+  canonical_name: Turmite
+  aliases:
+    - Turmite
+    - turmite
+  family: escape_time
+twin_dragon:
+  canonical_name: Twin Dragon
+  aliases:
+    - Twin Dragon
+    - twin_dragon
+  family: escape_time
+undefined:
+  canonical_name: Undefined Fractal
+  aliases:
+    - Undefined Fractal
+    - undefined
+  family: escape_time
+vase:
+  canonical_name: Vase
+  aliases:
+    - Vase
+    - vase
+  family: escape_time
+vicsek_fractal:
+  canonical_name: Vicsek Fractal
+  aliases:
+    - Vicsek Fractal
+    - vicsek_fractal
+  family: escape_time
+virial:
+  canonical_name: Virial Fractal
+  aliases:
+    - Virial Fractal
+    - virial
+  family: escape_time
+wang_sun_cang:
+  canonical_name: Wang-Sun-Cang Attractor
+  aliases:
+    - Wang-Sun-Cang Attractor
+    - wang_sun_cang
+  family: escape_time
+washed_away:
+  canonical_name: Washed Away
+  aliases:
+    - Washed Away
+    - washed_away
+  family: escape_time
+weierstrass_roots:
+  canonical_name: Weierstrass Roots
+  aliases:
+    - Weierstrass Roots
+    - weierstrass_roots
+  family: escape_time
+weierstrass_p:
+  canonical_name: Weierstrass ℘ + c
+  aliases:
+    - Weierstrass ℘ + c
+    - weierstrass_p
+  family: escape_time
+wireworld:
+  canonical_name: Wireworld
+  aliases:
+    - Wireworld
+    - wireworld
+  family: escape_time
+wolfram_rule30:
+  canonical_name: Wolfram Rule 30
+  aliases:
+    - Wolfram Rule 30
+    - wolfram_rule30
+  family: escape_time
+yu_wang:
+  canonical_name: Yu-Wang Attractor
+  aliases:
+    - Yu-Wang Attractor
+    - yu_wang
+  family: escape_time
+z_order_curve:
+  canonical_name: Z-Order Curve (Morton)
+  aliases:
+    - Z-Order Curve (Morton)
+    - z_order_curve
+  family: escape_time
+zaslavsky:
+  canonical_name: Zaslavsky Map
+  aliases:
+    - Zaslavsky Map
+    - zaslavsky
+  family: escape_time
+zhou_chen:
+  canonical_name: Zhou-Chen Attractor
+  aliases:
+    - Zhou-Chen Attractor
+    - zhou_chen
+  family: escape_time
+zircon_zity:
+  canonical_name: Zircon Zity
+  aliases:
+    - Zircon Zity
+    - zircon_zity
+  family: escape_time
+sin_z2:
+  canonical_name: sin(z²) + c
+  aliases:
+    - sin(z²) + c
+    - sin_z2
+  family: escape_time
+fractal_flame:
+  canonical_name: Fractal Flame
+  aliases:
+    - Fractal Flame
+    - fractal_flame
+  family: ifs_/_geometric_fractals
