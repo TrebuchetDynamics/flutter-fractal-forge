@@ -36,11 +36,9 @@ def hash_legacy_entry(entry: dict[str, Any]) -> str:
 
 
 def hash_formula_ast(formula_ast: dict[str, Any]) -> str:
-    """STAGE A PLACEHOLDER: not used by retrofit.
+    """Canonical hash of formula_ast (Stage B: sympy-normalized).
 
-    Stage B will implement real normalization (alpha-rename vars,
-    sort commutative ops, strip whitespace).
+    Delegates to scripts.research.canonicalize.formula_normalizer.hash_ast.
     """
-    canonical = json.dumps(formula_ast, sort_keys=True, separators=(",", ":"))
-    digest = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
-    return f"sha256:{digest}"
+    from scripts.research.canonicalize.formula_normalizer import hash_ast
+    return hash_ast(formula_ast)
