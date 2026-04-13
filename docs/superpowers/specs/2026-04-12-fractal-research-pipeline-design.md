@@ -15,6 +15,7 @@ This spec defines the **research and maintenance pipeline** that feeds the 10K f
 - ❌ `{id}.zh.md` files dropped entirely
 - ✅ Keeps: 19 categories, two-tier system (Implemented / Reference), `fractal_registry.yaml` as single source of truth, implementation checklist
 - ✅ Adds: end-to-end pipeline (discovery → extraction → canonicalization → admission → maintenance), `research/` tree, CI gates, cron-driven maintenance
+- ✅ **Rich Dart emission** (session direction 2026-04-12): pipeline's admission step emits **maximum Dart surface per fractal** — full per-fractal module classes (not minimal declarative configs), typed preset/variant factories, rendering-hint overrides, test scaffolding, plus GLSL shader. Pipeline implementation stays Python (right tool for scraping/LLM extraction/YAML tooling); generated **output** is as Dart-heavy as possible. See §14.
 
 Deferred items (runtime shader compilation, user uploads, marketplace, web backend, automated formula generation) live in `FUTURE-PLAN.md` — they are not in scope but are not rejected.
 
@@ -593,6 +594,60 @@ Exit: first discovery → review cycle run end-to-end.
 | Implemented tier always works | `shader-regression` green on every SDK bump |
 | Throughput sustained | ≥ 500 admitted/week across Phases 1–2, review backlog ≤ 1 week |
 | Quality stays high | Rejection rate in 15–35% band |
+
+---
+
+## 14. Dart Emission Contract (admission output)
+
+When a candidate is promoted to the registry, the admission pipeline **emits rich Dart code** — preferring full module classes over minimal declarative configs. Goal: maximize Dart surface the Flutter app can reason about statically, not just runtime-configurable YAML.
+
+### Per-fractal Dart output (every admitted fractal)
+
+```
+lib/core/modules/{category_slug}/{id}/
+├── {id}_module.dart         # Full module class (not a config entry)
+├── {id}_presets.dart        # Typed preset factory methods
+├── {id}_variants.dart       # Typed variant factory methods (if variants exist)
+└── {id}_metadata.dart       # Immutable metadata: name, category, citations, deep-zoom hints
+
+shaders/{id}_gpu.frag        # GLSL shader (implemented tier only)
+
+test/modules/{id}/
+└── {id}_module_test.dart    # Scaffolded smoke test + param round-trip test
+```
+
+Plus: one line appended to `escape_time_catalog.dart` or `raymarched_3d_catalog.dart` that imports + registers the new module. The large declarative config blocks in those files remain for legacy entries but new entries use full modules.
+
+### What "rich" means concretely
+
+Every admitted fractal's `{id}_module.dart` must provide:
+
+- A concrete class extending the appropriate base (`EscapeTimeModule`, `Raymarched3DModule`, `AttractorModule`, etc.)
+- Typed `params` fields (not a loose `Map<String, dynamic>`)
+- Typed preset + variant factory methods (e.g., `static {Id}Preset seahorseValley() => ...`)
+- `deepZoom` hints (perturbation-capable, series approximation eligible) as typed flags
+- `references` as a typed const list of `Citation` records
+- Override hooks for custom coloring / boundary conditions when the source specifies them
+
+Minimum per-fractal Dart LOC target: **60-120 lines** (hand-written modules in the current codebase average ~90). The pipeline generates this from `metadata.yaml` + `formula_ast` + source description.
+
+### Generator ownership
+
+- Python pipeline: `scripts/research/admit/emit_dart.py` (Stage B+ implementation) — takes a promoted candidate, renders Jinja2 templates, writes the files above
+- Templates live in `scripts/research/admit/templates/dart/` — one per iteration_type (escape_time, raymarch_3d, attractor, ifs, l_system, cellular, …)
+- Templates are reviewed and maintained like any other source file; regenerating a fractal is idempotent
+
+### CI gate (admission to Implemented tier)
+
+`catalog-ci.yml` gains these checks for any PR adding Dart in `lib/core/modules/{category}/{id}/`:
+
+- `flutter analyze` zero errors/warnings on the new files
+- Module class imports compile
+- Scaffolded test runs and passes (params round-trip + smoke render)
+
+### Scope of §14 in Stage A
+
+None — Stage A is retrofit of the existing 370 entries plus tooling foundation. The Dart emission contract applies to Stage B's first admission workflow and all later stages.
 
 ---
 
