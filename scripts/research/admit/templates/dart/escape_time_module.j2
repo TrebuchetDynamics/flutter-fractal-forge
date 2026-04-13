@@ -1,0 +1,41 @@
+{% extends "base.j2" %}
+{% block module_class %}
+/// {{ name }} — {{ category }}.
+class {{ class_name }} extends EscapeTimeModule {
+  {{ class_name }}()
+      : super(
+          id: '{{ id }}',
+          shader: '{{ shader }}',
+        );
+
+  @override
+  {{ class_name }}Metadata get metadata => {{ class_name }}Metadata.instance;
+
+  @override
+  List<{{ class_name }}Preset> get presets => {{ class_name }}Presets.all;
+
+  @override
+  List<{{ class_name }}Variant> get variants => {{ class_name }}Variants.all;
+
+  @override
+  double get defaultPower => {{ defaults.power }};
+
+  @override
+  double get defaultBailout => {{ defaults.bailout }};
+
+  @override
+  int get defaultIterations => {{ defaults.iterations }};
+
+  {% if deep_zoom_capable %}
+  @override
+  DeepZoomStrategy get deepZoom => DeepZoomStrategy.perturbation;
+  {% endif %}
+
+  @override
+  void configureShader(ShaderParams p) {
+    p.setFloat('power', defaultPower);
+    p.setFloat('bailout', defaultBailout);
+    p.setInt('iterations', defaultIterations);
+  }
+}
+{% endblock %}

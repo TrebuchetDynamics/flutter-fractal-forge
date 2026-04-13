@@ -1,0 +1,25 @@
+// GENERATED smoke test.
+import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_fractal_forge/core/modules/{{ category_slug }}/{{ id }}/{{ id }}_module.dart';
+
+void main() {
+  test('{{ class_name }} instantiates', () {
+    final m = {{ class_name }}();
+    expect(m.id, '{{ id }}');
+    expect(m.shader, '{{ shader }}');
+  });
+
+  test('{{ class_name }} presets are well-formed', () {
+    final m = {{ class_name }}();
+    expect(m.presets, isNotEmpty);
+    for (final p in m.presets) {
+      expect(p.id, isNotEmpty);
+      expect(p.name, isNotEmpty);
+    }
+  });
+
+  test('{{ class_name }} metadata is consistent', () {
+    final m = {{ class_name }}();
+    expect(m.metadata.id, m.id);
+  });
+}
