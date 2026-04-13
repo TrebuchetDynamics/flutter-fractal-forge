@@ -1,0 +1,30 @@
+// GENERATED — DO NOT EDIT BY HAND.
+import 'package:meta/meta.dart';
+
+@immutable
+class {{ class_name }}Variant {
+  final String id;
+  final String name;
+  final Map<String, double> params;
+  const {{ class_name }}Variant({required this.id, required this.name, required this.params});
+}
+
+class {{ class_name }}Variants {
+{% for v in variants %}
+  static const {{ class_name }}Variant {{ v.id | camel }} = {{ class_name }}Variant(
+    id: '{{ v.id }}',
+    name: '{{ v.name }}',
+    params: {
+{% for k, val in v.params.items() %}
+      '{{ k }}': {{ val }},
+{% endfor %}
+    },
+  );
+{% endfor %}
+
+  static const List<{{ class_name }}Variant> all = [
+{% for v in variants %}
+    {{ v.id | camel }},
+{% endfor %}
+  ];
+}

@@ -1,0 +1,32 @@
+{% extends "base.j2" %}
+{% block module_class %}
+/// {{ name }} — {{ category }}.
+class {{ class_name }} extends AttractorModule {
+  {{ class_name }}()
+      : super(
+          id: '{{ id }}',
+          shader: '{{ shader }}',
+        );
+
+  @override
+  {{ class_name }}Metadata get metadata => {{ class_name }}Metadata.instance;
+
+  @override
+  List<{{ class_name }}Preset> get presets => {{ class_name }}Presets.all;
+
+  @override
+  List<{{ class_name }}Variant> get variants => {{ class_name }}Variants.all;
+
+  @override
+  int get defaultIterations => {{ defaults.iterations }};
+
+  @override
+  double get defaultStepSize => {{ defaults.step_size | default(0.01) }};
+
+  @override
+  void configureShader(ShaderParams p) {
+    p.setInt('iterations', defaultIterations);
+    p.setFloat('stepSize', defaultStepSize);
+  }
+}
+{% endblock %}

@@ -1,0 +1,44 @@
+// GENERATED — DO NOT EDIT BY HAND.
+import 'package:meta/meta.dart';
+
+@immutable
+class Citation {
+  final String? author;
+  final String? title;
+  final int? year;
+  final String url;
+  const Citation({this.author, this.title, this.year, required this.url});
+}
+
+@immutable
+class {{ class_name }}Metadata {
+  static const instance = {{ class_name }}Metadata._();
+  const {{ class_name }}Metadata._();
+
+  String get id => '{{ id }}';
+  String get name => '{{ name | e }}';
+  String get category => '{{ category | e }}';
+{% if family %}
+  String get family => '{{ family | e }}';
+{% endif %}
+
+  List<String> get aliases => const [
+{% for a in aliases %}
+    '{{ a | e }}',
+{% endfor %}
+  ];
+
+  List<Citation> get references => const [
+{% for r in references %}
+    Citation(
+{% if r.author %}      author: '{{ r.author | e }}',
+{% endif %}
+{% if r.title %}      title: '{{ r.title | e }}',
+{% endif %}
+{% if r.year %}      year: {{ r.year }},
+{% endif %}
+      url: '{{ r.url }}',
+    ),
+{% endfor %}
+  ];
+}
