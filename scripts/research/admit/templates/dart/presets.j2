@@ -11,7 +11,7 @@ class {{ class_name }}Preset {
 
 class {{ class_name }}Presets {
 {% for p in presets %}
-  static const {{ class_name }}Preset {{ p.id | camel }} = {{ class_name }}Preset(
+  static const {{ class_name }}Preset {{ p.id | lower_camel }} = {{ class_name }}Preset(
     id: '{{ p.id }}',
     name: '{{ p.name }}',
     params: {
@@ -24,7 +24,7 @@ class {{ class_name }}Presets {
 
   static const List<{{ class_name }}Preset> all = [
 {% for p in presets %}
-    {{ p.id | camel }},
+    {{ p.id | lower_camel }},
 {% endfor %}
   ];
 }

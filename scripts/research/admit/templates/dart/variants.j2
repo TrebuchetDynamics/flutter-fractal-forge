@@ -11,7 +11,7 @@ class {{ class_name }}Variant {
 
 class {{ class_name }}Variants {
 {% for v in variants %}
-  static const {{ class_name }}Variant {{ v.id | camel }} = {{ class_name }}Variant(
+  static const {{ class_name }}Variant {{ v.id | lower_camel }} = {{ class_name }}Variant(
     id: '{{ v.id }}',
     name: '{{ v.name }}',
     params: {
@@ -24,7 +24,7 @@ class {{ class_name }}Variants {
 
   static const List<{{ class_name }}Variant> all = [
 {% for v in variants %}
-    {{ v.id | camel }},
+    {{ v.id | lower_camel }},
 {% endfor %}
   ];
 }

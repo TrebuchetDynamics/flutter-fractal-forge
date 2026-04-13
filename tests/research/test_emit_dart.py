@@ -104,8 +104,8 @@ def test_emit_presets_dart_contains_preset_entries(tmp_path):
     presets_file = next(f for f in files if f.name == "f001_mandelbrot_presets.dart")
     content = presets_file.read_text()
     assert "F001MandelbrotPreset" in content
-    # camel-case accessor comes from 'seahorse_valley'
-    assert "SeahorseValley" in content
+    # lowerCamelCase accessor comes from 'seahorse_valley' (Dart constant naming)
+    assert "seahorseValley" in content
     assert "'seahorse_valley'" in content
 
 
