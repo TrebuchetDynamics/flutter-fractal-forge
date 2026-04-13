@@ -53,3 +53,16 @@ def test_doctor_summary_includes_counts(tmp_registry):
     result = check_registry(tmp_registry)
     summary = result.format_summary()
     assert "2 entries" in summary or "entries: 2" in summary
+
+
+def test_doctor_passes_on_real_registry_after_retrofit(tmp_path):
+    """Copy the real registry, retrofit it, confirm doctor passes."""
+    import shutil
+    src = Path(__file__).resolve().parents[2] / "docs" / "catalog" / "fractal_registry.yaml"
+    dst = tmp_path / "fractal_registry.yaml"
+    shutil.copy(src, dst)
+
+    _retrofit(dst)
+    result = check_registry(dst)
+    assert result.ok, result.format_errors()
+    assert result.entry_count >= 300  # we know there are ~370 entries
