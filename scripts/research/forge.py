@@ -24,9 +24,18 @@ def _cmd_retrofit(args: argparse.Namespace) -> int:
     return run_retrofit(REPO_ROOT, dry_run=args.dry_run)
 
 
+def _cmd_seed_aliases(args: argparse.Namespace) -> int:
+    from scripts.research.migrate.seed_aliases import run_seed_aliases
+    registry_path = REPO_ROOT / "docs" / "catalog" / "fractal_registry.yaml"
+    seed_path = REPO_ROOT / "research" / "seeds" / "canonical_aliases.seed.yaml"
+    output_path = REPO_ROOT / "research" / "canonical" / "canonical_aliases.yaml"
+    return run_seed_aliases(registry_path, seed_path if seed_path.exists() else None, output_path)
+
+
 SUBCOMMANDS: dict[str, tuple[str, Callable[[argparse.Namespace], int]]] = {
     "doctor": ("Verify registry invariants", _cmd_doctor),
     "retrofit": ("Migrate registry to pipeline schema (adds formula_hash, quality, tier)", _cmd_retrofit),
+    "seed-aliases": ("Generate canonical_aliases.yaml from registry + seed", _cmd_seed_aliases),
 }
 
 
