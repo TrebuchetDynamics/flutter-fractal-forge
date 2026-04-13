@@ -236,3 +236,22 @@ def test_metadata_id_matches_fNNNN_pattern_or_legacy():
     m = _sample_metadata()
     m["id"] = "mandelbrot"  # legacy-style id
     _validate(m, _metadata_schema())
+
+
+def test_schema_lint_validates_registry_entry_happy_path():
+    from scripts.research.lib.schema_lint import lint
+    lint("registry_entry", _sample_retrofitted_entry())
+
+
+def test_schema_lint_raises_on_invalid():
+    from scripts.research.lib.schema_lint import lint, SchemaLintError
+    bad = _sample_retrofitted_entry()
+    del bad["tier"]
+    with pytest.raises(SchemaLintError):
+        lint("registry_entry", bad)
+
+
+def test_schema_lint_unknown_schema_name_raises():
+    from scripts.research.lib.schema_lint import lint
+    with pytest.raises(KeyError):
+        lint("not_a_schema", {})
