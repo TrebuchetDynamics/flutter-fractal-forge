@@ -78,12 +78,13 @@ Sources split into three tiers by structure. Each tier gets a different crawl st
 
 ### Tier 2 — Semi-structured (parser + LLM extraction)
 
-| Source | Type | Strategy |
-|--------|------|----------|
-| Fractal Forums archives (18K posts) | EN | Scrape + batched LLM extraction |
-| Mu-Ency (mrob.com) | EN | HTML scraper + LLM prose cleanup |
-| CNKI 知网 (search: 分形) | CN (discovery only) | Manual PDF download → GROBID + LLM extraction, EN output |
-| 百度学术 / 知乎 math threads | CN (discovery only) | Manual seed list + LLM extraction, EN output |
+| Source | Type | Est. yield | Strategy |
+|--------|------|-----------:|----------|
+| Fractal Forums archives (18K posts) | EN | ~1,500 | Scrape + batched LLM extraction |
+| Mu-Ency (mrob.com) | EN | ~1,000 | HTML scraper + LLM prose cleanup |
+| **Bridges Math Art conference archive** (archive.bridgesmathart.org) | EN | ~600 | ~3,500 PDFs across 25 years; filter to fractal/tiling/origami/architectural papers via title + abstract LLM classifier; GROBID + LLM extraction. Especially strong for categories XIV (Physical), XVII (Architectural), X (Tiling), IV (IFS), XVI (Musical) — fills gaps EN programming sources miss. |
+| CNKI 知网 (search: 分形) | CN (discovery only) | ~50 | Manual PDF download → GROBID + LLM extraction, EN output |
+| 百度学术 / 知乎 math threads | CN (discovery only) | ~20 | Manual seed list + LLM extraction, EN output |
 
 ### Tier 3 — Seed lists (manual, high-quality)
 
