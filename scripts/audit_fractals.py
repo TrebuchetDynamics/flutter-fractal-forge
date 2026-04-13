@@ -9,6 +9,7 @@ Usage:
     python scripts/audit_fractals.py
 """
 
+import argparse
 import re
 import os
 import sys
@@ -24,6 +25,55 @@ RAYMARCHED_3D_CATALOG = (
 )
 THUMBS_DIR = REPO_ROOT / "assets/catalog_thumbs"
 OUTPUT_YAML = REPO_ROOT / "docs/catalog/fractal_registry.yaml"
+
+# Retrofit fields that, if present, indicate the registry has been processed
+# by the research pipeline (see scripts/research/forge.py). Regenerating the
+# registry from Dart source would silently destroy these fields.
+RETROFIT_FIELDS = ("tier", "formula_hash", "quality")
+
+
+def guard_retrofit_fields(registry_path: Path) -> None:
+    """Abort if the existing registry has retrofitted pipeline fields.
+
+    This is a safety guard: `audit_fractals.py` regenerates the registry from
+    Dart source only, which would wipe any fields added by the research
+    pipeline (tier/formula_hash/quality). If those fields are present, we
+    refuse to overwrite unless the caller explicitly passes --force-overwrite.
+    """
+    if not registry_path.exists():
+        return
+
+    try:
+        with open(registry_path, "r") as f:
+            data = yaml.safe_load(f)
+    except Exception as exc:  # pragma: no cover - defensive
+        print(
+            f"WARNING: could not parse existing registry at {registry_path}: {exc}",
+            file=sys.stderr,
+        )
+        return
+
+    if not isinstance(data, dict):
+        return
+    fractals = data.get("fractals") or []
+    if not isinstance(fractals, list):
+        return
+
+    for entry in fractals:
+        if not isinstance(entry, dict):
+            continue
+        if any(field in entry for field in RETROFIT_FIELDS):
+            sys.stderr.write(
+                "ERROR: docs/catalog/fractal_registry.yaml contains retrofitted pipeline fields\n"
+                "(tier/formula_hash/quality). This script would destroy them.\n"
+                "\n"
+                "Use `python3 scripts/research/forge.py doctor` to verify the registry,\n"
+                "or `python3 scripts/research/forge.py retrofit` to re-apply retrofit fields\n"
+                "after making changes. See docs/superpowers/specs/2026-04-12-fractal-research-pipeline-design.md.\n"
+                "\n"
+                "To bypass this guard (destructive \u2014 you will lose retrofit fields), pass --force-overwrite.\n"
+            )
+            sys.exit(2)
 
 
 def parse_escape_time_configs(content: str) -> List[Dict[str, Any]]:
@@ -488,5 +538,22 @@ def audit_fractals():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Audit the fractal catalog and (re)generate fractal_registry.yaml."
+    )
+    parser.add_argument(
+        "--force-overwrite",
+        action="store_true",
+        help=(
+            "Bypass the retrofit-field safety guard and overwrite "
+            "fractal_registry.yaml even if tier/formula_hash/quality are present. "
+            "DESTRUCTIVE: retrofit fields will be lost."
+        ),
+    )
+    args = parser.parse_args()
+
+    if not args.force_overwrite:
+        guard_retrofit_fields(OUTPUT_YAML)
+
     stats = audit_fractals()
     sys.exit(0)
