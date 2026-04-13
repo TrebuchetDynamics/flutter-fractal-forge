@@ -1,0 +1,35 @@
+name: Research tooling CI
+
+on:
+  push:
+    paths:
+      - "scripts/research/**"
+      - "tests/research/**"
+      - "docs/catalog/fractal_registry.yaml"
+      - ".github/workflows/research-tooling-ci.yml"
+  pull_request:
+    paths:
+      - "scripts/research/**"
+      - "tests/research/**"
+      - "docs/catalog/fractal_registry.yaml"
+      - ".github/workflows/research-tooling-ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install deps
+        run: pip install -r scripts/research/requirements.txt
+
+      - name: Run pytest
+        run: pytest tests/research -v --tb=short
+
+      - name: Run forge doctor
+        run: python3 scripts/research/forge.py doctor -v
