@@ -32,10 +32,22 @@ def _cmd_seed_aliases(args: argparse.Namespace) -> int:
     return run_seed_aliases(registry_path, seed_path if seed_path.exists() else None, output_path)
 
 
+def _cmd_batch(args: argparse.Namespace) -> int:
+    from scripts.research.review.build_batch import run_build_batch
+    return run_build_batch(REPO_ROOT, batch_id=args.batch_id, limit=args.limit)
+
+
+def _cmd_review(args: argparse.Namespace) -> int:
+    from scripts.research.review.review_batch import run_review
+    return run_review(REPO_ROOT, batch_id=args.batch_id, auto_approve_new=args.auto_approve_new)
+
+
 SUBCOMMANDS: dict[str, tuple[str, Callable[[argparse.Namespace], int]]] = {
     "doctor": ("Verify registry invariants", _cmd_doctor),
     "retrofit": ("Migrate registry to pipeline schema (adds formula_hash, quality, tier)", _cmd_retrofit),
     "seed-aliases": ("Generate canonical_aliases.yaml from registry + seed", _cmd_seed_aliases),
+    "batch": ("Build a candidates batch from extracted/", _cmd_batch),
+    "review": ("Review a candidates batch", _cmd_review),
 }
 
 
@@ -53,6 +65,12 @@ def build_parser() -> argparse.ArgumentParser:
         if name == "retrofit":
             sp.add_argument("--dry-run", action="store_true",
                             help="Show what would change without writing")
+        if name == "batch":
+            sp.add_argument("--batch-id", default=None, dest="batch_id")
+            sp.add_argument("--limit", type=int, default=500)
+        if name == "review":
+            sp.add_argument("batch_id")
+            sp.add_argument("--auto-approve-new", action="store_true", dest="auto_approve_new")
     return parser
 
 
