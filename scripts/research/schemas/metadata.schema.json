@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractal-forge.local/schemas/metadata.schema.json",
+  "title": "Per-fractal metadata",
+  "type": "object",
+  "required": ["id", "name", "category", "shader"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "name": {"type": "string", "minLength": 1},
+    "category": {"type": "string", "minLength": 1},
+    "subcategory": {"type": "string"},
+    "shader": {"type": "string"},
+    "thumbnail": {"type": "string"},
+    "params": {"$ref": "common.schema.json#/$defs/params"},
+    "presets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "params": {"type": "object"}
+        }
+      }
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "params": {"type": "object"}
+        }
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {"$ref": "common.schema.json#/$defs/citation"}
+    }
+  },
+  "additionalProperties": false
+}
