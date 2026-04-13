@@ -112,9 +112,16 @@ def test_registry_entry_tier_must_be_enum():
         _validate(entry, _registry_entry_schema())
 
 
-def test_registry_entry_preserves_legacy_fields():
-    """Flutter app reads `implemented`, `hasThumbnail`, etc. Schema must allow them."""
+def test_registry_entry_accepts_entry_missing_optional_legacy_field():
+    """Legacy fields like hasThumbnail/dimension are optional; their absence must validate."""
     entry = _sample_retrofitted_entry()
-    # Removing a legacy field must still validate (legacy fields not required by schema —
-    # but retrofit preserves them; we only assert the schema doesn't forbid them)
+    del entry["hasThumbnail"]
+    del entry["dimension"]
+    _validate(entry, _registry_entry_schema())
+
+
+def test_registry_entry_accepts_additional_unknown_fields():
+    """additionalProperties: true — unknown keys (e.g., future fields, plugin metadata) must pass."""
+    entry = _sample_retrofitted_entry()
+    entry["some_future_plugin_field"] = {"nested": [1, 2, 3]}
     _validate(entry, _registry_entry_schema())
