@@ -320,6 +320,71 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
       ),
     ],
   ),
+
+  // ── Mandelbulb Family ──────────────────────────
+
+  Raymarched3DConfig(
+    id: 'mandelbulb',
+    name: 'Mandelbulb',
+    shaderAsset: 'shaders/mandelbulb.frag',
+    category: '3D Fractals',
+    defaultPower: 8.0,
+    minPower: 2.0,
+    maxPower: 12.0,
+    powerLabel: 'Power',
+    defaultIterations: 50,
+    maxIterations: 100,
+    defaultSteps: 120,
+    defaultBailout: 2.0,
+    defaultFractalType: 0,
+    maxFractalType: 1,
+    fractalTypeOptions: [
+      FractalParamOption(value: 0, label: (_) => 'Mandelbulb'),
+      FractalParamOption(value: 1, label: (_) => 'Mandelbox'),
+    ],
+    extraPresets: [
+      FractalPreset(
+        id: 'mandelbulb-classic',
+        moduleId: 'mandelbulb',
+        name: 'Classic Bulb',
+        params: const {
+          'power': 8.0,
+          'iterations': 50,
+          'steps': 120,
+          'bailout': 2.0,
+          'colorScheme': 0,
+          'fractalType': 0,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.5,
+          rotation: Vector3(0.3, -0.4, 0.0),
+        ),
+        createdAt: DateTime.utc(2025, 1, 1),
+        isBuiltIn: true,
+      ),
+      FractalPreset(
+        id: 'mandelbulb-spiky',
+        moduleId: 'mandelbulb',
+        name: 'Spiky Variant',
+        params: const {
+          'power': 10.0,
+          'iterations': 60,
+          'steps': 140,
+          'bailout': 2.0,
+          'colorScheme': 2,
+          'fractalType': 0,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.8,
+          rotation: Vector3(0.5, 0.2, 0.1),
+        ),
+        createdAt: DateTime.utc(2025, 1, 1),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
 ];
 
 /// Build all 3D ray-marched modules from the catalog.
