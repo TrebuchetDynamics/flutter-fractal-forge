@@ -125,3 +125,69 @@ def test_registry_entry_accepts_additional_unknown_fields():
     entry = _sample_retrofitted_entry()
     entry["some_future_plugin_field"] = {"nested": [1, 2, 3]}
     _validate(entry, _registry_entry_schema())
+
+
+def _candidate_schema():
+    return _load("candidate.schema.json")
+
+
+def _sample_candidate():
+    return {
+        "candidate_id": "ct_20260412_a4f9",
+        "source": {
+            "type": "ultra_fractal",
+            "url": "https://example.com/formula.ufm",
+            "fetched_at": "2026-04-12T14:22:11Z",
+            "license": "MIT",
+        },
+        "canonical": {"id": None, "name_en": None, "category": None},
+        "proposed_name": "Tricorn",
+        "aliases": ["Mandelbar"],
+        "formula_latex": "z_{n+1} = \\overline{z_n}^2 + c",
+        "formula_ast": {
+            "iteration_type": "escape_time",
+            "variables": ["z", "c"],
+            "update": "z = conj(z)^2 + c",
+            "init": "z = 0",
+        },
+        "params": {
+            "iterations": {"default": 500, "range": [1, 10000]},
+        },
+        "presets": [],
+        "variants": [],
+        "description_en": "The tricorn...",
+        "references": [{"url": "https://example.com/paper"}],
+        "quality": {
+            "formula_hash": "sha256:" + "b" * 64,
+            "confidence": 0.9,
+        },
+    }
+
+
+def test_candidate_schema_valid():
+    Draft202012Validator.check_schema(_candidate_schema())
+
+
+def test_candidate_accepts_sample():
+    _validate(_sample_candidate(), _candidate_schema())
+
+
+def test_candidate_requires_source_type():
+    c = _sample_candidate()
+    del c["source"]["type"]
+    with pytest.raises(ValidationError):
+        _validate(c, _candidate_schema())
+
+
+def test_candidate_source_type_enumerated():
+    c = _sample_candidate()
+    c["source"]["type"] = "bogus_source"
+    with pytest.raises(ValidationError):
+        _validate(c, _candidate_schema())
+
+
+def test_candidate_requires_proposed_name_and_formula_ast():
+    c = _sample_candidate()
+    del c["proposed_name"]
+    with pytest.raises(ValidationError):
+        _validate(c, _candidate_schema())

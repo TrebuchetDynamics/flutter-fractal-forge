@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractal-forge.local/schemas/candidate.schema.json",
+  "title": "Fractal candidate",
+  "type": "object",
+  "required": [
+    "candidate_id",
+    "source",
+    "proposed_name",
+    "formula_ast",
+    "references",
+    "quality"
+  ],
+  "properties": {
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^ct_[0-9]{8}_[0-9a-f]{4,}$"
+    },
+    "source": {
+      "type": "object",
+      "required": ["type", "url", "fetched_at"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "ultra_fractal",
+            "shadertoy",
+            "wikipedia",
+            "arxiv",
+            "github",
+            "forum",
+            "mathworld",
+            "paul_bourke",
+            "cnki",
+            "manual"
+          ]
+        },
+        "url": {"type": "string", "format": "uri"},
+        "fetched_at": {"type": "string", "format": "date-time"},
+        "license": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "canonical": {
+      "type": "object",
+      "properties": {
+        "id": {"type": ["string", "null"]},
+        "name_en": {"type": ["string", "null"]},
+        "category": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "proposed_name": {"type": "string", "minLength": 1},
+    "aliases": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "formula_latex": {"type": "string"},
+    "formula_ast": {"$ref": "common.schema.json#/$defs/formula_ast"},
+    "params": {"$ref": "common.schema.json#/$defs/params"},
+    "presets": {"type": "array"},
+    "variants": {"type": "array"},
+    "description_en": {"type": "string"},
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "common.schema.json#/$defs/citation"}
+    },
+    "quality": {"$ref": "common.schema.json#/$defs/quality_block"}
+  },
+  "additionalProperties": false
+}
