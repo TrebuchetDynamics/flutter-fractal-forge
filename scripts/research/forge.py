@@ -42,12 +42,18 @@ def _cmd_review(args: argparse.Namespace) -> int:
     return run_review(REPO_ROOT, batch_id=args.batch_id, auto_approve_new=args.auto_approve_new)
 
 
+def _cmd_admit(args: argparse.Namespace) -> int:
+    from scripts.research.admit.promote_candidate import run_admit
+    return run_admit(REPO_ROOT, batch_id=args.batch_id)
+
+
 SUBCOMMANDS: dict[str, tuple[str, Callable[[argparse.Namespace], int]]] = {
     "doctor": ("Verify registry invariants", _cmd_doctor),
     "retrofit": ("Migrate registry to pipeline schema (adds formula_hash, quality, tier)", _cmd_retrofit),
     "seed-aliases": ("Generate canonical_aliases.yaml from registry + seed", _cmd_seed_aliases),
     "batch": ("Build a candidates batch from extracted/", _cmd_batch),
     "review": ("Review a candidates batch", _cmd_review),
+    "admit": ("Promote approved candidates to registry + emit Dart", _cmd_admit),
 }
 
 
@@ -71,6 +77,8 @@ def build_parser() -> argparse.ArgumentParser:
         if name == "review":
             sp.add_argument("batch_id")
             sp.add_argument("--auto-approve-new", action="store_true", dest="auto_approve_new")
+        if name == "admit":
+            sp.add_argument("batch_id")
     return parser
 
 
