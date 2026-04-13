@@ -50,10 +50,25 @@ def _camel(s: str) -> str:
     return "".join(t[:1].upper() + t[1:] for t in tokens if t)
 
 
+_DART_RESERVED = {
+    "abstract", "as", "assert", "async", "await", "break", "case", "catch",
+    "class", "const", "continue", "covariant", "default", "deferred", "do",
+    "dynamic", "else", "enum", "export", "extends", "extension", "external",
+    "factory", "false", "final", "finally", "for", "Function", "get", "hide",
+    "if", "implements", "import", "in", "interface", "is", "late", "library",
+    "mixin", "new", "null", "on", "operator", "part", "required", "rethrow",
+    "return", "set", "show", "static", "super", "switch", "sync", "this",
+    "throw", "true", "try", "typedef", "var", "void", "while", "with", "yield",
+}
+
+
 def _lower_camel(s: str) -> str:
-    """Convert to lowerCamelCase for Dart identifiers."""
+    """Convert to lowerCamelCase for Dart identifiers. Reserved words are suffixed."""
     pascal = _camel(s)
-    return pascal[:1].lower() + pascal[1:] if pascal else pascal
+    ident = pascal[:1].lower() + pascal[1:] if pascal else pascal
+    if ident in _DART_RESERVED:
+        ident = f"{ident}_"
+    return ident
 
 
 def _slugify(cat: str) -> str:
