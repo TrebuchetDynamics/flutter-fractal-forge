@@ -12,8 +12,8 @@ class {{ class_name }}Preset {
 class {{ class_name }}Presets {
 {% for p in presets %}
   static const {{ class_name }}Preset {{ p.id | lower_camel }} = {{ class_name }}Preset(
-    id: '{{ p.id }}',
-    name: '{{ p.name }}',
+    id: '{{ p.id | dart_str }}',
+    name: '{{ p.name | dart_str }}',
     params: {
 {% for k, v in p.params.items() %}
       '{{ k }}': {{ v }},

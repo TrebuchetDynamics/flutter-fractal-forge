@@ -31,6 +31,11 @@ _ITERATION_TYPE_TO_MODULE_TEMPLATE: dict[str, str] = {
     # function until convergence-to-root or max iterations). Reuse the
     # escape_time Dart template + base class.
     "newton": "escape_time_module.j2",
+    # Lyapunov fractals are rendered as 2D colour maps over (r_a, r_b) space;
+    # use the escape_time template with custom preset-baked parameters.
+    "lyapunov": "escape_time_module.j2",
+    # Tilings use IFS-like recursive placement.
+    "tiling": "ifs_module.j2",
 }
 
 _ITERATION_TYPE_TO_BASE_CLASS_FILE: dict[str, str] = {
@@ -41,6 +46,8 @@ _ITERATION_TYPE_TO_BASE_CLASS_FILE: dict[str, str] = {
     "l_system": "l_system_module_base",
     "cellular": "cellular_module_base",
     "newton": "escape_time_module_base",
+    "lyapunov": "escape_time_module_base",
+    "tiling": "ifs_module_base",
 }
 
 
@@ -89,7 +96,24 @@ def _env() -> Environment:
     )
     env.filters["camel"] = _camel
     env.filters["lower_camel"] = _lower_camel
+    env.filters["dart_str"] = _dart_str
     return env
+
+
+def _dart_str(s: object) -> str:
+    """Escape a value for use inside a single-quoted Dart string literal.
+
+    Escapes backslashes, single quotes, $-interpolation markers, and newlines.
+    Any non-string input is coerced via str().
+    """
+    text = "" if s is None else str(s)
+    return (
+        text.replace("\\", "\\\\")
+        .replace("'", "\\'")
+        .replace("$", "\\$")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+    )
 
 
 def _default_int(src: dict, key: str, fallback: int) -> int:
