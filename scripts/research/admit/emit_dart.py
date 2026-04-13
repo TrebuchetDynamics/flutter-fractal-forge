@@ -27,6 +27,10 @@ _ITERATION_TYPE_TO_MODULE_TEMPLATE: dict[str, str] = {
     "ifs": "ifs_module.j2",
     "l_system": "l_system_module.j2",
     "cellular": "cellular_module.j2",
+    # Newton fractals are escape-time at the rendering level (iterate a complex
+    # function until convergence-to-root or max iterations). Reuse the
+    # escape_time Dart template + base class.
+    "newton": "escape_time_module.j2",
 }
 
 _ITERATION_TYPE_TO_BASE_CLASS_FILE: dict[str, str] = {
@@ -36,6 +40,7 @@ _ITERATION_TYPE_TO_BASE_CLASS_FILE: dict[str, str] = {
     "ifs": "ifs_module_base",
     "l_system": "l_system_module_base",
     "cellular": "cellular_module_base",
+    "newton": "escape_time_module_base",
 }
 
 
