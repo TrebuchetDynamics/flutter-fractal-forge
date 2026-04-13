@@ -12285,3 +12285,238 @@ fractals:
         approved_by: retrofit
         batch: stage_a_retrofit_2026_04
       confidence: 1.0
+  - id: f0001_mitchell_adjusted_newton
+    name: "Mitchell Adjusted Newton"
+    shader: shaders/f0001_mitchell_adjusted_newton_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 4.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - classic
+      - curved
+      - non_converging
+      - three_arm_spiral
+    variants:
+      - cubic
+      - quintic
+    references:
+      - author: "Kerry Mitchell"
+        title: "Fun with Newton's Method"
+        year: 2019
+        url: "https://archive.bridgesmathart.org/2019/bridges2019-271.html"
+    tier: reference
+    formula_hash: sha256:64b7057654c429358aa7d17622b6affbea865e641df70e7e8037180ea66a4170
+    aliases: ["Adjusted Newton", "Alpha Newton", "Newton with adjustment factor"]
+    canonical_name: "Mitchell Adjusted Newton"
+    quality:
+      formula_hash: sha256:64b7057654c429358aa7d17622b6affbea865e641df70e7e8037180ea66a4170
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 4.919
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: bridges2019_mitchell
+      confidence: 0.95
+  - id: f0002_mitchell_rotating_c_newton
+    name: "Mitchell Rotating-C Newton"
+    shader: shaders/f0002_mitchell_rotating_c_newton_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 3.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 2.0
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - coherent
+      - fine_detail
+      - near_noise
+    variants:
+      - quartic
+    references:
+      - author: "Kerry Mitchell"
+        title: "Fun with Newton's Method"
+        year: 2019
+        url: "https://archive.bridgesmathart.org/2019/bridges2019-271.html"
+    tier: reference
+    formula_hash: sha256:e711d36ede9123b19934be6e08299521481b66a7417513dc9655a066be11fd77
+    aliases: ["Rotating Newton", "Newton with rotating constant", "Time-varying Newton"]
+    canonical_name: "Mitchell Rotating-C Newton"
+    quality:
+      formula_hash: sha256:e711d36ede9123b19934be6e08299521481b66a7417513dc9655a066be11fd77
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 1.168
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: bridges2019_mitchell
+      confidence: 0.9
+  - id: f0003_mitchell_alternating_equations_newton
+    name: "Mitchell Alternating-Equations Newton"
+    shader: shaders/f0003_mitchell_alternating_equations_newton_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 0.001
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - pair_3_9
+      - pair_2_5
+      - pair_4_16
+    variants:
+      - triple_2_3_5
+    references:
+      - author: "Kerry Mitchell"
+        title: "Fun with Newton's Method"
+        year: 2019
+        url: "https://archive.bridgesmathart.org/2019/bridges2019-271.html"
+    tier: reference
+    formula_hash: sha256:796bca5189058b42c53eb84c90d876e76d4866c571aceeb2397b852b17059564
+    aliases: ["Alternating Newton", "Newton with cycling equations", "Multi-equation Newton"]
+    canonical_name: "Mitchell Alternating-Equations Newton"
+    quality:
+      formula_hash: sha256:796bca5189058b42c53eb84c90d876e76d4866c571aceeb2397b852b17059564
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 4.104
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: bridges2019_mitchell
+      confidence: 0.9
+  - id: f0004_mitchell_real_systems_newton
+    name: "Mitchell Real-Systems Newton"
+    shader: shaders/f0004_mitchell_real_systems_newton_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 32.0
+    defaultSteps: 0.0
+    defaultBailout: 2.0
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - no_mult
+      - classic_2_minus_i
+      - reciprocal
+    variants: []
+    references:
+      - author: "Kerry Mitchell"
+        title: "Fun with Newton's Method"
+        year: 2019
+        url: "https://archive.bridgesmathart.org/2019/bridges2019-271.html"
+    tier: reference
+    formula_hash: sha256:178798aeed1430e543d4fc4831b8536ca065b182d4dc1d35dc3bff179b2635c4
+    aliases: ["Real-component Newton", "Split Newton", "Decoupled Newton"]
+    canonical_name: "Mitchell Real-Systems Newton"
+    quality:
+      formula_hash: sha256:178798aeed1430e543d4fc4831b8536ca065b182d4dc1d35dc3bff179b2635c4
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 1.322
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: bridges2019_mitchell
+      confidence: 0.85
+  - id: f0005_mitchell_matrix_newton_sand_storm
+    name: "Mitchell Matrix Newton (Sand Storm)"
+    shader: shaders/f0005_mitchell_matrix_newton_sand_storm_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 64.0
+    defaultSteps: 0.0
+    defaultBailout: 2.0
+    defaultColorScheme: 0
+    hasThumbnail: true
+    implemented: false
+    presets:
+      - sand_storm
+      - asymmetric
+      - coupled
+    variants: []
+    references:
+      - author: "Kerry Mitchell"
+        title: "Fun with Newton's Method"
+        year: 2019
+        url: "https://archive.bridgesmathart.org/2019/bridges2019-271.html"
+    tier: reference
+    formula_hash: sha256:d317ce2ac5976d2614fdf8ca1f98e9275904a07172ce44ccd94f19de8dfb1051
+    aliases: ["Matrix Newton", "2x2 System Newton", "Sand Storm"]
+    canonical_name: "Mitchell Matrix Newton (Sand Storm)"
+    quality:
+      formula_hash: sha256:d317ce2ac5976d2614fdf8ca1f98e9275904a07172ce44ccd94f19de8dfb1051
+      citation_health:
+        last_checked: '2026-04-13'
+        status: unchecked
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-04-13'
+      thumbnail:
+        entropy: 0.381
+        checked: '2026-04-13'
+        placeholder: true
+        size:
+          - 512
+          - 512
+      review:
+        approved_by: admit
+        batch: bridges2019_mitchell
+      confidence: 0.8
