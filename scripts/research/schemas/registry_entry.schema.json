@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractal-forge.local/schemas/registry_entry.schema.json",
+  "title": "Fractal registry entry",
+  "type": "object",
+  "required": ["id", "name", "category", "tier", "formula_hash", "quality"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "name": {"type": "string", "minLength": 1},
+    "shader": {"type": "string"},
+    "category": {"type": "string", "minLength": 1},
+    "dimension": {"type": "string", "enum": ["2D", "3D", "4D", "nD"]},
+    "defaultPower": {"type": "number"},
+    "defaultIterations": {"type": "number"},
+    "defaultSteps": {"type": "number"},
+    "defaultBailout": {"type": "number"},
+    "defaultColorScheme": {"type": "integer"},
+    "hasThumbnail": {"type": "boolean"},
+    "implemented": {"type": "boolean"},
+    "presets": {"type": "array"},
+    "variants": {"type": "array"},
+    "references": {"type": "array"},
+
+    "tier": {
+      "type": "string",
+      "enum": ["implemented", "reference"]
+    },
+    "formula_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "aliases": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "family": {"type": "string"},
+    "canonical_name": {"type": "string"},
+    "quality": {
+      "$ref": "common.schema.json#/$defs/quality_block"
+    }
+  },
+  "additionalProperties": true
+}
