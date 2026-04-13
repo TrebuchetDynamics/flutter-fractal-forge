@@ -15,29 +15,29 @@ class {{ class_name }}Metadata {
   static const instance = {{ class_name }}Metadata._();
   const {{ class_name }}Metadata._();
 
-  String get id => '{{ id }}';
-  String get name => '{{ name | e }}';
-  String get category => '{{ category | e }}';
+  String get id => '{{ id | dart_str }}';
+  String get name => '{{ name | dart_str }}';
+  String get category => '{{ category | dart_str }}';
 {% if family %}
-  String get family => '{{ family | e }}';
+  String get family => '{{ family | dart_str }}';
 {% endif %}
 
   List<String> get aliases => const [
 {% for a in aliases %}
-    '{{ a | e }}',
+    '{{ a | dart_str }}',
 {% endfor %}
   ];
 
   List<Citation> get references => const [
 {% for r in references %}
     Citation(
-{% if r.author %}      author: '{{ r.author | e }}',
+{% if r.author %}      author: '{{ r.author | dart_str }}',
 {% endif %}
-{% if r.title %}      title: '{{ r.title | e }}',
+{% if r.title %}      title: '{{ r.title | dart_str }}',
 {% endif %}
 {% if r.year %}      year: {{ r.year }},
 {% endif %}
-      url: '{{ r.url }}',
+      url: '{{ r.url | dart_str }}',
     ),
 {% endfor %}
   ];

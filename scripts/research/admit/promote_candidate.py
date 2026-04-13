@@ -154,7 +154,7 @@ def promote_batch(
 
             # Emit Dart
             iter_type = candidate.get("formula_ast", {}).get("iteration_type", "other")
-            if iter_type in {"escape_time", "raymarch_3d", "strange_attractor", "ifs", "l_system", "cellular", "newton"}:
+            if iter_type in {"escape_time", "raymarch_3d", "strange_attractor", "ifs", "l_system", "cellular", "newton", "lyapunov", "tiling"}:
                 emit(candidate, entry, iter_type, repo_root)
 
             # Render thumbnail
