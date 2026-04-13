@@ -191,3 +191,48 @@ def test_candidate_requires_proposed_name_and_formula_ast():
     del c["proposed_name"]
     with pytest.raises(ValidationError):
         _validate(c, _candidate_schema())
+
+
+def _metadata_schema():
+    return _load("metadata.schema.json")
+
+
+def _sample_metadata():
+    return {
+        "id": "f001_mandelbrot_set",
+        "name": "Mandelbrot Set",
+        "category": "I. Escape-Time (Complex Plane)",
+        "subcategory": "Mandelbrot Family",
+        "shader": "mandelbrot.glsl",
+        "thumbnail": "thumbnails/default.png",
+        "params": {
+            "iterations": {"default": 500, "range": [1, 10000]},
+            "bailout": {"default": 2.0, "range": [1.0, 10.0]},
+        },
+        "presets": [],
+        "variants": [],
+        "references": [{"url": "https://en.wikipedia.org/wiki/Mandelbrot_set"}],
+    }
+
+
+def test_metadata_schema_valid():
+    Draft202012Validator.check_schema(_metadata_schema())
+
+
+def test_metadata_accepts_sample():
+    _validate(_sample_metadata(), _metadata_schema())
+
+
+def test_metadata_requires_id_name_category_shader():
+    for field in ("id", "name", "category", "shader"):
+        m = _sample_metadata()
+        del m[field]
+        with pytest.raises(ValidationError):
+            _validate(m, _metadata_schema())
+
+
+def test_metadata_id_matches_fNNNN_pattern_or_legacy():
+    """Canonical new IDs follow f{NNNN}_snake, but legacy IDs (like 'mandelbrot') must also be accepted."""
+    m = _sample_metadata()
+    m["id"] = "mandelbrot"  # legacy-style id
+    _validate(m, _metadata_schema())
