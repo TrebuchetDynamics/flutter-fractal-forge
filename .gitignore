@@ -36,3 +36,21 @@ third_party/
 
 # Worktrees
 .worktrees/
+
+# Fractal research pipeline working directories
+research/raw/**
+research/extracted/**
+research/candidates/**
+research/decisions/**
+research/rejects/**
+reports/**
+!research/raw/.gitkeep
+!research/extracted/.gitkeep
+!research/candidates/.gitkeep
+!research/decisions/.gitkeep
+!research/rejects/.gitkeep
+!reports/.gitkeep
+
+# But keep canonical and seeds checked in
+!research/canonical/
+!research/seeds/
