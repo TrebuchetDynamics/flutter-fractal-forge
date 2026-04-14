@@ -7,21 +7,6 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
-/// Compact control button sizes (WCAG 2.2 minimum 48x48px touch target).
-class _ControlSizes {
-  static const double primaryButton = 44;
-  static const double secondaryButton = 40;
-  static const double borderRadius = 8;
-  static const double iconSize = 16;
-  static const double primaryIconSize = 18;
-  static const double spacing = 4;
-  static const double groupSpacing = 3;
-  static const double shadowBlur = 4;
-  static const double shadowBlurPressed = 6;
-  static const Offset shadowOffset = Offset(0, 1);
-}
-
-
 class FractalViewControls extends StatelessWidget {
   final AnimationController fabController;
   final AutoExploreService? autoExploreService;

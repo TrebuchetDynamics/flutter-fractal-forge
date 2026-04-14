@@ -465,6 +465,7 @@ flutter:
     - shaders/laguerre_fractal_gpu.frag
     - shaders/lichtenberg_growth_gpu.frag
     - shaders/magnetic_pendulum_gpu.frag
+    - shaders/mittag_leffler_gpu.frag
     - shaders/muller_gpu.frag
     - shaders/neta_order16_gpu.frag
     - shaders/noor_newton_gpu.frag
@@ -501,3 +502,18 @@ flutter:
     - shaders/traub_ostrowski_gpu.frag
     - shaders/weierstrass_elliptic_gpu.frag
     - shaders/weierstrass_function_gpu.frag
+    - shaders/kaleidoscope_basic_gpu.frag
+    - shaders/kaleidoscope_rays_gpu.frag
+    - shaders/kaleidoscope_mandala_gpu.frag
+    - shaders/kaleidoscope_star_gpu.frag
+    - shaders/kaleidoscope_snowflake_gpu.frag
+    - shaders/kaleidoscope_flower_gpu.frag
+    - shaders/kaleidoscope_jewel_gpu.frag
+    - shaders/kaleidoscope_spiral_gpu.frag
+    - shaders/kaleidoscope_geometric_gpu.frag
+    - shaders/kaleidoscope_crystal_gpu.frag
+    - shaders/kaleidoscope_wave_gpu.frag
+    - shaders/kaleidoscope_fractal_gpu.frag
+    - shaders/kaleidoscope_rosette_gpu.frag
+    - shaders/kaleidoscope_ring_gpu.frag
+    - shaders/kaleidoscope_nebula_gpu.frag

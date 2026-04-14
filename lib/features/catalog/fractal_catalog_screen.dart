@@ -10,7 +10,6 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
-import 'package:flutter_fractals/core/widgets/catalog_thumbnail.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -178,7 +177,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
-  bool _isSearchFocused = false;
+  final bool _isSearchFocused = false;
   bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
   _DimensionFilter _dimensionFilter = _DimensionFilter.all;
