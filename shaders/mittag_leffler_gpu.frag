@@ -39,9 +39,6 @@ vec3 palette(float t, int scheme) {
     return vec3(0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
                 0.5 + 0.5 * cos(6.28318 * (t + 0.33)),
                 0.5 + 0.5 * cos(6.28318 * (t + 0.67)));
-  } else if (scheme == 3) {
-    float g = 0.5 + 0.5 * cos(6.28318 * t);
-    return vec3(g);
   }
   float s = float(scheme);
   vec3 a = 0.55 + 0.15 * sin(vec3(1.0, 2.0, 3.0) * (0.37 * s + 0.1));
@@ -53,17 +50,11 @@ vec3 palette(float t, int scheme) {
 
 vec2 cx_mul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
 
-// Stirling approximation for Gamma function (real argument only)
-// Used to compute 1/Gamma(alpha*k+1) for the ML series.
-float gammaApprox(float x) {
+float invGammaApprox(float x) {
   if (x <= 0.0) return 1e20;
-  if (x < 1.0) {
-    // Gamma(x) = Gamma(x+1)/x
-    return gammaApprox(x + 1.0) / x;
-  }
-  // Stirling: Gamma(x) ~ sqrt(2*pi/x) * (x/e)^x
+  if (x < 1.0) return 1.0 / (x * 0.9182);
   float lnG = 0.5 * log(6.28318 / x) + x * (log(x) - 1.0);
-  return exp(lnG);
+  return 1.0 / exp(max(lnG, -20.0));
 }
 
 void main() {
@@ -81,19 +72,16 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
-  // Precompute 1/Gamma(alpha*k+1) for k=0..14
   float invGamma[15];
   for (int k = 0; k < 15; k++) {
-    invGamma[k] = 1.0 / gammaApprox(alpha * float(k) + 1.0);
+    invGamma[k] = invGammaApprox(alpha * float(k) + 1.0);
   }
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
-    // w = z^2
     vec2 w = cx_mul(z, z);
-    // E_alpha(w) = sum w^k / Gamma(alpha*k + 1)
-    vec2 ea = vec2(invGamma[0], 0.0); // k=0: 1/Gamma(1) = 1
-    vec2 wk = w; // w^1
+    vec2 ea = vec2(invGamma[0], 0.0);
+    vec2 wk = w;
     for (int k = 1; k < 15; k++) {
       ea += invGamma[k] * wk;
       wk = cx_mul(wk, w);
