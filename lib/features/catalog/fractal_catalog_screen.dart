@@ -815,6 +815,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       {String? heroTag}) {
     final controller = context.read<FractalController>();
     controller.selectModule(module);
+    controller.resetView();
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(
