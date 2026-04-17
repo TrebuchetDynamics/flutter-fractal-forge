@@ -53,6 +53,10 @@ class FractalControlsSheet extends StatelessWidget {
                     ),
                   );
                 }),
+                const SizedBox(height: AppSpacing.lg),
+                SectionHeader(title: 'Kaleidoscope'),
+                const SizedBox(height: AppSpacing.sm),
+                _KaleidoscopeControls(),
                 const SizedBox(height: AppSpacing.xl),
                 SectionHeader(title: l10n.sectionActions),
                 const SizedBox(height: AppSpacing.sm),
@@ -333,6 +337,158 @@ class _ParamControl extends StatelessWidget {
           ),
         );
     }
+  }
+}
+
+class _KaleidoscopeControls extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final controller = context.watch<FractalController>();
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _ActionButton(
+                icon: Icons.auto_awesome,
+                label: 'Activar',
+                onPressed: () => controller.setKaleidoscopeEnabled(!(controller.kaleidoscopeEnabled ?? false)),
+              ),
+            ),
+          ],
+        ),
+        if (controller.kaleidoscopeEnabled ?? false) ...[
+          const SizedBox(height: AppSpacing.md),
+          _SliderRow(
+            label: 'Sectores',
+            value: (controller.kaleidoscopeSectors ?? 8).toDouble(),
+            min: 4,
+            max: 16,
+            divisions: 12,
+            onChanged: (v) => controller.setKaleidoscopeSectors(v.round()),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Row(
+            children: [
+              Expanded(
+                child: _MirrorModeSelector(
+                  currentMode: controller.kaleidoscopeMirrorMode ?? 0,
+                  onChanged: controller.setKaleidoscopeMirrorMode,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: _SliderRow(
+                  label: 'Rotar',
+                  value: controller.kaleidoscopeRotation ?? 0.0,
+                  min: 0,
+                  max: 6.28,
+                  divisions: 62,
+                  onChanged: controller.setKaleidoscopeRotation,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _SliderRow extends StatelessWidget {
+  final String label;
+  final double value;
+  final double min;
+  final double max;
+  final int divisions;
+  final ValueChanged<double> onChanged;
+
+  const _SliderRow({
+    required this.label,
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.divisions,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: AppTypography.labelSmall.copyWith(color: AppColors.textSecondary),
+        ),
+        SliderTheme(
+          data: SliderThemeData(
+            trackHeight: 4,
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
+          ),
+          child: Slider(
+            value: value,
+            min: min,
+            max: max,
+            divisions: divisions,
+            onChanged: onChanged,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MirrorModeSelector extends StatelessWidget {
+  final int currentMode;
+  final ValueChanged<int> onChanged;
+
+  const _MirrorModeSelector({
+    required this.currentMode,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final modes = ['Alternado', 'Doble', 'Triple', 'Sin'];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Espejo',
+          style: AppTypography.labelSmall.copyWith(color: AppColors.textSecondary),
+        ),
+        const SizedBox(height: 4),
+        Wrap(
+          spacing: 4,
+          children: List.generate(4, (index) {
+            final selected = currentMode == index;
+            return GestureDetector(
+              onTap: () => onChanged(index),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: selected ? AppColors.primary : AppColors.surface,
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(
+                    color: selected ? AppColors.primary : AppColors.border,
+                  ),
+                ),
+                child: Text(
+                  modes[index],
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: selected ? Colors.white : AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
+    );
   }
 }
 

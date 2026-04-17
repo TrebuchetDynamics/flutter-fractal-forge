@@ -468,6 +468,11 @@ class _FractalRendererState extends State<FractalRenderer>
               glowEnabled: controller.glowEnabled,
               glowSigma: controller.glowSigma,
               glowIntensity: controller.glowIntensity,
+              kaleidoscopeEnabled: controller.kaleidoscopeEnabled ?? false,
+              kaleidoscopeSectors: controller.kaleidoscopeSectors ?? 8,
+              kaleidoscopeMirror: controller.kaleidoscopeMirror ?? true,
+              kaleidoscopeRotation: controller.kaleidoscopeRotation ?? 0.0,
+              kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode ?? 0,
             ),
             child: const SizedBox.shrink(),
           );
