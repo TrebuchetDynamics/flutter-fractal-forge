@@ -1193,6 +1193,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/four_wing_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 12.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 8.0,
   ),
   EscapeTimeConfig(
     id: 'lorenz_2d',
@@ -1200,6 +1203,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/lorenz_2d_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 16.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 6.0,
   ),
   EscapeTimeConfig(
     id: 'rossler_2d',
@@ -1207,6 +1213,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/rossler_2d_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 12.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 10.0,
   ),
   EscapeTimeConfig(
     id: 'dadras',
@@ -1214,6 +1223,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/dadras_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 16.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 10.0,
   ),
   EscapeTimeConfig(
     id: 'chen',
@@ -1221,6 +1233,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/chen_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 16.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 10.0,
   ),
   EscapeTimeConfig(
     id: 'lu_chen',
@@ -1228,6 +1243,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/lu_chen_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 16.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 10.0,
   ),
   EscapeTimeConfig(
     id: 'halvorsen',
@@ -1235,6 +1253,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/halvorsen_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 16.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 8.0,
   ),
   EscapeTimeConfig(
     id: 'scroll_waves',
@@ -1242,6 +1263,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/scroll_waves_gpu.frag',
     defaultIterations: 240,
     defaultBailout: 14.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 10.0,
   ),
   EscapeTimeConfig(
     id: 'rikitake',
@@ -1249,6 +1273,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/rikitake_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 18.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 10.0,
   ),
   EscapeTimeConfig(
     id: 'aizawa',
@@ -1256,6 +1283,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/aizawa_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 18.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 12.0,
   ),
   EscapeTimeConfig(
     id: 'rabinovich_fabrikant',
@@ -1263,6 +1293,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/rabinovich_fabrikant_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 16.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 10.0,
   ),
   EscapeTimeConfig(
     id: 'nose_hoover',

@@ -132,6 +132,56 @@ class FractalController extends ChangeNotifier {
   double get glowSigma => _glowSigma;
   double get glowIntensity => _glowIntensity;
 
+  // Kaleidoscope state
+  bool _kaleidoscopeEnabled = false;
+  int _kaleidoscopeSectors = 8;
+  bool _kaleidoscopeMirror = true;
+  double _kaleidoscopeRotation = 0.0;
+  int _kaleidoscopeMirrorMode = 0; // 0=alternado, 1=doble, 2=triple, 3=sin espejo
+
+  bool get kaleidoscopeEnabled => _kaleidoscopeEnabled;
+  int get kaleidoscopeSectors => _kaleidoscopeSectors;
+  bool get kaleidoscopeMirror => _kaleidoscopeMirror;
+  double get kaleidoscopeRotation => _kaleidoscopeRotation;
+  int get kaleidoscopeMirrorMode => _kaleidoscopeMirrorMode;
+
+  void setKaleidoscopeEnabled(bool enabled) {
+    if (_kaleidoscopeEnabled != enabled) {
+      _kaleidoscopeEnabled = enabled;
+      notifyListeners();
+    }
+  }
+
+  void setKaleidoscopeSectors(int sectors) {
+    final clamped = sectors.clamp(4, 16);
+    if (_kaleidoscopeSectors != clamped) {
+      _kaleidoscopeSectors = clamped;
+      notifyListeners();
+    }
+  }
+
+  void setKaleidoscopeMirror(bool mirror) {
+    if (_kaleidoscopeMirror != mirror) {
+      _kaleidoscopeMirror = mirror;
+      notifyListeners();
+    }
+  }
+
+void setKaleidoscopeMirrorMode(int mode) {
+    final clamped = mode.clamp(0, 3);
+    if (_kaleidoscopeMirrorMode != clamped) {
+      _kaleidoscopeMirrorMode = clamped;
+      notifyListeners();
+    }
+  }
+
+  void setKaleidoscopeRotation(double rotation) {
+    if (_kaleidoscopeRotation != rotation) {
+      _kaleidoscopeRotation = rotation;
+      notifyListeners();
+    }
+  }
+
   /// Switches to a different fractal module.
   ///
   /// The [module] must be a valid module from the registry.
