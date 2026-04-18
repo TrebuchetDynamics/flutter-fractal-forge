@@ -128,10 +128,26 @@ class ModuleRegistry {
     result.addAll(raymarched3DModules);
 
     result.addAll(diagModules);
-    return _dedupeById(result);
+    // Keep later modules when ids collide so purpose-built 3D catalog entries
+    // can replace older placeholder escape-time variants with the same id.
+    return _dedupeById(result, preferLast: true);
   }
 
-  static List<FractalModule> _dedupeById(List<FractalModule> modules) {
+  static List<FractalModule> _dedupeById(
+    List<FractalModule> modules, {
+    bool preferLast = false,
+  }) {
+    if (preferLast) {
+      final seen = <String>{};
+      final reversedUnique = <FractalModule>[];
+      for (final module in modules.reversed) {
+        if (seen.add(module.id)) {
+          reversedUnique.add(module);
+        }
+      }
+      return reversedUnique.reversed.toList(growable: false);
+    }
+
     final seen = <String>{};
     final unique = <FractalModule>[];
     for (final module in modules) {
