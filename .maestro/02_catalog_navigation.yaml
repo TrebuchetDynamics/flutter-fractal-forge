@@ -4,67 +4,66 @@ tags:
   - navigation
   - catalog
 ---
-# App launched by run_all.sh before each test.
-- extendedWaitUntil:
-    visible:
-      text: ".*Fractal.*"
-    timeout: 90000
+- runFlow: helpers/ensure_catalog.yaml
 
+# Search is behind a toggle in the current catalog UI.
 - tapOn:
-    text: ".*Skip.*"
-    optional: true
-
-# Wait for catalog (longer timeout for swiftshader emulator).
+    point: "846,350"
+    retryTapIfNoChange: true
+    waitToSettleTimeoutMs: 500
+- runFlow:
+    when:
+      notVisible: "Search fractals"
+    commands:
+      - tapOn:
+          text: "Button"
+          index: 0
+          retryTapIfNoChange: true
+          waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:
-      text: ".*Fractal Catalog.*"
-    timeout: 60000
-
-# Step 1: Search for a fractal by name.
-- tapOn:
-    text: ".*Search fractals.*"
-
-- inputText: "Julia"
-
-# Verify search results appear.
-- assertVisible:
-    text: ".*Julia.*"
-
-- takeScreenshot: "02_search_results_julia"
-
-# Clear the search field.
-- eraseText: 5
-
-# Wait for catalog to repopulate.
-- extendedWaitUntil:
-    visible:
-      text: ".*Mandelbrot.*"
-    timeout: 8000
-
-# Step 2: Scroll down in the catalog grid.
-- swipe:
-    direction: UP
-    duration: 1500
-
-- takeScreenshot: "02_catalog_scrolled"
-
-# Step 3: Scroll back up and tap on Mandelbrot.
-- scrollUntilVisible:
-    element:
-      text: ".*Mandelbrot.*"
-    direction: DOWN
+      text: "Search fractals"
     timeout: 10000
+- eraseText: 160
+- setClipboard: "Aizawa Attractor"
+- pasteText
+- pressKey: back
 
-- tapOn:
-    text: ".*Mandelbrot.*"
-
-# Wait for the viewer.
 - extendedWaitUntil:
     visible:
-      text: ".*Mandelbrot.*"
-    timeout: 10000
+      text: ".*Aizawa Attractor fractal, 2D.*"
+    timeout: 15000
 
+- takeScreenshot: "02_search_results_aizawa"
+
+- tapOn:
+    text: ".*Aizawa Attractor fractal, 2D.*"
+    retryTapIfNoChange: true
+    waitToSettleTimeoutMs: 750
+
+- extendedWaitUntil:
+    visible:
+      text: "Controls"
+    timeout: 20000
+
+- assertVisible: "Export"
 - takeScreenshot: "02_viewer_opened"
 
-# Go back to catalog.
 - pressKey: back
+
+- extendedWaitUntil:
+    visible:
+      text: "Fractal Forge"
+    timeout: 10000
+
+- tapOn:
+    point: "846,350"
+    waitToSettleTimeoutMs: 500
+
+- swipe:
+    start: "50%,75%"
+    end: "50%,35%"
+    duration: 1000
+    waitToSettleTimeoutMs: 500
+
+- takeScreenshot: "02_catalog_scrolled"
