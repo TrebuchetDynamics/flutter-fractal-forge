@@ -36,6 +36,10 @@ _ITERATION_TYPE_TO_MODULE_TEMPLATE: dict[str, str] = {
     "lyapunov": "escape_time_module.j2",
     # Tilings use IFS-like recursive placement.
     "tiling": "ifs_module.j2",
+    # Reaction-diffusion systems share the 2D-grid rendering pattern of cellular automata.
+    "reaction_diffusion": "cellular_module.j2",
+    # Number-theory fractals are visualised as 2D images; reuse cellular template.
+    "number_theory": "cellular_module.j2",
 }
 
 _ITERATION_TYPE_TO_BASE_CLASS_FILE: dict[str, str] = {
@@ -48,6 +52,8 @@ _ITERATION_TYPE_TO_BASE_CLASS_FILE: dict[str, str] = {
     "newton": "escape_time_module_base",
     "lyapunov": "escape_time_module_base",
     "tiling": "ifs_module_base",
+    "reaction_diffusion": "cellular_module_base",
+    "number_theory": "cellular_module_base",
 }
 
 
