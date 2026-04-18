@@ -14,6 +14,8 @@ import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/main.dart';
 
+import 'helpers/ui_test_helpers.dart';
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -58,18 +60,6 @@ void main() {
       await tester.pump(const Duration(seconds: 2));
     }
 
-    Finder moduleCards() {
-      // Catalog supports both grid and list cards; keys differ by view mode.
-      return find.byWidgetPredicate((w) {
-        final key = w.key;
-        if (key is! ValueKey) return false;
-        final value = key.value;
-        if (value is! String) return false;
-        return value.startsWith('catalogModuleCard_') ||
-            value.startsWith('catalogGridTile_');
-      });
-    }
-
     void drainKnownShaderExceptions(WidgetTester tester) {
       while (true) {
         final error = tester.takeException();
@@ -85,8 +75,8 @@ void main() {
     }
 
     Future<void> openFirstModule(WidgetTester tester) async {
-      expect(moduleCards(), findsWidgets);
-      await tester.tap(moduleCards().first);
+      expect(catalogModuleCards(), findsWidgets);
+      await tester.tap(catalogModuleCards().first);
       await tester.pump(const Duration(seconds: 2));
       drainKnownShaderExceptions(tester);
     }
@@ -96,12 +86,7 @@ void main() {
       required String query,
       required String displayName,
     }) async {
-      final searchField = find.byKey(const Key('catalogSearchField'));
-      expect(searchField, findsOneWidget);
-
-      await tester.enterText(searchField, query);
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
+      await enterCatalogSearch(tester, query);
 
       final moduleName = find.text(displayName);
       expect(moduleName, findsWidgets);
@@ -114,15 +99,12 @@ void main() {
     testWidgets('catalog search and empty-state flow works', (tester) async {
       await pumpApp(tester);
 
-      expect(moduleCards(), findsWidgets);
+      expect(catalogModuleCards(), findsWidgets);
 
-      final searchField = find.byKey(const Key('catalogSearchField'));
-      await tester.enterText(searchField, 'Julia');
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-      expect(moduleCards(), findsWidgets);
+      await enterCatalogSearch(tester, 'Julia');
+      expect(catalogModuleCards(), findsWidgets);
 
-      await tester.enterText(searchField, 'XYZNONEXISTENT');
+      await tester.enterText(catalogSearchField(), 'XYZNONEXISTENT');
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
       expect(find.byIcon(Icons.search_off_rounded), findsOneWidget);
@@ -132,23 +114,21 @@ void main() {
       await tester.tap(clearSearch);
       await safeSettle(tester);
 
-      expect(moduleCards(), findsWidgets);
+      expect(catalogModuleCards(), findsWidgets);
     });
 
     testWidgets('open viewer and return to catalog', (tester) async {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
-      expect(find.byIcon(Icons.bookmark_rounded), findsOneWidget);
-      expect(find.byIcon(Icons.download_rounded), findsOneWidget);
+      expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
+      expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded));
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
 
-      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
-      expect(moduleCards(), findsWidgets);
+      expect(catalogModuleCards(), findsWidgets);
     });
 
     testWidgets('controls sheet actions are interactive', (tester) async {
@@ -180,7 +160,7 @@ void main() {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      await tester.tap(find.byIcon(Icons.bookmark_rounded));
+      await openViewerPresets(tester);
       await safeSettle(tester);
 
       expect(find.byType(PresetSheet), findsOneWidget);
@@ -217,7 +197,7 @@ void main() {
       await tester.tap(find.byIcon(Icons.close_rounded).last);
       await safeSettle(tester);
 
-      await tester.tap(find.byIcon(Icons.bookmark_rounded));
+      await openViewerPresets(tester);
       await safeSettle(tester);
       expect(find.byType(PresetSheet), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);
@@ -227,8 +207,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
 
-      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
-      expect(moduleCards(), findsWidgets);
+      expect(catalogModuleCards(), findsWidgets);
     });
   });
 }

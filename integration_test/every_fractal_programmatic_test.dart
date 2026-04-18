@@ -27,6 +27,8 @@ import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
 
+import 'helpers/ui_test_helpers.dart';
+
 /// Candidate paths the registry might live at, depending on how the test is
 /// invoked (flutter test from project root vs. direct dart execution).
 const List<String> _registryCandidates = <String>[
@@ -54,7 +56,9 @@ List<Map<String, dynamic>> _loadRegistryImplementedEntries() {
   final registry = loadYaml(registryText) as YamlMap;
   final entries = (registry['fractals'] as YamlList).cast<YamlMap>();
 
-  return entries.where((e) => e['tier'] == 'implemented').map<Map<String, dynamic>>((e) {
+  return entries
+      .where((e) => e['tier'] == 'implemented')
+      .map<Map<String, dynamic>>((e) {
     final map = <String, dynamic>{};
     for (final key in e.keys) {
       map['$key'] = e[key];
@@ -83,7 +87,8 @@ void main() {
       );
     });
 
-    testWidgets('All implemented-tier entries have required metadata', (tester) async {
+    testWidgets('All implemented-tier entries have required metadata',
+        (tester) async {
       // Metadata-only check. Fast; doesn't render anything.
       final errors = <String>[];
       final seenIds = <String>{};
@@ -128,7 +133,8 @@ void main() {
               '${implementedEntries.length} implemented entries');
     });
 
-    testWidgets('Every implemented entry declares a non-empty shader path', (tester) async {
+    testWidgets('Every implemented entry declares a non-empty shader path',
+        (tester) async {
       // Stricter: shader paths must look like real relative asset paths and
       // live under shaders/ so that pubspec.yaml can reach them.
       final bad = <String>[];
@@ -145,10 +151,12 @@ void main() {
         }
       }
       expect(bad, isEmpty,
-          reason: 'shader paths must start with "shaders/" and end with ".frag"');
+          reason:
+              'shader paths must start with "shaders/" and end with ".frag"');
     });
 
-    testWidgets('Catalog screen renders without throwing exceptions', (tester) async {
+    testWidgets('Catalog screen renders without throwing exceptions',
+        (tester) async {
       SharedPreferences.setMockInitialValues({});
       final presetStore = await PresetStore.create();
       final accessibilityService = await AccessibilityService.create();
@@ -168,9 +176,9 @@ void main() {
       // Any thrown exception in widget tree is surfaced here.
       expect(tester.takeException(), isNull,
           reason: 'catalog boot threw an exception');
-      // The catalog must always offer a search field.
-      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget,
-          reason: 'catalog search field missing — UI regression');
+      // The catalog must expose real module cards after boot.
+      expect(catalogModuleCards(), findsWidgets,
+          reason: 'catalog module cards missing — UI regression');
     });
 
     testWidgets(

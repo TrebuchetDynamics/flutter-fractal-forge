@@ -3,7 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_fractals/main.dart' as app;
+import 'package:flutter_fractals/core/services/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/onboarding_service.dart';
+import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/main.dart';
+
+import 'helpers/ui_test_helpers.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -12,69 +18,80 @@ void main() {
     // 1. Setup
     SharedPreferences.setMockInitialValues({
       'onboarding_complete': true,
-      'onboarding_version': 1,
+      'onboarding_version': OnboardingService.currentVersion,
     });
 
-    app.main();
-    // Allow app to settle initially
-    await tester.pumpAndSettle(const Duration(seconds: 1));
+    final presetStore = await PresetStore.create();
+    final accessibilityService = await AccessibilityService.create();
+    final rendererSettingsService = await RendererSettingsService.create();
+
+    await tester.pumpWidget(
+      FlutterFractalsApp(
+        presetStore: presetStore,
+        accessibilityService: accessibilityService,
+        rendererSettingsService: rendererSettingsService,
+        locale: const Locale('en'),
+      ),
+    );
+    await pumpForAppBoot(tester);
 
     // 2. Open Catalog
-    expect(find.byType(MaterialApp), findsOneWidget);
+    expect(catalogModuleCards(), findsWidgets);
 
-    // Find and tap "Mandelbrot" card
-    final fractalCard = find.text('Mandelbrot');
+    await enterCatalogSearch(
+      tester,
+      'Mandelbrot',
+      settle: const Duration(milliseconds: 600),
+    );
+
+    final fractalCard = catalogModuleCard('core.mandelbrot');
     expect(fractalCard, findsOneWidget);
-    await tester.tap(fractalCard.first);
-    
-    // Pump frames for navigation animation (do NOT use pumpAndSettle due to infinite shader loop)
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(fractalCard);
+
+    await tester.pump(const Duration(seconds: 2));
+    drainKnownShaderExceptions(tester);
 
     // 3. Verify Viewer matches
-    expect(find.text('Mandelbrot'), findsOneWidget); // App bar title
+    expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
     debugPrint('Viewer loaded successfully');
-    
+
     // 4. Open Controls (tune icon)
-    // Find tune icon
     final tuneIcon = find.byIcon(Icons.tune_rounded);
     expect(tuneIcon, findsOneWidget);
-    await tester.tap(tuneIcon);
-    
-    // Pump for sheet animation
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-    
+    await tester.tap(tuneIcon.first);
+
+    await pumpForUiTransition(
+      tester,
+      settle: const Duration(milliseconds: 300),
+    );
+
     // Verify controls sheet content
     expect(find.text('Controls'), findsWidgets);
     debugPrint('Controls sheet opened successfully');
-    
-    // Close sheet by tapping scrim (top left of screen usually safe) or back button
-    // Simulate back button which closes modal
-    // await tester.pageBack(); // Can be flaky in tests
-    // Try tapping outside
+
     await tester.tapAt(const Offset(10, 10));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
+    await pumpForUiTransition(
+      tester,
+      settle: const Duration(milliseconds: 300),
+    );
 
     // 5. Open Presets (bookmark icon)
-    final presetsBtn = find.byIcon(Icons.bookmark_rounded);
-    expect(presetsBtn, findsOneWidget);
-    await tester.tap(presetsBtn);
-    
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-    
+    await openViewerPresets(
+      tester,
+      settle: const Duration(milliseconds: 300),
+    );
+
     // Verify presets sheet
     expect(find.text('Presets'), findsOneWidget);
     debugPrint('Presets sheet opened successfully');
-    
+
     // Close presets
     await tester.tapAt(const Offset(10, 10));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-    
+    await pumpForUiTransition(
+      tester,
+      settle: const Duration(milliseconds: 300),
+    );
+
     debugPrint('Test completed successfully');
   });
 }

@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/onboarding_service.dart';
 import 'package:flutter_fractals/main.dart' as app;
 
+import 'helpers/ui_test_helpers.dart';
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -15,7 +17,8 @@ void main() {
       if (k is! ValueKey) return false;
       final v = k.value;
       if (v is! String) return false;
-      return v.startsWith('catalogModuleCard_') || v.startsWith('catalogGridTile_');
+      return v.startsWith('catalogModuleCard_') ||
+          v.startsWith('catalogGridTile_');
     });
   }
 
@@ -26,8 +29,8 @@ void main() {
       'onboarding_version': OnboardingService.currentVersion,
     });
 
-    app.main();
-    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await app.main();
+    await pumpForAppBoot(tester);
 
     for (int i = 0; i < 3; i++) {
       final cards = moduleCards();

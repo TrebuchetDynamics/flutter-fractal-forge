@@ -11,6 +11,8 @@ import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
 
+import 'helpers/ui_test_helpers.dart';
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -31,8 +33,8 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 3));
 
-    // App now starts directly on catalog; verify catalog UI is present.
-    expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
+    // App now starts directly on catalog; verify catalog cards are present.
+    expect(catalogModuleCards(), findsWidgets);
 
     final assetImages = find.byWidgetPredicate(
       (widget) =>

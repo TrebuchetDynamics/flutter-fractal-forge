@@ -14,6 +14,8 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/main.dart';
 
+import 'helpers/ui_test_helpers.dart';
+
 class _Rgb {
   final int r;
   final int g;
@@ -61,30 +63,14 @@ void main() {
       await tester.pump(const Duration(seconds: 2));
     }
 
-    Finder moduleCards() {
-      return find.byWidgetPredicate((w) {
-        final k = w.key;
-        if (k is! ValueKey) return false;
-        final v = k.value;
-        if (v is! String) return false;
-        return v.startsWith('catalogModuleCard_') ||
-            v.startsWith('catalogGridTile_');
-      });
-    }
-
     Future<void> openModuleFromSearch(
       WidgetTester tester, {
       required String query,
     }) async {
-      final searchField = find.byKey(const Key('catalogSearchField'));
-      expect(searchField, findsOneWidget);
+      await enterCatalogSearch(tester, query);
 
-      await tester.enterText(searchField, query);
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-
-      expect(moduleCards(), findsWidgets);
-      await tester.tap(moduleCards().first);
+      expect(catalogModuleCards(), findsWidgets);
+      await tester.tap(catalogModuleCards().first);
       await tester.pump();
     }
 
@@ -181,9 +167,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
 
-      await tester.tap(find.byIcon(Icons.bookmark_rounded));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
+      await openViewerPresets(tester);
       checkedRoutes.add('/viewer/presets');
       debugPrint('ROUTE_CHECK route=/viewer/presets result=ok');
       await tester.tap(find.byIcon(Icons.close_rounded).last);
@@ -197,7 +181,7 @@ void main() {
       debugPrint('ROUTE_CHECK route=/catalog result=ok');
 
       expect(checkedRoutes.length, 5);
-      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
+      expect(catalogModuleCards(), findsWidgets);
       expect(tester.takeException(), isNull);
 
       debugPrint(

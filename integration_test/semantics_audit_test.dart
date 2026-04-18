@@ -12,6 +12,7 @@ import 'package:flutter_fractals/main.dart';
 
 // Re-use the semantics tree traversal helper from unit tests.
 import '../test/helpers/semantics_test_helper.dart';
+import 'helpers/ui_test_helpers.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -41,10 +42,11 @@ void main() {
         rendererSettingsService: rendererSettingsService,
         locale: const Locale('en'),
       ));
-      await tester.pumpAndSettle();
+      await pumpForAppBoot(tester);
 
       // --- Enable semantics ---
       final semanticsHandle = tester.ensureSemantics();
+      await openCatalogSearchField(tester);
 
       // --- Extract & print the semantics narrative ---
       final narrative = extractSemanticsNarrative(tester);
@@ -59,22 +61,21 @@ void main() {
 
       // 1. The search field should exist and be identifiable.
       expect(
-        find.byKey(const Key('catalogSearchField')),
+        catalogSearchField(),
         findsOneWidget,
         reason: 'Catalog search field must be present',
       );
 
       // 2. At least one fractal card should have a semantic label.
       expect(
-        find.bySemanticsLabel(
-            RegExp(r'.*fractal.*', caseSensitive: false)),
+        find.bySemanticsLabel(RegExp(r'.*fractal.*', caseSensitive: false)),
         findsWidgets,
         reason: 'Fractal catalog cards must have semantic labels',
       );
 
       // 3. View toggle button must be present.
       expect(
-        find.byKey(const Key('catalogViewToggleButton')),
+        find.byIcon(Icons.view_list_rounded),
         findsOneWidget,
         reason: 'View toggle button must be present',
       );
@@ -94,11 +95,16 @@ void main() {
 
       // 6. Verify fractal module card keys are present for reliable
       //    non-visual identification.
+      await enterCatalogSearch(
+        tester,
+        'Mandelbrot',
+        settle: const Duration(milliseconds: 600),
+      );
       expect(
-        find.byKey(const Key('catalogModuleCard_core.mandelbrot')),
+        catalogModuleCard('core.mandelbrot'),
         findsOneWidget,
         reason:
-            'Mandelbrot fractal card must be identifiable via ValueKey',
+            'Mandelbrot fractal card must be identifiable via ValueKey after filtering',
       );
 
       semanticsHandle.dispose();
