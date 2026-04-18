@@ -4,44 +4,79 @@ tags:
   - viewer
   - controls
 ---
-# App launched by run_all.sh before each test.
-- extendedWaitUntil:
-    visible:
-      text: ".*Fractal.*"
-    timeout: 90000
+- runFlow: helpers/ensure_catalog.yaml
 
 - tapOn:
-    text: ".*Skip.*"
-    optional: true
+    point: "846,350"
+    retryTapIfNoChange: true
+    waitToSettleTimeoutMs: 500
+- runFlow:
+    when:
+      notVisible: "Search fractals"
+    commands:
+      - tapOn:
+          text: "Button"
+          index: 0
+          retryTapIfNoChange: true
+          waitToSettleTimeoutMs: 500
 
-# Wait for catalog (longer timeout for swiftshader emulator).
 - extendedWaitUntil:
     visible:
-      text: ".*Fractal Catalog.*"
-    timeout: 60000
-
-# Open a fractal.
-- tapOn:
-    text: ".*Mandelbrot.*"
-
-- extendedWaitUntil:
-    visible:
-      text: ".*Mandelbrot.*"
+      text: "Search fractals"
     timeout: 10000
 
-# Step 1: Zoom in using pinch gesture.
-- swipe:
-    direction: UP
-    duration: 500
+- eraseText: 160
+- setClipboard: "Aizawa Attractor"
+- pasteText
+- pressKey: back
+
+- extendedWaitUntil:
+    visible:
+      text: ".*Aizawa Attractor fractal, 2D.*"
+    timeout: 15000
+
+- tapOn:
+    text: ".*Aizawa Attractor fractal, 2D.*"
+    retryTapIfNoChange: true
+    waitToSettleTimeoutMs: 750
+
+- extendedWaitUntil:
+    visible:
+      text: "Controls"
+    timeout: 20000
+
+- assertVisible: "Controls"
+- assertVisible: "Random Fractal"
+- assertVisible: "Export"
 
 - takeScreenshot: "03_viewer_active"
 
-# Step 2: Look for controls button by accessibility text.
-- tapOn:
-    text: ".*Controls.*"
-    optional: true
+- tapOn: "Controls"
 
-- takeScreenshot: "03_controls_attempted"
+- extendedWaitUntil:
+    visible:
+      text: "Controls"
+    timeout: 10000
 
-# Step 3: Navigate back to catalog.
+- assertVisible:
+    text: "Iterations"
+- assertVisible:
+    text: "ACTIONS"
+
+- takeScreenshot: "03_controls_sheet"
+
 - pressKey: back
+- waitForAnimationToEnd
+
+- tapOn: "Random Fractal"
+
+- extendedWaitUntil:
+    visible:
+      text: "Back"
+    timeout: 20000
+
+- assertVisible: "Export"
+
+- takeScreenshot: "03_random_fractal"
+
+- tapOn: "Back"

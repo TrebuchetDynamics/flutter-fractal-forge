@@ -1,0 +1,66 @@
+appId: com.trebuchetdynamics.fractal.forge
+name: "Helper — Ensure Catalog"
+---
+- extendedWaitUntil:
+    visible:
+      text: ".*(Fractal Forge|Skip onboarding|Back|Dismiss|Controls|Export Now|Share).*"
+    timeout: 120000
+
+- runFlow:
+    when:
+      visible:
+        text: "Skip onboarding"
+    commands:
+      - tapOn: "Skip onboarding"
+      - waitForAnimationToEnd
+
+- runFlow:
+    when:
+      visible:
+        text: ".*(Dismiss|Controls|Export Now|Share).*"
+    commands:
+      - pressKey: back
+      - waitForAnimationToEnd
+
+- runFlow:
+    when:
+      visible:
+        text: "Back"
+    commands:
+      - tapOn: "Back"
+      - waitForAnimationToEnd
+
+- runFlow:
+    when:
+      visible:
+        text: "Search fractals"
+    commands:
+      - pressKey: back
+      - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              text: "Search fractals"
+          commands:
+            - tapOn:
+                point: "846,350"
+                waitToSettleTimeoutMs: 500
+            - waitForAnimationToEnd
+
+- extendedWaitUntil:
+    visible:
+      text: "Fractal Forge"
+    timeout: 30000
+
+- swipe:
+    direction: DOWN
+    duration: 900
+    waitToSettleTimeoutMs: 400
+
+- swipe:
+    direction: DOWN
+    duration: 900
+    waitToSettleTimeoutMs: 400
+
+- assertVisible:
+    text: "Explore.*Tab 1 of 3"

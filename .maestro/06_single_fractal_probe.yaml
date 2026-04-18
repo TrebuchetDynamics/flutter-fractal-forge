@@ -1,8 +1,12 @@
 appId: com.trebuchetdynamics.fractal.forge
-name: "04 — Export Flow: Save and Share"
+name: "06 — Single Fractal Probe"
+env:
+  FRACTAL_NAME: ${FRACTAL_NAME || "Mandelbrot"}
+  FRACTAL_QUERY: ${FRACTAL_QUERY || FRACTAL_NAME || "Mandelbrot"}
+  FRACTAL_CARD_REGEX: ${FRACTAL_CARD_REGEX || ".*Mandelbrot fractal, 2D.*"}
 tags:
-  - export
-  - share
+  - smoke
+  - single-fractal
 ---
 - runFlow: helpers/ensure_catalog.yaml
 
@@ -19,54 +23,41 @@ tags:
           index: 0
           retryTapIfNoChange: true
           waitToSettleTimeoutMs: 500
-
 - extendedWaitUntil:
     visible:
       text: "Search fractals"
     timeout: 10000
-
 - eraseText: 160
-- setClipboard: "Aizawa Attractor"
+- setClipboard: ${FRACTAL_QUERY}
 - pasteText
 - pressKey: back
 
 - extendedWaitUntil:
     visible:
-      text: ".*Aizawa Attractor fractal, 2D.*"
-    timeout: 15000
+      text: ${FRACTAL_CARD_REGEX}
+    timeout: 20000
 
 - tapOn:
-    text: ".*Aizawa Attractor fractal, 2D.*"
+    text: ${FRACTAL_CARD_REGEX}
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 750
 
 - extendedWaitUntil:
     visible:
       text: "Controls"
-    timeout: 20000
+    timeout: 25000
 
-- tapOn: "Export"
+- assertVisible: "Export"
+
+- pressKey: back
 
 - extendedWaitUntil:
     visible:
-      text: "Export Now"
+      text: "Fractal Forge"
     timeout: 15000
 
-- assertVisible: "Share"
-
-- takeScreenshot: "04_export_sheet"
-
-- tapOn: "Export Now"
-
-- waitForAnimationToEnd:
-    timeout: 15000
-
-- runFlow:
-    when:
-      visible:
-        text: ".*(Dismiss|Export Now|Share).*"
-    commands:
-      - pressKey: back
-      - waitForAnimationToEnd
-
-- tapOn: "Back"
+# Toggle search closed so the next invocation starts from the same state and
+# clears the previous query via the widget's built-in controller reset.
+- tapOn:
+    point: "846,350"
+    waitToSettleTimeoutMs: 500

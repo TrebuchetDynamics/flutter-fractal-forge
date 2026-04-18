@@ -4,33 +4,10 @@ tags:
   - smoke
   - launch
 ---
-# App launched by run_all.sh before each test. No launchApp to avoid driver reinstall issues.
-- extendedWaitUntil:
-    visible:
-      text: ".*Fractal.*"
-    timeout: 90000
+- runFlow: helpers/ensure_catalog.yaml
 
-- tapOn:
-    text: ".*Skip.*"
-    optional: true
-
-# Wait for the catalog to load.
-- extendedWaitUntil:
-    visible:
-      text: ".*Fractal Catalog.*"
-    timeout: 15000
-
-# Verify the main catalog title is visible.
+- assertVisible: "Fractal Forge"
 - assertVisible:
-    text: ".*Fractal Catalog.*"
+    text: "350\\+ fractals"
 
-# Verify the search field is present (by hint text).
-- assertVisible:
-    text: ".*Search fractals.*"
-
-# Verify at least one fractal category is displayed.
-- assertVisible:
-    text: ".*Mandelbrot.*"
-
-# Take a screenshot of the catalog for visual review.
 - takeScreenshot: "01_catalog_loaded"
