@@ -10,6 +10,8 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/main.dart' as app;
 
+import 'helpers/ui_test_helpers.dart';
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -31,10 +33,8 @@ void main() {
       'renderer_backend_mode': 'auto',
     });
 
-    app.main();
-    await tester.pump();
-    await tester.pump(const Duration(seconds: 2));
-    await tester.pump(const Duration(seconds: 2));
+    await app.main();
+    await pumpForAppBoot(tester);
 
     expect(moduleCards(), findsWidgets);
 
@@ -67,7 +67,10 @@ void main() {
     await tester.tapAt(tapPoint);
     await tester.pump(const Duration(milliseconds: 70));
     await tester.tapAt(tapPoint);
-    await tester.pumpAndSettle(const Duration(milliseconds: 350));
+    await pumpForUiTransition(
+      tester,
+      settle: const Duration(milliseconds: 350),
+    );
 
     expect(controller.view.zoom, greaterThan(initialZoom));
     expect(controller.view.pan.x, lessThan(initialPanX));

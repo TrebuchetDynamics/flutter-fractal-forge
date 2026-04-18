@@ -104,12 +104,14 @@ void main() {
       expect(result.histogramSane, isTrue);
     });
 
-    testWidgets('CPU Burning Ship renders non-black', (tester) async {
+    testWidgets('CPU Burning Ship renders non-black with frame progression',
+        (tester) async {
       final frameA = await renderCpuFrame(
         moduleId: 'burning_ship',
-        viewPan: Vector2(-1.75, -0.03),
-        viewZoom: 1.4,
-        iterations: 200,
+        // "The Vessel" built-in Burning Ship preset.
+        viewPan: Vector2(-0.5, -0.5),
+        viewZoom: 1.5,
+        iterations: 300,
         bailout: 4.0,
         juliaC: Vector2(0, 0),
         width: 128,
@@ -119,10 +121,11 @@ void main() {
 
       final frameB = await renderCpuFrame(
         moduleId: 'burning_ship',
-        viewPan: Vector2(-1.75, -0.03),
-        viewZoom: 1.4,
-        iterations: 216,
-        bailout: 4.0,
+        // "Volcanic Ash" built-in Burning Ship preset.
+        viewPan: Vector2(-1.8, -0.01),
+        viewZoom: 30.0,
+        iterations: 280,
+        bailout: 3.5,
         juliaC: Vector2(0, 0),
         width: 128,
         height: 128,
@@ -137,8 +140,17 @@ void main() {
       );
 
       debugPrint(result.summary('cpu-burning_ship'));
+      debugPrint('  centerNonBlack: ${result.centerNonBlack}');
+      debugPrint('  histogramSane: ${result.histogramSane}');
+      debugPrint('  frameProgressed: ${result.frameProgressed}');
+      debugPrint('  iterationDeltaVisible: ${result.iterationDeltaVisible}');
+      debugPrint('  nonBlackRatio: ${result.nonBlackRatio}');
       expect(result.centerNonBlack, isTrue);
       expect(result.histogramSane, isTrue);
+      expect(result.frameProgressed, isTrue);
+      expect(result.iterationDeltaVisible, isTrue);
+      expect(result.pass, isTrue,
+          reason: 'Burning Ship frame pair should show visible progression');
     });
   });
 }

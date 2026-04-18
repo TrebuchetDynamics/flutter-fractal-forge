@@ -13,6 +13,8 @@ import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
 
+import 'helpers/ui_test_helpers.dart';
+
 /// Full screenshot suite for Flutter Fractal Forge.
 /// Captures:
 /// - Catalog view
@@ -100,7 +102,8 @@ void main() {
           return;
         } catch (e) {
           // Fall through to integration test screenshot
-          debugPrint('Repaint boundary failed: $e, trying integration screenshot');
+          debugPrint(
+              'Repaint boundary failed: $e, trying integration screenshot');
         }
       }
 
@@ -119,36 +122,24 @@ void main() {
       }
     }
 
-    Finder moduleCards() {
-      return find.byWidgetPredicate((w) {
-        final key = w.key;
-        if (key is! ValueKey) return false;
-        final value = key.value;
-        if (value is! String) return false;
-        return value.startsWith('catalogGridTile_') ||
-            value.startsWith('catalogModuleCard_');
-      });
-    }
-
     Future<void> tapModuleBySearch(
       WidgetTester tester, {
       required String query,
     }) async {
-      final searchField = find.byKey(const Key('catalogSearchField'));
-      expect(searchField, findsOneWidget);
+      await enterCatalogSearch(
+        tester,
+        query,
+        settle: const Duration(milliseconds: 600),
+      );
 
-      await tester.enterText(searchField, query);
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 600));
-
-      final cards = moduleCards();
+      final cards = catalogModuleCards();
       expect(cards, findsWidgets);
       await tester.tap(cards.first);
       await tester.pump();
     }
 
     void expectViewerOpened() {
-      expect(find.byKey(const Key('catalogSearchField')), findsNothing);
+      expect(catalogSearchField(), findsNothing);
     }
 
     testWidgets('01_catalog', (tester) async {
@@ -239,10 +230,10 @@ void main() {
       expectViewerOpened();
 
       // Open presets panel (Icons.bookmark_rounded)
-      expect(find.byIcon(Icons.bookmark_rounded), findsOneWidget);
-      await tester.tap(find.byIcon(Icons.bookmark_rounded));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 800));
+      await openViewerPresets(
+        tester,
+        settle: const Duration(milliseconds: 800),
+      );
 
       await snap(tester, '08_presets_panel');
     });

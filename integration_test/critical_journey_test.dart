@@ -12,6 +12,8 @@ import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/main.dart';
 
+import 'helpers/ui_test_helpers.dart';
+
 /// Critical User Journey integration test.
 ///
 /// Exercises the most important end-to-end user flow:
@@ -56,26 +58,7 @@ void main() {
         rendererSettingsService: rendererSettingsService,
         locale: const Locale('en'),
       ));
-      // Bounded pumps — shader animations never fully settle.
-      await tester.pump();
-      await tester.pump(const Duration(seconds: 2));
-      await tester.pump(const Duration(seconds: 2));
-      await tester.pump(const Duration(seconds: 1));
-    }
-
-    /// Drains known SkSL shader compilation exceptions that do not indicate
-    /// real failures on emulators/CI.
-    void drainKnownShaderExceptions(WidgetTester tester) {
-      while (true) {
-        final error = tester.takeException();
-        if (error == null) return;
-        final message = error.toString();
-        final isKnownSkSLError = message.contains('Invalid SkSL') ||
-            message.contains("operator '%' is not allowed");
-        if (!isKnownSkSLError) {
-          fail('Unexpected Flutter exception: $error');
-        }
-      }
+      await pumpForAppBoot(tester);
     }
 
     testWidgets(
@@ -88,38 +71,34 @@ void main() {
         // ------------------------------------------------------------------
         await pumpApp(tester);
 
-        // The catalog search field confirms we are on the catalog screen.
+        // The catalog may sort/group entries dynamically, so assert the
+        // screen surface first, then narrow to Mandelbrot via search.
         expect(
-          find.byKey(const Key('catalogSearchField')),
-          findsOneWidget,
-          reason: 'Catalog screen must show the search field after launch',
+          catalogModuleCards(),
+          findsWidgets,
+          reason: 'Catalog screen must show fractal entries after launch',
         );
 
         // ------------------------------------------------------------------
         // Step 2: Verify catalog has fractal entries
         // ------------------------------------------------------------------
-        // Mandelbrot should be present as it is the default first fractal.
-        final mandelbrotCard =
-            find.byKey(const Key('catalogModuleCard_core.mandelbrot'));
+        expect(
+          catalogModuleCards().evaluate().length,
+          greaterThanOrEqualTo(4),
+          reason: 'Catalog should show at least 4 fractal entries',
+        );
+
+        await enterCatalogSearch(
+          tester,
+          'Mandelbrot',
+          settle: const Duration(milliseconds: 600),
+        );
+
+        final mandelbrotCard = catalogModuleCard('core.mandelbrot');
         expect(
           mandelbrotCard,
           findsOneWidget,
-          reason: 'Mandelbrot fractal card must appear in catalog',
-        );
-
-        // Verify at least a few fractal entries are visible.
-        final catalogCards = find.byWidgetPredicate((w) {
-          final k = w.key;
-          if (k is! ValueKey) return false;
-          final v = k.value;
-          if (v is! String) return false;
-          return v.startsWith('catalogModuleCard_') ||
-              v.startsWith('catalogGridTile_');
-        });
-        expect(
-          catalogCards.evaluate().length,
-          greaterThanOrEqualTo(4),
-          reason: 'Catalog should show at least 4 fractal entries',
+          reason: 'Mandelbrot fractal card must appear after filtering',
         );
 
         // ------------------------------------------------------------------
@@ -216,9 +195,9 @@ void main() {
 
         // Confirm we are back on the catalog screen.
         expect(
-          find.byKey(const Key('catalogSearchField')),
-          findsOneWidget,
-          reason: 'Must return to catalog screen after pressing back',
+          catalogModuleCards(),
+          findsWidgets,
+          reason: 'Must return to the catalog module list after pressing back',
         );
 
         semantics.dispose();

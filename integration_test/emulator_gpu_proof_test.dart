@@ -17,6 +17,8 @@ import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/main.dart' as app;
 
+import 'helpers/ui_test_helpers.dart';
+
 class _ViewerEvidenceFrame {
   final RenderFrameStats stats;
   final String pngBase64;
@@ -162,8 +164,8 @@ void main() {
       'renderer_backend_mode': 'auto',
     });
 
-    app.main();
-    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await app.main();
+    await pumpForAppBoot(tester);
 
     await captureFractal(
       tester: tester,
