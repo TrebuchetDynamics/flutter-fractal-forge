@@ -1,0 +1,5 @@
+TS=20260413_101246
+DEVICE=emulator-5556
+STARTED_EMULATOR=1
+RC=0
+TEST_LOG=/home/xel/git/sages-openclaw/workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/agent_test_logs/headless/test_20260413_101246.log
