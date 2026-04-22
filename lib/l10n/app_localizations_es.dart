@@ -244,6 +244,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dimension3d => '3D';
 
   @override
+  String get dimensionKaleidoscope => 'Kaleidoscopio';
+
+  @override
   String get paramIterations => 'Iteraciones';
 
   @override

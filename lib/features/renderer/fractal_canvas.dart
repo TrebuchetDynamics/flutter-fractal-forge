@@ -49,7 +49,8 @@ class FractalCanvas extends CustomPainter {
 
     if (kaleidoEnabled) {
       final center = Offset(size.width / 2, size.height / 2);
-      final double diagRadius = math.sqrt(size.width * size.width + size.height * size.height) / 2;
+      // Use a radius large enough to cover every corner of the screen from any point
+      final double diagRadius = math.sqrt(size.width * size.width + size.height * size.height) * 2.0;
 
       final double sectorAngle = 2 * math.pi / sectors;
 
@@ -58,10 +59,10 @@ class FractalCanvas extends CustomPainter {
 
         // Mover al centro
         canvas.translate(center.dx, center.dy);
-        
+
         // Rotar al sector
         canvas.rotate(rot + i * sectorAngle);
-        
+
         // Espejo según modo
         if (mode == 0) {
           if (i % 2 == 0) canvas.scale(-1.0, 1.0);
@@ -76,21 +77,31 @@ class FractalCanvas extends CustomPainter {
         // Volver a coordenadas originales
         canvas.translate(-center.dx, -center.dy);
 
-        // Cuña desde el centro hacia toda la pantalla
+        // Cuña con arco: cubre exactamente 1/sectors de la pantalla
         final Path wedgePath = Path();
         wedgePath.moveTo(center.dx, center.dy);
-        final double halfAngle = sectorAngle / 2;
-        final double x2 = center.dx + diagRadius * math.cos(halfAngle);
-        final double y2 = center.dy - diagRadius * math.sin(halfAngle);
-        final double x3 = center.dx + diagRadius * math.cos(-halfAngle);
-        final double y3 = center.dy - diagRadius * math.sin(-halfAngle);
-        wedgePath.lineTo(x2, y2);
-        wedgePath.lineTo(x3, y3);
+        // Use arcTo so the outer edge follows a curve, not a straight chord
+        final double startAngle = -sectorAngle / 2;
+        final Rect arcRect = Rect.fromCircle(center: center, radius: diagRadius);
+        wedgePath.lineTo(
+          center.dx + diagRadius * math.cos(startAngle),
+          center.dy + diagRadius * math.sin(startAngle),
+        );
+        wedgePath.arcTo(arcRect, startAngle, sectorAngle, false);
         wedgePath.close();
 
         canvas.save();
         canvas.clipPath(wedgePath);
-        canvas.drawRect(rect, basePaint);
+        // Draw a rect large enough to fill the clip region regardless of canvas rotation.
+        // The shader renders in screen-space so the fractal content is not affected.
+        canvas.drawRect(
+          Rect.fromCenter(
+            center: center,
+            width: diagRadius * 4,
+            height: diagRadius * 4,
+          ),
+          basePaint,
+        );
         canvas.restore();
 
         canvas.restore();

@@ -75,6 +75,7 @@
   "moduleMandelbulb": "Mandelbulb",
   "dimension2d": "2D",
   "dimension3d": "3D",
+  "dimensionKaleidoscope": "Kaleidoscopio",
   "paramIterations": "Iteraciones",
   "paramSteps": "Pasos",
   "paramBailout": "Escape",

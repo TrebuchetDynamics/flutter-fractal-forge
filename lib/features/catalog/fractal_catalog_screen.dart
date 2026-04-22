@@ -16,7 +16,7 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 enum CatalogViewMode { grid, list }
 
-enum _DimensionFilter { all, twoD, threeD }
+enum _DimensionFilter { all, twoD, threeD, kaleidoscope }
 
 /// Featured fractal IDs shown in the hero carousel at the top of the catalog.
 /// NOTE: These IDs MUST have corresponding thumbnails in assets/catalog_thumbs/.
@@ -226,7 +226,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final registry = context.read<ModuleRegistry>();
     // Only rebuild if not yet initialised (registry is effectively immutable
     // after app start, so identity check is sufficient).
-    _catalog ??= CatalogRepository.fromRegistry(registry);
+    _catalog = CatalogRepository.fromRegistry(registry);
   }
 
   Future<void> _loadViewPreference() async {
@@ -258,6 +258,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         return entry.module.dimension == FractalDimension.twoD;
       case _DimensionFilter.threeD:
         return entry.module.dimension == FractalDimension.threeD;
+      case _DimensionFilter.kaleidoscope:
+        return entry.category.toLowerCase().contains('kaleidoscope');
     }
   }
 
@@ -440,6 +442,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final threeDCount = dimensionBaseEntries
         .where((entry) => entry.module.dimension == FractalDimension.threeD)
         .length;
+    final kaleidoscopeCount = dimensionBaseEntries
+        .where((entry) => entry.category.toLowerCase().contains('kaleidoscope'))
+        .length;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -477,6 +482,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                     selected: _dimensionFilter == _DimensionFilter.threeD,
                     onTap: () =>
                         _updateDimensionFilter(_DimensionFilter.threeD),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  _DimChip(
+                    chipKey: const Key('catalogDimensionChip_kaleidoscope'),
+                    label: l10n.dimensionKaleidoscope,
+                    count: kaleidoscopeCount,
+                    selected: _dimensionFilter == _DimensionFilter.kaleidoscope,
+                    onTap: () =>
+                        _updateDimensionFilter(_DimensionFilter.kaleidoscope),
                   ),
                   const SizedBox(width: AppSpacing.md),
                 ],

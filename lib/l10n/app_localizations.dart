@@ -548,6 +548,12 @@ abstract class AppLocalizations {
   /// **'3D'**
   String get dimension3d;
 
+  /// No description provided for @dimensionKaleidoscope.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope'**
+  String get dimensionKaleidoscope;
+
   /// No description provided for @paramIterations.
   ///
   /// In en, this message translates to:

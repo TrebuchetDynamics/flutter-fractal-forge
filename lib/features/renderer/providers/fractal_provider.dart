@@ -146,6 +146,10 @@ class FractalController extends ChangeNotifier {
   int get kaleidoscopeMirrorMode => _kaleidoscopeMirrorMode;
 
   void setKaleidoscopeEnabled(bool enabled) {
+    // Force enabled for kaleidoscope modules
+    if (_module.id.contains('kaleidoscope')) {
+      enabled = true;
+    }
     if (_kaleidoscopeEnabled != enabled) {
       _kaleidoscopeEnabled = enabled;
       notifyListeners();
@@ -200,6 +204,13 @@ void setKaleidoscopeMirrorMode(int mode) {
 
     if (animate) {
       _startMorphTransition(previousId);
+    }
+
+    // Auto-enable kaleidoscope effect for these modules with specific defaults
+    if (module.id.contains('kaleidoscope')) {
+      _kaleidoscopeEnabled = true;
+      _kaleidoscopeSectors = 16;
+      _kaleidoscopeMirrorMode = 3; // "Sin" espejo
     }
 
     notifyListeners();
@@ -704,6 +715,13 @@ void setKaleidoscopeMirrorMode(int mode) {
       } else {
         _module = targetModule;
       }
+    }
+
+    // Auto-enable kaleidoscope effect for these modules with specific defaults
+    if (_module.id.contains('kaleidoscope')) {
+      _kaleidoscopeEnabled = true;
+      _kaleidoscopeSectors = 16;
+      _kaleidoscopeMirrorMode = 3; // "Sin" espejo
     }
 
     // Apply parameters with clamping
