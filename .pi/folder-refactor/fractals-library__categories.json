@@ -1,7 +1,7 @@
 {
   "version": 1,
   "target": "fractals-library/categories",
-  "updatedAt": "2026-05-30T06:51:40.864Z",
+  "updatedAt": "2026-05-30T07:03:33.205Z",
   "objective": "Refactor fractals-library/categories so each mathematical category directory contains responsibility subfolders rather than a flat list of Dart stub definitions. Target topology is complete: root contains only the 13 category directories; each category contains semantic subfolders; no category-level Dart stubs remain.",
   "completedSlices": [
     "Moved all 200 category Dart files from direct category roots into semantic subfolders under their existing category directories.",
@@ -13,8 +13,9 @@
   "nextCandidates": [],
   "validationReceipts": [
     "(cd fractals-library && python3 scripts/validate_manifest.py) -> OK: manifest has 200 unique IDs",
-    "python3 path-count check -> root_files=[] shallow_category_dart_files=0 nested_dart_files=200",
-    "rg \"fractals-library/categories/.+f[0-9]{3}|categories/.+f[0-9]{3}\" . --glob '!opensource/**' --glob '!build/**' --glob '!fractals-library/categories/**' -> no matches",
+    "find fractals-library/categories -mindepth 3 -type f -name '*.dart' | wc -l -> 200",
+    "find fractals-library/categories -mindepth 1 -maxdepth 2 -type f -name '*.dart' -> no category-level Dart files",
+    "rg \"fractals-library/categories/.+f[0-9]{3}|categories/.+f[0-9]{3}\" . --glob '!opensource/**' --glob '!build/**' --glob '!fractals-library/categories/**' -> no matches (exit 1 expected)",
     "folder_refactor_audit(target=fractals-library/categories, plannedTopologyComplete=true, facadeFiles=[], outOfScopeFiles=[], nextCandidateFiles=[]) -> pass"
   ]
 }
