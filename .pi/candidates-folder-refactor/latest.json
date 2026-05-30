@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-30T06:42:18.041Z",
+  "generatedAt": "2026-05-30T06:45:06.255Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -8,7 +8,7 @@
   "candidates": [
     {
       "relative": "shaders",
-      "score": 574.5,
+      "score": 580.5,
       "files": 471,
       "direct": 1,
       "churn": 0,
@@ -23,22 +23,6 @@
         ".glsl",
         ".md",
         ".vert"
-      ]
-    },
-    {
-      "relative": "shaders/escape_time_family",
-      "score": 519.5,
-      "files": 199,
-      "direct": 199,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 0,
-      "subdirs": 0,
-      "extensions": [
-        ".frag"
       ]
     },
     {
@@ -94,6 +78,22 @@
         ".json",
         ".md",
         ".py"
+      ]
+    },
+    {
+      "relative": "shaders/escape_time_family",
+      "score": 267,
+      "files": 199,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 1,
+      "duplicates": 0,
+      "subdirs": 10,
+      "extensions": [
+        ".frag"
       ]
     },
     {
@@ -207,6 +207,22 @@
       "roles": 1,
       "duplicates": 0,
       "subdirs": 0,
+      "extensions": [
+        ".frag"
+      ]
+    },
+    {
+      "relative": "shaders/escape_time_family/families",
+      "score": 158,
+      "files": 100,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 0,
+      "duplicates": 0,
+      "subdirs": 10,
       "extensions": [
         ".frag"
       ]
@@ -450,27 +466,6 @@
       "subdirs": 15,
       "extensions": [
         ".xml"
-      ]
-    },
-    {
-      "relative": "macos/Runner",
-      "score": 88.5,
-      "files": 11,
-      "direct": 5,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 1,
-      "subdirs": 3,
-      "extensions": [
-        ".entitlements",
-        ".json",
-        ".plist",
-        ".swift",
-        ".xcconfig",
-        ".xib"
       ]
     }
   ],
