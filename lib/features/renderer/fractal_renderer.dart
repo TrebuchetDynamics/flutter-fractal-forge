@@ -441,8 +441,9 @@ class _FractalRendererState extends State<FractalRenderer>
             final dt = DateTime.now()
                 .difference(_shaderLoadStartedAt ?? DateTime.now())
                 .inMilliseconds;
-            if (kDebugMode) debugPrint(
-                '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
+            if (kDebugMode)
+              debugPrint(
+                  '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
           }
 
           // Sampled frame-time logging: measure and log every 10th GPU frame.
@@ -468,11 +469,11 @@ class _FractalRendererState extends State<FractalRenderer>
               glowEnabled: controller.glowEnabled,
               glowSigma: controller.glowSigma,
               glowIntensity: controller.glowIntensity,
-              kaleidoscopeEnabled: controller.kaleidoscopeEnabled ?? false,
-              kaleidoscopeSectors: controller.kaleidoscopeSectors ?? 8,
-              kaleidoscopeMirror: controller.kaleidoscopeMirror ?? true,
-              kaleidoscopeRotation: controller.kaleidoscopeRotation ?? 0.0,
-              kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode ?? 0,
+              kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+              kaleidoscopeSectors: controller.kaleidoscopeSectors,
+              kaleidoscopeMirror: controller.kaleidoscopeMirror,
+              kaleidoscopeRotation: controller.kaleidoscopeRotation,
+              kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
             ),
             child: const SizedBox.shrink(),
           );

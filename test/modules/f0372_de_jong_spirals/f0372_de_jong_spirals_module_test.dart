@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0372_de_jong_spirals/f0372_de_jong_spirals_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0372_de_jong_spirals/f0372_de_jong_spirals_module.dart';
 
 void main() {
   test('F0372DeJongSpirals instantiates', () {

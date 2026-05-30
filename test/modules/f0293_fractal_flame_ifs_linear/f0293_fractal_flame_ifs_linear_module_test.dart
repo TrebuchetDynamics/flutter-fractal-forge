@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f0293_fractal_flame_ifs_linear/f0293_fractal_flame_ifs_linear_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f0293_fractal_flame_ifs_linear/f0293_fractal_flame_ifs_linear_module.dart';
 
 void main() {
   test('F0293FractalFlameIfsLinear instantiates', () {

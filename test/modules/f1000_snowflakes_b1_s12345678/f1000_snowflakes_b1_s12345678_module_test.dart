@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f1000_snowflakes_b1_s12345678/f1000_snowflakes_b1_s12345678_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f1000_snowflakes_b1_s12345678/f1000_snowflakes_b1_s12345678_module.dart';
 
 void main() {
   test('F1000SnowflakesB1S12345678 instantiates', () {

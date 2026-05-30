@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/number_theory_fractals/f0784_p_adic_fractal_p_5/f0784_p_adic_fractal_p_5_module.dart';
+import 'package:flutter_fractals/core/modules/number_theory_fractals/f0784_p_adic_fractal_p_5/f0784_p_adic_fractal_p_5_module.dart';
 
 void main() {
   test('F0784PAdicFractalP5 instantiates', () {

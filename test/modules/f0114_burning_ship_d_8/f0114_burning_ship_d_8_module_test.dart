@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0114_burning_ship_d_8/f0114_burning_ship_d_8_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0114_burning_ship_d_8/f0114_burning_ship_d_8_module.dart';
 
 void main() {
   test('F0114BurningShipD8 instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/newton_root_finding/f1200_newton_z_4_z_3_2/f1200_newton_z_4_z_3_2_module.dart';
+import 'package:flutter_fractals/core/modules/newton_root_finding/f1200_newton_z_4_z_3_2/f1200_newton_z_4_z_3_2_module.dart';
 
 void main() {
   test('F1200NewtonZ4Z32 instantiates', () {

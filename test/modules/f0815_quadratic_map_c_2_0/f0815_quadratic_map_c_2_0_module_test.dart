@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0815_quadratic_map_c_2_0/f0815_quadratic_map_c_2_0_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0815_quadratic_map_c_2_0/f0815_quadratic_map_c_2_0_module.dart';
 
 void main() {
   test('F0815QuadraticMapC20 instantiates', () {

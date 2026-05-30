@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/l_systems_space_filling/f0252_sierpinski_gasket_arrowhead/f0252_sierpinski_gasket_arrowhead_module.dart';
+import 'package:flutter_fractals/core/modules/l_systems_space_filling/f0252_sierpinski_gasket_arrowhead/f0252_sierpinski_gasket_arrowhead_module.dart';
 
 void main() {
   test('F0252SierpinskiGasketArrowhead instantiates', () {

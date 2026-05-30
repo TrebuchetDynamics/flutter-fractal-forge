@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0974_elementary_ca_rule_232/f0974_elementary_ca_rule_232_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0974_elementary_ca_rule_232/f0974_elementary_ca_rule_232_module.dart';
 
 void main() {
   test('F0974ElementaryCaRule232 instantiates', () {

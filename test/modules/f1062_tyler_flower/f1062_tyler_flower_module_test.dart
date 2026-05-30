@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1062_tyler_flower/f1062_tyler_flower_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1062_tyler_flower/f1062_tyler_flower_module.dart';
 
 void main() {
   test('F1062TylerFlower instantiates', () {

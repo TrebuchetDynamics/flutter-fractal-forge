@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/number_theory_fractals/f0783_p_adic_fractal_p_3/f0783_p_adic_fractal_p_3_module.dart';
+import 'package:flutter_fractals/core/modules/number_theory_fractals/f0783_p_adic_fractal_p_3/f0783_p_adic_fractal_p_3_module.dart';
 
 void main() {
   test('F0783PAdicFractalP3 instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f1138_fractal_flame_v37_pie/f1138_fractal_flame_v37_pie_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f1138_fractal_flame_v37_pie/f1138_fractal_flame_v37_pie_module.dart';
 
 void main() {
   test('F1138FractalFlameV37Pie instantiates', () {

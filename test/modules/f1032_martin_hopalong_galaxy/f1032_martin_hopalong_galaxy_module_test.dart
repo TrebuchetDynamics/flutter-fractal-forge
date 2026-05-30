@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1032_martin_hopalong_galaxy/f1032_martin_hopalong_galaxy_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1032_martin_hopalong_galaxy/f1032_martin_hopalong_galaxy_module.dart';
 
 void main() {
   test('F1032MartinHopalongGalaxy instantiates', () {

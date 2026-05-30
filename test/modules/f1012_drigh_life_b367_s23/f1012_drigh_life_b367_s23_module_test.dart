@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f1012_drigh_life_b367_s23/f1012_drigh_life_b367_s23_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f1012_drigh_life_b367_s23/f1012_drigh_life_b367_s23_module.dart';
 
 void main() {
   test('F1012DrighLifeB367S23 instantiates', () {

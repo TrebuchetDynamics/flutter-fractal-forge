@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1059_svensson_mist/f1059_svensson_mist_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1059_svensson_mist/f1059_svensson_mist_module.dart';
 
 void main() {
   test('F1059SvenssonMist instantiates', () {

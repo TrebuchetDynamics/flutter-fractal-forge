@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/number_theory_fractals/f0796_mobius_function_fractal/f0796_mobius_function_fractal_module.dart';
+import 'package:flutter_fractals/core/modules/number_theory_fractals/f0796_mobius_function_fractal/f0796_mobius_function_fractal_module.dart';
 
 void main() {
   test('F0796MobiusFunctionFractal instantiates', () {

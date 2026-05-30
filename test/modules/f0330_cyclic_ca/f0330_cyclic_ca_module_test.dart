@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0330_cyclic_ca/f0330_cyclic_ca_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0330_cyclic_ca/f0330_cyclic_ca_module.dart';
 
 void main() {
   test('F0330CyclicCa instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f1136_fractal_flame_v35_gaussian_blur/f1136_fractal_flame_v35_gaussian_blur_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f1136_fractal_flame_v35_gaussian_blur/f1136_fractal_flame_v35_gaussian_blur_module.dart';
 
 void main() {
   test('F1136FractalFlameV35GaussianBlur instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0821_standard_map_chirikov_k_0_97/f0821_standard_map_chirikov_k_0_97_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0821_standard_map_chirikov_k_0_97/f0821_standard_map_chirikov_k_0_97_module.dart';
 
 void main() {
   test('F0821StandardMapChirikovK097 instantiates', () {

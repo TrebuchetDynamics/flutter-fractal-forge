@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/reaction_diffusion_chemical/f0732_gray_scott_moving_spots/f0732_gray_scott_moving_spots_module.dart';
+import 'package:flutter_fractals/core/modules/reaction_diffusion_chemical/f0732_gray_scott_moving_spots/f0732_gray_scott_moving_spots_module.dart';
 
 void main() {
   test('F0732GrayScottMovingSpots instantiates', () {

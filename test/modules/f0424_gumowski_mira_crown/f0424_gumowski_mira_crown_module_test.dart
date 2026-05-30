@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0424_gumowski_mira_crown/f0424_gumowski_mira_crown_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0424_gumowski_mira_crown/f0424_gumowski_mira_crown_module.dart';
 
 void main() {
   test('F0424GumowskiMiraCrown instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f1108_fractal_flame_v7_heart/f1108_fractal_flame_v7_heart_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f1108_fractal_flame_v7_heart/f1108_fractal_flame_v7_heart_module.dart';
 
 void main() {
   test('F1108FractalFlameV7Heart instantiates', () {

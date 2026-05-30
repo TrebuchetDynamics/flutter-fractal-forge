@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/number_theory_fractals/f0782_beta_expansion_fractal_sqrt2/f0782_beta_expansion_fractal_sqrt2_module.dart';
+import 'package:flutter_fractals/core/modules/number_theory_fractals/f0782_beta_expansion_fractal_sqrt2/f0782_beta_expansion_fractal_sqrt2_module.dart';
 
 void main() {
   test('F0782BetaExpansionFractalSqrt2 instantiates', () {

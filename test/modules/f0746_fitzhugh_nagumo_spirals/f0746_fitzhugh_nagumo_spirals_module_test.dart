@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/reaction_diffusion_chemical/f0746_fitzhugh_nagumo_spirals/f0746_fitzhugh_nagumo_spirals_module.dart';
+import 'package:flutter_fractals/core/modules/reaction_diffusion_chemical/f0746_fitzhugh_nagumo_spirals/f0746_fitzhugh_nagumo_spirals_module.dart';
 
 void main() {
   test('F0746FitzhughNagumoSpirals instantiates', () {

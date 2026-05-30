@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0994_iceballs_b25678_s5678/f0994_iceballs_b25678_s5678_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0994_iceballs_b25678_s5678/f0994_iceballs_b25678_s5678_module.dart';
 
 void main() {
   test('F0994IceballsB25678S5678 instantiates', () {

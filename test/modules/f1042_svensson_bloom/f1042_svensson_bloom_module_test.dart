@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1042_svensson_bloom/f1042_svensson_bloom_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1042_svensson_bloom/f1042_svensson_bloom_module.dart';
 
 void main() {
   test('F1042SvenssonBloom instantiates', () {

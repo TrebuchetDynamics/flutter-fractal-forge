@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f1007_highflock_b36_s12/f1007_highflock_b36_s12_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f1007_highflock_b36_s12/f1007_highflock_b36_s12_module.dart';
 
 void main() {
   test('F1007HighflockB36S12 instantiates', () {

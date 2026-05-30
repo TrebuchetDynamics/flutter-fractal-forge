@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/reaction_diffusion_chemical/f0743_belousov_zhabotinsky_spirals/f0743_belousov_zhabotinsky_spirals_module.dart';
+import 'package:flutter_fractals/core/modules/reaction_diffusion_chemical/f0743_belousov_zhabotinsky_spirals/f0743_belousov_zhabotinsky_spirals_module.dart';
 
 void main() {
   test('F0743BelousovZhabotinskySpirals instantiates', () {

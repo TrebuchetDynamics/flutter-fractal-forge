@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1089_belykh_narrow/f1089_belykh_narrow_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1089_belykh_narrow/f1089_belykh_narrow_module.dart';
 
 void main() {
   test('F1089BelykhNarrow instantiates', () {

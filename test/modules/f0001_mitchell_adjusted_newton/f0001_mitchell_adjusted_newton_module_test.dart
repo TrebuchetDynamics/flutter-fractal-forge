@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/newton_root_finding/f0001_mitchell_adjusted_newton/f0001_mitchell_adjusted_newton_module.dart';
+import 'package:flutter_fractals/core/modules/newton_root_finding/f0001_mitchell_adjusted_newton/f0001_mitchell_adjusted_newton_module.dart';
 
 void main() {
   test('F0001MitchellAdjustedNewton instantiates', () {

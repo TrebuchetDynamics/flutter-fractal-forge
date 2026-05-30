@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0720_paul_bourke_fibonacci_tiling/f0720_paul_bourke_fibonacci_tiling_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0720_paul_bourke_fibonacci_tiling/f0720_paul_bourke_fibonacci_tiling_module.dart';
 
 void main() {
   test('F0720PaulBourkeFibonacciTiling instantiates', () {

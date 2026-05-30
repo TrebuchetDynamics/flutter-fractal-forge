@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0049_lorenz_96/f0049_lorenz_96_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0049_lorenz_96/f0049_lorenz_96_module.dart';
 
 void main() {
   test('F0049Lorenz96 instantiates', () {

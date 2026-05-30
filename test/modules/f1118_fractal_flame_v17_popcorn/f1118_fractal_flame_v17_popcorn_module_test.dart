@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f1118_fractal_flame_v17_popcorn/f1118_fractal_flame_v17_popcorn_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f1118_fractal_flame_v17_popcorn/f1118_fractal_flame_v17_popcorn_module.dart';
 
 void main() {
   test('F1118FractalFlameV17Popcorn instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0990_anneal_b4678_s35678/f0990_anneal_b4678_s35678_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0990_anneal_b4678_s35678/f0990_anneal_b4678_s35678_module.dart';
 
 void main() {
   test('F0990AnnealB4678S35678 instantiates', () {

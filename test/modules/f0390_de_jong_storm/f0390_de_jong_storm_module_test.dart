@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0390_de_jong_storm/f0390_de_jong_storm_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0390_de_jong_storm/f0390_de_jong_storm_module.dart';
 
 void main() {
   test('F0390DeJongStorm instantiates', () {

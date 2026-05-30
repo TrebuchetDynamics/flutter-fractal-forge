@@ -1,12 +1,13 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0981_fredkin_s_replicator_b1357_s02468/f0981_fredkin_s_replicator_b1357_s02468_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0981_fredkin_s_replicator_b1357_s02468/f0981_fredkin_s_replicator_b1357_s02468_module.dart';
 
 void main() {
   test('F0981FredkinSReplicatorB1357S02468 instantiates', () {
     final m = F0981FredkinSReplicatorB1357S02468();
     expect(m.id, 'f0981_fredkin_s_replicator_b1357_s02468');
-    expect(m.shader, 'shaders/f0981_fredkin_s_replicator_b1357_s02468_gpu.frag');
+    expect(
+        m.shader, 'shaders/f0981_fredkin_s_replicator_b1357_s02468_gpu.frag');
   });
 
   test('F0981FredkinSReplicatorB1357S02468 presets are well-formed', () {

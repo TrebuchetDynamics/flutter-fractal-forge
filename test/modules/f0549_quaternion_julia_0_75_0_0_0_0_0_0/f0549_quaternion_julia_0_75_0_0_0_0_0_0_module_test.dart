@@ -1,12 +1,13 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/3d_raymarching_hypercomplex/f0549_quaternion_julia_0_75_0_0_0_0_0_0/f0549_quaternion_julia_0_75_0_0_0_0_0_0_module.dart';
+import 'package:flutter_fractals/core/modules/3d_raymarching_hypercomplex/f0549_quaternion_julia_0_75_0_0_0_0_0_0/f0549_quaternion_julia_0_75_0_0_0_0_0_0_module.dart';
 
 void main() {
   test('F0549QuaternionJulia075000000 instantiates', () {
     final m = F0549QuaternionJulia075000000();
     expect(m.id, 'f0549_quaternion_julia_0_75_0_0_0_0_0_0');
-    expect(m.shader, 'shaders/f0549_quaternion_julia_0_75_0_0_0_0_0_0_gpu.frag');
+    expect(
+        m.shader, 'shaders/f0549_quaternion_julia_0_75_0_0_0_0_0_0_gpu.frag');
   });
 
   test('F0549QuaternionJulia075000000 presets are well-formed', () {

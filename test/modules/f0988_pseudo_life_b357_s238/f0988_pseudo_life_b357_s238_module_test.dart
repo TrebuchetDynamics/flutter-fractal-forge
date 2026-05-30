@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0988_pseudo_life_b357_s238/f0988_pseudo_life_b357_s238_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0988_pseudo_life_b357_s238/f0988_pseudo_life_b357_s238_module.dart';
 
 void main() {
   test('F0988PseudoLifeB357S238 instantiates', () {

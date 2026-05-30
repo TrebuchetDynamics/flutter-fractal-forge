@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0089_multibrot_z_14/f0089_multibrot_z_14_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0089_multibrot_z_14/f0089_multibrot_z_14_module.dart';
 
 void main() {
   test('F0089MultibrotZ14 instantiates', () {

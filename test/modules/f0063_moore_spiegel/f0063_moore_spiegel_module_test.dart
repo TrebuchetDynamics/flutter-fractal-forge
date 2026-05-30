@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0063_moore_spiegel/f0063_moore_spiegel_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0063_moore_spiegel/f0063_moore_spiegel_module.dart';
 
 void main() {
   test('F0063MooreSpiegel instantiates', () {

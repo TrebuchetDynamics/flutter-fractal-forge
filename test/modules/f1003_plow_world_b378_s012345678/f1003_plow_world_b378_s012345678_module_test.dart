@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f1003_plow_world_b378_s012345678/f1003_plow_world_b378_s012345678_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f1003_plow_world_b378_s012345678/f1003_plow_world_b378_s012345678_module.dart';
 
 void main() {
   test('F1003PlowWorldB378S012345678 instantiates', () {

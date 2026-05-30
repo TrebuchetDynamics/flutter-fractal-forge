@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0999_move_b368_s245/f0999_move_b368_s245_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0999_move_b368_s245/f0999_move_b368_s245_module.dart';
 
 void main() {
   test('F0999MoveB368S245 instantiates', () {

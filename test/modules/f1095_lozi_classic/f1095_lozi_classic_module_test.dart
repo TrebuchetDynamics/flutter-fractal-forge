@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1095_lozi_classic/f1095_lozi_classic_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1095_lozi_classic/f1095_lozi_classic_module.dart';
 
 void main() {
   test('F1095LoziClassic instantiates', () {

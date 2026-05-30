@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0334_belousov_zhabotinsky_ca/f0334_belousov_zhabotinsky_ca_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0334_belousov_zhabotinsky_ca/f0334_belousov_zhabotinsky_ca_module.dart';
 
 void main() {
   test('F0334BelousovZhabotinskyCa instantiates', () {

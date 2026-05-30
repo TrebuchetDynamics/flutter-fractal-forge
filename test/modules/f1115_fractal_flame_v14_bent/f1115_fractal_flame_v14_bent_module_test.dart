@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f1115_fractal_flame_v14_bent/f1115_fractal_flame_v14_bent_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f1115_fractal_flame_v14_bent/f1115_fractal_flame_v14_bent_module.dart';
 
 void main() {
   test('F1115FractalFlameV14Bent instantiates', () {

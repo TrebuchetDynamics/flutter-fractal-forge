@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f1021_cyclic_ca_n_4/f1021_cyclic_ca_n_4_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f1021_cyclic_ca_n_4/f1021_cyclic_ca_n_4_module.dart';
 
 void main() {
   test('F1021CyclicCaN4 instantiates', () {

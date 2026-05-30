@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1053_svensson_mandala/f1053_svensson_mandala_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1053_svensson_mandala/f1053_svensson_mandala_module.dart';
 
 void main() {
   test('F1053SvenssonMandala instantiates', () {

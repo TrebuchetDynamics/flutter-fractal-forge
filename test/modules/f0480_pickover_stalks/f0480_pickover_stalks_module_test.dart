@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0480_pickover_stalks/f0480_pickover_stalks_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0480_pickover_stalks/f0480_pickover_stalks_module.dart';
 
 void main() {
   test('F0480PickoverStalks instantiates', () {

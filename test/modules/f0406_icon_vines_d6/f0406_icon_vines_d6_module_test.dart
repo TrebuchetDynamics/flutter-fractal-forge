@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0406_icon_vines_d6/f0406_icon_vines_d6_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0406_icon_vines_d6/f0406_icon_vines_d6_module.dart';
 
 void main() {
   test('F0406IconVinesD6 instantiates', () {

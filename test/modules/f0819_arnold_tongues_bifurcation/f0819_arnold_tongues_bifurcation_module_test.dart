@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0819_arnold_tongues_bifurcation/f0819_arnold_tongues_bifurcation_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0819_arnold_tongues_bifurcation/f0819_arnold_tongues_bifurcation_module.dart';
 
 void main() {
   test('F0819ArnoldTonguesBifurcation instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0723_ammann_rhombic_a1/f0723_ammann_rhombic_a1_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0723_ammann_rhombic_a1/f0723_ammann_rhombic_a1_module.dart';
 
 void main() {
   test('F0723AmmannRhombicA1 instantiates', () {

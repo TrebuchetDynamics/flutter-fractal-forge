@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0712_t_tile_tetromino_aperiodic/f0712_t_tile_tetromino_aperiodic_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0712_t_tile_tetromino_aperiodic/f0712_t_tile_tetromino_aperiodic_module.dart';
 
 void main() {
   test('F0712TTileTetrominoAperiodic instantiates', () {

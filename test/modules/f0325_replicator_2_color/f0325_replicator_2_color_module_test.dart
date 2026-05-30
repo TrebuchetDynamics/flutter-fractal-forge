@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0325_replicator_2_color/f0325_replicator_2_color_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0325_replicator_2_color/f0325_replicator_2_color_module.dart';
 
 void main() {
   test('F0325Replicator2Color instantiates', () {

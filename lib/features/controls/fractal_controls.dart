@@ -92,7 +92,9 @@ class FractalControlsSheet extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).padding.bottom + AppSpacing.lg),
+                SizedBox(
+                    height:
+                        MediaQuery.of(context).padding.bottom + AppSpacing.lg),
               ],
             ),
           ),
@@ -353,16 +355,17 @@ class _KaleidoscopeControls extends StatelessWidget {
               child: _ActionButton(
                 icon: Icons.auto_awesome,
                 label: 'Activar',
-                onPressed: () => controller.setKaleidoscopeEnabled(!(controller.kaleidoscopeEnabled ?? false)),
+                onPressed: () => controller
+                    .setKaleidoscopeEnabled(!controller.kaleidoscopeEnabled),
               ),
             ),
           ],
         ),
-        if (controller.kaleidoscopeEnabled ?? false) ...[
+        if (controller.kaleidoscopeEnabled) ...[
           const SizedBox(height: AppSpacing.md),
           _SliderRow(
             label: 'Sectores',
-            value: (controller.kaleidoscopeSectors ?? 8).toDouble(),
+            value: controller.kaleidoscopeSectors.toDouble(),
             min: 4,
             max: 16,
             divisions: 12,
@@ -373,7 +376,7 @@ class _KaleidoscopeControls extends StatelessWidget {
             children: [
               Expanded(
                 child: _MirrorModeSelector(
-                  currentMode: controller.kaleidoscopeMirrorMode ?? 0,
+                  currentMode: controller.kaleidoscopeMirrorMode,
                   onChanged: controller.setKaleidoscopeMirrorMode,
                 ),
               ),
@@ -381,7 +384,7 @@ class _KaleidoscopeControls extends StatelessWidget {
               Expanded(
                 child: _SliderRow(
                   label: 'Rotar',
-                  value: controller.kaleidoscopeRotation ?? 0.0,
+                  value: controller.kaleidoscopeRotation,
                   min: 0,
                   max: 6.28,
                   divisions: 62,
@@ -420,7 +423,8 @@ class _SliderRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: AppTypography.labelSmall.copyWith(color: AppColors.textSecondary),
+          style:
+              AppTypography.labelSmall.copyWith(color: AppColors.textSecondary),
         ),
         SliderTheme(
           data: SliderThemeData(
@@ -458,7 +462,8 @@ class _MirrorModeSelector extends StatelessWidget {
       children: [
         Text(
           'Espejo',
-          style: AppTypography.labelSmall.copyWith(color: AppColors.textSecondary),
+          style:
+              AppTypography.labelSmall.copyWith(color: AppColors.textSecondary),
         ),
         const SizedBox(height: 4),
         Wrap(
@@ -557,45 +562,44 @@ class _PremiumSwitch extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Semantics(
       toggled: value,
-      label: value
-          ? l10n.semanticToggleOn(label)
-          : l10n.semanticToggleOff(label),
+      label:
+          value ? l10n.semanticToggleOn(label) : l10n.semanticToggleOff(label),
       child: GestureDetector(
-      onTap: () => onChanged(!value),
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: AppAnimations.normal,
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        decoration: BoxDecoration(
-          color: value
-              ? AppColors.primary.withValues(alpha: 0.1)
-              : AppColors.surfaceVariant.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-          border: Border.all(
+        onTap: () => onChanged(!value),
+        behavior: HitTestBehavior.opaque,
+        child: AnimatedContainer(
+          duration: AppAnimations.normal,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
+          ),
+          decoration: BoxDecoration(
             color: value
-                ? AppColors.primary.withValues(alpha: 0.3)
-                : AppColors.border.withValues(alpha: 0.3),
+                ? AppColors.primary.withValues(alpha: 0.1)
+                : AppColors.surfaceVariant.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+            border: Border.all(
+              color: value
+                  ? AppColors.primary.withValues(alpha: 0.3)
+                  : AppColors.border.withValues(alpha: 0.3),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                label,
+                style: AppTypography.bodyMedium.copyWith(
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              Switch(
+                value: value,
+                onChanged: onChanged,
+              ),
+            ],
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label,
-              style: AppTypography.bodyMedium.copyWith(
-                color: AppColors.textPrimary,
-              ),
-            ),
-            Switch(
-              value: value,
-              onChanged: onChanged,
-            ),
-          ],
-        ),
-      ),
       ),
     );
   }
@@ -612,7 +616,8 @@ class _AnimatedRandomizeButton extends StatefulWidget {
   });
 
   @override
-  State<_AnimatedRandomizeButton> createState() => _AnimatedRandomizeButtonState();
+  State<_AnimatedRandomizeButton> createState() =>
+      _AnimatedRandomizeButtonState();
 }
 
 class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
@@ -629,13 +634,14 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
   @override
   void initState() {
     super.initState();
-    
+
     _scaleController = AnimationController(
       duration: AppAnimations.fast,
       vsync: this,
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _scaleController, curve: AppAnimations.snappyCurve),
+      CurvedAnimation(
+          parent: _scaleController, curve: AppAnimations.snappyCurve),
     );
 
     _shakeController = AnimationController(
@@ -676,11 +682,11 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
 
   void _handleTap() {
     widget.onPressed();
-    
+
     // Trigger animations
     _shakeController.forward(from: 0);
     _glowController.forward(from: 0);
-    
+
     setState(() => _showSparkle = true);
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
@@ -696,99 +702,105 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
       button: true,
       label: l10n.semanticRandomizeButton,
       child: SparkleEffect(
-      isActive: _showSparkle,
-      sparkleCount: 8,
-      child: GestureDetector(
-        onTapDown: (_) {
-          setState(() => _isPressed = true);
-          _scaleController.forward();
-        },
-        onTapUp: (_) {
-          setState(() => _isPressed = false);
-          _scaleController.reverse();
-        },
-        onTapCancel: () {
-          setState(() => _isPressed = false);
-          _scaleController.reverse();
-        },
-        onTap: _handleTap,
-        child: AnimatedBuilder(
-          animation: Listenable.merge([_scaleAnimation, _shakeAnimation, _glowAnimation]),
-          builder: (context, child) {
-            return Transform.scale(
-              scale: _scaleAnimation.value,
-              child: Transform.rotate(
-                angle: _shakeAnimation.value,
-                child: Stack(
-                children: [
-                  // Glow effect
-                  if (_glowAnimation.value > 0)
-                    Positioned.fill(
-                      child: Container(
+        isActive: _showSparkle,
+        sparkleCount: 8,
+        child: GestureDetector(
+          onTapDown: (_) {
+            setState(() => _isPressed = true);
+            _scaleController.forward();
+          },
+          onTapUp: (_) {
+            setState(() => _isPressed = false);
+            _scaleController.reverse();
+          },
+          onTapCancel: () {
+            setState(() => _isPressed = false);
+            _scaleController.reverse();
+          },
+          onTap: _handleTap,
+          child: AnimatedBuilder(
+            animation: Listenable.merge(
+                [_scaleAnimation, _shakeAnimation, _glowAnimation]),
+            builder: (context, child) {
+              return Transform.scale(
+                scale: _scaleAnimation.value,
+                child: Transform.rotate(
+                  angle: _shakeAnimation.value,
+                  child: Stack(
+                    children: [
+                      // Glow effect
+                      if (_glowAnimation.value > 0)
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  AppSpacing.buttonRadius),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(
+                                      alpha: _glowAnimation.value * 0.5),
+                                  blurRadius: 20,
+                                  spreadRadius: 2,
+                                ),
+                                BoxShadow(
+                                  color: AppColors.secondary.withValues(
+                                      alpha: _glowAnimation.value * 0.3),
+                                  blurRadius: 30,
+                                  spreadRadius: 5,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      // Button
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.xxl,
+                          vertical: AppSpacing.md + 2,
+                        ),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+                          gradient: AppColors.primaryGradient,
+                          borderRadius:
+                              BorderRadius.circular(AppSpacing.buttonRadius),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: _glowAnimation.value * 0.5),
-                              blurRadius: 20,
-                              spreadRadius: 2,
+                              color: AppColors.primary
+                                  .withValues(alpha: _isPressed ? 0.5 : 0.3),
+                              blurRadius: _isPressed ? 16 : 12,
+                              offset: const Offset(0, 4),
                             ),
-                            BoxShadow(
-                              color: AppColors.secondary.withValues(alpha: _glowAnimation.value * 0.3),
-                              blurRadius: 30,
-                              spreadRadius: 5,
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AnimatedRotation(
+                              turns: _shakeController.isAnimating ? 0.5 : 0,
+                              duration: const Duration(milliseconds: 300),
+                              child: const Icon(
+                                Icons.shuffle_rounded,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            Text(
+                              widget.label,
+                              style: AppTypography.labelLarge.copyWith(
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  // Button
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.xxl,
-                      vertical: AppSpacing.md + 2,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: AppColors.primaryGradient,
-                      borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3),
-                          blurRadius: _isPressed ? 16 : 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnimatedRotation(
-                          turns: _shakeController.isAnimating ? 0.5 : 0,
-                          duration: const Duration(milliseconds: 300),
-                          child: const Icon(
-                            Icons.shuffle_rounded,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.sm),
-                        Text(
-                          widget.label,
-                          style: AppTypography.labelLarge.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              ),
-            );
-          },
+                ),
+              );
+            },
+          ),
         ),
       ),
-    ),
     );
   }
 }

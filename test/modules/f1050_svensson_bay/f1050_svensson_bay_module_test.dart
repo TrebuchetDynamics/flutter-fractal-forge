@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1050_svensson_bay/f1050_svensson_bay_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1050_svensson_bay/f1050_svensson_bay_module.dart';
 
 void main() {
   test('F1050SvenssonBay instantiates', () {

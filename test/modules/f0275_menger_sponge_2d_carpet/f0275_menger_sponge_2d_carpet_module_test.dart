@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f0275_menger_sponge_2d_carpet/f0275_menger_sponge_2d_carpet_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f0275_menger_sponge_2d_carpet/f0275_menger_sponge_2d_carpet_module.dart';
 
 void main() {
   test('F0275MengerSponge2dCarpet instantiates', () {

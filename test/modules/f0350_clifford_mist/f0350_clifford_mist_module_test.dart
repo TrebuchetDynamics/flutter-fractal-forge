@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0350_clifford_mist/f0350_clifford_mist_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0350_clifford_mist/f0350_clifford_mist_module.dart';
 
 void main() {
   test('F0350CliffordMist instantiates', () {

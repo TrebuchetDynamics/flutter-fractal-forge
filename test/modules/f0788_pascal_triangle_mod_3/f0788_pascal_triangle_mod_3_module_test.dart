@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/number_theory_fractals/f0788_pascal_triangle_mod_3/f0788_pascal_triangle_mod_3_module.dart';
+import 'package:flutter_fractals/core/modules/number_theory_fractals/f0788_pascal_triangle_mod_3/f0788_pascal_triangle_mod_3_module.dart';
 
 void main() {
   test('F0788PascalTriangleMod3 instantiates', () {

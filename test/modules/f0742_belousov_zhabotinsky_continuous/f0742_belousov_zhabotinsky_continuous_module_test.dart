@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/reaction_diffusion_chemical/f0742_belousov_zhabotinsky_continuous/f0742_belousov_zhabotinsky_continuous_module.dart';
+import 'package:flutter_fractals/core/modules/reaction_diffusion_chemical/f0742_belousov_zhabotinsky_continuous/f0742_belousov_zhabotinsky_continuous_module.dart';
 
 void main() {
   test('F0742BelousovZhabotinskyContinuous instantiates', () {

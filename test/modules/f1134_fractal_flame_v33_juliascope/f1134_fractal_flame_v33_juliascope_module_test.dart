@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f1134_fractal_flame_v33_juliascope/f1134_fractal_flame_v33_juliascope_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f1134_fractal_flame_v33_juliascope/f1134_fractal_flame_v33_juliascope_module.dart';
 
 void main() {
   test('F1134FractalFlameV33Juliascope instantiates', () {

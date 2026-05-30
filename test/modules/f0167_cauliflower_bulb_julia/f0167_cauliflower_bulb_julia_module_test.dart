@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0167_cauliflower_bulb_julia/f0167_cauliflower_bulb_julia_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0167_cauliflower_bulb_julia/f0167_cauliflower_bulb_julia_module.dart';
 
 void main() {
   test('F0167CauliflowerBulbJulia instantiates', () {

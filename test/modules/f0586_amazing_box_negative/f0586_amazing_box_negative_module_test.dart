@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/3d_raymarching_hypercomplex/f0586_amazing_box_negative/f0586_amazing_box_negative_module.dart';
+import 'package:flutter_fractals/core/modules/3d_raymarching_hypercomplex/f0586_amazing_box_negative/f0586_amazing_box_negative_module.dart';
 
 void main() {
   test('F0586AmazingBoxNegative instantiates', () {

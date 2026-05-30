@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0692_generalized_pinwheel/f0692_generalized_pinwheel_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0692_generalized_pinwheel/f0692_generalized_pinwheel_module.dart';
 
 void main() {
   test('F0692GeneralizedPinwheel instantiates', () {

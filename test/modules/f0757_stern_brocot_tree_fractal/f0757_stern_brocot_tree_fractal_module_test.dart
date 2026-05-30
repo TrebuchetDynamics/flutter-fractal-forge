@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/number_theory_fractals/f0757_stern_brocot_tree_fractal/f0757_stern_brocot_tree_fractal_module.dart';
+import 'package:flutter_fractals/core/modules/number_theory_fractals/f0757_stern_brocot_tree_fractal/f0757_stern_brocot_tree_fractal_module.dart';
 
 void main() {
   test('F0757SternBrocotTreeFractal instantiates', () {

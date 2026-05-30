@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0328_wireworld/f0328_wireworld_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0328_wireworld/f0328_wireworld_module.dart';
 
 void main() {
   test('F0328Wireworld instantiates', () {

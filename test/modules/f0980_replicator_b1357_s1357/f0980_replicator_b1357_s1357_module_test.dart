@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0980_replicator_b1357_s1357/f0980_replicator_b1357_s1357_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0980_replicator_b1357_s1357/f0980_replicator_b1357_s1357_module.dart';
 
 void main() {
   test('F0980ReplicatorB1357S1357 instantiates', () {

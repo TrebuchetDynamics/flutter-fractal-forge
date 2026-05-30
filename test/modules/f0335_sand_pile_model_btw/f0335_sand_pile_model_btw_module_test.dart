@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0335_sand_pile_model_btw/f0335_sand_pile_model_btw_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0335_sand_pile_model_btw/f0335_sand_pile_model_btw_module.dart';
 
 void main() {
   test('F0335SandPileModelBtw instantiates', () {

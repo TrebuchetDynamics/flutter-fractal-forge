@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/reaction_diffusion_chemical/f0739_turing_spots_isotropic/f0739_turing_spots_isotropic_module.dart';
+import 'package:flutter_fractals/core/modules/reaction_diffusion_chemical/f0739_turing_spots_isotropic/f0739_turing_spots_isotropic_module.dart';
 
 void main() {
   test('F0739TuringSpotsIsotropic instantiates', () {

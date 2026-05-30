@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0701_rep_5_tile/f0701_rep_5_tile_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0701_rep_5_tile/f0701_rep_5_tile_module.dart';
 
 void main() {
   test('F0701Rep5Tile instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f1024_forest_fire_ca/f1024_forest_fire_ca_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f1024_forest_fire_ca/f1024_forest_fire_ca_module.dart';
 
 void main() {
   test('F1024ForestFireCa instantiates', () {

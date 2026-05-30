@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/number_theory_fractals/f0777_fibonacci_word_fractal/f0777_fibonacci_word_fractal_module.dart';
+import 'package:flutter_fractals/core/modules/number_theory_fractals/f0777_fibonacci_word_fractal/f0777_fibonacci_word_fractal_module.dart';
 
 void main() {
   test('F0777FibonacciWordFractal instantiates', () {

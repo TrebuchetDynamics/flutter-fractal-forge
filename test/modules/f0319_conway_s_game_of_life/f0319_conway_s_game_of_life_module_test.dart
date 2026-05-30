@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0319_conway_s_game_of_life/f0319_conway_s_game_of_life_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0319_conway_s_game_of_life/f0319_conway_s_game_of_life_module.dart';
 
 void main() {
   test('F0319ConwaySGameOfLife instantiates', () {

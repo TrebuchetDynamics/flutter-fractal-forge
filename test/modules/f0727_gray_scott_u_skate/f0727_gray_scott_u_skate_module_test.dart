@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/reaction_diffusion_chemical/f0727_gray_scott_u_skate/f0727_gray_scott_u_skate_module.dart';
+import 'package:flutter_fractals/core/modules/reaction_diffusion_chemical/f0727_gray_scott_u_skate/f0727_gray_scott_u_skate_module.dart';
 
 void main() {
   test('F0727GrayScottUSkate instantiates', () {

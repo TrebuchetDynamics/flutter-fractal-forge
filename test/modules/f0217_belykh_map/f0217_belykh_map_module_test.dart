@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0217_belykh_map/f0217_belykh_map_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0217_belykh_map/f0217_belykh_map_module.dart';
 
 void main() {
   test('F0217BelykhMap instantiates', () {

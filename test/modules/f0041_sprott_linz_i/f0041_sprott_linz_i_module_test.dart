@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0041_sprott_linz_i/f0041_sprott_linz_i_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0041_sprott_linz_i/f0041_sprott_linz_i_module.dart';
 
 void main() {
   test('F0041SprottLinzI instantiates', () {

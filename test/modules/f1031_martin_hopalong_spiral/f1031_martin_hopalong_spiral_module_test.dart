@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1031_martin_hopalong_spiral/f1031_martin_hopalong_spiral_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1031_martin_hopalong_spiral/f1031_martin_hopalong_spiral_module.dart';
 
 void main() {
   test('F1031MartinHopalongSpiral instantiates', () {

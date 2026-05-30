@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0982_live_free_or_die_b2_s0/f0982_live_free_or_die_b2_s0_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0982_live_free_or_die_b2_s0/f0982_live_free_or_die_b2_s0_module.dart';
 
 void main() {
   test('F0982LiveFreeOrDieB2S0 instantiates', () {

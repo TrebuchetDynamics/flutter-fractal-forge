@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0125_quartic_mandelbrot_c_additive/f0125_quartic_mandelbrot_c_additive_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0125_quartic_mandelbrot_c_additive/f0125_quartic_mandelbrot_c_additive_module.dart';
 
 void main() {
   test('F0125QuarticMandelbrotCAdditive instantiates', () {

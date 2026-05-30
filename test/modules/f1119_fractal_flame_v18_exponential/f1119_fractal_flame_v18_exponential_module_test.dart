@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f1119_fractal_flame_v18_exponential/f1119_fractal_flame_v18_exponential_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f1119_fractal_flame_v18_exponential/f1119_fractal_flame_v18_exponential_module.dart';
 
 void main() {
   test('F1119FractalFlameV18Exponential instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0811_sawtooth_map_alpha_1_5/f0811_sawtooth_map_alpha_1_5_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0811_sawtooth_map_alpha_1_5/f0811_sawtooth_map_alpha_1_5_module.dart';
 
 void main() {
   test('F0811SawtoothMapAlpha15 instantiates', () {

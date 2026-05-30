@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0450_feigenbaum_point/f0450_feigenbaum_point_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0450_feigenbaum_point/f0450_feigenbaum_point_module.dart';
 
 void main() {
   test('F0450FeigenbaumPoint instantiates', () {

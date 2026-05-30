@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0046_sprott_conservative_sc/f0046_sprott_conservative_sc_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0046_sprott_conservative_sc/f0046_sprott_conservative_sc_module.dart';
 
 void main() {
   test('F0046SprottConservativeSc instantiates', () {

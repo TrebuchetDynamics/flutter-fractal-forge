@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f1222_latt_s_map_degree_4_weierstrass/f1222_latt_s_map_degree_4_weierstrass_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f1222_latt_s_map_degree_4_weierstrass/f1222_latt_s_map_degree_4_weierstrass_module.dart';
 
 void main() {
   test('F1222LattSMapDegree4Weierstrass instantiates', () {

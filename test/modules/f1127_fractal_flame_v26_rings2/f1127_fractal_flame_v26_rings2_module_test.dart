@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/ifs_geometric_construction/f1127_fractal_flame_v26_rings2/f1127_fractal_flame_v26_rings2_module.dart';
+import 'package:flutter_fractals/core/modules/ifs_geometric_construction/f1127_fractal_flame_v26_rings2/f1127_fractal_flame_v26_rings2_module.dart';
 
 void main() {
   test('F1127FractalFlameV26Rings2 instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/3d_raymarching_hypercomplex/f0542_quaternion_julia_1_0_0_2_0_0_0_0/f0542_quaternion_julia_1_0_0_2_0_0_0_0_module.dart';
+import 'package:flutter_fractals/core/modules/3d_raymarching_hypercomplex/f0542_quaternion_julia_1_0_0_2_0_0_0_0/f0542_quaternion_julia_1_0_0_2_0_0_0_0_module.dart';
 
 void main() {
   test('F0542QuaternionJulia10020000 instantiates', () {

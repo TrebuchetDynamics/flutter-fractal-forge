@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0694_wang_11_tile_set_jeandel_rao/f0694_wang_11_tile_set_jeandel_rao_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0694_wang_11_tile_set_jeandel_rao/f0694_wang_11_tile_set_jeandel_rao_module.dart';
 
 void main() {
   test('F0694Wang11TileSetJeandelRao instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0128_cauliflower_period_3_bulb/f0128_cauliflower_period_3_bulb_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0128_cauliflower_period_3_bulb/f0128_cauliflower_period_3_bulb_module.dart';
 
 void main() {
   test('F0128CauliflowerPeriod3Bulb instantiates', () {

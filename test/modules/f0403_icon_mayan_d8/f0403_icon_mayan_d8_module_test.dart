@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0403_icon_mayan_d8/f0403_icon_mayan_d8_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0403_icon_mayan_d8/f0403_icon_mayan_d8_module.dart';
 
 void main() {
   test('F0403IconMayanD8 instantiates', () {

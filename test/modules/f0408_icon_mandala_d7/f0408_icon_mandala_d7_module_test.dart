@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0408_icon_mandala_d7/f0408_icon_mandala_d7_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0408_icon_mandala_d7/f0408_icon_mandala_d7_module.dart';
 
 void main() {
   test('F0408IconMandalaD7 instantiates', () {

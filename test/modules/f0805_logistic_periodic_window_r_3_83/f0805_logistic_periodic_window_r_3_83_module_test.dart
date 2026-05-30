@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0805_logistic_periodic_window_r_3_83/f0805_logistic_periodic_window_r_3_83_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0805_logistic_periodic_window_r_3_83/f0805_logistic_periodic_window_r_3_83_module.dart';
 
 void main() {
   test('F0805LogisticPeriodicWindowR383 instantiates', () {

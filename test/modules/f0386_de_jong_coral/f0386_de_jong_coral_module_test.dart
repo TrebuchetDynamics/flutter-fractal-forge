@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0386_de_jong_coral/f0386_de_jong_coral_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0386_de_jong_coral/f0386_de_jong_coral_module.dart';
 
 void main() {
   test('F0386DeJongCoral instantiates', () {

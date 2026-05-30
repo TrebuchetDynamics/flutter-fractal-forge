@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0168_misiurewicz_m_2_1/f0168_misiurewicz_m_2_1_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0168_misiurewicz_m_2_1/f0168_misiurewicz_m_2_1_module.dart';
 
 void main() {
   test('F0168MisiurewiczM21 instantiates', () {

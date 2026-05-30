@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0684_penrose_p2_kite_and_dart/f0684_penrose_p2_kite_and_dart_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0684_penrose_p2_kite_and_dart/f0684_penrose_p2_kite_and_dart_module.dart';
 
 void main() {
   test('F0684PenroseP2KiteAndDart instantiates', () {

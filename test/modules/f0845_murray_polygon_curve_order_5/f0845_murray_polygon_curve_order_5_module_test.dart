@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/l_systems_space_filling/f0845_murray_polygon_curve_order_5/f0845_murray_polygon_curve_order_5_module.dart';
+import 'package:flutter_fractals/core/modules/l_systems_space_filling/f0845_murray_polygon_curve_order_5/f0845_murray_polygon_curve_order_5_module.dart';
 
 void main() {
   test('F0845MurrayPolygonCurveOrder5 instantiates', () {

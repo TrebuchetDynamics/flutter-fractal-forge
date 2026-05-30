@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0352_clifford_coral/f0352_clifford_coral_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0352_clifford_coral/f0352_clifford_coral_module.dart';
 
 void main() {
   test('F0352CliffordCoral instantiates', () {

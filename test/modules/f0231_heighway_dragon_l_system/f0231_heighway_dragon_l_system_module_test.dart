@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/l_systems_space_filling/f0231_heighway_dragon_l_system/f0231_heighway_dragon_l_system_module.dart';
+import 'package:flutter_fractals/core/modules/l_systems_space_filling/f0231_heighway_dragon_l_system/f0231_heighway_dragon_l_system_module.dart';
 
 void main() {
   test('F0231HeighwayDragonLSystem instantiates', () {

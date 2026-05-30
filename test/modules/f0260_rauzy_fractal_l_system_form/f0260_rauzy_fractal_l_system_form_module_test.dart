@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/l_systems_space_filling/f0260_rauzy_fractal_l_system_form/f0260_rauzy_fractal_l_system_form_module.dart';
+import 'package:flutter_fractals/core/modules/l_systems_space_filling/f0260_rauzy_fractal_l_system_form/f0260_rauzy_fractal_l_system_form_module.dart';
 
 void main() {
   test('F0260RauzyFractalLSystemForm instantiates', () {

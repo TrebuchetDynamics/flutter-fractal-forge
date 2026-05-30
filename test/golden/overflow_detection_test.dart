@@ -124,7 +124,8 @@ void main() {
   }
 
   group('Overflow Detection — Catalog Screen', () {
-    testWidgets('no overflow at normal text scale (dark theme)', (tester) async {
+    testWidgets('no overflow at normal text scale (dark theme)',
+        (tester) async {
       await assertNoOverflow(
         tester,
         const FractalCatalogScreen(),
@@ -145,8 +146,10 @@ void main() {
         label: 'Catalog / dark / 3.0x',
       );
     },
-        skip: true /* Known overflow at 3.0x text scale —
-            catalog search bar and section headers need responsive layout fix */);
+        skip:
+            true /* Known overflow at 3.0x text scale —
+            catalog search bar and section headers need responsive layout fix */
+        );
 
     testWidgets('no overflow at normal text scale (high contrast)',
         (tester) async {
@@ -169,20 +172,22 @@ void main() {
         label: 'Catalog / highContrast / 3.0x',
       );
     },
-        skip: true /* Known overflow at 3.0x text scale —
-            catalog search bar and section headers need responsive layout fix */);
+        skip:
+            true /* Known overflow at 3.0x text scale —
+            catalog search bar and section headers need responsive layout fix */
+        );
   });
 
   group('Overflow Detection — Export Options Sheet', () {
     Widget buildExportSheet() {
-      return ExportOptionsSheet(
-        initialOptions: const ExportOptions(),
+      return const ExportOptionsSheet(
+        initialOptions: ExportOptions(),
         fractalType: 'mandelbrot',
-        onExport: (_, __) {},
       );
     }
 
-    testWidgets('no overflow at normal text scale (dark theme)', (tester) async {
+    testWidgets('no overflow at normal text scale (dark theme)',
+        (tester) async {
       await assertNoOverflow(
         tester,
         buildExportSheet(),

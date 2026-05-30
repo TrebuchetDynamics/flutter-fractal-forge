@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f1002_bugs_b3567_s15678/f1002_bugs_b3567_s15678_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f1002_bugs_b3567_s15678/f1002_bugs_b3567_s15678_module.dart';
 
 void main() {
   test('F1002BugsB3567S15678 instantiates', () {

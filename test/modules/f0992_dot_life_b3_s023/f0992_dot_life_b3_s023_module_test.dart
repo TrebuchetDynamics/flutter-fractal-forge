@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0992_dot_life_b3_s023/f0992_dot_life_b3_s023_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0992_dot_life_b3_s023/f0992_dot_life_b3_s023_module.dart';
 
 void main() {
   test('F0992DotLifeB3S023 instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/l_systems_space_filling/f0847_quadratic_koch_island_type_b/f0847_quadratic_koch_island_type_b_module.dart';
+import 'package:flutter_fractals/core/modules/l_systems_space_filling/f0847_quadratic_koch_island_type_b/f0847_quadratic_koch_island_type_b_module.dart';
 
 void main() {
   test('F0847QuadraticKochIslandTypeB instantiates', () {

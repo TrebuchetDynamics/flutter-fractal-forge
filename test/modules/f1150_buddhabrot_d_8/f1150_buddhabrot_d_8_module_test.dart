@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f1150_buddhabrot_d_8/f1150_buddhabrot_d_8_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f1150_buddhabrot_d_8/f1150_buddhabrot_d_8_module.dart';
 
 void main() {
   test('F1150BuddhabrotD8 instantiates', () {

@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f1010_pedestrian_life_b38_s23/f1010_pedestrian_life_b38_s23_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f1010_pedestrian_life_b38_s23/f1010_pedestrian_life_b38_s23_module.dart';
 
 void main() {
   test('F1010PedestrianLifeB38S23 instantiates', () {

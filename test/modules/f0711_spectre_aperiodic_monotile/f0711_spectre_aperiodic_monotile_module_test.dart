@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0711_spectre_aperiodic_monotile/f0711_spectre_aperiodic_monotile_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0711_spectre_aperiodic_monotile/f0711_spectre_aperiodic_monotile_module.dart';
 
 void main() {
   test('F0711SpectreAperiodicMonotile instantiates', () {

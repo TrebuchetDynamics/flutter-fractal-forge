@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/3d_raymarching_hypercomplex/f0559_mandelbulb_n_6/f0559_mandelbulb_n_6_module.dart';
+import 'package:flutter_fractals/core/modules/3d_raymarching_hypercomplex/f0559_mandelbulb_n_6/f0559_mandelbulb_n_6_module.dart';
 
 void main() {
   test('F0559MandelbulbN6 instantiates', () {

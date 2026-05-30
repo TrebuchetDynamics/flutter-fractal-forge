@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/newton_root_finding/f1183_newton_z_2_1/f1183_newton_z_2_1_module.dart';
+import 'package:flutter_fractals/core/modules/newton_root_finding/f1183_newton_z_2_1/f1183_newton_z_2_1_module.dart';
 
 void main() {
   test('F1183NewtonZ21 instantiates', () {

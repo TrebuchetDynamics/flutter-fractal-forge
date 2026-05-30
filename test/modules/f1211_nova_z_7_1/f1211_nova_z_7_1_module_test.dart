@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/newton_root_finding/f1211_nova_z_7_1/f1211_nova_z_7_1_module.dart';
+import 'package:flutter_fractals/core/modules/newton_root_finding/f1211_nova_z_7_1/f1211_nova_z_7_1_module.dart';
 
 void main() {
   test('F1211NovaZ71 instantiates', () {

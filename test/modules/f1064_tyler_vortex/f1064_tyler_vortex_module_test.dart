@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f1064_tyler_vortex/f1064_tyler_vortex_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f1064_tyler_vortex/f1064_tyler_vortex_module.dart';
 
 void main() {
   test('F1064TylerVortex instantiates', () {

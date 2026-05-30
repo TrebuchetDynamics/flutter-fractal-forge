@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/escape_time_complex_plane/f0503_exp_1_z_c/f0503_exp_1_z_c_module.dart';
+import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f0503_exp_1_z_c/f0503_exp_1_z_c_module.dart';
 
 void main() {
   test('F0503Exp1ZC instantiates', () {

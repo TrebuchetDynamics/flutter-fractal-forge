@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0414_gumowski_mira_skulls/f0414_gumowski_mira_skulls_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0414_gumowski_mira_skulls/f0414_gumowski_mira_skulls_module.dart';
 
 void main() {
   test('F0414GumowskiMiraSkulls instantiates', () {

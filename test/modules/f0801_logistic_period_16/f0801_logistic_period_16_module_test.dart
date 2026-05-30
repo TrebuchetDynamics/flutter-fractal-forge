@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/strange_attractors/f0801_logistic_period_16/f0801_logistic_period_16_module.dart';
+import 'package:flutter_fractals/core/modules/strange_attractors/f0801_logistic_period_16/f0801_logistic_period_16_module.dart';
 
 void main() {
   test('F0801LogisticPeriod16 instantiates', () {

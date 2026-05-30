@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/tiling_aperiodic/f0685_penrose_p3_rhombic/f0685_penrose_p3_rhombic_module.dart';
+import 'package:flutter_fractals/core/modules/tiling_aperiodic/f0685_penrose_p3_rhombic/f0685_penrose_p3_rhombic_module.dart';
 
 void main() {
   test('F0685PenroseP3Rhombic instantiates', () {

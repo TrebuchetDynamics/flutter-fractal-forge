@@ -10,11 +10,11 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog unique top-level IDs : 355
+/// - Escape-time catalog unique top-level IDs : 490
 /// - Raymarched-3D catalog unique IDs         :   9
 /// - Custom hand-built modules                :   6
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox)
-/// - Total ModuleRegistry modules (non-debug) : 370
+/// - Total ModuleRegistry modules (non-debug) : 505
 ///
 /// The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
@@ -29,8 +29,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 350 (including 2 known duplicates)', () {
-      expect(catalog.length, 350,
+    test('total entry count is 491 (including 1 known duplicate)', () {
+      expect(catalog.length, 491,
           reason: 'Update this constant when new entries are intentionally '
               'added to escape_time_catalog.dart.');
     });
@@ -53,8 +53,7 @@ void main() {
     });
 
     test('no catalog entry has an empty shader asset path', () {
-      final empty =
-          catalog.where((c) => c.shaderAsset.trim().isEmpty).toList();
+      final empty = catalog.where((c) => c.shaderAsset.trim().isEmpty).toList();
       expect(empty.map((c) => c.id).toList(), isEmpty,
           reason: 'Every catalog entry must declare a shaderAsset path.');
     });
@@ -101,10 +100,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 370 (non-debug)', () {
+    test('total module count is 505 (non-debug)', () {
       // Debug-only diagnostic modules are excluded in release/test builds
       // because kDebugMode is false in test environments.
-      expect(registry.modules.length, 370,
+      expect(registry.modules.length, 505,
           reason: 'Update this constant when new modules are intentionally '
               'added. Current breakdown: 355 escape-time + 9 raymarched-3D '
               '+ 6 custom = 370.');
@@ -130,8 +129,7 @@ void main() {
           .map((m) => m.id)
           .where((id) => !pattern.hasMatch(id))
           .toList();
-      expect(bad, isEmpty,
-          reason: 'Non-conforming module IDs: $bad');
+      expect(bad, isEmpty, reason: 'Non-conforming module IDs: $bad');
     });
 
     test('no module has an empty shader asset path', () {

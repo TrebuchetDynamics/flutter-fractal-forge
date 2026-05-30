@@ -1,6 +1,6 @@
 // GENERATED smoke test.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractal_forge/core/modules/cellular_stochastic/f0964_elementary_ca_rule_206/f0964_elementary_ca_rule_206_module.dart';
+import 'package:flutter_fractals/core/modules/cellular_stochastic/f0964_elementary_ca_rule_206/f0964_elementary_ca_rule_206_module.dart';
 
 void main() {
   test('F0964ElementaryCaRule206 instantiates', () {
