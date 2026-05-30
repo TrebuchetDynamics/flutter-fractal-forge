@@ -5,7 +5,7 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
 ## Navigation
 
 ### Start Here
-- **[ANALYSIS_SUMMARY.md](ANALYSIS_SUMMARY.md)** - High-level overview (5 min read)
+- **[../opensource/ANALYSIS_SUMMARY.md](../opensource/ANALYSIS_SUMMARY.md)** - High-level overview (5 min read)
   - Project summaries
   - Key findings
   - Implementation recommendations
@@ -35,30 +35,30 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
 |----------|------|-------|---------|
 | FRACTAL_SHADER_TECHNIQUES_CATALOG.md | 29 KB | 917 | Complete technical reference |
 | FRACTAL_TECHNIQUES_QUICK_INDEX.md | 6.2 KB | 204 | Quick lookup tables |
-| ANALYSIS_SUMMARY.md | 9.4 KB | 303 | High-level overview |
+| ../opensource/ANALYSIS_SUMMARY.md | 9.4 KB | 303 | High-level overview |
 | **TOTAL** | **44.6 KB** | **1,424** | Complete analysis package |
 
 ### Projects Analyzed
 
-1. **shader-fractals** ([opensource/repos/formula-catalogs/shader-fractals/](opensource/repos/formula-catalogs/shader-fractals/))
+1. **shader-fractals** ([opensource/repos/formula-catalogs/shader-fractals/](../../../opensource/repos/formula-catalogs/shader-fractals/))
    - 10 GLSL shaders (5×2D + 5×3D)
    - Single precision (vec2)
    - Educational reference implementations
    - Complete SDF utility library
 
-2. **MV2** ([opensource/repos/renderers/MV2/](opensource/repos/renderers/MV2/))
+2. **MV2** ([opensource/repos/renderers/MV2/](../../../opensource/repos/renderers/MV2/))
    - 1 advanced shader (460 lines, GLSL 4.60)
    - Double precision (dvec2) + custom math
    - Production-quality features
    - Deep zoom support (~10²⁰×)
 
-3. **Giulia** ([opensource/Giulia/](opensource/Giulia/))
+3. **Giulia** ([opensource/Giulia/](../../../opensource/Giulia/))
    - 3 precision variants
    - Variable exponent support (z^n+c)
    - 5 color presets
    - Clean real-time implementation
 
-4. **MandlebrotSetSFML** ([opensource/repos/renderers/MandlebrotSetSFML/](opensource/repos/renderers/MandlebrotSetSFML/))
+4. **MandlebrotSetSFML** ([opensource/repos/renderers/MandlebrotSetSFML/](../../../opensource/repos/renderers/MandlebrotSetSFML/))
    - CPU+GPU hybrid (OpenCL)
    - Dynamic kernel generation
    - Custom formula support
@@ -103,7 +103,7 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
 ## How to Use
 
 ### For Learning
-1. Read `ANALYSIS_SUMMARY.md` for context
+1. Read `../opensource/ANALYSIS_SUMMARY.md` for context
 2. Look up specific technique in `FRACTAL_TECHNIQUES_QUICK_INDEX.md`
 3. Read detailed implementation in `FRACTAL_SHADER_TECHNIQUES_CATALOG.md`
 4. Study source code in `opensource/`
@@ -112,10 +112,10 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
 1. Start with `FRACTAL_TECHNIQUES_QUICK_INDEX.md` Phase 1
 2. Reference `FRACTAL_SHADER_TECHNIQUES_CATALOG.md` for code
 3. Copy patterns from `opensource/repos/formula-catalogs/shader-fractals/`
-4. Check `ANALYSIS_SUMMARY.md` for optimization tips
+4. Check `../opensource/ANALYSIS_SUMMARY.md` for optimization tips
 
 ### For Optimization
-1. Look up optimization in `ANALYSIS_SUMMARY.md` "Technical Highlights"
+1. Look up optimization in `../opensource/ANALYSIS_SUMMARY.md` "Technical Highlights"
 2. Find implementation in `FRACTAL_SHADER_TECHNIQUES_CATALOG.md`
 3. Check performance tradeoffs in `FRACTAL_TECHNIQUES_QUICK_INDEX.md` tables
 4. Reference project comparison matrices
@@ -185,8 +185,8 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
 ```
 /home/xel/git/flutter-fractal-forge/
 │
-├── FRACTAL_ANALYSIS_INDEX.md              ← You are here
-├── ANALYSIS_SUMMARY.md                    ← Start here (overview)
+├── FRACTAL_../opensource/ANALYSIS_INDEX.md              ← You are here
+├── ../opensource/ANALYSIS_SUMMARY.md                    ← Start here (overview)
 ├── FRACTAL_TECHNIQUES_QUICK_INDEX.md      ← Quick lookup tables
 ├── FRACTAL_SHADER_TECHNIQUES_CATALOG.md   ← Complete reference
 │

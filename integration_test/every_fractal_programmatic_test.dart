@@ -11,7 +11,7 @@
 /// viewer does not yet expose a stable testID that works across every
 /// category (escape-time, 3D raymarched, IFS, attractors). Remove the
 /// `skip:` argument once a stable `Key('fractalViewerRoot')` lands in the
-/// viewer's root widget — see docs/PIPELINE_STATE.md §4 gap #4.
+/// viewer's root widget — see docs/planning/PIPELINE_STATE.md §4 gap #4.
 library;
 
 import 'dart:io';
@@ -212,7 +212,7 @@ void main() {
         fail('This is a skip-gated placeholder; see doc comment.');
       },
       // Enable by flipping to `false` once Key("fractalViewerRoot") is stable
-      // across all viewer variants (tracked in docs/PIPELINE_STATE.md §4 gap #4).
+      // across all viewer variants (tracked in docs/planning/PIPELINE_STATE.md §4 gap #4).
       skip: true,
     );
   });

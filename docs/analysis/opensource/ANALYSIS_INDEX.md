@@ -27,7 +27,7 @@ Comprehensive breakdown of all four projects with emphasis on algorithms, archit
 
 ---
 
-### 2. [IMPLEMENTATION_ROADMAP.md](./IMPLEMENTATION_ROADMAP.md)
+### 2. [../../planning/IMPLEMENTATION_ROADMAP.md](./../../planning/IMPLEMENTATION_ROADMAP.md)
 **378 lines | 12 KB | Actionable Implementation Guide**
 
 Practical implementation guide with code examples, time estimates, and a phased development plan.
@@ -232,7 +232,7 @@ Start here for MVP:
 4. **Zoom controls** — Cursor-centered, box selection
 5. **Bulb detection** — 15% free performance win
 
-**Reference**: IMPLEMENTATION_ROADMAP.md Sections 1-3
+**Reference**: ../../planning/IMPLEMENTATION_ROADMAP.md Sections 1-3
 
 ### Phase 2: Multi-Fractal (1-2 weeks)
 Expand feature set:
@@ -243,7 +243,7 @@ Expand feature set:
 9. **Three coloring modes** — Histogram, LCH, OLC
 10. **Export with supersampling** — 8x quality option
 
-**Reference**: IMPLEMENTATION_ROADMAP.md Section 4
+**Reference**: ../../planning/IMPLEMENTATION_ROADMAP.md Section 4
 
 ### Phase 3: Performance (1 week)
 Optimize & cache:
@@ -253,7 +253,7 @@ Optimize & cache:
 13. **Caching** — Reference orbit, shader compilation
 14. **Performance metrics** — FPS counter, render time
 
-**Reference**: IMPLEMENTATION_ROADMAP.md Section 5
+**Reference**: ../../planning/IMPLEMENTATION_ROADMAP.md Section 5
 
 ### Phase 4: Advanced (2-4 weeks, optional)
 Research & extreme zoom:
@@ -294,7 +294,7 @@ if (q.x² + q.y² * (q.x + q.y²) <= 0.25 * q.y²) {
 }
 ```
 
-See: IMPLEMENTATION_ROADMAP.md §7
+See: ../../planning/IMPLEMENTATION_ROADMAP.md §7
 
 ### 3. Three Coloring Algorithms
 All in: Fractl `shader.wgsl` lines 95-127
@@ -303,7 +303,7 @@ All in: Fractl `shader.wgsl` lines 95-127
 - **LCH**: Cosine-wave based perceptual coloring
 - **OLC**: Sinusoidal RGB variation
 
-See: IMPLEMENTATION_ROADMAP.md §8
+See: ../../planning/IMPLEMENTATION_ROADMAP.md §8
 
 ### 4. Palette UBO Setup
 Found in: FractaVista
@@ -320,7 +320,7 @@ See: TECHNICAL_ANALYSIS.md §2.3
 
 ## Performance Targets
 
-**Reference**: IMPLEMENTATION_ROADMAP.md Performance Targets
+**Reference**: ../../planning/IMPLEMENTATION_ROADMAP.md Performance Targets
 
 | Metric | Target | Reference |
 |--------|--------|-----------|
@@ -360,12 +360,12 @@ See: TECHNICAL_ANALYSIS.md §2.3
 ## How to Use These Documents
 
 ### For Architecture Planning
-1. Start with **IMPLEMENTATION_ROADMAP.md** sections 1-2
+1. Start with **../../planning/IMPLEMENTATION_ROADMAP.md** sections 1-2
 2. Read **TECHNICAL_ANALYSIS.md** section 5 (Comparison Matrix)
 3. Decide which techniques to prioritize
 
 ### For Implementation
-1. Choose a feature from Phase 1 (IMPLEMENTATION_ROADMAP.md)
+1. Choose a feature from Phase 1 (../../planning/IMPLEMENTATION_ROADMAP.md)
 2. Find the project that implements it best
 3. Read corresponding section in TECHNICAL_ANALYSIS.md
 4. Locate specific files and line numbers
@@ -379,7 +379,7 @@ See: TECHNICAL_ANALYSIS.md §2.3
 5. Understand architectural patterns
 
 ### For Performance Tuning
-1. See Performance Targets (IMPLEMENTATION_ROADMAP.md)
+1. See Performance Targets (../../planning/IMPLEMENTATION_ROADMAP.md)
 2. Reference Optimization Wins section
 3. Implement high-impact techniques first
 4. Profile with Flutter DevTools
@@ -403,7 +403,7 @@ See: TECHNICAL_ANALYSIS.md §2.3
 
 ## Next Steps
 
-1. **Read IMPLEMENTATION_ROADMAP.md** — Choose Phase 1 priorities
+1. **Read ../../planning/IMPLEMENTATION_ROADMAP.md** — Choose Phase 1 priorities
 2. **Reference TECHNICAL_ANALYSIS.md** — Deep-dive on chosen techniques
 3. **Create Flutter skeleton** — Implement recommended project structure
 4. **Start Phase 1** — Smooth coloring + GPU compute shader + palette editor

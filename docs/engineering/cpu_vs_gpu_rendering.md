@@ -82,7 +82,7 @@ This repo already follows that strategy:
 - Backend selection logic: `lib/features/renderer/backend_policy.dart`
 - Viewer wiring (manual toggle, GPU health probe, emulator guard, deep zoom): `lib/features/viewer/fractal_viewer_screen.dart`
 - Deep-zoom thresholding: `lib/features/renderer/deep_zoom_precision_policy.dart`
-- Capability notes: `docs/renderer_backend_matrix.md`
+- Capability notes: `renderer_backend_matrix.md`
 
 CPU fallback is used when any of these are true:
 - Forced via build flag (`FORCE_CPU_FALLBACK=true`).
@@ -230,4 +230,4 @@ How these map back to Flutter:
 
 - Performance measurements and shader warm-up strategies: `PERFORMANCE.md`
 - Shader optimization tactics (branchless palettes, LOD, etc.): `SHADER_OPTIMIZATIONS.md`
-- Backend capability notes and deterministic fallback policy: `docs/renderer_backend_matrix.md`
+- Backend capability notes and deterministic fallback policy: `renderer_backend_matrix.md`

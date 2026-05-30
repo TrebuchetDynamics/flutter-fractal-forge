@@ -301,7 +301,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 ### M4: Release Gate (Target: 4 weeks)
 - [ ] All 10 hard gates GREEN (currently 9/10)
 - [ ] 0 known P0/P1 bugs
-- [ ] Play Store listing complete (already done per play-store-checklist.md)
+- [ ] Play Store listing complete (already done per ../store/play-store-checklist.md)
 - [ ] Privacy policy published
 - [ ] Internal test track → Closed beta → Production rollout 20%
 

@@ -32,7 +32,7 @@ Sample color counts:
 
 **Status:** ❌ Invalid — emulator GPU (SwiftShader) compiles shaders but produces all-black output
 
-**Root cause:** Documented in `docs/gpu_emulator_validation.md` — SwiftShader indirect mode does not produce valid fractal renders despite clean shader compilation.
+**Root cause:** Documented in `gpu_emulator_validation.md` — SwiftShader indirect mode does not produce valid fractal renders despite clean shader compilation.
 
 **Workaround:** Requires real Android device with hardware GPU or alternative thumbnail generation strategy.
 

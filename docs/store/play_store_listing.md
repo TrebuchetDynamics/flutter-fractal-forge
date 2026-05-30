@@ -88,7 +88,7 @@ Education > Educational Games
 - File: needs creation (not yet generated)
 
 ## Screenshots (6 required, 1080x1920 or 1080x2400)
-Available in `docs/store_screenshots/`:
+Available in `store_screenshots/`:
 1. `01_catalog_grid.png` — Catalog grid with real fractal thumbnails
 2. `02_mandelbrot_viewer.png` — Mandelbrot viewer with CPU render
 3. `03_context_menu.png` — Context menu (reset, controls, presets, export)

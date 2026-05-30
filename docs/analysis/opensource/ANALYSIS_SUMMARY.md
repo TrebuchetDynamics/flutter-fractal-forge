@@ -10,7 +10,7 @@
 
 ## Documents Generated
 
-### 1. FRACTAL_SHADER_TECHNIQUES_CATALOG.md (29 KB, 917 lines)
+### 1. ../fractal-techniques/FRACTAL_SHADER_TECHNIQUES_CATALOG.md (29 KB, 917 lines)
 **Comprehensive technical reference covering:**
 
 #### Extracted Content
@@ -58,7 +58,7 @@
   - Performance tradeoffs
   - Use case recommendations
 
-### 2. FRACTAL_TECHNIQUES_QUICK_INDEX.md (6.2 KB, 204 lines)
+### 2. ../fractal-techniques/FRACTAL_TECHNIQUES_QUICK_INDEX.md (6.2 KB, 204 lines)
 **Quick reference guide with:**
 
 - **Lookup Tables**
@@ -251,8 +251,8 @@ Lighting: Ambient occlusion, distance falloff
 
 ```
 /home/xel/git/flutter-fractal-forge/
-├── FRACTAL_SHADER_TECHNIQUES_CATALOG.md     (29 KB, full reference)
-├── FRACTAL_TECHNIQUES_QUICK_INDEX.md        (6.2 KB, quick lookup)
+├── ../fractal-techniques/FRACTAL_SHADER_TECHNIQUES_CATALOG.md     (29 KB, full reference)
+├── ../fractal-techniques/FRACTAL_TECHNIQUES_QUICK_INDEX.md        (6.2 KB, quick lookup)
 ├── ANALYSIS_SUMMARY.md                       (this file)
 └── opensource/
     ├── shader-fractals/           (11 shader files)
@@ -266,8 +266,8 @@ Lighting: Ambient occlusion, distance falloff
 ## How to Use These Documents
 
 1. **Start here**: Read this summary (you are)
-2. **Quick lookup**: Use `FRACTAL_TECHNIQUES_QUICK_INDEX.md` for tables
-3. **Deep dive**: Read `FRACTAL_SHADER_TECHNIQUES_CATALOG.md` for implementation
+2. **Quick lookup**: Use `../fractal-techniques/FRACTAL_TECHNIQUES_QUICK_INDEX.md` for tables
+3. **Deep dive**: Read `../fractal-techniques/FRACTAL_SHADER_TECHNIQUES_CATALOG.md` for implementation
 4. **Reference implementation**: Check source files in `opensource/`
 
 ---
