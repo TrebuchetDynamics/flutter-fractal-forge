@@ -1,8 +1,8 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family",
-  "updatedAt": "2026-05-30T07:23:28.386Z",
-  "objective": "Refactor shaders/escape_time_family from root-level .frag shaders into responsibility subdirectories while preserving shader behavior and asset references. Planned topology is complete: core/, families/{buddhabrot,buffalo,burning_ship,celtic,mandelbar,multibrot,multijulia,nova,perpendicular,tricorn}/, mandelbrot_variants/, julia_variants/, polynomial_maps/, transcendental_maps/, newton_and_orthogonal/, orbit_and_domain/, geometry_and_ifs/, experimental_named/. AUTO_FOLDER_REFACTOR loop 24 revalidated complete topology with no root files or next candidates.",
+  "updatedAt": "2026-05-30T07:24:20.825Z",
+  "objective": "Refactor shaders/escape_time_family from root-level .frag shaders into responsibility subdirectories while preserving shader behavior and asset references. Planned topology is complete: core/, families/{buddhabrot,buffalo,burning_ship,celtic,mandelbar,multibrot,multijulia,nova,perpendicular,tricorn}/, mandelbrot_variants/, julia_variants/, polynomial_maps/, transcendental_maps/, newton_and_orthogonal/, orbit_and_domain/, geometry_and_ifs/, experimental_named/. AUTO_FOLDER_REFACTOR loop 25 revalidated complete topology with no root files or next candidates.",
   "completedSlices": [
     "Moved 100 obvious family shaders into families/* subdirectories and updated pubspec/lib/test/comment references.",
     "Moved remaining 99 shaders into responsibility subdirectories (core, mandelbrot_variants, julia_variants, polynomial_maps, transcendental_maps, newton_and_orthogonal, orbit_and_domain, geometry_and_ifs, experimental_named) and updated references.",
@@ -12,7 +12,8 @@
     "Loop 21 closeout revalidated topology: folder_refactor_scan root files none/root dirs 10 planned dirs; root_files []; root_frags []; pubspec escape_time_family assets 199; all_escape_time_family frags 199; missing_assets []; unlisted_frags []; stale direct root shader reference rg returned no matches; related Flutter tests passed; completion audit passed.",
     "Loop 22 closeout revalidated topology: folder_refactor_scan root files none/root dirs 10 planned dirs; root_files []; root_frags []; pubspec_escape_time_family_assets 199; all_escape_time_family_frags 199; missing_assets []; unlisted_frags []; stale direct root shader reference rg returned no matches; related Flutter tests passed; completion audit passed.",
     "Loop 23 closeout revalidated topology: folder_refactor_scan root files none/root dirs 10 planned dirs; root_files []; root_frags []; pubspec_escape_time_family_assets 199; all_escape_time_family_frags 199; missing_assets []; unlisted_frags []; stale direct root shader reference rg returned no matches; related Flutter tests passed; completion audit passed.",
-    "Loop 24 closeout revalidated topology: folder_refactor_scan root files none/root dirs 10 planned dirs; root_files []; root_frags []; pubspec_escape_time_family_assets 199; all_escape_time_family_frags 199; missing_assets []; unlisted_frags []; stale direct root shader reference rg returned no matches; related Flutter tests passed; completion audit passed."
+    "Loop 24 closeout revalidated topology: folder_refactor_scan root files none/root dirs 10 planned dirs; root_files []; root_frags []; pubspec_escape_time_family_assets 199; all_escape_time_family_frags 199; missing_assets []; unlisted_frags []; stale direct root shader reference rg returned no matches; related Flutter tests passed; completion audit passed.",
+    "Loop 25 closeout revalidated topology: folder_refactor_scan root files none/root dirs 10 planned dirs; root_files []; root_frags []; pubspec_escape_time_family_assets 199; all_escape_time_family_frags 199; missing_assets []; unlisted_frags []; stale direct root shader reference rg returned no matches; related Flutter tests passed; completion audit passed."
   ],
   "nextCandidates": [],
   "validationReceipts": [
