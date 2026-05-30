@@ -7,6 +7,56 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 class CommonFractalParams {
   static const int paletteCount = 64;
 
+  static FractalParameter iterations({
+    required num defaultValue,
+    num min = 20,
+    num max = 5000,
+  }) {
+    return FractalParameter(
+      id: 'iterations',
+      label: (l10n) => l10n.paramIterations,
+      type: FractalParamType.integer,
+      min: min.toDouble(),
+      max: max.toDouble(),
+      step: 1,
+      defaultValue: defaultValue,
+    );
+  }
+
+  static FractalParameter bailout({
+    required double defaultValue,
+    double min = 2.0,
+    double max = 8.0,
+  }) {
+    return FractalParameter(
+      id: 'bailout',
+      label: (l10n) => l10n.paramBailout,
+      type: FractalParamType.float,
+      min: min,
+      max: max,
+      step: 0.1,
+      defaultValue: defaultValue,
+    );
+  }
+
+  static FractalParameter colorScheme4({Object defaultValue = 0, num max = 3}) {
+    return FractalParameter(
+      id: 'colorScheme',
+      label: (l10n) => l10n.paramColorScheme,
+      type: FractalParamType.enumeration,
+      min: 0,
+      max: max.toDouble(),
+      step: 1,
+      defaultValue: defaultValue,
+      options: [
+        FractalParamOption(value: 0, label: (l10n) => l10n.colorFire),
+        FractalParamOption(value: 1, label: (l10n) => l10n.colorOcean),
+        FractalParamOption(value: 2, label: (l10n) => l10n.colorPsychedelic),
+        FractalParamOption(value: 3, label: (l10n) => l10n.colorGrayscale),
+      ],
+    );
+  }
+
   /// Color cycle speed for palette-texture shaders (G15).
   ///
   /// A value of 0.0 = static (no cycling); 0.1 = ~1 full cycle every 10 s.

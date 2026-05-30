@@ -110,24 +110,11 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
   effectiveZoom = effectiveZoom.clamp(0.2, 32.0);
 
   final parameters = [
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
-      min: 20,
-      max: config.maxIterations.toDouble(),
-      step: 1,
+    CommonFractalParams.iterations(
       defaultValue: effectiveIterations,
+      max: config.maxIterations,
     ),
-    FractalParameter(
-      id: 'bailout',
-      label: (l10n) => l10n.paramBailout,
-      type: FractalParamType.float,
-      min: 2.0,
-      max: 8.0,
-      step: 0.1,
-      defaultValue: config.defaultBailout,
-    ),
+    CommonFractalParams.bailout(defaultValue: config.defaultBailout),
     CommonFractalParams.colorScheme64(defaultValue: config.defaultColorScheme),
     ...config.extraParams,
   ];

@@ -14,24 +14,8 @@ import 'package:vector_math/vector_math.dart';
 /// beautiful asymmetric patterns that resemble rising flames or wings.
 FractalModule buildPhoenixModule() {
   final parameters = [
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
-      min: 20,
-      max: 5000,
-      step: 1,
-      defaultValue: 180,
-    ),
-    FractalParameter(
-      id: 'bailout',
-      label: (l10n) => l10n.paramBailout,
-      type: FractalParamType.float,
-      min: 2.0,
-      max: 8.0,
-      step: 0.1,
-      defaultValue: 4.0,
-    ),
+    CommonFractalParams.iterations(defaultValue: 180),
+    CommonFractalParams.bailout(defaultValue: 4.0),
     // Keep Phoenix palette as default (index 4), then 5..63 are numbered palettes.
     CommonFractalParams.colorScheme64(defaultValue: 4),
     FractalParameter(
@@ -282,5 +266,3 @@ FractalModule buildPhoenixModule() {
     },
   );
 }
-
-

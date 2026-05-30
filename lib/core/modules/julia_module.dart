@@ -8,24 +8,8 @@ import 'package:vector_math/vector_math.dart';
 
 FractalModule buildJuliaModule() {
   final parameters = [
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
-      min: 20,
-      max: 5000,
-      step: 1,
-      defaultValue: 160,
-    ),
-    FractalParameter(
-      id: 'bailout',
-      label: (l10n) => l10n.paramBailout,
-      type: FractalParamType.float,
-      min: 2.0,
-      max: 8.0,
-      step: 0.1,
-      defaultValue: 4.0,
-    ),
+    CommonFractalParams.iterations(defaultValue: 160),
+    CommonFractalParams.bailout(defaultValue: 4.0),
     CommonFractalParams.colorScheme64(defaultValue: 0),
     FractalParameter(
       id: 'juliaCReal',
@@ -250,5 +234,3 @@ FractalModule buildJuliaModule() {
     },
   );
 }
-
-

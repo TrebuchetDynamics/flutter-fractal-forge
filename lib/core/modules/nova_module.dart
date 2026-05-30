@@ -8,15 +8,7 @@ import 'package:vector_math/vector_math.dart';
 
 FractalModule buildNovaModule() {
   final parameters = [
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
-      min: 20,
-      max: 5000,
-      step: 1,
-      defaultValue: 200,
-    ),
+    CommonFractalParams.iterations(defaultValue: 200),
     FractalParameter(
       id: 'relaxation',
       label: (l10n) => 'Relaxation',
@@ -78,5 +70,3 @@ FractalModule buildNovaModule() {
     },
   );
 }
-
-

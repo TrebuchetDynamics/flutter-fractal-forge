@@ -24,24 +24,8 @@ import 'package:vector_math/vector_math.dart';
 ///   11 uTransparentBg
 FractalModule buildJuliaDualModule() {
   final parameters = [
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
-      min: 20,
-      max: 5000,
-      step: 1,
-      defaultValue: 180,
-    ),
-    FractalParameter(
-      id: 'bailout',
-      label: (l10n) => l10n.paramBailout,
-      type: FractalParamType.float,
-      min: 2.0,
-      max: 8.0,
-      step: 0.1,
-      defaultValue: 4.0,
-    ),
+    CommonFractalParams.iterations(defaultValue: 180),
+    CommonFractalParams.bailout(defaultValue: 4.0),
     CommonFractalParams.colorScheme64(defaultValue: 0),
     FractalParameter(
       id: 'juliaCReal',
@@ -92,30 +76,30 @@ FractalModule buildJuliaDualModule() {
     parameters: parameters,
     defaultPreset: preset('galaxy', 'Spiral Galaxy', -0.7269, 0.1889, 2),
     builtInPresets: [
-      preset('galaxy',  'Spiral Galaxy',   -0.7269,  0.1889,  2),
-      preset('dendrite','Dendrite',          0.0,     1.0,     3),
-      preset('dragon',  "Dragon's Breath",  -0.835,  -0.2321,  0),
-      preset('sanmarco','San Marco',        -0.75,    0.0,     1),
-      preset('siegel',  'Siegel Disk',      -0.391,  -0.587,   2),
-      preset('rabbit',  'Douady Rabbit',    -0.123,   0.745,   0),
+      preset('galaxy', 'Spiral Galaxy', -0.7269, 0.1889, 2),
+      preset('dendrite', 'Dendrite', 0.0, 1.0, 3),
+      preset('dragon', "Dragon's Breath", -0.835, -0.2321, 0),
+      preset('sanmarco', 'San Marco', -0.75, 0.0, 1),
+      preset('siegel', 'Siegel Disk', -0.391, -0.587, 2),
+      preset('rabbit', 'Douady Rabbit', -0.123, 0.745, 0),
     ],
     setUniforms: (shader, state, size, time) {
       final iterations = readDouble(state.params, 'iterations', 180);
-      final bailout    = readDouble(state.params, 'bailout',    4.0);
-      final colorScheme= readDouble(state.params, 'colorScheme',0);
+      final bailout = readDouble(state.params, 'bailout', 4.0);
+      final colorScheme = readDouble(state.params, 'colorScheme', 0);
       final juliaCReal = readDouble(state.params, 'juliaCReal', -0.7269);
-      final juliaCImag = readDouble(state.params, 'juliaCImag',  0.1889);
+      final juliaCImag = readDouble(state.params, 'juliaCImag', 0.1889);
 
-      shader.setFloat(0,  time);
-      shader.setFloat(1,  size.width);
-      shader.setFloat(2,  size.height);
-      shader.setFloat(3,  state.view.pan.x);
-      shader.setFloat(4,  state.view.pan.y);
-      shader.setFloat(5,  state.view.zoom);
-      shader.setFloat(6,  iterations);
-      shader.setFloat(7,  bailout);
-      shader.setFloat(8,  colorScheme);
-      shader.setFloat(9,  juliaCReal);
+      shader.setFloat(0, time);
+      shader.setFloat(1, size.width);
+      shader.setFloat(2, size.height);
+      shader.setFloat(3, state.view.pan.x);
+      shader.setFloat(4, state.view.pan.y);
+      shader.setFloat(5, state.view.zoom);
+      shader.setFloat(6, iterations);
+      shader.setFloat(7, bailout);
+      shader.setFloat(8, colorScheme);
+      shader.setFloat(9, juliaCReal);
       shader.setFloat(10, juliaCImag);
       shader.setFloat(11, state.transparentBackground ? 1.0 : 0.0);
     },

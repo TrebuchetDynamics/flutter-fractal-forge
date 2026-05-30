@@ -1,6 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:flutter_fractals/core/services/palette_service.dart';
@@ -17,15 +18,7 @@ FractalModule buildMandelbulbModule() {
       step: 0.1,
       defaultValue: 8.0,
     ),
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
-      min: 10,
-      max: 100,
-      step: 1,
-      defaultValue: 50,
-    ),
+    CommonFractalParams.iterations(defaultValue: 50, min: 10, max: 100),
     FractalParameter(
       id: 'steps',
       label: (l10n) => l10n.paramSteps,
@@ -35,30 +28,8 @@ FractalModule buildMandelbulbModule() {
       step: 1,
       defaultValue: 120,
     ),
-    FractalParameter(
-      id: 'bailout',
-      label: (l10n) => l10n.paramBailout,
-      type: FractalParamType.float,
-      min: 1.0,
-      max: 4.0,
-      step: 0.1,
-      defaultValue: 2.0,
-    ),
-    FractalParameter(
-      id: 'colorScheme',
-      label: (l10n) => l10n.paramColorScheme,
-      type: FractalParamType.enumeration,
-      min: 0,
-      max: 3,
-      step: 1,
-      defaultValue: 0,
-      options: [
-        FractalParamOption(value: 0, label: (l10n) => l10n.colorFire),
-        FractalParamOption(value: 1, label: (l10n) => l10n.colorOcean),
-        FractalParamOption(value: 2, label: (l10n) => l10n.colorPsychedelic),
-        FractalParamOption(value: 3, label: (l10n) => l10n.colorGrayscale),
-      ],
-    ),
+    CommonFractalParams.bailout(defaultValue: 2.0, min: 1.0, max: 4.0),
+    CommonFractalParams.colorScheme4(defaultValue: 0),
     FractalParameter(
       id: 'fractalType',
       label: (l10n) => l10n.paramFractalType,
@@ -68,10 +39,13 @@ FractalModule buildMandelbulbModule() {
       step: 1,
       defaultValue: 0,
       options: [
-        FractalParamOption(value: 0, label: (l10n) => l10n.fractalTypeMandelbulb),
-        FractalParamOption(value: 1, label: (l10n) => l10n.fractalTypeMandelbox),
+        FractalParamOption(
+            value: 0, label: (l10n) => l10n.fractalTypeMandelbulb),
+        FractalParamOption(
+            value: 1, label: (l10n) => l10n.fractalTypeMandelbox),
         FractalParamOption(value: 2, label: (l10n) => l10n.fractalTypeJulia),
-        FractalParamOption(value: 3, label: (l10n) => l10n.fractalTypeSierpinski),
+        FractalParamOption(
+            value: 3, label: (l10n) => l10n.fractalTypeSierpinski),
       ],
     ),
   ];
@@ -318,5 +292,3 @@ FractalModule buildMandelbulbModule() {
     },
   );
 }
-
-

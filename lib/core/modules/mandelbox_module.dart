@@ -1,21 +1,14 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:vector_math/vector_math.dart';
 
 FractalModule buildMandelboxModule() {
   final parameters = [
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
-      min: 5,
-      max: 30,
-      step: 1,
-      defaultValue: 15,
-    ),
+    CommonFractalParams.iterations(defaultValue: 15, min: 5, max: 30),
     FractalParameter(
       id: 'colorScheme',
       label: (l10n) => l10n.paramColorScheme,
@@ -140,26 +133,26 @@ FractalModule buildMandelboxModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      final iterations  = readDouble(state.params, 'iterations',  15);
-      final colorScheme = readDouble(state.params, 'colorScheme',  2);
-      final foldLimit   = readDouble(state.params, 'foldLimit',    1.0);
-      final scale       = readDouble(state.params, 'scale',        2.0);
-      final maxSteps    = readDouble(state.params, 'maxSteps',    80);
-      final foldValue   = foldLimit * 2.0; // always 2 * foldLimit
-      const mR2 = 0.25;                    // fixed inner sphere radius²
-      const fR2 = 1.0;                     // fixed outer sphere radius²
+      final iterations = readDouble(state.params, 'iterations', 15);
+      final colorScheme = readDouble(state.params, 'colorScheme', 2);
+      final foldLimit = readDouble(state.params, 'foldLimit', 1.0);
+      final scale = readDouble(state.params, 'scale', 2.0);
+      final maxSteps = readDouble(state.params, 'maxSteps', 80);
+      final foldValue = foldLimit * 2.0; // always 2 * foldLimit
+      const mR2 = 0.25; // fixed inner sphere radius²
+      const fR2 = 1.0; // fixed outer sphere radius²
 
       // Uniform layout must match mandelbox_3d_gpu.frag exactly.
-      shader.setFloat(0,  time);
-      shader.setFloat(1,  size.width);
-      shader.setFloat(2,  size.height);
-      shader.setFloat(3,  state.view.rotation.x);
-      shader.setFloat(4,  state.view.rotation.y);
-      shader.setFloat(5,  state.view.rotation.z);
-      shader.setFloat(6,  state.view.zoom);
-      shader.setFloat(7,  iterations);
-      shader.setFloat(8,  colorScheme);
-      shader.setFloat(9,  foldLimit);
+      shader.setFloat(0, time);
+      shader.setFloat(1, size.width);
+      shader.setFloat(2, size.height);
+      shader.setFloat(3, state.view.rotation.x);
+      shader.setFloat(4, state.view.rotation.y);
+      shader.setFloat(5, state.view.rotation.z);
+      shader.setFloat(6, state.view.zoom);
+      shader.setFloat(7, iterations);
+      shader.setFloat(8, colorScheme);
+      shader.setFloat(9, foldLimit);
       shader.setFloat(10, foldValue);
       shader.setFloat(11, mR2);
       shader.setFloat(12, fR2);

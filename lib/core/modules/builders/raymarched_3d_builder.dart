@@ -1,6 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:vector_math/vector_math.dart';
@@ -81,14 +82,10 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       step: 0.1,
       defaultValue: config.defaultPower,
     ),
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
+    CommonFractalParams.iterations(
+      defaultValue: config.defaultIterations,
       min: 5,
       max: config.maxIterations,
-      step: 1,
-      defaultValue: config.defaultIterations,
     ),
     FractalParameter(
       id: 'steps',
@@ -99,29 +96,14 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       step: 1,
       defaultValue: config.defaultSteps,
     ),
-    FractalParameter(
-      id: 'bailout',
-      label: (l10n) => l10n.paramBailout,
-      type: FractalParamType.float,
+    CommonFractalParams.bailout(
+      defaultValue: config.defaultBailout,
       min: 1.0,
       max: 8.0,
-      step: 0.1,
-      defaultValue: config.defaultBailout,
     ),
-    FractalParameter(
-      id: 'colorScheme',
-      label: (l10n) => l10n.paramColorScheme,
-      type: FractalParamType.enumeration,
-      min: 0,
-      max: config.maxColorScheme.toDouble(),
-      step: 1,
+    CommonFractalParams.colorScheme4(
       defaultValue: config.defaultColorScheme.toDouble(),
-      options: [
-        FractalParamOption(value: 0, label: (l10n) => l10n.colorFire),
-        FractalParamOption(value: 1, label: (l10n) => l10n.colorOcean),
-        FractalParamOption(value: 2, label: (l10n) => l10n.colorPsychedelic),
-        FractalParamOption(value: 3, label: (l10n) => l10n.colorGrayscale),
-      ],
+      max: config.maxColorScheme,
     ),
     if (config.maxFractalType > 0)
       FractalParameter(
@@ -180,17 +162,22 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       shader.setFloat(6, state.view.rotation.x);
       shader.setFloat(7, state.view.rotation.y);
       shader.setFloat(8, state.view.rotation.z);
-      shader.setFloat(9, readDouble(state.params, 'power', config.defaultPower));
+      shader.setFloat(
+          9, readDouble(state.params, 'power', config.defaultPower));
       shader.setFloat(
           10, readDouble(state.params, 'iterations', config.defaultIterations));
       shader.setFloat(
           11, readDouble(state.params, 'steps', config.defaultSteps));
       shader.setFloat(
           12, readDouble(state.params, 'bailout', config.defaultBailout));
-      shader.setFloat(13,
-          readDouble(state.params, 'colorScheme', config.defaultColorScheme.toDouble()));
-      shader.setFloat(14,
-          readDouble(state.params, 'fractalType', config.defaultFractalType.toDouble()));
+      shader.setFloat(
+          13,
+          readDouble(state.params, 'colorScheme',
+              config.defaultColorScheme.toDouble()));
+      shader.setFloat(
+          14,
+          readDouble(state.params, 'fractalType',
+              config.defaultFractalType.toDouble()));
       shader.setFloat(15, state.transparentBackground ? 1.0 : 0.0);
     },
   );
