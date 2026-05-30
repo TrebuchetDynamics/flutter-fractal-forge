@@ -11,10 +11,10 @@ Compared current app fractal coverage from:
 Against opensource references under:
 - `opensource/CATALOG.md`
 - `opensource/par-fractal`
-- `opensource/glChAoS.P`
-- `opensource/mandelbulber2`
-- `opensource/GAPFixFractal`
-- spot checks in `opensource/FractaVista` and `opensource/FractalExplorer`
+- `opensource/repos/formula-catalogs/glChAoS.P`
+- `opensource/repos/formula-catalogs/mandelbulber2`
+- `opensource/repos/renderers/GAPFixFractal`
+- spot checks in `opensource/repos/renderers/FractaVista` and `opensource/repos/renderers/FractalExplorer`
 
 ## Baseline coverage (current app)
 
@@ -31,9 +31,9 @@ Interpretation: 2D escape-time coverage is already broad. Main opportunity gaps 
 | Reference source | Formula/type names scanned | Not matched to current app IDs | Notes |
 |---|---:|---:|---|
 | `opensource/par-fractal/src/fractal/types.rs` | 35 | 21 | Includes true 3D attractors and polyhedral IFS that are currently absent |
-| `opensource/glChAoS.P` (`*.sca` `"Name"` fields) | 97 | 71 | Many volumetric/3D attractor names and family variants not present |
-| `opensource/mandelbulber2/mandelbulber2/formula/ui/*.ui` | 467 | 461 | Very large 3D DE formula library; only tiny overlap with current app IDs |
-| `opensource/GAPFixFractal/src/include/formulas.h` | 16 | 12 | Multiple custom escape-time variants absent (e.g., `sqtwice_a`, `tails`) |
+| `opensource/repos/formula-catalogs/glChAoS.P` (`*.sca` `"Name"` fields) | 97 | 71 | Many volumetric/3D attractor names and family variants not present |
+| `opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2/formula/ui/*.ui` | 467 | 461 | Very large 3D DE formula library; only tiny overlap with current app IDs |
+| `opensource/repos/renderers/GAPFixFractal/src/include/formulas.h` | 16 | 12 | Multiple custom escape-time variants absent (e.g., `sqtwice_a`, `tails`) |
 
 ---
 
@@ -48,19 +48,19 @@ grep -Rho "id: '[^']*'" lib/core/modules/builders/escape_time_catalog.dart | sed
 cd /home/xel/git/flutter-fractal-forge/opensource
 grep -n "Fractal Types\|Fractal types\|built-in formulas\|formulas\|Variations\|variation" CATALOG.md | head -n 200
 
-cd /home/xel/git/flutter-fractal-forge/opensource/FractaVista
+cd /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista
 grep -RIn "Mandelbrot\|Julia\|Tricorn\|BurningShip\|Newton\|Cubic\|Feather\|FractalType\|enum" src assets/shaders README.md | head -n 200
 
-cd /home/xel/git/flutter-fractal-forge/opensource/FractalExplorer
+cd /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractalExplorer
 find . -maxdepth 4 -type f | head -n 80
 
-cd /home/xel/git/flutter-fractal-forge/opensource/mandelbulber2/mandelbulber2
+cd /home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2
 find formula -maxdepth 2 -type f | head -n 120
 
-cd /home/xel/git/flutter-fractal-forge/opensource/glChAoS.P
+cd /home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P
 grep -RIn --exclude-dir=.git -E "enum|Attractor|Aizawa|Lorenz|Rossler|Thomas|Rucklidge|Chua|Coullet|Sprott|Halvorsen|Rabinovich|Dequan|TSUCS|Globo|Rikitake" . | head -n 260
 
-cd /home/xel/git/flutter-fractal-forge/opensource/GAPFixFractal
+cd /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/GAPFixFractal
 find . -maxdepth 4 -type f | head -n 120
 ```
 

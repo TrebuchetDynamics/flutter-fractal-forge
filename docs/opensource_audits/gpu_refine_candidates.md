@@ -8,19 +8,19 @@ Scope requested: audit `/opensource` (especially `shader-fractals`, `FractalShar
 ## Sources reviewed
 
 ### Open-source references
-- `opensource/kf2/gl/kf.frag.glsl`
+- `opensource/repos/renderers/kf2/gl/kf.frag.glsl`
   - palette LUT interpolation + smoothing (`KF_Palette`, `KFP_Smooth`)
   - deterministic dithering (`dither`)
   - flexible iteration transforms (`KF_IterTransform`, DE/log/loglog/sqrt)
-- `opensource/FractalShark/FractalSharkGpuLib/ScaledKernels.cuh`
+- `opensource/repos/renderers/FractalShark/FractalSharkGpuLib/ScaledKernels.cuh`
   - perturbation re-scaling / re-basing thresholds (`test1ab`, `testw2`, `w2threshold`)
-- `opensource/FractalShark/HpSharkFloatLib/PeriodicityChecker.h`
+- `opensource/repos/renderers/FractalShark/HpSharkFloatLib/PeriodicityChecker.h`
   - explicit periodicity vs escaped vs continue state
-- `opensource/FractalShark/FractalSharkGpuLib/LowPrecisionKernels.cuh`
+- `opensource/repos/renderers/FractalShark/FractalSharkGpuLib/LowPrecisionKernels.cuh`
   - precision tiers and compile-time iteration batching
-- `opensource/giulia/src/app/renderer.cpp`
+- `opensource/repos/renderers/giulia/src/app/renderer.cpp`
   - explicit precision-mode switching (single/double)
-- `opensource/giulia/src/gl/shaders/double_precision.shader`
+- `opensource/repos/renderers/giulia/src/gl/shaders/double_precision.shader`
   - separate high-precision path
 
 ### Current repo files examined

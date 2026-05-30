@@ -1,11 +1,13 @@
 #!/bin/bash
 # clone-all-fractals.sh - Clone ALL GPU fractal open-source projects
 # Combines the verified working set from initial search and the new 2025 findings.
-# Usage: ./clone-all-fractals.sh [target-directory] [--with-psych]
+# Usage: ./clone-all.sh [target-directory] [--with-psych]
+# Default target is ../repos relative to this script.
 
 set -euo pipefail  # strict mode
 
-TARGET_DIR="${1:-.}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TARGET_DIR="${1:-$SCRIPT_DIR/../repos}"
 shift 2>/dev/null || true
 WITH_PSYCH=0
 if [[ "${1:-}" == "--with-psych" ]]; then
@@ -13,8 +15,22 @@ if [[ "${1:-}" == "--with-psych" ]]; then
     shift
 fi
 
-mkdir -p "$TARGET_DIR"
+mkdir -p "$TARGET_DIR"/renderers "$TARGET_DIR"/formula-catalogs "$TARGET_DIR"/research-toolkits
 cd "$TARGET_DIR"
+
+category_for_repo() {
+    case "$1" in
+        glChAoS.P|JWildfire|mandelbulber2|shader-fractals)
+            echo "formula-catalogs"
+            ;;
+        Psychtoolbox-3)
+            echo "research-toolkits"
+            ;;
+        *)
+            echo "renderers"
+            ;;
+    esac
+}
 
 # All repositories (excluding Psychtoolbox-3, which is optional)
 REPOS=(
@@ -67,14 +83,16 @@ SKIPPED=()
 
 for repo in "${REPOS[@]}"; do
     repo_name=$(basename "$repo" .git)
-    if [ -d "$repo_name" ]; then
-        echo "⚠️  Skipping $repo_name (already exists)"
-        SKIPPED+=("$repo_name")
+    category=$(category_for_repo "$repo_name")
+    repo_path="$category/$repo_name"
+    if [ -d "$repo_path" ]; then
+        echo "⚠️  Skipping $repo_path (already exists)"
+        SKIPPED+=("$repo_path")
     else
-        echo "🔄 Cloning $repo ..."
-        if git clone --depth 1 "$repo" 2>/tmp/clone_error.$$; then
-            echo "✅ Cloned $repo_name"
-            SUCCESS+=("$repo_name")
+        echo "🔄 Cloning $repo into $repo_path ..."
+        if git clone --depth 1 "$repo" "$repo_path" 2>/tmp/clone_error.$$; then
+            echo "✅ Cloned $repo_path"
+            SUCCESS+=("$repo_path")
         else
             error_msg=$(cat /tmp/clone_error.$$)
             echo "❌ Failed to clone $repo: $error_msg" >&2

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "target": "opensource",
+  "updatedAt": "2026-05-30T02:54:01.742Z",
+  "objective": "Refactor opensource into docs/, scripts/, and repos/ while preserving reference project gitlinks. Root README is navigation facade. par-fractal remains a root directory blocker because its nested submodule/worktree has pre-existing modified CLAUDE.md; moving it automatically risks dirty nested worktree state.",
+  "completedSlices": [
+    "Moved root analysis markdown into opensource/docs and updated moved repo path references.",
+    "Moved clone-all.sh into opensource/scripts and changed its default target to ../repos relative to script.",
+    "Moved clean reference repositories into opensource/repos responsibility subfolders (renderers/, formula-catalogs/, research-toolkits/).",
+    "Added root README facade and repos README documenting topology and par-fractal blocker."
+  ],
+  "nextCandidates": [
+    "Blocked: move directory opensource/par-fractal to opensource/repos/renderers/rust-wgpu/par-fractal after nested dirty file opensource/par-fractal/CLAUDE.md is resolved or owner explicitly approves moving dirty nested worktree."
+  ],
+  "validationReceipts": [
+    "git diff --check -- opensource: pass",
+    "bash -n opensource/scripts/clone-all.sh: pass",
+    "rg stale moved repo root paths under opensource: pass (no matches)",
+    "git -C opensource/par-fractal status --short --branch: shows pre-existing modified CLAUDE.md",
+    "folder_refactor_audit(target=opensource, plannedTopologyComplete=false, facadeFiles=[README.md]): pass for root files"
+  ]
+}

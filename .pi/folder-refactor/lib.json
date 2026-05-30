@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "target": "lib",
+  "updatedAt": "2026-05-30T00:55:17.386Z",
+  "objective": "Refactor lib root so main.dart remains a slim public entrypoint/facade while app composition, deferred startup, and diagnostic boot widgets live under lib/app alongside existing core/features/l10n/shared topology. Target topology complete: only main.dart facade and AGENTS.md documentation remain at lib root.",
+  "completedSlices": [
+    "Created lib/app/ with flutter_fractals_app.dart, startup.dart, diagnostic_apps.dart, and AGENTS.md.",
+    "Moved root app/provider/bootstrap classes from lib/main.dart into lib/app/flutter_fractals_app.dart while preserving main.dart compatibility via export.",
+    "Moved deferred startup service initialization into lib/app/startup.dart.",
+    "Moved SAFE_MODE/BOOT_STEP diagnostic widgets into lib/app/diagnostic_apps.dart.",
+    "Updated lib/AGENTS.md to document app/ topology and main.dart facade role.",
+    "Audited lib root topology: main.dart is the only root facade, AGENTS.md is documentation/out-of-scope, no next candidates remain."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter analyze lib/main.dart lib/app — passed, no issues.",
+    "folder_refactor_audit lib — passed with facadeFiles=[main.dart], outOfScopeFiles=[AGENTS.md], nextCandidateFiles=[].",
+    "Earlier related widget validations are blocked by existing pumpAndSettle/localization test failures noted in prior state, not import/compile errors from this lib root topology."
+  ]
+}

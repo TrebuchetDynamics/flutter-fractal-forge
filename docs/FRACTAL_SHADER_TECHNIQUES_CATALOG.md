@@ -12,7 +12,7 @@ Extracted from:
 ## PROJECT 1: shader-fractals
 
 ### Location
-`/home/xel/git/flutter-fractal-forge/opensource/shader-fractals/`
+`/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/shader-fractals/`
 
 ### Fractal Types & Formulas
 
@@ -390,7 +390,7 @@ vec4 RayMarcher(vec3 ro, vec3 rd) {
 ## PROJECT 2: MV2
 
 ### Location
-`/home/xel/git/flutter-fractal-forge/opensource/MV2/`
+`/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/MV2/`
 
 ### Architecture
 - **Language**: GLSL (compute shader variant)
@@ -561,7 +561,7 @@ layout(std430, binding = 5) readonly buffer reference_orbit { dvec2 reference[];
 ## PROJECT 3: Giulia
 
 ### Location
-`/home/xel/git/flutter-fractal-forge/opensource/giulia/src/gl/shaders/`
+`/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/giulia/src/gl/shaders/`
 
 ### Shader Variants
 
@@ -633,7 +633,7 @@ case 5: rgb_c = hsv2rgb(vec3(mandelbrot, 1 - mandelbrot, 1 - mandelbrot));
 ## PROJECT 4: MandlebrotSetSFML
 
 ### Location
-`/home/xel/git/flutter-fractal-forge/opensource/MandlebrotSetSFML/`
+`/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/MandlebrotSetSFML/`
 
 ### Architecture
 - **Language**: C++ with OpenCL kernels (CPU fallback)

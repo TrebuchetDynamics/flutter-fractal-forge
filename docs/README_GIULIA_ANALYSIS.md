@@ -296,7 +296,7 @@ All analysis documents are in:
 ```
 
 Original source code in:
-`/home/xel/git/flutter-fractal-forge/opensource/giulia/`
+`/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/giulia/`
 
 ---
 

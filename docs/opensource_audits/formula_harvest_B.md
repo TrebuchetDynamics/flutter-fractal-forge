@@ -136,13 +136,13 @@ These are the strongest near-term wins for Flutter GPU/CPU portability + user-vi
 
 ## Evidence pointers (where formulas/variants were harvested)
 
-- kf2 formulas: `opensource/kf2/formula/formula_*.xml`
-- kf2 preset corpus: `opensource/kf2/formulas/*.kfr`
-- FractalShark variant capabilities: `opensource/FractalShark/README.md`
-- giulia exponent-based shader path: `opensource/giulia/src/gl/shaders/single_precision.shader`
-- JWildfire variants: `opensource/JWildfire/src/org/jwildfire/create/tina/variation/*`
-- JWildfire GLSL refs: `opensource/JWildfire/glsl/*.txt`
-- Fractl compute shader and optimizations: `opensource/Fractl/fractl_lib/src/shader.wgsl`
+- kf2 formulas: `opensource/repos/renderers/kf2/formula/formula_*.xml`
+- kf2 preset corpus: `opensource/repos/renderers/kf2/formulas/*.kfr`
+- FractalShark variant capabilities: `opensource/repos/renderers/FractalShark/README.md`
+- giulia exponent-based shader path: `opensource/repos/renderers/giulia/src/gl/shaders/single_precision.shader`
+- JWildfire variants: `opensource/repos/formula-catalogs/JWildfire/src/org/jwildfire/create/tina/variation/*`
+- JWildfire GLSL refs: `opensource/repos/formula-catalogs/JWildfire/glsl/*.txt`
+- Fractl compute shader and optimizations: `opensource/repos/renderers/Fractl/fractl_lib/src/shader.wgsl`
 
 ---
 

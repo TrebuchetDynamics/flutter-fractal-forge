@@ -22,7 +22,7 @@ and GPU patterns that can be directly ported or adapted.
 
 ## 1. glChAoS.P
 
-**Repo**: `opensource/glChAoS.P`
+**Repo**: `opensource/repos/formula-catalogs/glChAoS.P`
 **Language**: C++ / OpenGL 4.1 / GLSL
 **Purpose**: Real-time visualization of chaotic dynamical systems (strange attractors) as particle
 clouds. Up to 265 million particles at 60 fps. Also ships a WebGL2/WASM port (wglChAoS.P).
@@ -213,7 +213,7 @@ nearest-neighbor queries. Xorshiro128p PRNG. PLY import/export.
 
 ## 2. Mandelbulber2
 
-**Repo**: `opensource/mandelbulber2`
+**Repo**: `opensource/repos/formula-catalogs/mandelbulber2`
 **Language**: C++/Qt5 + OpenCL
 **Purpose**: Professional 3D fractal renderer with 460+ formulas, ray-marching, physically-based
 shading, and distributed rendering. OpenCL kernels exist for every C++ formula.
@@ -536,7 +536,7 @@ Lighting:
 
 ## 3. Psychtoolbox-3
 
-**Repo**: `opensource/Psychtoolbox-3`
+**Repo**: `opensource/repos/research-toolkits/Psychtoolbox-3`
 **Language**: MATLAB/Octave + C/C++ + GLSL
 **Purpose**: Neuroscience visual-stimulus toolkit — GPU-accelerated procedural generation,
 high-precision color science, display calibration, and a complete Mandelbrot demo.
@@ -717,7 +717,7 @@ For fractals, map: `FreqTwoPi` → `zoom`, `Offset` → `center + colorOffset`.
 
 ## 4. FractalExplorer
 
-**Repo**: `opensource/FractalExplorer`
+**Repo**: `opensource/repos/renderers/FractalExplorer`
 **Language**: C++ / GLSL 3.30 (desktop) + GLSL 1.00 ES (web via emscripten)
 **Framework**: raylib + OpenGL 3.3
 **Purpose**: Interactive GPU-accelerated 2D fractal explorer with 10 fractal types. Clean reference
@@ -885,7 +885,7 @@ z -= ComplexDivide(ComplexSin(z), ComplexCos(z));
 
 ## 5. Fractals-Explorer
 
-**Repo**: `opensource/Fractals-Explorer`
+**Repo**: `opensource/repos/renderers/Fractals-Explorer`
 **Language**: JavaScript/GLSL ES 3.0 (web) + C++/GLSL (native) + C++/OpenCL
 **Purpose**: Multi-backend fractal explorer (WebGL, OpenGL, OpenCL, software CPU). 5 fractal types
 with rotation support and 7 Mandelbrot coloring algorithms.
@@ -1010,7 +1010,7 @@ under the cursor doesn't move.
 
 ## 6. FractalShark
 
-**Repo**: `opensource/FractalShark`
+**Repo**: `opensource/repos/renderers/FractalShark`
 **Language**: C++/CUDA
 **Purpose**: Extreme deep-zoom Mandelbrot renderer supporting magnifications up to 10^150,000.
 Implements perturbation theory, bilinear approximation (BLA), and linear approximation (LA) to
@@ -1132,7 +1132,7 @@ float smooth_iter = float(n) + 1.0 - log2(log2(length(z)));
 
 ## 7. giulia
 
-**Repo**: `opensource/giulia`
+**Repo**: `opensource/repos/renderers/giulia`
 **Language**: C++ / GLSL 4.0 + OpenCL 1.2
 **Framework**: OpenGL 4.0 + ImGui + GLFW
 **Purpose**: Interactive Mandelbrot/Julia explorer with dual-precision shaders and 5 color presets.
@@ -1244,7 +1244,7 @@ This is the correct dual-mode shader pattern.
 
 ## 8. shader-fractals
 
-**Repo**: `opensource/shader-fractals`
+**Repo**: `opensource/repos/formula-catalogs/shader-fractals`
 **Language**: GLSL (Shadertoy-style)
 **Purpose**: Library of 11 standalone GLSL shaders — 5 × 2D (escape-time + geometric) and
 6 × 3D (ray-marched). Thin C++ host; shaders are the entire product.

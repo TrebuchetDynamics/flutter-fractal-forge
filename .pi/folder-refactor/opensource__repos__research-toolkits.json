@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "target": "opensource/repos/research-toolkits",
+  "updatedAt": "2026-05-30T00:39:06.444Z",
+  "objective": "Keep research-toolkits as a category folder containing research/experiment toolkit repositories. Planned topology is already satisfied: no root files, one repository subfolder Psychtoolbox-3.",
+  "completedSlices": [
+    "Scanned target folder; no root files to move or extract. Psychtoolbox-3 is already contained as a repository subfolder."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "folder_refactor_scan opensource/repos/research-toolkits: root files (0), root dirs (1): Psychtoolbox-3",
+    "git status --short --branch inspected; existing unrelated dirty worktree present, no edits made."
+  ]
+}

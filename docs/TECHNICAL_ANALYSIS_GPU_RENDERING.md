@@ -21,7 +21,7 @@ This analysis extracts the most applicable algorithms for Flutter shader develop
 ## PART 1: glChAoS.P – GPU Particle Pipeline Architecture
 
 ### Project Structure
-**Location:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/`
+**Location:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/`
 
 **Key Directories:**
 - `src/src/` - Core C++ application (attractor simulation, emitter engines)
@@ -31,7 +31,7 @@ This analysis extracts the most applicable algorithms for Flutter shader develop
 
 ### 1.1 Attractor Simulation Pipeline
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/src/src/attractorsBase.h` (lines 54-229)
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/src/src/attractorsBase.h` (lines 54-229)
 
 **Core Architecture:**
 ```cpp
@@ -77,7 +77,7 @@ Flutter App: **Implement burn-in queue to avoid transient startup chaos**
 
 ### 1.2 Emitter Engine: GPU Transform Feedback Pipeline
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/src/src/emitter.h`
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/src/src/emitter.h`
 
 **Two Emitter Architectures:**
 
@@ -116,7 +116,7 @@ virtual uint32_t Step(float *ptr, uint32_t numElements);
 
 ### 1.3 Particle System and Lifecycle Management
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/src/src/partSystem.h`
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/src/src/partSystem.h`
 
 **Core Features:**
 ```cpp
@@ -149,7 +149,7 @@ class particlesSystemClass : public shaderPointClass, public shaderBillboardClas
 
 ### 2.1 Multi-Model Lighting Architecture
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/Shaders/lightModelsFrag.glsl` (656 lines)
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/Shaders/lightModelsFrag.glsl` (656 lines)
 
 **Subroutine-Based Selection:**
 ```glsl
@@ -233,7 +233,7 @@ layout(std140) uniform _particlesData {
 
 ### 2.2 Normal Reconstruction from Depth
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/Shaders/lightModelsFrag.glsl` (lines 384-512)
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/Shaders/lightModelsFrag.glsl` (lines 384-512)
 
 **Problem:** Point cloud has no explicit normals; must reconstruct from particle depth discontinuities
 
@@ -282,7 +282,7 @@ vec3 getSelectedNormal(float z, sampler2D depthData) {
 
 ### 2.3 Ambient Occlusion (AO)
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/Shaders/ambientOcclusionFrag.glsl` (203 lines)
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/Shaders/ambientOcclusionFrag.glsl` (203 lines)
 
 **Algorithm: Screen-Space AO (SSAO)**
 ```glsl
@@ -340,7 +340,7 @@ void main() {
 ## PART 3: Mandelbulber2 – CPU-Based Raymarching & Formula Architecture
 
 ### Project Structure
-**Location:** `/home/xel/git/flutter-fractal-forge/opensource/mandelbulber2/mandelbulber2/`
+**Location:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2/`
 
 **Key Directories:**
 - `src/` - Rendering engine (C++11, Qt5 UI)
@@ -352,7 +352,7 @@ void main() {
 
 ### 3.1 Distance Estimation Framework
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/mandelbulber2/mandelbulber2/src/calculate_distance.cpp` (656 lines)
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2/src/calculate_distance.cpp` (656 lines)
 
 **Core Function Signature:**
 ```cpp
@@ -409,7 +409,7 @@ for (int i = 0; i < NUMBER_OF_FRACTALS - 1; i++) {
 
 ### 3.2 Mandelbulb Formula & Analytic Distance Estimation
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/mandelbulber2/mandelbulber2/formula/definition/fractal_mandelbulb.cpp` (43 lines)
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2/formula/definition/fractal_mandelbulb.cpp` (43 lines)
 
 **Spherical Coordinate Iteration:**
 ```cpp
@@ -453,7 +453,7 @@ defaultBailout = 10.0;
 
 ### 3.3 Formula Plugin Architecture (460+ Formulas)
 
-**File Structure:** `/home/xel/git/flutter-fractal-forge/opensource/mandelbulber2/mandelbulber2/formula/definition/`
+**File Structure:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2/formula/definition/`
 
 **Naming Convention:**
 ```
@@ -486,7 +486,7 @@ class cAbstractFractal {
 
 ### 3.4 Animation & Keyframe System
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/mandelbulber2/mandelbulber2/src/animation_keyframes.hpp` (100 lines)
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2/src/animation_keyframes.hpp` (100 lines)
 
 **Core Data Structure:**
 ```cpp
@@ -584,7 +584,7 @@ shadow /= 9.0;
 
 ### 5.1 glChAoS.P Color System
 
-**Palette Files:** `/opensource/glChAoS.P/colorMaps/`
+**Palette Files:** `/opensource/repos/formula-catalogs/glChAoS.P/colorMaps/`
 - `jjg_gradient.json` (2.6 MB) - Smooth gradient palettes
 - `jjg_step.json` (8.4 MB) - Discrete step palettes
 - `palettesGIN.json` (1.8 MB) - GIN/Classic palettes
@@ -707,7 +707,7 @@ double opSmoothUnion(double d1, double d2, double k) {
 
 ### A. GGX Shader Complete Implementation
 
-**File to reference:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/Shaders/lightModelsFrag.glsl` (lines 300-347)
+**File to reference:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/Shaders/lightModelsFrag.glsl` (lines 300-347)
 
 **Constants:**
 ```glsl
@@ -747,7 +747,7 @@ float specularGGX(vec3 V, vec3 L, vec3 N) {
 
 ### B. SSAO Implementation (Pseudocode)
 
-**Reference:** `/home/xel/git/flutter-fractal-forge/opensource/glChAoS.P/Shaders/ambientOcclusionFrag.glsl`
+**Reference:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P/Shaders/ambientOcclusionFrag.glsl`
 
 **Setup:**
 1. Generate 64-point Poisson disk distribution (store in texture)
@@ -774,7 +774,7 @@ AO = (1 - AO/64) * aoMultiplier
 
 ### C. Mandelbulb Distance Estimator
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/mandelbulber2/mandelbulber2/formula/definition/fractal_mandelbulb.cpp`
+**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2/formula/definition/fractal_mandelbulb.cpp`
 
 **GLSL Implementation:**
 ```glsl

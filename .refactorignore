@@ -1,0 +1,39 @@
+# Vendored/reference source that should not drive app refactors.
+opensource/
+@opensource/
+
+# Generated Flutter/Dart build artifacts.
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Platform build caches.
+android/build/
+android/.gradle/
+ios/Pods/
+macos/Pods/
+
+# VCS, agent state, and local worktrees.
+.git/
+.pi/
+.claude/
+.claude-flow/
+.superpowers/
+.swarm/
+.worktrees/
+
+# Test, automation, and report output.
+agent_test_logs/
+maestro_reports/
+reports/
+screenshots/
+*.png
+
+# Python/tool caches.
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# Editor/local config.
+.vscode/

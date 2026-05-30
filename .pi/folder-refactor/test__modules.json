@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "target": "test/modules",
+  "updatedAt": "2026-05-30T00:50:35.821Z",
+  "objective": "Refactor generated module smoke tests from 1148 root f#### directories into category subfolders mirroring lib/core/modules categories.",
+  "completedSlices": [
+    "Move-only: inferred categories from package imports and moved all f#### module test directories under test/modules/<category>/ with no Dart content changes.",
+    "Shared-code pass: identified repeated generated smoke-test template; intentionally left duplication because these are generated per-module tests and extraction would be a broad generated-test rewrite beyond the move-only topology goal."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "Directory count check: 1148 *_module_test.dart files under 10 category folders; 0 root files under test/modules.",
+    "/home/xel/flutter/bin/flutter test test/modules/newton_root_finding — passed, 144 tests.",
+    "/home/xel/flutter/bin/flutter test test/modules — exited 0 (all generated module smoke tests discovered recursively).",
+    "folder_refactor_audit target=test/modules plannedTopologyComplete=true — pass."
+  ]
+}

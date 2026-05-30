@@ -180,7 +180,7 @@
     {
       "path": "docs/DEEPDIVE_INDEX.md",
       "title": "Open-Source Fractal Projects: Deep-Dive Index",
-      "summary": "**Primary Document:** `/home/xel/git/flutter-fractal-forge/OPENSOURCE_DEEPDIVE.md` (1,480 lines) - **Root:** `/home/xel/git/flutter-fractal-forge/opensource/DeepDrill/` - **Key Files:** - Config & ...",
+      "summary": "**Primary Document:** `/home/xel/git/flutter-fractal-forge/OPENSOURCE_DEEPDIVE.md` (1,480 lines) - **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/` - **Key Files:** - Config & ...",
       "lines": 384,
       "mtime": 1775672610166.7146
     },
@@ -299,14 +299,14 @@
     {
       "path": "docs/opensource_audits/cpu_refine_candidates.md",
       "title": "CPU Renderer / Formula Refinement Candidates (opensource-informed)",
-      "summary": "Date: 2026-02-18 Scope: audit `/opensource` for CPU-side refinement opportunities, then map to current CPU path in `lib/features/renderer/*`. --- - `opensource/DeepDrill/src/ddrill/Driller.cpp` - m...",
+      "summary": "Date: 2026-02-18 Scope: audit `/opensource` for CPU-side refinement opportunities, then map to current CPU path in `lib/features/renderer/*`. --- - `opensource/repos/renderers/DeepDrill/src/ddrill/Driller.cpp` - m...",
       "lines": 267,
       "mtime": 1771525697581.1926
     },
     {
       "path": "docs/opensource_audits/formula_harvest_A.json",
       "title": "formula_harvest_A.json",
-      "summary": "{ \"generated_at\": \"2026-02-19T05:18:30.636328+00:00\", \"scope\": { \"sources_scanned\": [ \"opensource/par-fractal\", \"opensource/shader-fractals\", \"opensource/glChAoS.P\", \"opensource/FractalExplorer\" ],...",
+      "summary": "{ \"generated_at\": \"2026-02-19T05:18:30.636328+00:00\", \"scope\": { \"sources_scanned\": [ \"opensource/par-fractal\", \"opensource/repos/formula-catalogs/shader-fractals\", \"opensource/repos/formula-catalogs/glChAoS.P\", \"opensource/repos/renderers/FractalExplorer\" ],...",
       "lines": 588,
       "mtime": 1771525697581.958
     },

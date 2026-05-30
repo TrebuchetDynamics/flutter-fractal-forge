@@ -357,8 +357,8 @@ Before implementation, ensure you have:
 **Key Files** (in this analysis):
 - `/home/xel/git/flutter-fractal-forge/GIULIA_TECHNICAL_ANALYSIS.md`
 - `/home/xel/git/flutter-fractal-forge/GIULIA_SHADER_FORMULAS.md`
-- `/home/xel/git/flutter-fractal-forge/opensource/giulia/src/gl/shaders/` (original shaders)
-- `/home/xel/git/flutter-fractal-forge/opensource/giulia/src/cl/kernels/fractal.cl` (OpenCL kernel)
+- `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/giulia/src/gl/shaders/` (original shaders)
+- `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/giulia/src/cl/kernels/fractal.cl` (OpenCL kernel)
 
 ---
 

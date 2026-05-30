@@ -189,8 +189,8 @@ if(|c - 0.25| ≤ ...) skip;  // ~20-30% faster
 
 **In this Repository**:
 - `FRACTAL_SHADER_TECHNIQUES_CATALOG.md` - Full technical analysis
-- `opensource/shader-fractals/README.md` - Fractal mathematics
-- `opensource/MV2/` - Advanced renderer reference
+- `opensource/repos/formula-catalogs/shader-fractals/README.md` - Fractal mathematics
+- `opensource/repos/renderers/MV2/` - Advanced renderer reference
 - `opensource/Giulia/` - Precision handling example
 
 **External**:

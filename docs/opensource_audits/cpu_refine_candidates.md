@@ -8,23 +8,23 @@ Scope: audit `/opensource` for CPU-side refinement opportunities, then map to cu
 ## Sources reviewed
 
 ### Open-source references
-- `opensource/DeepDrill/src/ddrill/Driller.cpp`
+- `opensource/repos/renderers/DeepDrill/src/ddrill/Driller.cpp`
   - multi-round glitch recovery (`perturbation.rounds`), tolerated bad pixels, probe-point validation, period/attractor checks.
-- `opensource/FractalShark/HpSharkFloatLib/PeriodicityChecker.h`
+- `opensource/repos/renderers/FractalShark/HpSharkFloatLib/PeriodicityChecker.h`
   - explicit `PeriodFound` / `Escaped` / `Continue` states, derivative-aware periodicity checks.
-- `opensource/FractalShark/FractalSharkGpuLib/ScaledKernels.cuh`
+- `opensource/repos/renderers/FractalShark/FractalSharkGpuLib/ScaledKernels.cuh`
   - perturbation re-scaling thresholds (`test1ab`, `testw2`, `w2threshold`) for stability.
-- `opensource/FractalShark/FractalSharkGpuLib/AntialiasingKernel.cuh`
+- `opensource/repos/renderers/FractalShark/FractalSharkGpuLib/AntialiasingKernel.cuh`
   - explicit antialiasing pass with configurable AA grid.
-- `opensource/kf2/fraktal_sft/calculate_perturbation.cpp`
+- `opensource/repos/renderers/kf2/fraktal_sft/calculate_perturbation.cpp`
   - hybrid/perturbation path, derivatives, scaled reference handling.
-- `opensource/kf2/fraktal_sft/reference.cpp`
+- `opensource/repos/renderers/kf2/fraktal_sft/reference.cpp`
   - scaled-reference storage to avoid underflow loss points.
-- `opensource/kf2/fraktal_sft/main_formula.cpp`, `.../opengl.h`
+- `opensource/repos/renderers/kf2/fraktal_sft/main_formula.cpp`, `.../opengl.h`
   - jitter controls (`seed`, shape, scale) for anti-alias quality.
-- `opensource/kf2/fraktal_sft/hybrid.h`
+- `opensource/repos/renderers/kf2/fraktal_sft/hybrid.h`
   - formula/hybrid evaluation + dynamic re-scaling thresholds.
-- `opensource/giulia/src/app/renderer.cpp`
+- `opensource/repos/renderers/giulia/src/app/renderer.cpp`
   - runtime precision-mode switching (single vs double path).
 
 ### Current repo files examined

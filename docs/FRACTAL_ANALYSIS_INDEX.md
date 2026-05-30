@@ -40,13 +40,13 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
 
 ### Projects Analyzed
 
-1. **shader-fractals** ([opensource/shader-fractals/](opensource/shader-fractals/))
+1. **shader-fractals** ([opensource/repos/formula-catalogs/shader-fractals/](opensource/repos/formula-catalogs/shader-fractals/))
    - 10 GLSL shaders (5×2D + 5×3D)
    - Single precision (vec2)
    - Educational reference implementations
    - Complete SDF utility library
 
-2. **MV2** ([opensource/MV2/](opensource/MV2/))
+2. **MV2** ([opensource/repos/renderers/MV2/](opensource/repos/renderers/MV2/))
    - 1 advanced shader (460 lines, GLSL 4.60)
    - Double precision (dvec2) + custom math
    - Production-quality features
@@ -58,7 +58,7 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
    - 5 color presets
    - Clean real-time implementation
 
-4. **MandlebrotSetSFML** ([opensource/MandlebrotSetSFML/](opensource/MandlebrotSetSFML/))
+4. **MandlebrotSetSFML** ([opensource/repos/renderers/MandlebrotSetSFML/](opensource/repos/renderers/MandlebrotSetSFML/))
    - CPU+GPU hybrid (OpenCL)
    - Dynamic kernel generation
    - Custom formula support
@@ -111,7 +111,7 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
 ### For Implementation
 1. Start with `FRACTAL_TECHNIQUES_QUICK_INDEX.md` Phase 1
 2. Reference `FRACTAL_SHADER_TECHNIQUES_CATALOG.md` for code
-3. Copy patterns from `opensource/shader-fractals/`
+3. Copy patterns from `opensource/repos/formula-catalogs/shader-fractals/`
 4. Check `ANALYSIS_SUMMARY.md` for optimization tips
 
 ### For Optimization

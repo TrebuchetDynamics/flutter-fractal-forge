@@ -38,7 +38,7 @@ PROJECTS ANALYZED
 ================================================================================
 
 1. DeepDrill (C++/SFML)
-   Path: /home/xel/git/flutter-fractal-forge/opensource/DeepDrill/
+   Path: /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/
    Status: COMPLETE
    Files Analyzed: 15+
    Key Topics:
@@ -61,7 +61,7 @@ PROJECTS ANALYZED
      • FFmpeg.h - Video pipeline integration
 
 2. FractaVista (C++/OpenGL)
-   Path: /home/xel/git/flutter-fractal-forge/opensource/FractaVista/
+   Path: /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/
    Status: COMPLETE
    Files Analyzed: 12+
    Key Topics:
@@ -82,7 +82,7 @@ PROJECTS ANALYZED
      • Application.cpp - Preset I/O via nlohmann/json
 
 3. Fractl (Rust)
-   Path: /home/xel/git/flutter-fractal-forge/opensource/Fractl/
+   Path: /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/
    Status: COMPLETE
    Files Analyzed: 6+
    Key Topics:
@@ -102,7 +102,7 @@ PROJECTS ANALYZED
      • shader.wgsl - WGSL kernel (index→world conversion, escape time)
 
 4. fractals-generator (C++)
-   Path: /home/xel/git/flutter-fractal-forge/opensource/fractals-generator/
+   Path: /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator/
    Status: COMPLETE
    Files Analyzed: 3+
    Key Topics:
@@ -265,7 +265,7 @@ Phase 5 - Advanced:
 FILE INVENTORY (COMPLETE)
 ================================================================================
 
-DeepDrill (/home/xel/git/flutter-fractal-forge/opensource/DeepDrill/):
+DeepDrill (/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/):
   src/config.h
   src/shared/Options.h
   src/shared/DrillMap.h
@@ -280,21 +280,21 @@ DeepDrill (/home/xel/git/flutter-fractal-forge/opensource/DeepDrill/):
   src/dzoom/FFmpeg.h
   shaders/colorizers/gradient.glsl
 
-FractaVista (/home/xel/git/flutter-fractal-forge/opensource/FractaVista/):
+FractaVista (/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/):
   src/fractal/FractalTypes.hpp
   src/fractal/FractalDefinition.hpp
   src/fractal/FractalComputer.cpp
   src/gfx/Shader.cpp
   src/app/Application.cpp
 
-Fractl (/home/xel/git/flutter-fractal-forge/opensource/Fractl/):
+Fractl (/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/):
   Cargo.toml
   fractl_lib/src/lib.rs
   fractl_lib/src/gpu.rs
   fractl_lib/src/math.rs
   fractl_lib/src/shader.wgsl
 
-fractals-generator (/home/xel/git/flutter-fractal-forge/opensource/fractals-generator/):
+fractals-generator (/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator/):
   src/main.cpp
   examples/arbitrary-fixed-glsl/
 

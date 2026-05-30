@@ -40,27 +40,27 @@ PROJECTS ANALYZED
 ================================================================================
 
 Project 1: DeepDrill
-  Location: /home/xel/git/flutter-fractal-forge/opensource/DeepDrill
+  Location: /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill
   Specialization: Extreme-depth Mandelbrot with perturbation theory
   Max Zoom: Unlimited (arbitrary precision via GMP)
   Key Algorithm: Perturbation theory + series approximation
   Impact: 50-95% speedup at extreme zoom
 
 Project 2: FractalExplorer
-  Location: /home/xel/git/flutter-fractal-forge/opensource/FractalExplorer
+  Location: /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractalExplorer
   Specialization: GPU-accelerated multi-fractal explorer
   Fractal Types: 10 (Mandelbrot, Julia, Newton, Tricorn, Burning Ship, etc.)
   Max Zoom: ~10x (float32 limited)
   Key Innovation: Modular shader design for 10 fractal types
 
 Project 3: Fractals-Explorer
-  Location: /home/xel/git/flutter-fractal-forge/opensource/Fractals-Explorer
+  Location: /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractals-Explorer
   Specialization: Multi-backend rendering (OpenGL/OpenCL/WebGL)
   Key Innovation: 6+ coloring algorithms with real-time switching
   Backends: OpenGL (native), OpenCL (compute), WebGL (browser)
 
 Project 4: fractals-generator
-  Location: /home/xel/git/flutter-fractal-forge/opensource/fractals-generator
+  Location: /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator
   Specialization: Precision arithmetic techniques
   Precision Tiers: 7 modes from float32 to emulated 128-bit
   Key Innovation: Shader precision emulation for deep zoom
@@ -255,10 +255,10 @@ Main Analysis Documents:
   /home/xel/git/flutter-fractal-forge/OPENSOURCE_PROJECTS_INDEX.md
 
 Source Code:
-  /home/xel/git/flutter-fractal-forge/opensource/DeepDrill/
-  /home/xel/git/flutter-fractal-forge/opensource/FractalExplorer/
-  /home/xel/git/flutter-fractal-forge/opensource/Fractals-Explorer/
-  /home/xel/git/flutter-fractal-forge/opensource/fractals-generator/
+  /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/
+  /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractalExplorer/
+  /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractals-Explorer/
+  /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator/
 
 ================================================================================
 QUALITY ASSURANCE

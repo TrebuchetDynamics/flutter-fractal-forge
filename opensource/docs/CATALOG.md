@@ -47,7 +47,7 @@ Cross-references our actual files in `lib/` and `shaders/`. Companion to
 ## Project Entries
 
 ### 1. glChAoS.P
-**Repo**: `opensource/glChAoS.P` · **Docs**: `opensource-tools-fractals.md §1`
+**Repo**: `opensource/repos/formula-catalogs/glChAoS.P` · **Docs**: `opensource-tools-fractals.md §1`
 
 **Unique**: Real-time GPU particle visualization of strange attractors. Transform-feedback
 pipeline writes next position back to VBO without CPU roundtrip.
@@ -66,7 +66,7 @@ pipeline writes next position back to VBO without CPU roundtrip.
 ---
 
 ### 2. mandelbulber2
-**Repo**: `opensource/mandelbulber2` · **Docs**: `opensource-tools-fractals.md §2`
+**Repo**: `opensource/repos/formula-catalogs/mandelbulber2` · **Docs**: `opensource-tools-fractals.md §2`
 
 **Unique**: 460+ 3D fractal formulas with OpenCL kernels, full ray-march with physically-based shading.
 
@@ -92,7 +92,7 @@ Lighting: ambient 0.0–0.5, shininess 8–256, aoSamples 4–16
 ---
 
 ### 3. Psychtoolbox-3
-**Repo**: `opensource/Psychtoolbox-3` · **Docs**: `opensource-tools-fractals.md §3`
+**Repo**: `opensource/repos/research-toolkits/Psychtoolbox-3` · **Docs**: `opensource-tools-fractals.md §3`
 
 **Unique**: Neuroscience stimulus toolkit — provides the cleanest minimal Mandelbrot shader
 reference plus rigorous color science.
@@ -111,7 +111,7 @@ reference plus rigorous color science.
 ---
 
 ### 4 & 10. FractalExplorer (two projects)
-**Repos**: `opensource/FractalExplorer` (raylib/C++) · **Docs**: `opensource-tools-fractals.md §4`
+**Repos**: `opensource/repos/renderers/FractalExplorer` (raylib/C++) · **Docs**: `opensource-tools-fractals.md §4`
 
 **Unique**: Complete GLSL complex-number library + one shader file per fractal type (clean reference).
 
@@ -144,7 +144,7 @@ vec2 complexCos(vec2 z) { return vec2(cos(z.x)*cosh(z.y), -sin(z.x)*sinh(z.y)); 
 ---
 
 ### 5. Fractals-Explorer
-**Repo**: `opensource/Fractals-Explorer` · **Docs**: `opensource-tools-fractals.md §5`
+**Repo**: `opensource/repos/renderers/Fractals-Explorer` · **Docs**: `opensource-tools-fractals.md §5`
 
 **Unique**: Multi-backend (WebGL/OpenGL/OpenCL/CPU) with 7 distinct Mandelbrot coloring algorithms.
 
@@ -169,7 +169,7 @@ void ZoomIntoPoint(vec2i cursor, float delta) {
 ---
 
 ### 6. FractalShark
-**Repo**: `opensource/FractalShark` · **Docs**: `opensource-tools-fractals.md §6`
+**Repo**: `opensource/repos/renderers/FractalShark` · **Docs**: `opensource-tools-fractals.md §6`
 
 **Unique**: Extreme deep zoom (10^150,000 magnification) via CUDA perturbation + bilinear
 approximation (BLA). The reference for GPU double-float arithmetic.
@@ -205,7 +205,7 @@ Reference orbit computed once at high precision; all pixels iterate as small flo
 ---
 
 ### 7. giulia
-**Repo**: `opensource/giulia` · **Docs**: `GIULIA_TECHNICAL_ANALYSIS.md`, `GIULIA_SHADER_FORMULAS.md`
+**Repo**: `opensource/repos/renderers/giulia` · **Docs**: `GIULIA_TECHNICAL_ANALYSIS.md`, `GIULIA_SHADER_FORMULAS.md`
 
 **Unique**: Clean dual-mode Mandelbrot/Julia in a single shader. The simplest correct reference implementation.
 
@@ -238,7 +238,7 @@ vec3 hsv2rgb(vec3 c) {
 ---
 
 ### 8. shader-fractals
-**Repo**: `opensource/shader-fractals` · **Docs**: `opensource-tools-fractals.md §8`
+**Repo**: `opensource/repos/formula-catalogs/shader-fractals` · **Docs**: `opensource-tools-fractals.md §8`
 
 **Unique**: Standalone GLSL library covering 5 × 2D and 6 × 3D fractals. The fastest path to verified DE functions.
 
@@ -270,7 +270,7 @@ vec3 hsv2rgb(vec3 c) {
 ---
 
 ### 9. DeepDrill
-**Repo**: `opensource/DeepDrill` · **Platform**: macOS Swift
+**Repo**: `opensource/repos/renderers/DeepDrill` · **Platform**: macOS Swift
 
 **Unique**: End-to-end workflow for extreme deep zoom including location files, palette files, and
 a separate `DeepMake` video composer. Demonstrates the full user-facing product around perturbation theory.
@@ -286,7 +286,7 @@ a separate `DeepMake` video composer. Demonstrates the full user-facing product 
 ---
 
 ### 11. fractals-generator
-**Repo**: `opensource/fractals-generator` · **Language**: C++/CMake with Nix flake
+**Repo**: `opensource/repos/renderers/fractals-generator` · **Language**: C++/CMake with Nix flake
 
 **Unique**: Preset-driven rendering with examples directory showing parameter combinations.
 
@@ -300,7 +300,7 @@ a separate `DeepMake` video composer. Demonstrates the full user-facing product 
 ---
 
 ### 12. MV2 ⭐ HIGH VALUE
-**Repo**: `opensource/MV2` · **Language**: C++/GLSL 4.60
+**Repo**: `opensource/repos/renderers/MV2` · **Language**: C++/GLSL 4.60
 
 **Unique**: The most feature-complete single-shader Mandelbrot reference. Uses **native GPU double
 precision** (`dvec2`, `double` uniforms), SSBOs for reference orbit, perturbation, TAA, normal map.
@@ -364,7 +364,7 @@ for correct atan2 with double inputs where hardware double support is unavailabl
 ---
 
 ### 13. MandlebrotSetSFML ⭐ HIGH VALUE
-**Repo**: `opensource/MandlebrotSetSFML` · **Language**: C++/CUDA
+**Repo**: `opensource/repos/renderers/MandlebrotSetSFML` · **Language**: C++/CUDA
 
 **Unique**: **Runtime formula compiler** using NVRTC. Users type a formula in a DSL, it compiles to
 CUDA PTX at runtime and runs on GPU. This is the most flexible formula system of all 19 projects.
@@ -396,7 +396,7 @@ Ensure the DSL supports: `sin`, `cos`, `fabs`, `PI`, `GOLDEN_RATIO`, `pow`, `exp
 ---
 
 ### 14. KF2 (Kalles Fraktaler 2)
-**Repo**: `opensource/kf2` · **Docs**: agent analysis (KF2 section above)
+**Repo**: `opensource/repos/renderers/kf2` · **Docs**: agent analysis (KF2 section above)
 
 **Unique**: The gold standard for deep-zoom correctness. Used by the fractal community for
 record-setting zoom depths. Implements the full perturbation + series approximation + glitch
@@ -463,7 +463,7 @@ density buffer rather than coloring by escape iteration count. Produces nebula-l
 ---
 
 ### 16. JWildfire
-**Repo**: `opensource/JWildfire` · **Language**: Java
+**Repo**: `opensource/repos/formula-catalogs/JWildfire` · **Language**: Java
 
 **Unique**: 903 parameterizable variation functions for flame IFS fractals. The largest open-source
 variation library. Also includes "Dancing Flames" (audio-reactive animation) and MutaGen (genetic
@@ -505,7 +505,7 @@ envelopes. In our context: could map to parameter oscillation.
 ---
 
 ### 17. FractaVista
-**Repo**: `opensource/FractaVista` · **Language**: C++17/OpenGL 4.3
+**Repo**: `opensource/repos/renderers/FractaVista` · **Language**: C++17/OpenGL 4.3
 
 **Unique**: OpenGL **compute shaders** (not fragment shaders) for fractal generation. Clean
 modular architecture with nlohmann/json for preset serialization and spdlog for structured logging.
@@ -536,7 +536,7 @@ one pixel. Writes directly to image2D. Different from fragment shader approach:
 ---
 
 ### 18. Fractl
-**Repo**: `opensource/Fractl` · **Language**: Rust
+**Repo**: `opensource/repos/renderers/Fractl` · **Language**: Rust
 
 **Unique**: Compile-time feature flags selecting precision and backend.
 
@@ -562,7 +562,7 @@ future Flutter Web fractal support.
 ---
 
 ### 19. GAPFixFractal ⭐ UNIQUE
-**Repo**: `opensource/GAPFixFractal` · **Language**: C++/Qt5/CUDA
+**Repo**: `opensource/repos/renderers/GAPFixFractal` · **Language**: C++/Qt5/CUDA
 
 **Unique**: The most sophisticated arbitrary-precision fractal renderer with a hybrid formula system,
 gradient editor, and CUDA acceleration.
