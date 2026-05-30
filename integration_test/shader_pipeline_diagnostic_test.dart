@@ -117,7 +117,7 @@ void main() {
       late ui.FragmentProgram program;
       try {
         program = await ui.FragmentProgram.fromAsset(
-            'shaders/test_always_red.frag');
+            'shaders/diagnostic/test_always_red.frag');
       } catch (e) {
         debugPrint('[diag] D shader_load_failed: $e');
         fail('Could not load test_always_red.frag: $e');

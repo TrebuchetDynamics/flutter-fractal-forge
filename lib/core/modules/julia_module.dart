@@ -67,7 +67,7 @@ FractalModule buildJuliaModule() {
     id: 'julia',
     displayName: (l10n) => l10n.moduleJulia,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [

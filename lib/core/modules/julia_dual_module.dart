@@ -88,7 +88,7 @@ FractalModule buildJuliaDualModule() {
     id: 'julia_dual',
     displayName: (_) => 'Mandelbrot + Julia',
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/mandel_julia_dual_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandel_julia_dual_gpu.frag',
     parameters: parameters,
     defaultPreset: preset('galaxy', 'Spiral Galaxy', -0.7269, 0.1889, 2),
     builtInPresets: [

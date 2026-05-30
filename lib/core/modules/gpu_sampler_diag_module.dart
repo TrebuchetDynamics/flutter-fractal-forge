@@ -27,7 +27,7 @@ FractalModule buildGpuSamplerDiagModule() {
     id: 'gpu_sampler_diag',
     displayName: (l10n) => 'GPU Sampler (Diag)',
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/diag_sampler.frag',
+    shaderAsset: 'shaders/diagnostic/diag_sampler.frag',
     parameters: const <FractalParameter>[],
     defaultPreset: defaultPreset,
     builtInPresets: [defaultPreset],

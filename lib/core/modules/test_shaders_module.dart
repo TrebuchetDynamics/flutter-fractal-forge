@@ -11,7 +11,7 @@ final FractalModule testMinimalModule = FractalModule(
   id: 'test_minimal',
   displayName: (AppLocalizations l10n) => 'Test: Minimal (Solid Red)',
   dimension: FractalDimension.twoD,
-  shaderAsset: 'shaders/test_minimal.frag',
+  shaderAsset: 'shaders/diagnostic/test_minimal.frag',
   parameters: const <FractalParameter>[],
   defaultPreset: FractalPreset(
     id: 'test_minimal_default',
@@ -36,7 +36,7 @@ final FractalModule testGlFragCoordModule = FractalModule(
   id: 'test_gl_fragcoord',
   displayName: (AppLocalizations l10n) => 'Test: gl_FragCoord (UV Gradient)',
   dimension: FractalDimension.twoD,
-  shaderAsset: 'shaders/test_gl_fragcoord.frag',
+  shaderAsset: 'shaders/diagnostic/test_gl_fragcoord.frag',
   parameters: const <FractalParameter>[],
   defaultPreset: FractalPreset(
     id: 'test_gl_fragcoord_default',
@@ -63,7 +63,7 @@ final FractalModule testFlutterCoordModule = FractalModule(
   id: 'test_flutter_coord',
   displayName: (AppLocalizations l10n) => 'Test: FlutterFragCoord (UV Gradient)',
   dimension: FractalDimension.twoD,
-  shaderAsset: 'shaders/test_flutter_coord.frag',
+  shaderAsset: 'shaders/diagnostic/test_flutter_coord.frag',
   parameters: const <FractalParameter>[],
   defaultPreset: FractalPreset(
     id: 'test_flutter_coord_default',
@@ -90,7 +90,7 @@ final FractalModule testAlwaysRedModule = FractalModule(
   id: 'test_always_red',
   displayName: (AppLocalizations l10n) => 'Test: ALWAYS RED (no uniforms)',
   dimension: FractalDimension.twoD,
-  shaderAsset: 'shaders/test_always_red.frag',
+  shaderAsset: 'shaders/diagnostic/test_always_red.frag',
   parameters: const <FractalParameter>[],
   defaultPreset: FractalPreset(
     id: 'test_always_red_default',
@@ -115,7 +115,7 @@ final FractalModule testUniformOnlyModule = FractalModule(
   id: 'test_uniform_only',
   displayName: (AppLocalizations l10n) => 'Test: Uniform Check (Green/Red)',
   dimension: FractalDimension.twoD,
-  shaderAsset: 'shaders/test_uniform_only.frag',
+  shaderAsset: 'shaders/diagnostic/test_uniform_only.frag',
   parameters: const <FractalParameter>[],
   defaultPreset: FractalPreset(
     id: 'test_uniform_only_default',

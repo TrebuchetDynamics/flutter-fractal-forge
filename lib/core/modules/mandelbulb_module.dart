@@ -97,7 +97,7 @@ FractalModule buildMandelbulbModule() {
     id: 'mandelbulb',
     displayName: (l10n) => l10n.moduleMandelbulb,
     dimension: FractalDimension.threeD,
-    shaderAsset: 'shaders/mandelbulb.frag',
+    shaderAsset: 'shaders/legacy/mandelbulb.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [

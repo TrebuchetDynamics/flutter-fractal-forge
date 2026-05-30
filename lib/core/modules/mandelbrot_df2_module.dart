@@ -5,13 +5,13 @@ import 'package:flutter_fractals/core/modules/param_reader.dart';
 /// Returns a [FractalModule] that wraps the standard Mandelbrot module
 /// but uses the double-float shader for deep zoom (zoom >= 5e6).
 ///
-/// Uniform layout must match shaders/mandelbrot_df2.frag.
+/// Uniform layout must match shaders/legacy/mandelbrot_df2.frag.
 FractalModule buildMandelbrotDf2Module(FractalModule standardModule) {
   return FractalModule(
     id: standardModule.id,              // keep 'mandelbrot'
     displayName: standardModule.displayName,
     dimension: standardModule.dimension,
-    shaderAsset: 'shaders/mandelbrot_df2.frag',
+    shaderAsset: 'shaders/legacy/mandelbrot_df2.frag',
     parameters: standardModule.parameters,
     defaultPreset: standardModule.defaultPreset,
     builtInPresets: standardModule.builtInPresets,

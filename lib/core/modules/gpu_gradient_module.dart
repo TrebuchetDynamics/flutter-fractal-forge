@@ -6,7 +6,7 @@ import 'package:vector_math/vector_math.dart';
 
 /// Diagnostic module: proves FragmentProgram renders on GPU with minimal uniforms.
 ///
-/// Shader: shaders/diag_min.frag
+/// Shader: shaders/diagnostic/diag_min.frag
 /// Uniforms: uSize (vec2) only.
 FractalModule buildGpuGradientModule() {
   final defaultPreset = FractalPreset(
@@ -27,7 +27,7 @@ FractalModule buildGpuGradientModule() {
     id: 'gpu_gradient',
     displayName: (l10n) => 'GPU Gradient (Diag)',
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/diag_min.frag',
+    shaderAsset: 'shaders/diagnostic/diag_min.frag',
     parameters: const <FractalParameter>[],
     defaultPreset: defaultPreset,
     builtInPresets: [defaultPreset],

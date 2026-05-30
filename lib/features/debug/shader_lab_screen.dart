@@ -39,7 +39,7 @@ class _ShaderLabScreenState extends State<ShaderLabScreen> {
     scheduleMicrotask(() async {
       await Future<void>.delayed(const Duration(milliseconds: 400));
       try {
-        final p = await ui.FragmentProgram.fromAsset('shaders/diag_min.frag');
+        final p = await ui.FragmentProgram.fromAsset('shaders/diagnostic/diag_min.frag');
         if (!mounted) return;
         setState(() {
           _program = p;

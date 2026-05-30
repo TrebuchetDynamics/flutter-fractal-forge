@@ -20,7 +20,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_menger',
     name: 'KIFS Menger Sponge',
-    shaderAsset: 'shaders/kifs_menger_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/kifs_menger_gpu.frag',
     category: '3D Fractals',
     defaultPower: 3.0,
     minPower: 2.0,
@@ -56,7 +56,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_sierpinski_tetra',
     name: 'KIFS Sierpinski Tetrahedron',
-    shaderAsset: 'shaders/kifs_sierpinski_tetra_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/kifs_sierpinski_tetra_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -92,7 +92,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_koch_fold',
     name: 'KIFS Koch 3D',
-    shaderAsset: 'shaders/kifs_koch_fold_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/kifs_koch_fold_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -107,7 +107,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_snowflake_fold',
     name: 'KIFS Snowflake 3D',
-    shaderAsset: 'shaders/kifs_snowflake_fold_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/kifs_snowflake_fold_gpu.frag',
     category: '3D Fractals',
     defaultPower: 3.0,
     minPower: 2.0,
@@ -145,7 +145,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'quaternion_julia_3d',
     name: 'Quaternion Julia 3D',
-    shaderAsset: 'shaders/quaternion_julia_3d_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/quaternion_julia_3d_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.0,
@@ -190,7 +190,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'dual_quaternion_julia',
     name: 'Dual-Quaternion Julia',
-    shaderAsset: 'shaders/dual_quaternion_julia_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/dual_quaternion_julia_gpu.frag',
     category: '3D Fractals',
     defaultPower: 1.0,
     minPower: 0.1,
@@ -207,7 +207,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'mandelbox_shape_inversion',
     name: 'Mandelbox Shape Inversion',
-    shaderAsset: 'shaders/mandelbox_shape_inversion_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/mandelbox_shape_inversion_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -252,7 +252,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'inversive_limit_set_3d',
     name: 'Inversive Limit Set 3D',
-    shaderAsset: 'shaders/inversive_limit_set_3d_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/inversive_limit_set_3d_gpu.frag',
     category: '3D Fractals',
     defaultPower: 1.4,
     minPower: 1.0,
@@ -288,7 +288,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'mandelbulb_time_modulated',
     name: 'Time-Modulated Mandelbulb',
-    shaderAsset: 'shaders/mandelbulb_time_modulated_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/mandelbulb_time_modulated_gpu.frag',
     category: '3D Fractals',
     defaultPower: 8.0,
     minPower: 2.0,
@@ -326,7 +326,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'mandelbulb',
     name: 'Mandelbulb',
-    shaderAsset: 'shaders/mandelbulb.frag',
+    shaderAsset: 'shaders/legacy/mandelbulb.frag',
     category: '3D Fractals',
     defaultPower: 8.0,
     minPower: 2.0,

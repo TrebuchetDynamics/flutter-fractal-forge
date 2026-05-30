@@ -16,21 +16,21 @@ void main() {
   group('3D Shader Compilation Diagnostic', () {
     // All 3D ray-marched shaders from raymarched_3d_catalog.dart
     final List<String> shaderAssets = [
-      'shaders/kifs_menger_gpu.frag',
-      'shaders/kifs_sierpinski_tetra_gpu.frag',
-      'shaders/kifs_koch_fold_gpu.frag',
-      'shaders/kifs_snowflake_fold_gpu.frag',
-      'shaders/quaternion_julia_3d_gpu.frag',
-      'shaders/dual_quaternion_julia_gpu.frag',
-      'shaders/mandelbox_shape_inversion_gpu.frag',
-      'shaders/inversive_limit_set_3d_gpu.frag',
-      'shaders/mandelbulb_time_modulated_gpu.frag',
+      'shaders/ifs_and_geometric/kifs_menger_gpu.frag',
+      'shaders/ifs_and_geometric/kifs_sierpinski_tetra_gpu.frag',
+      'shaders/ifs_and_geometric/kifs_koch_fold_gpu.frag',
+      'shaders/ifs_and_geometric/kifs_snowflake_fold_gpu.frag',
+      'shaders/3d_and_hypercomplex/quaternion_julia_3d_gpu.frag',
+      'shaders/3d_and_hypercomplex/dual_quaternion_julia_gpu.frag',
+      'shaders/3d_and_hypercomplex/mandelbox_shape_inversion_gpu.frag',
+      'shaders/ifs_and_geometric/inversive_limit_set_3d_gpu.frag',
+      'shaders/3d_and_hypercomplex/mandelbulb_time_modulated_gpu.frag',
       // Standalone 3D modules
-      'shaders/mandelbulb.frag',
-      'shaders/mandelbox_3d_gpu.frag',
-      'shaders/menger_sponge_gpu.frag',
-      'shaders/menger_3d_slice_gpu.frag',
-      'shaders/quaternion_julia_2d_gpu.frag',
+      'shaders/legacy/mandelbulb.frag',
+      'shaders/3d_and_hypercomplex/mandelbox_3d_gpu.frag',
+      'shaders/ifs_and_geometric/menger_sponge_gpu.frag',
+      'shaders/ifs_and_geometric/menger_3d_slice_gpu.frag',
+      'shaders/3d_and_hypercomplex/quaternion_julia_2d_gpu.frag',
     ];
 
     for (final asset in shaderAssets) {

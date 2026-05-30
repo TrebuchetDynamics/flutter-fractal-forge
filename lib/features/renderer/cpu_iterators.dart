@@ -349,7 +349,7 @@ CpuIteratorResult _iterDeltoid(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Matches cpu_formulas.dart (ported from shaders/deltoid_gpu.frag)
+  // Matches cpu_formulas.dart (ported from shaders/escape_time_family/deltoid_gpu.frag)
   final cx = x;
   final cy = y;
   // Start z at c; starting at 0 makes z=0 a fixed point for this recurrence.
@@ -385,7 +385,7 @@ CpuIteratorResult _iterEisenstein(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Matches cpu_formulas.dart (ported from shaders/eisenstein_gpu.frag)
+  // Matches cpu_formulas.dart (ported from shaders/escape_time_family/eisenstein_gpu.frag)
   const sqrt3 = 1.7320508075688772;
   final cx = x;
   final cy = y;

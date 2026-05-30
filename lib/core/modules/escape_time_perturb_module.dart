@@ -75,7 +75,7 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
     id: standardModule.id,
     displayName: standardModule.displayName,
     dimension: standardModule.dimension,
-    shaderAsset: 'shaders/escape_time_perturb_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/escape_time_perturb_gpu.frag',
     parameters: parameters,
     defaultPreset: standardModule.defaultPreset,
     builtInPresets: standardModule.builtInPresets,

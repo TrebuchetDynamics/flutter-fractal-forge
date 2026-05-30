@@ -78,7 +78,7 @@ FractalModule buildMandelboxModule() {
     id: 'mandelbox',
     displayName: (_) => 'Mandelbox',
     dimension: FractalDimension.threeD,
-    shaderAsset: 'shaders/mandelbox_3d_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/mandelbox_3d_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
