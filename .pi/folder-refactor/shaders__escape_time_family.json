@@ -1,8 +1,8 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family",
-  "updatedAt": "2026-05-30T07:09:58.432Z",
-  "objective": "Refactor shaders/escape_time_family from root-level .frag shaders into responsibility subdirectories while preserving shader behavior and asset references. Planned topology is complete: core/, families/{buddhabrot,buffalo,burning_ship,celtic,mandelbar,multibrot,multijulia,nova,perpendicular,tricorn}/, mandelbrot_variants/, julia_variants/, polynomial_maps/, transcendental_maps/, newton_and_orthogonal/, orbit_and_domain/, geometry_and_ifs/, experimental_named/. AUTO_FOLDER_REFACTOR loop 11 revalidated complete topology with no root files or next candidates.",
+  "updatedAt": "2026-05-30T07:10:52.137Z",
+  "objective": "Refactor shaders/escape_time_family from root-level .frag shaders into responsibility subdirectories while preserving shader behavior and asset references. Planned topology is complete: core/, families/{buddhabrot,buffalo,burning_ship,celtic,mandelbar,multibrot,multijulia,nova,perpendicular,tricorn}/, mandelbrot_variants/, julia_variants/, polynomial_maps/, transcendental_maps/, newton_and_orthogonal/, orbit_and_domain/, geometry_and_ifs/, experimental_named/. AUTO_FOLDER_REFACTOR loop 12 revalidated complete topology with no root files or next candidates.",
   "completedSlices": [
     "Moved 100 obvious family shaders into families/* subdirectories and updated pubspec/lib/test/comment references.",
     "Moved remaining 99 shaders into responsibility subdirectories (core, mandelbrot_variants, julia_variants, polynomial_maps, transcendental_maps, newton_and_orthogonal, orbit_and_domain, geometry_and_ifs, experimental_named) and updated references.",
@@ -14,12 +14,15 @@
     "Loop 8 closeout revalidated topology: root files [], root .frag files [], pubspec escape_time_family assets 199, all escape_time_family frags 199, missing assets [], unlisted frags [], stale direct root shader reference rg returned no matches, related Flutter tests passed, completion audit passed.",
     "Loop 9 closeout revalidated topology: root files [], root .frag files [], pubspec escape_time_family assets 199, all escape_time_family frags 199, missing assets [], unlisted frags [], stale direct root shader reference rg returned no matches, related Flutter tests passed.",
     "Loop 10 closeout revalidated topology: root files [], root .frag files [], pubspec escape_time_family assets 199, all escape_time_family frags 199, missing assets [], unlisted frags [], stale direct root shader reference rg returned no matches, related Flutter tests passed.",
-    "Loop 11 closeout revalidated topology: root files [], root .frag files [], pubspec escape_time_family assets 199, all escape_time_family frags 199, missing assets [], unlisted frags [], stale direct root shader reference rg returned no matches, related Flutter tests passed."
+    "Loop 11 closeout revalidated topology: root files [], root .frag files [], pubspec escape_time_family assets 199, all escape_time_family frags 199, missing assets [], unlisted frags [], stale direct root shader reference rg returned no matches, related Flutter tests passed.",
+    "Loop 12 closeout revalidated topology: root files [], root .frag files [], pubspec escape_time_family assets 199, all escape_time_family frags 199, missing assets [], unlisted frags [], stale direct root shader reference rg returned no matches, related Flutter tests passed, completion audit passed."
   ],
   "nextCandidates": [],
   "validationReceipts": [
+    "folder_refactor_scan shaders/escape_time_family: root files (0), root dirs core, experimental_named, families, geometry_and_ifs, julia_variants, mandelbrot_variants, newton_and_orthogonal, orbit_and_domain, polynomial_maps, transcendental_maps.",
     "python3 asset existence check: root files []; root .frag files []; pubspec escape_time_family assets 199; all escape_time_family frags 199; missing assets []; unlisted frags [].",
     "rg \"shaders/escape_time_family/[A-Za-z0-9_]+_gpu\\\\.frag\" -n pubspec.yaml lib test integration_test shaders: no stale direct root shader references (no output).",
-    "/home/xel/flutter/bin/flutter test test/power_shader_regression_test.dart test/fractal_cpu_diagnostics_test.dart: All tests passed (16 tests)."
+    "/home/xel/flutter/bin/flutter test test/power_shader_regression_test.dart test/fractal_cpu_diagnostics_test.dart: All tests passed (16 tests).",
+    "folder_refactor_audit shaders/escape_time_family plannedTopologyComplete=true facadeFiles=[] outOfScopeFiles=[] nextCandidateFiles=[]: pass."
   ]
 }
