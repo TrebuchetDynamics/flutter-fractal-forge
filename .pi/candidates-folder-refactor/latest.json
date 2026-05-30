@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-30T06:34:48.266Z",
+  "generatedAt": "2026-05-30T06:40:19.164Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -8,21 +8,37 @@
   "candidates": [
     {
       "relative": "shaders",
-      "score": 1228.5,
+      "score": 574.5,
       "files": 471,
-      "direct": 471,
+      "direct": 1,
       "churn": 0,
       "callers": 0,
       "importsOut": 0,
       "tests": 0,
       "roles": 3,
       "duplicates": 0,
-      "subdirs": 0,
+      "subdirs": 12,
       "extensions": [
         ".frag",
         ".glsl",
         ".md",
         ".vert"
+      ]
+    },
+    {
+      "relative": "shaders/escape_time_family",
+      "score": 519.5,
+      "files": 199,
+      "direct": 199,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 1,
+      "duplicates": 0,
+      "subdirs": 0,
+      "extensions": [
+        ".frag"
       ]
     },
     {
@@ -143,6 +159,22 @@
       ]
     },
     {
+      "relative": "shaders/strange_attractors",
+      "score": 187.5,
+      "files": 69,
+      "direct": 69,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 0,
+      "duplicates": 0,
+      "subdirs": 0,
+      "extensions": [
+        ".frag"
+      ]
+    },
+    {
       "relative": "ios",
       "score": 185.5,
       "files": 27,
@@ -164,6 +196,22 @@
       ]
     },
     {
+      "relative": "shaders/ifs_and_geometric",
+      "score": 169.5,
+      "files": 59,
+      "direct": 59,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 1,
+      "duplicates": 0,
+      "subdirs": 0,
+      "extensions": [
+        ".frag"
+      ]
+    },
+    {
       "relative": "macos",
       "score": 149.5,
       "files": 23,
@@ -182,6 +230,27 @@
         ".plist",
         ".sh",
         ".swift"
+      ]
+    },
+    {
+      "relative": "linux",
+      "score": 128,
+      "files": 39,
+      "direct": 2,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 3,
+      "subdirs": 2,
+      "extensions": [
+        ".cc",
+        ".cmake",
+        ".dat",
+        ".h",
+        ".so",
+        ".txt"
       ]
     },
     {
@@ -219,6 +288,27 @@
       "subdirs": 0,
       "extensions": [
         ".py"
+      ]
+    },
+    {
+      "relative": "linux/flutter",
+      "score": 108,
+      "files": 33,
+      "direct": 4,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 1,
+      "subdirs": 1,
+      "extensions": [
+        ".cc",
+        ".cmake",
+        ".dat",
+        ".h",
+        ".so",
+        ".txt"
       ]
     },
     {
@@ -260,6 +350,38 @@
       ]
     },
     {
+      "relative": "shaders/trigonometric_and_transcendental",
+      "score": 102.5,
+      "files": 35,
+      "direct": 35,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 0,
+      "duplicates": 0,
+      "subdirs": 0,
+      "extensions": [
+        ".frag"
+      ]
+    },
+    {
+      "relative": "shaders/root_finding",
+      "score": 100,
+      "files": 34,
+      "direct": 34,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 0,
+      "duplicates": 0,
+      "subdirs": 0,
+      "extensions": [
+        ".frag"
+      ]
+    },
+    {
       "relative": "tests/research",
       "score": 96.5,
       "files": 17,
@@ -273,26 +395,6 @@
       "subdirs": 0,
       "extensions": [
         ".py"
-      ]
-    },
-    {
-      "relative": "linux",
-      "score": 95,
-      "files": 18,
-      "direct": 2,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 3,
-      "subdirs": 2,
-      "extensions": [
-        ".cc",
-        ".cmake",
-        ".dat",
-        ".h",
-        ".txt"
       ]
     },
     {
@@ -369,112 +471,6 @@
         ".swift",
         ".xcconfig",
         ".xib"
-      ]
-    },
-    {
-      "relative": "windows/runner",
-      "score": 88.5,
-      "files": 11,
-      "direct": 11,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 3,
-      "subdirs": 1,
-      "extensions": [
-        ".cpp",
-        ".h",
-        ".manifest",
-        ".rc",
-        ".txt"
-      ]
-    },
-    {
-      "relative": "fractals-library/categories/the_escape_time_family",
-      "score": 84.5,
-      "files": 25,
-      "direct": 25,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 0,
-      "subdirs": 0,
-      "extensions": [
-        ".dart"
-      ]
-    },
-    {
-      "relative": "android/app/src/main",
-      "score": 82.5,
-      "files": 9,
-      "direct": 1,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 3,
-      "subdirs": 3,
-      "extensions": [
-        ".java",
-        ".kt",
-        ".xml"
-      ]
-    },
-    {
-      "relative": "fractals-library/categories/ifs_and_geometric_construction",
-      "score": 80,
-      "files": 26,
-      "direct": 26,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 0,
-      "duplicates": 0,
-      "subdirs": 0,
-      "extensions": [
-        ".dart"
-      ]
-    },
-    {
-      "relative": "tests",
-      "score": 78,
-      "files": 17,
-      "direct": 0,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 3,
-      "duplicates": 3,
-      "subdirs": 1,
-      "extensions": [
-        ".py"
-      ]
-    },
-    {
-      "relative": "linux/flutter",
-      "score": 75,
-      "files": 12,
-      "direct": 4,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 1,
-      "subdirs": 1,
-      "extensions": [
-        ".cc",
-        ".cmake",
-        ".dat",
-        ".h",
-        ".txt"
       ]
     }
   ],
