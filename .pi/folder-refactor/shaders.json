@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "target": "shaders",
+  "updatedAt": "2026-05-30T06:41:25.654Z",
+  "objective": "Keep shaders organized by responsibility subdirectory with no root-level .frag shader assets; AGENTS.md is the only intentional root documentation/facade file.",
+  "completedSlices": [
+    "Mapped shaders root: only AGENTS.md remains as a root file; shader assets are under 12 responsibility subdirectories.",
+    "Updated shaders/AGENTS.md to reflect actual subdirectory topology, file locations, counts, and root-level .frag migration status."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "find shaders -maxdepth 1 -type f -printf '%f\\n' | sort -> AGENTS.md only",
+    "find shaders -mindepth 2 -maxdepth 2 -type f -name '*.frag' counts -> 12 category/runtime/legacy subdirectories",
+    "rg stale root shader names in shaders/AGENTS.md -> no output",
+    "rg stale root shader asset registrations in pubspec.yaml -> no output"
+  ]
+}

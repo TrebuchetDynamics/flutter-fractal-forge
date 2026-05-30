@@ -10,27 +10,31 @@
 
 | File | Description |
 |------|-------------|
-| `common.vert` | Shared vertex shader used by all fragment shaders |
-| `mandelbrot.frag` | Classic Mandelbrot set (legacy) |
-| `julia.frag` | Julia set (legacy) |
-| `burning_ship.frag` | Burning Ship fractal (legacy) |
-| `phoenix.frag` | Phoenix fractal (legacy) |
-| `mandelbulb.frag` | 3D Mandelbulb with raymarching |
-| `mandelbrot_simple.frag` | Mandelbrot via escape-time builder |
-| `ink_sparkle.frag` | Material Design ink sparkle effect |
+| `legacy/mandelbrot.frag` | Classic Mandelbrot set (legacy) |
+| `legacy/julia.frag` | Julia set (legacy) |
+| `legacy/burning_ship.frag` | Burning Ship fractal (legacy) |
+| `legacy/phoenix.frag` | Phoenix fractal (legacy) |
+| `legacy/mandelbulb.frag` | 3D Mandelbulb with raymarching |
+| `legacy/mandelbrot_simple.frag` | Mandelbrot via escape-time builder |
+| `runtime/ink_sparkle.frag` | Material Design ink sparkle effect |
+| `runtime/post_glow_h.frag` / `runtime/post_glow_v.frag` | Post-processing glow passes |
 
 ## Subdirectories
 
 | Directory | Purpose |
 |-----------|---------|
-| `escape_time_family/` | 25+ escape-time fractals (Mandelbrot variants, Julia, Celtic, etc.) |
-| `trigonometric_and_transcendental/` | 15+ trig-based fractals (sine, cosine, exponential, zeta) |
-| `strange_attractors/` | 20+ strange attractor visualizations (Lorenz, Rossler, Ikeda) |
-| `ifs_and_geometric/` | 20+ IFS and geometric fractals (Sierpinski, Koch, Dragon) |
-| `3d_and_hypercomplex/` | 10+ 3D/hypercomplex fractals (Mandelbulb, Quaternion) |
-| `cellular_and_stochastic/` | 15+ cellular automata and stochastic fractals |
-| `lyapunov_and_stability/` | 10+ Lyapunov exponent and stability map shaders |
-| `diagnostic/` | Utility/debug shaders (sampler diagnostics, gradient tests) |
+| `escape_time_family/` | 199 escape-time fractals (Mandelbrot variants, Julia, Celtic, etc.) |
+| `trigonometric_and_transcendental/` | 35 trig-based fractals (sine, cosine, exponential, zeta) |
+| `strange_attractors/` | 69 strange attractor visualizations (Lorenz, Rossler, Ikeda) |
+| `ifs_and_geometric/` | 59 IFS and geometric fractals (Sierpinski, Koch, Dragon) |
+| `3d_and_hypercomplex/` | 12 3D/hypercomplex fractals (Mandelbulb, Quaternion) |
+| `cellular_and_stochastic/` | 15 cellular automata and stochastic fractals |
+| `lyapunov_and_stability/` | 7 Lyapunov exponent and stability map shaders |
+| `root_finding/` | 34 Newton, Halley, Householder, and related root-finding shaders |
+| `kaleidoscopes/` | 15 kaleidoscope and symmetry shaders |
+| `diagnostic/` | 8 utility/debug shaders (sampler diagnostics, gradient tests) |
+| `legacy/` | 12 legacy compatibility shaders without `_gpu` naming |
+| `runtime/` | 3 runtime/post-processing shaders |
 
 ## For AI Agents
 
@@ -58,8 +62,8 @@ uniform float uTime;       // Animation time
 - Diagnostic shaders (`diag_*.frag`) used for GPU capability testing
 
 ### Common Patterns
-- Root-level `.frag` files are directly referenced by `pubspec.yaml`
-- Subdirectory shaders may also be referenced from `pubspec.yaml`
+- Root-level `.frag` files have been moved into responsibility subdirectories
+- Shader assets are directly referenced from `pubspec.yaml` by subdirectory path
 - Naming convention: `{fractal_name}_gpu.frag` for escape-time catalog shaders
 - Legacy shaders (without `_gpu` suffix) are older implementations
 
