@@ -167,7 +167,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     id: 'burning_ship',
     name: 'Burning Ship',
     displayName: (l10n) => l10n.moduleBurningShip,
-    shaderAsset: 'shaders/escape_time_family/burning_ship_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_gpu.frag',
     defaultIterations: 200,
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
@@ -294,7 +294,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn',
     name: 'Tricorn',
-    shaderAsset: 'shaders/escape_time_family/tricorn_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -322,7 +322,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic',
     name: 'Celtic',
-    shaderAsset: 'shaders/escape_time_family/celtic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_gpu.frag',
     defaultIterations: 180,
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
@@ -352,7 +352,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo',
     name: 'Buffalo',
-    shaderAsset: 'shaders/escape_time_family/buffalo_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_gpu.frag',
     defaultIterations: 180,
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
@@ -382,7 +382,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot3',
     name: 'Multibrot d=3',
-    shaderAsset: 'shaders/escape_time_family/multibrot3_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot3_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -402,7 +402,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_julia',
     name: 'Nova Julia',
-    shaderAsset: 'shaders/escape_time_family/nova_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -430,13 +430,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'fatou',
     name: 'Fatou Set',
-    shaderAsset: 'shaders/escape_time_family/fatou_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/fatou_gpu.frag',
     defaultIterations: 180,
   ),
   EscapeTimeConfig(
     id: 'gamma_fractal',
     name: 'Gamma Fractal',
-    shaderAsset: 'shaders/escape_time_family/gamma_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/gamma_gpu.frag',
     defaultIterations: 100,
   ),
 
@@ -446,7 +446,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'perpendicular_mandelbrot',
     name: 'Perpendicular Mandelbrot',
-    shaderAsset: 'shaders/escape_time_family/perpendicular_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -464,7 +464,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'lambda',
     name: 'Lambda Fractal',
-    shaderAsset: 'shaders/escape_time_family/lambda_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/lambda_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
       FractalPreset(
@@ -482,7 +482,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnet_type_1',
     name: 'Magnet Fractal (Type I)',
-    shaderAsset: 'shaders/escape_time_family/magnet1_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet1_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
@@ -501,7 +501,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnet_type_2',
     name: 'Magnet Fractal (Type II)',
-    shaderAsset: 'shaders/escape_time_family/magnet2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet2_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
@@ -520,7 +520,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnet_type_3',
     name: 'Magnet Fractal (Type III)',
-    shaderAsset: 'shaders/escape_time_family/magnet3_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet3_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
@@ -539,7 +539,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'power_sum',
     name: 'Power Sum Fractal',
-    shaderAsset: 'shaders/escape_time_family/power_sum_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
       FractalPreset(
@@ -557,7 +557,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cactus',
     name: 'Cactus Fractal',
-    shaderAsset: 'shaders/escape_time_family/cactus_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/cactus_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -575,25 +575,25 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'astroid',
     name: 'Astroid Fractal',
-    shaderAsset: 'shaders/escape_time_family/astroid_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/astroid_gpu.frag',
     defaultIterations: 160,
   ),
   EscapeTimeConfig(
     id: 'deltoid',
     name: 'Deltoid Fractal',
-    shaderAsset: 'shaders/escape_time_family/deltoid_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/deltoid_gpu.frag',
     defaultIterations: 150,
   ),
   EscapeTimeConfig(
     id: 'eisenstein',
     name: 'Eisenstein Fractal',
-    shaderAsset: 'shaders/escape_time_family/eisenstein_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag',
     defaultIterations: 170,
   ),
   EscapeTimeConfig(
     id: 'druid',
     name: 'Druid Fractal',
-    shaderAsset: 'shaders/escape_time_family/druid_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/druid_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -611,7 +611,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'inverse_mandelbrot',
     name: 'Inverse Mandelbrot',
-    shaderAsset: 'shaders/escape_time_family/inverse_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/inverse_mandelbrot_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
       FractalPreset(
@@ -629,7 +629,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'glynn',
     name: 'Glynn Fractal',
-    shaderAsset: 'shaders/escape_time_family/glynn_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/glynn_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -647,7 +647,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'simonbrot',
     name: 'Simonbrot',
-    shaderAsset: 'shaders/escape_time_family/simonbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/simonbrot_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -665,7 +665,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'shark_fin',
     name: 'Shark Fin',
-    shaderAsset: 'shaders/escape_time_family/shark_fin_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -683,7 +683,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'manowar',
     name: 'Manowar Fractal',
-    shaderAsset: 'shaders/escape_time_family/manowar_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/manowar_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -701,7 +701,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'spider',
     name: 'Spider Fractal',
-    shaderAsset: 'shaders/escape_time_family/spider_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/spider_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -719,7 +719,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'collatz',
     name: 'Collatz Fractal',
-    shaderAsset: 'shaders/escape_time_family/collatz_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/collatz_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
       FractalPreset(
@@ -737,14 +737,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'popcorn',
     name: 'Popcorn Fractal',
-    shaderAsset: 'shaders/escape_time_family/popcorn_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/popcorn_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'talis',
     name: 'Talis Fractal',
-    shaderAsset: 'shaders/escape_time_family/talis_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/talis_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
       FractalPreset(
@@ -896,7 +896,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'quadratic_koch_island',
     name: 'Quadratic Koch Island',
-    shaderAsset: 'shaders/escape_time_family/quadratic_koch_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/geometry_and_ifs/quadratic_koch_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 6.0,
   ),
@@ -1041,7 +1041,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'benesi',
     name: 'Benesi Fractal',
-    shaderAsset: 'shaders/escape_time_family/benesi_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/benesi_gpu.frag',
     defaultIterations: 220,
     defaultBailout: 8.0,
   ),
@@ -1673,7 +1673,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'zircon_zity',
     name: 'Zircon Zity',
-    shaderAsset: 'shaders/escape_time_family/zircon_zity_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag',
     defaultIterations: 130,
     extraPresets: [
       FractalPreset(
@@ -1711,7 +1711,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'fish',
     name: 'Fish Fractal',
-    shaderAsset: 'shaders/escape_time_family/fish_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/fish_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -1729,7 +1729,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'ducky',
     name: 'Ducky Fractal',
-    shaderAsset: 'shaders/escape_time_family/ducky_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/ducky_gpu.frag',
     defaultIterations: 130,
     extraPresets: [
       FractalPreset(
@@ -1767,13 +1767,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'taylor',
     name: 'Taylor Series Fractal',
-    shaderAsset: 'shaders/escape_time_family/taylor_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/taylor_gpu.frag',
     defaultIterations: 120,
   ),
   EscapeTimeConfig(
     id: 'rational_map',
     name: 'Rational Map Fractal',
-    shaderAsset: 'shaders/escape_time_family/rational_map_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
       FractalPreset(
@@ -1827,7 +1827,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_julia',
     name: 'Celtic Julia',
-    shaderAsset: 'shaders/escape_time_family/celtic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -1845,7 +1845,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_julia',
     name: 'Buffalo Julia',
-    shaderAsset: 'shaders/escape_time_family/buffalo_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -1863,7 +1863,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'perpendicular_julia',
     name: 'Perpendicular Julia',
-    shaderAsset: 'shaders/escape_time_family/perpendicular_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/perpendicular/perpendicular_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -1881,7 +1881,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_julia',
     name: 'Tricorn Julia',
-    shaderAsset: 'shaders/escape_time_family/tricorn_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -1899,7 +1899,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_julia',
     name: 'Burning Ship Julia',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -1917,13 +1917,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot_neg2',
     name: 'Multibrot d=-2',
-    shaderAsset: 'shaders/escape_time_family/multibrot_neg2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag',
     defaultIterations: 140,
   ),
   EscapeTimeConfig(
     id: 'heart',
     name: 'Heart Fractal',
-    shaderAsset: 'shaders/escape_time_family/heart_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/heart_gpu.frag',
     defaultIterations: 140,
   ),
   EscapeTimeConfig(
@@ -2029,7 +2029,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'log_spiral',
     name: 'Log Spiral Fractal',
-    shaderAsset: 'shaders/escape_time_family/log_spiral_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/log_spiral_gpu.frag',
     defaultIterations: 140,
   ),
 
@@ -2109,7 +2109,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buddhabrot_approx',
     name: 'Buddhabrot (Approx)',
-    shaderAsset: 'shaders/escape_time_family/buddhabrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag',
     defaultIterations: 260,
     defaultCenterX: -0.5,
     defaultCenterY: 0.0,
@@ -2118,7 +2118,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'anti_buddhabrot',
     name: 'Anti-Buddhabrot',
-    shaderAsset: 'shaders/escape_time_family/anti_buddhabrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag',
     defaultIterations: 260,
     defaultCenterX: -0.5,
     defaultCenterY: 0.0,
@@ -2127,7 +2127,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nebulabrot',
     name: 'Nebulabrot (Approx)',
-    shaderAsset: 'shaders/escape_time_family/nebulabrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag',
     defaultIterations: 280,
     defaultCenterX: -0.5,
     defaultCenterY: 0.0,
@@ -2225,7 +2225,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'farey_diagram',
     name: 'Farey Diagram',
-    shaderAsset: 'shaders/escape_time_family/farey_diagram_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/geometry_and_ifs/farey_diagram_gpu.frag',
     defaultIterations: 140,
     defaultCenterX: 0.0,
     defaultCenterY: 0.2,
@@ -2269,7 +2269,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'lambda_w',
     name: 'Lambda W Fractal',
-    shaderAsset: 'shaders/escape_time_family/lambda_w_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/lambda_w_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
@@ -2307,13 +2307,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'manair_fire',
     name: 'Man-Air-Fire',
-    shaderAsset: 'shaders/escape_time_family/manair_fire_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/manair_fire_gpu.frag',
     defaultIterations: 160,
   ),
   EscapeTimeConfig(
     id: 'spider_x',
     name: 'Spider-X',
-    shaderAsset: 'shaders/escape_time_family/spider_x_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/spider_x_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -2331,14 +2331,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'popcorn2',
     name: 'Popcorn II',
-    shaderAsset: 'shaders/escape_time_family/popcorn2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/popcorn2_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'chebyshev',
     name: 'Chebyshev Fractal',
-    shaderAsset: 'shaders/escape_time_family/chebyshev_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/chebyshev_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 6.0,
     extraPresets: [
@@ -2357,28 +2357,28 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'legendre',
     name: 'Legendre Fractal',
-    shaderAsset: 'shaders/escape_time_family/legendre_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/legendre_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(
     id: 'laguerre',
     name: 'Laguerre Fractal',
-    shaderAsset: 'shaders/escape_time_family/laguerre_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/laguerre_gpu.frag',
     defaultIterations: 110,
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(
     id: 'hermite',
     name: 'Hermite Fractal',
-    shaderAsset: 'shaders/escape_time_family/hermite_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/hermite_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(
     id: 'virial',
     name: 'Virial Fractal',
-    shaderAsset: 'shaders/escape_time_family/virial_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/virial_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -2410,7 +2410,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot4',
     name: 'Multibrot d=4',
-    shaderAsset: 'shaders/escape_time_family/multibrot4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot4_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -2428,7 +2428,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot5',
     name: 'Multibrot d=5',
-    shaderAsset: 'shaders/escape_time_family/multibrot5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag',
     defaultIterations: 170,
     extraPresets: [
       FractalPreset(
@@ -2507,7 +2507,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'washed_away',
     name: 'Washed Away',
-    shaderAsset: 'shaders/escape_time_family/washed_away_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/washed_away_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2519,7 +2519,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'damaged_doublebrot',
     name: 'Damaged DoubleBrot',
-    shaderAsset: 'shaders/escape_time_family/damaged_doublebrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/damaged_doublebrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 8.0,
     defaultCenterX: -0.3,
@@ -2544,7 +2544,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'perp_celtic',
     name: 'Perpendicular Celtic',
-    shaderAsset: 'shaders/escape_time_family/perp_celtic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag',
     defaultIterations: 180,
     extraPresets: [
       FractalPreset(
@@ -2566,7 +2566,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'feather',
     name: 'Feather Fractal',
-    shaderAsset: 'shaders/escape_time_family/feather_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/feather_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2589,7 +2589,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_cubic',
     name: 'Cubic Burning Ship',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_cubic_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2612,7 +2612,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_cubic',
     name: 'Celtic Cubic',
-    shaderAsset: 'shaders/escape_time_family/celtic_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2635,7 +2635,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_orbit_trap',
     name: 'Mandelbrot Orbit Trap',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_orbit_trap_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_orbit_trap_gpu.frag',
     defaultIterations: 300,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2655,7 +2655,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot_15',
     name: 'Multibrot d=1.5',
-    shaderAsset: 'shaders/escape_time_family/multibrot_15_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2674,7 +2674,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'perp_celtic_cubic',
     name: 'Perpendicular Celtic Cubic',
-    shaderAsset: 'shaders/escape_time_family/perp_celtic_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/perp_celtic_cubic_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2693,7 +2693,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_curvature_avg',
     name: 'Mandelbrot Curvature Avg',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_curvature_avg_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_curvature_avg_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2723,7 +2723,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'julia_de',
     name: 'Julia DE Glow',
-    shaderAsset: 'shaders/escape_time_family/julia_de_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/julia_de_gpu.frag',
     defaultIterations: 250,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2752,7 +2752,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_de',
     name: 'Mandelbrot DE Glow',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_de_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_de_gpu.frag',
     defaultIterations: 250,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2782,7 +2782,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_cubic',
     name: 'Tricorn Cubic',
-    shaderAsset: 'shaders/escape_time_family/tricorn_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_cubic_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2801,7 +2801,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_tia',
     name: 'Mandelbrot TIA',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_tia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_tia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2831,7 +2831,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_cubic',
     name: 'Buffalo Cubic',
-    shaderAsset: 'shaders/escape_time_family/buffalo_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2850,7 +2850,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_stripe_avg',
     name: 'Mandelbrot Stripe Average',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_stripe_avg_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_stripe_avg_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2880,7 +2880,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_perp_julia',
     name: 'Perpendicular Ship Julia',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_perp_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_perp_julia_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2899,7 +2899,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot_25',
     name: 'Multibrot d=2.5',
-    shaderAsset: 'shaders/escape_time_family/multibrot_25_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2918,7 +2918,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_perp',
     name: 'Perpendicular Burning Ship',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_perp_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_perp_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2944,7 +2944,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'prison',
     name: 'Prison',
-    shaderAsset: 'shaders/escape_time_family/prison_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/prison_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: 0.0,
@@ -2968,7 +2968,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'crazybrot',
     name: 'Crazybrot',
-    shaderAsset: 'shaders/escape_time_family/crazybrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/crazybrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: 0.0,
@@ -2992,7 +2992,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'eaten',
     name: 'Eaten',
-    shaderAsset: 'shaders/escape_time_family/eaten_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/eaten_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 6.0,
     defaultCenterX: -0.5,
@@ -3016,7 +3016,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'polar_cowlick',
     name: 'Polar Cowlick',
-    shaderAsset: 'shaders/escape_time_family/polar_cowlick_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/polar_cowlick_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: 0.0,
@@ -3041,7 +3041,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'vase',
     name: 'Vase',
-    shaderAsset: 'shaders/escape_time_family/vase_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/vase_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 8.0,
     defaultCenterX: 0.0,
@@ -3066,7 +3066,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'lightningbrot',
     name: 'LightningBrot',
-    shaderAsset: 'shaders/escape_time_family/lightningbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/lightningbrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -3091,7 +3091,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'angrybrot',
     name: 'Angrybrot',
-    shaderAsset: 'shaders/escape_time_family/angrybrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/angrybrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.3,
@@ -3116,7 +3116,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'singularity',
     name: 'Singularity',
-    shaderAsset: 'shaders/escape_time_family/singularity_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/singularity_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -3139,7 +3139,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'space_fractal',
     name: 'Space Fractal',
-    shaderAsset: 'shaders/escape_time_family/space_fractal_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/space_fractal_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -3162,7 +3162,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'contused_fields',
     name: 'Contused Fields',
-    shaderAsset: 'shaders/escape_time_family/contused_fields_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/contused_fields_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 10.0,
     defaultCenterX: 0.0,
@@ -3185,7 +3185,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'car_road',
     name: 'Car Road',
-    shaderAsset: 'shaders/escape_time_family/car_road_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/car_road_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 8.0,
     defaultCenterX: 0.0,
@@ -3208,7 +3208,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'bullet_shot',
     name: 'Bullet Shot',
-    shaderAsset: 'shaders/escape_time_family/bullet_shot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/bullet_shot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -3254,7 +3254,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'drill',
     name: 'Drill Fractal',
-    shaderAsset: 'shaders/escape_time_family/drill_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/drill_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -3300,7 +3300,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'undefined',
     name: 'Undefined Fractal',
-    shaderAsset: 'shaders/escape_time_family/undefined_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/undefined_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 10.0,
     defaultCenterX: 0.0,
@@ -3450,7 +3450,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power4',
     name: 'Burning Ship ⁴',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3459,7 +3459,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot6',
     name: 'Multibrot ⁶',
-    shaderAsset: 'shaders/escape_time_family/multibrot6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3468,7 +3468,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_power4',
     name: 'Tricorn ⁴ (Mandelbar)',
-    shaderAsset: 'shaders/escape_time_family/tricorn_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3477,7 +3477,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power4',
     name: 'Buffalo ⁴',
-    shaderAsset: 'shaders/escape_time_family/buffalo_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3496,7 +3496,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'biomorph',
     name: 'Biomorph',
-    shaderAsset: 'shaders/escape_time_family/biomorph_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/biomorph_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 10.0,
     extraPresets: [
@@ -3515,49 +3515,49 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multijulia3',
     name: 'Multijulia ³',
-    shaderAsset: 'shaders/escape_time_family/multijulia3_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia3_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia4',
     name: 'Multijulia ⁴',
-    shaderAsset: 'shaders/escape_time_family/multijulia4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia5',
     name: 'Multijulia ⁵',
-    shaderAsset: 'shaders/escape_time_family/multijulia5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia6',
     name: 'Multijulia ⁶',
-    shaderAsset: 'shaders/escape_time_family/multijulia6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'celtic_power4',
     name: 'Celtic ⁴',
-    shaderAsset: 'shaders/escape_time_family/celtic_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'burning_ship_cubic_julia',
     name: 'Burning Ship Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_power5',
     name: 'Tricorn ⁵ (Mandelbar)',
-    shaderAsset: 'shaders/escape_time_family/tricorn_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3571,77 +3571,77 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_cubic_julia',
     name: 'Buffalo Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/buffalo_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'magnet1',
     name: 'Magnet Type I',
-    shaderAsset: 'shaders/escape_time_family/magnet1_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet1_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 8.0,
   ),
   EscapeTimeConfig(
     id: 'mandelbar_cubic',
     name: 'Mandelbar Cubic (Tricorn ³)',
-    shaderAsset: 'shaders/escape_time_family/mandelbar_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'perpendicular_burning_ship',
     name: 'Perpendicular Burning Ship',
-    shaderAsset: 'shaders/escape_time_family/perpendicular_burning_ship_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'burning_ship_power5',
     name: 'Burning Ship ⁵',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'celtic_power5',
     name: 'Celtic ⁵',
-    shaderAsset: 'shaders/escape_time_family/celtic_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'buffalo_power5',
     name: 'Buffalo ⁵',
-    shaderAsset: 'shaders/escape_time_family/buffalo_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multibrot7',
     name: 'Multibrot ⁷',
-    shaderAsset: 'shaders/escape_time_family/multibrot7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multibrot8',
     name: 'Multibrot ⁸',
-    shaderAsset: 'shaders/escape_time_family/multibrot8_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia7',
     name: 'Multijulia ⁷',
-    shaderAsset: 'shaders/escape_time_family/multijulia7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia7_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia8',
     name: 'Multijulia ⁸',
-    shaderAsset: 'shaders/escape_time_family/multijulia8_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia8_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3655,14 +3655,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'feather_julia',
     name: 'Feather Julia',
-    shaderAsset: 'shaders/escape_time_family/feather_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/feather_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 8.0,
   ),
   EscapeTimeConfig(
     id: 'heart_julia',
     name: 'Heart Julia',
-    shaderAsset: 'shaders/escape_time_family/heart_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/heart_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3676,126 +3676,126 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power4_julia',
     name: 'Burning Ship⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_power4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'burning_ship_power5_julia',
     name: 'Burning Ship⁵ Julia',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_power5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power5_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'buffalo_power4_julia',
     name: 'Buffalo⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/buffalo_power4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'celtic_power4_julia',
     name: 'Celtic⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/celtic_power4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_power4_julia',
     name: 'Tricorn⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/tricorn_power4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_power5_julia',
     name: 'Tricorn⁵ Julia',
-    shaderAsset: 'shaders/escape_time_family/tricorn_power5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power5_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'perpendicular_burning_ship_julia',
     name: 'Perpendicular BS Julia',
-    shaderAsset: 'shaders/escape_time_family/perpendicular_burning_ship_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'lambda_julia',
     name: 'Lambda Julia',
-    shaderAsset: 'shaders/escape_time_family/lambda_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/lambda_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'celtic_cubic_julia',
     name: 'Celtic Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/celtic_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'celtic_power5_julia',
     name: 'Celtic⁵ Julia',
-    shaderAsset: 'shaders/escape_time_family/celtic_power5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'buffalo_power5_julia',
     name: 'Buffalo⁵ Julia',
-    shaderAsset: 'shaders/escape_time_family/buffalo_power5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_cubic_julia',
     name: 'Tricorn Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/tricorn_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'magnet1_julia',
     name: 'Magnet I Julia',
-    shaderAsset: 'shaders/escape_time_family/magnet1_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/magnet1_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 10.0,
   ),
   EscapeTimeConfig(
     id: 'magnet2_julia',
     name: 'Magnet II Julia',
-    shaderAsset: 'shaders/escape_time_family/magnet2_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/magnet2_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 10.0,
   ),
   EscapeTimeConfig(
     id: 'mandelbar_power6',
     name: 'Mandelbar⁶',
-    shaderAsset: 'shaders/escape_time_family/mandelbar_power6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_power6_julia',
     name: 'Tricorn⁶ Julia',
-    shaderAsset: 'shaders/escape_time_family/tricorn_power6_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power6_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'perpendicular_bs_cubic',
     name: 'Perpendicular BS Cubic',
-    shaderAsset: 'shaders/escape_time_family/perpendicular_bs_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'perpendicular_bs_cubic_julia',
     name: 'Perp. BS Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/perpendicular_bs_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3816,98 +3816,98 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_cubic',
     name: 'Nova Cubic',
-    shaderAsset: 'shaders/escape_time_family/nova_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_cubic_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'nova_cubic_julia',
     name: 'Nova Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/nova_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'burning_ship_power6',
     name: 'Burning Ship⁶',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_power6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'buffalo_power6',
     name: 'Buffalo⁶',
-    shaderAsset: 'shaders/escape_time_family/buffalo_power6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'celtic_power6',
     name: 'Celtic⁶',
-    shaderAsset: 'shaders/escape_time_family/celtic_power6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multibrot9',
     name: 'Multibrot⁹',
-    shaderAsset: 'shaders/escape_time_family/multibrot9_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia9',
     name: 'Multijulia⁹',
-    shaderAsset: 'shaders/escape_time_family/multijulia9_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia9_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multibrot10',
     name: 'Multibrot¹⁰',
-    shaderAsset: 'shaders/escape_time_family/multibrot10_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia10',
     name: 'Multijulia¹⁰',
-    shaderAsset: 'shaders/escape_time_family/multijulia10_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia10_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multibrot11',
     name: 'Multibrot¹¹',
-    shaderAsset: 'shaders/escape_time_family/multibrot11_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multibrot12',
     name: 'Multibrot¹²',
-    shaderAsset: 'shaders/escape_time_family/multibrot12_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'burning_ship_power6_julia',
     name: 'Burning Ship⁶ Julia',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_power6_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power6_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'buffalo_power6_julia',
     name: 'Buffalo⁶ Julia',
-    shaderAsset: 'shaders/escape_time_family/buffalo_power6_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'celtic_power6_julia',
     name: 'Celtic⁶ Julia',
-    shaderAsset: 'shaders/escape_time_family/celtic_power6_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3921,91 +3921,91 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbar_power7',
     name: 'Mandelbar⁷',
-    shaderAsset: 'shaders/escape_time_family/mandelbar_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'nova_degree4',
     name: 'Nova⁴',
-    shaderAsset: 'shaders/escape_time_family/nova_degree4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_degree4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'nova_degree4_julia',
     name: 'Nova⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/nova_degree4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_degree4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia7',
     name: 'Multijulia⁷',
-    shaderAsset: 'shaders/escape_time_family/multijulia7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia7_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia8',
     name: 'Multijulia⁸',
-    shaderAsset: 'shaders/escape_time_family/multijulia8_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia8_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia11',
     name: 'Multijulia¹¹',
-    shaderAsset: 'shaders/escape_time_family/multijulia11_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia11_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multijulia12',
     name: 'Multijulia¹²',
-    shaderAsset: 'shaders/escape_time_family/multijulia12_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multijulia/multijulia12_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'mandelbar_power8',
     name: 'Mandelbar⁸',
-    shaderAsset: 'shaders/escape_time_family/mandelbar_power8_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'mandelbar_power9',
     name: 'Mandelbar⁹',
-    shaderAsset: 'shaders/escape_time_family/mandelbar_power9_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_power7_julia',
     name: 'Tricorn⁷ Julia',
-    shaderAsset: 'shaders/escape_time_family/tricorn_power7_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power7_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_power8_julia',
     name: 'Tricorn⁸ Julia',
-    shaderAsset: 'shaders/escape_time_family/tricorn_power8_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power8_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'perpendicular_bs_power4',
     name: 'Perpendicular BS⁴',
-    shaderAsset: 'shaders/escape_time_family/perpendicular_bs_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/perpendicular/perpendicular_bs_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'perpendicular_bs_power5',
     name: 'Perpendicular BS⁵',
-    shaderAsset: 'shaders/escape_time_family/perpendicular_bs_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/perpendicular/perpendicular_bs_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -4013,7 +4013,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelpinski',
     name: 'Mandelpinski Necklaces',
-    shaderAsset: 'shaders/escape_time_family/mandelpinski_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelpinski_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 8.0,
     extraPresets: [
@@ -4042,7 +4042,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'blaschke',
     name: 'Blaschke Product',
-    shaderAsset: 'shaders/escape_time_family/blaschke_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 8.0,
     extraPresets: [
@@ -4071,7 +4071,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'fatou_exp',
     name: 'Fatou Exponential',
-    shaderAsset: 'shaders/escape_time_family/fatou_exp_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/fatou_exp_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 50.0,
     extraPresets: [
@@ -4100,7 +4100,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'sin_z2',
     name: 'sin(z²) + c',
-    shaderAsset: 'shaders/escape_time_family/sin_z2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/sin_z2_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 20.0,
     extraPresets: [
@@ -4499,7 +4499,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mcmullen_map',
     name: 'McMullen Map',
-    shaderAsset: 'shaders/escape_time_family/mcmullen_map_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag',
     category: 'Advanced Rational & Polynomial',
     defaultIterations: 180,
     defaultBailout: 6.0,
@@ -4580,7 +4580,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'generalized_mcmullen',
     name: 'Generalized McMullen',
-    shaderAsset: 'shaders/escape_time_family/generalized_mcmullen_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag',
     category: 'Advanced Rational & Polynomial',
     defaultIterations: 200,
     defaultBailout: 6.0,
@@ -4694,7 +4694,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'fractal_flame',
     name: 'Fractal Flame',
-    shaderAsset: 'shaders/escape_time_family/fractal_flame_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag',
     category: 'IFS / Geometric Fractals',
     defaultIterations: 140,
     defaultBailout: 8.0,
@@ -5139,7 +5139,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'alternated_iteration',
     name: 'Alternated Iteration',
-    shaderAsset: 'shaders/escape_time_family/alternated_iteration_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/alternated_iteration_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5147,7 +5147,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'bedhead',
     name: 'Bedhead',
-    shaderAsset: 'shaders/escape_time_family/bedhead_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/bedhead_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5163,7 +5163,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buddhabrot_full',
     name: 'Buddhabrot Full',
-    shaderAsset: 'shaders/escape_time_family/buddhabrot_full_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buddhabrot/buddhabrot_full_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5171,7 +5171,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo2',
     name: 'Buffalo2',
-    shaderAsset: 'shaders/escape_time_family/buffalo2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo2_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5179,7 +5179,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power7',
     name: 'Buffalo Power7',
-    shaderAsset: 'shaders/escape_time_family/buffalo_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5187,7 +5187,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power7',
     name: 'Burning Ship Power7',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power7_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5195,7 +5195,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power7_julia',
     name: 'Burning Ship Power7 Julia',
-    shaderAsset: 'shaders/escape_time_family/burning_ship_power7_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power7_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5203,7 +5203,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic2',
     name: 'Celtic2',
-    shaderAsset: 'shaders/escape_time_family/celtic2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic2_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5211,7 +5211,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_power7',
     name: 'Celtic Power7',
-    shaderAsset: 'shaders/escape_time_family/celtic_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5219,7 +5219,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'chebyshev_fractal',
     name: 'Chebyshev Fractal',
-    shaderAsset: 'shaders/escape_time_family/chebyshev_fractal_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/chebyshev_fractal_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5275,7 +5275,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'domain_coloring',
     name: 'Domain Coloring',
-    shaderAsset: 'shaders/escape_time_family/domain_coloring_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5283,7 +5283,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'escape_time_perturb',
     name: 'Escape Time Perturb',
-    shaderAsset: 'shaders/escape_time_family/escape_time_perturb_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/core/escape_time_perturb_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5291,7 +5291,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'exp_additive_mandelbrot',
     name: 'Exp Additive Mandelbrot',
-    shaderAsset: 'shaders/escape_time_family/exp_additive_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/exp_additive_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5299,7 +5299,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'fractal_dream',
     name: 'Fractal Dream',
-    shaderAsset: 'shaders/escape_time_family/fractal_dream_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/fractal_dream_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5315,7 +5315,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'hofstadter_butterfly',
     name: 'Hofstadter Butterfly',
-    shaderAsset: 'shaders/escape_time_family/hofstadter_butterfly_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/geometry_and_ifs/hofstadter_butterfly_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5323,7 +5323,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'inverse_quadratic',
     name: 'Inverse Quadratic',
-    shaderAsset: 'shaders/escape_time_family/inverse_quadratic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5347,7 +5347,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'jason_rampe_1',
     name: 'Jason Rampe 1',
-    shaderAsset: 'shaders/escape_time_family/jason_rampe_1_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/jason_rampe_1_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5355,7 +5355,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'jason_rampe_2',
     name: 'Jason Rampe 2',
-    shaderAsset: 'shaders/escape_time_family/jason_rampe_2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/jason_rampe_2_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5363,7 +5363,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'julia',
     name: 'Julia',
-    shaderAsset: 'shaders/escape_time_family/julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/core/julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5371,7 +5371,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'king',
     name: 'King',
-    shaderAsset: 'shaders/escape_time_family/king_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/king_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5387,7 +5387,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'laguerre_fractal',
     name: 'Laguerre Fractal',
-    shaderAsset: 'shaders/escape_time_family/laguerre_fractal_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/laguerre_fractal_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5395,7 +5395,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnetic_pendulum',
     name: 'Magnetic Pendulum',
-    shaderAsset: 'shaders/escape_time_family/magnetic_pendulum_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/experimental_named/magnetic_pendulum_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5443,7 +5443,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandel_julia_dual',
     name: 'Mandel Julia Dual',
-    shaderAsset: 'shaders/escape_time_family/mandel_julia_dual_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/core/mandel_julia_dual_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5491,7 +5491,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_degree5',
     name: 'Nova Degree5',
-    shaderAsset: 'shaders/escape_time_family/nova_degree5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_degree5_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5499,7 +5499,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_degree5_julia',
     name: 'Nova Degree5 Julia',
-    shaderAsset: 'shaders/escape_time_family/nova_degree5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_degree5_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5507,7 +5507,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova',
     name: 'Nova',
-    shaderAsset: 'shaders/escape_time_family/nova_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5515,7 +5515,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_mandelbrot',
     name: 'Nova Mandelbrot',
-    shaderAsset: 'shaders/escape_time_family/nova_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5523,7 +5523,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'orbit_trap_cross',
     name: 'Orbit Trap Cross',
-    shaderAsset: 'shaders/escape_time_family/orbit_trap_cross_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/orbit_and_domain/orbit_trap_cross_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5531,7 +5531,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'orbit_trap_point',
     name: 'Orbit Trap Point',
-    shaderAsset: 'shaders/escape_time_family/orbit_trap_point_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/orbit_and_domain/orbit_trap_point_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5539,7 +5539,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'orbit_trap_ring',
     name: 'Orbit Trap Ring',
-    shaderAsset: 'shaders/escape_time_family/orbit_trap_ring_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/orbit_and_domain/orbit_trap_ring_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5555,7 +5555,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'phase_portrait',
     name: 'Phase Portrait',
-    shaderAsset: 'shaders/escape_time_family/phase_portrait_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/orbit_and_domain/phase_portrait_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5563,7 +5563,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'phoenix',
     name: 'Phoenix',
-    shaderAsset: 'shaders/escape_time_family/phoenix_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/core/phoenix_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5611,7 +5611,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'shape_modulus_julia',
     name: 'Shape Modulus Julia',
-    shaderAsset: 'shaders/escape_time_family/shape_modulus_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5731,7 +5731,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'symmetric_icon',
     name: 'Symmetric Icon',
-    shaderAsset: 'shaders/escape_time_family/symmetric_icon_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/geometry_and_ifs/symmetric_icon_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -6217,7 +6217,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'phoenix_julia',
     name: 'Phoenix Julia',
-    shaderAsset: 'shaders/escape_time_family/phoenix_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/core/phoenix_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -6399,7 +6399,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power7',
     name: 'Buffalo⁷',
-    shaderAsset: 'shaders/escape_time_family/buffalo_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     category: 'Escape-Time',

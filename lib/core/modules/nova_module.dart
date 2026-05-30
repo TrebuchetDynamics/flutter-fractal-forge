@@ -44,7 +44,7 @@ FractalModule buildNovaModule() {
     id: 'nova',
     displayName: (l10n) => 'Nova',
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/escape_time_family/nova_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/nova_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [

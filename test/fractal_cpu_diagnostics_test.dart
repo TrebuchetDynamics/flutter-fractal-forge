@@ -189,7 +189,7 @@ void main() {
       // depending on the Julia set boundary. Report exact value; no assumption.
       final (r, g, b) = _pixelJulia(0.0, 0.0);
       print('NAV_DIAG route=/viewer/julia '
-          'module=julia shader=shaders/escape_time_family/julia_gpu.frag '
+          'module=julia shader=shaders/escape_time_family/core/julia_gpu.frag '
           'preset=julia-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'juliaC=-0.8,0.156 device=$device serial=$deviceSerial');
@@ -203,7 +203,7 @@ void main() {
     test('Burning Ship center pixel at pan=(0,0) zoom=1 iter=160', () {
       final (r, g, b) = _pixelBurningShip(0.0, 0.0);
       print('NAV_DIAG route=/viewer/burning_ship '
-          'module=burning_ship shader=shaders/escape_time_family/burning_ship_gpu.frag '
+          'module=burning_ship shader=shaders/escape_time_family/families/burning_ship/burning_ship_gpu.frag '
           'preset=burning_ship-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'device=$device serial=$deviceSerial');
@@ -216,7 +216,7 @@ void main() {
     test('Tricorn center pixel at pan=(0,0) zoom=1 iter=160', () {
       final (r, g, b) = _pixelTricorn(0.0, 0.0);
       print('NAV_DIAG route=/viewer/tricorn '
-          'module=tricorn shader=shaders/escape_time_family/tricorn_gpu.frag '
+          'module=tricorn shader=shaders/escape_time_family/families/tricorn/tricorn_gpu.frag '
           'preset=tricorn-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'device=$device serial=$deviceSerial');
@@ -228,7 +228,7 @@ void main() {
     test('Celtic center pixel at pan=(0,0) zoom=1 iter=160', () {
       final (r, g, b) = _pixelCeltic(0.0, 0.0);
       print('NAV_DIAG route=/viewer/celtic '
-          'module=celtic shader=shaders/escape_time_family/celtic_gpu.frag '
+          'module=celtic shader=shaders/escape_time_family/families/celtic/celtic_gpu.frag '
           'preset=celtic-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'device=$device serial=$deviceSerial');
@@ -240,7 +240,7 @@ void main() {
     test('Buffalo center pixel at pan=(0,0) zoom=1 iter=160', () {
       final (r, g, b) = _pixelBuffalo(0.0, 0.0);
       print('NAV_DIAG route=/viewer/buffalo '
-          'module=buffalo shader=shaders/escape_time_family/buffalo_gpu.frag '
+          'module=buffalo shader=shaders/escape_time_family/families/buffalo/buffalo_gpu.frag '
           'preset=buffalo-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'device=$device serial=$deviceSerial');
@@ -252,7 +252,7 @@ void main() {
     test('Phoenix center pixel at pan=(0,0) zoom=1 iter=160 phoenixP=0', () {
       final (r, g, b) = _pixelPhoenix(0.0, 0.0);
       print('NAV_DIAG route=/viewer/phoenix '
-          'module=phoenix shader=shaders/escape_time_family/phoenix_gpu.frag '
+          'module=phoenix shader=shaders/escape_time_family/core/phoenix_gpu.frag '
           'preset=phoenix-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 phoenixP=0.0 '
           'device=$device serial=$deviceSerial');

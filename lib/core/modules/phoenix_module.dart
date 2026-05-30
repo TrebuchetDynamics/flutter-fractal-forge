@@ -88,7 +88,7 @@ FractalModule buildPhoenixModule() {
     id: 'phoenix',
     displayName: (l10n) => l10n.modulePhoenix,
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/escape_time_family/phoenix_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/core/phoenix_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
