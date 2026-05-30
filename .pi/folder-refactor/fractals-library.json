@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "target": "fractals-library",
+  "updatedAt": "2026-05-30T06:52:42.855Z",
+  "objective": "Refactor fractals-library root files into responsibility subfolders while preserving manifest validation behavior. Planned topology: root AGENTS.md as folder guidance facade; data/fractal_manifest.json for structured data; docs/ for human overview docs; scripts/ for validation; categories/ unchanged.",
+  "completedSlices": [
+    "Moved fractal_manifest.json to data/fractal_manifest.json.",
+    "Moved fractal-library.md and fractali-library.md to docs/.",
+    "Updated scripts/validate_manifest.py to locate the manifest relative to the script so validation works from repo root or fractals-library.",
+    "Updated fractals-library/AGENTS.md references to the new data/docs topology.",
+    "Completion audit passed with AGENTS.md as the only intentional root facade file."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "cd fractals-library && python3 scripts/validate_manifest.py -> OK: manifest has 200 unique IDs",
+    "python3 fractals-library/scripts/validate_manifest.py -> OK: manifest has 200 unique IDs",
+    "rg -n \"fractal_manifest\\\\.json|fractal-library\\\\.md|fractali-library\\\\.md\" . -> only updated AGENTS.md and script references",
+    "folder_refactor_audit target=fractals-library plannedTopologyComplete=true facadeFiles=[AGENTS.md] -> pass"
+  ]
+}

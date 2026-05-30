@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-import json,sys
-p='fractal_manifest.json'
+import json
+import sys
+from pathlib import Path
+
+p = Path(__file__).resolve().parents[1] / 'data' / 'fractal_manifest.json'
 with open(p) as f: m=json.load(f)
 ids=[x['id'] for x in m]
 if len(ids)!=200: print('Expected 200, got',len(ids)); sys.exit(1)

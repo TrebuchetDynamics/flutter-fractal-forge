@@ -10,15 +10,17 @@ Reference library of 200 fractal definitions organized by mathematical category.
 
 | File | Description |
 |------|-------------|
-| `fractal_manifest.json` | Master manifest listing all 200 fractals with IDs, names, and categories |
-| `fractal-library.md` | English documentation overview |
-| `fractali-library.md` | Alternate language documentation |
+| `data/fractal_manifest.json` | Master manifest listing all 200 fractals with IDs, names, and categories |
+| `docs/fractal-library.md` | English documentation overview |
+| `docs/fractali-library.md` | Alternate language documentation |
 
 ## Subdirectories
 
 | Directory | Purpose |
 |-----------|---------|
 | `categories/` | 12 subdirectories organized by mathematical category (see below) |
+| `data/` | Manifest and structured reference-library data |
+| `docs/` | Human-readable reference-library overviews |
 | `scripts/` | Validation scripts for manifest integrity |
 
 ### Category Subdirectories
@@ -45,6 +47,7 @@ Reference library of 200 fractal definitions organized by mathematical category.
 - These serve as reference material for shader implementation
 - The manifest JSON is the source of truth for fractal IDs and names
 - Use `scripts/validate_manifest.py` to verify manifest integrity
+- Manifest data lives in `data/fractal_manifest.json`; overview docs live in `docs/`
 
 ### Common Patterns
 - Fractal IDs are `f001` through `f200`
