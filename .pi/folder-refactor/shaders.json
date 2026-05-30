@@ -1,17 +1,18 @@
 {
   "version": 1,
   "target": "shaders",
-  "updatedAt": "2026-05-30T06:41:25.654Z",
-  "objective": "Keep shaders organized by responsibility subdirectory with no root-level .frag shader assets; AGENTS.md is the only intentional root documentation/facade file.",
+  "updatedAt": "2026-05-30T06:42:05.613Z",
+  "objective": "Keep shaders organized by responsibility subdirectory with no root-level .frag shader assets; AGENTS.md is the only intentional root documentation/facade file. Topology is complete for the target folder.",
   "completedSlices": [
     "Mapped shaders root: only AGENTS.md remains as a root file; shader assets are under 12 responsibility subdirectories.",
-    "Updated shaders/AGENTS.md to reflect actual subdirectory topology, file locations, counts, and root-level .frag migration status."
+    "Updated shaders/AGENTS.md to reflect actual subdirectory topology, file locations, counts, and root-level .frag migration status.",
+    "Completion audit passed: AGENTS.md is the only root file; no remaining move/extraction candidates."
   ],
   "nextCandidates": [],
   "validationReceipts": [
     "find shaders -maxdepth 1 -type f -printf '%f\\n' | sort -> AGENTS.md only",
-    "find shaders -mindepth 2 -maxdepth 2 -type f -name '*.frag' counts -> 12 category/runtime/legacy subdirectories",
-    "rg stale root shader names in shaders/AGENTS.md -> no output",
-    "rg stale root shader asset registrations in pubspec.yaml -> no output"
+    "find shaders -mindepth 2 -maxdepth 2 -type f -name '*.frag' counts -> 12 category/runtime/legacy subdirectories: 3d_and_hypercomplex=12, cellular_and_stochastic=15, diagnostic=8, escape_time_family=199, ifs_and_geometric=59, kaleidoscopes=15, legacy=12, lyapunov_and_stability=7, root_finding=34, runtime=3, strange_attractors=69, trigonometric_and_transcendental=35",
+    "rg -n \"shaders/[A-Za-z0-9_]+\\\\.frag|root-level \\\\.frag|Root-level\" shaders/AGENTS.md pubspec.yaml -> only expected AGENTS.md statement that root-level .frag files have been moved",
+    "folder_refactor_audit(target=shaders, plannedTopologyComplete=true, facadeFiles=[AGENTS.md], outOfScopeFiles=[], nextCandidateFiles=[]) -> pass"
   ]
 }
