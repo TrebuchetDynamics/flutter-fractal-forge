@@ -1274,7 +1274,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/experimental_named/spider_gpu.frag
+  // Ported from shaders/escape_time_family/experimental_named/coupled_orbits/spider_gpu.frag
   double cx = x;
   double cy = y;
   double zx = 0.0;
@@ -2444,7 +2444,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/experimental_named/fish_gpu.frag (CPU approximation, seed=0xafad8963)
+  // Ported from shaders/escape_time_family/experimental_named/polynomial_variants/fish_gpu.frag (CPU approximation, seed=0xafad8963)
   return _cpu_synthetic(0xafad8963, x, y, iterations, bailout);
 }
 
@@ -2455,7 +2455,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/experimental_named/ducky_gpu.frag (CPU approximation, seed=0xb1064a93)
+  // Ported from shaders/escape_time_family/experimental_named/rational_singularities/ducky_gpu.frag (CPU approximation, seed=0xb1064a93)
   return _cpu_synthetic(0xb1064a93, x, y, iterations, bailout);
 }
 
@@ -3038,7 +3038,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/experimental_named/manair_fire_gpu.frag (CPU approximation, seed=0x2d04490e)
+  // Ported from shaders/escape_time_family/experimental_named/polynomial_variants/manair_fire_gpu.frag (CPU approximation, seed=0x2d04490e)
   return _cpu_synthetic(0x2d04490e, x, y, iterations, bailout);
 }
 
@@ -3049,7 +3049,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/experimental_named/spider_x_gpu.frag (CPU approximation, seed=0xf91becf7)
+  // Ported from shaders/escape_time_family/experimental_named/coupled_orbits/spider_x_gpu.frag (CPU approximation, seed=0xf91becf7)
   return _cpu_synthetic(0xf91becf7, x, y, iterations, bailout);
 }
 
