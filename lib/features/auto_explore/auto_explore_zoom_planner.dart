@@ -103,17 +103,27 @@ class AutoExploreZoomPlanner {
     required double endZoom,
     required double speed,
   }) {
-    final safeStart = max(1e-9, startZoom);
-    final safeEnd = max(1e-9, endZoom);
-    final ratio = max(safeStart, safeEnd) / min(safeStart, safeEnd);
-    final decades = ratio <= 1.0 ? 0.0 : (log(ratio) / ln10);
+    final decades = _zoomSpanDecades(startZoom, endZoom);
+    final effectiveSpeed = _effectiveSpeed(speed);
 
     final normalized = (decades / 1.6).clamp(0.0, 1.0);
     final scale = 1.0 + normalized * (config.maxDurationScale - 1.0);
 
     final ms = (config.travelDuration.inMilliseconds * scale).round();
-    final scaledMs = (ms / speed).round();
+    final scaledMs = (ms / effectiveSpeed).round();
     return Duration(milliseconds: max(1, scaledMs));
+  }
+
+  double _zoomSpanDecades(double startZoom, double endZoom) {
+    final safeStart = max(1e-9, startZoom);
+    final safeEnd = max(1e-9, endZoom);
+    final ratio = max(safeStart, safeEnd) / min(safeStart, safeEnd);
+    return ratio <= 1.0 ? 0.0 : (log(ratio) / ln10);
+  }
+
+  double _effectiveSpeed(double speed) {
+    if (speed.isNaN) return 1.0;
+    return speed.clamp(0.5, 3.0);
   }
 
   double interpolateZoom(double start, double end, double t) {

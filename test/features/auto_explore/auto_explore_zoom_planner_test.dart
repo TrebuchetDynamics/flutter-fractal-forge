@@ -70,5 +70,30 @@ void main() {
         const Duration(milliseconds: 2000),
       );
     });
+
+    test('normalizes invalid leg speed before duration scaling', () {
+      const config = AutoExploreConfig(
+        travelDuration: Duration(milliseconds: 1000),
+        maxDurationScale: 4.0,
+      );
+      const planner = AutoExploreZoomPlanner(config: config);
+
+      expect(
+        planner.durationForZoomLeg(
+          startZoom: 1.0,
+          endZoom: 1.0,
+          speed: 0.0,
+        ),
+        const Duration(milliseconds: 2000),
+      );
+      expect(
+        planner.durationForZoomLeg(
+          startZoom: 1.0,
+          endZoom: 1.0,
+          speed: double.nan,
+        ),
+        const Duration(milliseconds: 1000),
+      );
+    });
   });
 }
