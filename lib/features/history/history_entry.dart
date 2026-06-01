@@ -77,8 +77,8 @@ class HistoryEntry {
     return HistoryEntry(
       id: id ?? this.id,
       moduleId: moduleId ?? this.moduleId,
-      view: view ?? this.view,
-      params: params ?? this.params,
+      view: view == null ? this.view : snapshotHistoryView(view),
+      params: params == null ? this.params : snapshotHistoryParams(params),
       visitedAt: visitedAt ?? this.visitedAt,
       name: clearName ? null : (name ?? this.name),
     );

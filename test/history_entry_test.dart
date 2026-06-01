@@ -139,5 +139,51 @@ void main() {
         ],
       });
     });
+
+    test('snapshots replacement view and params when copied', () {
+      final replacementPan = Vector2(1, 2);
+      final replacementRotation = Vector3(3, 4, 5);
+      final replacementStops = <Object?>[
+        0.0,
+        <String, Object?>{
+          'position': 0.5,
+          'rgb': <Object?>[32, 64, 128],
+        },
+      ];
+      final replacementParams = <String, Object>{
+        'paletteStops': replacementStops,
+      };
+
+      final copied = _entry().copyWith(
+        view: FractalViewState(
+          pan: replacementPan,
+          zoom: 6,
+          rotation: replacementRotation,
+        ),
+        params: replacementParams,
+      );
+
+      replacementPan.setValues(7, 8);
+      replacementRotation.setValues(9, 10, 11);
+      (replacementStops[1] as Map<String, Object?>)['position'] = 0.75;
+      ((replacementStops[1] as Map<String, Object?>)['rgb']
+          as List<Object?>)[0] = 255;
+      replacementStops.add(1.0);
+
+      expect(copied.view.pan.x, 1);
+      expect(copied.view.pan.y, 2);
+      expect(copied.view.rotation.x, 3);
+      expect(copied.view.rotation.y, 4);
+      expect(copied.view.rotation.z, 5);
+      expect(copied.params, {
+        'paletteStops': [
+          0.0,
+          {
+            'position': 0.5,
+            'rgb': [32, 64, 128],
+          },
+        ],
+      });
+    });
   });
 }
