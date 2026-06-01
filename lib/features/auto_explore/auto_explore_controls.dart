@@ -269,9 +269,11 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                           ? Icons.pause_rounded
                           : Icons.play_arrow_rounded),
                       label: Text(
-                        status.showsPauseAction
-                            ? (l10n?.actionPause ?? 'Pause')
-                            : (l10n?.actionPlay ?? 'Play'),
+                        status.primaryActionLabel(
+                          startLabel: l10n?.actionPlay ?? 'Play',
+                          pauseLabel: l10n?.actionPause ?? 'Pause',
+                          resumeLabel: 'Resume',
+                        ),
                       ),
                     ),
                   ),

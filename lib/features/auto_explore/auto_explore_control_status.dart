@@ -49,6 +49,18 @@ class AutoExploreControlStatus {
   bool get resumesFromTemporaryYield =>
       primaryAction == AutoExplorePrimaryAction.resumeFromTemporaryYield;
 
+  String primaryActionLabel({
+    required String startLabel,
+    required String pauseLabel,
+    required String resumeLabel,
+  }) {
+    return switch (primaryAction) {
+      AutoExplorePrimaryAction.pause => pauseLabel,
+      AutoExplorePrimaryAction.resumeFromTemporaryYield => resumeLabel,
+      AutoExplorePrimaryAction.startOrResume => startLabel,
+    };
+  }
+
   String tooltip({
     required String startLabel,
     required String pauseLabel,

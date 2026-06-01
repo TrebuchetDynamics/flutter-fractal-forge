@@ -113,5 +113,48 @@ void main() {
       expect(yielded.resumesFromTemporaryYield, isTrue);
       expect(paused.resumesFromTemporaryYield, isFalse);
     });
+
+    test('labels yielded primary activation as resume, not generic play', () {
+      const yielded = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: false,
+        pausedByUserCorrection: true,
+      );
+      const paused = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: true,
+        pausedByUserCorrection: false,
+      );
+      const running = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: false,
+        pausedByUserCorrection: false,
+      );
+
+      expect(
+        yielded.primaryActionLabel(
+          startLabel: 'Play',
+          pauseLabel: 'Pause',
+          resumeLabel: 'Resume',
+        ),
+        'Resume',
+      );
+      expect(
+        paused.primaryActionLabel(
+          startLabel: 'Play',
+          pauseLabel: 'Pause',
+          resumeLabel: 'Resume',
+        ),
+        'Play',
+      );
+      expect(
+        running.primaryActionLabel(
+          startLabel: 'Play',
+          pauseLabel: 'Pause',
+          resumeLabel: 'Resume',
+        ),
+        'Pause',
+      );
+    });
   });
 }

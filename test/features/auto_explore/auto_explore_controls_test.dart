@@ -31,7 +31,8 @@ void main() {
       );
 
       expect(find.text('Auto-pilot paused (user correction)'), findsOneWidget);
-      expect(find.text('Play'), findsOneWidget);
+      expect(find.text('Resume'), findsOneWidget);
+      expect(find.text('Play'), findsNothing);
       expect(find.text('Pause'), findsNothing);
     });
   });
