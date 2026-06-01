@@ -554,7 +554,11 @@ class FractalController extends ChangeNotifier {
     }
 
     _params = clamped;
-    _view = preset.view;
+    _view = FractalViewInputBounds.normalizeView(
+      candidate: preset.view,
+      current: _view,
+      moduleId: _module.id,
+    );
     _lastAdaptiveZoom = _view.zoom;
   }
 
@@ -734,7 +738,11 @@ class FractalController extends ChangeNotifier {
     _params = clamped;
 
     // Set view state
-    _view = view;
+    _view = FractalViewInputBounds.normalizeView(
+      candidate: view,
+      current: _view,
+      moduleId: _module.id,
+    );
     _lastAdaptiveZoom = _view.zoom;
 
     // Set transparency

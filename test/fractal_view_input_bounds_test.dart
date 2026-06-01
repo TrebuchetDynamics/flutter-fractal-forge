@@ -1,5 +1,7 @@
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:vector_math/vector_math.dart';
 
 void main() {
   group('FractalViewInputBounds', () {
@@ -52,6 +54,27 @@ void main() {
         ),
         FractalViewInputBounds.minPan,
       );
+    });
+
+    test('normalizes externally loaded view snapshots as one invariant', () {
+      final normalized = FractalViewInputBounds.normalizeView(
+        candidate: FractalViewState(
+          pan: Vector2(double.nan, double.infinity),
+          zoom: double.nan,
+          rotation: Vector3(1, 2, 3),
+        ),
+        current: FractalViewState(
+          pan: Vector2(0.5, -0.5),
+          zoom: 42.0,
+          rotation: Vector3.zero(),
+        ),
+        moduleId: 'mandelbrot',
+      );
+
+      expect(normalized.zoom, 42.0);
+      expect(normalized.pan.x, 0.5);
+      expect(normalized.pan.y, FractalViewInputBounds.maxPan);
+      expect(normalized.rotation, Vector3(1, 2, 3));
     });
   });
 }
