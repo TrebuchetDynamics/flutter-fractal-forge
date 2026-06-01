@@ -91,23 +91,23 @@ flutter:
     - shaders/root_finding/newton/newton_z3_gpu.frag
     - shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag
     - shaders/escape_time_family/transcendental_maps/lambda_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/druid_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/polynomial_iterations/druid_gpu.frag
     - shaders/escape_time_family/newton_and_orthogonal/magnet1_gpu.frag
     - shaders/escape_time_family/newton_and_orthogonal/magnet2_gpu.frag
     - shaders/escape_time_family/newton_and_orthogonal/magnet3_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/cactus_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/astroid_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/deltoid_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/polynomial_iterations/power_sum_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/polynomial_iterations/cactus_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/fractional_and_folded/astroid_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/fractional_and_folded/deltoid_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/lattice_wrapped/eisenstein_gpu.frag
     - shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/rational_singularities/zircon_zity_gpu.frag
     - shaders/escape_time_family/experimental_named/coupled_orbits/spider_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/manowar_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/memory_maps/manowar_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/iterative_maps/inverse_mandelbrot_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/glynn_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/fractional_and_folded/glynn_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/iterative_maps/simonbrot_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/fractional_and_folded/shark_fin_gpu.frag
     - shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag
     - shaders/ifs_and_geometric/botanical_structures/barnsley_j1_gpu.frag
     - shaders/escape_time_family/experimental_named/polynomial_variants/fish_gpu.frag
@@ -140,7 +140,7 @@ flutter:
     - shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag
     - shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag
     - shaders/trigonometric_and_transcendental/exponential_iteration/tetration_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/talis_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/rational_singularities/talis_gpu.frag
     - shaders/root_finding/high_order_methods/halley_gpu.frag
     - shaders/root_finding/high_order_methods/householder_gpu.frag
     - shaders/root_finding/newton/magnet_newton_gpu.frag
@@ -261,7 +261,7 @@ flutter:
     - shaders/ifs_and_geometric/fractal_curves/cesaro_gpu.frag
     - shaders/ifs_and_geometric/self_similar_sets/cantor_set_gpu.frag
     - shaders/ifs_and_geometric/botanical_structures/fractal_canopy_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/benesi_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/hypercomplex_maps/benesi_gpu.frag
     - shaders/ifs_and_geometric/circle_inversion_limit_sets/pseudo_kleinian_gpu.frag
     - shaders/ifs_and_geometric/tilings_and_monotiles/hat_monotile_gpu.frag
     - shaders/ifs_and_geometric/tilings_and_monotiles/spectre_monotile_gpu.frag
@@ -455,7 +455,7 @@ flutter:
     - shaders/escape_time_family/experimental_named/discrete_attractors/fractal_dream_gpu.frag
     - shaders/cellular_and_stochastic/reaction_diffusion/gray_scott_rd_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/hofstadter_butterfly_gpu.frag
-    - shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/derivative_free_root_methods/inverse_quadratic_gpu.frag
     - shaders/trigonometric_and_transcendental/special_functions/jacobi_sn_gpu.frag
     - shaders/root_finding/high_order_methods/jarratt_gpu.frag
     - shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_1_gpu.frag

@@ -1056,7 +1056,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag: z = z^3 + z^2 + c
+    // Ported from shaders/escape_time_family/polynomial_maps/polynomial_iterations/power_sum_gpu.frag: z = z^3 + z^2 + c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
@@ -1071,7 +1071,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/polynomial_maps/cactus_gpu.frag: z = z^3 + (c-1)z - c
+    // Ported from shaders/escape_time_family/polynomial_maps/polynomial_iterations/cactus_gpu.frag: z = z^3 + (c-1)z - c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
@@ -1089,7 +1089,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/polynomial_maps/astroid_gpu.frag: z = z^(2/3) + c, z₀ = c
+    // Ported from shaders/escape_time_family/polynomial_maps/fractional_and_folded/astroid_gpu.frag: z = z^(2/3) + c, z₀ = c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final r = math.sqrt(zx * zx + zy * zy);
       final theta = math.atan2(zy, zx);
@@ -1104,7 +1104,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/polynomial_maps/deltoid_gpu.frag: z = z^2 + c*conj(z), z₀ = c
+    // Ported from shaders/escape_time_family/polynomial_maps/fractional_and_folded/deltoid_gpu.frag: z = z^2 + c*conj(z), z₀ = c
     _escapeTime(
         x,
         y,
@@ -1123,7 +1123,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag
+  // Ported from shaders/escape_time_family/polynomial_maps/lattice_wrapped/eisenstein_gpu.frag
   const sqrt3 = 1.7320508075688772;
   final cx = x;
   final cy = y;
@@ -1173,7 +1173,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/polynomial_maps/druid_gpu.frag (cubic Mandelbrot, z^3 + c)
+    // Ported from shaders/escape_time_family/polynomial_maps/polynomial_iterations/druid_gpu.frag (cubic Mandelbrot, z^3 + c)
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final x2 = zx * zx;
       final y2 = zy * zy;
@@ -1200,7 +1200,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/polynomial_maps/glynn_gpu.frag: z = z^1.5 + c, z₀ = c
+    // Ported from shaders/escape_time_family/polynomial_maps/fractional_and_folded/glynn_gpu.frag: z = z^1.5 + c, z₀ = c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final r = math.sqrt(zx * zx + zy * zy);
       final theta = math.atan2(zy, zx);
@@ -1229,7 +1229,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag: z = zx^2 - |zy|^2 + cx, 2*zx*|zy| + cy
+    // Ported from shaders/escape_time_family/polynomial_maps/fractional_and_folded/shark_fin_gpu.frag: z = zx^2 - |zy|^2 + cx, 2*zx*|zy| + cy
     _escapeTime(x, y, iterations, bailout,
         (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, 2.0 * zx * zy.abs() + cy));
 (double r, double g, double b) _cpu_manowar(
@@ -1239,7 +1239,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/polynomial_maps/manowar_gpu.frag
+  // Ported from shaders/escape_time_family/polynomial_maps/memory_maps/manowar_gpu.frag
   final cx = x;
   final cy = y;
   double zx = 0.0;
@@ -1388,7 +1388,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/polynomial_maps/talis_gpu.frag: z = z^2 / (1+z) + c
+    // Ported from shaders/escape_time_family/polynomial_maps/rational_singularities/talis_gpu.frag: z = z^2 / (1+z) + c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
@@ -1828,7 +1828,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/polynomial_maps/benesi_gpu.frag (CPU approximation, seed=0x364b1039)
+  // Ported from shaders/escape_time_family/polynomial_maps/hypercomplex_maps/benesi_gpu.frag (CPU approximation, seed=0x364b1039)
   return _cpu_synthetic(0x364b1039, x, y, iterations, bailout);
 }
 
@@ -2422,7 +2422,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag (CPU approximation, seed=0x95abf6e5)
+  // Ported from shaders/escape_time_family/polynomial_maps/rational_singularities/zircon_zity_gpu.frag (CPU approximation, seed=0x95abf6e5)
   return _cpu_synthetic(0x95abf6e5, x, y, iterations, bailout);
 }
 

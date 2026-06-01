@@ -539,7 +539,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'power_sum',
     name: 'Power Sum Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/polynomial_iterations/power_sum_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
       FractalPreset(
@@ -557,7 +557,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cactus',
     name: 'Cactus Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/cactus_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/polynomial_iterations/cactus_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -575,25 +575,25 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'astroid',
     name: 'Astroid Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/astroid_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/fractional_and_folded/astroid_gpu.frag',
     defaultIterations: 160,
   ),
   EscapeTimeConfig(
     id: 'deltoid',
     name: 'Deltoid Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/deltoid_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/fractional_and_folded/deltoid_gpu.frag',
     defaultIterations: 150,
   ),
   EscapeTimeConfig(
     id: 'eisenstein',
     name: 'Eisenstein Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/lattice_wrapped/eisenstein_gpu.frag',
     defaultIterations: 170,
   ),
   EscapeTimeConfig(
     id: 'druid',
     name: 'Druid Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/druid_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/polynomial_iterations/druid_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -629,7 +629,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'glynn',
     name: 'Glynn Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/glynn_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/fractional_and_folded/glynn_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -665,7 +665,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'shark_fin',
     name: 'Shark Fin',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/fractional_and_folded/shark_fin_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -683,7 +683,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'manowar',
     name: 'Manowar Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/manowar_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/memory_maps/manowar_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -744,7 +744,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'talis',
     name: 'Talis Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/talis_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/rational_singularities/talis_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
       FractalPreset(
@@ -1041,7 +1041,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'benesi',
     name: 'Benesi Fractal',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/benesi_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/hypercomplex_maps/benesi_gpu.frag',
     defaultIterations: 220,
     defaultBailout: 8.0,
   ),
@@ -1673,7 +1673,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'zircon_zity',
     name: 'Zircon Zity',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/rational_singularities/zircon_zity_gpu.frag',
     defaultIterations: 130,
     extraPresets: [
       FractalPreset(
@@ -5323,7 +5323,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'inverse_quadratic',
     name: 'Inverse Quadratic',
-    shaderAsset: 'shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/polynomial_maps/derivative_free_root_methods/inverse_quadratic_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
