@@ -218,8 +218,27 @@ void main() {
 
       expect(result.nonBlackRatio, 1.0);
       expect(result.histogramSane, isTrue);
-      expect(result.frameProgressed, isTrue);
+      expect(result.frameProgressed, isFalse);
       expect(result.iterationDeltaVisible, isFalse);
+    });
+
+    test('does not report progression from incomplete frame pairs', () {
+      final frameA = _blackFrame(1, 1);
+      final frameB = _blackFrame(1, 1);
+      frameB[0] = 80;
+      frameB[1] = 80;
+      frameB[2] = 80;
+
+      final result = validateRenderPair(
+        frameA: frameA,
+        frameB: frameB,
+        width: 10,
+        height: 10,
+      );
+
+      expect(result.frameProgressed, isFalse);
+      expect(result.iterationDeltaVisible, isFalse);
+      expect(result.pass, isFalse);
     });
 
     test('pass is true only when all checks pass', () {

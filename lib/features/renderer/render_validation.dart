@@ -47,6 +47,9 @@ class _RenderFrameGeometry {
 
   int readablePixelCount(Uint8List frame) =>
       math.min(totalPixels, frame.length ~/ _rgbaStride);
+
+  bool hasCompleteFrame(Uint8List frame) =>
+      totalPixels > 0 && readablePixelCount(frame) == totalPixels;
 }
 
 bool _isNonBlack(Uint8List frame, int index) =>
@@ -198,12 +201,17 @@ RenderCheckResult validateRenderPair({
     frameB: frameB,
     readablePixels: comparablePixels,
   );
+  final hasCompletePair =
+      geometry.hasCompleteFrame(frameA) && geometry.hasCompleteFrame(frameB);
 
   final nonBlackRatio =
       geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;
   final histogramSane = nonBlackRatio > _minimumNonBlackRatio;
-  final progressionRatio =
-      geometry.totalPixels == 0 ? 0.0 : different / geometry.totalPixels;
+  // Progression is a whole-frame claim; a truncated frame can still prove the
+  // current histogram, but cannot prove frame-to-frame movement.
+  final progressionRatio = geometry.totalPixels == 0 || !hasCompletePair
+      ? 0.0
+      : different / geometry.totalPixels;
   final frameProgressed = progressionRatio > _minimumProgressionRatio;
   final iterationDeltaVisible = progressionRatio > _minimumIterationDeltaRatio;
 
