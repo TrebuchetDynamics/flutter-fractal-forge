@@ -77,5 +77,43 @@ void main() {
       expect(entry.view.rotation.z, 5);
       expect(entry.params, {'iterations': 100});
     });
+
+    test('deep-snapshots nested JSON-like params when created from state', () {
+      final paletteStops = <Object?>[
+        0.0,
+        <String, Object?>{
+          'position': 0.5,
+          'rgb': <Object?>[32, 64, 128],
+        },
+        1.0,
+      ];
+      final params = <String, Object>{'paletteStops': paletteStops};
+
+      final entry = HistoryEntry.fromState(
+        moduleId: 'mandelbrot',
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 6,
+          rotation: Vector3.zero(),
+        ),
+        params: params,
+      );
+
+      (paletteStops[1] as Map<String, Object?>)['position'] = 0.75;
+      ((paletteStops[1] as Map<String, Object?>)['rgb'] as List<Object?>)[0] =
+          255;
+      paletteStops.add(2.0);
+
+      expect(entry.params, {
+        'paletteStops': [
+          0.0,
+          {
+            'position': 0.5,
+            'rgb': [32, 64, 128],
+          },
+          1.0,
+        ],
+      });
+    });
   });
 }

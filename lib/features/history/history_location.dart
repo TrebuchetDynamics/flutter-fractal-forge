@@ -13,9 +13,34 @@ FractalViewState snapshotHistoryView(FractalViewState view) {
   );
 }
 
-/// Creates a shallow snapshot of the parameter map at the record boundary.
+/// Creates a deep JSON-like snapshot of parameters at the record boundary.
 Map<String, Object> snapshotHistoryParams(Map<String, Object> params) {
-  return Map<String, Object>.from(params);
+  return {
+    for (final entry in params.entries)
+      entry.key: snapshotHistoryParamValue(entry.value),
+  };
+}
+
+/// Deep-copies JSON-like parameter values so history replay is not affected by
+/// later mutations of nested list/map values owned by controllers or widgets.
+Object snapshotHistoryParamValue(Object value) {
+  if (value is List) {
+    return [
+      for (final item in value)
+        item is Object ? snapshotHistoryParamValue(item) : item,
+    ];
+  }
+
+  if (value is Map) {
+    return {
+      for (final entry in value.entries)
+        entry.key: entry.value is Object
+            ? snapshotHistoryParamValue(entry.value as Object)
+            : entry.value,
+    };
+  }
+
+  return value;
 }
 
 /// Pure location-equivalence contract for history de-duplication.
