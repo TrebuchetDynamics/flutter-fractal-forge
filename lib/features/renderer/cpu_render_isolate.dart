@@ -131,6 +131,45 @@ final class CpuViewportCoordinate {
   final double y;
 }
 
+/// Explicit bounds contract for a CPU render tile inside a full viewport.
+final class CpuRenderRect {
+  const CpuRenderRect({
+    required this.fullWidth,
+    required this.fullHeight,
+    required this.x0,
+    required this.y0,
+    required this.w,
+    required this.h,
+  });
+
+  final int fullWidth;
+  final int fullHeight;
+  final int x0;
+  final int y0;
+  final int w;
+  final int h;
+
+  void validate() {
+    if (fullWidth <= 0 || fullHeight <= 0) {
+      throw ArgumentError.value(
+        (fullWidth, fullHeight),
+        'full viewport',
+        'must be positive',
+      );
+    }
+    if (w <= 0 || h <= 0) {
+      throw ArgumentError.value((w, h), 'tile size', 'must be positive');
+    }
+    if (x0 < 0 || y0 < 0 || x0 + w > fullWidth || y0 + h > fullHeight) {
+      throw ArgumentError.value(
+        (x0, y0, w, h),
+        'tile rect',
+        'must be within the full viewport',
+      );
+    }
+  }
+}
+
 /// Maps a pixel sample to the CPU fractal plane.
 ///
 /// [sampleOffsetX] and [sampleOffsetY] are normalized offsets within the pixel
@@ -219,6 +258,15 @@ Uint8List _renderRect({
   required int h,
   required int sampleCount,
 }) {
+  CpuRenderRect(
+    fullWidth: fullWidth,
+    fullHeight: fullHeight,
+    x0: x0,
+    y0: y0,
+    w: w,
+    h: h,
+  ).validate();
+
   final bytes = Uint8List(w * h * 4);
   final sampleGrid = CpuSampleGrid.fromRequestedCount(sampleCount);
 

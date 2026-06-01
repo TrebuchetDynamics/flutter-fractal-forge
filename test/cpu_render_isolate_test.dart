@@ -34,6 +34,37 @@ void main() {
       expect(left.y + right.y, closeTo(0.5, 1e-12));
     });
 
+    test('rejects tile rectangles outside the full viewport before sampling', () {
+      const request = CpuTileRenderRequest(
+        moduleId: 'mandelbrot',
+        panX: 0.0,
+        panY: 0.0,
+        zoom: 1.0,
+        iterations: 32,
+        bailout: 4.0,
+        juliaCX: -0.8,
+        juliaCY: 0.156,
+        fullWidth: 4,
+        fullHeight: 4,
+        x0: 3,
+        y0: 0,
+        w: 2,
+        h: 1,
+        sampleCount: 1,
+      );
+
+      expect(
+        () => renderCpuTileInIsolate(request),
+        throwsA(
+          isA<ArgumentError>().having(
+            (error) => error.message,
+            'message',
+            contains('within the full viewport'),
+          ),
+        ),
+      );
+    });
+
     test('maps a one-pixel frame to the requested pan center', () {
       const request = CpuRenderRequest(
         moduleId: 'mandelbrot',
