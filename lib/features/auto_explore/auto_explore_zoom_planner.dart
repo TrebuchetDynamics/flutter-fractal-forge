@@ -156,6 +156,43 @@ class AutoExploreDurationScale {
   }
 }
 
+/// Converts zoom-span scaling into a positive, finite leg duration.
+///
+/// This keeps duration planning replayable even when a finite-but-huge config
+/// value overflows during multiplication before [double.round].
+class AutoExploreLegDuration {
+  const AutoExploreLegDuration._();
+
+  static int milliseconds({
+    required Duration baseDuration,
+    required double scale,
+    required double speed,
+  }) {
+    final baseMs = baseDuration.inMilliseconds;
+    if (baseMs <= 0) return 1;
+
+    final scaledMs = _finitePositiveRoundOrFallback(
+      baseMs * scale,
+      fallback: baseMs,
+    );
+    return max(
+      1,
+      _finitePositiveRoundOrFallback(
+        scaledMs / AutoExploreSpeed.normalize(speed),
+        fallback: baseMs,
+      ),
+    );
+  }
+
+  static int _finitePositiveRoundOrFallback(
+    double value, {
+    required int fallback,
+  }) {
+    if (!value.isFinite || value <= 0.0) return fallback;
+    return value.round();
+  }
+}
+
 /// Zoom bounds used by auto-explore planning.
 ///
 /// Dart's [double.clamp] treats NaN as the upper bound, which would turn a
@@ -356,9 +393,13 @@ class AutoExploreZoomPlanner {
     final normalized = (leg.spanDecades / 1.6).clamp(0.0, 1.0);
     final scale = 1.0 + normalized * (durationScale - 1.0);
 
-    final ms = (config.travelDuration.inMilliseconds * scale).round();
-    final scaledMs = (ms / effectiveSpeed).round();
-    return Duration(milliseconds: max(1, scaledMs));
+    return Duration(
+      milliseconds: AutoExploreLegDuration.milliseconds(
+        baseDuration: config.travelDuration,
+        scale: scale,
+        speed: effectiveSpeed,
+      ),
+    );
   }
 
   double _effectiveSpeed(double speed) => AutoExploreSpeed.normalize(speed);
