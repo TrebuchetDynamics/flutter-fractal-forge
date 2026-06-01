@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "lib/features/renderer",
+  "updatedAt": "2026-06-01T13:30:31.174Z",
+  "objective": "Refactor renderer by responsibility while preserving public root imports through compatibility wrappers. Planned topology: cpu/ owns software rendering formulas/iterators/isolate/tile worker/widget; validation/ owns render frame checks and convergence detection; policy/ owns backend and deep-zoom precision decisions; future widgets/ should own FractalRenderer, canvas, shader loading/error UI, and gesture mixins; providers/ remains controller state management.",
+  "completedSlices": [
+    "Moved CPU rendering files to cpu/ with root export wrappers: cpu_formulas.dart, cpu_iterators.dart, cpu_render_isolate.dart, cpu_tile_worker.dart, cpu_fractal_renderer.dart.",
+    "Moved validation files to validation/ with root export wrappers: render_validation.dart, convergence_detector.dart.",
+    "Moved policy files to policy/ with root export wrappers: backend_policy.dart, deep_zoom_precision_policy.dart.",
+    "Updated cpu/cpu_fractal_renderer.dart to import local cpu and validation modules directly instead of routing through root compatibility wrappers."
+  ],
+  "nextCandidates": [
+    "Move fractal_renderer.dart, fractal_canvas.dart, fractal_painter.dart, gesture_handler.dart, shader_loader.dart into a widgets/ subfolder with a root fractal_renderer.dart export wrapper, preserving part files and public imports."
+  ],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter analyze lib/features/renderer test/cpu_formula_coverage_test.dart test/render_validation_test.dart test/renderer_backend_policy_test.dart test/convergence_detector_test.dart => No issues found.",
+    "/home/xel/flutter/bin/flutter test targeted renderer tests => blocked before tests by pre-existing asset bundle error: No file or variants found for asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag."
+  ]
+}

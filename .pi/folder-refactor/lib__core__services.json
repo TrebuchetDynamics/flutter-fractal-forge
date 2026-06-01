@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "lib/core/services",
+  "updatedAt": "2026-06-01T13:27:16.760Z",
+  "objective": "Refactor lib/core/services into responsibility subfolders with root compatibility exports preserving public import paths. Planned topology includes observability/ (logging, crash, performance), diagnostics/ (debug/test-run instrumentation), and future domain subfolders for export, persistence, interaction/settings/runtime.",
+  "completedSlices": [
+    "Move-only slice: moved app_logger_service.dart, crash_reporter.dart, performance_service.dart to observability/ and left root export facades.",
+    "Move-only slice: moved test_logger.dart, test_screenshot_service.dart, debug_runner_service.dart to diagnostics/ and left root export facades."
+  ],
+  "nextCandidates": [
+    "Move export pipeline files into an export/ domain with compatibility facades: export_service.dart, video_export_service.dart, batch_export_service.dart, wallpaper_service.dart if validation is unblocked.",
+    "Move persistence/preferences stores into persistence/ or settings/ domains: preset_store.dart, history_store.dart, palette_store.dart, onboarding_service.dart, renderer_settings_service.dart.",
+    "Move user interaction/runtime services into interaction/ or runtime/ domains: accessibility_service.dart, haptic_service.dart, runtime_mode_service.dart, deep_link_service.dart, exploration_stats_service.dart, animation_controller_service.dart, shader_service.dart."
+  ],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/core/services test/app_logger_service_test.dart test/crash_reporter_test.dart test/performance_service_test.dart test/test_logger_test.dart test/test_screenshot_service_test.dart test/debug_runner_service_test.dart — PASS: No issues found.",
+    "/home/xel/flutter/bin/flutter test test/app_logger_service_test.dart test/crash_reporter_test.dart test/performance_service_test.dart test/test_logger_test.dart test/test_screenshot_service_test.dart test/debug_runner_service_test.dart — BLOCKED/FAIL before running tests: pubspec.yaml references missing asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag."
+  ]
+}

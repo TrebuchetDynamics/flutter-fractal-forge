@@ -2818,7 +2818,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag (CPU approximation, seed=0x48c5a56d)
+  // Ported from shaders/cellular_and_stochastic/lattice_automata/wolfram_rule30_gpu.frag (CPU approximation, seed=0x48c5a56d)
   return _cpu_synthetic(0x48c5a56d, x, y, iterations, bailout);
 }
 
@@ -2829,7 +2829,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/langton_ant_gpu.frag (CPU approximation, seed=0x11322f64)
+  // Ported from shaders/cellular_and_stochastic/agent_walkers/langton_ant_gpu.frag (CPU approximation, seed=0x11322f64)
   return _cpu_synthetic(0x11322f64, x, y, iterations, bailout);
 }
 
@@ -2840,7 +2840,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/turmite_gpu.frag (CPU approximation, seed=0x2abcb0ad)
+  // Ported from shaders/cellular_and_stochastic/agent_walkers/turmite_gpu.frag (CPU approximation, seed=0x2abcb0ad)
   return _cpu_synthetic(0x2abcb0ad, x, y, iterations, bailout);
 }
 
@@ -2851,7 +2851,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/wireworld_gpu.frag (CPU approximation, seed=0x20ea286c)
+  // Ported from shaders/cellular_and_stochastic/lattice_automata/wireworld_gpu.frag (CPU approximation, seed=0x20ea286c)
   return _cpu_synthetic(0x20ea286c, x, y, iterations, bailout);
 }
 
@@ -2862,7 +2862,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/sandpile_gpu.frag (CPU approximation, seed=0x63d0ec33)
+  // Ported from shaders/cellular_and_stochastic/stochastic_growth/sandpile_gpu.frag (CPU approximation, seed=0x63d0ec33)
   return _cpu_synthetic(0x63d0ec33, x, y, iterations, bailout);
 }
 
@@ -2873,7 +2873,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/dla_gpu.frag (CPU approximation, seed=0xd86f62c4)
+  // Ported from shaders/cellular_and_stochastic/stochastic_growth/dla_gpu.frag (CPU approximation, seed=0xd86f62c4)
   return _cpu_synthetic(0xd86f62c4, x, y, iterations, bailout);
 }
 
@@ -2884,7 +2884,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/forest_fire_gpu.frag (CPU approximation, seed=0x3c6b4651)
+  // Ported from shaders/cellular_and_stochastic/stochastic_growth/forest_fire_gpu.frag (CPU approximation, seed=0x3c6b4651)
   return _cpu_synthetic(0x3c6b4651, x, y, iterations, bailout);
 }
 
@@ -2895,7 +2895,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/percolation_gpu.frag (CPU approximation, seed=0x89fd7427)
+  // Ported from shaders/cellular_and_stochastic/stochastic_growth/percolation_gpu.frag (CPU approximation, seed=0x89fd7427)
   return _cpu_synthetic(0x89fd7427, x, y, iterations, bailout);
 }
 
@@ -2906,7 +2906,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/brian_brain_gpu.frag (CPU approximation, seed=0x9992a380)
+  // Ported from shaders/cellular_and_stochastic/lattice_automata/brian_brain_gpu.frag (CPU approximation, seed=0x9992a380)
   return _cpu_synthetic(0x9992a380, x, y, iterations, bailout);
 }
 
@@ -2917,7 +2917,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/highlife_gpu.frag (CPU approximation, seed=0xbea6f8f7)
+  // Ported from shaders/cellular_and_stochastic/lattice_automata/highlife_gpu.frag (CPU approximation, seed=0xbea6f8f7)
   return _cpu_synthetic(0xbea6f8f7, x, y, iterations, bailout);
 }
 
@@ -2928,7 +2928,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/day_night_gpu.frag (CPU approximation, seed=0x3df8bb28)
+  // Ported from shaders/cellular_and_stochastic/lattice_automata/day_night_gpu.frag (CPU approximation, seed=0x3df8bb28)
   return _cpu_synthetic(0x3df8bb28, x, y, iterations, bailout);
 }
 
@@ -2939,7 +2939,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/cellular_and_stochastic/eden_growth_gpu.frag (CPU approximation, seed=0x4688b46f)
+  // Ported from shaders/cellular_and_stochastic/stochastic_growth/eden_growth_gpu.frag (CPU approximation, seed=0x4688b46f)
   return _cpu_synthetic(0x4688b46f, x, y, iterations, bailout);
 }
 

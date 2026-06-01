@@ -1,16 +1,17 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/experimental_named",
-  "updatedAt": "2026-06-01T12:23:57.503Z",
-  "objective": "Split experimental_named shader assets into behavior/responsibility subfolders while preserving catalog shaderAsset and pubspec declarations. Boundaries: coupled_orbits (mutating/alternating parameters), rational_singularities (division/poles/log-power singular maps), transcendental_deformations (sin/cos/tan/sinh/log radial deformations), discrete_attractors (named 2D attractor maps with parameter uniforms), polynomial_variants (polynomial/folded/scaled maps), root_finding (iterative solver methods), physical_simulation (physics-inspired simulation shaders).",
+  "updatedAt": "2026-06-01T13:28:56.002Z",
+  "objective": "Split experimental_named shader assets into behavior/responsibility subfolders while preserving catalog shaderAsset and pubspec declarations. Boundaries: coupled_orbits owns shaders whose c/z parameters co-evolve and exposes only .frag assets; rational_singularities owns rational/log-power pole-driven maps and must not know catalog/module wiring; transcendental_deformations owns sine/tangent/log-radial deformations and exposes asset files only; discrete_attractors owns named 2D attractor map shaders with parameter uniforms; polynomial_variants owns polynomial/fold/scaled escape maps; root_finding owns iterative solver methods; physical_simulation owns physics-inspired simulation shaders.",
   "completedSlices": [
     "Added focused shader asset contract test for experimental_named catalog entries, pubspec declarations, and file existence.",
-    "Moved all 23 root shader files into responsibility subfolders and updated pubspec.yaml, escape_time_catalog.dart shaderAsset paths, and CPU formula comments."
+    "Moved all 23 root shader files into responsibility subfolders and updated/validated existing pubspec.yaml, escape_time_catalog.dart shaderAsset paths, and CPU formula comments.",
+    "Restored filesystem topology to match existing catalog/pubspec declarations: no experimental_named .frag files remain at root."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 static asset contract: 23 catalog assets, all declared in pubspec, all files exist, no declared missing files.",
-    "rg stale root experimental_named/*.frag paths: no matches.",
-    "flutter test test/shaders/experimental_named_shader_assets_test.dart blocked by pre-existing pubspec missing asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag (outside target)."
+    "python3 static asset contract: 23 catalog assets, all declared in pubspec, all files exist, no root experimental_named .frag files.",
+    "rg stale root experimental_named/*.frag paths in pubspec.yaml lib test shaders: no matches.",
+    "flutter test test/shaders/experimental_named_shader_assets_test.dart blocked by pre-existing pubspec missing asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag (outside target folder)."
   ]
 }

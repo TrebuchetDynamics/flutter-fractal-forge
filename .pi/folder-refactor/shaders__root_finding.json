@@ -1,17 +1,20 @@
 {
   "version": 1,
   "target": "shaders/root_finding",
-  "updatedAt": "2026-06-01T12:19:53.217Z",
-  "objective": "Refactor root_finding shaders into responsibility subfolders by algorithm family while preserving shader asset behavior through pubspec/catalog path updates.",
+  "updatedAt": "2026-06-01T13:25:53.981Z",
+  "objective": "Refactor root_finding shaders into responsibility subfolders by algorithm family while preserving shader asset behavior through existing pubspec/catalog path references.",
   "completedSlices": [
-    "Added focused root_finding shader asset contract test.",
-    "Moved Newton, high-order iterative, Schroeder, Steffensen/Picard-Mann, and derivative-free/system root-finding shaders into family subfolders.",
-    "Updated pubspec.yaml, escape_time_catalog shaderAsset paths, CPU formula comments, and shaders/AGENTS.md root_finding description."
+    "Kept focused root_finding shader asset contract test at test/shaders/root_finding_shader_assets_test.dart.",
+    "Moved all root_finding shader files from the target root into algorithm-family subfolders: newton, high_order_methods, schroeder, steffensen, derivative_free_systems.",
+    "Verified no stale direct root shader paths remain and no root .frag files remain under shaders/root_finding.",
+    "Performed shared-code scan: 34 shader files, zero exact duplicate shader implementations; no speculative shared GLSL contracts extracted."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python root_finding asset/catalog existence check: passed (34 pubspec assets, 34 catalog assets, no stale direct root paths).",
+    "python root_finding asset/catalog existence check: passed (34 pubspec assets, 0 missing, 0 root files).",
+    "rg stale direct root shader path check: passed (no matches).",
     "/home/xel/flutter/bin/dart analyze lib/core/modules/builders/escape_time_catalog.dart test/shaders/root_finding_shader_assets_test.dart: passed.",
-    "/home/xel/flutter/bin/flutter test test/shaders/root_finding_shader_assets_test.dart: blocked by pre-existing missing asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag."
+    "/home/xel/flutter/bin/flutter test test/shaders/root_finding_shader_assets_test.dart: blocked by pre-existing missing asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag.",
+    "folder_refactor_audit shaders/root_finding: passed, planned topology complete with no root files."
   ]
 }

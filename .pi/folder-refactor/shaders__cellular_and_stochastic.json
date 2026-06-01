@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "shaders/cellular_and_stochastic",
+  "updatedAt": "2026-06-01T13:33:38.393Z",
+  "objective": "Refactor cellular/stochastic shader assets into responsibility subfolders while preserving asset registration and catalog paths.",
+  "completedSlices": [
+    "Added focused shader asset behavior test for cellular_and_stochastic public contract (pubspec declarations and catalog references resolve to files).",
+    "Moved 15 root shader files into responsibility subfolders: lattice_automata, agent_walkers, stochastic_growth, branching_fields, reaction_diffusion.",
+    "Updated pubspec shader declarations, escape_time_catalog shaderAsset paths, and CPU formula provenance comments to the new asset paths.",
+    "Ran completion audit: no remaining root files and no next candidates."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "python3 pubspec/catalog consistency check: PASS (15 cellular assets declared, 15 catalog references, no missing files, no undeclared catalog paths).",
+    "rg stale old root cellular shader asset paths: PASS (no matches).",
+    "/home/xel/flutter/bin/flutter test test/shaders/cellular_and_stochastic_shader_assets_test.dart: BLOCKED by pre-existing unrelated pubspec asset error: missing shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag."
+  ]
+}

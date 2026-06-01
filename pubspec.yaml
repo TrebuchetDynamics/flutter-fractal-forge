@@ -243,14 +243,14 @@ flutter:
     - shaders/3d_and_hypercomplex/dual_complex_gpu.frag
     - shaders/3d_and_hypercomplex/bicomplex_gpu.frag
     - shaders/3d_and_hypercomplex/hypercomplex_newton_gpu.frag
-    - shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag
-    - shaders/cellular_and_stochastic/langton_ant_gpu.frag
-    - shaders/cellular_and_stochastic/sandpile_gpu.frag
-    - shaders/cellular_and_stochastic/dla_gpu.frag
-    - shaders/cellular_and_stochastic/forest_fire_gpu.frag
-    - shaders/cellular_and_stochastic/percolation_gpu.frag
-    - shaders/cellular_and_stochastic/turmite_gpu.frag
-    - shaders/cellular_and_stochastic/wireworld_gpu.frag
+    - shaders/cellular_and_stochastic/lattice_automata/wolfram_rule30_gpu.frag
+    - shaders/cellular_and_stochastic/agent_walkers/langton_ant_gpu.frag
+    - shaders/cellular_and_stochastic/stochastic_growth/sandpile_gpu.frag
+    - shaders/cellular_and_stochastic/stochastic_growth/dla_gpu.frag
+    - shaders/cellular_and_stochastic/stochastic_growth/forest_fire_gpu.frag
+    - shaders/cellular_and_stochastic/stochastic_growth/percolation_gpu.frag
+    - shaders/cellular_and_stochastic/agent_walkers/turmite_gpu.frag
+    - shaders/cellular_and_stochastic/lattice_automata/wireworld_gpu.frag
     - shaders/ifs_and_geometric/sierpinski_family/sierpinski_pentagon_gpu.frag
     - shaders/ifs_and_geometric/self_similar_sets/hexaflake_gpu.frag
     - shaders/ifs_and_geometric/self_similar_sets/pentaflake_gpu.frag
@@ -266,10 +266,10 @@ flutter:
     - shaders/ifs_and_geometric/tilings_and_monotiles/hat_monotile_gpu.frag
     - shaders/ifs_and_geometric/tilings_and_monotiles/spectre_monotile_gpu.frag
     - shaders/ifs_and_geometric/tilings_and_monotiles/sphinx_tiling_gpu.frag
-    - shaders/cellular_and_stochastic/brian_brain_gpu.frag
-    - shaders/cellular_and_stochastic/highlife_gpu.frag
-    - shaders/cellular_and_stochastic/day_night_gpu.frag
-    - shaders/cellular_and_stochastic/eden_growth_gpu.frag
+    - shaders/cellular_and_stochastic/lattice_automata/brian_brain_gpu.frag
+    - shaders/cellular_and_stochastic/lattice_automata/highlife_gpu.frag
+    - shaders/cellular_and_stochastic/lattice_automata/day_night_gpu.frag
+    - shaders/cellular_and_stochastic/stochastic_growth/eden_growth_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/farey_diagram_gpu.frag
     - shaders/ifs_and_geometric/fractal_curves/cayley_graph_gpu.frag
     - shaders/ifs_and_geometric/sierpinski_family/sierpinski_arrowhead_gpu.frag
@@ -423,7 +423,7 @@ flutter:
     - shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag
-    - shaders/cellular_and_stochastic/dielectric_breakdown_gpu.frag
+    - shaders/cellular_and_stochastic/branching_fields/dielectric_breakdown_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag
@@ -453,7 +453,7 @@ flutter:
     - shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/exp_additive_mandelbrot_gpu.frag
     - shaders/escape_time_family/experimental_named/discrete_attractors/fractal_dream_gpu.frag
-    - shaders/cellular_and_stochastic/gray_scott_rd_gpu.frag
+    - shaders/cellular_and_stochastic/reaction_diffusion/gray_scott_rd_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/hofstadter_butterfly_gpu.frag
     - shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag
     - shaders/trigonometric_and_transcendental/special_functions/jacobi_sn_gpu.frag
@@ -463,7 +463,7 @@ flutter:
     - shaders/escape_time_family/experimental_named/root_finding/king_gpu.frag
     - shaders/ifs_and_geometric/circle_inversion_limit_sets/kleinian_limit_set_gpu.frag
     - shaders/escape_time_family/newton_and_orthogonal/laguerre_fractal_gpu.frag
-    - shaders/cellular_and_stochastic/lichtenberg_growth_gpu.frag
+    - shaders/cellular_and_stochastic/branching_fields/lichtenberg_growth_gpu.frag
     - shaders/escape_time_family/experimental_named/physical_simulation/magnetic_pendulum_gpu.frag
     - shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag
     - shaders/root_finding/derivative_free_systems/muller_gpu.frag
