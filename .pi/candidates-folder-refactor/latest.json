@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-01T13:51:34.265Z",
+  "generatedAt": "2026-06-01T13:53:51.216Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -9,7 +9,7 @@
     {
       "relative": "test",
       "score": 820,
-      "files": 1258,
+      "files": 1259,
       "direct": 81,
       "churn": 0,
       "callers": 1,
@@ -301,6 +301,22 @@
       ]
     },
     {
+      "relative": "test/shaders",
+      "score": 131.3,
+      "files": 13,
+      "direct": 13,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 1,
+      "duplicates": 1,
+      "subdirs": 0,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
       "relative": "shaders/escape_time_family/families/buffalo",
       "score": 121.2,
       "files": 12,
@@ -362,22 +378,6 @@
       "subdirs": 0,
       "extensions": [
         ".frag"
-      ]
-    },
-    {
-      "relative": "test/shaders",
-      "score": 121.2,
-      "files": 12,
-      "direct": 12,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 1,
-      "subdirs": 0,
-      "extensions": [
-        ".dart"
       ]
     },
     {

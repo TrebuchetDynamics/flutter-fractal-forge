@@ -352,7 +352,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo',
     name: 'Buffalo',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_gpu.frag',
     defaultIterations: 180,
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
@@ -1845,7 +1845,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_julia',
     name: 'Buffalo Julia',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/julia_sets/buffalo_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -2831,7 +2831,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_cubic',
     name: 'Buffalo Cubic',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_cubic_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
@@ -3477,7 +3477,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power4',
     name: 'Buffalo ⁴',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3571,7 +3571,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_cubic_julia',
     name: 'Buffalo Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/julia_sets/buffalo_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3613,7 +3613,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power5',
     name: 'Buffalo ⁵',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3690,7 +3690,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power4_julia',
     name: 'Buffalo⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/julia_sets/buffalo_power4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3746,7 +3746,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power5_julia',
     name: 'Buffalo⁵ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/julia_sets/buffalo_power5_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3837,7 +3837,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power6',
     name: 'Buffalo⁶',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_power6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3900,7 +3900,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power6_julia',
     name: 'Buffalo⁶ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/julia_sets/buffalo_power6_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -5171,7 +5171,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo2',
     name: 'Buffalo2',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo2_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5179,7 +5179,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power7',
     name: 'Buffalo Power7',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_power7_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -6399,7 +6399,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'buffalo_power7',
     name: 'Buffalo⁷',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_power7_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     category: 'Escape-Time',

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "target": "shaders/escape_time_family/families/buffalo",
+  "updatedAt": "2026-06-01T13:53:26.812Z",
+  "objective": "Split Buffalo escape-time shader family by behavior: parameter_plane owns c-plane Buffalo/Mandelbrot-style maps; julia_sets owns fixed-seed Julia variants. Preserve shader behavior and update catalog/pubspec/test references.",
+  "completedSlices": [
+    "Added focused Buffalo shader asset public-behavior test covering pubspec declarations and on-disk assets.",
+    "Move-only split: moved 7 parameter-plane shaders into parameter_plane/ and 5 Julia shaders into julia_sets/. Updated pubspec.yaml, escape_time_catalog.dart, and stale test/comment shader paths."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "python3 static check: buffalo shader references in pubspec.yaml and escape_time_catalog.dart all exist on disk (25 references).",
+    "rg stale root buffalo .frag references: none.",
+    "/home/xel/flutter/bin/flutter test test/shaders/buffalo_shader_assets_test.dart: blocked before tests by pre-existing pubspec asset error for shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag (outside target)."
+  ]
+}

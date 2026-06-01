@@ -2554,7 +2554,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag (CPU approximation, seed=0xa164daa4)
+  // Ported from shaders/escape_time_family/families/buffalo/julia_sets/buffalo_julia_gpu.frag (CPU approximation, seed=0xa164daa4)
   return _cpu_synthetic(0xa164daa4, x, y, iterations, bailout);
 }
 

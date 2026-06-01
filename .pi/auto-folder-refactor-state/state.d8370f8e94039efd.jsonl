@@ -45,3 +45,4 @@
 {"ts":"2026-06-01T07:46:57-06:00","candidate":"shaders/escape_time_family/families/multibrot","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T08:46:57-06:00"}
 {"ts":"2026-06-01T07:49:09-06:00","candidate":"shaders/escape_time_family/polynomial_maps","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T08:49:09-06:00"}
 {"ts":"2026-06-01T07:51:27-06:00","candidate":"shaders/escape_time_family/transcendental_maps","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T08:51:27-06:00"}
+{"ts":"2026-06-01T07:53:44-06:00","candidate":"shaders/escape_time_family/families/buffalo","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T08:53:44-06:00"}
