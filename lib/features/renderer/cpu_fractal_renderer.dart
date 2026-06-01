@@ -700,6 +700,43 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   }
 }
 
+class _CpuViewportMapping {
+  final double centerX;
+  final double centerY;
+  final double scale;
+  final double aspect;
+
+  _CpuViewportMapping({
+    required Vector2 viewPan,
+    required double viewZoom,
+    required int width,
+    required int height,
+  })  : centerX = viewPan.x,
+        centerY = viewPan.y,
+        scale = 1.5 / (viewZoom <= 0 ? 1.0 : viewZoom),
+        aspect = height == 0 ? 1.0 : width / height;
+
+  double normalizedPixel(int pixel, int extent) {
+    if (extent <= 1) return 0.0;
+    return (pixel / (extent - 1)) * 2.0 - 1.0;
+  }
+
+  double normalizedSample({
+    required int pixel,
+    required int extent,
+    required int sample,
+    required int samplesPerAxis,
+  }) {
+    if (extent <= 1) return 0.0;
+    final subPixel = pixel + (sample + 0.5) / samplesPerAxis;
+    return (subPixel / (extent - 1)) * 2.0 - 1.0;
+  }
+
+  (double x, double y) coordinate({required double nx, required double ny}) {
+    return (centerX + nx * scale * aspect, centerY + ny * scale);
+  }
+}
+
 class CpuRenderFrame {
   final Uint8List rgba;
   final int width;
@@ -736,14 +773,14 @@ Future<CpuRenderFrame> renderCpuFrame({
   required int height,
   int sampleCount = 4,
 }) async {
-  final centerX = viewPan.x;
-  final centerY = viewPan.y;
-  final zoom = viewZoom <= 0 ? 1.0 : viewZoom;
-
   // Mandelbrot viewport baseline: y in [-1.5, 1.5] => half-range 1.5
   // (matches tile/isolate renderer mapping).
-  final scale = 1.5 / zoom;
-  final aspect = width / height;
+  final viewport = _CpuViewportMapping(
+    viewPan: viewPan,
+    viewZoom: viewZoom,
+    width: width,
+    height: height,
+  );
   final bytes = Uint8List(width * height * 4);
   final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
   final totalSamples = samplesPerAxis * samplesPerAxis;
@@ -758,15 +795,21 @@ Future<CpuRenderFrame> renderCpuFrame({
 
       for (int sy = 0; sy < samplesPerAxis; sy++) {
         for (int sx = 0; sx < samplesPerAxis; sx++) {
-          final subX = (x + (sx + 0.5) / samplesPerAxis) / (width - 1);
-          final subY = (y + (sy + 0.5) / samplesPerAxis) / (height - 1);
-          final nx = subX * 2.0 - 1.0;
-          final ny = subY * 2.0 - 1.0;
+          final nx = viewport.normalizedSample(
+            pixel: x,
+            extent: width,
+            sample: sx,
+            samplesPerAxis: samplesPerAxis,
+          );
+          final ny = viewport.normalizedSample(
+            pixel: y,
+            extent: height,
+            sample: sy,
+            samplesPerAxis: samplesPerAxis,
+          );
+          final c = viewport.coordinate(nx: nx, ny: ny);
 
-          final cx = centerX + nx * scale * aspect;
-          final cy = centerY + ny * scale;
-
-          final color = formula(cx, cy, iterations, bailout, juliaC);
+          final color = formula(c.$1, c.$2, iterations, bailout, juliaC);
           rAcc += color.$1;
           gAcc += color.$2;
           bAcc += color.$3;
@@ -799,23 +842,22 @@ Future<Uint16List?> renderCpuIterationBuffer({
   required int width,
   required int height,
 }) async {
-  final centerX = viewPan.x;
-  final centerY = viewPan.y;
-  final zoom = viewZoom <= 0 ? 1.0 : viewZoom;
-
-  final scale = 1.5 / zoom;
-  final aspect = width / height;
+  final viewport = _CpuViewportMapping(
+    viewPan: viewPan,
+    viewZoom: viewZoom,
+    width: width,
+    height: height,
+  );
 
   final itFn = proxyIteratorForModule(moduleId);
 
   final out = Uint16List(width * height);
   for (int y = 0; y < height; y++) {
-    final ny = (y / (height - 1)) * 2.0 - 1.0;
+    final ny = viewport.normalizedPixel(y, height);
     for (int x = 0; x < width; x++) {
-      final nx = (x / (width - 1)) * 2.0 - 1.0;
-      final cx = centerX + nx * scale * aspect;
-      final cy = centerY + ny * scale;
-      final r = itFn(cx, cy, iterations, bailout, juliaC);
+      final nx = viewport.normalizedPixel(x, width);
+      final c = viewport.coordinate(nx: nx, ny: ny);
+      final r = itFn(c.$1, c.$2, iterations, bailout, juliaC);
       out[y * width + x] = r.it.clamp(0, iterations);
     }
   }
