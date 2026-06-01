@@ -74,6 +74,31 @@ class _FixedBatchExportClock implements BatchExportClock {
   DateTime now() => value;
 }
 
+class _NoopBatchExportFramePump implements BatchExportFramePump {
+  const _NoopBatchExportFramePump();
+
+  @override
+  Future<void> waitForPresetRender() async {}
+}
+
+class _CapturingExportService extends _StubExportService {
+  final capturedOptions = <ExportOptions>[];
+
+  _CapturingExportService(super.basePath);
+
+  @override
+  Future<Uint8List> captureWithOptions(
+    GlobalKey boundaryKey, {
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    void Function(double)? onProgress,
+  }) async {
+    capturedOptions.add(options);
+    return Uint8List.fromList([1, 2, 3]);
+  }
+}
+
 FractalPreset _makePreset(String name) => FractalPreset(
       id: name,
       moduleId: 'mandelbrot',
@@ -150,6 +175,27 @@ void main() {
       );
       expect(item.preset.id, 'Deep Zoom');
       expect(item.preset.moduleId, 'mandelbrot');
+    });
+  });
+
+  group('BatchExportPlan', () {
+    test('filters presets to the requested module before export', () {
+      final plan = BatchExportPlan.forModule(
+        moduleId: 'mandelbrot',
+        presets: [
+          _makePreset('Mandelbrot A'),
+          _makePreset('Julia A').copyWith(moduleId: 'julia'),
+          _makePreset('Mandelbrot B'),
+        ],
+      );
+
+      expect(plan.entries.map((e) => e.preset.name), [
+        'Mandelbrot A',
+        'Mandelbrot B',
+      ]);
+      expect(plan.entries.map((e) => e.sourceIndex), [0, 2]);
+      expect(plan.entries.map((e) => e.exportIndex), [0, 1]);
+      expect(plan.total, 2);
     });
   });
 
@@ -431,6 +477,47 @@ void main() {
       expect(second.directory.path, endsWith('_02'));
       expect(await first.directory.exists(), isTrue);
       expect(await second.directory.exists(), isTrue);
+    });
+
+    test('mixed-module presets are skipped before apply/export', () async {
+      final capturingService = _CapturingExportService(tmpDir.path);
+      final service = BatchExportService(
+        exportService: capturingService,
+        framePump: const _NoopBatchExportFramePump(),
+      );
+      final applied = <String>[];
+      final done = <BatchExportItemResult>[];
+
+      final result = await service.exportPresets(
+        boundaryKey: GlobalKey(),
+        applyPreset: (preset) async => applied.add(preset.name),
+        presets: [
+          _makePreset('Mandelbrot A'),
+          _makePreset('Julia A').copyWith(moduleId: 'julia'),
+          _makePreset('Mandelbrot B'),
+        ],
+        options: const ExportOptions(format: ExportFormat.png),
+        screenWidth: 400,
+        screenHeight: 800,
+        moduleId: 'mandelbrot',
+        moduleDisplayName: 'Mandelbrot',
+        currentParameters: () => {},
+        onProgress: null,
+        onItemDone: done.add,
+        isCancelled: () => false,
+      );
+
+      expect(applied, ['Mandelbrot A', 'Mandelbrot B']);
+      expect(capturingService.capturedOptions, hasLength(2));
+      expect(done.map((item) => item.index), [0, 1]);
+      expect(result.items.map((item) => item.preset.name), [
+        'Mandelbrot A',
+        'Mandelbrot B',
+      ]);
+      expect(
+        result.items.map((item) => item.file.path),
+        everyElement(contains('mandelbrot')),
+      );
     });
 
     test('currentParameters is not called when isCancelled=true', () async {

@@ -32,6 +32,45 @@ class BatchExportResult {
   });
 }
 
+class BatchExportPlanEntry {
+  final FractalPreset preset;
+  final int sourceIndex;
+  final int exportIndex;
+
+  const BatchExportPlanEntry({
+    required this.preset,
+    required this.sourceIndex,
+    required this.exportIndex,
+  });
+}
+
+class BatchExportPlan {
+  final List<BatchExportPlanEntry> entries;
+
+  const BatchExportPlan._(this.entries);
+
+  int get total => entries.length;
+
+  static BatchExportPlan forModule({
+    required String moduleId,
+    required List<FractalPreset> presets,
+  }) {
+    final entries = <BatchExportPlanEntry>[];
+    for (var sourceIndex = 0; sourceIndex < presets.length; sourceIndex++) {
+      final preset = presets[sourceIndex];
+      if (preset.moduleId != moduleId) continue;
+      entries.add(
+        BatchExportPlanEntry(
+          preset: preset,
+          sourceIndex: sourceIndex,
+          exportIndex: entries.length,
+        ),
+      );
+    }
+    return BatchExportPlan._(List.unmodifiable(entries));
+  }
+}
+
 /// Clock contract for replayable batch export directory naming.
 abstract class BatchExportClock {
   DateTime now();
@@ -44,15 +83,33 @@ class SystemBatchExportClock implements BatchExportClock {
   DateTime now() => DateTime.now();
 }
 
+/// Frame-pump contract for replayable batch export tests.
+abstract class BatchExportFramePump {
+  Future<void> waitForPresetRender();
+}
+
+class WidgetsBindingBatchExportFramePump implements BatchExportFramePump {
+  const WidgetsBindingBatchExportFramePump();
+
+  @override
+  Future<void> waitForPresetRender() async {
+    await WidgetsBinding.instance.endOfFrame;
+    await WidgetsBinding.instance.endOfFrame;
+  }
+}
+
 class BatchExportService {
   final ExportService _exportService;
   final BatchExportClock _clock;
+  final BatchExportFramePump _framePump;
 
   const BatchExportService({
     ExportService exportService = const ExportService(),
     BatchExportClock clock = const SystemBatchExportClock(),
+    BatchExportFramePump framePump = const WidgetsBindingBatchExportFramePump(),
   })  : _exportService = exportService,
-        _clock = clock;
+        _clock = clock,
+        _framePump = framePump;
 
   Future<BatchExportResult> exportPresets({
     required GlobalKey boundaryKey,
@@ -71,17 +128,20 @@ class BatchExportService {
     if (kIsWeb) throw UnsupportedError('exportPresets is not supported on web');
     final directory = await _createBatchDirectory(moduleId: moduleId);
     final results = <BatchExportItemResult>[];
+    final plan =
+        BatchExportPlan.forModule(moduleId: moduleId, presets: presets);
 
-    for (var i = 0; i < presets.length; i++) {
+    for (final entry in plan.entries) {
       if (isCancelled()) break;
 
-      final preset = presets[i];
-      onProgress?.call(i / presets.length,
-          'Exporting ${i + 1}/${presets.length}: ${preset.name}');
+      final preset = entry.preset;
+      onProgress?.call(
+        entry.exportIndex / plan.total,
+        'Exporting ${entry.exportIndex + 1}/${plan.total}: ${preset.name}',
+      );
 
       await applyPreset(preset);
-      await WidgetsBinding.instance.endOfFrame;
-      await WidgetsBinding.instance.endOfFrame;
+      await _framePump.waitForPresetRender();
 
       final metadata = options.embedMetadata
           ? ExportMetadata(
@@ -102,14 +162,18 @@ class BatchExportService {
 
       final filename = _presetFilename(
         moduleId: moduleId,
-        index: i,
+        index: entry.exportIndex,
         presetName: preset.name,
         format: options.format,
       );
       final file = File('${directory.path}/$filename');
       await file.writeAsBytes(bytes, flush: true);
 
-      final item = BatchExportItemResult(preset: preset, file: file, index: i);
+      final item = BatchExportItemResult(
+        preset: preset,
+        file: file,
+        index: entry.exportIndex,
+      );
       results.add(item);
       onItemDone?.call(item);
     }
