@@ -141,7 +141,14 @@ void main() {
         moduleId: moduleId,
       );
 
+      final candidates = planner.peakZoomCandidates(
+        baseZoom: baseZoom,
+        moduleId: moduleId,
+      );
+
       expect(hardMax, 9.2e6);
+      expect(candidates.precisionCappedDesiredZoom, hardMax);
+      expect(candidates.precisionLimited, isTrue);
       expect(peakZoom, hardMax);
       expect(peakZoom, lessThanOrEqualTo(hardMax));
     });
@@ -505,6 +512,9 @@ void main() {
       );
       expect(candidates.hardMaxZoom, 9.2e11);
       expect(candidates.desiredPeakZoom, 1200.0);
+      expect(candidates.precisionCappedDesiredZoom, 1200.0);
+      expect(candidates.minimumProgressCappedBySpan, isFalse);
+      expect(candidates.precisionLimited, isFalse);
       expect(candidates.resolvedPeakZoom, 1200.0);
       expect(plan.peakCandidates.baseZoom, candidates.baseZoom);
       expect(plan.peakCandidates.resolvedPeakZoom, candidates.resolvedPeakZoom);
@@ -525,6 +535,8 @@ void main() {
       expect(candidates.minProgressZoom, 12.5);
       expect(candidates.spanLimitedPeakZoom, 10.0);
       expect(candidates.cappedMinimumProgressZoom, 10.0);
+      expect(candidates.minimumProgressCappedBySpan, isTrue);
+      expect(candidates.precisionLimited, isFalse);
       expect(candidates.resolvedPeakZoom, 10.0);
       expect(
         zeroSpanPlanner.computePeakZoom(

@@ -485,8 +485,18 @@ class AutoExplorePeakZoomCandidates {
   /// configured per-leg span cap or module precision hard maximum.
   double get cappedMinimumProgressZoom => min(minProgressZoom, desiredPeakZoom);
 
+  /// Desired peak after applying the renderer precision hard maximum.
+  double get precisionCappedDesiredZoom => min(desiredPeakZoom, hardMaxZoom);
+
+  /// True when the progress nudge had to yield to the configured span cap.
+  bool get minimumProgressCappedBySpan => minProgressZoom > desiredPeakZoom;
+
+  /// True when renderer precision, not cycle shape, decides the final peak.
+  bool get precisionLimited =>
+      hardMaxZoom < desiredPeakZoom || hardMaxZoom < cappedMinimumProgressZoom;
+
   double get resolvedPeakZoom => min(
-        max(cappedMinimumProgressZoom, min(desiredPeakZoom, hardMaxZoom)),
+        max(cappedMinimumProgressZoom, precisionCappedDesiredZoom),
         hardMaxZoom,
       );
 }
