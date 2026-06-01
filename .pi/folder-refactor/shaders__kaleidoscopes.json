@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "target": "shaders/kaleidoscopes",
+  "updatedAt": "2026-06-01T13:36:28.034Z",
+  "objective": "Refactor kaleidoscope shaders from a flat folder into behavior-oriented shader subdomains while preserving shader asset behavior and catalog/pubspec references. Planned topology complete: classic_symmetry/ owns baseline mirror, ray, and geometric symmetry studies; radial_ornaments/ owns mandala/star/snowflake/flower/rosette/ring radial ornament patterns; textured_light/ owns crystal/jewel/nebula/spiral/wave/fractal material, volumetric, and animated texture patterns.",
+  "completedSlices": [
+    "Added focused kaleidoscope shader asset contract test at test/shaders/kaleidoscope_shader_assets_test.dart.",
+    "Moved classic symmetry shaders into shaders/kaleidoscopes/classic_symmetry and updated pubspec.yaml plus escape_time_catalog.dart.",
+    "Moved radial ornament shaders into shaders/kaleidoscopes/radial_ornaments and updated pubspec.yaml plus escape_time_catalog.dart.",
+    "Moved textured/light shaders into shaders/kaleidoscopes/textured_light and updated pubspec.yaml plus escape_time_catalog.dart.",
+    "Ran completion audit: no root files remain and no next candidates remain."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/shaders/kaleidoscope_shader_assets_test.dart failed due unrelated pre-existing missing asset: shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag.",
+    "Python static path check passed: 15 pubspec kaleidoscope assets, 15 catalog kaleidoscope assets, no missing declared/catalog files, no undeclared catalog assets, no root .frag files remain.",
+    "rg stale old direct root paths check passed: no shaders/kaleidoscopes/kaleidoscope_* references remain in pubspec/lib/test/integration_test.",
+    "/home/xel/flutter/bin/flutter analyze test/shaders/kaleidoscope_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart passed."
+  ]
+}

@@ -502,18 +502,18 @@ flutter:
     - shaders/root_finding/high_order_methods/traub_ostrowski_gpu.frag
     - shaders/trigonometric_and_transcendental/special_functions/weierstrass_elliptic_gpu.frag
     - shaders/trigonometric_and_transcendental/special_functions/weierstrass_function_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_basic_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_rays_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_mandala_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_star_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_snowflake_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_flower_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_jewel_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_spiral_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_geometric_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_crystal_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_wave_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_fractal_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_rosette_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_ring_gpu.frag
-    - shaders/kaleidoscopes/kaleidoscope_nebula_gpu.frag
+    - shaders/kaleidoscopes/classic_symmetry/kaleidoscope_basic_gpu.frag
+    - shaders/kaleidoscopes/classic_symmetry/kaleidoscope_rays_gpu.frag
+    - shaders/kaleidoscopes/radial_ornaments/kaleidoscope_mandala_gpu.frag
+    - shaders/kaleidoscopes/radial_ornaments/kaleidoscope_star_gpu.frag
+    - shaders/kaleidoscopes/radial_ornaments/kaleidoscope_snowflake_gpu.frag
+    - shaders/kaleidoscopes/radial_ornaments/kaleidoscope_flower_gpu.frag
+    - shaders/kaleidoscopes/textured_light/kaleidoscope_jewel_gpu.frag
+    - shaders/kaleidoscopes/textured_light/kaleidoscope_spiral_gpu.frag
+    - shaders/kaleidoscopes/classic_symmetry/kaleidoscope_geometric_gpu.frag
+    - shaders/kaleidoscopes/textured_light/kaleidoscope_crystal_gpu.frag
+    - shaders/kaleidoscopes/textured_light/kaleidoscope_wave_gpu.frag
+    - shaders/kaleidoscopes/textured_light/kaleidoscope_fractal_gpu.frag
+    - shaders/kaleidoscopes/radial_ornaments/kaleidoscope_rosette_gpu.frag
+    - shaders/kaleidoscopes/radial_ornaments/kaleidoscope_ring_gpu.frag
+    - shaders/kaleidoscopes/textured_light/kaleidoscope_nebula_gpu.frag
