@@ -40,6 +40,30 @@ void main() {
 
       expect(decision.changedDirection, isFalse);
     });
+
+    test('preserves direction when correction zoom samples are unusable', () {
+      for (final sample in [
+        (currentZoom: double.nan, previousZoom: 10.0),
+        (currentZoom: double.infinity, previousZoom: 10.0),
+        (currentZoom: 10.0, previousZoom: double.nan),
+        (currentZoom: 10.0, previousZoom: double.infinity),
+        (currentZoom: 10.0, previousZoom: 0.0),
+      ]) {
+        final decision = AutoExploreCorrectionDecision.fromZooms(
+          currentZoom: sample.currentZoom,
+          previousZoom: sample.previousZoom,
+        );
+
+        expect(
+          decision.changedDirection,
+          isFalse,
+          reason:
+              'current=${sample.currentZoom}, previous=${sample.previousZoom}',
+        );
+        expect(decision.resolve(currentZoomingIn: true), isTrue);
+        expect(decision.resolve(currentZoomingIn: false), isFalse);
+      }
+    });
   });
 
   group('AutoExploreZoomPlanner', () {

@@ -76,6 +76,11 @@ class AutoExploreCorrectionDecision {
     required double previousZoom,
     double relativeEpsilon = defaultRelativeEpsilon,
   }) {
+    if (!_isUsableZoomSample(currentZoom) ||
+        !_isUsableZoomSample(previousZoom)) {
+      return const AutoExploreCorrectionDecision._(null);
+    }
+
     final epsilon = relativeEpsilon.isFinite && relativeEpsilon >= 0.0
         ? relativeEpsilon
         : defaultRelativeEpsilon;
@@ -87,6 +92,8 @@ class AutoExploreCorrectionDecision {
     }
     return const AutoExploreCorrectionDecision._(null);
   }
+
+  static bool _isUsableZoomSample(double zoom) => zoom.isFinite && zoom > 0.0;
 }
 
 /// Precision headroom used to keep auto-explore below renderer fallback edges.
