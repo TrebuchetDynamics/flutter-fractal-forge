@@ -1,43 +1,12 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:math' show max;
 
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
+import 'package:flutter_fractals/features/auto_explore/auto_explore_zoom_planner.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 
-/// Auto-zoom configuration.
-class AutoExploreConfig {
-  /// Minimum and maximum zoom targets for the auto cycle.
-  final double minZoom;
-  final double maxZoom;
-
-  /// Peak zoom target starts from: baseZoom * [cycleMaxMultiplier], then gets
-  /// clamped by smart precision limits per fractal module.
-  final double cycleMaxMultiplier;
-
-  /// Maximum zoom span per leg in log10 decades (e.g. 3.0 => up to 1000x).
-  final double maxLegSpanDecades;
-
-  /// Precision headroom under policy threshold to avoid probing unstable edges.
-  final double precisionHeadroom;
-
-  /// Duration for each zoom leg (in or out).
-  final Duration travelDuration;
-
-  /// Maximum multiplier for duration scaling on very large zoom spans.
-  final double maxDurationScale;
-
-  const AutoExploreConfig({
-    this.minZoom = 0.2,
-    this.maxZoom = 1e12,
-    this.cycleMaxMultiplier = 120.0,
-    this.maxLegSpanDecades = 3.2,
-    this.precisionHeadroom = 0.92,
-    this.travelDuration = const Duration(milliseconds: 9000),
-    this.maxDurationScale = 4.0,
-  });
-}
+export 'auto_explore_zoom_planner.dart' show AutoExploreConfig;
 
 /// Auto navigation mode that performs zoom-only cinematic movement.
 ///
@@ -52,8 +21,9 @@ class AutoExploreService extends ChangeNotifier {
 
   final FractalController controller;
   final AutoExploreConfig config;
-  final DeepZoomPrecisionPolicy _precisionPolicy =
-      const DeepZoomPrecisionPolicy();
+  late final AutoExploreZoomPlanner _zoomPlanner = AutoExploreZoomPlanner(
+    config: config,
+  );
 
   bool _isExploring = false;
   bool _isPaused = false;
@@ -213,54 +183,21 @@ class AutoExploreService extends ChangeNotifier {
     notifyListeners();
   }
 
-  Duration _scaledDuration(Duration d) {
-    final millis = (d.inMilliseconds / _speed).round();
-    return Duration(milliseconds: max(1, millis));
-  }
-
-  double _clampZoom(double z) => z.clamp(config.minZoom, config.maxZoom);
-
-  double _smartHardMaxZoom() {
-    final moduleThreshold = _precisionPolicy.thresholdFor(controller.module.id);
-    final safeThreshold = (moduleThreshold * config.precisionHeadroom)
-        .clamp(config.minZoom, config.maxZoom);
-    return _clampZoom(safeThreshold);
-  }
-
-  double _computePeakZoom(double baseZoom) {
-    final hardMax = _smartHardMaxZoom();
-    final minPeak = _clampZoom(baseZoom * 1.25);
-    final configuredPeak = _clampZoom(baseZoom * config.cycleMaxMultiplier);
-
-    final maxSpanRatio = pow(10.0, config.maxLegSpanDecades).toDouble();
-    final spanLimitedPeak = _clampZoom(baseZoom * maxSpanRatio);
-
-    final desiredPeak = min(configuredPeak, spanLimitedPeak);
-    return max(minPeak, min(desiredPeak, hardMax));
-  }
-
-  double _computeFloorZoom(double baseZoom) {
-    // Maximize zoom-out smartly while preserving context around the baseline.
-    final contextualFloor = baseZoom / config.cycleMaxMultiplier;
-    return _clampZoom(max(config.minZoom, contextualFloor));
-  }
+  double _clampZoom(double z) => _zoomPlanner.clampZoom(z);
 
   double _nextTargetZoom() {
     final current = _clampZoom(controller.view.zoom);
     _cycleBaseZoom ??= current;
 
-    final baseZoom = _clampZoom(_cycleBaseZoom!);
-    final peakZoom = _computePeakZoom(baseZoom);
-    final floorZoom = _computeFloorZoom(baseZoom);
-
-    if ((peakZoom - floorZoom).abs() < 1e-9) {
-      return baseZoom;
-    }
-
     // Direction is flipped only after a leg actually reaches its target.
     // This prevents user pan interruptions from resuming in the opposite
     // direction (the reported "reverse" behavior).
-    return _zoomingIn ? peakZoom : floorZoom;
+    return _zoomPlanner.nextTargetZoom(
+      currentZoom: current,
+      cycleBaseZoom: _cycleBaseZoom,
+      zoomingIn: _zoomingIn,
+      moduleId: controller.module.id,
+    );
   }
 
   void _scheduleNext() {
@@ -283,16 +220,11 @@ class AutoExploreService extends ChangeNotifier {
   }
 
   Duration _durationForZoomLeg(double startZoom, double endZoom) {
-    final safeStart = max(1e-9, startZoom);
-    final safeEnd = max(1e-9, endZoom);
-    final ratio = max(safeStart, safeEnd) / min(safeStart, safeEnd);
-    final decades = ratio <= 1.0 ? 0.0 : (log(ratio) / ln10);
-
-    final normalized = (decades / 1.6).clamp(0.0, 1.0);
-    final scale = 1.0 + normalized * (config.maxDurationScale - 1.0);
-
-    final ms = (config.travelDuration.inMilliseconds * scale).round();
-    return _scaledDuration(Duration(milliseconds: ms));
+    return _zoomPlanner.durationForZoomLeg(
+      startZoom: startZoom,
+      endZoom: endZoom,
+      speed: _speed,
+    );
   }
 
   Future<bool> _animateZoomTo(double targetZoom) async {
@@ -334,9 +266,7 @@ class AutoExploreService extends ChangeNotifier {
   }
 
   double _interpolateZoom(double start, double end, double t) {
-    final safeStart = max(1e-9, start);
-    final safeEnd = max(1e-9, end);
-    return safeStart * pow(safeEnd / safeStart, t).toDouble();
+    return _zoomPlanner.interpolateZoom(start, end, t);
   }
 
   @override
