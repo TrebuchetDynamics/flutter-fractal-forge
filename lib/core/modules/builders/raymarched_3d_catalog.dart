@@ -20,7 +20,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_menger',
     name: 'KIFS Menger Sponge',
-    shaderAsset: 'shaders/ifs_and_geometric/kifs_menger_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag',
     category: '3D Fractals',
     defaultPower: 3.0,
     minPower: 2.0,
@@ -56,7 +56,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_sierpinski_tetra',
     name: 'KIFS Sierpinski Tetrahedron',
-    shaderAsset: 'shaders/ifs_and_geometric/kifs_sierpinski_tetra_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -92,7 +92,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_koch_fold',
     name: 'KIFS Koch 3D',
-    shaderAsset: 'shaders/ifs_and_geometric/kifs_koch_fold_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -107,7 +107,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_snowflake_fold',
     name: 'KIFS Snowflake 3D',
-    shaderAsset: 'shaders/ifs_and_geometric/kifs_snowflake_fold_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag',
     category: '3D Fractals',
     defaultPower: 3.0,
     minPower: 2.0,
@@ -252,7 +252,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'inversive_limit_set_3d',
     name: 'Inversive Limit Set 3D',
-    shaderAsset: 'shaders/ifs_and_geometric/inversive_limit_set_3d_gpu.frag',
+    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag',
     category: '3D Fractals',
     defaultPower: 1.4,
     minPower: 1.0,
