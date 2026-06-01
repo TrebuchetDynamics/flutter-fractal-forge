@@ -103,6 +103,14 @@ void main() {
       expect(coordinate.y, -0.75);
     });
 
+    test('anti-aliasing grid makes non-square sample counts replayable', () {
+      expect(CpuSampleGrid.fromRequestedCount(-1).samplesPerAxis, 1);
+      expect(CpuSampleGrid.fromRequestedCount(1).totalSamples, 1);
+      expect(CpuSampleGrid.fromRequestedCount(4).totalSamples, 4);
+      expect(CpuSampleGrid.fromRequestedCount(8).samplesPerAxis, 3);
+      expect(CpuSampleGrid.fromRequestedCount(8).totalSamples, 9);
+    });
+
     test('single-pixel iteration buffer samples the viewport center', () async {
       final buffer = await renderCpuIterationBuffer(
         moduleId: 'mandelbrot',

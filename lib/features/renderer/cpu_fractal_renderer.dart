@@ -746,8 +746,7 @@ Future<CpuRenderFrame> renderCpuFrame({
     height: height,
   );
   final bytes = Uint8List(width * height * 4);
-  final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
-  final totalSamples = samplesPerAxis * samplesPerAxis;
+  final sampleGrid = CpuSampleGrid.fromRequestedCount(sampleCount);
 
   final formula = cpuFormulaForModuleId(moduleId);
 
@@ -757,19 +756,19 @@ Future<CpuRenderFrame> renderCpuFrame({
       double gAcc = 0;
       double bAcc = 0;
 
-      for (int sy = 0; sy < samplesPerAxis; sy++) {
-        for (int sx = 0; sx < samplesPerAxis; sx++) {
+      for (int sy = 0; sy < sampleGrid.samplesPerAxis; sy++) {
+        for (int sx = 0; sx < sampleGrid.samplesPerAxis; sx++) {
           final nx = viewport.normalizedSample(
             pixel: x,
             extent: width,
             sample: sx,
-            samplesPerAxis: samplesPerAxis,
+            samplesPerAxis: sampleGrid.samplesPerAxis,
           );
           final ny = viewport.normalizedSample(
             pixel: y,
             extent: height,
             sample: sy,
-            samplesPerAxis: samplesPerAxis,
+            samplesPerAxis: sampleGrid.samplesPerAxis,
           );
           final c = viewport.coordinate(nx: nx, ny: ny);
 
@@ -781,9 +780,9 @@ Future<CpuRenderFrame> renderCpuFrame({
       }
 
       final idx = (y * width + x) * 4;
-      bytes[idx + 0] = (rAcc / totalSamples).clamp(0, 255).round();
-      bytes[idx + 1] = (gAcc / totalSamples).clamp(0, 255).round();
-      bytes[idx + 2] = (bAcc / totalSamples).clamp(0, 255).round();
+      bytes[idx + 0] = (rAcc / sampleGrid.totalSamples).clamp(0, 255).round();
+      bytes[idx + 1] = (gAcc / sampleGrid.totalSamples).clamp(0, 255).round();
+      bytes[idx + 2] = (bAcc / sampleGrid.totalSamples).clamp(0, 255).round();
       bytes[idx + 3] = 255;
     }
   }

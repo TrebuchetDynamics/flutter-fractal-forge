@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:vector_math/vector_math.dart' show Vector2;
@@ -221,8 +220,7 @@ Uint8List _renderRect({
   required int sampleCount,
 }) {
   final bytes = Uint8List(w * h * 4);
-  final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
-  final totalSamples = samplesPerAxis * samplesPerAxis;
+  final sampleGrid = CpuSampleGrid.fromRequestedCount(sampleCount);
 
   final juliaC = Vector2(juliaCX, juliaCY);
   final formula = cpuFormulaForModuleId(moduleId);
@@ -243,19 +241,19 @@ Uint8List _renderRect({
       double gAcc = 0;
       double bAcc = 0;
 
-      for (int sy = 0; sy < samplesPerAxis; sy++) {
-        for (int sx = 0; sx < samplesPerAxis; sx++) {
+      for (int sy = 0; sy < sampleGrid.samplesPerAxis; sy++) {
+        for (int sx = 0; sx < sampleGrid.samplesPerAxis; sx++) {
           final nx = viewport.normalizedSample(
             pixel: x,
             extent: fullWidth,
             sample: sx,
-            samplesPerAxis: samplesPerAxis,
+            samplesPerAxis: sampleGrid.samplesPerAxis,
           );
           final ny = viewport.normalizedSample(
             pixel: y,
             extent: fullHeight,
             sample: sy,
-            samplesPerAxis: samplesPerAxis,
+            samplesPerAxis: sampleGrid.samplesPerAxis,
           );
           final coordinate = viewport.coordinate(nx: nx, ny: ny);
 
@@ -273,9 +271,9 @@ Uint8List _renderRect({
       }
 
       final idx = (ty * w + tx) * 4;
-      bytes[idx + 0] = (rAcc / totalSamples).clamp(0, 255).round();
-      bytes[idx + 1] = (gAcc / totalSamples).clamp(0, 255).round();
-      bytes[idx + 2] = (bAcc / totalSamples).clamp(0, 255).round();
+      bytes[idx + 0] = (rAcc / sampleGrid.totalSamples).clamp(0, 255).round();
+      bytes[idx + 1] = (gAcc / sampleGrid.totalSamples).clamp(0, 255).round();
+      bytes[idx + 2] = (bAcc / sampleGrid.totalSamples).clamp(0, 255).round();
       bytes[idx + 3] = 255;
     }
   }

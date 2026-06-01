@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:vector_math/vector_math.dart' show Vector2;
 
 /// Shared CPU-render viewport mapping.
@@ -76,4 +78,19 @@ final class CpuViewportMapping {
   (double x, double y) coordinate({required double nx, required double ny}) {
     return (centerX + nx * scale * aspect, centerY + ny * scale);
   }
+}
+
+/// Replayable CPU anti-aliasing grid derived from a requested sample count.
+///
+/// The CPU renderer samples a square grid, so non-square requests are rounded to
+/// the nearest square grid and may render with a different effective count.
+final class CpuSampleGrid {
+  CpuSampleGrid.fromRequestedCount(int requestedCount)
+      : samplesPerAxis = requestedCount <= 0
+            ? 1
+            : math.max(1, math.sqrt(requestedCount).round());
+
+  final int samplesPerAxis;
+
+  int get totalSamples => samplesPerAxis * samplesPerAxis;
 }
