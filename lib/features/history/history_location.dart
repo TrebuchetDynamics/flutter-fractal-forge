@@ -23,6 +23,10 @@ Map<String, Object> snapshotHistoryParams(Map<String, Object> params) {
 
 /// Deep-copies JSON-like parameter values so history replay is not affected by
 /// later mutations of nested list/map values owned by controllers or widgets.
+///
+/// Nested map keys are normalized to strings because history entries are
+/// persisted as JSON objects. Without this, a controller-owned metadata map
+/// with enum/int keys can make the whole history save fail during jsonEncode.
 Object snapshotHistoryParamValue(Object value) {
   if (value is List) {
     return [
@@ -34,7 +38,7 @@ Object snapshotHistoryParamValue(Object value) {
   if (value is Map) {
     return {
       for (final entry in value.entries)
-        entry.key: entry.value is Object
+        entry.key.toString(): entry.value is Object
             ? snapshotHistoryParamValue(entry.value as Object)
             : entry.value,
     };

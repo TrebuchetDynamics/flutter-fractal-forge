@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/features/history/history_entry.dart';
@@ -76,6 +78,28 @@ void main() {
       expect(entry.view.rotation.y, 4);
       expect(entry.view.rotation.z, 5);
       expect(entry.params, {'iterations': 100});
+    });
+
+    test('serializes nested map parameter keys as JSON object keys', () {
+      final entry = HistoryEntry.fromState(
+        moduleId: 'mandelbrot',
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 6,
+          rotation: Vector3.zero(),
+        ),
+        params: <String, Object>{
+          'metadata': <Object, Object>{1: 'one'},
+        },
+      );
+
+      final encoded = jsonEncode(entry.toJson());
+      final decoded = jsonDecode(encoded) as Map<String, Object?>;
+      final restored = HistoryEntry.fromJson(decoded);
+
+      expect(restored.params, {
+        'metadata': {'1': 'one'},
+      });
     });
 
     test('deep-snapshots nested JSON-like params when created from state', () {
