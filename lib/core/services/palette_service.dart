@@ -43,7 +43,8 @@ class PaletteService extends ChangeNotifier {
 
   List<FractalPalette> get builtInPalettes => List.unmodifiable(_builtIn);
   List<FractalPalette> get userPalettes => List.unmodifiable(_user);
-  List<FractalPalette> get allPalettes => List.unmodifiable([..._builtIn, ..._user]);
+  List<FractalPalette> get allPalettes =>
+      List.unmodifiable([..._builtIn, ..._user]);
 
   int get builtInCount => _builtIn.length;
 
@@ -62,25 +63,30 @@ class PaletteService extends ChangeNotifier {
   bool isBuiltInIndex(int index) => index >= 0 && index < builtInCount;
 
   Future<void> addPalette(FractalPalette palette) async {
-    _user = [..._user, palette.copyWith(isBuiltIn: false, stops: _normalizeStops(palette.stops))];
-    await _store.savePalettes(_user);
-    notifyListeners();
+    await _commitUserPalettes([
+      ..._user,
+      palette.copyWith(
+        isBuiltIn: false,
+        stops: _normalizeStops(palette.stops),
+      ),
+    ]);
   }
 
   Future<void> updatePalette(FractalPalette palette) async {
-    _user = _user
-        .map((p) => p.id == palette.id
-            ? palette.copyWith(isBuiltIn: false, stops: _normalizeStops(palette.stops))
-            : p)
-        .toList();
-    await _store.savePalettes(_user);
-    notifyListeners();
+    await _commitUserPalettes(
+      _user
+          .map((p) => p.id == palette.id
+              ? palette.copyWith(
+                  isBuiltIn: false,
+                  stops: _normalizeStops(palette.stops),
+                )
+              : p)
+          .toList(),
+    );
   }
 
   Future<void> deletePalette(String id) async {
-    _user = _user.where((p) => p.id != id).toList();
-    await _store.savePalettes(_user);
-    notifyListeners();
+    await _commitUserPalettes(_user.where((p) => p.id != id).toList());
   }
 
   /// Imports a palette from JSON. If id is missing/duplicate, a new id is generated.
@@ -121,7 +127,8 @@ class PaletteService extends ChangeNotifier {
     final cached = _paletteTexCache[palette.id];
     if (cached != null) return cached;
 
-    final stops = [...palette.stops]..sort((a, b) => a.position.compareTo(b.position));
+    final stops = [...palette.stops]
+      ..sort((a, b) => a.position.compareTo(b.position));
     if (stops.isEmpty) {
       stops.add(const FractalColorStop(position: 0.0, colorArgb: 0xFF000000));
       stops.add(const FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF));
@@ -166,7 +173,8 @@ class PaletteService extends ChangeNotifier {
     // NOTE: This API is legacy. Prefer setting palette uniforms via a
     // UniformSchema/UniformWriter to avoid hard-coded float indices.
 
-    final stops = [...palette.stops]..sort((a, b) => a.position.compareTo(b.position));
+    final stops = [...palette.stops]
+      ..sort((a, b) => a.position.compareTo(b.position));
     final count = stops.length.clamp(0, maxStops);
     shader.setFloat(baseIndex, count.toDouble());
 
@@ -202,9 +210,8 @@ class PaletteService extends ChangeNotifier {
     }
 
     final s = [...stops]..sort((a, b) => a.position.compareTo(b.position));
-    final clamped = s
-        .map((e) => e.copyWith(position: e.position.clamp(0.0, 1.0)))
-        .toList();
+    final clamped =
+        s.map((e) => e.copyWith(position: e.position.clamp(0.0, 1.0))).toList();
 
     // Ensure first=0 and last=1.
     clamped[0] = clamped.first.copyWith(position: 0.0);
@@ -216,11 +223,20 @@ class PaletteService extends ChangeNotifier {
     return clamped;
   }
 
+  Future<void> _commitUserPalettes(List<FractalPalette> palettes) async {
+    _user = palettes;
+    invalidatePaletteTextures();
+    await _store.savePalettes(_user);
+    notifyListeners();
+  }
+
   Future<void> _load() async {
     _user = _store
         .loadPalettes()
-        .map((p) => p.copyWith(stops: _normalizeStops(p.stops), isBuiltIn: false))
+        .map((p) =>
+            p.copyWith(stops: _normalizeStops(p.stops), isBuiltIn: false))
         .toList();
+    invalidatePaletteTextures();
   }
 
   String _ensureUniqueId(String id) {

@@ -59,7 +59,8 @@ void main() {
       );
     });
 
-    test('instance throws StateError before create() — isolation via fresh store',
+    test(
+        'instance throws StateError before create() — isolation via fresh store',
         () async {
       // Create a fresh PaletteService to ensure the singleton is populated,
       // then verify the documented behaviour: after create() the getter works.
@@ -89,8 +90,7 @@ void main() {
         () async {
       final service = await PaletteService.create();
       final first = service.allPalettes.first;
-      expect(
-          service.paletteAtIndex(service.allPalettes.length).id,
+      expect(service.paletteAtIndex(service.allPalettes.length).id,
           equals(first.id));
     });
 
@@ -113,7 +113,8 @@ void main() {
         () async {
       final service = await PaletteService.create();
       // No user palettes yet — allPalettes == builtIn.
-      expect(service.allPalettes.length, equals(service.builtInPalettes.length));
+      expect(
+          service.allPalettes.length, equals(service.builtInPalettes.length));
       for (final p in service.builtInPalettes) {
         expect(service.allPalettes.any((a) => a.id == p.id), isTrue);
       }
@@ -142,6 +143,37 @@ void main() {
 
       // User palette is present.
       expect(all.any((a) => a.id == 'user_test_palette'), isTrue);
+    });
+
+    test('updatePalette invalidates cached textures for the same palette id',
+        () async {
+      final service = await PaletteService.create();
+      const palette = FractalPalette(
+        id: 'mutable_palette',
+        name: 'Mutable',
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFFFF0000),
+          FractalColorStop(position: 1.0, colorArgb: 0xFF0000FF),
+        ],
+      );
+      await service.addPalette(palette);
+
+      final firstTexture = service.paletteTexture(palette);
+      await service.updatePalette(
+        palette.copyWith(
+          stops: const [
+            FractalColorStop(position: 0.0, colorArgb: 0xFF00FF00),
+            FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
+          ],
+        ),
+      );
+
+      final updatedPalette = service.userPalettes.singleWhere(
+        (p) => p.id == palette.id,
+      );
+      final secondTexture = service.paletteTexture(updatedPalette);
+
+      expect(secondTexture, isNot(same(firstTexture)));
     });
   });
 }
