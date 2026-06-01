@@ -39,6 +39,20 @@ void main() {
       );
 
       expect(decision.changedDirection, isFalse);
+      expect(AutoExploreRelativeEpsilon.normalize(-0.1), 1e-4);
+      expect(AutoExploreRelativeEpsilon.normalize(double.infinity), 1e-4);
+    });
+
+    test('normalizes correction epsilon before it hides zoom-out intent', () {
+      final decision = AutoExploreCorrectionDecision.fromZooms(
+        currentZoom: 5.0,
+        previousZoom: 10.0,
+        relativeEpsilon: 1.5,
+      );
+
+      expect(AutoExploreRelativeEpsilon.normalize(1.5), 1e-4);
+      expect(decision.changedDirection, isTrue);
+      expect(decision.resolve(currentZoomingIn: true), isFalse);
     });
 
     test('preserves direction when correction zoom samples are unusable', () {

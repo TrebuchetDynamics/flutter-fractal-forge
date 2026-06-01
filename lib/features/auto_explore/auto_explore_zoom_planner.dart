@@ -56,9 +56,28 @@ class AutoExploreSpeed {
   }
 }
 
+/// Relative epsilon used to ignore tiny user zoom corrections.
+///
+/// Values at or above 1.0 invert the lower comparison bound and make zoom-out
+/// corrections undetectable. Keep normalization explicit so correction replay
+/// tests can distinguish real deadbands from malformed inputs.
+class AutoExploreRelativeEpsilon {
+  static const double defaultValue = 1e-4;
+
+  const AutoExploreRelativeEpsilon._();
+
+  static double normalize(double epsilon) {
+    if (!epsilon.isFinite || epsilon < 0.0 || epsilon >= 1.0) {
+      return defaultValue;
+    }
+    return epsilon;
+  }
+}
+
 /// Direction inferred from a user zoom correction.
 class AutoExploreCorrectionDecision {
-  static const double defaultRelativeEpsilon = 1e-4;
+  static const double defaultRelativeEpsilon =
+      AutoExploreRelativeEpsilon.defaultValue;
 
   /// Null means the correction is inside the deadband and should preserve the
   /// current auto-explore direction.
@@ -81,9 +100,7 @@ class AutoExploreCorrectionDecision {
       return const AutoExploreCorrectionDecision._(null);
     }
 
-    final epsilon = relativeEpsilon.isFinite && relativeEpsilon >= 0.0
-        ? relativeEpsilon
-        : defaultRelativeEpsilon;
+    final epsilon = AutoExploreRelativeEpsilon.normalize(relativeEpsilon);
     if (currentZoom > previousZoom * (1.0 + epsilon)) {
       return const AutoExploreCorrectionDecision._(true);
     }
