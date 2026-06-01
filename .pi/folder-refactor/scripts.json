@@ -1,22 +1,23 @@
 {
   "version": 1,
   "target": "scripts",
-  "updatedAt": "2026-06-01T13:16:21.362Z",
+  "updatedAt": "2026-06-01T14:22:22.754Z",
   "objective": "Refactor scripts root into behavior/responsibility folders while keeping public root script entrypoints stable through compatibility wrappers.",
   "completedSlices": [
-    "Mapped scripts root and existing research subtree.",
+    "Mapped scripts root and existing release/research subtrees.",
     "Moved Android/emulator/app-run automation into scripts/android with root compatibility wrappers.",
-    "Moved release/build proof scripts into scripts/release with root compatibility wrappers.",
     "Moved screenshot/Linux integration automation into scripts/screenshots with root compatibility wrappers.",
     "Moved catalog/shader Python maintenance scripts into scripts/catalog with root compatibility wrappers.",
+    "Kept release implementations in scripts/release and replaced root release scripts with compatibility wrappers.",
     "Extracted shared compatibility launchers in scripts/compat/dispatch.sh and scripts/compat/run_python_impl.py to avoid duplicate wrapper dispatch behavior.",
     "Adjusted moved implementation scripts to resolve repository root from their new subfolder depth.",
-    "Validated shell syntax, Python compilation, and representative safe root wrappers."
+    "Updated scripts/AGENTS.md with the new responsibility topology.",
+    "Validated shell syntax, Python AST parsing, representative safe root wrappers, and completion audit."
   ],
   "nextCandidates": [],
   "validationReceipts": [
     "find scripts -path 'scripts/.pi' -prune -o -name '*.sh' -print0 | xargs -0 -n1 bash -n: pass",
-    "python3 -m py_compile $(find scripts -path 'scripts/.pi' -prune -o -name '*.py' -print): pass",
+    "python3 AST parse for scripts/**/*.py excluding .pi/__pycache__: pass",
     "scripts/build-play-console.sh --help: pass",
     "scripts/run-app.sh --help: pass",
     "scripts/add_srgb.py --dry-run: pass",

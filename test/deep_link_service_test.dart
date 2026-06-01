@@ -66,13 +66,21 @@ void main() {
       });
 
       test('parses https://fractalforge.app universal link', () {
-        final uri = Uri.parse(
-            'https://fractalforge.app/view?type=mandelbrot&zoom=5');
+        final uri =
+            Uri.parse('https://fractalforge.app/view?type=mandelbrot&zoom=5');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
         expect(data!.type, 'mandelbrot');
         expect(data.zoom, 5.0);
+      });
+
+      test('rejects https universal links outside the view route', () {
+        final uri = Uri.parse(
+            'https://fractalforge.app/settings?type=mandelbrot&zoom=5');
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNull);
       });
     });
 
@@ -393,8 +401,8 @@ void main() {
       });
 
       test('zoom above 1e15 is clamped to 1e15', () {
-        final uri =
-            Uri.parse('fractalforge://view?type=mandelbrot&zoom=9999999999999999');
+        final uri = Uri.parse(
+            'fractalforge://view?type=mandelbrot&zoom=9999999999999999');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
@@ -438,8 +446,8 @@ void main() {
       });
 
       test('bailout above 1e10 is clamped to 1e10', () {
-        final uri =
-            Uri.parse('fractalforge://view?type=mandelbrot&bailout=99999999999');
+        final uri = Uri.parse(
+            'fractalforge://view?type=mandelbrot&bailout=99999999999');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
@@ -483,16 +491,14 @@ void main() {
       });
 
       test('module ID with uppercase letters is rejected', () {
-        final uri =
-            Uri.parse('fractalforge://view?type=Mandelbrot');
+        final uri = Uri.parse('fractalforge://view?type=Mandelbrot');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNull);
       });
 
       test('module ID with special characters is rejected', () {
-        final uri =
-            Uri.parse('fractalforge://view?type=../etc/passwd');
+        final uri = Uri.parse('fractalforge://view?type=../etc/passwd');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNull);
@@ -520,8 +526,7 @@ void main() {
       });
 
       test('zoom of exactly 0.001 is accepted (at min boundary)', () {
-        final uri =
-            Uri.parse('fractalforge://view?type=mandelbrot&zoom=0.001');
+        final uri = Uri.parse('fractalforge://view?type=mandelbrot&zoom=0.001');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
@@ -529,8 +534,8 @@ void main() {
       });
 
       test('zoom of exactly 1e15 is accepted (at max boundary)', () {
-        final uri =
-            Uri.parse('fractalforge://view?type=mandelbrot&zoom=1000000000000000');
+        final uri = Uri.parse(
+            'fractalforge://view?type=mandelbrot&zoom=1000000000000000');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
@@ -556,8 +561,7 @@ void main() {
       });
 
       test('NaN string for zoom returns null', () {
-        final uri =
-            Uri.parse('fractalforge://view?type=mandelbrot&zoom=NaN');
+        final uri = Uri.parse('fractalforge://view?type=mandelbrot&zoom=NaN');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);

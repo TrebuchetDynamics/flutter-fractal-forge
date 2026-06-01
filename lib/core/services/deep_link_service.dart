@@ -109,12 +109,45 @@ class DeepLinkData {
 /// - `fractalforge://view?type=mandelbulb&rotX=0.5&rotY=0.3&power=8`
 ///
 /// {@category Services}
+class _DeepLinkRoute {
+  static const allowedWebHosts = {'fractalforge.app', 'www.fractalforge.app'};
+
+  final bool isAccepted;
+
+  const _DeepLinkRoute._(this.isAccepted);
+
+  factory _DeepLinkRoute.fromUri(Uri uri) {
+    if (uri.scheme == DeepLinkService.scheme) {
+      return _DeepLinkRoute._(_isCustomViewRoute(uri));
+    }
+
+    if (uri.scheme == 'https') {
+      return _DeepLinkRoute._(
+        allowedWebHosts.contains(uri.host) && _isWebViewRoute(uri),
+      );
+    }
+
+    return const _DeepLinkRoute._(false);
+  }
+
+  static bool _isCustomViewRoute(Uri uri) {
+    return uri.host == DeepLinkService.host ||
+        uri.path == '/${DeepLinkService.host}' ||
+        uri.path == DeepLinkService.host;
+  }
+
+  static bool _isWebViewRoute(Uri uri) {
+    return uri.path == '/${DeepLinkService.host}';
+  }
+}
+
 class DeepLinkService {
   static const String scheme = 'fractalforge';
   static const String host = 'view';
 
   // Method channel for receiving deep links from native code
-  static const MethodChannel _channel = MethodChannel('com.fractalforge/deeplink');
+  static const MethodChannel _channel =
+      MethodChannel('com.fractalforge/deeplink');
 
   final StreamController<DeepLinkData> _linkController =
       StreamController<DeepLinkData>.broadcast();
@@ -135,7 +168,8 @@ class DeepLinkService {
     // on some Samsung S24 devices during startup.
     // User confirmed deep links are not needed for the immediate release.
     // We leave parsing + stream support intact for later re-enable.
-    const bool kEnableDeepLinks = bool.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: false);
+    const bool kEnableDeepLinks =
+        bool.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: false);
     if (!kEnableDeepLinks) {
       return;
     }
@@ -155,7 +189,8 @@ class DeepLinkService {
           }
         } catch (e) {
           // Malformed URI, ignore
-          if (kDebugMode) debugPrint('Failed to parse initial deep link URI: $e');
+          if (kDebugMode)
+            debugPrint('Failed to parse initial deep link URI: $e');
         }
       }
     } on PlatformException {
@@ -184,20 +219,8 @@ class DeepLinkService {
   /// Returns null if the URI is not a valid fractalforge deep link or
   /// if the fractal type is not recognized.
   static DeepLinkData? parseUri(Uri uri, {List<String>? validFractalTypes}) {
-    // Accept both 'fractalforge' scheme and https with our host
-    if (uri.scheme != scheme && uri.scheme != 'https') {
-      return null;
-    }
-
-    // For https, check the host matches exactly
-    const allowedHosts = {'fractalforge.app', 'www.fractalforge.app'};
-    if (uri.scheme == 'https' && !allowedHosts.contains(uri.host)) {
-      return null;
-    }
-
-    // For custom scheme, accept 'view' as host or path
-    final isViewPath = uri.host == host || uri.path == '/$host' || uri.path == host;
-    if (uri.scheme == scheme && !isViewPath) {
+    final route = _DeepLinkRoute.fromUri(uri);
+    if (!route.isAccepted) {
       return null;
     }
 
@@ -226,9 +249,11 @@ class DeepLinkService {
       rotX: _parseBoundedDouble(params['rotX'], -1e10, 1e10, 'rotX'),
       rotY: _parseBoundedDouble(params['rotY'], -1e10, 1e10, 'rotY'),
       rotZ: _parseBoundedDouble(params['rotZ'], -1e10, 1e10, 'rotZ'),
-      iterations: _parseBoundedInt(params['iterations'], 1, 10000, 'iterations'),
+      iterations:
+          _parseBoundedInt(params['iterations'], 1, 10000, 'iterations'),
       bailout: _parseBoundedDouble(params['bailout'], 1.0, 1e10, 'bailout'),
-      colorScheme: _parseBoundedInt(params['colorScheme'], 0, 9999, 'colorScheme'),
+      colorScheme:
+          _parseBoundedInt(params['colorScheme'], 0, 9999, 'colorScheme'),
       power: _parseBoundedDouble(params['power'], 1, 20, 'power'),
       juliaX: _parseBoundedDouble(params['juliaX'], -1e10, 1e10, 'juliaX'),
       juliaY: _parseBoundedDouble(params['juliaY'], -1e10, 1e10, 'juliaY'),
@@ -317,31 +342,32 @@ class DeepLinkService {
     if (v == null) return null;
     final d = double.tryParse(v);
     if (d == null || d.isNaN || d.isInfinite) {
-      if (kDebugMode) debugPrint(
-          'DeepLink: invalid value for "$paramName": "$v" — ignoring');
+      if (kDebugMode)
+        debugPrint('DeepLink: invalid value for "$paramName": "$v" — ignoring');
       return null;
     }
     final clamped = d.clamp(min, max);
     if (clamped != d) {
-      if (kDebugMode) debugPrint(
-          'DeepLink: "$paramName" value $d out of [$min, $max] — clamped to $clamped');
+      if (kDebugMode)
+        debugPrint(
+            'DeepLink: "$paramName" value $d out of [$min, $max] — clamped to $clamped');
     }
     return clamped;
   }
 
-  static int? _parseBoundedInt(
-      String? v, int min, int max, String paramName) {
+  static int? _parseBoundedInt(String? v, int min, int max, String paramName) {
     if (v == null) return null;
     final i = int.tryParse(v);
     if (i == null) {
-      if (kDebugMode) debugPrint(
-          'DeepLink: invalid value for "$paramName": "$v" — ignoring');
+      if (kDebugMode)
+        debugPrint('DeepLink: invalid value for "$paramName": "$v" — ignoring');
       return null;
     }
     final clamped = i.clamp(min, max);
     if (clamped != i) {
-      if (kDebugMode) debugPrint(
-          'DeepLink: "$paramName" value $i out of [$min, $max] — clamped to $clamped');
+      if (kDebugMode)
+        debugPrint(
+            'DeepLink: "$paramName" value $i out of [$min, $max] — clamped to $clamped');
     }
     return clamped;
   }
