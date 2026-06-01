@@ -321,6 +321,25 @@ void main() {
       expect(planner.interpolateZoom(0.2, 1e308, double.nan), 0.2);
     });
 
+    test('scales duration for huge but finite zoom spans', () {
+      const planner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(
+          maxZoom: 1e308,
+          travelDuration: Duration(milliseconds: 1000),
+          maxDurationScale: 4.0,
+        ),
+      );
+
+      expect(
+        planner.durationForZoomLeg(
+          startZoom: 0.2,
+          endZoom: 1e308,
+          speed: 1.0,
+        ),
+        const Duration(milliseconds: 4000),
+      );
+    });
+
     test('normalizes invalid cycle shape before target planning', () {
       const zeroMultiplierPlanner = AutoExploreZoomPlanner(
         config: AutoExploreConfig(cycleMaxMultiplier: 0.0),

@@ -282,6 +282,27 @@ class AutoExploreZoomBounds {
   }
 }
 
+/// Replayable zoom-span math for positive, finite zoom endpoints.
+///
+/// Computing the ratio before taking the logarithm can overflow for valid deep
+/// zoom bounds (for example `1e308 / 0.2`). Use log-space subtraction so huge
+/// but finite legs still scale duration instead of looking like malformed data.
+class AutoExploreZoomSpan {
+  const AutoExploreZoomSpan._();
+
+  static double decades({
+    required double startZoom,
+    required double endZoom,
+  }) {
+    final low = min(startZoom, endZoom);
+    final high = max(startZoom, endZoom);
+    if (low <= 0.0 || high <= low) return 0.0;
+
+    final span = (log(high) - log(low)) / ln10;
+    return span.isFinite && span > 0.0 ? span : 0.0;
+  }
+}
+
 /// Sanitized zoom leg used for replayable duration/interpolation math.
 class AutoExploreZoomLeg {
   final double startZoom;
@@ -303,10 +324,10 @@ class AutoExploreZoomLeg {
     );
   }
 
-  double get spanDecades {
-    final ratio = max(startZoom, endZoom) / min(startZoom, endZoom);
-    return ratio <= 1.0 ? 0.0 : (log(ratio) / ln10);
-  }
+  double get spanDecades => AutoExploreZoomSpan.decades(
+        startZoom: startZoom,
+        endZoom: endZoom,
+      );
 
   double interpolate(double t) {
     return AutoExploreZoomInterpolation.interpolate(
