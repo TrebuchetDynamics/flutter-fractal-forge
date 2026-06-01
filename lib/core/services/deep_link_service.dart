@@ -297,19 +297,10 @@ class DeepLinkService {
 
     // Try to get the initial link that launched the app
     try {
-      final String? initialUri = await _channel.invokeMethod('getInitialLink');
-      if (initialUri != null) {
-        try {
-          final uri = Uri.parse(initialUri);
-          final data = parseUri(uri);
-          if (data != null) {
-            _initialLink = data;
-          }
-        } catch (e) {
-          // Malformed URI, ignore
-          if (kDebugMode)
-            debugPrint('Failed to parse initial deep link URI: $e');
-        }
+      final Object? initialUri = await _channel.invokeMethod('getInitialLink');
+      final data = parseIncomingLink(initialUri);
+      if (data != null) {
+        _initialLink = data;
       }
     } on PlatformException {
       // Platform doesn't support deep links or no initial link
@@ -318,17 +309,34 @@ class DeepLinkService {
 
   Future<dynamic> _handleMethodCall(MethodCall call) async {
     if (call.method == 'onDeepLink') {
-      final String uriString = call.arguments as String;
-      try {
-        final uri = Uri.parse(uriString);
-        final data = parseUri(uri);
-        if (data != null) {
-          _linkController.add(data);
-        }
-      } catch (e) {
-        // Malformed URI, ignore
-        if (kDebugMode) debugPrint('Failed to parse deep link URI: $e');
+      final data = parseIncomingLink(call.arguments);
+      if (data != null) {
+        _linkController.add(data);
       }
+    }
+  }
+
+  /// Parses a platform-provided deep-link payload into [DeepLinkData].
+  ///
+  /// Native channels are expected to send URI strings, but malformed payloads
+  /// are ignored instead of crashing the method-channel handler.
+  static DeepLinkData? parseIncomingLink(
+    Object? link, {
+    List<String>? validFractalTypes,
+  }) {
+    if (link is! String || link.isEmpty) {
+      return null;
+    }
+
+    try {
+      return parseUri(
+        Uri.parse(link),
+        validFractalTypes: validFractalTypes,
+      );
+    } catch (e) {
+      // Malformed URI, ignore.
+      if (kDebugMode) debugPrint('Failed to parse deep link URI: $e');
+      return null;
     }
   }
 

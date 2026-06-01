@@ -5,6 +5,28 @@ import 'package:vector_math/vector_math.dart';
 
 void main() {
   group('DeepLinkService', () {
+    group('parseIncomingLink', () {
+      test('parses string payloads from platform channels', () {
+        final data = DeepLinkService.parseIncomingLink(
+          'fractalforge://view?type=mandelbrot&zoom=5',
+        );
+
+        expect(data, isNotNull);
+        expect(data!.type, 'mandelbrot');
+        expect(data.zoom, 5.0);
+      });
+
+      test('ignores malformed or non-string platform payloads', () {
+        expect(DeepLinkService.parseIncomingLink(null), isNull);
+        expect(DeepLinkService.parseIncomingLink(42), isNull);
+        expect(DeepLinkService.parseIncomingLink(''), isNull);
+        expect(
+          DeepLinkService.parseIncomingLink('fractalforge://view?type=%'),
+          isNull,
+        );
+      });
+    });
+
     group('parseUri', () {
       test('parses basic fractalforge:// URL', () {
         final uri = Uri.parse('fractalforge://view?type=mandelbrot');
