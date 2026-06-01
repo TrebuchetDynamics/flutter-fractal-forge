@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "target": "test/a11y",
+  "updatedAt": "2026-06-01T11:25:31.619Z",
+  "objective": "Refactor test/a11y into behavior-oriented screens/, semantics/, and shared/ test helpers while preserving accessibility test behavior.",
+  "completedSlices": [
+    "Moved screen accessibility tests into test/a11y/screens.",
+    "Moved semantic tree walker test into test/a11y/semantics.",
+    "Extracted shared denied-permission test harness, main app a11y harness, guideline pump/cleanup helper, and semantic tree audit logic."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "Baseline /home/xel/flutter/bin/flutter test test/a11y failed before edits due pumpAndSettle timeouts in app-backed tests.",
+    "After refactor /home/xel/flutter/bin/flutter test test/a11y fails on existing Android tap target guideline issues for Home/Catalog: two Button semantics nodes are 46x46, expected 48x48."
+  ]
+}

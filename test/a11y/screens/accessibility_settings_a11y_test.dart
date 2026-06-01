@@ -7,6 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../shared/a11y_test_helpers.dart';
+
 void main() {
   group('AccessibilitySettingsScreen accessibility', () {
     late AccessibilityService accessibilityService;
@@ -31,30 +33,20 @@ void main() {
     }
 
     testWidgets('meets Android tap target guideline', (tester) async {
-      final handle = tester.ensureSemantics();
       await tester.pumpWidget(buildApp());
-      await tester.pumpAndSettle();
-
-      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
-      handle.dispose();
+      await expectMeetsAccessibilityGuideline(
+          tester, androidTapTargetGuideline);
     });
 
     testWidgets('meets labeled tap target guideline', (tester) async {
-      final handle = tester.ensureSemantics();
       await tester.pumpWidget(buildApp());
-      await tester.pumpAndSettle();
-
-      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
-      handle.dispose();
+      await expectMeetsAccessibilityGuideline(
+          tester, labeledTapTargetGuideline);
     });
 
     testWidgets('meets text contrast guideline', (tester) async {
-      final handle = tester.ensureSemantics();
       await tester.pumpWidget(buildApp());
-      await tester.pumpAndSettle();
-
-      await expectLater(tester, meetsGuideline(textContrastGuideline));
-      handle.dispose();
+      await expectMeetsAccessibilityGuideline(tester, textContrastGuideline);
     });
   });
 }
