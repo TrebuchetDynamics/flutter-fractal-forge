@@ -93,7 +93,9 @@ class FractalPreset {
 
   /// Creates a copy of this preset with the given fields replaced.
   ///
-  /// Useful for creating variations of existing presets.
+  /// Useful for creating variations of existing presets. Because `null` means
+  /// "keep the existing value" for optional fields, set [clearThumbnailPath]
+  /// when a copy must remove an existing thumbnail.
   FractalPreset copyWith({
     String? id,
     String? moduleId,
@@ -103,7 +105,12 @@ class FractalPreset {
     DateTime? createdAt,
     bool? isBuiltIn,
     String? thumbnailPath,
+    bool clearThumbnailPath = false,
   }) {
+    assert(
+      !clearThumbnailPath || thumbnailPath == null,
+      'thumbnailPath cannot be provided when clearThumbnailPath is true',
+    );
     return FractalPreset(
       id: id ?? this.id,
       moduleId: moduleId ?? this.moduleId,
@@ -112,7 +119,8 @@ class FractalPreset {
       view: view ?? this.view,
       createdAt: createdAt ?? this.createdAt,
       isBuiltIn: isBuiltIn ?? this.isBuiltIn,
-      thumbnailPath: thumbnailPath ?? this.thumbnailPath,
+      thumbnailPath:
+          clearThumbnailPath ? null : thumbnailPath ?? this.thumbnailPath,
     );
   }
 
@@ -148,7 +156,8 @@ class FractalPreset {
       id: json['id'] as String,
       moduleId: json['moduleId'] as String,
       name: json['name'] as String,
-      params: (json['params'] as Map).map((key, value) => MapEntry(key as String, value as Object)),
+      params: (json['params'] as Map)
+          .map((key, value) => MapEntry(key as String, value as Object)),
       view: FractalViewState(
         pan: Vector2(
           (view['panX'] as num? ?? 0).toDouble(),
@@ -161,7 +170,8 @@ class FractalPreset {
           (view['rotZ'] as num? ?? 0).toDouble(),
         ),
       ),
-      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(),
+      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+          DateTime.now(),
       isBuiltIn: json['isBuiltIn'] as bool? ?? false,
       thumbnailPath: json['thumbnailPath'] as String?,
     );
@@ -181,7 +191,8 @@ class FractalPreset {
       final presets = <FractalPreset>[];
       for (final item in decoded) {
         try {
-          final preset = FractalPreset.fromJson((item as Map).cast<String, Object?>());
+          final preset =
+              FractalPreset.fromJson((item as Map).cast<String, Object?>());
           presets.add(preset);
         } catch (e) {
           // Skip corrupted preset, continue with others

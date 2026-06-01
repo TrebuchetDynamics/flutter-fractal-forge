@@ -42,7 +42,8 @@ void main() {
       expect(decoded.view.rotation.x, closeTo(0.1, eps));
       expect(decoded.view.rotation.y, closeTo(0.2, eps));
       expect(decoded.view.rotation.z, closeTo(0.3, eps));
-      expect(decoded.createdAt.toIso8601String(), preset.createdAt.toIso8601String());
+      expect(decoded.createdAt.toIso8601String(),
+          preset.createdAt.toIso8601String());
     });
 
     test('fromJson tolerates missing view fields and invalid createdAt', () {
@@ -60,6 +61,24 @@ void main() {
       expect(decoded.view.rotation, equals(Vector3.zero()));
       // Should fall back to "now" and not throw.
       expect(decoded.createdAt, isA<DateTime>());
+    });
+
+    test('copyWith can explicitly clear an optional thumbnail path', () {
+      final preset = FractalPreset(
+        id: 'p1',
+        moduleId: 'mandelbrot',
+        name: 'With thumbnail',
+        params: const {},
+        view: FractalViewState.initial(),
+        createdAt: DateTime(2026, 1, 1),
+        thumbnailPath: 'thumb.png',
+      );
+
+      final copied = preset.copyWith(clearThumbnailPath: true);
+
+      expect(copied.thumbnailPath, isNull);
+      expect(copied.id, preset.id);
+      expect(copied.moduleId, preset.moduleId);
     });
 
     test('listToPrefs/listFromPrefs round-trip and handle empty payload', () {
