@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "target": "lib/core/modules/3d_raymarching_hypercomplex/f0540_quaternion_julia_0_2_0_8_0_0_0_0",
+  "updatedAt": "2026-06-01T12:35:24.342Z",
+  "objective": "Split generated F0540 Quaternion Julia module folder by responsibility while preserving public root import compatibility. Topology: root facades; definition/ for module wiring/configuration; catalog/ for metadata, presets, variants.",
+  "completedSlices": [
+    "Move-only split: module implementation moved to definition/; metadata, presets, variants moved to catalog/; root compatibility facade exports retained for all original public file basenames."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/core/modules/3d_raymarching_hypercomplex/f0540_quaternion_julia_0_2_0_8_0_0_0_0 test/modules/3d_raymarching_hypercomplex/f0540_quaternion_julia_0_2_0_8_0_0_0_0 -> No issues found",
+    "/home/xel/flutter/bin/flutter test test/modules/3d_raymarching_hypercomplex/f0540_quaternion_julia_0_2_0_8_0_0_0_0/f0540_quaternion_julia_0_2_0_8_0_0_0_0_module_test.dart -> blocked by existing pubspec asset error: missing shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag"
+  ]
+}

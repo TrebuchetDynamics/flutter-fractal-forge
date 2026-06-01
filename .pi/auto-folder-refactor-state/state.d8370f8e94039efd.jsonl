@@ -20,3 +20,4 @@
 {"ts":"2026-06-01T06:24:19-06:00","candidate":"shaders/escape_time_family/experimental_named","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:24:19-06:00"}
 {"ts":"2026-06-01T06:29:33-06:00","candidate":"lib/core/modules/base_classes","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:29:33-06:00"}
 {"ts":"2026-06-01T06:32:54-06:00","candidate":"lib/core/modules/builders","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:32:54-06:00"}
+{"ts":"2026-06-01T06:35:41-06:00","candidate":"lib/core/modules/3d_raymarching_hypercomplex/f0540_quaternion_julia_0_2_0_8_0_0_0_0","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:35:41-06:00"}
