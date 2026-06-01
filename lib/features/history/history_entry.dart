@@ -57,8 +57,8 @@ class HistoryEntry {
     return HistoryEntry(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
       moduleId: moduleId,
-      view: view,
-      params: Map<String, Object>.from(params),
+      view: snapshotHistoryView(view),
+      params: snapshotHistoryParams(params),
       visitedAt: DateTime.now(),
       name: name,
     );

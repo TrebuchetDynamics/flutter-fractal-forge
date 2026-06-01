@@ -43,5 +43,28 @@ void main() {
 
       expect(first.isSameLocation(second), isFalse);
     });
+
+    test('snapshots mutable view vectors and params when created from state',
+        () {
+      final pan = Vector2(1, 2);
+      final rotation = Vector3(3, 4, 5);
+      final params = <String, Object>{'iterations': 100};
+      final entry = HistoryEntry.fromState(
+        moduleId: 'mandelbrot',
+        view: FractalViewState(pan: pan, zoom: 6, rotation: rotation),
+        params: params,
+      );
+
+      pan.setValues(7, 8);
+      rotation.setValues(9, 10, 11);
+      params['iterations'] = 250;
+
+      expect(entry.view.pan.x, 1);
+      expect(entry.view.pan.y, 2);
+      expect(entry.view.rotation.x, 3);
+      expect(entry.view.rotation.y, 4);
+      expect(entry.view.rotation.z, 5);
+      expect(entry.params, {'iterations': 100});
+    });
   });
 }

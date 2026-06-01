@@ -1,4 +1,22 @@
+import 'package:vector_math/vector_math.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+
+/// Creates an immutable-by-convention history snapshot of a mutable view state.
+///
+/// [FractalViewState] stores mutable vector_math objects, so history must clone
+/// those vectors at the record boundary to keep debounced writes replayable.
+FractalViewState snapshotHistoryView(FractalViewState view) {
+  return FractalViewState(
+    pan: Vector2.copy(view.pan),
+    zoom: view.zoom,
+    rotation: Vector3.copy(view.rotation),
+  );
+}
+
+/// Creates a shallow snapshot of the parameter map at the record boundary.
+Map<String, Object> snapshotHistoryParams(Map<String, Object> params) {
+  return Map<String, Object>.from(params);
+}
 
 /// Pure location-equivalence contract for history de-duplication.
 ///

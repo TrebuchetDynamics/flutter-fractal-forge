@@ -56,5 +56,35 @@ void main() {
       expect(provider.canGoForward, isTrue);
       expect(provider.currentEntry, same(restored));
     });
+
+    testWidgets('records the state passed to the debounced record call',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+
+      final pan = Vector2(1, 2);
+      final rotation = Vector3(3, 4, 5);
+      final params = <String, Object>{'iterations': 100};
+      provider.recordLocation(
+        moduleId: 'mandelbrot',
+        view: FractalViewState(pan: pan, zoom: 6, rotation: rotation),
+        params: params,
+      );
+
+      pan.setValues(7, 8);
+      rotation.setValues(9, 10, 11);
+      params['iterations'] = 250;
+      await tester.pump(const Duration(milliseconds: 501));
+
+      final entry = provider.currentEntry;
+      expect(entry, isNotNull);
+      expect(entry!.view.pan.x, 1);
+      expect(entry.view.pan.y, 2);
+      expect(entry.view.rotation.x, 3);
+      expect(entry.view.rotation.y, 4);
+      expect(entry.view.rotation.z, 5);
+      expect(entry.params, {'iterations': 100});
+    });
   });
 }
