@@ -80,6 +80,16 @@ void main() {
     });
   });
 
+  group('AutoExploreZoomSpanScale', () {
+    test('makes the cinematic duration span threshold explicit', () {
+      expect(AutoExploreZoomSpanScale.normalized(double.nan), 0.0);
+      expect(AutoExploreZoomSpanScale.normalized(-1.0), 0.0);
+      expect(AutoExploreZoomSpanScale.normalized(0.8), 0.5);
+      expect(AutoExploreZoomSpanScale.normalized(1.6), 1.0);
+      expect(AutoExploreZoomSpanScale.normalized(3.2), 1.0);
+    });
+  });
+
   group('AutoExploreZoomPlanner', () {
     const planner = AutoExploreZoomPlanner(config: AutoExploreConfig());
 

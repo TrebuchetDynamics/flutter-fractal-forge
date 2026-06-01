@@ -180,6 +180,22 @@ class AutoExploreDurationScale {
   }
 }
 
+/// Converts a zoom span into a normalized duration scale.
+///
+/// A leg reaches the configured maximum duration scale after this many log10
+/// decades. Keeping the threshold named makes the cinematic timing assumption
+/// replayable instead of burying `1.6` in duration planning.
+class AutoExploreZoomSpanScale {
+  static const double maxScaleSpanDecades = 1.6;
+
+  const AutoExploreZoomSpanScale._();
+
+  static double normalized(double spanDecades) {
+    if (!spanDecades.isFinite || spanDecades <= 0.0) return 0.0;
+    return (spanDecades / maxScaleSpanDecades).clamp(0.0, 1.0);
+  }
+}
+
 /// Converts zoom-span scaling into a positive, finite leg duration.
 ///
 /// This keeps duration planning replayable even when a finite-but-huge config
@@ -447,7 +463,7 @@ class AutoExploreZoomPlanner {
     final durationScale = AutoExploreDurationScale.normalize(
       config.maxDurationScale,
     );
-    final normalized = (leg.spanDecades / 1.6).clamp(0.0, 1.0);
+    final normalized = AutoExploreZoomSpanScale.normalized(leg.spanDecades);
     final scale = 1.0 + normalized * (durationScale - 1.0);
 
     return Duration(
