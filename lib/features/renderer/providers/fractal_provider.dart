@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -137,7 +138,8 @@ class FractalController extends ChangeNotifier {
   int _kaleidoscopeSectors = 8;
   bool _kaleidoscopeMirror = true;
   double _kaleidoscopeRotation = 0.0;
-  int _kaleidoscopeMirrorMode = 0; // 0=alternado, 1=doble, 2=triple, 3=sin espejo
+  int _kaleidoscopeMirrorMode =
+      0; // 0=alternado, 1=doble, 2=triple, 3=sin espejo
 
   bool get kaleidoscopeEnabled => _kaleidoscopeEnabled;
   int get kaleidoscopeSectors => _kaleidoscopeSectors;
@@ -171,7 +173,7 @@ class FractalController extends ChangeNotifier {
     }
   }
 
-void setKaleidoscopeMirrorMode(int mode) {
+  void setKaleidoscopeMirrorMode(int mode) {
     final clamped = mode.clamp(0, 3);
     if (_kaleidoscopeMirrorMode != clamped) {
       _kaleidoscopeMirrorMode = clamped;
@@ -364,23 +366,16 @@ void setKaleidoscopeMirrorMode(int mode) {
         'stateChange', 'randomize', 'Randomized params for ${_module.id}');
   }
 
-  double _moduleMinZoom(String moduleId) {
-    switch (moduleId) {
-      case 'cantor_set':
-        // Prevent ultra-zoomed-out aliasing that appears as black vertical bands.
-        return 0.2;
-      default:
-        return 1e-9;
-    }
-  }
-
   /// Updates the zoom level.
   ///
   /// The [zoom] value is clamped to range [moduleMinZoom, 1e12] to support
   /// deep-zoom exploration before precision fallback kicks in.
   void updateZoom(double zoom) {
-    final minZoom = _moduleMinZoom(_module.id);
-    final clampedZoom = zoom.clamp(minZoom, 1e12).toDouble();
+    final clampedZoom = FractalViewInputBounds.normalizeZoom(
+      candidate: zoom,
+      currentZoom: _view.zoom,
+      moduleId: _module.id,
+    );
     final zoomingIn = clampedZoom > (_lastAdaptiveZoom * _adaptiveZoomEpsilon);
     _view = _view.copyWith(zoom: clampedZoom);
     _lastAdaptiveZoom = clampedZoom;
@@ -404,8 +399,14 @@ void setKaleidoscopeMirrorMode(int mode) {
   void updatePan(Vector2 pan) {
     _view = _view.copyWith(
       pan: Vector2(
-        pan.x.clamp(-3.0, 3.0),
-        pan.y.clamp(-3.0, 3.0),
+        FractalViewInputBounds.normalizePanComponent(
+          candidate: pan.x,
+          current: _view.pan.x,
+        ),
+        FractalViewInputBounds.normalizePanComponent(
+          candidate: pan.y,
+          current: _view.pan.y,
+        ),
       ),
     );
     notifyListeners();
