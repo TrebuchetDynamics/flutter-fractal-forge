@@ -92,12 +92,16 @@ class HistoryProvider extends ChangeNotifier {
   int get favoritesCount => _favorites.length;
 
   void _loadFromStorage() {
-    _history = _store.loadHistory();
-    _favorites = _store.loadFavorites();
-    _currentIndex = _history.isEmpty ? -1 : _history.length - 1;
-    if (_history.isNotEmpty) {
-      _lastRecorded = _history.last;
-    }
+    final restored = HistoryRestorePolicy.restore(
+      history: _store.loadHistory(),
+      favorites: _store.loadFavorites(),
+      maxHistoryEntries: HistoryStore.maxHistoryEntries,
+      maxFavoriteEntries: HistoryStore.maxFavoriteEntries,
+    );
+    _history = restored.history;
+    _favorites = restored.favorites;
+    _currentIndex = restored.currentIndex;
+    _lastRecorded = restored.currentEntry;
   }
 
   /// Records the current location in history.

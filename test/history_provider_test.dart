@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
+import 'package:flutter_fractals/features/history/history_entry.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +14,14 @@ FractalViewState _view(double zoom) {
     zoom: zoom,
     rotation: Vector3.zero(),
   );
+}
+
+Map<String, Object?> _entryJson(double zoom) {
+  return HistoryEntry.fromState(
+    moduleId: 'mandelbrot',
+    view: _view(zoom),
+    params: const <String, Object>{'iterations': 100},
+  ).toJson();
 }
 
 Future<void> _recordAndFlush(
@@ -149,6 +160,32 @@ void main() {
       expect(provider.favorites.first.name, 'favorite 2');
       expect(provider.favorites.last.name, 'favorite 501');
       expect(store.loadFavorites().length, HistoryStore.maxFavoriteEntries);
+    });
+
+    testWidgets('restored history and favorites are capped before display',
+        (tester) async {
+      SharedPreferences.setMockInitialValues({
+        'exploration_history': jsonEncode([
+          for (var i = 0; i < HistoryStore.maxHistoryEntries + 2; i++)
+            _entryJson(i + 1.0),
+        ]),
+        'exploration_favorites': jsonEncode([
+          for (var i = 0; i < HistoryStore.maxFavoriteEntries + 2; i++)
+            _entryJson(i + 1.0),
+        ]),
+      });
+
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+
+      expect(provider.historyCount, HistoryStore.maxHistoryEntries);
+      expect(provider.currentPosition, HistoryStore.maxHistoryEntries);
+      expect(provider.history.first.view.zoom, 3.0);
+      expect(provider.currentEntry!.view.zoom, 102.0);
+      expect(provider.favoritesCount, HistoryStore.maxFavoriteEntries);
+      expect(provider.favorites.first.view.zoom, 3.0);
+      expect(provider.favorites.last.view.zoom, 502.0);
     });
 
     testWidgets('clearHistory cancels pending debounced records',
