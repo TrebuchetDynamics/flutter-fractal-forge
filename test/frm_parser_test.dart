@@ -51,6 +51,25 @@ Test {
       );
     });
 
+    test('reports unterminated body when EOF appears before section separator',
+        () {
+      const src = r'''
+Test {
+  z = (0,0)
+''';
+
+      expect(
+        () => FrmParser(src).parseFile(),
+        throwsA(
+          isA<FormatException>().having(
+            (e) => e.message,
+            'message',
+            'Unterminated formula body',
+          ),
+        ),
+      );
+    });
+
     test('evaluates a simple iter statement', () {
       const src = r'''
 Test {

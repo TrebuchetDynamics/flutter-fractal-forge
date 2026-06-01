@@ -17,6 +17,9 @@ bool isFrmStatementBoundary(FrmTokKind kind) =>
     kind == FrmTokKind.rBrace ||
     kind == FrmTokKind.eof;
 
+bool isFrmFormulaBodyEnd(FrmTokKind kind) =>
+    kind == FrmTokKind.rBrace || kind == FrmTokKind.eof;
+
 final class FrmParser {
   FrmParser(String src) : _toks = FrmLexer(src).tokenize();
 
@@ -43,10 +46,7 @@ final class FrmParser {
 
     _skipNewlines();
     while (!_peekIs(FrmTokKind.colon)) {
-      if (_peekIs(FrmTokKind.rBrace)) {
-        throw FormatException(
-            'Expected ":" in formula body', '', _peek().offset);
-      }
+      _expectInitSectionContinues();
       final stmt = _parseStmt();
       init.add(stmt);
       _skipNewlines();
@@ -75,6 +75,15 @@ final class FrmParser {
     final expr = _parseExpr();
     _expectStmtBoundary();
     return FrmAssign(name, expr);
+  }
+
+  void _expectInitSectionContinues() {
+    final tok = _peek();
+    if (!isFrmFormulaBodyEnd(tok.kind)) return;
+    if (tok.kind == FrmTokKind.eof) {
+      throw FormatException('Unterminated formula body', '', tok.offset);
+    }
+    throw FormatException('Expected ":" in formula body', '', tok.offset);
   }
 
   void _expectStmtBoundary() {
