@@ -87,6 +87,20 @@ void main() {
       expect(dims, (1080, 1920));
     });
 
+    test('social preset dimensions preserve platform crop contracts', () {
+      const instagramStory = ExportOptions(
+        resolution: ExportResolution.instagramStory,
+      );
+      const twitter = ExportOptions(resolution: ExportResolution.twitter);
+
+      expect(instagramStory.getTargetDimensions(1200, 800), (1080, 1920));
+      expect(twitter.getTargetDimensions(400, 800), (1200, 675));
+      expect(
+        instagramStory.calculatePixelRatio(1200, 800),
+        closeTo(2.4, 0.01),
+      );
+    });
+
     test('custom resolution uses customWidth and customHeight', () {
       const options = ExportOptions(
         resolution: ExportResolution.custom,

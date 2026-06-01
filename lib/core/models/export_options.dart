@@ -195,8 +195,13 @@ class ExportOptions extends Equatable {
   }
 
   double _safeDimensionRatio(int targetDimension, double screenDimension) {
-    final safeScreenDimension = _positiveRoundedScreenDimension(screenDimension);
+    final safeScreenDimension =
+        _positiveRoundedScreenDimension(screenDimension);
     return targetDimension / safeScreenDimension;
+  }
+
+  bool _preservesPresetOrientation() {
+    return resolution.isSocialPreset;
   }
 
   (int, int)? _orientedPresetDimensions(
@@ -207,7 +212,7 @@ class ExportOptions extends Equatable {
     final width = dims.$1;
     final height = dims.$2;
     final isPresetSquare = width == height;
-    if (isPresetSquare) return dims;
+    if (isPresetSquare || _preservesPresetOrientation()) return dims;
 
     final screenPortrait = screenHeight > screenWidth;
     final presetPortrait = height > width;
