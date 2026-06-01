@@ -42,6 +42,7 @@ class DeepZoomPrecisionPolicy {
   /// Most escape-time shaders clamp around this value already; keeping the
   /// cap centralized avoids overdriving slower devices at extreme zoom.
   static const int gpuMaxIterations = 2000;
+
   /// Per-module GPU→CPU fallback thresholds.
   ///
   /// For mandelbrot, the CPU fallback threshold is pushed to [_df2UpperThreshold]
@@ -96,8 +97,7 @@ class DeepZoomPrecisionPolicy {
     required String moduleId,
     required double zoom,
   }) {
-    final threshold =
-        _cpuFallbackZoomThresholds[moduleId] ?? _defaultThreshold;
+    final threshold = _cpuFallbackZoomThresholds[moduleId] ?? _defaultThreshold;
     return zoom >= threshold;
   }
 
@@ -146,8 +146,15 @@ class DeepZoomPrecisionPolicy {
 /// Wraps [DeepZoomPrecisionPolicy] and requires [policy.hysteresisFrames]
 /// consecutive above-threshold evaluations before reporting CPU needed.
 /// Drops back to GPU immediately when zoom falls below threshold.
+bool _isSameHysteresisStreak({
+  required String? previousModuleId,
+  required String moduleId,
+}) =>
+    previousModuleId == moduleId;
+
 class DeepZoomHysteresis {
   final DeepZoomPrecisionPolicy policy;
+  String? _trackedModuleId;
   int _aboveThresholdCount = 0;
   bool _cpuActive = false;
 
@@ -159,6 +166,15 @@ class DeepZoomHysteresis {
       moduleId: moduleId,
       zoom: zoom,
     );
+
+    if (!_isSameHysteresisStreak(
+      previousModuleId: _trackedModuleId,
+      moduleId: moduleId,
+    )) {
+      _aboveThresholdCount = 0;
+      _cpuActive = false;
+      _trackedModuleId = moduleId;
+    }
 
     if (overThreshold) {
       _aboveThresholdCount++;
@@ -175,6 +191,7 @@ class DeepZoomHysteresis {
   }
 
   void reset() {
+    _trackedModuleId = null;
     _aboveThresholdCount = 0;
     _cpuActive = false;
   }

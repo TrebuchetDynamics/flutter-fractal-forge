@@ -94,8 +94,10 @@ void main() {
     });
 
     test('increases with zoom depth', () {
-      final atZoom1 = policy.scaledGpuIterations(baseIterations: 256, zoom: 1.0);
-      final atZoom1e6 = policy.scaledGpuIterations(baseIterations: 256, zoom: 1e6);
+      final atZoom1 =
+          policy.scaledGpuIterations(baseIterations: 256, zoom: 1.0);
+      final atZoom1e6 =
+          policy.scaledGpuIterations(baseIterations: 256, zoom: 1e6);
       expect(atZoom1e6, greaterThan(atZoom1));
     });
 
@@ -154,6 +156,28 @@ void main() {
       expect(
         hysteresis.update(moduleId: moduleId, zoom: lowZoom),
         isFalse,
+      );
+    });
+
+    test('does not carry above-threshold count across module changes', () {
+      final hysteresis = DeepZoomHysteresis(policy: policy);
+
+      expect(
+        hysteresis.update(moduleId: 'julia', zoom: 2e9),
+        isFalse,
+        reason: 'first Julia deep-zoom frame should only prime hysteresis',
+      );
+
+      expect(
+        hysteresis.update(moduleId: 'mandelbrot', zoom: 2e14),
+        isFalse,
+        reason: 'first Mandelbrot deep-zoom frame must not inherit Julia count',
+      );
+
+      expect(
+        hysteresis.update(moduleId: 'mandelbrot', zoom: 2e14),
+        isTrue,
+        reason: 'second consecutive Mandelbrot deep-zoom frame activates CPU',
       );
     });
 
