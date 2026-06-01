@@ -90,6 +90,35 @@ void main() {
       expect(dims, (2000, 1500));
     });
 
+    test('custom resolution ignores non-positive dimensions', () {
+      const options = ExportOptions(
+        resolution: ExportResolution.custom,
+        customWidth: 0,
+        customHeight: -10,
+      );
+
+      expect(options.getTargetDimensions(400, 800), (400, 800));
+      expect(options.calculatePixelRatio(400, 800), 1.0);
+    });
+
+    test('custom resolution can fall back one axis at a time', () {
+      const options = ExportOptions(
+        resolution: ExportResolution.custom,
+        customWidth: 2000,
+        customHeight: 0,
+      );
+
+      expect(options.getTargetDimensions(400, 800), (2000, 800));
+      expect(options.calculatePixelRatio(400, 800), 5.0);
+    });
+
+    test('screen dimensions used for fallback are at least one pixel', () {
+      const options = ExportOptions(resolution: ExportResolution.custom);
+
+      expect(options.getTargetDimensions(0, -20), (1, 1));
+      expect(options.calculatePixelRatio(0, -20), 1.0);
+    });
+
     test('copyWith creates new instance with updated values', () {
       const original = ExportOptions();
       final updated = original.copyWith(

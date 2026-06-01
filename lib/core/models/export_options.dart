@@ -184,6 +184,16 @@ class ExportOptions extends Equatable {
     this.watermarkText,
   });
 
+  int _positiveRoundedScreenDimension(double value) {
+    if (!value.isFinite || value <= 0) return 1;
+    return value.round().clamp(1, 1 << 30);
+  }
+
+  int _customOrScreenDimension(int? customValue, double screenValue) {
+    if (customValue != null && customValue > 0) return customValue;
+    return _positiveRoundedScreenDimension(screenValue);
+  }
+
   (int, int)? _orientedPresetDimensions(
       double screenWidth, double screenHeight) {
     final dims = resolution.dimensions;
@@ -217,8 +227,12 @@ class ExportOptions extends Equatable {
     }
 
     if (resolution == ExportResolution.custom) {
-      final widthRatio = (customWidth ?? screenWidth.round()) / screenWidth;
-      final heightRatio = (customHeight ?? screenHeight.round()) / screenHeight;
+      final targetWidth = _customOrScreenDimension(customWidth, screenWidth);
+      final targetHeight = _customOrScreenDimension(customHeight, screenHeight);
+      final safeScreenWidth = _positiveRoundedScreenDimension(screenWidth);
+      final safeScreenHeight = _positiveRoundedScreenDimension(screenHeight);
+      final widthRatio = targetWidth / safeScreenWidth;
+      final heightRatio = targetHeight / safeScreenHeight;
       return (widthRatio > heightRatio ? widthRatio : heightRatio)
           .clamp(1.0, 8.0);
     }
@@ -235,13 +249,16 @@ class ExportOptions extends Equatable {
 
     if (resolution == ExportResolution.custom) {
       return (
-        customWidth ?? screenWidth.round(),
-        customHeight ?? screenHeight.round(),
+        _customOrScreenDimension(customWidth, screenWidth),
+        _customOrScreenDimension(customHeight, screenHeight),
       );
     }
 
     // Screen resolution
-    return (screenWidth.round(), screenHeight.round());
+    return (
+      _positiveRoundedScreenDimension(screenWidth),
+      _positiveRoundedScreenDimension(screenHeight),
+    );
   }
 
   ExportOptions copyWith({
