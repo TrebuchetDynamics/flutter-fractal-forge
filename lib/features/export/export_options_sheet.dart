@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/features/export/custom_export_dimensions.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 enum ExportAction {
@@ -60,10 +61,12 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     super.initState();
     _options = widget.initialOptions;
     _customWidthController = TextEditingController(
-      text: _options.customWidth?.toString() ?? '1920',
+      text: _options.customWidth?.toString() ??
+          defaultCustomExportWidth.toString(),
     );
     _customHeightController = TextEditingController(
-      text: _options.customHeight?.toString() ?? '1080',
+      text: _options.customHeight?.toString() ??
+          defaultCustomExportHeight.toString(),
     );
 
     // Keep custom fields and option values in sync so summary/export payloads
@@ -80,15 +83,12 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     super.dispose();
   }
 
-  int _sanitizeCustomDimension(
-    String text,
-    int? currentValue,
-    int fallback,
-  ) {
-    final parsed = int.tryParse(text.trim());
-    if (parsed != null && parsed > 0) return parsed;
-    if (currentValue != null && currentValue > 0) return currentValue;
-    return fallback;
+  ExportOptions _optionsWithCustomFields() {
+    return withResolvedCustomExportDimensions(
+      options: _options,
+      widthText: _customWidthController.text,
+      heightText: _customHeightController.text,
+    );
   }
 
   ExportOptions _effectiveOptionsForExport() {
@@ -96,21 +96,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
       return _options;
     }
 
-    final width = _sanitizeCustomDimension(
-      _customWidthController.text,
-      _options.customWidth,
-      1920,
-    );
-    final height = _sanitizeCustomDimension(
-      _customHeightController.text,
-      _options.customHeight,
-      1080,
-    );
-
-    return _options.copyWith(
-      customWidth: width,
-      customHeight: height,
-    );
+    return _optionsWithCustomFields();
   }
 
   @override
@@ -416,7 +402,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 if (selected) {
                   setState(() {
                     if (resolution == ExportResolution.custom) {
-                      _options = _effectiveOptionsForExport().copyWith(
+                      _options = _optionsWithCustomFields().copyWith(
                         resolution: ExportResolution.custom,
                       );
                     } else {
@@ -586,8 +572,8 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
     String resolutionText;
     if (effectiveOptions.resolution == ExportResolution.custom) {
-      final w = effectiveOptions.customWidth ?? 1920;
-      final h = effectiveOptions.customHeight ?? 1080;
+      final w = effectiveOptions.customWidth ?? defaultCustomExportWidth;
+      final h = effectiveOptions.customHeight ?? defaultCustomExportHeight;
       resolutionText = '$w×$h';
     } else if (dims != null) {
       resolutionText = '${dims.$1}×${dims.$2}';
