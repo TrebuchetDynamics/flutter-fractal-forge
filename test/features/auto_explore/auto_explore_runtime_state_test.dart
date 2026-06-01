@@ -57,6 +57,34 @@ void main() {
       expect(yieldedWithoutInteraction.shouldInterruptAnimation, isTrue);
     });
 
+    test('gates one-shot corrections while continuous gestures own motion', () {
+      final idleAutoExplore = const AutoExploreRuntimeState(
+        isExploring: true,
+        isPaused: false,
+        isUserInteracting: false,
+        pausedByUserCorrection: false,
+      );
+      final continuousGesture = const AutoExploreRuntimeState(
+        isExploring: true,
+        isPaused: false,
+        isUserInteracting: true,
+        pausedByUserCorrection: true,
+      );
+
+      expect(
+        AutoExploreUserCorrectionPolicy.shouldAdoptOneShotCorrection(
+          idleAutoExplore,
+        ),
+        isTrue,
+      );
+      expect(
+        AutoExploreUserCorrectionPolicy.shouldAdoptOneShotCorrection(
+          continuousGesture,
+        ),
+        isFalse,
+      );
+    });
+
     test('characterizes user-correction pause as armed auto-explore only', () {
       expect(
         () => AutoExploreRuntimeState(

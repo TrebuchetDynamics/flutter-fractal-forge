@@ -5,6 +5,38 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AutoExploreService', () {
+    test('ignores one-shot corrections during continuous user interaction',
+        () async {
+      final controller = FractalController(ModuleRegistry());
+      controller.resetView();
+      controller.updateZoom(1.0);
+
+      final service = AutoExploreService(
+        controller: controller,
+        config: const AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1),
+        ),
+      );
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      await Future<void>.delayed(Duration.zero);
+      service.onUserInteractionStart();
+
+      expect(service.pausedByUserCorrection, isTrue);
+
+      controller.updateZoom(2.0);
+      service.onUserCorrection();
+
+      expect(service.pausedByUserCorrection, isTrue);
+      expect(service.isPaused, isFalse);
+
+      service.onUserInteractionEnd();
+
+      expect(service.pausedByUserCorrection, isFalse);
+    });
+
     test('resume replans from a zoom changed while paused', () async {
       final controller = FractalController(ModuleRegistry());
       controller.resetView();

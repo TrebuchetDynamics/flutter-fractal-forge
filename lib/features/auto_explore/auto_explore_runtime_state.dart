@@ -30,3 +30,17 @@ class AutoExploreRuntimeState {
   /// An in-flight animation must stop as soon as auto-explore loses motion.
   bool get shouldInterruptAnimation => !canScheduleZoomLeg;
 }
+
+/// Pure gate for one-shot user corrections such as mouse-wheel zooms.
+///
+/// Continuous gestures are already represented by [isUserInteracting] and use
+/// [AutoExploreService.onUserInteractionEnd] to adopt the final zoom once. A
+/// wheel/keyboard correction delivered during that gesture must not clear the
+/// temporary user-correction pause early.
+class AutoExploreUserCorrectionPolicy {
+  const AutoExploreUserCorrectionPolicy._();
+
+  static bool shouldAdoptOneShotCorrection(AutoExploreRuntimeState state) {
+    return state.isExploring && !state.isPaused && !state.isUserInteracting;
+  }
+}

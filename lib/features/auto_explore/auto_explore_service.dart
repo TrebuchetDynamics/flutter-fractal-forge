@@ -129,7 +129,11 @@ class AutoExploreService extends ChangeNotifier {
 
   /// Called for one-shot user corrections (mouse wheel, keyboard, etc).
   void onUserCorrection() {
-    if (!_isExploring || _isPaused) return;
+    if (!AutoExploreUserCorrectionPolicy.shouldAdoptOneShotCorrection(
+      _runtimeState,
+    )) {
+      return;
+    }
     _adoptUserViewAndContinue();
   }
 
