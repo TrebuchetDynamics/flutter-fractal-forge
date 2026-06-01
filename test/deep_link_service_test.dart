@@ -210,6 +210,29 @@ void main() {
         expect(uri.queryParameters.containsKey('juliaY'), isFalse);
       });
 
+      test('omits out-of-range parameters instead of creating clamped links',
+          () {
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbrot',
+          params: {
+            'iterations': 10001,
+            'colorScheme': -1,
+            'bailout': 0.5,
+            'power': 21,
+            'juliaX': 10000000001,
+            'juliaY': -10000000001,
+          },
+          view: FractalViewState.initial(),
+        );
+
+        expect(uri.queryParameters.containsKey('iterations'), isFalse);
+        expect(uri.queryParameters.containsKey('colorScheme'), isFalse);
+        expect(uri.queryParameters.containsKey('bailout'), isFalse);
+        expect(uri.queryParameters.containsKey('power'), isFalse);
+        expect(uri.queryParameters.containsKey('juliaX'), isFalse);
+        expect(uri.queryParameters.containsKey('juliaY'), isFalse);
+      });
+
       test('omits default values for cleaner URLs', () {
         final uri = DeepLinkService.buildUri(
           moduleId: 'mandelbrot',

@@ -189,6 +189,19 @@ class _BoundedDoubleQueryParam {
   double? parse(_DeepLinkQuery query) {
     return DeepLinkService._parseBoundedDouble(query[name], min, max, name);
   }
+
+  String? format(Object? value, {bool preservePrecision = false}) {
+    final parsed = DeepLinkService._tryFiniteDouble(value);
+    if (parsed == null || !_contains(parsed)) {
+      return null;
+    }
+    return DeepLinkService._formatDouble(
+      parsed,
+      preservePrecision: preservePrecision,
+    );
+  }
+
+  bool _contains(double value) => value >= min && value <= max;
 }
 
 class _BoundedIntQueryParam {
@@ -201,6 +214,16 @@ class _BoundedIntQueryParam {
   int? parse(_DeepLinkQuery query) {
     return DeepLinkService._parseBoundedInt(query[name], min, max, name);
   }
+
+  String? format(Object? value) {
+    final parsed = DeepLinkService._tryInt(value);
+    if (parsed == null || !_contains(parsed)) {
+      return null;
+    }
+    return parsed.toString();
+  }
+
+  bool _contains(int value) => value >= min && value <= max;
 }
 
 class DeepLinkService {
@@ -376,19 +399,24 @@ class DeepLinkService {
 
     // Add fractal parameters. Unsupported values are omitted rather than
     // converted to sentinel values that parse back as valid-but-wrong params.
-    _addIntQueryParam(queryParams, 'iterations', params['iterations']);
-    _addDoubleQueryParam(queryParams, 'bailout', params['bailout']);
-    _addIntQueryParam(queryParams, 'colorScheme', params['colorScheme']);
-    _addDoubleQueryParam(queryParams, 'power', params['power']);
-    _addDoubleQueryParam(
+    _addBoundedIntQueryParam(
+        queryParams, _iterationsParam, params['iterations']);
+    _addBoundedDoubleQueryParam(queryParams, _bailoutParam, params['bailout']);
+    _addBoundedIntQueryParam(
       queryParams,
-      'juliaX',
+      _colorSchemeParam,
+      params['colorScheme'],
+    );
+    _addBoundedDoubleQueryParam(queryParams, _powerParam, params['power']);
+    _addBoundedDoubleQueryParam(
+      queryParams,
+      _juliaXParam,
       params['juliaX'],
       preservePrecision: true,
     );
-    _addDoubleQueryParam(
+    _addBoundedDoubleQueryParam(
       queryParams,
-      'juliaY',
+      _juliaYParam,
       params['juliaY'],
       preservePrecision: true,
     );
@@ -471,29 +499,29 @@ class DeepLinkService {
     return value.toString();
   }
 
-  static void _addDoubleQueryParam(
+  static void _addBoundedDoubleQueryParam(
     Map<String, String> queryParams,
-    String name,
+    _BoundedDoubleQueryParam param,
     Object? value, {
     bool preservePrecision = false,
   }) {
-    final parsed = _tryFiniteDouble(value);
-    if (parsed != null) {
-      queryParams[name] = _formatDouble(
-        parsed,
-        preservePrecision: preservePrecision,
-      );
+    final formatted = param.format(
+      value,
+      preservePrecision: preservePrecision,
+    );
+    if (formatted != null) {
+      queryParams[param.name] = formatted;
     }
   }
 
-  static void _addIntQueryParam(
+  static void _addBoundedIntQueryParam(
     Map<String, String> queryParams,
-    String name,
+    _BoundedIntQueryParam param,
     Object? value,
   ) {
-    final parsed = _tryInt(value);
-    if (parsed != null) {
-      queryParams[name] = parsed.toString();
+    final formatted = param.format(value);
+    if (formatted != null) {
+      queryParams[param.name] = formatted;
     }
   }
 
