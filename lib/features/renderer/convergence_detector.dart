@@ -2,6 +2,15 @@ import 'dart:typed_data';
 import 'dart:math' as math;
 
 /// Result of convergence detection analysis.
+class ConvergenceChangeRatio {
+  static const double equalityTolerance = 1e-9;
+
+  const ConvergenceChangeRatio._();
+
+  static bool approximatelyEqual(double a, double b) =>
+      (a - b).abs() < equalityTolerance;
+}
+
 class ConvergenceResult {
   /// Whether the image has converged (stabilized).
   final bool converged;
@@ -30,13 +39,15 @@ class ConvergenceResult {
     if (identical(this, other)) return true;
     return other is ConvergenceResult &&
         other.converged == converged &&
-        (other.changeRatio - changeRatio).abs() < 1e-9 &&
+        ConvergenceChangeRatio.approximatelyEqual(
+          other.changeRatio,
+          changeRatio,
+        ) &&
         other.suggestedIterations == suggestedIterations;
   }
 
   @override
-  int get hashCode =>
-      converged.hashCode ^ changeRatio.hashCode ^ suggestedIterations.hashCode;
+  int get hashCode => Object.hash(converged, suggestedIterations);
 }
 
 /// Replayable frame shape contract for convergence comparison.

@@ -3,6 +3,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/features/renderer/convergence_detector.dart';
 
 void main() {
+  group('ConvergenceResult', () {
+    test('hashCode is compatible with approximate changeRatio equality', () {
+      const base = ConvergenceResult(
+        converged: true,
+        changeRatio: 0.123456789,
+        suggestedIterations: 100,
+      );
+      const approximatelyEqual = ConvergenceResult(
+        converged: true,
+        changeRatio: 0.1234567895,
+        suggestedIterations: 100,
+      );
+
+      expect(base, approximatelyEqual);
+      expect(base.hashCode, approximatelyEqual.hashCode);
+      expect({base}, contains(approximatelyEqual));
+    });
+  });
+
   group('ConvergenceSamplingPlan', () {
     test('keeps sampling grid dimensions replayable for non-square frames', () {
       final plan = ConvergenceSamplingPlan(width: 130, height: 65, target: 64);
