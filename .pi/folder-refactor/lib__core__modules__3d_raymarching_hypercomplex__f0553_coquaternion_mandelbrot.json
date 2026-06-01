@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "lib/core/modules/3d_raymarching_hypercomplex/f0553_coquaternion_mandelbrot",
+  "updatedAt": "2026-06-01T12:59:19.687Z",
+  "objective": "Refactor Coquaternion Mandelbrot module folder into responsibility-based subfolders while preserving root compatibility facades and behavior.",
+  "completedSlices": [
+    "Mapped folder and public callers; existing public seam is module import used by f0553 smoke test.",
+    "Moved implementation into runtime/, metadata into metadata/, and presets/variants into catalog/.",
+    "Added root compatibility facades for module, metadata, presets, and variants public import paths.",
+    "Ran shared-code pass; no identical duplicated behavior across two concrete call sites inside target folder."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/core/modules/3d_raymarching_hypercomplex/f0553_coquaternion_mandelbrot test/modules/3d_raymarching_hypercomplex/f0553_coquaternion_mandelbrot -> No issues found!",
+    "rg stale internal imports under target -> no matches",
+    "/home/xel/flutter/bin/flutter test test/modules/3d_raymarching_hypercomplex/f0553_coquaternion_mandelbrot/f0553_coquaternion_mandelbrot_module_test.dart -> blocked by pre-existing pubspec asset error: missing shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag"
+  ]
+}

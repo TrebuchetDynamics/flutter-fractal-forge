@@ -4,9 +4,9 @@
 
 import '../../base_classes/raymarch_3d_module_base.dart';
 import '../../base_classes/shader_params.dart';
-import 'f0554_dual_quaternion_mandelbrot_extra_presets.dart';
-import 'f0554_dual_quaternion_mandelbrot_extra_variants.dart';
-import 'f0554_dual_quaternion_mandelbrot_extra_metadata.dart';
+import 'metadata/metadata.dart';
+import 'presets/presets.dart';
+import 'variants/variants.dart';
 
 /// Dual Quaternion Mandelbrot (extra) — 3D Raymarching & Hypercomplex.
 class F0554DualQuaternionMandelbrotExtra extends Raymarched3DModule {
