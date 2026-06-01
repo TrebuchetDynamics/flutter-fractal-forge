@@ -29,7 +29,8 @@ void main() {
 
   group('cpuOnly user mode', () {
     test('cpuOnly always returns cpu backend for 2D', () {
-      final decision = policy.decide(buildInput(userMode: RendererBackendMode.cpuOnly));
+      final decision =
+          policy.decide(buildInput(userMode: RendererBackendMode.cpuOnly));
       expect(decision.backend, RendererBackend.cpu);
       expect(decision.reasonCode, FallbackReasonCode.manualToggle);
     });
@@ -66,7 +67,8 @@ void main() {
 
   group('gpuOnly user mode', () {
     test('gpuOnly always returns gpu backend for 2D', () {
-      final decision = policy.decide(buildInput(userMode: RendererBackendMode.gpuOnly));
+      final decision =
+          policy.decide(buildInput(userMode: RendererBackendMode.gpuOnly));
       expect(decision.backend, RendererBackend.gpu);
       expect(decision.reasonCode, FallbackReasonCode.manualToggle);
     });
@@ -162,7 +164,8 @@ void main() {
 
   group('3D module (unsupported GPU override)', () {
     test('3D module with auto mode uses GPU', () {
-      final decision = policy.decide(buildInput(dimension: FractalDimension.threeD));
+      final decision =
+          policy.decide(buildInput(dimension: FractalDimension.threeD));
       expect(decision.backend, RendererBackend.gpu);
     });
 
@@ -186,6 +189,38 @@ void main() {
       expect(decision.backend, RendererBackend.gpu);
       expect(decision.isFallback, isFalse);
       expect(decision.toUserStatusText(), 'Renderer: GPU');
+    });
+  });
+
+  group('AndroidEmulatorSignals', () {
+    test('classifies each emulator marker without IO', () {
+      const samples = [
+        AndroidEmulatorSignals(cpuInfo: 'Hardware\t: ranchu'),
+        AndroidEmulatorSignals(
+            cpuInfo: 'Processor\t: Android Virtual Processor'),
+        AndroidEmulatorSignals(cpuInfo: 'vendor_id\t: QEMU'),
+        AndroidEmulatorSignals(hardware: ' goldfish\n'),
+        AndroidEmulatorSignals(buildCharacteristics: 'nosdcard,emulator'),
+        AndroidEmulatorSignals(productModel: 'sdk_gphone64_x86_64'),
+        AndroidEmulatorSignals(buildProp: 'ro.hardware=ranchu\n'),
+        AndroidEmulatorSignals(buildProp: 'ro.product.cpu.abi=generic_x86'),
+      ];
+
+      for (final sample in samples) {
+        expect(sample.isEmulator, isTrue);
+      }
+    });
+
+    test('does not classify physical-device-looking signals as emulator', () {
+      const signals = AndroidEmulatorSignals(
+        cpuInfo: 'Hardware\t: Qualcomm Technologies',
+        hardware: 'qcom',
+        buildCharacteristics: 'default',
+        productModel: 'Pixel 8',
+        buildProp: 'ro.hardware=qcom\nro.product.model=Pixel 8\n',
+      );
+
+      expect(signals.isEmulator, isFalse);
     });
   });
 
@@ -227,7 +262,8 @@ void main() {
         reasonCode: FallbackReasonCode.forcedByFlag,
         detail: '',
       );
-      expect(decision.toUserStatusText(), 'Stable renderer forced by launch flag');
+      expect(
+          decision.toUserStatusText(), 'Stable renderer forced by launch flag');
     });
   });
 }

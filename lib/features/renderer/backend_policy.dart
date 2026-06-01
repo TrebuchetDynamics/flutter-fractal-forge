@@ -171,53 +171,106 @@ class RendererBackendPolicy {
   }
 }
 
+/// Replayable Android emulator signal snapshot.
+///
+/// Device probing is intentionally best-effort and IO-heavy; keeping the
+/// signal classifier pure makes marker drift testable without touching
+/// `/proc`, `getprop`, or `/system` in unit tests.
+class AndroidEmulatorSignals {
+  final String cpuInfo;
+  final String hardware;
+  final String buildCharacteristics;
+  final String productModel;
+  final String buildProp;
+
+  const AndroidEmulatorSignals({
+    this.cpuInfo = '',
+    this.hardware = '',
+    this.buildCharacteristics = '',
+    this.productModel = '',
+    this.buildProp = '',
+  });
+
+  bool get isEmulator =>
+      _cpuInfoHasEmulatorMarker(cpuInfo) ||
+      _hardwareHasEmulatorMarker(hardware) ||
+      buildCharacteristics.toLowerCase().contains('emulator') ||
+      productModel.toLowerCase().contains('sdk_gphone') ||
+      _buildPropHasEmulatorMarker(buildProp);
+
+  static bool _cpuInfoHasEmulatorMarker(String value) {
+    final normalized = value.toLowerCase();
+    return normalized.contains('ranchu') ||
+        normalized.contains('goldfish') ||
+        normalized.contains('qemu') ||
+        normalized.contains('android virtual processor');
+  }
+
+  static bool _hardwareHasEmulatorMarker(String value) {
+    final normalized = value.trim().toLowerCase();
+    return normalized == 'ranchu' || normalized == 'goldfish';
+  }
+
+  static bool _buildPropHasEmulatorMarker(String value) {
+    final normalized = value.toLowerCase();
+    return normalized.contains('ro.hardware=goldfish') ||
+        normalized.contains('ro.hardware=ranchu') ||
+        normalized.contains('sdk_gphone') ||
+        normalized.contains('generic_x86');
+  }
+}
+
 Future<bool> detectAndroidEmulator() async {
   if (kIsWeb || !Platform.isAndroid) return false;
 
+  var signals = const AndroidEmulatorSignals();
+
   // 1. /proc/cpuinfo — check for emulator markers
   try {
-    final cpuInfo = await File('/proc/cpuinfo').readAsString();
-    final c = cpuInfo.toLowerCase();
-    if (c.contains('ranchu') ||
-        c.contains('goldfish') ||
-        c.contains('qemu') ||
-        c.contains('android virtual processor')) {
-      return true;
-    }
-  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
+    signals = AndroidEmulatorSignals(
+      cpuInfo: await File('/proc/cpuinfo').readAsString(),
+    );
+    if (signals.isEmulator) return true;
+  } catch (e) {
+    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+  }
 
   // 2. getprop — most reliable on modern emulators
   try {
     final result = await Process.run('getprop', ['ro.hardware']);
-    final hw = (result.stdout as String).trim().toLowerCase();
-    if (hw == 'ranchu' || hw == 'goldfish') return true;
-  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
+    signals = AndroidEmulatorSignals(hardware: result.stdout as String);
+    if (signals.isEmulator) return true;
+  } catch (e) {
+    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+  }
 
   try {
     final result = await Process.run('getprop', ['ro.build.characteristics']);
-    if ((result.stdout as String).trim().toLowerCase().contains('emulator')) {
-      return true;
-    }
-  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
+    signals = AndroidEmulatorSignals(
+      buildCharacteristics: result.stdout as String,
+    );
+    if (signals.isEmulator) return true;
+  } catch (e) {
+    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+  }
 
   try {
     final result = await Process.run('getprop', ['ro.product.model']);
-    if ((result.stdout as String).trim().toLowerCase().contains('sdk_gphone')) {
-      return true;
-    }
-  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
+    signals = AndroidEmulatorSignals(productModel: result.stdout as String);
+    if (signals.isEmulator) return true;
+  } catch (e) {
+    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+  }
 
   // 3. /system/build.prop — fallback file check
   try {
-    final buildProp = await File('/system/build.prop').readAsString();
-    final b = buildProp.toLowerCase();
-    if (b.contains('ro.hardware=goldfish') ||
-        b.contains('ro.hardware=ranchu') ||
-        b.contains('sdk_gphone') ||
-        b.contains('generic_x86')) {
-      return true;
-    }
-  } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
+    signals = AndroidEmulatorSignals(
+      buildProp: await File('/system/build.prop').readAsString(),
+    );
+    if (signals.isEmulator) return true;
+  } catch (e) {
+    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+  }
 
   return false;
 }
