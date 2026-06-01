@@ -32,11 +32,27 @@ class BatchExportResult {
   });
 }
 
+/// Clock contract for replayable batch export directory naming.
+abstract class BatchExportClock {
+  DateTime now();
+}
+
+class SystemBatchExportClock implements BatchExportClock {
+  const SystemBatchExportClock();
+
+  @override
+  DateTime now() => DateTime.now();
+}
+
 class BatchExportService {
   final ExportService _exportService;
+  final BatchExportClock _clock;
 
-  const BatchExportService({ExportService exportService = const ExportService()})
-      : _exportService = exportService;
+  const BatchExportService({
+    ExportService exportService = const ExportService(),
+    BatchExportClock clock = const SystemBatchExportClock(),
+  })  : _exportService = exportService,
+        _clock = clock;
 
   Future<BatchExportResult> exportPresets({
     required GlobalKey boundaryKey,
@@ -60,7 +76,8 @@ class BatchExportService {
       if (isCancelled()) break;
 
       final preset = presets[i];
-      onProgress?.call(i / presets.length, 'Exporting ${i + 1}/${presets.length}: ${preset.name}');
+      onProgress?.call(i / presets.length,
+          'Exporting ${i + 1}/${presets.length}: ${preset.name}');
 
       await applyPreset(preset);
       await WidgetsBinding.instance.endOfFrame;
@@ -111,23 +128,31 @@ class BatchExportService {
         final out = File('${directory.path}/$name');
         await out.writeAsBytes(pngBytes, flush: true);
         contactSheet = out;
-      } catch (e) { if (kDebugMode) debugPrint('[FF] silent catch: $e'); }
+      } catch (e) {
+        if (kDebugMode) debugPrint('[FF] silent catch: $e');
+      }
     }
 
     onProgress?.call(1.0, 'Done');
-    return BatchExportResult(directory: directory, items: results, contactSheet: contactSheet);
+    return BatchExportResult(
+        directory: directory, items: results, contactSheet: contactSheet);
   }
 
   Future<Directory> _createBatchDirectory({required String moduleId}) async {
     final base = await _exportService.getExportDirectory();
-    final ts = DateTime.now();
+    final ts = _clock.now();
     final stamp =
         '${ts.year.toString().padLeft(4, '0')}${ts.month.toString().padLeft(2, '0')}${ts.day.toString().padLeft(2, '0')}_${ts.hour.toString().padLeft(2, '0')}${ts.minute.toString().padLeft(2, '0')}${ts.second.toString().padLeft(2, '0')}';
-    final dir = Directory('${base.path}/batch_${_safeSlug(moduleId)}_$stamp');
-    if (!await dir.exists()) {
+    final prefix = '${base.path}/batch_${_safeSlug(moduleId)}_$stamp';
+
+    for (var attempt = 1;; attempt++) {
+      final suffix =
+          attempt == 1 ? '' : '_${attempt.toString().padLeft(2, '0')}';
+      final dir = Directory('$prefix$suffix');
+      if (await dir.exists()) continue;
       await dir.create(recursive: true);
+      return dir;
     }
-    return dir;
   }
 
   String _presetFilename({
@@ -162,7 +187,10 @@ class BatchExportService {
       final bytes = await f.readAsBytes();
       final decoded = img.decodeImage(bytes);
       if (decoded == null) continue;
-      thumbs.add(img.copyResize(decoded, width: tileSize, height: tileSize, interpolation: img.Interpolation.cubic));
+      thumbs.add(img.copyResize(decoded,
+          width: tileSize,
+          height: tileSize,
+          interpolation: img.Interpolation.cubic));
     }
     if (thumbs.isEmpty) throw StateError('No images');
 

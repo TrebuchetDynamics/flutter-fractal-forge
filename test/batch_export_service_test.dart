@@ -65,6 +65,15 @@ class _StubExportService extends ExportService {
   }
 }
 
+class _FixedBatchExportClock implements BatchExportClock {
+  final DateTime value;
+
+  const _FixedBatchExportClock(this.value);
+
+  @override
+  DateTime now() => value;
+}
+
 FractalPreset _makePreset(String name) => FractalPreset(
       id: name,
       moduleId: 'mandelbrot',
@@ -363,9 +372,8 @@ void main() {
         isCancelled: () => false,
       );
 
-      final dirName = result.directory.uri.pathSegments
-          .where((s) => s.isNotEmpty)
-          .last;
+      final dirName =
+          result.directory.uri.pathSegments.where((s) => s.isNotEmpty).last;
       expect(dirName, contains('mandelbrot_set'));
     });
 
@@ -385,10 +393,44 @@ void main() {
         isCancelled: () => false,
       );
 
-      final dirName = result.directory.uri.pathSegments
-          .where((s) => s.isNotEmpty)
-          .last;
+      final dirName =
+          result.directory.uri.pathSegments.where((s) => s.isNotEmpty).last;
       expect(dirName, startsWith('batch_'));
+    });
+
+    test('repeated exports in the same second get unique directories',
+        () async {
+      final fixedClock =
+          _FixedBatchExportClock(DateTime(2026, 6, 1, 12, 34, 56));
+      final deterministicService = BatchExportService(
+        exportService: stubService,
+        clock: fixedClock,
+      );
+
+      Future<BatchExportResult> runEmptyExport() {
+        return deterministicService.exportPresets(
+          boundaryKey: GlobalKey(),
+          applyPreset: (_) async {},
+          presets: const [],
+          options: const ExportOptions(format: ExportFormat.png),
+          screenWidth: 400,
+          screenHeight: 800,
+          moduleId: 'mandelbrot',
+          moduleDisplayName: 'Mandelbrot',
+          currentParameters: () => {},
+          onProgress: null,
+          onItemDone: null,
+          isCancelled: () => false,
+        );
+      }
+
+      final first = await runEmptyExport();
+      final second = await runEmptyExport();
+
+      expect(second.directory.path, isNot(first.directory.path));
+      expect(second.directory.path, endsWith('_02'));
+      expect(await first.directory.exists(), isTrue);
+      expect(await second.directory.exists(), isTrue);
     });
 
     test('currentParameters is not called when isCancelled=true', () async {
