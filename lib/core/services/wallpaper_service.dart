@@ -2,12 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_fractals/core/models/wallpaper/wallpaper_target.dart';
 
-enum WallpaperTarget {
-  home,
-  lock,
-  both,
-}
+export 'package:flutter_fractals/core/models/wallpaper/wallpaper_target.dart';
 
 /// Sets the generated fractal as the device wallpaper.
 ///
@@ -16,7 +13,8 @@ enum WallpaperTarget {
 /// - iOS: iOS does not allow setting wallpaper programmatically. We save the
 ///   image to Photos instead (so the user can set it from the Photos app).
 class WallpaperService {
-  static const MethodChannel _channel = MethodChannel('com.fractalforge/wallpaper');
+  static const MethodChannel _channel =
+      MethodChannel('com.fractalforge/wallpaper');
 
   const WallpaperService();
 

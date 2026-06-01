@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "lib/core/models",
+  "updatedAt": "2026-06-01T14:15:28.285Z",
+  "objective": "Refactor lib/core/models into responsibility subfolders with root compatibility facades: fractal, palette, export, exploration, wallpaper. Preserve existing package import paths and reduce model->service coupling by moving WallpaperTarget into the wallpaper model boundary while re-exporting it from WallpaperService for compatibility.",
+  "completedSlices": [
+    "Moved fractal parameter/params/preset/view-state models to lib/core/models/fractal with root export facades.",
+    "Moved palette model to lib/core/models/palette with root export facade.",
+    "Moved image and video export option models to lib/core/models/export with root export facades.",
+    "Moved exploration stats model to lib/core/models/exploration with root export facade.",
+    "Moved wallpaper options to lib/core/models/wallpaper and introduced wallpaper_target.dart contract; wallpaper_service imports/re-exports the contract so existing service imports keep working."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/core/models lib/core/services/wallpaper_service.dart test/fractal_params_test.dart test/fractal_preset_json_test.dart test/fractal_view_state_test.dart test/common_fractal_params_test.dart test/palette_service_test.dart test/palette_store_test.dart test/export_options_test.dart test/export_service_test.dart test/video_export_service_test.dart test/exploration_stats_service_test.dart test/wallpaper_service_test.dart -> No issues found.",
+    "/home/xel/flutter/bin/flutter test test/fractal_params_test.dart test/fractal_preset_json_test.dart test/fractal_view_state_test.dart test/common_fractal_params_test.dart test/palette_service_test.dart test/palette_store_test.dart test/export_options_test.dart test/export_service_test.dart test/video_export_service_test.dart test/exploration_stats_service_test.dart test/wallpaper_service_test.dart -> blocked by pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
+  ]
+}
