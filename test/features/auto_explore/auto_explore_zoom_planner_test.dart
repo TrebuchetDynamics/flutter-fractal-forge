@@ -159,6 +159,22 @@ void main() {
       );
     });
 
+    test('exposes sanitized target planning inputs', () {
+      final missingBaseInputs = planner.planInputs(
+        currentZoom: double.nan,
+        cycleBaseZoom: null,
+      );
+      final malformedBaseInputs = planner.planInputs(
+        currentZoom: 10.0,
+        cycleBaseZoom: double.nan,
+      );
+
+      expect(missingBaseInputs.currentZoom, AutoExploreConfig().minZoom);
+      expect(missingBaseInputs.baseZoom, missingBaseInputs.currentZoom);
+      expect(malformedBaseInputs.currentZoom, 10.0);
+      expect(malformedBaseInputs.baseZoom, AutoExploreConfig().minZoom);
+    });
+
     test('makes collapsed target plans explicit', () {
       const collapsedPlanner = AutoExploreZoomPlanner(
         config: AutoExploreConfig(minZoom: 1.0, maxZoom: 1.0),

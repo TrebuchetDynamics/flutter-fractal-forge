@@ -434,21 +434,49 @@ class AutoExploreZoomTargetRange {
   }
 }
 
-/// Replayable target-selection data for one auto-explore cycle step.
-class AutoExploreZoomTargetPlan {
+/// Sanitized inputs used for one replayable auto-explore target decision.
+///
+/// This exposes the hidden fallback order used by the service: current zoom is
+/// sanitized first, then a missing cycle base adopts that sanitized current
+/// value. A malformed non-null cycle base is still sanitized independently.
+class AutoExploreZoomPlanInputs {
   final double currentZoom;
   final double baseZoom;
+
+  const AutoExploreZoomPlanInputs({
+    required this.currentZoom,
+    required this.baseZoom,
+  });
+
+  factory AutoExploreZoomPlanInputs.fromBounds({
+    required AutoExploreZoomBounds bounds,
+    required double currentZoom,
+    required double? cycleBaseZoom,
+  }) {
+    final current = bounds.clamp(currentZoom);
+    return AutoExploreZoomPlanInputs(
+      currentZoom: current,
+      baseZoom: bounds.clamp(cycleBaseZoom ?? current),
+    );
+  }
+}
+
+/// Replayable target-selection data for one auto-explore cycle step.
+class AutoExploreZoomTargetPlan {
+  final AutoExploreZoomPlanInputs inputs;
   final double peakZoom;
   final double floorZoom;
   final bool zoomingIn;
 
   const AutoExploreZoomTargetPlan({
-    required this.currentZoom,
-    required this.baseZoom,
+    required this.inputs,
     required this.peakZoom,
     required this.floorZoom,
     required this.zoomingIn,
   });
+
+  double get currentZoom => inputs.currentZoom;
+  double get baseZoom => inputs.baseZoom;
 
   AutoExploreZoomTargetRange get targetRange =>
       AutoExploreZoomTargetRange.fromCandidates(
@@ -523,23 +551,38 @@ class AutoExploreZoomPlanner {
     return bounds.clamp(max(bounds.minZoom, contextualFloor));
   }
 
+  AutoExploreZoomPlanInputs planInputs({
+    required double currentZoom,
+    required double? cycleBaseZoom,
+  }) {
+    return AutoExploreZoomPlanInputs.fromBounds(
+      bounds: _bounds,
+      currentZoom: currentZoom,
+      cycleBaseZoom: cycleBaseZoom,
+    );
+  }
+
   AutoExploreZoomTargetPlan planNextTarget({
     required double currentZoom,
     required double? cycleBaseZoom,
     required bool zoomingIn,
     required String moduleId,
   }) {
-    final current = clampZoom(currentZoom);
-    final baseZoom = clampZoom(cycleBaseZoom ?? current);
-    final peakZoom = computePeakZoom(baseZoom: baseZoom, moduleId: moduleId);
+    final inputs = planInputs(
+      currentZoom: currentZoom,
+      cycleBaseZoom: cycleBaseZoom,
+    );
+    final peakZoom = computePeakZoom(
+      baseZoom: inputs.baseZoom,
+      moduleId: moduleId,
+    );
     final targetRange = AutoExploreZoomTargetRange.fromCandidates(
       peakZoom: peakZoom,
-      floorZoom: computeFloorZoom(baseZoom),
+      floorZoom: computeFloorZoom(inputs.baseZoom),
     );
 
     return AutoExploreZoomTargetPlan(
-      currentZoom: current,
-      baseZoom: baseZoom,
+      inputs: inputs,
       peakZoom: targetRange.peakZoom,
       floorZoom: targetRange.floorZoom,
       zoomingIn: zoomingIn,
