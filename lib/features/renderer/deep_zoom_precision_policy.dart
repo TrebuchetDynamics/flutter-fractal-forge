@@ -44,6 +44,29 @@ class DeepZoomThresholds {
   }
 }
 
+/// Replayable precision routing decision for a module/zoom sample.
+///
+/// Renderer code needs CPU fallback and double-float eligibility to agree on
+/// the same threshold snapshot. Keeping both booleans with their source
+/// thresholds exposes that data-flow instead of recomputing partial decisions
+/// at separate call sites.
+@immutable
+class DeepZoomPrecisionDecision {
+  final String moduleId;
+  final double zoom;
+  final DeepZoomThresholds thresholds;
+
+  const DeepZoomPrecisionDecision({
+    required this.moduleId,
+    required this.zoom,
+    required this.thresholds,
+  });
+
+  bool get shouldUseCpuFallback => thresholds.shouldUseCpuFallback(zoom);
+  bool get shouldUseDoubleFloat => thresholds.shouldUseDoubleFloat(zoom);
+  double get cpuFallbackZoom => thresholds.cpuFallbackZoom;
+}
+
 /// Decides when GPU precision is likely insufficient at deep zoom.
 ///
 /// ## Float32 precision analysis
@@ -154,11 +177,22 @@ class DeepZoomPrecisionPolicy {
     required String moduleId,
     required double zoom,
   }) {
-    return thresholdsFor(moduleId).shouldUseCpuFallback(zoom);
+    return decisionFor(moduleId: moduleId, zoom: zoom).shouldUseCpuFallback;
   }
 
   DeepZoomThresholds thresholdsFor(String moduleId) =>
       _moduleThresholds[moduleId] ?? _defaultThresholds;
+
+  DeepZoomPrecisionDecision decisionFor({
+    required String moduleId,
+    required double zoom,
+  }) {
+    return DeepZoomPrecisionDecision(
+      moduleId: moduleId,
+      zoom: zoom,
+      thresholds: thresholdsFor(moduleId),
+    );
+  }
 
   double thresholdFor(String moduleId) =>
       thresholdsFor(moduleId).cpuFallbackZoom;
@@ -171,7 +205,7 @@ class DeepZoomPrecisionPolicy {
     required String moduleId,
     required double zoom,
   }) {
-    return thresholdsFor(moduleId).shouldUseDoubleFloat(zoom);
+    return decisionFor(moduleId: moduleId, zoom: zoom).shouldUseDoubleFloat;
   }
 
   int get hysteresisFrames => _hysteresisFrames;

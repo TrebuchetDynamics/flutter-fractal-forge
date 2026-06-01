@@ -31,6 +31,32 @@ void main() {
     });
   });
 
+  group('DeepZoomPrecisionPolicy.decisionFor', () {
+    test('exposes CPU and double-float routing from one threshold snapshot',
+        () {
+      final decision = policy.decisionFor(moduleId: 'mandelbrot', zoom: 1e10);
+
+      expect(decision.moduleId, 'mandelbrot');
+      expect(decision.zoom, 1e10);
+      expect(decision.cpuFallbackZoom, 1e12);
+      expect(decision.shouldUseDoubleFloat, isTrue);
+      expect(decision.shouldUseCpuFallback, isFalse);
+      expect(decision.thresholds, same(policy.thresholdsFor('mandelbrot')));
+    });
+
+    test('keeps invalid zoom samples below precision routing thresholds', () {
+      for (final zoom in [double.nan, double.negativeInfinity]) {
+        final decision = policy.decisionFor(
+          moduleId: 'mandelbrot',
+          zoom: zoom,
+        );
+
+        expect(decision.shouldUseDoubleFloat, isFalse, reason: '$zoom');
+        expect(decision.shouldUseCpuFallback, isFalse, reason: '$zoom');
+      }
+    });
+  });
+
   group('DeepZoomPrecisionPolicy.shouldUseCpuFallback', () {
     test('returns false for mandelbrot at zoom 1e6', () {
       expect(
