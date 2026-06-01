@@ -23,6 +23,21 @@ void main() {
       expect(peakZoom, lessThanOrEqualTo(hardMax));
     });
 
+    test('does not promote invalid precision headroom to max zoom', () {
+      const planner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(precisionHeadroom: double.nan),
+      );
+
+      expect(planner.hardMaxZoomFor('unknown_orbit_module'), 1e7);
+      expect(
+        planner.computePeakZoom(
+          baseZoom: 9.0e6,
+          moduleId: 'unknown_orbit_module',
+        ),
+        lessThanOrEqualTo(1e7),
+      );
+    });
+
     test('plans zoom-in and zoom-out targets from the same cycle base', () {
       const baseZoom = 10.0;
 

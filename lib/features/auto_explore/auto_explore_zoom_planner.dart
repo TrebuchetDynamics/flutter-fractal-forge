@@ -53,6 +53,22 @@ class AutoExploreSpeed {
   }
 }
 
+/// Precision headroom used to keep auto-explore below renderer fallback edges.
+///
+/// Values above 1.0 would push candidates past the module precision threshold;
+/// non-finite values must not rely on [double.clamp] because NaN clamps to the
+/// upper bound and would silently promote targets to max zoom.
+class AutoExplorePrecisionHeadroom {
+  static const double neutral = 1.0;
+
+  const AutoExplorePrecisionHeadroom._();
+
+  static double normalize(double headroom) {
+    if (!headroom.isFinite || headroom <= 0.0) return neutral;
+    return headroom.clamp(0.0, neutral);
+  }
+}
+
 /// Zoom bounds used by auto-explore planning.
 ///
 /// Dart's [double.clamp] treats NaN as the upper bound, which would turn a
@@ -129,9 +145,11 @@ class AutoExploreZoomPlanner {
       AutoExploreZoomBounds.fromConfig(config).clamp(zoom);
 
   double hardMaxZoomFor(String moduleId) {
-    final safeThreshold =
-        (precisionPolicy.thresholdFor(moduleId) * config.precisionHeadroom)
-            .clamp(config.minZoom, config.maxZoom);
+    final headroom = AutoExplorePrecisionHeadroom.normalize(
+      config.precisionHeadroom,
+    );
+    final safeThreshold = (precisionPolicy.thresholdFor(moduleId) * headroom)
+        .clamp(config.minZoom, config.maxZoom);
     return clampZoom(safeThreshold);
   }
 
