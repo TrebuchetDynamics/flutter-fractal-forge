@@ -70,7 +70,7 @@ class DeepZoomPrecisionPolicy {
 
   /// Default threshold for any fractal type not listed above.
   /// Simple orbit fractals and non-escape-time types lose precision more
-  /// slowly; 1e8 is a safe upper bound for float32 at 1080p.
+  /// slowly; 1e7 is a conservative upper bound for float32 at 1080p.
   static const double _defaultThreshold = 1e7;
 
   /// Zoom range where the double-float (DS) shader [mandelbrot_df2.frag]
@@ -132,13 +132,19 @@ class DeepZoomPrecisionPolicy {
     required double zoom,
   }) {
     final safeBase = baseIterations.clamp(4, gpuMaxIterations);
-    if (zoom <= 1.0) return safeBase;
+    final depth = _zoomDepthLog10(zoom);
+    if (depth == 0.0) return safeBase;
 
-    final depth = (math.log(zoom) / math.ln10).clamp(0.0, 30.0);
     final factor = 1.0 + 0.35 * depth;
     final scaled = (safeBase * factor).round();
     return scaled.clamp(4, gpuMaxIterations);
   }
+}
+
+double _zoomDepthLog10(double zoom) {
+  if (zoom.isNaN || zoom <= 1.0) return 0.0;
+  if (zoom.isInfinite) return 30.0;
+  return (math.log(zoom) / math.ln10).clamp(0.0, 30.0);
 }
 
 /// Stateful hysteresis filter for GPU→CPU deep-zoom transitions.

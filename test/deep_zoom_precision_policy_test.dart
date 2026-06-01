@@ -114,6 +114,24 @@ void main() {
       final result = policy.scaledGpuIterations(baseIterations: 1, zoom: 1.0);
       expect(result, equals(4));
     });
+
+    test('treats non-finite zoom values as bounded inputs', () {
+      expect(
+        policy.scaledGpuIterations(baseIterations: 256, zoom: double.nan),
+        equals(256),
+      );
+      expect(
+        policy.scaledGpuIterations(baseIterations: 256, zoom: double.infinity),
+        equals(DeepZoomPrecisionPolicy.gpuMaxIterations),
+      );
+      expect(
+        policy.scaledGpuIterations(
+          baseIterations: 256,
+          zoom: double.negativeInfinity,
+        ),
+        equals(256),
+      );
+    });
   });
 
   group('DeepZoomHysteresis', () {
