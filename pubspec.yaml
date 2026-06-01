@@ -109,7 +109,7 @@ flutter:
     - shaders/escape_time_family/mandelbrot_variants/simonbrot_gpu.frag
     - shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag
     - shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag
-    - shaders/ifs_and_geometric/barnsley_j1_gpu.frag
+    - shaders/ifs_and_geometric/botanical_structures/barnsley_j1_gpu.frag
     - shaders/escape_time_family/experimental_named/polynomial_variants/fish_gpu.frag
     - shaders/escape_time_family/experimental_named/rational_singularities/ducky_gpu.frag
     - shaders/root_finding/schroeder/schroeder_gpu.frag
@@ -117,8 +117,8 @@ flutter:
     - shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag
     - shaders/escape_time_family/transcendental_maps/taylor_gpu.frag
     - shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag
-    - shaders/ifs_and_geometric/barnsley_j2_gpu.frag
-    - shaders/ifs_and_geometric/barnsley_j3_gpu.frag
+    - shaders/ifs_and_geometric/botanical_structures/barnsley_j2_gpu.frag
+    - shaders/ifs_and_geometric/botanical_structures/barnsley_j3_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag
     - shaders/escape_time_family/families/perpendicular/perpendicular_julia_gpu.frag
@@ -157,32 +157,32 @@ flutter:
     - shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag
     - shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag
     - shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag
-    - shaders/ifs_and_geometric/sierpinski_triangle_gpu.frag
-    - shaders/ifs_and_geometric/sierpinski_carpet_gpu.frag
-    - shaders/ifs_and_geometric/koch_snowflake_gpu.frag
-    - shaders/ifs_and_geometric/koch_anti_snowflake_gpu.frag
+    - shaders/ifs_and_geometric/sierpinski_family/sierpinski_triangle_gpu.frag
+    - shaders/ifs_and_geometric/sierpinski_family/sierpinski_carpet_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/koch_snowflake_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/koch_anti_snowflake_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/quadratic_koch_gpu.frag
-    - shaders/ifs_and_geometric/dragon_curve_gpu.frag
-    - shaders/ifs_and_geometric/golden_dragon_gpu.frag
-    - shaders/ifs_and_geometric/twin_dragon_gpu.frag
-    - shaders/ifs_and_geometric/terdragon_gpu.frag
-    - shaders/ifs_and_geometric/barnsley_fern_gpu.frag
-    - shaders/ifs_and_geometric/cyclosorus_fern_gpu.frag
-    - shaders/ifs_and_geometric/pythagorean_tree_gpu.frag
-    - shaders/ifs_and_geometric/hilbert_curve_gpu.frag
-    - shaders/ifs_and_geometric/peano_curve_gpu.frag
-    - shaders/ifs_and_geometric/gosper_curve_gpu.frag
-    - shaders/ifs_and_geometric/levy_c_gpu.frag
-    - shaders/ifs_and_geometric/levy_tapestry_gpu.frag
-    - shaders/ifs_and_geometric/menger_sponge_gpu.frag
-    - shaders/ifs_and_geometric/vicsek_gpu.frag
-    - shaders/ifs_and_geometric/penrose_tiling_gpu.frag
-    - shaders/ifs_and_geometric/fibonacci_word_gpu.frag
-    - shaders/ifs_and_geometric/rauzy_gpu.frag
-    - shaders/ifs_and_geometric/pinwheel_gpu.frag
-    - shaders/ifs_and_geometric/chair_tiling_gpu.frag
-    - shaders/ifs_and_geometric/z_order_curve_gpu.frag
-    - shaders/ifs_and_geometric/greek_cross_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/dragon_curve_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/golden_dragon_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/twin_dragon_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/terdragon_gpu.frag
+    - shaders/ifs_and_geometric/botanical_structures/barnsley_fern_gpu.frag
+    - shaders/ifs_and_geometric/botanical_structures/cyclosorus_fern_gpu.frag
+    - shaders/ifs_and_geometric/botanical_structures/pythagorean_tree_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/hilbert_curve_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/peano_curve_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/gosper_curve_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/levy_c_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/levy_tapestry_gpu.frag
+    - shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag
+    - shaders/ifs_and_geometric/self_similar_sets/vicsek_gpu.frag
+    - shaders/ifs_and_geometric/tilings_and_monotiles/penrose_tiling_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/fibonacci_word_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/rauzy_gpu.frag
+    - shaders/ifs_and_geometric/tilings_and_monotiles/pinwheel_gpu.frag
+    - shaders/ifs_and_geometric/tilings_and_monotiles/chair_tiling_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/z_order_curve_gpu.frag
+    - shaders/ifs_and_geometric/tilings_and_monotiles/greek_cross_gpu.frag
     - shaders/strange_attractors/discrete_maps/clifford_gpu.frag
     - shaders/strange_attractors/discrete_maps/peter_de_jong_gpu.frag
     - shaders/strange_attractors/discrete_maps/svensson_gpu.frag
@@ -251,31 +251,31 @@ flutter:
     - shaders/cellular_and_stochastic/percolation_gpu.frag
     - shaders/cellular_and_stochastic/turmite_gpu.frag
     - shaders/cellular_and_stochastic/wireworld_gpu.frag
-    - shaders/ifs_and_geometric/sierpinski_pentagon_gpu.frag
-    - shaders/ifs_and_geometric/hexaflake_gpu.frag
-    - shaders/ifs_and_geometric/pentaflake_gpu.frag
-    - shaders/ifs_and_geometric/cantor_dust_gpu.frag
-    - shaders/ifs_and_geometric/apollonian_gasket_gpu.frag
-    - shaders/ifs_and_geometric/ford_circles_gpu.frag
-    - shaders/ifs_and_geometric/steiner_chain_gpu.frag
-    - shaders/ifs_and_geometric/cesaro_gpu.frag
-    - shaders/ifs_and_geometric/cantor_set_gpu.frag
-    - shaders/ifs_and_geometric/fractal_canopy_gpu.frag
+    - shaders/ifs_and_geometric/sierpinski_family/sierpinski_pentagon_gpu.frag
+    - shaders/ifs_and_geometric/self_similar_sets/hexaflake_gpu.frag
+    - shaders/ifs_and_geometric/self_similar_sets/pentaflake_gpu.frag
+    - shaders/ifs_and_geometric/self_similar_sets/cantor_dust_gpu.frag
+    - shaders/ifs_and_geometric/circle_inversion_limit_sets/apollonian_gasket_gpu.frag
+    - shaders/ifs_and_geometric/circle_inversion_limit_sets/ford_circles_gpu.frag
+    - shaders/ifs_and_geometric/circle_inversion_limit_sets/steiner_chain_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/cesaro_gpu.frag
+    - shaders/ifs_and_geometric/self_similar_sets/cantor_set_gpu.frag
+    - shaders/ifs_and_geometric/botanical_structures/fractal_canopy_gpu.frag
     - shaders/escape_time_family/polynomial_maps/benesi_gpu.frag
-    - shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag
-    - shaders/ifs_and_geometric/hat_monotile_gpu.frag
-    - shaders/ifs_and_geometric/spectre_monotile_gpu.frag
-    - shaders/ifs_and_geometric/sphinx_tiling_gpu.frag
+    - shaders/ifs_and_geometric/circle_inversion_limit_sets/pseudo_kleinian_gpu.frag
+    - shaders/ifs_and_geometric/tilings_and_monotiles/hat_monotile_gpu.frag
+    - shaders/ifs_and_geometric/tilings_and_monotiles/spectre_monotile_gpu.frag
+    - shaders/ifs_and_geometric/tilings_and_monotiles/sphinx_tiling_gpu.frag
     - shaders/cellular_and_stochastic/brian_brain_gpu.frag
     - shaders/cellular_and_stochastic/highlife_gpu.frag
     - shaders/cellular_and_stochastic/day_night_gpu.frag
     - shaders/cellular_and_stochastic/eden_growth_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/farey_diagram_gpu.frag
-    - shaders/ifs_and_geometric/cayley_graph_gpu.frag
-    - shaders/ifs_and_geometric/sierpinski_arrowhead_gpu.frag
-    - shaders/ifs_and_geometric/mcworter_pentigree_gpu.frag
-    - shaders/ifs_and_geometric/ammann_beenker_gpu.frag
-    - shaders/ifs_and_geometric/moore_curve_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/cayley_graph_gpu.frag
+    - shaders/ifs_and_geometric/sierpinski_family/sierpinski_arrowhead_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/mcworter_pentigree_gpu.frag
+    - shaders/ifs_and_geometric/tilings_and_monotiles/ammann_beenker_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/moore_curve_gpu.frag
     - shaders/escape_time_family/transcendental_maps/lambda_w_gpu.frag
     - shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag
     - shaders/escape_time_family/experimental_named/polynomial_variants/manair_fire_gpu.frag
@@ -290,11 +290,11 @@ flutter:
     - shaders/root_finding/newton/newton_general_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot4_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag
-    - shaders/ifs_and_geometric/sierpinski_tetrahedron_gpu.frag
-    - shaders/ifs_and_geometric/jerusalem_cube_gpu.frag
-    - shaders/ifs_and_geometric/menger_3d_slice_gpu.frag
-    - shaders/ifs_and_geometric/pola_sierpinski_gpu.frag
-    - shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag
+    - shaders/ifs_and_geometric/sierpinski_family/sierpinski_tetrahedron_gpu.frag
+    - shaders/ifs_and_geometric/self_similar_sets/jerusalem_cube_gpu.frag
+    - shaders/ifs_and_geometric/self_similar_sets/menger_3d_slice_gpu.frag
+    - shaders/ifs_and_geometric/sierpinski_family/pola_sierpinski_gpu.frag
+    - shaders/ifs_and_geometric/fractal_curves/fibonacci_spiral_gpu.frag
     - shaders/escape_time_family/experimental_named/transcendental_deformations/washed_away_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/damaged_doublebrot_gpu.frag
     - shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag
@@ -461,7 +461,7 @@ flutter:
     - shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_1_gpu.frag
     - shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_2_gpu.frag
     - shaders/escape_time_family/experimental_named/root_finding/king_gpu.frag
-    - shaders/ifs_and_geometric/kleinian_limit_set_gpu.frag
+    - shaders/ifs_and_geometric/circle_inversion_limit_sets/kleinian_limit_set_gpu.frag
     - shaders/escape_time_family/newton_and_orthogonal/laguerre_fractal_gpu.frag
     - shaders/cellular_and_stochastic/lichtenberg_growth_gpu.frag
     - shaders/escape_time_family/experimental_named/physical_simulation/magnetic_pendulum_gpu.frag
@@ -483,7 +483,7 @@ flutter:
     - shaders/trigonometric_and_transcendental/elementary_trig/secant_julia_gpu.frag
     - shaders/trigonometric_and_transcendental/elementary_trig/secant_mandelbrot_gpu.frag
     - shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag
-    - shaders/ifs_and_geometric/sierpinski_julia_rational_gpu.frag
+    - shaders/ifs_and_geometric/sierpinski_family/sierpinski_julia_rational_gpu.frag
     - shaders/strange_attractors/sprott_systems/sprott_g_gpu.frag
     - shaders/strange_attractors/sprott_systems/sprott_h_gpu.frag
     - shaders/strange_attractors/sprott_systems/sprott_i_gpu.frag

@@ -1,21 +1,16 @@
 {
   "version": 1,
   "target": "shaders/strange_attractors",
-  "updatedAt": "2026-06-01T12:13:40.741Z",
+  "updatedAt": "2026-06-01T13:18:14.070Z",
   "objective": "Refactor strange-attractor shader assets into responsibility-owned subfolders while preserving catalog/pubspec shader asset behavior.",
   "completedSlices": [
-    "Added focused shader asset test verifying strange_attractors pubspec entries exist and catalog paths are declared.",
-    "Moved discrete map shaders into shaders/strange_attractors/discrete_maps and updated pubspec/catalog/comment references.",
-    "Moved Sprott family shaders into shaders/strange_attractors/sprott_systems and updated pubspec/catalog/comment references.",
-    "Moved continuous-flow attractor shaders into shaders/strange_attractors/continuous_flows and updated pubspec/catalog/comment references."
+    "Verified current pubspec/catalog already reference subfolder shader paths and focused asset test exists.",
+    "Moved root strange-attractor shader files into behavior/responsibility subfolders: discrete_maps, continuous_flows, sprott_systems."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart (passed before moves)",
-    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart test/catalog_id_integrity_test.dart (passed after discrete_maps move)",
-    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart test/catalog_id_integrity_test.dart (passed after sprott_systems move)",
-    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart test/catalog_id_integrity_test.dart (passed after continuous_flows move)",
-    "/home/xel/flutter/bin/flutter analyze (No issues found)",
-    "folder_refactor_audit shaders/strange_attractors plannedTopologyComplete=true (pass)"
+    "python3 pubspec strange_attractors asset existence check: strange_attractor_pubspec_assets=69, missing=0, root_frag_files=0",
+    "rg stale root strange_attractors shader asset paths in pubspec/lib/test/shaders: no matches",
+    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart test/catalog_id_integrity_test.dart blocked by unrelated missing asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag"
   ]
 }

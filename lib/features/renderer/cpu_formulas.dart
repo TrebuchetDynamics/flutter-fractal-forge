@@ -1432,7 +1432,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_triangle_gpu.frag (CPU approximation, seed=0x2929b303)
+  // Ported from shaders/ifs_and_geometric/sierpinski_family/sierpinski_triangle_gpu.frag (CPU approximation, seed=0x2929b303)
   return _cpu_synthetic(0x2929b303, x, y, iterations, bailout);
 }
 
@@ -1443,7 +1443,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_carpet_gpu.frag (CPU approximation, seed=0x228b196c)
+  // Ported from shaders/ifs_and_geometric/sierpinski_family/sierpinski_carpet_gpu.frag (CPU approximation, seed=0x228b196c)
   return _cpu_synthetic(0x228b196c, x, y, iterations, bailout);
 }
 
@@ -1454,7 +1454,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/koch_snowflake_gpu.frag (CPU approximation, seed=0xa1e241db)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/koch_snowflake_gpu.frag (CPU approximation, seed=0xa1e241db)
   return _cpu_synthetic(0xa1e241db, x, y, iterations, bailout);
 }
 
@@ -1465,7 +1465,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/dragon_curve_gpu.frag (CPU approximation, seed=0xbca4f542)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/dragon_curve_gpu.frag (CPU approximation, seed=0xbca4f542)
   return _cpu_synthetic(0xbca4f542, x, y, iterations, bailout);
 }
 
@@ -1476,7 +1476,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/barnsley_fern_gpu.frag (CPU approximation, seed=0x4a15aae7)
+  // Ported from shaders/ifs_and_geometric/botanical_structures/barnsley_fern_gpu.frag (CPU approximation, seed=0x4a15aae7)
   return _cpu_synthetic(0x4a15aae7, x, y, iterations, bailout);
 }
 
@@ -1487,7 +1487,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/pythagorean_tree_gpu.frag (CPU approximation, seed=0xa731e992)
+  // Ported from shaders/ifs_and_geometric/botanical_structures/pythagorean_tree_gpu.frag (CPU approximation, seed=0xa731e992)
   return _cpu_synthetic(0xa731e992, x, y, iterations, bailout);
 }
 
@@ -1498,7 +1498,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/hilbert_curve_gpu.frag (CPU approximation, seed=0x249cef55)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/hilbert_curve_gpu.frag (CPU approximation, seed=0x249cef55)
   return _cpu_synthetic(0x249cef55, x, y, iterations, bailout);
 }
 
@@ -1509,7 +1509,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/peano_curve_gpu.frag (CPU approximation, seed=0x30541266)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/peano_curve_gpu.frag (CPU approximation, seed=0x30541266)
   return _cpu_synthetic(0x30541266, x, y, iterations, bailout);
 }
 
@@ -1520,7 +1520,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/gosper_curve_gpu.frag (CPU approximation, seed=0x975e1adb)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/gosper_curve_gpu.frag (CPU approximation, seed=0x975e1adb)
   return _cpu_synthetic(0x975e1adb, x, y, iterations, bailout);
 }
 
@@ -1531,7 +1531,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/levy_c_gpu.frag (CPU approximation, seed=0x59f2294d)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/levy_c_gpu.frag (CPU approximation, seed=0x59f2294d)
   return _cpu_synthetic(0x59f2294d, x, y, iterations, bailout);
 }
 
@@ -1542,7 +1542,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/levy_tapestry_gpu.frag (CPU approximation, seed=0x0e5c80ba)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/levy_tapestry_gpu.frag (CPU approximation, seed=0x0e5c80ba)
   return _cpu_synthetic(0x0e5c80ba, x, y, iterations, bailout);
 }
 
@@ -1553,7 +1553,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/golden_dragon_gpu.frag (CPU approximation, seed=0xdb63929a)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/golden_dragon_gpu.frag (CPU approximation, seed=0xdb63929a)
   return _cpu_synthetic(0xdb63929a, x, y, iterations, bailout);
 }
 
@@ -1564,7 +1564,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/twin_dragon_gpu.frag (CPU approximation, seed=0xb1a9736f)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/twin_dragon_gpu.frag (CPU approximation, seed=0xb1a9736f)
   return _cpu_synthetic(0xb1a9736f, x, y, iterations, bailout);
 }
 
@@ -1575,7 +1575,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/terdragon_gpu.frag (CPU approximation, seed=0xd918bb0b)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/terdragon_gpu.frag (CPU approximation, seed=0xd918bb0b)
   return _cpu_synthetic(0xd918bb0b, x, y, iterations, bailout);
 }
 
@@ -1586,7 +1586,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/chair_tiling_gpu.frag (CPU approximation, seed=0x6df0635c)
+  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/chair_tiling_gpu.frag (CPU approximation, seed=0x6df0635c)
   return _cpu_synthetic(0x6df0635c, x, y, iterations, bailout);
 }
 
@@ -1597,7 +1597,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/koch_anti_snowflake_gpu.frag (CPU approximation, seed=0xb25939aa)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/koch_anti_snowflake_gpu.frag (CPU approximation, seed=0xb25939aa)
   return _cpu_synthetic(0xb25939aa, x, y, iterations, bailout);
 }
 
@@ -1619,7 +1619,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/cyclosorus_fern_gpu.frag (CPU approximation, seed=0x23408147)
+  // Ported from shaders/ifs_and_geometric/botanical_structures/cyclosorus_fern_gpu.frag (CPU approximation, seed=0x23408147)
   return _cpu_synthetic(0x23408147, x, y, iterations, bailout);
 }
 
@@ -1630,7 +1630,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/menger_sponge_gpu.frag (CPU approximation, seed=0x6bf8831d)
+  // Ported from shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag (CPU approximation, seed=0x6bf8831d)
   return _cpu_synthetic(0x6bf8831d, x, y, iterations, bailout);
 }
 
@@ -1641,7 +1641,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/vicsek_gpu.frag (CPU approximation, seed=0xd698c050)
+  // Ported from shaders/ifs_and_geometric/self_similar_sets/vicsek_gpu.frag (CPU approximation, seed=0xd698c050)
   return _cpu_synthetic(0xd698c050, x, y, iterations, bailout);
 }
 
@@ -1652,7 +1652,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/penrose_tiling_gpu.frag (CPU approximation, seed=0x0700c77f)
+  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/penrose_tiling_gpu.frag (CPU approximation, seed=0x0700c77f)
   return _cpu_synthetic(0x0700c77f, x, y, iterations, bailout);
 }
 
@@ -1663,7 +1663,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/fibonacci_word_gpu.frag (CPU approximation, seed=0x7c59a41c)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/fibonacci_word_gpu.frag (CPU approximation, seed=0x7c59a41c)
   return _cpu_synthetic(0x7c59a41c, x, y, iterations, bailout);
 }
 
@@ -1674,7 +1674,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/rauzy_gpu.frag (CPU approximation, seed=0x91060bc0)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/rauzy_gpu.frag (CPU approximation, seed=0x91060bc0)
   return _cpu_synthetic(0x91060bc0, x, y, iterations, bailout);
 }
 
@@ -1685,7 +1685,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/pinwheel_gpu.frag (CPU approximation, seed=0x54bebb73)
+  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/pinwheel_gpu.frag (CPU approximation, seed=0x54bebb73)
   return _cpu_synthetic(0x54bebb73, x, y, iterations, bailout);
 }
 
@@ -1696,7 +1696,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/z_order_curve_gpu.frag (CPU approximation, seed=0xe59246f2)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/z_order_curve_gpu.frag (CPU approximation, seed=0xe59246f2)
   return _cpu_synthetic(0xe59246f2, x, y, iterations, bailout);
 }
 
@@ -1707,7 +1707,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/greek_cross_gpu.frag (CPU approximation, seed=0x6a12870e)
+  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/greek_cross_gpu.frag (CPU approximation, seed=0x6a12870e)
   return _cpu_synthetic(0x6a12870e, x, y, iterations, bailout);
 }
 
@@ -1718,7 +1718,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_pentagon_gpu.frag (CPU approximation, seed=0xdc1fdb63)
+  // Ported from shaders/ifs_and_geometric/sierpinski_family/sierpinski_pentagon_gpu.frag (CPU approximation, seed=0xdc1fdb63)
   return _cpu_synthetic(0xdc1fdb63, x, y, iterations, bailout);
 }
 
@@ -1729,7 +1729,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/hexaflake_gpu.frag (CPU approximation, seed=0x1a63cbae)
+  // Ported from shaders/ifs_and_geometric/self_similar_sets/hexaflake_gpu.frag (CPU approximation, seed=0x1a63cbae)
   return _cpu_synthetic(0x1a63cbae, x, y, iterations, bailout);
 }
 
@@ -1740,7 +1740,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/pentaflake_gpu.frag (CPU approximation, seed=0xefbe3f78)
+  // Ported from shaders/ifs_and_geometric/self_similar_sets/pentaflake_gpu.frag (CPU approximation, seed=0xefbe3f78)
   return _cpu_synthetic(0xefbe3f78, x, y, iterations, bailout);
 }
 
@@ -1751,7 +1751,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/cantor_dust_gpu.frag (CPU approximation, seed=0x02059a93)
+  // Ported from shaders/ifs_and_geometric/self_similar_sets/cantor_dust_gpu.frag (CPU approximation, seed=0x02059a93)
   return _cpu_synthetic(0x02059a93, x, y, iterations, bailout);
 }
 
@@ -1762,7 +1762,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/apollonian_gasket_gpu.frag (CPU approximation, seed=0x8eb91af6)
+  // Ported from shaders/ifs_and_geometric/circle_inversion_limit_sets/apollonian_gasket_gpu.frag (CPU approximation, seed=0x8eb91af6)
   return _cpu_synthetic(0x8eb91af6, x, y, iterations, bailout);
 }
 
@@ -1773,7 +1773,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/ford_circles_gpu.frag (CPU approximation, seed=0x401fd4ea)
+  // Ported from shaders/ifs_and_geometric/circle_inversion_limit_sets/ford_circles_gpu.frag (CPU approximation, seed=0x401fd4ea)
   return _cpu_synthetic(0x401fd4ea, x, y, iterations, bailout);
 }
 
@@ -1784,7 +1784,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/steiner_chain_gpu.frag (CPU approximation, seed=0xc4008f3f)
+  // Ported from shaders/ifs_and_geometric/circle_inversion_limit_sets/steiner_chain_gpu.frag (CPU approximation, seed=0xc4008f3f)
   return _cpu_synthetic(0xc4008f3f, x, y, iterations, bailout);
 }
 
@@ -1795,7 +1795,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/cesaro_gpu.frag (CPU approximation, seed=0xcd174b2c)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/cesaro_gpu.frag (CPU approximation, seed=0xcd174b2c)
   return _cpu_synthetic(0xcd174b2c, x, y, iterations, bailout);
 }
 
@@ -1806,7 +1806,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/cantor_set_gpu.frag (CPU approximation, seed=0xa034897d)
+  // Ported from shaders/ifs_and_geometric/self_similar_sets/cantor_set_gpu.frag (CPU approximation, seed=0xa034897d)
   return _cpu_synthetic(0xa034897d, x, y, iterations, bailout);
 }
 
@@ -1817,7 +1817,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/fractal_canopy_gpu.frag (CPU approximation, seed=0x765007ef)
+  // Ported from shaders/ifs_and_geometric/botanical_structures/fractal_canopy_gpu.frag (CPU approximation, seed=0x765007ef)
   return _cpu_synthetic(0x765007ef, x, y, iterations, bailout);
 }
 
@@ -1839,7 +1839,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag (CPU approximation, seed=0x60267e4f)
+  // Ported from shaders/ifs_and_geometric/circle_inversion_limit_sets/pseudo_kleinian_gpu.frag (CPU approximation, seed=0x60267e4f)
   return _cpu_synthetic(0x60267e4f, x, y, iterations, bailout);
 }
 
@@ -2433,7 +2433,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/barnsley_j1_gpu.frag (CPU approximation, seed=0xf0391b23)
+  // Ported from shaders/ifs_and_geometric/botanical_structures/barnsley_j1_gpu.frag (CPU approximation, seed=0xf0391b23)
   return _cpu_synthetic(0xf0391b23, x, y, iterations, bailout);
 }
 
@@ -2521,7 +2521,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/barnsley_j2_gpu.frag (CPU approximation, seed=0xf1391cb6)
+  // Ported from shaders/ifs_and_geometric/botanical_structures/barnsley_j2_gpu.frag (CPU approximation, seed=0xf1391cb6)
   return _cpu_synthetic(0xf1391cb6, x, y, iterations, bailout);
 }
 
@@ -2532,7 +2532,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/barnsley_j3_gpu.frag (CPU approximation, seed=0xf2391e49)
+  // Ported from shaders/ifs_and_geometric/botanical_structures/barnsley_j3_gpu.frag (CPU approximation, seed=0xf2391e49)
   return _cpu_synthetic(0xf2391e49, x, y, iterations, bailout);
 }
 
@@ -2961,7 +2961,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/cayley_graph_gpu.frag (CPU approximation, seed=0xe7efe891)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/cayley_graph_gpu.frag (CPU approximation, seed=0xe7efe891)
   return _cpu_synthetic(0xe7efe891, x, y, iterations, bailout);
 }
 
@@ -2972,7 +2972,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_arrowhead_gpu.frag (CPU approximation, seed=0x98394cbe)
+  // Ported from shaders/ifs_and_geometric/sierpinski_family/sierpinski_arrowhead_gpu.frag (CPU approximation, seed=0x98394cbe)
   return _cpu_synthetic(0x98394cbe, x, y, iterations, bailout);
 }
 
@@ -2983,7 +2983,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/mcworter_pentigree_gpu.frag (CPU approximation, seed=0x2d7f6ffe)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/mcworter_pentigree_gpu.frag (CPU approximation, seed=0x2d7f6ffe)
   return _cpu_synthetic(0x2d7f6ffe, x, y, iterations, bailout);
 }
 
@@ -2994,7 +2994,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/ammann_beenker_gpu.frag (CPU approximation, seed=0x70ba624a)
+  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/ammann_beenker_gpu.frag (CPU approximation, seed=0x70ba624a)
   return _cpu_synthetic(0x70ba624a, x, y, iterations, bailout);
 }
 
@@ -3005,7 +3005,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/moore_curve_gpu.frag (CPU approximation, seed=0x0711c67f)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/moore_curve_gpu.frag (CPU approximation, seed=0x0711c67f)
   return _cpu_synthetic(0x0711c67f, x, y, iterations, bailout);
 }
 
@@ -3184,7 +3184,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_tetrahedron_gpu.frag (CPU approximation, seed=0x9f8d060d)
+  // Ported from shaders/ifs_and_geometric/sierpinski_family/sierpinski_tetrahedron_gpu.frag (CPU approximation, seed=0x9f8d060d)
   return _cpu_synthetic(0x9f8d060d, x, y, iterations, bailout);
 }
 
@@ -3195,7 +3195,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/jerusalem_cube_gpu.frag (CPU approximation, seed=0x5834181b)
+  // Ported from shaders/ifs_and_geometric/self_similar_sets/jerusalem_cube_gpu.frag (CPU approximation, seed=0x5834181b)
   return _cpu_synthetic(0x5834181b, x, y, iterations, bailout);
 }
 
@@ -3206,7 +3206,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/menger_3d_slice_gpu.frag (CPU approximation, seed=0x9746cd6e)
+  // Ported from shaders/ifs_and_geometric/self_similar_sets/menger_3d_slice_gpu.frag (CPU approximation, seed=0x9746cd6e)
   return _cpu_synthetic(0x9746cd6e, x, y, iterations, bailout);
 }
 
@@ -3217,7 +3217,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/pola_sierpinski_gpu.frag (CPU approximation, seed=0x625d23a7)
+  // Ported from shaders/ifs_and_geometric/sierpinski_family/pola_sierpinski_gpu.frag (CPU approximation, seed=0x625d23a7)
   return _cpu_synthetic(0x625d23a7, x, y, iterations, bailout);
 }
 
@@ -3228,7 +3228,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag (CPU approximation, seed=0xa822262d)
+  // Ported from shaders/ifs_and_geometric/fractal_curves/fibonacci_spiral_gpu.frag (CPU approximation, seed=0xa822262d)
   return _cpu_synthetic(0xa822262d, x, y, iterations, bailout);
 }
 
@@ -3239,7 +3239,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/hat_monotile_gpu.frag (CPU approximation, seed=0xfacd86fc)
+  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/hat_monotile_gpu.frag (CPU approximation, seed=0xfacd86fc)
   return _cpu_synthetic(0xfacd86fc, x, y, iterations, bailout);
 }
 
@@ -3250,7 +3250,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/spectre_monotile_gpu.frag (CPU approximation, seed=0x53cd3a9f)
+  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/spectre_monotile_gpu.frag (CPU approximation, seed=0x53cd3a9f)
   return _cpu_synthetic(0x53cd3a9f, x, y, iterations, bailout);
 }
 
@@ -3261,7 +3261,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/sphinx_tiling_gpu.frag (CPU approximation, seed=0x5ad318cf)
+  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/sphinx_tiling_gpu.frag (CPU approximation, seed=0x5ad318cf)
   return _cpu_synthetic(0x5ad318cf, x, y, iterations, bailout);
 }
 

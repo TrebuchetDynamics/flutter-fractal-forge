@@ -28,8 +28,8 @@ void main() {
       // Standalone 3D modules
       'shaders/legacy/mandelbulb.frag',
       'shaders/3d_and_hypercomplex/mandelbox_3d_gpu.frag',
-      'shaders/ifs_and_geometric/menger_sponge_gpu.frag',
-      'shaders/ifs_and_geometric/menger_3d_slice_gpu.frag',
+      'shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag',
+      'shaders/ifs_and_geometric/self_similar_sets/menger_3d_slice_gpu.frag',
       'shaders/3d_and_hypercomplex/quaternion_julia_2d_gpu.frag',
     ];
 
