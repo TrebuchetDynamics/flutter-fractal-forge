@@ -141,9 +141,47 @@ class _DeepLinkRoute {
   }
 }
 
+class _BoundedDoubleQueryParam {
+  final String name;
+  final double min;
+  final double max;
+
+  const _BoundedDoubleQueryParam(this.name, this.min, this.max);
+
+  double? parse(Map<String, String> params) {
+    return DeepLinkService._parseBoundedDouble(params[name], min, max, name);
+  }
+}
+
+class _BoundedIntQueryParam {
+  final String name;
+  final int min;
+  final int max;
+
+  const _BoundedIntQueryParam(this.name, this.min, this.max);
+
+  int? parse(Map<String, String> params) {
+    return DeepLinkService._parseBoundedInt(params[name], min, max, name);
+  }
+}
+
 class DeepLinkService {
   static const String scheme = 'fractalforge';
   static const String host = 'view';
+
+  static const _zoomParam = _BoundedDoubleQueryParam('zoom', 0.001, 1e15);
+  static const _xParam = _BoundedDoubleQueryParam('x', -1e10, 1e10);
+  static const _yParam = _BoundedDoubleQueryParam('y', -1e10, 1e10);
+  static const _rotXParam = _BoundedDoubleQueryParam('rotX', -1e10, 1e10);
+  static const _rotYParam = _BoundedDoubleQueryParam('rotY', -1e10, 1e10);
+  static const _rotZParam = _BoundedDoubleQueryParam('rotZ', -1e10, 1e10);
+  static const _iterationsParam = _BoundedIntQueryParam('iterations', 1, 10000);
+  static const _bailoutParam = _BoundedDoubleQueryParam('bailout', 1.0, 1e10);
+  static const _colorSchemeParam =
+      _BoundedIntQueryParam('colorScheme', 0, 9999);
+  static const _powerParam = _BoundedDoubleQueryParam('power', 1, 20);
+  static const _juliaXParam = _BoundedDoubleQueryParam('juliaX', -1e10, 1e10);
+  static const _juliaYParam = _BoundedDoubleQueryParam('juliaY', -1e10, 1e10);
 
   // Method channel for receiving deep links from native code
   static const MethodChannel _channel =
@@ -243,20 +281,18 @@ class DeepLinkService {
 
     return DeepLinkData(
       type: type,
-      zoom: _parseBoundedDouble(params['zoom'], 0.001, 1e15, 'zoom'),
-      x: _parseBoundedDouble(params['x'], -1e10, 1e10, 'x'),
-      y: _parseBoundedDouble(params['y'], -1e10, 1e10, 'y'),
-      rotX: _parseBoundedDouble(params['rotX'], -1e10, 1e10, 'rotX'),
-      rotY: _parseBoundedDouble(params['rotY'], -1e10, 1e10, 'rotY'),
-      rotZ: _parseBoundedDouble(params['rotZ'], -1e10, 1e10, 'rotZ'),
-      iterations:
-          _parseBoundedInt(params['iterations'], 1, 10000, 'iterations'),
-      bailout: _parseBoundedDouble(params['bailout'], 1.0, 1e10, 'bailout'),
-      colorScheme:
-          _parseBoundedInt(params['colorScheme'], 0, 9999, 'colorScheme'),
-      power: _parseBoundedDouble(params['power'], 1, 20, 'power'),
-      juliaX: _parseBoundedDouble(params['juliaX'], -1e10, 1e10, 'juliaX'),
-      juliaY: _parseBoundedDouble(params['juliaY'], -1e10, 1e10, 'juliaY'),
+      zoom: _zoomParam.parse(params),
+      x: _xParam.parse(params),
+      y: _yParam.parse(params),
+      rotX: _rotXParam.parse(params),
+      rotY: _rotYParam.parse(params),
+      rotZ: _rotZParam.parse(params),
+      iterations: _iterationsParam.parse(params),
+      bailout: _bailoutParam.parse(params),
+      colorScheme: _colorSchemeParam.parse(params),
+      power: _powerParam.parse(params),
+      juliaX: _juliaXParam.parse(params),
+      juliaY: _juliaYParam.parse(params),
     );
   }
 
@@ -275,13 +311,13 @@ class DeepLinkService {
 
     // Add view state
     if (view.zoom != 1.0) {
-      queryParams['zoom'] = _formatDouble(view.zoom);
+      queryParams['zoom'] = _formatDouble(view.zoom, preservePrecision: true);
     }
     if (view.pan.x != 0.0) {
-      queryParams['x'] = _formatDouble(view.pan.x);
+      queryParams['x'] = _formatDouble(view.pan.x, preservePrecision: true);
     }
     if (view.pan.y != 0.0) {
-      queryParams['y'] = _formatDouble(view.pan.y);
+      queryParams['y'] = _formatDouble(view.pan.y, preservePrecision: true);
     }
     if (view.rotation.x != 0.0) {
       queryParams['rotX'] = _formatDouble(view.rotation.x);
@@ -361,10 +397,23 @@ class DeepLinkService {
     return clamped;
   }
 
-  static String _formatDouble(double value) {
-    // Remove trailing zeros for cleaner URLs
-    final formatted = value.toStringAsFixed(6);
-    return formatted.replaceAll(RegExp(r'\.?0+$'), '');
+  static String _formatDouble(
+    double value, {
+    bool preservePrecision = false,
+  }) {
+    // Keep integer-looking values compact without truncating significant deep-zoom
+    // view coordinates that need more than six decimal places to round-trip.
+    if (value == value.truncateToDouble()) {
+      return value.toInt().toString();
+    }
+
+    final compactFixed =
+        value.toStringAsFixed(6).replaceAll(RegExp(r'\.?0+$'), '');
+    if (!preservePrecision || double.tryParse(compactFixed) == value) {
+      return compactFixed;
+    }
+
+    return value.toString();
   }
 
   static void _addDoubleQueryParam(

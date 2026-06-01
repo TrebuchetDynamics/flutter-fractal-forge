@@ -310,6 +310,27 @@ void main() {
         expect(parsed.colorScheme, 1);
       });
 
+      test('deep zoom round-trip preserves significant pan digits', () {
+        final originalView = FractalViewState(
+          pan: Vector2(-0.743643887037151, 0.13182590420533),
+          zoom: 1250000000000.0,
+          rotation: Vector3.zero(),
+        );
+
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbrot',
+          params: const {},
+          view: originalView,
+        );
+
+        final parsed = DeepLinkService.parseUri(uri);
+
+        expect(parsed, isNotNull);
+        expect(parsed!.x, closeTo(originalView.pan.x, 1e-15));
+        expect(parsed.y, closeTo(originalView.pan.y, 1e-15));
+        expect(parsed.zoom, originalView.zoom);
+      });
+
       test('complete round-trip with all parameters preserves values', () {
         final originalView = FractalViewState(
           pan: Vector2(0.3, -0.15),
