@@ -192,31 +192,65 @@ class AndroidEmulatorSignals {
   });
 
   bool get isEmulator =>
-      _cpuInfoHasEmulatorMarker(cpuInfo) ||
-      _hardwareHasEmulatorMarker(hardware) ||
-      buildCharacteristics.toLowerCase().contains('emulator') ||
-      productModel.toLowerCase().contains('sdk_gphone') ||
-      _buildPropHasEmulatorMarker(buildProp);
+      AndroidEmulatorMarkerCatalog.hasCpuInfoMarker(cpuInfo) ||
+      AndroidEmulatorMarkerCatalog.hasHardwareMarker(hardware) ||
+      AndroidEmulatorMarkerCatalog.hasBuildCharacteristicsMarker(
+        buildCharacteristics,
+      ) ||
+      AndroidEmulatorMarkerCatalog.hasProductModelMarker(productModel) ||
+      AndroidEmulatorMarkerCatalog.hasBuildPropMarker(buildProp);
+}
 
-  static bool _cpuInfoHasEmulatorMarker(String value) {
-    final normalized = value.toLowerCase();
-    return normalized.contains('ranchu') ||
-        normalized.contains('goldfish') ||
-        normalized.contains('qemu') ||
-        normalized.contains('android virtual processor');
+/// Named emulator marker contract used by Android emulator signal detection.
+///
+/// The markers are intentionally conservative: substring checks are used only
+/// for fields that can contain labels or full property files, while the direct
+/// `ro.hardware` value must match a known virtual hardware token exactly.
+class AndroidEmulatorMarkerCatalog {
+  static const List<String> cpuInfoSubstrings = [
+    'ranchu',
+    'goldfish',
+    'qemu',
+    'android virtual processor',
+  ];
+  static const List<String> exactHardwareValues = ['ranchu', 'goldfish'];
+  static const List<String> buildCharacteristicsSubstrings = ['emulator'];
+  static const List<String> productModelSubstrings = [
+    'sdk_gphone',
+    'android sdk built for',
+  ];
+  static const List<String> buildPropSubstrings = [
+    'ro.hardware=goldfish',
+    'ro.hardware=ranchu',
+    'sdk_gphone',
+    'generic_x86',
+  ];
+
+  const AndroidEmulatorMarkerCatalog._();
+
+  static bool hasCpuInfoMarker(String value) {
+    return _containsAny(value, cpuInfoSubstrings);
   }
 
-  static bool _hardwareHasEmulatorMarker(String value) {
-    final normalized = value.trim().toLowerCase();
-    return normalized == 'ranchu' || normalized == 'goldfish';
+  static bool hasHardwareMarker(String value) {
+    return exactHardwareValues.contains(value.trim().toLowerCase());
   }
 
-  static bool _buildPropHasEmulatorMarker(String value) {
+  static bool hasBuildCharacteristicsMarker(String value) {
+    return _containsAny(value, buildCharacteristicsSubstrings);
+  }
+
+  static bool hasProductModelMarker(String value) {
+    return _containsAny(value, productModelSubstrings);
+  }
+
+  static bool hasBuildPropMarker(String value) {
+    return _containsAny(value, buildPropSubstrings);
+  }
+
+  static bool _containsAny(String value, List<String> markers) {
     final normalized = value.toLowerCase();
-    return normalized.contains('ro.hardware=goldfish') ||
-        normalized.contains('ro.hardware=ranchu') ||
-        normalized.contains('sdk_gphone') ||
-        normalized.contains('generic_x86');
+    return markers.any(normalized.contains);
   }
 }
 

@@ -202,6 +202,7 @@ void main() {
         AndroidEmulatorSignals(hardware: ' goldfish\n'),
         AndroidEmulatorSignals(buildCharacteristics: 'nosdcard,emulator'),
         AndroidEmulatorSignals(productModel: 'sdk_gphone64_x86_64'),
+        AndroidEmulatorSignals(productModel: 'Android SDK built for x86'),
         AndroidEmulatorSignals(buildProp: 'ro.hardware=ranchu\n'),
         AndroidEmulatorSignals(buildProp: 'ro.product.cpu.abi=generic_x86'),
       ];
