@@ -15,13 +15,17 @@ class AutoExploreRuntimeState {
     required this.isUserInteracting,
     required this.pausedByUserCorrection,
   }) : assert(
-          !pausedByUserCorrection ||
-              (isExploring && !isPaused && isUserInteracting),
-          'pausedByUserCorrection is only valid during an active user interaction',
+          !pausedByUserCorrection || (isExploring && !isPaused),
+          'pausedByUserCorrection is only valid while auto-explore is armed',
         );
 
   /// A new auto-zoom leg can start only when auto-explore owns motion.
-  bool get canScheduleZoomLeg => isExploring && !isPaused && !isUserInteracting;
+  ///
+  /// Treat [pausedByUserCorrection] as its own motion blocker instead of
+  /// relying on [isUserInteracting] to also be true. That keeps release builds
+  /// safe if timer callbacks observe a transient flag-order mismatch.
+  bool get canScheduleZoomLeg =>
+      isExploring && !isPaused && !isUserInteracting && !pausedByUserCorrection;
 
   /// An in-flight animation must stop as soon as auto-explore loses motion.
   bool get shouldInterruptAnimation => !canScheduleZoomLeg;

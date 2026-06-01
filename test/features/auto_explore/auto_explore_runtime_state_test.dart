@@ -33,13 +33,31 @@ void main() {
           isUserInteracting: true,
           pausedByUserCorrection: true,
         ),
+        const AutoExploreRuntimeState(
+          isExploring: true,
+          isPaused: false,
+          isUserInteracting: false,
+          pausedByUserCorrection: true,
+        ),
       ]) {
         expect(state.canScheduleZoomLeg, isFalse);
         expect(state.shouldInterruptAnimation, isTrue);
       }
     });
 
-    test('characterizes user-correction pause as active interaction only', () {
+    test('keeps user-correction pause as an explicit motion blocker', () {
+      final yieldedWithoutInteraction = const AutoExploreRuntimeState(
+        isExploring: true,
+        isPaused: false,
+        isUserInteracting: false,
+        pausedByUserCorrection: true,
+      );
+
+      expect(yieldedWithoutInteraction.canScheduleZoomLeg, isFalse);
+      expect(yieldedWithoutInteraction.shouldInterruptAnimation, isTrue);
+    });
+
+    test('characterizes user-correction pause as armed auto-explore only', () {
       expect(
         () => AutoExploreRuntimeState(
           isExploring: true,
@@ -51,7 +69,7 @@ void main() {
       );
       expect(
         () => AutoExploreRuntimeState(
-          isExploring: true,
+          isExploring: false,
           isPaused: false,
           isUserInteracting: false,
           pausedByUserCorrection: true,
