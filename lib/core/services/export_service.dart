@@ -9,6 +9,52 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 
+/// Replayable filename contract for exported files.
+///
+/// Both caller-supplied prefix and fractal type become path-safe filename
+/// segments. Empty or fully-unsafe prefixes fall back to `fractal` so the
+/// generated filename is never hidden, absolute, or parent-relative.
+class ExportFilenameParts {
+  final String prefix;
+  final ExportFormat format;
+  final String? fractalType;
+  final int timestampMillis;
+
+  const ExportFilenameParts({
+    required this.prefix,
+    required this.format,
+    required this.timestampMillis,
+    this.fractalType,
+  });
+
+  String get safePrefix => _sanitizeSegment(prefix, fallback: 'fractal')!;
+
+  String? get safeFractalType {
+    final value = fractalType;
+    if (value == null) return null;
+    return _sanitizeSegment(value, fallback: null);
+  }
+
+  String get filename {
+    final type = safeFractalType;
+    final typePart = type == null ? '' : '_$type';
+    return '$safePrefix${typePart}_$timestampMillis.${format.extension}';
+  }
+
+  static String? _sanitizeSegment(String value, {required String? fallback}) {
+    final sanitized = value
+        .trim()
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9_\-]+'), '_')
+        .replaceAll(RegExp(r'_+'), '_')
+        .replaceAll(RegExp(r'^[_\-.]+|[_\-.]+$'), '');
+    if (sanitized.isEmpty || sanitized == '.' || sanitized == '..') {
+      return fallback;
+    }
+    return sanitized;
+  }
+}
+
 class ExportService {
   static const MethodChannel _mediaStoreChannel =
       MethodChannel('fractalforge/media_store');
@@ -300,20 +346,18 @@ class ExportService {
     return result;
   }
 
-  /// Strips unsafe characters from a name used in file paths.
-  static String _sanitizeName(String name) =>
-      name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9_\-]'), '_');
-
   /// Generate a filename with timestamp and format extension
   String generateFilename({
     String prefix = 'fractal',
     required ExportFormat format,
     String? fractalType,
   }) {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final typePart =
-        fractalType != null ? '_${_sanitizeName(fractalType)}' : '';
-    return '$prefix${typePart}_$timestamp.${format.extension}';
+    return ExportFilenameParts(
+      prefix: prefix,
+      format: format,
+      fractalType: fractalType,
+      timestampMillis: DateTime.now().millisecondsSinceEpoch,
+    ).filename;
   }
 
   Future<File> saveBytes(Uint8List bytes, {required String filename}) async {

@@ -49,6 +49,33 @@ void main() {
       expect(name, endsWith('.webp'));
     });
 
+    test('sanitizes prefix and fractal type before building file path names',
+        () {
+      const parts = ExportFilenameParts(
+        prefix: ' ../My Export// ',
+        fractalType: ' Burning Ship/../../Secrets ',
+        timestampMillis: 1234,
+        format: ExportFormat.png,
+      );
+
+      expect(parts.safePrefix, 'my_export');
+      expect(parts.safeFractalType, 'burning_ship_secrets');
+      expect(parts.filename, 'my_export_burning_ship_secrets_1234.png');
+      expect(parts.filename, isNot(contains('/')));
+      expect(parts.filename, isNot(startsWith('.')));
+    });
+
+    test('falls back when prefix has no safe filename characters', () {
+      const parts = ExportFilenameParts(
+        prefix: '../..',
+        timestampMillis: 1234,
+        format: ExportFormat.jpg,
+      );
+
+      expect(parts.safePrefix, 'fractal');
+      expect(parts.filename, 'fractal_1234.jpg');
+    });
+
     test('includes timestamp for uniqueness', () {
       final name1 = service.generateFilename(format: ExportFormat.png);
       final _ = service.generateFilename(format: ExportFormat.png);
