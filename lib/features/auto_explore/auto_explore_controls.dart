@@ -51,21 +51,25 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
         ? (l10n?.tooltipPauseExplore ?? 'Pause auto-explore')
         : (l10n?.tooltipStartExplore ?? 'Start auto-explore');
 
+    void activate() {
+      HapticFeedback.mediumImpact();
+      svc.toggle();
+    }
+
     return FadeIn(
       delay: widget.delay,
       child: Semantics(
         label: tooltip,
         button: true,
+        onTap: activate,
+        onLongPress: widget.onLongPress,
         child: Tooltip(
           message: tooltip,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
               GestureDetector(
-                onTap: () {
-                  HapticFeedback.mediumImpact();
-                  svc.toggle();
-                },
+                onTap: activate,
                 onLongPress: widget.onLongPress,
                 child: AnimatedBuilder(
                   animation: _pulse,
