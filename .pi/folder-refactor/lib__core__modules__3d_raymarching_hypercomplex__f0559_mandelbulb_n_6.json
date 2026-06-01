@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "target": "lib/core/modules/3d_raymarching_hypercomplex/f0559_mandelbulb_n_6",
+  "updatedAt": "2026-06-01T13:09:09.220Z",
+  "objective": "Refactor generated Mandelbulb n=6 module folder into responsibility subfolders while preserving the root module import path.",
+  "completedSlices": [
+    "Moved generated metadata descriptor to metadata/ and updated module import.",
+    "Moved generated presets descriptor to presets/ and updated module import.",
+    "Moved generated variants descriptor to variants/ and updated module import."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "Pre-refactor /home/xel/flutter/bin/flutter test test/modules/3d_raymarching_hypercomplex/f0559_mandelbulb_n_6/f0559_mandelbulb_n_6_module_test.dart failed before edits due unrelated pubspec shader asset error: No file or variants found for shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag.",
+    "Post-refactor /home/xel/flutter/bin/dart analyze lib/core/modules/3d_raymarching_hypercomplex/f0559_mandelbulb_n_6 test/modules/3d_raymarching_hypercomplex/f0559_mandelbulb_n_6: No issues found.",
+    "folder_refactor_audit passed with root facade f0559_mandelbulb_n_6_module.dart and no next candidates."
+  ]
+}
