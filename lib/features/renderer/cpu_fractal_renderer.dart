@@ -14,6 +14,7 @@ import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
 import 'package:flutter_fractals/features/renderer/cpu_tile_worker.dart';
 import 'package:flutter_fractals/features/renderer/cpu_iterators.dart';
+import 'package:flutter_fractals/features/renderer/cpu_viewport_mapping.dart';
 import 'package:flutter_fractals/features/renderer/convergence_detector.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
@@ -700,43 +701,6 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   }
 }
 
-class _CpuViewportMapping {
-  final double centerX;
-  final double centerY;
-  final double scale;
-  final double aspect;
-
-  _CpuViewportMapping({
-    required Vector2 viewPan,
-    required double viewZoom,
-    required int width,
-    required int height,
-  })  : centerX = viewPan.x,
-        centerY = viewPan.y,
-        scale = 1.5 / (viewZoom <= 0 ? 1.0 : viewZoom),
-        aspect = height == 0 ? 1.0 : width / height;
-
-  double normalizedPixel(int pixel, int extent) {
-    if (extent <= 1) return 0.0;
-    return (pixel / (extent - 1)) * 2.0 - 1.0;
-  }
-
-  double normalizedSample({
-    required int pixel,
-    required int extent,
-    required int sample,
-    required int samplesPerAxis,
-  }) {
-    if (extent <= 1) return 0.0;
-    final subPixel = pixel + (sample + 0.5) / samplesPerAxis;
-    return (subPixel / (extent - 1)) * 2.0 - 1.0;
-  }
-
-  (double x, double y) coordinate({required double nx, required double ny}) {
-    return (centerX + nx * scale * aspect, centerY + ny * scale);
-  }
-}
-
 class CpuRenderFrame {
   final Uint8List rgba;
   final int width;
@@ -775,7 +739,7 @@ Future<CpuRenderFrame> renderCpuFrame({
 }) async {
   // Mandelbrot viewport baseline: y in [-1.5, 1.5] => half-range 1.5
   // (matches tile/isolate renderer mapping).
-  final viewport = _CpuViewportMapping(
+  final viewport = CpuViewportMapping(
     viewPan: viewPan,
     viewZoom: viewZoom,
     width: width,
@@ -842,7 +806,7 @@ Future<Uint16List?> renderCpuIterationBuffer({
   required int width,
   required int height,
 }) async {
-  final viewport = _CpuViewportMapping(
+  final viewport = CpuViewportMapping(
     viewPan: viewPan,
     viewZoom: viewZoom,
     width: width,
