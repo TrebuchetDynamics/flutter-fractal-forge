@@ -194,6 +194,11 @@ class ExportOptions extends Equatable {
     return _positiveRoundedScreenDimension(screenValue);
   }
 
+  double _safeDimensionRatio(int targetDimension, double screenDimension) {
+    final safeScreenDimension = _positiveRoundedScreenDimension(screenDimension);
+    return targetDimension / safeScreenDimension;
+  }
+
   (int, int)? _orientedPresetDimensions(
       double screenWidth, double screenHeight) {
     final dims = resolution.dimensions;
@@ -219,8 +224,8 @@ class ExportOptions extends Equatable {
     final dims = _orientedPresetDimensions(screenWidth, screenHeight);
     if (dims != null) {
       // Use the larger ratio to ensure we meet target resolution
-      final widthRatio = dims.$1 / screenWidth;
-      final heightRatio = dims.$2 / screenHeight;
+      final widthRatio = _safeDimensionRatio(dims.$1, screenWidth);
+      final heightRatio = _safeDimensionRatio(dims.$2, screenHeight);
       // Use max to ensure we hit the target resolution on both axes
       return (widthRatio > heightRatio ? widthRatio : heightRatio)
           .clamp(1.0, 8.0);
@@ -229,10 +234,8 @@ class ExportOptions extends Equatable {
     if (resolution == ExportResolution.custom) {
       final targetWidth = _customOrScreenDimension(customWidth, screenWidth);
       final targetHeight = _customOrScreenDimension(customHeight, screenHeight);
-      final safeScreenWidth = _positiveRoundedScreenDimension(screenWidth);
-      final safeScreenHeight = _positiveRoundedScreenDimension(screenHeight);
-      final widthRatio = targetWidth / safeScreenWidth;
-      final heightRatio = targetHeight / safeScreenHeight;
+      final widthRatio = _safeDimensionRatio(targetWidth, screenWidth);
+      final heightRatio = _safeDimensionRatio(targetHeight, screenHeight);
       return (widthRatio > heightRatio ? widthRatio : heightRatio)
           .clamp(1.0, 8.0);
     }

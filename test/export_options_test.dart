@@ -67,6 +67,13 @@ void main() {
       expect(ratio, 8.0);
     });
 
+    test('calculatePixelRatio sanitizes invalid screen dimensions for presets',
+        () {
+      const options = ExportOptions(resolution: ExportResolution.fullHd);
+
+      expect(options.calculatePixelRatio(-400, -800), 8.0);
+    });
+
     test('getTargetDimensions returns correct dimensions', () {
       const options = ExportOptions(resolution: ExportResolution.instagram);
       final dims = options.getTargetDimensions(400, 800);
