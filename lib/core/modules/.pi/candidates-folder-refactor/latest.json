@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-01T13:01:15.359Z",
+  "generatedAt": "2026-06-01T13:02:49.918Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": "lib/core/modules",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/lib/core/modules",
@@ -152,7 +152,7 @@
       ]
     },
     {
-      "relative": "lib/core/modules/3d_raymarching_hypercomplex/f0555_mandelbulb_n_2",
+      "relative": "lib/core/modules/3d_raymarching_hypercomplex/f0556_mandelbulb_n_3",
       "score": 40.4,
       "files": 4,
       "direct": 4,
