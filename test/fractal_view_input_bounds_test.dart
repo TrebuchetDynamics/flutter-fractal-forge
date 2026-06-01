@@ -56,17 +56,35 @@ void main() {
       );
     });
 
+    test('preserves current rotation component when candidate is non-finite',
+        () {
+      expect(
+        FractalViewInputBounds.normalizeRotationComponent(
+          candidate: double.nan,
+          current: 0.75,
+        ),
+        0.75,
+      );
+      expect(
+        FractalViewInputBounds.normalizeRotationComponent(
+          candidate: double.infinity,
+          current: double.nan,
+        ),
+        0.0,
+      );
+    });
+
     test('normalizes externally loaded view snapshots as one invariant', () {
       final normalized = FractalViewInputBounds.normalizeView(
         candidate: FractalViewState(
           pan: Vector2(double.nan, double.infinity),
           zoom: double.nan,
-          rotation: Vector3(1, 2, 3),
+          rotation: Vector3(double.nan, double.infinity, 3),
         ),
         current: FractalViewState(
           pan: Vector2(0.5, -0.5),
           zoom: 42.0,
-          rotation: Vector3.zero(),
+          rotation: Vector3(0.25, double.nan, -1),
         ),
         moduleId: 'mandelbrot',
       );
@@ -74,7 +92,7 @@ void main() {
       expect(normalized.zoom, 42.0);
       expect(normalized.pan.x, 0.5);
       expect(normalized.pan.y, FractalViewInputBounds.maxPan);
-      expect(normalized.rotation, Vector3(1, 2, 3));
+      expect(normalized.rotation, Vector3(0.25, 0.0, 3));
     });
   });
 }

@@ -7,6 +7,8 @@ import 'package:vector_math/vector_math.dart';
 /// replayed state can occasionally contain NaN, and promoting that to max zoom
 /// or max pan makes failures hard to replay. Preserve the last known-good value
 /// for NaN while still clamping infinities to the explicit viewport limits.
+/// Rotation has no explicit UI bounds, but shader uniforms still require finite
+/// values; non-finite rotation components fall back to last known-good angles.
 final class FractalViewInputBounds {
   static const double maxZoom = 1e12;
   static const double defaultMinZoom = 1e-9;
@@ -46,9 +48,29 @@ final class FractalViewInputBounds {
     return candidate.clamp(minPan, maxPan).toDouble();
   }
 
+  static double normalizeRotationComponent({
+    required double candidate,
+    required double current,
+  }) {
+    if (candidate.isFinite) return candidate;
+    return current.isFinite ? current : 0.0;
+  }
+
+  static Vector3 normalizeRotation({
+    required Vector3 candidate,
+    required Vector3 current,
+  }) {
+    return Vector3(
+      normalizeRotationComponent(candidate: candidate.x, current: current.x),
+      normalizeRotationComponent(candidate: candidate.y, current: current.y),
+      normalizeRotationComponent(candidate: candidate.z, current: current.z),
+    );
+  }
+
   /// Sanitizes externally supplied view snapshots before they become controller
   /// state. Finite values preserve existing behavior; NaN values fall back to
-  /// the last known-good view while infinities clamp to explicit bounds.
+  /// the last known-good view while infinities clamp to explicit bounds or, for
+  /// unbounded rotation, fall back to the last known-good finite angle.
   static FractalViewState normalizeView({
     required FractalViewState candidate,
     required FractalViewState current,
@@ -65,6 +87,10 @@ final class FractalViewInputBounds {
         candidate: candidate.zoom,
         currentZoom: current.zoom,
         moduleId: moduleId,
+      ),
+      rotation: normalizeRotation(
+        candidate: candidate.rotation,
+        current: current.rotation,
       ),
     );
   }
