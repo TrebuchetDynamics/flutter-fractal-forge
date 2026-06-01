@@ -378,12 +378,19 @@ void main() {
           maxDurationScale: 1e308,
         ),
       );
+      const finiteButDurationOverflowingPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1000),
+          maxDurationScale: 1e16,
+        ),
+      );
 
       for (final planner in [
         nanScalePlanner,
         infiniteScalePlanner,
         belowNeutralScalePlanner,
         overflowingFiniteScalePlanner,
+        finiteButDurationOverflowingPlanner,
       ]) {
         expect(
           planner.durationForZoomLeg(

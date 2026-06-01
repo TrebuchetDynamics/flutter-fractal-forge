@@ -185,6 +185,11 @@ class AutoExploreDurationScale {
 /// This keeps duration planning replayable even when a finite-but-huge config
 /// value overflows during multiplication before [double.round].
 class AutoExploreLegDuration {
+  // Dart Duration stores microseconds in a signed 64-bit field. Millisecond
+  // candidates above this can overflow into negative durations after the
+  // milliseconds-to-microseconds conversion.
+  static const int _maxSafeDurationMilliseconds = 9223372036854;
+
   const AutoExploreLegDuration._();
 
   static int milliseconds({
@@ -212,7 +217,11 @@ class AutoExploreLegDuration {
     double value, {
     required int fallback,
   }) {
-    if (!value.isFinite || value <= 0.0) return fallback;
+    if (!value.isFinite ||
+        value <= 0.0 ||
+        value > _maxSafeDurationMilliseconds) {
+      return fallback;
+    }
     return value.round();
   }
 }
