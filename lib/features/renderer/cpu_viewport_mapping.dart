@@ -34,7 +34,9 @@ final class CpuViewportMapping {
   }) {
     if (extent <= 1) return 0.0;
     final safeSamples = samplesPerAxis <= 0 ? 1 : samplesPerAxis;
-    final subPixel = pixel + (sample + 0.5) / safeSamples;
+    final safePixel = pixel.clamp(0, extent - 1).toInt();
+    final safeSample = sample.clamp(0, safeSamples - 1).toInt();
+    final subPixel = safePixel + (safeSample + 0.5) / safeSamples;
     return (subPixel / extent) * 2.0 - 1.0;
   }
 

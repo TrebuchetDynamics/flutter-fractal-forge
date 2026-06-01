@@ -13,18 +13,52 @@ void main() {
         height: 2,
       );
 
-      expect(viewport.normalizedSample(
-        pixel: 0,
-        extent: 2,
-        sample: 0,
-        samplesPerAxis: 1,
-      ), closeTo(-0.5, 1e-12));
-      expect(viewport.normalizedSample(
-        pixel: 1,
-        extent: 2,
-        sample: 0,
-        samplesPerAxis: 1,
-      ), closeTo(0.5, 1e-12));
+      expect(
+        viewport.normalizedSample(
+          pixel: 0,
+          extent: 2,
+          sample: 0,
+          samplesPerAxis: 1,
+        ),
+        closeTo(-0.5, 1e-12),
+      );
+      expect(
+        viewport.normalizedSample(
+          pixel: 1,
+          extent: 2,
+          sample: 0,
+          samplesPerAxis: 1,
+        ),
+        closeTo(0.5, 1e-12),
+      );
+    });
+
+    test('invalid subpixel sample candidates clamp to the pixel footprint', () {
+      final viewport = CpuViewportMapping(
+        viewPan: Vector2.zero(),
+        viewZoom: 1.0,
+        width: 2,
+        height: 2,
+      );
+
+      expect(
+        viewport.normalizedSample(
+          pixel: 1,
+          extent: 2,
+          sample: 4,
+          samplesPerAxis: 2,
+        ),
+        closeTo(0.75, 1e-12),
+      );
+      expect(
+        viewport.normalizedSample(
+          pixel: 0,
+          extent: 2,
+          sample: -1,
+          samplesPerAxis: 2,
+        ),
+        closeTo(-0.75, 1e-12),
+      );
     });
 
     test('edge pixels preserve iteration-buffer edge-inclusive contract', () {
