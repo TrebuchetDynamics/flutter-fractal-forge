@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "lib/core/modules/3d_raymarching_hypercomplex/f0558_mandelbulb_n_5",
+  "updatedAt": "2026-06-01T13:07:17.114Z",
+  "objective": "Refactor f0558_mandelbulb_n_5 into responsibility folders while preserving the public module entrypoint. Boundaries: metadata owns immutable catalog identity/citations; presets owns named parameter presets; variants owns named parameter variants; root module facade wires Raymarched3DModule behavior and must not absorb descriptor internals.",
+  "completedSlices": [
+    "Moved generated metadata descriptor into metadata/ and updated module import.",
+    "Moved generated presets descriptor into presets/ and updated module import.",
+    "Moved generated variants descriptor into variants/ and updated module import.",
+    "Completed shared-code pass: no local extraction because preset/variant record types and Citation each have only one concrete target-folder call site; no speculative shared abstraction created."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "Pre-refactor flutter test test/modules/3d_raymarching_hypercomplex/f0558_mandelbulb_n_5/f0558_mandelbulb_n_5_module_test.dart failed before edits due missing pubspec asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag.",
+    "Post-refactor /home/xel/flutter/bin/dart analyze lib/core/modules/3d_raymarching_hypercomplex/f0558_mandelbulb_n_5 test/modules/3d_raymarching_hypercomplex/f0558_mandelbulb_n_5: No issues found.",
+    "Post-refactor flutter test test/modules/3d_raymarching_hypercomplex/f0558_mandelbulb_n_5/f0558_mandelbulb_n_5_module_test.dart still fails due same missing pubspec asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag.",
+    "folder_refactor_audit passed with root facade f0558_mandelbulb_n_5_module.dart and no next candidates."
+  ]
+}
