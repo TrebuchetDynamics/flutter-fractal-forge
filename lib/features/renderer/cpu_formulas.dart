@@ -1402,7 +1402,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/tetration_gpu.frag: z = c^z (complex power)
+  // Ported from shaders/trigonometric_and_transcendental/exponential_iteration/tetration_gpu.frag: z = c^z (complex power)
   final cx = x;
   final cy = y;
   double zx = 1.0;
@@ -2367,7 +2367,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/sine_julia_gpu.frag (CPU approximation, seed=0x9db1fa6a)
+  // Ported from shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag (CPU approximation, seed=0x9db1fa6a)
   return _cpu_synthetic(0x9db1fa6a, x, y, iterations, bailout);
 }
 
@@ -2378,7 +2378,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/cosine_julia_gpu.frag (CPU approximation, seed=0x22f495bc)
+  // Ported from shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag (CPU approximation, seed=0x22f495bc)
   return _cpu_synthetic(0x22f495bc, x, y, iterations, bailout);
 }
 
@@ -2389,7 +2389,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/tangent_gpu.frag (CPU approximation, seed=0x262d6902)
+  // Ported from shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag (CPU approximation, seed=0x262d6902)
   return _cpu_synthetic(0x262d6902, x, y, iterations, bailout);
 }
 
@@ -2400,7 +2400,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/sinh_cosh_gpu.frag (CPU approximation, seed=0x12a65771)
+  // Ported from shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag (CPU approximation, seed=0x12a65771)
   return _cpu_synthetic(0x12a65771, x, y, iterations, bailout);
 }
 
@@ -2411,7 +2411,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/exponential_gpu.frag (CPU approximation, seed=0x05804268)
+  // Ported from shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag (CPU approximation, seed=0x05804268)
   return _cpu_synthetic(0x05804268, x, y, iterations, bailout);
 }
 
@@ -2477,7 +2477,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/secant_fractal_gpu.frag (CPU approximation, seed=0xcdfe1f35)
+  // Ported from shaders/trigonometric_and_transcendental/elementary_trig/secant_fractal_gpu.frag (CPU approximation, seed=0xcdfe1f35)
   return _cpu_synthetic(0xcdfe1f35, x, y, iterations, bailout);
 }
 
@@ -2488,7 +2488,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/secant_cosecant_gpu.frag (CPU approximation, seed=0xd9996fb8)
+  // Ported from shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag (CPU approximation, seed=0xd9996fb8)
   return _cpu_synthetic(0xd9996fb8, x, y, iterations, bailout);
 }
 
@@ -2620,7 +2620,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/cosine_mandelbrot_gpu.frag (CPU approximation, seed=0xe945eae9)
+  // Ported from shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag (CPU approximation, seed=0xe945eae9)
   return _cpu_synthetic(0xe945eae9, x, y, iterations, bailout);
 }
 
@@ -2631,7 +2631,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/tangent_mandelbrot_gpu.frag (CPU approximation, seed=0xe80b7a69)
+  // Ported from shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag (CPU approximation, seed=0xe80b7a69)
   return _cpu_synthetic(0xe80b7a69, x, y, iterations, bailout);
 }
 
@@ -2642,7 +2642,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/sinh_mandelbrot_gpu.frag (CPU approximation, seed=0xcfdc9102)
+  // Ported from shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag (CPU approximation, seed=0xcfdc9102)
   return _cpu_synthetic(0xcfdc9102, x, y, iterations, bailout);
 }
 
@@ -2653,7 +2653,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/cosh_mandelbrot_gpu.frag (CPU approximation, seed=0x3c5b7343)
+  // Ported from shaders/trigonometric_and_transcendental/hyperbolic/cosh_mandelbrot_gpu.frag (CPU approximation, seed=0x3c5b7343)
   return _cpu_synthetic(0x3c5b7343, x, y, iterations, bailout);
 }
 
@@ -2664,7 +2664,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/tanh_mandelbrot_gpu.frag (CPU approximation, seed=0xf5531caf)
+  // Ported from shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag (CPU approximation, seed=0xf5531caf)
   return _cpu_synthetic(0xf5531caf, x, y, iterations, bailout);
 }
 
@@ -3027,7 +3027,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/trigonometric_and_transcendental/zeta_gpu.frag (CPU approximation, seed=0xb4f73498)
+  // Ported from shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag (CPU approximation, seed=0xb4f73498)
   return _cpu_synthetic(0xb4f73498, x, y, iterations, bailout);
 }
 

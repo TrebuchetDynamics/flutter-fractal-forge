@@ -14,3 +14,4 @@
 {"ts":"2026-06-01T06:09:57-06:00","candidate":"test","reason":"sub-candidates exhausted this run","scope":"parent","state":"exhausted"}
 {"ts":"2026-06-01T06:14:05-06:00","candidate":"shaders/strange_attractors","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:14:05-06:00"}
 {"ts":"2026-06-01T06:15:53-06:00","candidate":"shaders/ifs_and_geometric","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:15:53-06:00"}
+{"ts":"2026-06-01T06:18:10-06:00","candidate":"shaders/trigonometric_and_transcendental","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:18:10-06:00"}

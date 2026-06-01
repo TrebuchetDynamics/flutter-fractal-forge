@@ -87,7 +87,7 @@ flutter:
     - shaders/escape_time_family/transcendental_maps/gamma_gpu.frag
     - shaders/escape_time_family/transcendental_maps/collatz_gpu.frag
     - shaders/escape_time_family/transcendental_maps/popcorn_gpu.frag
-    - shaders/trigonometric_and_transcendental/sine_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag
     - shaders/root_finding/newton_z3_gpu.frag
     - shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag
     - shaders/escape_time_family/transcendental_maps/lambda_gpu.frag
@@ -100,7 +100,7 @@ flutter:
     - shaders/escape_time_family/polynomial_maps/astroid_gpu.frag
     - shaders/escape_time_family/polynomial_maps/deltoid_gpu.frag
     - shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag
-    - shaders/trigonometric_and_transcendental/exponential_gpu.frag
+    - shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag
     - shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag
     - shaders/escape_time_family/experimental_named/spider_gpu.frag
     - shaders/escape_time_family/polynomial_maps/manowar_gpu.frag
@@ -108,13 +108,13 @@ flutter:
     - shaders/escape_time_family/polynomial_maps/glynn_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/simonbrot_gpu.frag
     - shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag
-    - shaders/trigonometric_and_transcendental/cosine_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag
     - shaders/ifs_and_geometric/barnsley_j1_gpu.frag
     - shaders/escape_time_family/experimental_named/fish_gpu.frag
     - shaders/escape_time_family/experimental_named/ducky_gpu.frag
     - shaders/root_finding/schroeder_gpu.frag
-    - shaders/trigonometric_and_transcendental/secant_fractal_gpu.frag
-    - shaders/trigonometric_and_transcendental/secant_cosecant_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/secant_fractal_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag
     - shaders/escape_time_family/transcendental_maps/taylor_gpu.frag
     - shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag
     - shaders/ifs_and_geometric/barnsley_j2_gpu.frag
@@ -126,20 +126,20 @@ flutter:
     - shaders/escape_time_family/families/burning_ship/burning_ship_julia_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag
     - shaders/escape_time_family/julia_variants/heart_gpu.frag
-    - shaders/trigonometric_and_transcendental/cosine_mandelbrot_gpu.frag
-    - shaders/trigonometric_and_transcendental/tangent_mandelbrot_gpu.frag
-    - shaders/trigonometric_and_transcendental/sinh_mandelbrot_gpu.frag
-    - shaders/trigonometric_and_transcendental/cosh_mandelbrot_gpu.frag
-    - shaders/trigonometric_and_transcendental/tanh_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/hyperbolic/cosh_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag
     - shaders/escape_time_family/transcendental_maps/log_spiral_gpu.frag
     - shaders/lyapunov_and_stability/lyapunov_gpu.frag
     - shaders/lyapunov_and_stability/logistic_lyapunov_gpu.frag
     - shaders/lyapunov_and_stability/circle_map_lyapunov_gpu.frag
     - shaders/lyapunov_and_stability/sine_map_lyapunov_gpu.frag
     - shaders/lyapunov_and_stability/tent_map_gpu.frag
-    - shaders/trigonometric_and_transcendental/tangent_gpu.frag
-    - shaders/trigonometric_and_transcendental/sinh_cosh_gpu.frag
-    - shaders/trigonometric_and_transcendental/tetration_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag
+    - shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag
+    - shaders/trigonometric_and_transcendental/exponential_iteration/tetration_gpu.frag
     - shaders/escape_time_family/polynomial_maps/talis_gpu.frag
     - shaders/root_finding/halley_gpu.frag
     - shaders/root_finding/householder_gpu.frag
@@ -229,10 +229,10 @@ flutter:
     - shaders/escape_time_family/core/escape_time_perturb_gpu.frag
     - shaders/root_finding/newton_z4_gpu.frag
     - shaders/root_finding/newton_z6_gpu.frag
-    - shaders/trigonometric_and_transcendental/tangent_julia_gpu.frag
-    - shaders/trigonometric_and_transcendental/sinh_julia_gpu.frag
-    - shaders/trigonometric_and_transcendental/cosh_julia_gpu.frag
-    - shaders/trigonometric_and_transcendental/tanh_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/tangent_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/hyperbolic/sinh_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/hyperbolic/cosh_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/hyperbolic/tanh_julia_gpu.frag
     - shaders/escape_time_family/families/burning_ship/burning_ship_power4_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag
     - shaders/escape_time_family/families/tricorn/tricorn_power4_gpu.frag
@@ -277,7 +277,7 @@ flutter:
     - shaders/ifs_and_geometric/ammann_beenker_gpu.frag
     - shaders/ifs_and_geometric/moore_curve_gpu.frag
     - shaders/escape_time_family/transcendental_maps/lambda_w_gpu.frag
-    - shaders/trigonometric_and_transcendental/zeta_gpu.frag
+    - shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag
     - shaders/escape_time_family/experimental_named/manair_fire_gpu.frag
     - shaders/escape_time_family/experimental_named/spider_x_gpu.frag
     - shaders/escape_time_family/transcendental_maps/popcorn2_gpu.frag
@@ -326,7 +326,7 @@ flutter:
     - shaders/escape_time_family/experimental_named/contused_fields_gpu.frag
     - shaders/escape_time_family/experimental_named/car_road_gpu.frag
     - shaders/escape_time_family/experimental_named/bullet_shot_gpu.frag
-    - shaders/trigonometric_and_transcendental/sine_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag
     - shaders/escape_time_family/experimental_named/drill_gpu.frag
     - shaders/3d_and_hypercomplex/3d_fractal_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/undefined_gpu.frag
@@ -347,7 +347,7 @@ flutter:
     - shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag
     - shaders/escape_time_family/families/burning_ship/burning_ship_cubic_julia_gpu.frag
     - shaders/escape_time_family/families/tricorn/tricorn_power5_gpu.frag
-    - shaders/trigonometric_and_transcendental/exponential_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/exponential_iteration/exponential_julia_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag
     - shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag
     - shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag
@@ -412,8 +412,8 @@ flutter:
     - shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag
     - shaders/escape_time_family/transcendental_maps/fatou_exp_gpu.frag
     - shaders/escape_time_family/transcendental_maps/sin_z2_gpu.frag
-    - shaders/trigonometric_and_transcendental/weierstrass_p_gpu.frag
-    - shaders/trigonometric_and_transcendental/weierstrass_roots_gpu.frag
+    - shaders/trigonometric_and_transcendental/special_functions/weierstrass_p_gpu.frag
+    - shaders/trigonometric_and_transcendental/special_functions/weierstrass_roots_gpu.frag
     - shaders/root_finding/steffensen_z3_gpu.frag
     - shaders/root_finding/steffensen_z4_gpu.frag
     - shaders/root_finding/steffensen_z5_gpu.frag
@@ -445,18 +445,18 @@ flutter:
     - shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag
     - shaders/escape_time_family/newton_and_orthogonal/chebyshev_fractal_gpu.frag
     - shaders/root_finding/chebyshev_halley_param_gpu.frag
-    - shaders/trigonometric_and_transcendental/cosecant_julia_gpu.frag
-    - shaders/trigonometric_and_transcendental/cosecant_mandelbrot_gpu.frag
-    - shaders/trigonometric_and_transcendental/cotangent_julia_gpu.frag
-    - shaders/trigonometric_and_transcendental/cotangent_mandelbrot_gpu.frag
-    - shaders/trigonometric_and_transcendental/dirichlet_eta_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/cosecant_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/cosecant_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/cotangent_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/cotangent_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/special_functions/dirichlet_eta_gpu.frag
     - shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/exp_additive_mandelbrot_gpu.frag
     - shaders/escape_time_family/experimental_named/fractal_dream_gpu.frag
     - shaders/cellular_and_stochastic/gray_scott_rd_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/hofstadter_butterfly_gpu.frag
     - shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag
-    - shaders/trigonometric_and_transcendental/jacobi_sn_gpu.frag
+    - shaders/trigonometric_and_transcendental/special_functions/jacobi_sn_gpu.frag
     - shaders/root_finding/jarratt_gpu.frag
     - shaders/escape_time_family/experimental_named/jason_rampe_1_gpu.frag
     - shaders/escape_time_family/experimental_named/jason_rampe_2_gpu.frag
@@ -465,7 +465,7 @@ flutter:
     - shaders/escape_time_family/newton_and_orthogonal/laguerre_fractal_gpu.frag
     - shaders/cellular_and_stochastic/lichtenberg_growth_gpu.frag
     - shaders/escape_time_family/experimental_named/magnetic_pendulum_gpu.frag
-    - shaders/trigonometric_and_transcendental/mittag_leffler_gpu.frag
+    - shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag
     - shaders/root_finding/muller_gpu.frag
     - shaders/root_finding/neta_order16_gpu.frag
     - shaders/root_finding/noor_newton_gpu.frag
@@ -480,8 +480,8 @@ flutter:
     - shaders/root_finding/picard_mann_newton_gpu.frag
     - shaders/root_finding/schroeder_z5_gpu.frag
     - shaders/root_finding/schroeder_z6_gpu.frag
-    - shaders/trigonometric_and_transcendental/secant_julia_gpu.frag
-    - shaders/trigonometric_and_transcendental/secant_mandelbrot_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/secant_julia_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/secant_mandelbrot_gpu.frag
     - shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag
     - shaders/ifs_and_geometric/sierpinski_julia_rational_gpu.frag
     - shaders/strange_attractors/sprott_systems/sprott_g_gpu.frag
@@ -495,13 +495,13 @@ flutter:
     - shaders/strange_attractors/sprott_systems/sprott_s_gpu.frag
     - shaders/root_finding/steffensen_gpu.frag
     - shaders/root_finding/steffensen_order8_gpu.frag
-    - shaders/trigonometric_and_transcendental/superexponential_gpu.frag
+    - shaders/trigonometric_and_transcendental/exponential_iteration/superexponential_gpu.frag
     - shaders/root_finding/super_halley_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/symmetric_icon_gpu.frag
-    - shaders/trigonometric_and_transcendental/transcendental_sin_gpu.frag
+    - shaders/trigonometric_and_transcendental/elementary_trig/transcendental_sin_gpu.frag
     - shaders/root_finding/traub_ostrowski_gpu.frag
-    - shaders/trigonometric_and_transcendental/weierstrass_elliptic_gpu.frag
-    - shaders/trigonometric_and_transcendental/weierstrass_function_gpu.frag
+    - shaders/trigonometric_and_transcendental/special_functions/weierstrass_elliptic_gpu.frag
+    - shaders/trigonometric_and_transcendental/special_functions/weierstrass_function_gpu.frag
     - shaders/kaleidoscopes/kaleidoscope_basic_gpu.frag
     - shaders/kaleidoscopes/kaleidoscope_rays_gpu.frag
     - shaders/kaleidoscopes/kaleidoscope_mandala_gpu.frag

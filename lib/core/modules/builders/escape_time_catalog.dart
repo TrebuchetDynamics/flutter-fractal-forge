@@ -762,7 +762,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tetration',
     name: 'Tetration Fractal',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/tetration_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/exponential_iteration/tetration_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
       FractalPreset(
@@ -1581,7 +1581,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'sine_julia',
     name: 'Sine Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/sine_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
@@ -1600,7 +1600,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cosine_julia',
     name: 'Cosine Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/cosine_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
@@ -1619,7 +1619,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tangent',
     name: 'Tangent Fractal',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/tangent_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag',
     defaultIterations: 100,
     extraPresets: [
       FractalPreset(
@@ -1637,7 +1637,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'sinh_cosh',
     name: 'Sinh Fractal',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/sinh_cosh_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag',
     defaultIterations: 100,
     extraPresets: [
       FractalPreset(
@@ -1655,7 +1655,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'exponential',
     name: 'Exponential Fractal',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/exponential_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag',
     defaultIterations: 100,
     extraPresets: [
       FractalPreset(
@@ -1753,13 +1753,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'secant_fractal',
     name: 'Secant Fractal',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/secant_fractal_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/secant_fractal_gpu.frag',
     defaultIterations: 80,
   ),
   EscapeTimeConfig(
     id: 'secant_cosecant',
     name: 'Secant/Cosecant Map',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/secant_cosecant_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 12.0,
   ),
@@ -1929,7 +1929,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cosine_mandelbrot',
     name: 'Cosine Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/cosine_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     // z_{n+1}=cos(z)+c is mostly bounded near c≈0. Centering at (0,0) with
@@ -1953,7 +1953,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tangent_mandelbrot',
     name: 'Tangent Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/tangent_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag',
     defaultIterations: 110,
     defaultBailout: 4.0,
     extraPresets: [
@@ -1972,7 +1972,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'sinh_mandelbrot',
     name: 'Sinh Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/sinh_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     extraPresets: [
@@ -1991,7 +1991,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cosh_mandelbrot',
     name: 'Cosh Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/cosh_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/hyperbolic/cosh_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2010,7 +2010,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tanh_mandelbrot',
     name: 'Tanh Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/tanh_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2288,7 +2288,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'riemann_zeta',
     name: 'Riemann Zeta Fractal',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/zeta_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 8.0,
     extraPresets: [
@@ -3231,7 +3231,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'sine_mandelbrot',
     name: 'Sine Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/sine_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 10.0,
     defaultCenterX: 0.0,
@@ -3414,7 +3414,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tangent_julia',
     name: 'Tangent Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/tangent_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/tangent_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 20.0,
   ),
@@ -3423,7 +3423,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'sinh_julia',
     name: 'Sinh Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/sinh_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/hyperbolic/sinh_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 20.0,
   ),
@@ -3432,7 +3432,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cosh_julia',
     name: 'Cosh Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/cosh_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/hyperbolic/cosh_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 20.0,
   ),
@@ -3441,7 +3441,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tanh_julia',
     name: 'Tanh Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/tanh_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/hyperbolic/tanh_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 20.0,
   ),
@@ -3564,7 +3564,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'exponential_julia',
     name: 'Exponential Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/exponential_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/exponential_iteration/exponential_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 50.0,
   ),
@@ -4132,7 +4132,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'weierstrass_p',
     name: 'Weierstrass ℘ + c',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/weierstrass_p_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/special_functions/weierstrass_p_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 8.0,
     extraPresets: [
@@ -4162,7 +4162,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'weierstrass_roots',
     name: 'Weierstrass Roots',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/weierstrass_roots_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/special_functions/weierstrass_roots_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 4.0,
     extraPresets: [
@@ -5235,7 +5235,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cosecant_julia',
     name: 'Cosecant Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/cosecant_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/cosecant_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5243,7 +5243,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cosecant_mandelbrot',
     name: 'Cosecant Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/cosecant_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/cosecant_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5251,7 +5251,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cotangent_julia',
     name: 'Cotangent Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/cotangent_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/cotangent_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5259,7 +5259,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'cotangent_mandelbrot',
     name: 'Cotangent Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/cotangent_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/cotangent_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5267,7 +5267,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'dirichlet_eta',
     name: 'Dirichlet Eta',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/dirichlet_eta_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/special_functions/dirichlet_eta_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5331,7 +5331,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'jacobi_sn',
     name: 'Jacobi Sn',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/jacobi_sn_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/special_functions/jacobi_sn_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5459,7 +5459,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mittag_leffler',
     name: 'Mittag Leffler',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/mittag_leffler_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5595,7 +5595,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'secant_julia',
     name: 'Secant Julia',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/secant_julia_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/secant_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5603,7 +5603,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'secant_mandelbrot',
     name: 'Secant Mandelbrot',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/secant_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/secant_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5715,7 +5715,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'superexponential',
     name: 'Superexponential',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/superexponential_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/exponential_iteration/superexponential_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5739,7 +5739,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'transcendental_sin',
     name: 'Transcendental Sin',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/transcendental_sin_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/elementary_trig/transcendental_sin_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5755,7 +5755,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'weierstrass_elliptic',
     name: 'Weierstrass Elliptic',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/weierstrass_elliptic_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/special_functions/weierstrass_elliptic_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5763,7 +5763,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'weierstrass_function',
     name: 'Weierstrass Function',
-    shaderAsset: 'shaders/trigonometric_and_transcendental/weierstrass_function_gpu.frag',
+    shaderAsset: 'shaders/trigonometric_and_transcendental/special_functions/weierstrass_function_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

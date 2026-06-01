@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "target": "shaders/trigonometric_and_transcendental",
+  "updatedAt": "2026-06-01T12:17:39.929Z",
+  "objective": "Refactor trigonometric/transcendental shaders into responsibility subfolders while preserving shader asset declarations and catalog references. Topology: elementary_trig owns circular trig formulas and their Mandelbrot/Julia variants; hyperbolic owns sinh/cosh/tanh formulas and variants; exponential_iteration owns exp/superexp/tetration iteration formulas; special_functions owns zeta/eta/Jacobi/Mittag-Leffler/Weierstrass formulas. No subfolder imports UI/app orchestration; shader files remain pure GLSL assets exposed through pubspec and escape_time_catalog asset strings.",
+  "completedSlices": [
+    "Added focused shader asset existence/declaration test for trigonometric_and_transcendental public behavior.",
+    "Moved all 35 root shader assets into responsibility subfolders and updated pubspec.yaml, escape_time_catalog.dart, and CPU formula comments to the new asset paths."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/shaders/trigonometric_and_transcendental_shader_assets_test.dart failed before refactor completion because existing unrelated pubspec asset shaders/strange_attractors/discrete_maps/henon_gpu.frag is missing.",
+    "Target-specific validation passed: parsed pubspec target shader declarations, verified 35 target assets exist, verified 35 catalog target assets are declared and exist, verified no root .frag files remain.",
+    "git diff --check passed."
+  ]
+}
