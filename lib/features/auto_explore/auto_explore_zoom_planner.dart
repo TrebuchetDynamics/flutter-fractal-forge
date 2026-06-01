@@ -359,6 +359,34 @@ class AutoExploreZoomInterpolation {
   }
 }
 
+/// Replayable peak candidate data for one auto-explore cycle step.
+class AutoExplorePeakZoomCandidates {
+  final double baseZoom;
+  final double minProgressZoom;
+  final double configuredPeakZoom;
+  final double spanLimitedPeakZoom;
+  final double hardMaxZoom;
+
+  const AutoExplorePeakZoomCandidates({
+    required this.baseZoom,
+    required this.minProgressZoom,
+    required this.configuredPeakZoom,
+    required this.spanLimitedPeakZoom,
+    required this.hardMaxZoom,
+  });
+
+  double get desiredPeakZoom => min(configuredPeakZoom, spanLimitedPeakZoom);
+
+  /// The 1.25x progress nudge is a preference, not permission to violate the
+  /// configured per-leg span cap or module precision hard maximum.
+  double get cappedMinimumProgressZoom => min(minProgressZoom, desiredPeakZoom);
+
+  double get resolvedPeakZoom => min(
+        max(cappedMinimumProgressZoom, min(desiredPeakZoom, hardMaxZoom)),
+        hardMaxZoom,
+      );
+}
+
 /// Replayable target-selection data for one auto-explore cycle step.
 class AutoExploreZoomTargetPlan {
   static const double collapseEpsilon = 1e-9;
@@ -413,22 +441,32 @@ class AutoExploreZoomPlanner {
     return _bounds.clamp(safeThreshold);
   }
 
-  double computePeakZoom({
+  AutoExplorePeakZoomCandidates peakZoomCandidates({
     required double baseZoom,
     required String moduleId,
   }) {
     final base = clampZoom(baseZoom);
     final hardMax = hardMaxZoomFor(moduleId);
-    final minPeak = clampZoom(base * 1.25);
     final cycleShape = _cycleShape;
-    final configuredPeak = clampZoom(base * cycleShape.cycleMaxMultiplier);
-
     final maxSpanRatio = pow(10.0, cycleShape.maxLegSpanDecades).toDouble();
-    final spanLimitedPeak = clampZoom(base * maxSpanRatio);
 
-    final desiredPeak = min(configuredPeak, spanLimitedPeak);
-    final unclampedPeak = max(minPeak, min(desiredPeak, hardMax));
-    return min(unclampedPeak, hardMax);
+    return AutoExplorePeakZoomCandidates(
+      baseZoom: base,
+      minProgressZoom: clampZoom(base * 1.25),
+      configuredPeakZoom: clampZoom(base * cycleShape.cycleMaxMultiplier),
+      spanLimitedPeakZoom: clampZoom(base * maxSpanRatio),
+      hardMaxZoom: hardMax,
+    );
+  }
+
+  double computePeakZoom({
+    required double baseZoom,
+    required String moduleId,
+  }) {
+    return peakZoomCandidates(
+      baseZoom: baseZoom,
+      moduleId: moduleId,
+    ).resolvedPeakZoom;
   }
 
   double computeFloorZoom(double baseZoom) {

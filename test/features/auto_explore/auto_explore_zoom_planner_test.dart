@@ -340,6 +340,47 @@ void main() {
       );
     });
 
+    test('exposes peak target candidates for replayable span decisions', () {
+      final candidates = planner.peakZoomCandidates(
+        baseZoom: 10.0,
+        moduleId: 'mandelbrot',
+      );
+
+      expect(candidates.baseZoom, 10.0);
+      expect(candidates.minProgressZoom, 12.5);
+      expect(candidates.configuredPeakZoom, 1200.0);
+      expect(
+        candidates.spanLimitedPeakZoom,
+        moreOrLessEquals(15848.9319, epsilon: 1e-4),
+      );
+      expect(candidates.hardMaxZoom, 9.2e11);
+      expect(candidates.desiredPeakZoom, 1200.0);
+      expect(candidates.resolvedPeakZoom, 1200.0);
+    });
+
+    test('does not let minimum peak nudge exceed max leg span', () {
+      const zeroSpanPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(maxLegSpanDecades: 0.0),
+      );
+
+      final candidates = zeroSpanPlanner.peakZoomCandidates(
+        baseZoom: 10.0,
+        moduleId: 'mandelbrot',
+      );
+
+      expect(candidates.minProgressZoom, 12.5);
+      expect(candidates.spanLimitedPeakZoom, 10.0);
+      expect(candidates.cappedMinimumProgressZoom, 10.0);
+      expect(candidates.resolvedPeakZoom, 10.0);
+      expect(
+        zeroSpanPlanner.computePeakZoom(
+          baseZoom: 10.0,
+          moduleId: 'mandelbrot',
+        ),
+        10.0,
+      );
+    });
+
     test('normalizes invalid cycle shape before target planning', () {
       const zeroMultiplierPlanner = AutoExploreZoomPlanner(
         config: AutoExploreConfig(cycleMaxMultiplier: 0.0),
