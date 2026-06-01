@@ -322,7 +322,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic',
     name: 'Celtic',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/celtic_gpu.frag',
     defaultIterations: 180,
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
@@ -1827,7 +1827,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_julia',
     name: 'Celtic Julia',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/julia_sets/celtic_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -2544,7 +2544,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'perp_celtic',
     name: 'Perpendicular Celtic',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/perp_celtic_gpu.frag',
     defaultIterations: 180,
     extraPresets: [
       FractalPreset(
@@ -2612,7 +2612,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_cubic',
     name: 'Celtic Cubic',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/celtic_cubic_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2674,7 +2674,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'perp_celtic_cubic',
     name: 'Perpendicular Celtic Cubic',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/perp_celtic_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/perp_celtic_cubic_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
@@ -3543,7 +3543,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_power4',
     name: 'Celtic ⁴',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/celtic_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3606,7 +3606,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_power5',
     name: 'Celtic ⁵',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/celtic_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3697,7 +3697,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_power4_julia',
     name: 'Celtic⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/julia_sets/celtic_power4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3732,14 +3732,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_cubic_julia',
     name: 'Celtic Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/julia_sets/celtic_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'celtic_power5_julia',
     name: 'Celtic⁵ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/julia_sets/celtic_power5_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3844,7 +3844,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_power6',
     name: 'Celtic⁶',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/celtic_power6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3907,7 +3907,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_power6_julia',
     name: 'Celtic⁶ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/julia_sets/celtic_power6_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -5203,7 +5203,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic2',
     name: 'Celtic2',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/celtic2_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5211,7 +5211,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'celtic_power7',
     name: 'Celtic Power7',
-    shaderAsset: 'shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/celtic/parameter_plane/celtic_power7_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

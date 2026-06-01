@@ -228,7 +228,7 @@ void main() {
     test('Celtic center pixel at pan=(0,0) zoom=1 iter=160', () {
       final (r, g, b) = _pixelCeltic(0.0, 0.0);
       print('NAV_DIAG route=/viewer/celtic '
-          'module=celtic shader=shaders/escape_time_family/families/celtic/celtic_gpu.frag '
+          'module=celtic shader=shaders/escape_time_family/families/celtic/parameter_plane/celtic_gpu.frag '
           'preset=celtic-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'device=$device serial=$deviceSerial');
