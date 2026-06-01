@@ -102,5 +102,24 @@ void main() {
       expect(provider.history.first.view.zoom, 3.0);
       expect(provider.currentEntry!.view.zoom, 102.0);
     });
+
+    testWidgets('clearHistory cancels pending debounced records',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+
+      provider.recordLocation(
+        moduleId: 'mandelbrot',
+        view: _view(6),
+        params: const <String, Object>{'iterations': 100},
+      );
+      await provider.clearHistory();
+      await tester.pump(const Duration(milliseconds: 501));
+
+      expect(provider.historyCount, 0);
+      expect(provider.currentEntry, isNull);
+      expect(store.loadHistory(), isEmpty);
+    });
   });
 }

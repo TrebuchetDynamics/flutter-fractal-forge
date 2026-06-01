@@ -240,11 +240,16 @@ class HistoryProvider extends ChangeNotifier {
     return _favorites.any((f) => f.isSameLocation(currentEntry!));
   }
 
-  /// Clears all history.
-  Future<void> clearHistory() async {
+  void _clearInMemoryHistory() {
+    cancelPendingRecord();
     _history.clear();
     _currentIndex = -1;
     _lastRecorded = null;
+  }
+
+  /// Clears all history.
+  Future<void> clearHistory() async {
+    _clearInMemoryHistory();
     await _store.clearHistory();
     notifyListeners();
   }
