@@ -110,5 +110,30 @@ void main() {
         24.0,
       );
     });
+
+    test('sanitizes invalid zoom endpoints before duration math', () {
+      const config = AutoExploreConfig(
+        travelDuration: Duration(milliseconds: 1000),
+        maxDurationScale: 4.0,
+      );
+      const planner = AutoExploreZoomPlanner(config: config);
+
+      expect(
+        planner.durationForZoomLeg(
+          startZoom: double.nan,
+          endZoom: 1.0,
+          speed: 1.0,
+        ),
+        const Duration(milliseconds: 2311),
+      );
+      expect(
+        planner.durationForZoomLeg(
+          startZoom: double.infinity,
+          endZoom: 1.0,
+          speed: 1.0,
+        ),
+        const Duration(milliseconds: 4000),
+      );
+    });
   });
 }

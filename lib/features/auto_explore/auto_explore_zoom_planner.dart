@@ -62,6 +62,38 @@ class AutoExploreZoomBounds {
   }
 }
 
+/// Sanitized zoom leg used for replayable duration/interpolation math.
+class AutoExploreZoomLeg {
+  final double startZoom;
+  final double endZoom;
+
+  const AutoExploreZoomLeg({
+    required this.startZoom,
+    required this.endZoom,
+  });
+
+  factory AutoExploreZoomLeg.fromBounds({
+    required AutoExploreZoomBounds bounds,
+    required double startZoom,
+    required double endZoom,
+  }) {
+    return AutoExploreZoomLeg(
+      startZoom: bounds.clamp(startZoom),
+      endZoom: bounds.clamp(endZoom),
+    );
+  }
+
+  double get spanDecades {
+    final ratio = max(startZoom, endZoom) / min(startZoom, endZoom);
+    return ratio <= 1.0 ? 0.0 : (log(ratio) / ln10);
+  }
+
+  double interpolate(double t) {
+    final progress = t.isNaN ? 0.0 : t.clamp(0.0, 1.0);
+    return startZoom * pow(endZoom / startZoom, progress).toDouble();
+  }
+}
+
 /// Pure zoom-planning logic for [AutoExploreService].
 ///
 /// Keeping target selection side-effect free makes the precision assumptions
@@ -131,22 +163,19 @@ class AutoExploreZoomPlanner {
     required double endZoom,
     required double speed,
   }) {
-    final decades = _zoomSpanDecades(startZoom, endZoom);
+    final leg = AutoExploreZoomLeg.fromBounds(
+      bounds: AutoExploreZoomBounds.fromConfig(config),
+      startZoom: startZoom,
+      endZoom: endZoom,
+    );
     final effectiveSpeed = _effectiveSpeed(speed);
 
-    final normalized = (decades / 1.6).clamp(0.0, 1.0);
+    final normalized = (leg.spanDecades / 1.6).clamp(0.0, 1.0);
     final scale = 1.0 + normalized * (config.maxDurationScale - 1.0);
 
     final ms = (config.travelDuration.inMilliseconds * scale).round();
     final scaledMs = (ms / effectiveSpeed).round();
     return Duration(milliseconds: max(1, scaledMs));
-  }
-
-  double _zoomSpanDecades(double startZoom, double endZoom) {
-    final safeStart = max(1e-9, startZoom);
-    final safeEnd = max(1e-9, endZoom);
-    final ratio = max(safeStart, safeEnd) / min(safeStart, safeEnd);
-    return ratio <= 1.0 ? 0.0 : (log(ratio) / ln10);
   }
 
   double _effectiveSpeed(double speed) {
@@ -155,8 +184,11 @@ class AutoExploreZoomPlanner {
   }
 
   double interpolateZoom(double start, double end, double t) {
-    final safeStart = max(1e-9, start);
-    final safeEnd = max(1e-9, end);
-    return safeStart * pow(safeEnd / safeStart, t).toDouble();
+    final leg = AutoExploreZoomLeg.fromBounds(
+      bounds: AutoExploreZoomBounds.fromConfig(config),
+      startZoom: start,
+      endZoom: end,
+    );
+    return leg.interpolate(t);
   }
 }
