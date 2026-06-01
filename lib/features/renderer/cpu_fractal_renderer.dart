@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -13,6 +12,7 @@ import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
 import 'package:flutter_fractals/features/renderer/cpu_tile_worker.dart';
+import 'package:flutter_fractals/features/renderer/cpu_iteration_budget.dart';
 import 'package:flutter_fractals/features/renderer/cpu_iterators.dart';
 import 'package:flutter_fractals/features/renderer/cpu_viewport_mapping.dart';
 import 'package:flutter_fractals/features/renderer/convergence_detector.dart';
@@ -82,7 +82,10 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
   Future<void> _spawnWorker() async {
     try {
       _worker = await CpuTileWorker.spawn();
-      if (!mounted) { _worker?.dispose(); return; }
+      if (!mounted) {
+        _worker?.dispose();
+        return;
+      }
       _scheduleRender();
     } catch (e) {
       if (mounted) setState(() => _error = e);
@@ -353,9 +356,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       final juliaC = cpuJuliaCForModule(widget.module.id, widget.state.params);
 
       // Increase iteration budget as zoom increases to avoid blotchy boundaries.
-      final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
-      final extra = (math.log(z) / math.ln2 * 32.0).round();
-      final iterations = (baseIterations + extra).clamp(50, maxIterations);
+      final iterations = CpuIterationBudget.forZoom(
+        baseIterations: baseIterations,
+        maxIterations: maxIterations,
+        zoom: widget.state.view.zoom,
+      );
 
       final w = resolutionScale < 1.0
           ? (widget.width * resolutionScale).round().clamp(200, widget.width)
@@ -510,9 +515,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         widget.state.params,
       );
       final juliaC = cpuJuliaCForModule(widget.module.id, widget.state.params);
-      final z = widget.state.view.zoom <= 0 ? 1.0 : widget.state.view.zoom;
-      final extra = (math.log(z) / math.ln2 * 32.0).round();
-      final iterations = (baseIterations + extra).clamp(50, maxIterations);
+      final iterations = CpuIterationBudget.forZoom(
+        baseIterations: baseIterations,
+        maxIterations: maxIterations,
+        zoom: widget.state.view.zoom,
+      );
 
       for (int row = 0; row < h; row++) {
         if (!mounted || job != _job) {
@@ -577,7 +584,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     } catch (e) {
       _setSlowModeActive(false);
       if (mounted) {
-        setState(() { _error = e; });
+        setState(() {
+          _error = e;
+        });
       }
     }
   }
@@ -661,7 +670,8 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.68),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.cyan.withValues(alpha: 0.7)),
+                    border:
+                        Border.all(color: Colors.cyan.withValues(alpha: 0.7)),
                   ),
                   child: const Text(
                     'High Res ✦',
