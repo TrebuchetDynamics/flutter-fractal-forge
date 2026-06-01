@@ -101,6 +101,44 @@ void main() {
       expect(updated.quality, 80);
       expect(updated.resolution, original.resolution); // Unchanged
     });
+
+    test('copyWith clears nullable provenance fields when null is explicit',
+        () {
+      final metadata = ExportMetadata(
+        fractalType: 'mandelbrot',
+        parameters: const {'iterations': 100},
+        createdAt: DateTime(2024, 1, 15),
+      );
+      final original = ExportOptions(
+        metadata: metadata,
+        watermarkText: 'Flutter Fractals',
+      );
+
+      final updated = original.copyWith(
+        metadata: null,
+        watermarkText: null,
+      );
+
+      expect(updated.metadata, isNull);
+      expect(updated.watermarkText, isNull);
+    });
+
+    test('copyWith omits nullable provenance fields without clearing them', () {
+      final metadata = ExportMetadata(
+        fractalType: 'mandelbrot',
+        parameters: const {'iterations': 100},
+        createdAt: DateTime(2024, 1, 15),
+      );
+      final original = ExportOptions(
+        metadata: metadata,
+        watermarkText: 'Flutter Fractals',
+      );
+
+      final updated = original.copyWith(quality: 80);
+
+      expect(updated.metadata, same(metadata));
+      expect(updated.watermarkText, 'Flutter Fractals');
+    });
   });
 
   group('ExportMetadata', () {

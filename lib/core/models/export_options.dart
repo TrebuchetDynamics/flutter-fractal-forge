@@ -158,6 +158,8 @@ class ExportMetadata extends Equatable {
 
 /// Complete export configuration
 class ExportOptions extends Equatable {
+  static const Object _unset = Object();
+
   final ExportFormat format;
   final ExportResolution resolution;
   final int? customWidth;
@@ -250,10 +252,23 @@ class ExportOptions extends Equatable {
     bool? transparentBackground,
     int? quality,
     bool? embedMetadata,
-    ExportMetadata? metadata,
+    Object? metadata = _unset,
     bool? addWatermark,
-    String? watermarkText,
+    Object? watermarkText = _unset,
   }) {
+    assert(
+      identical(metadata, _unset) ||
+          metadata == null ||
+          metadata is ExportMetadata,
+      'metadata must be an ExportMetadata? value',
+    );
+    assert(
+      identical(watermarkText, _unset) ||
+          watermarkText == null ||
+          watermarkText is String,
+      'watermarkText must be a String? value',
+    );
+
     return ExportOptions(
       format: format ?? this.format,
       resolution: resolution ?? this.resolution,
@@ -263,9 +278,13 @@ class ExportOptions extends Equatable {
           transparentBackground ?? this.transparentBackground,
       quality: quality ?? this.quality,
       embedMetadata: embedMetadata ?? this.embedMetadata,
-      metadata: metadata ?? this.metadata,
+      metadata: identical(metadata, _unset)
+          ? this.metadata
+          : metadata as ExportMetadata?,
       addWatermark: addWatermark ?? this.addWatermark,
-      watermarkText: watermarkText ?? this.watermarkText,
+      watermarkText: identical(watermarkText, _unset)
+          ? this.watermarkText
+          : watermarkText as String?,
     );
   }
 
