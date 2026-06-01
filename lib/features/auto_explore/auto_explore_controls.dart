@@ -61,7 +61,11 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
 
     void activate() {
       HapticFeedback.mediumImpact();
-      svc.toggle();
+      if (status.resumesFromTemporaryYield) {
+        svc.resume();
+      } else {
+        svc.toggle();
+      }
     }
 
     return FadeIn(
@@ -248,7 +252,7 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: status.isTemporarilyYielded
+                      onPressed: status.resumesFromTemporaryYield
                           ? svc.resume
                           : svc.toggle,
                       icon: Icon(status.showsPauseAction

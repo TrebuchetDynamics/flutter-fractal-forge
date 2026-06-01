@@ -81,5 +81,27 @@ void main() {
       expect(running.showsPauseAction, isTrue);
       expect(yielded.showsPauseAction, isFalse);
     });
+
+    test('routes yielded primary activation to resume instead of pause', () {
+      const running = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: false,
+        pausedByUserCorrection: false,
+      );
+      const yielded = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: false,
+        pausedByUserCorrection: true,
+      );
+      const paused = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: true,
+        pausedByUserCorrection: false,
+      );
+
+      expect(running.resumesFromTemporaryYield, isFalse);
+      expect(yielded.resumesFromTemporaryYield, isTrue);
+      expect(paused.resumesFromTemporaryYield, isFalse);
+    });
   });
 }

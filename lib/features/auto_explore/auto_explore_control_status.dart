@@ -25,6 +25,10 @@ class AutoExploreControlStatus {
   /// True when the primary control should present pausing active auto-motion.
   bool get showsPauseAction => isMotionActive;
 
+  /// True when tapping the primary control should resume from a temporary yield
+  /// instead of toggling into a fully paused state.
+  bool get resumesFromTemporaryYield => isTemporarilyYielded;
+
   String tooltip({
     required String startLabel,
     required String pauseLabel,

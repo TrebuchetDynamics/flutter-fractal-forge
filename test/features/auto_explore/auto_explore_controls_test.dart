@@ -93,6 +93,38 @@ void main() {
       expect(yieldedData!.hasAction(SemanticsAction.tap), isTrue);
       expect(activeData, isNull);
     });
+
+    testWidgets('tap resumes from user-correction yield instead of pausing',
+        (tester) async {
+      final controller = FractalController(ModuleRegistry());
+      final service = AutoExploreService(controller: controller);
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      service.onUserInteractionStart();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: ChangeNotifierProvider<AutoExploreService?>.value(
+            value: service,
+            child: const Scaffold(
+              body: AutoExploreButton(),
+            ),
+          ),
+        ),
+      );
+
+      expect(service.pausedByUserCorrection, isTrue);
+      expect(service.isPaused, isFalse);
+
+      await tester.tap(find.byType(AutoExploreButton));
+      await tester.pump();
+
+      expect(service.isExploring, isTrue);
+      expect(service.isPaused, isFalse);
+      expect(service.pausedByUserCorrection, isFalse);
+    });
   });
 }
 
