@@ -57,6 +57,36 @@ void main() {
       expect(provider.currentEntry, same(restored));
     });
 
+    testWidgets('history navigation cancels pending pre-navigation records',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+
+      await _recordAndFlush(tester, provider, zoom: 1);
+      await _recordAndFlush(tester, provider, zoom: 2);
+
+      provider.recordLocation(
+        moduleId: 'mandelbrot',
+        view: _view(3),
+        params: const <String, Object>{'iterations': 100},
+      );
+
+      final restored = provider.goBack();
+      expect(restored, isNotNull);
+      expect(restored!.view.zoom, 1);
+      expect(provider.currentPosition, 1);
+      expect(provider.canGoForward, isTrue);
+
+      await tester.pump(const Duration(milliseconds: 501));
+
+      expect(provider.historyCount, 2);
+      expect(provider.currentPosition, 1);
+      expect(provider.currentEntry, same(restored));
+      expect(provider.canGoForward, isTrue);
+      expect(provider.history.map((entry) => entry.view.zoom), [1, 2]);
+    });
+
     testWidgets('records the state passed to the debounced record call',
         (tester) async {
       final store = await HistoryStore.create();

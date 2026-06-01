@@ -177,6 +177,10 @@ class HistoryProvider extends ChangeNotifier {
 
   void _selectHistoryIndex(int index) {
     assert(index >= 0 && index < _history.length);
+    // A debounced record captures pre-navigation controller state. If it fires
+    // after an explicit history jump, it can silently truncate forward history
+    // and move the current entry away from the user's selected replay point.
+    cancelPendingRecord();
     _currentIndex = index;
     _lastRecorded = _history[index];
   }
