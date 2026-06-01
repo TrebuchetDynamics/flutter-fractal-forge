@@ -83,7 +83,8 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                           border: active
                               ? null
                               : Border.all(
-                                  color: AppColors.border.withValues(alpha: 0.5)),
+                                  color:
+                                      AppColors.border.withValues(alpha: 0.5)),
                           boxShadow: [
                             BoxShadow(
                               color: active
@@ -181,8 +182,8 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(10),
-                    border:
-                        Border.all(color: AppColors.border.withValues(alpha: 0.35)),
+                    border: Border.all(
+                        color: AppColors.border.withValues(alpha: 0.35)),
                   ),
                   child: const Text(
                     'Auto-pilot paused (user correction)',
@@ -196,7 +197,8 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.04),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.border.withValues(alpha: 0.35)),
+                  border: Border.all(
+                      color: AppColors.border.withValues(alpha: 0.35)),
                 ),
                 child: const Text(
                   'Auto mode: Zoom-only (no auto-pan). You can pan freely.',
@@ -216,9 +218,9 @@ class AutoExploreSettingsSheet extends StatelessWidget {
               ),
               Slider(
                 value: svc.speed,
-                min: 0.5,
-                max: 3.0,
-                divisions: 25,
+                min: AutoExploreSpeed.min,
+                max: AutoExploreSpeed.max,
+                divisions: AutoExploreSpeed.sliderDivisions,
                 onChanged: (v) {
                   HapticFeedback.selectionClick();
                   svc.speed = v;

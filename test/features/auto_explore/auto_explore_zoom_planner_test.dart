@@ -241,8 +241,16 @@ void main() {
       );
       const planner = AutoExploreZoomPlanner(config: config);
 
-      expect(AutoExploreSpeed.normalize(0.0), 0.5);
-      expect(AutoExploreSpeed.normalize(double.nan), 1.0);
+      expect(AutoExploreSpeed.normalize(0.0), AutoExploreSpeed.min);
+      expect(AutoExploreSpeed.normalize(double.nan), AutoExploreSpeed.neutral);
+      expect(
+        AutoExploreSpeed.normalize(double.infinity),
+        AutoExploreSpeed.neutral,
+      );
+      expect(
+        AutoExploreSpeed.normalize(double.negativeInfinity),
+        AutoExploreSpeed.neutral,
+      );
 
       expect(
         planner.durationForZoomLeg(
@@ -257,6 +265,14 @@ void main() {
           startZoom: 1.0,
           endZoom: 1.0,
           speed: double.nan,
+        ),
+        const Duration(milliseconds: 1000),
+      );
+      expect(
+        planner.durationForZoomLeg(
+          startZoom: 1.0,
+          endZoom: 1.0,
+          speed: double.infinity,
         ),
         const Duration(milliseconds: 1000),
       );

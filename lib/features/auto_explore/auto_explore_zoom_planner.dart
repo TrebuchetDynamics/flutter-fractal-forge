@@ -50,8 +50,10 @@ class AutoExploreSpeed {
 
   const AutoExploreSpeed._();
 
+  static const int sliderDivisions = 25;
+
   static double normalize(double speed) {
-    if (speed.isNaN) return neutral;
+    if (!speed.isFinite) return neutral;
     return speed.clamp(min, max);
   }
 }

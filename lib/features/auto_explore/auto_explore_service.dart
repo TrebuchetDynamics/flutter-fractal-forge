@@ -6,7 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_zoom_planner.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 
-export 'auto_explore_zoom_planner.dart' show AutoExploreConfig;
+export 'auto_explore_zoom_planner.dart'
+    show AutoExploreConfig, AutoExploreSpeed;
 
 /// Auto navigation mode that performs zoom-only cinematic movement.
 ///
