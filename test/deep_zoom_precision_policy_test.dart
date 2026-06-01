@@ -4,6 +4,33 @@ import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.da
 void main() {
   const policy = DeepZoomPrecisionPolicy();
 
+  group('DeepZoomPrecisionPolicy.thresholdsFor', () {
+    test('exposes contiguous Mandelbrot df2 to CPU fallback boundaries', () {
+      final thresholds = policy.thresholdsFor('mandelbrot');
+
+      expect(thresholds.supportsDoubleFloat, isTrue);
+      expect(thresholds.doubleFloatLowerZoom, 5e6);
+      expect(thresholds.doubleFloatUpperZoom, thresholds.cpuFallbackZoom);
+      expect(thresholds.shouldUseDoubleFloat(1e11), isTrue);
+      expect(
+        thresholds.shouldUseDoubleFloat(thresholds.cpuFallbackZoom),
+        isFalse,
+      );
+      expect(
+        thresholds.shouldUseCpuFallback(thresholds.cpuFallbackZoom),
+        isTrue,
+      );
+    });
+
+    test('exposes default thresholds without a double-float range', () {
+      final thresholds = policy.thresholdsFor('unknown_fractal');
+
+      expect(thresholds.cpuFallbackZoom, 1e7);
+      expect(thresholds.supportsDoubleFloat, isFalse);
+      expect(thresholds.shouldUseDoubleFloat(1e10), isFalse);
+    });
+  });
+
   group('DeepZoomPrecisionPolicy.shouldUseCpuFallback', () {
     test('returns false for mandelbrot at zoom 1e6', () {
       expect(
@@ -35,7 +62,7 @@ void main() {
 
   group('DeepZoomPrecisionPolicy.shouldUseDoubleFloat', () {
     test('returns true for mandelbrot in df2 range', () {
-      // df2 range: [5e6, 1e14)
+      // df2 range: [5e6, 1e12)
       expect(
         policy.shouldUseDoubleFloat(moduleId: 'mandelbrot', zoom: 5e6),
         isTrue,
@@ -70,9 +97,9 @@ void main() {
     });
 
     test('returns false at or above df2 upper threshold', () {
-      // At 1e14 CPU fallback takes over; df2 should not be active.
+      // At 1e12 CPU fallback takes over; df2 should not be active.
       expect(
-        policy.shouldUseDoubleFloat(moduleId: 'mandelbrot', zoom: 1e14),
+        policy.shouldUseDoubleFloat(moduleId: 'mandelbrot', zoom: 1e12),
         isFalse,
       );
     });
@@ -137,9 +164,9 @@ void main() {
   group('DeepZoomHysteresis', () {
     test('does not activate CPU until hysteresisFrames consecutive frames', () {
       final hysteresis = DeepZoomHysteresis(policy: policy);
-      // mandelbrot CPU threshold is 1e14; zoom 2e14 is above it.
+      // mandelbrot CPU threshold is 1e12; zoom 2e12 is above it.
       const moduleId = 'mandelbrot';
-      const highZoom = 2e14;
+      const highZoom = 2e12;
       final frames = policy.hysteresisFrames;
 
       // All frames before the last should still return false.

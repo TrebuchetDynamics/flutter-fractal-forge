@@ -2,6 +2,48 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 
+const double _mandelbrotDf2LowerThreshold = 5e6;
+const double _mandelbrotDf2UpperThreshold = 1e12;
+const double _escapeTimeCpuFallbackThreshold = 1e9;
+const double _defaultCpuFallbackThreshold = 1e7;
+
+/// Describes the precision boundaries for one fractal module.
+@immutable
+class DeepZoomThresholds {
+  final double cpuFallbackZoom;
+  final double? doubleFloatLowerZoom;
+  final double? doubleFloatUpperZoom;
+
+  const DeepZoomThresholds({
+    required this.cpuFallbackZoom,
+    this.doubleFloatLowerZoom,
+    this.doubleFloatUpperZoom,
+  })  : assert(
+          (doubleFloatLowerZoom == null) == (doubleFloatUpperZoom == null),
+          'double-float ranges must provide both lower and upper bounds',
+        ),
+        assert(
+          (doubleFloatLowerZoom ?? double.negativeInfinity) <
+              (doubleFloatUpperZoom ?? double.infinity),
+          'double-float lower bound must be below upper bound',
+        ),
+        assert(
+          (doubleFloatUpperZoom ?? double.negativeInfinity) <= cpuFallbackZoom,
+          'double-float range must end no later than CPU fallback',
+        );
+
+  bool get supportsDoubleFloat => doubleFloatLowerZoom != null;
+
+  bool shouldUseCpuFallback(double zoom) => zoom >= cpuFallbackZoom;
+
+  bool shouldUseDoubleFloat(double zoom) {
+    final lower = doubleFloatLowerZoom;
+    final upper = doubleFloatUpperZoom;
+    if (lower == null || upper == null) return false;
+    return zoom >= lower && zoom < upper;
+  }
+}
+
 /// Decides when GPU precision is likely insufficient at deep zoom.
 ///
 /// ## Float32 precision analysis
@@ -45,42 +87,57 @@ class DeepZoomPrecisionPolicy {
 
   /// Per-module GPU→CPU fallback thresholds.
   ///
-  /// For mandelbrot, the CPU fallback threshold is pushed to [_df2UpperThreshold]
-  /// (1e14) because the double-float shader [mandelbrot_df2.frag] covers the
-  /// intermediate zoom range [_df2LowerThreshold, _df2UpperThreshold].
+  /// For mandelbrot, the CPU fallback threshold is pushed to the df2 upper
+  /// bound because the double-float shader [mandelbrot_df2.frag] covers the
+  /// intermediate zoom range before CPU fallback.
   ///
   /// Other escape-time fractals still use float32 GPU up to their threshold,
   /// then fall back to CPU (no df2 variant available yet).
-  static const Map<String, double> _cpuFallbackZoomThresholds = {
+  static const Map<String, DeepZoomThresholds> _moduleThresholds = {
     // Mandelbrot: df2 shader covers zoom [5e6, 1e12), so CPU fallback only
-    // kicks in above 1e12 (the df2 upper bound).
-    'mandelbrot': 1e12,
+    // kicks in at 1e12 (the df2 upper bound).
+    'mandelbrot': DeepZoomThresholds(
+      cpuFallbackZoom: _mandelbrotDf2UpperThreshold,
+      doubleFloatLowerZoom: _mandelbrotDf2LowerThreshold,
+      doubleFloatUpperZoom: _mandelbrotDf2UpperThreshold,
+    ),
     // Julia & related escape-time fractals: GPU precision degrades sooner,
     // so switch to CPU around ~1e9.
-    'julia': 1e9,
-    'celtic': 1e9,
-    'buffalo': 1e9,
-    'burning_ship': 1e9,
-    'tricorn': 1e9,
-    'multibrot3': 1e9,
-    'multibrot4': 1e9,
-    'multibrot5': 1e9,
-    'phoenix': 1e9,
+    'julia': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'celtic': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'buffalo': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'burning_ship': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'tricorn': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'multibrot3': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'multibrot4': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'multibrot5': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'phoenix': DeepZoomThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
   };
 
   /// Default threshold for any fractal type not listed above.
   /// Simple orbit fractals and non-escape-time types lose precision more
   /// slowly; 1e7 is a conservative upper bound for float32 at 1080p.
-  static const double _defaultThreshold = 1e7;
-
-  /// Zoom range where the double-float (DS) shader [mandelbrot_df2.frag]
-  /// should be used instead of the standard float32 shader.
-  ///
-  /// Below [_df2LowerThreshold]: standard float32 GPU shader is fine.
-  /// Between [_df2LowerThreshold] and [_df2UpperThreshold]: DS shader.
-  /// Above [_df2UpperThreshold]: CPU fallback required.
-  static const double _df2LowerThreshold = 5e6;
-  static const double _df2UpperThreshold = 1e12;
+  static const DeepZoomThresholds _defaultThresholds = DeepZoomThresholds(
+    cpuFallbackZoom: _defaultCpuFallbackThreshold,
+  );
 
   /// Number of consecutive evaluations above the zoom threshold required
   /// before committing to CPU fallback. Prevents rapid GPU↔CPU flicker
@@ -97,23 +154,24 @@ class DeepZoomPrecisionPolicy {
     required String moduleId,
     required double zoom,
   }) {
-    final threshold = _cpuFallbackZoomThresholds[moduleId] ?? _defaultThreshold;
-    return zoom >= threshold;
+    return thresholdsFor(moduleId).shouldUseCpuFallback(zoom);
   }
 
+  DeepZoomThresholds thresholdsFor(String moduleId) =>
+      _moduleThresholds[moduleId] ?? _defaultThresholds;
+
   double thresholdFor(String moduleId) =>
-      _cpuFallbackZoomThresholds[moduleId] ?? _defaultThreshold;
+      thresholdsFor(moduleId).cpuFallbackZoom;
 
   /// Returns true when the double-float shader should be used for [moduleId].
   ///
-  /// Currently only mandelbrot has a df2 variant. The range is
-  /// [_df2LowerThreshold, _df2UpperThreshold] exclusive.
+  /// Currently only mandelbrot has a df2 variant. The range is exclusive of
+  /// the CPU fallback threshold.
   bool shouldUseDoubleFloat({
     required String moduleId,
     required double zoom,
   }) {
-    if (moduleId != 'mandelbrot') return false;
-    return zoom >= _df2LowerThreshold && zoom < _df2UpperThreshold;
+    return thresholdsFor(moduleId).shouldUseDoubleFloat(zoom);
   }
 
   int get hysteresisFrames => _hysteresisFrames;
