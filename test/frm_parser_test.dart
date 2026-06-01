@@ -101,5 +101,33 @@ Test {
       expect(ctx.vars['z']!.re, closeTo(1, 1e-12));
       expect(ctx.vars['z']!.im, closeTo(0, 1e-12));
     });
+
+    test('returns immutable parse result lists', () {
+      const src = r'''
+Test {
+  z = (0,0)
+:
+  z = z*z
+}
+''';
+
+      final file = FrmParser(src).parseFile();
+      final formula = file.formulas.single;
+
+      expect(
+        () => file.formulas.add(
+          FrmFormula(name: 'Other', init: const [], iter: const []),
+        ),
+        throwsUnsupportedError,
+      );
+      expect(
+        () => formula.init.add(const FrmAssign('c', FrmVar('pixel'))),
+        throwsUnsupportedError,
+      );
+      expect(
+        () => formula.iter.clear(),
+        throwsUnsupportedError,
+      );
+    });
   });
 }

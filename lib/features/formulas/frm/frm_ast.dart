@@ -35,7 +35,8 @@ final class FrmVar extends FrmExpr {
   final String name;
 
   @override
-  Complex eval(FrmEvalContext ctx) => ctx.vars[name] ?? (throw StateError('Unknown var: $name'));
+  Complex eval(FrmEvalContext ctx) =>
+      ctx.vars[name] ?? (throw StateError('Unknown var: $name'));
 }
 
 enum FrmBinaryOp { add, sub, mul, div }
@@ -86,7 +87,12 @@ final class FrmEvalContext {
 }
 
 final class FrmFormula {
-  const FrmFormula({required this.name, required this.init, required this.iter});
+  FrmFormula({
+    required this.name,
+    required Iterable<FrmStmt> init,
+    required Iterable<FrmStmt> iter,
+  })  : init = List.unmodifiable(init),
+        iter = List.unmodifiable(iter);
 
   final String name;
 
@@ -98,7 +104,8 @@ final class FrmFormula {
 }
 
 final class FrmFile {
-  const FrmFile(this.formulas);
+  FrmFile(Iterable<FrmFormula> formulas)
+      : formulas = List.unmodifiable(formulas);
 
   final List<FrmFormula> formulas;
 }
