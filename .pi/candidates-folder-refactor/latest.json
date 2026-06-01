@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-01T15:34:29.242Z",
+  "generatedAt": "2026-06-01T15:36:43.437Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -16,7 +16,7 @@
       "importsOut": 0,
       "tests": 0,
       "roles": 8,
-      "duplicates": 65,
+      "duplicates": 67,
       "subdirs": 8,
       "extensions": [
         ".dart",

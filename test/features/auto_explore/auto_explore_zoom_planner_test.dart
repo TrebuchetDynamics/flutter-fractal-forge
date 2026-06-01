@@ -188,5 +188,41 @@ void main() {
         const Duration(milliseconds: 4000),
       );
     });
+
+    test('sanitizes invalid duration scale before rounding milliseconds', () {
+      const nanScalePlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1000),
+          maxDurationScale: double.nan,
+        ),
+      );
+      const infiniteScalePlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1000),
+          maxDurationScale: double.infinity,
+        ),
+      );
+      const belowNeutralScalePlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1000),
+          maxDurationScale: 0.0,
+        ),
+      );
+
+      for (final planner in [
+        nanScalePlanner,
+        infiniteScalePlanner,
+        belowNeutralScalePlanner,
+      ]) {
+        expect(
+          planner.durationForZoomLeg(
+            startZoom: 1.0,
+            endZoom: 1e6,
+            speed: 1.0,
+          ),
+          const Duration(milliseconds: 1000),
+        );
+      }
+    });
   });
 }

@@ -72,6 +72,21 @@ class AutoExplorePrecisionHeadroom {
   }
 }
 
+/// Duration scaling used by auto-explore zoom legs.
+///
+/// Invalid scale factors can otherwise flow into [double.round], where NaN or
+/// infinity throws instead of producing a replayable fallback duration.
+class AutoExploreDurationScale {
+  static const double neutral = 1.0;
+
+  const AutoExploreDurationScale._();
+
+  static double normalize(double scale) {
+    if (!scale.isFinite || scale < neutral) return neutral;
+    return scale;
+  }
+}
+
 /// Zoom bounds used by auto-explore planning.
 ///
 /// Dart's [double.clamp] treats NaN as the upper bound, which would turn a
@@ -223,8 +238,11 @@ class AutoExploreZoomPlanner {
     );
     final effectiveSpeed = _effectiveSpeed(speed);
 
+    final durationScale = AutoExploreDurationScale.normalize(
+      config.maxDurationScale,
+    );
     final normalized = (leg.spanDecades / 1.6).clamp(0.0, 1.0);
-    final scale = 1.0 + normalized * (config.maxDurationScale - 1.0);
+    final scale = 1.0 + normalized * (durationScale - 1.0);
 
     final ms = (config.travelDuration.inMilliseconds * scale).round();
     final scaledMs = (ms / effectiveSpeed).round();
