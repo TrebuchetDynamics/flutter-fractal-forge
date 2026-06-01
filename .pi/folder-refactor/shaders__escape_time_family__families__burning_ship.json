@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "shaders/escape_time_family/families/burning_ship",
+  "updatedAt": "2026-06-01T13:39:03.830Z",
+  "objective": "Split Burning Ship escape-time shaders by behavior responsibility: parameter-plane shaders derive c from pixel coordinates; Julia-set shaders use fixed Julia seeds. Preserve shader asset behavior by updating pubspec/catalog/test references and adding a focused shader asset existence/declaration test.",
+  "completedSlices": [
+    "Added test/shaders/burning_ship_shader_assets_test.dart as focused public asset contract for Burning Ship shader declarations and disk presence.",
+    "Moved seven parameter-plane Burning Ship shaders into parameter_plane/ and updated pubspec/catalog/CPU diagnostic references.",
+    "Moved seven Julia-set Burning Ship shaders into julia_sets/ and updated pubspec/catalog/CPU diagnostic references.",
+    "Ran shared-code pass; did not extract GLSL helpers because custom shader includes/shared fragments would alter compile boundaries and no safe existing include contract was present."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "python3 Burning Ship asset/catalog consistency check: PASS (14 declared, 14 catalog assets, no missing files, no unregistered files).",
+    "/home/xel/flutter/bin/flutter analyze test/shaders/burning_ship_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart: PASS, no issues.",
+    "/home/xel/flutter/bin/flutter test test/shaders/burning_ship_shader_assets_test.dart: BLOCKED by pre-existing unrelated missing asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag in pubspec asset bundle."
+  ]
+}

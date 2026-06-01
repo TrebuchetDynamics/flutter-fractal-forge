@@ -21,7 +21,7 @@ void main() {
         'if (dot(c, c) > bailoutSq)',
         'float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(6.0);',
       ],
-      'shaders/escape_time_family/families/burning_ship/burning_ship_power6_gpu.frag': [
+      'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power6_gpu.frag': [
         'if (dot(c, c) > bailoutSq)',
         'float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(6.0);',
       ],

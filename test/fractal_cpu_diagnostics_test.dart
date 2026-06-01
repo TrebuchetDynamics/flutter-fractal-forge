@@ -203,7 +203,7 @@ void main() {
     test('Burning Ship center pixel at pan=(0,0) zoom=1 iter=160', () {
       final (r, g, b) = _pixelBurningShip(0.0, 0.0);
       print('NAV_DIAG route=/viewer/burning_ship '
-          'module=burning_ship shader=shaders/escape_time_family/families/burning_ship/burning_ship_gpu.frag '
+          'module=burning_ship shader=shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag '
           'preset=burning_ship-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'device=$device serial=$deviceSerial');

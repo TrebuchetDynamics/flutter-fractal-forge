@@ -167,7 +167,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     id: 'burning_ship',
     name: 'Burning Ship',
     displayName: (l10n) => l10n.moduleBurningShip,
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag',
     defaultIterations: 200,
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
@@ -1899,7 +1899,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_julia',
     name: 'Burning Ship Julia',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -2589,7 +2589,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_cubic',
     name: 'Cubic Burning Ship',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_cubic_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2880,7 +2880,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_perp_julia',
     name: 'Perpendicular Ship Julia',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_perp_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_perp_julia_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2918,7 +2918,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_perp',
     name: 'Perpendicular Burning Ship',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_perp_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_perp_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -3450,7 +3450,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power4',
     name: 'Burning Ship ⁴',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3550,7 +3550,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_cubic_julia',
     name: 'Burning Ship Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3599,7 +3599,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power5',
     name: 'Burning Ship ⁵',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3676,14 +3676,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power4_julia',
     name: 'Burning Ship⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'burning_ship_power5_julia',
     name: 'Burning Ship⁵ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power5_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3830,7 +3830,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power6',
     name: 'Burning Ship⁶',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3893,7 +3893,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power6_julia',
     name: 'Burning Ship⁶ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power6_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power6_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -5187,7 +5187,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power7',
     name: 'Burning Ship Power7',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power7_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5195,7 +5195,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'burning_ship_power7_julia',
     name: 'Burning Ship Power7 Julia',
-    shaderAsset: 'shaders/escape_time_family/families/burning_ship/burning_ship_power7_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power7_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

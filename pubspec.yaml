@@ -75,7 +75,7 @@ flutter:
     - shaders/runtime/post_glow_v.frag
     - shaders/escape_time_family/core/julia_gpu.frag
     - shaders/escape_time_family/core/mandel_julia_dual_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag
     - shaders/escape_time_family/core/phoenix_gpu.frag
     - shaders/escape_time_family/families/tricorn/tricorn_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot3_gpu.frag
@@ -123,7 +123,7 @@ flutter:
     - shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag
     - shaders/escape_time_family/families/perpendicular/perpendicular_julia_gpu.frag
     - shaders/escape_time_family/families/tricorn/tricorn_julia_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_julia_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag
     - shaders/escape_time_family/julia_variants/heart_gpu.frag
     - shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag
@@ -233,7 +233,7 @@ flutter:
     - shaders/trigonometric_and_transcendental/hyperbolic/sinh_julia_gpu.frag
     - shaders/trigonometric_and_transcendental/hyperbolic/cosh_julia_gpu.frag
     - shaders/trigonometric_and_transcendental/hyperbolic/tanh_julia_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_power4_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power4_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag
     - shaders/escape_time_family/families/tricorn/tricorn_power4_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag
@@ -299,12 +299,12 @@ flutter:
     - shaders/escape_time_family/mandelbrot_variants/damaged_doublebrot_gpu.frag
     - shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag
     - shaders/escape_time_family/julia_variants/feather_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_cubic_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_cubic_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/mandelbrot_orbit_trap_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_perp_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_perp_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/mandelbrot_stripe_avg_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_perp_julia_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_perp_julia_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/mandelbrot_tia_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/mandelbrot_de_gpu.frag
@@ -345,13 +345,13 @@ flutter:
     - shaders/escape_time_family/families/multijulia/multijulia5_gpu.frag
     - shaders/escape_time_family/families/multijulia/multijulia6_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_cubic_julia_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_cubic_julia_gpu.frag
     - shaders/escape_time_family/families/tricorn/tricorn_power5_gpu.frag
     - shaders/trigonometric_and_transcendental/exponential_iteration/exponential_julia_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag
     - shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag
     - shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_power5_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power5_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag
@@ -362,8 +362,8 @@ flutter:
     - shaders/escape_time_family/julia_variants/feather_julia_gpu.frag
     - shaders/escape_time_family/julia_variants/heart_julia_gpu.frag
     - shaders/root_finding/newton/newton_z8_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_power4_julia_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_power5_julia_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power4_julia_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power5_julia_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag
     - shaders/escape_time_family/families/tricorn/tricorn_power4_julia_gpu.frag
@@ -384,7 +384,7 @@ flutter:
     - shaders/root_finding/schroeder/schroeder_z4_gpu.frag
     - shaders/escape_time_family/families/nova/nova_cubic_gpu.frag
     - shaders/escape_time_family/families/nova/nova_cubic_julia_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_power6_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power6_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag
@@ -393,7 +393,7 @@ flutter:
     - shaders/escape_time_family/families/multijulia/multijulia10_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag
     - shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_power6_julia_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power6_julia_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag
     - shaders/root_finding/high_order_methods/halley_z4_gpu.frag
@@ -439,8 +439,8 @@ flutter:
     - shaders/escape_time_family/families/buddhabrot/buddhabrot_full_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo2_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_power7_gpu.frag
-    - shaders/escape_time_family/families/burning_ship/burning_ship_power7_julia_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power7_gpu.frag
+    - shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power7_julia_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic2_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag
     - shaders/escape_time_family/newton_and_orthogonal/chebyshev_fractal_gpu.frag

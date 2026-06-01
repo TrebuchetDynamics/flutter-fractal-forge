@@ -603,7 +603,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/families/burning_ship/burning_ship_gpu.frag — shader flips Y.
+    // Ported from shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag — shader flips Y.
     _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
       final ay = zy.abs();
@@ -2587,7 +2587,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/families/burning_ship/burning_ship_julia_gpu.frag (CPU approximation, seed=0x9921bde9)
+  // Ported from shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag (CPU approximation, seed=0x9921bde9)
   return _cpu_synthetic(0x9921bde9, x, y, iterations, bailout);
 }
 
