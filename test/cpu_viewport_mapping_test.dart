@@ -75,15 +75,25 @@ void main() {
     });
 
     test('invalid zoom falls back to replayable unit-scale coordinates', () {
-      final viewport = CpuViewportMapping(
-        viewPan: Vector2.zero(),
-        viewZoom: double.nan,
-        width: 2,
-        height: 2,
-      );
+      for (final zoom in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+      ]) {
+        final viewport = CpuViewportMapping(
+          viewPan: Vector2.zero(),
+          viewZoom: zoom,
+          width: 2,
+          height: 2,
+        );
 
-      expect(viewport.scale, 1.5);
-      expect(viewport.coordinate(nx: 0.5, ny: -0.5), (0.75, -0.75));
+        expect(viewport.scale, 1.5, reason: 'zoom=$zoom');
+        expect(
+          viewport.coordinate(nx: 0.5, ny: -0.5),
+          (0.75, -0.75),
+          reason: 'zoom=$zoom',
+        );
+      }
     });
 
     test('invalid viewport dimensions fall back to square aspect', () {

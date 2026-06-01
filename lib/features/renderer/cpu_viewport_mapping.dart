@@ -65,7 +65,7 @@ final class CpuViewportMapping {
         ).aspect;
 
   static double normalizeZoom(double zoom) {
-    if (zoom.isNaN || zoom <= 0.0) return 1.0;
+    if (!zoom.isFinite || zoom <= 0.0) return 1.0;
     return zoom;
   }
 
