@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/features/auto_explore/auto_explore_runtime_state.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_zoom_planner.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 
@@ -174,6 +175,13 @@ class AutoExploreService extends ChangeNotifier {
 
   double _clampZoom(double z) => _zoomPlanner.clampZoom(z);
 
+  AutoExploreRuntimeState get _runtimeState => AutoExploreRuntimeState(
+        isExploring: _isExploring,
+        isPaused: _isPaused,
+        isUserInteracting: _isUserInteracting,
+        pausedByUserCorrection: _pausedByUserCorrection,
+      );
+
   AutoExploreZoomAdoption _adoptedZoom({double? referenceZoom}) {
     return AutoExploreZoomAdoption.fromSamples(
       bounds: AutoExploreZoomBounds.fromConfig(config),
@@ -207,16 +215,16 @@ class AutoExploreService extends ChangeNotifier {
 
   void _scheduleNext() {
     _timer?.cancel();
-    if (!_isExploring || _isPaused || _isUserInteracting) return;
+    if (!_runtimeState.canScheduleZoomLeg) return;
 
     // Continuous mode: no dwell/pause between zoom-in and zoom-out legs.
     _timer = Timer(Duration.zero, () async {
-      if (!_isExploring || _isPaused || _isUserInteracting) return;
+      if (!_runtimeState.canScheduleZoomLeg) return;
 
       final targetZoom = _nextTargetZoom();
       final reachedTarget = await _animateZoomTo(targetZoom);
 
-      if (!_isExploring || _isPaused || _isUserInteracting) return;
+      if (!_runtimeState.canScheduleZoomLeg) return;
       if (reachedTarget) {
         _zoomingIn = !_zoomingIn;
       }
@@ -236,7 +244,7 @@ class AutoExploreService extends ChangeNotifier {
 
     final completer = Completer<bool>();
     _anim = Timer.periodic(plan.frameInterval, (timer) {
-      if (!_isExploring || _isPaused || _isUserInteracting) {
+      if (_runtimeState.shouldInterruptAnimation) {
         timer.cancel();
         _anim = null;
         if (!completer.isCompleted) completer.complete(false);
