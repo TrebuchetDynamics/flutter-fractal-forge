@@ -145,7 +145,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'quaternion_julia_3d',
     name: 'Quaternion Julia 3D',
-    shaderAsset: 'shaders/3d_and_hypercomplex/quaternion_julia_3d_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.0,
@@ -190,7 +190,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'dual_quaternion_julia',
     name: 'Dual-Quaternion Julia',
-    shaderAsset: 'shaders/3d_and_hypercomplex/dual_quaternion_julia_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag',
     category: '3D Fractals',
     defaultPower: 1.0,
     minPower: 0.1,
@@ -207,7 +207,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'mandelbox_shape_inversion',
     name: 'Mandelbox Shape Inversion',
-    shaderAsset: 'shaders/3d_and_hypercomplex/mandelbox_shape_inversion_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -288,7 +288,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'mandelbulb_time_modulated',
     name: 'Time-Modulated Mandelbulb',
-    shaderAsset: 'shaders/3d_and_hypercomplex/mandelbulb_time_modulated_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag',
     category: '3D Fractals',
     defaultPower: 8.0,
     minPower: 2.0,

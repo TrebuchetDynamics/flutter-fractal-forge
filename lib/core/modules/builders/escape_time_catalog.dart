@@ -1487,7 +1487,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'hypercomplex_newton',
     name: 'Hypercomplex Newton (Quaternion z³ - 1)',
-    shaderAsset: 'shaders/3d_and_hypercomplex/hypercomplex_newton_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 8.0,
   ),
@@ -1496,7 +1496,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'quaternion_julia_2d',
     name: 'Quaternion Julia (2D Slice)',
-    shaderAsset: 'shaders/3d_and_hypercomplex/quaternion_julia_2d_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 8.0,
     extraPresets: [
@@ -1515,7 +1515,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tessarine_julia',
     name: 'Tessarine Julia',
-    shaderAsset: 'shaders/3d_and_hypercomplex/tessarine_julia_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/hypercomplex_escape_time/tessarine_julia_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 8.0,
     extraPresets: [
@@ -1534,7 +1534,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'split_complex',
     name: 'Split-Complex Fractal',
-    shaderAsset: 'shaders/3d_and_hypercomplex/split_complex_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/hypercomplex_escape_time/split_complex_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 10.0,
     extraPresets: [
@@ -1553,14 +1553,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'dual_complex',
     name: 'Dual-Complex Fractal',
-    shaderAsset: 'shaders/3d_and_hypercomplex/dual_complex_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag',
     defaultIterations: 170,
     defaultBailout: 10.0,
   ),
   EscapeTimeConfig(
     id: 'bicomplex',
     name: 'Bicomplex Mandelbrot',
-    shaderAsset: 'shaders/3d_and_hypercomplex/bicomplex_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 12.0,
     extraPresets: [
@@ -3277,7 +3277,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: '3d_fractal',
     name: '3D Fractal',
-    shaderAsset: 'shaders/3d_and_hypercomplex/3d_fractal_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/3d_fractal_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -5771,7 +5771,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'quaternion_julia_3d',
     name: 'Quaternion Julia 3D',
-    shaderAsset: 'shaders/3d_and_hypercomplex/quaternion_julia_3d_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 4.0,
     defaultZoom: 0.6,
@@ -5834,7 +5834,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'dual_quaternion_julia',
     name: 'Dual Quaternion Julia',
-    shaderAsset: 'shaders/3d_and_hypercomplex/dual_quaternion_julia_gpu.frag',
+    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 4.0,
     defaultZoom: 0.6,

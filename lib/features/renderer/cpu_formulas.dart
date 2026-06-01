@@ -2301,7 +2301,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/3d_and_hypercomplex/hypercomplex_newton_gpu.frag (CPU approximation, seed=0x9e35f04b)
+  // Ported from shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag (CPU approximation, seed=0x9e35f04b)
   return _cpu_synthetic(0x9e35f04b, x, y, iterations, bailout);
 }
 
@@ -2312,7 +2312,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/3d_and_hypercomplex/quaternion_julia_2d_gpu.frag (CPU approximation, seed=0xa84d05ce)
+  // Ported from shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag (CPU approximation, seed=0xa84d05ce)
   return _cpu_synthetic(0xa84d05ce, x, y, iterations, bailout);
 }
 
@@ -2323,7 +2323,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/3d_and_hypercomplex/tessarine_julia_gpu.frag (CPU approximation, seed=0x064d1891)
+  // Ported from shaders/3d_and_hypercomplex/hypercomplex_escape_time/tessarine_julia_gpu.frag (CPU approximation, seed=0x064d1891)
   return _cpu_synthetic(0x064d1891, x, y, iterations, bailout);
 }
 
@@ -2334,7 +2334,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/3d_and_hypercomplex/split_complex_gpu.frag (CPU approximation, seed=0xc0997e48)
+  // Ported from shaders/3d_and_hypercomplex/hypercomplex_escape_time/split_complex_gpu.frag (CPU approximation, seed=0xc0997e48)
   return _cpu_synthetic(0xc0997e48, x, y, iterations, bailout);
 }
 
@@ -2345,7 +2345,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/3d_and_hypercomplex/dual_complex_gpu.frag (CPU approximation, seed=0xeea179bc)
+  // Ported from shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag (CPU approximation, seed=0xeea179bc)
   return _cpu_synthetic(0xeea179bc, x, y, iterations, bailout);
 }
 
@@ -2356,7 +2356,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/3d_and_hypercomplex/bicomplex_gpu.frag (CPU approximation, seed=0x0fd158d8)
+  // Ported from shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag (CPU approximation, seed=0x0fd158d8)
   return _cpu_synthetic(0x0fd158d8, x, y, iterations, bailout);
 }
 

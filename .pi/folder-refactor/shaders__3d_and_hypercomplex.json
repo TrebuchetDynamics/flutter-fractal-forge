@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "target": "shaders/3d_and_hypercomplex",
+  "updatedAt": "2026-06-01T14:01:02.614Z",
+  "objective": "Split shaders/3d_and_hypercomplex into behavior-owned subfolders: hypercomplex_escape_time for 2D/sliced hypercomplex escape-time shaders and raymarched_volumes for 3D distance-estimated/raymarched volume shaders. Preserve shader behavior by moving files only and updating asset references.",
+  "completedSlices": [
+    "Added focused shader asset declaration/existence coverage for shaders/3d_and_hypercomplex.",
+    "Moved six hypercomplex escape-time shaders into hypercomplex_escape_time and updated pubspec/catalog/test/comment references.",
+    "Moved six 3D raymarched/distance-estimated shaders into raymarched_volumes and updated pubspec/catalog/test/comment references.",
+    "Performed shared-code pass; duplicate palette/color/raymarch helpers intentionally left inline because Flutter shader assets have no existing include/shared contract and extraction would risk shader compilation behavior."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart format test/shaders/standalone_shader_catalogs/three_d_and_hypercomplex_shader_assets_test.dart => Formatted 1 file (0 changed).",
+    "custom python target asset check => 12 declared target shaders exist; no root .frag files remain; no old direct root shader refs remain.",
+    "/home/xel/flutter/bin/dart analyze test/shaders/standalone_shader_catalogs/three_d_and_hypercomplex_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart lib/core/modules/builders/raymarched_3d_catalog.dart lib/core/modules/mandelbox_module.dart => No issues found.",
+    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/three_d_and_hypercomplex_shader_assets_test.dart => blocked by pre-existing unrelated missing asset shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag during asset bundle build.",
+    "folder_refactor_audit target=shaders/3d_and_hypercomplex plannedTopologyComplete=true => pass."
+  ]
+}

@@ -20,17 +20,17 @@ void main() {
       'shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag',
       'shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag',
       'shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag',
-      'shaders/3d_and_hypercomplex/quaternion_julia_3d_gpu.frag',
-      'shaders/3d_and_hypercomplex/dual_quaternion_julia_gpu.frag',
-      'shaders/3d_and_hypercomplex/mandelbox_shape_inversion_gpu.frag',
+      'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag',
+      'shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag',
+      'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag',
       'shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag',
-      'shaders/3d_and_hypercomplex/mandelbulb_time_modulated_gpu.frag',
+      'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag',
       // Standalone 3D modules
       'shaders/legacy/mandelbulb.frag',
-      'shaders/3d_and_hypercomplex/mandelbox_3d_gpu.frag',
+      'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag',
       'shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag',
       'shaders/ifs_and_geometric/self_similar_sets/menger_3d_slice_gpu.frag',
-      'shaders/3d_and_hypercomplex/quaternion_julia_2d_gpu.frag',
+      'shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag',
     ];
 
     for (final asset in shaderAssets) {

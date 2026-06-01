@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-01T13:57:24.403Z",
+  "generatedAt": "2026-06-01T14:01:47.362Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -9,7 +9,7 @@
     {
       "relative": "test",
       "score": 820,
-      "files": 1260,
+      "files": 1261,
       "direct": 81,
       "churn": 0,
       "callers": 1,
@@ -317,22 +317,6 @@
       ]
     },
     {
-      "relative": "docs/engineering",
-      "score": 121.2,
-      "files": 12,
-      "direct": 12,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 0,
-      "duplicates": 3,
-      "subdirs": 0,
-      "extensions": [
-        ".md"
-      ]
-    },
-    {
       "relative": "shaders/3d_and_hypercomplex",
       "score": 121.2,
       "files": 12,
@@ -411,6 +395,22 @@
       "extensions": [
         ".dart",
         ".md"
+      ]
+    },
+    {
+      "relative": "shaders/escape_time_family/families/multijulia",
+      "score": 101,
+      "files": 10,
+      "direct": 10,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 0,
+      "duplicates": 0,
+      "subdirs": 0,
+      "extensions": [
+        ".frag"
       ]
     }
   ],

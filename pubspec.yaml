@@ -55,7 +55,7 @@ flutter:
     - shaders/diagnostic/test_gl_fragcoord.frag
     - shaders/diagnostic/test_flutter_coord.frag
     - shaders/legacy/mandelbulb.frag
-    - shaders/3d_and_hypercomplex/mandelbox_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag
     - shaders/legacy/mandelbrot.frag
     - shaders/legacy/julia.frag
     - shaders/legacy/burning_ship.frag
@@ -237,12 +237,12 @@ flutter:
     - shaders/escape_time_family/families/multibrot/integer_powers/multibrot6_gpu.frag
     - shaders/escape_time_family/families/tricorn/tricorn_power4_gpu.frag
     - shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_power4_gpu.frag
-    - shaders/3d_and_hypercomplex/quaternion_julia_2d_gpu.frag
-    - shaders/3d_and_hypercomplex/tessarine_julia_gpu.frag
-    - shaders/3d_and_hypercomplex/split_complex_gpu.frag
-    - shaders/3d_and_hypercomplex/dual_complex_gpu.frag
-    - shaders/3d_and_hypercomplex/bicomplex_gpu.frag
-    - shaders/3d_and_hypercomplex/hypercomplex_newton_gpu.frag
+    - shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag
+    - shaders/3d_and_hypercomplex/hypercomplex_escape_time/tessarine_julia_gpu.frag
+    - shaders/3d_and_hypercomplex/hypercomplex_escape_time/split_complex_gpu.frag
+    - shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag
+    - shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag
+    - shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag
     - shaders/cellular_and_stochastic/lattice_automata/wolfram_rule30_gpu.frag
     - shaders/cellular_and_stochastic/agent_walkers/langton_ant_gpu.frag
     - shaders/cellular_and_stochastic/stochastic_growth/sandpile_gpu.frag
@@ -328,7 +328,7 @@ flutter:
     - shaders/escape_time_family/experimental_named/transcendental_deformations/bullet_shot_gpu.frag
     - shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag
     - shaders/escape_time_family/experimental_named/polynomial_variants/drill_gpu.frag
-    - shaders/3d_and_hypercomplex/3d_fractal_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/3d_fractal_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/iterative_maps/undefined_gpu.frag
     - shaders/strange_attractors/sprott_systems/sprott_b_gpu.frag
     - shaders/strange_attractors/sprott_systems/sprott_c_gpu.frag
@@ -428,11 +428,11 @@ flutter:
     - shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag
-    - shaders/3d_and_hypercomplex/quaternion_julia_3d_gpu.frag
-    - shaders/3d_and_hypercomplex/dual_quaternion_julia_gpu.frag
-    - shaders/3d_and_hypercomplex/mandelbox_shape_inversion_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag
-    - shaders/3d_and_hypercomplex/mandelbulb_time_modulated_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag
     - shaders/escape_time_family/experimental_named/coupled_orbits/alternated_iteration_gpu.frag
     - shaders/escape_time_family/experimental_named/discrete_attractors/bedhead_gpu.frag
     - shaders/strange_attractors/discrete_maps/bogdanov_map_gpu.frag
