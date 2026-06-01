@@ -94,5 +94,14 @@ void main() {
       expect(normalized.pan.y, FractalViewInputBounds.maxPan);
       expect(normalized.rotation, Vector3(0.25, 0.0, 3));
     });
+
+    test('normalizes mixed finite and non-finite rotation updates', () {
+      final normalized = FractalViewInputBounds.normalizeRotation(
+        candidate: Vector3(double.nan, double.infinity, 2.0),
+        current: Vector3(0.25, -0.5, 1.0),
+      );
+
+      expect(normalized, Vector3(0.25, -0.5, 2.0));
+    });
   });
 }

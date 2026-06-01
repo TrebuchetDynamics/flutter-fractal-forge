@@ -419,7 +419,12 @@ class FractalController extends ChangeNotifier {
   ///
   /// Used for 3D fractals like Mandelbulb to control camera orientation.
   void updateRotation(Vector3 rotation) {
-    _view = _view.copyWith(rotation: rotation);
+    _view = _view.copyWith(
+      rotation: FractalViewInputBounds.normalizeRotation(
+        candidate: rotation,
+        current: _view.rotation,
+      ),
+    );
     notifyListeners();
   }
 
