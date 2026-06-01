@@ -143,6 +143,49 @@ int _countDifferentPixels({
   return different;
 }
 
+/// Replayable counters used by frame validation.
+///
+/// This separates byte-buffer sampling from threshold decisions so truncated
+/// frames and invalid dimensions can be characterized without inferring hidden
+/// state from the final pass/fail booleans.
+class RenderFrameSample {
+  final int totalPixels;
+  final int readablePixels;
+  final int nonBlackPixels;
+  final bool centerReadable;
+
+  const RenderFrameSample({
+    required this.totalPixels,
+    required this.readablePixels,
+    required this.nonBlackPixels,
+    required this.centerReadable,
+  });
+
+  bool get hasCompleteFrame => totalPixels > 0 && readablePixels == totalPixels;
+
+  double get nonBlackRatio =>
+      totalPixels == 0 ? 0.0 : nonBlackPixels / totalPixels;
+}
+
+/// Replayable counters used by pair validation.
+class RenderPairSample {
+  final RenderFrameSample frameB;
+  final int comparablePixels;
+  final int differentPixels;
+  final bool hasCompletePair;
+
+  const RenderPairSample({
+    required this.frameB,
+    required this.comparablePixels,
+    required this.differentPixels,
+    required this.hasCompletePair,
+  });
+
+  double get progressionRatio => frameB.totalPixels == 0 || !hasCompletePair
+      ? 0.0
+      : differentPixels / frameB.totalPixels;
+}
+
 class RenderFrameStats {
   final int centerR;
   final int centerG;
@@ -165,25 +208,36 @@ class RenderFrameStats {
   }
 }
 
+RenderFrameSample sampleRenderFrame({
+  required Uint8List frame,
+  required int width,
+  required int height,
+}) {
+  final geometry = _RenderFrameGeometry(width: width, height: height);
+  final readablePixels = geometry.readablePixelCount(frame);
+  return RenderFrameSample(
+    totalPixels: geometry.totalPixels,
+    readablePixels: readablePixels,
+    nonBlackPixels: _countNonBlackPixels(frame, readablePixels),
+    centerReadable: geometry.canReadCenter(frame),
+  );
+}
+
 RenderFrameStats validateRenderFrame({
   required Uint8List frame,
   required int width,
   required int height,
 }) {
   final geometry = _RenderFrameGeometry(width: width, height: height);
+  final sample = sampleRenderFrame(frame: frame, width: width, height: height);
   final cIndex = geometry.centerIndex;
-  final centerR = geometry.canReadCenter(frame) ? frame[cIndex] : 0;
-  final centerG = geometry.canReadCenter(frame) ? frame[cIndex + 1] : 0;
-  final centerB = geometry.canReadCenter(frame) ? frame[cIndex + 2] : 0;
+  final centerR = sample.centerReadable ? frame[cIndex] : 0;
+  final centerG = sample.centerReadable ? frame[cIndex + 1] : 0;
+  final centerB = sample.centerReadable ? frame[cIndex + 2] : 0;
 
-  final centerNonBlack =
-      geometry.canReadCenter(frame) && _isNonBlack(frame, cIndex);
+  final centerNonBlack = sample.centerReadable && _isNonBlack(frame, cIndex);
 
-  final readablePixels = geometry.readablePixelCount(frame);
-  final nonBlack = _countNonBlackPixels(frame, readablePixels);
-
-  final nonBlackRatio =
-      geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;
+  final nonBlackRatio = sample.nonBlackRatio;
   final histogramSane =
       RenderValidationThresholds.defaults.histogramSaneFor(nonBlackRatio);
 
@@ -229,6 +283,35 @@ class RenderCheckResult {
   }
 }
 
+RenderPairSample sampleRenderPair({
+  required Uint8List frameA,
+  required Uint8List frameB,
+  required int width,
+  required int height,
+}) {
+  final geometry = _RenderFrameGeometry(width: width, height: height);
+  final frameBSample = sampleRenderFrame(
+    frame: frameB,
+    width: width,
+    height: height,
+  );
+  final comparablePixels = math.min(
+    geometry.readablePixelCount(frameA),
+    frameBSample.readablePixels,
+  );
+  return RenderPairSample(
+    frameB: frameBSample,
+    comparablePixels: comparablePixels,
+    differentPixels: _countDifferentPixels(
+      frameA: frameA,
+      frameB: frameB,
+      readablePixels: comparablePixels,
+    ),
+    hasCompletePair:
+        geometry.hasCompleteFrame(frameA) && geometry.hasCompleteFrame(frameB),
+  );
+}
+
 RenderCheckResult validateRenderPair({
   required Uint8List frameA,
   required Uint8List frameB,
@@ -236,37 +319,26 @@ RenderCheckResult validateRenderPair({
   required int height,
 }) {
   final geometry = _RenderFrameGeometry(width: width, height: height);
-  final cIndex = geometry.centerIndex;
-  final centerR = geometry.canReadCenter(frameB) ? frameB[cIndex] : 0;
-  final centerG = geometry.canReadCenter(frameB) ? frameB[cIndex + 1] : 0;
-  final centerB = geometry.canReadCenter(frameB) ? frameB[cIndex + 2] : 0;
-
-  final centerNonBlack =
-      geometry.canReadCenter(frameB) && _isNonBlack(frameB, cIndex);
-
-  final frameBReadablePixels = geometry.readablePixelCount(frameB);
-  final comparablePixels = math.min(
-    geometry.readablePixelCount(frameA),
-    frameBReadablePixels,
-  );
-  final nonBlack = _countNonBlackPixels(frameB, frameBReadablePixels);
-  final different = _countDifferentPixels(
+  final sample = sampleRenderPair(
     frameA: frameA,
     frameB: frameB,
-    readablePixels: comparablePixels,
+    width: width,
+    height: height,
   );
-  final hasCompletePair =
-      geometry.hasCompleteFrame(frameA) && geometry.hasCompleteFrame(frameB);
+  final cIndex = geometry.centerIndex;
+  final centerR = sample.frameB.centerReadable ? frameB[cIndex] : 0;
+  final centerG = sample.frameB.centerReadable ? frameB[cIndex + 1] : 0;
+  final centerB = sample.frameB.centerReadable ? frameB[cIndex + 2] : 0;
 
-  final nonBlackRatio =
-      geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;
+  final centerNonBlack =
+      sample.frameB.centerReadable && _isNonBlack(frameB, cIndex);
+
+  final nonBlackRatio = sample.frameB.nonBlackRatio;
   final histogramSane =
       RenderValidationThresholds.defaults.histogramSaneFor(nonBlackRatio);
   // Progression is a whole-frame claim; a truncated frame can still prove the
   // current histogram, but cannot prove frame-to-frame movement.
-  final progressionRatio = geometry.totalPixels == 0 || !hasCompletePair
-      ? 0.0
-      : different / geometry.totalPixels;
+  final progressionRatio = sample.progressionRatio;
   final frameProgressed =
       RenderValidationThresholds.defaults.frameProgressedFor(progressionRatio);
   final iterationDeltaVisible = RenderValidationThresholds.defaults

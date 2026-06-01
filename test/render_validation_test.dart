@@ -53,6 +53,48 @@ void main() {
     });
   });
 
+  group('sampleRenderFrame', () {
+    test('exposes readable pixel counts for truncated frames', () {
+      final frame = _blackFrame(3, 1);
+      frame[0] = 80;
+      frame[4] = 80;
+
+      final sample = sampleRenderFrame(frame: frame, width: 4, height: 2);
+
+      expect(sample.totalPixels, 8);
+      expect(sample.readablePixels, 3);
+      expect(sample.nonBlackPixels, 2);
+      expect(sample.centerReadable, isFalse);
+      expect(sample.hasCompleteFrame, isFalse);
+      expect(sample.nonBlackRatio, 2 / 8);
+    });
+  });
+
+  group('sampleRenderPair', () {
+    test('exposes comparable pixels and gates progression on complete pairs',
+        () {
+      final frameA = _blackFrame(2, 1);
+      final frameB = _blackFrame(3, 1);
+      frameB[0] = 80;
+      frameB[4] = 80;
+      frameB[8] = 80;
+
+      final sample = sampleRenderPair(
+        frameA: frameA,
+        frameB: frameB,
+        width: 3,
+        height: 1,
+      );
+
+      expect(sample.frameB.totalPixels, 3);
+      expect(sample.frameB.readablePixels, 3);
+      expect(sample.comparablePixels, 2);
+      expect(sample.differentPixels, 2);
+      expect(sample.hasCompletePair, isFalse);
+      expect(sample.progressionRatio, 0.0);
+    });
+  });
+
   group('validateRenderFrame', () {
     test('empty dimensions return invalid black stats instead of crashing', () {
       final stats = validateRenderFrame(
