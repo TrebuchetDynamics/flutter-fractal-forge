@@ -161,20 +161,9 @@ class _DeepLinkModuleId {
 }
 
 class _DeepLinkQuery {
-  static const recognizedNames = {
+  static final recognizedNames = {
     'type',
-    'zoom',
-    'x',
-    'y',
-    'rotX',
-    'rotY',
-    'rotZ',
-    'iterations',
-    'bailout',
-    'colorScheme',
-    'power',
-    'juliaX',
-    'juliaY',
+    for (final param in DeepLinkService._allQueryParams) param.name,
   };
 
   final Map<String, String> _params;
@@ -198,7 +187,12 @@ class _DeepLinkQuery {
   String? operator [](String name) => _params[name];
 }
 
-class _BoundedDoubleQueryParam {
+abstract interface class _DeepLinkQueryParamContract {
+  String get name;
+}
+
+class _BoundedDoubleQueryParam implements _DeepLinkQueryParamContract {
+  @override
   final String name;
   final double min;
   final double max;
@@ -223,7 +217,8 @@ class _BoundedDoubleQueryParam {
   bool _contains(double value) => value >= min && value <= max;
 }
 
-class _BoundedIntQueryParam {
+class _BoundedIntQueryParam implements _DeepLinkQueryParamContract {
+  @override
   final String name;
   final int min;
   final int max;
@@ -262,6 +257,21 @@ class DeepLinkService {
   static const _powerParam = _BoundedDoubleQueryParam('power', 1, 20);
   static const _juliaXParam = _BoundedDoubleQueryParam('juliaX', -1e10, 1e10);
   static const _juliaYParam = _BoundedDoubleQueryParam('juliaY', -1e10, 1e10);
+
+  static const List<_DeepLinkQueryParamContract> _allQueryParams = [
+    _zoomParam,
+    _xParam,
+    _yParam,
+    _rotXParam,
+    _rotYParam,
+    _rotZParam,
+    _iterationsParam,
+    _bailoutParam,
+    _colorSchemeParam,
+    _powerParam,
+    _juliaXParam,
+    _juliaYParam,
+  ];
 
   // Method channel for receiving deep links from native code
   static const MethodChannel _channel =

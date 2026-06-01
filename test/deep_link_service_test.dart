@@ -133,6 +133,37 @@ void main() {
         expect(data!.type, 'mandelbrot');
         expect(data.zoom, 5.0);
       });
+
+      test('rejects duplicates for every generated deep-link parameter', () {
+        final generated = DeepLinkService.buildUri(
+          moduleId: 'julia',
+          params: const {
+            'iterations': 200,
+            'bailout': 4.5,
+            'colorScheme': 2,
+            'power': 8.0,
+            'juliaX': -0.7,
+            'juliaY': 0.27,
+          },
+          view: FractalViewState(
+            pan: Vector2(-0.5, 0.25),
+            zoom: 5.0,
+            rotation: Vector3(0.1, 0.2, 0.3),
+          ),
+        );
+
+        for (final paramName in generated.queryParameters.keys) {
+          final duplicated = generated.replace(
+            query: '${generated.query}&$paramName=duplicate',
+          );
+
+          expect(
+            DeepLinkService.parseUri(duplicated),
+            isNull,
+            reason: '$paramName must be part of duplicate detection',
+          );
+        }
+      });
     });
 
     group('buildUri', () {
