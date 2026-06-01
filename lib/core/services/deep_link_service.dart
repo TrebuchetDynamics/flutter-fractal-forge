@@ -244,7 +244,7 @@ class _BoundedIntQueryParam implements _DeepLinkQueryParamContract {
   }
 
   String? format(Object? value) {
-    final parsed = DeepLinkService._tryInt(value);
+    final parsed = _DeepLinkIntegerValue.tryParse(value);
     if (parsed == null || !_contains(parsed)) {
       return null;
     }
@@ -252,6 +252,27 @@ class _BoundedIntQueryParam implements _DeepLinkQueryParamContract {
   }
 
   bool _contains(int value) => value >= min && value <= max;
+}
+
+class _DeepLinkIntegerValue {
+  static const double _maxSafeIntegerDouble = 9007199254740991.0;
+
+  const _DeepLinkIntegerValue._();
+
+  /// Mirrors runtime module int-param readers for generated links: persisted
+  /// parameter maps may carry slider-originated doubles, but generated URLs
+  /// must contain replayable integer query values.
+  static int? tryParse(Object? value) {
+    return switch (value) {
+      int v => v,
+      double v when _isSafeIntegerDouble(v) => v.round(),
+      _ => null,
+    };
+  }
+
+  static bool _isSafeIntegerDouble(double value) {
+    return value.isFinite && value.abs() <= _maxSafeIntegerDouble;
+  }
 }
 
 class DeepLinkService {
@@ -612,14 +633,6 @@ class DeepLinkService {
       return null;
     }
     return parsed;
-  }
-
-  static int? _tryInt(Object? value) {
-    return switch (value) {
-      int v => v,
-      String v => int.tryParse(v),
-      _ => null,
-    };
   }
 
   /// Disposes of the service and closes the stream.

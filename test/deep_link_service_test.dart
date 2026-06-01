@@ -270,6 +270,21 @@ void main() {
         expect(uri.queryParameters['bailout'], '4.5');
       });
 
+      test('formats finite double-valued integer params like runtime readers',
+          () {
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbrot',
+          params: {
+            'iterations': 120.5,
+            'colorScheme': 2.0,
+          },
+          view: FractalViewState.initial(),
+        );
+
+        expect(uri.queryParameters['iterations'], '121');
+        expect(uri.queryParameters['colorScheme'], '2');
+      });
+
       test('omits unsupported parameter values instead of minting fallbacks',
           () {
         final uri = DeepLinkService.buildUri(
