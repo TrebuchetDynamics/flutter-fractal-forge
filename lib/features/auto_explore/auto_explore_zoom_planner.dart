@@ -195,6 +195,33 @@ class AutoExploreZoomLeg {
   }
 }
 
+/// Replayable target-selection data for one auto-explore cycle step.
+class AutoExploreZoomTargetPlan {
+  static const double collapseEpsilon = 1e-9;
+
+  final double currentZoom;
+  final double baseZoom;
+  final double peakZoom;
+  final double floorZoom;
+  final bool zoomingIn;
+
+  const AutoExploreZoomTargetPlan({
+    required this.currentZoom,
+    required this.baseZoom,
+    required this.peakZoom,
+    required this.floorZoom,
+    required this.zoomingIn,
+  });
+
+  bool get isCollapsed => (peakZoom - floorZoom).abs() < collapseEpsilon;
+
+  double get targetZoom => isCollapsed
+      ? baseZoom
+      : zoomingIn
+          ? peakZoom
+          : floorZoom;
+}
+
 /// Pure zoom-planning logic for [AutoExploreService].
 ///
 /// Keeping target selection side-effect free makes the precision assumptions
@@ -247,7 +274,7 @@ class AutoExploreZoomPlanner {
     return bounds.clamp(max(bounds.minZoom, contextualFloor));
   }
 
-  double nextTargetZoom({
+  AutoExploreZoomTargetPlan planNextTarget({
     required double currentZoom,
     required double? cycleBaseZoom,
     required bool zoomingIn,
@@ -255,14 +282,27 @@ class AutoExploreZoomPlanner {
   }) {
     final current = clampZoom(currentZoom);
     final baseZoom = clampZoom(cycleBaseZoom ?? current);
-    final peakZoom = computePeakZoom(baseZoom: baseZoom, moduleId: moduleId);
-    final floorZoom = computeFloorZoom(baseZoom);
+    return AutoExploreZoomTargetPlan(
+      currentZoom: current,
+      baseZoom: baseZoom,
+      peakZoom: computePeakZoom(baseZoom: baseZoom, moduleId: moduleId),
+      floorZoom: computeFloorZoom(baseZoom),
+      zoomingIn: zoomingIn,
+    );
+  }
 
-    if ((peakZoom - floorZoom).abs() < 1e-9) {
-      return baseZoom;
-    }
-
-    return zoomingIn ? peakZoom : floorZoom;
+  double nextTargetZoom({
+    required double currentZoom,
+    required double? cycleBaseZoom,
+    required bool zoomingIn,
+    required String moduleId,
+  }) {
+    return planNextTarget(
+      currentZoom: currentZoom,
+      cycleBaseZoom: cycleBaseZoom,
+      zoomingIn: zoomingIn,
+      moduleId: moduleId,
+    ).targetZoom;
   }
 
   Duration durationForZoomLeg({

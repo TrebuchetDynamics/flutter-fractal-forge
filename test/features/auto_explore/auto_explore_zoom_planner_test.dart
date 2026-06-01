@@ -41,6 +41,25 @@ void main() {
     test('plans zoom-in and zoom-out targets from the same cycle base', () {
       const baseZoom = 10.0;
 
+      final zoomInPlan = planner.planNextTarget(
+        currentZoom: 12.0,
+        cycleBaseZoom: baseZoom,
+        zoomingIn: true,
+        moduleId: 'mandelbrot',
+      );
+      final zoomOutPlan = planner.planNextTarget(
+        currentZoom: 12.0,
+        cycleBaseZoom: baseZoom,
+        zoomingIn: false,
+        moduleId: 'mandelbrot',
+      );
+
+      expect(zoomInPlan.currentZoom, 12.0);
+      expect(zoomInPlan.baseZoom, baseZoom);
+      expect(zoomInPlan.peakZoom, 1200.0);
+      expect(zoomInPlan.floorZoom, AutoExploreConfig().minZoom);
+      expect(zoomInPlan.targetZoom, 1200.0);
+      expect(zoomOutPlan.targetZoom, AutoExploreConfig().minZoom);
       expect(
         planner.nextTargetZoom(
           currentZoom: 12.0,
@@ -48,17 +67,28 @@ void main() {
           zoomingIn: true,
           moduleId: 'mandelbrot',
         ),
-        1200.0,
+        zoomInPlan.targetZoom,
       );
-      expect(
-        planner.nextTargetZoom(
-          currentZoom: 12.0,
-          cycleBaseZoom: baseZoom,
-          zoomingIn: false,
-          moduleId: 'mandelbrot',
-        ),
-        AutoExploreConfig().minZoom,
+    });
+
+    test('makes collapsed target plans explicit', () {
+      const collapsedPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(minZoom: 1.0, maxZoom: 1.0),
       );
+
+      final plan = collapsedPlanner.planNextTarget(
+        currentZoom: 42.0,
+        cycleBaseZoom: null,
+        zoomingIn: true,
+        moduleId: 'unknown_orbit_module',
+      );
+
+      expect(plan.currentZoom, 1.0);
+      expect(plan.baseZoom, 1.0);
+      expect(plan.peakZoom, 1.0);
+      expect(plan.floorZoom, 1.0);
+      expect(plan.isCollapsed, isTrue);
+      expect(plan.targetZoom, 1.0);
     });
 
     test('scales leg duration by zoom span and speed', () {
