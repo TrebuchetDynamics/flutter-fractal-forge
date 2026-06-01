@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "lib/core/modules/3d_raymarching_hypercomplex/f0555_mandelbulb_n_2",
+  "updatedAt": "2026-06-01T13:02:25.458Z",
+  "objective": "Refactor f0555_mandelbulb_n_2 around behavior/responsibility: keep root module as public compatibility facade/orchestrator; move generated metadata, presets, and variants descriptors into focused subfolders matching existing 3d_raymarching_hypercomplex topology.",
+  "completedSlices": [
+    "Moved generated metadata into metadata/ and updated module import.",
+    "Moved generated presets into presets/ and updated module import.",
+    "Moved generated variants into variants/ and updated module import.",
+    "Shared-code pass completed: no extraction because descriptor/value types have only one concrete target-folder call site and files are generated."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/modules/3d_raymarching_hypercomplex/f0555_mandelbulb_n_2/f0555_mandelbulb_n_2_module_test.dart failed before and after refactor due unrelated pubspec asset: shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag missing.",
+    "/home/xel/flutter/bin/dart analyze lib/core/modules/3d_raymarching_hypercomplex/f0555_mandelbulb_n_2 test/modules/3d_raymarching_hypercomplex/f0555_mandelbulb_n_2 passed: No issues found.",
+    "folder_refactor_audit passed with module root facade and no next candidates."
+  ]
+}
