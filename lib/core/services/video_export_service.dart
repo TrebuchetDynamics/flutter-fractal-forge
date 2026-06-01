@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -32,8 +33,32 @@ class VideoExportResult {
 
   String get formattedSize {
     if (fileSizeBytes < 1024) return '$fileSizeBytes B';
-    if (fileSizeBytes < 1024 * 1024) return '${(fileSizeBytes / 1024).toStringAsFixed(1)} KB';
+    if (fileSizeBytes < 1024 * 1024)
+      return '${(fileSizeBytes / 1024).toStringAsFixed(1)} KB';
     return '${(fileSizeBytes / 1024 / 1024).toStringAsFixed(1)} MB';
+  }
+}
+
+/// Replayable frame timeline contract for video animations.
+class VideoFrameTimeline {
+  const VideoFrameTimeline._();
+
+  /// Returns normalized progress in [0, 1] for a frame sequence.
+  ///
+  /// A single-frame export is defined as the start of the animation. This keeps
+  /// frame interpolation deterministic without dividing by zero.
+  static double progress({
+    required int frameIndex,
+    required int totalFrames,
+  }) {
+    if (totalFrames <= 0) {
+      throw ArgumentError('Invalid totalFrames: $totalFrames');
+    }
+    if (totalFrames == 1) {
+      return 0.0;
+    }
+
+    return (frameIndex / (totalFrames - 1)).clamp(0.0, 1.0).toDouble();
   }
 }
 
@@ -48,7 +73,10 @@ class VideoExportService {
     required int frameIndex,
     required int totalFrames,
   }) {
-    final t = frameIndex / (totalFrames - 1).clamp(1, totalFrames);
+    final t = VideoFrameTimeline.progress(
+      frameIndex: frameIndex,
+      totalFrames: totalFrames,
+    );
     final easedT = options.easing.apply(t);
 
     switch (options.animationType) {
@@ -63,19 +91,19 @@ class VideoExportService {
         return startView.copyWith(zoom: newZoom);
 
       case VideoAnimationType.rotate:
-        final angle = easedT * 360 * (3.14159 / 180);
+        final angle = easedT * 2 * math.pi;
         final currentRot = startView.rotation;
         return startView.copyWith(
           rotation: Vector3(currentRot.x, currentRot.y + angle, currentRot.z),
         );
 
       case VideoAnimationType.pan:
-        final angle = easedT * 2 * 3.14159;
+        final angle = easedT * 2 * math.pi;
         final radius = 0.5 / startView.zoom;
         return startView.copyWith(
           pan: Vector2(
-            startView.pan.x + radius * (1 - angle.abs()),
-            startView.pan.y + radius * angle.abs(),
+            startView.pan.x + radius * math.cos(angle),
+            startView.pan.y + radius * math.sin(angle),
           ),
         );
 
@@ -95,14 +123,18 @@ class VideoExportService {
     final sweep = options.parameterSweep;
     if (sweep == null) return {};
 
-    var t = frameIndex / (totalFrames - 1).clamp(1, totalFrames);
-    
+    var t = VideoFrameTimeline.progress(
+      frameIndex: frameIndex,
+      totalFrames: totalFrames,
+    );
+
     if (sweep.pingPong) {
       t = t < 0.5 ? t * 2 : 2 - t * 2;
     }
-    
+
     final easedT = options.easing.apply(t);
-    final value = sweep.startValue + (sweep.endValue - sweep.startValue) * easedT;
+    final value =
+        sweep.startValue + (sweep.endValue - sweep.startValue) * easedT;
 
     return {sweep.parameterId: value};
   }
@@ -114,18 +146,20 @@ class VideoExportService {
   }
 
   /// Capture a widget as PNG bytes.
-  Future<Uint8List> captureWidget(GlobalKey boundaryKey, {double pixelRatio = 2.0}) async {
-    final boundary = boundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+  Future<Uint8List> captureWidget(GlobalKey boundaryKey,
+      {double pixelRatio = 2.0}) async {
+    final boundary = boundaryKey.currentContext?.findRenderObject()
+        as RenderRepaintBoundary?;
     if (boundary == null) {
       throw Exception('Could not find render boundary');
     }
-    
+
     final image = await boundary.toImage(pixelRatio: pixelRatio);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     if (byteData == null) {
       throw Exception('Could not capture image');
     }
-    
+
     return byteData.buffer.asUint8List();
   }
 
@@ -138,7 +172,9 @@ class VideoExportService {
     required FractalViewState startView,
     required Map<String, Object> startParams,
     required String fractalType,
-    required void Function(FractalViewState view, Map<String, double>? paramUpdates) updateView,
+    required void Function(
+            FractalViewState view, Map<String, double>? paramUpdates)
+        updateView,
     required Future<Uint8List> Function() captureFrame,
     void Function(double progress, String status)? onProgress,
   }) async {

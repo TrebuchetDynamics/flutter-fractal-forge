@@ -400,6 +400,31 @@ void main() {
       expect(frame.zoom, closeTo(4.0, 1e-9));
     });
 
+    test('pan: sampled orbit stays at the documented radius from the start pan',
+        () {
+      final view = makeView(zoom: 2.0);
+      const opts = VideoExportOptions(
+        animationType: VideoAnimationType.pan,
+        easing: AnimationEasing.linear,
+      );
+      final expectedRadius = 0.5 / view.zoom;
+
+      for (final frameIndex in [0, 3, 6, 9]) {
+        final frame = service.calculateAnimationFrame(
+          startView: view,
+          options: opts,
+          frameIndex: frameIndex,
+          totalFrames: 10,
+        );
+        final distance = (frame.pan - view.pan).length;
+        expect(
+          distance,
+          closeTo(expectedRadius, 1e-9),
+          reason: 'frameIndex=$frameIndex',
+        );
+      }
+    });
+
     test('parameterSweep and custom return unmodified view', () {
       final view = makeView(zoom: 7.0);
       for (final type in [
@@ -433,6 +458,25 @@ void main() {
           totalFrames: 1,
         ),
         returnsNormally,
+      );
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // VideoFrameTimeline
+  // ---------------------------------------------------------------------------
+  group('VideoFrameTimeline', () {
+    test('normalizes first, middle, last, and single-frame progress', () {
+      expect(VideoFrameTimeline.progress(frameIndex: 0, totalFrames: 10), 0.0);
+      expect(VideoFrameTimeline.progress(frameIndex: 5, totalFrames: 11), 0.5);
+      expect(VideoFrameTimeline.progress(frameIndex: 9, totalFrames: 10), 1.0);
+      expect(VideoFrameTimeline.progress(frameIndex: 0, totalFrames: 1), 0.0);
+    });
+
+    test('rejects invalid total frame counts at the timeline boundary', () {
+      expect(
+        () => VideoFrameTimeline.progress(frameIndex: 0, totalFrames: 0),
+        throwsArgumentError,
       );
     });
   });
@@ -508,7 +552,9 @@ void main() {
       expect(result.containsKey('myParam'), isTrue);
     });
 
-    test('pingPong: value at exact half of range (11 frames, index 5) equals endValue', () {
+    test(
+        'pingPong: value at exact half of range (11 frames, index 5) equals endValue',
+        () {
       const sweep = ParameterSweepConfig(
         parameterId: 'power',
         startValue: 0.0,
@@ -615,4 +661,3 @@ VideoExportResult _makeResult({
     format: format,
   );
 }
-
