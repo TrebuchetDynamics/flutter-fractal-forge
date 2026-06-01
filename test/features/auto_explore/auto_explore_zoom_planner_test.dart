@@ -330,6 +330,28 @@ void main() {
       expect(plan.interpolate(1.0), plan.endZoom);
     });
 
+    test('exposes replayable frame progress for timer-driven animation', () {
+      const config = AutoExploreConfig(
+        travelDuration: Duration(milliseconds: 1000),
+      );
+      const planner = AutoExploreZoomPlanner(config: config);
+
+      final plan = planner.animationPlanForZoomLeg(
+        startZoom: 1.0,
+        endZoom: 1.0,
+        speed: 1.0,
+      );
+
+      expect(plan.totalFrames, 63);
+      expect(plan.progressForFrame(0).raw, 0.0);
+      expect(plan.progressForFrame(1).raw, closeTo(1 / 63, 1e-12));
+      expect(plan.progressForFrame(62).reachedEnd, isFalse);
+      expect(plan.progressForFrame(63).raw, 1.0);
+      expect(plan.progressForFrame(63).reachedEnd, isTrue);
+      expect(plan.progressForFrame(64).raw, 1.0);
+      expect(plan.progressForFrame(64).reachedEnd, isTrue);
+    });
+
     test('counts sub-millisecond frame intervals without division by zero', () {
       final timing = AutoExploreFrameTiming(
         duration: const Duration(milliseconds: 2),

@@ -293,6 +293,28 @@ class AutoExploreLegDuration {
   }
 }
 
+/// Replayable progress for one auto-explore animation frame.
+///
+/// Timer-driven service code counts frames imperatively. Keeping the frame to
+/// [0, 1] progress conversion pure makes off-by-one and overrun behavior
+/// testable without relying on wall-clock timer order.
+class AutoExploreFrameProgress {
+  final int frame;
+  final int totalFrames;
+
+  const AutoExploreFrameProgress({
+    required this.frame,
+    required this.totalFrames,
+  }) : assert(totalFrames > 0, 'totalFrames must be positive');
+
+  double get raw {
+    if (frame <= 0) return 0.0;
+    return (frame / totalFrames).clamp(0.0, 1.0);
+  }
+
+  bool get reachedEnd => raw >= 1.0;
+}
+
 /// Replayable frame timing for one auto-explore zoom animation.
 ///
 /// The service animates with a fixed frame cadence; exposing the sanitized
@@ -336,6 +358,13 @@ class AutoExploreZoomAnimationPlan {
       );
 
   int get totalFrames => frameTiming.totalFrames;
+
+  AutoExploreFrameProgress progressForFrame(int frame) {
+    return AutoExploreFrameProgress(
+      frame: frame,
+      totalFrames: totalFrames,
+    );
+  }
 
   double interpolate(double t) {
     return AutoExploreZoomInterpolation.interpolate(
