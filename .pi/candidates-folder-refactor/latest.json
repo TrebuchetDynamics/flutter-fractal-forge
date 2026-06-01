@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-01T16:53:30.917Z",
+  "generatedAt": "2026-06-01T16:55:57.568Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -9,7 +9,7 @@
     {
       "relative": "test",
       "score": 880,
-      "files": 1270,
+      "files": 1271,
       "direct": 87,
       "churn": 0,
       "callers": 1,

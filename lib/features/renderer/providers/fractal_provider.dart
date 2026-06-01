@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:vector_math/vector_math.dart';
@@ -275,7 +276,7 @@ class FractalController extends ChangeNotifier {
     final schema = _findParam(id);
     if (schema == null) return;
     _params = Map<String, Object>.from(_params);
-    _params[id] = _clampValue(schema, value);
+    _params[id] = normalizeFractalParamValue(schema, value);
     notifyListeners();
     _logChange('stateChange', 'paramUpdate', 'Updated $id',
         metadata: {'value': value.toString()});
@@ -549,8 +550,10 @@ class FractalController extends ChangeNotifier {
 
     final clamped = <String, Object>{};
     for (final param in _module.parameters) {
-      clamped[param.id] =
-          _clampValue(param, merged[param.id] ?? param.defaultValue);
+      clamped[param.id] = normalizeFractalParamValue(
+        param,
+        merged[param.id] ?? param.defaultValue,
+      );
     }
 
     _params = clamped;
@@ -652,24 +655,6 @@ class FractalController extends ChangeNotifier {
     return double.parse(snapped.toStringAsFixed(6));
   }
 
-  Object _clampValue(FractalParameter schema, Object value) {
-    if (schema.type == FractalParamType.boolean) {
-      return value is bool ? value : false;
-    }
-    if (schema.type == FractalParamType.enumeration) {
-      final optionValues = schema.options.map((option) => option.value).toSet();
-      return optionValues.contains(value) ? value : schema.defaultValue;
-    }
-    if (value is num) {
-      final clamped = value.toDouble().clamp(schema.min, schema.max);
-      if (schema.type == FractalParamType.integer) {
-        return clamped.round();
-      }
-      return clamped;
-    }
-    return schema.defaultValue;
-  }
-
   FractalParameter? _findParam(String id) {
     for (final param in _module.parameters) {
       if (param.id == id) {
@@ -733,7 +718,7 @@ class FractalController extends ChangeNotifier {
     final clamped = <String, Object>{};
     for (final param in _module.parameters) {
       final value = params[param.id] ?? param.defaultValue;
-      clamped[param.id] = _clampValue(param, value);
+      clamped[param.id] = normalizeFractalParamValue(param, value);
     }
     _params = clamped;
 

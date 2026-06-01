@@ -42,6 +42,23 @@ void main() {
     expect(controller.params['colorScheme'], 0);
   });
 
+  test('FractalController does not promote NaN numeric params to max bounds',
+      () {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+
+    final iterationsDefault = controller.params['iterations'];
+    final bailoutDefault = controller.params['bailout'];
+
+    controller.updateParam('iterations', double.nan);
+    controller.updateParam('bailout', double.nan);
+
+    expect(controller.params['iterations'], iterationsDefault);
+    expect(controller.params['bailout'], bailoutDefault);
+  });
+
   test('FractalController sanitizes non-finite preset and loaded views', () {
     TestWidgetsFlutterBinding.ensureInitialized();
 
