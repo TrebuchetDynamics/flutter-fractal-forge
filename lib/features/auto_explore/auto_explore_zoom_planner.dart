@@ -35,6 +35,24 @@ class AutoExploreConfig {
   });
 }
 
+/// Speed bounds used by auto-explore playback.
+///
+/// Dart's [double.clamp] treats NaN as the upper bound. For playback speed,
+/// invalid telemetry or UI state should fall back to neutral 1.0x instead of
+/// silently selecting the fastest supported speed.
+class AutoExploreSpeed {
+  static const double min = 0.5;
+  static const double neutral = 1.0;
+  static const double max = 3.0;
+
+  const AutoExploreSpeed._();
+
+  static double normalize(double speed) {
+    if (speed.isNaN) return neutral;
+    return speed.clamp(min, max);
+  }
+}
+
 /// Zoom bounds used by auto-explore planning.
 ///
 /// Dart's [double.clamp] treats NaN as the upper bound, which would turn a
@@ -178,10 +196,7 @@ class AutoExploreZoomPlanner {
     return Duration(milliseconds: max(1, scaledMs));
   }
 
-  double _effectiveSpeed(double speed) {
-    if (speed.isNaN) return 1.0;
-    return speed.clamp(0.5, 3.0);
-  }
+  double _effectiveSpeed(double speed) => AutoExploreSpeed.normalize(speed);
 
   double interpolateZoom(double start, double end, double t) {
     final leg = AutoExploreZoomLeg.fromBounds(

@@ -52,7 +52,7 @@ class AutoExploreService extends ChangeNotifier {
 
   double get speed => _speed;
   set speed(double v) {
-    _speed = v.clamp(0.5, 3.0);
+    _speed = AutoExploreSpeed.normalize(v);
     notifyListeners();
   }
 

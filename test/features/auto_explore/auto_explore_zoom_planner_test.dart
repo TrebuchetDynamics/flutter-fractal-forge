@@ -71,12 +71,15 @@ void main() {
       );
     });
 
-    test('normalizes invalid leg speed before duration scaling', () {
+    test('normalizes invalid speed candidates before duration scaling', () {
       const config = AutoExploreConfig(
         travelDuration: Duration(milliseconds: 1000),
         maxDurationScale: 4.0,
       );
       const planner = AutoExploreZoomPlanner(config: config);
+
+      expect(AutoExploreSpeed.normalize(0.0), 0.5);
+      expect(AutoExploreSpeed.normalize(double.nan), 1.0);
 
       expect(
         planner.durationForZoomLeg(
