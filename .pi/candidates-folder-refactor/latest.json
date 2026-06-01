@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-01T15:31:39.926Z",
+  "generatedAt": "2026-06-01T15:34:29.242Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -138,6 +138,23 @@
       ]
     },
     {
+      "relative": "lib/features/renderer",
+      "score": 161.8,
+      "files": 18,
+      "direct": 16,
+      "churn": 0,
+      "callers": 1,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 33,
+      "subdirs": 1,
+      "extensions": [
+        ".dart",
+        ".md"
+      ]
+    },
+    {
       "relative": "scripts",
       "score": 161.6,
       "files": 16,
@@ -153,23 +170,6 @@
         ".md",
         ".py",
         ".sh"
-      ]
-    },
-    {
-      "relative": "lib/features/renderer",
-      "score": 151.7,
-      "files": 17,
-      "direct": 15,
-      "churn": 0,
-      "callers": 1,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 1,
-      "duplicates": 33,
-      "subdirs": 1,
-      "extensions": [
-        ".dart",
-        ".md"
       ]
     },
     {

@@ -157,16 +157,16 @@ class AutoExploreZoomPlanner {
     this.precisionPolicy = const DeepZoomPrecisionPolicy(),
   });
 
-  double clampZoom(double zoom) =>
-      AutoExploreZoomBounds.fromConfig(config).clamp(zoom);
+  AutoExploreZoomBounds get _bounds => AutoExploreZoomBounds.fromConfig(config);
+
+  double clampZoom(double zoom) => _bounds.clamp(zoom);
 
   double hardMaxZoomFor(String moduleId) {
     final headroom = AutoExplorePrecisionHeadroom.normalize(
       config.precisionHeadroom,
     );
-    final safeThreshold = (precisionPolicy.thresholdFor(moduleId) * headroom)
-        .clamp(config.minZoom, config.maxZoom);
-    return clampZoom(safeThreshold);
+    final safeThreshold = precisionPolicy.thresholdFor(moduleId) * headroom;
+    return _bounds.clamp(safeThreshold);
   }
 
   double computePeakZoom({
@@ -187,9 +187,10 @@ class AutoExploreZoomPlanner {
   }
 
   double computeFloorZoom(double baseZoom) {
-    final base = clampZoom(baseZoom);
+    final bounds = _bounds;
+    final base = bounds.clamp(baseZoom);
     final contextualFloor = base / config.cycleMaxMultiplier;
-    return clampZoom(max(config.minZoom, contextualFloor));
+    return bounds.clamp(max(bounds.minZoom, contextualFloor));
   }
 
   double nextTargetZoom({
@@ -216,7 +217,7 @@ class AutoExploreZoomPlanner {
     required double speed,
   }) {
     final leg = AutoExploreZoomLeg.fromBounds(
-      bounds: AutoExploreZoomBounds.fromConfig(config),
+      bounds: _bounds,
       startZoom: startZoom,
       endZoom: endZoom,
     );
@@ -234,7 +235,7 @@ class AutoExploreZoomPlanner {
 
   double interpolateZoom(double start, double end, double t) {
     final leg = AutoExploreZoomLeg.fromBounds(
-      bounds: AutoExploreZoomBounds.fromConfig(config),
+      bounds: _bounds,
       startZoom: start,
       endZoom: end,
     );
