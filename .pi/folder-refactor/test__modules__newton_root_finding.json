@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "test/modules/newton_root_finding",
+  "updatedAt": "2026-06-01T11:52:18.620Z",
+  "objective": "Refactor Newton/root-finding generated smoke tests into responsibility folders and extract shared generated module smoke-test contract while preserving behavior.",
+  "completedSlices": [
+    "Baseline validation passed: /home/xel/flutter/bin/flutter test test/modules/newton_root_finding",
+    "Moved all generated module test directories into responsibility folders: mitchell_newton_variants, higher_order_methods, derivative_free_methods, polynomiography, newton_polynomial_roots, newton_transcendental, newton_relaxation, nova_methods",
+    "Extracted repeated id/shader/presets/metadata smoke assertions into support/module_smoke_contract.dart and updated all concrete tests to call it",
+    "Completion audit passed with no remaining root files or next candidates"
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/modules/newton_root_finding -> All tests passed before refactor",
+    "/home/xel/flutter/bin/flutter test test/modules/newton_root_finding -> All tests passed after refactor",
+    "folder_refactor_audit(target=test/modules/newton_root_finding, plannedTopologyComplete=true) -> pass"
+  ]
+}

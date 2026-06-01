@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "target": "test/modules/ifs_geometric_construction",
+  "updatedAt": "2026-06-01T11:46:40.617Z",
+  "objective": "Completed refactor of generated IFS geometric construction smoke tests into responsibility subfolders with a shared smoke-test behavior contract. Boundaries: responsibility folders own generated tests for their fractal family; shared/module_smoke_contract.dart owns only public module smoke expectations and must not know individual modules, UI, app orchestration, rendering internals, or shader implementation details.",
+  "completedSlices": [
+    "Moved botanical/leaf tests into botanical_growth/.",
+    "Moved tree/spiral/crystal/galaxy tests into organic_trees_spirals/.",
+    "Moved Sierpinski/n-flake/fudgeflake tests into polygonal_flakes/.",
+    "Moved Koch/dragon/coastline/curve-boundary tests into curves_and_dragons/.",
+    "Moved Cantor/Menger tests into volumetric_cantor_menger/.",
+    "Moved Apollonian/Kleinian/Schottky/Mandala tests into circle_limit_sets/.",
+    "Moved f0293-f0296 classic fractal flame IFS tests into fractal_flames/classic_ifs/.",
+    "Moved f1101-f1141 fractal flame variation tests into fractal_flames/variations/.",
+    "Extracted shared/module_smoke_contract.dart and rewrote all module tests to call runModuleSmokeContract."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/modules/ifs_geometric_construction — passed (225 tests).",
+    "folder_refactor_audit test/modules/ifs_geometric_construction — passed with plannedTopologyComplete=true and no root files."
+  ]
+}

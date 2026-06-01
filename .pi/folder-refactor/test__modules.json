@@ -1,17 +1,17 @@
 {
   "version": 1,
   "target": "test/modules",
-  "updatedAt": "2026-05-30T00:50:35.821Z",
-  "objective": "Refactor generated module smoke tests from 1148 root f#### directories into category subfolders mirroring lib/core/modules categories.",
+  "updatedAt": "2026-06-01T12:09:32.602Z",
+  "objective": "Refactor generated module smoke tests into behavior-owned category folders plus a shared generated-smoke contract helper under test/modules/support.",
   "completedSlices": [
     "Move-only: inferred categories from package imports and moved all f#### module test directories under test/modules/<category>/ with no Dart content changes.",
-    "Shared-code pass: identified repeated generated smoke-test template; intentionally left duplication because these are generated per-module tests and extraction would be a broad generated-test rewrite beyond the move-only topology goal."
+    "Shared-code extraction: added test/modules/support/generated_module_smoke.dart to own the repeated generated module public behavior contract, and updated all 1148 generated module smoke tests to construct only their concrete module and delegate common assertions."
   ],
   "nextCandidates": [],
   "validationReceipts": [
     "Directory count check: 1148 *_module_test.dart files under 10 category folders; 0 root files under test/modules.",
-    "/home/xel/flutter/bin/flutter test test/modules/newton_root_finding — passed, 144 tests.",
-    "/home/xel/flutter/bin/flutter test test/modules — exited 0 (all generated module smoke tests discovered recursively).",
+    "/home/xel/flutter/bin/flutter test test/modules/reaction_diffusion_chemical — passed, 99 tests.",
+    "/home/xel/flutter/bin/flutter test test/modules --reporter=compact; EXIT:0 — passed all generated module smoke tests.",
     "folder_refactor_audit target=test/modules plannedTopologyComplete=true — pass."
   ]
 }

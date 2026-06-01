@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "test/modules/strange_attractors",
+  "updatedAt": "2026-06-01T11:38:59.394Z",
+  "objective": "Refactor generated strange-attractor smoke tests from hundreds of flat per-module directories into responsibility folders by attractor/map family, with a shared public AttractorModule smoke-test contract preserving behavior.",
+  "completedSlices": [
+    "Moved continuous flow attractor tests under continuous_flows/.",
+    "Moved base/canonical map tests under canonical_maps/.",
+    "Moved generated Clifford, Peter de Jong, icon, and Gumowski-Mira variants under family-specific folders.",
+    "Moved discrete dynamics catalog, Hopalong, Svensson, Tyler, Rulkov, and remaining map variant generated tests under responsibility folders.",
+    "Extracted shared/attractor_module_smoke_contract.dart and rewrote generated tests to call the shared AttractorModule smoke-test contract."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/modules/strange_attractors/continuous_flows test/modules/strange_attractors/canonical_maps test/modules/strange_attractors/clifford_family test/modules/strange_attractors/de_jong_family test/modules/strange_attractors/icon_family test/modules/strange_attractors/gumowski_mira_family: passed (All tests passed).",
+    "/home/xel/flutter/bin/flutter test test/modules/strange_attractors: passed, 867 tests, All tests passed.",
+    "/home/xel/flutter/bin/flutter test test/modules/strange_attractors: passed after shared contract extraction, 867 tests, All tests passed."
+  ]
+}

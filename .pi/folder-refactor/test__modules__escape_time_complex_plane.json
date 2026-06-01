@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "target": "test/modules/escape_time_complex_plane",
+  "updatedAt": "2026-06-01T11:35:04.155Z",
+  "objective": "Refactor generated escape-time complex-plane module smoke tests by behavior/responsibility. Planned topology groups module test directories under domain folders (polynomial_escape, julia_sets, later mandelbrot_zooms/transcendental_maps/buddhabrot_orbits/orbit_traps/coloring/rational_maps) and centralizes identical generated smoke assertions in contracts/module_smoke_contract.dart. Core test contracts must not import UI/rendering/app orchestration.",
+  "completedSlices": [
+    "Created contracts/module_smoke_contract.dart shared smoke-test contract for generated module identity/preset/metadata assertions.",
+    "Moved f0088-f0095 integer-power Multibrot tests to polynomial_escape/multibrot_integer and rewrote them to use the shared contract.",
+    "Moved f0096-f0102 and f0134-f0137 fractional/power Multibrot tests to polynomial_escape/multibrot_fractional and rewrote them to use the shared contract.",
+    "Moved f0103-f0118 and f0138-f0141 inverse/tricorn/burning-ship tests to polynomial_escape/conjugate_abs_variants and rewrote them to use the shared contract.",
+    "Moved f0119-f0133 Mandelbrot variant/magnet/Phoenix tests to polynomial_escape/mandelbrot_variants and rewrote them to use the shared contract.",
+    "Moved f0142-f0161 classic/named Julia tests to julia_sets/classic_named and rewrote them to use the shared contract."
+  ],
+  "nextCandidates": [
+    "Move remaining Julia root directories f0162-f0202 into julia_sets/structural_and_boundary (or split period/orbit families) and rewrite to contracts/module_smoke_contract.dart.",
+    "Move f0425-f0485 zoom-location tests into mandelbrot_zooms/* groups and rewrite to shared contract.",
+    "Move f0486-f0539 transcendental/Newton tests into transcendental_maps/* and rewrite to shared contract.",
+    "Move f1142-f1154 Buddhabrot tests into buddhabrot_orbits/* and rewrite to shared contract.",
+    "Move f1155-f1179 orbit trap tests into orbit_traps/* and rewrite to shared contract.",
+    "Move f1180-f1182 coloring tests into coloring_methods and f1218-f1232 rational/elliptic tests into rational_maps, using shared contract."
+  ],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/modules/escape_time_complex_plane/polynomial_escape/multibrot_integer — passed (8 tests).",
+    "/home/xel/flutter/bin/flutter test test/modules/escape_time_complex_plane/polynomial_escape/multibrot_fractional — passed (11 tests).",
+    "/home/xel/flutter/bin/flutter test test/modules/escape_time_complex_plane/polynomial_escape/conjugate_abs_variants — passed (20 tests).",
+    "/home/xel/flutter/bin/flutter test test/modules/escape_time_complex_plane/polynomial_escape/mandelbrot_variants — passed (15 tests).",
+    "/home/xel/flutter/bin/flutter test test/modules/escape_time_complex_plane/julia_sets/classic_named — passed (20 tests)."
+  ]
+}

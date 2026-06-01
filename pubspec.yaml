@@ -144,14 +144,14 @@ flutter:
     - shaders/root_finding/halley_gpu.frag
     - shaders/root_finding/householder_gpu.frag
     - shaders/root_finding/magnet_newton_gpu.frag
-    - shaders/strange_attractors/henon_gpu.frag
-    - shaders/strange_attractors/tinkerbell_gpu.frag
-    - shaders/strange_attractors/gingerbreadman_gpu.frag
-    - shaders/strange_attractors/lozi_gpu.frag
-    - shaders/strange_attractors/duffing_gpu.frag
-    - shaders/strange_attractors/ikeda_gpu.frag
-    - shaders/strange_attractors/hopalong_gpu.frag
-    - shaders/strange_attractors/pickover_gpu.frag
+    - shaders/strange_attractors/discrete_maps/henon_gpu.frag
+    - shaders/strange_attractors/discrete_maps/tinkerbell_gpu.frag
+    - shaders/strange_attractors/discrete_maps/gingerbreadman_gpu.frag
+    - shaders/strange_attractors/discrete_maps/lozi_gpu.frag
+    - shaders/strange_attractors/discrete_maps/duffing_gpu.frag
+    - shaders/strange_attractors/discrete_maps/ikeda_gpu.frag
+    - shaders/strange_attractors/discrete_maps/hopalong_gpu.frag
+    - shaders/strange_attractors/discrete_maps/pickover_gpu.frag
     - shaders/lyapunov_and_stability/feigenbaum_gpu.frag
     - shaders/lyapunov_and_stability/gauss_map_gpu.frag
     - shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag
@@ -183,49 +183,49 @@ flutter:
     - shaders/ifs_and_geometric/chair_tiling_gpu.frag
     - shaders/ifs_and_geometric/z_order_curve_gpu.frag
     - shaders/ifs_and_geometric/greek_cross_gpu.frag
-    - shaders/strange_attractors/clifford_gpu.frag
-    - shaders/strange_attractors/peter_de_jong_gpu.frag
-    - shaders/strange_attractors/svensson_gpu.frag
-    - shaders/strange_attractors/gumowski_mira_gpu.frag
-    - shaders/strange_attractors/arnold_cat_gpu.frag
-    - shaders/strange_attractors/standard_map_gpu.frag
-    - shaders/strange_attractors/zaslavsky_gpu.frag
-    - shaders/strange_attractors/kicked_rotator_gpu.frag
-    - shaders/strange_attractors/chua_gpu.frag
-    - shaders/strange_attractors/sprott_a_gpu.frag
-    - shaders/strange_attractors/burke_shaw_gpu.frag
-    - shaders/strange_attractors/arneodo_gpu.frag
-    - shaders/strange_attractors/thomas_attractor_gpu.frag
-    - shaders/strange_attractors/four_wing_gpu.frag
-    - shaders/strange_attractors/lorenz_2d_gpu.frag
-    - shaders/strange_attractors/rossler_2d_gpu.frag
-    - shaders/strange_attractors/dadras_gpu.frag
-    - shaders/strange_attractors/chen_gpu.frag
-    - shaders/strange_attractors/lu_chen_gpu.frag
-    - shaders/strange_attractors/halvorsen_gpu.frag
-    - shaders/strange_attractors/scroll_waves_gpu.frag
-    - shaders/strange_attractors/rikitake_gpu.frag
-    - shaders/strange_attractors/aizawa_gpu.frag
-    - shaders/strange_attractors/rabinovich_fabrikant_gpu.frag
-    - shaders/strange_attractors/nose_hoover_gpu.frag
-    - shaders/strange_attractors/moore_spiegel_gpu.frag
-    - shaders/strange_attractors/hadley_gpu.frag
-    - shaders/strange_attractors/genesio_tesi_gpu.frag
-    - shaders/strange_attractors/liu_chen_gpu.frag
-    - shaders/strange_attractors/newton_leipnik_gpu.frag
-    - shaders/strange_attractors/bouali_gpu.frag
-    - shaders/strange_attractors/dequan_li_gpu.frag
-    - shaders/strange_attractors/coullet_gpu.frag
-    - shaders/strange_attractors/sakarya_gpu.frag
-    - shaders/strange_attractors/qi_chen_gpu.frag
-    - shaders/strange_attractors/yu_wang_gpu.frag
-    - shaders/strange_attractors/zhou_chen_gpu.frag
-    - shaders/strange_attractors/tsucs_gpu.frag
-    - shaders/strange_attractors/rayleigh_benard_gpu.frag
-    - shaders/strange_attractors/robinson_gpu.frag
-    - shaders/strange_attractors/globo_toroid_gpu.frag
-    - shaders/strange_attractors/tamari_gpu.frag
-    - shaders/strange_attractors/wang_sun_cang_gpu.frag
+    - shaders/strange_attractors/discrete_maps/clifford_gpu.frag
+    - shaders/strange_attractors/discrete_maps/peter_de_jong_gpu.frag
+    - shaders/strange_attractors/discrete_maps/svensson_gpu.frag
+    - shaders/strange_attractors/discrete_maps/gumowski_mira_gpu.frag
+    - shaders/strange_attractors/discrete_maps/arnold_cat_gpu.frag
+    - shaders/strange_attractors/discrete_maps/standard_map_gpu.frag
+    - shaders/strange_attractors/discrete_maps/zaslavsky_gpu.frag
+    - shaders/strange_attractors/discrete_maps/kicked_rotator_gpu.frag
+    - shaders/strange_attractors/continuous_flows/chua_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_a_gpu.frag
+    - shaders/strange_attractors/continuous_flows/burke_shaw_gpu.frag
+    - shaders/strange_attractors/continuous_flows/arneodo_gpu.frag
+    - shaders/strange_attractors/continuous_flows/thomas_attractor_gpu.frag
+    - shaders/strange_attractors/continuous_flows/four_wing_gpu.frag
+    - shaders/strange_attractors/continuous_flows/lorenz_2d_gpu.frag
+    - shaders/strange_attractors/continuous_flows/rossler_2d_gpu.frag
+    - shaders/strange_attractors/continuous_flows/dadras_gpu.frag
+    - shaders/strange_attractors/continuous_flows/chen_gpu.frag
+    - shaders/strange_attractors/continuous_flows/lu_chen_gpu.frag
+    - shaders/strange_attractors/continuous_flows/halvorsen_gpu.frag
+    - shaders/strange_attractors/continuous_flows/scroll_waves_gpu.frag
+    - shaders/strange_attractors/continuous_flows/rikitake_gpu.frag
+    - shaders/strange_attractors/continuous_flows/aizawa_gpu.frag
+    - shaders/strange_attractors/continuous_flows/rabinovich_fabrikant_gpu.frag
+    - shaders/strange_attractors/continuous_flows/nose_hoover_gpu.frag
+    - shaders/strange_attractors/continuous_flows/moore_spiegel_gpu.frag
+    - shaders/strange_attractors/continuous_flows/hadley_gpu.frag
+    - shaders/strange_attractors/continuous_flows/genesio_tesi_gpu.frag
+    - shaders/strange_attractors/continuous_flows/liu_chen_gpu.frag
+    - shaders/strange_attractors/continuous_flows/newton_leipnik_gpu.frag
+    - shaders/strange_attractors/continuous_flows/bouali_gpu.frag
+    - shaders/strange_attractors/continuous_flows/dequan_li_gpu.frag
+    - shaders/strange_attractors/continuous_flows/coullet_gpu.frag
+    - shaders/strange_attractors/continuous_flows/sakarya_gpu.frag
+    - shaders/strange_attractors/continuous_flows/qi_chen_gpu.frag
+    - shaders/strange_attractors/continuous_flows/yu_wang_gpu.frag
+    - shaders/strange_attractors/continuous_flows/zhou_chen_gpu.frag
+    - shaders/strange_attractors/continuous_flows/tsucs_gpu.frag
+    - shaders/strange_attractors/continuous_flows/rayleigh_benard_gpu.frag
+    - shaders/strange_attractors/continuous_flows/robinson_gpu.frag
+    - shaders/strange_attractors/continuous_flows/globo_toroid_gpu.frag
+    - shaders/strange_attractors/continuous_flows/tamari_gpu.frag
+    - shaders/strange_attractors/continuous_flows/wang_sun_cang_gpu.frag
     - shaders/escape_time_family/core/escape_time_perturb_gpu.frag
     - shaders/root_finding/newton_z4_gpu.frag
     - shaders/root_finding/newton_z6_gpu.frag
@@ -330,14 +330,14 @@ flutter:
     - shaders/escape_time_family/experimental_named/drill_gpu.frag
     - shaders/3d_and_hypercomplex/3d_fractal_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/undefined_gpu.frag
-    - shaders/strange_attractors/sprott_b_gpu.frag
-    - shaders/strange_attractors/sprott_c_gpu.frag
-    - shaders/strange_attractors/sprott_d_gpu.frag
-    - shaders/strange_attractors/sprott_e_gpu.frag
-    - shaders/strange_attractors/sprott_f_gpu.frag
-    - shaders/strange_attractors/rucklidge_gpu.frag
-    - shaders/strange_attractors/shimizu_morioka_gpu.frag
-    - shaders/strange_attractors/chen_lee_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_b_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_c_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_d_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_e_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_f_gpu.frag
+    - shaders/strange_attractors/continuous_flows/rucklidge_gpu.frag
+    - shaders/strange_attractors/continuous_flows/shimizu_morioka_gpu.frag
+    - shaders/strange_attractors/continuous_flows/chen_lee_gpu.frag
     - shaders/root_finding/newton_z5_gpu.frag
     - shaders/escape_time_family/julia_variants/biomorph_gpu.frag
     - shaders/escape_time_family/families/multijulia/multijulia3_gpu.frag
@@ -435,7 +435,7 @@ flutter:
     - shaders/3d_and_hypercomplex/mandelbulb_time_modulated_gpu.frag
     - shaders/escape_time_family/experimental_named/alternated_iteration_gpu.frag
     - shaders/escape_time_family/experimental_named/bedhead_gpu.frag
-    - shaders/strange_attractors/bogdanov_map_gpu.frag
+    - shaders/strange_attractors/discrete_maps/bogdanov_map_gpu.frag
     - shaders/escape_time_family/families/buddhabrot/buddhabrot_full_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo2_gpu.frag
     - shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag
@@ -484,15 +484,15 @@ flutter:
     - shaders/trigonometric_and_transcendental/secant_mandelbrot_gpu.frag
     - shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag
     - shaders/ifs_and_geometric/sierpinski_julia_rational_gpu.frag
-    - shaders/strange_attractors/sprott_g_gpu.frag
-    - shaders/strange_attractors/sprott_h_gpu.frag
-    - shaders/strange_attractors/sprott_i_gpu.frag
-    - shaders/strange_attractors/sprott_k_gpu.frag
-    - shaders/strange_attractors/sprott_l_gpu.frag
-    - shaders/strange_attractors/sprott_m_gpu.frag
-    - shaders/strange_attractors/sprott_n_gpu.frag
-    - shaders/strange_attractors/sprott_o_gpu.frag
-    - shaders/strange_attractors/sprott_s_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_g_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_h_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_i_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_k_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_l_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_m_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_n_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_o_gpu.frag
+    - shaders/strange_attractors/sprott_systems/sprott_s_gpu.frag
     - shaders/root_finding/steffensen_gpu.frag
     - shaders/root_finding/steffensen_order8_gpu.frag
     - shaders/trigonometric_and_transcendental/superexponential_gpu.frag

@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "target": "test/modules/number_theory_fractals",
+  "updatedAt": "2026-06-01T11:58:01.238Z",
+  "objective": "Organize generated number-theory fractal module smoke tests into behavior/domain-owned subfolders and extract shared public CellularModule smoke-test contract without changing behavior.",
+  "completedSlices": [
+    "Baseline `flutter test test/modules/number_theory_fractals` passed before edits.",
+    "Moved rational-map/continued-fraction tests into rational_dynamics and singular function tests into singular_curves; targeted tests passed.",
+    "Moved sequence/substitution tests into symbolic_sequences and beta/p-adic/lattice tests into adics_and_lattices; targeted tests passed.",
+    "Moved Pascal modular tests into modular_combinatorics and prime/arithmetic-function spiral tests into arithmetic_functions; targeted tests passed.",
+    "Extracted `_shared/number_theory_module_smoke.dart` contract and rewired all 40 generated module tests to it; full target tests passed."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/modules/number_theory_fractals => All tests passed (baseline).",
+    "/home/xel/flutter/bin/flutter test test/modules/number_theory_fractals/rational_dynamics test/modules/number_theory_fractals/singular_curves => All tests passed.",
+    "/home/xel/flutter/bin/flutter test test/modules/number_theory_fractals/symbolic_sequences test/modules/number_theory_fractals/adics_and_lattices => All tests passed.",
+    "/home/xel/flutter/bin/flutter test test/modules/number_theory_fractals/modular_combinatorics test/modules/number_theory_fractals/arithmetic_functions => All tests passed.",
+    "/home/xel/flutter/bin/flutter test test/modules/number_theory_fractals => All tests passed after shared helper extraction."
+  ]
+}

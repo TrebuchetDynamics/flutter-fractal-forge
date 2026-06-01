@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "target": "shaders/strange_attractors",
+  "updatedAt": "2026-06-01T12:13:40.741Z",
+  "objective": "Refactor strange-attractor shader assets into responsibility-owned subfolders while preserving catalog/pubspec shader asset behavior.",
+  "completedSlices": [
+    "Added focused shader asset test verifying strange_attractors pubspec entries exist and catalog paths are declared.",
+    "Moved discrete map shaders into shaders/strange_attractors/discrete_maps and updated pubspec/catalog/comment references.",
+    "Moved Sprott family shaders into shaders/strange_attractors/sprott_systems and updated pubspec/catalog/comment references.",
+    "Moved continuous-flow attractor shaders into shaders/strange_attractors/continuous_flows and updated pubspec/catalog/comment references."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart (passed before moves)",
+    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart test/catalog_id_integrity_test.dart (passed after discrete_maps move)",
+    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart test/catalog_id_integrity_test.dart (passed after sprott_systems move)",
+    "/home/xel/flutter/bin/flutter test test/shaders/strange_attractors_shader_assets_test.dart test/catalog_id_integrity_test.dart (passed after continuous_flows move)",
+    "/home/xel/flutter/bin/flutter analyze (No issues found)",
+    "folder_refactor_audit shaders/strange_attractors plannedTopologyComplete=true (pass)"
+  ]
+}

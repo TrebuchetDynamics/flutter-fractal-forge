@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-01T11:52:40.267Z",
+  "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
+  "target": "test/modules/tiling_aperiodic",
+  "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/test/modules/tiling_aperiodic",
+  "command": "node ../../pi-package-development-goal/skills/candidates-folder-refactor/scripts/find-candidates.mjs /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/test/modules/tiling_aperiodic --top 10",
+  "candidates": [],
+  "refactorIgnoreSuggestions": []
+}
