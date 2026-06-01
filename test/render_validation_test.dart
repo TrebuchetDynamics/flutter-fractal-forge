@@ -26,6 +26,26 @@ void main() {
       expect(stats.histogramSane, isFalse);
     });
 
+    test('negative dimensions are treated as invalid frame geometry', () {
+      final frame = _blackFrame(1, 1);
+      frame[0] = 80;
+      frame[1] = 80;
+      frame[2] = 80;
+
+      final stats = validateRenderFrame(
+        frame: frame,
+        width: -1,
+        height: -1,
+      );
+
+      expect(stats.centerR, 0);
+      expect(stats.centerG, 0);
+      expect(stats.centerB, 0);
+      expect(stats.centerNonBlack, isFalse);
+      expect(stats.nonBlackRatio, 0.0);
+      expect(stats.histogramSane, isFalse);
+    });
+
     test('detects all-black frame', () {
       final frame = _blackFrame(4, 4);
       final stats = validateRenderFrame(frame: frame, width: 4, height: 4);
@@ -133,6 +153,32 @@ void main() {
       expect(result.centerG, 0);
       expect(result.centerB, 0);
       expect(result.centerNonBlack, isFalse);
+      expect(result.histogramSane, isFalse);
+      expect(result.frameProgressed, isFalse);
+      expect(result.iterationDeltaVisible, isFalse);
+      expect(result.pass, isFalse);
+    });
+
+    test('negative dimensions cannot pass from readable single-pixel frames',
+        () {
+      final frameA = _blackFrame(1, 1);
+      final frameB = _blackFrame(1, 1);
+      frameB[0] = 80;
+      frameB[1] = 80;
+      frameB[2] = 80;
+
+      final result = validateRenderPair(
+        frameA: frameA,
+        frameB: frameB,
+        width: -1,
+        height: -1,
+      );
+
+      expect(result.centerR, 0);
+      expect(result.centerG, 0);
+      expect(result.centerB, 0);
+      expect(result.centerNonBlack, isFalse);
+      expect(result.nonBlackRatio, 0.0);
       expect(result.histogramSane, isFalse);
       expect(result.frameProgressed, isFalse);
       expect(result.iterationDeltaVisible, isFalse);

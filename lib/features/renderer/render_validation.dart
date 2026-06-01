@@ -22,8 +22,7 @@ class _RenderFrameGeometry {
   });
 
   factory _RenderFrameGeometry({required int width, required int height}) {
-    final totalPixels = width <= 0 || height <= 0 ? 0 : width * height;
-    if (totalPixels == 0) {
+    if (width <= 0 || height <= 0) {
       return _RenderFrameGeometry._(
         width: width,
         height: height,
@@ -32,6 +31,7 @@ class _RenderFrameGeometry {
       );
     }
 
+    final totalPixels = width * height;
     final cx = (width / 2).floor();
     final cy = (height / 2).floor();
     return _RenderFrameGeometry._(
