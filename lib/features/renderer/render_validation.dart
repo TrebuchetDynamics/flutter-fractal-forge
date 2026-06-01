@@ -143,6 +143,34 @@ int _countDifferentPixels({
   return different;
 }
 
+/// Replayable center-pixel read used by render validation.
+///
+/// Center sampling is shared by single-frame and pair validators. Exposing the
+/// read separately makes the odd/even center convention and truncated-frame
+/// fallback replayable without inferring it from final pass/fail booleans.
+class RenderCenterSample {
+  final int r;
+  final int g;
+  final int b;
+  final bool readable;
+  final bool nonBlack;
+
+  const RenderCenterSample({
+    required this.r,
+    required this.g,
+    required this.b,
+    required this.readable,
+    required this.nonBlack,
+  });
+
+  const RenderCenterSample.unreadable()
+      : r = 0,
+        g = 0,
+        b = 0,
+        readable = false,
+        nonBlack = false;
+}
+
 /// Replayable counters used by frame validation.
 ///
 /// This separates byte-buffer sampling from threshold decisions so truncated
@@ -223,30 +251,48 @@ RenderFrameSample sampleRenderFrame({
   );
 }
 
-RenderFrameStats validateRenderFrame({
+RenderCenterSample sampleRenderCenter({
   required Uint8List frame,
   required int width,
   required int height,
 }) {
   final geometry = _RenderFrameGeometry(width: width, height: height);
-  final sample = sampleRenderFrame(frame: frame, width: width, height: height);
-  final cIndex = geometry.centerIndex;
-  final centerR = sample.centerReadable ? frame[cIndex] : 0;
-  final centerG = sample.centerReadable ? frame[cIndex + 1] : 0;
-  final centerB = sample.centerReadable ? frame[cIndex + 2] : 0;
+  if (!geometry.canReadCenter(frame)) {
+    return const RenderCenterSample.unreadable();
+  }
 
-  final centerNonBlack = sample.centerReadable && _isNonBlack(frame, cIndex);
+  final cIndex = geometry.centerIndex;
+  return RenderCenterSample(
+    r: frame[cIndex],
+    g: frame[cIndex + 1],
+    b: frame[cIndex + 2],
+    readable: true,
+    nonBlack: _isNonBlack(frame, cIndex),
+  );
+}
+
+RenderFrameStats validateRenderFrame({
+  required Uint8List frame,
+  required int width,
+  required int height,
+}) {
+  final sample = sampleRenderFrame(frame: frame, width: width, height: height);
+  final center = sampleRenderCenter(
+    frame: frame,
+    width: width,
+    height: height,
+  );
 
   final nonBlackRatio = sample.nonBlackRatio;
   final histogramSane =
       RenderValidationThresholds.defaults.histogramSaneFor(nonBlackRatio);
 
   return RenderFrameStats(
-    centerR: centerR,
-    centerG: centerG,
-    centerB: centerB,
+    centerR: center.r,
+    centerG: center.g,
+    centerB: center.b,
     nonBlackRatio: nonBlackRatio,
-    centerNonBlack: centerNonBlack,
+    centerNonBlack: center.nonBlack,
     histogramSane: histogramSane,
   );
 }
@@ -318,20 +364,17 @@ RenderCheckResult validateRenderPair({
   required int width,
   required int height,
 }) {
-  final geometry = _RenderFrameGeometry(width: width, height: height);
   final sample = sampleRenderPair(
     frameA: frameA,
     frameB: frameB,
     width: width,
     height: height,
   );
-  final cIndex = geometry.centerIndex;
-  final centerR = sample.frameB.centerReadable ? frameB[cIndex] : 0;
-  final centerG = sample.frameB.centerReadable ? frameB[cIndex + 1] : 0;
-  final centerB = sample.frameB.centerReadable ? frameB[cIndex + 2] : 0;
-
-  final centerNonBlack =
-      sample.frameB.centerReadable && _isNonBlack(frameB, cIndex);
+  final center = sampleRenderCenter(
+    frame: frameB,
+    width: width,
+    height: height,
+  );
 
   final nonBlackRatio = sample.frameB.nonBlackRatio;
   final histogramSane =
@@ -345,11 +388,11 @@ RenderCheckResult validateRenderPair({
       .iterationDeltaVisibleFor(progressionRatio);
 
   return RenderCheckResult(
-    centerR: centerR,
-    centerG: centerG,
-    centerB: centerB,
+    centerR: center.r,
+    centerG: center.g,
+    centerB: center.b,
     nonBlackRatio: nonBlackRatio,
-    centerNonBlack: centerNonBlack,
+    centerNonBlack: center.nonBlack,
     histogramSane: histogramSane,
     frameProgressed: frameProgressed,
     iterationDeltaVisible: iterationDeltaVisible,

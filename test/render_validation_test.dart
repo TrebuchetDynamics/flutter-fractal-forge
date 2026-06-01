@@ -53,6 +53,34 @@ void main() {
     });
   });
 
+  group('sampleRenderCenter', () {
+    test('exposes even-dimension center sampling and black fallback', () {
+      final frame = _blackFrame(4, 4);
+      final idx = _px(2, 2, 4);
+      frame[idx] = 100;
+      frame[idx + 1] = 120;
+      frame[idx + 2] = 140;
+
+      final center = sampleRenderCenter(frame: frame, width: 4, height: 4);
+      final truncatedCenter = sampleRenderCenter(
+        frame: Uint8List(4),
+        width: 4,
+        height: 4,
+      );
+
+      expect(center.readable, isTrue);
+      expect(center.r, 100);
+      expect(center.g, 120);
+      expect(center.b, 140);
+      expect(center.nonBlack, isTrue);
+      expect(truncatedCenter.readable, isFalse);
+      expect(truncatedCenter.r, 0);
+      expect(truncatedCenter.g, 0);
+      expect(truncatedCenter.b, 0);
+      expect(truncatedCenter.nonBlack, isFalse);
+    });
+  });
+
   group('sampleRenderFrame', () {
     test('exposes readable pixel counts for truncated frames', () {
       final frame = _blackFrame(3, 1);
