@@ -141,6 +141,44 @@ class _DeepLinkRoute {
   }
 }
 
+class _DeepLinkQuery {
+  static const recognizedNames = {
+    'type',
+    'zoom',
+    'x',
+    'y',
+    'rotX',
+    'rotY',
+    'rotZ',
+    'iterations',
+    'bailout',
+    'colorScheme',
+    'power',
+    'juliaX',
+    'juliaY',
+  };
+
+  final Map<String, String> _params;
+
+  const _DeepLinkQuery._(this._params);
+
+  factory _DeepLinkQuery.fromUri(Uri uri) {
+    final duplicatedRecognizedKeys = uri.queryParametersAll.entries.where(
+      (entry) => recognizedNames.contains(entry.key) && entry.value.length > 1,
+    );
+    if (duplicatedRecognizedKeys.isNotEmpty) {
+      throw FormatException(
+        'Duplicate deep-link query parameter: '
+        '${duplicatedRecognizedKeys.first.key}',
+      );
+    }
+
+    return _DeepLinkQuery._(uri.queryParameters);
+  }
+
+  String? operator [](String name) => _params[name];
+}
+
 class _BoundedDoubleQueryParam {
   final String name;
   final double min;
@@ -148,8 +186,8 @@ class _BoundedDoubleQueryParam {
 
   const _BoundedDoubleQueryParam(this.name, this.min, this.max);
 
-  double? parse(Map<String, String> params) {
-    return DeepLinkService._parseBoundedDouble(params[name], min, max, name);
+  double? parse(_DeepLinkQuery query) {
+    return DeepLinkService._parseBoundedDouble(query[name], min, max, name);
   }
 }
 
@@ -160,8 +198,8 @@ class _BoundedIntQueryParam {
 
   const _BoundedIntQueryParam(this.name, this.min, this.max);
 
-  int? parse(Map<String, String> params) {
-    return DeepLinkService._parseBoundedInt(params[name], min, max, name);
+  int? parse(_DeepLinkQuery query) {
+    return DeepLinkService._parseBoundedInt(query[name], min, max, name);
   }
 }
 
@@ -262,8 +300,15 @@ class DeepLinkService {
       return null;
     }
 
-    final params = uri.queryParameters;
-    final type = params['type'];
+    final _DeepLinkQuery query;
+    try {
+      query = _DeepLinkQuery.fromUri(uri);
+    } on FormatException catch (e) {
+      if (kDebugMode) debugPrint('DeepLink: ${e.message} — rejecting link');
+      return null;
+    }
+
+    final type = query['type'];
 
     if (type == null || type.isEmpty) {
       return null;
@@ -281,18 +326,18 @@ class DeepLinkService {
 
     return DeepLinkData(
       type: type,
-      zoom: _zoomParam.parse(params),
-      x: _xParam.parse(params),
-      y: _yParam.parse(params),
-      rotX: _rotXParam.parse(params),
-      rotY: _rotYParam.parse(params),
-      rotZ: _rotZParam.parse(params),
-      iterations: _iterationsParam.parse(params),
-      bailout: _bailoutParam.parse(params),
-      colorScheme: _colorSchemeParam.parse(params),
-      power: _powerParam.parse(params),
-      juliaX: _juliaXParam.parse(params),
-      juliaY: _juliaYParam.parse(params),
+      zoom: _zoomParam.parse(query),
+      x: _xParam.parse(query),
+      y: _yParam.parse(query),
+      rotX: _rotXParam.parse(query),
+      rotY: _rotYParam.parse(query),
+      rotZ: _rotZParam.parse(query),
+      iterations: _iterationsParam.parse(query),
+      bailout: _bailoutParam.parse(query),
+      colorScheme: _colorSchemeParam.parse(query),
+      power: _powerParam.parse(query),
+      juliaX: _juliaXParam.parse(query),
+      juliaY: _juliaYParam.parse(query),
     );
   }
 

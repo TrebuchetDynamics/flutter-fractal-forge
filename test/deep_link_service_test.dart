@@ -82,6 +82,35 @@ void main() {
 
         expect(data, isNull);
       });
+
+      test('rejects duplicate recognized parameters instead of guessing', () {
+        final uri = Uri.parse(
+          'fractalforge://view?type=mandelbrot&type=julia&zoom=5',
+        );
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNull);
+      });
+
+      test('rejects duplicate optional parameters instead of truncating', () {
+        final uri = Uri.parse(
+          'fractalforge://view?type=mandelbrot&zoom=5&zoom=abc',
+        );
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNull);
+      });
+
+      test('ignores duplicate unrecognized parameters', () {
+        final uri = Uri.parse(
+          'fractalforge://view?type=mandelbrot&utm=a&utm=b&zoom=5',
+        );
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.type, 'mandelbrot');
+        expect(data.zoom, 5.0);
+      });
     });
 
     group('buildUri', () {
