@@ -141,6 +141,25 @@ class _DeepLinkRoute {
   }
 }
 
+class _DeepLinkModuleId {
+  static final RegExp _safePattern = RegExp(r'^[a-z0-9_]+$');
+
+  const _DeepLinkModuleId._();
+
+  static bool isSafe(String moduleId) => _safePattern.hasMatch(moduleId);
+
+  static String requireSafeForBuild(String moduleId) {
+    if (!isSafe(moduleId)) {
+      throw ArgumentError.value(
+        moduleId,
+        'moduleId',
+        'Deep-link module IDs must match ${_safePattern.pattern}',
+      );
+    }
+    return moduleId;
+  }
+}
+
 class _DeepLinkQuery {
   static const recognizedNames = {
     'type',
@@ -337,8 +356,8 @@ class DeepLinkService {
       return null;
     }
 
-    // Reject type strings with unsafe characters (defense-in-depth)
-    if (!RegExp(r'^[a-z0-9_]+$').hasMatch(type)) {
+    // Reject type strings with unsafe characters (defense-in-depth).
+    if (!_DeepLinkModuleId.isSafe(type)) {
       return null;
     }
 
@@ -374,7 +393,7 @@ class DeepLinkService {
     required FractalViewState view,
   }) {
     final queryParams = <String, String>{
-      'type': moduleId,
+      'type': _DeepLinkModuleId.requireSafeForBuild(moduleId),
     };
 
     // Add view state. Use the same bounded contracts as parsing so generated

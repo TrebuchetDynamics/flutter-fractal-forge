@@ -126,6 +126,18 @@ void main() {
         expect(uri.queryParameters['type'], 'mandelbrot');
       });
 
+      test('rejects unsafe module IDs before generating unreplayable links',
+          () {
+        expect(
+          () => DeepLinkService.buildUri(
+            moduleId: 'mandelbrot<script>',
+            params: const {},
+            view: FractalViewState.initial(),
+          ),
+          throwsArgumentError,
+        );
+      });
+
       test('includes zoom when not default', () {
         final uri = DeepLinkService.buildUri(
           moduleId: 'mandelbrot',
