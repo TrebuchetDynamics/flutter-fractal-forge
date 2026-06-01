@@ -124,6 +124,49 @@ final class CpuTileRenderResponse {
   final Uint8List rgba;
 }
 
+final class CpuViewportCoordinate {
+  const CpuViewportCoordinate(this.x, this.y);
+
+  final double x;
+  final double y;
+}
+
+/// Maps a pixel sample to the CPU fractal plane.
+///
+/// [sampleOffsetX] and [sampleOffsetY] are normalized offsets within the pixel
+/// (0.5 means pixel center). Dividing by the full dimensions keeps one-pixel
+/// renders centered on pan and keeps opposite edge pixel centers symmetric.
+CpuViewportCoordinate cpuViewportCoordinateForSample({
+  required double panX,
+  required double panY,
+  required double zoom,
+  required int fullWidth,
+  required int fullHeight,
+  required int x,
+  required int y,
+  required double sampleOffsetX,
+  required double sampleOffsetY,
+}) {
+  assert(fullWidth > 0, 'fullWidth must be positive');
+  assert(fullHeight > 0, 'fullHeight must be positive');
+  assert(x >= 0 && x < fullWidth, 'x must be inside the full viewport');
+  assert(y >= 0 && y < fullHeight, 'y must be inside the full viewport');
+
+  final z = zoom <= 0 ? 1.0 : zoom;
+  final scale = 1.5 / z;
+  final aspect = fullWidth / fullHeight;
+
+  final subX = (x + sampleOffsetX) / fullWidth;
+  final subY = (y + sampleOffsetY) / fullHeight;
+  final nx = subX * 2.0 - 1.0;
+  final ny = subY * 2.0 - 1.0;
+
+  return CpuViewportCoordinate(
+    panX + nx * scale * aspect,
+    panY + ny * scale,
+  );
+}
+
 CpuTileRenderResponse renderCpuTileInIsolate(CpuTileRenderRequest req) {
   final bytes = _renderRect(
     moduleId: req.moduleId,
@@ -169,16 +212,6 @@ Uint8List _renderRect({
   required int h,
   required int sampleCount,
 }) {
-  final centerX = panX;
-  final centerY = panY;
-  final z = zoom <= 0 ? 1.0 : zoom;
-
-  // Mandelbrot viewport baseline:
-  // x in [-2.0, 1.0] (width 3.0) and y in [-1.5, 1.5] (height 3.0).
-  // Using half-range 1.5 keeps the set correctly proportioned.
-  final scale = 1.5 / z;
-  final aspect = fullWidth / fullHeight;
-
   final bytes = Uint8List(w * h * 4);
   final samplesPerAxis = math.max(1, math.sqrt(sampleCount).round());
   final totalSamples = samplesPerAxis * samplesPerAxis;
@@ -197,15 +230,20 @@ Uint8List _renderRect({
 
       for (int sy = 0; sy < samplesPerAxis; sy++) {
         for (int sx = 0; sx < samplesPerAxis; sx++) {
-          final subX = (x + (sx + 0.5) / samplesPerAxis) / (fullWidth - 1);
-          final subY = (y + (sy + 0.5) / samplesPerAxis) / (fullHeight - 1);
-          final nx = subX * 2.0 - 1.0;
-          final ny = subY * 2.0 - 1.0;
+          final coordinate = cpuViewportCoordinateForSample(
+            panX: panX,
+            panY: panY,
+            zoom: zoom,
+            fullWidth: fullWidth,
+            fullHeight: fullHeight,
+            x: x,
+            y: y,
+            sampleOffsetX: (sx + 0.5) / samplesPerAxis,
+            sampleOffsetY: (sy + 0.5) / samplesPerAxis,
+          );
 
-          final cx = centerX + nx * scale * aspect;
-          final cy = centerY + ny * scale;
-
-          final color = formula(cx, cy, iterations, bailout, juliaC);
+          final color =
+              formula(coordinate.x, coordinate.y, iterations, bailout, juliaC);
           rAcc += color.$1;
           gAcc += color.$2;
           bAcc += color.$3;
