@@ -233,6 +233,27 @@ void main() {
         expect(uri.queryParameters.containsKey('juliaY'), isFalse);
       });
 
+      test(
+          'omits invalid view values instead of throwing or minting clamped links',
+          () {
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbrot',
+          params: const {},
+          view: FractalViewState(
+            pan: Vector2(double.nan, 1e20),
+            zoom: double.infinity,
+            rotation: Vector3(double.negativeInfinity, 0.5, -1e20),
+          ),
+        );
+
+        expect(uri.queryParameters.containsKey('zoom'), isFalse);
+        expect(uri.queryParameters.containsKey('x'), isFalse);
+        expect(uri.queryParameters.containsKey('y'), isFalse);
+        expect(uri.queryParameters.containsKey('rotX'), isFalse);
+        expect(uri.queryParameters['rotY'], '0.5');
+        expect(uri.queryParameters.containsKey('rotZ'), isFalse);
+      });
+
       test('omits default values for cleaner URLs', () {
         final uri = DeepLinkService.buildUri(
           moduleId: 'mandelbrot',

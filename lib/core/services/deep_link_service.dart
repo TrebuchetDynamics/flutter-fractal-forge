@@ -377,25 +377,33 @@ class DeepLinkService {
       'type': moduleId,
     };
 
-    // Add view state
-    if (view.zoom != 1.0) {
-      queryParams['zoom'] = _formatDouble(view.zoom, preservePrecision: true);
-    }
-    if (view.pan.x != 0.0) {
-      queryParams['x'] = _formatDouble(view.pan.x, preservePrecision: true);
-    }
-    if (view.pan.y != 0.0) {
-      queryParams['y'] = _formatDouble(view.pan.y, preservePrecision: true);
-    }
-    if (view.rotation.x != 0.0) {
-      queryParams['rotX'] = _formatDouble(view.rotation.x);
-    }
-    if (view.rotation.y != 0.0) {
-      queryParams['rotY'] = _formatDouble(view.rotation.y);
-    }
-    if (view.rotation.z != 0.0) {
-      queryParams['rotZ'] = _formatDouble(view.rotation.z);
-    }
+    // Add view state. Use the same bounded contracts as parsing so generated
+    // links do not round-trip through clamped or invalid camera values.
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _zoomParam,
+      view.zoom,
+      defaultValue: 1.0,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _xParam,
+      view.pan.x,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _yParam,
+      view.pan.y,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+        queryParams, _rotXParam, view.rotation.x);
+    _addNonDefaultBoundedDoubleQueryParam(
+        queryParams, _rotYParam, view.rotation.y);
+    _addNonDefaultBoundedDoubleQueryParam(
+        queryParams, _rotZParam, view.rotation.z);
 
     // Add fractal parameters. Unsupported values are omitted rather than
     // converted to sentinel values that parse back as valid-but-wrong params.
@@ -512,6 +520,23 @@ class DeepLinkService {
     if (formatted != null) {
       queryParams[param.name] = formatted;
     }
+  }
+
+  static void _addNonDefaultBoundedDoubleQueryParam(
+    Map<String, String> queryParams,
+    _BoundedDoubleQueryParam param,
+    Object? value, {
+    double defaultValue = 0.0,
+    bool preservePrecision = false,
+  }) {
+    final parsed = _tryFiniteDouble(value);
+    if (parsed == null || parsed == defaultValue) return;
+    _addBoundedDoubleQueryParam(
+      queryParams,
+      param,
+      parsed,
+      preservePrecision: preservePrecision,
+    );
   }
 
   static void _addBoundedIntQueryParam(
