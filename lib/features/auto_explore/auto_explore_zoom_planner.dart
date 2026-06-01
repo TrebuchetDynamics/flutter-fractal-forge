@@ -4,6 +4,9 @@ import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.da
 
 /// Auto-zoom configuration.
 class AutoExploreConfig {
+  static const double defaultMinZoom = 0.2;
+  static const double defaultMaxZoom = 1e12;
+
   /// Minimum and maximum zoom targets for the auto cycle.
   final double minZoom;
   final double maxZoom;
@@ -25,8 +28,8 @@ class AutoExploreConfig {
   final double maxDurationScale;
 
   const AutoExploreConfig({
-    this.minZoom = 0.2,
-    this.maxZoom = 1e12,
+    this.minZoom = defaultMinZoom,
+    this.maxZoom = defaultMaxZoom,
     this.cycleMaxMultiplier = 120.0,
     this.maxLegSpanDecades = 3.2,
     this.precisionHeadroom = 0.92,
@@ -84,10 +87,23 @@ class AutoExploreZoomBounds {
   });
 
   factory AutoExploreZoomBounds.fromConfig(AutoExploreConfig config) {
-    return AutoExploreZoomBounds(
-      minZoom: config.minZoom,
-      maxZoom: config.maxZoom,
+    final configuredMin = _positiveFiniteOrDefault(
+      config.minZoom,
+      AutoExploreConfig.defaultMinZoom,
     );
+    final configuredMax = _positiveFiniteOrDefault(
+      config.maxZoom,
+      AutoExploreConfig.defaultMaxZoom,
+    );
+
+    return AutoExploreZoomBounds(
+      minZoom: min(configuredMin, configuredMax),
+      maxZoom: max(configuredMin, configuredMax),
+    );
+  }
+
+  static double _positiveFiniteOrDefault(double value, double fallback) {
+    return value.isFinite && value > 0.0 ? value : fallback;
   }
 
   double clamp(double zoom) {

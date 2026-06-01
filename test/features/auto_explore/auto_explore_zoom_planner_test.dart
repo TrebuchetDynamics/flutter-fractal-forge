@@ -129,6 +129,20 @@ void main() {
       );
     });
 
+    test('normalizes malformed zoom bounds before clamping candidates', () {
+      const reversedPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(minZoom: 100.0, maxZoom: 1.0),
+      );
+      const invalidPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(minZoom: double.nan, maxZoom: -1.0),
+      );
+
+      expect(reversedPlanner.clampZoom(0.5), 1.0);
+      expect(reversedPlanner.clampZoom(200.0), 100.0);
+      expect(invalidPlanner.clampZoom(double.nan), 0.2);
+      expect(invalidPlanner.clampZoom(double.infinity), 1e12);
+    });
+
     test('sanitizes invalid zoom endpoints before duration math', () {
       const config = AutoExploreConfig(
         travelDuration: Duration(milliseconds: 1000),
