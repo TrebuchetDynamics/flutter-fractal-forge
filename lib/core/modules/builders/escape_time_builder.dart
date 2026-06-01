@@ -3,6 +3,7 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Declarative config for a standard 2D escape-time fractal.
@@ -60,8 +61,95 @@ class EscapeTimeConfig {
 ///
 /// This eliminates per-fractal Dart boilerplate.
 FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
-  final autoDefaults = _autoDefaultsForModule(config.id);
+  final defaults = _resolveEscapeTimeDefaults(config);
 
+  final parameters = [
+    CommonFractalParams.iterations(
+      defaultValue: defaults.iterations,
+      max: config.maxIterations,
+    ),
+    CommonFractalParams.bailout(defaultValue: config.defaultBailout),
+    CommonFractalParams.colorScheme64(defaultValue: config.defaultColorScheme),
+    ...config.extraParams,
+  ];
+
+  final defaultParams = <String, Object>{
+    'iterations': defaults.iterations,
+    'bailout': config.defaultBailout,
+    'colorScheme': config.defaultColorScheme,
+  };
+  for (final p in config.extraParams) {
+    defaultParams[p.id] = p.defaultValue;
+  }
+
+  final defaultPreset = FractalPreset(
+    id: '${config.id}-default',
+    moduleId: config.id,
+    name: 'Default',
+    params: defaultParams,
+    view: FractalViewState(
+      pan: Vector2(defaults.centerX, defaults.centerY),
+      zoom: defaults.zoom,
+      rotation: Vector3.zero(),
+    ),
+    createdAt: _builtInPresetCreatedAt,
+    isBuiltIn: true,
+  );
+
+  return FractalModule(
+    id: config.id,
+    displayName: config.displayName ?? ((_) => config.name),
+    dimension: FractalDimension.twoD,
+    shaderAsset: config.shaderAsset,
+    parameters: parameters,
+    defaultPreset: defaultPreset,
+    builtInPresets: [
+      defaultPreset.copyWith(id: '${config.id}-classic', name: 'Classic'),
+      ...config.extraPresets,
+    ],
+    setUniforms: (shader, state, size, time) {
+      shader.setFloat(0, time);
+      shader.setFloat(1, size.width);
+      shader.setFloat(2, size.height);
+      shader.setFloat(3, state.view.pan.x);
+      shader.setFloat(4, state.view.pan.y);
+      shader.setFloat(5, state.view.zoom);
+      shader.setFloat(
+          6, readDouble(state.params, 'iterations', defaults.iterations));
+      shader.setFloat(
+          7, readDouble(state.params, 'bailout', config.defaultBailout));
+      shader.setFloat(
+          8,
+          readDouble(state.params, 'colorScheme',
+              config.defaultColorScheme.toDouble()));
+      shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
+      // Extra params start at index 10
+      for (int i = 0; i < config.extraParams.length; i++) {
+        final p = config.extraParams[i];
+        shader.setFloat(10 + i,
+            readDouble(state.params, p.id, (p.defaultValue as num).toDouble()));
+      }
+    },
+  );
+}
+
+final _builtInPresetCreatedAt = DateTime.utc(2025, 1, 1);
+
+class _EscapeTimeDefaults {
+  final double centerX;
+  final double centerY;
+  final double zoom;
+  final double iterations;
+
+  const _EscapeTimeDefaults({
+    required this.centerX,
+    required this.centerY,
+    required this.zoom,
+    required this.iterations,
+  });
+}
+
+_EscapeTimeDefaults _resolveEscapeTimeDefaults(EscapeTimeConfig config) {
   var effectiveIterations = config.defaultIterations;
   var effectiveCenterX = config.defaultCenterX;
   var effectiveCenterY = config.defaultCenterY;
@@ -88,6 +176,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
   } else {
     // For modules that still use baseline constructor defaults, generate
     // deterministic per-module defaults from the module id.
+    final autoDefaults = _autoDefaultsForModule(config.id);
     final usesBaseIterations = config.defaultIterations == 120;
     final usesBaseCenter =
         config.defaultCenterX == 0.0 && config.defaultCenterY == 0.0;
@@ -105,75 +194,12 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
     }
   }
 
-  effectiveIterations =
-      effectiveIterations.clamp(20.0, config.maxIterations.toDouble());
-  effectiveZoom = effectiveZoom.clamp(0.2, 32.0);
-
-  final parameters = [
-    CommonFractalParams.iterations(
-      defaultValue: effectiveIterations,
-      max: config.maxIterations,
-    ),
-    CommonFractalParams.bailout(defaultValue: config.defaultBailout),
-    CommonFractalParams.colorScheme64(defaultValue: config.defaultColorScheme),
-    ...config.extraParams,
-  ];
-
-  final defaultParams = <String, Object>{
-    'iterations': effectiveIterations,
-    'bailout': config.defaultBailout,
-    'colorScheme': config.defaultColorScheme,
-  };
-  for (final p in config.extraParams) {
-    defaultParams[p.id] = p.defaultValue;
-  }
-
-  final defaultPreset = FractalPreset(
-    id: '${config.id}-default',
-    moduleId: config.id,
-    name: 'Default',
-    params: defaultParams,
-    view: FractalViewState(
-      pan: Vector2(effectiveCenterX, effectiveCenterY),
-      zoom: effectiveZoom,
-      rotation: Vector3.zero(),
-    ),
-    createdAt: DateTime.now(),
-    isBuiltIn: true,
-  );
-
-  return FractalModule(
-    id: config.id,
-    displayName: config.displayName ?? ((_) => config.name),
-    dimension: FractalDimension.twoD,
-    shaderAsset: config.shaderAsset,
-    parameters: parameters,
-    defaultPreset: defaultPreset,
-    builtInPresets: [
-      defaultPreset.copyWith(id: '${config.id}-classic', name: 'Classic'),
-      ...config.extraPresets,
-    ],
-    setUniforms: (shader, state, size, time) {
-      shader.setFloat(0, time);
-      shader.setFloat(1, size.width);
-      shader.setFloat(2, size.height);
-      shader.setFloat(3, state.view.pan.x);
-      shader.setFloat(4, state.view.pan.y);
-      shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, _d(state.params, 'iterations', effectiveIterations));
-      shader.setFloat(7, _d(state.params, 'bailout', config.defaultBailout));
-      shader.setFloat(
-          8,
-          _d(state.params, 'colorScheme',
-              config.defaultColorScheme.toDouble()));
-      shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
-      // Extra params start at index 10
-      for (int i = 0; i < config.extraParams.length; i++) {
-        final p = config.extraParams[i];
-        shader.setFloat(
-            10 + i, _d(state.params, p.id, (p.defaultValue as num).toDouble()));
-      }
-    },
+  return _EscapeTimeDefaults(
+    centerX: effectiveCenterX,
+    centerY: effectiveCenterY,
+    zoom: effectiveZoom.clamp(0.2, 32.0),
+    iterations:
+        effectiveIterations.clamp(20.0, config.maxIterations.toDouble()),
   );
 }
 
@@ -220,11 +246,4 @@ int _fnv1a32(String text) {
     hash = (hash * 0x01000193) & 0xFFFFFFFF;
   }
   return hash;
-}
-
-double _d(Map<String, Object> p, String k, double f) {
-  final v = p[k];
-  if (v is int) return v.toDouble();
-  if (v is double) return v;
-  return f;
 }
