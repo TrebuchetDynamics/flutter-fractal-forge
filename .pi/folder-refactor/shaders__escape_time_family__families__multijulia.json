@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "target": "shaders/escape_time_family/families/multijulia",
+  "updatedAt": "2026-06-01T14:12:50.218Z",
+  "objective": "Refactor multijulia shader family around behavior/responsibility. Planned topology: integer_powers/ owns fixed-parameter integer-degree Multibrot Julia shader assets (degrees 3-12), exposes .frag assets referenced by pubspec/catalog, and must not know about Dart catalog/app orchestration beyond stable asset paths.",
+  "completedSlices": [
+    "Added focused multijulia shader asset path test covering catalog entries, on-disk shader files, and pubspec declarations.",
+    "Moved multijulia degree 3-12 shader files into integer_powers/ and updated pubspec.yaml plus escape_time_catalog.dart asset references."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "Pre-refactor /home/xel/flutter/bin/flutter test test/multijulia_shader_assets_test.dart was blocked by pre-existing missing asset shaders/legacy/raymarched_3d/mandelbulb.frag in pubspec asset bundle.",
+    "Post-refactor Python asset consistency check found 10 multijulia catalog assets, all existing, declared, and with no stale pubspec multijulia paths.",
+    "Post-refactor /home/xel/flutter/bin/flutter analyze test/multijulia_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart passed with no issues."
+  ]
+}
