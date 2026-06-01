@@ -757,7 +757,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/fatou_gpu.frag (escape-time + simple interior phase)
+  // Ported from shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/fatou_gpu.frag (escape-time + simple interior phase)
   final cx = x;
   final cy = y;
   double zx = 0.0;
@@ -819,7 +819,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/gamma_gpu.frag
+  // Ported from shaders/escape_time_family/transcendental_maps/special_function_iterations/gamma_gpu.frag
   final cx = x;
   final cy = y;
   double zx = cx;
@@ -866,7 +866,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/transcendental_maps/lambda_gpu.frag: z = c*z*(1-z), z₀ = c
+    // Ported from shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/lambda_gpu.frag: z = c*z*(1-z), z₀ = c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       // z*(1-z): real = zx - zx^2 + zy^2, imag = zy - 2*zx*zy
       final t1x = zx - zx * zx + zy * zy;
@@ -1308,7 +1308,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/collatz_gpu.frag
+  // Ported from shaders/escape_time_family/transcendental_maps/discrete_chaos/collatz_gpu.frag
   double zx = x;
   double zy = y;
   final bailout2 = bailout * bailout;
@@ -1353,7 +1353,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/popcorn_gpu.frag (Popcorn map)
+  // Ported from shaders/escape_time_family/transcendental_maps/discrete_chaos/popcorn_gpu.frag (Popcorn map)
   double zx = x;
   double zy = y;
   final h = 0.05 * bailout;
@@ -2499,7 +2499,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/taylor_gpu.frag (CPU approximation, seed=0xb23e7192)
+  // Ported from shaders/escape_time_family/transcendental_maps/special_function_iterations/taylor_gpu.frag (CPU approximation, seed=0xb23e7192)
   return _cpu_synthetic(0xb23e7192, x, y, iterations, bailout);
 }
 
@@ -2510,7 +2510,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag (CPU approximation, seed=0x243fe48a)
+  // Ported from shaders/escape_time_family/transcendental_maps/rational_dynamics/rational_map_gpu.frag (CPU approximation, seed=0x243fe48a)
   return _cpu_synthetic(0x243fe48a, x, y, iterations, bailout);
 }
 
@@ -2675,7 +2675,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/log_spiral_gpu.frag (CPU approximation, seed=0xbea6fea3)
+  // Ported from shaders/escape_time_family/transcendental_maps/discrete_chaos/log_spiral_gpu.frag (CPU approximation, seed=0xbea6fea3)
   return _cpu_synthetic(0xbea6fea3, x, y, iterations, bailout);
 }
 
@@ -3016,7 +3016,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/lambda_w_gpu.frag (CPU approximation, seed=0x1bd55c48)
+  // Ported from shaders/escape_time_family/transcendental_maps/special_function_iterations/lambda_w_gpu.frag (CPU approximation, seed=0x1bd55c48)
   return _cpu_synthetic(0x1bd55c48, x, y, iterations, bailout);
 }
 
@@ -3060,7 +3060,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/transcendental_maps/popcorn2_gpu.frag (CPU approximation, seed=0x3b8af928)
+  // Ported from shaders/escape_time_family/transcendental_maps/discrete_chaos/popcorn2_gpu.frag (CPU approximation, seed=0x3b8af928)
   return _cpu_synthetic(0x3b8af928, x, y, iterations, bailout);
 }
 

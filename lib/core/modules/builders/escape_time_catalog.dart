@@ -430,13 +430,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'fatou',
     name: 'Fatou Set',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/fatou_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/fatou_gpu.frag',
     defaultIterations: 180,
   ),
   EscapeTimeConfig(
     id: 'gamma_fractal',
     name: 'Gamma Fractal',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/gamma_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/special_function_iterations/gamma_gpu.frag',
     defaultIterations: 100,
   ),
 
@@ -464,7 +464,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'lambda',
     name: 'Lambda Fractal',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/lambda_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/lambda_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
       FractalPreset(
@@ -719,7 +719,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'collatz',
     name: 'Collatz Fractal',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/collatz_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/discrete_chaos/collatz_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
       FractalPreset(
@@ -737,7 +737,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'popcorn',
     name: 'Popcorn Fractal',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/popcorn_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/discrete_chaos/popcorn_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 4.0,
   ),
@@ -1767,13 +1767,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'taylor',
     name: 'Taylor Series Fractal',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/taylor_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/special_function_iterations/taylor_gpu.frag',
     defaultIterations: 120,
   ),
   EscapeTimeConfig(
     id: 'rational_map',
     name: 'Rational Map Fractal',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/rational_dynamics/rational_map_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
       FractalPreset(
@@ -2029,7 +2029,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'log_spiral',
     name: 'Log Spiral Fractal',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/log_spiral_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/discrete_chaos/log_spiral_gpu.frag',
     defaultIterations: 140,
   ),
 
@@ -2269,7 +2269,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'lambda_w',
     name: 'Lambda W Fractal',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/lambda_w_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/special_function_iterations/lambda_w_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
@@ -2331,7 +2331,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'popcorn2',
     name: 'Popcorn II',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/popcorn2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/discrete_chaos/popcorn2_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
   ),
@@ -4042,7 +4042,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'blaschke',
     name: 'Blaschke Product',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/rational_dynamics/blaschke_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 8.0,
     extraPresets: [
@@ -4071,7 +4071,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'fatou_exp',
     name: 'Fatou Exponential',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/fatou_exp_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/fatou_exp_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 50.0,
     extraPresets: [
@@ -4100,7 +4100,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'sin_z2',
     name: 'sin(z²) + c',
-    shaderAsset: 'shaders/escape_time_family/transcendental_maps/sin_z2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/sin_z2_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 20.0,
     extraPresets: [

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "shaders/escape_time_family/transcendental_maps",
+  "updatedAt": "2026-06-01T13:51:06.826Z",
+  "objective": "Refactor transcendental_maps shaders into responsibility subfolders while preserving catalog/pubspec shader asset behavior.",
+  "completedSlices": [
+    "Added focused shader asset behavior test for target folder.",
+    "Moved 13 root shaders into holomorphic_dynamics, special_function_iterations, rational_dynamics, and discrete_chaos.",
+    "Updated pubspec.yaml, escape_time_catalog.dart, and CPU formula source comments to new asset paths.",
+    "Validated target asset/catalog/file consistency with a Python public-contract check; completion audit passed."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "python3 target asset consistency check: declared=13 catalog=13 files=13, no root .frag files remain.",
+    "/home/xel/flutter/bin/flutter test test/shaders/transcendental_maps_shader_assets_test.dart: blocked by pre-existing unrelated missing pubspec asset shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag.",
+    "folder_refactor_audit: pass, plannedTopologyComplete=yes, root files=0, next candidates=none."
+  ]
+}
