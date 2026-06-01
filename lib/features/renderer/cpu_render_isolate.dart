@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:vector_math/vector_math.dart' show Vector2;
 
 import 'cpu_formulas.dart';
+import 'cpu_viewport_mapping.dart';
 
 /// Message used to request a CPU frame render from an isolate.
 final class CpuRenderRequest {
@@ -152,19 +153,26 @@ CpuViewportCoordinate cpuViewportCoordinateForSample({
   assert(x >= 0 && x < fullWidth, 'x must be inside the full viewport');
   assert(y >= 0 && y < fullHeight, 'y must be inside the full viewport');
 
-  final z = zoom <= 0 ? 1.0 : zoom;
-  final scale = 1.5 / z;
-  final aspect = fullWidth / fullHeight;
-
-  final subX = (x + sampleOffsetX) / fullWidth;
-  final subY = (y + sampleOffsetY) / fullHeight;
-  final nx = subX * 2.0 - 1.0;
-  final ny = subY * 2.0 - 1.0;
-
-  return CpuViewportCoordinate(
-    panX + nx * scale * aspect,
-    panY + ny * scale,
+  final viewport = CpuViewportMapping.fromScalars(
+    panX: panX,
+    panY: panY,
+    viewZoom: zoom,
+    width: fullWidth,
+    height: fullHeight,
   );
+  final nx = viewport.normalizedSampleOffset(
+    pixel: x,
+    extent: fullWidth,
+    sampleOffset: sampleOffsetX,
+  );
+  final ny = viewport.normalizedSampleOffset(
+    pixel: y,
+    extent: fullHeight,
+    sampleOffset: sampleOffsetY,
+  );
+  final coordinate = viewport.coordinate(nx: nx, ny: ny);
+
+  return CpuViewportCoordinate(coordinate.$1, coordinate.$2);
 }
 
 CpuTileRenderResponse renderCpuTileInIsolate(CpuTileRenderRequest req) {
@@ -218,6 +226,13 @@ Uint8List _renderRect({
 
   final juliaC = Vector2(juliaCX, juliaCY);
   final formula = cpuFormulaForModuleId(moduleId);
+  final viewport = CpuViewportMapping.fromScalars(
+    panX: panX,
+    panY: panY,
+    viewZoom: zoom,
+    width: fullWidth,
+    height: fullHeight,
+  );
 
   for (int ty = 0; ty < h; ty++) {
     final y = y0 + ty;
@@ -230,20 +245,27 @@ Uint8List _renderRect({
 
       for (int sy = 0; sy < samplesPerAxis; sy++) {
         for (int sx = 0; sx < samplesPerAxis; sx++) {
-          final coordinate = cpuViewportCoordinateForSample(
-            panX: panX,
-            panY: panY,
-            zoom: zoom,
-            fullWidth: fullWidth,
-            fullHeight: fullHeight,
-            x: x,
-            y: y,
-            sampleOffsetX: (sx + 0.5) / samplesPerAxis,
-            sampleOffsetY: (sy + 0.5) / samplesPerAxis,
+          final nx = viewport.normalizedSample(
+            pixel: x,
+            extent: fullWidth,
+            sample: sx,
+            samplesPerAxis: samplesPerAxis,
           );
+          final ny = viewport.normalizedSample(
+            pixel: y,
+            extent: fullHeight,
+            sample: sy,
+            samplesPerAxis: samplesPerAxis,
+          );
+          final coordinate = viewport.coordinate(nx: nx, ny: ny);
 
-          final color =
-              formula(coordinate.x, coordinate.y, iterations, bailout, juliaC);
+          final color = formula(
+            coordinate.$1,
+            coordinate.$2,
+            iterations,
+            bailout,
+            juliaC,
+          );
           rAcc += color.$1;
           gAcc += color.$2;
           bAcc += color.$3;

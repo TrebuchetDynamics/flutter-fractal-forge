@@ -1,4 +1,5 @@
 import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
 import 'package:flutter_fractals/features/renderer/cpu_viewport_mapping.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
@@ -71,6 +72,35 @@ void main() {
 
       expect(viewport.normalizedPixel(0, 2), -1.0);
       expect(viewport.normalizedPixel(1, 2), 1.0);
+    });
+
+    test('invalid zoom falls back to replayable unit-scale coordinates', () {
+      final viewport = CpuViewportMapping(
+        viewPan: Vector2.zero(),
+        viewZoom: double.nan,
+        width: 2,
+        height: 2,
+      );
+
+      expect(viewport.scale, 1.5);
+      expect(viewport.coordinate(nx: 0.5, ny: -0.5), (0.75, -0.75));
+    });
+
+    test('isolate sample mapping shares invalid zoom normalization', () {
+      final coordinate = cpuViewportCoordinateForSample(
+        panX: 0.0,
+        panY: 0.0,
+        zoom: double.nan,
+        fullWidth: 2,
+        fullHeight: 2,
+        x: 1,
+        y: 0,
+        sampleOffsetX: 0.5,
+        sampleOffsetY: 0.5,
+      );
+
+      expect(coordinate.x, 0.75);
+      expect(coordinate.y, -0.75);
     });
 
     test('single-pixel iteration buffer samples the viewport center', () async {

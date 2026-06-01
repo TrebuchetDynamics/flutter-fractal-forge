@@ -16,10 +16,29 @@ final class CpuViewportMapping {
     required double viewZoom,
     required int width,
     required int height,
-  })  : centerX = viewPan.x,
-        centerY = viewPan.y,
-        scale = 1.5 / (viewZoom <= 0 ? 1.0 : viewZoom),
+  }) : this.fromScalars(
+          panX: viewPan.x,
+          panY: viewPan.y,
+          viewZoom: viewZoom,
+          width: width,
+          height: height,
+        );
+
+  CpuViewportMapping.fromScalars({
+    required double panX,
+    required double panY,
+    required double viewZoom,
+    required int width,
+    required int height,
+  })  : centerX = panX,
+        centerY = panY,
+        scale = 1.5 / normalizeZoom(viewZoom),
         aspect = height == 0 ? 1.0 : width / height;
+
+  static double normalizeZoom(double zoom) {
+    if (zoom.isNaN || zoom <= 0.0) return 1.0;
+    return zoom;
+  }
 
   double normalizedPixel(int pixel, int extent) {
     if (extent <= 1) return 0.0;
@@ -32,11 +51,25 @@ final class CpuViewportMapping {
     required int sample,
     required int samplesPerAxis,
   }) {
-    if (extent <= 1) return 0.0;
     final safeSamples = samplesPerAxis <= 0 ? 1 : samplesPerAxis;
-    final safePixel = pixel.clamp(0, extent - 1).toInt();
     final safeSample = sample.clamp(0, safeSamples - 1).toInt();
-    final subPixel = safePixel + (safeSample + 0.5) / safeSamples;
+    return normalizedSampleOffset(
+      pixel: pixel,
+      extent: extent,
+      sampleOffset: (safeSample + 0.5) / safeSamples,
+    );
+  }
+
+  double normalizedSampleOffset({
+    required int pixel,
+    required int extent,
+    required double sampleOffset,
+  }) {
+    if (extent <= 1) return 0.0;
+    final safePixel = pixel.clamp(0, extent - 1).toInt();
+    final safeOffset =
+        sampleOffset.isNaN ? 0.5 : sampleOffset.clamp(0.0, 1.0).toDouble();
+    final subPixel = safePixel + safeOffset;
     return (subPixel / extent) * 2.0 - 1.0;
   }
 
