@@ -56,9 +56,9 @@ void main() {
     test('history entries maintain insertion order', () async {
       final store = await HistoryStore.create();
       final entries = [
-        _makeEntry('first',  moduleId: 'mandelbrot'),
+        _makeEntry('first', moduleId: 'mandelbrot'),
         _makeEntry('second', moduleId: 'julia'),
-        _makeEntry('third',  moduleId: 'burning_ship'),
+        _makeEntry('third', moduleId: 'burning_ship'),
       ];
 
       await store.saveHistory(entries);
@@ -68,6 +68,22 @@ void main() {
       expect(loaded[0].id, equals('first'));
       expect(loaded[1].id, equals('second'));
       expect(loaded[2].id, equals('third'));
+    });
+
+    test('saveHistory caps oldest-first history to most recent entries',
+        () async {
+      final store = await HistoryStore.create();
+      final entries = [
+        for (var i = 0; i < HistoryStore.maxHistoryEntries + 2; i++)
+          _makeEntry('history_$i'),
+      ];
+
+      await store.saveHistory(entries);
+      final loaded = store.loadHistory();
+
+      expect(loaded, hasLength(HistoryStore.maxHistoryEntries));
+      expect(loaded.first.id, 'history_2');
+      expect(loaded.last.id, 'history_${HistoryStore.maxHistoryEntries + 1}');
     });
 
     test('loadFavorites returns empty list when no data stored', () async {
@@ -95,6 +111,22 @@ void main() {
       final favorites = store.loadFavorites();
 
       expect(favorites, hasLength(1));
+    });
+
+    test('saveFavorites caps oldest-first favorites to most recent entries',
+        () async {
+      final store = await HistoryStore.create();
+      final entries = [
+        for (var i = 0; i < HistoryStore.maxFavoriteEntries + 2; i++)
+          _makeEntry('favorite_$i'),
+      ];
+
+      await store.saveFavorites(entries);
+      final loaded = store.loadFavorites();
+
+      expect(loaded, hasLength(HistoryStore.maxFavoriteEntries));
+      expect(loaded.first.id, 'favorite_2');
+      expect(loaded.last.id, 'favorite_${HistoryStore.maxFavoriteEntries + 1}');
     });
 
     test('removeFavorite removes entry by ID', () async {

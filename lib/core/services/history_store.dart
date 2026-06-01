@@ -30,35 +30,23 @@ class HistoryStore {
   /// Loads the navigation history.
   ///
   /// Returns entries in chronological order (oldest first).
-  List<HistoryEntry> loadHistory() {
-    final payload = _prefs.getString(_historyKey);
-    return _parseEntries(payload);
-  }
+  List<HistoryEntry> loadHistory() => _loadEntries(_historySlot);
 
   /// Saves the navigation history.
   ///
   /// Automatically trims to [maxHistoryEntries].
   Future<void> saveHistory(List<HistoryEntry> entries) async {
-    final trimmed = entries.length > maxHistoryEntries
-        ? entries.sublist(entries.length - maxHistoryEntries)
-        : entries;
-    await _prefs.setString(_historyKey, _serializeEntries(trimmed));
+    await _saveEntries(_historySlot, entries);
   }
 
   /// Loads the user's favorite locations.
-  List<HistoryEntry> loadFavorites() {
-    final payload = _prefs.getString(_favoritesKey);
-    return _parseEntries(payload);
-  }
+  List<HistoryEntry> loadFavorites() => _loadEntries(_favoritesSlot);
 
   /// Saves the user's favorite locations.
   ///
   /// Capped at [maxFavoriteEntries] to prevent unbounded storage growth.
   Future<void> saveFavorites(List<HistoryEntry> favorites) async {
-    final capped = favorites.length > maxFavoriteEntries
-        ? favorites.sublist(favorites.length - maxFavoriteEntries)
-        : favorites;
-    await _prefs.setString(_favoritesKey, _serializeEntries(capped));
+    await _saveEntries(_favoritesSlot, favorites);
   }
 
   /// Adds an entry to favorites.
@@ -87,7 +75,58 @@ class HistoryStore {
     await _prefs.remove(_favoritesKey);
   }
 
-  List<HistoryEntry> _parseEntries(String? payload) {
+  List<HistoryEntry> _loadEntries(_HistoryStoreSlot slot) {
+    final payload = _prefs.getString(slot.key);
+    return _HistoryEntryCodec.parse(payload, slotLabel: slot.label);
+  }
+
+  Future<void> _saveEntries(
+    _HistoryStoreSlot slot,
+    List<HistoryEntry> entries,
+  ) async {
+    final bounded = slot.mostRecent(entries);
+    await _prefs.setString(slot.key, _HistoryEntryCodec.serialize(bounded));
+  }
+}
+
+const _historySlot = _HistoryStoreSlot(
+  key: HistoryStore._historyKey,
+  label: 'history',
+  maxEntries: HistoryStore.maxHistoryEntries,
+);
+
+const _favoritesSlot = _HistoryStoreSlot(
+  key: HistoryStore._favoritesKey,
+  label: 'favorites',
+  maxEntries: HistoryStore.maxFavoriteEntries,
+);
+
+/// Storage contract for one SharedPreferences-backed history collection.
+///
+/// Entries are expected oldest-first. When a slot exceeds its cap, the oldest
+/// entries are dropped and the most recent tail is retained.
+class _HistoryStoreSlot {
+  final String key;
+  final String label;
+  final int maxEntries;
+
+  const _HistoryStoreSlot({
+    required this.key,
+    required this.label,
+    required this.maxEntries,
+  }) : assert(maxEntries > 0);
+
+  List<HistoryEntry> mostRecent(List<HistoryEntry> entries) {
+    if (entries.length <= maxEntries) return entries;
+    return entries.sublist(entries.length - maxEntries);
+  }
+}
+
+class _HistoryEntryCodec {
+  const _HistoryEntryCodec._();
+
+  static List<HistoryEntry> parse(String? payload,
+      {required String slotLabel}) {
     if (payload == null || payload.isEmpty) return [];
     try {
       final decoded = jsonDecode(payload) as List;
@@ -98,19 +137,21 @@ class HistoryStore {
               HistoryEntry.fromJson((item as Map).cast<String, Object?>());
           entries.add(entry);
         } catch (e) {
-          // Skip corrupted entry, continue with others
-          if (kDebugMode) debugPrint('Failed to parse history entry: $e');
+          // Skip corrupted entry, continue with others.
+          if (kDebugMode) {
+            debugPrint('Failed to parse $slotLabel entry: $e');
+          }
         }
       }
       return entries;
     } catch (e) {
-      // Corrupted JSON, return empty list
-      if (kDebugMode) debugPrint('Failed to parse history JSON: $e');
+      // Corrupted JSON, return empty list.
+      if (kDebugMode) debugPrint('Failed to parse $slotLabel JSON: $e');
       return [];
     }
   }
 
-  String _serializeEntries(List<HistoryEntry> entries) {
+  static String serialize(List<HistoryEntry> entries) {
     return jsonEncode(entries.map((e) => e.toJson()).toList());
   }
 }
