@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "shaders/escape_time_family/families/tricorn",
+  "updatedAt": "2026-06-01T14:08:25.987Z",
+  "objective": "Refactor tricorn shader family by behavior responsibility: parameter-plane shaders in parameter_plane/ and fixed-c Julia shaders in julia_sets/, preserving shader source behavior and updating asset/caller references.",
+  "completedSlices": [
+    "Moved parameter-plane tricorn shaders (tricorn, cubic, power4, power5) to parameter_plane/ and updated pubspec/catalog/tests/comments.",
+    "Moved Julia-set tricorn shaders (base, cubic, power4-power8 Julia) to julia_sets/ and updated pubspec/catalog/tests/comments.",
+    "Shared-code pass completed: repeated GLSL palette/sRGB helpers are identical in several files, but no local shader include contract exists in repo beyond flutter/runtime_effect.glsl, so extraction was intentionally skipped to avoid shader compiler/asset behavior risk."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze test/power_shader_regression_test.dart test/fractal_cpu_diagnostics_test.dart lib/core/modules/builders/escape_time_catalog.dart lib/features/renderer/cpu_formulas.dart -> No issues found",
+    "Python check: all 11 moved tricorn catalog shaderAsset paths exist on disk",
+    "Python check: all .frag files under shaders/escape_time_family/families/tricorn are registered in pubspec.yaml",
+    "rg stale old target-root tricorn shader paths outside .pi -> no output",
+    "/home/xel/flutter/bin/flutter test test/power_shader_regression_test.dart -> blocked by pre-existing pubspec asset error: shaders/legacy/raymarched_3d/mandelbulb.frag missing"
+  ]
+}

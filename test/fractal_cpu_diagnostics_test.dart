@@ -216,7 +216,7 @@ void main() {
     test('Tricorn center pixel at pan=(0,0) zoom=1 iter=160', () {
       final (r, g, b) = _pixelTricorn(0.0, 0.0);
       print('NAV_DIAG route=/viewer/tricorn '
-          'module=tricorn shader=shaders/escape_time_family/families/tricorn/tricorn_gpu.frag '
+          'module=tricorn shader=shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag '
           'preset=tricorn-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'device=$device serial=$deviceSerial');

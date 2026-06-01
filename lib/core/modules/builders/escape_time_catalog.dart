@@ -294,7 +294,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn',
     name: 'Tricorn',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -1881,7 +1881,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_julia',
     name: 'Tricorn Julia',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -2782,7 +2782,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_cubic',
     name: 'Tricorn Cubic',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
@@ -3468,7 +3468,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_power4',
     name: 'Tricorn ⁴ (Mandelbar)',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3557,7 +3557,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_power5',
     name: 'Tricorn ⁵ (Mandelbar)',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power5_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3704,14 +3704,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_power4_julia',
     name: 'Tricorn⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_power5_julia',
     name: 'Tricorn⁵ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power5_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3753,7 +3753,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_cubic_julia',
     name: 'Tricorn Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3781,7 +3781,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_power6_julia',
     name: 'Tricorn⁶ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power6_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power6_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3984,14 +3984,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'tricorn_power7_julia',
     name: 'Tricorn⁷ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power7_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'tricorn_power8_julia',
     name: 'Tricorn⁸ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/tricorn/tricorn_power8_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),

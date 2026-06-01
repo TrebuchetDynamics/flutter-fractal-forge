@@ -616,7 +616,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/families/tricorn/tricorn_gpu.frag (Mandelbar: conj(z)^2 + c)
+    // Ported from shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag (Mandelbar: conj(z)^2 + c)
     _escapeTime(x, y, iterations, bailout,
         (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, -2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_multibrot3(
@@ -2576,7 +2576,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/families/tricorn/tricorn_julia_gpu.frag (CPU approximation, seed=0xc961b542)
+  // Ported from shaders/escape_time_family/families/tricorn/julia_sets/tricorn_julia_gpu.frag (CPU approximation, seed=0xc961b542)
   return _cpu_synthetic(0xc961b542, x, y, iterations, bailout);
 }
 

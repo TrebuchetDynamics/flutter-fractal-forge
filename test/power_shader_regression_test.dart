@@ -13,7 +13,7 @@ void main() {
         'if (dot(c, c) > bailoutSq)',
         'float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(4.0);',
       ],
-      'shaders/escape_time_family/families/tricorn/tricorn_power4_gpu.frag': [
+      'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag': [
         'if (dot(c, c) > bailoutSq)',
         'float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(4.0);',
       ],

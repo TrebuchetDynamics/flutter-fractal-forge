@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-01T14:04:32.210Z",
+  "generatedAt": "2026-06-01T14:08:49.293Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -349,22 +349,6 @@
       ]
     },
     {
-      "relative": "fractals-library/categories/the_escape_time_family/orbit_and_integer_maps",
-      "score": 111.1,
-      "files": 11,
-      "direct": 11,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 0,
-      "duplicates": 1,
-      "subdirs": 0,
-      "extensions": [
-        ".dart"
-      ]
-    },
-    {
       "relative": "shaders/escape_time_family/families/tricorn",
       "score": 111.1,
       "files": 11,
@@ -411,6 +395,23 @@
       "subdirs": 0,
       "extensions": [
         ".frag"
+      ]
+    },
+    {
+      "relative": "lib/core/models",
+      "score": 101,
+      "files": 10,
+      "direct": 10,
+      "churn": 0,
+      "callers": 3,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 13,
+      "subdirs": 0,
+      "extensions": [
+        ".dart",
+        ".md"
       ]
     }
   ],
