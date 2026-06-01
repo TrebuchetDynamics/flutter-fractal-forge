@@ -3,11 +3,29 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/features/renderer/convergence_detector.dart';
 
 void main() {
+  group('ConvergenceSamplingPlan', () {
+    test('keeps sampling grid dimensions replayable for non-square frames', () {
+      final plan = ConvergenceSamplingPlan(width: 130, height: 65, target: 64);
+
+      expect(plan.factor, 3);
+      expect(plan.sampledWidth, 44);
+      expect(plan.sampledHeight, 22);
+    });
+
+    test('rejects invalid downsample target before comparing frames', () {
+      expect(
+        () => ConvergenceSamplingPlan(width: 64, height: 64, target: 0),
+        throwsArgumentError,
+      );
+    });
+  });
+
   group('ConvergenceDetector', () {
     const detector = ConvergenceDetector();
 
     test('detects identical frames as converged', () {
-      final buffer = Uint8List.fromList(List.generate(64 * 64 * 4, (i) => i % 256));
+      final buffer =
+          Uint8List.fromList(List.generate(64 * 64 * 4, (i) => i % 256));
 
       final result = detector.detect(
         previous: buffer,
@@ -23,8 +41,10 @@ void main() {
 
     test('detects different frames as not converged', () {
       // Need to change by more than threshold (5) per channel.
-      final previous = Uint8List.fromList(List.generate(64 * 64 * 4, (i) => i % 256));
-      final current = Uint8List.fromList(List.generate(64 * 64 * 4, (i) => (i + 10) % 256));
+      final previous =
+          Uint8List.fromList(List.generate(64 * 64 * 4, (i) => i % 256));
+      final current =
+          Uint8List.fromList(List.generate(64 * 64 * 4, (i) => (i + 10) % 256));
 
       final result = detector.detect(
         previous: previous,
@@ -57,6 +77,23 @@ void main() {
 
       // 5% change > 1% threshold should suggest more iterations.
       expect(result.suggestedIterations, greaterThan(100));
+    });
+
+    test('throws domain error for invalid downsample target', () {
+      final previous = Uint8List(64 * 64 * 4);
+      final current = Uint8List(64 * 64 * 4);
+      const invalidDetector = ConvergenceDetector(downsampleTarget: 0);
+
+      expect(
+        () => invalidDetector.detect(
+          previous: previous,
+          current: current,
+          width: 64,
+          height: 64,
+          currentIterations: 100,
+        ),
+        throwsArgumentError,
+      );
     });
 
     test('throws on buffer size mismatch', () {

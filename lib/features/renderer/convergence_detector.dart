@@ -39,6 +39,45 @@ class ConvergenceResult {
       converged.hashCode ^ changeRatio.hashCode ^ suggestedIterations.hashCode;
 }
 
+/// Replayable downsampling grid for convergence comparison.
+class ConvergenceSamplingPlan {
+  /// Integer stride used to sample the original frame.
+  final int factor;
+
+  /// Width of the sampled comparison grid.
+  final int sampledWidth;
+
+  /// Height of the sampled comparison grid.
+  final int sampledHeight;
+
+  const ConvergenceSamplingPlan._({
+    required this.factor,
+    required this.sampledWidth,
+    required this.sampledHeight,
+  });
+
+  factory ConvergenceSamplingPlan({
+    required int width,
+    required int height,
+    required int target,
+  }) {
+    if (width <= 0 || height <= 0) {
+      throw ArgumentError('Invalid dimensions: ${width}x$height');
+    }
+    if (target <= 0) {
+      throw ArgumentError('Invalid downsampleTarget: $target');
+    }
+
+    final maxDimension = math.max(width, height);
+    final factor = math.max(1, (maxDimension / target).ceil());
+    return ConvergenceSamplingPlan._(
+      factor: factor,
+      sampledWidth: (width / factor).ceil(),
+      sampledHeight: (height / factor).ceil(),
+    );
+  }
+}
+
 /// Detects convergence between two rendered frames to enable adaptive iteration refinement.
 ///
 /// Compares two RGBA frame buffers and determines if the rendering has stabilized.
@@ -102,26 +141,29 @@ class ConvergenceDetector {
       throw ArgumentError('Invalid currentIterations: $currentIterations');
     }
 
-    // Calculate downsample factor
-    final downsampleFactor = _calculateDownsampleFactor(width, height);
-    final downsampledWidth = (width / downsampleFactor).ceil();
-    final downsampledHeight = (height / downsampleFactor).ceil();
+    final samplingPlan = ConvergenceSamplingPlan(
+      width: width,
+      height: height,
+      target: downsampleTarget,
+    );
 
     // Compare downsampled images
     int changedPixels = 0;
     int totalPixels = 0;
 
-    for (int y = 0; y < downsampledHeight; y++) {
-      for (int x = 0; x < downsampledWidth; x++) {
+    for (int y = 0; y < samplingPlan.sampledHeight; y++) {
+      for (int x = 0; x < samplingPlan.sampledWidth; x++) {
         // Sample from the original buffers
-        final srcX = (x * downsampleFactor).clamp(0, width - 1);
-        final srcY = (y * downsampleFactor).clamp(0, height - 1);
+        final srcX = (x * samplingPlan.factor).clamp(0, width - 1);
+        final srcY = (y * samplingPlan.factor).clamp(0, height - 1);
         final pixelIndex = (srcY * width + srcX) * 4;
 
         // Compare RGB channels (ignore alpha)
         bool pixelChanged = false;
         for (int channel = 0; channel < 3; channel++) {
-          final diff = (previous[pixelIndex + channel] - current[pixelIndex + channel]).abs();
+          final diff =
+              (previous[pixelIndex + channel] - current[pixelIndex + channel])
+                  .abs();
           if (diff > pixelDifferenceThreshold) {
             pixelChanged = true;
             break;
@@ -155,12 +197,5 @@ class ConvergenceDetector {
       changeRatio: changeRatio,
       suggestedIterations: suggestedIterations,
     );
-  }
-
-  /// Calculates the downsample factor to achieve approximately [downsampleTarget]x[downsampleTarget] resolution.
-  int _calculateDownsampleFactor(int width, int height) {
-    final maxDimension = math.max(width, height);
-    final factor = (maxDimension / downsampleTarget).ceil();
-    return math.max(1, factor);
   }
 }
