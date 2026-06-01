@@ -4,9 +4,9 @@
 
 import '../../base_classes/raymarch_3d_module_base.dart';
 import '../../base_classes/shader_params.dart';
-import 'f0543_quaternion_julia_0_18_0_88_0_0_0_0_presets.dart';
-import 'f0543_quaternion_julia_0_18_0_88_0_0_0_0_variants.dart';
-import 'f0543_quaternion_julia_0_18_0_88_0_0_0_0_metadata.dart';
+import 'metadata/f0543_quaternion_julia_0_18_0_88_0_0_0_0_metadata.dart';
+import 'presets/f0543_quaternion_julia_0_18_0_88_0_0_0_0_presets.dart';
+import 'variants/f0543_quaternion_julia_0_18_0_88_0_0_0_0_variants.dart';
 
 /// Quaternion Julia (0.18, 0.88, 0.0, 0.0) — 3D Raymarching & Hypercomplex.
 class F0543QuaternionJulia0180880000 extends Raymarched3DModule {
