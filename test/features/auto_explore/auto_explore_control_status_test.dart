@@ -98,7 +98,17 @@ void main() {
         isPaused: true,
         pausedByUserCorrection: false,
       );
+      const stopped = AutoExploreControlStatus(
+        isExploring: false,
+        isPaused: false,
+        pausedByUserCorrection: false,
+      );
 
+      expect(running.primaryAction, AutoExplorePrimaryAction.pause);
+      expect(yielded.primaryAction,
+          AutoExplorePrimaryAction.resumeFromTemporaryYield);
+      expect(paused.primaryAction, AutoExplorePrimaryAction.startOrResume);
+      expect(stopped.primaryAction, AutoExplorePrimaryAction.startOrResume);
       expect(running.resumesFromTemporaryYield, isFalse);
       expect(yielded.resumesFromTemporaryYield, isTrue);
       expect(paused.resumesFromTemporaryYield, isFalse);

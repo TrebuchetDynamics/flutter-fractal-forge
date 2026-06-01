@@ -61,11 +61,7 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
 
     void activate() {
       HapticFeedback.mediumImpact();
-      if (status.resumesFromTemporaryYield) {
-        svc.resume();
-      } else {
-        svc.toggle();
-      }
+      _runPrimaryAction(status.primaryAction, svc);
     }
 
     return FadeIn(
@@ -145,6 +141,21 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
         ),
       ),
     );
+  }
+}
+
+void _runPrimaryAction(
+  AutoExplorePrimaryAction action,
+  AutoExploreService service,
+) {
+  switch (action) {
+    case AutoExplorePrimaryAction.resumeFromTemporaryYield:
+      service.resume();
+      return;
+    case AutoExplorePrimaryAction.pause:
+    case AutoExplorePrimaryAction.startOrResume:
+      service.toggle();
+      return;
   }
 }
 
@@ -252,9 +263,8 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: status.resumesFromTemporaryYield
-                          ? svc.resume
-                          : svc.toggle,
+                      onPressed: () =>
+                          _runPrimaryAction(status.primaryAction, svc),
                       icon: Icon(status.showsPauseAction
                           ? Icons.pause_rounded
                           : Icons.play_arrow_rounded),

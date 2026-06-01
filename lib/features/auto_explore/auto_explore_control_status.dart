@@ -1,3 +1,13 @@
+/// Primary activation behavior for auto-explore controls.
+///
+/// Keeping this as data prevents the compact button and settings sheet from
+/// drifting when auto-explore is armed but temporarily yielded to the user.
+enum AutoExplorePrimaryAction {
+  startOrResume,
+  pause,
+  resumeFromTemporaryYield,
+}
+
 /// Replayable presentation state for auto-explore controls.
 ///
 /// The service can be exploring while user interaction temporarily owns motion.
@@ -25,9 +35,19 @@ class AutoExploreControlStatus {
   /// True when the primary control should present pausing active auto-motion.
   bool get showsPauseAction => isMotionActive;
 
+  /// Replayable primary action for button/sheet activation.
+  AutoExplorePrimaryAction get primaryAction {
+    if (isMotionActive) return AutoExplorePrimaryAction.pause;
+    if (isTemporarilyYielded) {
+      return AutoExplorePrimaryAction.resumeFromTemporaryYield;
+    }
+    return AutoExplorePrimaryAction.startOrResume;
+  }
+
   /// True when tapping the primary control should resume from a temporary yield
   /// instead of toggling into a fully paused state.
-  bool get resumesFromTemporaryYield => isTemporarilyYielded;
+  bool get resumesFromTemporaryYield =>
+      primaryAction == AutoExplorePrimaryAction.resumeFromTemporaryYield;
 
   String tooltip({
     required String startLabel,
