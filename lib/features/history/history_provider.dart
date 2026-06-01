@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/features/history/history_entry.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 
 /// Manages exploration history with back/forward navigation and favorites.
 ///
@@ -150,9 +149,7 @@ class HistoryProvider extends ChangeNotifier {
   /// Returns the entry to navigate to, or null if [canGoBack] is false.
   HistoryEntry? goBack() {
     if (!canGoBack) return null;
-    _currentIndex--;
-    notifyListeners();
-    return _history[_currentIndex];
+    return jumpToIndex(_currentIndex - 1);
   }
 
   /// Navigates forward to the next location in history.
@@ -160,17 +157,21 @@ class HistoryProvider extends ChangeNotifier {
   /// Returns the entry to navigate to, or null if [canGoForward] is false.
   HistoryEntry? goForward() {
     if (!canGoForward) return null;
-    _currentIndex++;
-    notifyListeners();
-    return _history[_currentIndex];
+    return jumpToIndex(_currentIndex + 1);
   }
 
   /// Jumps to a specific entry in history by index.
   HistoryEntry? jumpToIndex(int index) {
     if (index < 0 || index >= _history.length) return null;
-    _currentIndex = index;
+    _selectHistoryIndex(index);
     notifyListeners();
     return _history[_currentIndex];
+  }
+
+  void _selectHistoryIndex(int index) {
+    assert(index >= 0 && index < _history.length);
+    _currentIndex = index;
+    _lastRecorded = _history[index];
   }
 
   /// Jumps to a specific entry in history by ID.
@@ -185,13 +186,13 @@ class HistoryProvider extends ChangeNotifier {
   /// Creates a named copy of the current history entry.
   Future<void> saveCurrentAsFavorite(String name) async {
     if (currentEntry == null) return;
-    
+
     final favorite = currentEntry!.copyWith(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
       name: name,
       visitedAt: DateTime.now(),
     );
-    
+
     _favorites.add(favorite);
     await _store.saveFavorites(_favorites);
     notifyListeners();
@@ -204,7 +205,7 @@ class HistoryProvider extends ChangeNotifier {
       name: name,
       visitedAt: DateTime.now(),
     );
-    
+
     _favorites.add(favorite);
     await _store.saveFavorites(_favorites);
     notifyListeners();
@@ -221,7 +222,7 @@ class HistoryProvider extends ChangeNotifier {
   Future<void> renameFavorite(String favoriteId, String newName) async {
     final index = _favorites.indexWhere((f) => f.id == favoriteId);
     if (index < 0) return;
-    
+
     _favorites[index] = _favorites[index].copyWith(name: newName);
     await _store.saveFavorites(_favorites);
     notifyListeners();
@@ -249,21 +250,27 @@ class HistoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Applies a history entry to a FractalController.
-  void applyToController(HistoryEntry entry, FractalController controller) {
+  /// Applies a history entry to a controller-like object.
+  ///
+  /// Kept intentionally structural so history navigation tests do not depend on
+  /// renderer module registration. The controller is expected to expose
+  /// `updateParam`, `updateZoom`, `updatePan`, and `updateRotation` methods.
+  void applyToController(HistoryEntry entry, Object controller) {
+    final target = controller as dynamic;
+
     // Update parameters
     for (final paramEntry in entry.params.entries) {
       try {
-        controller.updateParam(paramEntry.key, paramEntry.value);
+        target.updateParam(paramEntry.key, paramEntry.value);
       } catch (_) {
         // Parameter may not exist in current module
       }
     }
-    
+
     // Update view state
-    controller.updateZoom(entry.view.zoom);
-    controller.updatePan(entry.view.pan);
-    controller.updateRotation(entry.view.rotation);
+    target.updateZoom(entry.view.zoom);
+    target.updatePan(entry.view.pan);
+    target.updateRotation(entry.view.rotation);
   }
 
   /// Cancels any pending debounced history record.
