@@ -4,9 +4,9 @@
 
 import '../../base_classes/raymarch_3d_module_base.dart';
 import '../../base_classes/shader_params.dart';
-import 'f0557_mandelbulb_n_4_presets.dart';
-import 'f0557_mandelbulb_n_4_variants.dart';
-import 'f0557_mandelbulb_n_4_metadata.dart';
+import 'metadata/f0557_mandelbulb_n_4_metadata.dart';
+import 'presets/f0557_mandelbulb_n_4_presets.dart';
+import 'variants/f0557_mandelbulb_n_4_variants.dart';
 
 /// Mandelbulb n=4 — 3D Raymarching & Hypercomplex.
 class F0557MandelbulbN4 extends Raymarched3DModule {

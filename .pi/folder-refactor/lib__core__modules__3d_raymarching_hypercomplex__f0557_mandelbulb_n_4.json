@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "target": "lib/core/modules/3d_raymarching_hypercomplex/f0557_mandelbulb_n_4",
+  "updatedAt": "2026-06-01T13:05:43.998Z",
+  "objective": "Refactor f0557_mandelbulb_n_4 into responsibility subfolders while preserving public module import path. Topology: root module facade/orchestrator; metadata/ owns immutable catalog metadata and citations; presets/ owns named preset descriptors; variants/ owns variant descriptors.",
+  "completedSlices": [
+    "Moved metadata, presets, and variants descriptors into focused responsibility subfolders and updated the module imports. Existing public module test kept as behavior seam."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/core/modules/3d_raymarching_hypercomplex/f0557_mandelbulb_n_4 test/modules/3d_raymarching_hypercomplex/f0557_mandelbulb_n_4/f0557_mandelbulb_n_4_module_test.dart -> No issues found",
+    "/home/xel/flutter/bin/flutter test test/modules/3d_raymarching_hypercomplex/f0557_mandelbulb_n_4/f0557_mandelbulb_n_4_module_test.dart -> blocked by pre-existing pubspec asset error: No file or variants found for asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag"
+  ]
+}
