@@ -103,6 +103,24 @@ void main() {
       expect(provider.currentEntry!.view.zoom, 102.0);
     });
 
+    testWidgets('keeps in-memory favorites capped to persisted max depth',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+
+      await _recordAndFlush(tester, provider, zoom: 1);
+
+      for (var i = 0; i < HistoryStore.maxFavoriteEntries + 2; i++) {
+        await provider.saveCurrentAsFavorite('favorite $i');
+      }
+
+      expect(provider.favoritesCount, HistoryStore.maxFavoriteEntries);
+      expect(provider.favorites.first.name, 'favorite 2');
+      expect(provider.favorites.last.name, 'favorite 501');
+      expect(store.loadFavorites().length, HistoryStore.maxFavoriteEntries);
+    });
+
     testWidgets('clearHistory cancels pending debounced records',
         (tester) async {
       final store = await HistoryStore.create();

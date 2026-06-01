@@ -13,11 +13,11 @@ import 'package:flutter_fractals/features/history/history_entry.dart';
 /// {@category Services}
 class HistoryStore {
   final SharedPreferences _prefs;
-  
+
   static const String _historyKey = 'exploration_history';
   static const String _favoritesKey = 'exploration_favorites';
   static const int maxHistoryEntries = 100;
-  static const int _maxFavorites = 500;
+  static const int maxFavoriteEntries = 500;
 
   HistoryStore._(this._prefs);
 
@@ -53,10 +53,10 @@ class HistoryStore {
 
   /// Saves the user's favorite locations.
   ///
-  /// Capped at [_maxFavorites] to prevent unbounded storage growth.
+  /// Capped at [maxFavoriteEntries] to prevent unbounded storage growth.
   Future<void> saveFavorites(List<HistoryEntry> favorites) async {
-    final capped = favorites.length > _maxFavorites
-        ? favorites.sublist(favorites.length - _maxFavorites)
+    final capped = favorites.length > maxFavoriteEntries
+        ? favorites.sublist(favorites.length - maxFavoriteEntries)
         : favorites;
     await _prefs.setString(_favoritesKey, _serializeEntries(capped));
   }
@@ -94,7 +94,8 @@ class HistoryStore {
       final entries = <HistoryEntry>[];
       for (final item in decoded) {
         try {
-          final entry = HistoryEntry.fromJson((item as Map).cast<String, Object?>());
+          final entry =
+              HistoryEntry.fromJson((item as Map).cast<String, Object?>());
           entries.add(entry);
         } catch (e) {
           // Skip corrupted entry, continue with others

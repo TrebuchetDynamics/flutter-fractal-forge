@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/features/history/history_entry.dart';
+import 'package:flutter_fractals/features/history/history_favorites.dart';
 import 'package:flutter_fractals/features/history/history_location.dart';
 import 'package:flutter_fractals/features/history/history_window.dart';
 
@@ -199,7 +200,11 @@ class HistoryProvider extends ChangeNotifier {
       visitedAt: DateTime.now(),
     );
 
-    _favorites.add(favorite);
+    _favorites = HistoryFavoritesPolicy.append(
+      favorites: _favorites,
+      favorite: favorite,
+      maxFavorites: HistoryStore.maxFavoriteEntries,
+    );
     await _store.saveFavorites(_favorites);
     notifyListeners();
   }
@@ -212,7 +217,11 @@ class HistoryProvider extends ChangeNotifier {
       visitedAt: DateTime.now(),
     );
 
-    _favorites.add(favorite);
+    _favorites = HistoryFavoritesPolicy.append(
+      favorites: _favorites,
+      favorite: favorite,
+      maxFavorites: HistoryStore.maxFavoriteEntries,
+    );
     await _store.saveFavorites(_favorites);
     notifyListeners();
   }
