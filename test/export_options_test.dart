@@ -152,6 +152,23 @@ void main() {
       expect(updated.resolution, original.resolution); // Unchanged
     });
 
+    test('copyWith clears nullable custom dimensions when null is explicit', () {
+      const original = ExportOptions(
+        resolution: ExportResolution.custom,
+        customWidth: 2000,
+        customHeight: 1500,
+      );
+
+      final updated = original.copyWith(
+        customWidth: null,
+        customHeight: null,
+      );
+
+      expect(updated.customWidth, isNull);
+      expect(updated.customHeight, isNull);
+      expect(updated.getTargetDimensions(400, 800), (400, 800));
+    });
+
     test('copyWith clears nullable provenance fields when null is explicit',
         () {
       final metadata = ExportMetadata(

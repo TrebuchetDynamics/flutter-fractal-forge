@@ -184,6 +184,19 @@ class ExportOptions extends Equatable {
     this.watermarkText,
   });
 
+  static T? _nullableCopyWithValue<T>({
+    required Object? candidate,
+    required T? currentValue,
+    required String fieldName,
+  }) {
+    assert(
+      identical(candidate, _unset) || candidate == null || candidate is T,
+      '$fieldName must be a $T? value',
+    );
+
+    return identical(candidate, _unset) ? currentValue : candidate as T?;
+  }
+
   int _positiveRoundedScreenDimension(double value) {
     if (!value.isFinite || value <= 0) return 1;
     return value.round().clamp(1, 1 << 30);
@@ -272,8 +285,8 @@ class ExportOptions extends Equatable {
   ExportOptions copyWith({
     ExportFormat? format,
     ExportResolution? resolution,
-    int? customWidth,
-    int? customHeight,
+    Object? customWidth = _unset,
+    Object? customHeight = _unset,
     bool? transparentBackground,
     int? quality,
     bool? embedMetadata,
@@ -297,19 +310,31 @@ class ExportOptions extends Equatable {
     return ExportOptions(
       format: format ?? this.format,
       resolution: resolution ?? this.resolution,
-      customWidth: customWidth ?? this.customWidth,
-      customHeight: customHeight ?? this.customHeight,
+      customWidth: _nullableCopyWithValue<int>(
+        candidate: customWidth,
+        currentValue: this.customWidth,
+        fieldName: 'customWidth',
+      ),
+      customHeight: _nullableCopyWithValue<int>(
+        candidate: customHeight,
+        currentValue: this.customHeight,
+        fieldName: 'customHeight',
+      ),
       transparentBackground:
           transparentBackground ?? this.transparentBackground,
       quality: quality ?? this.quality,
       embedMetadata: embedMetadata ?? this.embedMetadata,
-      metadata: identical(metadata, _unset)
-          ? this.metadata
-          : metadata as ExportMetadata?,
+      metadata: _nullableCopyWithValue<ExportMetadata>(
+        candidate: metadata,
+        currentValue: this.metadata,
+        fieldName: 'metadata',
+      ),
       addWatermark: addWatermark ?? this.addWatermark,
-      watermarkText: identical(watermarkText, _unset)
-          ? this.watermarkText
-          : watermarkText as String?,
+      watermarkText: _nullableCopyWithValue<String>(
+        candidate: watermarkText,
+        currentValue: this.watermarkText,
+        fieldName: 'watermarkText',
+      ),
     );
   }
 
