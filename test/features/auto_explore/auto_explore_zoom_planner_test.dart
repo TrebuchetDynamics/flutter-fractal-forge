@@ -283,8 +283,18 @@ void main() {
       expect(plan.duration, const Duration(milliseconds: 2000));
       expect(plan.frameInterval, const Duration(milliseconds: 16));
       expect(plan.totalFrames, 125);
+      expect(plan.frameTiming.totalFrames, plan.totalFrames);
       expect(plan.interpolate(double.nan), plan.startZoom);
       expect(plan.interpolate(1.0), plan.endZoom);
+    });
+
+    test('counts sub-millisecond frame intervals without division by zero', () {
+      final timing = AutoExploreFrameTiming(
+        duration: const Duration(milliseconds: 2),
+        frameInterval: const Duration(microseconds: 500),
+      );
+
+      expect(timing.totalFrames, 4);
     });
 
     test('normalizes invalid speed candidates before duration scaling', () {

@@ -254,6 +254,23 @@ class AutoExploreLegDuration {
 /// The service animates with a fixed frame cadence; exposing the sanitized
 /// start/end zooms, duration, and frame count keeps timer-driven behavior
 /// characterizable without relying on wall-clock order in service tests.
+class AutoExploreFrameTiming {
+  final Duration duration;
+  final Duration frameInterval;
+
+  const AutoExploreFrameTiming({
+    required this.duration,
+    required this.frameInterval,
+  }) : assert(frameInterval > Duration.zero, 'frameInterval must be positive');
+
+  int get totalFrames {
+    final frameMicros = frameInterval.inMicroseconds;
+    if (frameMicros <= 0) return 1;
+    return max(1, (duration.inMicroseconds / frameMicros).round());
+  }
+}
+
+/// Replayable frame timing and zoom endpoints for one auto-explore animation.
 class AutoExploreZoomAnimationPlan {
   static const Duration defaultFrameInterval = Duration(milliseconds: 16);
 
@@ -269,10 +286,12 @@ class AutoExploreZoomAnimationPlan {
     this.frameInterval = defaultFrameInterval,
   }) : assert(frameInterval > Duration.zero, 'frameInterval must be positive');
 
-  int get totalFrames => max(
-        1,
-        (duration.inMilliseconds / frameInterval.inMilliseconds).round(),
+  AutoExploreFrameTiming get frameTiming => AutoExploreFrameTiming(
+        duration: duration,
+        frameInterval: frameInterval,
       );
+
+  int get totalFrames => frameTiming.totalFrames;
 
   double interpolate(double t) {
     return AutoExploreZoomInterpolation.interpolate(
