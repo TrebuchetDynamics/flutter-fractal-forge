@@ -8,6 +8,34 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  group('AutoExploreSettingsSheet', () {
+    testWidgets('shows resume affordance while auto-explore is yielded',
+        (tester) async {
+      final controller = FractalController(ModuleRegistry());
+      final service = AutoExploreService(controller: controller);
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      service.onUserInteractionStart();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: ChangeNotifierProvider<AutoExploreService>.value(
+            value: service,
+            child: const Scaffold(
+              body: AutoExploreSettingsSheet(),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Auto-pilot paused (user correction)'), findsOneWidget);
+      expect(find.text('Play'), findsOneWidget);
+      expect(find.text('Pause'), findsNothing);
+    });
+  });
+
   group('AutoExploreButton semantics', () {
     testWidgets('exposes tap action for assistive activation', (tester) async {
       final semanticsHandle = tester.ensureSemantics();

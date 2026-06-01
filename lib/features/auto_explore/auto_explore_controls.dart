@@ -151,6 +151,11 @@ class AutoExploreSettingsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final svc = context.watch<AutoExploreService>();
+    final status = AutoExploreControlStatus(
+      isExploring: svc.isExploring,
+      isPaused: svc.isPaused,
+      pausedByUserCorrection: svc.pausedByUserCorrection,
+    );
     final l10n = AppLocalizations.of(context);
 
     return Container(
@@ -243,12 +248,14 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: svc.toggle,
-                      icon: Icon(svc.isExploring && !svc.isPaused
+                      onPressed: status.isTemporarilyYielded
+                          ? svc.resume
+                          : svc.toggle,
+                      icon: Icon(status.showsPauseAction
                           ? Icons.pause_rounded
                           : Icons.play_arrow_rounded),
                       label: Text(
-                        svc.isExploring && !svc.isPaused
+                        status.showsPauseAction
                             ? (l10n?.actionPause ?? 'Pause')
                             : (l10n?.actionPlay ?? 'Play'),
                       ),

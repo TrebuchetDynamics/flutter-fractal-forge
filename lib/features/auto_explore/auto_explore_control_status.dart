@@ -22,6 +22,9 @@ class AutoExploreControlStatus {
   bool get isTemporarilyYielded =>
       isExploring && !isPaused && pausedByUserCorrection;
 
+  /// True when the primary control should present pausing active auto-motion.
+  bool get showsPauseAction => isMotionActive;
+
   String tooltip({
     required String startLabel,
     required String pauseLabel,

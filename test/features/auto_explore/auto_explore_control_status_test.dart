@@ -28,6 +28,11 @@ void main() {
         isPaused: false,
         pausedByUserCorrection: false,
       );
+      const yielded = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: false,
+        pausedByUserCorrection: true,
+      );
       const paused = AutoExploreControlStatus(
         isExploring: true,
         isPaused: true,
@@ -40,6 +45,7 @@ void main() {
       );
 
       expect(running.isMotionActive, isTrue);
+      expect(yielded.isMotionActive, isFalse);
       expect(paused.isMotionActive, isFalse);
       expect(stopped.isMotionActive, isFalse);
       expect(
@@ -58,6 +64,22 @@ void main() {
         ),
         'Start auto-explore',
       );
+    });
+
+    test('uses active motion, not armed state, for the primary action', () {
+      const running = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: false,
+        pausedByUserCorrection: false,
+      );
+      const yielded = AutoExploreControlStatus(
+        isExploring: true,
+        isPaused: false,
+        pausedByUserCorrection: true,
+      );
+
+      expect(running.showsPauseAction, isTrue);
+      expect(yielded.showsPauseAction, isFalse);
     });
   });
 }
