@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "shaders/escape_time_family/families/multibrot",
+  "updatedAt": "2026-06-01T13:46:32.798Z",
+  "objective": "Split multibrot shaders by exponent responsibility while preserving catalog/pubspec shader asset behavior. Topology complete: integer_powers/ owns z^n + c integer power parameter-plane shaders, fractional_powers/ owns fractional exponent variants, inverse_powers/ owns negative/inverse exponent variants.",
+  "completedSlices": [
+    "Added focused multibrot shader asset tests covering catalog paths existing on disk and pubspec registration.",
+    "Moved all 13 root multibrot shader files into responsibility subfolders: integer_powers, fractional_powers, inverse_powers.",
+    "Updated catalog shaderAsset strings, pubspec shader registrations, power regression test paths, and CPU formula provenance comments."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/multibrot_shader_assets_test.dart: passed",
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/power_shader_regression_test.dart --plain-name multibrot: passed",
+    "folder_refactor_audit target=shaders/escape_time_family/families/multibrot plannedTopologyComplete=true: passed",
+    "Full asset-bundle flutter test remains blocked by pre-existing missing burning_ship/parameter_plane shader paths in pubspec/test, outside target."
+  ]
+}

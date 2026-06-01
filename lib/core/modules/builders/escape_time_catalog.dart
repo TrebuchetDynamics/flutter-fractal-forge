@@ -382,7 +382,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot3',
     name: 'Multibrot d=3',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot3_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -1917,7 +1917,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot_neg2',
     name: 'Multibrot d=-2',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/inverse_powers/multibrot_neg2_gpu.frag',
     defaultIterations: 140,
   ),
   EscapeTimeConfig(
@@ -2410,7 +2410,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot4',
     name: 'Multibrot d=4',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -2428,7 +2428,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot5',
     name: 'Multibrot d=5',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot5_gpu.frag',
     defaultIterations: 170,
     extraPresets: [
       FractalPreset(
@@ -2655,7 +2655,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot_15',
     name: 'Multibrot d=1.5',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/fractional_powers/multibrot_15_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2899,7 +2899,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot_25',
     name: 'Multibrot d=2.5',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/fractional_powers/multibrot_25_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 4.0,
     extraPresets: [
@@ -3459,7 +3459,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot6',
     name: 'Multibrot ⁶',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot6_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3620,14 +3620,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot7',
     name: 'Multibrot ⁷',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot7_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multibrot8',
     name: 'Multibrot ⁸',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot8_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3851,7 +3851,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot9',
     name: 'Multibrot⁹',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot9_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3865,7 +3865,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot10',
     name: 'Multibrot¹⁰',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot10_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3879,14 +3879,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'multibrot11',
     name: 'Multibrot¹¹',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot11_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'multibrot12',
     name: 'Multibrot¹²',
-    shaderAsset: 'shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/multibrot/integer_powers/multibrot12_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),

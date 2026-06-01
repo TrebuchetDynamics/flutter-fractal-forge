@@ -626,7 +626,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/families/multibrot/multibrot3_gpu.frag (z^3 + c)
+    // Ported from shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag (z^3 + c)
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final x2 = zx * zx;
       final y2 = zy * zy;
@@ -2598,7 +2598,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag (CPU approximation, seed=0x171f3266)
+  // Ported from shaders/escape_time_family/families/multibrot/inverse_powers/multibrot_neg2_gpu.frag (CPU approximation, seed=0x171f3266)
   return _cpu_synthetic(0x171f3266, x, y, iterations, bailout);
 }
 
@@ -3148,7 +3148,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/families/multibrot/multibrot4_gpu.frag and common Multibrot references.
+    // Ported from shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag and common Multibrot references.
     // z -> z^4 + c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
@@ -3165,7 +3165,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag and common Multibrot references.
+    // Ported from shaders/escape_time_family/families/multibrot/integer_powers/multibrot5_gpu.frag and common Multibrot references.
     // z -> z^5 + c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
