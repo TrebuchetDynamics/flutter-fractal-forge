@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/features/history/history_location.dart';
 
 /// Represents a visited location in fractal exploration history.
 ///
@@ -124,7 +125,8 @@ class HistoryEntry {
             (key, value) => MapEntry(key as String, value as Object),
           ) ??
           {},
-      visitedAt: DateTime.tryParse(json['visitedAt'] as String? ?? '') ?? DateTime.now(),
+      visitedAt: DateTime.tryParse(json['visitedAt'] as String? ?? '') ??
+          DateTime.now(),
       name: json['name'] as String?,
     );
   }
@@ -146,21 +148,14 @@ class HistoryEntry {
   /// Two entries are at the same location if they have the same
   /// module, view state, and parameters.
   bool isSameLocation(HistoryEntry other) {
-    if (moduleId != other.moduleId) {
-      return false;
-    }
-    if (view.zoom != other.view.zoom) {
-      return false;
-    }
-    if (view.pan.x != other.view.pan.x || view.pan.y != other.view.pan.y) {
-      return false;
-    }
-    if (view.rotation.x != other.view.rotation.x ||
-        view.rotation.y != other.view.rotation.y ||
-        view.rotation.z != other.view.rotation.z) {
-      return false;
-    }
-    return true;
+    return isSameHistoryLocation(
+      moduleId: moduleId,
+      view: view,
+      params: params,
+      otherModuleId: other.moduleId,
+      otherView: other.view,
+      otherParams: other.params,
+    );
   }
 
   @override
