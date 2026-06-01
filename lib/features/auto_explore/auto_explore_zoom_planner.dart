@@ -215,20 +215,25 @@ class AutoExploreLegDuration {
     required double scale,
     required double speed,
   }) {
-    final baseMs = baseDuration.inMilliseconds;
-    if (baseMs <= 0) return 1;
+    final safeBaseMs = _safeBaseMilliseconds(baseDuration.inMilliseconds);
+    if (safeBaseMs <= 0) return 1;
 
     final scaledMs = _finitePositiveRoundOrFallback(
-      baseMs * scale,
-      fallback: baseMs,
+      safeBaseMs * scale,
+      fallback: safeBaseMs,
     );
     return max(
       1,
       _finitePositiveRoundOrFallback(
         scaledMs / AutoExploreSpeed.normalize(speed),
-        fallback: baseMs,
+        fallback: safeBaseMs,
       ),
     );
+  }
+
+  static int _safeBaseMilliseconds(int baseMs) {
+    if (baseMs <= 0) return 1;
+    return min(baseMs, _maxSafeDurationMilliseconds);
   }
 
   static int _finitePositiveRoundOrFallback(

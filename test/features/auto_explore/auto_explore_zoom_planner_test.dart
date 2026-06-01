@@ -469,6 +469,16 @@ void main() {
       );
     });
 
+    test('caps oversized base durations before scaling milliseconds', () {
+      final milliseconds = AutoExploreLegDuration.milliseconds(
+        baseDuration: const Duration(milliseconds: 9223372036855),
+        scale: 1.0,
+        speed: 1.0,
+      );
+
+      expect(milliseconds, 9223372036854);
+    });
+
     test('sanitizes invalid duration scale before rounding milliseconds', () {
       const nanScalePlanner = AutoExploreZoomPlanner(
         config: AutoExploreConfig(
