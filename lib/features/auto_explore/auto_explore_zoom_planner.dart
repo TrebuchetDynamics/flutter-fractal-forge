@@ -35,6 +35,33 @@ class AutoExploreConfig {
   });
 }
 
+/// Zoom bounds used by auto-explore planning.
+///
+/// Dart's [double.clamp] treats NaN as the upper bound, which would turn a
+/// corrupted/uninitialized zoom reading into an extreme deep-zoom target.
+/// Keep sanitization explicit so candidate planning remains replayable.
+class AutoExploreZoomBounds {
+  final double minZoom;
+  final double maxZoom;
+
+  const AutoExploreZoomBounds({
+    required this.minZoom,
+    required this.maxZoom,
+  });
+
+  factory AutoExploreZoomBounds.fromConfig(AutoExploreConfig config) {
+    return AutoExploreZoomBounds(
+      minZoom: config.minZoom,
+      maxZoom: config.maxZoom,
+    );
+  }
+
+  double clamp(double zoom) {
+    if (zoom.isNaN) return minZoom;
+    return zoom.clamp(minZoom, maxZoom);
+  }
+}
+
 /// Pure zoom-planning logic for [AutoExploreService].
 ///
 /// Keeping target selection side-effect free makes the precision assumptions
@@ -48,7 +75,8 @@ class AutoExploreZoomPlanner {
     this.precisionPolicy = const DeepZoomPrecisionPolicy(),
   });
 
-  double clampZoom(double zoom) => zoom.clamp(config.minZoom, config.maxZoom);
+  double clampZoom(double zoom) =>
+      AutoExploreZoomBounds.fromConfig(config).clamp(zoom);
 
   double hardMaxZoomFor(String moduleId) {
     final safeThreshold =

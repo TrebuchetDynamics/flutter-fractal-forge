@@ -95,5 +95,20 @@ void main() {
         const Duration(milliseconds: 1000),
       );
     });
+
+    test('does not treat NaN zoom as maximum zoom', () {
+      const planner = AutoExploreZoomPlanner(config: AutoExploreConfig());
+
+      expect(planner.clampZoom(double.nan), AutoExploreConfig().minZoom);
+      expect(
+        planner.nextTargetZoom(
+          currentZoom: double.nan,
+          cycleBaseZoom: null,
+          zoomingIn: true,
+          moduleId: 'mandelbrot',
+        ),
+        24.0,
+      );
+    });
   });
 }
