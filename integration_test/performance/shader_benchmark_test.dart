@@ -18,10 +18,10 @@ void main() {
       final results = <String, ShaderBenchmarkResult>{};
 
       final shaders = [
-        'shaders/legacy/mandelbrot.frag',
-        'shaders/legacy/julia.frag',
-        'shaders/legacy/burning_ship.frag',
-        'shaders/legacy/mandelbulb.frag',
+        'shaders/legacy/diagnostics/mandelbrot.frag',
+        'shaders/legacy/escape_time/julia.frag',
+        'shaders/legacy/escape_time/burning_ship.frag',
+        'shaders/legacy/raymarched_3d/mandelbulb.frag',
       ];
 
       for (final shaderPath in shaders) {

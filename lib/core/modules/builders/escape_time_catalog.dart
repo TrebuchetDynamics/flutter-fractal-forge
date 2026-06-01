@@ -23,7 +23,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     id: 'mandelbrot',
     name: 'Mandelbrot',
     displayName: (l10n) => l10n.moduleMandelbrot,
-    shaderAsset: 'shaders/legacy/mandel_step_smooth.frag',
+    shaderAsset: 'shaders/legacy/escape_time/mandel_step_smooth.frag',
     defaultIterations: 120,
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
@@ -5403,7 +5403,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_df2',
     name: 'Mandelbrot Df2',
-    shaderAsset: 'shaders/legacy/mandelbrot_df2.frag',
+    shaderAsset: 'shaders/legacy/precision/mandelbrot_df2.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5411,7 +5411,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_et',
     name: 'Mandelbrot Et',
-    shaderAsset: 'shaders/legacy/mandelbrot_et.frag',
+    shaderAsset: 'shaders/legacy/escape_time/mandelbrot_et.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5419,7 +5419,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_hardgrad',
     name: 'Mandelbrot Hardgrad',
-    shaderAsset: 'shaders/legacy/mandelbrot_hardgrad.frag',
+    shaderAsset: 'shaders/legacy/diagnostics/mandelbrot_hardgrad.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5427,7 +5427,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_simple',
     name: 'Mandelbrot Simple',
-    shaderAsset: 'shaders/legacy/mandelbrot_simple.frag',
+    shaderAsset: 'shaders/legacy/diagnostics/mandelbrot_simple.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5435,7 +5435,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_tex',
     name: 'Mandelbrot Tex',
-    shaderAsset: 'shaders/legacy/mandelbrot_tex.frag',
+    shaderAsset: 'shaders/legacy/escape_time/mandelbrot_tex.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5451,7 +5451,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandel_step_escape',
     name: 'Mandel Step Escape',
-    shaderAsset: 'shaders/legacy/mandel_step_escape.frag',
+    shaderAsset: 'shaders/legacy/escape_time/mandel_step_escape.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

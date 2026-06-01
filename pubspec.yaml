@@ -54,23 +54,23 @@ flutter:
     - shaders/diagnostic/test_minimal.frag
     - shaders/diagnostic/test_gl_fragcoord.frag
     - shaders/diagnostic/test_flutter_coord.frag
-    - shaders/legacy/mandelbulb.frag
+    - shaders/legacy/raymarched_3d/mandelbulb.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag
-    - shaders/legacy/mandelbrot.frag
-    - shaders/legacy/julia.frag
-    - shaders/legacy/burning_ship.frag
+    - shaders/legacy/diagnostics/mandelbrot.frag
+    - shaders/legacy/escape_time/julia.frag
+    - shaders/legacy/escape_time/burning_ship.frag
     - shaders/runtime/ink_sparkle.frag
-    - shaders/legacy/phoenix.frag
+    - shaders/legacy/escape_time/phoenix.frag
     - shaders/diagnostic/diag_min.frag
-    - shaders/legacy/mandelbrot_simple.frag
-    - shaders/legacy/mandelbrot_et.frag
-    - shaders/legacy/mandelbrot_hardgrad.frag
-    - shaders/legacy/mandelbrot_tex.frag
+    - shaders/legacy/diagnostics/mandelbrot_simple.frag
+    - shaders/legacy/escape_time/mandelbrot_et.frag
+    - shaders/legacy/diagnostics/mandelbrot_hardgrad.frag
+    - shaders/legacy/escape_time/mandelbrot_tex.frag
     - shaders/diagnostic/diag_9float.frag
     - shaders/diagnostic/diag_sampler.frag
-    - shaders/legacy/mandel_step_escape.frag
-    - shaders/legacy/mandel_step_smooth.frag
-    - shaders/legacy/mandelbrot_df2.frag
+    - shaders/legacy/escape_time/mandel_step_escape.frag
+    - shaders/legacy/escape_time/mandel_step_smooth.frag
+    - shaders/legacy/precision/mandelbrot_df2.frag
     - shaders/runtime/post_glow_h.frag
     - shaders/runtime/post_glow_v.frag
     - shaders/escape_time_family/core/julia_gpu.frag

@@ -10,12 +10,12 @@
 
 | File | Description |
 |------|-------------|
-| `legacy/mandelbrot.frag` | Classic Mandelbrot set (legacy) |
-| `legacy/julia.frag` | Julia set (legacy) |
-| `legacy/burning_ship.frag` | Burning Ship fractal (legacy) |
-| `legacy/phoenix.frag` | Phoenix fractal (legacy) |
-| `legacy/mandelbulb.frag` | 3D Mandelbulb with raymarching |
-| `legacy/mandelbrot_simple.frag` | Mandelbrot via escape-time builder |
+| `legacy/diagnostics/mandelbrot.frag` | Minimal Mandelbrot-uniform diagnostic shader (legacy) |
+| `legacy/escape_time/julia.frag` | Julia set (legacy) |
+| `legacy/escape_time/burning_ship.frag` | Burning Ship fractal (legacy) |
+| `legacy/escape_time/phoenix.frag` | Phoenix fractal (legacy) |
+| `legacy/raymarched_3d/mandelbulb.frag` | 3D Mandelbulb with raymarching |
+| `legacy/diagnostics/mandelbrot_simple.frag` | Minimal size-uniform gradient diagnostic shader |
 | `runtime/ink_sparkle.frag` | Material Design ink sparkle effect |
 | `runtime/post_glow_h.frag` / `runtime/post_glow_v.frag` | Post-processing glow passes |
 
@@ -33,7 +33,7 @@
 | `root_finding/` | Newton, Halley, Householder, Schröder, Steffensen, and related root-finding shader families |
 | `kaleidoscopes/` | 15 kaleidoscope and symmetry shaders |
 | `diagnostic/` | 8 utility/debug shaders (sampler diagnostics, gradient tests) |
-| `legacy/` | 12 legacy compatibility shaders without `_gpu` naming |
+| `legacy/` | 12 legacy compatibility shaders without `_gpu` naming, grouped by responsibility (see `legacy/AGENTS.md`) |
 | `runtime/` | 3 runtime/post-processing shaders |
 
 ## For AI Agents

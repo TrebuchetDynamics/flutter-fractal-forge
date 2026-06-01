@@ -26,7 +26,7 @@ void main() {
       'shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag',
       'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag',
       // Standalone 3D modules
-      'shaders/legacy/mandelbulb.frag',
+      'shaders/legacy/raymarched_3d/mandelbulb.frag',
       'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag',
       'shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag',
       'shaders/ifs_and_geometric/self_similar_sets/menger_3d_slice_gpu.frag',

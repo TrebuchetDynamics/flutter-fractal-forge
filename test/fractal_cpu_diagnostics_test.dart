@@ -163,7 +163,7 @@ void main() {
       // Center pixel c=(0,0) is inside Mandelbrot set → black
       final (r, g, b) = _pixelMandelbrot(0.0, 0.0);
       print('NAV_DIAG route=/viewer/mandelbrot '
-          'module=mandelbrot shader=shaders/legacy/mandelbrot_et.frag '
+          'module=mandelbrot shader=shaders/legacy/escape_time/mandelbrot_et.frag '
           'preset=mandelbrot-default center_rgb=$r,$g,$b '
           'frame_count=1 iter=160 zoom=1.0 pan=0.0,0.0 '
           'device=$device serial=$deviceSerial');
@@ -177,7 +177,7 @@ void main() {
       // This pixel should escape (outside the set)
       final (r, g, b) = _pixelMandelbrot(0.3, 0.0);
       print('NAV_DIAG route=/viewer/mandelbrot '
-          'module=mandelbrot shader=shaders/legacy/mandelbrot_et.frag '
+          'module=mandelbrot shader=shaders/legacy/escape_time/mandelbrot_et.frag '
           'preset=mandelbrot-default center_rgb(0.3,0)=$r,$g,$b '
           'device=$device');
       // c=(0.3,0) is outside → non-black

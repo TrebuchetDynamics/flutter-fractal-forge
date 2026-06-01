@@ -93,7 +93,7 @@ class FractalModule {
   /// Path to the GLSL fragment shader asset.
   ///
   /// The shader must be registered in `pubspec.yaml` under `flutter.shaders`.
-  /// Example: `'shaders/legacy/mandelbrot.frag'`
+  /// Example: `'shaders/legacy/diagnostics/mandelbrot.frag'`
   final String shaderAsset;
 
   /// The configurable parameters for this fractal type.

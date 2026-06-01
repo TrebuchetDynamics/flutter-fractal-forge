@@ -326,7 +326,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'mandelbulb',
     name: 'Mandelbulb',
-    shaderAsset: 'shaders/legacy/mandelbulb.frag',
+    shaderAsset: 'shaders/legacy/raymarched_3d/mandelbulb.frag',
     category: '3D Fractals',
     defaultPower: 8.0,
     minPower: 2.0,
