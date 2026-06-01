@@ -176,7 +176,37 @@ void main() {
       expect(plan.peakZoom, 1.0);
       expect(plan.floorZoom, 1.0);
       expect(plan.isCollapsed, isTrue);
+      expect(plan.targetRange.targetZoom(zoomingIn: false), 1.0);
       expect(plan.targetZoom, 1.0);
+    });
+
+    test('collapsed target plans do not return a base above resolved range',
+        () {
+      const precisionCollapsedPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(minZoom: 1e11, maxZoom: 1e12),
+      );
+
+      final plan = precisionCollapsedPlanner.planNextTarget(
+        currentZoom: 1e12,
+        cycleBaseZoom: 1e12,
+        zoomingIn: true,
+        moduleId: 'unknown_orbit_module',
+      );
+
+      expect(plan.baseZoom, 1e12);
+      expect(plan.peakZoom, 1e11);
+      expect(plan.floorZoom, 1e11);
+      expect(plan.isCollapsed, isTrue);
+      expect(plan.targetZoom, 1e11);
+      expect(
+        precisionCollapsedPlanner.nextTargetZoom(
+          currentZoom: 1e12,
+          cycleBaseZoom: 1e12,
+          zoomingIn: true,
+          moduleId: 'unknown_orbit_module',
+        ),
+        1e11,
+      );
     });
 
     test('scales leg duration by zoom span and speed', () {

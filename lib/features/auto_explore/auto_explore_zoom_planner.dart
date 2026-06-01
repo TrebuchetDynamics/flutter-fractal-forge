@@ -387,10 +387,33 @@ class AutoExplorePeakZoomCandidates {
       );
 }
 
-/// Replayable target-selection data for one auto-explore cycle step.
-class AutoExploreZoomTargetPlan {
+/// Replayable target range for one auto-explore cycle step.
+class AutoExploreZoomTargetRange {
   static const double collapseEpsilon = 1e-9;
 
+  final double peakZoom;
+  final double floorZoom;
+
+  const AutoExploreZoomTargetRange({
+    required this.peakZoom,
+    required this.floorZoom,
+  });
+
+  bool get isCollapsed => (peakZoom - floorZoom).abs() < collapseEpsilon;
+
+  double targetZoom({required bool zoomingIn}) {
+    if (isCollapsed) {
+      // Collapsed plans must remain inside the resolved target range. Returning
+      // the cycle base can bypass a precision hard-max when floor and peak both
+      // collapse below the current/base zoom.
+      return min(peakZoom, floorZoom);
+    }
+    return zoomingIn ? peakZoom : floorZoom;
+  }
+}
+
+/// Replayable target-selection data for one auto-explore cycle step.
+class AutoExploreZoomTargetPlan {
   final double currentZoom;
   final double baseZoom;
   final double peakZoom;
@@ -405,13 +428,14 @@ class AutoExploreZoomTargetPlan {
     required this.zoomingIn,
   });
 
-  bool get isCollapsed => (peakZoom - floorZoom).abs() < collapseEpsilon;
+  AutoExploreZoomTargetRange get targetRange => AutoExploreZoomTargetRange(
+        peakZoom: peakZoom,
+        floorZoom: floorZoom,
+      );
 
-  double get targetZoom => isCollapsed
-      ? baseZoom
-      : zoomingIn
-          ? peakZoom
-          : floorZoom;
+  bool get isCollapsed => targetRange.isCollapsed;
+
+  double get targetZoom => targetRange.targetZoom(zoomingIn: zoomingIn);
 }
 
 /// Pure zoom-planning logic for [AutoExploreService].
