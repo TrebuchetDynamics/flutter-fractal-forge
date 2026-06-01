@@ -61,6 +61,32 @@ bool _isVisiblyDifferent(Uint8List frameA, Uint8List frameB, int index) {
   return dr + dg + db > _differenceThreshold;
 }
 
+int _countNonBlackPixels(Uint8List frame, int readablePixels) {
+  int nonBlack = 0;
+  for (int pixel = 0; pixel < readablePixels; pixel++) {
+    final i = pixel * _rgbaStride;
+    if (_isNonBlack(frame, i)) {
+      nonBlack++;
+    }
+  }
+  return nonBlack;
+}
+
+int _countDifferentPixels({
+  required Uint8List frameA,
+  required Uint8List frameB,
+  required int readablePixels,
+}) {
+  int different = 0;
+  for (int pixel = 0; pixel < readablePixels; pixel++) {
+    final i = pixel * _rgbaStride;
+    if (_isVisiblyDifferent(frameA, frameB, i)) {
+      different++;
+    }
+  }
+  return different;
+}
+
 class RenderFrameStats {
   final int centerR;
   final int centerG;
@@ -97,15 +123,8 @@ RenderFrameStats validateRenderFrame({
   final centerNonBlack =
       geometry.canReadCenter(frame) && _isNonBlack(frame, cIndex);
 
-  int nonBlack = 0;
   final readablePixels = geometry.readablePixelCount(frame);
-
-  for (int pixel = 0; pixel < readablePixels; pixel++) {
-    final i = pixel * _rgbaStride;
-    if (_isNonBlack(frame, i)) {
-      nonBlack++;
-    }
-  }
+  final nonBlack = _countNonBlackPixels(frame, readablePixels);
 
   final nonBlackRatio =
       geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;
@@ -168,21 +187,17 @@ RenderCheckResult validateRenderPair({
   final centerNonBlack =
       geometry.canReadCenter(frameB) && _isNonBlack(frameB, cIndex);
 
-  int nonBlack = 0;
-  int different = 0;
-  final readablePixels = math.min(
+  final frameBReadablePixels = geometry.readablePixelCount(frameB);
+  final comparablePixels = math.min(
     geometry.readablePixelCount(frameA),
-    geometry.readablePixelCount(frameB),
+    frameBReadablePixels,
   );
-
-  for (int pixel = 0; pixel < readablePixels; pixel++) {
-    final i = pixel * _rgbaStride;
-    if (_isNonBlack(frameB, i)) {
-      nonBlack++;
-    }
-
-    if (_isVisiblyDifferent(frameA, frameB, i)) different++;
-  }
+  final nonBlack = _countNonBlackPixels(frameB, frameBReadablePixels);
+  final different = _countDifferentPixels(
+    frameA: frameA,
+    frameB: frameB,
+    readablePixels: comparablePixels,
+  );
 
   final nonBlackRatio =
       geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;

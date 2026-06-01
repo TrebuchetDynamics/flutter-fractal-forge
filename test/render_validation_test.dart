@@ -198,6 +198,30 @@ void main() {
       expect(result.iterationDeltaVisible, isFalse);
     });
 
+    test('uses frameB readable pixels for histogram when frameA is truncated',
+        () {
+      final frameA = _blackFrame(1, 1);
+      final frameB = _blackFrame(10, 10);
+
+      for (int i = 0; i < frameB.length; i += 4) {
+        frameB[i] = 80;
+        frameB[i + 1] = 80;
+        frameB[i + 2] = 80;
+      }
+
+      final result = validateRenderPair(
+        frameA: frameA,
+        frameB: frameB,
+        width: 10,
+        height: 10,
+      );
+
+      expect(result.nonBlackRatio, 1.0);
+      expect(result.histogramSane, isTrue);
+      expect(result.frameProgressed, isTrue);
+      expect(result.iterationDeltaVisible, isFalse);
+    });
+
     test('pass is true only when all checks pass', () {
       // Build a 10x10 frame where enough pixels are non-black and different
       final frameA = _blackFrame(10, 10);
