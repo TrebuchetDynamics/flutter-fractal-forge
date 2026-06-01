@@ -56,6 +56,39 @@ class AutoExploreSpeed {
   }
 }
 
+/// Direction inferred from a user zoom correction.
+class AutoExploreCorrectionDecision {
+  static const double defaultRelativeEpsilon = 1e-4;
+
+  /// Null means the correction is inside the deadband and should preserve the
+  /// current auto-explore direction.
+  final bool? zoomingInOverride;
+
+  const AutoExploreCorrectionDecision._(this.zoomingInOverride);
+
+  bool get changedDirection => zoomingInOverride != null;
+
+  bool resolve({required bool currentZoomingIn}) =>
+      zoomingInOverride ?? currentZoomingIn;
+
+  factory AutoExploreCorrectionDecision.fromZooms({
+    required double currentZoom,
+    required double previousZoom,
+    double relativeEpsilon = defaultRelativeEpsilon,
+  }) {
+    final epsilon = relativeEpsilon.isFinite && relativeEpsilon >= 0.0
+        ? relativeEpsilon
+        : defaultRelativeEpsilon;
+    if (currentZoom > previousZoom * (1.0 + epsilon)) {
+      return const AutoExploreCorrectionDecision._(true);
+    }
+    if (currentZoom < previousZoom * (1.0 - epsilon)) {
+      return const AutoExploreCorrectionDecision._(false);
+    }
+    return const AutoExploreCorrectionDecision._(null);
+  }
+}
+
 /// Precision headroom used to keep auto-explore below renderer fallback edges.
 ///
 /// Values above 1.0 would push candidates past the module precision threshold;

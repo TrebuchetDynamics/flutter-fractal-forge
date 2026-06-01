@@ -2,6 +2,46 @@ import 'package:flutter_fractals/features/auto_explore/auto_explore_zoom_planner
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('AutoExploreCorrectionDecision', () {
+    test('maps visible zoom changes to the next leg direction', () {
+      expect(
+        AutoExploreCorrectionDecision.fromZooms(
+          currentZoom: 10.002,
+          previousZoom: 10.0,
+        ).resolve(currentZoomingIn: false),
+        isTrue,
+      );
+      expect(
+        AutoExploreCorrectionDecision.fromZooms(
+          currentZoom: 9.998,
+          previousZoom: 10.0,
+        ).resolve(currentZoomingIn: true),
+        isFalse,
+      );
+    });
+
+    test('preserves current direction inside the correction deadband', () {
+      final decision = AutoExploreCorrectionDecision.fromZooms(
+        currentZoom: 10.0005,
+        previousZoom: 10.0,
+      );
+
+      expect(decision.changedDirection, isFalse);
+      expect(decision.resolve(currentZoomingIn: true), isTrue);
+      expect(decision.resolve(currentZoomingIn: false), isFalse);
+    });
+
+    test('normalizes malformed correction epsilon', () {
+      final decision = AutoExploreCorrectionDecision.fromZooms(
+        currentZoom: 10.0005,
+        previousZoom: 10.0,
+        relativeEpsilon: double.nan,
+      );
+
+      expect(decision.changedDirection, isFalse);
+    });
+  });
+
   group('AutoExploreZoomPlanner', () {
     const planner = AutoExploreZoomPlanner(config: AutoExploreConfig());
 

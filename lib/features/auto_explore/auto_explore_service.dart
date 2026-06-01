@@ -140,14 +140,11 @@ class AutoExploreService extends ChangeNotifier {
     final previousZoom =
         _clampZoom(referenceZoom ?? _lastCorrectionZoom ?? currentZoom);
 
-    const epsilon = 1e-4;
-    if (currentZoom > previousZoom * (1.0 + epsilon)) {
-      // User zoomed in: continue with zoom-in leg first.
-      _zoomingIn = true;
-    } else if (currentZoom < previousZoom * (1.0 - epsilon)) {
-      // User zoomed out: continue with zoom-out leg first.
-      _zoomingIn = false;
-    }
+    final correctionDecision = AutoExploreCorrectionDecision.fromZooms(
+      currentZoom: currentZoom,
+      previousZoom: previousZoom,
+    );
+    _zoomingIn = correctionDecision.resolve(currentZoomingIn: _zoomingIn);
 
     _cycleBaseZoom = currentZoom;
     _lastCorrectionZoom = currentZoom;
