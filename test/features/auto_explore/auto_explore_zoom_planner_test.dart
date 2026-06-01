@@ -576,6 +576,41 @@ void main() {
       );
     });
 
+    test('allows a neutral cycle multiplier to keep target planning stationary',
+        () {
+      const neutralPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(cycleMaxMultiplier: 1.0),
+      );
+
+      final plan = neutralPlanner.planNextTarget(
+        currentZoom: 10.0,
+        cycleBaseZoom: 10.0,
+        zoomingIn: true,
+        moduleId: 'mandelbrot',
+      );
+
+      expect(plan.peakCandidates.configuredPeakZoom, 10.0);
+      expect(plan.peakCandidates.cappedMinimumProgressZoom, 10.0);
+      expect(plan.peakZoom, 10.0);
+      expect(plan.floorZoom, 10.0);
+      expect(plan.targetZoom, 10.0);
+      expect(
+        neutralPlanner.nextTargetZoom(
+          currentZoom: 10.0,
+          cycleBaseZoom: 10.0,
+          zoomingIn: false,
+          moduleId: 'mandelbrot',
+        ),
+        10.0,
+      );
+      expect(
+        AutoExploreCycleShape.fromConfig(
+          const AutoExploreConfig(cycleMaxMultiplier: 1.0),
+        ).cycleMaxMultiplier,
+        1.0,
+      );
+    });
+
     test('normalizes invalid cycle shape before target planning', () {
       const zeroMultiplierPlanner = AutoExploreZoomPlanner(
         config: AutoExploreConfig(cycleMaxMultiplier: 0.0),

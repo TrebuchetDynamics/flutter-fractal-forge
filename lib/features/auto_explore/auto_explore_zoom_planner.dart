@@ -191,7 +191,7 @@ class AutoExploreCycleShape {
 
   factory AutoExploreCycleShape.fromConfig(AutoExploreConfig config) {
     return AutoExploreCycleShape(
-      cycleMaxMultiplier: _finiteAboveNeutralOrDefault(
+      cycleMaxMultiplier: _finiteAtLeastNeutralOrDefault(
         config.cycleMaxMultiplier,
         const AutoExploreConfig().cycleMaxMultiplier,
       ),
@@ -202,8 +202,8 @@ class AutoExploreCycleShape {
     );
   }
 
-  static double _finiteAboveNeutralOrDefault(double value, double fallback) {
-    return value.isFinite && value > 1.0 ? value : fallback;
+  static double _finiteAtLeastNeutralOrDefault(double value, double fallback) {
+    return value.isFinite && value >= 1.0 ? value : fallback;
   }
 
   static double _finiteNonNegativeOrDefault(double value, double fallback) {
