@@ -1,6 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
@@ -61,6 +62,11 @@ class EscapeTimeConfig {
 ///
 /// This eliminates per-fractal Dart boilerplate.
 FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
+  assert(
+    config.extraParams.every((p) => p.defaultValue is num),
+    'Escape-time extra parameters must have numeric defaults because they are written to float uniforms.',
+  );
+
   final defaults = _resolveEscapeTimeDefaults(config);
 
   final parameters = [
@@ -108,25 +114,25 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       ...config.extraPresets,
     ],
     setUniforms: (shader, state, size, time) {
-      shader.setFloat(0, time);
-      shader.setFloat(1, size.width);
-      shader.setFloat(2, size.height);
-      shader.setFloat(3, state.view.pan.x);
-      shader.setFloat(4, state.view.pan.y);
-      shader.setFloat(5, state.view.zoom);
+      shader.setFloat(EscapeTimeUniformSlots.time, time);
+      shader.setFloat(EscapeTimeUniformSlots.resolutionX, size.width);
+      shader.setFloat(EscapeTimeUniformSlots.resolutionY, size.height);
+      shader.setFloat(EscapeTimeUniformSlots.centerX, state.view.pan.x);
+      shader.setFloat(EscapeTimeUniformSlots.centerY, state.view.pan.y);
+      shader.setFloat(EscapeTimeUniformSlots.zoom, state.view.zoom);
+      shader.setFloat(EscapeTimeUniformSlots.iterations,
+          readDouble(state.params, 'iterations', defaults.iterations));
+      shader.setFloat(EscapeTimeUniformSlots.bailout,
+          readDouble(state.params, 'bailout', config.defaultBailout));
       shader.setFloat(
-          6, readDouble(state.params, 'iterations', defaults.iterations));
-      shader.setFloat(
-          7, readDouble(state.params, 'bailout', config.defaultBailout));
-      shader.setFloat(
-          8,
+          EscapeTimeUniformSlots.colorScheme,
           readDouble(state.params, 'colorScheme',
               config.defaultColorScheme.toDouble()));
-      shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
-      // Extra params start at index 10
+      shader.setFloat(EscapeTimeUniformSlots.transparentBackground,
+          state.transparentBackground ? 1.0 : 0.0);
       for (int i = 0; i < config.extraParams.length; i++) {
         final p = config.extraParams[i];
-        shader.setFloat(10 + i,
+        shader.setFloat(EscapeTimeUniformSlots.extraStart + i,
             readDouble(state.params, p.id, (p.defaultValue as num).toDouble()));
       }
     },

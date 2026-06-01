@@ -1,6 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
@@ -153,32 +154,36 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       ...config.extraPresets,
     ],
     setUniforms: (shader, state, size, time) {
-      shader.setFloat(0, time);
-      shader.setFloat(1, size.width);
-      shader.setFloat(2, size.height);
-      shader.setFloat(3, 0.0); // uMousePos.x (unused)
-      shader.setFloat(4, 0.0); // uMousePos.y (unused)
-      shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, state.view.rotation.x);
-      shader.setFloat(7, state.view.rotation.y);
-      shader.setFloat(8, state.view.rotation.z);
+      shader.setFloat(Raymarched3DUniformSlots.time, time);
+      shader.setFloat(Raymarched3DUniformSlots.resolutionX, size.width);
+      shader.setFloat(Raymarched3DUniformSlots.resolutionY, size.height);
+      shader.setFloat(Raymarched3DUniformSlots.mouseX, 0.0); // unused
+      shader.setFloat(Raymarched3DUniformSlots.mouseY, 0.0); // unused
+      shader.setFloat(Raymarched3DUniformSlots.zoom, state.view.zoom);
       shader.setFloat(
-          9, readDouble(state.params, 'power', config.defaultPower));
+          Raymarched3DUniformSlots.rotationX, state.view.rotation.x);
       shader.setFloat(
-          10, readDouble(state.params, 'iterations', config.defaultIterations));
+          Raymarched3DUniformSlots.rotationY, state.view.rotation.y);
       shader.setFloat(
-          11, readDouble(state.params, 'steps', config.defaultSteps));
+          Raymarched3DUniformSlots.rotationZ, state.view.rotation.z);
+      shader.setFloat(Raymarched3DUniformSlots.power,
+          readDouble(state.params, 'power', config.defaultPower));
+      shader.setFloat(Raymarched3DUniformSlots.iterations,
+          readDouble(state.params, 'iterations', config.defaultIterations));
+      shader.setFloat(Raymarched3DUniformSlots.steps,
+          readDouble(state.params, 'steps', config.defaultSteps));
+      shader.setFloat(Raymarched3DUniformSlots.bailout,
+          readDouble(state.params, 'bailout', config.defaultBailout));
       shader.setFloat(
-          12, readDouble(state.params, 'bailout', config.defaultBailout));
-      shader.setFloat(
-          13,
+          Raymarched3DUniformSlots.colorScheme,
           readDouble(state.params, 'colorScheme',
               config.defaultColorScheme.toDouble()));
       shader.setFloat(
-          14,
+          Raymarched3DUniformSlots.fractalType,
           readDouble(state.params, 'fractalType',
               config.defaultFractalType.toDouble()));
-      shader.setFloat(15, state.transparentBackground ? 1.0 : 0.0);
+      shader.setFloat(Raymarched3DUniformSlots.transparentBackground,
+          state.transparentBackground ? 1.0 : 0.0);
     },
   );
 }
