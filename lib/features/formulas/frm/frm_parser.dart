@@ -11,6 +11,12 @@ import 'frm_lexer.dart';
 ///
 /// This is intentionally small; we’ll extend it iteratively with functions,
 /// power, comparisons, and bailout conditions once golden iteration tests are in.
+bool isFrmStatementBoundary(FrmTokKind kind) =>
+    kind == FrmTokKind.newline ||
+    kind == FrmTokKind.colon ||
+    kind == FrmTokKind.rBrace ||
+    kind == FrmTokKind.eof;
+
 final class FrmParser {
   FrmParser(String src) : _toks = FrmLexer(src).tokenize();
 
@@ -38,7 +44,8 @@ final class FrmParser {
     _skipNewlines();
     while (!_peekIs(FrmTokKind.colon)) {
       if (_peekIs(FrmTokKind.rBrace)) {
-        throw FormatException('Expected ":" in formula body', '', _peek().offset);
+        throw FormatException(
+            'Expected ":" in formula body', '', _peek().offset);
       }
       final stmt = _parseStmt();
       init.add(stmt);
@@ -66,7 +73,15 @@ final class FrmParser {
     final name = _expect(FrmTokKind.ident, 'Expected identifier').lexeme;
     _expect(FrmTokKind.eq, 'Expected "="');
     final expr = _parseExpr();
+    _expectStmtBoundary();
     return FrmAssign(name, expr);
+  }
+
+  void _expectStmtBoundary() {
+    final tok = _peek();
+    if (!isFrmStatementBoundary(tok.kind)) {
+      throw FormatException('Expected newline after statement', '', tok.offset);
+    }
   }
 
   FrmExpr _parseExpr() => _parseAddSub();

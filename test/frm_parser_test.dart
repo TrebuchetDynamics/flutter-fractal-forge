@@ -24,9 +24,31 @@ Julia {
 ''';
 
       final file = FrmParser(src).parseFile();
-      expect(file.formulas.map((f) => f.name).toList(), ['Mandelbrot', 'Julia']);
+      expect(
+          file.formulas.map((f) => f.name).toList(), ['Mandelbrot', 'Julia']);
       expect(file.formulas[0].init.length, 2);
       expect(file.formulas[0].iter.length, 1);
+    });
+
+    test('rejects adjacent assignments without a newline separator', () {
+      const src = r'''
+Test {
+  z = (0,0) c = pixel
+:
+  z = z*z + c
+}
+''';
+
+      expect(
+        () => FrmParser(src).parseFile(),
+        throwsA(
+          isA<FormatException>().having(
+            (e) => e.message,
+            'message',
+            'Expected newline after statement',
+          ),
+        ),
+      );
     });
 
     test('evaluates a simple iter statement', () {
