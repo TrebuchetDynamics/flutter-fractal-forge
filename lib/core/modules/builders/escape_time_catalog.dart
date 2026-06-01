@@ -1923,7 +1923,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'heart',
     name: 'Heart Fractal',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/heart_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/parameter_plane/heart_gpu.frag',
     defaultIterations: 140,
   ),
   EscapeTimeConfig(
@@ -2566,7 +2566,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'feather',
     name: 'Feather Fractal',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/feather_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/parameter_plane/feather_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2723,7 +2723,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'julia_de',
     name: 'Julia DE Glow',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/julia_de_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/distance_estimation/julia_de_gpu.frag',
     defaultIterations: 250,
     defaultBailout: 4.0,
     extraPresets: [
@@ -3496,7 +3496,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'biomorph',
     name: 'Biomorph',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/biomorph_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/parameter_plane/biomorph_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 10.0,
     extraPresets: [
@@ -3655,14 +3655,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'feather_julia',
     name: 'Feather Julia',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/feather_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/fixed_parameter/feather_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 8.0,
   ),
   EscapeTimeConfig(
     id: 'heart_julia',
     name: 'Heart Julia',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/heart_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/fixed_parameter/heart_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3725,7 +3725,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'lambda_julia',
     name: 'Lambda Julia',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/lambda_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/fixed_parameter/lambda_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3760,14 +3760,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnet1_julia',
     name: 'Magnet I Julia',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/magnet1_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/rational_maps/magnet1_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 10.0,
   ),
   EscapeTimeConfig(
     id: 'magnet2_julia',
     name: 'Magnet II Julia',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/magnet2_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/rational_maps/magnet2_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 10.0,
   ),
@@ -5611,7 +5611,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'shape_modulus_julia',
     name: 'Shape Modulus Julia',
-    shaderAsset: 'shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/julia_variants/shape_modulation/shape_modulus_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

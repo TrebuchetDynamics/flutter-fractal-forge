@@ -2609,7 +2609,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/julia_variants/heart_gpu.frag (CPU approximation, seed=0x0eaa25e3)
+  // Ported from shaders/escape_time_family/julia_variants/parameter_plane/heart_gpu.frag (CPU approximation, seed=0x0eaa25e3)
   return _cpu_synthetic(0x0eaa25e3, x, y, iterations, bailout);
 }
 
