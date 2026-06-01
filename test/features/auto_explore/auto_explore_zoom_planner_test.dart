@@ -454,6 +454,12 @@ void main() {
         baseZoom: 10.0,
         moduleId: 'mandelbrot',
       );
+      final plan = planner.planNextTarget(
+        currentZoom: 10.0,
+        cycleBaseZoom: 10.0,
+        zoomingIn: true,
+        moduleId: 'mandelbrot',
+      );
 
       expect(candidates.baseZoom, 10.0);
       expect(candidates.minProgressZoom, 12.5);
@@ -465,6 +471,10 @@ void main() {
       expect(candidates.hardMaxZoom, 9.2e11);
       expect(candidates.desiredPeakZoom, 1200.0);
       expect(candidates.resolvedPeakZoom, 1200.0);
+      expect(plan.peakCandidates.baseZoom, candidates.baseZoom);
+      expect(plan.peakCandidates.resolvedPeakZoom, candidates.resolvedPeakZoom);
+      expect(plan.peakZoom, plan.peakCandidates.resolvedPeakZoom);
+      expect(plan.respectsPrecisionHardMax, isTrue);
     });
 
     test('does not let minimum peak nudge exceed max leg span', () {

@@ -517,16 +517,18 @@ class AutoExploreZoomPlanInputs {
 /// Replayable target-selection data for one auto-explore cycle step.
 class AutoExploreZoomTargetPlan {
   final AutoExploreZoomPlanInputs inputs;
+  final AutoExplorePeakZoomCandidates peakCandidates;
   final double peakZoom;
   final double floorZoom;
   final bool zoomingIn;
 
   const AutoExploreZoomTargetPlan({
     required this.inputs,
+    required this.peakCandidates,
     required this.peakZoom,
     required this.floorZoom,
     required this.zoomingIn,
-  });
+  }) : assert(floorZoom <= peakZoom, 'floorZoom must not exceed peakZoom');
 
   double get currentZoom => inputs.currentZoom;
   double get baseZoom => inputs.baseZoom;
@@ -538,6 +540,8 @@ class AutoExploreZoomTargetPlan {
       );
 
   bool get isCollapsed => targetRange.isCollapsed;
+
+  bool get respectsPrecisionHardMax => peakZoom <= peakCandidates.hardMaxZoom;
 
   double get targetZoom => targetRange.targetZoom(zoomingIn: zoomingIn);
 }
@@ -625,17 +629,18 @@ class AutoExploreZoomPlanner {
       currentZoom: currentZoom,
       cycleBaseZoom: cycleBaseZoom,
     );
-    final peakZoom = computePeakZoom(
+    final peakCandidates = peakZoomCandidates(
       baseZoom: inputs.baseZoom,
       moduleId: moduleId,
     );
     final targetRange = AutoExploreZoomTargetRange.fromCandidates(
-      peakZoom: peakZoom,
+      peakZoom: peakCandidates.resolvedPeakZoom,
       floorZoom: computeFloorZoom(inputs.baseZoom),
     );
 
     return AutoExploreZoomTargetPlan(
       inputs: inputs,
+      peakCandidates: peakCandidates,
       peakZoom: targetRange.peakZoom,
       floorZoom: targetRange.floorZoom,
       zoomingIn: zoomingIn,
