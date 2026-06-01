@@ -133,6 +133,17 @@ void main() {
       expect(options.calculatePixelRatio(400, 800), 5.0);
     });
 
+    test('custom resolution clamps huge dimensions to safe image bounds', () {
+      const options = ExportOptions(
+        resolution: ExportResolution.custom,
+        customWidth: 1 << 40,
+        customHeight: 1 << 35,
+      );
+
+      expect(options.getTargetDimensions(400, 800), (1 << 30, 1 << 30));
+      expect(options.calculatePixelRatio(400, 800), 8.0);
+    });
+
     test('screen dimensions used for fallback are at least one pixel', () {
       const options = ExportOptions(resolution: ExportResolution.custom);
 
@@ -152,7 +163,8 @@ void main() {
       expect(updated.resolution, original.resolution); // Unchanged
     });
 
-    test('copyWith clears nullable custom dimensions when null is explicit', () {
+    test('copyWith clears nullable custom dimensions when null is explicit',
+        () {
       const original = ExportOptions(
         resolution: ExportResolution.custom,
         customWidth: 2000,

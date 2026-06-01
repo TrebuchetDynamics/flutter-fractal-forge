@@ -42,6 +42,28 @@ extension ExportFormatExtension on ExportFormat {
   }
 }
 
+/// Shared export dimension validation.
+///
+/// Screen dimensions and user-provided custom dimensions must resolve through
+/// the same upper bound. Otherwise a typed custom size can bypass the safety
+/// clamp used for invalid screen metrics and request an unreplayably huge
+/// capture surface.
+class ExportDimensionPolicy {
+  static const int maxPixelDimension = 1 << 30;
+
+  const ExportDimensionPolicy._();
+
+  static int positiveRoundedScreenDimension(double value) {
+    if (!value.isFinite || value <= 0) return 1;
+    return value.round().clamp(1, maxPixelDimension);
+  }
+
+  static int? positiveCustomDimension(int? value) {
+    if (value == null || value <= 0) return null;
+    return value.clamp(1, maxPixelDimension);
+  }
+}
+
 /// Preset resolution options for export
 enum ExportResolution {
   screen, // Current screen resolution
@@ -197,19 +219,14 @@ class ExportOptions extends Equatable {
     return identical(candidate, _unset) ? currentValue : candidate as T?;
   }
 
-  int _positiveRoundedScreenDimension(double value) {
-    if (!value.isFinite || value <= 0) return 1;
-    return value.round().clamp(1, 1 << 30);
-  }
-
   int _customOrScreenDimension(int? customValue, double screenValue) {
-    if (customValue != null && customValue > 0) return customValue;
-    return _positiveRoundedScreenDimension(screenValue);
+    return ExportDimensionPolicy.positiveCustomDimension(customValue) ??
+        ExportDimensionPolicy.positiveRoundedScreenDimension(screenValue);
   }
 
   double _safeDimensionRatio(int targetDimension, double screenDimension) {
     final safeScreenDimension =
-        _positiveRoundedScreenDimension(screenDimension);
+        ExportDimensionPolicy.positiveRoundedScreenDimension(screenDimension);
     return targetDimension / safeScreenDimension;
   }
 
@@ -277,8 +294,8 @@ class ExportOptions extends Equatable {
 
     // Screen resolution
     return (
-      _positiveRoundedScreenDimension(screenWidth),
-      _positiveRoundedScreenDimension(screenHeight),
+      ExportDimensionPolicy.positiveRoundedScreenDimension(screenWidth),
+      ExportDimensionPolicy.positiveRoundedScreenDimension(screenHeight),
     );
   }
 
