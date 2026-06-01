@@ -1186,7 +1186,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/mandelbrot_variants/inverse_mandelbrot_gpu.frag: z = 1/z^2 + c, z₀ = c
+    // Ported from shaders/escape_time_family/mandelbrot_variants/iterative_maps/inverse_mandelbrot_gpu.frag: z = 1/z^2 + c, z₀ = c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
@@ -1215,7 +1215,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    // Ported from shaders/escape_time_family/mandelbrot_variants/simonbrot_gpu.frag: z = z^2 + unit(z) + c
+    // Ported from shaders/escape_time_family/mandelbrot_variants/iterative_maps/simonbrot_gpu.frag: z = z^2 + unit(z) + c
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final r = math.sqrt(zx * zx + zy * zy);
       final ux = r > 1e-12 ? zx / r : 0.0;

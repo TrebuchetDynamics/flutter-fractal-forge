@@ -611,7 +611,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'inverse_mandelbrot',
     name: 'Inverse Mandelbrot',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/inverse_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/iterative_maps/inverse_mandelbrot_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
       FractalPreset(
@@ -647,7 +647,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'simonbrot',
     name: 'Simonbrot',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/simonbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/iterative_maps/simonbrot_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -2519,7 +2519,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'damaged_doublebrot',
     name: 'Damaged DoubleBrot',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/damaged_doublebrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/iterative_maps/damaged_doublebrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 8.0,
     defaultCenterX: -0.3,
@@ -2635,7 +2635,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_orbit_trap',
     name: 'Mandelbrot Orbit Trap',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_orbit_trap_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag',
     defaultIterations: 300,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2693,7 +2693,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_curvature_avg',
     name: 'Mandelbrot Curvature Avg',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_curvature_avg_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_curvature_avg_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2752,7 +2752,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_de',
     name: 'Mandelbrot DE Glow',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_de_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_de_gpu.frag',
     defaultIterations: 250,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2801,7 +2801,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_tia',
     name: 'Mandelbrot TIA',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_tia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_tia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2850,7 +2850,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelbrot_stripe_avg',
     name: 'Mandelbrot Stripe Average',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelbrot_stripe_avg_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_stripe_avg_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -2968,7 +2968,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'crazybrot',
     name: 'Crazybrot',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/crazybrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/iterative_maps/crazybrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: 0.0,
@@ -3066,7 +3066,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'lightningbrot',
     name: 'LightningBrot',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/lightningbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/iterative_maps/lightningbrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
@@ -3091,7 +3091,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'angrybrot',
     name: 'Angrybrot',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/angrybrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/iterative_maps/angrybrot_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     defaultCenterX: -0.3,
@@ -3300,7 +3300,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'undefined',
     name: 'Undefined Fractal',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/undefined_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/iterative_maps/undefined_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 10.0,
     defaultCenterX: 0.0,
@@ -4013,7 +4013,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'mandelpinski',
     name: 'Mandelpinski Necklaces',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/mandelpinski_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/singular_perturbations/mandelpinski_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 8.0,
     extraPresets: [
@@ -5291,7 +5291,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'exp_additive_mandelbrot',
     name: 'Exp Additive Mandelbrot',
-    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/exp_additive_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/mandelbrot_variants/iterative_maps/exp_additive_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

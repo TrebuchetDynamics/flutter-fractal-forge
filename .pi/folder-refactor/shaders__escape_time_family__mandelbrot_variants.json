@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "shaders/escape_time_family/mandelbrot_variants",
+  "updatedAt": "2026-06-01T13:44:03.924Z",
+  "objective": "Refactor Mandelbrot variant shaders into behavior/responsibility subfolders while preserving catalog/pubspec shader asset behavior.",
+  "completedSlices": [
+    "Added focused catalog/pubspec/file-existence behavior test for Mandelbrot variant shader assets.",
+    "Moved formula-changing Mandelbrot variants into iterative_maps and updated catalog/pubspec/comment references.",
+    "Moved exterior coloring/estimation variants into exterior_coloring and updated catalog/pubspec references.",
+    "Moved singular perturbation Mandelpinski shader into singular_perturbations and updated catalog/pubspec references.",
+    "Audited target root: no remaining root files; topology complete."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "python3 catalog/pubspec/file path check: OK mandelbrot variant catalog/pubspec/file paths: 14",
+    "/home/xel/flutter/bin/flutter test test/shaders/mandelbrot_variants_shader_assets_test.dart: blocked by pre-existing pubspec asset error for shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "folder_refactor_audit: pass"
+  ]
+}
