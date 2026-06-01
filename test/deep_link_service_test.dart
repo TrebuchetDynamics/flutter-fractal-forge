@@ -158,6 +158,29 @@ void main() {
         expect(uri.queryParameters['bailout'], '4.5');
       });
 
+      test('omits unsupported parameter values instead of minting fallbacks',
+          () {
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbrot',
+          params: {
+            'iterations': true,
+            'colorScheme': Object(),
+            'bailout': 'not-a-number',
+            'power': double.nan,
+            'juliaX': double.infinity,
+            'juliaY': false,
+          },
+          view: FractalViewState.initial(),
+        );
+
+        expect(uri.queryParameters.containsKey('iterations'), isFalse);
+        expect(uri.queryParameters.containsKey('colorScheme'), isFalse);
+        expect(uri.queryParameters.containsKey('bailout'), isFalse);
+        expect(uri.queryParameters.containsKey('power'), isFalse);
+        expect(uri.queryParameters.containsKey('juliaX'), isFalse);
+        expect(uri.queryParameters.containsKey('juliaY'), isFalse);
+      });
+
       test('omits default values for cleaner URLs', () {
         final uri = DeepLinkService.buildUri(
           moduleId: 'mandelbrot',

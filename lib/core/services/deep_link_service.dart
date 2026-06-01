@@ -293,25 +293,14 @@ class DeepLinkService {
       queryParams['rotZ'] = _formatDouble(view.rotation.z);
     }
 
-    // Add fractal parameters
-    if (params.containsKey('iterations')) {
-      queryParams['iterations'] = params['iterations'].toString();
-    }
-    if (params.containsKey('bailout')) {
-      queryParams['bailout'] = _formatDouble(_toDouble(params['bailout']));
-    }
-    if (params.containsKey('colorScheme')) {
-      queryParams['colorScheme'] = params['colorScheme'].toString();
-    }
-    if (params.containsKey('power')) {
-      queryParams['power'] = _formatDouble(_toDouble(params['power']));
-    }
-    if (params.containsKey('juliaX')) {
-      queryParams['juliaX'] = _formatDouble(_toDouble(params['juliaX']));
-    }
-    if (params.containsKey('juliaY')) {
-      queryParams['juliaY'] = _formatDouble(_toDouble(params['juliaY']));
-    }
+    // Add fractal parameters. Unsupported values are omitted rather than
+    // converted to sentinel values that parse back as valid-but-wrong params.
+    _addIntQueryParam(queryParams, 'iterations', params['iterations']);
+    _addDoubleQueryParam(queryParams, 'bailout', params['bailout']);
+    _addIntQueryParam(queryParams, 'colorScheme', params['colorScheme']);
+    _addDoubleQueryParam(queryParams, 'power', params['power']);
+    _addDoubleQueryParam(queryParams, 'juliaX', params['juliaX']);
+    _addDoubleQueryParam(queryParams, 'juliaY', params['juliaY']);
 
     return Uri(
       scheme: scheme,
@@ -378,11 +367,47 @@ class DeepLinkService {
     return formatted.replaceAll(RegExp(r'\.?0+$'), '');
   }
 
-  static double _toDouble(Object? value) {
-    if (value is double) return value;
-    if (value is int) return value.toDouble();
-    if (value is String) return double.tryParse(value) ?? 0.0;
-    return 0.0;
+  static void _addDoubleQueryParam(
+    Map<String, String> queryParams,
+    String name,
+    Object? value,
+  ) {
+    final parsed = _tryFiniteDouble(value);
+    if (parsed != null) {
+      queryParams[name] = _formatDouble(parsed);
+    }
+  }
+
+  static void _addIntQueryParam(
+    Map<String, String> queryParams,
+    String name,
+    Object? value,
+  ) {
+    final parsed = _tryInt(value);
+    if (parsed != null) {
+      queryParams[name] = parsed.toString();
+    }
+  }
+
+  static double? _tryFiniteDouble(Object? value) {
+    final parsed = switch (value) {
+      double v => v,
+      int v => v.toDouble(),
+      String v => double.tryParse(v),
+      _ => null,
+    };
+    if (parsed == null || parsed.isNaN || parsed.isInfinite) {
+      return null;
+    }
+    return parsed;
+  }
+
+  static int? _tryInt(Object? value) {
+    return switch (value) {
+      int v => v,
+      String v => int.tryParse(v),
+      _ => null,
+    };
   }
 
   /// Disposes of the service and closes the stream.
