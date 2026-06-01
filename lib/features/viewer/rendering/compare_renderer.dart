@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+
 class CompareRenderer extends StatelessWidget {
   final GlobalKey keyA;
   final GlobalKey keyB;
@@ -87,7 +88,8 @@ class CompareRenderer extends StatelessWidget {
       return Row(
         children: [
           Expanded(child: paneA),
-          Container(width: 1, color: AppColors.surfaceVariant.withValues(alpha: 0.6)),
+          Container(
+              width: 1, color: AppColors.surfaceVariant.withValues(alpha: 0.6)),
           Expanded(child: paneB),
         ],
       );

@@ -1,4 +1,4 @@
-part of 'fractal_viewer_screen.dart';
+part of '../fractal_viewer_screen.dart';
 
 /// Mixin that owns export/wallpaper action state and orchestration.
 ///

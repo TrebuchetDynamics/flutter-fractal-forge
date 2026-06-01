@@ -1,4 +1,4 @@
-part of 'fractal_viewer_screen.dart';
+part of '../fractal_viewer_screen.dart';
 
 /// Mixin that builds and shares the GPU debug report.
 ///
@@ -96,7 +96,9 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                           },
                           icon: const Icon(Icons.science_rounded,
                               color: Colors.amber),
-                          label: Text(AppLocalizations.of(context)!.debugReportOpenShaderLab,
+                          label: Text(
+                              AppLocalizations.of(context)!
+                                  .debugReportOpenShaderLab,
                               style: const TextStyle(color: Colors.amber)),
                         ),
                       ),
@@ -142,7 +144,8 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                                     'Copied GPU debug JSON to clipboard. Paste it into Telegram.')),
                           );
                         },
-                        child: Text(AppLocalizations.of(context)!.debugReportCopyJson),
+                        child: Text(
+                            AppLocalizations.of(context)!.debugReportCopyJson),
                       ),
                       OutlinedButton(
                         onPressed: () => Navigator.of(context).pop(),

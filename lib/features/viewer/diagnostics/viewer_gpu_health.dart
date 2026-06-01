@@ -1,4 +1,4 @@
-part of 'fractal_viewer_screen.dart';
+part of '../fractal_viewer_screen.dart';
 
 /// Mixin that owns all GPU health-probe and backend-decision state and logic.
 ///
@@ -292,12 +292,14 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
 
         if (kDebugMode) debugPrint(stats.summary('gpu'));
         final moduleId = controller.module.id;
-        if (kDebugMode) debugPrint(
-          '[renderer] gpu_health module=$moduleId nonBlackRatio=${stats.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${stats.centerNonBlack} histogramSane=${stats.histogramSane} sampleCount=${width * height} backendSwitchesDuringProbe=$_gpuProbeBackendSwitches forcedProbeFailure=$_forceGpuHealthProbeFailure',
-        );
-        if (kDebugMode) debugPrint(
-          '[renderer] gpu_health_probe side_effects backendSwitchesDuringProbe=$_gpuProbeBackendSwitches (expected 0 on healthy GPU)',
-        );
+        if (kDebugMode)
+          debugPrint(
+            '[renderer] gpu_health module=$moduleId nonBlackRatio=${stats.nonBlackRatio.toStringAsFixed(3)} centerNonBlack=${stats.centerNonBlack} histogramSane=${stats.histogramSane} sampleCount=${width * height} backendSwitchesDuringProbe=$_gpuProbeBackendSwitches forcedProbeFailure=$_forceGpuHealthProbeFailure',
+          );
+        if (kDebugMode)
+          debugPrint(
+            '[renderer] gpu_health_probe side_effects backendSwitchesDuringProbe=$_gpuProbeBackendSwitches (expected 0 on healthy GPU)',
+          );
 
         // ignore: unused_local_variable
         final _ = dataA;

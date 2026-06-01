@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/viewer/viewer_export_session.dart';
+import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

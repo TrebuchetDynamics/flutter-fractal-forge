@@ -31,7 +31,8 @@ class ExportOverlay extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(AppSpacing.xl),
-                border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+                border:
+                    Border.all(color: AppColors.border.withValues(alpha: 0.5)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.3),
@@ -160,7 +161,8 @@ class ShareSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+                  border: Border.all(
+                      color: AppColors.border.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   children: [

@@ -1,4 +1,4 @@
-part of 'fractal_viewer_screen.dart';
+part of '../fractal_viewer_screen.dart';
 
 Widget _viewerBuildTopFab({
   required String heroTag,

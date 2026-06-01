@@ -37,19 +37,19 @@ import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
-import 'package:flutter_fractals/features/viewer/components/fractal_view_controls.dart';
-import 'package:flutter_fractals/features/viewer/components/cpu_fallback_pane.dart';
-import 'package:flutter_fractals/features/viewer/components/compare_renderer.dart';
-import 'package:flutter_fractals/features/viewer/components/viewer_export_overlay.dart';
-import 'package:flutter_fractals/features/viewer/viewer_export_session.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
+import 'package:flutter_fractals/features/viewer/rendering/compare_renderer.dart';
+import 'package:flutter_fractals/features/viewer/rendering/cpu_fallback_pane.dart';
+import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 
-part 'viewer_gpu_health.dart';
-part 'viewer_debug_report.dart';
-part 'viewer_dialogs.dart';
-part 'viewer_export_actions.dart';
-part 'viewer_interactions.dart';
-part 'viewer_history.dart';
-part 'viewer_hud.dart';
+part 'diagnostics/viewer_gpu_health.dart';
+part 'diagnostics/viewer_debug_report.dart';
+part 'dialogs/viewer_dialogs.dart';
+part 'export/viewer_export_actions.dart';
+part 'navigation/viewer_interactions.dart';
+part 'navigation/viewer_history.dart';
+part 'overlays/viewer_hud.dart';
 
 class FractalViewerScreen extends StatefulWidget {
   const FractalViewerScreen({Key? key}) : super(key: key);

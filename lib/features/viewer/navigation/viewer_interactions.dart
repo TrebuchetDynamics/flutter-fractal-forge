@@ -1,4 +1,4 @@
-part of 'fractal_viewer_screen.dart';
+part of '../fractal_viewer_screen.dart';
 
 KeyEventResult _viewerOnKeyEvent(
   _FractalViewerScreenState state,
@@ -110,4 +110,3 @@ void _viewerOnRandomFractalFab(
   AccessibilityService.announce('Random fractal selected');
   HapticService.light();
 }
-

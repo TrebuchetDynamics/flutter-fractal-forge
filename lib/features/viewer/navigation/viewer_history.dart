@@ -1,4 +1,4 @@
-part of 'fractal_viewer_screen.dart';
+part of '../fractal_viewer_screen.dart';
 
 void _viewerRecordHistory(BuildContext context) {
   final controller = context.read<FractalController>();
