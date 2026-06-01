@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-01T12:48:50.915Z",
+  "generatedAt": "2026-06-01T12:50:39.716Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": "lib/core/modules",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/lib/core/modules",
@@ -88,22 +88,6 @@
       ]
     },
     {
-      "relative": "lib/core/modules/3d_raymarching_hypercomplex/f0548_quaternion_julia_0_0_0_7_0_0_0_0",
-      "score": 40.4,
-      "files": 4,
-      "direct": 4,
-      "churn": 0,
-      "callers": 0,
-      "importsOut": 2,
-      "tests": 0,
-      "roles": 0,
-      "duplicates": 5,
-      "subdirs": 0,
-      "extensions": [
-        ".dart"
-      ]
-    },
-    {
       "relative": "lib/core/modules/3d_raymarching_hypercomplex/f0549_quaternion_julia_0_75_0_0_0_0_0_0",
       "score": 40.4,
       "files": 4,
@@ -153,6 +137,22 @@
     },
     {
       "relative": "lib/core/modules/3d_raymarching_hypercomplex/f0552_octonion_mandelbrot",
+      "score": 40.4,
+      "files": 4,
+      "direct": 4,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 2,
+      "tests": 0,
+      "roles": 0,
+      "duplicates": 5,
+      "subdirs": 0,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "lib/core/modules/3d_raymarching_hypercomplex/f0553_coquaternion_mandelbrot",
       "score": 40.4,
       "files": 4,
       "direct": 4,
