@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "fractals-library/categories/the_escape_time_family/orbit_and_integer_maps",
+  "updatedAt": "2026-06-01T14:05:45.326Z",
+  "objective": "Refactor orbit_and_integer_maps from flat reference stubs into behavior/responsibility subfolders: parameterized_power_maps, orbit_feedback_maps, integer_lattice_maps, coupled_trigonometric_maps. Complete: no root files remain; all stubs preserved unchanged as move-only.",
+  "completedSlices": [
+    "Moved f009_lambda_fractal.dart and f014_multibrot_sets.dart into parameterized_power_maps; validate_manifest OK",
+    "Moved f017_simonbrot.dart through f022_zircon_zity.dart into orbit_feedback_maps; validate_manifest OK",
+    "Moved f023_collatz_fractal.dart and f024_eisenstein_integers_fractal.dart into integer_lattice_maps; validate_manifest OK",
+    "Moved f025_popcorn_fractal.dart into coupled_trigonometric_maps; validate_manifest OK",
+    "Completion audit passed with no root files and no next candidates"
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "python3 fractals-library/scripts/validate_manifest.py -> OK: manifest has 200 unique IDs after each move slice and final check",
+    "rg for stale old target paths under fractals-library/lib/test/integration_test -> no matches",
+    "folder_refactor_audit plannedTopologyComplete=true facadeFiles=[] outOfScopeFiles=[] nextCandidateFiles=[] -> pass"
+  ]
+}
