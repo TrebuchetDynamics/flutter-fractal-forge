@@ -1,23 +1,17 @@
-import 'dart:io';
-
-import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yaml/yaml.dart';
+
+import '../../support/shader_asset_expectations.dart';
 
 void main() {
+  const shaderRoot = 'shaders/escape_time_family/mandelbrot_variants/';
   late final Set<String> declaredShaderAssets;
 
   setUpAll(() {
-    final pubspec = loadYaml(File('pubspec.yaml').readAsStringSync()) as YamlMap;
-    final flutter = pubspec['flutter'] as YamlMap;
-    declaredShaderAssets = (flutter['shaders'] as YamlList).cast<String>().toSet();
+    declaredShaderAssets = loadDeclaredShaderAssets();
   });
 
   test('catalog Mandelbrot variant shader assets are declared and present', () {
-    final assets = escapeTimeCatalog
-        .map((config) => config.shaderAsset)
-        .where((asset) => asset.startsWith('shaders/escape_time_family/mandelbrot_variants/'))
-        .toList();
+    final assets = escapeTimeShaderAssetsStartingWith(shaderRoot);
 
     expect(
       assets.map((asset) => asset.split('/').last).toSet(),
@@ -39,9 +33,7 @@ void main() {
       }),
     );
 
-    for (final asset in assets) {
-      expect(declaredShaderAssets, contains(asset), reason: '$asset must be declared');
-      expect(File(asset).existsSync(), isTrue, reason: '$asset file must exist');
-    }
+    expectAssetsDeclaredAndExist(assets, declaredShaderAssets,
+        fileReason: 'file must exist');
   });
 }

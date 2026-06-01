@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "target": "test/shaders",
+  "updatedAt": "2026-06-01T13:56:54.669Z",
+  "objective": "Refactor test/shaders from 13 root shader asset tests into responsibility folders: escape_time_family/families, escape_time_family/catalogs, standalone_shader_catalogs, plus support shared asset expectation helpers.",
+  "completedSlices": [
+    "Moved escape-time family shader asset tests into test/shaders/escape_time_family/families.",
+    "Moved escape-time non-family catalog tests into test/shaders/escape_time_family/catalogs.",
+    "Moved top-level shader catalog asset tests into test/shaders/standalone_shader_catalogs.",
+    "Extracted shared pubspec loading, shader asset filtering, and declaration/existence expectations into test/shaders/support/shader_asset_expectations.dart.",
+    "Formatted and analyzed test/shaders successfully.",
+    "Completed audit: no root test files remain under test/shaders."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze test/shaders: PASS (No issues found).",
+    "/home/xel/flutter/bin/flutter test test/shaders: FAIL before executing tests because pubspec references missing shader asset shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag.",
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders: FAIL due existing shader catalog/pubspec asset mismatches (e.g. missing celtic_cubic_julia_gpu.frag, burning_ship_cubic_julia_gpu.frag, buffalo_cubic_julia_gpu.frag, multibrot_15_gpu.frag, alternated_iteration_gpu.frag, mandelbrot_curvature_avg_gpu.frag, collatz_gpu.frag, aizawa_gpu.frag, durand_kerner_gpu.frag, kaleidoscope_basic_gpu.frag, barnsley_fern_gpu.frag, langton_ant_gpu.frag, cosecant_julia_gpu.frag)."
+  ]
+}
