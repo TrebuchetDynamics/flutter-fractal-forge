@@ -260,8 +260,32 @@ class AutoExploreZoomLeg {
   }
 
   double interpolate(double t) {
+    return AutoExploreZoomInterpolation.interpolate(
+      startZoom: startZoom,
+      endZoom: endZoom,
+      t: t,
+    );
+  }
+}
+
+/// Numerically stable geometric interpolation for positive zoom legs.
+class AutoExploreZoomInterpolation {
+  const AutoExploreZoomInterpolation._();
+
+  static double interpolate({
+    required double startZoom,
+    required double endZoom,
+    required double t,
+  }) {
     final progress = t.isNaN ? 0.0 : t.clamp(0.0, 1.0);
-    return startZoom * pow(endZoom / startZoom, progress).toDouble();
+    if (progress <= 0.0) return startZoom;
+    if (progress >= 1.0) return endZoom;
+
+    final interpolated = exp(
+      log(startZoom) + (log(endZoom) - log(startZoom)) * progress,
+    );
+    if (interpolated.isFinite) return interpolated;
+    return progress < 0.5 ? startZoom : endZoom;
   }
 }
 

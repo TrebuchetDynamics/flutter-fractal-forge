@@ -259,6 +259,20 @@ void main() {
       );
     });
 
+    test('keeps interpolation finite for huge but valid zoom bounds', () {
+      const planner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(maxZoom: 1e308),
+      );
+
+      expect(planner.interpolateZoom(0.2, 1e308, 0.0), 0.2);
+      expect(planner.interpolateZoom(0.2, 1e308, 1.0), 1e308);
+      expect(
+        planner.interpolateZoom(0.2, 1e308, 0.5),
+        predicate<double>((value) => value.isFinite, 'finite zoom'),
+      );
+      expect(planner.interpolateZoom(0.2, 1e308, double.nan), 0.2);
+    });
+
     test('normalizes invalid cycle shape before target planning', () {
       const zeroMultiplierPlanner = AutoExploreZoomPlanner(
         config: AutoExploreConfig(cycleMaxMultiplier: 0.0),
