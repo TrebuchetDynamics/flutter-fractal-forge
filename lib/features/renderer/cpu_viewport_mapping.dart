@@ -2,6 +2,30 @@ import 'dart:math' as math;
 
 import 'package:vector_math/vector_math.dart' show Vector2;
 
+/// Replayable viewport dimensions for CPU coordinate mapping.
+///
+/// Render requests should provide positive dimensions. When a direct mapping
+/// caller passes invalid dimensions, fall back to a square viewport instead of
+/// leaking zero/negative aspect ratios into fractal coordinates.
+final class CpuViewportDimensions {
+  const CpuViewportDimensions({required this.width, required this.height});
+
+  final int width;
+  final int height;
+
+  factory CpuViewportDimensions.fromSize({
+    required int width,
+    required int height,
+  }) {
+    if (width <= 0 || height <= 0) {
+      return const CpuViewportDimensions(width: 1, height: 1);
+    }
+    return CpuViewportDimensions(width: width, height: height);
+  }
+
+  double get aspect => width / height;
+}
+
 /// Shared CPU-render viewport mapping.
 ///
 /// Pixel coordinates are edge-inclusive for iteration buffers, preserving the
@@ -35,7 +59,10 @@ final class CpuViewportMapping {
   })  : centerX = panX,
         centerY = panY,
         scale = 1.5 / normalizeZoom(viewZoom),
-        aspect = height == 0 ? 1.0 : width / height;
+        aspect = CpuViewportDimensions.fromSize(
+          width: width,
+          height: height,
+        ).aspect;
 
   static double normalizeZoom(double zoom) {
     if (zoom.isNaN || zoom <= 0.0) return 1.0;

@@ -86,6 +86,36 @@ void main() {
       expect(viewport.coordinate(nx: 0.5, ny: -0.5), (0.75, -0.75));
     });
 
+    test('invalid viewport dimensions fall back to square aspect', () {
+      expect(
+        CpuViewportDimensions.fromSize(width: 0, height: 2).aspect,
+        1.0,
+      );
+      expect(
+        CpuViewportDimensions.fromSize(width: 2, height: -1).aspect,
+        1.0,
+      );
+
+      final zeroWidthViewport = CpuViewportMapping(
+        viewPan: Vector2.zero(),
+        viewZoom: 1.0,
+        width: 0,
+        height: 2,
+      );
+      final negativeHeightViewport = CpuViewportMapping(
+        viewPan: Vector2.zero(),
+        viewZoom: 1.0,
+        width: 2,
+        height: -1,
+      );
+
+      expect(zeroWidthViewport.coordinate(nx: 0.5, ny: -0.5), (0.75, -0.75));
+      expect(
+        negativeHeightViewport.coordinate(nx: 0.5, ny: -0.5),
+        (0.75, -0.75),
+      );
+    });
+
     test('isolate sample mapping shares invalid zoom normalization', () {
       final coordinate = cpuViewportCoordinateForSample(
         panX: 0.0,
