@@ -34,6 +34,37 @@ void main() {
       // ignore: deprecated_member_use
       expect(data.hasFlag(SemanticsFlag.isButton), isTrue);
     });
+
+    testWidgets('labels user-correction yield without claiming active motion',
+        (tester) async {
+      final semanticsHandle = tester.ensureSemantics();
+      final controller = FractalController(ModuleRegistry());
+      final service = AutoExploreService(controller: controller);
+      addTearDown(semanticsHandle.dispose);
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      service.onUserInteractionStart();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: ChangeNotifierProvider<AutoExploreService?>.value(
+            value: service,
+            child: const Scaffold(
+              body: AutoExploreButton(),
+            ),
+          ),
+        ),
+      );
+
+      final yieldedData = _semanticsDataForLabel(tester, 'Auto-pilot paused');
+      final activeData = _semanticsDataForLabel(tester, 'Pause auto-explore');
+
+      expect(yieldedData, isNotNull);
+      expect(yieldedData!.hasAction(SemanticsAction.tap), isTrue);
+      expect(activeData, isNull);
+    });
   });
 }
 

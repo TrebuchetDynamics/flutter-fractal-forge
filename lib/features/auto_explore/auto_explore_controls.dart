@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/features/auto_explore/auto_explore_control_status.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
@@ -37,7 +38,12 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
     final svc = context.watch<AutoExploreService?>();
     if (svc == null) return const SizedBox.shrink();
 
-    final active = svc.isExploring && !svc.isPaused;
+    final status = AutoExploreControlStatus(
+      isExploring: svc.isExploring,
+      isPaused: svc.isPaused,
+      pausedByUserCorrection: svc.pausedByUserCorrection,
+    );
+    final active = status.isMotionActive;
     if (active && !_pulse.isAnimating) {
       _pulse.repeat(reverse: true);
     }
@@ -47,9 +53,11 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
     }
 
     final l10n = AppLocalizations.of(context);
-    final tooltip = active
-        ? (l10n?.tooltipPauseExplore ?? 'Pause auto-explore')
-        : (l10n?.tooltipStartExplore ?? 'Start auto-explore');
+    final tooltip = status.tooltip(
+      startLabel: l10n?.tooltipStartExplore ?? 'Start auto-explore',
+      pauseLabel: l10n?.tooltipPauseExplore ?? 'Pause auto-explore',
+      yieldedLabel: 'Auto-pilot paused',
+    );
 
     void activate() {
       HapticFeedback.mediumImpact();
