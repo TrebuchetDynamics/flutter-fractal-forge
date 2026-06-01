@@ -22,6 +22,25 @@ void main() {
       );
     });
 
+    test('characterizes yield as armed auto-explore only', () {
+      expect(
+        () => AutoExploreControlStatus.fromPlayback(
+          isExploring: true,
+          isPaused: true,
+          pausedByUserCorrection: true,
+        ),
+        throwsAssertionError,
+      );
+      expect(
+        () => AutoExploreControlStatus.fromPlayback(
+          isExploring: false,
+          isPaused: false,
+          pausedByUserCorrection: true,
+        ),
+        throwsAssertionError,
+      );
+    });
+
     test('presents only non-yielding running state as active motion', () {
       const running = AutoExploreControlStatus(
         isExploring: true,
@@ -46,6 +65,7 @@ void main() {
 
       expect(running.isMotionActive, isTrue);
       expect(yielded.isMotionActive, isFalse);
+      expect(yielded.showsYieldBadge, isTrue);
       expect(paused.isMotionActive, isFalse);
       expect(stopped.isMotionActive, isFalse);
       expect(

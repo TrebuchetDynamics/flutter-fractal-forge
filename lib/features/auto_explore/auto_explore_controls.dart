@@ -38,7 +38,7 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
     final svc = context.watch<AutoExploreService?>();
     if (svc == null) return const SizedBox.shrink();
 
-    final status = AutoExploreControlStatus(
+    final status = AutoExploreControlStatus.fromPlayback(
       isExploring: svc.isExploring,
       isPaused: svc.isPaused,
       pausedByUserCorrection: svc.pausedByUserCorrection,
@@ -118,7 +118,7 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                   },
                 ),
               ),
-              if (svc.pausedByUserCorrection)
+              if (status.showsYieldBadge)
                 Positioned(
                   right: -8,
                   top: -8,
@@ -166,7 +166,7 @@ class AutoExploreSettingsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final svc = context.watch<AutoExploreService>();
-    final status = AutoExploreControlStatus(
+    final status = AutoExploreControlStatus.fromPlayback(
       isExploring: svc.isExploring,
       isPaused: svc.isPaused,
       pausedByUserCorrection: svc.pausedByUserCorrection,
@@ -207,7 +207,7 @@ class AutoExploreSettingsSheet extends StatelessWidget {
                     .copyWith(color: AppColors.textMuted),
               ),
               const SizedBox(height: AppSpacing.md),
-              if (svc.pausedByUserCorrection)
+              if (status.showsYieldBadge)
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

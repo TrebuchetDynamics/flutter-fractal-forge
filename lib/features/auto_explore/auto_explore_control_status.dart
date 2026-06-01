@@ -22,7 +22,17 @@ class AutoExploreControlStatus {
     required this.isExploring,
     required this.isPaused,
     required this.pausedByUserCorrection,
-  });
+  }) : assert(
+          !pausedByUserCorrection || (isExploring && !isPaused),
+          'pausedByUserCorrection is only valid while auto-explore is armed',
+        );
+
+  /// Named constructor for replayable service playback flags.
+  const factory AutoExploreControlStatus.fromPlayback({
+    required bool isExploring,
+    required bool isPaused,
+    required bool pausedByUserCorrection,
+  }) = AutoExploreControlStatus;
 
   /// True only while auto-explore is actively driving motion.
   bool get isMotionActive =>
@@ -31,6 +41,9 @@ class AutoExploreControlStatus {
   /// True while auto-explore is armed but temporarily yielded to the user.
   bool get isTemporarilyYielded =>
       isExploring && !isPaused && pausedByUserCorrection;
+
+  /// True when controls should show the temporary-yield explanation badge.
+  bool get showsYieldBadge => isTemporarilyYielded;
 
   /// True when the primary control should present pausing active auto-motion.
   bool get showsPauseAction => isMotionActive;
