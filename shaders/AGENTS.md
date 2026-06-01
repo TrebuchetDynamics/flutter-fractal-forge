@@ -30,7 +30,7 @@
 | `3d_and_hypercomplex/` | 12 3D/hypercomplex fractals (Mandelbulb, Quaternion) |
 | `cellular_and_stochastic/` | 15 cellular automata and stochastic fractals |
 | `lyapunov_and_stability/` | 7 Lyapunov exponent and stability map shaders |
-| `root_finding/` | 34 Newton, Halley, Householder, and related root-finding shaders |
+| `root_finding/` | Newton, Halley, Householder, Schröder, Steffensen, and related root-finding shader families |
 | `kaleidoscopes/` | 15 kaleidoscope and symmetry shaders |
 | `diagnostic/` | 8 utility/debug shaders (sampler diagnostics, gradient tests) |
 | `legacy/` | 12 legacy compatibility shaders without `_gpu` naming |

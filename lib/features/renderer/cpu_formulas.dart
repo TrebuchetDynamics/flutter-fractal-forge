@@ -2257,7 +2257,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/root_finding/newton_z3_gpu.frag (CPU approximation, seed=0xdce85dc4)
+  // Ported from shaders/root_finding/newton/newton_z3_gpu.frag (CPU approximation, seed=0xdce85dc4)
   return _cpu_synthetic(0xdce85dc4, x, y, iterations, bailout);
 }
 
@@ -2268,7 +2268,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/root_finding/halley_gpu.frag (CPU approximation, seed=0x85194b64)
+  // Ported from shaders/root_finding/high_order_methods/halley_gpu.frag (CPU approximation, seed=0x85194b64)
   return _cpu_synthetic(0x85194b64, x, y, iterations, bailout);
 }
 
@@ -2279,7 +2279,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/root_finding/householder_gpu.frag (CPU approximation, seed=0x13a1358d)
+  // Ported from shaders/root_finding/high_order_methods/householder_gpu.frag (CPU approximation, seed=0x13a1358d)
   return _cpu_synthetic(0x13a1358d, x, y, iterations, bailout);
 }
 
@@ -2290,7 +2290,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/root_finding/magnet_newton_gpu.frag (CPU approximation, seed=0x6d478757)
+  // Ported from shaders/root_finding/newton/magnet_newton_gpu.frag (CPU approximation, seed=0x6d478757)
   return _cpu_synthetic(0x6d478757, x, y, iterations, bailout);
 }
 
@@ -2466,7 +2466,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/root_finding/schroeder_gpu.frag (CPU approximation, seed=0x19df4580)
+  // Ported from shaders/root_finding/schroeder/schroeder_gpu.frag (CPU approximation, seed=0x19df4580)
   return _cpu_synthetic(0x19df4580, x, y, iterations, bailout);
 }
 
@@ -3126,7 +3126,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/root_finding/newton_sin_gpu.frag (CPU approximation, seed=0x88601b9b)
+  // Ported from shaders/root_finding/newton/newton_sin_gpu.frag (CPU approximation, seed=0x88601b9b)
   return _cpu_synthetic(0x88601b9b, x, y, iterations, bailout);
 }
 
@@ -3137,7 +3137,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/root_finding/newton_general_gpu.frag (CPU approximation, seed=0xf807a375)
+  // Ported from shaders/root_finding/newton/newton_general_gpu.frag (CPU approximation, seed=0xf807a375)
   return _cpu_synthetic(0xf807a375, x, y, iterations, bailout);
 }
 

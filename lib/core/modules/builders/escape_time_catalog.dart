@@ -1459,28 +1459,28 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z3',
     name: 'Newton Fractal (z³ - 1)',
-    shaderAsset: 'shaders/root_finding/newton_z3_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z3_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'halley',
     name: "Halley's Fractal",
-    shaderAsset: 'shaders/root_finding/halley_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/halley_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'householder',
     name: 'Householder Fractal',
-    shaderAsset: 'shaders/root_finding/householder_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/householder_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'magnet_newton',
     name: 'Magnet Newton',
-    shaderAsset: 'shaders/root_finding/magnet_newton_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/magnet_newton_gpu.frag',
     defaultIterations: 90,
     defaultBailout: 6.0,
   ),
@@ -1747,7 +1747,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'schroeder',
     name: "Schröder's Fractal",
-    shaderAsset: 'shaders/root_finding/schroeder_gpu.frag',
+    shaderAsset: 'shaders/root_finding/schroeder/schroeder_gpu.frag',
     defaultIterations: 80,
   ),
   EscapeTimeConfig(
@@ -2396,14 +2396,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_sin',
     name: 'Newton sin(z)',
-    shaderAsset: 'shaders/root_finding/newton_sin_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_sin_gpu.frag',
     defaultIterations: 90,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'newton_general',
     name: 'Newton Fractal (z⁴ - 1)',
-    shaderAsset: 'shaders/root_finding/newton_general_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_general_gpu.frag',
     defaultIterations: 90,
     defaultBailout: 4.0,
   ),
@@ -3396,7 +3396,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z4',
     name: 'Newton z⁴−1',
-    shaderAsset: 'shaders/root_finding/newton_z4_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z4_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
   ),
@@ -3405,7 +3405,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z6',
     name: 'Newton z⁶−1',
-    shaderAsset: 'shaders/root_finding/newton_z6_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z6_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
   ),
@@ -3486,7 +3486,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z5',
     name: 'Newton z⁵−1',
-    shaderAsset: 'shaders/root_finding/newton_z5_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z5_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
   ),
@@ -3648,7 +3648,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z7',
     name: 'Newton z⁷−1',
-    shaderAsset: 'shaders/root_finding/newton_z7_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z7_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
   ),
@@ -3669,7 +3669,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z8',
     name: 'Newton z⁸−1',
-    shaderAsset: 'shaders/root_finding/newton_z8_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z8_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
   ),
@@ -3802,14 +3802,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'schroeder_z3',
     name: 'Schröder z³−1',
-    shaderAsset: 'shaders/root_finding/schroeder_z3_gpu.frag',
+    shaderAsset: 'shaders/root_finding/schroeder/schroeder_z3_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
   ),
   EscapeTimeConfig(
     id: 'schroeder_z4',
     name: 'Schröder z⁴−1',
-    shaderAsset: 'shaders/root_finding/schroeder_z4_gpu.frag',
+    shaderAsset: 'shaders/root_finding/schroeder/schroeder_z4_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
   ),
@@ -3914,7 +3914,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'halley_z4',
     name: 'Halley z⁴−1',
-    shaderAsset: 'shaders/root_finding/halley_z4_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/halley_z4_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
   ),
@@ -4192,7 +4192,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'steffensen_z3',
     name: 'Steffensen z³−1',
-    shaderAsset: 'shaders/root_finding/steffensen_z3_gpu.frag',
+    shaderAsset: 'shaders/root_finding/steffensen/steffensen_z3_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
@@ -4222,7 +4222,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'steffensen_z4',
     name: 'Steffensen z⁴−1',
-    shaderAsset: 'shaders/root_finding/steffensen_z4_gpu.frag',
+    shaderAsset: 'shaders/root_finding/steffensen/steffensen_z4_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
@@ -4252,7 +4252,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'steffensen_z5',
     name: 'Steffensen z⁵−1',
-    shaderAsset: 'shaders/root_finding/steffensen_z5_gpu.frag',
+    shaderAsset: 'shaders/root_finding/steffensen/steffensen_z5_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
@@ -4284,7 +4284,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'damped_newton',
     name: 'Damped Newton',
-    shaderAsset: 'shaders/root_finding/damped_newton_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/damped_newton_gpu.frag',
     category: 'Convergent & Root-Finding',
     defaultIterations: 120,
     defaultBailout: 8.0,
@@ -4359,7 +4359,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'durand_kerner',
     name: 'Durand-Kerner',
-    shaderAsset: 'shaders/root_finding/durand_kerner_gpu.frag',
+    shaderAsset: 'shaders/root_finding/derivative_free_systems/durand_kerner_gpu.frag',
     category: 'Convergent & Root-Finding',
     defaultIterations: 130,
     defaultBailout: 8.0,
@@ -4429,7 +4429,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'ehrlich_aberth',
     name: 'Ehrlich-Aberth',
-    shaderAsset: 'shaders/root_finding/ehrlich_aberth_gpu.frag',
+    shaderAsset: 'shaders/root_finding/derivative_free_systems/ehrlich_aberth_gpu.frag',
     category: 'Convergent & Root-Finding',
     defaultIterations: 120,
     defaultBailout: 8.0,
@@ -5227,7 +5227,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'chebyshev_halley_param',
     name: 'Chebyshev Halley Param',
-    shaderAsset: 'shaders/root_finding/chebyshev_halley_param_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/chebyshev_halley_param_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5339,7 +5339,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'jarratt',
     name: 'Jarratt',
-    shaderAsset: 'shaders/root_finding/jarratt_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/jarratt_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5467,7 +5467,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'muller',
     name: 'Muller',
-    shaderAsset: 'shaders/root_finding/muller_gpu.frag',
+    shaderAsset: 'shaders/root_finding/derivative_free_systems/muller_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5475,7 +5475,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'neta_order16',
     name: 'Neta Order16',
-    shaderAsset: 'shaders/root_finding/neta_order16_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/neta_order16_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5483,7 +5483,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'noor_newton',
     name: 'Noor Newton',
-    shaderAsset: 'shaders/root_finding/noor_newton_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/noor_newton_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5547,7 +5547,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'ostrowski',
     name: 'Ostrowski',
-    shaderAsset: 'shaders/root_finding/ostrowski_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/ostrowski_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5571,7 +5571,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'picard_mann_newton',
     name: 'Picard Mann Newton',
-    shaderAsset: 'shaders/root_finding/picard_mann_newton_gpu.frag',
+    shaderAsset: 'shaders/root_finding/steffensen/picard_mann_newton_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5579,7 +5579,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'schroeder_z5',
     name: 'Schroeder Z5',
-    shaderAsset: 'shaders/root_finding/schroeder_z5_gpu.frag',
+    shaderAsset: 'shaders/root_finding/schroeder/schroeder_z5_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5587,7 +5587,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'schroeder_z6',
     name: 'Schroeder Z6',
-    shaderAsset: 'shaders/root_finding/schroeder_z6_gpu.frag',
+    shaderAsset: 'shaders/root_finding/schroeder/schroeder_z6_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5699,7 +5699,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'steffensen',
     name: 'Steffensen',
-    shaderAsset: 'shaders/root_finding/steffensen_gpu.frag',
+    shaderAsset: 'shaders/root_finding/steffensen/steffensen_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5707,7 +5707,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'steffensen_order8',
     name: 'Steffensen Order8',
-    shaderAsset: 'shaders/root_finding/steffensen_order8_gpu.frag',
+    shaderAsset: 'shaders/root_finding/steffensen/steffensen_order8_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5723,7 +5723,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'super_halley',
     name: 'Super Halley',
-    shaderAsset: 'shaders/root_finding/super_halley_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/super_halley_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5747,7 +5747,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'traub_ostrowski',
     name: 'Traub Ostrowski',
-    shaderAsset: 'shaders/root_finding/traub_ostrowski_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/traub_ostrowski_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5882,7 +5882,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z3_nova',
     name: 'Newton z³ Nova',
-    shaderAsset: 'shaders/root_finding/newton_z3_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z3_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
     defaultZoom: 0.7,
@@ -5935,7 +5935,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z4_nova',
     name: 'Newton z⁴ Nova',
-    shaderAsset: 'shaders/root_finding/newton_z4_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z4_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
     defaultZoom: 0.7,
@@ -5973,7 +5973,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z5_nova',
     name: 'Newton z⁵ Nova',
-    shaderAsset: 'shaders/root_finding/newton_z5_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z5_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
     defaultZoom: 0.7,
@@ -6011,7 +6011,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'newton_z6_nova',
     name: 'Newton z⁶ Nova',
-    shaderAsset: 'shaders/root_finding/newton_z6_gpu.frag',
+    shaderAsset: 'shaders/root_finding/newton/newton_z6_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
     defaultZoom: 0.7,
@@ -6049,7 +6049,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'halley_nova',
     name: 'Halley Nova',
-    shaderAsset: 'shaders/root_finding/halley_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/halley_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
     defaultZoom: 0.7,
@@ -6087,7 +6087,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'schroeder_nova',
     name: 'Schröder Nova',
-    shaderAsset: 'shaders/root_finding/schroeder_gpu.frag',
+    shaderAsset: 'shaders/root_finding/schroeder/schroeder_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
     defaultZoom: 0.7,
@@ -6125,7 +6125,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'householder_nova',
     name: 'Householder Nova',
-    shaderAsset: 'shaders/root_finding/householder_gpu.frag',
+    shaderAsset: 'shaders/root_finding/high_order_methods/householder_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
     defaultZoom: 0.7,
