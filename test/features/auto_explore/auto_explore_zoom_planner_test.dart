@@ -209,6 +209,21 @@ void main() {
       );
     });
 
+    test('orders target ranges after precision caps lower the peak', () {
+      final plan = planner.planNextTarget(
+        currentZoom: 1e12,
+        cycleBaseZoom: 1e12,
+        zoomingIn: false,
+        moduleId: 'unknown_orbit_module',
+      );
+
+      expect(plan.peakZoom, 9.2e6);
+      expect(plan.floorZoom, plan.peakZoom);
+      expect(plan.isCollapsed, isTrue);
+      expect(plan.targetZoom, 9.2e6);
+      expect(plan.targetRange.floorZoom, lessThanOrEqualTo(plan.peakZoom));
+    });
+
     test('scales leg duration by zoom span and speed', () {
       const config = AutoExploreConfig(
         travelDuration: Duration(milliseconds: 1000),

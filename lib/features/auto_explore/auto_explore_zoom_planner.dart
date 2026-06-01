@@ -404,7 +404,22 @@ class AutoExploreZoomTargetRange {
   const AutoExploreZoomTargetRange({
     required this.peakZoom,
     required this.floorZoom,
-  });
+  }) : assert(floorZoom <= peakZoom, 'floorZoom must not exceed peakZoom');
+
+  /// Builds a target range that stays ordered after precision caps are applied.
+  ///
+  /// The floor candidate is derived from the cycle base, while the peak can be
+  /// lowered by a module precision hard max. Without this normalization a base
+  /// above the hard max makes zoom-in target a lower value than zoom-out.
+  factory AutoExploreZoomTargetRange.fromCandidates({
+    required double peakZoom,
+    required double floorZoom,
+  }) {
+    return AutoExploreZoomTargetRange(
+      peakZoom: peakZoom,
+      floorZoom: min(floorZoom, peakZoom),
+    );
+  }
 
   bool get isCollapsed => (peakZoom - floorZoom).abs() < collapseEpsilon;
 
@@ -435,7 +450,8 @@ class AutoExploreZoomTargetPlan {
     required this.zoomingIn,
   });
 
-  AutoExploreZoomTargetRange get targetRange => AutoExploreZoomTargetRange(
+  AutoExploreZoomTargetRange get targetRange =>
+      AutoExploreZoomTargetRange.fromCandidates(
         peakZoom: peakZoom,
         floorZoom: floorZoom,
       );
@@ -515,11 +531,17 @@ class AutoExploreZoomPlanner {
   }) {
     final current = clampZoom(currentZoom);
     final baseZoom = clampZoom(cycleBaseZoom ?? current);
+    final peakZoom = computePeakZoom(baseZoom: baseZoom, moduleId: moduleId);
+    final targetRange = AutoExploreZoomTargetRange.fromCandidates(
+      peakZoom: peakZoom,
+      floorZoom: computeFloorZoom(baseZoom),
+    );
+
     return AutoExploreZoomTargetPlan(
       currentZoom: current,
       baseZoom: baseZoom,
-      peakZoom: computePeakZoom(baseZoom: baseZoom, moduleId: moduleId),
-      floorZoom: computeFloorZoom(baseZoom),
+      peakZoom: targetRange.peakZoom,
+      floorZoom: targetRange.floorZoom,
       zoomingIn: zoomingIn,
     );
   }
