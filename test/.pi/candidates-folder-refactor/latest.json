@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-01T11:22:14.767Z",
+  "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
+  "target": "test",
+  "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/test",
+  "command": "node ../../pi-package-development-goal/skills/candidates-folder-refactor/scripts/find-candidates.mjs /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/test --top 10",
+  "candidates": [
+    {
+      "relative": "test/a11y",
+      "score": 60.6,
+      "files": 6,
+      "direct": 6,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 3,
+      "subdirs": 0,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules/cellular_stochastic",
+      "score": 10,
+      "files": 187,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 0,
+      "subdirs": 187,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules/escape_time_complex_plane",
+      "score": 10,
+      "files": 286,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 0,
+      "subdirs": 286,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules/strange_attractors",
+      "score": 10,
+      "files": 289,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 0,
+      "subdirs": 289,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules",
+      "score": 10,
+      "files": 1148,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 6,
+      "duplicates": 0,
+      "subdirs": 10,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules/l_systems_space_filling",
+      "score": 8.9,
+      "files": 89,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 2,
+      "duplicates": 0,
+      "subdirs": 89,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules/ifs_geometric_construction",
+      "score": 7.5,
+      "files": 75,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 1,
+      "duplicates": 0,
+      "subdirs": 75,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules/3d_raymarching_hypercomplex",
+      "score": 6,
+      "files": 60,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 1,
+      "duplicates": 0,
+      "subdirs": 60,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules/newton_root_finding",
+      "score": 4.8,
+      "files": 48,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 1,
+      "duplicates": 0,
+      "subdirs": 48,
+      "extensions": [
+        ".dart"
+      ]
+    },
+    {
+      "relative": "test/modules/tiling_aperiodic",
+      "score": 4.1,
+      "files": 41,
+      "direct": 0,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 1,
+      "duplicates": 0,
+      "subdirs": 41,
+      "extensions": [
+        ".dart"
+      ]
+    }
+  ],
+  "refactorIgnoreSuggestions": []
+}
