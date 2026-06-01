@@ -61,10 +61,46 @@ bool haveSameHistoryParams(
     if (!otherParams.containsKey(entry.key)) {
       return false;
     }
-    if (otherParams[entry.key] != entry.value) {
+    if (!areSameHistoryParamValue(entry.value, otherParams[entry.key])) {
       return false;
     }
   }
 
   return true;
+}
+
+/// Compares JSON-like history parameter values by value rather than identity.
+///
+/// Persisted params can contain nested lists/maps after JSON decode. Dart's
+/// collection equality is identity-based, which would make two replayed
+/// locations look different even when their serialized parameter values match.
+bool areSameHistoryParamValue(Object? value, Object? otherValue) {
+  if (identical(value, otherValue)) return true;
+
+  if (value is List && otherValue is List) {
+    if (value.length != otherValue.length) return false;
+    for (var i = 0; i < value.length; i++) {
+      if (!areSameHistoryParamValue(
+          value[i] as Object?, otherValue[i] as Object?)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  if (value is Map && otherValue is Map) {
+    if (value.length != otherValue.length) return false;
+    for (final entry in value.entries) {
+      if (!otherValue.containsKey(entry.key)) return false;
+      if (!areSameHistoryParamValue(
+        entry.value as Object?,
+        otherValue[entry.key] as Object?,
+      )) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return value == otherValue;
 }

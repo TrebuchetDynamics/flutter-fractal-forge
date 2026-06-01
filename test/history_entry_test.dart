@@ -37,6 +37,17 @@ void main() {
       expect(first.isSameLocation(second), isFalse);
     });
 
+    test('treats JSON-like list parameter values as replayable values', () {
+      final first = _entry(params: {
+        'paletteStops': [0.0, 0.5, 1.0],
+      });
+      final second = _entry(params: {
+        'paletteStops': [0.0, 0.5, 1.0],
+      });
+
+      expect(first.isSameLocation(second), isTrue);
+    });
+
     test('treats view changes as a different location', () {
       final first = _entry(zoom: 1);
       final second = _entry(zoom: 2);
