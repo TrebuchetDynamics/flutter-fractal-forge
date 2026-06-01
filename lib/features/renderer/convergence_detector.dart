@@ -39,6 +39,41 @@ class ConvergenceResult {
       converged.hashCode ^ changeRatio.hashCode ^ suggestedIterations.hashCode;
 }
 
+/// Replayable frame shape contract for convergence comparison.
+class ConvergenceFrameSpec {
+  final int width;
+  final int height;
+
+  const ConvergenceFrameSpec({
+    required this.width,
+    required this.height,
+  });
+
+  int get expectedRgbaLength => width * height * 4;
+
+  void validateBuffers({
+    required Uint8List previous,
+    required Uint8List current,
+  }) {
+    if (width <= 0 || height <= 0) {
+      throw ArgumentError('Invalid dimensions: ${width}x$height');
+    }
+
+    if (previous.length != current.length) {
+      throw ArgumentError(
+        'Buffer size mismatch: previous=${previous.length}, current=${current.length}',
+      );
+    }
+
+    if (previous.length != expectedRgbaLength) {
+      throw ArgumentError(
+        'Buffer size mismatch: expected=$expectedRgbaLength (${width}x$height RGBA), '
+        'got=${previous.length}',
+      );
+    }
+  }
+}
+
 /// Replayable downsampling grid for convergence comparison.
 class ConvergenceSamplingPlan {
   /// Integer stride used to sample the original frame.
@@ -75,6 +110,33 @@ class ConvergenceSamplingPlan {
       sampledWidth: (width / factor).ceil(),
       sampledHeight: (height / factor).ceil(),
     );
+  }
+}
+
+/// Replayable threshold contract for RGB pixel-change comparison.
+class ConvergencePixelChangeRule {
+  final int threshold;
+
+  const ConvergencePixelChangeRule(this.threshold);
+
+  void validate() {
+    if (threshold < 0) {
+      throw ArgumentError('Invalid pixelDifferenceThreshold: $threshold');
+    }
+  }
+
+  bool sampleChanged({
+    required Uint8List previous,
+    required Uint8List current,
+    required int pixelIndex,
+  }) {
+    for (int channel = 0; channel < 3; channel++) {
+      final diff =
+          (previous[pixelIndex + channel] - current[pixelIndex + channel])
+              .abs();
+      if (diff > threshold) return true;
+    }
+    return false;
   }
 }
 
@@ -118,28 +180,17 @@ class ConvergenceDetector {
     required int height,
     required int currentIterations,
   }) {
-    // Validate inputs
-    if (previous.length != current.length) {
-      throw ArgumentError(
-        'Buffer size mismatch: previous=${previous.length}, current=${current.length}',
-      );
-    }
-
-    final expectedLength = width * height * 4; // RGBA
-    if (previous.length != expectedLength) {
-      throw ArgumentError(
-        'Buffer size mismatch: expected=$expectedLength (${width}x$height RGBA), '
-        'got=${previous.length}',
-      );
-    }
-
-    if (width <= 0 || height <= 0) {
-      throw ArgumentError('Invalid dimensions: ${width}x$height');
-    }
+    final frameSpec = ConvergenceFrameSpec(width: width, height: height);
+    frameSpec.validateBuffers(previous: previous, current: current);
 
     if (currentIterations <= 0) {
       throw ArgumentError('Invalid currentIterations: $currentIterations');
     }
+
+    final pixelChangeRule = ConvergencePixelChangeRule(
+      pixelDifferenceThreshold,
+    );
+    pixelChangeRule.validate();
 
     final samplingPlan = ConvergenceSamplingPlan(
       width: width,
@@ -159,18 +210,11 @@ class ConvergenceDetector {
         final pixelIndex = (srcY * width + srcX) * 4;
 
         // Compare RGB channels (ignore alpha)
-        bool pixelChanged = false;
-        for (int channel = 0; channel < 3; channel++) {
-          final diff =
-              (previous[pixelIndex + channel] - current[pixelIndex + channel])
-                  .abs();
-          if (diff > pixelDifferenceThreshold) {
-            pixelChanged = true;
-            break;
-          }
-        }
-
-        if (pixelChanged) {
+        if (pixelChangeRule.sampleChanged(
+          previous: previous,
+          current: current,
+          pixelIndex: pixelIndex,
+        )) {
           changedPixels++;
         }
         totalPixels++;

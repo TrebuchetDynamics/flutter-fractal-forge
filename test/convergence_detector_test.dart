@@ -96,6 +96,23 @@ void main() {
       );
     });
 
+    test('throws domain error for negative pixel difference threshold', () {
+      final previous = Uint8List(64 * 64 * 4);
+      final current = Uint8List(64 * 64 * 4);
+      const invalidDetector = ConvergenceDetector(pixelDifferenceThreshold: -1);
+
+      expect(
+        () => invalidDetector.detect(
+          previous: previous,
+          current: current,
+          width: 64,
+          height: 64,
+          currentIterations: 100,
+        ),
+        throwsArgumentError,
+      );
+    });
+
     test('throws on buffer size mismatch', () {
       final previous = Uint8List(64 * 64 * 4);
       final current = Uint8List(32 * 32 * 4);
