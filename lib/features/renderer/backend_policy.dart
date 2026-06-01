@@ -98,15 +98,39 @@ class BackendPolicyInput {
   });
 }
 
+/// Replayable explanation for the backend rule selected by the policy.
+///
+/// Platform probes are currently advisory in auto mode: Android emulator status
+/// is logged and passed through, but runtime health checks decide fallback.
+/// Keeping the selected rule visible makes that precedence testable instead of
+/// hiding it in early returns.
+class BackendPolicyResolution {
+  final BackendDecision decision;
+  final String selectedRule;
+  final bool platformSignalsUsed;
+
+  const BackendPolicyResolution({
+    required this.decision,
+    required this.selectedRule,
+    required this.platformSignalsUsed,
+  });
+}
+
 class RendererBackendPolicy {
   const RendererBackendPolicy();
 
-  BackendDecision decide(BackendPolicyInput input) {
+  BackendDecision decide(BackendPolicyInput input) => explain(input).decision;
+
+  BackendPolicyResolution explain(BackendPolicyInput input) {
     if (kForceCpuFallback) {
-      return const BackendDecision(
-        backend: RendererBackend.cpu,
-        reasonCode: FallbackReasonCode.forcedByFlag,
-        detail: 'FORCE_CPU_FALLBACK=true',
+      return const BackendPolicyResolution(
+        selectedRule: 'force_cpu_flag',
+        platformSignalsUsed: false,
+        decision: BackendDecision(
+          backend: RendererBackend.cpu,
+          reasonCode: FallbackReasonCode.forcedByFlag,
+          detail: 'FORCE_CPU_FALLBACK=true',
+        ),
       );
     }
 
@@ -115,32 +139,48 @@ class RendererBackendPolicy {
       // rendering. Forcing CPU here only produces a disabled placeholder pane.
       // Keep these modules on GPU by default.
       if (input.userMode == RendererBackendMode.cpuOnly) {
-        return const BackendDecision(
-          backend: RendererBackend.gpu,
-          reasonCode: FallbackReasonCode.moduleUnsupported,
-          detail: 'cpu_only_ignored_for_3d_gpu_required',
+        return const BackendPolicyResolution(
+          selectedRule: 'gpu_required_module_cpu_only_ignored',
+          platformSignalsUsed: false,
+          decision: BackendDecision(
+            backend: RendererBackend.gpu,
+            reasonCode: FallbackReasonCode.moduleUnsupported,
+            detail: 'cpu_only_ignored_for_3d_gpu_required',
+          ),
         );
       }
-      return const BackendDecision(
-        backend: RendererBackend.gpu,
-        reasonCode: FallbackReasonCode.none,
-        detail: '3d_gpu_path',
+      return const BackendPolicyResolution(
+        selectedRule: 'gpu_required_module',
+        platformSignalsUsed: false,
+        decision: BackendDecision(
+          backend: RendererBackend.gpu,
+          reasonCode: FallbackReasonCode.none,
+          detail: '3d_gpu_path',
+        ),
       );
     }
 
     if (input.userMode == RendererBackendMode.cpuOnly) {
-      return const BackendDecision(
-        backend: RendererBackend.cpu,
-        reasonCode: FallbackReasonCode.manualToggle,
-        detail: 'cpu_only',
+      return const BackendPolicyResolution(
+        selectedRule: 'manual_cpu_only',
+        platformSignalsUsed: false,
+        decision: BackendDecision(
+          backend: RendererBackend.cpu,
+          reasonCode: FallbackReasonCode.manualToggle,
+          detail: 'cpu_only',
+        ),
       );
     }
 
     if (input.userMode == RendererBackendMode.gpuOnly) {
-      return const BackendDecision(
-        backend: RendererBackend.gpu,
-        reasonCode: FallbackReasonCode.manualToggle,
-        detail: 'gpu_only',
+      return const BackendPolicyResolution(
+        selectedRule: 'manual_gpu_only',
+        platformSignalsUsed: false,
+        decision: BackendDecision(
+          backend: RendererBackend.gpu,
+          reasonCode: FallbackReasonCode.manualToggle,
+          detail: 'gpu_only',
+        ),
       );
     }
 
@@ -148,25 +188,37 @@ class RendererBackendPolicy {
     // Runtime GPU health checks own fallback decisions.
 
     if (input.gpuHealthFailed) {
-      return const BackendDecision(
-        backend: RendererBackend.cpu,
-        reasonCode: FallbackReasonCode.gpuHealthCheckFailed,
-        detail: 'frame_probe_detected_invalid_gpu_output',
+      return const BackendPolicyResolution(
+        selectedRule: 'gpu_health_failed',
+        platformSignalsUsed: false,
+        decision: BackendDecision(
+          backend: RendererBackend.cpu,
+          reasonCode: FallbackReasonCode.gpuHealthCheckFailed,
+          detail: 'frame_probe_detected_invalid_gpu_output',
+        ),
       );
     }
 
     if (input.deepZoomNeedsCpu) {
-      return const BackendDecision(
-        backend: RendererBackend.cpu,
-        reasonCode: FallbackReasonCode.deepZoomPrecision,
-        detail: 'deep_zoom_precision_policy',
+      return const BackendPolicyResolution(
+        selectedRule: 'deep_zoom_precision',
+        platformSignalsUsed: false,
+        decision: BackendDecision(
+          backend: RendererBackend.cpu,
+          reasonCode: FallbackReasonCode.deepZoomPrecision,
+          detail: 'deep_zoom_precision_policy',
+        ),
       );
     }
 
-    return const BackendDecision(
-      backend: RendererBackend.gpu,
-      reasonCode: FallbackReasonCode.none,
-      detail: 'healthy_gpu_target',
+    return const BackendPolicyResolution(
+      selectedRule: 'healthy_gpu_target',
+      platformSignalsUsed: false,
+      decision: BackendDecision(
+        backend: RendererBackend.gpu,
+        reasonCode: FallbackReasonCode.none,
+        detail: 'healthy_gpu_target',
+      ),
     );
   }
 }

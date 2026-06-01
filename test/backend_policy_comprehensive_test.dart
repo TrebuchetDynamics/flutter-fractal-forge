@@ -139,6 +139,31 @@ void main() {
     });
   });
 
+  group('policy explanation', () {
+    test('exposes selected rule while preserving decide compatibility', () {
+      final resolution = policy.explain(buildInput(gpuHealthFailed: true));
+
+      expect(resolution.selectedRule, 'gpu_health_failed');
+      expect(resolution.platformSignalsUsed, isFalse);
+      expect(resolution.decision.backend, RendererBackend.cpu);
+      expect(policy.decide(buildInput(gpuHealthFailed: true)).reasonCode,
+          resolution.decision.reasonCode);
+    });
+
+    test('documents platform signals as advisory in auto mode', () {
+      final emulatorResolution = policy.explain(buildInput(
+        isAndroid: true,
+        isEmulator: true,
+      ));
+      final webResolution = policy.explain(buildInput(isWeb: true));
+
+      expect(emulatorResolution.selectedRule, 'healthy_gpu_target');
+      expect(emulatorResolution.platformSignalsUsed, isFalse);
+      expect(webResolution.selectedRule, 'healthy_gpu_target');
+      expect(webResolution.platformSignalsUsed, isFalse);
+    });
+  });
+
   group('healthy GPU with auto mode', () {
     test('healthy GPU with auto mode returns gpu', () {
       final decision = policy.decide(buildInput());
