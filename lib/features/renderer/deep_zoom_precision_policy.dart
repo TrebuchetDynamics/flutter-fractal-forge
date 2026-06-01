@@ -205,24 +205,67 @@ double _zoomDepthLog10(double zoom) {
   return (math.log(zoom) / math.ln10).clamp(0.0, 30.0);
 }
 
+/// Replayable state for one GPU→CPU deep-zoom hysteresis streak.
+///
+/// Keeping the transition pure makes the hidden state/order dependence visible:
+/// streaks are scoped to one module, below-threshold samples reset immediately,
+/// and CPU fallback activates only after enough consecutive above-threshold
+/// samples for the same module.
+@immutable
+class DeepZoomHysteresisState {
+  final String? moduleId;
+  final int aboveThresholdCount;
+  final bool cpuActive;
+
+  const DeepZoomHysteresisState({
+    required this.moduleId,
+    required this.aboveThresholdCount,
+    required this.cpuActive,
+  });
+
+  const DeepZoomHysteresisState.initial()
+      : moduleId = null,
+        aboveThresholdCount = 0,
+        cpuActive = false;
+
+  DeepZoomHysteresisState next({
+    required String nextModuleId,
+    required bool overThreshold,
+    required int activationFrames,
+  }) {
+    assert(activationFrames > 0, 'activationFrames must be positive');
+    final sameModule = moduleId == nextModuleId;
+    final currentCount = sameModule ? aboveThresholdCount : 0;
+
+    if (!overThreshold) {
+      return DeepZoomHysteresisState(
+        moduleId: nextModuleId,
+        aboveThresholdCount: 0,
+        cpuActive: false,
+      );
+    }
+
+    final nextCount = currentCount + 1;
+    return DeepZoomHysteresisState(
+      moduleId: nextModuleId,
+      aboveThresholdCount: nextCount,
+      cpuActive: nextCount >= activationFrames,
+    );
+  }
+}
+
 /// Stateful hysteresis filter for GPU→CPU deep-zoom transitions.
 ///
 /// Wraps [DeepZoomPrecisionPolicy] and requires [policy.hysteresisFrames]
 /// consecutive above-threshold evaluations before reporting CPU needed.
 /// Drops back to GPU immediately when zoom falls below threshold.
-bool _isSameHysteresisStreak({
-  required String? previousModuleId,
-  required String moduleId,
-}) =>
-    previousModuleId == moduleId;
-
 class DeepZoomHysteresis {
   final DeepZoomPrecisionPolicy policy;
-  String? _trackedModuleId;
-  int _aboveThresholdCount = 0;
-  bool _cpuActive = false;
+  DeepZoomHysteresisState _state = const DeepZoomHysteresisState.initial();
 
   DeepZoomHysteresis({this.policy = const DeepZoomPrecisionPolicy()});
+
+  DeepZoomHysteresisState get state => _state;
 
   /// Call this on every zoom change. Returns true if CPU fallback is warranted.
   bool update({required String moduleId, required double zoom}) {
@@ -231,32 +274,15 @@ class DeepZoomHysteresis {
       zoom: zoom,
     );
 
-    if (!_isSameHysteresisStreak(
-      previousModuleId: _trackedModuleId,
-      moduleId: moduleId,
-    )) {
-      _aboveThresholdCount = 0;
-      _cpuActive = false;
-      _trackedModuleId = moduleId;
-    }
-
-    if (overThreshold) {
-      _aboveThresholdCount++;
-      if (_aboveThresholdCount >= policy.hysteresisFrames) {
-        _cpuActive = true;
-      }
-    } else {
-      // Immediately drop back to GPU on zoom-out — no delay needed.
-      _aboveThresholdCount = 0;
-      _cpuActive = false;
-    }
-
-    return _cpuActive;
+    _state = _state.next(
+      nextModuleId: moduleId,
+      overThreshold: overThreshold,
+      activationFrames: policy.hysteresisFrames,
+    );
+    return _state.cpuActive;
   }
 
   void reset() {
-    _trackedModuleId = null;
-    _aboveThresholdCount = 0;
-    _cpuActive = false;
+    _state = const DeepZoomHysteresisState.initial();
   }
 }

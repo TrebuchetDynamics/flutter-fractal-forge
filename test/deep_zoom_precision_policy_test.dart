@@ -161,6 +161,44 @@ void main() {
     });
   });
 
+  group('DeepZoomHysteresisState', () {
+    test('exposes replayable streak transitions', () {
+      const initial = DeepZoomHysteresisState.initial();
+
+      final first = initial.next(
+        nextModuleId: 'julia',
+        overThreshold: true,
+        activationFrames: 2,
+      );
+      final second = first.next(
+        nextModuleId: 'julia',
+        overThreshold: true,
+        activationFrames: 2,
+      );
+      final resetByZoomOut = second.next(
+        nextModuleId: 'julia',
+        overThreshold: false,
+        activationFrames: 2,
+      );
+      final resetByModule = first.next(
+        nextModuleId: 'mandelbrot',
+        overThreshold: true,
+        activationFrames: 2,
+      );
+
+      expect(first.moduleId, 'julia');
+      expect(first.aboveThresholdCount, 1);
+      expect(first.cpuActive, isFalse);
+      expect(second.aboveThresholdCount, 2);
+      expect(second.cpuActive, isTrue);
+      expect(resetByZoomOut.aboveThresholdCount, 0);
+      expect(resetByZoomOut.cpuActive, isFalse);
+      expect(resetByModule.moduleId, 'mandelbrot');
+      expect(resetByModule.aboveThresholdCount, 1);
+      expect(resetByModule.cpuActive, isFalse);
+    });
+  });
+
   group('DeepZoomHysteresis', () {
     test('does not activate CPU until hysteresisFrames consecutive frames', () {
       final hysteresis = DeepZoomHysteresis(policy: policy);
