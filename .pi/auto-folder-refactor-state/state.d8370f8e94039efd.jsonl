@@ -19,3 +19,4 @@
 {"ts":"2026-06-01T06:21:51-06:00","candidate":"lib/core/services","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:21:51-06:00"}
 {"ts":"2026-06-01T06:24:19-06:00","candidate":"shaders/escape_time_family/experimental_named","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:24:19-06:00"}
 {"ts":"2026-06-01T06:29:33-06:00","candidate":"lib/core/modules/base_classes","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:29:33-06:00"}
+{"ts":"2026-06-01T06:32:54-06:00","candidate":"lib/core/modules/builders","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-01T07:32:54-06:00"}

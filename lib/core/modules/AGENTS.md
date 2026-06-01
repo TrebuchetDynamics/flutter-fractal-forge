@@ -35,7 +35,7 @@ Fractal module system - the heart of the rendering architecture. Defines `Fracta
 ## For AI Agents
 
 ### Working In This Directory
-- To add a standard escape-time fractal: add `EscapeTimeConfig` to `builders/escape_time_catalog.dart` + register shader in `pubspec.yaml`
+- To add a standard escape-time fractal: add `EscapeTimeConfig` to `builders/escape_time/catalog.dart` + register shader in `pubspec.yaml`
 - To add a custom fractal: create `build_xxx_module()` function and register in `module_registry.dart`
 - `ModuleRegistry` ordering matters for UX (Julia after Mandelbrot, Phoenix after Burning Ship)
 - Debug modules (gpu_gradient, gpu_sampler_diag) only appear in debug builds

@@ -22,7 +22,7 @@ Dart-side shader utility code. Contains uniform schema definitions that describe
 ## Dependencies
 
 ### Internal
-- Used by `modules/builders/escape_time_builder.dart` for uniform layout
+- Used by `modules/builders/escape_time/builder.dart` for uniform layout
 
 <!-- MANUAL: -->
 

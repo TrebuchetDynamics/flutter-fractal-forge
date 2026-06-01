@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
-import 'package:flutter_fractals/core/modules/builders/raymarched_3d_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dart';
 import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
 import 'package:flutter_fractals/core/modules/julia_dual_module.dart';
@@ -17,7 +17,7 @@ import 'package:flutter_fractals/core/modules/test_shaders_module.dart';
 /// ## Architecture (post-refactor)
 ///
 /// Most 2D escape-time fractals are built **declaratively** from
-/// [EscapeTimeConfig] entries in `escape_time_catalog.dart`.
+/// [EscapeTimeConfig] entries in `builders/escape_time/catalog.dart`.
 /// Adding a new escape-time fractal = one config entry + one .frag shader.
 ///
 /// Fractals with **custom parameters** (Julia seeds, Phoenix p/q, 3D rotation)
@@ -26,8 +26,8 @@ import 'package:flutter_fractals/core/modules/test_shaders_module.dart';
 /// ## How to add a new fractal
 ///
 /// **Standard escape-time (iterations + bailout + color):**
-/// 1. Write shader following standard uniform layout (see escape_time_builder.dart)
-/// 2. Add `EscapeTimeConfig(...)` to `escape_time_catalog.dart`
+/// 1. Write shader following standard uniform layout (see builders/escape_time/builder.dart)
+/// 2. Add `EscapeTimeConfig(...)` to `builders/escape_time/catalog.dart`
 /// 3. Register shader in `pubspec.yaml`
 /// 4. Done!
 ///
