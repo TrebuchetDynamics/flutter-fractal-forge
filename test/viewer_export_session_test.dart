@@ -55,6 +55,24 @@ void main() {
       expect(exporting.updateProgress(2).progress, 1);
     });
 
+    test('non-finite progress falls back to indeterminate progress', () {
+      final exporting = const ViewerExportSession()
+          .openSheet(resumeAutoExploreWhenFinished: true)
+          .startExport();
+
+      for (final sample in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+      ]) {
+        expect(
+          exporting.updateProgress(sample).progress,
+          isNull,
+          reason: 'sample=$sample',
+        );
+      }
+    });
+
     test('startExport is a no-op once export is already active', () {
       final exporting = const ViewerExportSession()
           .openSheet(resumeAutoExploreWhenFinished: true)

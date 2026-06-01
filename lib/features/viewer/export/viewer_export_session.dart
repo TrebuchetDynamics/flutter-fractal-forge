@@ -2,6 +2,20 @@ import 'package:flutter/foundation.dart';
 
 enum ViewerExportPhase { idle, sheetOpen, exporting }
 
+/// Normalizes export progress telemetry for determinate UI rendering.
+///
+/// Export backends may report malformed progress while falling back between
+/// codecs or platform capture paths. Keep invalid samples indeterminate instead
+/// of letting [double.clamp] turn NaN into a determinate edge value.
+class ViewerExportProgress {
+  const ViewerExportProgress._();
+
+  static double? normalize(double progress) {
+    if (!progress.isFinite) return null;
+    return progress.clamp(0.0, 1.0).toDouble();
+  }
+}
+
 @immutable
 class ViewerExportSession {
   final ViewerExportPhase phase;
@@ -46,7 +60,7 @@ class ViewerExportSession {
     return ViewerExportSession(
       phase: phase,
       resumeAutoExploreWhenFinished: resumeAutoExploreWhenFinished,
-      progress: nextProgress.clamp(0.0, 1.0).toDouble(),
+      progress: ViewerExportProgress.normalize(nextProgress),
     );
   }
 
