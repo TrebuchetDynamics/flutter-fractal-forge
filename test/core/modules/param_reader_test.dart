@@ -33,5 +33,10 @@ void main() {
       expect(readInt({'iterations': double.negativeInfinity}, 'iterations', 80),
           80);
     });
+
+    test('falls back for finite doubles outside integer range', () {
+      expect(readInt({'iterations': 1e100}, 'iterations', 80), 80);
+      expect(readInt({'iterations': -1e100}, 'iterations', 80), 80);
+    });
   });
 }
