@@ -149,10 +149,10 @@ In this repo, the concrete "how to set uniforms" lives in each module's `setUnif
 ## Practical Performance Notes (What To Optimize First)
 
 For GPU:
-- Reduce branch divergence in palettes and shading where practical (see `SHADER_OPTIMIZATIONS.md`).
-- Use LOD (iteration scaling) at low zoom and/or during gestures (see `PERFORMANCE.md`).
+- Reduce branch divergence in palettes and shading where practical (see `../performance/SHADER_OPTIMIZATIONS.md`).
+- Use LOD (iteration scaling) at low zoom and/or during gestures (see `../performance/PERFORMANCE.md`).
 - Use a compile-time iteration cap and early break (runtime-effect friendly).
-- Warm common shaders at startup to reduce first-frame "jank" (see `PERFORMANCE.md`).
+- Warm common shaders at startup to reduce first-frame "jank" (see `../performance/PERFORMANCE.md`).
   - Note: uniform updates are usually cheap; the real cost is per-pixel iteration work.
 
 For CPU:
@@ -228,6 +228,6 @@ How these map back to Flutter:
 
 ## Related Docs In This Repo
 
-- Performance measurements and shader warm-up strategies: `PERFORMANCE.md`
-- Shader optimization tactics (branchless palettes, LOD, etc.): `SHADER_OPTIMIZATIONS.md`
+- Performance measurements and shader warm-up strategies: `../performance/PERFORMANCE.md`
+- Shader optimization tactics (branchless palettes, LOD, etc.): `../performance/SHADER_OPTIMIZATIONS.md`
 - Backend capability notes and deterministic fallback policy: `renderer_backend_matrix.md`

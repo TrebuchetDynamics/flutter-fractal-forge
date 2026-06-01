@@ -294,7 +294,7 @@ void main() {
 - **GPU acceleration:** All rendering via GLSL fragment shaders
 - **Memory efficient:** No large texture allocations
 - **Precision tiers:** Automatic fallback preserves correctness at extreme zoom
-- **Renderer docs:** `docs/engineering/cpu_vs_gpu_rendering.md`, `docs/engineering/renderer_backend_matrix.md`, `docs/engineering/formula_coverage_limitation.md`
+- **Renderer docs:** `docs/engineering/rendering/cpu_vs_gpu_rendering.md`, `docs/engineering/rendering/renderer_backend_matrix.md`, `docs/engineering/rendering/formula_coverage_limitation.md`
 
 ---
 

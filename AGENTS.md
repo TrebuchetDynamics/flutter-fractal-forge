@@ -14,8 +14,8 @@
 | `analysis_options.yaml` | Dart analyzer rules |
 | `PRD.md` | Product requirements document |
 | `TODO.md` | Remaining tasks and features |
-| `PERFORMANCE.md` | Performance optimization notes |
-| `SHADER_OPTIMIZATIONS.md` | GPU shader optimization strategies |
+| `docs/engineering/performance/PERFORMANCE.md` | Performance optimization notes |
+| `docs/engineering/performance/SHADER_OPTIMIZATIONS.md` | GPU shader optimization strategies |
 
 ## Subdirectories
 
