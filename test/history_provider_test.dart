@@ -86,5 +86,21 @@ void main() {
       expect(entry.view.rotation.z, 5);
       expect(entry.params, {'iterations': 100});
     });
+
+    testWidgets('keeps in-memory history capped to the persisted max depth',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+
+      for (var i = 0; i < HistoryStore.maxHistoryEntries + 2; i++) {
+        await _recordAndFlush(tester, provider, zoom: i + 1.0);
+      }
+
+      expect(provider.historyCount, HistoryStore.maxHistoryEntries);
+      expect(provider.currentPosition, HistoryStore.maxHistoryEntries);
+      expect(provider.history.first.view.zoom, 3.0);
+      expect(provider.currentEntry!.view.zoom, 102.0);
+    });
   });
 }

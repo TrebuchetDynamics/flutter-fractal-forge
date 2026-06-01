@@ -35,3 +35,4 @@ library;
 export 'history_entry.dart';
 export 'history_provider.dart';
 export 'history_sheet.dart';
+export 'history_window.dart';

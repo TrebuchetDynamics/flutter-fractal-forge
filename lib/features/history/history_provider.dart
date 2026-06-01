@@ -4,6 +4,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/features/history/history_entry.dart';
 import 'package:flutter_fractals/features/history/history_location.dart';
+import 'package:flutter_fractals/features/history/history_window.dart';
 
 /// Manages exploration history with back/forward navigation and favorites.
 ///
@@ -135,13 +136,14 @@ class HistoryProvider extends ChangeNotifier {
       return;
     }
 
-    // If we're not at the end of history, truncate forward history
-    if (_currentIndex >= 0 && _currentIndex < _history.length - 1) {
-      _history = _history.sublist(0, _currentIndex + 1);
-    }
-
-    _history.add(entry);
-    _currentIndex = _history.length - 1;
+    final window = HistoryWindowPolicy.append(
+      entries: _history,
+      currentIndex: _currentIndex,
+      entry: entry,
+      maxEntries: HistoryStore.maxHistoryEntries,
+    );
+    _history = window.entries;
+    _currentIndex = window.currentIndex;
     _lastRecorded = entry;
 
     unawaited(_store.saveHistory(_history));
