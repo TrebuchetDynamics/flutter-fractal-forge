@@ -2,11 +2,59 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 const int _rgbaStride = 4;
-const int _blackThreshold = 8;
-const int _differenceThreshold = 12;
-const double _minimumNonBlackRatio = 0.01;
-const double _minimumProgressionRatio = 0.002;
-const double _minimumIterationDeltaRatio = 0.01;
+
+/// Numeric thresholds used by render-health probes.
+///
+/// Keeping these cutoffs in one value object makes the pass/fail contract
+/// replayable from tests instead of scattering magic constants through the
+/// frame and pair validators.
+class RenderValidationThresholds {
+  final int blackThreshold;
+  final int differenceThreshold;
+  final double minimumNonBlackRatio;
+  final double minimumProgressionRatio;
+  final double minimumIterationDeltaRatio;
+
+  static const defaults = RenderValidationThresholds();
+
+  const RenderValidationThresholds({
+    this.blackThreshold = 8,
+    this.differenceThreshold = 12,
+    this.minimumNonBlackRatio = 0.01,
+    this.minimumProgressionRatio = 0.002,
+    this.minimumIterationDeltaRatio = 0.01,
+  })  : assert(blackThreshold >= 0),
+        assert(differenceThreshold >= 0),
+        assert(minimumNonBlackRatio >= 0.0),
+        assert(minimumProgressionRatio >= 0.0),
+        assert(minimumIterationDeltaRatio >= 0.0);
+
+  bool isNonBlackPixel(int r, int g, int b) =>
+      r > blackThreshold || g > blackThreshold || b > blackThreshold;
+
+  bool isVisiblyDifferent({
+    required int rA,
+    required int gA,
+    required int bA,
+    required int rB,
+    required int gB,
+    required int bB,
+  }) {
+    final dr = (rB - rA).abs();
+    final dg = (gB - gA).abs();
+    final db = (bB - bA).abs();
+    return dr + dg + db > differenceThreshold;
+  }
+
+  bool histogramSaneFor(double nonBlackRatio) =>
+      nonBlackRatio > minimumNonBlackRatio;
+
+  bool frameProgressedFor(double progressionRatio) =>
+      progressionRatio > minimumProgressionRatio;
+
+  bool iterationDeltaVisibleFor(double progressionRatio) =>
+      progressionRatio > minimumIterationDeltaRatio;
+}
 
 class _RenderFrameGeometry {
   final int width;
@@ -53,16 +101,21 @@ class _RenderFrameGeometry {
 }
 
 bool _isNonBlack(Uint8List frame, int index) =>
-    frame[index] > _blackThreshold ||
-    frame[index + 1] > _blackThreshold ||
-    frame[index + 2] > _blackThreshold;
+    RenderValidationThresholds.defaults.isNonBlackPixel(
+      frame[index],
+      frame[index + 1],
+      frame[index + 2],
+    );
 
-bool _isVisiblyDifferent(Uint8List frameA, Uint8List frameB, int index) {
-  final dr = (frameB[index] - frameA[index]).abs();
-  final dg = (frameB[index + 1] - frameA[index + 1]).abs();
-  final db = (frameB[index + 2] - frameA[index + 2]).abs();
-  return dr + dg + db > _differenceThreshold;
-}
+bool _isVisiblyDifferent(Uint8List frameA, Uint8List frameB, int index) =>
+    RenderValidationThresholds.defaults.isVisiblyDifferent(
+      rA: frameA[index],
+      gA: frameA[index + 1],
+      bA: frameA[index + 2],
+      rB: frameB[index],
+      gB: frameB[index + 1],
+      bB: frameB[index + 2],
+    );
 
 int _countNonBlackPixels(Uint8List frame, int readablePixels) {
   int nonBlack = 0;
@@ -131,7 +184,8 @@ RenderFrameStats validateRenderFrame({
 
   final nonBlackRatio =
       geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;
-  final histogramSane = nonBlackRatio > _minimumNonBlackRatio;
+  final histogramSane =
+      RenderValidationThresholds.defaults.histogramSaneFor(nonBlackRatio);
 
   return RenderFrameStats(
     centerR: centerR,
@@ -206,14 +260,17 @@ RenderCheckResult validateRenderPair({
 
   final nonBlackRatio =
       geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;
-  final histogramSane = nonBlackRatio > _minimumNonBlackRatio;
+  final histogramSane =
+      RenderValidationThresholds.defaults.histogramSaneFor(nonBlackRatio);
   // Progression is a whole-frame claim; a truncated frame can still prove the
   // current histogram, but cannot prove frame-to-frame movement.
   final progressionRatio = geometry.totalPixels == 0 || !hasCompletePair
       ? 0.0
       : different / geometry.totalPixels;
-  final frameProgressed = progressionRatio > _minimumProgressionRatio;
-  final iterationDeltaVisible = progressionRatio > _minimumIterationDeltaRatio;
+  final frameProgressed =
+      RenderValidationThresholds.defaults.frameProgressedFor(progressionRatio);
+  final iterationDeltaVisible = RenderValidationThresholds.defaults
+      .iterationDeltaVisibleFor(progressionRatio);
 
   return RenderCheckResult(
     centerR: centerR,

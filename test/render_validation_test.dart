@@ -10,6 +10,49 @@ Uint8List _blackFrame(int w, int h) => Uint8List(w * h * 4);
 int _px(int x, int y, int w) => (y * w + x) * 4;
 
 void main() {
+  group('RenderValidationThresholds', () {
+    test('exposes default health thresholds as replayable comparisons', () {
+      const thresholds = RenderValidationThresholds.defaults;
+
+      expect(thresholds.blackThreshold, 8);
+      expect(thresholds.differenceThreshold, 12);
+      expect(thresholds.minimumNonBlackRatio, 0.01);
+      expect(thresholds.minimumProgressionRatio, 0.002);
+      expect(thresholds.minimumIterationDeltaRatio, 0.01);
+
+      expect(thresholds.isNonBlackPixel(8, 8, 8), isFalse);
+      expect(thresholds.isNonBlackPixel(9, 0, 0), isTrue);
+      expect(
+        thresholds.isVisiblyDifferent(
+          rA: 0,
+          gA: 0,
+          bA: 0,
+          rB: 4,
+          gB: 4,
+          bB: 4,
+        ),
+        isFalse,
+      );
+      expect(
+        thresholds.isVisiblyDifferent(
+          rA: 0,
+          gA: 0,
+          bA: 0,
+          rB: 5,
+          gB: 4,
+          bB: 4,
+        ),
+        isTrue,
+      );
+      expect(thresholds.histogramSaneFor(0.01), isFalse);
+      expect(thresholds.histogramSaneFor(0.0101), isTrue);
+      expect(thresholds.frameProgressedFor(0.002), isFalse);
+      expect(thresholds.frameProgressedFor(0.0021), isTrue);
+      expect(thresholds.iterationDeltaVisibleFor(0.01), isFalse);
+      expect(thresholds.iterationDeltaVisibleFor(0.0101), isTrue);
+    });
+  });
+
   group('validateRenderFrame', () {
     test('empty dimensions return invalid black stats instead of crashing', () {
       final stats = validateRenderFrame(
