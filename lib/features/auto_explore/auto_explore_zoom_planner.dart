@@ -115,6 +115,50 @@ class AutoExploreCorrectionDecision {
   static bool _isUsableZoomSample(double zoom) => zoom.isFinite && zoom > 0.0;
 }
 
+/// Replayable result of adopting a user-selected zoom into auto-explore.
+///
+/// The service stores several state fields while timers are active. Keeping the
+/// zoom comparison and direction decision pure makes the hidden fallback order
+/// testable: prefer the interaction-start zoom, otherwise the last correction
+/// sample, otherwise the current zoom.
+class AutoExploreZoomAdoption {
+  final double currentZoom;
+  final double previousZoom;
+  final bool zoomingIn;
+  final AutoExploreCorrectionDecision correctionDecision;
+
+  const AutoExploreZoomAdoption({
+    required this.currentZoom,
+    required this.previousZoom,
+    required this.zoomingIn,
+    required this.correctionDecision,
+  });
+
+  factory AutoExploreZoomAdoption.fromSamples({
+    required AutoExploreZoomBounds bounds,
+    required double currentZoom,
+    required double? referenceZoom,
+    required double? lastCorrectionZoom,
+    required bool wasZoomingIn,
+  }) {
+    final current = bounds.clamp(currentZoom);
+    final previous = bounds.clamp(
+      referenceZoom ?? lastCorrectionZoom ?? current,
+    );
+    final decision = AutoExploreCorrectionDecision.fromZooms(
+      currentZoom: current,
+      previousZoom: previous,
+    );
+
+    return AutoExploreZoomAdoption(
+      currentZoom: current,
+      previousZoom: previous,
+      zoomingIn: decision.resolve(currentZoomingIn: wasZoomingIn),
+      correctionDecision: decision,
+    );
+  }
+}
+
 /// Precision headroom used to keep auto-explore below renderer fallback edges.
 ///
 /// Values above 1.0 would push candidates past the module precision threshold;

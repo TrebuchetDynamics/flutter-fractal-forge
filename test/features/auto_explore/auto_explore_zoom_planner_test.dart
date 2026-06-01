@@ -78,6 +78,41 @@ void main() {
         expect(decision.resolve(currentZoomingIn: false), isFalse);
       }
     });
+
+    test('replays user zoom adoption fallback order', () {
+      const bounds = AutoExploreZoomBounds(minZoom: 0.2, maxZoom: 100.0);
+
+      final interactionAdoption = AutoExploreZoomAdoption.fromSamples(
+        bounds: bounds,
+        currentZoom: 20.0,
+        referenceZoom: 30.0,
+        lastCorrectionZoom: 10.0,
+        wasZoomingIn: true,
+      );
+      final correctionAdoption = AutoExploreZoomAdoption.fromSamples(
+        bounds: bounds,
+        currentZoom: 8.0,
+        referenceZoom: null,
+        lastCorrectionZoom: 10.0,
+        wasZoomingIn: true,
+      );
+      final noHistoryAdoption = AutoExploreZoomAdoption.fromSamples(
+        bounds: bounds,
+        currentZoom: double.nan,
+        referenceZoom: null,
+        lastCorrectionZoom: null,
+        wasZoomingIn: false,
+      );
+
+      expect(interactionAdoption.previousZoom, 30.0);
+      expect(interactionAdoption.zoomingIn, isFalse);
+      expect(correctionAdoption.previousZoom, 10.0);
+      expect(correctionAdoption.zoomingIn, isFalse);
+      expect(noHistoryAdoption.currentZoom, bounds.minZoom);
+      expect(noHistoryAdoption.previousZoom, bounds.minZoom);
+      expect(noHistoryAdoption.zoomingIn, isFalse);
+      expect(noHistoryAdoption.correctionDecision.changedDirection, isFalse);
+    });
   });
 
   group('AutoExploreZoomSpanScale', () {

@@ -135,18 +135,11 @@ class AutoExploreService extends ChangeNotifier {
   void _adoptUserViewAndContinue({double? referenceZoom}) {
     if (!_isExploring) return;
 
-    final currentZoom = _clampZoom(controller.view.zoom);
-    final previousZoom =
-        _clampZoom(referenceZoom ?? _lastCorrectionZoom ?? currentZoom);
+    final adoption = _adoptedZoom(referenceZoom: referenceZoom);
+    _zoomingIn = adoption.zoomingIn;
 
-    final correctionDecision = AutoExploreCorrectionDecision.fromZooms(
-      currentZoom: currentZoom,
-      previousZoom: previousZoom,
-    );
-    _zoomingIn = correctionDecision.resolve(currentZoomingIn: _zoomingIn);
-
-    _cycleBaseZoom = currentZoom;
-    _lastCorrectionZoom = currentZoom;
+    _cycleBaseZoom = adoption.currentZoom;
+    _lastCorrectionZoom = adoption.currentZoom;
     _pausedByUserCorrection = false;
 
     // Restart leg planning from the user-selected zoom immediately.
@@ -180,6 +173,16 @@ class AutoExploreService extends ChangeNotifier {
   }
 
   double _clampZoom(double z) => _zoomPlanner.clampZoom(z);
+
+  AutoExploreZoomAdoption _adoptedZoom({double? referenceZoom}) {
+    return AutoExploreZoomAdoption.fromSamples(
+      bounds: AutoExploreZoomBounds.fromConfig(config),
+      currentZoom: controller.view.zoom,
+      referenceZoom: referenceZoom,
+      lastCorrectionZoom: _lastCorrectionZoom,
+      wasZoomingIn: _zoomingIn,
+    );
+  }
 
   void _adoptCurrentZoomAsCycleBase() {
     final currentZoom = _clampZoom(controller.view.zoom);
