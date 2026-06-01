@@ -551,10 +551,10 @@ class AutoExploreZoomTargetRange {
     required double peakZoom,
     required double floorZoom,
   }) {
-    return AutoExploreZoomTargetRange(
+    return AutoExploreZoomTargetRangeResolution.fromCandidates(
       peakZoom: peakZoom,
-      floorZoom: min(floorZoom, peakZoom),
-    );
+      floorZoom: floorZoom,
+    ).range;
   }
 
   bool get isCollapsed => (peakZoom - floorZoom).abs() < collapseEpsilon;
@@ -568,6 +568,40 @@ class AutoExploreZoomTargetRange {
     }
     return zoomingIn ? peakZoom : floorZoom;
   }
+}
+
+/// Replayable ordering step for target-range candidates.
+///
+/// Target selection derives the peak and floor from different assumptions: the
+/// peak may be lowered by module precision, while the floor comes from the cycle
+/// base. This value exposes when the floor candidate had to yield to the
+/// precision-capped peak instead of silently relying on `min(floor, peak)`.
+class AutoExploreZoomTargetRangeResolution {
+  final double requestedPeakZoom;
+  final double requestedFloorZoom;
+  final AutoExploreZoomTargetRange range;
+
+  const AutoExploreZoomTargetRangeResolution({
+    required this.requestedPeakZoom,
+    required this.requestedFloorZoom,
+    required this.range,
+  });
+
+  factory AutoExploreZoomTargetRangeResolution.fromCandidates({
+    required double peakZoom,
+    required double floorZoom,
+  }) {
+    return AutoExploreZoomTargetRangeResolution(
+      requestedPeakZoom: peakZoom,
+      requestedFloorZoom: floorZoom,
+      range: AutoExploreZoomTargetRange(
+        peakZoom: peakZoom,
+        floorZoom: min(floorZoom, peakZoom),
+      ),
+    );
+  }
+
+  bool get floorCappedByPeak => requestedFloorZoom > range.floorZoom;
 }
 
 /// Sanitized inputs used for one replayable auto-explore target decision.
@@ -716,7 +750,7 @@ class AutoExploreZoomPlanner {
       baseZoom: inputs.baseZoom,
       moduleId: moduleId,
     );
-    final targetRange = AutoExploreZoomTargetRange.fromCandidates(
+    final rangeResolution = AutoExploreZoomTargetRangeResolution.fromCandidates(
       peakZoom: peakCandidates.resolvedPeakZoom,
       floorZoom: computeFloorZoom(inputs.baseZoom),
     );
@@ -724,8 +758,8 @@ class AutoExploreZoomPlanner {
     return AutoExploreZoomTargetPlan(
       inputs: inputs,
       peakCandidates: peakCandidates,
-      peakZoom: targetRange.peakZoom,
-      floorZoom: targetRange.floorZoom,
+      peakZoom: rangeResolution.range.peakZoom,
+      floorZoom: rangeResolution.range.floorZoom,
       zoomingIn: zoomingIn,
     );
   }

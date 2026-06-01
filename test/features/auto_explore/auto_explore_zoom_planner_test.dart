@@ -274,12 +274,19 @@ void main() {
         zoomingIn: false,
         moduleId: 'unknown_orbit_module',
       );
+      final resolution = AutoExploreZoomTargetRangeResolution.fromCandidates(
+        peakZoom: plan.peakCandidates.resolvedPeakZoom,
+        floorZoom: planner.computeFloorZoom(plan.baseZoom),
+      );
 
       expect(plan.peakZoom, 9.2e6);
       expect(plan.floorZoom, plan.peakZoom);
       expect(plan.isCollapsed, isTrue);
       expect(plan.targetZoom, 9.2e6);
       expect(plan.targetRange.floorZoom, lessThanOrEqualTo(plan.peakZoom));
+      expect(resolution.requestedFloorZoom, moreOrLessEquals(8.333333333e9));
+      expect(resolution.floorCappedByPeak, isTrue);
+      expect(resolution.range.floorZoom, plan.peakZoom);
     });
 
     test('scales leg duration by zoom span and speed', () {
