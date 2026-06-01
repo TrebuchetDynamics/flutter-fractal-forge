@@ -14,7 +14,7 @@ import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/main.dart';
 
-import 'helpers/ui_test_helpers.dart';
+import '../helpers/ui_test_helpers.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

@@ -10,16 +10,28 @@ Integration tests that run on real devices/emulators. Cover end-to-end user flow
 
 | File | Description |
 |------|-------------|
-| `app_test.dart` | Full app integration smoke test |
-| `user_flows_test.dart` | End-to-end user journey tests (catalog -> viewer -> export) |
-| `render_validation_test.dart` | GPU render output correctness validation |
-| `generate_gpu_thumbnails_test.dart` | Generates catalog thumbnail images via GPU rendering |
-| `catalog_thumbnail_smoke_test.dart` | Quick smoke test for thumbnail generation |
-| `cpu_fallback_gestures_test.dart` | Gesture handling when GPU is unavailable (CPU fallback) |
-| `full_screenshots_test.dart` | Generate full app screenshots for store listing |
-| `screenshots_test.dart` | Basic screenshot capture tests |
-| `shader_benchmark_test.dart` | GPU shader performance benchmarks |
-| `perf_smoke_test.dart` | Quick performance regression check |
+| `flows/app_test.dart` | Full app integration smoke test |
+| `flows/user_flows_test.dart` | End-to-end user journey tests (catalog -> viewer -> export) |
+| `rendering/render_validation_test.dart` | GPU render output correctness validation |
+| `catalog/generate_gpu_thumbnails_test.dart` | Generates catalog thumbnail images via GPU rendering |
+| `catalog/catalog_thumbnail_smoke_test.dart` | Quick smoke test for thumbnail generation |
+| `flows/cpu_fallback_gestures_test.dart` | Gesture handling when GPU is unavailable (CPU fallback) |
+| `screenshots/full_screenshots_test.dart` | Generate full app screenshots for store listing |
+| `screenshots/screenshots_test.dart` | Basic screenshot capture tests |
+| `performance/shader_benchmark_test.dart` | GPU shader performance benchmarks |
+| `performance/perf_smoke_test.dart` | Quick performance regression check |
+
+## Subdirectories
+
+| Directory | Purpose |
+|-----------|---------|
+| `accessibility/` | Semantics and accessibility integration audits |
+| `catalog/` | Catalog coverage, thumbnail smoke checks, and GPU thumbnail generation |
+| `flows/` | End-to-end navigation, viewer, gesture, and critical journey tests |
+| `helpers/` | Shared test helpers for integration widgets and gestures |
+| `performance/` | Performance smoke checks and shader benchmarks |
+| `rendering/` | Renderer correctness, GPU evidence, and shader pipeline diagnostics |
+| `screenshots/` | Screenshot walkthroughs and generated store/backend captures |
 
 ## For AI Agents
 

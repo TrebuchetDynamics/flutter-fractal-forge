@@ -35,8 +35,7 @@ void main() {
       final g = data[idx + 1];
       final b = data[idx + 2];
 
-      debugPrint(
-          '[diag] A plain_color center R=$r G=$g B=$b  '
+      debugPrint('[diag] A plain_color center R=$r G=$g B=$b  '
           '→ ${r > 128 && g < 32 && b < 32 ? "PASS (red)" : "FAIL (not red, captured wrong color)"}');
 
       expect(r, greaterThan(128),
@@ -65,8 +64,7 @@ void main() {
       final g = data[idx + 1];
       final b = data[idx + 2];
 
-      debugPrint(
-          '[diag] B solid_rect center R=$r G=$g B=$b  '
+      debugPrint('[diag] B solid_rect center R=$r G=$g B=$b  '
           '→ ${b > 128 && r < 32 ? "PASS (blue)" : "FAIL"}');
 
       expect(b, greaterThan(128),
@@ -99,8 +97,7 @@ void main() {
       final idxRight = (32 * 64 + 60) * 4;
       final bRight = data[idxRight + 2];
 
-      debugPrint(
-          '[diag] C gradient left_R=$rLeft right_B=$bRight  '
+      debugPrint('[diag] C gradient left_R=$rLeft right_B=$bRight  '
           '→ ${rLeft > 64 ? "left≈red" : "left≈black"} '
           '${bRight > 64 ? "right≈blue" : "right≈black"}');
 
@@ -142,15 +139,13 @@ void main() {
       final b = data[idx + 2];
       final nonBlack = _countNonBlack(data);
 
-      debugPrint(
-          '[diag] D frag_shader center R=$r G=$g B=$b  '
+      debugPrint('[diag] D frag_shader center R=$r G=$g B=$b  '
           'nonBlack=$nonBlack/${64 * 64}  '
           '→ ${r > 128 ? "PASS (shader works!)" : "FAIL (shader still black)"}');
 
       // This is the critical test — expect non-black (red) output
       expect(r, greaterThan(128),
-          reason:
-              'test_always_red.frag should output red pixels, '
+          reason: 'test_always_red.frag should output red pixels, '
               'but got R=$r G=$g B=$b. '
               'If tests A-C pass but D fails, shader execution is broken '
               'on this emulator GPU backend.');

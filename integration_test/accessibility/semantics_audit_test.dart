@@ -11,8 +11,8 @@ import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:flutter_fractals/main.dart';
 
 // Re-use the semantics tree traversal helper from unit tests.
-import '../test/helpers/semantics_test_helper.dart';
-import 'helpers/ui_test_helpers.dart';
+import '../../test/helpers/semantics_test_helper.dart';
+import '../helpers/ui_test_helpers.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

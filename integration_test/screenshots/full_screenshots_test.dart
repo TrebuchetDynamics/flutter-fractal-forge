@@ -13,7 +13,7 @@ import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
 
-import 'helpers/ui_test_helpers.dart';
+import '../helpers/ui_test_helpers.dart';
 
 /// Full screenshot suite for Flutter Fractal Forge.
 /// Captures:

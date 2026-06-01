@@ -12,7 +12,7 @@ import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/main.dart';
 
-import 'helpers/ui_test_helpers.dart';
+import '../helpers/ui_test_helpers.dart';
 
 /// Critical User Journey integration test.
 ///

@@ -12,7 +12,7 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/main.dart';
 import 'package:provider/provider.dart';
 
-import 'helpers/ui_test_helpers.dart';
+import '../helpers/ui_test_helpers.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

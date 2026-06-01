@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/onboarding_service.dart';
 import 'package:flutter_fractals/main.dart' as app;
 
-import 'helpers/ui_test_helpers.dart';
+import '../helpers/ui_test_helpers.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
