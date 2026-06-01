@@ -65,8 +65,7 @@ class AutoExploreService extends ChangeNotifier {
     _pausedByUserCorrection = false;
     _isUserInteracting = false;
     _interactionStartZoom = null;
-    _cycleBaseZoom = _clampZoom(controller.view.zoom);
-    _lastCorrectionZoom = _cycleBaseZoom;
+    _adoptCurrentZoomAsCycleBase();
     _zoomingIn = true;
 
     _scheduleNext();
@@ -95,6 +94,7 @@ class AutoExploreService extends ChangeNotifier {
     _pausedByUserCorrection = false;
     _isUserInteracting = false;
     _interactionStartZoom = null;
+    _adoptCurrentZoomAsCycleBase();
     _scheduleNext();
     notifyListeners();
   }
@@ -182,6 +182,12 @@ class AutoExploreService extends ChangeNotifier {
   }
 
   double _clampZoom(double z) => _zoomPlanner.clampZoom(z);
+
+  void _adoptCurrentZoomAsCycleBase() {
+    final currentZoom = _clampZoom(controller.view.zoom);
+    _cycleBaseZoom = currentZoom;
+    _lastCorrectionZoom = currentZoom;
+  }
 
   double _nextTargetZoom() {
     final current = _clampZoom(controller.view.zoom);
