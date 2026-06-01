@@ -265,6 +265,28 @@ void main() {
       );
     });
 
+    test('exposes replayable animation timing for service zoom legs', () {
+      const config = AutoExploreConfig(
+        travelDuration: Duration(milliseconds: 1000),
+        maxDurationScale: 4.0,
+      );
+      const planner = AutoExploreZoomPlanner(config: config);
+
+      final plan = planner.animationPlanForZoomLeg(
+        startZoom: double.nan,
+        endZoom: 1e6,
+        speed: 2.0,
+      );
+
+      expect(plan.startZoom, AutoExploreConfig().minZoom);
+      expect(plan.endZoom, 1e6);
+      expect(plan.duration, const Duration(milliseconds: 2000));
+      expect(plan.frameInterval, const Duration(milliseconds: 16));
+      expect(plan.totalFrames, 125);
+      expect(plan.interpolate(double.nan), plan.startZoom);
+      expect(plan.interpolate(1.0), plan.endZoom);
+    });
+
     test('normalizes invalid speed candidates before duration scaling', () {
       const config = AutoExploreConfig(
         travelDuration: Duration(milliseconds: 1000),

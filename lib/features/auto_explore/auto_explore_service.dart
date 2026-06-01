@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:math' show max;
-
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_zoom_planner.dart';
@@ -223,28 +221,18 @@ class AutoExploreService extends ChangeNotifier {
     });
   }
 
-  Duration _durationForZoomLeg(double startZoom, double endZoom) {
-    return _zoomPlanner.durationForZoomLeg(
-      startZoom: startZoom,
-      endZoom: endZoom,
-      speed: _speed,
-    );
-  }
-
   Future<bool> _animateZoomTo(double targetZoom) async {
     _anim?.cancel();
 
-    final startZoom = _clampZoom(controller.view.zoom);
-    final endZoom = _clampZoom(targetZoom);
-
-    final duration = _durationForZoomLeg(startZoom, endZoom);
-    const frame = Duration(milliseconds: 16);
-    final total =
-        max(1, (duration.inMilliseconds / frame.inMilliseconds).round());
+    final plan = _zoomPlanner.animationPlanForZoomLeg(
+      startZoom: controller.view.zoom,
+      endZoom: targetZoom,
+      speed: _speed,
+    );
     var step = 0;
 
     final completer = Completer<bool>();
-    _anim = Timer.periodic(frame, (timer) {
+    _anim = Timer.periodic(plan.frameInterval, (timer) {
       if (!_isExploring || _isPaused || _isUserInteracting) {
         timer.cancel();
         _anim = null;
@@ -253,10 +241,10 @@ class AutoExploreService extends ChangeNotifier {
       }
 
       step++;
-      final raw = (step / total).clamp(0.0, 1.0);
+      final raw = (step / plan.totalFrames).clamp(0.0, 1.0);
       final eased = _cinematicCurve.transform(raw);
 
-      controller.updateZoom(_interpolateZoom(startZoom, endZoom, eased));
+      controller.updateZoom(plan.interpolate(eased));
       _lastCorrectionZoom = _clampZoom(controller.view.zoom);
 
       if (raw >= 1.0) {
@@ -267,10 +255,6 @@ class AutoExploreService extends ChangeNotifier {
     });
 
     return completer.future;
-  }
-
-  double _interpolateZoom(double start, double end, double t) {
-    return _zoomPlanner.interpolateZoom(start, end, t);
   }
 
   @override

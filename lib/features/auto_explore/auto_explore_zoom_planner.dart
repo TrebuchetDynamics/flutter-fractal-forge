@@ -249,6 +249,40 @@ class AutoExploreLegDuration {
   }
 }
 
+/// Replayable frame timing for one auto-explore zoom animation.
+///
+/// The service animates with a fixed frame cadence; exposing the sanitized
+/// start/end zooms, duration, and frame count keeps timer-driven behavior
+/// characterizable without relying on wall-clock order in service tests.
+class AutoExploreZoomAnimationPlan {
+  static const Duration defaultFrameInterval = Duration(milliseconds: 16);
+
+  final double startZoom;
+  final double endZoom;
+  final Duration duration;
+  final Duration frameInterval;
+
+  const AutoExploreZoomAnimationPlan({
+    required this.startZoom,
+    required this.endZoom,
+    required this.duration,
+    this.frameInterval = defaultFrameInterval,
+  }) : assert(frameInterval > Duration.zero, 'frameInterval must be positive');
+
+  int get totalFrames => max(
+        1,
+        (duration.inMilliseconds / frameInterval.inMilliseconds).round(),
+      );
+
+  double interpolate(double t) {
+    return AutoExploreZoomInterpolation.interpolate(
+      startZoom: startZoom,
+      endZoom: endZoom,
+      t: t,
+    );
+  }
+}
+
 /// Zoom bounds used by auto-explore planning.
 ///
 /// Dart's [double.clamp] treats NaN as the upper bound, which would turn a
@@ -603,7 +637,7 @@ class AutoExploreZoomPlanner {
     ).targetZoom;
   }
 
-  Duration durationForZoomLeg({
+  AutoExploreZoomAnimationPlan animationPlanForZoomLeg({
     required double startZoom,
     required double endZoom,
     required double speed,
@@ -621,13 +655,29 @@ class AutoExploreZoomPlanner {
     final normalized = AutoExploreZoomSpanScale.normalized(leg.spanDecades);
     final scale = 1.0 + normalized * (durationScale - 1.0);
 
-    return Duration(
-      milliseconds: AutoExploreLegDuration.milliseconds(
-        baseDuration: config.travelDuration,
-        scale: scale,
-        speed: effectiveSpeed,
+    return AutoExploreZoomAnimationPlan(
+      startZoom: leg.startZoom,
+      endZoom: leg.endZoom,
+      duration: Duration(
+        milliseconds: AutoExploreLegDuration.milliseconds(
+          baseDuration: config.travelDuration,
+          scale: scale,
+          speed: effectiveSpeed,
+        ),
       ),
     );
+  }
+
+  Duration durationForZoomLeg({
+    required double startZoom,
+    required double endZoom,
+    required double speed,
+  }) {
+    return animationPlanForZoomLeg(
+      startZoom: startZoom,
+      endZoom: endZoom,
+      speed: speed,
+    ).duration;
   }
 
   double _effectiveSpeed(double speed) => AutoExploreSpeed.normalize(speed);
