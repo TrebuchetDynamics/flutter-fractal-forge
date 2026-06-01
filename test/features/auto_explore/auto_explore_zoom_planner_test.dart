@@ -189,6 +189,48 @@ void main() {
       );
     });
 
+    test('normalizes invalid cycle shape before target planning', () {
+      const zeroMultiplierPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(cycleMaxMultiplier: 0.0),
+      );
+      const nanMultiplierPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(cycleMaxMultiplier: double.nan),
+      );
+      const infiniteMultiplierPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(cycleMaxMultiplier: double.infinity),
+      );
+      const nanSpanPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(maxLegSpanDecades: double.nan),
+      );
+
+      expect(
+        zeroMultiplierPlanner.nextTargetZoom(
+          currentZoom: 10.0,
+          cycleBaseZoom: 10.0,
+          zoomingIn: false,
+          moduleId: 'mandelbrot',
+        ),
+        AutoExploreConfig().minZoom,
+      );
+      for (final planner in [
+        nanMultiplierPlanner,
+        infiniteMultiplierPlanner,
+        nanSpanPlanner,
+      ]) {
+        expect(
+          planner.computePeakZoom(baseZoom: 10.0, moduleId: 'mandelbrot'),
+          1200.0,
+        );
+      }
+
+      expect(
+        AutoExploreCycleShape.fromConfig(
+          const AutoExploreConfig(cycleMaxMultiplier: 0.0),
+        ).cycleMaxMultiplier,
+        AutoExploreConfig().cycleMaxMultiplier,
+      );
+    });
+
     test('sanitizes invalid duration scale before rounding milliseconds', () {
       const nanScalePlanner = AutoExploreZoomPlanner(
         config: AutoExploreConfig(

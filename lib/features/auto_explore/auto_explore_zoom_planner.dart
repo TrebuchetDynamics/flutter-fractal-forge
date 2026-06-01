@@ -72,6 +72,42 @@ class AutoExplorePrecisionHeadroom {
   }
 }
 
+/// Cycle shape used by auto-explore target planning.
+///
+/// Invalid multipliers or span limits can otherwise turn zoom-out floors into
+/// max zooms or collapse peak candidates into NaN/minimum zooms. Keeping the
+/// cycle shape explicit makes candidate planning replayable from config alone.
+class AutoExploreCycleShape {
+  final double cycleMaxMultiplier;
+  final double maxLegSpanDecades;
+
+  const AutoExploreCycleShape({
+    required this.cycleMaxMultiplier,
+    required this.maxLegSpanDecades,
+  });
+
+  factory AutoExploreCycleShape.fromConfig(AutoExploreConfig config) {
+    return AutoExploreCycleShape(
+      cycleMaxMultiplier: _finiteAboveNeutralOrDefault(
+        config.cycleMaxMultiplier,
+        const AutoExploreConfig().cycleMaxMultiplier,
+      ),
+      maxLegSpanDecades: _finiteNonNegativeOrDefault(
+        config.maxLegSpanDecades,
+        const AutoExploreConfig().maxLegSpanDecades,
+      ),
+    );
+  }
+
+  static double _finiteAboveNeutralOrDefault(double value, double fallback) {
+    return value.isFinite && value > 1.0 ? value : fallback;
+  }
+
+  static double _finiteNonNegativeOrDefault(double value, double fallback) {
+    return value.isFinite && value >= 0.0 ? value : fallback;
+  }
+}
+
 /// Duration scaling used by auto-explore zoom legs.
 ///
 /// Invalid scale factors can otherwise flow into [double.round], where NaN or
@@ -173,6 +209,8 @@ class AutoExploreZoomPlanner {
   });
 
   AutoExploreZoomBounds get _bounds => AutoExploreZoomBounds.fromConfig(config);
+  AutoExploreCycleShape get _cycleShape =>
+      AutoExploreCycleShape.fromConfig(config);
 
   double clampZoom(double zoom) => _bounds.clamp(zoom);
 
@@ -191,9 +229,10 @@ class AutoExploreZoomPlanner {
     final base = clampZoom(baseZoom);
     final hardMax = hardMaxZoomFor(moduleId);
     final minPeak = clampZoom(base * 1.25);
-    final configuredPeak = clampZoom(base * config.cycleMaxMultiplier);
+    final cycleShape = _cycleShape;
+    final configuredPeak = clampZoom(base * cycleShape.cycleMaxMultiplier);
 
-    final maxSpanRatio = pow(10.0, config.maxLegSpanDecades).toDouble();
+    final maxSpanRatio = pow(10.0, cycleShape.maxLegSpanDecades).toDouble();
     final spanLimitedPeak = clampZoom(base * maxSpanRatio);
 
     final desiredPeak = min(configuredPeak, spanLimitedPeak);
@@ -204,7 +243,7 @@ class AutoExploreZoomPlanner {
   double computeFloorZoom(double baseZoom) {
     final bounds = _bounds;
     final base = bounds.clamp(baseZoom);
-    final contextualFloor = base / config.cycleMaxMultiplier;
+    final contextualFloor = base / _cycleShape.cycleMaxMultiplier;
     return bounds.clamp(max(bounds.minZoom, contextualFloor));
   }
 
