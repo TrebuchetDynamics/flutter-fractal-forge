@@ -151,6 +151,20 @@ void main() {
       expect(CpuSampleGrid.fromRequestedCount(8).totalSamples, 9);
     });
 
+    test('anti-aliasing grid never drops requested multisample candidates', () {
+      for (final requestedCount in [2, 3, 5, 6, 7, 8]) {
+        final grid = CpuSampleGrid.fromRequestedCount(requestedCount);
+
+        expect(
+          grid.totalSamples,
+          greaterThanOrEqualTo(requestedCount),
+          reason: 'requestedCount=$requestedCount',
+        );
+        expect(grid.requestedCount, requestedCount);
+        expect(grid.wasRoundedUp, isTrue);
+      }
+    });
+
     test('single-pixel iteration buffer samples the viewport center', () async {
       final buffer = await renderCpuIterationBuffer(
         moduleId: 'mandelbrot',

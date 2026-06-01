@@ -109,15 +109,29 @@ final class CpuViewportMapping {
 
 /// Replayable CPU anti-aliasing grid derived from a requested sample count.
 ///
-/// The CPU renderer samples a square grid, so non-square requests are rounded to
-/// the nearest square grid and may render with a different effective count.
+/// The CPU renderer samples a square grid, so non-square requests are rounded up
+/// to the next square grid instead of silently dropping requested samples.
 final class CpuSampleGrid {
   CpuSampleGrid.fromRequestedCount(int requestedCount)
-      : samplesPerAxis = requestedCount <= 0
-            ? 1
-            : math.max(1, math.sqrt(requestedCount).round());
+      : this._(
+          requestedCount: requestedCount,
+          samplesPerAxis: _samplesPerAxisFor(requestedCount),
+        );
 
+  const CpuSampleGrid._({
+    required this.requestedCount,
+    required this.samplesPerAxis,
+  });
+
+  final int requestedCount;
   final int samplesPerAxis;
 
   int get totalSamples => samplesPerAxis * samplesPerAxis;
+
+  bool get wasRoundedUp => totalSamples > math.max(1, requestedCount);
+
+  static int _samplesPerAxisFor(int requestedCount) {
+    if (requestedCount <= 0) return 1;
+    return math.max(1, math.sqrt(requestedCount).ceil());
+  }
 }
