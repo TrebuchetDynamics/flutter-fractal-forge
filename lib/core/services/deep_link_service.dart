@@ -335,8 +335,18 @@ class DeepLinkService {
     _addDoubleQueryParam(queryParams, 'bailout', params['bailout']);
     _addIntQueryParam(queryParams, 'colorScheme', params['colorScheme']);
     _addDoubleQueryParam(queryParams, 'power', params['power']);
-    _addDoubleQueryParam(queryParams, 'juliaX', params['juliaX']);
-    _addDoubleQueryParam(queryParams, 'juliaY', params['juliaY']);
+    _addDoubleQueryParam(
+      queryParams,
+      'juliaX',
+      params['juliaX'],
+      preservePrecision: true,
+    );
+    _addDoubleQueryParam(
+      queryParams,
+      'juliaY',
+      params['juliaY'],
+      preservePrecision: true,
+    );
 
     return Uri(
       scheme: scheme,
@@ -419,11 +429,15 @@ class DeepLinkService {
   static void _addDoubleQueryParam(
     Map<String, String> queryParams,
     String name,
-    Object? value,
-  ) {
+    Object? value, {
+    bool preservePrecision = false,
+  }) {
     final parsed = _tryFiniteDouble(value);
     if (parsed != null) {
-      queryParams[name] = _formatDouble(parsed);
+      queryParams[name] = _formatDouble(
+        parsed,
+        preservePrecision: preservePrecision,
+      );
     }
   }
 

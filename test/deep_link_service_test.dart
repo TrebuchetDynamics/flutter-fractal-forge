@@ -369,6 +369,25 @@ void main() {
         expect(parsed.juliaX, closeTo(-0.7, 0.001));
         expect(parsed.juliaY, closeTo(0.27, 0.001));
       });
+
+      test('Julia constant round-trip preserves significant digits', () {
+        final originalParams = {
+          'juliaX': -0.743643887037151,
+          'juliaY': 0.13182590420533,
+        };
+
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'julia',
+          params: originalParams,
+          view: FractalViewState.initial(),
+        );
+
+        final parsed = DeepLinkService.parseUri(uri);
+
+        expect(parsed, isNotNull);
+        expect(parsed!.juliaX, closeTo(originalParams['juliaX']!, 1e-15));
+        expect(parsed.juliaY, closeTo(originalParams['juliaY']!, 1e-15));
+      });
     });
 
     group('parameter validation — bounds clamping', () {
