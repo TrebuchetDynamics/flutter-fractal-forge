@@ -109,25 +109,39 @@ class DeepLinkData {
 /// - `fractalforge://view?type=mandelbulb&rotX=0.5&rotY=0.3&power=8`
 ///
 /// {@category Services}
+enum _DeepLinkRouteKind {
+  customSchemeView,
+  universalLinkView,
+  rejected,
+}
+
 class _DeepLinkRoute {
   static const allowedWebHosts = {'fractalforge.app', 'www.fractalforge.app'};
 
-  final bool isAccepted;
+  final _DeepLinkRouteKind kind;
 
-  const _DeepLinkRoute._(this.isAccepted);
+  const _DeepLinkRoute._(this.kind);
+
+  bool get isAccepted => kind != _DeepLinkRouteKind.rejected;
 
   factory _DeepLinkRoute.fromUri(Uri uri) {
     if (uri.scheme == DeepLinkService.scheme) {
-      return _DeepLinkRoute._(_isCustomViewRoute(uri));
-    }
-
-    if (uri.scheme == 'https') {
       return _DeepLinkRoute._(
-        allowedWebHosts.contains(uri.host) && _isWebViewRoute(uri),
+        _isCustomViewRoute(uri)
+            ? _DeepLinkRouteKind.customSchemeView
+            : _DeepLinkRouteKind.rejected,
       );
     }
 
-    return const _DeepLinkRoute._(false);
+    if (uri.scheme == 'https' && allowedWebHosts.contains(uri.host)) {
+      return _DeepLinkRoute._(
+        _isWebViewRoute(uri)
+            ? _DeepLinkRouteKind.universalLinkView
+            : _DeepLinkRouteKind.rejected,
+      );
+    }
+
+    return const _DeepLinkRoute._(_DeepLinkRouteKind.rejected);
   }
 
   static bool _isCustomViewRoute(Uri uri) {

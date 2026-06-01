@@ -97,6 +97,24 @@ void main() {
         expect(data.zoom, 5.0);
       });
 
+      test('characterizes accepted deep-link route variants', () {
+        final acceptedLinks = [
+          'fractalforge://view?type=mandelbrot',
+          'fractalforge:/view?type=mandelbrot',
+          'fractalforge:view?type=mandelbrot',
+          'https://fractalforge.app/view?type=mandelbrot',
+          'https://www.fractalforge.app/view?type=mandelbrot',
+        ];
+
+        for (final link in acceptedLinks) {
+          expect(
+            DeepLinkService.parseUri(Uri.parse(link))?.type,
+            'mandelbrot',
+            reason: link,
+          );
+        }
+      });
+
       test('rejects https universal links outside the view route', () {
         final uri = Uri.parse(
             'https://fractalforge.app/settings?type=mandelbrot&zoom=5');
