@@ -11,6 +11,21 @@ int _px(int x, int y, int w) => (y * w + x) * 4;
 
 void main() {
   group('validateRenderFrame', () {
+    test('empty dimensions return invalid black stats instead of crashing', () {
+      final stats = validateRenderFrame(
+        frame: Uint8List(0),
+        width: 0,
+        height: 0,
+      );
+
+      expect(stats.centerR, 0);
+      expect(stats.centerG, 0);
+      expect(stats.centerB, 0);
+      expect(stats.centerNonBlack, isFalse);
+      expect(stats.nonBlackRatio, 0.0);
+      expect(stats.histogramSane, isFalse);
+    });
+
     test('detects all-black frame', () {
       final frame = _blackFrame(4, 4);
       final stats = validateRenderFrame(frame: frame, width: 4, height: 4);
@@ -106,6 +121,24 @@ void main() {
   });
 
   group('validateRenderPair', () {
+    test('empty dimensions return failed check instead of crashing', () {
+      final result = validateRenderPair(
+        frameA: Uint8List(0),
+        frameB: Uint8List(0),
+        width: 0,
+        height: 0,
+      );
+
+      expect(result.centerR, 0);
+      expect(result.centerG, 0);
+      expect(result.centerB, 0);
+      expect(result.centerNonBlack, isFalse);
+      expect(result.histogramSane, isFalse);
+      expect(result.frameProgressed, isFalse);
+      expect(result.iterationDeltaVisible, isFalse);
+      expect(result.pass, isFalse);
+    });
+
     test('detects frame progression when enough pixels differ', () {
       final frameA = _blackFrame(4, 4);
       final frameB = _blackFrame(4, 4);

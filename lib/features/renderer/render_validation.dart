@@ -1,4 +1,65 @@
+import 'dart:math' as math;
 import 'dart:typed_data';
+
+const int _rgbaStride = 4;
+const int _blackThreshold = 8;
+const int _differenceThreshold = 12;
+const double _minimumNonBlackRatio = 0.01;
+const double _minimumProgressionRatio = 0.002;
+const double _minimumIterationDeltaRatio = 0.01;
+
+class _RenderFrameGeometry {
+  final int width;
+  final int height;
+  final int totalPixels;
+  final int centerIndex;
+
+  const _RenderFrameGeometry._({
+    required this.width,
+    required this.height,
+    required this.totalPixels,
+    required this.centerIndex,
+  });
+
+  factory _RenderFrameGeometry({required int width, required int height}) {
+    final totalPixels = width <= 0 || height <= 0 ? 0 : width * height;
+    if (totalPixels == 0) {
+      return _RenderFrameGeometry._(
+        width: width,
+        height: height,
+        totalPixels: 0,
+        centerIndex: -1,
+      );
+    }
+
+    final cx = (width / 2).floor();
+    final cy = (height / 2).floor();
+    return _RenderFrameGeometry._(
+      width: width,
+      height: height,
+      totalPixels: totalPixels,
+      centerIndex: (cy * width + cx) * _rgbaStride,
+    );
+  }
+
+  bool canReadCenter(Uint8List frame) =>
+      centerIndex >= 0 && centerIndex + 2 < frame.length;
+
+  int readablePixelCount(Uint8List frame) =>
+      math.min(totalPixels, frame.length ~/ _rgbaStride);
+}
+
+bool _isNonBlack(Uint8List frame, int index) =>
+    frame[index] > _blackThreshold ||
+    frame[index + 1] > _blackThreshold ||
+    frame[index + 2] > _blackThreshold;
+
+bool _isVisiblyDifferent(Uint8List frameA, Uint8List frameB, int index) {
+  final dr = (frameB[index] - frameA[index]).abs();
+  final dg = (frameB[index + 1] - frameA[index + 1]).abs();
+  final db = (frameB[index + 2] - frameA[index + 2]).abs();
+  return dr + dg + db > _differenceThreshold;
+}
 
 class RenderFrameStats {
   final int centerR;
@@ -27,28 +88,28 @@ RenderFrameStats validateRenderFrame({
   required int width,
   required int height,
 }) {
-  int idx(int x, int y) => (y * width + x) * 4;
+  final geometry = _RenderFrameGeometry(width: width, height: height);
+  final cIndex = geometry.centerIndex;
+  final centerR = geometry.canReadCenter(frame) ? frame[cIndex] : 0;
+  final centerG = geometry.canReadCenter(frame) ? frame[cIndex + 1] : 0;
+  final centerB = geometry.canReadCenter(frame) ? frame[cIndex + 2] : 0;
 
-  final cx = (width / 2).floor();
-  final cy = (height / 2).floor();
-  final cIndex = idx(cx, cy);
-  final centerR = frame[cIndex];
-  final centerG = frame[cIndex + 1];
-  final centerB = frame[cIndex + 2];
-
-  final centerNonBlack = centerR > 8 || centerG > 8 || centerB > 8;
+  final centerNonBlack =
+      geometry.canReadCenter(frame) && _isNonBlack(frame, cIndex);
 
   int nonBlack = 0;
-  final total = width * height;
+  final readablePixels = geometry.readablePixelCount(frame);
 
-  for (int i = 0; i + 3 < frame.length; i += 4) {
-    if (frame[i] > 8 || frame[i + 1] > 8 || frame[i + 2] > 8) {
+  for (int pixel = 0; pixel < readablePixels; pixel++) {
+    final i = pixel * _rgbaStride;
+    if (_isNonBlack(frame, i)) {
       nonBlack++;
     }
   }
 
-  final nonBlackRatio = total == 0 ? 0.0 : nonBlack / total;
-  final histogramSane = nonBlackRatio > 0.01;
+  final nonBlackRatio =
+      geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;
+  final histogramSane = nonBlackRatio > _minimumNonBlackRatio;
 
   return RenderFrameStats(
     centerR: centerR,
@@ -98,37 +159,38 @@ RenderCheckResult validateRenderPair({
   required int width,
   required int height,
 }) {
-  int idx(int x, int y) => (y * width + x) * 4;
+  final geometry = _RenderFrameGeometry(width: width, height: height);
+  final cIndex = geometry.centerIndex;
+  final centerR = geometry.canReadCenter(frameB) ? frameB[cIndex] : 0;
+  final centerG = geometry.canReadCenter(frameB) ? frameB[cIndex + 1] : 0;
+  final centerB = geometry.canReadCenter(frameB) ? frameB[cIndex + 2] : 0;
 
-  final cx = (width / 2).floor();
-  final cy = (height / 2).floor();
-  final cIndex = idx(cx, cy);
-  final centerR = frameB[cIndex];
-  final centerG = frameB[cIndex + 1];
-  final centerB = frameB[cIndex + 2];
-
-  final centerNonBlack = centerR > 8 || centerG > 8 || centerB > 8;
+  final centerNonBlack =
+      geometry.canReadCenter(frameB) && _isNonBlack(frameB, cIndex);
 
   int nonBlack = 0;
-  int total = width * height;
   int different = 0;
+  final readablePixels = math.min(
+    geometry.readablePixelCount(frameA),
+    geometry.readablePixelCount(frameB),
+  );
 
-  for (int i = 0; i + 3 < frameB.length; i += 4) {
-    if (frameB[i] > 8 || frameB[i + 1] > 8 || frameB[i + 2] > 8) {
+  for (int pixel = 0; pixel < readablePixels; pixel++) {
+    final i = pixel * _rgbaStride;
+    if (_isNonBlack(frameB, i)) {
       nonBlack++;
     }
 
-    final dr = (frameB[i] - frameA[i]).abs();
-    final dg = (frameB[i + 1] - frameA[i + 1]).abs();
-    final db = (frameB[i + 2] - frameA[i + 2]).abs();
-    if (dr + dg + db > 12) different++;
+    if (_isVisiblyDifferent(frameA, frameB, i)) different++;
   }
 
-  final nonBlackRatio = total == 0 ? 0.0 : nonBlack / total;
-  final histogramSane = nonBlackRatio > 0.01;
-  final progressionRatio = total == 0 ? 0.0 : different / total;
-  final frameProgressed = progressionRatio > 0.002;
-  final iterationDeltaVisible = progressionRatio > 0.01;
+  final nonBlackRatio =
+      geometry.totalPixels == 0 ? 0.0 : nonBlack / geometry.totalPixels;
+  final histogramSane = nonBlackRatio > _minimumNonBlackRatio;
+  final progressionRatio =
+      geometry.totalPixels == 0 ? 0.0 : different / geometry.totalPixels;
+  final frameProgressed = progressionRatio > _minimumProgressionRatio;
+  final iterationDeltaVisible = progressionRatio > _minimumIterationDeltaRatio;
 
   return RenderCheckResult(
     centerR: centerR,
