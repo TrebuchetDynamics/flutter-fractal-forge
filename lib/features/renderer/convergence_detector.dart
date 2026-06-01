@@ -151,6 +151,44 @@ class ConvergencePixelChangeRule {
   }
 }
 
+/// Replayable count summary for one convergence comparison.
+class ConvergenceComparisonStats {
+  final int changedPixels;
+  final int totalPixels;
+
+  const ConvergenceComparisonStats({
+    required this.changedPixels,
+    required this.totalPixels,
+  })  : assert(changedPixels >= 0, 'changedPixels must be non-negative'),
+        assert(totalPixels >= 0, 'totalPixels must be non-negative'),
+        assert(
+          changedPixels <= totalPixels,
+          'changedPixels must not exceed totalPixels',
+        );
+
+  double get changeRatio => totalPixels > 0 ? changedPixels / totalPixels : 0.0;
+}
+
+/// Replayable iteration recommendation for convergence results.
+class ConvergenceIterationRecommendation {
+  const ConvergenceIterationRecommendation._();
+
+  static int forChangeRatio({
+    required double changeRatio,
+    required int currentIterations,
+  }) {
+    if (currentIterations <= 0) {
+      throw ArgumentError('Invalid currentIterations: $currentIterations');
+    }
+
+    if (changeRatio > ConvergenceDetector.changeThreshold) {
+      return (currentIterations * ConvergenceDetector.iterationMultiplier)
+          .round();
+    }
+    return currentIterations;
+  }
+}
+
 /// Detects convergence between two rendered frames to enable adaptive iteration refinement.
 ///
 /// Compares two RGBA frame buffers and determines if the rendering has stabilized.
@@ -191,12 +229,41 @@ class ConvergenceDetector {
     required int height,
     required int currentIterations,
   }) {
-    final frameSpec = ConvergenceFrameSpec(width: width, height: height);
-    frameSpec.validateBuffers(previous: previous, current: current);
-
+    ConvergenceFrameSpec(width: width, height: height).validateBuffers(
+      previous: previous,
+      current: current,
+    );
     if (currentIterations <= 0) {
       throw ArgumentError('Invalid currentIterations: $currentIterations');
     }
+
+    final stats = compareFrames(
+      previous: previous,
+      current: current,
+      width: width,
+      height: height,
+    );
+    final changeRatio = stats.changeRatio;
+
+    return ConvergenceResult(
+      converged: changeRatio < convergenceThreshold,
+      changeRatio: changeRatio,
+      suggestedIterations: ConvergenceIterationRecommendation.forChangeRatio(
+        changeRatio: changeRatio,
+        currentIterations: currentIterations,
+      ),
+    );
+  }
+
+  /// Returns replayable comparison counts before policy thresholds are applied.
+  ConvergenceComparisonStats compareFrames({
+    required Uint8List previous,
+    required Uint8List current,
+    required int width,
+    required int height,
+  }) {
+    final frameSpec = ConvergenceFrameSpec(width: width, height: height);
+    frameSpec.validateBuffers(previous: previous, current: current);
 
     final pixelChangeRule = ConvergencePixelChangeRule(
       pixelDifferenceThreshold,
@@ -209,18 +276,15 @@ class ConvergenceDetector {
       target: downsampleTarget,
     );
 
-    // Compare downsampled images
     int changedPixels = 0;
     int totalPixels = 0;
 
     for (int y = 0; y < samplingPlan.sampledHeight; y++) {
       for (int x = 0; x < samplingPlan.sampledWidth; x++) {
-        // Sample from the original buffers
         final srcX = (x * samplingPlan.factor).clamp(0, width - 1);
         final srcY = (y * samplingPlan.factor).clamp(0, height - 1);
         final pixelIndex = (srcY * width + srcX) * 4;
 
-        // Compare RGB channels (ignore alpha)
         if (pixelChangeRule.sampleChanged(
           previous: previous,
           current: current,
@@ -232,25 +296,9 @@ class ConvergenceDetector {
       }
     }
 
-    // Calculate change ratio
-    final changeRatio = totalPixels > 0 ? changedPixels / totalPixels : 0.0;
-
-    // Determine convergence and suggested iterations
-    final bool converged = changeRatio < convergenceThreshold;
-    final int suggestedIterations;
-
-    if (changeRatio > changeThreshold) {
-      // Significant changes detected, increase iterations
-      suggestedIterations = (currentIterations * iterationMultiplier).round();
-    } else {
-      // Minor or no changes, keep current iterations
-      suggestedIterations = currentIterations;
-    }
-
-    return ConvergenceResult(
-      converged: converged,
-      changeRatio: changeRatio,
-      suggestedIterations: suggestedIterations,
+    return ConvergenceComparisonStats(
+      changedPixels: changedPixels,
+      totalPixels: totalPixels,
     );
   }
 }

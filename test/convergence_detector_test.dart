@@ -22,6 +22,46 @@ void main() {
     });
   });
 
+  group('ConvergenceComparisonStats', () {
+    test('exposes replayable change ratio from sampled counts', () {
+      const stats = ConvergenceComparisonStats(
+        changedPixels: 2,
+        totalPixels: 8,
+      );
+
+      expect(stats.changeRatio, 0.25);
+    });
+  });
+
+  group('ConvergenceIterationRecommendation', () {
+    test('keeps iterations for minor changes and rejects invalid counts', () {
+      expect(
+        ConvergenceIterationRecommendation.forChangeRatio(
+          changeRatio: ConvergenceDetector.changeThreshold,
+          currentIterations: 100,
+        ),
+        100,
+      );
+      expect(
+        () => ConvergenceIterationRecommendation.forChangeRatio(
+          changeRatio: 0.0,
+          currentIterations: 0,
+        ),
+        throwsArgumentError,
+      );
+    });
+
+    test('increases iterations above the significant-change threshold', () {
+      expect(
+        ConvergenceIterationRecommendation.forChangeRatio(
+          changeRatio: ConvergenceDetector.changeThreshold + 0.001,
+          currentIterations: 100,
+        ),
+        150,
+      );
+    });
+  });
+
   group('ConvergenceSamplingPlan', () {
     test('keeps sampling grid dimensions replayable for non-square frames', () {
       final plan = ConvergenceSamplingPlan(width: 130, height: 65, target: 64);
@@ -41,6 +81,40 @@ void main() {
 
   group('ConvergenceDetector', () {
     const detector = ConvergenceDetector();
+
+    test('compareFrames exposes sampled counts before convergence policy', () {
+      final previous = Uint8List(4 * 4 * 4);
+      final current = Uint8List.fromList(previous);
+      current[0] = 10;
+      current[(3 * 4 + 3) * 4] = 10;
+
+      final stats = detector.compareFrames(
+        previous: previous,
+        current: current,
+        width: 4,
+        height: 4,
+      );
+
+      expect(stats.changedPixels, 2);
+      expect(stats.totalPixels, 16);
+      expect(stats.changeRatio, 0.125);
+    });
+
+    test('compareFrames ignores alpha-only changes', () {
+      final previous = Uint8List(4 * 4 * 4);
+      final current = Uint8List.fromList(previous);
+      current[3] = 255;
+
+      final stats = detector.compareFrames(
+        previous: previous,
+        current: current,
+        width: 4,
+        height: 4,
+      );
+
+      expect(stats.changedPixels, 0);
+      expect(stats.changeRatio, 0.0);
+    });
 
     test('detects identical frames as converged', () {
       final buffer =
