@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "target": "lib/core/modules/3d_raymarching_hypercomplex/f0544_quaternion_julia_0_291_0_399_0_339_0_437",
+  "updatedAt": "2026-06-01T12:42:47.118Z",
+  "objective": "Split generated module folder by responsibility while preserving public import paths. Runtime module remains at root; pure catalog descriptors live under catalog/.",
+  "completedSlices": [
+    "Moved metadata, presets, and variants into catalog/; updated module imports to the catalog boundary; added root compatibility facades for old descriptor import paths."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/core/modules/3d_raymarching_hypercomplex/f0544_quaternion_julia_0_291_0_399_0_339_0_437 test/modules/3d_raymarching_hypercomplex/f0544_quaternion_julia_0_291_0_399_0_339_0_437 -> No issues found",
+    "/home/xel/flutter/bin/flutter test test/modules/3d_raymarching_hypercomplex/f0544_quaternion_julia_0_291_0_399_0_339_0_437/f0544_quaternion_julia_0_291_0_399_0_339_0_437_module_test.dart -> failed before/after due missing pubspec asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag"
+  ]
+}

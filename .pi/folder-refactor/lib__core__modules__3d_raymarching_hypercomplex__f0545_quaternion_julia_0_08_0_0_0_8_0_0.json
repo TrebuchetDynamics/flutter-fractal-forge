@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "target": "lib/core/modules/3d_raymarching_hypercomplex/f0545_quaternion_julia_0_08_0_0_0_8_0_0",
+  "updatedAt": "2026-06-01T12:44:47.865Z",
+  "objective": "Split generated quaternion Julia module support data by responsibility while keeping root compatibility imports stable. Root module remains public entrypoint; root metadata/presets/variants files are compatibility facades exporting implementation files under metadata/, presets/, and variants/.",
+  "completedSlices": [
+    "Moved generated metadata implementation into metadata/ and added root metadata export facade.",
+    "Moved generated presets implementation into presets/ and added root presets export facade.",
+    "Moved generated variants implementation into variants/ and added root variants export facade.",
+    "Validated with targeted dart analyze; flutter test remains blocked by unrelated missing shader asset declared in pubspec.yaml."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/core/modules/3d_raymarching_hypercomplex/f0545_quaternion_julia_0_08_0_0_0_8_0_0 test/modules/3d_raymarching_hypercomplex/f0545_quaternion_julia_0_08_0_0_0_8_0_0 => No issues found!",
+    "/home/xel/flutter/bin/flutter test test/modules/3d_raymarching_hypercomplex/f0545_quaternion_julia_0_08_0_0_0_8_0_0/f0545_quaternion_julia_0_08_0_0_0_8_0_0_module_test.dart => blocked before tests by missing asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag"
+  ]
+}
