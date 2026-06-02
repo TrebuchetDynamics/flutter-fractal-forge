@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "target": "shaders/escape_time_family/polynomial_maps",
+  "updatedAt": "2026-06-02T05:41:43.003Z",
+  "objective": "Refactor polynomial map shaders from a root-file-heavy folder into responsibility/domain subfolders matching existing catalog and pubspec shader asset paths.",
+  "completedSlices": [
+    "Moved polynomial iteration shaders into polynomial_iterations/ (druid, power_sum, cactus).",
+    "Moved fractional/folded shaders into fractional_and_folded/ (astroid, deltoid, glynn, shark_fin).",
+    "Moved lattice-wrapped shader into lattice_wrapped/ (eisenstein).",
+    "Moved rational/singularity shaders into rational_singularities/ (talis, zircon_zity).",
+    "Moved memory-map shader into memory_maps/ (manowar).",
+    "Moved hypercomplex shader into hypercomplex_maps/ (benesi).",
+    "Moved derivative-free root-method shader into derivative_free_root_methods/ (inverse_quadratic).",
+    "Audited target root: no root files remain; topology complete."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "python3 polynomial shader asset check: ok: polynomial map shader files exist and are registered",
+    "/home/xel/flutter/bin/flutter test test/polynomial_maps_shader_assets_test.dart: blocked by pre-existing unrelated missing asset shaders/legacy/raymarched_3d/mandelbulb.frag"
+  ]
+}

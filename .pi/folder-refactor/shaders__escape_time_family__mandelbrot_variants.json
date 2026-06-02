@@ -1,19 +1,20 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/mandelbrot_variants",
-  "updatedAt": "2026-06-01T13:44:03.924Z",
-  "objective": "Refactor Mandelbrot variant shaders into behavior/responsibility subfolders while preserving catalog/pubspec shader asset behavior.",
+  "updatedAt": "2026-06-02T05:38:42.218Z",
+  "objective": "Refactor Mandelbrot variant shaders into behavior/responsibility subfolders while preserving catalog/pubspec shader asset behavior. Topology: iterative_maps owns formula-changing Mandelbrot recurrence variants; exterior_coloring owns standard Mandelbrot orbit/stripe/TIA/DE/curvature coloring estimators; singular_perturbations owns Mandelbrot/Sierpinski perturbation hybrids. Root keeps no shader files.",
   "completedSlices": [
-    "Added focused catalog/pubspec/file-existence behavior test for Mandelbrot variant shader assets.",
-    "Moved formula-changing Mandelbrot variants into iterative_maps and updated catalog/pubspec/comment references.",
-    "Moved exterior coloring/estimation variants into exterior_coloring and updated catalog/pubspec references.",
-    "Moved singular perturbation Mandelpinski shader into singular_perturbations and updated catalog/pubspec references.",
+    "Added/kept focused catalog/pubspec/file-existence behavior test for Mandelbrot variant shader assets.",
+    "Moved formula-changing Mandelbrot variants into iterative_maps and aligned with existing catalog/pubspec shader asset paths.",
+    "Moved exterior coloring/estimation variants into exterior_coloring and aligned with existing catalog/pubspec shader asset paths.",
+    "Moved singular perturbation Mandelpinski shader into singular_perturbations and aligned with existing catalog/pubspec shader asset paths.",
+    "Shared-code pass found repeated palette/linearToSRGB/complex math helpers, but no safe local include/contract extraction was made because Flutter runtime-effect shaders only include flutter/runtime_effect.glsl here and extracting GLSL helpers would require shader compiler/build behavior validation beyond a move-only slice.",
     "Audited target root: no remaining root files; topology complete."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 catalog/pubspec/file path check: OK mandelbrot variant catalog/pubspec/file paths: 14",
-    "/home/xel/flutter/bin/flutter test test/shaders/mandelbrot_variants_shader_assets_test.dart: blocked by pre-existing pubspec asset error for shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "python3 pubspec Mandelbrot variant asset path check: assets=14, missing=[], root=[]",
+    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/mandelbrot_variants_shader_assets_test.dart: blocked by unrelated pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag",
     "folder_refactor_audit: pass"
   ]
 }

@@ -1,18 +1,16 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/transcendental_maps",
-  "updatedAt": "2026-06-01T13:51:06.826Z",
-  "objective": "Refactor transcendental_maps shaders into responsibility subfolders while preserving catalog/pubspec shader asset behavior.",
+  "updatedAt": "2026-06-02T05:43:06.493Z",
+  "objective": "Refactor transcendental map shaders from root-heavy folder into responsibility subfolders matching declared shader assets: holomorphic_dynamics, special_function_iterations, discrete_chaos, rational_dynamics. Preserve shader asset paths already referenced by pubspec/catalog and avoid behavior changes.",
   "completedSlices": [
-    "Added focused shader asset behavior test for target folder.",
-    "Moved 13 root shaders into holomorphic_dynamics, special_function_iterations, rational_dynamics, and discrete_chaos.",
-    "Updated pubspec.yaml, escape_time_catalog.dart, and CPU formula source comments to new asset paths.",
-    "Validated target asset/catalog/file consistency with a Python public-contract check; completion audit passed."
+    "Move-only slice: moved all 13 root .frag shaders into responsibility subfolders matching existing pubspec.yaml and escape_time_catalog.dart paths.",
+    "Stale-path check: rg found no references to old root shader asset paths for moved files."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 target asset consistency check: declared=13 catalog=13 files=13, no root .frag files remain.",
-    "/home/xel/flutter/bin/flutter test test/shaders/transcendental_maps_shader_assets_test.dart: blocked by pre-existing unrelated missing pubspec asset shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag.",
-    "folder_refactor_audit: pass, plannedTopologyComplete=yes, root files=0, next candidates=none."
+    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/transcendental_maps_shader_assets_test.dart -> blocked before target assertions by unrelated missing declared asset: shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "find shaders/escape_time_family/transcendental_maps -maxdepth 2 -type f | sort -> all 13 moved shaders present in planned subfolders.",
+    "rg old root shader asset paths in pubspec.yaml lib test integration_test shaders -> no output."
   ]
 }
