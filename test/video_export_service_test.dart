@@ -384,6 +384,33 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // VideoZoomFactor
+  // ---------------------------------------------------------------------------
+  group('VideoZoomFactor', () {
+    test('normalizes malformed or direction-inverting factors to neutral', () {
+      for (final zoomFactor in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+        -2.0,
+        0.0,
+        0.5,
+      ]) {
+        expect(
+          VideoZoomFactor.normalize(zoomFactor),
+          VideoZoomFactor.neutral,
+          reason: 'zoomFactor=$zoomFactor',
+        );
+      }
+    });
+
+    test('preserves valid zoom factors', () {
+      expect(VideoZoomFactor.normalize(1.0), 1.0);
+      expect(VideoZoomFactor.normalize(5.0), 5.0);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // VideoExportService.calculateAnimationFrame
   // ---------------------------------------------------------------------------
   group('VideoExportService.calculateAnimationFrame', () {
@@ -434,6 +461,41 @@ void main() {
         totalFrames: 10,
       );
       expect(frame9.zoom, closeTo(2.0, 1e-6)); // 10.0 / 5.0
+    });
+
+    test('malformed zoom factors keep zoom animations finite and stationary',
+        () {
+      final view = makeView(zoom: 10.0);
+
+      for (final zoomFactor in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+        -2.0,
+        0.0,
+        0.5,
+      ]) {
+        for (final animationType in [
+          VideoAnimationType.zoomIn,
+          VideoAnimationType.zoomOut,
+        ]) {
+          final frame = service.calculateAnimationFrame(
+            startView: view,
+            options: VideoExportOptions(
+              animationType: animationType,
+              zoomFactor: zoomFactor,
+              easing: AnimationEasing.linear,
+            ),
+            frameIndex: 9,
+            totalFrames: 10,
+          );
+
+          expect(frame.zoom.isFinite, isTrue,
+              reason: '$animationType zoomFactor=$zoomFactor');
+          expect(frame.zoom, closeTo(view.zoom, 1e-9),
+              reason: '$animationType zoomFactor=$zoomFactor');
+        }
+      }
     });
 
     test('rotate: pan and zoom are unchanged', () {

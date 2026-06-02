@@ -62,6 +62,22 @@ class VideoFrameTimeline {
   }
 }
 
+/// Replayable zoom-factor contract for zoom-in/zoom-out video animations.
+///
+/// Zoom factors below 1.0 invert the selected animation direction, while
+/// zero/non-finite factors produce invalid zooms. Treat malformed factors as a
+/// neutral 1.0x movement so stale/custom options cannot poison captured frames.
+class VideoZoomFactor {
+  static const double neutral = 1.0;
+
+  const VideoZoomFactor._();
+
+  static double normalize(double zoomFactor) {
+    if (!zoomFactor.isFinite || zoomFactor < neutral) return neutral;
+    return zoomFactor;
+  }
+}
+
 /// Replayable encoding contract for video exports.
 ///
 /// MP4 is selectable in the public options model, but this Dart-only exporter
@@ -124,12 +140,14 @@ class VideoExportService {
 
     switch (options.animationType) {
       case VideoAnimationType.zoomIn:
-        final targetZoom = startView.zoom * options.zoomFactor;
+        final zoomFactor = VideoZoomFactor.normalize(options.zoomFactor);
+        final targetZoom = startView.zoom * zoomFactor;
         final newZoom = startView.zoom + (targetZoom - startView.zoom) * easedT;
         return startView.copyWith(zoom: newZoom);
 
       case VideoAnimationType.zoomOut:
-        final targetZoom = startView.zoom / options.zoomFactor;
+        final zoomFactor = VideoZoomFactor.normalize(options.zoomFactor);
+        final targetZoom = startView.zoom / zoomFactor;
         final newZoom = startView.zoom + (targetZoom - startView.zoom) * easedT;
         return startView.copyWith(zoom: newZoom);
 
