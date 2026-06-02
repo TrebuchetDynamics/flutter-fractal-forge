@@ -158,9 +158,14 @@ class AutoExploreService extends ChangeNotifier {
   }
 
   void toggle() {
-    if (!_isExploring) return start();
-    if (_isPaused) return resume();
-    return pause();
+    switch (_runtimeState.toggleTransition) {
+      case AutoExploreToggleTransition.start:
+        return start();
+      case AutoExploreToggleTransition.resume:
+        return resume();
+      case AutoExploreToggleTransition.pause:
+        return pause();
+    }
   }
 
   void stop() {

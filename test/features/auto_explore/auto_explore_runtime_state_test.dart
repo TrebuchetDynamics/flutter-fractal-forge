@@ -92,6 +92,45 @@ void main() {
       }
     });
 
+    test('exposes replayable toggle transitions', () {
+      expect(
+        const AutoExploreRuntimeState(
+          isExploring: false,
+          isPaused: false,
+          isUserInteracting: false,
+          pausedByUserCorrection: false,
+        ).toggleTransition,
+        AutoExploreToggleTransition.start,
+      );
+      expect(
+        const AutoExploreRuntimeState(
+          isExploring: true,
+          isPaused: false,
+          isUserInteracting: false,
+          pausedByUserCorrection: false,
+        ).toggleTransition,
+        AutoExploreToggleTransition.pause,
+      );
+      expect(
+        const AutoExploreRuntimeState(
+          isExploring: true,
+          isPaused: true,
+          isUserInteracting: false,
+          pausedByUserCorrection: false,
+        ).toggleTransition,
+        AutoExploreToggleTransition.resume,
+      );
+      expect(
+        const AutoExploreRuntimeState(
+          isExploring: true,
+          isPaused: false,
+          isUserInteracting: true,
+          pausedByUserCorrection: true,
+        ).toggleTransition,
+        AutoExploreToggleTransition.resume,
+      );
+    });
+
     test('gates one-shot corrections while continuous gestures own motion', () {
       final idleAutoExplore = const AutoExploreRuntimeState(
         isExploring: true,

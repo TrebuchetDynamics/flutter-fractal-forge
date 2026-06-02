@@ -1,3 +1,15 @@
+/// Side effect that [AutoExploreService.toggle] should perform for a playback
+/// state snapshot.
+///
+/// Keeping this decision pure prevents button/sheet affordances and direct
+/// service callers from drifting when auto-explore is armed but temporarily
+/// yielded to user correction.
+enum AutoExploreToggleTransition {
+  start,
+  resume,
+  pause,
+}
+
 /// Pure playback-state contract for [AutoExploreService].
 ///
 /// The service owns timers and controller side effects, but scheduling decisions
@@ -34,6 +46,15 @@ class AutoExploreRuntimeState {
 
   /// An in-flight animation must stop as soon as auto-explore loses motion.
   bool get shouldInterruptAnimation => !canScheduleZoomLeg;
+
+  /// Replayable command for the public play/pause toggle.
+  AutoExploreToggleTransition get toggleTransition {
+    if (!isExploring) return AutoExploreToggleTransition.start;
+    if (isPaused || pausedByUserCorrection) {
+      return AutoExploreToggleTransition.resume;
+    }
+    return AutoExploreToggleTransition.pause;
+  }
 }
 
 /// Pure gate for one-shot user corrections such as mouse-wheel zooms.

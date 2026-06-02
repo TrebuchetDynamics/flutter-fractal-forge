@@ -37,6 +37,35 @@ void main() {
       expect(service.pausedByUserCorrection, isFalse);
     });
 
+    test('toggle resumes from temporary user yield instead of pausing',
+        () async {
+      final controller = FractalController(ModuleRegistry());
+      controller.resetView();
+      controller.updateZoom(1.0);
+
+      final service = AutoExploreService(
+        controller: controller,
+        config: const AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1),
+        ),
+      );
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      await Future<void>.delayed(Duration.zero);
+      service.onUserInteractionStart();
+
+      expect(service.pausedByUserCorrection, isTrue);
+      expect(service.isPaused, isFalse);
+
+      service.toggle();
+
+      expect(service.isExploring, isTrue);
+      expect(service.isPaused, isFalse);
+      expect(service.pausedByUserCorrection, isFalse);
+    });
+
     test('resume replans from a zoom changed while paused', () async {
       final controller = FractalController(ModuleRegistry());
       controller.resetView();
