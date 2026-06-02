@@ -2,6 +2,52 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 
+/// Replayable decision for [AnimatedFractalController.animateParameter].
+///
+/// Parameter animation only supports numeric interpolation. Keeping that
+/// contract explicit prevents unsupported boolean/string changes from arming a
+/// transition that no animation can ever complete.
+enum AnimatedParameterTransitionKind {
+  unchanged,
+  numeric,
+  unsupported,
+}
+
+/// Pure parameter-transition plan derived from two parameter values.
+final class AnimatedParameterTransitionPlan {
+  final AnimatedParameterTransitionKind kind;
+  final double? fromValue;
+  final double? toValue;
+
+  const AnimatedParameterTransitionPlan._({
+    required this.kind,
+    this.fromValue,
+    this.toValue,
+  });
+
+  factory AnimatedParameterTransitionPlan.fromValues(Object from, Object to) {
+    if (from == to) {
+      return const AnimatedParameterTransitionPlan._(
+        kind: AnimatedParameterTransitionKind.unchanged,
+      );
+    }
+
+    if (from is num && to is num) {
+      return AnimatedParameterTransitionPlan._(
+        kind: AnimatedParameterTransitionKind.numeric,
+        fromValue: from.toDouble(),
+        toValue: to.toDouble(),
+      );
+    }
+
+    return const AnimatedParameterTransitionPlan._(
+      kind: AnimatedParameterTransitionKind.unsupported,
+    );
+  }
+
+  bool get startsTransition => kind == AnimatedParameterTransitionKind.numeric;
+}
+
 /// Service that manages smooth animated transitions for fractal parameters.
 ///
 /// This service provides interpolated values for parameters during transitions,
@@ -21,12 +67,12 @@ class AnimatedFractalController extends ChangeNotifier {
   _AnimatedValue<double>? _animatedZoom;
   _AnimatedValue<Vector2>? _animatedPan;
   _AnimatedValue<Vector3>? _animatedRotation;
-  
+
   String? _previousModuleId;
   String? _currentModuleId;
   double _morphProgress = 1.0;
   Timer? _morphTimer;
-  
+
   bool _isCelebrating = false;
   bool _isTransitioning = false;
 
@@ -61,34 +107,22 @@ class AnimatedFractalController extends ChangeNotifier {
 
   /// Start a parameter transition.
   void animateParameter(String id, Object from, Object to) {
-    if (from == to) return;
+    final plan = AnimatedParameterTransitionPlan.fromValues(from, to);
+    if (!plan.startsTransition) return;
 
     _isTransitioning = true;
     notifyListeners();
 
-    if (from is num && to is num) {
-      _animatedParams[id] = _AnimatedValue<double>(
-        from: from.toDouble(),
-        to: to.toDouble(),
-        duration: parameterDuration,
-        curve: curve,
-        onComplete: () {
-          _animatedParams.remove(id);
-          _checkTransitionComplete();
-        },
-      );
-    } else if (from is int && to is int) {
-      _animatedParams[id] = _AnimatedValue<double>(
-        from: from.toDouble(),
-        to: to.toDouble(),
-        duration: parameterDuration,
-        curve: curve,
-        onComplete: () {
-          _animatedParams.remove(id);
-          _checkTransitionComplete();
-        },
-      );
-    }
+    _animatedParams[id] = _AnimatedValue<double>(
+      from: plan.fromValue!,
+      to: plan.toValue!,
+      duration: parameterDuration,
+      curve: curve,
+      onComplete: () {
+        _animatedParams.remove(id);
+        _checkTransitionComplete();
+      },
+    );
 
     notifyListeners();
   }
@@ -203,17 +237,17 @@ class AnimatedFractalController extends ChangeNotifier {
   Vector3? get interpolatedRotation => _animatedRotation?.currentValue;
 
   /// Record when the user finds an interesting spot.
-  /// 
+  ///
   /// Triggers celebration effects when multiple interesting spots
   /// are found in quick succession.
   void recordInterestingSpot() {
     final now = DateTime.now();
-    
+
     if (_lastInterestingSpotTime != null) {
       final elapsed = now.difference(_lastInterestingSpotTime!);
       if (elapsed.inSeconds < 30) {
         _interestingSpotCount++;
-        
+
         // Trigger celebration after finding 3 interesting spots quickly
         if (_interestingSpotCount >= 3) {
           _triggerCelebration();
@@ -225,7 +259,7 @@ class AnimatedFractalController extends ChangeNotifier {
     } else {
       _interestingSpotCount = 1;
     }
-    
+
     _lastInterestingSpotTime = now;
     _interestingSpotController.add(null);
   }

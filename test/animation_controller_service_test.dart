@@ -44,6 +44,29 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // AnimatedParameterTransitionPlan
+  // ---------------------------------------------------------------------------
+
+  group('AnimatedParameterTransitionPlan', () {
+    test('classifies unchanged, numeric, and unsupported parameter changes',
+        () {
+      final unchanged = AnimatedParameterTransitionPlan.fromValues(1.0, 1.0);
+      final numeric = AnimatedParameterTransitionPlan.fromValues(1, 2.5);
+      final unsupported =
+          AnimatedParameterTransitionPlan.fromValues(false, true);
+
+      expect(unchanged.kind, AnimatedParameterTransitionKind.unchanged);
+      expect(unchanged.startsTransition, isFalse);
+      expect(numeric.kind, AnimatedParameterTransitionKind.numeric);
+      expect(numeric.startsTransition, isTrue);
+      expect(numeric.fromValue, 1.0);
+      expect(numeric.toValue, 2.5);
+      expect(unsupported.kind, AnimatedParameterTransitionKind.unsupported);
+      expect(unsupported.startsTransition, isFalse);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // Interpolated value accessors before any animation starts
   // ---------------------------------------------------------------------------
 
@@ -98,6 +121,21 @@ void main() {
       // from == to → function returns early; no notification is emitted
       expect(notified, isFalse);
       expect(controller.isTransitioning, isFalse);
+
+      controller.dispose();
+    });
+
+    test('unsupported parameter changes do not leave transitions stuck', () {
+      final controller = AnimatedFractalController();
+      int notifyCount = 0;
+      controller.addListener(() => notifyCount++);
+
+      controller.animateParameter('enabled', false, true);
+      controller.tick();
+
+      expect(controller.isTransitioning, isFalse);
+      expect(controller.getInterpolatedValue('enabled', true), isNull);
+      expect(notifyCount, 0);
 
       controller.dispose();
     });
