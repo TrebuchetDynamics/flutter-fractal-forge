@@ -247,7 +247,11 @@ class _BoundedDoubleQueryParam implements _DeepLinkQueryParamContract {
     return DeepLinkService._parseBoundedDouble(query[name], min, max, name);
   }
 
-  String? format(Object? value, {bool preservePrecision = false}) {
+  String? format(
+    Object? value, {
+    bool preservePrecision = false,
+    double compactTolerance = 0.0,
+  }) {
     final parsed = DeepLinkService._tryFiniteDouble(value);
     if (parsed == null || !_contains(parsed)) {
       return null;
@@ -255,6 +259,7 @@ class _BoundedDoubleQueryParam implements _DeepLinkQueryParamContract {
     return DeepLinkService._formatDouble(
       parsed,
       preservePrecision: preservePrecision,
+      compactTolerance: compactTolerance,
     );
   }
 
@@ -364,6 +369,11 @@ class DeepLinkService {
     -1e10,
     1e10,
   );
+
+  /// Keeps common Vector3 float32 artifacts (for example `0.3` becoming
+  /// `0.3000000119`) from leaking into share URLs while still preserving
+  /// rotation values where six-decimal formatting would visibly change input.
+  static const double _rotationCompactTolerance = 5e-8;
 
   static const List<_DeepLinkQueryParamContract> _allQueryParams = [
     _zoomParam,
@@ -521,33 +531,7 @@ class DeepLinkService {
       'type': _DeepLinkModuleId.requireSafeForBuild(moduleId),
     };
 
-    // Add view state. Use the same bounded contracts as parsing so generated
-    // links do not round-trip through clamped or invalid camera values.
-    _addNonDefaultBoundedDoubleQueryParam(
-      queryParams,
-      _zoomParam,
-      view.zoom,
-      defaultValue: 1.0,
-      preservePrecision: true,
-    );
-    _addNonDefaultBoundedDoubleQueryParam(
-      queryParams,
-      _xParam,
-      view.pan.x,
-      preservePrecision: true,
-    );
-    _addNonDefaultBoundedDoubleQueryParam(
-      queryParams,
-      _yParam,
-      view.pan.y,
-      preservePrecision: true,
-    );
-    _addNonDefaultBoundedDoubleQueryParam(
-        queryParams, _rotXParam, view.rotation.x);
-    _addNonDefaultBoundedDoubleQueryParam(
-        queryParams, _rotYParam, view.rotation.y);
-    _addNonDefaultBoundedDoubleQueryParam(
-        queryParams, _rotZParam, view.rotation.z);
+    _addViewStateQueryParams(queryParams, view);
 
     // Add fractal parameters. Unsupported values are omitted rather than
     // converted to sentinel values that parse back as valid-but-wrong params.
@@ -577,6 +561,59 @@ class DeepLinkService {
       scheme: scheme,
       host: host,
       queryParameters: queryParams,
+    );
+  }
+
+  /// Adds view-state fields to generated links.
+  ///
+  /// View state is one replay contract: zoom, pan, and 3D rotation values all
+  /// need significant digits preserved so shared links restore the same camera
+  /// instead of a rounded approximation.
+  static void _addViewStateQueryParams(
+    Map<String, String> queryParams,
+    FractalViewState view,
+  ) {
+    // Use the same bounded contracts as parsing so generated links do not
+    // round-trip through clamped or invalid camera values.
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _zoomParam,
+      view.zoom,
+      defaultValue: 1.0,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _xParam,
+      view.pan.x,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _yParam,
+      view.pan.y,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _rotXParam,
+      view.rotation.x,
+      preservePrecision: true,
+      compactTolerance: _rotationCompactTolerance,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _rotYParam,
+      view.rotation.y,
+      preservePrecision: true,
+      compactTolerance: _rotationCompactTolerance,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _rotZParam,
+      view.rotation.z,
+      preservePrecision: true,
+      compactTolerance: _rotationCompactTolerance,
     );
   }
 
@@ -635,6 +672,7 @@ class DeepLinkService {
   static String _formatDouble(
     double value, {
     bool preservePrecision = false,
+    double compactTolerance = 0.0,
   }) {
     // Keep integer-looking values compact without truncating significant deep-zoom
     // view coordinates that need more than six decimal places to round-trip.
@@ -644,7 +682,11 @@ class DeepLinkService {
 
     final compactFixed =
         value.toStringAsFixed(6).replaceAll(RegExp(r'\.?0+$'), '');
-    if (!preservePrecision || double.tryParse(compactFixed) == value) {
+    final compactValue = double.tryParse(compactFixed);
+    final compactWithinTolerance = compactValue != null &&
+        compactTolerance > 0.0 &&
+        (compactValue - value).abs() <= compactTolerance;
+    if (!preservePrecision || compactValue == value || compactWithinTolerance) {
       return compactFixed;
     }
 
@@ -656,10 +698,12 @@ class DeepLinkService {
     _BoundedDoubleQueryParam param,
     Object? value, {
     bool preservePrecision = false,
+    double compactTolerance = 0.0,
   }) {
     final formatted = param.format(
       value,
       preservePrecision: preservePrecision,
+      compactTolerance: compactTolerance,
     );
     if (formatted != null) {
       queryParams[param.name] = formatted;
@@ -672,6 +716,7 @@ class DeepLinkService {
     Object? value, {
     double defaultValue = 0.0,
     bool preservePrecision = false,
+    double compactTolerance = 0.0,
   }) {
     final parsed = _tryFiniteDouble(value);
     if (parsed == null || parsed == defaultValue) return;
@@ -680,6 +725,7 @@ class DeepLinkService {
       param,
       parsed,
       preservePrecision: preservePrecision,
+      compactTolerance: compactTolerance,
     );
   }
 

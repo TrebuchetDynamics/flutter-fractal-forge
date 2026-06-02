@@ -548,6 +548,31 @@ void main() {
         expect(parsed.zoom, originalView.zoom);
       });
 
+      test('3D rotation round-trip preserves significant digits', () {
+        final originalView = FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.0,
+          rotation: Vector3(
+            0.123456789012345,
+            -0.987654321098765,
+            0.333333333333333,
+          ),
+        );
+
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbulb',
+          params: const {},
+          view: originalView,
+        );
+
+        final parsed = DeepLinkService.parseUri(uri);
+
+        expect(parsed, isNotNull);
+        expect(parsed!.rotX, closeTo(originalView.rotation.x, 1e-15));
+        expect(parsed.rotY, closeTo(originalView.rotation.y, 1e-15));
+        expect(parsed.rotZ, closeTo(originalView.rotation.z, 1e-15));
+      });
+
       test('complete round-trip with all parameters preserves values', () {
         final originalView = FractalViewState(
           pan: Vector2(0.3, -0.15),
