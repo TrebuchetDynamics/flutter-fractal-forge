@@ -13,6 +13,8 @@ class CpuTileWorker {
   final Isolate _isolate;
   final SendPort _sendPort;
   final StreamSubscription _sub;
+  final Set<ReceivePort> _pendingReplies = <ReceivePort>{};
+  bool _disposed = false;
 
   static Future<CpuTileWorker> spawn() async {
     final receive = ReceivePort();
@@ -31,22 +33,37 @@ class CpuTileWorker {
   }
 
   Future<CpuTileRenderResponse> renderTile(CpuTileRenderRequest req) async {
+    if (_disposed) throw _disposedError();
+
     final rp = ReceivePort();
+    _pendingReplies.add(rp);
     _sendPort.send((req, rp.sendPort));
     try {
       final msg = await rp.first;
       if (msg is CpuTileRenderResponse) return msg;
       if (msg is _CpuTileRenderFailure) throw msg.toException();
       throw StateError('Unexpected CPU tile worker reply: ${msg.runtimeType}');
+    } on StateError {
+      if (_disposed) throw _disposedError();
+      rethrow;
     } finally {
+      _pendingReplies.remove(rp);
       rp.close();
     }
   }
 
   void dispose() {
+    if (_disposed) return;
+    _disposed = true;
+    for (final replyPort in _pendingReplies.toList()) {
+      replyPort.close();
+    }
+    _pendingReplies.clear();
     _sub.cancel();
     _isolate.kill(priority: Isolate.immediate);
   }
+
+  StateError _disposedError() => StateError('CpuTileWorker has been disposed');
 }
 
 /// Exception surfaced when the worker isolate could not render a requested tile.
