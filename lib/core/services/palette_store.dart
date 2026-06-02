@@ -18,14 +18,30 @@ class PaletteStore {
 
   List<FractalPalette> loadPalettes() {
     final list = _prefs.getStringList(_key);
-    if (list != null) {
-      return list
-          .map((s) => FractalPalette.fromJsonString(s))
-          .where((p) => p.id.isNotEmpty)
-          .toList();
-    }
+    if (list != null) return _decodePaletteStringList(list);
 
-    final payload = _prefs.getString(_key);
+    return _decodeLegacyPaletteArray(_prefs.getString(_key));
+  }
+
+  List<FractalPalette> _decodePaletteStringList(List<String> encodedPalettes) {
+    final palettes = <FractalPalette>[];
+    for (final encoded in encodedPalettes) {
+      final palette = _tryDecodePaletteString(encoded);
+      if (palette != null && palette.id.isNotEmpty) palettes.add(palette);
+    }
+    return palettes;
+  }
+
+  FractalPalette? _tryDecodePaletteString(String encoded) {
+    try {
+      return FractalPalette.fromJsonString(encoded);
+    } catch (e) {
+      if (kDebugMode) debugPrint('[FF] skipping palette entry: $e');
+      return null;
+    }
+  }
+
+  List<FractalPalette> _decodeLegacyPaletteArray(String? payload) {
     if (payload == null || payload.trim().isEmpty) return const [];
 
     try {

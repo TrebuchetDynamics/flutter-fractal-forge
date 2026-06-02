@@ -73,30 +73,22 @@ void main() {
       expect(loaded[0].stops[1].position, closeTo(0.5, 1e-9));
     });
 
-    test('loadPalettes handles corrupted JSON gracefully', () async {
-      // Seed the List<String> path (primary) with an entry that is not valid
-      // palette JSON — fromJsonString will throw, causing the entry to be
-      // dropped via the where(p.id.isNotEmpty) filter (empty id on error case
-      // is caught because fromJsonString throws FormatException, not returns
-      // a palette). We verify the store returns empty rather than crashing.
+    test('loadPalettes skips corrupted string-list entries', () async {
+      final goodEntry = const FractalPalette(
+        id: 'ok',
+        name: 'Good',
+        stops: [FractalColorStop(position: 0.0, colorArgb: 0xFFFFFFFF)],
+      ).toJsonString(pretty: false);
+
       SharedPreferences.setMockInitialValues({
-        'user_palettes_v1': <String>['not valid json {{{{'],
+        'user_palettes_v1': <String>['not valid json {{{{', goodEntry],
       });
 
       final store = await PaletteStore.create();
-      // fromJsonString throws on bad JSON — the store should propagate or
-      // return empty. Either an empty list or a thrown exception is acceptable
-      // from the production code; we simply verify it does not silently corrupt.
-      List<FractalPalette>? result;
-      try {
-        result = store.loadPalettes();
-      } catch (_) {
-        result = null;
-      }
-      // If it didn't throw, list must be empty (invalid entry has no valid id).
-      if (result != null) {
-        expect(result.where((p) => p.id.isEmpty), isEmpty);
-      }
+      final palettes = store.loadPalettes();
+
+      expect(palettes, hasLength(1));
+      expect(palettes.single.id, 'ok');
     });
 
     test('loadPalettes skips palettes with empty id', () async {
