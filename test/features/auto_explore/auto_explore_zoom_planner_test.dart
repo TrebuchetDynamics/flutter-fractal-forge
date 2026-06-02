@@ -582,6 +582,32 @@ void main() {
       );
     });
 
+    test('does not let floor targets exceed max leg span', () {
+      const zeroSpanPlanner = AutoExploreZoomPlanner(
+        config: AutoExploreConfig(maxLegSpanDecades: 0.0),
+      );
+
+      final candidates = zeroSpanPlanner.floorZoomCandidates(10.0);
+      final plan = zeroSpanPlanner.planNextTarget(
+        currentZoom: 10.0,
+        cycleBaseZoom: 10.0,
+        zoomingIn: false,
+        moduleId: 'mandelbrot',
+      );
+
+      expect(candidates.baseZoom, 10.0);
+      expect(candidates.configuredFloorZoom, AutoExploreConfig.defaultMinZoom);
+      expect(candidates.spanLimitedFloorZoom, 10.0);
+      expect(candidates.floorCappedBySpan, isTrue);
+      expect(candidates.resolvedFloorZoom, 10.0);
+      expect(plan.floorZoom, 10.0);
+      expect(plan.targetZoom, 10.0);
+      expect(
+        zeroSpanPlanner.computeFloorZoom(10.0),
+        10.0,
+      );
+    });
+
     test('allows a neutral cycle multiplier to keep target planning stationary',
         () {
       const neutralPlanner = AutoExploreZoomPlanner(

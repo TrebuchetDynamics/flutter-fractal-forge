@@ -202,6 +202,8 @@ class AutoExploreCycleShape {
     );
   }
 
+  double get maxLegSpanRatio => pow(10.0, maxLegSpanDecades).toDouble();
+
   static double _finiteAtLeastNeutralOrDefault(double value, double fallback) {
     return value.isFinite && value >= 1.0 ? value : fallback;
   }
@@ -530,6 +532,29 @@ class AutoExplorePeakZoomCandidates {
       );
 }
 
+/// Replayable floor candidate data for one auto-explore cycle step.
+///
+/// Zoom-out floors are constrained by the same per-leg span cap as zoom-in
+/// peaks. Because a floor moves toward lower zoom values, the span-limited
+/// candidate is the highest allowed floor, not the lowest.
+class AutoExploreFloorZoomCandidates {
+  final double baseZoom;
+  final double configuredFloorZoom;
+  final double spanLimitedFloorZoom;
+
+  const AutoExploreFloorZoomCandidates({
+    required this.baseZoom,
+    required this.configuredFloorZoom,
+    required this.spanLimitedFloorZoom,
+  });
+
+  double get resolvedFloorZoom =>
+      max(configuredFloorZoom, spanLimitedFloorZoom);
+
+  /// True when the contextual cycle floor had to yield to the per-leg span cap.
+  bool get floorCappedBySpan => configuredFloorZoom < spanLimitedFloorZoom;
+}
+
 /// Replayable target range for one auto-explore cycle step.
 class AutoExploreZoomTargetRange {
   static const double collapseEpsilon = 1e-9;
@@ -697,7 +722,7 @@ class AutoExploreZoomPlanner {
     final base = clampZoom(baseZoom);
     final hardMax = hardMaxZoomFor(moduleId);
     final cycleShape = _cycleShape;
-    final maxSpanRatio = pow(10.0, cycleShape.maxLegSpanDecades).toDouble();
+    final maxSpanRatio = cycleShape.maxLegSpanRatio;
 
     return AutoExplorePeakZoomCandidates(
       baseZoom: base,
@@ -718,11 +743,22 @@ class AutoExploreZoomPlanner {
     ).resolvedPeakZoom;
   }
 
-  double computeFloorZoom(double baseZoom) {
+  AutoExploreFloorZoomCandidates floorZoomCandidates(double baseZoom) {
     final bounds = _bounds;
     final base = bounds.clamp(baseZoom);
-    final contextualFloor = base / _cycleShape.cycleMaxMultiplier;
-    return bounds.clamp(max(bounds.minZoom, contextualFloor));
+    final cycleShape = _cycleShape;
+    final configuredFloor = base / cycleShape.cycleMaxMultiplier;
+    final spanLimitedFloor = base / cycleShape.maxLegSpanRatio;
+
+    return AutoExploreFloorZoomCandidates(
+      baseZoom: base,
+      configuredFloorZoom: bounds.clamp(max(bounds.minZoom, configuredFloor)),
+      spanLimitedFloorZoom: bounds.clamp(max(bounds.minZoom, spanLimitedFloor)),
+    );
+  }
+
+  double computeFloorZoom(double baseZoom) {
+    return floorZoomCandidates(baseZoom).resolvedFloorZoom;
   }
 
   AutoExploreZoomPlanInputs planInputs({
