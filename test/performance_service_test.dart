@@ -5,7 +5,7 @@ void main() {
   group('PerformanceMetrics', () {
     test('empty metrics have default values', () {
       const metrics = PerformanceMetrics.empty();
-      
+
       expect(metrics.avgFrameTimeMs, 0);
       expect(metrics.fps, 0);
       expect(metrics.frameCount, 0);
@@ -128,10 +128,32 @@ void main() {
     });
   });
 
+  group('PerformanceMetricsCalculator', () {
+    test('uses nearest-rank percentile indices without one-based drift', () {
+      final samples = [
+        for (var i = 1; i <= 100; i++)
+          FrameSample(
+            timestamp: Duration(milliseconds: i),
+            frameTimeMs: i.toDouble(),
+            wasDropped: false,
+          ),
+      ];
+
+      final metrics = PerformanceMetricsCalculator.fromSamples(
+        samples: samples,
+        shaderCompilations: 0,
+        durationSeconds: 1.0,
+      );
+
+      expect(metrics.p95FrameTimeMs, 95.0);
+      expect(metrics.p99FrameTimeMs, 99.0);
+    });
+  });
+
   group('PerformanceService', () {
     test('starts in stopped state', () {
       final service = PerformanceService();
-      
+
       expect(service.isRunning, false);
       expect(service.metrics.frameCount, 0);
       expect(service.samples, isEmpty);
@@ -139,10 +161,10 @@ void main() {
 
     test('reset clears all data', () {
       final service = PerformanceService();
-      
+
       // Add some dummy state (if we could run it)
       service.reset();
-      
+
       expect(service.samples, isEmpty);
       expect(service.metrics.frameCount, 0);
       expect(service.metrics.shaderCompilations, 0);
@@ -151,7 +173,7 @@ void main() {
     test('getSummary returns formatted string', () {
       final service = PerformanceService();
       final summary = service.getSummary();
-      
+
       expect(summary, contains('Performance Summary'));
       expect(summary, contains('FPS:'));
       expect(summary, contains('Frame Time:'));
@@ -160,7 +182,7 @@ void main() {
 
     test('disposes cleanly', () {
       final service = PerformanceService();
-      
+
       // Should not throw
       expect(() => service.dispose(), returnsNormally);
     });

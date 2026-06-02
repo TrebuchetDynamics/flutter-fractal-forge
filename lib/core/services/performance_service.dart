@@ -86,7 +86,8 @@ class PerformanceMetrics {
         stabilityScore = 100;
 
   /// Frame drop percentage (0-100).
-  double get dropPercentage => frameCount > 0 ? (droppedFrames / frameCount) * 100 : 0;
+  double get dropPercentage =>
+      frameCount > 0 ? (droppedFrames / frameCount) * 100 : 0;
 
   /// Whether performance is considered good (> 55 FPS, < 5% drops).
   bool get isGood => fps >= 55 && dropPercentage < 5;
@@ -116,6 +117,94 @@ class FrameSample {
   });
 }
 
+/// Pure calculator for replayable frame-time metrics.
+///
+/// [PerformanceService] collects frame samples from a ticker. Keeping the
+/// aggregation rules here makes percentile and jank assumptions testable
+/// without a live scheduler.
+@visibleForTesting
+class PerformanceMetricsCalculator {
+  const PerformanceMetricsCalculator._();
+
+  static PerformanceMetrics fromSamples({
+    required Iterable<FrameSample> samples,
+    required int shaderCompilations,
+    required double durationSeconds,
+    double? memoryUsageMb,
+    double? peakMemoryMb,
+    double targetFrameTimeMs = PerformanceService.targetFrameTimeMs,
+  }) {
+    final sampleList = List<FrameSample>.of(samples);
+    if (sampleList.isEmpty) {
+      return const PerformanceMetrics.empty();
+    }
+
+    final frameTimes = sampleList.map((s) => s.frameTimeMs).toList()..sort();
+
+    final avg = frameTimes.reduce((a, b) => a + b) / frameTimes.length;
+    final min = frameTimes.first;
+    final max = frameTimes.last;
+
+    final p95Index = nearestRankPercentileIndex(
+      sampleCount: frameTimes.length,
+      percentile: 0.95,
+    );
+    final p99Index = nearestRankPercentileIndex(
+      sampleCount: frameTimes.length,
+      percentile: 0.99,
+    );
+    final p95 = frameTimes[p95Index];
+    final p99 = frameTimes[p99Index];
+
+    final droppedFrames = sampleList.where((s) => s.wasDropped).length;
+    final fps = avg > 0 ? 1000.0 / avg : 0.0;
+
+    final variance =
+        frameTimes.map((t) => (t - avg) * (t - avg)).reduce((a, b) => a + b) /
+            frameTimes.length;
+    final stdDev = variance > 0 ? variance.sqrt() : 0;
+    final stabilityScore =
+        (100 - (stdDev / targetFrameTimeMs * 100)).clamp(0.0, 100.0);
+
+    final recentSamples = sampleList.reversed.take(10);
+    final recentDrops = recentSamples.where((s) => s.wasDropped).length;
+    final isJanky = recentDrops > 3;
+
+    return PerformanceMetrics(
+      avgFrameTimeMs: avg,
+      minFrameTimeMs: min,
+      maxFrameTimeMs: max,
+      p95FrameTimeMs: p95,
+      p99FrameTimeMs: p99,
+      frameCount: sampleList.length,
+      droppedFrames: droppedFrames,
+      fps: fps,
+      shaderCompilations: shaderCompilations,
+      memoryUsageMb: memoryUsageMb,
+      peakMemoryMb:
+          peakMemoryMb != null && peakMemoryMb > 0 ? peakMemoryMb : null,
+      isJanky: isJanky,
+      durationSeconds: durationSeconds,
+      stabilityScore: stabilityScore,
+    );
+  }
+
+  @visibleForTesting
+  static int nearestRankPercentileIndex({
+    required int sampleCount,
+    required double percentile,
+  }) {
+    assert(sampleCount > 0, 'sampleCount must be positive');
+    assert(
+      percentile > 0.0 && percentile <= 1.0,
+      'percentile must be in the nearest-rank interval (0, 1]',
+    );
+
+    final rank = (sampleCount * percentile).ceil();
+    return (rank - 1).clamp(0, sampleCount - 1).toInt();
+  }
+}
+
 /// Service for collecting and analyzing rendering performance.
 ///
 /// Tracks frame times, detects shader compilation stalls, and monitors
@@ -123,7 +212,11 @@ class FrameSample {
 class PerformanceService extends ChangeNotifier {
   static const int _maxSamples = 300; // ~5 seconds at 60fps
   static const double _targetFrameTime = 16.67; // 60 FPS
-  static const double _shaderStallThreshold = 100.0; // 100ms suggests compilation
+  static const double _shaderStallThreshold =
+      100.0; // 100ms suggests compilation
+
+  @visibleForTesting
+  static const double targetFrameTimeMs = _targetFrameTime;
 
   final Queue<FrameSample> _samples = Queue();
   Ticker? _ticker;
@@ -251,63 +344,18 @@ class PerformanceService extends ChangeNotifier {
     // Note: In Flutter, getting exact memory usage requires platform channels
     // or debug mode APIs. This is a simplified approach using heuristics.
     // For accurate memory profiling, use DevTools or platform-specific APIs.
-    
+
     // Placeholder: In real app, use PlatformDispatcher.instance.onReportTimings
     // or implement platform channels for memory stats
   }
 
   void _updateMetrics() {
-    if (_samples.isEmpty) {
-      _currentMetrics = const PerformanceMetrics.empty();
-      return;
-    }
-
-    final frameTimes = _samples.map((s) => s.frameTimeMs).toList();
-    frameTimes.sort();
-
-    final avg = frameTimes.reduce((a, b) => a + b) / frameTimes.length;
-    final min = frameTimes.first;
-    final max = frameTimes.last;
-
-    // Calculate percentiles
-    final p95Index = (frameTimes.length * 0.95).floor().clamp(0, frameTimes.length - 1);
-    final p99Index = (frameTimes.length * 0.99).floor().clamp(0, frameTimes.length - 1);
-    final p95 = frameTimes[p95Index];
-    final p99 = frameTimes[p99Index];
-
-    // Count dropped frames
-    final droppedFrames = _samples.where((s) => s.wasDropped).length;
-
-    // Calculate FPS from average frame time
-    final fps = avg > 0 ? 1000.0 / avg : 0.0;
-
-    // Calculate stability score (based on variance)
-    final variance = frameTimes.map((t) => (t - avg) * (t - avg)).reduce((a, b) => a + b) / frameTimes.length;
-    final stdDev = variance > 0 ? variance.sqrt() : 0;
-    final stabilityScore = (100 - (stdDev / _targetFrameTime * 100)).clamp(0.0, 100.0);
-
-    // Check for current jank (recent frames)
-    final recentSamples = _samples.toList().reversed.take(10);
-    final recentDrops = recentSamples.where((s) => s.wasDropped).length;
-    final isJanky = recentDrops > 3;
-
-    final durationSeconds = (_sessionStopwatch?.elapsedMilliseconds ?? 0) / 1000.0;
-
-    _currentMetrics = PerformanceMetrics(
-      avgFrameTimeMs: avg,
-      minFrameTimeMs: min,
-      maxFrameTimeMs: max,
-      p95FrameTimeMs: p95,
-      p99FrameTimeMs: p99,
-      frameCount: _samples.length,
-      droppedFrames: droppedFrames,
-      fps: fps,
+    _currentMetrics = PerformanceMetricsCalculator.fromSamples(
+      samples: _samples,
       shaderCompilations: _shaderCompilations,
+      durationSeconds: (_sessionStopwatch?.elapsedMilliseconds ?? 0) / 1000.0,
       memoryUsageMb: null, // Platform-specific
-      peakMemoryMb: _peakMemoryMb > 0 ? _peakMemoryMb : null,
-      isJanky: isJanky,
-      durationSeconds: durationSeconds,
-      stabilityScore: stabilityScore,
+      peakMemoryMb: _peakMemoryMb,
     );
   }
 
@@ -318,15 +366,18 @@ class PerformanceService extends ChangeNotifier {
 
     buffer.writeln('=== Performance Summary ===');
     buffer.writeln('Duration: ${m.durationSeconds.toStringAsFixed(1)}s');
-    buffer.writeln('FPS: ${m.fps.toStringAsFixed(1)} (${_getFpsRating(m.fps)})');
+    buffer
+        .writeln('FPS: ${m.fps.toStringAsFixed(1)} (${_getFpsRating(m.fps)})');
     buffer.writeln('Frame Time: ${m.avgFrameTimeMs.toStringAsFixed(2)}ms avg');
     buffer.writeln('  Min: ${m.minFrameTimeMs.toStringAsFixed(2)}ms');
     buffer.writeln('  Max: ${m.maxFrameTimeMs.toStringAsFixed(2)}ms');
     buffer.writeln('  P95: ${m.p95FrameTimeMs.toStringAsFixed(2)}ms');
     buffer.writeln('  P99: ${m.p99FrameTimeMs.toStringAsFixed(2)}ms');
-    buffer.writeln('Dropped Frames: ${m.droppedFrames}/${m.frameCount} (${m.dropPercentage.toStringAsFixed(1)}%)');
+    buffer.writeln(
+        'Dropped Frames: ${m.droppedFrames}/${m.frameCount} (${m.dropPercentage.toStringAsFixed(1)}%)');
     buffer.writeln('Shader Compilations: ${m.shaderCompilations}');
-    buffer.writeln('Stability Score: ${m.stabilityScore.toStringAsFixed(0)}/100');
+    buffer
+        .writeln('Stability Score: ${m.stabilityScore.toStringAsFixed(0)}/100');
 
     return buffer.toString();
   }
