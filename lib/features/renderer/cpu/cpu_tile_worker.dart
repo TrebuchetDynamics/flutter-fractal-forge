@@ -33,9 +33,14 @@ class CpuTileWorker {
   Future<CpuTileRenderResponse> renderTile(CpuTileRenderRequest req) async {
     final rp = ReceivePort();
     _sendPort.send((req, rp.sendPort));
-    final msg = await rp.first;
-    rp.close();
-    return msg as CpuTileRenderResponse;
+    try {
+      final msg = await rp.first;
+      if (msg is CpuTileRenderResponse) return msg;
+      if (msg is _CpuTileRenderFailure) throw msg.toException();
+      throw StateError('Unexpected CPU tile worker reply: ${msg.runtimeType}');
+    } finally {
+      rp.close();
+    }
   }
 
   void dispose() {
@@ -44,13 +49,64 @@ class CpuTileWorker {
   }
 }
 
+/// Exception surfaced when the worker isolate could not render a requested tile.
+class CpuTileWorkerException implements Exception {
+  const CpuTileWorkerException({
+    required this.errorType,
+    required this.message,
+    required this.stackTraceText,
+  });
+
+  final String errorType;
+  final String message;
+  final String stackTraceText;
+
+  @override
+  String toString() => 'CpuTileWorkerException($errorType): $message';
+}
+
+final class _CpuTileRenderFailure {
+  const _CpuTileRenderFailure({
+    required this.errorType,
+    required this.message,
+    required this.stackTraceText,
+  });
+
+  final String errorType;
+  final String message;
+  final String stackTraceText;
+
+  factory _CpuTileRenderFailure.from(Object error, StackTrace stackTrace) {
+    return _CpuTileRenderFailure(
+      errorType: error.runtimeType.toString(),
+      message: error.toString(),
+      stackTraceText: stackTrace.toString(),
+    );
+  }
+
+  CpuTileWorkerException toException() {
+    return CpuTileWorkerException(
+      errorType: errorType,
+      message: message,
+      stackTraceText: stackTraceText,
+    );
+  }
+}
+
 void _entry(SendPort mainSendPort) {
   final commands = ReceivePort();
   mainSendPort.send(commands.sendPort);
 
   commands.listen((msg) {
-    final (CpuTileRenderRequest req, SendPort replyTo) = msg as (CpuTileRenderRequest, SendPort);
-    final resp = renderCpuTileInIsolate(req);
-    replyTo.send(resp);
+    SendPort? replyTo;
+    try {
+      final (CpuTileRenderRequest req, SendPort port) =
+          msg as (CpuTileRenderRequest, SendPort);
+      replyTo = port;
+      final resp = renderCpuTileInIsolate(req);
+      replyTo.send(resp);
+    } catch (error, stackTrace) {
+      replyTo?.send(_CpuTileRenderFailure.from(error, stackTrace));
+    }
   });
 }
