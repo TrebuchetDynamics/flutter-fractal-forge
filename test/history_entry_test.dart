@@ -80,6 +80,62 @@ void main() {
       expect(entry.params, {'iterations': 100});
     });
 
+    test('constructor snapshots mutable view and freezes nested params', () {
+      final pan = Vector2(1, 2);
+      final rotation = Vector3(3, 4, 5);
+      final paletteStops = <Object?>[
+        0.0,
+        <String, Object?>{
+          'position': 0.5,
+          'rgb': <Object?>[32, 64, 128],
+        },
+      ];
+      final params = <String, Object>{'paletteStops': paletteStops};
+
+      final entry = HistoryEntry(
+        id: 'entry',
+        moduleId: 'mandelbrot',
+        view: FractalViewState(pan: pan, zoom: 6, rotation: rotation),
+        params: params,
+        visitedAt: DateTime.utc(2024),
+      );
+
+      pan.setValues(7, 8);
+      rotation.setValues(9, 10, 11);
+      (paletteStops[1] as Map<String, Object?>)['position'] = 0.75;
+      ((paletteStops[1] as Map<String, Object?>)['rgb'] as List<Object?>)[0] =
+          255;
+      paletteStops.add(1.0);
+
+      expect(entry.view.pan.x, 1);
+      expect(entry.view.pan.y, 2);
+      expect(entry.view.rotation.x, 3);
+      expect(entry.view.rotation.y, 4);
+      expect(entry.view.rotation.z, 5);
+      expect(entry.params, {
+        'paletteStops': [
+          0.0,
+          {
+            'position': 0.5,
+            'rgb': [32, 64, 128],
+          },
+        ],
+      });
+      expect(
+        () => entry.params['paletteStops'] = <Object?>[],
+        throwsUnsupportedError,
+      );
+      expect(
+        () => (entry.params['paletteStops'] as List<Object?>).add(1.0),
+        throwsUnsupportedError,
+      );
+      expect(
+        () => ((entry.params['paletteStops'] as List<Object?>)[1]
+            as Map<String, Object?>)['position'] = 0.75,
+        throwsUnsupportedError,
+      );
+    });
+
     test('serializes nested map parameter keys as JSON object keys', () {
       final entry = HistoryEntry.fromState(
         moduleId: 'mandelbrot',

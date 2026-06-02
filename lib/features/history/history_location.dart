@@ -15,10 +15,10 @@ FractalViewState snapshotHistoryView(FractalViewState view) {
 
 /// Creates a deep JSON-like snapshot of parameters at the record boundary.
 Map<String, Object> snapshotHistoryParams(Map<String, Object> params) {
-  return {
+  return Map<String, Object>.unmodifiable({
     for (final entry in params.entries)
       entry.key: snapshotHistoryParamValue(entry.value),
-  };
+  });
 }
 
 /// Deep-copies JSON-like parameter values so history replay is not affected by
@@ -27,21 +27,23 @@ Map<String, Object> snapshotHistoryParams(Map<String, Object> params) {
 /// Nested map keys are normalized to strings because history entries are
 /// persisted as JSON objects. Without this, a controller-owned metadata map
 /// with enum/int keys can make the whole history save fail during jsonEncode.
+/// Returned collections are unmodifiable so public [HistoryEntry] reads cannot
+/// mutate stored history without going through provider methods.
 Object snapshotHistoryParamValue(Object value) {
   if (value is List) {
-    return [
+    return List<Object?>.unmodifiable([
       for (final item in value)
         item is Object ? snapshotHistoryParamValue(item) : item,
-    ];
+    ]);
   }
 
   if (value is Map) {
-    return {
+    return Map<String, Object?>.unmodifiable({
       for (final entry in value.entries)
         entry.key.toString(): entry.value is Object
             ? snapshotHistoryParamValue(entry.value as Object)
             : entry.value,
-    };
+    });
   }
 
   return value;

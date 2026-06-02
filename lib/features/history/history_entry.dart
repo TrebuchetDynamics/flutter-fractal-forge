@@ -38,14 +38,18 @@ class HistoryEntry {
   bool get isFavorite => name != null;
 
   /// Creates a new [HistoryEntry].
-  const HistoryEntry({
+  ///
+  /// The supplied view vectors and parameter collections are snapshotted so a
+  /// history entry remains replayable even when callers mutate their originals.
+  HistoryEntry({
     required this.id,
     required this.moduleId,
-    required this.view,
-    required this.params,
+    required FractalViewState view,
+    required Map<String, Object> params,
     required this.visitedAt,
     this.name,
-  });
+  })  : view = snapshotHistoryView(view),
+        params = snapshotHistoryParams(params);
 
   /// Creates a history entry from the current fractal state.
   factory HistoryEntry.fromState({
@@ -57,8 +61,8 @@ class HistoryEntry {
     return HistoryEntry(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
       moduleId: moduleId,
-      view: snapshotHistoryView(view),
-      params: snapshotHistoryParams(params),
+      view: view,
+      params: params,
       visitedAt: DateTime.now(),
       name: name,
     );
@@ -77,8 +81,8 @@ class HistoryEntry {
     return HistoryEntry(
       id: id ?? this.id,
       moduleId: moduleId ?? this.moduleId,
-      view: view == null ? this.view : snapshotHistoryView(view),
-      params: params == null ? this.params : snapshotHistoryParams(params),
+      view: view ?? this.view,
+      params: params ?? this.params,
       visitedAt: visitedAt ?? this.visitedAt,
       name: clearName ? null : (name ?? this.name),
     );
