@@ -48,6 +48,62 @@ final class AnimatedParameterTransitionPlan {
   bool get startsTransition => kind == AnimatedParameterTransitionKind.numeric;
 }
 
+/// Replayable frame plan for timer-driven animations.
+///
+/// Morph timers derive curve input from a duration and frame cadence. Keeping
+/// that conversion explicit prevents sub-frame durations from producing zero
+/// total steps and sending Infinity/NaN into Flutter curves.
+final class AnimatedTimelinePlan {
+  static const int defaultFramesPerSecond = 60;
+
+  final Duration duration;
+  final int framesPerSecond;
+  final Duration frameInterval;
+  final int totalFrames;
+
+  const AnimatedTimelinePlan._({
+    required this.duration,
+    required this.framesPerSecond,
+    required this.frameInterval,
+    required this.totalFrames,
+  })  : assert(framesPerSecond > 0, 'framesPerSecond must be positive'),
+        assert(frameInterval > Duration.zero, 'frameInterval must be positive'),
+        assert(totalFrames > 0, 'totalFrames must be positive');
+
+  factory AnimatedTimelinePlan.forDuration(
+    Duration duration, {
+    int framesPerSecond = defaultFramesPerSecond,
+  }) {
+    final safeFramesPerSecond =
+        framesPerSecond > 0 ? framesPerSecond : defaultFramesPerSecond;
+    final frameIntervalMs = 1000 ~/ safeFramesPerSecond;
+    final rawFrames = duration.inMicroseconds <= 0
+        ? 1
+        : (duration.inMicroseconds *
+                safeFramesPerSecond /
+                Duration.microsecondsPerSecond)
+            .round();
+
+    return AnimatedTimelinePlan._(
+      duration: duration,
+      framesPerSecond: safeFramesPerSecond,
+      frameInterval: Duration(
+        milliseconds: frameIntervalMs > 0 ? frameIntervalMs : 1,
+      ),
+      totalFrames: rawFrames > 0 ? rawFrames : 1,
+    );
+  }
+
+  bool get isImmediate => duration <= Duration.zero;
+
+  double progressForFrame(int frame) {
+    if (frame <= 0) return 0.0;
+    return (frame / totalFrames).clamp(0.0, 1.0).toDouble();
+  }
+
+  bool isCompleteFrame(int frame) => frame >= totalFrames;
+}
+
 /// Service that manages smooth animated transitions for fractal parameters.
 ///
 /// This service provides interpolated values for parameters during transitions,
@@ -72,6 +128,7 @@ class AnimatedFractalController extends ChangeNotifier {
   String? _currentModuleId;
   double _morphProgress = 1.0;
   Timer? _morphTimer;
+  Timer? _celebrationTimer;
 
   bool _isCelebrating = false;
   bool _isTransitioning = false;
@@ -192,22 +249,25 @@ class AnimatedFractalController extends ChangeNotifier {
 
     _morphTimer?.cancel();
 
-    const fps = 60;
-    final steps = (morphDuration.inMilliseconds / (1000 / fps)).round();
+    final timeline = AnimatedTimelinePlan.forDuration(morphDuration);
+    if (timeline.isImmediate) {
+      _finishMorphTransition();
+      notifyListeners();
+      return;
+    }
+
     var step = 0;
 
     _morphTimer = Timer.periodic(
-      Duration(milliseconds: 1000 ~/ fps),
+      timeline.frameInterval,
       (timer) {
         step++;
-        _morphProgress = curve.transform(step / steps);
+        _morphProgress = curve.transform(timeline.progressForFrame(step));
         notifyListeners();
 
-        if (step >= steps) {
+        if (timeline.isCompleteFrame(step)) {
           timer.cancel();
-          _morphProgress = 1.0;
-          _previousModuleId = null;
-          _checkTransitionComplete();
+          _finishMorphTransition();
           notifyListeners();
         }
       },
@@ -268,8 +328,11 @@ class AnimatedFractalController extends ChangeNotifier {
     _isCelebrating = true;
     notifyListeners();
 
-    // Reset celebration after animation
-    Future.delayed(const Duration(milliseconds: 2500), () {
+    // Reset celebration after animation. Keep the timer cancellable so a
+    // disposed controller cannot receive a delayed notifyListeners callback.
+    _celebrationTimer?.cancel();
+    _celebrationTimer = Timer(const Duration(milliseconds: 2500), () {
+      _celebrationTimer = null;
       _isCelebrating = false;
       notifyListeners();
     });
@@ -278,6 +341,12 @@ class AnimatedFractalController extends ChangeNotifier {
   /// Manually trigger a celebration effect.
   void celebrate() {
     _triggerCelebration();
+  }
+
+  void _finishMorphTransition() {
+    _morphProgress = 1.0;
+    _previousModuleId = null;
+    _checkTransitionComplete();
   }
 
   void _checkTransitionComplete() {
@@ -313,6 +382,7 @@ class AnimatedFractalController extends ChangeNotifier {
   @override
   void dispose() {
     _morphTimer?.cancel();
+    _celebrationTimer?.cancel();
 
     // Close stream controller before disposing
     if (!_interestingSpotController.isClosed) {

@@ -67,6 +67,38 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // AnimatedTimelinePlan
+  // ---------------------------------------------------------------------------
+
+  group('AnimatedTimelinePlan', () {
+    test('keeps sub-frame durations inside the curve progress domain', () {
+      final plan = AnimatedTimelinePlan.forDuration(
+        const Duration(milliseconds: 1),
+      );
+
+      expect(plan.isImmediate, isFalse);
+      expect(plan.totalFrames, 1);
+      expect(plan.progressForFrame(0), 0.0);
+      expect(plan.progressForFrame(1), 1.0);
+      expect(plan.progressForFrame(2), 1.0);
+      expect(plan.isCompleteFrame(1), isTrue);
+    });
+
+    test('treats zero and negative durations as immediate one-frame plans', () {
+      for (final duration in [
+        Duration.zero,
+        const Duration(milliseconds: -1),
+      ]) {
+        final plan = AnimatedTimelinePlan.forDuration(duration);
+
+        expect(plan.isImmediate, isTrue, reason: '$duration');
+        expect(plan.totalFrames, 1, reason: '$duration');
+        expect(plan.progressForFrame(1), 1.0, reason: '$duration');
+      }
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // Interpolated value accessors before any animation starts
   // ---------------------------------------------------------------------------
 
@@ -312,6 +344,22 @@ void main() {
 
       controller.dispose();
     });
+
+    test('sub-frame morph durations complete without invalid curve progress',
+        () async {
+      final controller = AnimatedFractalController(
+        morphDuration: const Duration(milliseconds: 1),
+      );
+
+      controller.startMorph('mandelbrot', 'julia');
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(controller.morphProgress, 1.0);
+      expect(controller.previousModuleId, isNull);
+      expect(controller.isTransitioning, isFalse);
+
+      controller.dispose();
+    });
   });
 
   // ---------------------------------------------------------------------------
@@ -459,6 +507,17 @@ void main() {
       controller.animateZoom(1.0, 100.0);
 
       expect(() => controller.dispose(), returnsNormally);
+    });
+
+    testWidgets('dispose cancels pending celebration reset callbacks',
+        (tester) async {
+      final controller = AnimatedFractalController();
+
+      controller.celebrate();
+      controller.dispose();
+      await tester.pump(const Duration(milliseconds: 2500));
+
+      expect(tester.takeException(), isNull);
     });
   });
 
