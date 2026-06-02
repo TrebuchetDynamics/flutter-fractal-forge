@@ -367,16 +367,54 @@ class _DeepLinkJuliaConstantParams {
   }
 }
 
+class _DeepLinkViewQueryBounds {
+  // Mirrors the controller's default minimum zoom so generated links can
+  // replay valid zoomed-out views instead of dropping them back to 1.0x.
+  static const double minReplayableZoom = 1e-9;
+
+  // Keep the legacy accepted upper cap for inbound links; generated links still
+  // omit out-of-range values rather than minting clamped camera state.
+  static const double maxAcceptedZoom = 1e15;
+  static const double minCoordinate = -1e10;
+  static const double maxCoordinate = 1e10;
+
+  const _DeepLinkViewQueryBounds._();
+}
+
 class DeepLinkService {
   static const String scheme = 'fractalforge';
   static const String host = 'view';
 
-  static const _zoomParam = _BoundedDoubleQueryParam('zoom', 0.001, 1e15);
-  static const _xParam = _BoundedDoubleQueryParam('x', -1e10, 1e10);
-  static const _yParam = _BoundedDoubleQueryParam('y', -1e10, 1e10);
-  static const _rotXParam = _BoundedDoubleQueryParam('rotX', -1e10, 1e10);
-  static const _rotYParam = _BoundedDoubleQueryParam('rotY', -1e10, 1e10);
-  static const _rotZParam = _BoundedDoubleQueryParam('rotZ', -1e10, 1e10);
+  static const _zoomParam = _BoundedDoubleQueryParam(
+    'zoom',
+    _DeepLinkViewQueryBounds.minReplayableZoom,
+    _DeepLinkViewQueryBounds.maxAcceptedZoom,
+  );
+  static const _xParam = _BoundedDoubleQueryParam(
+    'x',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _yParam = _BoundedDoubleQueryParam(
+    'y',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _rotXParam = _BoundedDoubleQueryParam(
+    'rotX',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _rotYParam = _BoundedDoubleQueryParam(
+    'rotY',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _rotZParam = _BoundedDoubleQueryParam(
+    'rotZ',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
   static const _iterationsParam = _BoundedIntQueryParam('iterations', 1, 10000);
   static const _bailoutParam = _BoundedDoubleQueryParam('bailout', 1.0, 1e10);
   static const _colorSchemeParam =

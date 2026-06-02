@@ -550,6 +550,26 @@ void main() {
         expect(parsed.zoom, originalView.zoom);
       });
 
+      test('minimum controller zoom round-trip preserves zoomed-out view', () {
+        final originalView = FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1e-9,
+          rotation: Vector3.zero(),
+        );
+
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbrot',
+          params: const {},
+          view: originalView,
+        );
+
+        final parsed = DeepLinkService.parseUri(uri);
+
+        expect(uri.queryParameters['zoom'], '1e-9');
+        expect(parsed, isNotNull);
+        expect(parsed!.zoom, closeTo(originalView.zoom, 1e-15));
+      });
+
       test('3D rotation round-trip preserves significant digits', () {
         final originalView = FractalViewState(
           pan: Vector2.zero(),
@@ -716,13 +736,13 @@ void main() {
         expect(data!.zoom, closeTo(1e15, 1e10));
       });
 
-      test('zoom below 0.001 is clamped to 0.001', () {
-        final uri =
-            Uri.parse('fractalforge://view?type=mandelbrot&zoom=0.00000001');
+      test('zoom below replay minimum is clamped to 1e-9', () {
+        final uri = Uri.parse(
+            'fractalforge://view?type=mandelbrot&zoom=0.000000000001');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
-        expect(data!.zoom, closeTo(0.001, 1e-6));
+        expect(data!.zoom, closeTo(1e-9, 1e-15));
       });
 
       test('iterations above 10000 is clamped to 10000', () {
@@ -832,12 +852,12 @@ void main() {
         expect(data, isNull);
       });
 
-      test('zoom of exactly 0.001 is accepted (at min boundary)', () {
-        final uri = Uri.parse('fractalforge://view?type=mandelbrot&zoom=0.001');
+      test('zoom of exactly 1e-9 is accepted (at min boundary)', () {
+        final uri = Uri.parse('fractalforge://view?type=mandelbrot&zoom=1e-9');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
-        expect(data!.zoom, closeTo(0.001, 1e-9));
+        expect(data!.zoom, closeTo(1e-9, 1e-15));
       });
 
       test('zoom of exactly 1e15 is accepted (at max boundary)', () {
