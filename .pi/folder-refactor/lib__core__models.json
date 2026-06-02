@@ -1,19 +1,24 @@
 {
   "version": 1,
   "target": "lib/core/models",
-  "updatedAt": "2026-06-02T06:05:29.061Z",
+  "updatedAt": "2026-06-02T10:16:19.816Z",
   "objective": "Refactor lib/core/models into responsibility subfolders with root compatibility facades: fractal, palette, export, exploration, wallpaper. Preserve existing package import paths and reduce model->service coupling by moving WallpaperTarget into the wallpaper model boundary while re-exporting it from WallpaperService for compatibility.",
   "completedSlices": [
+    "Created lib/core/models/wallpaper, added WallpaperTarget contract, moved WallpaperOptions there, and kept root wallpaper_options.dart facade.",
     "Moved fractal parameter/params/preset/view-state models to lib/core/models/fractal with root export facades.",
-    "Moved palette model to lib/core/models/palette with root export facade.",
     "Moved image and video export option models to lib/core/models/export with root export facades.",
-    "Moved exploration stats model to lib/core/models/exploration with root export facade.",
-    "Moved wallpaper options to lib/core/models/wallpaper and introduced wallpaper_target.dart contract; wallpaper_service imports/re-exports the contract so existing service imports keep working.",
-    "Updated lib/core/models/AGENTS.md to document subfolder responsibilities and root compatibility facades."
+    "Moved palette model to lib/core/models/palette and exploration stats to lib/core/models/exploration with root export facades.",
+    "Updated lib/core/models/AGENTS.md to document subfolder responsibilities and root compatibility facades.",
+    "Removed now-unnecessary wallpaper_service import from the wallpaper options sheet import-fix caller."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/dart analyze lib/core/models lib/core/services/wallpaper_service.dart test/fractal_params_test.dart test/fractal_preset_json_test.dart test/fractal_view_state_test.dart test/common_fractal_params_test.dart test/palette_service_test.dart test/palette_store_test.dart test/export_options_test.dart test/export_service_test.dart test/video_export_service_test.dart test/exploration_stats_service_test.dart test/wallpaper_service_test.dart -> No issues found.",
-    "/home/xel/flutter/bin/flutter test test/fractal_params_test.dart test/fractal_preset_json_test.dart test/fractal_view_state_test.dart test/common_fractal_params_test.dart test/palette_service_test.dart test/palette_store_test.dart test/export_options_test.dart test/export_service_test.dart test/video_export_service_test.dart test/exploration_stats_service_test.dart test/wallpaper_service_test.dart -> blocked by pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
+    "/home/xel/flutter/bin/dart analyze lib/core/models lib/core/services/wallpaper_service.dart test/wallpaper_service_test.dart -> No issues found.",
+    "/home/xel/flutter/bin/dart analyze lib/core/models lib/core/modules lib/features/renderer/providers lib/features/history selected fractal model/module tests -> No issues found.",
+    "/home/xel/flutter/bin/dart analyze lib/core/models lib/core/services/export_service.dart lib/core/services/batch_export_service.dart lib/features/export lib/features/viewer/fractal_viewer_screen.dart selected export tests -> No issues found.",
+    "/home/xel/flutter/bin/dart analyze lib/core/models lib/core/services/palette_service.dart lib/core/services/palette_store.dart lib/core/services/exploration_stats_service.dart selected palette/exploration tests -> No issues found.",
+    "/home/xel/flutter/bin/dart analyze lib/core/models lib/core/services lib/core/modules lib/features/export lib/features/wallpaper lib/features/history lib/features/renderer/providers selected related tests -> No issues found.",
+    "/home/xel/flutter/bin/flutter test selected related tests -> blocked by existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "/home/xel/flutter/bin/flutter test --no-test-assets selected related tests -> All tests passed."
   ]
 }

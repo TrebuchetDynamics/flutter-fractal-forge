@@ -1,15 +1,19 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/families/tricorn",
-  "updatedAt": "2026-06-02T06:01:54.505Z",
-  "objective": "Complete tricorn shader family topology: root contains no shader implementations; parameter-plane Mandelbar/Tricorn variants live under parameter_plane/; fixed-c Julia variants live under julia_sets/. Preserve existing asset paths already referenced by pubspec/catalog/tests.",
+  "updatedAt": "2026-06-02T10:07:51.723Z",
+  "objective": "Complete tricorn shader family topology: root contains no shader implementations; parameter-plane Mandelbar/Tricorn variants live under parameter_plane/; fixed-c Julia variants live under julia_sets/. Preserve existing asset paths referenced by pubspec, escape_time_catalog, and targeted tests.",
   "completedSlices": [
     "Move-only slice: moved 4 parameter-plane shaders (tricorn_gpu, cubic, power4, power5) into parameter_plane/ and 7 fixed-c Julia shaders (base, cubic, power4-power8) into julia_sets/.",
-    "Import/path slice: no source updates needed; pubspec.yaml, escape_time_catalog.dart, CPU diagnostic comments, and targeted tests already referenced the new subfolder paths."
+    "Import/path slice: no source updates needed; pubspec.yaml, escape_time_catalog.dart, CPU diagnostic comments, and targeted tests already referenced the new subfolder paths.",
+    "Shared-code pass: duplicate GLSL helpers/palette fragments remain intentionally local because the project has no local shader include/shared GLSL contract beyond flutter/runtime_effect.glsl; extracting helpers would add unvalidated shader-build behavior."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/flutter test test/power_shader_regression_test.dart test/fractal_cpu_diagnostics_test.dart -> blocked before test execution by unrelated pubspec asset error: missing shaders/legacy/raymarched_3d/mandelbulb.frag.",
-    "rg for stale root tricorn shader asset paths -> no matches."
+    "/home/xel/flutter/bin/flutter test test/power_shader_regression_test.dart -> blocked before test execution by unrelated pubspec asset error: missing shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "/home/xel/flutter/bin/flutter test test/fractal_cpu_diagnostics_test.dart -> blocked before test execution by unrelated pubspec asset error: missing shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "python3 content/reference check -> OK: all 11 moved files match HEAD blobs at old paths; 24 tricorn public shader refs in pubspec.yaml, lib/core/modules/builders/escape_time_catalog.dart, test/power_shader_regression_test.dart, and test/fractal_cpu_diagnostics_test.dart exist.",
+    "rg stale root tricorn shader asset paths in pubspec.yaml lib test docs research TODO.md -> no matches.",
+    "folder_refactor_scan -> root files: none; root dirs: julia_sets, parameter_plane."
   ]
 }
