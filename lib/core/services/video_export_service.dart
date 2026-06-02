@@ -78,6 +78,24 @@ class VideoZoomFactor {
   }
 }
 
+/// Replayable start-zoom contract for video animation frames.
+///
+/// Stored or caller-provided views can bypass controller zoom clamps. Normalize
+/// at the export-frame boundary so interpolation and pan-orbit radius math never
+/// emit NaN/Infinity to the caller's update callback.
+class VideoStartZoom {
+  static const double neutral = 1.0;
+
+  const VideoStartZoom._();
+
+  static double normalize(double zoom) {
+    if (!zoom.isFinite || zoom <= 0.0) return neutral;
+    return zoom;
+  }
+
+  static double panOrbitRadius(double zoom) => 0.5 / normalize(zoom);
+}
+
 /// Replayable parameter-sweep frame contract for video animations.
 ///
 /// [VideoExportService.calculateParameterFrame] hands updates to an arbitrary
@@ -202,40 +220,44 @@ class VideoExportService {
       totalFrames: totalFrames,
     );
     final easedT = options.easing.apply(t);
+    final startZoom = VideoStartZoom.normalize(startView.zoom);
+    final replayableStartView = startZoom == startView.zoom
+        ? startView
+        : startView.copyWith(zoom: startZoom);
 
     switch (options.animationType) {
       case VideoAnimationType.zoomIn:
         final zoomFactor = VideoZoomFactor.normalize(options.zoomFactor);
-        final targetZoom = startView.zoom * zoomFactor;
-        final newZoom = startView.zoom + (targetZoom - startView.zoom) * easedT;
-        return startView.copyWith(zoom: newZoom);
+        final targetZoom = startZoom * zoomFactor;
+        final newZoom = startZoom + (targetZoom - startZoom) * easedT;
+        return replayableStartView.copyWith(zoom: newZoom);
 
       case VideoAnimationType.zoomOut:
         final zoomFactor = VideoZoomFactor.normalize(options.zoomFactor);
-        final targetZoom = startView.zoom / zoomFactor;
-        final newZoom = startView.zoom + (targetZoom - startView.zoom) * easedT;
-        return startView.copyWith(zoom: newZoom);
+        final targetZoom = startZoom / zoomFactor;
+        final newZoom = startZoom + (targetZoom - startZoom) * easedT;
+        return replayableStartView.copyWith(zoom: newZoom);
 
       case VideoAnimationType.rotate:
         final angle = easedT * 2 * math.pi;
-        final currentRot = startView.rotation;
-        return startView.copyWith(
+        final currentRot = replayableStartView.rotation;
+        return replayableStartView.copyWith(
           rotation: Vector3(currentRot.x, currentRot.y + angle, currentRot.z),
         );
 
       case VideoAnimationType.pan:
         final angle = easedT * 2 * math.pi;
-        final radius = 0.5 / startView.zoom;
-        return startView.copyWith(
+        final radius = VideoStartZoom.panOrbitRadius(startView.zoom);
+        return replayableStartView.copyWith(
           pan: Vector2(
-            startView.pan.x + radius * math.cos(angle),
-            startView.pan.y + radius * math.sin(angle),
+            replayableStartView.pan.x + radius * math.cos(angle),
+            replayableStartView.pan.y + radius * math.sin(angle),
           ),
         );
 
       case VideoAnimationType.parameterSweep:
       case VideoAnimationType.custom:
-        return startView;
+        return replayableStartView;
     }
   }
 

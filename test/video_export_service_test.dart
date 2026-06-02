@@ -411,6 +411,32 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // VideoStartZoom
+  // ---------------------------------------------------------------------------
+  group('VideoStartZoom', () {
+    test('normalizes malformed start zoom samples to a neutral zoom', () {
+      for (final zoom in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+        -2.0,
+        0.0,
+      ]) {
+        expect(
+          VideoStartZoom.normalize(zoom),
+          VideoStartZoom.neutral,
+          reason: 'zoom=$zoom',
+        );
+      }
+    });
+
+    test('preserves positive finite start zoom samples', () {
+      expect(VideoStartZoom.normalize(1e-9), 1e-9);
+      expect(VideoStartZoom.normalize(4.0), 4.0);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // VideoExportService.calculateAnimationFrame
   // ---------------------------------------------------------------------------
   group('VideoExportService.calculateAnimationFrame', () {
@@ -494,6 +520,38 @@ void main() {
               reason: '$animationType zoomFactor=$zoomFactor');
           expect(frame.zoom, closeTo(view.zoom, 1e-9),
               reason: '$animationType zoomFactor=$zoomFactor');
+        }
+      }
+    });
+
+    test('malformed start zooms do not poison emitted animation frames', () {
+      for (final startZoom in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+        -2.0,
+        0.0,
+      ]) {
+        final view = makeView(zoom: startZoom);
+
+        for (final animationType in VideoAnimationType.values) {
+          final frame = service.calculateAnimationFrame(
+            startView: view,
+            options: VideoExportOptions(
+              animationType: animationType,
+              zoomFactor: 5.0,
+              easing: AnimationEasing.linear,
+            ),
+            frameIndex: 9,
+            totalFrames: 10,
+          );
+
+          expect(frame.zoom.isFinite, isTrue,
+              reason: '$animationType startZoom=$startZoom');
+          expect(frame.pan.x.isFinite, isTrue,
+              reason: '$animationType startZoom=$startZoom');
+          expect(frame.pan.y.isFinite, isTrue,
+              reason: '$animationType startZoom=$startZoom');
         }
       }
     });
