@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/features/history/history_entry.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math.dart';
@@ -35,6 +37,29 @@ Future<void> _recordAndFlush(
     params: const <String, Object>{'iterations': 100},
   );
   await tester.pump(const Duration(milliseconds: 501));
+}
+
+final class _LegacyReplayController {
+  final params = <String, Object>{};
+  double? zoom;
+  Vector2? pan;
+  Vector3? rotation;
+
+  void updateParam(String id, Object value) {
+    params[id] = value;
+  }
+
+  void updateZoom(double value) {
+    zoom = value;
+  }
+
+  void updatePan(Vector2 value) {
+    pan = Vector2.copy(value);
+  }
+
+  void updateRotation(Vector3 value) {
+    rotation = Vector3.copy(value);
+  }
 }
 
 void main() {
@@ -205,6 +230,70 @@ void main() {
       expect(provider.historyCount, 0);
       expect(provider.currentEntry, isNull);
       expect(store.loadHistory(), isEmpty);
+    });
+
+    testWidgets('history replay switches to the recorded module before state',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+
+      final registry = ModuleRegistry();
+      final controller = FractalController(registry);
+      addTearDown(controller.dispose);
+
+      final entry = HistoryEntry(
+        id: 'julia-replay',
+        moduleId: 'julia',
+        view: FractalViewState(
+          pan: Vector2(0.25, -0.5),
+          zoom: 2.5,
+          rotation: Vector3(0.1, 0.2, 0.3),
+        ),
+        params: const <String, Object>{
+          'iterations': 222,
+          'bailout': 4.5,
+          'colorScheme': 2,
+        },
+        visitedAt: DateTime.utc(2024),
+      );
+
+      provider.applyToController(entry, controller);
+
+      expect(controller.module.id, 'julia');
+      expect(controller.params['iterations'], 222);
+      expect(controller.params['bailout'], closeTo(4.5, 1e-12));
+      expect(controller.params['colorScheme'], 2);
+      expect(controller.view.pan, Vector2(0.25, -0.5));
+      expect(controller.view.zoom, 2.5);
+      expect(controller.view.rotation, Vector3(0.1, 0.2, 0.3));
+    });
+
+    testWidgets('history replay keeps legacy structural controllers working',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+
+      final controller = _LegacyReplayController();
+      final entry = HistoryEntry(
+        id: 'legacy-replay',
+        moduleId: 'mandelbrot',
+        view: FractalViewState(
+          pan: Vector2(-0.25, 0.5),
+          zoom: 3.5,
+          rotation: Vector3(0.4, 0.5, 0.6),
+        ),
+        params: const <String, Object>{'iterations': 180},
+        visitedAt: DateTime.utc(2024),
+      );
+
+      provider.applyToController(entry, controller);
+
+      expect(controller.params, {'iterations': 180});
+      expect(controller.zoom, 3.5);
+      expect(controller.pan, Vector2(-0.25, 0.5));
+      expect(controller.rotation, Vector3(0.4, 0.5, 0.6));
     });
   });
 }

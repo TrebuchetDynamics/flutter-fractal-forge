@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/services/history_store.dart';
 import 'package:flutter_fractals/features/history/history_entry.dart';
 import 'package:flutter_fractals/features/history/history_favorites.dart';
 import 'package:flutter_fractals/features/history/history_location.dart';
+import 'package:flutter_fractals/features/history/history_replay.dart';
 import 'package:flutter_fractals/features/history/history_window.dart';
 
 /// Manages exploration history with back/forward navigation and favorites.
@@ -280,25 +281,11 @@ class HistoryProvider extends ChangeNotifier {
 
   /// Applies a history entry to a controller-like object.
   ///
-  /// Kept intentionally structural so history navigation tests do not depend on
-  /// renderer module registration. The controller is expected to expose
-  /// `updateParam`, `updateZoom`, `updatePan`, and `updateRotation` methods.
+  /// Complete-state controllers should expose `loadState` so replay switches to
+  /// the recorded module before applying module-specific params. Legacy test
+  /// doubles without `loadState` keep the old structural update sequence.
   void applyToController(HistoryEntry entry, Object controller) {
-    final target = controller as dynamic;
-
-    // Update parameters
-    for (final paramEntry in entry.params.entries) {
-      try {
-        target.updateParam(paramEntry.key, paramEntry.value);
-      } catch (_) {
-        // Parameter may not exist in current module
-      }
-    }
-
-    // Update view state
-    target.updateZoom(entry.view.zoom);
-    target.updatePan(entry.view.pan);
-    target.updateRotation(entry.view.rotation);
+    applyHistoryEntryToController(entry, controller);
   }
 
   /// Cancels any pending debounced history record.
