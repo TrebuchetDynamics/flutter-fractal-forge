@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target": "fractals-library/categories/deep_chaos_and_flows/sprott_and_named_flows",
+  "updatedAt": "2026-06-02T23:11:20.291Z",
+  "objective": "Refactor sprott_and_named_flows root-heavy reference stubs into responsibility subfolders, add a local metadata contract/value type, and keep metadata behavior validated without changing IDs/names/category.",
+  "completedSlices": [
+    "Added target-local metadata contract check before structural edits.",
+    "Moved Sprott/named-flow stubs from target root into responsibility subfolders: sprott_family, jerk_oscillator_flows, autonomous_polynomial_flows, trigonometric_symmetric_flows.",
+    "Extracted metadata/flow_reference_metadata.dart with FlowReferenceMetadata and deepChaosAndFlowsCategory, then wired all flow stubs to the shared metadata contract.",
+    "Updated test_contracts/metadata_contract_test.dart to verify stable public constants and shared metadata consistency."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart fractals-library/categories/deep_chaos_and_flows/sprott_and_named_flows/test_contracts/metadata_contract_test.dart (pass)",
+    "/home/xel/flutter/bin/dart analyze fractals-library/categories/deep_chaos_and_flows/sprott_and_named_flows (No issues found)",
+    "python3 fractals-library/scripts/validate_manifest.py (OK: manifest has 200 unique IDs)"
+  ]
+}
