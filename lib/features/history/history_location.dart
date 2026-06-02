@@ -21,6 +21,21 @@ Map<String, Object> snapshotHistoryParams(Map<String, Object> params) {
   });
 }
 
+/// Decodes persisted history params without letting one stale null field drop
+/// an otherwise replayable entry.
+Map<String, Object> decodeHistoryParams(Map? params) {
+  if (params == null) return const <String, Object>{};
+
+  final decoded = <String, Object>{};
+  for (final entry in params.entries) {
+    final key = entry.key;
+    final value = entry.value;
+    if (key == null || value == null) continue;
+    decoded[key.toString()] = snapshotHistoryParamValue(value as Object);
+  }
+  return Map<String, Object>.unmodifiable(decoded);
+}
+
 /// Deep-copies JSON-like parameter values so history replay is not affected by
 /// later mutations of nested list/map values owned by controllers or widgets.
 ///

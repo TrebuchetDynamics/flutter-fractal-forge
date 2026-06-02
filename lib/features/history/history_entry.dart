@@ -125,10 +125,7 @@ class HistoryEntry {
           (viewJson['rotZ'] as num? ?? 0).toDouble(),
         ),
       ),
-      params: (json['params'] as Map?)?.map(
-            (key, value) => MapEntry(key as String, value as Object),
-          ) ??
-          {},
+      params: decodeHistoryParams(json['params'] as Map?),
       visitedAt: DateTime.tryParse(json['visitedAt'] as String? ?? '') ??
           DateTime.now(),
       name: json['name'] as String?,

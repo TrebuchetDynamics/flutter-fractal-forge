@@ -158,6 +158,43 @@ void main() {
       });
     });
 
+    test('drops stale top-level null params while preserving replayable entry',
+        () {
+      final restored = HistoryEntry.fromJson({
+        'id': 'entry-with-stale-param',
+        'moduleId': 'mandelbrot',
+        'view': <String, Object?>{
+          'panX': 0,
+          'panY': 0,
+          'zoom': 1,
+          'rotX': 0,
+          'rotY': 0,
+          'rotZ': 0,
+        },
+        'params': <String, Object?>{
+          'iterations': 120,
+          'staleNull': null,
+          'paletteStops': <Object?>[
+            0.0,
+            null,
+            <String, Object?>{'position': null},
+          ],
+        },
+        'visitedAt': '2024-01-01T00:00:00.000Z',
+        'name': null,
+      });
+
+      expect(restored.id, 'entry-with-stale-param');
+      expect(restored.params, {
+        'iterations': 120,
+        'paletteStops': [
+          0.0,
+          null,
+          {'position': null},
+        ],
+      });
+    });
+
     test('deep-snapshots nested JSON-like params when created from state', () {
       final paletteStops = <Object?>[
         0.0,
