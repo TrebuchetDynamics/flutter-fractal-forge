@@ -2543,7 +2543,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag (CPU approximation, seed=0x361c54b7)
+  // Ported from shaders/escape_time_family/families/celtic/julia_sets/celtic_julia_gpu.frag (CPU approximation, seed=0x361c54b7)
   return _cpu_synthetic(0x361c54b7, x, y, iterations, bailout);
 }
 
