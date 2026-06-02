@@ -15,16 +15,37 @@ List<FractalPreset> buildBuiltInPresetList({
   required FractalPreset defaultPreset,
   required List<FractalPreset> extraPresets,
 }) {
+  final usedIds = <String>{};
   return [
     defaultPreset.copyWith(
-        id: '${defaultPreset.moduleId}-classic', name: 'Classic'),
-    ...extraPresets.map(_asReplayableBuiltInPreset),
+      id: _uniquePresetId('${defaultPreset.moduleId}-classic', usedIds),
+      name: 'Classic',
+    ),
+    ...extraPresets.map((preset) => _asReplayableBuiltInPreset(
+          preset,
+          usedIds,
+        )),
   ];
 }
 
-FractalPreset _asReplayableBuiltInPreset(FractalPreset preset) {
+FractalPreset _asReplayableBuiltInPreset(
+  FractalPreset preset,
+  Set<String> usedIds,
+) {
   return preset.copyWith(
+    id: _uniquePresetId(preset.id, usedIds),
     createdAt: builtInPresetCreatedAt,
     isBuiltIn: true,
   );
+}
+
+String _uniquePresetId(String id, Set<String> usedIds) {
+  if (usedIds.add(id)) return id;
+
+  var suffix = 2;
+  while (true) {
+    final candidate = '$id-$suffix';
+    if (usedIds.add(candidate)) return candidate;
+    suffix++;
+  }
 }

@@ -60,5 +60,34 @@ void main() {
       expect(curated.params['iterations'], 240);
       expect(curated.view.zoom, 8.0);
     });
+
+    test('curated preset ids cannot collide with generated classic ids', () {
+      final config = EscapeTimeConfig(
+        id: 'collision-test',
+        name: 'Collision Test',
+        shaderAsset: 'shaders/collision_test.frag',
+        extraPresets: [
+          FractalPreset(
+            id: 'collision-test-classic',
+            moduleId: 'collision-test',
+            name: 'Curated Classic',
+            params: const {'iterations': 240, 'bailout': 4.0},
+            view: FractalViewState(
+              pan: Vector2(-0.75, 0.1),
+              zoom: 8.0,
+              rotation: Vector3.zero(),
+            ),
+            createdAt: DateTime.now(),
+          ),
+        ],
+      );
+
+      final module = buildEscapeTimeModule(config);
+      final ids = module.builtInPresets.map((preset) => preset.id).toList();
+
+      expect(ids, ['collision-test-classic', 'collision-test-classic-2']);
+      expect(ids.toSet(), hasLength(ids.length));
+      expect(module.builtInPresets.last.name, 'Curated Classic');
+    });
   });
 }

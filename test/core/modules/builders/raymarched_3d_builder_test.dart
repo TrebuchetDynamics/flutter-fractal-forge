@@ -4,6 +4,7 @@ import 'package:vector_math/vector_math.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d_builder.dart';
+import 'package:flutter_fractals/core/modules/builders/raymarched_3d_catalog.dart';
 
 void main() {
   group('buildRaymarched3DModule', () {
@@ -37,6 +38,15 @@ void main() {
       expect(curated.createdAt, DateTime.utc(2025, 1, 1));
       expect(curated.params['power'], 8.0);
       expect(curated.view.zoom, 1.5);
+    });
+
+    test('catalog modules expose unique built-in preset ids', () {
+      for (final config in raymarched3DCatalog) {
+        final module = buildRaymarched3DModule(config);
+        final ids = module.builtInPresets.map((preset) => preset.id).toList();
+
+        expect(ids.toSet(), hasLength(ids.length), reason: module.id);
+      }
     });
   });
 }
