@@ -4,6 +4,7 @@ import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart'
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dart';
 import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
+import 'package:flutter_fractals/core/modules/hydrogen_orbital_module.dart';
 import 'package:flutter_fractals/core/modules/julia_dual_module.dart';
 import 'package:flutter_fractals/core/modules/julia_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbox_module.dart';
@@ -69,6 +70,9 @@ class ModuleRegistry {
       if (!catalogIds.contains('mandelbulb')) buildMandelbulbModule(),
       // Mandelbox is 3D with box-fold + sphere-fold DE
       if (!catalogIds.contains('mandelbox')) buildMandelboxModule(),
+      // Hydrogen orbital is a volumetric density renderer with custom controls.
+      if (!catalogIds.contains('hydrogen_orbital'))
+        buildHydrogenOrbitalModule(),
     ];
 
     // Diagnostics (debug only, always last)

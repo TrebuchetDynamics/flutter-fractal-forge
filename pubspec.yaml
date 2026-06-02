@@ -433,6 +433,7 @@ flutter:
     - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/hydrogen_orbital_gpu.frag
     - shaders/escape_time_family/experimental_named/coupled_orbits/alternated_iteration_gpu.frag
     - shaders/escape_time_family/experimental_named/discrete_attractors/bedhead_gpu.frag
     - shaders/strange_attractors/discrete_maps/bogdanov_map_gpu.frag

@@ -12,9 +12,10 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// - Escape-time catalog unique top-level IDs : 490
 /// - Raymarched-3D catalog unique IDs         :   9
-/// - Custom hand-built modules                :   6
-///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox)
-/// - Total ModuleRegistry modules (non-debug) : 505
+/// - Custom hand-built modules                :   7
+///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
+///    hydrogen_orbital)
+/// - Total ModuleRegistry modules (non-debug) : 506
 ///
 /// The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
@@ -100,13 +101,12 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 505 (non-debug)', () {
+    test('total module count is 506 (non-debug)', () {
       // Debug-only diagnostic modules are excluded in release/test builds
       // because kDebugMode is false in test environments.
-      expect(registry.modules.length, 505,
+      expect(registry.modules.length, 506,
           reason: 'Update this constant when new modules are intentionally '
-              'added. Current breakdown: 355 escape-time + 9 raymarched-3D '
-              '+ 6 custom = 370.');
+              'added to the de-duplicated registry.');
     });
 
     test('all module IDs are unique (no duplicates)', () {
@@ -155,6 +155,7 @@ void main() {
         'nova',
         'mandelbulb',
         'mandelbox',
+        'hydrogen_orbital',
       ];
       for (final id in customIds) {
         expect(
@@ -182,6 +183,7 @@ void main() {
         'multibrot3',
         'mandelbulb',
         'mandelbox',
+        'hydrogen_orbital',
         'kifs_menger',
         'kifs_sierpinski_tetra',
         'quaternion_julia_3d',
