@@ -83,6 +83,28 @@ void main() {
       expect(event.tags['attempt'], equals('1'));
     });
 
+    test('records tags as immutable event snapshots', () {
+      final tags = {'module': 'mandelbrot'};
+
+      CrashReporter.instance.record(
+        Exception('Tagged error'),
+        null,
+        source: 'test',
+        fatal: false,
+        tags: tags,
+      );
+
+      tags['module'] = 'julia';
+      tags['attempt'] = '2';
+
+      final event = CrashReporter.instance.recentEvents.single;
+      expect(event.tags, equals({'module': 'mandelbrot'}));
+      expect(
+        () => event.tags['module'] = 'julia',
+        throwsUnsupportedError,
+      );
+    });
+
     test('tracks error counts by source', () {
       CrashReporter.instance.record(
         Exception('Error 1'),
@@ -248,6 +270,24 @@ void main() {
 
       final event = CrashReporter.instance.recentEvents.first;
       expect(event.error, isNot(contains('testuser')));
+    });
+
+    test('sanitized paths do not expose regex replacement markers', () {
+      CrashReporter.instance.record(
+        Exception(
+          'Error at file:///home/testuser/project/file.dart and '
+          '/Users/testuser/project/file.dart',
+        ),
+        null,
+        source: 'test',
+        fatal: false,
+      );
+
+      final event = CrashReporter.instance.recentEvents.first;
+      expect(event.error, isNot(contains('testuser')));
+      expect(event.error, isNot(contains(r'$1')));
+      expect(event.error, contains('file:///home/…'));
+      expect(event.error, contains('/Users/…'));
     });
 
     test('truncates long error messages', () {

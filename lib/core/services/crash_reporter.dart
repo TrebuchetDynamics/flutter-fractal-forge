@@ -365,15 +365,15 @@ class CrashReporter {
     var s = input;
 
     // file:///Users/<name>/... or file:///home/<name>/...
-    s = s.replaceAll(
+    s = s.replaceAllMapped(
       RegExp(r'file:///((Users|home)/)[^/\s]+'),
-      'file:///\$1…',
+      (match) => 'file:///${match.group(1)!}…',
     );
 
     // /Users/<name>/... or /home/<name>/...
-    s = s.replaceAll(
+    s = s.replaceAllMapped(
       RegExp(r'/(Users|home)/[^/\s]+'),
-      '/\$1/…',
+      (match) => '/${match.group(1)!}/…',
     );
 
     // Android internal app data paths
@@ -422,8 +422,8 @@ class CrashEvent {
     required this.errorType,
     this.stack,
     this.context,
-    this.tags = const {},
-  });
+    Map<String, String> tags = const {},
+  }) : tags = _CrashEventTags.snapshot(tags);
 
   /// Creates a CrashEvent from JSON data.
   factory CrashEvent.fromJson(Map<String, dynamic> json) {
@@ -451,7 +451,7 @@ class CrashEvent {
       'error_type': errorType,
       if (stack != null) 'stack': stack,
       if (context != null) 'context': context,
-      if (tags.isNotEmpty) 'tags': tags,
+      if (tags.isNotEmpty) 'tags': Map<String, String>.from(tags),
     };
   }
 
@@ -482,6 +482,20 @@ class CrashEvent {
 
   @override
   String toString() => toSingleLineString();
+}
+
+/// Snapshot boundary for event tag provenance.
+///
+/// Crash events can outlive mutable caller-owned maps. Copying and freezing
+/// tags when the event is created keeps exported logs replayable even if the
+/// caller later reuses or mutates its tag map.
+final class _CrashEventTags {
+  const _CrashEventTags._();
+
+  static Map<String, String> snapshot(Map<String, String> tags) {
+    if (tags.isEmpty) return const {};
+    return Map<String, String>.unmodifiable(tags);
+  }
 }
 
 /// Extension for adding error recording to async operations.
