@@ -17,10 +17,23 @@ class PaletteStore {
   }
 
   List<FractalPalette> loadPalettes() {
-    final list = _prefs.getStringList(_key);
-    if (list != null) return _decodePaletteStringList(list);
+    return _decodePalettePayload(_prefs.get(_key));
+  }
 
-    return _decodeLegacyPaletteArray(_prefs.getString(_key));
+  List<FractalPalette> _decodePalettePayload(Object? payload) {
+    if (payload == null) return const [];
+    if (payload is String) return _decodeLegacyPaletteArray(payload);
+    if (payload is List) return _decodePaletteListPayload(payload);
+    return const [];
+  }
+
+  List<FractalPalette> _decodePaletteListPayload(List<Object?> payload) {
+    final encodedPalettes = <String>[];
+    for (final entry in payload) {
+      if (entry is! String) return const [];
+      encodedPalettes.add(entry);
+    }
+    return _decodePaletteStringList(encodedPalettes);
   }
 
   List<FractalPalette> _decodePaletteStringList(List<String> encodedPalettes) {

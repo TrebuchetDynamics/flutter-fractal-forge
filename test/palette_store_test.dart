@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
 import 'package:flutter_fractals/core/services/palette_store.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -89,6 +91,25 @@ void main() {
 
       expect(palettes, hasLength(1));
       expect(palettes.single.id, 'ok');
+    });
+
+    test('loadPalettes loads legacy JSON array payloads', () async {
+      SharedPreferences.setMockInitialValues({
+        'user_palettes_v1': jsonEncode([
+          const FractalPalette(
+            id: 'legacy',
+            name: 'Legacy',
+            stops: [FractalColorStop(position: 0.0, colorArgb: 0xFFFFFFFF)],
+          ).toJson(),
+        ]),
+      });
+
+      final store = await PaletteStore.create();
+      final palettes = store.loadPalettes();
+
+      expect(palettes, hasLength(1));
+      expect(palettes.single.id, 'legacy');
+      expect(palettes.single.name, 'Legacy');
     });
 
     test('loadPalettes skips palettes with empty id', () async {
