@@ -96,6 +96,35 @@ void main() {
       }
     });
 
+    test('invalid pan falls back to the replayable origin center', () {
+      for (final pan in [
+        Vector2(double.nan, 0.25),
+        Vector2(double.infinity, double.negativeInfinity),
+      ]) {
+        final center = CpuViewportCenter.fromScalars(
+          panX: pan.x,
+          panY: pan.y,
+        );
+        final viewport = CpuViewportMapping(
+          viewPan: pan,
+          viewZoom: 1.0,
+          width: 2,
+          height: 2,
+        );
+        final expectedY = pan.y.isFinite ? pan.y : 0.0;
+
+        expect(center.x, 0.0, reason: 'pan=$pan');
+        expect(center.y, expectedY, reason: 'pan=$pan');
+        expect(viewport.centerX, center.x, reason: 'pan=$pan');
+        expect(viewport.centerY, center.y, reason: 'pan=$pan');
+        expect(
+          viewport.coordinate(nx: 0.5, ny: -0.5),
+          (0.75, expectedY - 0.75),
+          reason: 'pan=$pan',
+        );
+      }
+    });
+
     test('invalid viewport dimensions fall back to square aspect', () {
       expect(
         CpuViewportDimensions.fromSize(width: 0, height: 2).aspect,
@@ -161,6 +190,23 @@ void main() {
         panX: 0.0,
         panY: 0.0,
         zoom: double.nan,
+        fullWidth: 2,
+        fullHeight: 2,
+        x: 1,
+        y: 0,
+        sampleOffsetX: 0.5,
+        sampleOffsetY: 0.5,
+      );
+
+      expect(coordinate.x, 0.75);
+      expect(coordinate.y, -0.75);
+    });
+
+    test('isolate sample mapping shares invalid pan normalization', () {
+      final coordinate = cpuViewportCoordinateForSample(
+        panX: double.nan,
+        panY: double.infinity,
+        zoom: 1.0,
         fullWidth: 2,
         fullHeight: 2,
         x: 1,

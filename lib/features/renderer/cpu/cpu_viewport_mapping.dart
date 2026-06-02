@@ -26,6 +26,33 @@ final class CpuViewportDimensions {
   double get aspect => width / height;
 }
 
+/// Replayable CPU viewport center.
+///
+/// The controller normally provides finite pan coordinates, but CPU fallback
+/// code also accepts replayed/isolate scalar requests. Non-finite pan samples
+/// must not poison every formula coordinate with NaN/Infinity, so they adopt
+/// the origin instead.
+final class CpuViewportCenter {
+  const CpuViewportCenter({required this.x, required this.y});
+
+  final double x;
+  final double y;
+
+  factory CpuViewportCenter.fromScalars({
+    required double panX,
+    required double panY,
+  }) {
+    return CpuViewportCenter(
+      x: normalizeCoordinate(panX),
+      y: normalizeCoordinate(panY),
+    );
+  }
+
+  static double normalizeCoordinate(double value) {
+    return value.isFinite ? value : 0.0;
+  }
+}
+
 /// Explicit dimensions contract for CPU render work.
 final class CpuRenderDimensions {
   const CpuRenderDimensions({required this.width, required this.height});
@@ -133,8 +160,20 @@ final class CpuViewportMapping {
     required double viewZoom,
     required int width,
     required int height,
-  })  : centerX = panX,
-        centerY = panY,
+  }) : this._(
+          center: CpuViewportCenter.fromScalars(panX: panX, panY: panY),
+          viewZoom: viewZoom,
+          width: width,
+          height: height,
+        );
+
+  CpuViewportMapping._({
+    required CpuViewportCenter center,
+    required double viewZoom,
+    required int width,
+    required int height,
+  })  : centerX = center.x,
+        centerY = center.y,
         scale = 1.5 / normalizeZoom(viewZoom),
         aspect = CpuViewportDimensions.fromSize(
           width: width,
