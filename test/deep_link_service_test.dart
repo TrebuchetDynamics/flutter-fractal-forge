@@ -270,6 +270,20 @@ void main() {
         expect(uri.queryParameters['bailout'], '4.5');
       });
 
+      test('uses runtime Julia parameter names when building URL aliases', () {
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'julia',
+          params: {
+            'juliaCReal': -0.7,
+            'juliaCImag': 0.27015,
+          },
+          view: FractalViewState.initial(),
+        );
+
+        expect(uri.queryParameters['juliaX'], '-0.7');
+        expect(uri.queryParameters['juliaY'], '0.27015');
+      });
+
       test('formats finite double-valued integer params like runtime readers',
           () {
         final uri = DeepLinkService.buildUri(
@@ -417,6 +431,21 @@ void main() {
         expect(params['colorScheme'], 2);
         expect(params['bailout'], 4.5);
         expect(params['power'], 8.0);
+      });
+
+      test('maps URL Julia constants to runtime module parameter IDs', () {
+        final data = DeepLinkService.parseUri(
+          Uri.parse(
+            'fractalforge://view?type=julia&juliaX=-0.7&juliaY=0.27015',
+          ),
+        );
+
+        final params = data!.toParams();
+
+        expect(params['juliaCReal'], -0.7);
+        expect(params['juliaCImag'], 0.27015);
+        expect(params.containsKey('juliaX'), isFalse);
+        expect(params.containsKey('juliaY'), isFalse);
       });
 
       test('toParams omits null values', () {

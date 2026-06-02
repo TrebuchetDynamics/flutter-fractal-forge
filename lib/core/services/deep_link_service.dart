@@ -45,10 +45,10 @@ class DeepLinkData {
   /// Power parameter (for fractals like Mandelbulb).
   final double? power;
 
-  /// Julia set real constant (c.x).
+  /// Julia set real constant (c.x) from the public `juliaX` URL alias.
   final double? juliaX;
 
-  /// Julia set imaginary constant (c.y).
+  /// Julia set imaginary constant (c.y) from the public `juliaY` URL alias.
   final double? juliaY;
 
   const DeepLinkData({
@@ -86,8 +86,11 @@ class DeepLinkData {
     if (bailout != null) params['bailout'] = bailout!;
     if (colorScheme != null) params['colorScheme'] = colorScheme!;
     if (power != null) params['power'] = power!;
-    if (juliaX != null) params['juliaX'] = juliaX!;
-    if (juliaY != null) params['juliaY'] = juliaY!;
+    _DeepLinkJuliaConstantParams.addRuntimeParams(
+      params,
+      real: juliaX,
+      imaginary: juliaY,
+    );
 
     return params;
   }
@@ -275,6 +278,40 @@ class _DeepLinkIntegerValue {
   }
 }
 
+/// Mapping between public deep-link Julia aliases and runtime module params.
+///
+/// Share URLs use compact, stable query names (`juliaX`/`juliaY`), while
+/// render modules expose controls as `juliaCReal`/`juliaCImag`. Keeping the
+/// mapping explicit prevents generated links and applied deep links from
+/// silently dropping Julia constants.
+class _DeepLinkJuliaConstantParams {
+  static const String urlReal = 'juliaX';
+  static const String urlImaginary = 'juliaY';
+  static const String runtimeReal = 'juliaCReal';
+  static const String runtimeImaginary = 'juliaCImag';
+
+  const _DeepLinkJuliaConstantParams._();
+
+  static void addRuntimeParams(
+    Map<String, Object> params, {
+    required double? real,
+    required double? imaginary,
+  }) {
+    if (real != null) params[runtimeReal] = real;
+    if (imaginary != null) params[runtimeImaginary] = imaginary;
+  }
+
+  /// Generated links should prefer actual runtime parameter names but still
+  /// accept already URL-shaped maps for compatibility with existing callers.
+  static Object? realValueForBuild(Map<String, Object> params) {
+    return params[runtimeReal] ?? params[urlReal];
+  }
+
+  static Object? imaginaryValueForBuild(Map<String, Object> params) {
+    return params[runtimeImaginary] ?? params[urlImaginary];
+  }
+}
+
 class DeepLinkService {
   static const String scheme = 'fractalforge';
   static const String host = 'view';
@@ -290,8 +327,16 @@ class DeepLinkService {
   static const _colorSchemeParam =
       _BoundedIntQueryParam('colorScheme', 0, 9999);
   static const _powerParam = _BoundedDoubleQueryParam('power', 1, 20);
-  static const _juliaXParam = _BoundedDoubleQueryParam('juliaX', -1e10, 1e10);
-  static const _juliaYParam = _BoundedDoubleQueryParam('juliaY', -1e10, 1e10);
+  static const _juliaXParam = _BoundedDoubleQueryParam(
+    _DeepLinkJuliaConstantParams.urlReal,
+    -1e10,
+    1e10,
+  );
+  static const _juliaYParam = _BoundedDoubleQueryParam(
+    _DeepLinkJuliaConstantParams.urlImaginary,
+    -1e10,
+    1e10,
+  );
 
   static const List<_DeepLinkQueryParamContract> _allQueryParams = [
     _zoomParam,
@@ -491,13 +536,13 @@ class DeepLinkService {
     _addBoundedDoubleQueryParam(
       queryParams,
       _juliaXParam,
-      params['juliaX'],
+      _DeepLinkJuliaConstantParams.realValueForBuild(params),
       preservePrecision: true,
     );
     _addBoundedDoubleQueryParam(
       queryParams,
       _juliaYParam,
-      params['juliaY'],
+      _DeepLinkJuliaConstantParams.imaginaryValueForBuild(params),
       preservePrecision: true,
     );
 
