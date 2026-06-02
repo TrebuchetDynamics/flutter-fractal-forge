@@ -78,6 +78,71 @@ class VideoZoomFactor {
   }
 }
 
+/// Replayable parameter-sweep frame contract for video animations.
+///
+/// [VideoExportService.calculateParameterFrame] hands updates to an arbitrary
+/// caller callback, so malformed sweep configs must be contained here instead
+/// of relying on a later controller to reject NaN/Infinity or empty IDs.
+class VideoParameterSweepPlan {
+  final String parameterId;
+  final double startValue;
+  final double endValue;
+  final double timelineProgress;
+  final double sweepProgress;
+  final double easedProgress;
+  final double value;
+
+  const VideoParameterSweepPlan._({
+    required this.parameterId,
+    required this.startValue,
+    required this.endValue,
+    required this.timelineProgress,
+    required this.sweepProgress,
+    required this.easedProgress,
+    required this.value,
+  });
+
+  factory VideoParameterSweepPlan.fromSweep({
+    required ParameterSweepConfig sweep,
+    required AnimationEasing easing,
+    required double timelineProgress,
+  }) {
+    final sweepProgress = sweep.pingPong
+        ? timelineProgress < 0.5
+            ? timelineProgress * 2
+            : 2 - timelineProgress * 2
+        : timelineProgress;
+    final easedProgress = easing.apply(sweepProgress);
+    final value =
+        sweep.startValue + (sweep.endValue - sweep.startValue) * easedProgress;
+
+    return VideoParameterSweepPlan._(
+      parameterId: sweep.parameterId,
+      startValue: sweep.startValue,
+      endValue: sweep.endValue,
+      timelineProgress: timelineProgress,
+      sweepProgress: sweepProgress,
+      easedProgress: easedProgress,
+      value: value,
+    );
+  }
+
+  bool get isReplayable {
+    return parameterId.isNotEmpty &&
+        startValue.isFinite &&
+        endValue.isFinite &&
+        timelineProgress.isFinite &&
+        sweepProgress.isFinite &&
+        easedProgress.isFinite &&
+        value.isFinite;
+  }
+
+  Map<String, double> toUpdates() {
+    if (!isReplayable) return const {};
+    return {parameterId: value};
+  }
+}
+
 /// Replayable encoding contract for video exports.
 ///
 /// MP4 is selectable in the public options model, but this Dart-only exporter
@@ -184,20 +249,17 @@ class VideoExportService {
     final sweep = options.parameterSweep;
     if (sweep == null) return {};
 
-    var t = VideoFrameTimeline.progress(
+    final timelineProgress = VideoFrameTimeline.progress(
       frameIndex: frameIndex,
       totalFrames: totalFrames,
     );
+    final plan = VideoParameterSweepPlan.fromSweep(
+      sweep: sweep,
+      easing: options.easing,
+      timelineProgress: timelineProgress,
+    );
 
-    if (sweep.pingPong) {
-      t = t < 0.5 ? t * 2 : 2 - t * 2;
-    }
-
-    final easedT = options.easing.apply(t);
-    final value =
-        sweep.startValue + (sweep.endValue - sweep.startValue) * easedT;
-
-    return {sweep.parameterId: value};
+    return plan.toUpdates();
   }
 
   /// Generate a unique filename for the export.

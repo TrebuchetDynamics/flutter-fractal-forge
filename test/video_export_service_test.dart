@@ -703,6 +703,38 @@ void main() {
       expect(result.containsKey('myParam'), isTrue);
     });
 
+    test('drops malformed sweep configs instead of emitting invalid updates',
+        () {
+      const malformedSweeps = [
+        ParameterSweepConfig(
+          parameterId: 'power',
+          startValue: double.nan,
+          endValue: 4.0,
+        ),
+        ParameterSweepConfig(
+          parameterId: 'power',
+          startValue: 2.0,
+          endValue: double.infinity,
+        ),
+        ParameterSweepConfig(
+          parameterId: '',
+          startValue: 2.0,
+          endValue: 4.0,
+        ),
+      ];
+
+      for (final sweep in malformedSweeps) {
+        final result = service.calculateParameterFrame(
+          startParams: {},
+          options: VideoExportOptions(parameterSweep: sweep),
+          frameIndex: 5,
+          totalFrames: 10,
+        );
+
+        expect(result, isEmpty, reason: sweep.parameterId);
+      }
+    });
+
     test(
         'pingPong: value at exact half of range (11 frames, index 5) equals endValue',
         () {
