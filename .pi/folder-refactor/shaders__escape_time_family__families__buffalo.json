@@ -1,16 +1,22 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/families/buffalo",
-  "updatedAt": "2026-06-02T05:44:55.784Z",
-  "objective": "Split Buffalo escape-time shader family by behavior: parameter_plane owns c-plane Buffalo/Mandelbrot-style maps; julia_sets owns fixed-seed Julia variants. Preserve shader behavior and update catalog/pubspec/test references.",
+  "updatedAt": "2026-06-02T09:18:36.673Z",
+  "objective": "Split Buffalo escape-time shader family by behavior/responsibility: parameter_plane owns c-plane Buffalo/Mandelbrot-style maps where each pixel supplies c; julia_sets owns fixed-seed Julia variants where each pixel supplies z0. Root should have no shader files.",
   "completedSlices": [
-    "Added focused Buffalo shader asset public-behavior test covering pubspec declarations and on-disk assets.",
-    "Move-only split: moved 7 parameter-plane shaders into parameter_plane/ and 5 Julia shaders into julia_sets/. Existing pubspec.yaml, escape_time_catalog.dart, and CPU diagnostics references already point at the new paths."
+    "Kept focused Buffalo shader asset tests as the public behavior seam for pubspec/catalog declaration and on-disk asset existence.",
+    "Move-only split: moved 7 parameter-plane shaders into parameter_plane/ and 5 fixed-seed Julia shaders into julia_sets/ without changing file contents.",
+    "Validated Buffalo pubspec/catalog references resolve to the moved files and no stale root Buffalo shader references remain."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 static check: Buffalo shader references in pubspec.yaml and escape_time_catalog.dart all exist on disk (12 references).",
-    "rg stale root buffalo .frag references under pubspec.yaml lib test shaders: none.",
-    "/home/xel/flutter/bin/flutter test test/shaders/buffalo_shader_assets_test.dart: blocked before running by unrelated pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
+    "folder_refactor_scan after move: root files 0; root dirs julia_sets, parameter_plane.",
+    "folder_refactor_audit: pass with no remaining root files, no facade files, no out-of-scope files, and no next candidates.",
+    "sha256 check against HEAD old paths: all 12 moved shader files unchanged.",
+    "python3 static check: 12 Buffalo shader files; 12 unique Buffalo pubspec/catalog refs; no missing referenced files; no existing Buffalo files undeclared in pubspec.",
+    "rg stale root Buffalo shader references under pubspec.yaml lib test shaders integration_test: none.",
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/buffalo_shader_assets_test.dart: passed.",
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/families/buffalo_shader_assets_test.dart: failed on pre-existing duplicate catalog entry for buffalo_power7 (13 catalog entries for 12 unique assets; duplicate present in HEAD at escape_time_catalog.dart lines 5180 and 6400).",
+    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/families/buffalo_shader_assets_test.dart: blocked before executing by unrelated pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
   ]
 }

@@ -1,19 +1,20 @@
 {
   "version": 1,
   "target": "shaders/cellular_and_stochastic",
-  "updatedAt": "2026-06-02T05:32:27.007Z",
+  "updatedAt": "2026-06-02T08:51:34.370Z",
   "objective": "Refactor cellular/stochastic shader assets into responsibility subfolders while preserving asset registration and catalog paths. Planned topology complete: root contains no shader files; subfolders own lattice automata, agent walkers, stochastic growth, branching fields, and reaction diffusion shaders.",
   "completedSlices": [
     "Kept focused shader asset behavior test at test/shaders/standalone_shader_catalogs/cellular_and_stochastic_shader_assets_test.dart for pubspec declarations and catalog references resolving to files.",
     "Moved 15 root shader files into responsibility subfolders: lattice_automata, agent_walkers, stochastic_growth, branching_fields, reaction_diffusion.",
-    "Verified existing pubspec shader declarations, escape_time_catalog shaderAsset paths, and CPU formula provenance comments already point to the new asset paths.",
-    "Shared-code pass performed across moved shaders: repeated palette/hash snippets exist but GLSL asset pipeline has no local include/contract seam here, so no speculative shared abstraction was created.",
+    "Verified existing pubspec shader declarations and escape_time_catalog shaderAsset paths already pointed to the responsibility subfolder asset paths; move-only slice made those paths resolve on disk.",
+    "Shared-code pass performed across moved shaders: repeated palette/hash/sRGB GLSL snippets exist, but current Flutter shader asset pipeline has no proven local include/contract seam in this target; no speculative shared abstraction was created.",
     "Completion audit passed: no remaining root files and no next candidates."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 pubspec/catalog consistency check: PASS (15 cellular assets declared, 15 catalog references, no missing files).",
-    "rg stale old root cellular shader asset paths: PASS (no matches).",
+    "Pre-move python pubspec/catalog consistency check: FAIL as expected (15 cellular assets declared, 15 catalog references, 15 missing subfolder files).",
+    "Post-move python pubspec/catalog consistency check: PASS (15 cellular assets declared, 15 catalog references, no missing files).",
+    "rg stale old root cellular_and_stochastic shader asset paths: PASS (no matches).",
     "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/cellular_and_stochastic_shader_assets_test.dart: BLOCKED by unrelated pubspec asset error: missing shaders/legacy/raymarched_3d/mandelbulb.frag.",
     "folder_refactor_audit shaders/cellular_and_stochastic: PASS (0 root files, 5 root dirs, no next candidates)."
   ]

@@ -1,21 +1,22 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/families/celtic",
-  "updatedAt": "2026-06-02T05:37:19.362Z",
-  "objective": "Organize Celtic escape-time shaders by behavior: parameter_plane owns point-seeded Mandelbrot/Celtic variants and perpendicular folds; julia_sets owns fixed-seed Julia orbit variants. Preserve shader asset paths through pubspec/catalog updates and focused asset existence coverage.",
+  "updatedAt": "2026-06-02T09:01:26.577Z",
+  "objective": "Organize Celtic escape-time shaders by behavior: parameter_plane owns pixel-as-c Mandelbrot/Celtic parameter-plane variants, including perpendicular fold variants; julia_sets owns fixed-seed Julia orbit variants. Preserve shader behavior byte-for-byte and keep catalog/pubspec asset paths aligned.",
   "completedSlices": [
-    "Added focused Celtic shader asset coverage at test/shaders/escape_time_family/families/celtic_shader_assets_test.dart (declared assets exist; catalog assets declared/exist).",
-    "Moved 9 parameter-plane Celtic shaders into shaders/escape_time_family/families/celtic/parameter_plane and ensured pubspec/catalog references match.",
-    "Moved 5 Celtic Julia shaders into shaders/escape_time_family/families/celtic/julia_sets and ensured pubspec/catalog references match.",
-    "Updated stale CPU renderer source comment for celtic_julia to the new julia_sets path.",
-    "Shared-code pass: repeated GLSL palette/sRGB/normal-map code exists but shader include extraction is intentionally skipped because Flutter fragment shader include support and cross-shader compile behavior are not protected here; no speculative shared abstraction created.",
+    "Move-only slice: created parameter_plane and moved celtic_gpu, celtic2, celtic_cubic, celtic_power4/5/6/7, perp_celtic, and perp_celtic_cubic shaders there.",
+    "Move-only slice: created julia_sets and moved celtic_julia, celtic_cubic_julia, and celtic_power4/5/6_julia shaders there.",
+    "Verified moved shader file contents are byte-identical to HEAD originals; no shader behavior edits.",
+    "Shared-code pass: repeated palette/sRGB/cmul/normal-map/transparent-background GLSL helpers exist across the moved shaders, but extraction is intentionally skipped because these shaders are standalone Flutter RuntimeEffect assets and there is no protected local include/contract seam for shared GLSL includes in this target.",
     "Completion audit passed: root files 0; subdirs parameter_plane and julia_sets."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 Celtic topology/assets check — PASS (14 files in expected responsibility subfolders; 14 pubspec Celtic assets present and exist).",
+    "python3 Celtic topology/assets check — PASS (14 files in expected responsibility subfolders; 14 pubspec/catalog Celtic assets present and exist).",
+    "rg stale Celtic root shader asset paths — PASS (no stale root celtic shader asset refs under pubspec/lib/test/integration_test/shaders).",
+    "python3 byte-identical moved-file check against HEAD originals — PASS.",
     "/home/xel/flutter/bin/flutter analyze test/shaders/escape_time_family/families/celtic_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart lib/features/renderer/cpu/cpu_formulas.dart — PASS, no issues.",
-    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/families/celtic_shader_assets_test.dart — BLOCKED before running tests by pre-existing pubspec asset error outside target: missing shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/families/celtic_shader_assets_test.dart — BLOCKED by pre-existing pubspec asset error outside target: missing shaders/legacy/raymarched_3d/mandelbulb.frag.",
     "folder_refactor_audit — PASS."
   ]
 }

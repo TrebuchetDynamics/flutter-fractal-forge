@@ -1,8 +1,8 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/polynomial_maps",
-  "updatedAt": "2026-06-02T05:41:43.003Z",
-  "objective": "Refactor polynomial map shaders from a root-file-heavy folder into responsibility/domain subfolders matching existing catalog and pubspec shader asset paths.",
+  "updatedAt": "2026-06-02T09:10:09.516Z",
+  "objective": "Refactor polynomial map shaders from a root-file-heavy folder into behavior/responsibility subfolders matching escape_time_catalog.dart and pubspec.yaml shader asset paths; preserve standalone Flutter FragmentProgram behavior and catalog asset registration.",
   "completedSlices": [
     "Moved polynomial iteration shaders into polynomial_iterations/ (druid, power_sum, cactus).",
     "Moved fractional/folded shaders into fractional_and_folded/ (astroid, deltoid, glynn, shark_fin).",
@@ -11,11 +11,14 @@
     "Moved memory-map shader into memory_maps/ (manowar).",
     "Moved hypercomplex shader into hypercomplex_maps/ (benesi).",
     "Moved derivative-free root-method shader into derivative_free_root_methods/ (inverse_quadratic).",
+    "Shared-code pass found repeated linearToSRGB/palette/cmul/cdivSafe patterns, but no extraction performed because Flutter shader assets compile as standalone fragments and this project has no local shader include/preprocessor contract for escape-time shaders; duplication intentionally left to avoid behavior/toolchain changes.",
     "Audited target root: no root files remain; topology complete."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 polynomial shader asset check: ok: polynomial map shader files exist and are registered",
-    "/home/xel/flutter/bin/flutter test test/polynomial_maps_shader_assets_test.dart: blocked by pre-existing unrelated missing asset shaders/legacy/raymarched_3d/mandelbulb.frag"
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/polynomial_maps_shader_assets_test.dart: All tests passed",
+    "python3 polynomial shader asset check: ok: 13 polynomial catalog assets exist, are registered in pubspec.yaml, are not root-level, and there are no unreferenced target .frag files",
+    "rg stale root shader asset paths in pubspec.yaml lib test integration_test shaders: no matches",
+    "/home/xel/flutter/bin/flutter test test/polynomial_maps_shader_assets_test.dart: blocked by pre-existing unrelated missing asset shaders/legacy/raymarched_3d/mandelbulb.frag when building full asset bundle"
   ]
 }

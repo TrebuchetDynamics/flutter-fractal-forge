@@ -1,20 +1,23 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/families/burning_ship",
-  "updatedAt": "2026-06-02T05:35:39.805Z",
-  "objective": "Split Burning Ship escape-time shaders by behavior responsibility: parameter-plane shaders derive c from pixel coordinates; Julia-set shaders use fixed Julia seeds. Preserve shader asset behavior by updating pubspec/catalog/test references and adding a focused shader asset existence/declaration/layout test.",
+  "updatedAt": "2026-06-02T08:57:48.614Z",
+  "objective": "Split Burning Ship escape-time shaders by behavior responsibility: parameter-plane shaders derive c from pixel coordinates; Julia-set shaders use fixed Julia seeds. Preserve shader asset behavior through existing focused shader asset declaration/existence/layout test and catalog/pubspec consistency checks.",
   "completedSlices": [
-    "Added/kept test/shaders/escape_time_family/families/burning_ship_shader_assets_test.dart as focused public asset contract for Burning Ship shader declarations, disk presence, and responsibility subfolder layout.",
+    "Used existing test/shaders/escape_time_family/families/burning_ship_shader_assets_test.dart as the focused public asset contract for Burning Ship shader declarations, disk presence, and responsibility subfolder layout.",
     "Moved seven parameter-plane Burning Ship shaders into parameter_plane/.",
     "Moved seven Julia-set Burning Ship shaders into julia_sets/.",
-    "Confirmed existing pubspec/catalog/CPU diagnostic references already point to responsibility subfolders; no import/path edits required in this slice.",
-    "Ran shared-code pass; did not extract GLSL helpers because custom shader includes/shared fragments would alter compile boundaries and no safe existing include contract was present."
+    "Confirmed existing pubspec/catalog/CPU diagnostic references already point to responsibility subfolders; no import/path edits required.",
+    "Ran shared-code pass; did not extract GLSL helpers because only flutter/runtime_effect.glsl includes are used and introducing local include/shared fragments would change shader compile boundaries without a safe existing contract.",
+    "folder_refactor_audit passed with zero root files and no next candidates."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "folder_refactor_audit: PASS, root files 0, root dirs parameter_plane and julia_sets, no next candidates.",
+    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/families/burning_ship_shader_assets_test.dart: BLOCKED by pre-existing unrelated missing pubspec asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
     "/home/xel/flutter/bin/flutter analyze test/shaders/escape_time_family/families/burning_ship_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart test/power_shader_regression_test.dart test/fractal_cpu_diagnostics_test.dart: PASS, no issues.",
-    "python3 Burning Ship layout/catalog consistency check: PASS (14 files, 7 parameter_plane, 7 julia_sets, no root .frag files, 14 pubspec/catalog refs, no missing files).",
-    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/families/burning_ship_shader_assets_test.dart: BLOCKED by pre-existing unrelated missing pubspec asset shaders/legacy/raymarched_3d/mandelbulb.frag."
+    "python3 Burning Ship layout/catalog consistency check: PASS (14 files, 7 parameter_plane, 7 julia_sets, no root .frag files, pubspec/catalog refs exist).",
+    "Burning Ship move-only content check: PASS (moved shader bytes match HEAD root files).",
+    "Stale Burning Ship root shader reference check: PASS.",
+    "folder_refactor_audit: PASS, root files 0, root dirs julia_sets and parameter_plane, no next candidates."
   ]
 }

@@ -1,22 +1,24 @@
 {
   "version": 1,
   "target": "shaders/kaleidoscopes",
-  "updatedAt": "2026-06-02T05:33:53.505Z",
-  "objective": "Refactor kaleidoscope shaders from a flat root into behavior-oriented shader subdomains while preserving shader asset behavior and catalog/pubspec references. Planned topology complete: classic_symmetry/ owns baseline mirror, ray, and geometric symmetry studies; radial_ornaments/ owns mandala/star/snowflake/flower/rosette/ring radial ornament patterns; textured_light/ owns crystal/jewel/nebula/spiral/wave/fractal material, volumetric, and animated texture patterns.",
+  "updatedAt": "2026-06-02T08:54:33.920Z",
+  "objective": "Refactor shaders/kaleidoscopes from a flat root into behavior-oriented shader subdomains while preserving existing pubspec and escape-time catalog asset paths. Planned topology complete: classic_symmetry/ owns baseline mirror, ray, and geometric symmetry studies; radial_ornaments/ owns mandala/star/snowflake/flower/rosette/ring radial ornament patterns; textured_light/ owns crystal/jewel/nebula/spiral/wave/fractal material, volumetric, and animated texture patterns. Root keeps no shader files.",
   "completedSlices": [
-    "Mapped shaders/kaleidoscopes and confirmed 15 root shader files were debt with existing pubspec/catalog references already targeting responsibility subfolders.",
-    "Moved classic symmetry shaders into shaders/kaleidoscopes/classic_symmetry.",
-    "Moved radial ornament shaders into shaders/kaleidoscopes/radial_ornaments.",
-    "Moved textured/light shaders into shaders/kaleidoscopes/textured_light.",
-    "Performed shared-code pass; skipped GLSL helper extraction because Flutter shader assets are standalone .frag files with no local include/contract mechanism, so extracting repeated palette/rotation snippets would alter the build pipeline rather than reduce safe coupling.",
-    "Ran completion audit: no root files remain and no next candidates remain."
+    "Mapped target with folder_refactor_scan: 15 root .frag shader files and no root subdirectories.",
+    "Confirmed existing public shader contracts in pubspec.yaml and escape_time_catalog.dart already point to behavior subfolders under shaders/kaleidoscopes.",
+    "Move-only slice: moved 3 classic symmetry shaders to shaders/kaleidoscopes/classic_symmetry/.",
+    "Move-only slice: moved 6 radial ornament shaders to shaders/kaleidoscopes/radial_ornaments/.",
+    "Move-only slice: moved 6 textured/light shaders to shaders/kaleidoscopes/textured_light/.",
+    "Verified all 15 moves are content-identical to HEAD copies at old root paths.",
+    "Shared-code pass: duplicate GLSL helpers/palette/mirror functions are intentionally left inside standalone shader assets because this Flutter shader pipeline has no local include/contract mechanism beyond <flutter/runtime_effect.glsl>; extracting would broaden the build pipeline/public shader contract rather than safely reduce coupling.",
+    "Completion audit passed: zero root files and no next candidates."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/kaleidoscope_shader_assets_test.dart failed before running tests because the global Flutter asset bundle has an unrelated missing asset: shaders/legacy/raymarched_3d/mandelbulb.frag.",
-    "/home/xel/flutter/bin/flutter analyze test/shaders/standalone_shader_catalogs/kaleidoscope_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart passed with no issues.",
-    "Python static path check passed: 15 pubspec kaleidoscope assets, 15 catalog kaleidoscope assets, no missing declared/catalog files, no undeclared catalog assets, no unused pubspec kaleidoscope assets, and no root .frag files remain.",
-    "rg stale old direct root paths check passed: no shaders/kaleidoscopes/kaleidoscope_* references remain in pubspec.yaml lib test integration_test.",
-    "folder_refactor_audit passed with zero root files and no next candidates."
+    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/kaleidoscope_shader_assets_test.dart attempted; blocked before tests by unrelated pubspec asset missing at shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "/home/xel/flutter/bin/flutter analyze test/shaders/standalone_shader_catalogs/kaleidoscope_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart passed: No issues found.",
+    "Python static asset contract check passed: declared=15, catalog=15, files=15, root=0, with no missing/undeclared/unused kaleidoscope shader assets.",
+    "Stale root direct-path search passed: rg found no shaders/kaleidoscopes/kaleidoscope_*_gpu.frag references in pubspec.yaml lib test integration_test shaders.",
+    "folder_refactor_audit passed for shaders/kaleidoscopes with plannedTopologyComplete=true, no facade files, no out-of-scope files, and no next candidates."
   ]
 }

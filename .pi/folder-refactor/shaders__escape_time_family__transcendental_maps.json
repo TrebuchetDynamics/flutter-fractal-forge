@@ -1,16 +1,20 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/transcendental_maps",
-  "updatedAt": "2026-06-02T05:43:06.493Z",
-  "objective": "Refactor transcendental map shaders from root-heavy folder into responsibility subfolders matching declared shader assets: holomorphic_dynamics, special_function_iterations, discrete_chaos, rational_dynamics. Preserve shader asset paths already referenced by pubspec/catalog and avoid behavior changes.",
+  "updatedAt": "2026-06-02T09:14:04.324Z",
+  "objective": "Refactor transcendental map shaders from a root-heavy folder into responsibility subfolders: holomorphic_dynamics, special_function_iterations, discrete_chaos, and rational_dynamics. Preserve existing pubspec.yaml and escape_time_catalog.dart shader asset contracts; do not change shader source behavior.",
   "completedSlices": [
-    "Move-only slice: moved all 13 root .frag shaders into responsibility subfolders matching existing pubspec.yaml and escape_time_catalog.dart paths.",
-    "Stale-path check: rg found no references to old root shader asset paths for moved files."
+    "Move-only slice: moved all 13 root .frag shaders into responsibility subfolders already referenced by pubspec.yaml and escape_time_catalog.dart.",
+    "Contract validation: all declared/catalog transcendental map shader assets exist at their subfolder paths and catalog assets are declared.",
+    "Stale-path check: no old root transcendental map shader asset paths remain in pubspec.yaml, lib, test, or integration_test.",
+    "Shared-code pass: duplicate GLSL helpers (linearToSRGB, palette/getPaletteColor, cmul, normal-map snippets) are present across shaders, but extraction was intentionally skipped because Flutter runtime shader source only uses the required <flutter/runtime_effect.glsl> include and introducing local include/shared snippets would change shader compiler assumptions rather than a move-only refactor."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/transcendental_maps_shader_assets_test.dart -> blocked before target assertions by unrelated missing declared asset: shaders/legacy/raymarched_3d/mandelbulb.frag.",
-    "find shaders/escape_time_family/transcendental_maps -maxdepth 2 -type f | sort -> all 13 moved shaders present in planned subfolders.",
-    "rg old root shader asset paths in pubspec.yaml lib test integration_test shaders -> no output."
+    "python3 asset contract check for pubspec.yaml + lib/core/modules/builders/escape_time_catalog.dart -> all 13 declared/catalog transcendental map shader assets exist and catalog assets are declared.",
+    "python3 stale old root path scan in pubspec.yaml, lib, test, integration_test -> no stale old root transcendental map shader paths.",
+    "find shaders/escape_time_family/transcendental_maps -maxdepth 1 -type f -> no root files.",
+    "git diff --check -- shaders/escape_time_family/transcendental_maps -> pass/no output.",
+    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/transcendental_maps_shader_assets_test.dart -> blocked before target assertions by unrelated missing declared asset: shaders/legacy/raymarched_3d/mandelbulb.frag."
   ]
 }
