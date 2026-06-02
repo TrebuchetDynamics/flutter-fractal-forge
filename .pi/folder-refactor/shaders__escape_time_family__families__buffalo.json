@@ -1,22 +1,23 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/families/buffalo",
-  "updatedAt": "2026-06-02T09:18:36.673Z",
-  "objective": "Split Buffalo escape-time shader family by behavior/responsibility: parameter_plane owns c-plane Buffalo/Mandelbrot-style maps where each pixel supplies c; julia_sets owns fixed-seed Julia variants where each pixel supplies z0. Root should have no shader files.",
+  "updatedAt": "2026-06-02T20:18:17.159Z",
+  "objective": "Split Buffalo escape-time shader family by behavior/responsibility: parameter_plane owns c-plane Buffalo/Mandelbrot-style maps where each pixel supplies c and z0 starts at zero; julia_sets owns fixed-seed Julia variants where each pixel supplies z0 and c is fixed. Root should keep no shader files.",
   "completedSlices": [
-    "Kept focused Buffalo shader asset tests as the public behavior seam for pubspec/catalog declaration and on-disk asset existence.",
+    "Kept existing focused Buffalo shader asset tests as the public behavior seam for pubspec/catalog declaration and on-disk asset existence.",
     "Move-only split: moved 7 parameter-plane shaders into parameter_plane/ and 5 fixed-seed Julia shaders into julia_sets/ without changing file contents.",
-    "Validated Buffalo pubspec/catalog references resolve to the moved files and no stale root Buffalo shader references remain."
+    "Validated moved Buffalo pubspec references resolve to existing files and no stale target-root Buffalo shader references remain.",
+    "Completed folder_refactor_audit: target root has 0 files; root dirs are julia_sets and parameter_plane."
   ],
   "nextCandidates": [],
   "validationReceipts": [
+    "Pre-refactor targeted test failed as expected because pubspec/catalog already referenced subfolder paths while files still lived at target root: /home/xel/flutter/bin/flutter test --no-test-assets test/shaders/buffalo_shader_assets_test.dart test/shaders/escape_time_family/families/buffalo_shader_assets_test.dart.",
     "folder_refactor_scan after move: root files 0; root dirs julia_sets, parameter_plane.",
-    "folder_refactor_audit: pass with no remaining root files, no facade files, no out-of-scope files, and no next candidates.",
-    "sha256 check against HEAD old paths: all 12 moved shader files unchanged.",
-    "python3 static check: 12 Buffalo shader files; 12 unique Buffalo pubspec/catalog refs; no missing referenced files; no existing Buffalo files undeclared in pubspec.",
-    "rg stale root Buffalo shader references under pubspec.yaml lib test shaders integration_test: none.",
+    "sha/byte check: all 12 moved Buffalo shader files match HEAD bytes at old paths.",
+    "python3 static check: 12 declared Buffalo assets; 12 shader files under Buffalo subfolders; no missing declared assets; no undeclared moved files.",
+    "rg stale target-root Buffalo shader references under pubspec.yaml lib test integration_test shaders: none.",
     "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/buffalo_shader_assets_test.dart: passed.",
-    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/families/buffalo_shader_assets_test.dart: failed on pre-existing duplicate catalog entry for buffalo_power7 (13 catalog entries for 12 unique assets; duplicate present in HEAD at escape_time_catalog.dart lines 5180 and 6400).",
-    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/families/buffalo_shader_assets_test.dart: blocked before executing by unrelated pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/families/buffalo_shader_assets_test.dart: still fails only on pre-existing duplicate catalog asset for buffalo_power7 (13 catalog entries for 12 assets; duplicate entry in lib/core/modules/builders/escape_time_catalog.dart).",
+    "folder_refactor_audit: pass with no remaining root files, no facade files, no out-of-scope files, and no next candidates."
   ]
 }
