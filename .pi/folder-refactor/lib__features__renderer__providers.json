@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "lib/features/renderer/providers",
+  "updatedAt": "2026-06-02T05:55:52.663Z",
+  "objective": "Refactor providers root into responsibility subfolders while preserving legacy package imports through root facades. Topology: controller/ owns FractalController orchestration; parameters/ owns pure parameter normalization; view/ owns pure view/gesture input bounds. Root keeps AGENTS.md plus compatibility facades only.",
+  "completedSlices": [
+    "Moved FractalController implementation from root fractal_provider.dart to controller/fractal_controller.dart and kept root facade export.",
+    "Moved parameter normalization implementation to parameters/fractal_param_value_normalizer.dart and kept root facade export.",
+    "Moved view input bounds implementation to view/fractal_view_input_bounds.dart and kept root facade export.",
+    "Extracted duplicate kaleidoscope module default logic into a private FractalController helper shared by selectModule and loadState.",
+    "Updated providers/AGENTS.md to describe new boundaries."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/features/renderer/providers test/fractal_view_input_bounds_test.dart: No issues found.",
+    "/home/xel/flutter/bin/flutter analyze lib/features/renderer/providers: No issues found.",
+    "/home/xel/flutter/bin/flutter test test/fractal_controller_behavior_test.dart test/fractal_controller_clamp_test.dart test/fractal_controller_boolean_clamp_test.dart test/fractal_controller_reset_session_test.dart test/fractal_view_input_bounds_test.dart: BLOCKED by pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
+  ]
+}

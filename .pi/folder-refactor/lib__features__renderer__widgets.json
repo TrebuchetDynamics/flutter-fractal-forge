@@ -1,16 +1,20 @@
 {
   "version": 1,
   "target": "lib/features/renderer/widgets",
-  "updatedAt": "2026-06-02T05:52:15.719Z",
-  "objective": "Refactor lib/features/renderer/widgets root-heavy renderer widgets into responsibility subfolders while preserving behavior and public compatibility facades.",
+  "updatedAt": "2026-06-02T05:58:27.255Z",
+  "objective": "Refactor lib/features/renderer/widgets root-heavy renderer widgets into responsibility subfolders while preserving behavior and public compatibility facades. Topology now complete: root contains only facades; canvas owns CustomPainter rendering; renderer owns stateful widget orchestration, input, shader loading, errors; shader error policy owns pure shader failure classification/copy shared by loader and display.",
   "completedSlices": [
     "Moved FractalCanvas into canvas/fractal_canvas.dart; root fractal_canvas.dart remains as compatibility facade.",
     "Moved FractalRenderer implementation plus private gesture, shader loading, and shader error display part files into renderer/; root fractal_renderer.dart remains as compatibility facade.",
-    "Updated renderer implementation relative imports for providers, CPU renderer, precision policy, and canvas boundary."
+    "Updated renderer implementation relative imports for providers, CPU renderer, precision policy, and canvas boundary.",
+    "Extracted shader_error_policy.dart as a pure shader-error contract reused by shader loading and shader error display; kept ShaderErrorType compatibility exports.",
+    "Added shader_error_policy_test.dart covering classification, user-facing copy, and clipping behavior."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/dart analyze lib/features/renderer/widgets test/fractal_renderer_widget_test.dart test/fractal_renderer_gesture_test.dart — pass (No issues found).",
-    "/home/xel/flutter/bin/flutter test test/fractal_renderer_widget_test.dart test/fractal_renderer_gesture_test.dart — failed before running tests due asset bundle: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
+    "/home/xel/flutter/bin/dart analyze lib/features/renderer/widgets test/shader_error_policy_test.dart — pass (No issues found).",
+    "/home/xel/flutter/bin/flutter test test/shader_error_policy_test.dart — blocked before running tests by pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "/home/xel/flutter/bin/dart test test/shader_error_policy_test.dart — blocked because package:test is not a dev dependency (tests use flutter_test).",
+    "folder_refactor_audit lib/features/renderer/widgets — pass; root files classified as facades only."
   ]
 }
