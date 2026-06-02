@@ -40,6 +40,35 @@ void main() {
       expect(curated.view.zoom, 1.5);
     });
 
+    test('curated extra preset moduleIds are normalized to module id', () {
+      final config = Raymarched3DConfig(
+        id: 'ray-module-id-test',
+        name: 'Ray Module Id Test',
+        shaderAsset: 'shaders/ray_module_id_test.frag',
+        extraPresets: [
+          FractalPreset(
+            id: 'ray-module-id-test-interesting',
+            moduleId: 'stale-ray-module-id',
+            name: 'Interesting',
+            params: const {'power': 8.0, 'iterations': 40},
+            view: FractalViewState(
+              pan: Vector2.zero(),
+              zoom: 1.5,
+              rotation: Vector3(0.2, 0.3, 0.4),
+            ),
+            createdAt: DateTime.now(),
+          ),
+        ],
+      );
+
+      final module = buildRaymarched3DModule(config);
+
+      expect(
+        module.builtInPresets.map((preset) => preset.moduleId),
+        everyElement('ray-module-id-test'),
+      );
+    });
+
     test('catalog modules expose unique built-in preset ids', () {
       for (final config in raymarched3DCatalog) {
         final module = buildRaymarched3DModule(config);

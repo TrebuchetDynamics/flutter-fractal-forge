@@ -9,20 +9,29 @@ final builtInPresetCreatedAt = DateTime.utc(2025, 1, 1);
 /// Returns the builder-facing built-in preset list with replayable metadata.
 ///
 /// Catalog entries often provide curated [extraPresets] for params/view only.
-/// Normalize them here so callers cannot accidentally surface mutable-looking or
-/// non-replayable presets in [FractalModule.builtInPresets].
+/// Normalize them here so callers cannot accidentally surface mutable-looking,
+/// non-replayable, or stale-module presets in [FractalModule.builtInPresets].
 List<FractalPreset> buildBuiltInPresetList({
+  required String moduleId,
   required FractalPreset defaultPreset,
   required List<FractalPreset> extraPresets,
 }) {
+  assert(moduleId.isNotEmpty, 'Built-in presets require a module id.');
+  assert(
+    defaultPreset.moduleId == moduleId,
+    'Default built-in preset moduleId must match its module.',
+  );
+
   final usedIds = <String>{};
   return [
-    defaultPreset.copyWith(
-      id: _uniquePresetId('${defaultPreset.moduleId}-classic', usedIds),
-      name: 'Classic',
+    _asReplayableBuiltInPreset(
+      defaultPreset.copyWith(id: '$moduleId-classic', name: 'Classic'),
+      moduleId,
+      usedIds,
     ),
     ...extraPresets.map((preset) => _asReplayableBuiltInPreset(
           preset,
+          moduleId,
           usedIds,
         )),
   ];
@@ -30,10 +39,12 @@ List<FractalPreset> buildBuiltInPresetList({
 
 FractalPreset _asReplayableBuiltInPreset(
   FractalPreset preset,
+  String moduleId,
   Set<String> usedIds,
 ) {
   return preset.copyWith(
     id: _uniquePresetId(preset.id, usedIds),
+    moduleId: moduleId,
     createdAt: builtInPresetCreatedAt,
     isBuiltIn: true,
   );

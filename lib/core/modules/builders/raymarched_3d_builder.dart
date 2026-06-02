@@ -151,6 +151,7 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: buildBuiltInPresetList(
+      moduleId: config.id,
       defaultPreset: defaultPreset,
       extraPresets: config.extraPresets,
     ),

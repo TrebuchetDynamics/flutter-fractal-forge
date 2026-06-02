@@ -111,6 +111,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: buildBuiltInPresetList(
+      moduleId: config.id,
       defaultPreset: defaultPreset,
       extraPresets: config.extraPresets,
     ),

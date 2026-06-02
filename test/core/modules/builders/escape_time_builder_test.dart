@@ -61,6 +61,35 @@ void main() {
       expect(curated.view.zoom, 8.0);
     });
 
+    test('curated extra preset moduleIds are normalized to module id', () {
+      final config = EscapeTimeConfig(
+        id: 'module-id-test',
+        name: 'Module Id Test',
+        shaderAsset: 'shaders/module_id_test.frag',
+        extraPresets: [
+          FractalPreset(
+            id: 'module-id-test-interesting',
+            moduleId: 'stale-module-id',
+            name: 'Interesting',
+            params: const {'iterations': 240, 'bailout': 4.0},
+            view: FractalViewState(
+              pan: Vector2(-0.75, 0.1),
+              zoom: 8.0,
+              rotation: Vector3.zero(),
+            ),
+            createdAt: DateTime.now(),
+          ),
+        ],
+      );
+
+      final module = buildEscapeTimeModule(config);
+
+      expect(
+        module.builtInPresets.map((preset) => preset.moduleId),
+        everyElement('module-id-test'),
+      );
+    });
+
     test('curated preset ids cannot collide with generated classic ids', () {
       final config = EscapeTimeConfig(
         id: 'collision-test',
