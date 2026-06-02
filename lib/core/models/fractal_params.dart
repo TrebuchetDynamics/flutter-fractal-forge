@@ -53,7 +53,10 @@ class FractalParams extends Equatable {
   ///
   /// Used for 3D fractals (like Mandelbulb) to control camera orientation.
   /// Each component represents rotation around the X, Y, and Z axes respectively.
-  final Vector3 rotation;
+  final Vector3 _rotation;
+
+  /// Returns a defensive copy because [Vector3] is mutable.
+  Vector3 get rotation => Vector3.copy(_rotation);
 
   /// The active color scheme index.
   ///
@@ -67,7 +70,10 @@ class FractalParams extends Equatable {
   /// The current mouse/touch position in normalized coordinates.
   ///
   /// Used for interactive effects where the fractal responds to pointer position.
-  final Vector2 mousePos;
+  final Vector2 _mousePos;
+
+  /// Returns a defensive copy because [Vector2] is mutable.
+  Vector2 get mousePos => Vector2.copy(_mousePos);
 
   /// The type of fractal being rendered.
   ///
@@ -78,16 +84,17 @@ class FractalParams extends Equatable {
   ///
   /// The [rotation] and [mousePos] vectors are required as they have no
   /// sensible universal default.
-  const FractalParams({
+  FractalParams({
     this.power = 8.0,
     this.iterations = 50,
     this.bailout = 2.0,
     this.zoom = 1.0,
-    required this.rotation,
+    required Vector3 rotation,
     this.colorScheme = 0,
-    required this.mousePos,
+    required Vector2 mousePos,
     this.fractalType = FractalType.mandelbulb,
-  });
+  })  : _rotation = Vector3.copy(rotation),
+        _mousePos = Vector2.copy(mousePos);
 
   /// Creates a [FractalParams] with sensible default values.
   ///
@@ -97,9 +104,9 @@ class FractalParams extends Equatable {
         iterations = 50,
         bailout = 2.0,
         zoom = 1.0,
-        rotation = Vector3(0.0, 0.0, 0.0),
+        _rotation = Vector3(0.0, 0.0, 0.0),
         colorScheme = 0,
-        mousePos = Vector2(0.0, 0.0),
+        _mousePos = Vector2(0.0, 0.0),
         fractalType = FractalType.mandelbulb;
 
   /// Creates a copy of this [FractalParams] with the given fields replaced.
@@ -121,9 +128,9 @@ class FractalParams extends Equatable {
       iterations: iterations ?? this.iterations,
       bailout: bailout ?? this.bailout,
       zoom: zoom ?? this.zoom,
-      rotation: rotation ?? this.rotation,
+      rotation: rotation ?? _rotation,
       colorScheme: colorScheme ?? this.colorScheme,
-      mousePos: mousePos ?? this.mousePos,
+      mousePos: mousePos ?? _mousePos,
       fractalType: fractalType ?? this.fractalType,
     );
   }
@@ -134,9 +141,9 @@ class FractalParams extends Equatable {
         iterations,
         bailout,
         zoom,
-        rotation,
+        _rotation,
         colorScheme,
-        mousePos,
+        _mousePos,
         fractalType,
       ];
 }
