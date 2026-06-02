@@ -70,6 +70,31 @@ Test {
       );
     });
 
+    test('rejects complex-valued components inside complex literals', () {
+      const src = r'''
+Test {
+  z = ((1,2), 3)
+:
+  z = z
+}
+''';
+
+      final formula = FrmParser(src).parseFile().formulas.single;
+      final ctx = FrmEvalContext(vars: {'pixel': const Complex(0, 0)});
+
+      expect(
+        () => formula.init.single.run(ctx),
+        throwsA(
+          isA<StateError>().having(
+            (e) => e.message,
+            'message',
+            contains(
+                'Complex literal components must evaluate to real scalars'),
+          ),
+        ),
+      );
+    });
+
     test('evaluates a simple iter statement', () {
       const src = r'''
 Test {

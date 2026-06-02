@@ -23,10 +23,28 @@ final class FrmComplexLiteral extends FrmExpr {
 
   @override
   Complex eval(FrmEvalContext ctx) {
-    final r = re.eval(ctx).re;
-    final i = im.eval(ctx).re;
+    final r = evalFrmRealScalarComponent(re, ctx, componentName: 'real');
+    final i = evalFrmRealScalarComponent(im, ctx, componentName: 'imaginary');
     return Complex(r, i);
   }
+}
+
+/// Evaluates one component of a `(real, imaginary)` literal.
+///
+/// FRM complex literal components are scalar slots. Silently taking `.re` from
+/// a complex-valued expression drops data and makes replay depend on an
+/// undocumented truncation rule, so reject that shape at the evaluation seam.
+double evalFrmRealScalarComponent(
+  FrmExpr expr,
+  FrmEvalContext ctx, {
+  required String componentName,
+}) {
+  final value = expr.eval(ctx);
+  if (value.im == 0.0) return value.re;
+  throw StateError(
+    'Complex literal components must evaluate to real scalars; '
+    '$componentName component was $value',
+  );
 }
 
 final class FrmVar extends FrmExpr {
