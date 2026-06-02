@@ -1,19 +1,20 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/families/multijulia",
-  "updatedAt": "2026-06-02T10:11:20.455Z",
-  "objective": "Refactor multijulia shader family around behavior/responsibility. Completed topology: integer_powers/ owns fixed-parameter integer-degree Multijulia shader assets (degrees 3-12), exposes .frag assets referenced by pubspec/catalog, and must not know about Dart catalog/app orchestration beyond stable asset paths.",
+  "updatedAt": "2026-06-02T20:28:18.687Z",
+  "objective": "Refactor multijulia shader family around behavior/responsibility. Completed topology: integer_powers/ owns fixed-parameter integer-degree Multijulia shader assets (degrees 3-12), exposes .frag assets referenced by pubspec/catalog, and must not know about Dart catalog/app orchestration beyond stable asset path contracts.",
   "completedSlices": [
     "Kept focused multijulia shader asset path test covering catalog entries, on-disk shader files, and pubspec declarations.",
-    "Moved multijulia degree 3-12 shader files from target root into integer_powers/; existing pubspec.yaml and escape_time_catalog.dart references already pointed at the integer_powers asset paths.",
-    "Audited target root: no root shader files remain; integer_powers/ is the only responsibility subfolder."
+    "Moved multijulia degree 3-12 shader files from target root into integer_powers/; pubspec.yaml and escape_time_catalog.dart already referenced those integer_powers asset paths, so no import/path edits were needed.",
+    "Performed shared-code pass across integer_powers/: repeated GLSL helpers are identical in shape across 10 shaders, but extraction is intentionally skipped because Flutter FragmentProgram shader assets are standalone .frag files and there is no existing include/preprocessor contract to share them without changing the shader asset pipeline.",
+    "Audited target root: no root files remain; integer_powers/ is the only responsibility subfolder."
   ],
   "nextCandidates": [],
   "validationReceipts": [
     "/home/xel/flutter/bin/flutter analyze test/multijulia_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart passed with no issues.",
     "/home/xel/flutter/bin/flutter test --no-test-assets test/multijulia_shader_assets_test.dart passed: All tests passed.",
-    "Python asset consistency check found 10 multijulia catalog assets, all existing, declared, no stale root multijulia references, and no root .frag files.",
-    "/home/xel/flutter/bin/flutter test test/multijulia_shader_assets_test.dart remains blocked by unrelated pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "Python asset consistency check found 10 multijulia catalog assets, all existing, declared in pubspec, no stale root multijulia references, and zero root .frag files.",
+    "/home/xel/flutter/bin/flutter test test/multijulia_shader_assets_test.dart is blocked by unrelated pre-existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
     "folder_refactor_audit passed for shaders/escape_time_family/families/multijulia with zero root files and zero next candidates."
   ]
 }

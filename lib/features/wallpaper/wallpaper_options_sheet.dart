@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
-import 'package:flutter_fractals/core/services/wallpaper_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 class WallpaperOptionsSheet extends StatefulWidget {
@@ -61,11 +60,13 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
-                    Icon(Icons.wallpaper_rounded, color: theme.colorScheme.primary),
+                    Icon(Icons.wallpaper_rounded,
+                        color: theme.colorScheme.primary),
                     const SizedBox(width: 12),
                     Text(
                       l10n.wallpaperTitle,
-                      style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                      style: theme.textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -81,14 +82,16 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                           ? l10n.wallpaperIosNote
                           : l10n.wallpaperAndroidNote,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
+                        color:
+                            theme.colorScheme.onSurface.withValues(alpha: 0.75),
                       ),
                     ),
                     const SizedBox(height: 20),
                     Text(
                       l10n.wallpaperTarget,
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                        color:
+                            theme.colorScheme.onSurface.withValues(alpha: 0.7),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -113,14 +116,16 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                       selected: {_options.target},
                       onSelectionChanged: (s) {
                         HapticService.light();
-                        setState(() => _options = _options.copyWith(target: s.first));
+                        setState(() =>
+                            _options = _options.copyWith(target: s.first));
                       },
                     ),
                     const SizedBox(height: 20),
                     Text(
                       l10n.wallpaperPresets,
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                        color:
+                            theme.colorScheme.onSurface.withValues(alpha: 0.7),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -132,26 +137,32 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                           selected: _options.style == WallpaperStyle.plain,
                           label: l10n.wallpaperPresetPlain,
                           icon: Icons.brush_rounded,
-                          onTap: () => setState(() => _options = _options.copyWith(style: WallpaperStyle.plain)),
+                          onTap: () => setState(() => _options =
+                              _options.copyWith(style: WallpaperStyle.plain)),
                         ),
                         _StyleChip(
-                          selected: _options.style == WallpaperStyle.homeOptimized,
+                          selected:
+                              _options.style == WallpaperStyle.homeOptimized,
                           label: l10n.wallpaperPresetHome,
                           icon: Icons.home_rounded,
-                          onTap: () => setState(() => _options = _options.copyWith(style: WallpaperStyle.homeOptimized)),
+                          onTap: () => setState(() => _options = _options
+                              .copyWith(style: WallpaperStyle.homeOptimized)),
                         ),
                         _StyleChip(
-                          selected: _options.style == WallpaperStyle.lockOptimized,
+                          selected:
+                              _options.style == WallpaperStyle.lockOptimized,
                           label: l10n.wallpaperPresetLock,
                           icon: Icons.lock_rounded,
-                          onTap: () => setState(() => _options = _options.copyWith(style: WallpaperStyle.lockOptimized)),
+                          onTap: () => setState(() => _options = _options
+                              .copyWith(style: WallpaperStyle.lockOptimized)),
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     SwitchListTile.adaptive(
                       value: _options.saveCopy,
-                      onChanged: (v) => setState(() => _options = _options.copyWith(saveCopy: v)),
+                      onChanged: (v) => setState(
+                          () => _options = _options.copyWith(saveCopy: v)),
                       title: Text(l10n.wallpaperSaveCopy),
                       subtitle: Text(l10n.wallpaperSaveCopySubtitle),
                       contentPadding: EdgeInsets.zero,
@@ -210,10 +221,14 @@ class _StyleChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
-            color: selected ? theme.colorScheme.primaryContainer : theme.colorScheme.surfaceContainerHighest,
+            color: selected
+                ? theme.colorScheme.primaryContainer
+                : theme.colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(999),
             border: Border.all(
-              color: selected ? theme.colorScheme.primary : theme.colorScheme.outline.withValues(alpha: 0.4),
+              color: selected
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.outline.withValues(alpha: 0.4),
             ),
           ),
           child: Row(
