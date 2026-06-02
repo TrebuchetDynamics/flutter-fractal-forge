@@ -126,6 +126,36 @@ void main() {
       );
     });
 
+    test('iteration buffer shares CPU render dimension validation', () async {
+      await expectLater(
+        renderCpuIterationBuffer(
+          moduleId: 'mandelbrot',
+          viewPan: Vector2.zero(),
+          viewZoom: 1.0,
+          iterations: 50,
+          bailout: 4.0,
+          juliaC: Vector2(-0.8, 0.156),
+          width: 0,
+          height: 2,
+        ),
+        throwsArgumentError,
+      );
+
+      await expectLater(
+        renderCpuIterationBuffer(
+          moduleId: 'mandelbrot',
+          viewPan: Vector2.zero(),
+          viewZoom: 1.0,
+          iterations: 50,
+          bailout: 4.0,
+          juliaC: Vector2(-0.8, 0.156),
+          width: 2,
+          height: -1,
+        ),
+        throwsArgumentError,
+      );
+    });
+
     test('isolate sample mapping shares invalid zoom normalization', () {
       final coordinate = cpuViewportCoordinateForSample(
         panX: 0.0,

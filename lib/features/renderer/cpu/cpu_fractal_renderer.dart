@@ -782,6 +782,8 @@ Future<Uint16List?> renderCpuIterationBuffer({
   required int width,
   required int height,
 }) async {
+  CpuRenderDimensions(width: width, height: height).validate();
+
   final viewport = CpuViewportMapping(
     viewPan: viewPan,
     viewZoom: viewZoom,

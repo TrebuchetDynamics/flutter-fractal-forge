@@ -5,6 +5,9 @@ import 'package:vector_math/vector_math.dart' show Vector2;
 import 'cpu_formulas.dart';
 import 'cpu_viewport_mapping.dart';
 
+export 'cpu_viewport_mapping.dart'
+    show CpuRenderDimensions, CpuRenderRect, CpuRenderSamplePoint;
+
 /// Message used to request a CPU frame render from an isolate.
 final class CpuRenderRequest {
   const CpuRenderRequest({
@@ -129,83 +132,6 @@ final class CpuViewportCoordinate {
 
   final double x;
   final double y;
-}
-
-/// Explicit dimensions contract for CPU render work.
-final class CpuRenderDimensions {
-  const CpuRenderDimensions({required this.width, required this.height});
-
-  final int width;
-  final int height;
-
-  void validate() {
-    if (width <= 0 || height <= 0) {
-      throw ArgumentError.value(
-        (width, height),
-        'full viewport',
-        'must be positive',
-      );
-    }
-  }
-}
-
-/// Explicit bounds contract for a CPU render tile inside a full viewport.
-final class CpuRenderRect {
-  const CpuRenderRect({
-    required this.fullWidth,
-    required this.fullHeight,
-    required this.x0,
-    required this.y0,
-    required this.w,
-    required this.h,
-  });
-
-  final int fullWidth;
-  final int fullHeight;
-  final int x0;
-  final int y0;
-  final int w;
-  final int h;
-
-  void validate() {
-    CpuRenderDimensions(width: fullWidth, height: fullHeight).validate();
-    if (w <= 0 || h <= 0) {
-      throw ArgumentError.value((w, h), 'tile size', 'must be positive');
-    }
-    if (x0 < 0 || y0 < 0 || x0 + w > fullWidth || y0 + h > fullHeight) {
-      throw ArgumentError.value(
-        (x0, y0, w, h),
-        'tile rect',
-        'must be within the full viewport',
-      );
-    }
-  }
-}
-
-/// Explicit point contract for a CPU pixel sample inside a full viewport.
-final class CpuRenderSamplePoint {
-  const CpuRenderSamplePoint({
-    required this.fullWidth,
-    required this.fullHeight,
-    required this.x,
-    required this.y,
-  });
-
-  final int fullWidth;
-  final int fullHeight;
-  final int x;
-  final int y;
-
-  void validate() {
-    CpuRenderDimensions(width: fullWidth, height: fullHeight).validate();
-    if (x < 0 || y < 0 || x >= fullWidth || y >= fullHeight) {
-      throw ArgumentError.value(
-        (x, y),
-        'sample coordinate',
-        'must be inside the full viewport',
-      );
-    }
-  }
 }
 
 /// Maps a pixel sample to the CPU fractal plane.
