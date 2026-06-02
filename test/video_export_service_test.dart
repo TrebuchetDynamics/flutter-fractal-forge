@@ -162,6 +162,24 @@ void main() {
       expect(updated.resolution, VideoResolution.sd);
       expect(updated.loop, isTrue);
     });
+
+    test('copyWith clears parameter sweep when null is explicit', () {
+      const sweep = ParameterSweepConfig(
+        parameterId: 'power',
+        startValue: 2.0,
+        endValue: 8.0,
+      );
+      const original = VideoExportOptions(
+        animationType: VideoAnimationType.parameterSweep,
+        parameterSweep: sweep,
+      );
+
+      final unchanged = original.copyWith(zoomFactor: 3.0);
+      final cleared = original.copyWith(parameterSweep: null);
+
+      expect(unchanged.parameterSweep, same(sweep));
+      expect(cleared.parameterSweep, isNull);
+    });
   });
 
   // ---------------------------------------------------------------------------

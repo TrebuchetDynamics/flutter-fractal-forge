@@ -128,6 +128,9 @@ class ParameterSweepConfig {
 
 /// Video export configuration options.
 class VideoExportOptions {
+  /// Copy-with sentinel so nullable fields can distinguish omitted from null.
+  static const Object _unset = Object();
+
   final VideoExportFormat format;
   final VideoAnimationType animationType;
   final VideoResolution resolution;
@@ -163,10 +166,17 @@ class VideoExportOptions {
     AnimationEasing? easing,
     Duration? duration,
     double? zoomFactor,
-    ParameterSweepConfig? parameterSweep,
+    Object? parameterSweep = _unset,
     bool? loop,
     bool? includeWatermark,
   }) {
+    assert(
+      identical(parameterSweep, _unset) ||
+          parameterSweep == null ||
+          parameterSweep is ParameterSweepConfig,
+      'parameterSweep must be a ParameterSweepConfig? value',
+    );
+
     return VideoExportOptions(
       format: format ?? this.format,
       animationType: animationType ?? this.animationType,
@@ -176,7 +186,9 @@ class VideoExportOptions {
       easing: easing ?? this.easing,
       duration: duration ?? this.duration,
       zoomFactor: zoomFactor ?? this.zoomFactor,
-      parameterSweep: parameterSweep ?? this.parameterSweep,
+      parameterSweep: identical(parameterSweep, _unset)
+          ? this.parameterSweep
+          : parameterSweep as ParameterSweepConfig?,
       loop: loop ?? this.loop,
       includeWatermark: includeWatermark ?? this.includeWatermark,
     );
