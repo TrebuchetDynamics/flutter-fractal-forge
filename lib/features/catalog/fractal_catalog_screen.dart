@@ -9,6 +9,7 @@ import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
+import 'package:flutter_fractals/features/catalog/catalog_search_debouncer.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
@@ -184,6 +185,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   String? _selectedCategory;
 
   // Search debounce - prevents rebuild on every keystroke
+  final CatalogSearchDebouncer _searchDebouncer = CatalogSearchDebouncer();
   String _debouncedQuery = '';
 
   // Cached catalog — rebuilt only when registry changes.
@@ -201,19 +203,18 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   void _onSearchChanged() {
-    // Debounce: only rebuild after 300ms of no typing
-    Future.delayed(const Duration(milliseconds: 300), () {
+    _searchDebouncer.schedule(() {
       if (!mounted) return;
-      if (_searchController.text != _debouncedQuery) {
-        _debouncedQuery = _searchController.text;
-        setState(() {});
-      }
+      final nextQuery = _searchController.text;
+      if (nextQuery == _debouncedQuery) return;
+      setState(() => _debouncedQuery = nextQuery);
     });
   }
 
   @override
   void dispose() {
     _shimmerController.dispose();
+    _searchDebouncer.dispose();
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     _focusNode.dispose();
@@ -344,8 +345,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     setState(() {
       _isSearchVisible = !_isSearchVisible;
       if (!_isSearchVisible) {
-        _searchController.clear();
-        _focusNode.unfocus();
+        _clearSearchInput();
       } else {
         // Auto focus the search field
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -355,10 +355,16 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     });
   }
 
-  void _clearCatalogRefinements() {
+  void _clearSearchInput() {
     _searchController.clear();
+    _searchDebouncer.cancel();
+    _debouncedQuery = '';
     _focusNode.unfocus();
+  }
+
+  void _clearCatalogRefinements() {
     setState(() {
+      _clearSearchInput();
       _isSearchVisible = false;
       _dimensionFilter = _DimensionFilter.all;
       _selectedCategory = null;
