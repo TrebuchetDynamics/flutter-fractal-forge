@@ -78,8 +78,7 @@ class AutoExploreService extends ChangeNotifier {
     _pausedByUserCorrection = false;
     _isUserInteracting = false;
     _interactionStartZoom = null;
-    _timer?.cancel();
-    _anim?.cancel();
+    _cancelScheduledMotion();
     notifyListeners();
   }
 
@@ -109,8 +108,7 @@ class AutoExploreService extends ChangeNotifier {
     _pausedByUserCorrection = true;
     _interactionStartZoom = _clampZoom(controller.view.zoom);
 
-    _timer?.cancel();
-    _anim?.cancel();
+    _cancelScheduledMotion();
     notifyListeners();
   }
 
@@ -148,8 +146,7 @@ class AutoExploreService extends ChangeNotifier {
     _pausedByUserCorrection = false;
 
     // Restart leg planning from the user-selected zoom immediately.
-    _timer?.cancel();
-    _anim?.cancel();
+    _cancelScheduledMotion();
     if (!_isPaused && !_isUserInteracting) {
       _scheduleNext();
     }
@@ -169,17 +166,27 @@ class AutoExploreService extends ChangeNotifier {
   }
 
   void stop() {
+    _transitionToStopped(notify: true);
+  }
+
+  void _transitionToStopped({required bool notify}) {
     _isExploring = false;
     _isPaused = false;
     _pausedByUserCorrection = false;
     _isUserInteracting = false;
     _interactionStartZoom = null;
-    _timer?.cancel();
-    _anim?.cancel();
+    _cancelScheduledMotion();
     _cycleBaseZoom = null;
     _lastCorrectionZoom = null;
     _zoomingIn = true;
-    notifyListeners();
+    if (notify) notifyListeners();
+  }
+
+  void _cancelScheduledMotion() {
+    _timer?.cancel();
+    _timer = null;
+    _anim?.cancel();
+    _anim = null;
   }
 
   double _clampZoom(double z) => _zoomPlanner.clampZoom(z);
@@ -224,6 +231,7 @@ class AutoExploreService extends ChangeNotifier {
 
   void _scheduleNext() {
     _timer?.cancel();
+    _timer = null;
     if (!_runtimeState.canScheduleZoomLeg) return;
 
     // Continuous mode: no dwell/pause between zoom-in and zoom-out legs.
@@ -243,6 +251,7 @@ class AutoExploreService extends ChangeNotifier {
 
   Future<bool> _animateZoomTo(double targetZoom) async {
     _anim?.cancel();
+    _anim = null;
 
     final plan = _zoomPlanner.animationPlanForZoomLeg(
       startZoom: controller.view.zoom,
@@ -279,7 +288,7 @@ class AutoExploreService extends ChangeNotifier {
 
   @override
   void dispose() {
-    stop();
+    _transitionToStopped(notify: false);
     super.dispose();
   }
 }

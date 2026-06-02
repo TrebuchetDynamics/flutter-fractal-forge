@@ -5,6 +5,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AutoExploreService', () {
+    test('dispose cancels without sending a playback update', () {
+      final controller = FractalController(ModuleRegistry());
+      final service = AutoExploreService(controller: controller);
+      addTearDown(controller.dispose);
+
+      var notifications = 0;
+      service.addListener(() => notifications++);
+
+      service.dispose();
+
+      expect(notifications, 0);
+    });
+
     test('ignores one-shot corrections during continuous user interaction',
         () async {
       final controller = FractalController(ModuleRegistry());
