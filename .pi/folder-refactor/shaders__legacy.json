@@ -1,17 +1,21 @@
 {
   "version": 1,
   "target": "shaders/legacy",
-  "updatedAt": "2026-06-02T05:47:57.335Z",
+  "updatedAt": "2026-06-02T10:03:50.530Z",
   "objective": "Refactor shaders/legacy root shader files into responsibility subfolders while preserving Flutter shader asset behavior and documenting module boundaries. Planned topology complete: diagnostics/ for minimal/uniform diagnostic shaders, escape_time/ for legacy 2D escape-time fractals, precision/ for double-float/non-standard precision shaders, raymarched_3d/ for legacy 3D raymarching, root AGENTS.md only as local guidance.",
   "completedSlices": [
     "Move-only slice: moved all 12 legacy .frag root files into responsibility subfolders matching existing pubspec.yaml, Dart shaderAsset references, tests, and integration benchmark paths.",
-    "Contract/documentation slice: added shaders/legacy/AGENTS.md defining ownership, exposed assets, forbidden dependencies, and shader asset/uniform layout contracts.",
-    "Shared-code pass: reviewed repeated GLSL helpers/uniform patterns; no extraction performed because Flutter shader include/shared GLSL support is not established here and duplication is compatibility-sensitive uniform/leaf shader code."
+    "Contract/documentation slice: added shaders/legacy/AGENTS.md defining ownership, exposed assets, forbidden dependencies, shader asset contracts, and uniform layout responsibilities.",
+    "Shared contract reuse slice: added MandelbrotDf2UniformSlots to lib/core/modules/builders/uniform_layout.dart, rewired mandelbrot_df2_module.dart to use it, and rewired mandelbulb_module.dart to reuse existing Raymarched3DUniformSlots.",
+    "Shared-code pass: reviewed repeated GLSL helpers/uniform patterns; no GLSL extraction performed because project shaders only use Flutter runtime_effect.glsl includes and local shared includes lack a compile-validation path for this tree.",
+    "Completion audit: PASS with root AGENTS.md classified as out-of-scope guidance and no next candidates."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 legacy shader asset contract check: PASS (12 shaders/legacy/**/*.frag files, no root .frag files remain, all registered in pubspec.yaml, all pubspec legacy registrations exist, no stale root legacy paths in lib/test/integration_test/shaders/pubspec.yaml).",
-    "flutter analyze --no-pub lib/core/modules/builders/escape_time_catalog.dart lib/core/modules/builders/raymarched_3d_catalog.dart lib/core/modules/mandelbulb_module.dart lib/core/modules/mandelbrot_df2_module.dart test/fractal_cpu_diagnostics_test.dart test/shader_3d_diagnostic_test.dart: PASS, No issues found.",
-    "flutter test test/fractal_cpu_diagnostics_test.dart --no-pub: BLOCKED by pre-existing unrelated missing pubspec shader asset shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag."
+    "python3 legacy shader asset contract check: PASS (12 shaders/legacy/**/*.frag files, no root .frag files remain, all registered in pubspec.yaml, no stale root legacy paths in lib/test/integration_test/shaders/pubspec.yaml).",
+    "/home/xel/flutter/bin/flutter analyze --no-pub lib/core/modules/builders/uniform_layout.dart lib/core/modules/mandelbulb_module.dart lib/core/modules/mandelbrot_df2_module.dart lib/core/modules/builders/escape_time_catalog.dart lib/core/modules/builders/raymarched_3d_catalog.dart test/fractal_cpu_diagnostics_test.dart test/shader_3d_diagnostic_test.dart: PASS, No issues found.",
+    "/home/xel/flutter/bin/flutter test test/fractal_cpu_diagnostics_test.dart --no-pub --no-test-assets: PASS, 11 tests passed.",
+    "/home/xel/flutter/bin/flutter test test/fractal_cpu_diagnostics_test.dart --no-pub: BLOCKED by pre-existing unrelated pubspec asset path shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag missing (file exists at shaders/3d_and_hypercomplex/mandelbox_3d_gpu.frag).",
+    "folder_refactor_audit target=shaders/legacy plannedTopologyComplete=true outOfScopeFiles=[AGENTS.md] nextCandidateFiles=[]: PASS."
   ]
 }

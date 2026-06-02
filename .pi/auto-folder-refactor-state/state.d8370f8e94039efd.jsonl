@@ -96,3 +96,6 @@
 {"ts":"2026-06-02T03:32:24-06:00","candidate":"shaders/root_finding","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T11:32:24-06:00"}
 {"ts":"2026-06-02T03:39:19-06:00","candidate":"lib/core/services","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T11:39:19-06:00"}
 {"ts":"2026-06-02T03:43:22-06:00","candidate":"shaders/escape_time_family/experimental_named","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T11:43:22-06:00"}
+{"ts":"2026-06-02T03:53:02-06:00","candidate":"scripts","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T11:53:02-06:00"}
+{"ts":"2026-06-02T03:58:38-06:00","candidate":"shaders/3d_and_hypercomplex","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T07:58:38-06:00"}
+{"ts":"2026-06-02T04:04:29-06:00","candidate":"shaders/legacy","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T08:04:29-06:00"}

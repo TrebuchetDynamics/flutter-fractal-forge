@@ -1,26 +1,25 @@
 {
   "version": 1,
   "target": "scripts",
-  "updatedAt": "2026-06-02T05:31:12.469Z",
-  "objective": "Refactor scripts root into responsibility folders while keeping documented root commands as compatibility facades.",
+  "updatedAt": "2026-06-02T09:52:26.917Z",
+  "objective": "Refactor scripts root into responsibility subfolders while preserving documented root commands as compatibility facades. Root facades dispatch to trackable implementation folders (android, catalog, desktop, publishing) through shared compat contracts; existing research remains its own pipeline.",
   "completedSlices": [
-    "Mapped scripts root and existing release/research subtrees.",
-    "Moved Android/emulator/app-run automation into scripts/android with root compatibility wrappers.",
-    "Moved screenshot/Linux integration automation into scripts/screenshots with root compatibility wrappers.",
-    "Moved catalog/shader Python maintenance scripts into scripts/catalog with root compatibility wrappers.",
-    "Kept release implementations in scripts/release and replaced root release scripts with compatibility wrappers.",
+    "Mapped scripts root, public root command paths, existing research pipeline, and ignored pre-existing scripts/release artifact directory.",
+    "Added scripts/tests/smoke.sh as a low-cost public behavior/syntax validation before structural edits.",
+    "Moved Android/emulator/app-run automation implementations into scripts/android with root compatibility wrappers.",
+    "Moved Linux desktop integration and screenshot automation implementations into scripts/desktop with root compatibility wrappers.",
+    "Moved catalog/shader Python maintenance implementations into scripts/catalog with root compatibility wrappers.",
+    "Copied release proof/Play Console lane implementations into trackable scripts/publishing and pointed root compatibility wrappers there because scripts/release is ignored by the repo release/ gitignore pattern.",
     "Created shared compatibility dispatchers in scripts/compat/dispatch.sh and scripts/compat/run_python_impl.py.",
     "Adjusted moved implementation scripts to resolve repository root from their new subfolder depth.",
-    "Updated scripts/AGENTS.md with the new responsibility topology.",
-    "Validated shell syntax, Python AST parsing, representative safe root wrappers, and completion audit."
+    "Extracted shared Android build-lock/cleanup helpers into scripts/android/build_lock.sh for overnight emulator and UI monkey loops.",
+    "Updated scripts/AGENTS.md with the new responsibility topology and validation command.",
+    "Validated smoke checks and completed root-file audit."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "find scripts -path 'scripts/.pi' -prune -o -name '*.sh' -print0 | xargs -0 -n1 bash -n: pass",
-    "python3 AST parse for scripts/**/*.py excluding .pi/__pycache__: pass",
-    "scripts/build-play-console.sh --help: pass",
-    "scripts/run-app.sh --help: pass",
-    "scripts/add_srgb.py --dry-run: pass",
+    "scripts/tests/smoke.sh: pass (shell syntax, Python AST syntax, root facade target checks, root help facades, add_srgb dry-run)",
+    "find scripts -maxdepth 2 -type d -name '__pycache__': only pre-existing scripts/research/__pycache__ remains",
     "folder_refactor_audit(target=scripts, plannedTopologyComplete=true): pass"
   ]
 }

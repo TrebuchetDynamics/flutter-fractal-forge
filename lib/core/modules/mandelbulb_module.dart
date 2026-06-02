@@ -1,6 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
@@ -265,22 +266,26 @@ FractalModule buildMandelbulbModule() {
       final colorScheme = readDouble(state.params, 'colorScheme', 0);
       final fractalType = readDouble(state.params, 'fractalType', 0);
 
-      shader.setFloat(0, time);
-      shader.setFloat(1, size.width);
-      shader.setFloat(2, size.height);
-      shader.setFloat(3, 0.0);
-      shader.setFloat(4, 0.0);
-      shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, state.view.rotation.x);
-      shader.setFloat(7, state.view.rotation.y);
-      shader.setFloat(8, state.view.rotation.z);
-      shader.setFloat(9, power);
-      shader.setFloat(10, iterations);
-      shader.setFloat(11, steps);
-      shader.setFloat(12, bailout);
-      shader.setFloat(13, colorScheme);
-      shader.setFloat(14, fractalType);
-      shader.setFloat(15, state.transparentBackground ? 1.0 : 0.0);
+      shader.setFloat(Raymarched3DUniformSlots.time, time);
+      shader.setFloat(Raymarched3DUniformSlots.resolutionX, size.width);
+      shader.setFloat(Raymarched3DUniformSlots.resolutionY, size.height);
+      shader.setFloat(Raymarched3DUniformSlots.mouseX, 0.0);
+      shader.setFloat(Raymarched3DUniformSlots.mouseY, 0.0);
+      shader.setFloat(Raymarched3DUniformSlots.zoom, state.view.zoom);
+      shader.setFloat(
+          Raymarched3DUniformSlots.rotationX, state.view.rotation.x);
+      shader.setFloat(
+          Raymarched3DUniformSlots.rotationY, state.view.rotation.y);
+      shader.setFloat(
+          Raymarched3DUniformSlots.rotationZ, state.view.rotation.z);
+      shader.setFloat(Raymarched3DUniformSlots.power, power);
+      shader.setFloat(Raymarched3DUniformSlots.iterations, iterations);
+      shader.setFloat(Raymarched3DUniformSlots.steps, steps);
+      shader.setFloat(Raymarched3DUniformSlots.bailout, bailout);
+      shader.setFloat(Raymarched3DUniformSlots.colorScheme, colorScheme);
+      shader.setFloat(Raymarched3DUniformSlots.fractalType, fractalType);
+      shader.setFloat(Raymarched3DUniformSlots.transparentBackground,
+          state.transparentBackground ? 1.0 : 0.0);
 
       try {
         final palette =

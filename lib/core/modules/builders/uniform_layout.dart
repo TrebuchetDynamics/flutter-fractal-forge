@@ -35,3 +35,18 @@ abstract final class Raymarched3DUniformSlots {
   static const int fractalType = 14;
   static const int transparentBackground = 15;
 }
+
+abstract final class MandelbrotDf2UniformSlots {
+  static const int time = 0;
+  static const int resolutionX = 1;
+  static const int resolutionY = 2;
+  static const int centerHiX = 3;
+  static const int centerLoX = 4;
+  static const int centerHiY = 5;
+  static const int centerLoY = 6;
+  static const int zoom = 7;
+  static const int iterations = 8;
+  static const int bailout = 9;
+  static const int colorScheme = 10;
+  static const int transparentBackground = 11;
+}

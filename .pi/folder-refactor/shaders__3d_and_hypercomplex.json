@@ -1,17 +1,18 @@
 {
   "version": 1,
   "target": "shaders/3d_and_hypercomplex",
-  "updatedAt": "2026-06-02T05:46:17.763Z",
-  "objective": "Split shaders/3d_and_hypercomplex into behavior-owned subfolders: hypercomplex_escape_time owns 2D/sliced hypercomplex escape-time shaders; raymarched_volumes owns 3D distance-estimated/raymarched volume shaders. Preserve shader behavior by moving files only and keeping existing pubspec/catalog references stable.",
+  "updatedAt": "2026-06-02T09:58:06.913Z",
+  "objective": "Split shaders/3d_and_hypercomplex into behavior-owned subfolders: hypercomplex_escape_time owns 2D/sliced hypercomplex escape-time shaders; raymarched_volumes owns 3D/pseudo-3D and raymarched volume shaders referenced by the existing catalogs. Preserve shader behavior by moving files only and keeping existing pubspec/catalog shader asset references stable.",
   "completedSlices": [
     "Moved six hypercomplex escape-time shaders into hypercomplex_escape_time: quaternion_julia_2d_gpu.frag, tessarine_julia_gpu.frag, split_complex_gpu.frag, dual_complex_gpu.frag, bicomplex_gpu.frag, hypercomplex_newton_gpu.frag.",
-    "Moved six 3D raymarched/distance-estimated shaders into raymarched_volumes: 3d_fractal_gpu.frag, quaternion_julia_3d_gpu.frag, dual_quaternion_julia_gpu.frag, mandelbox_shape_inversion_gpu.frag, mandelbulb_time_modulated_gpu.frag, mandelbox_3d_gpu.frag.",
-    "Performed shared-code pass; duplicate palette/color/raymarch helpers intentionally left inline because Flutter shader assets have no existing include/shared contract and extraction would risk shader compilation behavior."
+    "Moved six 3D/pseudo-3D/raymarched shaders into raymarched_volumes: 3d_fractal_gpu.frag, quaternion_julia_3d_gpu.frag, dual_quaternion_julia_gpu.frag, mandelbox_shape_inversion_gpu.frag, mandelbulb_time_modulated_gpu.frag, mandelbox_3d_gpu.frag.",
+    "Verified all 12 moved shaders are byte-identical to their previous root paths; no shader source content changed.",
+    "Performed shared-code pass; identical linearToSRGB/rotationMatrix/palette helpers were found, but extraction was intentionally skipped because Flutter runtime-effect shaders currently have no local include/shared GLSL contract beyond flutter/runtime_effect.glsl and adding one would risk shader compilation behavior."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "custom python target asset check => 12 declared target shaders exist; no root .frag files remain; no old direct root shader refs remain.",
+    "python target asset check => 12 declared target shaders exist; 12 referenced target shaders are declared and exist; no root .frag files remain; no stale direct root target refs remain.",
     "/home/xel/flutter/bin/dart analyze test/shaders/standalone_shader_catalogs/three_d_and_hypercomplex_shader_assets_test.dart lib/core/modules/builders/escape_time_catalog.dart lib/core/modules/builders/raymarched_3d_catalog.dart lib/core/modules/mandelbox_module.dart => No issues found.",
-    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/three_d_and_hypercomplex_shader_assets_test.dart => blocked by pre-existing unrelated missing asset shaders/legacy/raymarched_3d/mandelbulb.frag during asset bundle build."
+    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/three_d_and_hypercomplex_shader_assets_test.dart => blocked by unrelated missing pubspec asset shaders/legacy/raymarched_3d/mandelbulb.frag during asset bundle build."
   ]
 }
