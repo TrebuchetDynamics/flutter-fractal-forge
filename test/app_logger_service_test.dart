@@ -276,6 +276,37 @@ void main() {
     });
   });
 
+  group('LogDiskRotationPolicy', () {
+    test('keeps newest non-empty lines in chronological order', () {
+      final plan = LogDiskRotationPolicy.plan(
+        lines: const ['', 'old', 'middle', 'new'],
+        maxEntries: 2,
+        maxBytes: 1000,
+      );
+
+      expect(plan.keptLines, ['middle', 'new']);
+      expect(plan.nonEmptyLineCount, 3);
+      expect(plan.shouldRewrite, isTrue);
+      expect(plan.serializeKeptLines(), 'middle\nnew\n');
+    });
+
+    test('counts UTF-8 bytes, not UTF-16 code units, for disk cap', () {
+      const older = 'é';
+      const newest = '🔥';
+      final maxBytes = utf8.encode('$newest\n').length;
+
+      final plan = LogDiskRotationPolicy.plan(
+        lines: const [older, newest],
+        maxEntries: 10,
+        maxBytes: maxBytes,
+      );
+
+      expect(plan.keptLines, [newest]);
+      expect(plan.keptUtf8Bytes, lessThanOrEqualTo(maxBytes));
+      expect(plan.shouldRewrite, isTrue);
+    });
+  });
+
   group('AppLogger — file persistence (temp directory)', () {
     late Directory tempDir;
     late File logFile;

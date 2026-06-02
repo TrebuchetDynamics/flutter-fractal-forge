@@ -65,6 +65,67 @@ class LogEntry {
   }
 }
 
+/// Replayable result of rotating an on-disk JSONL log file.
+@immutable
+class LogDiskRotationPlan {
+  const LogDiskRotationPlan({
+    required this.keptLines,
+    required this.nonEmptyLineCount,
+  });
+
+  /// Non-empty JSONL lines kept in chronological order.
+  final List<String> keptLines;
+
+  /// Count of non-empty candidate lines before rotation.
+  final int nonEmptyLineCount;
+
+  bool get shouldRewrite => keptLines.length < nonEmptyLineCount;
+
+  int get keptUtf8Bytes => keptLines.fold<int>(
+        0,
+        (total, line) => total + utf8.encode(line).length + 1,
+      );
+
+  String serializeKeptLines() => keptLines.map((line) => '$line\n').join();
+}
+
+/// Pure on-disk log rotation policy.
+///
+/// Keeps the most recent non-empty lines as one chronological suffix constrained
+/// by entry count and byte budget. Exposing the selection makes dropped-line and
+/// byte-budget assumptions testable without touching platform cache files.
+class LogDiskRotationPolicy {
+  const LogDiskRotationPolicy._();
+
+  static LogDiskRotationPlan plan({
+    required List<String> lines,
+    required int maxEntries,
+    required int maxBytes,
+  }) {
+    assert(maxEntries > 0, 'maxEntries must be positive');
+    assert(maxBytes > 0, 'maxBytes must be positive');
+
+    final nonEmptyLineCount =
+        lines.where((line) => line.trim().isNotEmpty).length;
+    final keptReversed = <String>[];
+    var totalBytes = 0;
+
+    for (final line in lines.reversed) {
+      if (line.trim().isEmpty) continue;
+      if (keptReversed.length >= maxEntries) break;
+      final lineBytes = utf8.encode(line).length + 1; // +1 for newline
+      if (totalBytes + lineBytes > maxBytes) break;
+      totalBytes += lineBytes;
+      keptReversed.add(line);
+    }
+
+    return LogDiskRotationPlan(
+      keptLines: keptReversed.reversed.toList(growable: false),
+      nonEmptyLineCount: nonEmptyLineCount,
+    );
+  }
+}
+
 /// Global in-memory ring-buffer logger with optional persistent JSONL storage.
 ///
 /// Keeps the last [maxEntries] log entries in memory. Export as text or JSON
@@ -140,26 +201,19 @@ class AppLogger extends ChangeNotifier {
 
       // Rotation: keep only the last _maxDiskEntries lines that fit within
       // _maxDiskBytes when re-encoded.
-      final validLines = <String>[];
-      int totalBytes = 0;
-      for (final line in lines.reversed) {
-        if (line.trim().isEmpty) continue;
-        totalBytes += line.length + 1; // +1 for newline
-        if (validLines.length >= _maxDiskEntries || totalBytes > _maxDiskBytes) {
-          break;
-        }
-        validLines.add(line);
-      }
-      // Restore chronological order.
-      final keptLines = validLines.reversed.toList();
+      final rotation = LogDiskRotationPolicy.plan(
+        lines: lines,
+        maxEntries: _maxDiskEntries,
+        maxBytes: _maxDiskBytes,
+      );
 
       // If we trimmed anything, rewrite the file to reclaim space.
-      if (keptLines.length < lines.where((l) => l.trim().isNotEmpty).length) {
-        await file.writeAsString(keptLines.map((l) => '$l\n').join());
+      if (rotation.shouldRewrite) {
+        await file.writeAsString(rotation.serializeKeptLines());
       }
 
       // Parse and load into ring buffer (in-memory max still applies).
-      for (final line in keptLines) {
+      for (final line in rotation.keptLines) {
         try {
           final json = jsonDecode(line) as Map<String, dynamic>;
           final entry = LogEntry.fromDiskJson(json);
