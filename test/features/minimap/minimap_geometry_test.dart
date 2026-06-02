@@ -46,26 +46,43 @@ void main() {
   });
 
   group('MiniMapGeometry.panForTap', () {
-    test('matches the existing tap-to-pan mapping for valid inputs', () {
-      final pan = MiniMapGeometry.panForTap(
-        localPosition: const Offset(120, 0),
-        minimapSize: const Size(120, 120),
-        zoom: 2.0,
-      );
+    test('is the inverse of viewport center mapping', () {
+      const minimapSize = Size(120, 120);
+      const viewportSize = Size(600, 600);
+      const tap = Offset(120, 0);
 
-      expect(pan.dx, 0.5);
-      expect(pan.dy, -0.5);
+      for (final zoom in [0.5, 1.0, 2.0, 8.0]) {
+        final pan = MiniMapGeometry.panForTap(
+          localPosition: tap,
+          minimapSize: minimapSize,
+          zoom: zoom,
+        );
+        final rect = MiniMapGeometry.viewportRect(
+          pan: pan,
+          zoom: zoom,
+          minimapSize: minimapSize,
+          viewportSize: viewportSize,
+        );
+
+        expect(rect.center.dx, closeTo(tap.dx, 1e-9), reason: 'zoom=$zoom');
+        expect(rect.center.dy, closeTo(tap.dy, 1e-9), reason: 'zoom=$zoom');
+      }
     });
 
-    test('uses neutral zoom for malformed zoom samples', () {
-      final pan = MiniMapGeometry.panForTap(
+    test('maps taps to absolute minimap coordinates independent of zoom', () {
+      final zoomedOut = MiniMapGeometry.panForTap(
         localPosition: const Offset(120, 0),
         minimapSize: const Size(120, 120),
-        zoom: 0.0,
+        zoom: 0.5,
+      );
+      final zoomedIn = MiniMapGeometry.panForTap(
+        localPosition: const Offset(120, 0),
+        minimapSize: const Size(120, 120),
+        zoom: 8.0,
       );
 
-      expect(pan.dx, 1.0);
-      expect(pan.dy, -1.0);
+      expect(zoomedOut, const Offset(2.0, -2.0));
+      expect(zoomedIn, zoomedOut);
     });
   });
 }

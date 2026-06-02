@@ -11,6 +11,9 @@ final class MiniMapGeometry {
   static const double defaultZoom = 1.0;
   static const double minimumIndicatorDimension = 4.0;
 
+  /// Fractal-plane span represented by the minimap overview on each axis.
+  static const double overviewWorldSpan = 4.0;
+
   const MiniMapGeometry._();
 
   static double normalizeZoom(double zoom) {
@@ -22,6 +25,41 @@ final class MiniMapGeometry {
     return Offset(
       pan.dx.isFinite ? pan.dx : 0.0,
       pan.dy.isFinite ? pan.dy : 0.0,
+    );
+  }
+
+  /// Maps an absolute fractal-plane pan center to minimap pixels.
+  static Offset centerForPan({
+    required Offset pan,
+    required Size minimapSize,
+  }) {
+    final width = _positiveFiniteOrZero(minimapSize.width);
+    final height = _positiveFiniteOrZero(minimapSize.height);
+    if (width <= 0.0 || height <= 0.0) return Offset.zero;
+
+    final safePan = normalizePan(pan);
+    return Offset(
+      width / 2.0 + safePan.dx * width / overviewWorldSpan,
+      height / 2.0 + safePan.dy * height / overviewWorldSpan,
+    );
+  }
+
+  /// Inverse of [centerForPan] for tap-to-pan jumps.
+  static Offset panForCenter({
+    required Offset center,
+    required Size minimapSize,
+  }) {
+    final width = _positiveFiniteOrZero(minimapSize.width);
+    final height = _positiveFiniteOrZero(minimapSize.height);
+    if (width <= 0.0 || height <= 0.0) return Offset.zero;
+
+    final safeCenter = Offset(
+      center.dx.isFinite ? center.dx : width / 2.0,
+      center.dy.isFinite ? center.dy : height / 2.0,
+    );
+    return Offset(
+      (safeCenter.dx / width - 0.5) * overviewWorldSpan,
+      (safeCenter.dy / height - 0.5) * overviewWorldSpan,
     );
   }
 
@@ -45,13 +83,12 @@ final class MiniMapGeometry {
     final viewportWidthScale = safeViewportSize.width / viewportShortSide;
     final viewportHeightScale = safeViewportSize.height / viewportShortSide;
 
-    final baseViewportWidth = (2.0 / safeZoom) * (width / 4.0);
-    final baseViewportHeight = (2.0 / safeZoom) * (height / 4.0);
-    final centerX = width / 2.0 + safePan.dx * width / 4.0;
-    final centerY = height / 2.0 + safePan.dy * height / 4.0;
+    final baseViewportWidth = (2.0 / safeZoom) * (width / overviewWorldSpan);
+    final baseViewportHeight = (2.0 / safeZoom) * (height / overviewWorldSpan);
+    final center = centerForPan(pan: safePan, minimapSize: minimapSize);
 
     return Rect.fromCenter(
-      center: Offset(centerX, centerY),
+      center: center,
       width: _clampIndicatorDimension(
         baseViewportWidth * viewportWidthScale,
         width,
@@ -72,10 +109,9 @@ final class MiniMapGeometry {
     final height = _positiveFiniteOrZero(minimapSize.height);
     if (width <= 0.0 || height <= 0.0) return Offset.zero;
 
-    final normalizedX = (localPosition.dx / width) - 0.5;
-    final normalizedY = (localPosition.dy / height) - 0.5;
-    final scale = 2.0 / normalizeZoom(zoom);
-    return Offset(normalizedX * scale, normalizedY * scale);
+    // Pan is an absolute fractal-plane center; zoom changes the viewport
+    // indicator size, not which overview coordinate a tap selects.
+    return panForCenter(center: localPosition, minimapSize: minimapSize);
   }
 
   static double _positiveFiniteOrZero(double value) {
