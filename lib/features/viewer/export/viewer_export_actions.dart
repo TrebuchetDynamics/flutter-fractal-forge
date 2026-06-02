@@ -23,11 +23,17 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       return false;
     }
 
-    final shouldResume = svc.isExploring && !svc.isPaused;
-    if (shouldResume) {
+    final plan = ViewerExportAutoExplorePausePlan.fromPlayback(
+      ViewerExportAutoExplorePlayback(
+        isExploring: svc.isExploring,
+        isPaused: svc.isPaused,
+        pausedByUserCorrection: svc.pausedByUserCorrection,
+      ),
+    );
+    if (plan.pauseService) {
       svc.pause();
     }
-    return shouldResume;
+    return plan.resumeWhenFinished;
   }
 
   void _resumeAutoExploreAfterExportFlowIfNeeded(bool shouldResume) {

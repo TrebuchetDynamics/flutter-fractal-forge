@@ -17,6 +17,53 @@ class ViewerExportProgress {
 }
 
 @immutable
+class ViewerExportAutoExplorePlayback {
+  final bool isExploring;
+  final bool isPaused;
+  final bool pausedByUserCorrection;
+
+  const ViewerExportAutoExplorePlayback({
+    required this.isExploring,
+    required this.isPaused,
+    required this.pausedByUserCorrection,
+  }) : assert(
+          !pausedByUserCorrection || (isExploring && !isPaused),
+          'pausedByUserCorrection is only valid while auto-explore is armed',
+        );
+
+  bool get isArmedButTemporarilyYielded =>
+      isExploring && !isPaused && pausedByUserCorrection;
+}
+
+/// Pure pause/resume plan for export flows that temporarily suspend auto-explore.
+///
+/// Keeping this decision outside the viewer mixin makes the hidden replay order
+/// visible: the export flow should resume auto-explore only when it paused
+/// active auto-motion itself.
+@immutable
+class ViewerExportAutoExplorePausePlan {
+  final bool pauseService;
+  final bool resumeWhenFinished;
+
+  const ViewerExportAutoExplorePausePlan({
+    required this.pauseService,
+    required this.resumeWhenFinished,
+  });
+
+  factory ViewerExportAutoExplorePausePlan.fromPlayback(
+    ViewerExportAutoExplorePlayback playback,
+  ) {
+    final ownsAutoMotion = playback.isExploring &&
+        !playback.isPaused &&
+        !playback.pausedByUserCorrection;
+    return ViewerExportAutoExplorePausePlan(
+      pauseService: ownsAutoMotion,
+      resumeWhenFinished: ownsAutoMotion,
+    );
+  }
+}
+
+@immutable
 class ViewerExportSession {
   final ViewerExportPhase phase;
   final bool resumeAutoExploreWhenFinished;

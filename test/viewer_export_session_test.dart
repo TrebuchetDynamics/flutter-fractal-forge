@@ -2,6 +2,54 @@ import 'package:flutter_fractals/features/viewer/export/viewer_export_session.da
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('ViewerExportAutoExplorePausePlan', () {
+    test('does not resume auto-explore that was already yielded to the user',
+        () {
+      const playback = ViewerExportAutoExplorePlayback(
+        isExploring: true,
+        isPaused: false,
+        pausedByUserCorrection: true,
+      );
+
+      final plan = ViewerExportAutoExplorePausePlan.fromPlayback(playback);
+
+      expect(playback.isArmedButTemporarilyYielded, isTrue);
+      expect(plan.pauseService, isFalse);
+      expect(plan.resumeWhenFinished, isFalse);
+    });
+
+    test('pauses and resumes only active auto-motion', () {
+      final activePlan = ViewerExportAutoExplorePausePlan.fromPlayback(
+        const ViewerExportAutoExplorePlayback(
+          isExploring: true,
+          isPaused: false,
+          pausedByUserCorrection: false,
+        ),
+      );
+      final pausedPlan = ViewerExportAutoExplorePausePlan.fromPlayback(
+        const ViewerExportAutoExplorePlayback(
+          isExploring: true,
+          isPaused: true,
+          pausedByUserCorrection: false,
+        ),
+      );
+      final idlePlan = ViewerExportAutoExplorePausePlan.fromPlayback(
+        const ViewerExportAutoExplorePlayback(
+          isExploring: false,
+          isPaused: false,
+          pausedByUserCorrection: false,
+        ),
+      );
+
+      expect(activePlan.pauseService, isTrue);
+      expect(activePlan.resumeWhenFinished, isTrue);
+      expect(pausedPlan.pauseService, isFalse);
+      expect(pausedPlan.resumeWhenFinished, isFalse);
+      expect(idlePlan.pauseService, isFalse);
+      expect(idlePlan.resumeWhenFinished, isFalse);
+    });
+  });
+
   group('ViewerExportSession', () {
     test('freezes while sheet is open and resumes to idle when dismissed', () {
       final session = const ViewerExportSession().openSheet(
