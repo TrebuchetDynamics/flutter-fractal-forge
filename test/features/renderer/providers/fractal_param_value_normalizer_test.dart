@@ -19,13 +19,15 @@ FractalParameter _booleanParam({required bool defaultValue}) {
 FractalParameter _numericParam({
   required FractalParamType type,
   required Object defaultValue,
+  double min = 1,
+  double max = 10,
 }) {
   return FractalParameter(
     id: 'value',
     label: _label,
     type: type,
-    min: 1,
-    max: 10,
+    min: min,
+    max: max,
     step: 1,
     defaultValue: defaultValue,
   );
@@ -77,6 +79,20 @@ void main() {
           reason: 'integer candidate=$candidate',
         );
       }
+    });
+
+    test('keeps rounded integer values inside fractional schema bounds', () {
+      final schema = _numericParam(
+        type: FractalParamType.integer,
+        defaultValue: 4,
+        min: 1.2,
+        max: 10.8,
+      );
+      final bounds = FractalNumericParamBounds.fromSchema(schema);
+
+      expect(bounds.containsInteger, isTrue);
+      expect(normalizeFractalParamValue(schema, 1.2), 2);
+      expect(normalizeFractalParamValue(schema, 10.8), 10);
     });
   });
 }
