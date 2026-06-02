@@ -202,6 +202,37 @@ void main() {
     });
   });
 
+  group('BatchExportCompletion', () {
+    test('reports successful runs as done regardless of item count', () {
+      const completion = BatchExportCompletion(
+        completedItems: 0,
+        plannedItems: 0,
+        wasCancelled: false,
+      );
+
+      expect(completion.progress, 1.0);
+      expect(completion.status, 'Done');
+    });
+
+    test('reports cancelled runs with bounded partial progress', () {
+      const completion = BatchExportCompletion(
+        completedItems: 1,
+        plannedItems: 3,
+        wasCancelled: true,
+      );
+      const overrunCompletion = BatchExportCompletion(
+        completedItems: 4,
+        plannedItems: 3,
+        wasCancelled: true,
+      );
+
+      expect(completion.progress, closeTo(1 / 3, 1e-12));
+      expect(completion.status, 'Cancelled after 1/3');
+      expect(overrunCompletion.progress, 1.0);
+      expect(overrunCompletion.status, 'Cancelled after 3/3');
+    });
+  });
+
   group('BatchExportResult', () {
     test('holds directory, items, and no contact sheet', () {
       final dir = Directory('/tmp/batch');
@@ -582,6 +613,44 @@ void main() {
       expect(capturingService.capturedOptions.single.format, ExportFormat.png);
       expect(result.items.single.file.path, endsWith('.png'));
       expect(result.items.single.file.path, isNot(endsWith('.webp')));
+    });
+
+    test('mid-export cancellation reports partial progress instead of done',
+        () async {
+      final capturingService = _CapturingExportService(tmpDir.path);
+      final service = BatchExportService(
+        exportService: capturingService,
+        framePump: const _NoopBatchExportFramePump(),
+      );
+      final progress = <({double value, String status})>[];
+      var cancelChecks = 0;
+
+      final result = await service.exportPresets(
+        boundaryKey: GlobalKey(),
+        applyPreset: (_) async {},
+        presets: [
+          _makePreset('First'),
+          _makePreset('Second'),
+          _makePreset('Third'),
+        ],
+        options: const ExportOptions(format: ExportFormat.png),
+        screenWidth: 400,
+        screenHeight: 800,
+        moduleId: 'mandelbrot',
+        moduleDisplayName: 'Mandelbrot',
+        currentParameters: () => {},
+        onProgress: (value, status) => progress.add((
+          value: value,
+          status: status,
+        )),
+        onItemDone: null,
+        isCancelled: () => cancelChecks++ > 0,
+      );
+
+      expect(result.items, hasLength(1));
+      expect(result.contactSheet, isNull);
+      expect(progress.last.value, closeTo(1 / 3, 1e-12));
+      expect(progress.last.status, 'Cancelled after 1/3');
     });
 
     test('currentParameters is not called when isCancelled=true', () async {

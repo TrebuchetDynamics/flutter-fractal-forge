@@ -71,6 +71,40 @@ class BatchExportPlan {
   }
 }
 
+/// Replayable final progress/status for a batch export run.
+///
+/// Cancellation can occur after a subset of planned presets has been written.
+/// Keep that completion state explicit so partial runs are not reported as a
+/// successful 100% `Done` export.
+class BatchExportCompletion {
+  final int completedItems;
+  final int plannedItems;
+  final bool wasCancelled;
+
+  const BatchExportCompletion({
+    required this.completedItems,
+    required this.plannedItems,
+    required this.wasCancelled,
+  })  : assert(completedItems >= 0),
+        assert(plannedItems >= 0);
+
+  int get _boundedCompletedItems {
+    if (plannedItems <= 0) return 0;
+    return completedItems.clamp(0, plannedItems).toInt();
+  }
+
+  double get progress {
+    if (!wasCancelled || plannedItems <= 0) return 1.0;
+    return (_boundedCompletedItems / plannedItems).clamp(0.0, 1.0).toDouble();
+  }
+
+  String get status {
+    if (!wasCancelled) return 'Done';
+    if (plannedItems <= 0) return 'Cancelled';
+    return 'Cancelled after $_boundedCompletedItems/$plannedItems';
+  }
+}
+
 /// Replayable capture options and output path for one batch item.
 ///
 /// Batch export goes through the same encoder as single-image export, where
@@ -216,9 +250,13 @@ class BatchExportService {
         BatchExportPlan.forModule(moduleId: moduleId, presets: presets);
     final effectiveFormat =
         _exportService.resolveEffectiveFormat(options.format);
+    var wasCancelled = false;
 
     for (final entry in plan.entries) {
-      if (isCancelled()) break;
+      if (isCancelled()) {
+        wasCancelled = true;
+        break;
+      }
 
       final preset = entry.preset;
       onProgress?.call(
@@ -261,25 +299,34 @@ class BatchExportService {
     }
 
     File? contactSheet;
-    if (results.isNotEmpty && !isCancelled()) {
-      onProgress?.call(0.95, 'Building contact sheet…');
-      try {
-        final pngBytes = await _buildContactSheet(
-          results.map((e) => e.file).toList(),
-          columns: 4,
-          tileSize: 512,
-          padding: 16,
-        );
-        final name = 'contact_sheet_${_safeBatchExportSlug(moduleId)}.png';
-        final out = File('${directory.path}/$name');
-        await out.writeAsBytes(pngBytes, flush: true);
-        contactSheet = out;
-      } catch (e) {
-        if (kDebugMode) debugPrint('[FF] silent catch: $e');
+    if (results.isNotEmpty) {
+      if (isCancelled()) {
+        wasCancelled = true;
+      } else {
+        onProgress?.call(0.95, 'Building contact sheet…');
+        try {
+          final pngBytes = await _buildContactSheet(
+            results.map((e) => e.file).toList(),
+            columns: 4,
+            tileSize: 512,
+            padding: 16,
+          );
+          final name = 'contact_sheet_${_safeBatchExportSlug(moduleId)}.png';
+          final out = File('${directory.path}/$name');
+          await out.writeAsBytes(pngBytes, flush: true);
+          contactSheet = out;
+        } catch (e) {
+          if (kDebugMode) debugPrint('[FF] silent catch: $e');
+        }
       }
     }
 
-    onProgress?.call(1.0, 'Done');
+    final completion = BatchExportCompletion(
+      completedItems: results.length,
+      plannedItems: plan.total,
+      wasCancelled: wasCancelled,
+    );
+    onProgress?.call(completion.progress, completion.status);
     return BatchExportResult(
         directory: directory, items: results, contactSheet: contactSheet);
   }
