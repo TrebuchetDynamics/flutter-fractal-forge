@@ -1,9 +1,24 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/video_export_options.dart';
 import 'package:flutter_fractals/core/services/video_export_service.dart';
+
+class _FakePathProviderPlatform extends Fake
+    with MockPlatformInterfaceMixin
+    implements PathProviderPlatform {
+  final String tempDir;
+
+  _FakePathProviderPlatform(this.tempDir);
+
+  @override
+  Future<String?> getTemporaryPath() async => tempDir;
+}
 
 void main() {
   // ---------------------------------------------------------------------------
@@ -198,6 +213,38 @@ void main() {
       for (final f in VideoExportFormat.values) {
         expect(f.displayName, isNotEmpty);
       }
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // VideoExportEncodingPlan
+  // ---------------------------------------------------------------------------
+  group('VideoExportEncodingPlan', () {
+    const service = VideoExportService();
+
+    test('exposes MP4 fallback to the GIF encoder', () {
+      final plan = VideoExportEncodingPlan.forFormat(VideoExportFormat.mp4);
+      final effectiveOptions = plan.applyTo(
+        const VideoExportOptions(format: VideoExportFormat.mp4),
+      );
+
+      expect(plan.requestedFormat, VideoExportFormat.mp4);
+      expect(plan.effectiveFormat, VideoExportFormat.gif);
+      expect(plan.usesFallback, isTrue);
+      expect(effectiveOptions.format, VideoExportFormat.gif);
+      expect(
+        service.resolveEffectiveFormat(VideoExportFormat.mp4),
+        VideoExportFormat.gif,
+      );
+    });
+
+    test('keeps GIF requests unchanged', () {
+      final plan = VideoExportEncodingPlan.forFormat(VideoExportFormat.gif);
+      const options = VideoExportOptions(format: VideoExportFormat.gif);
+
+      expect(plan.effectiveFormat, VideoExportFormat.gif);
+      expect(plan.usesFallback, isFalse);
+      expect(plan.applyTo(options), same(options));
     });
   });
 
@@ -619,6 +666,49 @@ void main() {
       );
       // Should be closer to start than to end
       expect(result['power'], lessThan(2.0));
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // VideoExportService.exportVideo
+  // ---------------------------------------------------------------------------
+  group('VideoExportService.exportVideo', () {
+    const service = VideoExportService();
+
+    test('falls back unsupported MP4 requests to GIF output', () async {
+      final tempDir = await Directory.systemTemp.createTemp(
+        'fractal_video_export_test_',
+      );
+      final previousPathProvider = PathProviderPlatform.instance;
+      PathProviderPlatform.instance = _FakePathProviderPlatform(tempDir.path);
+      addTearDown(() async {
+        PathProviderPlatform.instance = previousPathProvider;
+        if (await tempDir.exists()) {
+          await tempDir.delete(recursive: true);
+        }
+      });
+
+      final frame = img.Image(width: 1, height: 1);
+      img.fill(frame, color: img.ColorRgb8(0, 0, 0));
+      final frameBytes = Uint8List.fromList(img.encodePng(frame));
+
+      final result = await service.exportVideo(
+        options: const VideoExportOptions(
+          format: VideoExportFormat.mp4,
+          duration: Duration.zero,
+        ),
+        startView: makeView(),
+        startParams: const {},
+        fractalType: 'mandelbrot',
+        updateView: (_, __) {},
+        captureFrame: () async => frameBytes,
+      );
+
+      expect(result.format, VideoExportFormat.gif);
+      expect(result.filePath, endsWith('.gif'));
+      expect(result.frameCount, 1);
+      final writtenBytes = await result.file.readAsBytes();
+      expect(String.fromCharCodes(writtenBytes.take(3)), 'GIF');
     });
   });
 

@@ -1,21 +1,21 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/newton_and_orthogonal",
-  "updatedAt": "2026-06-02T08:48:20.658Z",
-  "objective": "Split root-heavy Newton/orthogonal shader folder by mathematical responsibility: magnet_maps, orthogonal_polynomial_maps, high_order_root_methods, and series_maps. Root should keep no shader files; catalog/pubspec/CPU comments point to new asset paths; behavior preserved.",
+  "updatedAt": "2026-06-02T10:22:30.612Z",
+  "objective": "Split root-heavy Newton/orthogonal shader folder by mathematical responsibility: magnet_maps, orthogonal_polynomial_maps, high_order_root_methods, and series_maps. Root keeps no shader files; existing catalog/pubspec/CPU formula comments already point to the new asset paths; behavior preserved.",
   "completedSlices": [
-    "Added focused public behavior test covering Newton/orthogonal catalog shader assets declared in pubspec and existing on disk.",
-    "Moved Magnet Type I/II/III shaders into magnet_maps and updated pubspec, escape_time_catalog.dart, and CPU formula comments.",
-    "Moved Chebyshev/Legendre/Laguerre/Hermite recurrence shaders into orthogonal_polynomial_maps and updated pubspec, escape_time_catalog.dart, and CPU formula comments.",
-    "Moved Chebyshev and Laguerre high-order root-method shaders into high_order_root_methods and updated pubspec and escape_time_catalog.dart.",
-    "Moved Virial log-series escape shader into series_maps and updated pubspec, escape_time_catalog.dart, and CPU formula comments.",
-    "Shared-code pass completed: duplicated GLSL palette/color/complex helpers identified but not extracted because local shader include sharing has no existing project precedent and would require shader source behavior changes beyond move-only refactor."
+    "Kept focused public behavior test test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart; baseline showed current repo mismatch between declared/catalog paths and root shader files.",
+    "Moved Magnet Type I/II/III shaders into magnet_maps.",
+    "Moved Chebyshev/Legendre/Laguerre/Hermite recurrence/map shaders into orthogonal_polynomial_maps.",
+    "Moved Chebyshev and Laguerre high-order root-method shaders into high_order_root_methods.",
+    "Moved Virial log-series escape shader into series_maps.",
+    "Shared-code pass completed: duplicated GLSL palette/color/complex helpers identified, but no extraction performed because project shaders only include flutter/runtime_effect.glsl (no local shader include precedent in use) and extraction would require shader source/build behavior changes beyond a safe move-only refactor."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart: passed before move.",
-    "/home/xel/flutter/bin/flutter test --no-test-assets test/catalog_id_integrity_test.dart test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart: passed after move (14 tests).",
-    "rg stale old newton_and_orthogonal root shader asset paths: no matches.",
+    "Initial /home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart failed because catalog/pubspec referenced subfolder asset paths whose files were still at the root.",
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart test/catalog_id_integrity_test.dart: passed (14 tests).",
+    "rg stale old newton_and_orthogonal root shader asset paths in pubspec.yaml lib test integration_test shaders: no matches.",
     "folder_refactor_audit target=shaders/escape_time_family/newton_and_orthogonal plannedTopologyComplete=true: pass."
   ]
 }

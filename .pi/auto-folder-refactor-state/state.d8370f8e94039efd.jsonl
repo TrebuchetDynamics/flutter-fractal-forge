@@ -102,3 +102,5 @@
 {"ts":"2026-06-02T04:08:43-06:00","candidate":"shaders/escape_time_family/families/tricorn","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T08:08:43-06:00"}
 {"ts":"2026-06-02T04:11:52-06:00","candidate":"shaders/escape_time_family/families/multijulia","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T08:11:52-06:00"}
 {"ts":"2026-06-02T04:17:30-06:00","candidate":"lib/core/models","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T08:17:30-06:00"}
+{"ts":"2026-06-02T04:20:06-06:00","candidate":"shaders/escape_time_family/julia_variants","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T08:20:06-06:00"}
+{"ts":"2026-06-02T04:23:05-06:00","candidate":"shaders/escape_time_family/newton_and_orthogonal","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T06:23:05-06:00"}

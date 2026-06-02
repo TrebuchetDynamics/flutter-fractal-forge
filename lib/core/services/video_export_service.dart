@@ -62,9 +62,52 @@ class VideoFrameTimeline {
   }
 }
 
+/// Replayable encoding contract for video exports.
+///
+/// MP4 is selectable in the public options model, but this Dart-only exporter
+/// currently has a GIF encoder. Keep the fallback explicit so output filename,
+/// bytes, and reported format cannot silently drift apart.
+class VideoExportEncodingPlan {
+  final VideoExportFormat requestedFormat;
+  final VideoExportFormat effectiveFormat;
+
+  const VideoExportEncodingPlan._({
+    required this.requestedFormat,
+    required this.effectiveFormat,
+  });
+
+  factory VideoExportEncodingPlan.forFormat(
+    VideoExportFormat requestedFormat,
+  ) {
+    return VideoExportEncodingPlan._(
+      requestedFormat: requestedFormat,
+      effectiveFormat: switch (requestedFormat) {
+        VideoExportFormat.gif => VideoExportFormat.gif,
+        VideoExportFormat.mp4 => VideoExportFormat.gif,
+      },
+    );
+  }
+
+  bool get usesFallback => requestedFormat != effectiveFormat;
+
+  VideoExportOptions applyTo(VideoExportOptions options) {
+    if (options.format == effectiveFormat) return options;
+    return options.copyWith(format: effectiveFormat);
+  }
+}
+
 /// Service for exporting fractal animations as video.
 class VideoExportService {
   const VideoExportService();
+
+  /// Returns the format this Dart-only exporter can encode today.
+  VideoExportFormat resolveEffectiveFormat(VideoExportFormat requested) {
+    return VideoExportEncodingPlan.forFormat(requested).effectiveFormat;
+  }
+
+  VideoExportEncodingPlan encodingPlanFor(VideoExportOptions options) {
+    return VideoExportEncodingPlan.forFormat(options.format);
+  }
 
   /// Calculate the view state for a given frame in the animation.
   FractalViewState calculateAnimationFrame({
@@ -179,6 +222,8 @@ class VideoExportService {
     void Function(double progress, String status)? onProgress,
   }) async {
     if (kIsWeb) throw UnsupportedError('exportVideo is not supported on web');
+    final encodingPlan = encodingPlanFor(options);
+    final effectiveOptions = encodingPlan.applyTo(options);
     final totalFrames = options.totalFrames;
 
     // Capture and decode frames incrementally to avoid RAM exhaustion
@@ -225,18 +270,11 @@ class VideoExportService {
       onProgress?.call(progress, 'Rendering frame ${i + 1} of $totalFrames');
     }
 
-    // Build animation: first frame + addFrame for rest
-    final firstFrame = decodedFrames.first;
-    for (var i = 1; i < decodedFrames.length; i++) {
-      firstFrame.addFrame(decodedFrames[i]);
-    }
-
-    // Encode to GIF
-    final bytes = Uint8List.fromList(img.encodeGif(firstFrame));
+    final bytes = _encodeFrames(decodedFrames, encodingPlan.effectiveFormat);
 
     // Save to file
     final dir = await getTemporaryDirectory();
-    final filename = generateFilename(options);
+    final filename = generateFilename(effectiveOptions);
     final outputPath = '${dir.path}/$filename';
     final outputFile = File(outputPath);
     await outputFile.writeAsBytes(bytes);
@@ -250,7 +288,27 @@ class VideoExportService {
       duration: options.duration,
       fileSizeBytes: size,
       resolution: options.resolution,
-      format: options.format,
+      format: encodingPlan.effectiveFormat,
     );
+  }
+
+  Uint8List _encodeFrames(
+    List<img.Image> decodedFrames,
+    VideoExportFormat effectiveFormat,
+  ) {
+    if (decodedFrames.isEmpty) {
+      throw StateError('Cannot encode video export without frames');
+    }
+
+    switch (effectiveFormat) {
+      case VideoExportFormat.gif:
+        final firstFrame = decodedFrames.first;
+        for (var i = 1; i < decodedFrames.length; i++) {
+          firstFrame.addFrame(decodedFrames[i]);
+        }
+        return Uint8List.fromList(img.encodeGif(firstFrame));
+      case VideoExportFormat.mp4:
+        throw UnsupportedError('MP4 encoding is not available');
+    }
   }
 }

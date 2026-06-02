@@ -1,20 +1,21 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/julia_variants",
-  "updatedAt": "2026-06-02T06:07:07.520Z",
-  "objective": "Refactor julia_variants shaders by behavior/responsibility into parameter_plane, fixed_parameter, rational_maps, distance_estimation, and shape_modulation while preserving shader behavior. Current slice repaired the target folder layout to match existing pubspec/catalog shader paths by move-only relocation of all root shader files.",
+  "updatedAt": "2026-06-02T10:19:27.877Z",
+  "objective": "Refactor julia_variants shaders by behavior/responsibility into parameter_plane, fixed_parameter, rational_maps, distance_estimation, and shape_modulation while preserving shader behavior. Move-only topology is complete: all root shader files are in responsibility subfolders matching existing pubspec/catalog public asset paths.",
   "completedSlices": [
-    "Added focused shader asset catalog test for julia_variants public behavior (catalog/pubspec/file consistency).",
+    "Kept focused shader asset catalog behavior test at test/shaders/escape_time_family/catalogs/julia_variants_shader_assets_test.dart as the public behavior guard for pubspec/catalog/disk consistency.",
     "Moved Mandelbrot-style Julia-variant parameter-plane shaders to parameter_plane/: biomorph_gpu.frag, feather_gpu.frag, heart_gpu.frag.",
     "Moved fixed-parameter Julia shaders to fixed_parameter/: feather_julia_gpu.frag, heart_julia_gpu.frag, lambda_julia_gpu.frag.",
-    "Moved rational Julia maps to rational_maps/: magnet1_julia_gpu.frag, magnet2_julia_gpu.frag; moved julia_de_gpu.frag to distance_estimation/ and shape_modulus_julia_gpu.frag to shape_modulation/.",
-    "Shared-code pass found repeated palette/color, complex arithmetic, viewport mapping, and normal-map shading snippets. Extraction intentionally skipped because Flutter fragment shader include support is not established in this repo and the available Flutter shader test is blocked by an unrelated missing asset; moving behavior into includes would be a compile-risk semantic-adjacent change without a green shader compile gate."
+    "Moved rational Julia maps to rational_maps/: magnet1_julia_gpu.frag, magnet2_julia_gpu.frag.",
+    "Moved julia_de_gpu.frag to distance_estimation/ and shape_modulus_julia_gpu.frag to shape_modulation/.",
+    "Shared-code pass found repeated palette/color conversion and complex arithmetic snippets. Extraction intentionally skipped because the repo has no established custom GLSL include pattern beyond <flutter/runtime_effect.glsl>, and the Flutter shader test is blocked before execution by unrelated pubspec asset shaders/legacy/raymarched_3d/mandelbulb.frag, so include extraction lacks a green shader compile gate."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 target consistency check: PASS - 10 julia_variants shader files all present under responsibility subfolders, pubspec references match disk, catalog references exist on disk, and old root asset paths are absent from pubspec/catalog.",
+    "python3 target consistency check: PASS - 10 julia_variants shader files are under responsibility subfolders; pubspec/catalog paths match disk; no root .frag files or old root asset paths remain.",
     "rg stale old root shader paths in pubspec/lib/test/shaders: PASS - no stale old target asset paths found.",
-    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/julia_variants_shader_assets_test.dart: BLOCKED/FAIL before test execution due existing unrelated pubspec asset missing: shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/julia_variants_shader_assets_test.dart: BLOCKED before test execution by unrelated existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
     "folder_refactor_audit: PASS - planned topology complete, 0 root files, no next candidates."
   ]
 }
