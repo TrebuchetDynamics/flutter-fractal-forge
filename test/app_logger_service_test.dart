@@ -4,6 +4,13 @@ import 'dart:io';
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+final class _OpaqueLogValue {
+  const _OpaqueLogValue();
+
+  @override
+  String toString() => 'opaque-log-value';
+}
+
 void main() {
   // Use a fresh AppLogger per test so ring-buffer state does not bleed.
   late AppLogger logger;
@@ -103,6 +110,41 @@ void main() {
     });
   });
 
+  group('AppLogger — structured data', () {
+    test('log snapshots unsupported values into JSON-safe data', () {
+      final mutableList = <Object?>[
+        double.infinity,
+        <Object, Object?>{1: const _OpaqueLogValue()},
+      ];
+      final mutableData = <String, Object?>{
+        'when': DateTime.utc(2024, 1, 2, 3, 4, 5),
+        'nan': double.nan,
+        'opaque': const _OpaqueLogValue(),
+        'nested': mutableList,
+      };
+
+      expect(
+        () => logger.log('diagnostic', 'captures data', data: mutableData),
+        returnsNormally,
+      );
+
+      mutableData['opaque'] = 'changed after log';
+      mutableList[0] = 'changed after log';
+
+      final decoded = jsonDecode(logger.exportJson(pretty: false)) as List;
+      final entry = decoded.single as Map<String, dynamic>;
+      final data = entry['data'] as Map<String, dynamic>;
+
+      expect(data['when'], '2024-01-02T03:04:05.000Z');
+      expect(data['nan'], 'NaN');
+      expect(data['opaque'], 'opaque-log-value');
+      expect(data['nested'], [
+        'Infinity',
+        {'1': 'opaque-log-value'},
+      ]);
+    });
+  });
+
   group('AppLogger — exportJson', () {
     test('exportJson returns valid JSON array', () {
       logger.log('render', 'gpu frame');
@@ -130,8 +172,8 @@ void main() {
       logger.debug('cat', 'skip me');
       logger.error('cat', 'keep me');
 
-      final decoded = jsonDecode(logger.exportJson(minLevel: LogLevel.error))
-          as List;
+      final decoded =
+          jsonDecode(logger.exportJson(minLevel: LogLevel.error)) as List;
       expect(decoded.length, 1);
       expect((decoded.first as Map)['msg'], 'keep me');
     });
@@ -342,7 +384,8 @@ void main() {
       final readBack = await logFile.readAsLines();
       final parsed = readBack
           .where((l) => l.trim().isNotEmpty)
-          .map((l) => LogEntry.fromDiskJson(jsonDecode(l) as Map<String, dynamic>))
+          .map((l) =>
+              LogEntry.fromDiskJson(jsonDecode(l) as Map<String, dynamic>))
           .toList();
 
       expect(parsed.length, 2);
@@ -369,9 +412,9 @@ void main() {
     test('malformed JSONL lines are skipped gracefully', () {
       const bad = '{"timestamp": "not-a-date", bad json}';
       expect(
-        () => LogEntry.fromDiskJson(
-            jsonDecode('{"timestamp":"2024-01-01T00:00:00.000","level":"info","tag":"x","message":"y"}')
-                as Map<String, dynamic>),
+        () => LogEntry.fromDiskJson(jsonDecode(
+                '{"timestamp":"2024-01-01T00:00:00.000","level":"info","tag":"x","message":"y"}')
+            as Map<String, dynamic>),
         returnsNormally,
       );
       // Malformed JSON should throw during jsonDecode — catch is in _loadFromDisk.

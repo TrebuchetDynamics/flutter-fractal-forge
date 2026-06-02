@@ -8,6 +8,41 @@ import 'package:path_provider/path_provider.dart';
 /// Severity levels for log entries.
 enum LogLevel { debug, info, warn, error }
 
+/// JSON-safe structured data attached to an in-memory log entry.
+///
+/// Logger callers often pass diagnostic objects that are useful in debug text
+/// but are not directly JSON encodable (for example [DateTime], enum values,
+/// non-finite doubles, or opaque objects). Snapshot at the record boundary so
+/// debug log lines and exported JSON remain replayable even if callers mutate
+/// their original metadata map later.
+class _LogStructuredData {
+  const _LogStructuredData._();
+
+  static Map<String, Object?>? snapshot(Map<String, Object?>? data) {
+    if (data == null) return null;
+    return Map<String, Object?>.unmodifiable({
+      for (final entry in data.entries) entry.key: snapshotValue(entry.value),
+    });
+  }
+
+  static Object? snapshotValue(Object? value) {
+    if (value == null || value is String || value is bool) return value;
+    if (value is num) return value.isFinite ? value : value.toString();
+    if (value is DateTime) return value.toIso8601String();
+    if (value is Enum) return value.name;
+    if (value is List) {
+      return List<Object?>.unmodifiable(value.map(snapshotValue));
+    }
+    if (value is Map) {
+      return Map<String, Object?>.unmodifiable({
+        for (final entry in value.entries)
+          entry.key.toString(): snapshotValue(entry.value),
+      });
+    }
+    return value.toString();
+  }
+}
+
 /// A single timestamped log entry.
 class LogEntry {
   LogEntry({
@@ -15,8 +50,8 @@ class LogEntry {
     required this.level,
     required this.category,
     required this.message,
-    this.data,
-  });
+    Map<String, Object?>? data,
+  }) : data = _LogStructuredData.snapshot(data);
 
   final DateTime timestamp;
   final LogLevel level;
