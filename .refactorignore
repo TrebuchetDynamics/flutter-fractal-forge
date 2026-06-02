@@ -73,3 +73,5 @@ android/
 ios/
 linux/
 macos/
+
+integration_test/screenshots/
