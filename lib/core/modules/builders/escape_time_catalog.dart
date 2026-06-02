@@ -3940,20 +3940,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
-    id: 'multijulia7',
-    name: 'Multijulia⁷',
-    shaderAsset: 'shaders/escape_time_family/families/multijulia/integer_powers/multijulia7_gpu.frag',
-    defaultIterations: 200,
-    defaultBailout: 4.0,
-  ),
-  EscapeTimeConfig(
-    id: 'multijulia8',
-    name: 'Multijulia⁸',
-    shaderAsset: 'shaders/escape_time_family/families/multijulia/integer_powers/multijulia8_gpu.frag',
-    defaultIterations: 200,
-    defaultBailout: 4.0,
-  ),
-  EscapeTimeConfig(
     id: 'multijulia11',
     name: 'Multijulia¹¹',
     shaderAsset: 'shaders/escape_time_family/families/multijulia/integer_powers/multijulia11_gpu.frag',
@@ -6391,15 +6377,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     id: 'tricorn_power10_julia',
     name: 'Tricorn¹⁰ Julia',
     shaderAsset: 'shaders/tricorn_power10_julia_gpu.frag',
-    defaultIterations: 200,
-    defaultBailout: 4.0,
-    category: 'Escape-Time',
-  ),
-
-  EscapeTimeConfig(
-    id: 'buffalo_power7',
-    name: 'Buffalo⁷',
-    shaderAsset: 'shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_power7_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
     category: 'Escape-Time',

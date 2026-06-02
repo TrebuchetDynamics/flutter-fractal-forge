@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_fractals/core/modules/builders/catalog_id_collisions.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
@@ -10,8 +11,8 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog unique top-level IDs : 490
-/// - Raymarched-3D catalog unique IDs         :   9
+/// - Escape-time catalog raw unique IDs       : 488
+/// - Raymarched-3D catalog unique IDs         :  10
 /// - Custom hand-built modules                :   7
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital)
@@ -30,8 +31,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 491 (including 1 known duplicate)', () {
-      expect(catalog.length, 491,
+    test('total entry count is 488', () {
+      expect(catalog.length, 488,
           reason: 'Update this constant when new entries are intentionally '
               'added to escape_time_catalog.dart.');
     });
@@ -45,6 +46,20 @@ void main() {
       expect(bad, isEmpty,
           reason: 'IDs must be lowercase alphanumeric + underscores. '
               'Bad IDs: $bad');
+    });
+
+    test('all IDs are unique before registry de-duplication', () {
+      final collisions = findCatalogIdCollisions(catalog, (c) => c.id);
+      final collisionSummary = collisions
+          .map((c) => '${c.id}@${c.indexes.join(',')}')
+          .toList(growable: false);
+
+      expect(
+        collisionSummary,
+        isEmpty,
+        reason: 'Duplicate raw catalog IDs are silently dropped before '
+            'ModuleRegistry exposes modules.',
+      );
     });
 
     test('no catalog entry has an empty name', () {
