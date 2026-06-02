@@ -284,7 +284,13 @@ void main() {
       expect(plan.isCollapsed, isTrue);
       expect(plan.targetZoom, 9.2e6);
       expect(plan.targetRange.floorZoom, lessThanOrEqualTo(plan.peakZoom));
-      expect(resolution.requestedFloorZoom, moreOrLessEquals(8.333333333e9));
+      expect(
+        resolution.requestedFloorZoom,
+        moreOrLessEquals(
+          1e12 / const AutoExploreConfig().cycleMaxMultiplier,
+          epsilon: 1e-3,
+        ),
+      );
       expect(resolution.floorCappedByPeak, isTrue);
       expect(resolution.range.floorZoom, plan.peakZoom);
     });

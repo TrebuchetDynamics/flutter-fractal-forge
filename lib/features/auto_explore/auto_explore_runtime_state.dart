@@ -27,6 +27,11 @@ class AutoExploreRuntimeState {
   bool get canScheduleZoomLeg =>
       isExploring && !isPaused && !isUserInteracting && !pausedByUserCorrection;
 
+  /// A continuous gesture end can adopt the user-selected view only if a
+  /// matching gesture start currently owns motion.
+  bool get canAdoptContinuousInteractionEnd =>
+      isExploring && !isPaused && isUserInteracting;
+
   /// An in-flight animation must stop as soon as auto-explore loses motion.
   bool get shouldInterruptAnimation => !canScheduleZoomLeg;
 }

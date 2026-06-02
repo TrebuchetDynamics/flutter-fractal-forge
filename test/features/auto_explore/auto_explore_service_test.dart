@@ -63,5 +63,32 @@ void main() {
 
       expect(controller.view.zoom, 1200.0);
     });
+
+    test('ignores unmatched continuous interaction end callbacks', () async {
+      final controller = FractalController(ModuleRegistry());
+      controller.resetView();
+      controller.updateZoom(1.0);
+
+      final service = AutoExploreService(
+        controller: controller,
+        config: const AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1),
+        ),
+      );
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(controller.view.zoom, 120.0);
+
+      service.onUserInteractionEnd();
+      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(controller.view.zoom, AutoExploreConfig.defaultMinZoom);
+    });
   });
 }

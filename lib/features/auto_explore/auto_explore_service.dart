@@ -118,7 +118,7 @@ class AutoExploreService extends ChangeNotifier {
   ///
   /// The user-selected zoom becomes the new baseline and auto mode continues.
   void onUserInteractionEnd() {
-    if (!_isExploring) return;
+    if (!_runtimeState.canAdoptContinuousInteractionEnd) return;
 
     final referenceZoom = _interactionStartZoom;
     _isUserInteracting = false;

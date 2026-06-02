@@ -42,7 +42,6 @@ void main() {
       final semanticsHandle = tester.ensureSemantics();
       final controller = FractalController(ModuleRegistry());
       final service = AutoExploreService(controller: controller);
-      addTearDown(semanticsHandle.dispose);
       addTearDown(service.dispose);
       addTearDown(controller.dispose);
 
@@ -56,12 +55,15 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       final data = _semanticsDataForLabel(tester, 'Start auto-explore');
       expect(data, isNotNull);
       expect(data!.hasAction(SemanticsAction.tap), isTrue);
       // ignore: deprecated_member_use
       expect(data.hasFlag(SemanticsFlag.isButton), isTrue);
+
+      semanticsHandle.dispose();
     });
 
     testWidgets('labels user-correction yield without claiming active motion',
@@ -69,7 +71,6 @@ void main() {
       final semanticsHandle = tester.ensureSemantics();
       final controller = FractalController(ModuleRegistry());
       final service = AutoExploreService(controller: controller);
-      addTearDown(semanticsHandle.dispose);
       addTearDown(service.dispose);
       addTearDown(controller.dispose);
 
@@ -86,6 +87,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       final yieldedData = _semanticsDataForLabel(tester, 'Auto-pilot paused');
       final activeData = _semanticsDataForLabel(tester, 'Pause auto-explore');
@@ -93,6 +95,8 @@ void main() {
       expect(yieldedData, isNotNull);
       expect(yieldedData!.hasAction(SemanticsAction.tap), isTrue);
       expect(activeData, isNull);
+
+      semanticsHandle.dispose();
     });
 
     testWidgets('tap resumes from user-correction yield instead of pausing',
@@ -115,6 +119,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(service.pausedByUserCorrection, isTrue);
       expect(service.isPaused, isFalse);
@@ -125,6 +130,9 @@ void main() {
       expect(service.isExploring, isTrue);
       expect(service.isPaused, isFalse);
       expect(service.pausedByUserCorrection, isFalse);
+
+      service.stop();
+      await tester.pump();
     });
   });
 }
