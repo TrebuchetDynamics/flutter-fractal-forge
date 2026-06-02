@@ -81,6 +81,59 @@ void main() {
       expect(copied.moduleId, preset.moduleId);
     });
 
+    test('snapshots mutable view vectors and nested params', () {
+      final pan = Vector2(1, 2);
+      final rotation = Vector3(3, 4, 5);
+      final colorStops = <Object?>[
+        0.0,
+        <Object, Object?>{
+          1: 'one',
+          'rgb': <Object?>[32, 64, 128],
+        },
+      ];
+      final params = <String, Object>{'colorStops': colorStops};
+
+      final preset = FractalPreset(
+        id: 'p1',
+        moduleId: 'mandelbrot',
+        name: 'Snapshot',
+        params: params,
+        view: FractalViewState(pan: pan, zoom: 6, rotation: rotation),
+        createdAt: DateTime(2026, 1, 1),
+      );
+
+      pan.setValues(7, 8);
+      rotation.setValues(9, 10, 11);
+      ((colorStops[1] as Map<Object, Object?>)['rgb'] as List<Object?>)[0] =
+          255;
+      (colorStops[1] as Map<Object, Object?>)[2] = 'two';
+      colorStops.add(1.0);
+
+      expect(preset.view.pan.x, 1);
+      expect(preset.view.pan.y, 2);
+      expect(preset.view.rotation.x, 3);
+      expect(preset.view.rotation.y, 4);
+      expect(preset.view.rotation.z, 5);
+      expect(preset.params, {
+        'colorStops': [
+          0.0,
+          {
+            '1': 'one',
+            'rgb': [32, 64, 128],
+          },
+        ],
+      });
+      expect(
+        () => (preset.params['colorStops'] as List<Object?>).add(1.0),
+        throwsUnsupportedError,
+      );
+      expect(
+        () => ((preset.params['colorStops'] as List<Object?>)[1]
+            as Map<String, Object?>)['rgb'] = <Object?>[],
+        throwsUnsupportedError,
+      );
+    });
+
     test('listToPrefs/listFromPrefs round-trip and handle empty payload', () {
       expect(FractalPreset.listFromPrefs(null), isEmpty);
       expect(FractalPreset.listFromPrefs(''), isEmpty);

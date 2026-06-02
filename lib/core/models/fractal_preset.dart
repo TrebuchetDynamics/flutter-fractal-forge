@@ -3,6 +3,41 @@ import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math.dart';
 import 'fractal_view_state.dart';
 
+FractalViewState _snapshotPresetView(FractalViewState view) {
+  return FractalViewState(
+    pan: view.pan,
+    zoom: view.zoom,
+    rotation: view.rotation,
+  );
+}
+
+Map<String, Object> _snapshotPresetParams(Map<String, Object> params) {
+  return Map<String, Object>.unmodifiable({
+    for (final entry in params.entries)
+      entry.key: _snapshotPresetParamValue(entry.value),
+  });
+}
+
+Object _snapshotPresetParamValue(Object value) {
+  if (value is List) {
+    return List<Object?>.unmodifiable([
+      for (final item in value)
+        item is Object ? _snapshotPresetParamValue(item) : item,
+    ]);
+  }
+
+  if (value is Map) {
+    return Map<String, Object?>.unmodifiable({
+      for (final entry in value.entries)
+        entry.key.toString(): entry.value is Object
+            ? _snapshotPresetParamValue(entry.value as Object)
+            : entry.value,
+    });
+  }
+
+  return value;
+}
+
 /// A saved configuration of fractal parameters and view state.
 ///
 /// Presets allow users to save and restore specific fractal configurations,
@@ -80,16 +115,20 @@ class FractalPreset {
   final String? thumbnailPath;
 
   /// Creates a new [FractalPreset] with the specified configuration.
-  const FractalPreset({
+  ///
+  /// The supplied view vectors and parameter collections are snapshotted so a
+  /// preset remains replayable even when callers mutate their originals.
+  FractalPreset({
     required this.id,
     required this.moduleId,
     required this.name,
-    required this.params,
-    required this.view,
+    required Map<String, Object> params,
+    required FractalViewState view,
     required this.createdAt,
     this.isBuiltIn = false,
     this.thumbnailPath,
-  });
+  })  : params = _snapshotPresetParams(params),
+        view = _snapshotPresetView(view);
 
   /// Creates a copy of this preset with the given fields replaced.
   ///

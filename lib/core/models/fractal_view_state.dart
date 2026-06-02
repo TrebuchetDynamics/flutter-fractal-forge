@@ -50,12 +50,14 @@ class FractalViewState {
 
   /// Creates a [FractalViewState] with specific view parameters.
   ///
-  /// All parameters are required to define a complete view state.
-  const FractalViewState({
-    required this.pan,
+  /// All parameters are required to define a complete view state. The supplied
+  /// vector instances are copied because [Vector2] and [Vector3] are mutable.
+  FractalViewState({
+    required Vector2 pan,
     required this.zoom,
-    required this.rotation,
-  });
+    required Vector3 rotation,
+  })  : pan = Vector2.copy(pan),
+        rotation = Vector3.copy(rotation);
 
   /// Creates the initial/default view state.
   ///

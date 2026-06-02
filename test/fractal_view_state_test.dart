@@ -114,6 +114,21 @@ void main() {
         expect(state.rotation.y, closeTo(0.6, 1e-6));
         expect(state.rotation.z, closeTo(0.9, 1e-6));
       });
+
+      test('snapshots mutable vectors supplied by callers', () {
+        final pan = Vector2(1.0, 2.0);
+        final rotation = Vector3(0.3, 0.6, 0.9);
+        final state = FractalViewState(pan: pan, zoom: 5.0, rotation: rotation);
+
+        pan.setValues(7.0, 8.0);
+        rotation.setValues(9.0, 10.0, 11.0);
+
+        expect(state.pan.x, 1.0);
+        expect(state.pan.y, 2.0);
+        expect(state.rotation.x, closeTo(0.3, 1e-6));
+        expect(state.rotation.y, closeTo(0.6, 1e-6));
+        expect(state.rotation.z, closeTo(0.9, 1e-6));
+      });
     });
   });
 }
