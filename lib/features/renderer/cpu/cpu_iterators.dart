@@ -153,6 +153,7 @@ CpuIteratorResult _iterBurningShip(
   double bailout,
   Vector2 juliaC,
 ) {
+  final c = cpuBurningShipParameterPlanePoint(x, y);
   double zx = 0.0;
   double zy = 0.0;
   final bailout2 = bailout * bailout;
@@ -167,8 +168,8 @@ CpuIteratorResult _iterBurningShip(
       final smooth = _smoothEscape(it: it, mag2: mag2, bailout: bailout);
       return CpuIteratorResult(it: it, smoothIt: smooth, escaped: true);
     }
-    final nx = zx2 - zy2 + x;
-    final ny = 2.0 * ax * ay + y;
+    final nx = zx2 - zy2 + c.x;
+    final ny = 2.0 * ax * ay + c.y;
     zx = nx;
     zy = ny;
     it++;

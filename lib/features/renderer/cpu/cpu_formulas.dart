@@ -16,6 +16,16 @@ typedef CpuFormula = (double r, double g, double b) Function(
   Vector2 juliaC,
 );
 
+typedef CpuFormulaPlanePoint = ({double x, double y});
+
+/// Maps app/display coordinates to the Burning Ship shader parameter plane.
+///
+/// The GPU shader flips Y so the ship is upright in screen space. The base
+/// CPU color formula and scalar iterator must share this before recurrence.
+CpuFormulaPlanePoint cpuBurningShipParameterPlanePoint(double x, double y) {
+  return (x: x, y: -y);
+}
+
 /// Registry of CPU formulas by module id (escape-time catalog + a few extras).
 final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'mandelbrot': _cpu_mandelbrot,
@@ -602,13 +612,16 @@ typedef _ZUpdate = (double, double) Function(
   int iterations,
   double bailout,
   Vector2 juliaC,
-) =>
-    // Ported from shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag — shader flips Y.
-    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
-      final ax = zx.abs();
-      final ay = zy.abs();
-      return (ax * ax - ay * ay + cx, 2.0 * ax * ay + cy);
-    });
+) {
+  // Ported from shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag.
+  final c = cpuBurningShipParameterPlanePoint(x, y);
+  return _escapeTime(c.x, c.y, iterations, bailout, (zx, zy, cx, cy) {
+    final ax = zx.abs();
+    final ay = zy.abs();
+    return (ax * ax - ay * ay + cx, 2.0 * ax * ay + cy);
+  });
+}
+
 (double r, double g, double b) _cpu_tricorn(
   double x,
   double y,
