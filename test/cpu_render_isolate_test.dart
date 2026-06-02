@@ -34,6 +34,30 @@ void main() {
       expect(left.y + right.y, closeTo(0.5, 1e-12));
     });
 
+    test('rejects sample coordinates outside the full viewport before clamping',
+        () {
+      expect(
+        () => cpuViewportCoordinateForSample(
+          panX: -0.5,
+          panY: 0.25,
+          zoom: 3.0,
+          fullWidth: 4,
+          fullHeight: 2,
+          x: 4,
+          y: 0,
+          sampleOffsetX: 0.5,
+          sampleOffsetY: 0.5,
+        ),
+        throwsA(
+          isA<ArgumentError>().having(
+            (error) => error.name,
+            'name',
+            'sample coordinate',
+          ),
+        ),
+      );
+    });
+
     test('rejects tile rectangles outside the full viewport before sampling', () {
       const request = CpuTileRenderRequest(
         moduleId: 'mandelbrot',

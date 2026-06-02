@@ -131,6 +131,24 @@ final class CpuViewportCoordinate {
   final double y;
 }
 
+/// Explicit dimensions contract for CPU render work.
+final class CpuRenderDimensions {
+  const CpuRenderDimensions({required this.width, required this.height});
+
+  final int width;
+  final int height;
+
+  void validate() {
+    if (width <= 0 || height <= 0) {
+      throw ArgumentError.value(
+        (width, height),
+        'full viewport',
+        'must be positive',
+      );
+    }
+  }
+}
+
 /// Explicit bounds contract for a CPU render tile inside a full viewport.
 final class CpuRenderRect {
   const CpuRenderRect({
@@ -150,13 +168,7 @@ final class CpuRenderRect {
   final int h;
 
   void validate() {
-    if (fullWidth <= 0 || fullHeight <= 0) {
-      throw ArgumentError.value(
-        (fullWidth, fullHeight),
-        'full viewport',
-        'must be positive',
-      );
-    }
+    CpuRenderDimensions(width: fullWidth, height: fullHeight).validate();
     if (w <= 0 || h <= 0) {
       throw ArgumentError.value((w, h), 'tile size', 'must be positive');
     }
@@ -165,6 +177,32 @@ final class CpuRenderRect {
         (x0, y0, w, h),
         'tile rect',
         'must be within the full viewport',
+      );
+    }
+  }
+}
+
+/// Explicit point contract for a CPU pixel sample inside a full viewport.
+final class CpuRenderSamplePoint {
+  const CpuRenderSamplePoint({
+    required this.fullWidth,
+    required this.fullHeight,
+    required this.x,
+    required this.y,
+  });
+
+  final int fullWidth;
+  final int fullHeight;
+  final int x;
+  final int y;
+
+  void validate() {
+    CpuRenderDimensions(width: fullWidth, height: fullHeight).validate();
+    if (x < 0 || y < 0 || x >= fullWidth || y >= fullHeight) {
+      throw ArgumentError.value(
+        (x, y),
+        'sample coordinate',
+        'must be inside the full viewport',
       );
     }
   }
@@ -186,10 +224,12 @@ CpuViewportCoordinate cpuViewportCoordinateForSample({
   required double sampleOffsetX,
   required double sampleOffsetY,
 }) {
-  assert(fullWidth > 0, 'fullWidth must be positive');
-  assert(fullHeight > 0, 'fullHeight must be positive');
-  assert(x >= 0 && x < fullWidth, 'x must be inside the full viewport');
-  assert(y >= 0 && y < fullHeight, 'y must be inside the full viewport');
+  CpuRenderSamplePoint(
+    fullWidth: fullWidth,
+    fullHeight: fullHeight,
+    x: x,
+    y: y,
+  ).validate();
 
   final viewport = CpuViewportMapping.fromScalars(
     panX: panX,
