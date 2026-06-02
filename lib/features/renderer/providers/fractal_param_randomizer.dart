@@ -43,12 +43,58 @@ Object randomFractalParamValue(FractalParameter param, Random random) {
   }
 }
 
+/// Replayable decision for snapping a randomized float to slider precision.
+///
+/// Parameter schemas are hand-authored across a large catalog. A malformed
+/// non-finite step or raw value must not crash randomization before the shared
+/// schema normalizer gets a chance to clamp/fallback the value.
+final class FractalParamStepSnapPlan {
+  final double inputValue;
+  final double step;
+  final double value;
+  final bool appliedStep;
+
+  const FractalParamStepSnapPlan._({
+    required this.inputValue,
+    required this.step,
+    required this.value,
+    required this.appliedStep,
+  });
+
+  factory FractalParamStepSnapPlan.fromValue({
+    required double value,
+    required double step,
+  }) {
+    if (!value.isFinite || !step.isFinite || step <= 0.0) {
+      return FractalParamStepSnapPlan._(
+        inputValue: value,
+        step: step,
+        value: value,
+        appliedStep: false,
+      );
+    }
+
+    final snapped = (value / step).round() * step;
+    if (!snapped.isFinite) {
+      return FractalParamStepSnapPlan._(
+        inputValue: value,
+        step: step,
+        value: value,
+        appliedStep: false,
+      );
+    }
+
+    return FractalParamStepSnapPlan._(
+      inputValue: value,
+      step: step,
+      value: double.parse(snapped.toStringAsFixed(6)),
+      appliedStep: true,
+    );
+  }
+}
+
 /// Snaps float randomization to slider step precision while avoiding typical
 /// binary floating-point display noise.
 double roundFractalParamValueToStep(double value, double step) {
-  if (step <= 0) {
-    return value;
-  }
-  final snapped = (value / step).round() * step;
-  return double.parse(snapped.toStringAsFixed(6));
+  return FractalParamStepSnapPlan.fromValue(value: value, step: step).value;
 }
