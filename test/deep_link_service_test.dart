@@ -100,6 +100,7 @@ void main() {
       test('characterizes accepted deep-link route variants', () {
         final acceptedLinks = [
           'fractalforge://view?type=mandelbrot',
+          'fractalforge://view/?type=mandelbrot',
           'fractalforge:/view?type=mandelbrot',
           'fractalforge:view?type=mandelbrot',
           'https://fractalforge.app/view?type=mandelbrot',
@@ -110,6 +111,22 @@ void main() {
           expect(
             DeepLinkService.parseUri(Uri.parse(link))?.type,
             'mandelbrot',
+            reason: link,
+          );
+        }
+      });
+
+      test('rejects custom-scheme route authority/path ambiguity', () {
+        final rejectedLinks = [
+          'fractalforge://other/view?type=mandelbrot',
+          'fractalforge://view/settings?type=mandelbrot',
+          'fractalforge://view/view?type=mandelbrot',
+        ];
+
+        for (final link in rejectedLinks) {
+          expect(
+            DeepLinkService.parseUri(Uri.parse(link)),
+            isNull,
             reason: link,
           );
         }

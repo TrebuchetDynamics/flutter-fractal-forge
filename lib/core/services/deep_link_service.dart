@@ -118,6 +118,35 @@ enum _DeepLinkRouteKind {
   rejected,
 }
 
+/// Normalized custom-scheme route shape.
+///
+/// `fractalforge://view?...` uses `view` as URI authority/host, while
+/// `fractalforge:/view?...` and `fractalforge:view?...` are path-only forms.
+/// Keep those shapes distinct so a non-view authority cannot smuggle a view
+/// route through its path (for example `fractalforge://other/view?...`).
+class _DeepLinkCustomRouteShape {
+  final String host;
+  final String path;
+
+  const _DeepLinkCustomRouteShape({
+    required this.host,
+    required this.path,
+  });
+
+  factory _DeepLinkCustomRouteShape.fromUri(Uri uri) {
+    return _DeepLinkCustomRouteShape(host: uri.host, path: uri.path);
+  }
+
+  bool get hasAuthority => host.isNotEmpty;
+
+  bool get isViewRoute {
+    if (hasAuthority) {
+      return host == DeepLinkService.host && (path.isEmpty || path == '/');
+    }
+    return path == '/${DeepLinkService.host}' || path == DeepLinkService.host;
+  }
+}
+
 class _DeepLinkRoute {
   static const allowedWebHosts = {'fractalforge.app', 'www.fractalforge.app'};
 
@@ -148,9 +177,7 @@ class _DeepLinkRoute {
   }
 
   static bool _isCustomViewRoute(Uri uri) {
-    return uri.host == DeepLinkService.host ||
-        uri.path == '/${DeepLinkService.host}' ||
-        uri.path == DeepLinkService.host;
+    return _DeepLinkCustomRouteShape.fromUri(uri).isViewRoute;
   }
 
   static bool _isWebViewRoute(Uri uri) {
