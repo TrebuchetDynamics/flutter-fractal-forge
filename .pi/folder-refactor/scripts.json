@@ -1,15 +1,15 @@
 {
   "version": 1,
   "target": "scripts",
-  "updatedAt": "2026-06-01T14:22:22.754Z",
-  "objective": "Refactor scripts root into behavior/responsibility folders while keeping public root script entrypoints stable through compatibility wrappers.",
+  "updatedAt": "2026-06-02T05:31:12.469Z",
+  "objective": "Refactor scripts root into responsibility folders while keeping documented root commands as compatibility facades.",
   "completedSlices": [
     "Mapped scripts root and existing release/research subtrees.",
     "Moved Android/emulator/app-run automation into scripts/android with root compatibility wrappers.",
     "Moved screenshot/Linux integration automation into scripts/screenshots with root compatibility wrappers.",
     "Moved catalog/shader Python maintenance scripts into scripts/catalog with root compatibility wrappers.",
     "Kept release implementations in scripts/release and replaced root release scripts with compatibility wrappers.",
-    "Extracted shared compatibility launchers in scripts/compat/dispatch.sh and scripts/compat/run_python_impl.py to avoid duplicate wrapper dispatch behavior.",
+    "Created shared compatibility dispatchers in scripts/compat/dispatch.sh and scripts/compat/run_python_impl.py.",
     "Adjusted moved implementation scripts to resolve repository root from their new subfolder depth.",
     "Updated scripts/AGENTS.md with the new responsibility topology.",
     "Validated shell syntax, Python AST parsing, representative safe root wrappers, and completion audit."

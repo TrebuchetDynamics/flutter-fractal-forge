@@ -59,3 +59,7 @@
 {"ts":"2026-06-01T23:22:11-06:00","candidate":"shaders/root_finding","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T03:22:11-06:00"}
 {"ts":"2026-06-01T23:25:05-06:00","candidate":"lib/core/services","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T03:25:05-06:00"}
 {"ts":"2026-06-01T23:26:26-06:00","candidate":"shaders/escape_time_family/experimental_named","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T03:26:26-06:00"}
+{"ts":"2026-06-01T23:31:28-06:00","candidate":"scripts","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T03:31:28-06:00"}
+{"ts":"2026-06-01T23:32:37-06:00","candidate":"shaders/cellular_and_stochastic","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T01:32:37-06:00"}
+{"ts":"2026-06-01T23:34:15-06:00","candidate":"shaders/kaleidoscopes","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T01:34:15-06:00"}
+{"ts":"2026-06-01T23:35:55-06:00","candidate":"shaders/escape_time_family/families/burning_ship","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T01:35:55-06:00"}
