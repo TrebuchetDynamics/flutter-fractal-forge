@@ -482,7 +482,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnet_type_1',
     name: 'Magnet Fractal (Type I)',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet1_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
@@ -501,7 +501,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnet_type_2',
     name: 'Magnet Fractal (Type II)',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet2_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet2_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
@@ -520,7 +520,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnet_type_3',
     name: 'Magnet Fractal (Type III)',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet3_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet3_gpu.frag',
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
@@ -2338,7 +2338,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'chebyshev',
     name: 'Chebyshev Fractal',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/chebyshev_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/chebyshev_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 6.0,
     extraPresets: [
@@ -2357,28 +2357,28 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'legendre',
     name: 'Legendre Fractal',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/legendre_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/legendre_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(
     id: 'laguerre',
     name: 'Laguerre Fractal',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/laguerre_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/laguerre_gpu.frag',
     defaultIterations: 110,
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(
     id: 'hermite',
     name: 'Hermite Fractal',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/hermite_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/hermite_gpu.frag',
     defaultIterations: 140,
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(
     id: 'virial',
     name: 'Virial Fractal',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/virial_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/series_maps/virial_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
       FractalPreset(
@@ -3578,7 +3578,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'magnet1',
     name: 'Magnet Type I',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet1_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 8.0,
   ),
@@ -5219,7 +5219,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'chebyshev_fractal',
     name: 'Chebyshev Fractal',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/chebyshev_fractal_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/chebyshev_fractal_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5387,7 +5387,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'laguerre_fractal',
     name: 'Laguerre Fractal',
-    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/laguerre_fractal_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/laguerre_fractal_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

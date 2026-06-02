@@ -881,7 +881,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/newton_and_orthogonal/magnet1_gpu.frag
+  // Ported from shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag
   final cx = x;
   final cy = y;
   double zx = 0.0;
@@ -924,7 +924,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/newton_and_orthogonal/magnet2_gpu.frag
+  // Ported from shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet2_gpu.frag
   final cx = x;
   final cy = y;
   double zx = 0.0;
@@ -986,7 +986,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/newton_and_orthogonal/magnet3_gpu.frag
+  // Ported from shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet3_gpu.frag
   final px = x;
   final py = y;
   double zx = px;
@@ -3071,7 +3071,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/newton_and_orthogonal/chebyshev_gpu.frag (CPU approximation, seed=0xe6f02d6c)
+  // Ported from shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/chebyshev_gpu.frag (CPU approximation, seed=0xe6f02d6c)
   return _cpu_synthetic(0xe6f02d6c, x, y, iterations, bailout);
 }
 
@@ -3082,7 +3082,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/newton_and_orthogonal/legendre_gpu.frag (CPU approximation, seed=0x3bea1b45)
+  // Ported from shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/legendre_gpu.frag (CPU approximation, seed=0x3bea1b45)
   return _cpu_synthetic(0x3bea1b45, x, y, iterations, bailout);
 }
 
@@ -3093,7 +3093,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/newton_and_orthogonal/laguerre_gpu.frag (CPU approximation, seed=0x62e5b688)
+  // Ported from shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/laguerre_gpu.frag (CPU approximation, seed=0x62e5b688)
   return _cpu_synthetic(0x62e5b688, x, y, iterations, bailout);
 }
 
@@ -3104,7 +3104,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/newton_and_orthogonal/hermite_gpu.frag (CPU approximation, seed=0x9c265311)
+  // Ported from shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/hermite_gpu.frag (CPU approximation, seed=0x9c265311)
   return _cpu_synthetic(0x9c265311, x, y, iterations, bailout);
 }
 
@@ -3115,7 +3115,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/newton_and_orthogonal/virial_gpu.frag (CPU approximation, seed=0x1ab95258)
+  // Ported from shaders/escape_time_family/newton_and_orthogonal/series_maps/virial_gpu.frag (CPU approximation, seed=0x1ab95258)
   return _cpu_synthetic(0x1ab95258, x, y, iterations, bailout);
 }
 

@@ -92,9 +92,9 @@ flutter:
     - shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag
     - shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/lambda_gpu.frag
     - shaders/escape_time_family/polynomial_maps/polynomial_iterations/druid_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/magnet1_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/magnet2_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/magnet3_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet2_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet3_gpu.frag
     - shaders/escape_time_family/polynomial_maps/polynomial_iterations/power_sum_gpu.frag
     - shaders/escape_time_family/polynomial_maps/polynomial_iterations/cactus_gpu.frag
     - shaders/escape_time_family/polynomial_maps/fractional_and_folded/astroid_gpu.frag
@@ -281,11 +281,11 @@ flutter:
     - shaders/escape_time_family/experimental_named/polynomial_variants/manair_fire_gpu.frag
     - shaders/escape_time_family/experimental_named/coupled_orbits/spider_x_gpu.frag
     - shaders/escape_time_family/transcendental_maps/discrete_chaos/popcorn2_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/chebyshev_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/legendre_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/laguerre_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/hermite_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/virial_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/chebyshev_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/legendre_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/laguerre_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/hermite_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/series_maps/virial_gpu.frag
     - shaders/root_finding/newton/newton_sin_gpu.frag
     - shaders/root_finding/newton/newton_general_gpu.frag
     - shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag
@@ -443,7 +443,7 @@ flutter:
     - shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power7_julia_gpu.frag
     - shaders/escape_time_family/families/celtic/parameter_plane/celtic2_gpu.frag
     - shaders/escape_time_family/families/celtic/parameter_plane/celtic_power7_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/chebyshev_fractal_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/chebyshev_fractal_gpu.frag
     - shaders/root_finding/high_order_methods/chebyshev_halley_param_gpu.frag
     - shaders/trigonometric_and_transcendental/elementary_trig/cosecant_julia_gpu.frag
     - shaders/trigonometric_and_transcendental/elementary_trig/cosecant_mandelbrot_gpu.frag
@@ -462,7 +462,7 @@ flutter:
     - shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_2_gpu.frag
     - shaders/escape_time_family/experimental_named/root_finding/king_gpu.frag
     - shaders/ifs_and_geometric/circle_inversion_limit_sets/kleinian_limit_set_gpu.frag
-    - shaders/escape_time_family/newton_and_orthogonal/laguerre_fractal_gpu.frag
+    - shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/laguerre_fractal_gpu.frag
     - shaders/cellular_and_stochastic/branching_fields/lichtenberg_growth_gpu.frag
     - shaders/escape_time_family/experimental_named/physical_simulation/magnetic_pendulum_gpu.frag
     - shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag

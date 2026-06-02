@@ -80,3 +80,4 @@
 {"ts":"2026-06-02T00:03:51-06:00","candidate":"shaders/escape_time_family/families/multijulia","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T02:03:51-06:00"}
 {"ts":"2026-06-02T00:05:52-06:00","candidate":"lib/core/models","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T02:05:52-06:00"}
 {"ts":"2026-06-02T00:07:23-06:00","candidate":"shaders/escape_time_family/julia_variants","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T02:07:23-06:00"}
+{"ts":"2026-06-02T02:48:47-06:00","candidate":"shaders/escape_time_family/newton_and_orthogonal","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T03:48:47-06:00"}

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-02T08:36:21.410Z",
+  "generatedAt": "2026-06-02T08:48:54.508Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -9,7 +9,7 @@
     {
       "relative": "test",
       "score": 900,
-      "files": 1286,
+      "files": 1288,
       "direct": 89,
       "churn": 0,
       "callers": 1,
@@ -118,23 +118,6 @@
       "subdirs": 0,
       "extensions": [
         ".frag"
-      ]
-    },
-    {
-      "relative": "lib/core/modules",
-      "score": 180,
-      "files": 1733,
-      "direct": 17,
-      "churn": 0,
-      "callers": 1,
-      "importsOut": 0,
-      "tests": 0,
-      "roles": 6,
-      "duplicates": 1297,
-      "subdirs": 10,
-      "extensions": [
-        ".dart",
-        ".md"
       ]
     },
     {
@@ -337,7 +320,7 @@
       "files": 35,
       "direct": 11,
       "churn": 0,
-      "callers": 1,
+      "callers": 0,
       "importsOut": 0,
       "tests": 0,
       "roles": 2,
@@ -412,7 +395,35 @@
       "extensions": [
         ".frag"
       ]
+    },
+    {
+      "relative": "shaders/escape_time_family/newton_and_orthogonal",
+      "score": 101,
+      "files": 10,
+      "direct": 10,
+      "churn": 0,
+      "callers": 0,
+      "importsOut": 0,
+      "tests": 0,
+      "roles": 0,
+      "duplicates": 0,
+      "subdirs": 0,
+      "extensions": [
+        ".frag"
+      ]
     }
   ],
-  "refactorIgnoreSuggestions": []
+  "refactorIgnoreSuggestions": [
+    {
+      "path": "lib/core/modules",
+      "pattern": "lib/core/modules/",
+      "reason": "large unreferenced low-churn tree; generated-code headers detected",
+      "confidence": 6,
+      "files": 1733,
+      "extensions": [
+        ".dart",
+        ".md"
+      ]
+    }
+  ]
 }
