@@ -58,21 +58,27 @@ void main() {
     });
 
     test('adopts continuous interaction end only after a matching start', () {
-      expect(
-        const AutoExploreRuntimeState(
-          isExploring: true,
-          isPaused: false,
-          isUserInteracting: true,
-          pausedByUserCorrection: true,
-        ).canAdoptContinuousInteractionEnd,
-        isTrue,
+      const matchingStart = AutoExploreRuntimeState(
+        isExploring: true,
+        isPaused: false,
+        isUserInteracting: true,
+        pausedByUserCorrection: true,
       );
+
+      expect(matchingStart.hasContinuousInteractionYield, isTrue);
+      expect(matchingStart.canAdoptContinuousInteractionEnd, isTrue);
 
       for (final state in [
         const AutoExploreRuntimeState(
           isExploring: true,
           isPaused: false,
           isUserInteracting: false,
+          pausedByUserCorrection: false,
+        ),
+        const AutoExploreRuntimeState(
+          isExploring: true,
+          isPaused: false,
+          isUserInteracting: true,
           pausedByUserCorrection: false,
         ),
         const AutoExploreRuntimeState(
@@ -88,6 +94,7 @@ void main() {
           pausedByUserCorrection: false,
         ),
       ]) {
+        expect(state.hasContinuousInteractionYield, isFalse);
         expect(state.canAdoptContinuousInteractionEnd, isFalse);
       }
     });

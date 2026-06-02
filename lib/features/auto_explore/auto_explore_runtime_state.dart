@@ -39,10 +39,18 @@ class AutoExploreRuntimeState {
   bool get canScheduleZoomLeg =>
       isExploring && !isPaused && !isUserInteracting && !pausedByUserCorrection;
 
+  /// True only for the paired start/end gesture yield owned by auto-explore.
+  ///
+  /// Keep both flags in the contract: [isUserInteracting] alone can be a stale
+  /// or partially observed flag-order mismatch, while [pausedByUserCorrection]
+  /// alone also represents a temporary yield that should be resumed by the
+  /// primary control rather than adopted as a completed gesture.
+  bool get hasContinuousInteractionYield =>
+      isExploring && !isPaused && isUserInteracting && pausedByUserCorrection;
+
   /// A continuous gesture end can adopt the user-selected view only if a
   /// matching gesture start currently owns motion.
-  bool get canAdoptContinuousInteractionEnd =>
-      isExploring && !isPaused && isUserInteracting;
+  bool get canAdoptContinuousInteractionEnd => hasContinuousInteractionYield;
 
   /// An in-flight animation must stop as soon as auto-explore loses motion.
   bool get shouldInterruptAnimation => !canScheduleZoomLeg;
