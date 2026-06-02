@@ -5,6 +5,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
 import 'package:flutter_fractals/core/services/palette_store.dart';
 
+const List<FractalColorStop> _fallbackPaletteStops = [
+  FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
+  FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
+];
+
+/// Normalizes palette stops before persistence or shader uniform upload.
+///
+/// The shader uniform path can carry at most [PaletteService.maxStops] stops,
+/// but the bounded list must still span the whole gradient. When an imported
+/// palette has too many stops, retain both endpoint colors and drop middle
+/// candidates instead of truncating away the final 1.0 stop.
+List<FractalColorStop> normalizePaletteStops(List<FractalColorStop> stops) {
+  if (stops.isEmpty) return _fallbackPaletteStops;
+
+  final sorted = [...stops]..sort((a, b) => a.position.compareTo(b.position));
+  final clamped = sorted
+      .map((stop) => stop.copyWith(position: stop.position.clamp(0.0, 1.0)))
+      .toList();
+
+  final bounded = clamped.length > PaletteService.maxStops
+      ? [
+          ...clamped.take(PaletteService.maxStops - 1),
+          clamped.last,
+        ]
+      : clamped;
+
+  // Endpoint invariants are part of the gradient contract, including after the
+  // max-stop cap is applied.
+  bounded[0] = bounded.first.copyWith(position: 0.0);
+  bounded[bounded.length - 1] = bounded.last.copyWith(position: 1.0);
+
+  assert(bounded.length <= PaletteService.maxStops);
+  assert(bounded.first.position == 0.0);
+  assert(bounded.last.position == 1.0);
+  return bounded;
+}
+
 /// Manages built-in and user-created color palettes.
 ///
 /// Palettes are persisted locally using [PaletteStore].
@@ -51,10 +88,11 @@ class PaletteService extends ChangeNotifier {
   FractalPalette paletteAtIndex(int index) {
     final all = allPalettes;
     if (all.isEmpty) {
-      return const FractalPalette(id: 'fallback', name: 'Fallback', stops: [
-        FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
-        FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
-      ]);
+      return const FractalPalette(
+        id: 'fallback',
+        name: 'Fallback',
+        stops: _fallbackPaletteStops,
+      );
     }
     if (index < 0 || index >= all.length) return all.first;
     return all[index];
@@ -67,7 +105,7 @@ class PaletteService extends ChangeNotifier {
       ..._user,
       palette.copyWith(
         isBuiltIn: false,
-        stops: _normalizeStops(palette.stops),
+        stops: normalizePaletteStops(palette.stops),
       ),
     ]);
   }
@@ -78,7 +116,7 @@ class PaletteService extends ChangeNotifier {
           .map((p) => p.id == palette.id
               ? palette.copyWith(
                   isBuiltIn: false,
-                  stops: _normalizeStops(palette.stops),
+                  stops: normalizePaletteStops(palette.stops),
                 )
               : p)
           .toList(),
@@ -95,7 +133,7 @@ class PaletteService extends ChangeNotifier {
     final id = _ensureUniqueId(parsed.id.isEmpty ? _randomId() : parsed.id);
     final palette = parsed.copyWith(
       id: id,
-      stops: _normalizeStops(parsed.stops),
+      stops: normalizePaletteStops(parsed.stops),
       isBuiltIn: false,
     );
     await addPalette(palette);
@@ -111,10 +149,7 @@ class PaletteService extends ChangeNotifier {
     return FractalPalette(
       id: id,
       name: name ?? 'Custom Palette',
-      stops: const [
-        FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
-        FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
-      ],
+      stops: _fallbackPaletteStops,
       isBuiltIn: false,
     );
   }
@@ -130,8 +165,7 @@ class PaletteService extends ChangeNotifier {
     final stops = [...palette.stops]
       ..sort((a, b) => a.position.compareTo(b.position));
     if (stops.isEmpty) {
-      stops.add(const FractalColorStop(position: 0.0, colorArgb: 0xFF000000));
-      stops.add(const FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF));
+      stops.addAll(_fallbackPaletteStops);
     }
 
     final rec = ui.PictureRecorder();
@@ -173,18 +207,12 @@ class PaletteService extends ChangeNotifier {
     // NOTE: This API is legacy. Prefer setting palette uniforms via a
     // UniformSchema/UniformWriter to avoid hard-coded float indices.
 
-    final stops = [...palette.stops]
-      ..sort((a, b) => a.position.compareTo(b.position));
+    final stops = normalizePaletteStops(palette.stops);
     final count = stops.length.clamp(0, maxStops);
     shader.setFloat(baseIndex, count.toDouble());
 
     // Fill remaining with last stop to avoid NaNs in shader.
-    final padded = <FractalColorStop>[];
-    if (stops.isEmpty) {
-      padded.add(const FractalColorStop(position: 0.0, colorArgb: 0xFF000000));
-    } else {
-      padded.addAll(stops.take(maxStops));
-    }
+    final padded = [...stops];
     while (padded.length < maxStops) {
       padded.add(padded.last);
     }
@@ -201,28 +229,6 @@ class PaletteService extends ChangeNotifier {
     }
   }
 
-  List<FractalColorStop> _normalizeStops(List<FractalColorStop> stops) {
-    if (stops.isEmpty) {
-      return const [
-        FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
-        FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
-      ];
-    }
-
-    final s = [...stops]..sort((a, b) => a.position.compareTo(b.position));
-    final clamped =
-        s.map((e) => e.copyWith(position: e.position.clamp(0.0, 1.0))).toList();
-
-    // Ensure first=0 and last=1.
-    clamped[0] = clamped.first.copyWith(position: 0.0);
-    clamped[clamped.length - 1] = clamped.last.copyWith(position: 1.0);
-
-    if (clamped.length > maxStops) {
-      return clamped.sublist(0, maxStops);
-    }
-    return clamped;
-  }
-
   Future<void> _commitUserPalettes(List<FractalPalette> palettes) async {
     _user = palettes;
     invalidatePaletteTextures();
@@ -233,8 +239,10 @@ class PaletteService extends ChangeNotifier {
   Future<void> _load() async {
     _user = _store
         .loadPalettes()
-        .map((p) =>
-            p.copyWith(stops: _normalizeStops(p.stops), isBuiltIn: false))
+        .map((p) => p.copyWith(
+              stops: normalizePaletteStops(p.stops),
+              isBuiltIn: false,
+            ))
         .toList();
     invalidatePaletteTextures();
   }

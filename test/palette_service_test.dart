@@ -145,6 +145,36 @@ void main() {
       expect(all.any((a) => a.id == 'user_test_palette'), isTrue);
     });
 
+    test('normalizes overlong palettes without dropping the endpoint stop',
+        () async {
+      final service = await PaletteService.create();
+      final stops = List.generate(
+        PaletteService.maxStops + 2,
+        (i) => FractalColorStop(
+          position: i / (PaletteService.maxStops + 1),
+          colorArgb: 0xFF000000 + i,
+        ),
+      );
+
+      final normalized = normalizePaletteStops(stops);
+
+      expect(normalized, hasLength(PaletteService.maxStops));
+      expect(normalized.first.position, 0.0);
+      expect(normalized.last.position, 1.0);
+      expect(normalized.last.colorArgb, stops.last.colorArgb);
+
+      await service.addPalette(FractalPalette(
+        id: 'overlong_palette',
+        name: 'Overlong',
+        stops: stops,
+      ));
+      final persisted = service.userPalettes.singleWhere(
+        (palette) => palette.id == 'overlong_palette',
+      );
+      expect(persisted.stops.last.position, 1.0);
+      expect(persisted.stops.last.colorArgb, stops.last.colorArgb);
+    });
+
     test('updatePalette invalidates cached textures for the same palette id',
         () async {
       final service = await PaletteService.create();
