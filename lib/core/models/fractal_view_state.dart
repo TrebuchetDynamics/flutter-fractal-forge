@@ -26,7 +26,10 @@ class FractalViewState {
   /// is visible. Positive X moves right, positive Y moves down.
   ///
   /// Typical range: -3.0 to 3.0 for each axis.
-  final Vector2 pan;
+  final Vector2 _pan;
+
+  /// Returns a defensive copy because [Vector2] is mutable.
+  Vector2 get pan => Vector2.copy(_pan);
 
   /// The current zoom/magnification level.
   ///
@@ -46,7 +49,10 @@ class FractalViewState {
   /// - z: Rotation around the Z axis (roll)
   ///
   /// For 2D fractals, this is typically [Vector3.zero()].
-  final Vector3 rotation;
+  final Vector3 _rotation;
+
+  /// Returns a defensive copy because [Vector3] is mutable.
+  Vector3 get rotation => Vector3.copy(_rotation);
 
   /// Creates a [FractalViewState] with specific view parameters.
   ///
@@ -56,17 +62,17 @@ class FractalViewState {
     required Vector2 pan,
     required this.zoom,
     required Vector3 rotation,
-  })  : pan = Vector2.copy(pan),
-        rotation = Vector3.copy(rotation);
+  })  : _pan = Vector2.copy(pan),
+        _rotation = Vector3.copy(rotation);
 
   /// Creates the initial/default view state.
   ///
   /// Centers the view with no pan offset, 1x zoom, and no rotation.
   /// This is the starting point when a fractal is first loaded.
   FractalViewState.initial()
-      : pan = Vector2.zero(),
+      : _pan = Vector2.zero(),
         zoom = 1.0,
-        rotation = Vector3.zero();
+        _rotation = Vector3.zero();
 
   /// Creates a copy of this view state with the given fields replaced.
   ///
@@ -82,9 +88,9 @@ class FractalViewState {
     Vector3? rotation,
   }) {
     return FractalViewState(
-      pan: pan ?? this.pan,
+      pan: pan ?? _pan,
       zoom: zoom ?? this.zoom,
-      rotation: rotation ?? this.rotation,
+      rotation: rotation ?? _rotation,
     );
   }
 }

@@ -129,6 +129,22 @@ void main() {
         expect(state.rotation.y, closeTo(0.6, 1e-6));
         expect(state.rotation.z, closeTo(0.9, 1e-6));
       });
+
+      test('exposes vector fields as immutable snapshots', () {
+        final state = FractalViewState(
+          pan: Vector2(1.0, 2.0),
+          zoom: 5.0,
+          rotation: Vector3(0.3, 0.6, 0.9),
+        );
+
+        final exposedPan = state.pan;
+        final exposedRotation = state.rotation;
+        exposedPan.setValues(7.0, 8.0);
+        exposedRotation.setValues(9.0, 10.0, 11.0);
+
+        expect(state.pan, Vector2(1.0, 2.0));
+        expect(state.rotation, Vector3(0.3, 0.6, 0.9));
+      });
     });
   });
 }
