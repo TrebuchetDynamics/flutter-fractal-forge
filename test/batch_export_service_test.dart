@@ -22,6 +22,7 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/batch_export_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:image/image.dart' as img;
 import 'package:vector_math/vector_math.dart';
 
 class _FakePathProviderPlatform extends Fake
@@ -95,7 +96,9 @@ class _CapturingExportService extends _StubExportService {
     void Function(double)? onProgress,
   }) async {
     capturedOptions.add(options);
-    return Uint8List.fromList([1, 2, 3]);
+    final image = img.Image(width: 1, height: 1);
+    img.fill(image, color: img.ColorRgb8(1, 2, 3));
+    return Uint8List.fromList(img.encodePng(image));
   }
 }
 
@@ -518,6 +521,67 @@ void main() {
         result.items.map((item) => item.file.path),
         everyElement(contains('mandelbrot')),
       );
+    });
+
+    test('batch metadata uses the injected clock for replayable timestamps',
+        () async {
+      final fixedTime = DateTime(2026, 6, 1, 12, 34, 56);
+      final capturingService = _CapturingExportService(tmpDir.path);
+      final service = BatchExportService(
+        exportService: capturingService,
+        clock: _FixedBatchExportClock(fixedTime),
+        framePump: const _NoopBatchExportFramePump(),
+      );
+
+      await service.exportPresets(
+        boundaryKey: GlobalKey(),
+        applyPreset: (_) async {},
+        presets: [_makePreset('Meta')],
+        options: const ExportOptions(embedMetadata: true),
+        screenWidth: 400,
+        screenHeight: 800,
+        moduleId: 'mandelbrot',
+        moduleDisplayName: 'Mandelbrot',
+        currentParameters: () => {'iterations': 100},
+        onProgress: null,
+        onItemDone: null,
+        isCancelled: () => false,
+      );
+
+      expect(capturingService.capturedOptions, hasLength(1));
+      expect(capturingService.capturedOptions.single.metadata?.createdAt,
+          fixedTime);
+    });
+
+    test('batch WebP fallback uses truthful PNG capture options and filenames',
+        () async {
+      final capturingService = _CapturingExportService(tmpDir.path);
+      final service = BatchExportService(
+        exportService: capturingService,
+        framePump: const _NoopBatchExportFramePump(),
+      );
+
+      final result = await service.exportPresets(
+        boundaryKey: GlobalKey(),
+        applyPreset: (_) async {},
+        presets: [_makePreset('WebP Fallback')],
+        options: const ExportOptions(
+          format: ExportFormat.webp,
+          embedMetadata: false,
+        ),
+        screenWidth: 400,
+        screenHeight: 800,
+        moduleId: 'mandelbrot',
+        moduleDisplayName: 'Mandelbrot',
+        currentParameters: () => {},
+        onProgress: null,
+        onItemDone: null,
+        isCancelled: () => false,
+      );
+
+      expect(capturingService.capturedOptions.single.format, ExportFormat.png);
+      expect(result.items.single.file.path, endsWith('.png'));
+      expect(result.items.single.file.path, isNot(endsWith('.webp')));
     });
 
     test('currentParameters is not called when isCancelled=true', () async {

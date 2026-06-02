@@ -71,6 +71,90 @@ class BatchExportPlan {
   }
 }
 
+/// Replayable capture options and output path for one batch item.
+///
+/// Batch export goes through the same encoder as single-image export, where
+/// WebP currently resolves to PNG. Keeping the effective format in this plan
+/// prevents PNG bytes from being written to a stale `.webp` filename and keeps
+/// metadata timestamps tied to the injected batch clock.
+class BatchExportCapturePlan {
+  final ExportOptions captureOptions;
+  final String filename;
+  final ExportMetadata? metadata;
+
+  const BatchExportCapturePlan({
+    required this.captureOptions,
+    required this.filename,
+    this.metadata,
+  });
+
+  factory BatchExportCapturePlan.forEntry({
+    required BatchExportPlanEntry entry,
+    required ExportOptions baseOptions,
+    required ExportFormat effectiveFormat,
+    required String moduleId,
+    required String moduleDisplayName,
+    required Map<String, Object> parameters,
+    required DateTime createdAt,
+  }) {
+    final preset = entry.preset;
+    final metadata = baseOptions.embedMetadata
+        ? ExportMetadata(
+            title: preset.name,
+            description: 'Preset export from $moduleDisplayName',
+            fractalType: moduleId,
+            parameters: parameters,
+            createdAt: createdAt,
+          )
+        : null;
+
+    return BatchExportCapturePlan(
+      captureOptions: baseOptions.copyWith(
+        format: effectiveFormat,
+        metadata: metadata,
+      ),
+      filename: BatchExportPresetFilename(
+        moduleId: moduleId,
+        index: entry.exportIndex,
+        presetName: preset.name,
+        format: effectiveFormat,
+      ).value,
+      metadata: metadata,
+    );
+  }
+}
+
+/// Replayable filename contract for one batch preset image.
+class BatchExportPresetFilename {
+  final String moduleId;
+  final int index;
+  final String presetName;
+  final ExportFormat format;
+
+  const BatchExportPresetFilename({
+    required this.moduleId,
+    required this.index,
+    required this.presetName,
+    required this.format,
+  });
+
+  String get value {
+    final idx = (index + 1).toString().padLeft(3, '0');
+    final slug = _safeBatchExportSlug(presetName);
+    return '${_safeBatchExportSlug(moduleId)}_${idx}_$slug.${format.extension}';
+  }
+}
+
+String _safeBatchExportSlug(String input) {
+  final trimmed = input.trim().toLowerCase();
+  final replaced = trimmed
+      .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
+      .replaceAll(RegExp(r'_+'), '_')
+      .replaceAll(RegExp(r'^_'), '')
+      .replaceAll(RegExp(r'_$'), '');
+  return replaced.isEmpty ? 'untitled' : replaced;
+}
+
 /// Clock contract for replayable batch export directory naming.
 abstract class BatchExportClock {
   DateTime now();
@@ -130,6 +214,8 @@ class BatchExportService {
     final results = <BatchExportItemResult>[];
     final plan =
         BatchExportPlan.forModule(moduleId: moduleId, presets: presets);
+    final effectiveFormat =
+        _exportService.resolveEffectiveFormat(options.format);
 
     for (final entry in plan.entries) {
       if (isCancelled()) break;
@@ -143,30 +229,26 @@ class BatchExportService {
       await applyPreset(preset);
       await _framePump.waitForPresetRender();
 
-      final metadata = options.embedMetadata
-          ? ExportMetadata(
-              title: preset.name,
-              description: 'Preset export from $moduleDisplayName',
-              fractalType: moduleId,
-              parameters: Map<String, Object>.from(currentParameters()),
-              createdAt: DateTime.now(),
-            )
-          : null;
+      final capturePlan = BatchExportCapturePlan.forEntry(
+        entry: entry,
+        baseOptions: options,
+        effectiveFormat: effectiveFormat,
+        moduleId: moduleId,
+        moduleDisplayName: moduleDisplayName,
+        parameters: options.embedMetadata
+            ? Map<String, Object>.from(currentParameters())
+            : const <String, Object>{},
+        createdAt: _clock.now(),
+      );
 
       final bytes = await _exportService.captureWithOptions(
         boundaryKey,
-        options: options.copyWith(metadata: metadata),
+        options: capturePlan.captureOptions,
         screenWidth: screenWidth,
         screenHeight: screenHeight,
       );
 
-      final filename = _presetFilename(
-        moduleId: moduleId,
-        index: entry.exportIndex,
-        presetName: preset.name,
-        format: options.format,
-      );
-      final file = File('${directory.path}/$filename');
+      final file = File('${directory.path}/${capturePlan.filename}');
       await file.writeAsBytes(bytes, flush: true);
 
       final item = BatchExportItemResult(
@@ -188,7 +270,7 @@ class BatchExportService {
           tileSize: 512,
           padding: 16,
         );
-        final name = 'contact_sheet_${_safeSlug(moduleId)}.png';
+        final name = 'contact_sheet_${_safeBatchExportSlug(moduleId)}.png';
         final out = File('${directory.path}/$name');
         await out.writeAsBytes(pngBytes, flush: true);
         contactSheet = out;
@@ -207,7 +289,8 @@ class BatchExportService {
     final ts = _clock.now();
     final stamp =
         '${ts.year.toString().padLeft(4, '0')}${ts.month.toString().padLeft(2, '0')}${ts.day.toString().padLeft(2, '0')}_${ts.hour.toString().padLeft(2, '0')}${ts.minute.toString().padLeft(2, '0')}${ts.second.toString().padLeft(2, '0')}';
-    final prefix = '${base.path}/batch_${_safeSlug(moduleId)}_$stamp';
+    final prefix =
+        '${base.path}/batch_${_safeBatchExportSlug(moduleId)}_$stamp';
 
     for (var attempt = 1;; attempt++) {
       final suffix =
@@ -217,27 +300,6 @@ class BatchExportService {
       await dir.create(recursive: true);
       return dir;
     }
-  }
-
-  String _presetFilename({
-    required String moduleId,
-    required int index,
-    required String presetName,
-    required ExportFormat format,
-  }) {
-    final idx = (index + 1).toString().padLeft(3, '0');
-    final slug = _safeSlug(presetName);
-    return '${_safeSlug(moduleId)}_${idx}_$slug.${format.extension}';
-  }
-
-  String _safeSlug(String input) {
-    final trimmed = input.trim().toLowerCase();
-    final replaced = trimmed
-        .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
-        .replaceAll(RegExp(r'_+'), '_')
-        .replaceAll(RegExp(r'^_'), '')
-        .replaceAll(RegExp(r'_$'), '');
-    return replaced.isEmpty ? 'untitled' : replaced;
   }
 
   Future<Uint8List> _buildContactSheet(
