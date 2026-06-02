@@ -31,5 +31,31 @@ void main() {
       controller.setKaleidoscopeRotation(double.infinity);
       expect(controller.kaleidoscopeRotation, 0.75);
     });
+
+    test('does not leak forced kaleidoscope defaults after module exit', () {
+      final registry = ModuleRegistry();
+      final controller = FractalController(registry);
+      addTearDown(controller.dispose);
+
+      final normalModule = registry.byId('mandelbrot');
+      final kaleidoscopeModule = registry.byId('kaleidoscope_basic');
+
+      controller.selectModule(normalModule, animate: false);
+      controller.setKaleidoscopeEnabled(false);
+      controller.setKaleidoscopeSectors(6);
+      controller.setKaleidoscopeMirrorMode(1);
+
+      controller.selectModule(kaleidoscopeModule, animate: false);
+
+      expect(controller.kaleidoscopeEnabled, isTrue);
+      expect(controller.kaleidoscopeSectors, 16);
+      expect(controller.kaleidoscopeMirrorMode, 3);
+
+      controller.selectModule(normalModule, animate: false);
+
+      expect(controller.kaleidoscopeEnabled, isFalse);
+      expect(controller.kaleidoscopeSectors, 6);
+      expect(controller.kaleidoscopeMirrorMode, 1);
+    });
   });
 }

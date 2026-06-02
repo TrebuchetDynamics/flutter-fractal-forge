@@ -10,6 +10,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_controller_snapshots.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_effect_input_bounds.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_kaleidoscope_state.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
@@ -90,6 +91,7 @@ class FractalController extends ChangeNotifier {
   FractalController(this.registry, {TestLogger? logger}) : _logger = logger {
     _module = registry.modules.first;
     _applyPreset(_module.defaultPreset);
+    _applyKaleidoscopeModulePolicy(_module.id);
     _lastAdaptiveZoom = _view.zoom;
   }
 
@@ -145,6 +147,7 @@ class FractalController extends ChangeNotifier {
   double _kaleidoscopeRotation = 0.0;
   int _kaleidoscopeMirrorMode =
       0; // 0=alternado, 1=doble, 2=triple, 3=sin espejo
+  FractalKaleidoscopeState? _kaleidoscopeRestoreAfterForcedModule;
 
   bool get kaleidoscopeEnabled => _kaleidoscopeEnabled;
   int get kaleidoscopeSectors => _kaleidoscopeSectors;
@@ -153,8 +156,8 @@ class FractalController extends ChangeNotifier {
   int get kaleidoscopeMirrorMode => _kaleidoscopeMirrorMode;
 
   void setKaleidoscopeEnabled(bool enabled) {
-    // Force enabled for kaleidoscope modules
-    if (_module.id.contains('kaleidoscope')) {
+    // Force enabled for kaleidoscope modules.
+    if (FractalKaleidoscopeModulePolicy.isForcedModuleId(_module.id)) {
       enabled = true;
     }
     if (_kaleidoscopeEnabled != enabled) {
@@ -197,6 +200,32 @@ class FractalController extends ChangeNotifier {
     }
   }
 
+  FractalKaleidoscopeState get _kaleidoscopeState => FractalKaleidoscopeState(
+        enabled: _kaleidoscopeEnabled,
+        sectors: _kaleidoscopeSectors,
+        mirror: _kaleidoscopeMirror,
+        rotation: _kaleidoscopeRotation,
+        mirrorMode: _kaleidoscopeMirrorMode,
+      );
+
+  void _setKaleidoscopeState(FractalKaleidoscopeState state) {
+    _kaleidoscopeEnabled = state.enabled;
+    _kaleidoscopeSectors = state.sectors;
+    _kaleidoscopeMirror = state.mirror;
+    _kaleidoscopeRotation = state.rotation;
+    _kaleidoscopeMirrorMode = state.mirrorMode;
+  }
+
+  void _applyKaleidoscopeModulePolicy(String moduleId) {
+    final transition = FractalKaleidoscopeModulePolicy.transitionForModule(
+      moduleId: moduleId,
+      current: _kaleidoscopeState,
+      restoreAfterForcedModule: _kaleidoscopeRestoreAfterForcedModule,
+    );
+    _setKaleidoscopeState(transition.effective);
+    _kaleidoscopeRestoreAfterForcedModule = transition.restoreAfterForcedModule;
+  }
+
   /// Switches to a different fractal module.
   ///
   /// The [module] must be a valid module from the registry.
@@ -217,12 +246,7 @@ class FractalController extends ChangeNotifier {
       _startMorphTransition(previousId);
     }
 
-    // Auto-enable kaleidoscope effect for these modules with specific defaults
-    if (module.id.contains('kaleidoscope')) {
-      _kaleidoscopeEnabled = true;
-      _kaleidoscopeSectors = 16;
-      _kaleidoscopeMirrorMode = 3; // "Sin" espejo
-    }
+    _applyKaleidoscopeModulePolicy(module.id);
 
     notifyListeners();
     _logChange('stateChange', 'moduleSwitch', 'Switched to ${module.id}');
@@ -733,12 +757,7 @@ class FractalController extends ChangeNotifier {
       }
     }
 
-    // Auto-enable kaleidoscope effect for these modules with specific defaults
-    if (_module.id.contains('kaleidoscope')) {
-      _kaleidoscopeEnabled = true;
-      _kaleidoscopeSectors = 16;
-      _kaleidoscopeMirrorMode = 3; // "Sin" espejo
-    }
+    _applyKaleidoscopeModulePolicy(_module.id);
 
     // Apply parameters with clamping
     final clamped = <String, Object>{};
