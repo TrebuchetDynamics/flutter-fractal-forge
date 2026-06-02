@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -43,6 +44,7 @@ void main() {
   Future<void> showSearch(WidgetTester tester) async {
     await tester.tap(find.byIcon(Icons.search_rounded));
     await tester.pump();
+    await tester.pump();
 
     expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
   }
@@ -74,6 +76,28 @@ void main() {
 
     expect(find.text('Julia'), findsWidgets);
     expect(allDimensionCount(tester), lessThan(initialCount));
+
+    await tester.pump(const Duration(seconds: 3));
+  });
+
+  testWidgets('Catalog search field uses the focused visual state',
+      (tester) async {
+    await pumpCatalog(tester);
+    await showSearch(tester);
+
+    final searchField = tester.widget<TextField>(
+      find.byKey(const Key('catalogSearchField')),
+    );
+    expect(searchField.focusNode?.hasFocus, isTrue);
+
+    final container = tester.widget<AnimatedContainer>(
+      find.byKey(const Key('catalogSearchContainer')),
+    );
+    final decoration = container.decoration! as BoxDecoration;
+    final border = decoration.border! as Border;
+
+    expect(border.top.color, AppColors.primary.withValues(alpha: 0.6));
+    expect(border.top.width, 1.5);
 
     await tester.pump(const Duration(seconds: 3));
   });

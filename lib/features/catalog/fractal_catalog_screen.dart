@@ -178,7 +178,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
-  final bool _isSearchFocused = false;
+  bool get _isSearchFocused => _focusNode.hasFocus;
   bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
   _DimensionFilter _dimensionFilter = _DimensionFilter.all;
@@ -199,6 +199,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     super.initState();
     _shimmerController = _GlobalShimmerController.of(this);
     _searchController.addListener(_onSearchChanged);
+    _focusNode.addListener(_onSearchFocusChanged);
     _loadViewPreference();
   }
 
@@ -211,11 +212,17 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     });
   }
 
+  void _onSearchFocusChanged() {
+    if (!mounted) return;
+    setState(() {});
+  }
+
   @override
   void dispose() {
     _shimmerController.dispose();
     _searchDebouncer.dispose();
     _searchController.removeListener(_onSearchChanged);
+    _focusNode.removeListener(_onSearchFocusChanged);
     _searchController.dispose();
     _focusNode.dispose();
     super.dispose();
@@ -609,6 +616,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       label: l10n.semanticSearchField,
       textField: true,
       child: AnimatedContainer(
+        key: const Key('catalogSearchContainer'),
         duration: AppAnimations.normal,
         curve: AppAnimations.defaultCurve,
         decoration: BoxDecoration(
