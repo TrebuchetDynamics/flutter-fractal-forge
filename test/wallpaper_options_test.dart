@@ -2,6 +2,14 @@ import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('WallpaperTarget contract', () {
+    test('options import exposes platform channel target names', () {
+      expect(WallpaperTarget.home.name, 'home');
+      expect(WallpaperTarget.lock.name, 'lock');
+      expect(WallpaperTarget.both.name, 'both');
+    });
+  });
+
   group('WallpaperOptions', () {
     test('defaults to home-optimized home wallpaper without saving a copy', () {
       const options = WallpaperOptions();

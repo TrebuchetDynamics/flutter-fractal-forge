@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_fractals/core/services/wallpaper_service.dart';
+import 'package:flutter_fractals/core/models/wallpaper/wallpaper_target.dart';
+
+export 'package:flutter_fractals/core/models/wallpaper/wallpaper_target.dart';
 
 /// Lightweight post-processing overlays to improve icon/clock legibility.
 enum WallpaperStyle {
