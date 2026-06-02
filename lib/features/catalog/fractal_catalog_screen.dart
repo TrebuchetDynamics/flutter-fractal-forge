@@ -212,6 +212,17 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     });
   }
 
+  void _resetSearchInputState() {
+    _searchController.clear();
+    _searchDebouncer.cancel();
+    _debouncedQuery = '';
+    _focusNode.unfocus();
+  }
+
+  void _clearSearchInput() {
+    setState(_resetSearchInputState);
+  }
+
   void _onSearchFocusChanged() {
     if (!mounted) return;
     setState(() {});
@@ -352,7 +363,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     setState(() {
       _isSearchVisible = !_isSearchVisible;
       if (!_isSearchVisible) {
-        _clearSearchInput();
+        _resetSearchInputState();
       } else {
         // Auto focus the search field
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -362,16 +373,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     });
   }
 
-  void _clearSearchInput() {
-    _searchController.clear();
-    _searchDebouncer.cancel();
-    _debouncedQuery = '';
-    _focusNode.unfocus();
-  }
-
   void _clearCatalogRefinements() {
     setState(() {
-      _clearSearchInput();
+      _resetSearchInputState();
       _isSearchVisible = false;
       _dimensionFilter = _DimensionFilter.all;
       _selectedCategory = null;
@@ -665,10 +669,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                       tooltip:
                           MaterialLocalizations.of(context).deleteButtonTooltip,
                       icon: const Icon(Icons.close_rounded, size: 20),
-                      onPressed: () {
-                        _searchController.clear();
-                        setState(() {});
-                      },
+                      onPressed: _clearSearchInput,
                     ),
             ),
             border: InputBorder.none,

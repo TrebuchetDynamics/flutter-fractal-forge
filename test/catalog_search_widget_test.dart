@@ -124,4 +124,24 @@ void main() {
 
     await tester.pump(const Duration(seconds: 3));
   });
+
+  testWidgets('Catalog search clear icon resets the applied query immediately',
+      (tester) async {
+    await pumpCatalog(tester);
+    await showSearch(tester);
+
+    final initialCount = allDimensionCount(tester);
+    final searchField = find.byKey(const Key('catalogSearchField'));
+
+    await tester.enterText(searchField, 'Julia');
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(allDimensionCount(tester), lessThan(initialCount));
+
+    await tester.tap(find.byKey(const ValueKey('clear')));
+    await tester.pump();
+
+    expect(allDimensionCount(tester), initialCount);
+
+    await tester.pump(const Duration(seconds: 3));
+  });
 }
