@@ -10,7 +10,6 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import '../validation/render_validation.dart';
 import '../validation/convergence_detector.dart';
-import 'cpu_formulas.dart';
 import 'cpu_render_isolate.dart';
 import 'cpu_tile_worker.dart';
 import 'cpu_iteration_budget.dart';
@@ -747,55 +746,23 @@ Future<CpuRenderFrame> renderCpuFrame({
   required int height,
   int sampleCount = 4,
 }) async {
-  // Mandelbrot viewport baseline: y in [-1.5, 1.5] => half-range 1.5
-  // (matches tile/isolate renderer mapping).
-  final viewport = CpuViewportMapping(
-    viewPan: viewPan,
-    viewZoom: viewZoom,
-    width: width,
-    height: height,
+  final bytes = renderCpuRectRgba(
+    moduleId: moduleId,
+    panX: viewPan.x,
+    panY: viewPan.y,
+    zoom: viewZoom,
+    iterations: iterations,
+    bailout: bailout,
+    juliaCX: juliaC.x,
+    juliaCY: juliaC.y,
+    fullWidth: width,
+    fullHeight: height,
+    x0: 0,
+    y0: 0,
+    w: width,
+    h: height,
+    sampleCount: sampleCount,
   );
-  final bytes = Uint8List(width * height * 4);
-  final sampleGrid = CpuSampleGrid.fromRequestedCount(sampleCount);
-
-  final formula = cpuFormulaForModuleId(moduleId);
-
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      double rAcc = 0;
-      double gAcc = 0;
-      double bAcc = 0;
-
-      for (int sy = 0; sy < sampleGrid.samplesPerAxis; sy++) {
-        for (int sx = 0; sx < sampleGrid.samplesPerAxis; sx++) {
-          final nx = viewport.normalizedSample(
-            pixel: x,
-            extent: width,
-            sample: sx,
-            samplesPerAxis: sampleGrid.samplesPerAxis,
-          );
-          final ny = viewport.normalizedSample(
-            pixel: y,
-            extent: height,
-            sample: sy,
-            samplesPerAxis: sampleGrid.samplesPerAxis,
-          );
-          final c = viewport.coordinate(nx: nx, ny: ny);
-
-          final color = formula(c.$1, c.$2, iterations, bailout, juliaC);
-          rAcc += color.$1;
-          gAcc += color.$2;
-          bAcc += color.$3;
-        }
-      }
-
-      final idx = (y * width + x) * 4;
-      bytes[idx + 0] = (rAcc / sampleGrid.totalSamples).clamp(0, 255).round();
-      bytes[idx + 1] = (gAcc / sampleGrid.totalSamples).clamp(0, 255).round();
-      bytes[idx + 2] = (bAcc / sampleGrid.totalSamples).clamp(0, 255).round();
-      bytes[idx + 3] = 255;
-    }
-  }
 
   return CpuRenderFrame(rgba: bytes, width: width, height: height);
 }

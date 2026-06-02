@@ -49,7 +49,7 @@ final class CpuRenderResponse {
 
 /// Top-level entrypoint suitable for [Isolate.run].
 CpuRenderResponse renderCpuFrameInIsolate(CpuRenderRequest req) {
-  final bytes = _renderRect(
+  final bytes = renderCpuRectRgba(
     moduleId: req.moduleId,
     panX: req.panX,
     panY: req.panY,
@@ -254,7 +254,7 @@ CpuViewportCoordinate cpuViewportCoordinateForSample({
 }
 
 CpuTileRenderResponse renderCpuTileInIsolate(CpuTileRenderRequest req) {
-  final bytes = _renderRect(
+  final bytes = renderCpuRectRgba(
     moduleId: req.moduleId,
     panX: req.panX,
     panY: req.panY,
@@ -281,7 +281,12 @@ CpuTileRenderResponse renderCpuTileInIsolate(CpuTileRenderRequest req) {
   );
 }
 
-Uint8List _renderRect({
+/// Renders one CPU RGBA tile from an explicit full-viewport rectangle.
+///
+/// This pure raster helper is shared by direct, full-frame isolate, and tile
+/// isolate render paths so they fail on the same invalid dimensions and sample
+/// the same viewport coordinates.
+Uint8List renderCpuRectRgba({
   required String moduleId,
   required double panX,
   required double panY,
