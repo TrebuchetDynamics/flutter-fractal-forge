@@ -1,14 +1,15 @@
 {
   "version": 1,
   "target": "lib/core/models",
-  "updatedAt": "2026-06-01T14:15:28.285Z",
+  "updatedAt": "2026-06-02T06:05:29.061Z",
   "objective": "Refactor lib/core/models into responsibility subfolders with root compatibility facades: fractal, palette, export, exploration, wallpaper. Preserve existing package import paths and reduce model->service coupling by moving WallpaperTarget into the wallpaper model boundary while re-exporting it from WallpaperService for compatibility.",
   "completedSlices": [
     "Moved fractal parameter/params/preset/view-state models to lib/core/models/fractal with root export facades.",
     "Moved palette model to lib/core/models/palette with root export facade.",
     "Moved image and video export option models to lib/core/models/export with root export facades.",
     "Moved exploration stats model to lib/core/models/exploration with root export facade.",
-    "Moved wallpaper options to lib/core/models/wallpaper and introduced wallpaper_target.dart contract; wallpaper_service imports/re-exports the contract so existing service imports keep working."
+    "Moved wallpaper options to lib/core/models/wallpaper and introduced wallpaper_target.dart contract; wallpaper_service imports/re-exports the contract so existing service imports keep working.",
+    "Updated lib/core/models/AGENTS.md to document subfolder responsibilities and root compatibility facades."
   ],
   "nextCandidates": [],
   "validationReceipts": [

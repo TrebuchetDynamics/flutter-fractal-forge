@@ -1,6 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -138,7 +139,7 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       zoom: 1.0,
       rotation: Vector3(0.3, -0.4, 0.0),
     ),
-    createdAt: DateTime.utc(2025, 1, 1),
+    createdAt: builtInPresetCreatedAt,
     isBuiltIn: true,
   );
 
@@ -149,10 +150,10 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
     shaderAsset: config.shaderAsset,
     parameters: parameters,
     defaultPreset: defaultPreset,
-    builtInPresets: [
-      defaultPreset.copyWith(id: '${config.id}-classic', name: 'Classic'),
-      ...config.extraPresets,
-    ],
+    builtInPresets: buildBuiltInPresetList(
+      defaultPreset: defaultPreset,
+      extraPresets: config.extraPresets,
+    ),
     setUniforms: (shader, state, size, time) {
       shader.setFloat(Raymarched3DUniformSlots.time, time);
       shader.setFloat(Raymarched3DUniformSlots.resolutionX, size.width);

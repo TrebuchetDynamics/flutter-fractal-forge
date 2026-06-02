@@ -1,19 +1,15 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/families/tricorn",
-  "updatedAt": "2026-06-01T14:08:25.987Z",
-  "objective": "Refactor tricorn shader family by behavior responsibility: parameter-plane shaders in parameter_plane/ and fixed-c Julia shaders in julia_sets/, preserving shader source behavior and updating asset/caller references.",
+  "updatedAt": "2026-06-02T06:01:54.505Z",
+  "objective": "Complete tricorn shader family topology: root contains no shader implementations; parameter-plane Mandelbar/Tricorn variants live under parameter_plane/; fixed-c Julia variants live under julia_sets/. Preserve existing asset paths already referenced by pubspec/catalog/tests.",
   "completedSlices": [
-    "Moved parameter-plane tricorn shaders (tricorn, cubic, power4, power5) to parameter_plane/ and updated pubspec/catalog/tests/comments.",
-    "Moved Julia-set tricorn shaders (base, cubic, power4-power8 Julia) to julia_sets/ and updated pubspec/catalog/tests/comments.",
-    "Shared-code pass completed: repeated GLSL palette/sRGB helpers are identical in several files, but no local shader include contract exists in repo beyond flutter/runtime_effect.glsl, so extraction was intentionally skipped to avoid shader compiler/asset behavior risk."
+    "Move-only slice: moved 4 parameter-plane shaders (tricorn_gpu, cubic, power4, power5) into parameter_plane/ and 7 fixed-c Julia shaders (base, cubic, power4-power8) into julia_sets/.",
+    "Import/path slice: no source updates needed; pubspec.yaml, escape_time_catalog.dart, CPU diagnostic comments, and targeted tests already referenced the new subfolder paths."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/dart analyze test/power_shader_regression_test.dart test/fractal_cpu_diagnostics_test.dart lib/core/modules/builders/escape_time_catalog.dart lib/features/renderer/cpu_formulas.dart -> No issues found",
-    "Python check: all 11 moved tricorn catalog shaderAsset paths exist on disk",
-    "Python check: all .frag files under shaders/escape_time_family/families/tricorn are registered in pubspec.yaml",
-    "rg stale old target-root tricorn shader paths outside .pi -> no output",
-    "/home/xel/flutter/bin/flutter test test/power_shader_regression_test.dart -> blocked by pre-existing pubspec asset error: shaders/legacy/raymarched_3d/mandelbulb.frag missing"
+    "/home/xel/flutter/bin/flutter test test/power_shader_regression_test.dart test/fractal_cpu_diagnostics_test.dart -> blocked before test execution by unrelated pubspec asset error: missing shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "rg for stale root tricorn shader asset paths -> no matches."
   ]
 }
