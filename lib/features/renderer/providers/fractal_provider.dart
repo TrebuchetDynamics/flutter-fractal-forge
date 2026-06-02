@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_controller_snapshots.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
@@ -116,12 +117,14 @@ class FractalController extends ChangeNotifier {
   /// Current parameter values keyed by parameter ID.
   ///
   /// These are passed to the shader each frame via [FractalRenderState].
-  Map<String, Object> get params => _params;
+  /// Public reads receive a read-only snapshot; use [updateParam] to mutate.
+  Map<String, Object> get params => snapshotFractalControllerParams(_params);
 
   /// Current view state (pan, zoom, rotation).
   ///
   /// Updated by gesture handlers and preset application.
-  FractalViewState get view => _view;
+  /// Public reads receive cloned vectors; use view update methods to mutate.
+  FractalViewState get view => snapshotFractalControllerView(_view);
 
   /// Whether the fractal should render with a transparent background.
   ///
@@ -688,7 +691,7 @@ class FractalController extends ChangeNotifier {
   }
 
   /// Alias for [view] for backward compatibility.
-  FractalViewState get viewState => _view;
+  FractalViewState get viewState => view;
 
   /// The currently selected fractal module (alias for [module]).
   FractalModule get currentModule => _module;

@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('FractalController clamps boolean params: non-bool -> false (table-driven)', () {
+  test('FractalController falls back to boolean schema default for non-bool values', () {
     final boolModule = FractalModule(
       id: 'bool-module',
       displayName: (_) => 'Bool',
@@ -39,9 +39,7 @@ void main() {
       setUniforms: (_, __, ___, ____) {},
     );
 
-    final registry = ModuleRegistry();
-    // Ensure our module is selected by default.
-    registry.modules.insert(0, boolModule);
+    final registry = _SingleModuleRegistry(boolModule);
 
     final controller = FractalController(registry);
     expect(controller.module.id, 'bool-module');
@@ -49,8 +47,8 @@ void main() {
     final cases = <({Object input, bool expected})>[
       (input: true, expected: true),
       (input: false, expected: false),
-      (input: 1, expected: false),
-      (input: 'true', expected: false),
+      (input: 1, expected: true),
+      (input: 'true', expected: true),
     ];
 
     for (final c in cases) {
@@ -62,4 +60,16 @@ void main() {
       );
     }
   });
+}
+
+class _SingleModuleRegistry extends ModuleRegistry {
+  _SingleModuleRegistry(FractalModule module) : _modules = [module];
+
+  final List<FractalModule> _modules;
+
+  @override
+  List<FractalModule> get modules => _modules;
+
+  @override
+  FractalModule byId(String id) => _modules.firstWhere((m) => m.id == id);
 }
