@@ -28,11 +28,31 @@ List<String> declaredShaderAssetsStartingWith(
     ..sort();
 }
 
+List<String> missingShaderAssets(Iterable<String> assets) {
+  return assets.where((asset) => !File(asset).existsSync()).toSet().toList()
+    ..sort();
+}
+
+List<String> undeclaredShaderAssets(
+  Iterable<String> assets,
+  Set<String> declaredShaderAssets,
+) {
+  return assets
+      .where((asset) => !declaredShaderAssets.contains(asset))
+      .toSet()
+      .toList()
+    ..sort();
+}
+
 void expectAssetsExist(Iterable<String> assets,
     {String fileReason = 'must exist'}) {
-  for (final asset in assets) {
-    expect(File(asset).existsSync(), isTrue, reason: '$asset $fileReason');
-  }
+  final missingAssets = missingShaderAssets(assets);
+
+  expect(
+    missingAssets,
+    isEmpty,
+    reason: 'Missing shader assets ($fileReason): ${missingAssets.join(', ')}',
+  );
 }
 
 void expectAssetsDeclaredAndExist(
@@ -40,9 +60,17 @@ void expectAssetsDeclaredAndExist(
   Set<String> declaredShaderAssets, {
   String fileReason = 'must exist',
 }) {
-  for (final asset in assets) {
-    expect(declaredShaderAssets, contains(asset),
-        reason: '$asset must be declared');
-    expect(File(asset).existsSync(), isTrue, reason: '$asset $fileReason');
-  }
+  final undeclaredAssets = undeclaredShaderAssets(assets, declaredShaderAssets);
+  final missingAssets = missingShaderAssets(assets);
+
+  expect(
+    undeclaredAssets,
+    isEmpty,
+    reason: 'Undeclared shader assets: ${undeclaredAssets.join(', ')}',
+  );
+  expect(
+    missingAssets,
+    isEmpty,
+    reason: 'Missing shader assets ($fileReason): ${missingAssets.join(', ')}',
+  );
 }
