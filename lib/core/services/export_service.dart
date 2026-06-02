@@ -55,6 +55,51 @@ class ExportFilenameParts {
   }
 }
 
+enum _WallpaperOverlayEdge { top, bottom }
+
+/// Replayable vertical gradient used by wallpaper legibility overlays.
+///
+/// A one-row overlay should still apply full edge strength. For taller overlays,
+/// the outer edge reaches [strength] and the inner edge fades to transparent.
+final class _WallpaperOverlayGradient {
+  final int imageHeight;
+  final double coverage;
+  final double strength;
+  final _WallpaperOverlayEdge edge;
+
+  const _WallpaperOverlayGradient({
+    required this.imageHeight,
+    required this.coverage,
+    required this.strength,
+    required this.edge,
+  }) : assert(imageHeight > 0, 'imageHeight must be positive');
+
+  int get overlayHeight =>
+      (imageHeight * coverage).round().clamp(1, imageHeight).toInt();
+
+  int get startY =>
+      edge == _WallpaperOverlayEdge.top ? 0 : imageHeight - overlayHeight;
+
+  int get endYExclusive =>
+      edge == _WallpaperOverlayEdge.top ? overlayHeight : imageHeight;
+
+  int alphaForY(int y) {
+    final localY = y - startY;
+    final edgeWeight = _edgeWeight(localY);
+    return (255 * strength * edgeWeight).round().clamp(0, 255).toInt();
+  }
+
+  double _edgeWeight(int localY) {
+    if (overlayHeight <= 1) return 1.0;
+
+    final progress = (localY / (overlayHeight - 1)).clamp(0.0, 1.0);
+    return switch (edge) {
+      _WallpaperOverlayEdge.top => 1.0 - progress,
+      _WallpaperOverlayEdge.bottom => progress,
+    };
+  }
+}
+
 class ExportService {
   static const MethodChannel _mediaStoreChannel =
       MethodChannel('fractalforge/media_store');
@@ -99,19 +144,45 @@ class ExportService {
   }
 
   img.Image _applyTopGradient(img.Image src, {required double strength}) {
-    final out = img.Image.from(src);
-    final h = out.height;
-    final overlayH = (h * 0.22).round().clamp(1, h);
+    return _applyVerticalGradient(
+      src,
+      gradient: _WallpaperOverlayGradient(
+        imageHeight: src.height,
+        coverage: 0.22,
+        strength: strength,
+        edge: _WallpaperOverlayEdge.top,
+      ),
+    );
+  }
 
-    for (int y = 0; y < overlayH; y++) {
-      final t = 1.0 - (y / overlayH);
-      final a = (255 * strength * t).round().clamp(0, 255);
+  img.Image _applyBottomGradient(img.Image src, {required double strength}) {
+    return _applyVerticalGradient(
+      src,
+      gradient: _WallpaperOverlayGradient(
+        imageHeight: src.height,
+        coverage: 0.28,
+        strength: strength,
+        edge: _WallpaperOverlayEdge.bottom,
+      ),
+    );
+  }
+
+  img.Image _applyVerticalGradient(
+    img.Image src, {
+    required _WallpaperOverlayGradient gradient,
+  }) {
+    final out = img.Image.from(src);
+
+    for (int y = gradient.startY; y < gradient.endYExclusive; y++) {
+      final alpha = gradient.alphaForY(y);
+      if (alpha == 0) continue;
+
       for (int x = 0; x < out.width; x++) {
         final p = out.getPixel(x, y);
         // Alpha-blend black over pixel (new image package API).
-        final r = (p.r.toInt() * (255 - a) / 255).round();
-        final g = (p.g.toInt() * (255 - a) / 255).round();
-        final b = (p.b.toInt() * (255 - a) / 255).round();
+        final r = _darkenChannel(p.r.toInt(), alpha);
+        final g = _darkenChannel(p.g.toInt(), alpha);
+        final b = _darkenChannel(p.b.toInt(), alpha);
         out.setPixelRgba(x, y, r, g, b, p.a.toInt());
       }
     }
@@ -119,24 +190,8 @@ class ExportService {
     return out;
   }
 
-  img.Image _applyBottomGradient(img.Image src, {required double strength}) {
-    final out = img.Image.from(src);
-    final h = out.height;
-    final overlayH = (h * 0.28).round().clamp(1, h);
-
-    for (int y = h - overlayH; y < h; y++) {
-      final t = (y - (h - overlayH)) / overlayH; // 0..1
-      final a = (255 * strength * t).round().clamp(0, 255);
-      for (int x = 0; x < out.width; x++) {
-        final p = out.getPixel(x, y);
-        final r = (p.r.toInt() * (255 - a) / 255).round();
-        final g = (p.g.toInt() * (255 - a) / 255).round();
-        final b = (p.b.toInt() * (255 - a) / 255).round();
-        out.setPixelRgba(x, y, r, g, b, p.a.toInt());
-      }
-    }
-
-    return out;
+  int _darkenChannel(int value, int alpha) {
+    return (value * (255 - alpha) / 255).round();
   }
 
   Future<Directory> getExportDirectory() async {

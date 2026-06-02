@@ -134,6 +134,22 @@ void main() {
       expect(decoded.height, 4);
     });
 
+    test('homeOptimized darkens the bottom edge on small images', () {
+      final result =
+          service.applyWallpaperStyle(testPng, style: 'homeOptimized');
+      final decoded = img.decodePng(result)!;
+
+      final top = decoded.getPixel(0, 0);
+      final bottom = decoded.getPixel(0, decoded.height - 1);
+
+      expect(top.r.toInt(), 200);
+      expect(top.g.toInt(), 50);
+      expect(top.b.toInt(), 50);
+      expect(bottom.r.toInt(), lessThan(top.r.toInt()));
+      expect(bottom.g.toInt(), lessThan(top.g.toInt()));
+      expect(bottom.b.toInt(), lessThan(top.b.toInt()));
+    });
+
     test('lockOptimized returns valid PNG', () {
       final result =
           service.applyWallpaperStyle(testPng, style: 'lockOptimized');
