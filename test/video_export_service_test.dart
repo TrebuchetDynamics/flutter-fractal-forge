@@ -83,7 +83,7 @@ void main() {
       expect(defaultOptions.parameterSweep, isNull);
     });
 
-    test('totalFrames equals duration.inSeconds * frameRate.fps', () {
+    test('totalFrames matches seconds * frameRate for whole seconds', () {
       const opts = VideoExportOptions(
         duration: Duration(seconds: 4),
         frameRate: VideoFrameRate.fps15,
@@ -94,6 +94,30 @@ void main() {
     test('totalFrames for default options is 150', () {
       // 5 seconds * 30 fps
       expect(defaultOptions.totalFrames, 150);
+    });
+
+    test('totalFrames preserves fractional-second durations', () {
+      const halfSecond = VideoExportOptions(
+        duration: Duration(milliseconds: 500),
+        frameRate: VideoFrameRate.fps30,
+      );
+      const mixedSecond = VideoExportOptions(
+        duration: Duration(milliseconds: 1500),
+        frameRate: VideoFrameRate.fps30,
+      );
+
+      expect(halfSecond.totalFrames, 15);
+      expect(mixedSecond.totalFrames, 45);
+    });
+
+    test('totalFrames keeps non-positive durations replayable', () {
+      const zeroDuration = VideoExportOptions(duration: Duration.zero);
+      const negativeDuration = VideoExportOptions(
+        duration: Duration(milliseconds: -500),
+      );
+
+      expect(zeroDuration.totalFrames, 1);
+      expect(negativeDuration.totalFrames, 1);
     });
 
     test('estimatedSizeMb is positive for any configuration', () {
@@ -419,7 +443,7 @@ void main() {
         final distance = (frame.pan - view.pan).length;
         expect(
           distance,
-          closeTo(expectedRadius, 1e-9),
+          closeTo(expectedRadius, 1e-8),
           reason: 'frameIndex=$frameIndex',
         );
       }

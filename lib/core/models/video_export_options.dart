@@ -8,7 +8,7 @@ enum VideoExportFormat {
   final String label;
   final String extension;
   const VideoExportFormat(this.label, this.extension);
-  
+
   String get displayName => label;
 }
 
@@ -36,7 +36,7 @@ enum VideoResolution {
   final int height;
   final String label;
   const VideoResolution(this.height, this.label);
-  
+
   int get width => (height * 16 / 9).round();
 }
 
@@ -49,8 +49,33 @@ enum VideoFrameRate {
 
   final int fps;
   const VideoFrameRate(this.fps);
-  
+
   String get label => '$fps fps';
+}
+
+/// Replayable frame-count contract for video export durations.
+class _VideoFrameCountPolicy {
+  static const int minFrames = 1;
+  static const int _microsecondsPerSecond = Duration.microsecondsPerSecond;
+
+  const _VideoFrameCountPolicy._();
+
+  /// Converts a duration and frame rate into the number of frames to render.
+  ///
+  /// Fractional-second durations must not be truncated to zero frames; even a
+  /// zero or invalid negative duration remains replayable as a single frame.
+  static int fromDurationAndFrameRate({
+    required Duration duration,
+    required VideoFrameRate frameRate,
+  }) {
+    final microseconds = duration.inMicroseconds;
+    if (microseconds <= 0) return minFrames;
+
+    final scaledFrames = microseconds * frameRate.fps;
+    final frameCount =
+        (scaledFrames + _microsecondsPerSecond - 1) ~/ _microsecondsPerSecond;
+    return frameCount < minFrames ? minFrames : frameCount;
+  }
 }
 
 /// Quality presets.
@@ -80,7 +105,8 @@ enum AnimationEasing {
       AnimationEasing.linear => t,
       AnimationEasing.easeIn => t * t,
       AnimationEasing.easeOut => 1 - (1 - t) * (1 - t),
-      AnimationEasing.easeInOut => t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) * (-2 * t + 2) / 2,
+      AnimationEasing.easeInOut =>
+        t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) * (-2 * t + 2) / 2,
     };
   }
 }
@@ -156,8 +182,11 @@ class VideoExportOptions {
     );
   }
 
-  int get totalFrames => duration.inSeconds * frameRate.fps;
-  
+  int get totalFrames => _VideoFrameCountPolicy.fromDurationAndFrameRate(
+        duration: duration,
+        frameRate: frameRate,
+      );
+
   /// Estimated file size in MB (rough approximation).
   double get estimatedSizeMb {
     final pixels = resolution.width * resolution.height;
