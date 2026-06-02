@@ -1,20 +1,21 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/experimental_named",
-  "updatedAt": "2026-06-02T09:42:52.516Z",
+  "updatedAt": "2026-06-02T19:35:56.457Z",
   "objective": "Split experimental_named shader assets into behavior/responsibility subfolders while preserving catalog shaderAsset and pubspec declarations. Boundaries: coupled_orbits owns shaders whose c/z parameters co-evolve; rational_singularities owns rational/log-power pole-driven maps; transcendental_deformations owns sine/tangent/log-radial/hyperbolic deformations; discrete_attractors owns named 2D attractor map shaders; polynomial_variants owns polynomial/fold/scaled escape maps; root_finding owns iterative solver methods; physical_simulation owns physics-inspired simulation shaders. Each exposes only .frag assets and must not know Dart catalog/module wiring.",
   "completedSlices": [
-    "Kept/enhanced focused shader asset contract test for experimental_named catalog entries, pubspec declarations, responsibility subfolder grouping, and no root orphan .frag files.",
+    "Kept existing focused shader asset contract test for experimental_named catalog entries, pubspec declarations, responsibility subfolder grouping, and no root orphan .frag files.",
     "Moved all 23 root shader files into responsibility subfolders matching existing pubspec.yaml and escape_time_catalog.dart shaderAsset paths.",
-    "Verified no experimental_named .frag files remain at target root and no stale root shader asset paths remain in pubspec/lib/test/shaders."
+    "Verified no experimental_named .frag files remain at target root and no stale immediate-root shader asset paths remain in pubspec.yaml/lib/test/shaders.",
+    "Performed shared-code scan: duplicated GLSL helpers (linearToSRGB, palette/getPaletteColor, cmul/cdiv) remain intentionally inline because Flutter shader assets have no validated local shared include pipeline in this repo and the targeted Flutter test is blocked before shader compile by an unrelated missing legacy asset."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 static asset contract: 23 experimental_named catalog assets, 23 pubspec declarations, all files exist, no root experimental_named .frag files, no root catalog assets, no unexpected folders.",
-    "python3 move-only content check: all 23 moved shader files match HEAD content at their old paths.",
-    "rg stale root experimental_named/*.frag paths in pubspec.yaml lib test shaders: no matches.",
-    "/home/xel/flutter/bin/dart format test/shaders/escape_time_family/catalogs/experimental_named_shader_assets_test.dart succeeded.",
     "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/experimental_named_shader_assets_test.dart blocked by pre-existing pubspec missing asset shaders/legacy/raymarched_3d/mandelbulb.frag (outside target folder).",
+    "python3 static asset contract: OK: 23 experimental_named catalog assets declared, present, grouped in 7 responsibility folders, and root .frag count=0.",
+    "find root orphan check: OK: no root .frag files in shaders/escape_time_family/experimental_named.",
+    "rg stale immediate-root experimental_named shader paths in pubspec.yaml/lib/test/shaders: OK, no matches.",
+    "python3 byte-identical move check: OK: 23 moved shader files are byte-identical to HEAD root versions.",
     "folder_refactor_audit passed: 0 root files, 7 root dirs, no next candidates."
   ]
 }

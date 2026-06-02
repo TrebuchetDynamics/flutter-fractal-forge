@@ -109,3 +109,7 @@
 {"ts":"2026-06-02T13:22:57-06:00","candidate":"shaders/trigonometric_and_transcendental","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-03T05:22:57-06:00"}
 {"ts":"2026-06-02T13:26:02-06:00","candidate":"shaders/root_finding","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-03T05:26:02-06:00"}
 {"ts":"2026-06-02T13:31:55-06:00","candidate":"lib/core/services","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-03T05:31:55-06:00"}
+{"ts":"2026-06-02T13:36:53-06:00","candidate":"shaders/escape_time_family/experimental_named","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-03T05:36:53-06:00"}
+{"ts":"2026-06-02T13:45:09-06:00","candidate":"scripts","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-03T05:45:09-06:00"}
+{"ts":"2026-06-02T13:48:17-06:00","candidate":"shaders/cellular_and_stochastic","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T21:48:17-06:00"}
+{"ts":"2026-06-02T13:52:09-06:00","candidate":"shaders/kaleidoscopes","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T21:52:09-06:00"}

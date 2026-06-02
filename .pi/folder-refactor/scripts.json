@@ -1,25 +1,31 @@
 {
   "version": 1,
   "target": "scripts",
-  "updatedAt": "2026-06-02T09:52:26.917Z",
-  "objective": "Refactor scripts root into responsibility subfolders while preserving documented root commands as compatibility facades. Root facades dispatch to trackable implementation folders (android, catalog, desktop, publishing) through shared compat contracts; existing research remains its own pipeline.",
+  "updatedAt": "2026-06-02T19:44:24.973Z",
+  "objective": "Refactor scripts root into responsibility subfolders while preserving documented root command paths as explicit compatibility facades. Topology: android, desktop, catalog, publishing, compat, tests, existing research; root keeps only facades and AGENTS.md.",
   "completedSlices": [
-    "Mapped scripts root, public root command paths, existing research pipeline, and ignored pre-existing scripts/release artifact directory.",
-    "Added scripts/tests/smoke.sh as a low-cost public behavior/syntax validation before structural edits.",
-    "Moved Android/emulator/app-run automation implementations into scripts/android with root compatibility wrappers.",
-    "Moved Linux desktop integration and screenshot automation implementations into scripts/desktop with root compatibility wrappers.",
-    "Moved catalog/shader Python maintenance implementations into scripts/catalog with root compatibility wrappers.",
-    "Copied release proof/Play Console lane implementations into trackable scripts/publishing and pointed root compatibility wrappers there because scripts/release is ignored by the repo release/ gitignore pattern.",
-    "Created shared compatibility dispatchers in scripts/compat/dispatch.sh and scripts/compat/run_python_impl.py.",
-    "Adjusted moved implementation scripts to resolve repository root from their new subfolder depth.",
-    "Extracted shared Android build-lock/cleanup helpers into scripts/android/build_lock.sh for overnight emulator and UI monkey loops.",
-    "Updated scripts/AGENTS.md with the new responsibility topology and validation command.",
-    "Validated smoke checks and completed root-file audit."
+    "Mapped scripts root files, public root command references, existing scripts/research pipeline, and ignored scripts/release duplicate release workspace.",
+    "Added scripts/tests/smoke.sh public behavior/syntax validation and verified it passed before moving implementations.",
+    "Moved Android/emulator/app-run/overnight automation implementations into scripts/android with root compatibility facades.",
+    "Moved Linux desktop integration-test and screenshot automation implementations into scripts/desktop with root compatibility facades.",
+    "Moved catalog/shader Python maintenance implementations into scripts/catalog with Python root facades.",
+    "Moved Play Console/release proof/release lane implementations into scripts/publishing with root compatibility facades.",
+    "Created shared compatibility contracts in scripts/compat/dispatch.sh and scripts/compat/run_python_impl.py.",
+    "Adjusted moved implementations to resolve repository root from subfolder depth while preserving root command paths.",
+    "Extracted shared Android Flutter/Gradle build-lock and cleanup helpers into scripts/android/build_lock.sh for overnight emulator and UI monkey loops.",
+    "Extended scripts/tests/smoke.sh to validate root facades plus safe direct implementation help/dry-run paths.",
+    "Updated scripts/AGENTS.md with topology, responsibilities, and validation command.",
+    "Completed shared-code pass: kept larger catalog parser duplication intentionally due behavior differences and lack of a focused parser contract test; avoided speculative emulator device helper extraction.",
+    "Validated scripts/tests/smoke.sh after each structural/shared-code slice and completed folder_refactor_audit with no next root file candidates."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "scripts/tests/smoke.sh: pass (shell syntax, Python AST syntax, root facade target checks, root help facades, add_srgb dry-run)",
-    "find scripts -maxdepth 2 -type d -name '__pycache__': only pre-existing scripts/research/__pycache__ remains",
-    "folder_refactor_audit(target=scripts, plannedTopologyComplete=true): pass"
+    "scripts/tests/smoke.sh: pass before structural moves (shell syntax, Python AST syntax, root help facades, add_srgb dry-run).",
+    "scripts/tests/smoke.sh: pass after move-only/root-facade phase.",
+    "scripts/tests/smoke.sh: pass after Android build-lock helper extraction.",
+    "scripts/tests/smoke.sh: pass after scripts/AGENTS.md update and final path adjustments.",
+    "scripts/tests/smoke.sh: final pass with shell syntax, Python AST syntax, root help facades, direct implementation help commands, and add_srgb root/direct dry-runs.",
+    "find scripts -maxdepth 2 -type d -name '__pycache__': only pre-existing scripts/research/__pycache__ remains.",
+    "folder_refactor_audit(target=scripts, plannedTopologyComplete=true): pass; root files classified as facades except AGENTS.md; next candidates none."
   ]
 }
