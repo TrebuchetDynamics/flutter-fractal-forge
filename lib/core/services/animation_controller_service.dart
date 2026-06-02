@@ -389,11 +389,7 @@ class AnimatedFractalController extends ChangeNotifier {
   void tick() {
     var needsUpdate = false;
 
-    for (final animated in _animatedParams.values) {
-      if (animated.tick()) {
-        needsUpdate = true;
-      }
-    }
+    if (_tickAnimatedParameters()) needsUpdate = true;
 
     if (_animatedZoom?.tick() == true) needsUpdate = true;
     if (_animatedPan?.tick() == true) needsUpdate = true;
@@ -402,6 +398,21 @@ class AnimatedFractalController extends ChangeNotifier {
     if (needsUpdate) {
       notifyListeners();
     }
+  }
+
+  bool _tickAnimatedParameters() {
+    var needsUpdate = false;
+
+    // Completion callbacks remove entries from [_animatedParams]. Snapshot the
+    // values first so a completed parameter does not mutate the map currently
+    // being iterated.
+    for (final animated in _animatedParams.values.toList(growable: false)) {
+      if (animated.tick()) {
+        needsUpdate = true;
+      }
+    }
+
+    return needsUpdate;
   }
 
   @override

@@ -454,6 +454,24 @@ void main() {
       controller.dispose();
     });
 
+    test('tick completes parameter animations without concurrent mutation',
+        () async {
+      final controller = AnimatedFractalController(
+        parameterDuration: const Duration(milliseconds: 1),
+      );
+
+      try {
+        controller.animateParameter('iterations', 100.0, 200.0);
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+
+        expect(() => controller.tick(), returnsNormally);
+        expect(controller.getInterpolatedValue('iterations', 200.0), isNull);
+        expect(controller.isTransitioning, isFalse);
+      } finally {
+        controller.dispose();
+      }
+    });
+
     test('tick completes negative-duration animations instead of sticking', () {
       final controller = AnimatedFractalController(
         parameterDuration: const Duration(milliseconds: -1),
