@@ -8,7 +8,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 /// the schema default instead of being promoted to an arbitrary bound.
 Object normalizeFractalParamValue(FractalParameter schema, Object value) {
   if (schema.type == FractalParamType.boolean) {
-    return value is bool ? value : false;
+    return value is bool ? value : _booleanDefault(schema);
   }
   if (schema.type == FractalParamType.enumeration) {
     final optionValues = schema.options.map((option) => option.value).toSet();
@@ -27,4 +27,9 @@ Object normalizeFractalParamValue(FractalParameter schema, Object value) {
     return clamped;
   }
   return schema.defaultValue;
+}
+
+bool _booleanDefault(FractalParameter schema) {
+  final defaultValue = schema.defaultValue;
+  return defaultValue is bool ? defaultValue : false;
 }
