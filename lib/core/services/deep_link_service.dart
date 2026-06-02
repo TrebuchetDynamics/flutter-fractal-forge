@@ -118,6 +118,28 @@ enum _DeepLinkRouteKind {
   rejected,
 }
 
+/// Shared view-route path contract for custom-scheme and universal links.
+class _DeepLinkViewRoutePath {
+  static const String pathOnlyView = DeepLinkService.host;
+  static const String absoluteView = '/${DeepLinkService.host}';
+
+  const _DeepLinkViewRoutePath._();
+
+  /// A URI path that addresses the view route itself, with or without the
+  /// canonical trailing slash some universal-link providers append.
+  static bool isAbsoluteViewPath(String path) {
+    return path == absoluteView || path == '$absoluteView/';
+  }
+
+  static bool isAuthorityRoot(String path) {
+    return path.isEmpty || path == '/';
+  }
+
+  static bool isPathOnlyCustomSchemeView(String path) {
+    return path == pathOnlyView || isAbsoluteViewPath(path);
+  }
+}
+
 /// Normalized custom-scheme route shape.
 ///
 /// `fractalforge://view?...` uses `view` as URI authority/host, while
@@ -141,9 +163,10 @@ class _DeepLinkCustomRouteShape {
 
   bool get isViewRoute {
     if (hasAuthority) {
-      return host == DeepLinkService.host && (path.isEmpty || path == '/');
+      return host == DeepLinkService.host &&
+          _DeepLinkViewRoutePath.isAuthorityRoot(path);
     }
-    return path == '/${DeepLinkService.host}' || path == DeepLinkService.host;
+    return _DeepLinkViewRoutePath.isPathOnlyCustomSchemeView(path);
   }
 }
 
@@ -181,7 +204,7 @@ class _DeepLinkRoute {
   }
 
   static bool _isWebViewRoute(Uri uri) {
-    return uri.path == '/${DeepLinkService.host}';
+    return _DeepLinkViewRoutePath.isAbsoluteViewPath(uri.path);
   }
 }
 

@@ -104,7 +104,9 @@ void main() {
           'fractalforge:/view?type=mandelbrot',
           'fractalforge:view?type=mandelbrot',
           'https://fractalforge.app/view?type=mandelbrot',
+          'https://fractalforge.app/view/?type=mandelbrot',
           'https://www.fractalforge.app/view?type=mandelbrot',
+          'https://www.fractalforge.app/view/?type=mandelbrot',
         ];
 
         for (final link in acceptedLinks) {
