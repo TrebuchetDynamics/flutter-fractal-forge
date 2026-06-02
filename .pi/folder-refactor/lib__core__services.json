@@ -1,17 +1,20 @@
 {
   "version": 1,
   "target": "lib/core/services",
-  "updatedAt": "2026-06-01T18:11:44.710Z",
-  "objective": "Bug-finding visibility refactor in the deep-link service subsystem: make generated/query duplicate-detection parameter contracts share one source of truth so future deep-link params cannot be minted without duplicate rejection coverage.",
+  "updatedAt": "2026-06-02T05:24:48.166Z",
+  "objective": "Completed behavior-preserving responsibility topology for lib/core/services: implementation files now live under app_lifecycle, deep_links, diagnostics, exporting, interaction, palettes, persistence, and rendering; root service/store files remain compatibility facades for existing package imports.",
   "completedSlices": [
-    "Deep-link duplicate-recognition contract now derives recognized optional parameter names from DeepLinkService._allQueryParams instead of a hand-maintained string set.",
-    "Added regression/characterization test that builds a maximal deep link and verifies duplicates for every generated query parameter are rejected."
+    "Mapped lib/core/services root-heavy service/store files and identified public import compatibility contract as package:flutter_fractals/core/services/<file>.dart.",
+    "Moved lifecycle, deep link, diagnostics, export, interaction, palette, persistence, and rendering service implementations into responsibility subfolders.",
+    "Created root facade export files for every moved public service/store path to preserve existing callers.",
+    "Updated intra-service imports to use implementation subfolder paths where services depend on each other.",
+    "Fixed moved relative model imports to package imports and restored WallpaperTarget as the exporting wallpaper service contract so analyzer/test imports remain valid.",
+    "Updated lib/core/services/AGENTS.md to document responsibility subfolder topology and facade convention."
   ],
-  "nextCandidates": [
-    "DeepLinkService parse/build bounds semantics: parsing clamps out-of-range inbound values while buildUri omits out-of-range outbound values; characterize whether inbound clamping is intentional compatibility or should become reject/omit semantics."
-  ],
+  "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/dart analyze lib/core/services/deep_link_service.dart test/deep_link_service_test.dart — passed, no issues found.",
-    "/home/xel/flutter/bin/flutter test test/deep_link_service_test.dart — blocked before running tests by unrelated pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag; confirmed referenced in pubspec.yaml and missing on disk."
+    "folder_refactor_audit lib/core/services — passed with all root files classified; planned topology complete.",
+    "/home/xel/flutter/bin/dart analyze lib/core/services plus focused service tests — passed, no issues found.",
+    "/home/xel/flutter/bin/flutter test focused service tests — blocked before running by unrelated existing pubspec asset bundle error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
   ]
 }

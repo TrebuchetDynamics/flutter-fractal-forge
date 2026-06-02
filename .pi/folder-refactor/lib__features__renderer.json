@@ -1,19 +1,20 @@
 {
   "version": 1,
   "target": "lib/features/renderer",
-  "updatedAt": "2026-06-01T13:30:31.174Z",
-  "objective": "Refactor renderer by responsibility while preserving public root imports through compatibility wrappers. Planned topology: cpu/ owns software rendering formulas/iterators/isolate/tile worker/widget; validation/ owns render frame checks and convergence detection; policy/ owns backend and deep-zoom precision decisions; future widgets/ should own FractalRenderer, canvas, shader loading/error UI, and gesture mixins; providers/ remains controller state management.",
+  "updatedAt": "2026-06-02T05:28:48.069Z",
+  "objective": "Refactor renderer by responsibility while preserving behavior and public root imports through compatibility facades. Topology: widgets/ owns FractalRenderer, shader loading, error display, gesture mixins, and FractalCanvas; cpu/ owns software fallback formulas/iterators/isolate/tile worker/widget/viewport mapping; validation/ owns render frame checks and convergence detection; policy/ owns backend and deep-zoom precision decisions; providers/ remains controller state management. Root keeps only AGENTS.md plus exact compatibility export facades for externally imported renderer APIs.",
   "completedSlices": [
-    "Moved CPU rendering files to cpu/ with root export wrappers: cpu_formulas.dart, cpu_iterators.dart, cpu_render_isolate.dart, cpu_tile_worker.dart, cpu_fractal_renderer.dart.",
-    "Moved validation files to validation/ with root export wrappers: render_validation.dart, convergence_detector.dart.",
-    "Moved policy files to policy/ with root export wrappers: backend_policy.dart, deep_zoom_precision_policy.dart.",
-    "Updated cpu/cpu_fractal_renderer.dart to import local cpu and validation modules directly instead of routing through root compatibility wrappers."
+    "Moved widgets/UI rendering files to widgets/: fractal_renderer.dart, fractal_canvas.dart, fractal_painter.dart, gesture_handler.dart, shader_loader.dart; root fractal_renderer.dart preserved as public export facade.",
+    "Moved CPU fallback implementation files to cpu/: cpu_formulas.dart, cpu_fractal_renderer.dart, cpu_iteration_budget.dart, cpu_iterators.dart, cpu_render_isolate.dart, cpu_tile_worker.dart, cpu_viewport_mapping.dart; root compatibility facades kept only where external app/tests import them.",
+    "Moved validation files to validation/: render_validation.dart, convergence_detector.dart; root compatibility facades preserved for external imports.",
+    "Moved policy files to policy/: backend_policy.dart, deep_zoom_precision_policy.dart; root compatibility facades preserved for external imports.",
+    "Removed unused root facades for internal-only cpu_iterators.dart, cpu_tile_worker.dart, and fractal_canvas.dart after import search and analyzer validation.",
+    "Updated renderer AGENTS.md map to document the new responsibility topology."
   ],
-  "nextCandidates": [
-    "Move fractal_renderer.dart, fractal_canvas.dart, fractal_painter.dart, gesture_handler.dart, shader_loader.dart into a widgets/ subfolder with a root fractal_renderer.dart export wrapper, preserving part files and public imports."
-  ],
+  "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/flutter analyze lib/features/renderer test/cpu_formula_coverage_test.dart test/render_validation_test.dart test/renderer_backend_policy_test.dart test/convergence_detector_test.dart => No issues found.",
-    "/home/xel/flutter/bin/flutter test targeted renderer tests => blocked before tests by pre-existing asset bundle error: No file or variants found for asset shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag."
+    "/home/xel/flutter/bin/flutter analyze lib/features/renderer test/fractal_renderer_widget_test.dart test/fractal_renderer_gesture_test.dart test/fractal_cpu_diagnostics_test.dart test/render_validation_test.dart test/renderer_backend_policy_test.dart test/convergence_detector_test.dart => No issues found. (ran in 2.1s)",
+    "/home/xel/flutter/bin/flutter test test/fractal_renderer_widget_test.dart test/fractal_renderer_gesture_test.dart test/fractal_cpu_diagnostics_test.dart test/render_validation_test.dart test/renderer_backend_policy_test.dart test/convergence_detector_test.dart => blocked before tests by asset bundle error: No file or variants found for asset: shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "/home/xel/flutter/bin/flutter analyze lib/features/renderer test/fractal_renderer_widget_test.dart test/fractal_renderer_gesture_test.dart test/fractal_cpu_diagnostics_test.dart test/render_validation_test.dart test/renderer_backend_policy_test.dart test/convergence_detector_test.dart test/cpu_iteration_budget_test.dart test/cpu_viewport_mapping_test.dart test/cpu_render_isolate_test.dart test/cpu_formula_coverage_test.dart => No issues found. (ran in 1.1s)"
   ]
 }

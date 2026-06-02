@@ -1,24 +1,24 @@
 {
   "version": 1,
   "target": "shaders/ifs_and_geometric",
-  "updatedAt": "2026-06-01T13:21:51.436Z",
+  "updatedAt": "2026-06-02T05:18:25.759Z",
   "objective": "Refactor IFS/geometric shaders into behavior/responsibility subfolders while preserving shader asset declarations and catalog references.",
   "completedSlices": [
     "Moved raymarched KIFS/inversive 3D shaders into raymarched_3d and verified declared IFS shader assets exist.",
-    "Added focused IFS/geometric shader asset declaration/existence test at test/shaders/ifs_and_geometric_shader_assets_test.dart.",
-    "Moved botanical/fern/tree shaders into botanical_structures and updated pubspec/catalog/comment references.",
-    "Moved Sierpinski-family shaders into sierpinski_family and updated pubspec/catalog/comment references.",
-    "Moved curve/L-system/space-filling curve shaders into fractal_curves and updated pubspec/catalog/comment references.",
-    "Moved Cantor/flake/Vicsek/Menger/Jerusalem self-similar set shaders into self_similar_sets and updated pubspec/catalog/comment references.",
-    "Moved tiling/monotile shaders into tilings_and_monotiles and updated pubspec/catalog/comment references.",
-    "Moved circle/inversion/limit-set shaders into circle_inversion_limit_sets and updated pubspec/catalog/comment references.",
+    "Added/kept focused IFS/geometric shader asset declaration/existence test at test/shaders/standalone_shader_catalogs/ifs_and_geometric_shader_assets_test.dart.",
+    "Moved botanical/fern/tree shaders into botanical_structures.",
+    "Moved Sierpinski-family shaders into sierpinski_family.",
+    "Moved curve/L-system/space-filling curve shaders into fractal_curves.",
+    "Moved Cantor/flake/Vicsek/Menger/Jerusalem self-similar set shaders into self_similar_sets.",
+    "Moved tiling/monotile shaders into tilings_and_monotiles.",
+    "Moved circle/inversion/limit-set shaders into circle_inversion_limit_sets.",
     "Completion audit passed: no root .frag files remain under shaders/ifs_and_geometric."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 pubspec/catalog/path check: ifs declared=59 catalog=59 missing_declared=0 undeclared_catalog=0 missing_catalog=0 root_frag_files=0",
-    "rg stale direct root IFS shader paths in pubspec.yaml lib test integration_test: no matches",
+    "python3 pubspec/catalog/path check: ifs declared=59 catalog=59 missing_declared=0 undeclared_catalog=0 missing_catalog=0 root_frag_files=0 stale_direct_root_refs=0",
+    "rg stale direct root IFS shader paths in pubspec.yaml lib test integration_test shaders: no matches",
     "folder_refactor_audit passed for shaders/ifs_and_geometric with no root files and no next candidates",
-    "/home/xel/flutter/bin/flutter test test/shaders/ifs_and_geometric_shader_assets_test.dart blocked by pre-existing unrelated missing asset: shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag"
+    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/ifs_and_geometric_shader_assets_test.dart blocked by unrelated missing pubspec asset: shaders/legacy/raymarched_3d/mandelbulb.frag"
   ]
 }

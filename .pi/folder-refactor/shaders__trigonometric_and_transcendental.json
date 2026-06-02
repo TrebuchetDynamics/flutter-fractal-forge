@@ -1,18 +1,18 @@
 {
   "version": 1,
   "target": "shaders/trigonometric_and_transcendental",
-  "updatedAt": "2026-06-01T13:24:11.268Z",
-  "objective": "Refactor trigonometric/transcendental shaders into responsibility subfolders while preserving shader asset declarations and catalog references. Complete topology: elementary_trig owns circular trig formulas and Mandelbrot/Julia variants; hyperbolic owns sinh/cosh/tanh formulas and variants; exponential_iteration owns exp/superexp/tetration iteration formulas; special_functions owns zeta/eta/Jacobi/Mittag-Leffler/Weierstrass formulas. Shader files remain pure GLSL assets exposed through pubspec and escape_time_catalog asset strings; no subfolder depends on UI/app orchestration.",
+  "updatedAt": "2026-06-02T05:20:09.210Z",
+  "objective": "Refactor trigonometric/transcendental shaders into responsibility subfolders while preserving shader asset declarations and catalog references. Complete topology: elementary_trig owns circular trig formulas and Mandelbrot/Julia variants; hyperbolic owns sinh/cosh/tanh formulas and variants; exponential_iteration owns exp/superexp/tetration iteration formulas; special_functions owns zeta/eta/Jacobi/Mittag-Leffler/Weierstrass formulas. Shader files remain pure GLSL assets exposed through pubspec and escape_time_catalog asset strings; subfolders must never know about UI, app orchestration, or Dart module registration beyond asset paths.",
   "completedSlices": [
-    "Added focused shader asset existence/declaration test for trigonometric_and_transcendental public behavior.",
+    "Added/kept focused shader asset existence/declaration test for trigonometric_and_transcendental public behavior.",
     "Moved all 35 root shader assets into responsibility subfolders matching existing pubspec/catalog asset paths.",
     "Verified no stale flat trigonometric_and_transcendental shader asset references remain.",
-    "Performed shared-code pass: found duplicated GLSL palette/color/math helpers, but intentionally did not extract because Flutter shader assets are standalone GLSL files with no existing include/preprocess contract; introducing one would be behavior/build-system risk beyond a move-only refactor."
+    "Performed shared-code pass: found repeated standalone GLSL helpers (linearToSRGB, palette, complex math helpers), but intentionally did not extract because Flutter shader assets are compiled as standalone files with no existing include/preprocess contract; introducing shared GLSL includes would alter build behavior risk beyond this refactor."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/flutter test test/shaders/trigonometric_and_transcendental_shader_assets_test.dart currently fails before executing tests because existing unrelated pubspec asset shaders/root_finding/newton/newton_z3_gpu.frag is missing.",
-    "Target-specific validation script passed: parsed pubspec target shader declarations, verified 35 target assets exist, verified 35 catalog target assets are declared and exist, verified no root .frag files remain.",
+    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/trigonometric_and_transcendental_shader_assets_test.dart is blocked before tests by unrelated missing pubspec asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
+    "Target-specific validation script passed: target files=35 declared=35 catalog=35 root_files=0; every target pubspec/catalog shader exists and declarations match files.",
     "rg stale flat target shader asset paths in pubspec.yaml lib test shaders returned no matches.",
     "git diff --check passed.",
     "folder_refactor_audit passed with 0 root files and 0 next candidates."

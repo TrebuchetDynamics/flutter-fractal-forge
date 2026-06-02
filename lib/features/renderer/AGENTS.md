@@ -11,16 +11,20 @@ Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU
 | File | Description |
 |------|-------------|
 | `fractal_renderer.dart` | `FractalRenderer` - main widget: loads shaders, renders via CustomPainter, handles gestures (pan/zoom/rotate), adapts to FractalController state |
-| `fractal_canvas.dart` | `FractalCanvas` - CustomPainter that draws the fractal using FragmentShader |
-| `cpu_fractal_renderer.dart` | `CpuFractalRenderer` - software fallback when GPU shaders unavailable |
-| `backend_policy.dart` | `BackendPolicy` - decides GPU vs CPU rendering based on device capabilities |
-| `deep_zoom_precision_policy.dart` | `DeepZoomPrecisionPolicy` - manages precision for extreme zoom levels |
-| `render_validation.dart` | `RenderValidation` - validates render output correctness |
+| `widgets/fractal_canvas.dart` | `FractalCanvas` - CustomPainter that draws the fractal using FragmentShader |
+| `cpu/cpu_fractal_renderer.dart` | `CpuFractalRenderer` - software fallback when GPU shaders unavailable |
+| `policy/backend_policy.dart` | `BackendPolicy` - decides GPU vs CPU rendering based on device capabilities |
+| `policy/deep_zoom_precision_policy.dart` | `DeepZoomPrecisionPolicy` - manages precision for extreme zoom levels |
+| `validation/render_validation.dart` | `RenderValidation` - validates render output correctness |
 
 ## Subdirectories
 
 | Directory | Purpose |
 |-----------|---------|
+| `widgets/` | Renderer UI, shader loading, painter, and gesture handling |
+| `cpu/` | CPU fallback formulas, iterators, isolates, tile workers, and viewport mapping |
+| `policy/` | Renderer backend and deep-zoom precision decisions |
+| `validation/` | Render output validation and convergence detection |
 | `providers/` | FractalController state management (see `providers/AGENTS.md`) |
 
 ## For AI Agents
