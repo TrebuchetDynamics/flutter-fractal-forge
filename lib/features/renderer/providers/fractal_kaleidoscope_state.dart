@@ -60,12 +60,18 @@ final class FractalKaleidoscopeModuleTransition {
   });
 }
 
-/// Pure module-switch policy for kaleidoscope-specific catalog modules.
+/// Pure module-switch policy for dedicated kaleidoscope catalog modules.
+///
+/// Only modules whose IDs use the catalog kaleidoscope prefix force the global
+/// kaleidoscope canvas effect. Other fractals may include "kaleidoscope" in
+/// their own shader/name without needing the global post-effect defaults.
 final class FractalKaleidoscopeModulePolicy {
+  static const String forcedModuleIdPrefix = 'kaleidoscope_';
+
   const FractalKaleidoscopeModulePolicy._();
 
   static bool isForcedModuleId(String moduleId) =>
-      moduleId.contains('kaleidoscope');
+      moduleId.startsWith(forcedModuleIdPrefix);
 
   static FractalKaleidoscopeModuleTransition transitionForModule({
     required String moduleId,
