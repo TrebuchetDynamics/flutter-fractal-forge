@@ -175,6 +175,21 @@ void main() {
       expect(persisted.stops.last.colorArgb, stops.last.colorArgb);
     });
 
+    test('expands single-stop palettes into replayable endpoint stops', () {
+      const singleStop = FractalColorStop(
+        position: 0.4,
+        colorArgb: 0xFF123456,
+      );
+
+      final normalized = normalizePaletteStops([singleStop]);
+
+      expect(normalized, hasLength(2));
+      expect(normalized.first.position, 0.0);
+      expect(normalized.last.position, 1.0);
+      expect(normalized.first.colorArgb, singleStop.colorArgb);
+      expect(normalized.last.colorArgb, singleStop.colorArgb);
+    });
+
     test('updatePalette invalidates cached textures for the same palette id',
         () async {
       final service = await PaletteService.create();

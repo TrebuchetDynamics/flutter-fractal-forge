@@ -15,7 +15,9 @@ const List<FractalColorStop> _fallbackPaletteStops = [
 /// The shader uniform path can carry at most [PaletteService.maxStops] stops,
 /// but the bounded list must still span the whole gradient. When an imported
 /// palette has too many stops, retain both endpoint colors and drop middle
-/// candidates instead of truncating away the final 1.0 stop.
+/// candidates instead of truncating away the final 1.0 stop. A single-color
+/// palette is expanded into two endpoint stops so gradient/shader consumers get
+/// a replayable span instead of a one-point gradient.
 List<FractalColorStop> normalizePaletteStops(List<FractalColorStop> stops) {
   if (stops.isEmpty) return _fallbackPaletteStops;
 
@@ -24,22 +26,45 @@ List<FractalColorStop> normalizePaletteStops(List<FractalColorStop> stops) {
       .map((stop) => stop.copyWith(position: stop.position.clamp(0.0, 1.0)))
       .toList();
 
-  final bounded = clamped.length > PaletteService.maxStops
+  final bounded = _capPaletteStopsPreservingEndpoint(clamped);
+  final normalized = _ensurePaletteEndpointStops(bounded);
+
+  assert(normalized.length >= 2);
+  assert(normalized.length <= PaletteService.maxStops);
+  assert(normalized.first.position == 0.0);
+  assert(normalized.last.position == 1.0);
+  return normalized;
+}
+
+List<FractalColorStop> _capPaletteStopsPreservingEndpoint(
+  List<FractalColorStop> stops,
+) {
+  assert(stops.isNotEmpty);
+  return stops.length > PaletteService.maxStops
       ? [
-          ...clamped.take(PaletteService.maxStops - 1),
-          clamped.last,
+          ...stops.take(PaletteService.maxStops - 1),
+          stops.last,
         ]
-      : clamped;
+      : stops;
+}
 
-  // Endpoint invariants are part of the gradient contract, including after the
-  // max-stop cap is applied.
-  bounded[0] = bounded.first.copyWith(position: 0.0);
-  bounded[bounded.length - 1] = bounded.last.copyWith(position: 1.0);
+List<FractalColorStop> _ensurePaletteEndpointStops(
+  List<FractalColorStop> stops,
+) {
+  assert(stops.isNotEmpty);
+  if (stops.length == 1) {
+    final stop = stops.single;
+    return [
+      stop.copyWith(position: 0.0),
+      stop.copyWith(position: 1.0),
+    ];
+  }
 
-  assert(bounded.length <= PaletteService.maxStops);
-  assert(bounded.first.position == 0.0);
-  assert(bounded.last.position == 1.0);
-  return bounded;
+  return [
+    stops.first.copyWith(position: 0.0),
+    ...stops.skip(1).take(stops.length - 2),
+    stops.last.copyWith(position: 1.0),
+  ];
 }
 
 /// Manages built-in and user-created color palettes.
