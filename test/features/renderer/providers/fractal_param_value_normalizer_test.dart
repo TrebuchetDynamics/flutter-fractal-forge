@@ -16,6 +16,21 @@ FractalParameter _booleanParam({required bool defaultValue}) {
   );
 }
 
+FractalParameter _numericParam({
+  required FractalParamType type,
+  required Object defaultValue,
+}) {
+  return FractalParameter(
+    id: 'value',
+    label: _label,
+    type: type,
+    min: 1,
+    max: 10,
+    step: 1,
+    defaultValue: defaultValue,
+  );
+}
+
 void main() {
   group('normalizeFractalParamValue', () {
     test('preserves real boolean parameter values', () {
@@ -34,6 +49,34 @@ void main() {
         normalizeFractalParamValue(_booleanParam(defaultValue: false), 1),
         isFalse,
       );
+    });
+
+    test('falls back to numeric schema default for non-finite numbers', () {
+      final floatSchema = _numericParam(
+        type: FractalParamType.float,
+        defaultValue: 4.0,
+      );
+      final intSchema = _numericParam(
+        type: FractalParamType.integer,
+        defaultValue: 4,
+      );
+
+      for (final candidate in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+      ]) {
+        expect(
+          normalizeFractalParamValue(floatSchema, candidate),
+          4.0,
+          reason: 'float candidate=$candidate',
+        );
+        expect(
+          normalizeFractalParamValue(intSchema, candidate),
+          4,
+          reason: 'integer candidate=$candidate',
+        );
+      }
     });
   });
 }
