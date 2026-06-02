@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-02T23:05:41.226Z",
+  "generatedAt": "2026-06-02T23:12:07.365Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -397,7 +397,7 @@
       ]
     },
     {
-      "relative": "fractals-library/categories/deep_chaos_and_flows/sprott_and_named_flows",
+      "relative": "fractals-library/categories/strange_attractors/continuous_flows",
       "score": 90.9,
       "files": 9,
       "direct": 9,

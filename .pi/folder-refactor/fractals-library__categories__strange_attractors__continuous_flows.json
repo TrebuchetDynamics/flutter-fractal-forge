@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "target": "fractals-library/categories/strange_attractors/continuous_flows",
+  "updatedAt": "2026-06-02T23:17:02.759Z",
+  "objective": "Refactor continuous-flow strange-attractor reference stubs out of root files into responsibility subfolders, add a focused metadata contract, and extract shared continuous-flow metadata without changing ids/display names/categories.",
+  "completedSlices": [
+    "Added test_contracts/metadata_contract_test.dart to lock current public static id/displayName/category constants before moving files.",
+    "Moved all nine root fractal stubs into classic_benchmark_flows, symmetric_cyclic_flows, and polynomial_named_flows responsibility folders; updated contract imports.",
+    "Created metadata/continuous_flow_reference_metadata.dart and reused ContinuousFlowReferenceMetadata plus strangeAttractorsChaosTheoryCategory from all moved stubs; extended the contract to compare shared metadata with static constants.",
+    "Completed root topology audit: no remaining root files; root dirs are classic_benchmark_flows, metadata, polynomial_named_flows, symmetric_cyclic_flows, test_contracts."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/cache/dart-sdk/bin/dart run fractals-library/categories/strange_attractors/continuous_flows/test_contracts/metadata_contract_test.dart (pass, no output)",
+    "/home/xel/flutter/bin/cache/dart-sdk/bin/dart analyze fractals-library/categories/strange_attractors/continuous_flows (No issues found)",
+    "python3 fractals-library/scripts/validate_manifest.py (OK: manifest has 200 unique IDs)",
+    "folder_refactor_audit plannedTopologyComplete=true (pass)"
+  ]
+}
