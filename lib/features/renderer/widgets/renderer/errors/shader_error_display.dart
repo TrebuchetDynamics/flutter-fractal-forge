@@ -1,4 +1,4 @@
-part of 'fractal_renderer.dart';
+part of '../fractal_renderer.dart';
 
 /// Displays shader loading errors with recovery options.
 class _ShaderErrorDisplay extends StatefulWidget {

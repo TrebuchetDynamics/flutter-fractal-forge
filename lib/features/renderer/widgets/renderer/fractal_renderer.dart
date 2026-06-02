@@ -23,9 +23,9 @@ import '../../policy/deep_zoom_precision_policy.dart';
 import '../canvas/fractal_canvas.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
-part 'gesture_handler.dart';
-part 'shader_loader.dart';
-part 'fractal_painter.dart';
+part 'input/gesture_handler.dart';
+part 'shaders/shader_loader.dart';
+part 'errors/shader_error_display.dart';
 
 /// Types of shader errors for categorization and display.
 enum ShaderErrorType {

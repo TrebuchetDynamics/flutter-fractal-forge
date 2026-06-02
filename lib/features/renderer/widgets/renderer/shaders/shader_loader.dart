@@ -1,4 +1,4 @@
-part of 'fractal_renderer.dart';
+part of '../fractal_renderer.dart';
 
 /// Mixin that handles shader loading, caching, and error categorisation.
 ///
