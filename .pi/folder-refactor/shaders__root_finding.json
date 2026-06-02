@@ -1,20 +1,25 @@
 {
   "version": 1,
   "target": "shaders/root_finding",
-  "updatedAt": "2026-06-02T05:21:56.693Z",
-  "objective": "Refactor root_finding shaders into responsibility subfolders by algorithm family while preserving shader asset behavior through existing pubspec/catalog path references.",
+  "updatedAt": "2026-06-02T09:32:04.036Z",
+  "objective": "Refactor shaders/root_finding into responsibility subfolders by root-finding algorithm family while preserving shader asset behavior and existing pubspec/catalog paths.",
   "completedSlices": [
-    "Moved all root_finding shader files from the target root into algorithm-family subfolders: newton, high_order_methods, schroeder, steffensen, derivative_free_systems.",
-    "Verified pubspec and catalog root_finding shader assets all exist on disk: 34 pubspec assets, 34 catalog assets, 0 missing, 0 root .frag files.",
-    "Performed shared-code scan across 34 shader files: zero exact duplicate implementations; no speculative shared GLSL contract extracted.",
-    "Completion audit passed: no root files remain under shaders/root_finding."
+    "Moved Newton-family shaders into shaders/root_finding/newton/.",
+    "Moved Schröder-family shaders into shaders/root_finding/schroeder/.",
+    "Moved high-order correction methods into shaders/root_finding/high_order_methods/.",
+    "Moved Steffensen/Picard-Mann iteration shaders into shaders/root_finding/steffensen/.",
+    "Moved simultaneous/derivative-free solver shaders into shaders/root_finding/derivative_free_systems/.",
+    "Verified pubspec and escape_time_catalog root_finding shader assets all exist on disk: 34 pubspec assets, 34 catalog assets, 0 missing, 0 undeclared, 0 root .frag files.",
+    "Performed shared-code pass across 34 shaders: exact duplicate implementation scan found 0 duplicate full shader groups; common GLSL helper patterns remain embedded per shader because Flutter shader assets compile as standalone .frag files and no safe include/preprocessor contract exists in the target folder.",
+    "Completion audit passed: no root files remain under shaders/root_finding; root dirs are derivative_free_systems, high_order_methods, newton, schroeder, steffensen."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/root_finding_shader_assets_test.dart: blocked by unrelated pre-existing missing asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
-    "python root_finding asset/catalog existence check: passed (34 pubspec assets, 34 catalog assets, 0 missing, 0 root .frag files).",
-    "rg stale direct root_finding shader path check: passed (no matches).",
-    "python exact duplicate shader implementation scan: passed (34 files, 0 duplicate groups).",
+    "folder_refactor_scan shaders/root_finding after move: 0 root files, 5 root dirs.",
+    "python pubspec/catalog root_finding asset existence check: passed (34 pubspec assets, 34 catalog assets, 0 missing, 0 undeclared, 0 root .frag files).",
+    "rg stale direct root_finding shader root path check in pubspec.yaml lib test shaders: passed (no matches).",
+    "python exact duplicate shader implementation scan: passed (34 files, 0 exact duplicate groups).",
+    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/root_finding_shader_assets_test.dart: blocked by unrelated existing missing asset shaders/legacy/raymarched_3d/mandelbulb.frag during Flutter asset bundle build.",
     "folder_refactor_audit shaders/root_finding: passed, planned topology complete with no root files."
   ]
 }
