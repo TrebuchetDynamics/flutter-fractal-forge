@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
+import 'package:flutter_fractals/features/catalog/catalog_filter.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/catalog_search_debouncer.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
@@ -287,14 +288,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     AppLocalizations l10n,
     String query,
   ) {
-    if (query.isEmpty) return true;
-    final name = entry.module.displayName(l10n).toLowerCase();
-    final matchesAlias =
-        entry.aliases.any((alias) => alias.toLowerCase().contains(query));
-    return name.contains(query) ||
-        matchesAlias ||
-        entry.catalogId.contains(query) ||
-        entry.category.toLowerCase().contains(query);
+    return CatalogSearchQuery.fromText(query).matches(entry, l10n);
   }
 
   List<CatalogEntry> _entriesMatchingSearch(AppLocalizations l10n) {
