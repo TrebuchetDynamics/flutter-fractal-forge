@@ -20,6 +20,34 @@ enum Achievement {
   const Achievement(this.title, this.description, this.threshold);
 }
 
+/// Replayable telemetry normalization for exploration statistics.
+///
+/// UI/controller inputs are usually well-formed, but platform telemetry,
+/// restored sessions, or test harnesses can pass NaN/Infinity or negative time.
+/// Those samples should be ignored instead of poisoning totals that are later
+/// persisted with JSON.
+@visibleForTesting
+final class ExplorationStatsTelemetry {
+  const ExplorationStatsTelemetry._();
+
+  static double? zoomDistance(double oldZoom, double newZoom) {
+    if (!_isPositiveFinite(oldZoom) || !_isPositiveFinite(newZoom)) return null;
+    final distance = (log(newZoom) - log(oldZoom)).abs();
+    return distance.isFinite ? distance : null;
+  }
+
+  static double? directZoomDistance(double distance) {
+    if (!distance.isFinite) return null;
+    return distance.abs();
+  }
+
+  static int? exploredSeconds(int seconds) {
+    return seconds > 0 ? seconds : null;
+  }
+
+  static bool _isPositiveFinite(double value) => value.isFinite && value > 0.0;
+}
+
 /// Service for tracking exploration statistics.
 class ExplorationStatsService extends ChangeNotifier {
   static const _prefsKey = 'exploration_stats_v1';
@@ -64,21 +92,18 @@ class ExplorationStatsService extends ChangeNotifier {
 
   /// Record zoom distance traveled (pass absolute log ratio).
   void recordZoom(double oldZoom, double newZoom) {
-    if (oldZoom <= 0 || newZoom <= 0) return;
-    final distance = (log(newZoom) - log(oldZoom)).abs();
-    _stats = _stats.copyWith(
-      totalZoomDistance: _stats.totalZoomDistance + distance,
-      firstExplorationDate: _stats.firstExplorationDate ?? DateTime.now(),
-    );
-    _checkAchievements();
-    unawaited(_save());
-    notifyListeners();
+    final distance = ExplorationStatsTelemetry.zoomDistance(oldZoom, newZoom);
+    if (distance == null) return;
+    _recordZoomDistance(distance);
   }
 
   /// Record time spent exploring.
   void recordTime(int seconds) {
+    final safeSeconds = ExplorationStatsTelemetry.exploredSeconds(seconds);
+    if (safeSeconds == null) return;
+
     _stats = _stats.copyWith(
-      totalTimeSeconds: _stats.totalTimeSeconds + seconds,
+      totalTimeSeconds: _stats.totalTimeSeconds + safeSeconds,
     );
     _checkAchievements();
     unawaited(_save());
@@ -90,8 +115,14 @@ class ExplorationStatsService extends ChangeNotifier {
 
   /// Alias for recordZoom that takes a distance directly.
   void addZoomDistance(double distance) {
+    final safeDistance = ExplorationStatsTelemetry.directZoomDistance(distance);
+    if (safeDistance == null) return;
+    _recordZoomDistance(safeDistance);
+  }
+
+  void _recordZoomDistance(double distance) {
     _stats = _stats.copyWith(
-      totalZoomDistance: _stats.totalZoomDistance + distance.abs(),
+      totalZoomDistance: _stats.totalZoomDistance + distance,
       firstExplorationDate: _stats.firstExplorationDate ?? DateTime.now(),
     );
     _checkAchievements();
@@ -111,7 +142,8 @@ class ExplorationStatsService extends ChangeNotifier {
 
   /// Record exploring a fractal module.
   void recordFractalExplored(String moduleId) {
-    final updated = Set<String>.from(_stats.uniqueFractalsExplored)..add(moduleId);
+    final updated = Set<String>.from(_stats.uniqueFractalsExplored)
+      ..add(moduleId);
     _stats = _stats.copyWith(
       uniqueFractalsExplored: updated,
       firstExplorationDate: _stats.firstExplorationDate ?? DateTime.now(),
@@ -141,7 +173,8 @@ class ExplorationStatsService extends ChangeNotifier {
       newlyUnlocked.add(Achievement.photographer);
     }
     if (!_unlockedAchievements.contains(Achievement.explorer) &&
-        _stats.uniqueFractalsExplored.length >= Achievement.explorer.threshold) {
+        _stats.uniqueFractalsExplored.length >=
+            Achievement.explorer.threshold) {
       newlyUnlocked.add(Achievement.explorer);
     }
     if (!_unlockedAchievements.contains(Achievement.veteran) &&
@@ -157,14 +190,18 @@ class ExplorationStatsService extends ChangeNotifier {
   /// Get progress toward an achievement (0.0 to 1.0).
   double getProgress(Achievement achievement) {
     if (_unlockedAchievements.contains(achievement)) return 1.0;
-    
+
     final current = switch (achievement) {
-      Achievement.firstZoom || Achievement.zoomMaster => _stats.totalZoomDistance,
-      Achievement.firstScreenshot || Achievement.photographer => _stats.screenshotsTaken.toDouble(),
+      Achievement.firstZoom ||
+      Achievement.zoomMaster =>
+        _stats.totalZoomDistance,
+      Achievement.firstScreenshot ||
+      Achievement.photographer =>
+        _stats.screenshotsTaken.toDouble(),
       Achievement.explorer => _stats.uniqueFractalsExplored.length.toDouble(),
       Achievement.veteran => _stats.totalTimeSeconds.toDouble(),
     };
-    
+
     return (current / achievement.threshold.toDouble()).clamp(0.0, 1.0);
   }
 }

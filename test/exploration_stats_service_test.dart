@@ -29,12 +29,33 @@ void main() {
       expect(service.stats.totalZoomDistance, greaterThan(before));
     });
 
+    test('ignores malformed zoom telemetry instead of corrupting progress', () {
+      service.recordZoom(1.0, double.infinity);
+      service.recordZoom(double.nan, 10.0);
+      service.addZoomDistance(double.nan);
+      service.addZoomDistance(double.infinity);
+
+      expect(service.stats.totalZoomDistance, 0.0);
+      expect(
+          service.unlockedAchievements, isNot(contains(Achievement.firstZoom)));
+      expect(service.getProgress(Achievement.firstZoom), 0.0);
+    });
+
     test('recordTime accumulates total seconds', () {
       service.recordTime(60);
       expect(service.stats.totalTimeSeconds, equals(60));
 
       service.recordTime(120);
       expect(service.stats.totalTimeSeconds, equals(180));
+    });
+
+    test('ignores negative time telemetry instead of reducing totals', () {
+      service.recordTime(60);
+      service.recordTime(-120);
+      service.addExploreTime(const Duration(seconds: -30));
+
+      expect(service.stats.totalTimeSeconds, 60);
+      expect(service.getProgress(Achievement.veteran), greaterThan(0.0));
     });
 
     test('recordScreenshot increments count', () {
@@ -48,7 +69,8 @@ void main() {
     test('recordFractalExplored adds unique module IDs', () {
       service.recordFractalExplored('mandelbrot');
       service.recordFractalExplored('julia');
-      expect(service.stats.uniqueFractalsExplored, containsAll(['mandelbrot', 'julia']));
+      expect(service.stats.uniqueFractalsExplored,
+          containsAll(['mandelbrot', 'julia']));
       expect(service.stats.uniqueFractalsExplored.length, equals(2));
     });
 
