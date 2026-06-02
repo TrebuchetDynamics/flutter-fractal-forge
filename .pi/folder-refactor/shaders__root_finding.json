@@ -1,7 +1,7 @@
 {
   "version": 1,
   "target": "shaders/root_finding",
-  "updatedAt": "2026-06-02T09:32:04.036Z",
+  "updatedAt": "2026-06-02T19:25:39.812Z",
   "objective": "Refactor shaders/root_finding into responsibility subfolders by root-finding algorithm family while preserving shader asset behavior and existing pubspec/catalog paths.",
   "completedSlices": [
     "Moved Newton-family shaders into shaders/root_finding/newton/.",
@@ -16,10 +16,11 @@
   "nextCandidates": [],
   "validationReceipts": [
     "folder_refactor_scan shaders/root_finding after move: 0 root files, 5 root dirs.",
+    "/home/xel/flutter/bin/flutter test --no-test-assets --no-pub test/shaders/standalone_shader_catalogs/root_finding_shader_assets_test.dart: passed (2 tests).",
     "python pubspec/catalog root_finding asset existence check: passed (34 pubspec assets, 34 catalog assets, 0 missing, 0 undeclared, 0 root .frag files).",
     "rg stale direct root_finding shader root path check in pubspec.yaml lib test shaders: passed (no matches).",
     "python exact duplicate shader implementation scan: passed (34 files, 0 exact duplicate groups).",
-    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/root_finding_shader_assets_test.dart: blocked by unrelated existing missing asset shaders/legacy/raymarched_3d/mandelbulb.frag during Flutter asset bundle build.",
+    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/root_finding_shader_assets_test.dart: blocked by unrelated existing missing asset shaders/legacy/raymarched_3d/mandelbulb.frag during Flutter asset bundle build; rerun with --no-test-assets passed because this test only reads pubspec/catalog/file existence.",
     "folder_refactor_audit shaders/root_finding: passed, planned topology complete with no root files."
   ]
 }

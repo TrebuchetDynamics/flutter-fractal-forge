@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-02T12:27:07.923Z",
+  "generatedAt": "2026-06-02T19:32:02.664Z",
   "cwd": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
   "target": ".",
   "targetAbsolute": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge",
@@ -8,9 +8,9 @@
   "candidates": [
     {
       "relative": "test",
-      "score": 910,
-      "files": 1292,
-      "direct": 90,
+      "score": 920,
+      "files": 1293,
+      "direct": 91,
       "churn": 0,
       "callers": 1,
       "importsOut": 0,
@@ -267,9 +267,9 @@
       ]
     },
     {
-      "relative": "shaders/escape_time_family/families/buffalo",
-      "score": 121.2,
-      "files": 12,
+      "relative": "shaders/3d_and_hypercomplex",
+      "score": 121.3,
+      "files": 13,
       "direct": 12,
       "churn": 0,
       "callers": 0,
@@ -277,13 +277,13 @@
       "tests": 0,
       "roles": 0,
       "duplicates": 0,
-      "subdirs": 0,
+      "subdirs": 1,
       "extensions": [
         ".frag"
       ]
     },
     {
-      "relative": "shaders/3d_and_hypercomplex",
+      "relative": "shaders/escape_time_family/families/buffalo",
       "score": 121.2,
       "files": 12,
       "direct": 12,
@@ -373,7 +373,7 @@
       "importsOut": 0,
       "tests": 0,
       "roles": 2,
-      "duplicates": 16,
+      "duplicates": 14,
       "subdirs": 0,
       "extensions": [
         ".dart",
@@ -419,7 +419,7 @@
       "pattern": "lib/core/modules/",
       "reason": "large unreferenced low-churn tree; generated-code headers detected",
       "confidence": 6,
-      "files": 1733,
+      "files": 1734,
       "extensions": [
         ".dart",
         ".md"

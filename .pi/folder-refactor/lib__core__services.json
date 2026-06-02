@@ -1,12 +1,12 @@
 {
   "version": 1,
   "target": "lib/core/services",
-  "updatedAt": "2026-06-02T09:38:36.592Z",
-  "objective": "Completed behavior-preserving responsibility topology for lib/core/services. Implementation files live under app_lifecycle, deep_links, diagnostics, exporting, interaction, palettes, persistence, and rendering. Root service/store files are compatibility facades preserving package:flutter_fractals/core/services/<file>.dart imports. Extracted WallpaperTarget into exporting/wallpaper_target.dart as the wallpaper export value contract.",
+  "updatedAt": "2026-06-02T19:31:13.831Z",
+  "objective": "Completed behavior-preserving responsibility topology for lib/core/services. Implementation files live under app_lifecycle, deep_links, diagnostics, exporting, interaction, palettes, persistence, and rendering. Root service/store files are compatibility facades preserving package:flutter_fractals/core/services/<file>.dart imports. Restored WallpaperTarget as an exporting value contract and fixed the wallpaper options sheet import.",
   "completedSlices": [
-    "Baseline mapped lib/core/services root files, public package imports, related service tests, and existing root-heavy debt.",
-    "Restored the WallpaperTarget service contract in the target folder so analyzer could validate current wallpaper behavior before structural moves.",
-    "Moved export, batch export, video export, wallpaper implementation into exporting/ and kept root facades; extracted exporting/wallpaper_target.dart contract.",
+    "Mapped lib/core/services root files, public package imports, related service tests, existing folder-refactor state, and root-heavy debt.",
+    "Validated baseline: dart analyze lib/core/services initially failed only on missing WallpaperTarget model import; flutter test was blocked before execution by existing missing shader asset.",
+    "Moved export, batch export, video export, wallpaper implementation into exporting/ and kept root facades; added exporting/wallpaper_target.dart contract.",
     "Moved logger, crash, performance, debug runner, test logger, and test screenshot instrumentation into diagnostics/ and updated internal imports away from root facades.",
     "Moved palette service/store into palettes/ and updated the service-to-store dependency to a local import.",
     "Moved preset and history stores into persistence/ with root compatibility facades.",
@@ -14,12 +14,13 @@
     "Moved accessibility, haptic, animation controller, and exploration stats services into interaction/ and fixed moved model imports.",
     "Moved onboarding into app_lifecycle/ and deep-link parsing into deep_links/.",
     "Updated lib/core/services/AGENTS.md to document responsibility subfolders, public facade convention, and module boundary rules.",
-    "Ran shared-code pass: retained non-identical SharedPreferences/file IO patterns; no speculative common utility extracted."
+    "Shared-code pass found only similar-not-identical SharedPreferences, file IO, logging, and filename slug patterns; no speculative shared utility extracted."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "/home/xel/flutter/bin/dart analyze lib/core/services plus dedicated service tests — passed, no issues found.",
+    "/home/xel/flutter/bin/dart analyze lib/core/services after each slice — passed, no issues found.",
     "/home/xel/flutter/bin/dart analyze lib — passed, no issues found.",
+    "/home/xel/flutter/bin/dart analyze focused related service tests — passed, no issues found.",
     "git diff --check — passed.",
     "folder_refactor_audit lib/core/services — passed with all 24 root files classified and no next candidates.",
     "/home/xel/flutter/bin/flutter test focused service tests — blocked by existing pubspec asset-bundle error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."

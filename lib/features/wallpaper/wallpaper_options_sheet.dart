@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
+import 'package:flutter_fractals/core/services/wallpaper_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 class WallpaperOptionsSheet extends StatefulWidget {

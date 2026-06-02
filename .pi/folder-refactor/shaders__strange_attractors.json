@@ -1,20 +1,20 @@
 {
   "version": 1,
   "target": "shaders/strange_attractors",
-  "updatedAt": "2026-06-02T09:22:15.751Z",
-  "objective": "Refactor root-heavy strange attractor shaders into responsibility subfolders matching existing pubspec/catalog shader asset contracts: continuous_flows owns ODE/continuous attractors; discrete_maps owns iterated/recurrence maps; sprott_systems owns Sprott named systems; root keeps only AGENTS.md boundary contract, no .frag shader files.",
+  "updatedAt": "2026-06-02T19:16:11.391Z",
+  "objective": "Refactor root-heavy strange attractor shaders into behavior/responsibility subfolders: continuous_flows owns continuous-time ODE/vector-field attractors; discrete_maps owns iterated/recurrence maps; sprott_systems owns Sprott named systems; root keeps only AGENTS.md boundary contract and no .frag shader assets.",
   "completedSlices": [
-    "Move-only: moved all 69 root .frag files into continuous_flows/, discrete_maps/, and sprott_systems/ based on existing pubspec.yaml shader asset declarations.",
-    "Contract slice: added shaders/strange_attractors/AGENTS.md documenting each subfolder boundary, exposed assets, and non-dependencies; documented no-shared-GLSL extraction rule until shader build/tests support includes.",
-    "Shared-code pass: found repeated uniform/palette helpers across shaders, but intentionally did not extract because Flutter runtime-effect shader assets have no local shared GLSL include pipeline in this repo; extraction would require behavior/build-pipeline changes."
+    "Move-only: moved all 69 root .frag files into continuous_flows/, discrete_maps/, and sprott_systems/ according to existing pubspec.yaml and escape_time_catalog.dart shader asset contracts.",
+    "Contract slice: added shaders/strange_attractors/AGENTS.md documenting each subfolder boundary, exposed assets, dependency non-goals, stable uniform order, and no-root-.frag rule.",
+    "Shared-code pass: found repeated uniform declarations, linearToSRGB, iqPalette/getPaletteColor/palette helpers across shaders; intentionally did not extract because the current Flutter runtime-effect asset pipeline in this repo does not provide a validated local GLSL include/shared-helper contract, and extraction would risk shader build/visual behavior changes."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 target asset existence check: 69 declared strange-attractor assets, 0 missing, 0 root .frag files.",
-    "python3 stale direct root asset reference check across pubspec.yaml/lib/test/integration_test: 0 stale refs.",
+    "python3 pubspec asset check: 69 declared strange-attractor shader assets, 0 missing, 0 root .frag files.",
+    "rg stale direct root path check across pubspec.yaml/lib/test/integration_test: 0 matches.",
     "python3 git blob compare: 69 moved shaders content-identical to HEAD root files, 0 mismatches.",
     "/home/xel/flutter/bin/dart analyze test/shaders/standalone_shader_catalogs/strange_attractors_shader_assets_test.dart test/shaders/support/shader_asset_expectations.dart: No issues found.",
-    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/strange_attractors_shader_assets_test.dart: blocked before test execution by unrelated pubspec asset missing outside target: shaders/legacy/raymarched_3d/mandelbulb.frag.",
-    "folder_refactor_audit shaders/strange_attractors: pass; root facade AGENTS.md; no out-of-scope files; no next candidates."
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/standalone_shader_catalogs/strange_attractors_shader_assets_test.dart: 2 tests passed.",
+    "/home/xel/flutter/bin/flutter test test/shaders/standalone_shader_catalogs/strange_attractors_shader_assets_test.dart: blocked before test execution by unrelated pubspec asset missing outside target: shaders/legacy/raymarched_3d/mandelbulb.frag."
   ]
 }
