@@ -4,17 +4,17 @@ import '../../support/shader_asset_expectations.dart';
 
 void main() {
   const shaderRoot = 'shaders/escape_time_family/newton_and_orthogonal/';
-  const expectedCatalogBasenames = <String>{
-    'chebyshev_fractal_gpu.frag',
-    'chebyshev_gpu.frag',
-    'hermite_gpu.frag',
-    'laguerre_fractal_gpu.frag',
-    'laguerre_gpu.frag',
-    'legendre_gpu.frag',
-    'magnet1_gpu.frag',
-    'magnet2_gpu.frag',
-    'magnet3_gpu.frag',
-    'virial_gpu.frag',
+  const expectedCatalogAssets = <String>{
+    '${shaderRoot}high_order_root_methods/chebyshev_fractal_gpu.frag',
+    '${shaderRoot}high_order_root_methods/laguerre_fractal_gpu.frag',
+    '${shaderRoot}magnet_maps/magnet1_gpu.frag',
+    '${shaderRoot}magnet_maps/magnet2_gpu.frag',
+    '${shaderRoot}magnet_maps/magnet3_gpu.frag',
+    '${shaderRoot}orthogonal_polynomial_maps/chebyshev_gpu.frag',
+    '${shaderRoot}orthogonal_polynomial_maps/hermite_gpu.frag',
+    '${shaderRoot}orthogonal_polynomial_maps/laguerre_gpu.frag',
+    '${shaderRoot}orthogonal_polynomial_maps/legendre_gpu.frag',
+    '${shaderRoot}series_maps/virial_gpu.frag',
   };
 
   late final Set<String> declaredShaderAssets;
@@ -27,21 +27,30 @@ void main() {
     final assets =
         declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
 
-    expect(
-      assets.map((asset) => asset.split('/').last).toSet(),
-      containsAll(expectedCatalogBasenames),
-    );
+    expect(assets.toSet(), containsAll(expectedCatalogAssets));
     expectAssetsExist(assets);
+  });
+
+  test('Newton and orthogonal shader assets stay in responsibility subfolders',
+      () {
+    final assets = <String>{
+      ...declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot),
+      ...escapeTimeShaderAssetsStartingWith(shaderRoot),
+    };
+
+    final rootAssets = assets.where((asset) {
+      final relativeAsset = asset.substring(shaderRoot.length);
+      return !relativeAsset.contains('/');
+    }).toList();
+
+    expect(rootAssets, isEmpty);
   });
 
   test('catalog Newton and orthogonal shader assets are declared in pubspec',
       () {
     final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
 
-    expect(
-      catalogAssets.map((asset) => asset.split('/').last).toSet(),
-      containsAll(expectedCatalogBasenames),
-    );
+    expect(catalogAssets.toSet(), containsAll(expectedCatalogAssets));
     expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
   });
 }

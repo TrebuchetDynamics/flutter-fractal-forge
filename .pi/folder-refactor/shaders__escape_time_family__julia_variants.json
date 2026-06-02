@@ -1,21 +1,21 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/julia_variants",
-  "updatedAt": "2026-06-02T10:19:27.877Z",
-  "objective": "Refactor julia_variants shaders by behavior/responsibility into parameter_plane, fixed_parameter, rational_maps, distance_estimation, and shape_modulation while preserving shader behavior. Move-only topology is complete: all root shader files are in responsibility subfolders matching existing pubspec/catalog public asset paths.",
+  "updatedAt": "2026-06-02T20:37:41.136Z",
+  "objective": "Refactor julia_variants shaders by behavior/responsibility into parameter_plane, fixed_parameter, rational_maps, distance_estimation, and shape_modulation while preserving shader byte contents and existing public shader asset paths in pubspec/catalog.",
   "completedSlices": [
-    "Kept focused shader asset catalog behavior test at test/shaders/escape_time_family/catalogs/julia_variants_shader_assets_test.dart as the public behavior guard for pubspec/catalog/disk consistency.",
+    "Kept existing focused shader asset catalog behavior test at test/shaders/escape_time_family/catalogs/julia_variants_shader_assets_test.dart as the public behavior guard for pubspec/catalog/disk consistency.",
     "Moved Mandelbrot-style Julia-variant parameter-plane shaders to parameter_plane/: biomorph_gpu.frag, feather_gpu.frag, heart_gpu.frag.",
     "Moved fixed-parameter Julia shaders to fixed_parameter/: feather_julia_gpu.frag, heart_julia_gpu.frag, lambda_julia_gpu.frag.",
     "Moved rational Julia maps to rational_maps/: magnet1_julia_gpu.frag, magnet2_julia_gpu.frag.",
     "Moved julia_de_gpu.frag to distance_estimation/ and shape_modulus_julia_gpu.frag to shape_modulation/.",
-    "Shared-code pass found repeated palette/color conversion and complex arithmetic snippets. Extraction intentionally skipped because the repo has no established custom GLSL include pattern beyond <flutter/runtime_effect.glsl>, and the Flutter shader test is blocked before execution by unrelated pubspec asset shaders/legacy/raymarched_3d/mandelbulb.frag, so include extraction lacks a green shader compile gate."
+    "Shared-code pass found identical GLSL snippets (linearToSRGB, palette, cmul/cdiv, iqPalette/getPaletteColor). Extraction intentionally skipped because the repo has no established local GLSL include pattern beyond <flutter/runtime_effect.glsl>, and targeted Flutter shader test is blocked before execution by unrelated pubspec asset shaders/legacy/raymarched_3d/mandelbulb.frag; include extraction would broaden build risk without a green compile gate."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "python3 target consistency check: PASS - 10 julia_variants shader files are under responsibility subfolders; pubspec/catalog paths match disk; no root .frag files or old root asset paths remain.",
-    "rg stale old root shader paths in pubspec/lib/test/shaders: PASS - no stale old target asset paths found.",
-    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/julia_variants_shader_assets_test.dart: BLOCKED before test execution by unrelated existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag.",
-    "folder_refactor_audit: PASS - planned topology complete, 0 root files, no next candidates."
+    "python3 topology/reference consistency check: PASS - 10 julia_variants shader files are under responsibility subfolders; pubspec.yaml and lib/core/modules/builders/escape_time_catalog.dart paths match disk; no root .frag files or stale old root asset paths remain.",
+    "rg stale old root shader paths in pubspec/lib/test/integration_test/shaders: PASS - no stale old target asset paths found.",
+    "python3 byte-content comparison against HEAD root files: PASS - moved shader byte contents match exactly, proving move-only behavior preservation.",
+    "/home/xel/flutter/bin/flutter test test/shaders/escape_time_family/catalogs/julia_variants_shader_assets_test.dart: BLOCKED before test execution by unrelated existing pubspec asset error: No file or variants found for asset shaders/legacy/raymarched_3d/mandelbulb.frag."
   ]
 }

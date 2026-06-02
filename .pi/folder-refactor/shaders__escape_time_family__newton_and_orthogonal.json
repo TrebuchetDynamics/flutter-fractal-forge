@@ -1,20 +1,23 @@
 {
   "version": 1,
   "target": "shaders/escape_time_family/newton_and_orthogonal",
-  "updatedAt": "2026-06-02T10:22:30.612Z",
-  "objective": "Split root-heavy Newton/orthogonal shader folder by mathematical responsibility: magnet_maps, orthogonal_polynomial_maps, high_order_root_methods, and series_maps. Root keeps no shader files; existing catalog/pubspec/CPU formula comments already point to the new asset paths; behavior preserved.",
+  "updatedAt": "2026-06-02T20:42:07.691Z",
+  "objective": "Split root-heavy Newton/orthogonal shader folder by mathematical responsibility: magnet_maps, orthogonal_polynomial_maps, high_order_root_methods, and series_maps. Root keeps no shader files; catalog/pubspec/CPU formula comments point to subfolder asset paths; behavior preserved and test contract now asserts subfolder paths plus no root-level catalog/declared assets.",
   "completedSlices": [
     "Kept focused public behavior test test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart; baseline showed current repo mismatch between declared/catalog paths and root shader files.",
     "Moved Magnet Type I/II/III shaders into magnet_maps.",
     "Moved Chebyshev/Legendre/Laguerre/Hermite recurrence/map shaders into orthogonal_polynomial_maps.",
     "Moved Chebyshev and Laguerre high-order root-method shaders into high_order_root_methods.",
     "Moved Virial log-series escape shader into series_maps.",
-    "Shared-code pass completed: duplicated GLSL palette/color/complex helpers identified, but no extraction performed because project shaders only include flutter/runtime_effect.glsl (no local shader include precedent in use) and extraction would require shader source/build behavior changes beyond a safe move-only refactor."
+    "Strengthened the Newton/orthogonal shader asset test to assert exact responsibility subfolder asset paths and reject root-level catalog/declared assets, not only basenames.",
+    "Shared-code pass completed: duplicated GLSL palette/color/complex helpers identified, but no extraction performed because project shaders only include flutter/runtime_effect.glsl (no local shader include precedent in use) and extraction would require shader source/build behavior changes beyond a safe behavior-preserving refactor."
   ],
   "nextCandidates": [],
   "validationReceipts": [
-    "Initial /home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart failed because catalog/pubspec referenced subfolder asset paths whose files were still at the root.",
-    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart test/catalog_id_integrity_test.dart: passed (14 tests).",
+    "Initial /home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart failed because catalog/pubspec referenced subfolder asset paths whose files were still at the target root.",
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart: passed (2 tests) after move-only slice.",
+    "/home/xel/flutter/bin/dart format test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart: Formatted 1 file (0 changed).",
+    "/home/xel/flutter/bin/flutter test --no-test-assets test/shaders/escape_time_family/catalogs/newton_and_orthogonal_shader_assets_test.dart test/catalog_id_integrity_test.dart: passed (15 tests).",
     "rg stale old newton_and_orthogonal root shader asset paths in pubspec.yaml lib test integration_test shaders: no matches.",
     "folder_refactor_audit target=shaders/escape_time_family/newton_and_orthogonal plannedTopologyComplete=true: pass."
   ]
