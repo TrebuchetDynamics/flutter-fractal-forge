@@ -296,7 +296,7 @@ class FractalController extends ChangeNotifier {
   ///
   /// Does not affect the view state (pan, zoom, rotation).
   void resetParams() {
-    _applyPreset(_module.defaultPreset);
+    _params = _normalizedParamsForPreset(_module.defaultPreset);
     notifyListeners();
     _logChange('stateChange', 'reset', 'Reset params to default');
   }
@@ -544,6 +544,11 @@ class FractalController extends ChangeNotifier {
   }
 
   void _applyPreset(FractalPreset preset) {
+    _params = _normalizedParamsForPreset(preset);
+    _applyPresetView(preset.view);
+  }
+
+  Map<String, Object> _normalizedParamsForPreset(FractalPreset preset) {
     final defaults = <String, Object>{
       for (final param in _module.parameters) param.id: param.defaultValue,
     };
@@ -560,10 +565,12 @@ class FractalController extends ChangeNotifier {
         merged[param.id] ?? param.defaultValue,
       );
     }
+    return clamped;
+  }
 
-    _params = clamped;
+  void _applyPresetView(FractalViewState view) {
     _view = FractalViewInputBounds.normalizeView(
-      candidate: preset.view,
+      candidate: view,
       current: _view,
       moduleId: _module.id,
     );

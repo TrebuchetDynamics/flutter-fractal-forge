@@ -6,6 +6,26 @@ import 'package:vector_math/vector_math.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  test('FractalController.resetParams preserves view while restoring defaults',
+      () {
+    final controller = FractalController(ModuleRegistry());
+    final initialIterations = controller.params['iterations'];
+
+    controller.updateParam('iterations', 500);
+    controller.updateZoom(2.5);
+    controller.updatePan(Vector2(1.0, -2.0));
+    controller.updateRotation(Vector3(0.1, 0.2, 0.3));
+
+    final viewBeforeReset = controller.view;
+
+    controller.resetParams();
+
+    expect(controller.params['iterations'], initialIterations);
+    expect(controller.view.zoom, viewBeforeReset.zoom);
+    expect(controller.view.pan, viewBeforeReset.pan);
+    expect(controller.view.rotation, viewBeforeReset.rotation);
+  });
+
   test('FractalController.resetSession resets params + view + transparency', () {
     final controller = FractalController(ModuleRegistry());
     final initialIterations = controller.params['iterations'];
