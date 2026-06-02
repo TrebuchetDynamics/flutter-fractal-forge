@@ -10,20 +10,25 @@ const List<FractalColorStop> _fallbackPaletteStops = [
   FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
 ];
 
-/// Normalizes palette stops before persistence or shader uniform upload.
+/// Normalizes palette stops before persistence or shader texture/uniform upload.
 ///
-/// The shader uniform path can carry at most [PaletteService.maxStops] stops,
-/// but the bounded list must still span the whole gradient. When an imported
+/// The shader texture/uniform paths can carry at most [PaletteService.maxStops]
+/// stops, but the bounded list must still span the whole gradient. When an imported
 /// palette has too many stops, retain both endpoint colors and drop middle
 /// candidates instead of truncating away the final 1.0 stop. A single-color
 /// palette is expanded into two endpoint stops so gradient/shader consumers get
-/// a replayable span instead of a one-point gradient.
+/// a replayable span instead of a one-point gradient. Non-finite stop positions
+/// are dropped before sorting so malformed stops cannot become endpoint colors.
 List<FractalColorStop> normalizePaletteStops(List<FractalColorStop> stops) {
-  if (stops.isEmpty) return _fallbackPaletteStops;
+  final finiteStops = _stopsWithFinitePositions(stops);
+  if (finiteStops.isEmpty) return _fallbackPaletteStops;
 
-  final sorted = [...stops]..sort((a, b) => a.position.compareTo(b.position));
+  final sorted = [...finiteStops]
+    ..sort((a, b) => a.position.compareTo(b.position));
   final clamped = sorted
-      .map((stop) => stop.copyWith(position: stop.position.clamp(0.0, 1.0)))
+      .map((stop) => stop.copyWith(
+            position: _clampPaletteStopPosition(stop.position),
+          ))
       .toList();
 
   final bounded = _capPaletteStopsPreservingEndpoint(clamped);
@@ -34,6 +39,17 @@ List<FractalColorStop> normalizePaletteStops(List<FractalColorStop> stops) {
   assert(normalized.first.position == 0.0);
   assert(normalized.last.position == 1.0);
   return normalized;
+}
+
+List<FractalColorStop> _stopsWithFinitePositions(
+  List<FractalColorStop> stops,
+) {
+  return stops.where((stop) => stop.position.isFinite).toList();
+}
+
+double _clampPaletteStopPosition(double position) {
+  assert(position.isFinite, 'Palette stop position must be finite');
+  return position.clamp(0.0, 1.0).toDouble();
 }
 
 List<FractalColorStop> _capPaletteStopsPreservingEndpoint(
@@ -187,11 +203,7 @@ class PaletteService extends ChangeNotifier {
     final cached = _paletteTexCache[palette.id];
     if (cached != null) return cached;
 
-    final stops = [...palette.stops]
-      ..sort((a, b) => a.position.compareTo(b.position));
-    if (stops.isEmpty) {
-      stops.addAll(_fallbackPaletteStops);
-    }
+    final stops = normalizePaletteStops(palette.stops);
 
     final rec = ui.PictureRecorder();
     final canvas = Canvas(rec, Rect.fromLTWH(0, 0, _texWidth.toDouble(), 1));

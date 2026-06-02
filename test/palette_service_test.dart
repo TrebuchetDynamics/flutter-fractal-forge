@@ -190,6 +190,53 @@ void main() {
       expect(normalized.last.colorArgb, singleStop.colorArgb);
     });
 
+    test('drops non-finite stop positions before choosing endpoint colors', () {
+      const validStart = FractalColorStop(
+        position: 0.25,
+        colorArgb: 0xFF112233,
+      );
+      const validEnd = FractalColorStop(
+        position: 0.75,
+        colorArgb: 0xFF445566,
+      );
+
+      final normalized = normalizePaletteStops(const [
+        FractalColorStop(
+          position: double.negativeInfinity,
+          colorArgb: 0xFFAA0000,
+        ),
+        validStart,
+        FractalColorStop(position: double.nan, colorArgb: 0xFF00AA00),
+        validEnd,
+        FractalColorStop(
+          position: double.infinity,
+          colorArgb: 0xFF0000AA,
+        ),
+      ]);
+
+      expect(normalized.first.position, 0.0);
+      expect(normalized.first.colorArgb, validStart.colorArgb);
+      expect(normalized.last.position, 1.0);
+      expect(normalized.last.colorArgb, validEnd.colorArgb);
+      expect(normalized.every((stop) => stop.position.isFinite), isTrue);
+    });
+
+    test('falls back when all stop positions are non-finite', () {
+      final normalized = normalizePaletteStops(const [
+        FractalColorStop(position: double.nan, colorArgb: 0xFF112233),
+        FractalColorStop(
+          position: double.infinity,
+          colorArgb: 0xFF445566,
+        ),
+      ]);
+
+      expect(normalized, hasLength(2));
+      expect(normalized.first.position, 0.0);
+      expect(normalized.first.colorArgb, 0xFF000000);
+      expect(normalized.last.position, 1.0);
+      expect(normalized.last.colorArgb, 0xFFFFFFFF);
+    });
+
     test('updatePalette invalidates cached textures for the same palette id',
         () async {
       final service = await PaletteService.create();
