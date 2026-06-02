@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "target": "lib/features/renderer/cpu",
+  "updatedAt": "2026-06-02T05:50:55.310Z",
+  "objective": "Refactor lib/features/renderer/cpu root-heavy CPU renderer folder into responsibility subfolders while preserving public import compatibility through root facades.",
+  "completedSlices": [
+    "Moved CPU formula registry/recurrences to catalog/cpu_formulas.dart with root facade.",
+    "Moved CPU iterator/escape metric registry to metrics/cpu_iterators.dart with root facade.",
+    "Moved viewport mapping/sample grid to viewport/cpu_viewport_mapping.dart with root facade.",
+    "Moved iteration budget policy to budget/cpu_iteration_budget.dart with root facade.",
+    "Moved isolate request/response/render loop and tile worker adapter to isolate/ with root facades.",
+    "Moved Flutter CPU renderer widget orchestration to widgets/cpu_fractal_renderer.dart with root facade.",
+    "Extracted CPU render geometry/value contracts (CpuRenderRect, CpuViewportCoordinate, cpuViewportCoordinateForSample) to viewport/cpu_render_geometry.dart and re-exported from isolate/cpu_render_isolate.dart for compatibility."
+  ],
+  "nextCandidates": [],
+  "validationReceipts": [
+    "/home/xel/flutter/bin/dart analyze lib/features/renderer/cpu test/cpu_iteration_budget_test.dart test/cpu_viewport_mapping_test.dart test/cpu_render_isolate_test.dart — No issues found.",
+    "/home/xel/flutter/bin/dart analyze lib/features/renderer/cpu_fractal_renderer.dart lib/features/renderer/cpu_iteration_budget.dart lib/features/renderer/cpu_render_isolate.dart lib/features/renderer/cpu_viewport_mapping.dart lib/features/renderer/widgets/fractal_renderer.dart — No issues found.",
+    "/home/xel/flutter/bin/flutter test test/cpu_iteration_budget_test.dart test/cpu_viewport_mapping_test.dart test/cpu_render_isolate_test.dart test/cpu_formula_coverage_test.dart test/cpu_formula_refinement_pack_test.dart test/cpu_mandelbrot_visual_gate_test.dart test/fractal_cpu_diagnostics_test.dart — blocked before build by existing pubspec asset error: No file or variants found for asset: shaders/legacy/raymarched_3d/mandelbulb.frag."
+  ]
+}

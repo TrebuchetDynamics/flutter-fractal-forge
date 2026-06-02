@@ -69,3 +69,6 @@
 {"ts":"2026-06-01T23:42:04-06:00","candidate":"shaders/escape_time_family/polynomial_maps","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T01:42:04-06:00"}
 {"ts":"2026-06-01T23:43:38-06:00","candidate":"shaders/escape_time_family/transcendental_maps","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T01:43:38-06:00"}
 {"ts":"2026-06-01T23:45:14-06:00","candidate":"shaders/escape_time_family/families/buffalo","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T01:45:14-06:00"}
+{"ts":"2026-06-01T23:46:44-06:00","candidate":"shaders/3d_and_hypercomplex","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T01:46:44-06:00"}
+{"ts":"2026-06-01T23:48:13-06:00","candidate":"shaders/legacy","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T01:48:13-06:00"}
+{"ts":"2026-06-01T23:51:16-06:00","candidate":"lib/features/renderer/cpu","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T00:51:16-06:00"}
