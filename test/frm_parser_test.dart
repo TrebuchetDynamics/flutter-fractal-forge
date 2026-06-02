@@ -95,6 +95,27 @@ Test {
       );
     });
 
+    test('rejects non-finite numeric literals before evaluation', () {
+      const src = r'''
+Test {
+  z = 1e999
+:
+  z = z
+}
+''';
+
+      expect(
+        () => FrmParser(src).parseFile(),
+        throwsA(
+          isA<FormatException>().having(
+            (e) => e.message,
+            'message',
+            'Numeric literal must be finite',
+          ),
+        ),
+      );
+    });
+
     test('evaluates a simple iter statement', () {
       const src = r'''
 Test {

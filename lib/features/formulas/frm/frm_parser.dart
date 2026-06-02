@@ -1,5 +1,6 @@
 import 'frm_ast.dart';
 import 'frm_lexer.dart';
+import 'frm_number_literal.dart';
 
 /// Parser for a small Fractint-style .frm subset.
 ///
@@ -127,7 +128,7 @@ final class FrmParser {
 
   FrmExpr _parsePrimary() {
     if (_match(FrmTokKind.number)) {
-      return FrmNumber(double.parse(_prev().lexeme));
+      return FrmNumber(FrmNumberLiteral.fromToken(_prev()).parseFinite());
     }
 
     if (_match(FrmTokKind.ident)) {
