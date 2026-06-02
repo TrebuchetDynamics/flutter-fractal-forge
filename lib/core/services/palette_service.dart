@@ -83,6 +83,16 @@ List<FractalColorStop> _ensurePaletteEndpointStops(
   ];
 }
 
+String _uniquePaletteId(String requestedId, Set<String> reservedIds) {
+  var candidate = requestedId;
+  if (!reservedIds.contains(candidate)) return candidate;
+  var i = 2;
+  while (reservedIds.contains('$candidate-$i')) {
+    i++;
+  }
+  return '$candidate-$i';
+}
+
 /// Manages built-in and user-created color palettes.
 ///
 /// Palettes are persisted locally using [PaletteStore].
@@ -144,10 +154,7 @@ class PaletteService extends ChangeNotifier {
   Future<void> addPalette(FractalPalette palette) async {
     await _commitUserPalettes([
       ..._user,
-      palette.copyWith(
-        isBuiltIn: false,
-        stops: normalizePaletteStops(palette.stops),
-      ),
+      _prepareNewUserPalette(palette),
     ]);
   }
 
@@ -170,14 +177,10 @@ class PaletteService extends ChangeNotifier {
 
   /// Imports a palette from JSON. If id is missing/duplicate, a new id is generated.
   Future<FractalPalette> importPaletteJson(String input) async {
-    final parsed = FractalPalette.fromJsonString(input);
-    final id = _ensureUniqueId(parsed.id.isEmpty ? _randomId() : parsed.id);
-    final palette = parsed.copyWith(
-      id: id,
-      stops: normalizePaletteStops(parsed.stops),
-      isBuiltIn: false,
+    final palette = _prepareNewUserPalette(
+      FractalPalette.fromJsonString(input),
     );
-    await addPalette(palette);
+    await _commitUserPalettes([..._user, palette]);
     return palette;
   }
 
@@ -186,7 +189,7 @@ class PaletteService extends ChangeNotifier {
   }
 
   FractalPalette createEmptyPalette({String? name}) {
-    final id = _ensureUniqueId(_randomId());
+    final id = _allocateUserPaletteId('');
     return FractalPalette(
       id: id,
       name: name ?? 'Custom Palette',
@@ -284,15 +287,19 @@ class PaletteService extends ChangeNotifier {
     invalidatePaletteTextures();
   }
 
-  String _ensureUniqueId(String id) {
-    var candidate = id;
-    final ids = {..._builtIn.map((p) => p.id), ..._user.map((p) => p.id)};
-    if (!ids.contains(candidate)) return candidate;
-    var i = 2;
-    while (ids.contains('$candidate-$i')) {
-      i++;
-    }
-    return '$candidate-$i';
+  FractalPalette _prepareNewUserPalette(FractalPalette palette) {
+    return palette.copyWith(
+      id: _allocateUserPaletteId(palette.id),
+      isBuiltIn: false,
+      stops: normalizePaletteStops(palette.stops),
+    );
+  }
+
+  String _allocateUserPaletteId(String requestedId) {
+    return _uniquePaletteId(
+      requestedId.isEmpty ? _randomId() : requestedId,
+      {..._builtIn.map((p) => p.id), ..._user.map((p) => p.id)},
+    );
   }
 
   String _randomId() {

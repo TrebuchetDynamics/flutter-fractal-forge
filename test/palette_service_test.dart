@@ -145,6 +145,37 @@ void main() {
       expect(all.any((a) => a.id == 'user_test_palette'), isTrue);
     });
 
+    test('addPalette avoids duplicate IDs that would alias texture cache keys',
+        () async {
+      final service = await PaletteService.create();
+      const first = FractalPalette(
+        id: 'user_collision',
+        name: 'First',
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFFFF0000),
+          FractalColorStop(position: 1.0, colorArgb: 0xFF0000FF),
+        ],
+      );
+      const duplicate = FractalPalette(
+        id: 'user_collision',
+        name: 'Duplicate',
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF00FF00),
+          FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
+        ],
+      );
+
+      await service.addPalette(first);
+      await service.addPalette(duplicate);
+
+      expect(
+        service.userPalettes.map((palette) => palette.id),
+        ['user_collision', 'user_collision-2'],
+      );
+      final ids = service.allPalettes.map((palette) => palette.id).toList();
+      expect(ids.toSet(), hasLength(ids.length));
+    });
+
     test('normalizes overlong palettes without dropping the endpoint stop',
         () async {
       final service = await PaletteService.create();
