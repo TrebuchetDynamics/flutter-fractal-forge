@@ -11,6 +11,7 @@ import 'package:flutter_fractals/core/services/test_logger.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_controller_snapshots.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_kaleidoscope_state.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_param_randomizer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
@@ -367,33 +368,10 @@ class FractalController extends ChangeNotifier {
   /// Useful for exploration and discovery.
   void randomizeParams() {
     final random = Random();
-    final updated = <String, Object>{};
-    for (final param in _module.parameters) {
-      switch (param.type) {
-        case FractalParamType.float:
-          final raw = param.min + random.nextDouble() * (param.max - param.min);
-          final stepped = _roundToStep(raw, param.step);
-          updated[param.id] = stepped;
-          break;
-        case FractalParamType.integer:
-          final value =
-              param.min + random.nextInt((param.max - param.min).round() + 1);
-          updated[param.id] = value.round();
-          break;
-        case FractalParamType.enumeration:
-          if (param.options.isNotEmpty) {
-            final choice = param.options[random.nextInt(param.options.length)];
-            updated[param.id] = choice.value;
-          } else {
-            updated[param.id] = param.defaultValue;
-          }
-          break;
-        case FractalParamType.boolean:
-          updated[param.id] = random.nextBool();
-          break;
-      }
-    }
-    _params = updated;
+    _params = {
+      for (final param in _module.parameters)
+        param.id: randomFractalParamValue(param, random),
+    };
     notifyListeners();
     _logChange(
         'stateChange', 'randomize', 'Randomized params for ${_module.id}');
@@ -694,15 +672,6 @@ class FractalController extends ChangeNotifier {
     // Snap to a small step to avoid jittery one-by-one jumps.
     final snapped = ((raw + 3) ~/ 4) * 4;
     return snapped.clamp(minIterations, maxIterations);
-  }
-
-  double _roundToStep(double value, double step) {
-    if (step <= 0) {
-      return value;
-    }
-    final snapped = (value / step).round() * step;
-    // Avoid floating point noise for typical slider steps.
-    return double.parse(snapped.toStringAsFixed(6));
   }
 
   FractalParameter? _findParam(String id) {
