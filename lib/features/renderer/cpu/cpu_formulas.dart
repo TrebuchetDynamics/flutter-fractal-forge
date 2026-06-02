@@ -652,7 +652,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/families/nova/nova_gpu.frag (Nova: Newton on z^3 - 1 with +c perturbation)
+  // Ported from shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag (Nova: Newton on z^3 - 1 with +c perturbation)
   final cx = x;
   final cy = y;
   double zx = 1.0;
@@ -703,7 +703,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/families/nova/nova_julia_gpu.frag
+  // Ported from shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag
   final cx = x;
   final cy = y;
   double zx = cx;

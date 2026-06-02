@@ -81,8 +81,8 @@ flutter:
     - shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     - shaders/escape_time_family/families/celtic/parameter_plane/celtic_gpu.frag
     - shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_julia_gpu.frag
+    - shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag
+    - shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag
     - shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/fatou_gpu.frag
     - shaders/escape_time_family/transcendental_maps/special_function_iterations/gamma_gpu.frag
     - shaders/escape_time_family/transcendental_maps/discrete_chaos/collatz_gpu.frag
@@ -382,8 +382,8 @@ flutter:
     - shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag
     - shaders/root_finding/schroeder/schroeder_z3_gpu.frag
     - shaders/root_finding/schroeder/schroeder_z4_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_cubic_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_cubic_julia_gpu.frag
+    - shaders/escape_time_family/families/nova/parameter_plane/nova_cubic_gpu.frag
+    - shaders/escape_time_family/families/nova/julia_sets/nova_cubic_julia_gpu.frag
     - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power6_gpu.frag
     - shaders/escape_time_family/families/buffalo/parameter_plane/buffalo_power6_gpu.frag
     - shaders/escape_time_family/families/celtic/parameter_plane/celtic_power6_gpu.frag
@@ -398,8 +398,8 @@ flutter:
     - shaders/escape_time_family/families/celtic/julia_sets/celtic_power6_julia_gpu.frag
     - shaders/root_finding/high_order_methods/halley_z4_gpu.frag
     - shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_degree4_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_degree4_julia_gpu.frag
+    - shaders/escape_time_family/families/nova/parameter_plane/nova_degree4_gpu.frag
+    - shaders/escape_time_family/families/nova/julia_sets/nova_degree4_julia_gpu.frag
     - shaders/escape_time_family/families/multijulia/integer_powers/multijulia11_gpu.frag
     - shaders/escape_time_family/families/multijulia/integer_powers/multijulia12_gpu.frag
     - shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag
@@ -470,9 +470,9 @@ flutter:
     - shaders/root_finding/derivative_free_systems/muller_gpu.frag
     - shaders/root_finding/high_order_methods/neta_order16_gpu.frag
     - shaders/root_finding/high_order_methods/noor_newton_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_degree5_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_degree5_julia_gpu.frag
-    - shaders/escape_time_family/families/nova/nova_mandelbrot_gpu.frag
+    - shaders/escape_time_family/families/nova/parameter_plane/nova_degree5_gpu.frag
+    - shaders/escape_time_family/families/nova/julia_sets/nova_degree5_julia_gpu.frag
+    - shaders/escape_time_family/families/nova/parameter_plane/nova_mandelbrot_gpu.frag
     - shaders/escape_time_family/orbit_and_domain/orbit_trap_cross_gpu.frag
     - shaders/escape_time_family/orbit_and_domain/orbit_trap_point_gpu.frag
     - shaders/escape_time_family/orbit_and_domain/orbit_trap_ring_gpu.frag

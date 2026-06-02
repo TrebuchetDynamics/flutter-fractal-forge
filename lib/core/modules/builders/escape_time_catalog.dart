@@ -402,7 +402,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_julia',
     name: 'Nova Julia',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
       FractalPreset(
@@ -3816,14 +3816,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_cubic',
     name: 'Nova Cubic',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_cubic_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/parameter_plane/nova_cubic_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'nova_cubic_julia',
     name: 'Nova Cubic Julia',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_cubic_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/julia_sets/nova_cubic_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -3928,14 +3928,14 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_degree4',
     name: 'Nova⁴',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_degree4_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/parameter_plane/nova_degree4_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
     id: 'nova_degree4_julia',
     name: 'Nova⁴ Julia',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_degree4_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/julia_sets/nova_degree4_julia_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -5491,7 +5491,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_degree5',
     name: 'Nova Degree5',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_degree5_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/parameter_plane/nova_degree5_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5499,7 +5499,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_degree5_julia',
     name: 'Nova Degree5 Julia',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_degree5_julia_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/julia_sets/nova_degree5_julia_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5507,7 +5507,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova',
     name: 'Nova',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -5515,7 +5515,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   EscapeTimeConfig(
     id: 'nova_mandelbrot',
     name: 'Nova Mandelbrot',
-    shaderAsset: 'shaders/escape_time_family/families/nova/nova_mandelbrot_gpu.frag',
+    shaderAsset: 'shaders/escape_time_family/families/nova/parameter_plane/nova_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
