@@ -99,6 +99,51 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // AnimatedElapsedProgress
+  // ---------------------------------------------------------------------------
+
+  group('AnimatedElapsedProgress', () {
+    test('treats non-positive durations as immediate completion', () {
+      for (final duration in [
+        Duration.zero,
+        const Duration(milliseconds: -1),
+      ]) {
+        final progress = AnimatedElapsedProgress(
+          duration: duration,
+          elapsed: Duration.zero,
+        );
+
+        expect(progress.value, 1.0, reason: '$duration');
+        expect(progress.isComplete, isTrue, reason: '$duration');
+      }
+    });
+
+    test('clamps positive-duration elapsed progress to the curve domain', () {
+      expect(
+        const AnimatedElapsedProgress(
+          duration: Duration(seconds: 1),
+          elapsed: Duration(milliseconds: -1),
+        ).value,
+        0.0,
+      );
+      expect(
+        const AnimatedElapsedProgress(
+          duration: Duration(seconds: 1),
+          elapsed: Duration(milliseconds: 500),
+        ).value,
+        0.5,
+      );
+      expect(
+        const AnimatedElapsedProgress(
+          duration: Duration(seconds: 1),
+          elapsed: Duration(seconds: 2),
+        ).value,
+        1.0,
+      );
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // Interpolated value accessors before any animation starts
   // ---------------------------------------------------------------------------
 
@@ -403,6 +448,20 @@ void main() {
       controller.tick();
 
       // After completion the zoom should be cleared and transitioning should stop
+      expect(controller.interpolatedZoom, isNull);
+      expect(controller.isTransitioning, isFalse);
+
+      controller.dispose();
+    });
+
+    test('tick completes negative-duration animations instead of sticking', () {
+      final controller = AnimatedFractalController(
+        parameterDuration: const Duration(milliseconds: -1),
+      );
+      controller.animateZoom(0.0, 5.0);
+
+      controller.tick();
+
       expect(controller.interpolatedZoom, isNull);
       expect(controller.isTransitioning, isFalse);
 

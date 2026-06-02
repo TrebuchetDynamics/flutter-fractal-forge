@@ -104,6 +104,31 @@ final class AnimatedTimelinePlan {
   bool isCompleteFrame(int frame) => frame >= totalFrames;
 }
 
+/// Replayable progress contract for elapsed timer animations.
+///
+/// Parameter/view animations are driven by wall-clock elapsed time. A
+/// non-positive duration is an immediate transition, matching morph timelines;
+/// otherwise a negative duration can leave an animation permanently at 0%.
+final class AnimatedElapsedProgress {
+  final Duration duration;
+  final Duration elapsed;
+
+  const AnimatedElapsedProgress({
+    required this.duration,
+    required this.elapsed,
+  });
+
+  double get value {
+    if (duration <= Duration.zero) return 1.0;
+    if (elapsed <= Duration.zero) return 0.0;
+    return (elapsed.inMicroseconds / duration.inMicroseconds)
+        .clamp(0.0, 1.0)
+        .toDouble();
+  }
+
+  bool get isComplete => value >= 1.0;
+}
+
 /// Service that manages smooth animated transitions for fractal parameters.
 ///
 /// This service provides interpolated values for parameters during transitions,
@@ -412,14 +437,16 @@ class _AnimatedValue<T> {
     this.onComplete,
   });
 
-  double get _progress {
-    final elapsed = DateTime.now().difference(_startTime);
-    return (elapsed.inMicroseconds / duration.inMicroseconds).clamp(0.0, 1.0);
-  }
+  AnimatedElapsedProgress get _elapsedProgress => AnimatedElapsedProgress(
+        duration: duration,
+        elapsed: DateTime.now().difference(_startTime),
+      );
+
+  double get _progress => _elapsedProgress.value;
 
   double get _curvedProgress => curve.transform(_progress);
 
-  bool get isComplete => _progress >= 1.0;
+  bool get isComplete => _elapsedProgress.isComplete;
 
   T get currentValue {
     final t = _curvedProgress;
