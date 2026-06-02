@@ -63,6 +63,42 @@ void main() {
       expect(decoded.createdAt, isA<DateTime>());
     });
 
+    test('keeps preset when persisted params contain stale nulls', () {
+      final decoded = FractalPreset.fromJson({
+        'id': 'stale-null-param',
+        'moduleId': 'mandelbrot',
+        'name': 'Stale Null Param',
+        'params': <String, Object?>{
+          'iterations': 120,
+          'staleNull': null,
+          'colorStops': <Object?>[
+            0.0,
+            null,
+            <String, Object?>{'position': null},
+          ],
+        },
+        'view': <String, Object?>{
+          'panX': 0,
+          'panY': 0,
+          'zoom': 1,
+          'rotX': 0,
+          'rotY': 0,
+          'rotZ': 0,
+        },
+        'createdAt': '2026-01-01T00:00:00.000Z',
+      });
+
+      expect(decoded.id, 'stale-null-param');
+      expect(decoded.params, {
+        'iterations': 120,
+        'colorStops': [
+          0.0,
+          null,
+          {'position': null},
+        ],
+      });
+    });
+
     test('copyWith can explicitly clear an optional thumbnail path', () {
       final preset = FractalPreset(
         id: 'p1',

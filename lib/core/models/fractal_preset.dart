@@ -18,6 +18,17 @@ Map<String, Object> _snapshotPresetParams(Map<String, Object> params) {
   });
 }
 
+Map<String, Object> _decodePresetParams(Map params) {
+  final decoded = <String, Object>{};
+  for (final entry in params.entries) {
+    final key = entry.key;
+    final value = entry.value;
+    if (key == null || value == null) continue;
+    decoded[key.toString()] = _snapshotPresetParamValue(value as Object);
+  }
+  return Map<String, Object>.unmodifiable(decoded);
+}
+
 Object _snapshotPresetParamValue(Object value) {
   if (value is List) {
     return List<Object?>.unmodifiable([
@@ -195,8 +206,7 @@ class FractalPreset {
       id: json['id'] as String,
       moduleId: json['moduleId'] as String,
       name: json['name'] as String,
-      params: (json['params'] as Map)
-          .map((key, value) => MapEntry(key as String, value as Object)),
+      params: _decodePresetParams(json['params'] as Map),
       view: FractalViewState(
         pan: Vector2(
           (view['panX'] as num? ?? 0).toDouble(),
