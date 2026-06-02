@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/test_logger.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
@@ -183,8 +184,12 @@ class FractalController extends ChangeNotifier {
   }
 
   void setKaleidoscopeRotation(double rotation) {
-    if (_kaleidoscopeRotation != rotation) {
-      _kaleidoscopeRotation = rotation;
+    final normalized = FractalEffectInputBounds.normalizeKaleidoscopeRotation(
+      candidate: rotation,
+      current: _kaleidoscopeRotation,
+    );
+    if (_kaleidoscopeRotation != normalized) {
+      _kaleidoscopeRotation = normalized;
       notifyListeners();
     }
   }
@@ -452,12 +457,18 @@ class FractalController extends ChangeNotifier {
   }
 
   void setGlowSigma(double value) {
-    _glowSigma = value.clamp(0.1, 5.0);
+    _glowSigma = FractalEffectInputBounds.normalizeGlowSigma(
+      candidate: value,
+      current: _glowSigma,
+    );
     notifyListeners();
   }
 
   void setGlowIntensity(double value) {
-    _glowIntensity = value.clamp(0.0, 1.0);
+    _glowIntensity = FractalEffectInputBounds.normalizeGlowIntensity(
+      candidate: value,
+      current: _glowIntensity,
+    );
     notifyListeners();
   }
 
