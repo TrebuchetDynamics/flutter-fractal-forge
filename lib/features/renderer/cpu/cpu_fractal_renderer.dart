@@ -14,6 +14,7 @@ import 'cpu_render_isolate.dart';
 import 'cpu_tile_worker.dart';
 import 'cpu_iteration_budget.dart';
 import 'cpu_iterators.dart';
+import 'cpu_render_resolution.dart';
 import 'cpu_viewport_mapping.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
@@ -361,12 +362,13 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         zoom: widget.state.view.zoom,
       );
 
-      final w = resolutionScale < 1.0
-          ? (widget.width * resolutionScale).round().clamp(200, widget.width)
-          : widget.width;
-      final h = resolutionScale < 1.0
-          ? (widget.height * resolutionScale).round().clamp(200, widget.height)
-          : widget.height;
+      final resolution = CpuRenderResolution.forPass(
+        targetWidth: widget.width,
+        targetHeight: widget.height,
+        resolutionScale: resolutionScale,
+      );
+      final w = resolution.width;
+      final h = resolution.height;
 
       var frame = await _renderFrameTiled(
         width: w,
@@ -500,8 +502,12 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     _setSlowModeActive(true);
 
     try {
-      final w = (widget.width * 2).clamp(400, 2160);
-      final h = (widget.height * 2).clamp(400, 3840);
+      final resolution = CpuRenderResolution.forSlowMode(
+        targetWidth: widget.width,
+        targetHeight: widget.height,
+      );
+      final w = resolution.width;
+      final h = resolution.height;
       final buffer = Uint8List(w * h * 4);
       for (int i = 3; i < buffer.length; i += 4) {
         buffer[i] = 255;
