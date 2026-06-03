@@ -95,6 +95,32 @@ Test {
       );
     });
 
+    test('rejects complex division by zero before leaking non-finite state',
+        () {
+      const src = r'''
+Test {
+  z = (1,0) / (0,0)
+:
+  z = z
+}
+''';
+
+      final formula = FrmParser(src).parseFile().formulas.single;
+      final ctx = FrmEvalContext(vars: {'pixel': const Complex(0, 0)});
+
+      expect(
+        () => formula.init.single.run(ctx),
+        throwsA(
+          isA<StateError>().having(
+            (e) => e.message,
+            'message',
+            contains('Complex divisor must be finite and non-zero'),
+          ),
+        ),
+      );
+      expect(ctx.vars, isNot(contains('z')));
+    });
+
     test('rejects non-finite numeric literals before evaluation', () {
       const src = r'''
 Test {

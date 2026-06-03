@@ -17,12 +17,14 @@ class Complex {
       );
 
   Complex operator /(Complex other) {
-    final denom = other.re * other.re + other.im * other.im;
+    final denom = ComplexDivisionContract.denominatorFor(other);
     return Complex(
       (re * other.re + im * other.im) / denom,
       (im * other.re - re * other.im) / denom,
     );
   }
+
+  bool get isFinite => re.isFinite && im.isFinite;
 
   Complex scale(double s) => Complex(re * s, im * s);
 
@@ -30,4 +32,23 @@ class Complex {
 
   @override
   String toString() => '($re,$im)';
+}
+
+/// Replayable denominator contract for complex division.
+///
+/// FRM evaluation is finite-state: a zero or non-finite divisor previously
+/// leaked Infinity/NaN into the variable map. Keep that invariant at the
+/// arithmetic seam so parser/evaluator tests can replay malformed formulas.
+final class ComplexDivisionContract {
+  const ComplexDivisionContract._();
+
+  static double denominatorFor(Complex divisor) {
+    final denominator = divisor.abs2();
+    if (!divisor.isFinite || denominator == 0.0 || denominator.isNaN) {
+      throw StateError(
+        'Complex divisor must be finite and non-zero: $divisor',
+      );
+    }
+    return denominator;
+  }
 }
