@@ -1,51 +1,10 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/debug_runner_service.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
-// ---------------------------------------------------------------------------
-// Minimal path_provider stub so path_provider doesn't throw on the host.
-// ---------------------------------------------------------------------------
-class _FakePathProviderPlatform extends Fake
-    with MockPlatformInterfaceMixin
-    implements PathProviderPlatform {
-  @override
-  Future<String?> getApplicationDocumentsPath() async => '/tmp/test_docs';
-
-  @override
-  Future<String?> getTemporaryPath() async => '/tmp/test_tmp';
-
-  @override
-  Future<String?> getApplicationSupportPath() async => '/tmp/test_support';
-
-  @override
-  Future<String?> getLibraryPath() async => null;
-
-  @override
-  Future<String?> getExternalStoragePath() async => null;
-
-  @override
-  Future<List<String>?> getExternalCachePaths() async => null;
-
-  @override
-  Future<List<String>?> getExternalStoragePaths({
-    StorageDirectory? type,
-  }) async =>
-      null;
-
-  @override
-  Future<String?> getDownloadsPath() async => null;
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  setUpAll(() {
-    PathProviderPlatform.instance = _FakePathProviderPlatform();
-  });
 
   // Helper factories to avoid repeating boilerplate.
   ModuleRegistry makeRegistry() => ModuleRegistry();
@@ -62,6 +21,56 @@ void main() {
       screenshotDir: screenshotDir,
     );
   }
+
+  // ---------------------------------------------------------------------------
+  // Pure debug-run planning helpers
+  // ---------------------------------------------------------------------------
+
+  group('DebugRunnerRunGate', () {
+    test('rejects a new run only while one is already running', () {
+      expect(DebugRunnerRunGate.shouldStart(DebugRunState.idle), isTrue);
+      expect(DebugRunnerRunGate.shouldStart(DebugRunState.completed), isTrue);
+      expect(DebugRunnerRunGate.shouldStart(DebugRunState.error), isTrue);
+      expect(DebugRunnerRunGate.shouldStart(DebugRunState.running), isFalse);
+    });
+  });
+
+  group('DebugRunnerOutputPlan', () {
+    test('uses provided screenshot directory instead of document fallback', () {
+      final plan = DebugRunnerOutputPlan.fromDocumentsDirectory(
+        documentsPath: 'app_docs',
+        requestedScreenshotDir: 'custom_shots',
+      );
+
+      expect(plan.screenshotDir, 'custom_shots');
+    });
+
+    test('falls back to documents debug directory when no override exists', () {
+      final plan = DebugRunnerOutputPlan.fromDocumentsDirectory(
+        documentsPath: 'app_docs',
+      );
+
+      expect(plan.screenshotDir, 'app_docs/debug_screenshots');
+    });
+
+    test('treats blank screenshot directory override as missing', () {
+      final plan = DebugRunnerOutputPlan.fromDocumentsDirectory(
+        documentsPath: 'app_docs',
+        requestedScreenshotDir: '   ',
+      );
+
+      expect(plan.screenshotDir, 'app_docs/debug_screenshots');
+    });
+  });
+
+  group('DebugRunnerStepPlan', () {
+    test('keeps per-module step count explicit', () {
+      const plan = DebugRunnerStepPlan(moduleCount: 3);
+
+      expect(DebugRunnerStepPlan.stepsPerModule, 5);
+      expect(plan.totalSteps, 15);
+    });
+  });
 
   // ---------------------------------------------------------------------------
   // Construction / initial state
@@ -100,7 +109,7 @@ void main() {
 
     test('accepts optional screenshotDir without throwing', () {
       expect(
-        () => makeService(screenshotDir: '/tmp/custom_shots'),
+        () => makeService(screenshotDir: 'custom_shots'),
         returnsNormally,
       );
     });
@@ -158,44 +167,6 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
-  // run() guard: concurrent calls are ignored while running
-  // ---------------------------------------------------------------------------
-
-  group('DebugRunnerService – run() guard', () {
-    test('second run() call while running is ignored (state stays running)',
-        () async {
-      final registry = makeRegistry();
-      final controller = makeController(registry);
-      final service = DebugRunnerService(
-        controller: controller,
-        registry: registry,
-        screenshotDir: '/tmp/fake_shots',
-      );
-
-      // Kick off the first run without awaiting so we can observe mid-run state.
-      // We do not await it — this test only checks the guard.
-      final boundaryKey = GlobalKey();
-
-      // Start run 1 (fire-and-forget).
-      // ignore: unawaited_futures
-      service.run(boundaryKey);
-
-      // Immediately after scheduling, state should become running.
-      // Give the microtask queue a single turn.
-      await Future<void>.delayed(Duration.zero);
-
-      // At this point the service is either already in error (because
-      // path_provider or screenshot capture failed) or still running.
-      // Either way, calling run() again while state == running should no-op.
-      // We just verify it does not throw.
-      expect(
-        () async => service.run(boundaryKey),
-        returnsNormally,
-      );
-    });
-  });
-
-  // ---------------------------------------------------------------------------
   // FractalController integration (used by DebugRunnerService internally)
   // ---------------------------------------------------------------------------
 
@@ -245,16 +216,12 @@ void main() {
   // ---------------------------------------------------------------------------
 
   group('DebugRunnerService – totalSteps formula', () {
-    test('totalSteps should equal modules.length * 5 after a run starts', () {
-      // We cannot easily await run() to completion in a unit test (it hits
-      // path_provider + screenshot platform channels), so we verify the
-      // formula by inspecting registry size directly.
+    test('totalSteps should equal modules.length * stepsPerModule', () {
       final registry = makeRegistry();
-      final expectedSteps = registry.modules.length * 5;
+      final plan = DebugRunnerStepPlan(moduleCount: registry.modules.length);
 
-      // The formula used inside run() is:  _totalSteps = modules.length * 5
-      expect(expectedSteps, registry.modules.length * 5);
-      expect(expectedSteps, greaterThan(0));
+      expect(plan.totalSteps, registry.modules.length * 5);
+      expect(plan.totalSteps, greaterThan(0));
     });
   });
 }

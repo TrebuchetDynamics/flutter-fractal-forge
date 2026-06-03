@@ -7,9 +7,52 @@ import 'package:path_provider/path_provider.dart';
 
 enum DebugRunState { idle, running, completed, error }
 
+/// Replayable run-admission guard for debug runs.
+class DebugRunnerRunGate {
+  const DebugRunnerRunGate._();
+
+  static bool shouldStart(DebugRunState state) =>
+      state != DebugRunState.running;
+}
+
+/// Replayable output-path plan for a debug run.
+///
+/// The optional constructor `screenshotDir` is a caller override. When omitted
+/// or blank, screenshots fall back to the app documents debug directory.
+class DebugRunnerOutputPlan {
+  final String screenshotDir;
+
+  const DebugRunnerOutputPlan({required this.screenshotDir});
+
+  factory DebugRunnerOutputPlan.fromDocumentsDirectory({
+    required String documentsPath,
+    String? requestedScreenshotDir,
+  }) {
+    final override = requestedScreenshotDir?.trim();
+    return DebugRunnerOutputPlan(
+      screenshotDir: override == null || override.isEmpty
+          ? '$documentsPath/debug_screenshots'
+          : override,
+    );
+  }
+}
+
+/// Replayable step-count contract for one debug run.
+class DebugRunnerStepPlan {
+  static const int stepsPerModule = 5;
+
+  final int moduleCount;
+
+  const DebugRunnerStepPlan({required this.moduleCount})
+      : assert(moduleCount >= 0, 'moduleCount cannot be negative');
+
+  int get totalSteps => moduleCount * stepsPerModule;
+}
+
 class DebugRunnerService extends ChangeNotifier {
   final FractalController controller;
   final ModuleRegistry registry;
+  final String? _requestedScreenshotDir;
   final TestLogger _logger = TestLogger();
   late TestScreenshotService _screenshotService;
 
@@ -23,10 +66,11 @@ class DebugRunnerService extends ChangeNotifier {
     required this.controller,
     required this.registry,
     String? screenshotDir,
-  }) {
-    // screenshotDir will be set during run() if not provided
+  }) : _requestedScreenshotDir = screenshotDir {
+    // The default screenshot dir is resolved once documents storage is known in
+    // run(); a provided override can be installed immediately.
     _screenshotService = TestScreenshotService(
-      outputDir: screenshotDir ?? '', // will be overwritten in run()
+      outputDir: screenshotDir ?? '',
     );
   }
 
@@ -37,26 +81,35 @@ class DebugRunnerService extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   Future<void> run(GlobalKey boundaryKey) async {
-    if (_state == DebugRunState.running) return;
+    if (!DebugRunnerRunGate.shouldStart(_state)) return;
 
     try {
       // Initialize logger
       await _logger.init();
 
-      // Set up screenshot dir
+      // Set up screenshot dir.
       final docDir = await getApplicationDocumentsDirectory();
-      final screenshotDir = '${docDir.path}/debug_screenshots';
-      _screenshotService = TestScreenshotService(outputDir: screenshotDir);
+      final outputPlan = DebugRunnerOutputPlan.fromDocumentsDirectory(
+        documentsPath: docDir.path,
+        requestedScreenshotDir: _requestedScreenshotDir,
+      );
+      _screenshotService = TestScreenshotService(
+        outputDir: outputPlan.screenshotDir,
+      );
 
       final modules = registry.modules;
-      // Each module: select + screenshot_default + randomize + screenshot_randomized + reset = 5 steps
-      _totalSteps = modules.length * 5;
+      final stepPlan = DebugRunnerStepPlan(moduleCount: modules.length);
+      _totalSteps = stepPlan.totalSteps;
       _currentStep = 0;
       _state = DebugRunState.running;
       _errorMessage = null;
       notifyListeners();
 
-      _logger.logAction('debugRunner', 'Debug run started', metadata: {'moduleCount': modules.length});
+      _logger.logAction(
+        'debugRunner',
+        'Debug run started',
+        metadata: {'moduleCount': modules.length},
+      );
 
       for (final module in modules) {
         // Step 1: Select module
@@ -67,7 +120,10 @@ class DebugRunnerService extends ChangeNotifier {
 
         // Step 2: Screenshot default state
         _updateStatus('Capturing ${module.id} default...');
-        await _screenshotService.capture(boundaryKey, '${module.id}_default');
+        await _screenshotService.capture(
+          boundaryKey,
+          '${module.id}_default',
+        );
         await _settle();
         _advanceStep();
 
@@ -79,7 +135,10 @@ class DebugRunnerService extends ChangeNotifier {
 
         // Step 4: Screenshot randomized state
         _updateStatus('Capturing ${module.id} randomized...');
-        await _screenshotService.capture(boundaryKey, '${module.id}_randomized');
+        await _screenshotService.capture(
+          boundaryKey,
+          '${module.id}_randomized',
+        );
         await _settle();
         _advanceStep();
 
