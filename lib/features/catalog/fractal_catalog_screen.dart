@@ -11,6 +11,7 @@ import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_filter.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/catalog_search_debouncer.dart';
+import 'package:flutter_fractals/features/catalog/catalog_thumbnail_plan.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
@@ -30,110 +31,6 @@ const _kFeaturedFractalIds = <String>[
   'sierpinski_triangle',
   'barnsley_fern',
 ];
-
-/// IDs (without 'core.' prefix) that have a known thumbnail PNG.
-const _kKnownThumbnailIds = <String>{
-  'mandelbrot',
-  'julia',
-  'burning_ship',
-  'burning_ship_julia',
-  'buffalo',
-  'buffalo_julia',
-  'manowar',
-  'celtic',
-  'celtic_julia',
-  'cosine_mandelbrot',
-  'cosine_julia',
-  'cosh_mandelbrot',
-  'lambda',
-  'glynn',
-  'magnet_type_2',
-  'magnet_newton',
-  'halley',
-  'householder',
-  'legendre',
-  'laguerre',
-  'chebyshev',
-  'eisenstein',
-  'fatou',
-  'exponential',
-  'dual_complex',
-  'bicomplex',
-  'hypercomplex_newton',
-  'collatz',
-  'gamma_fractal',
-  'ducky',
-  'fish',
-  'druid',
-  'heart',
-  'day_night',
-  'barnsley_fern',
-  'barnsley_j1',
-  'barnsley_j2',
-  'barnsley_j3',
-  'cyclosorus_fern',
-  'arnold_cat',
-  'henon',
-  'hopalong',
-  'clifford',
-  'gumowski_mira',
-  'gingerbreadman',
-  'duffing',
-  'lyapunov',
-  'logistic_lyapunov',
-  'circle_map_lyapunov',
-  'gauss_map',
-  'feigenbaum',
-  'lorenz_2d',
-  'aizawa',
-  'arneodo',
-  'bouali',
-  'burke_shaw',
-  'chen',
-  'chua_circuit',
-  'dadras',
-  'four_wing',
-  'hadley',
-  'halvorsen',
-  'liu_chen',
-  'lu_chen',
-  'golden_dragon',
-  'fibonacci_spiral',
-  'fibonacci_word',
-  'log_spiral',
-  'astroid',
-  'hilbert_curve',
-  'gosper_curve',
-  'levy_c_curve',
-  'moore_curve',
-  'cesaro_fractal',
-  'fractal_canopy',
-  'koch_snowflake',
-  'hexaflake',
-  'cantor_set',
-  'cantor_dust',
-  'menger_sponge_2d',
-  'menger_3d_slice',
-  'apollonian_gasket',
-  'ford_circles',
-  'farey_diagram',
-  'cayley_graph',
-  'ammann_beenker',
-  'hat_monotile',
-  'chair_tiling',
-  'cactus',
-  'dla',
-  'eden_growth',
-  'forest_fire',
-  'langton_ant',
-  'brian_brain',
-  'kicked_rotator',
-  'benesi',
-  'anti_buddhabrot',
-  'buddhabrot_approx',
-  'manair_fire',
-  'jerusalem_cube',
-};
 
 /// Global shimmer animation controller shared by all thumbnails.
 /// Single controller instead of one per thumbnail (350+ savings).
@@ -2131,13 +2028,6 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   bool _imageLoaded = false;
   bool _imageError = false;
 
-  bool get _hasExactCpuThumbnail {
-    final thumbId = widget.catalogId.startsWith('core.')
-        ? widget.catalogId.substring(5)
-        : widget.catalogId;
-    return _kKnownThumbnailIds.contains(thumbId);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -2184,11 +2074,13 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
 
   @override
   Widget build(BuildContext context) {
-    final thumbId = widget.catalogId.startsWith('core.')
-        ? widget.catalogId.substring(5)
-        : widget.catalogId;
-    final thumbAsset = 'assets/catalog_thumbs/$thumbId.png';
-    final isApproximate = !_hasExactCpuThumbnail;
+    final thumbnailPlan = CatalogThumbnailPlan.fromCatalogId(widget.catalogId);
+    final thumbAsset = thumbnailPlan.assetPath;
+    final thumbnailState = CatalogThumbnailLoadState(
+      imageLoaded: _imageLoaded,
+      imageError: _imageError,
+    );
+    final isApproximate = thumbnailState.isApproximatePreview;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
@@ -2196,9 +2088,9 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
         fit: StackFit.expand,
         children: [
           // Show shimmer while loading OR show gradient fallback on error
-          if (!_imageLoaded && !_imageError)
+          if (thumbnailState.showsLoadingPlaceholder)
             _ShimmerSkeleton(controller: _localShimmerController)
-          else if (_imageError)
+          else if (thumbnailState.showsFallbackPreview)
             _GradientFallback(
               catalogId: widget.catalogId,
               category: widget.category,
