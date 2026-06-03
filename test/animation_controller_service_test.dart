@@ -64,6 +64,36 @@ void main() {
       expect(unsupported.kind, AnimatedParameterTransitionKind.unsupported);
       expect(unsupported.startsTransition, isFalse);
     });
+
+    test('rejects non-finite numeric endpoints before interpolation', () {
+      for (final candidate in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+      ]) {
+        final fromInvalid = AnimatedParameterTransitionPlan.fromValues(
+          candidate,
+          2.0,
+        );
+        final toInvalid = AnimatedParameterTransitionPlan.fromValues(
+          1.0,
+          candidate,
+        );
+
+        expect(
+          fromInvalid.kind,
+          AnimatedParameterTransitionKind.unsupported,
+          reason: 'from=$candidate',
+        );
+        expect(fromInvalid.startsTransition, isFalse);
+        expect(
+          toInvalid.kind,
+          AnimatedParameterTransitionKind.unsupported,
+          reason: 'to=$candidate',
+        );
+        expect(toInvalid.startsTransition, isFalse);
+      }
+    });
   });
 
   // ---------------------------------------------------------------------------
@@ -274,6 +304,22 @@ void main() {
 
       controller.dispose();
     });
+
+    test('ignores non-finite zoom endpoints instead of emitting NaN frames',
+        () {
+      final controller = AnimatedFractalController();
+      int notifyCount = 0;
+      controller.addListener(() => notifyCount++);
+
+      controller.animateZoom(double.nan, 2.0);
+      controller.animateZoom(1.0, double.infinity);
+
+      expect(controller.isTransitioning, isFalse);
+      expect(controller.interpolatedZoom, isNull);
+      expect(notifyCount, 0);
+
+      controller.dispose();
+    });
   });
 
   // ---------------------------------------------------------------------------
@@ -306,6 +352,21 @@ void main() {
 
       expect(controller.isTransitioning, isFalse);
       expect(controller.interpolatedPan, isNull);
+
+      controller.dispose();
+    });
+
+    test('ignores non-finite pan endpoints instead of emitting NaN frames', () {
+      final controller = AnimatedFractalController();
+      int notifyCount = 0;
+      controller.addListener(() => notifyCount++);
+
+      controller.animatePan(Vector2(double.nan, 0.0), Vector2(1.0, 1.0));
+      controller.animatePan(Vector2(0.0, 0.0), Vector2(1.0, double.infinity));
+
+      expect(controller.isTransitioning, isFalse);
+      expect(controller.interpolatedPan, isNull);
+      expect(notifyCount, 0);
 
       controller.dispose();
     });
@@ -343,6 +404,28 @@ void main() {
 
       expect(controller.isTransitioning, isFalse);
       expect(controller.interpolatedRotation, isNull);
+
+      controller.dispose();
+    });
+
+    test('ignores non-finite rotation endpoints instead of emitting NaN frames',
+        () {
+      final controller = AnimatedFractalController();
+      int notifyCount = 0;
+      controller.addListener(() => notifyCount++);
+
+      controller.animateRotation(
+        Vector3(double.nan, 0.0, 0.0),
+        Vector3(1.0, 1.0, 1.0),
+      );
+      controller.animateRotation(
+        Vector3(0.0, 0.0, 0.0),
+        Vector3(1.0, 1.0, double.negativeInfinity),
+      );
+
+      expect(controller.isTransitioning, isFalse);
+      expect(controller.interpolatedRotation, isNull);
+      expect(notifyCount, 0);
 
       controller.dispose();
     });

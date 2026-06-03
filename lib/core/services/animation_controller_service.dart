@@ -4,13 +4,109 @@ import 'package:vector_math/vector_math.dart' hide Colors;
 
 /// Replayable decision for [AnimatedFractalController.animateParameter].
 ///
-/// Parameter animation only supports numeric interpolation. Keeping that
-/// contract explicit prevents unsupported boolean/string changes from arming a
-/// transition that no animation can ever complete.
+/// Parameter animation only supports finite numeric interpolation. Keeping that
+/// contract explicit prevents unsupported boolean/string/non-finite changes from
+/// arming a transition that no animation can ever complete.
 enum AnimatedParameterTransitionKind {
   unchanged,
   numeric,
   unsupported,
+}
+
+/// Finite scalar endpoints for one numeric animation.
+///
+/// Flutter curves and shader uniforms need replayable finite values; NaN or
+/// Infinity would poison every interpolated frame. Keep that guard at the
+/// transition boundary instead of relying on callers to sanitize values first.
+final class AnimatedScalarTransitionEndpoints {
+  final double fromValue;
+  final double toValue;
+
+  const AnimatedScalarTransitionEndpoints._({
+    required this.fromValue,
+    required this.toValue,
+  });
+
+  static AnimatedScalarTransitionEndpoints? tryFromValues(
+    Object from,
+    Object to,
+  ) {
+    final fromValue = _tryFiniteScalar(from);
+    final toValue = _tryFiniteScalar(to);
+    if (fromValue == null || toValue == null) return null;
+
+    return AnimatedScalarTransitionEndpoints._(
+      fromValue: fromValue,
+      toValue: toValue,
+    );
+  }
+
+  static double? _tryFiniteScalar(Object value) {
+    if (value is! num) return null;
+    final parsed = value.toDouble();
+    return parsed.isFinite ? parsed : null;
+  }
+}
+
+/// Finite Vector2 endpoints for one pan animation.
+final class AnimatedVector2TransitionEndpoints {
+  final Vector2 fromValue;
+  final Vector2 toValue;
+
+  AnimatedVector2TransitionEndpoints._({
+    required Vector2 fromValue,
+    required Vector2 toValue,
+  })  : fromValue = fromValue.clone(),
+        toValue = toValue.clone();
+
+  static AnimatedVector2TransitionEndpoints? tryFromValues(
+    Vector2 from,
+    Vector2 to,
+  ) {
+    if (!_isFiniteVector(from) || !_isFiniteVector(to)) return null;
+    return AnimatedVector2TransitionEndpoints._(
+      fromValue: from,
+      toValue: to,
+    );
+  }
+
+  bool get isUnchanged => fromValue.x == toValue.x && fromValue.y == toValue.y;
+
+  static bool _isFiniteVector(Vector2 value) {
+    return value.x.isFinite && value.y.isFinite;
+  }
+}
+
+/// Finite Vector3 endpoints for one rotation animation.
+final class AnimatedVector3TransitionEndpoints {
+  final Vector3 fromValue;
+  final Vector3 toValue;
+
+  AnimatedVector3TransitionEndpoints._({
+    required Vector3 fromValue,
+    required Vector3 toValue,
+  })  : fromValue = fromValue.clone(),
+        toValue = toValue.clone();
+
+  static AnimatedVector3TransitionEndpoints? tryFromValues(
+    Vector3 from,
+    Vector3 to,
+  ) {
+    if (!_isFiniteVector(from) || !_isFiniteVector(to)) return null;
+    return AnimatedVector3TransitionEndpoints._(
+      fromValue: from,
+      toValue: to,
+    );
+  }
+
+  bool get isUnchanged =>
+      fromValue.x == toValue.x &&
+      fromValue.y == toValue.y &&
+      fromValue.z == toValue.z;
+
+  static bool _isFiniteVector(Vector3 value) {
+    return value.x.isFinite && value.y.isFinite && value.z.isFinite;
+  }
 }
 
 /// Pure parameter-transition plan derived from two parameter values.
@@ -26,17 +122,31 @@ final class AnimatedParameterTransitionPlan {
   });
 
   factory AnimatedParameterTransitionPlan.fromValues(Object from, Object to) {
-    if (from == to) {
-      return const AnimatedParameterTransitionPlan._(
-        kind: AnimatedParameterTransitionKind.unchanged,
+    final scalarEndpoints = AnimatedScalarTransitionEndpoints.tryFromValues(
+      from,
+      to,
+    );
+    if (from is num || to is num) {
+      if (scalarEndpoints == null) {
+        return const AnimatedParameterTransitionPlan._(
+          kind: AnimatedParameterTransitionKind.unsupported,
+        );
+      }
+      if (scalarEndpoints.fromValue == scalarEndpoints.toValue) {
+        return const AnimatedParameterTransitionPlan._(
+          kind: AnimatedParameterTransitionKind.unchanged,
+        );
+      }
+      return AnimatedParameterTransitionPlan._(
+        kind: AnimatedParameterTransitionKind.numeric,
+        fromValue: scalarEndpoints.fromValue,
+        toValue: scalarEndpoints.toValue,
       );
     }
 
-    if (from is num && to is num) {
-      return AnimatedParameterTransitionPlan._(
-        kind: AnimatedParameterTransitionKind.numeric,
-        fromValue: from.toDouble(),
-        toValue: to.toDouble(),
+    if (from == to) {
+      return const AnimatedParameterTransitionPlan._(
+        kind: AnimatedParameterTransitionKind.unchanged,
       );
     }
 
@@ -211,12 +321,19 @@ class AnimatedFractalController extends ChangeNotifier {
 
   /// Animate zoom level transition.
   void animateZoom(double from, double to) {
-    if (from == to) return;
+    final scalarEndpoints = AnimatedScalarTransitionEndpoints.tryFromValues(
+      from,
+      to,
+    );
+    if (scalarEndpoints == null ||
+        scalarEndpoints.fromValue == scalarEndpoints.toValue) {
+      return;
+    }
 
     _isTransitioning = true;
     _animatedZoom = _AnimatedValue<double>(
-      from: from,
-      to: to,
+      from: scalarEndpoints.fromValue,
+      to: scalarEndpoints.toValue,
       duration: parameterDuration,
       curve: curve,
       onComplete: () {
@@ -229,12 +346,16 @@ class AnimatedFractalController extends ChangeNotifier {
 
   /// Animate pan transition.
   void animatePan(Vector2 from, Vector2 to) {
-    if (from.x == to.x && from.y == to.y) return;
+    final vectorEndpoints = AnimatedVector2TransitionEndpoints.tryFromValues(
+      from,
+      to,
+    );
+    if (vectorEndpoints == null || vectorEndpoints.isUnchanged) return;
 
     _isTransitioning = true;
     _animatedPan = _AnimatedValue<Vector2>(
-      from: from.clone(),
-      to: to.clone(),
+      from: vectorEndpoints.fromValue,
+      to: vectorEndpoints.toValue,
       duration: parameterDuration,
       curve: curve,
       onComplete: () {
@@ -247,12 +368,16 @@ class AnimatedFractalController extends ChangeNotifier {
 
   /// Animate rotation transition.
   void animateRotation(Vector3 from, Vector3 to) {
-    if (from.x == to.x && from.y == to.y && from.z == to.z) return;
+    final vectorEndpoints = AnimatedVector3TransitionEndpoints.tryFromValues(
+      from,
+      to,
+    );
+    if (vectorEndpoints == null || vectorEndpoints.isUnchanged) return;
 
     _isTransitioning = true;
     _animatedRotation = _AnimatedValue<Vector3>(
-      from: from.clone(),
-      to: to.clone(),
+      from: vectorEndpoints.fromValue,
+      to: vectorEndpoints.toValue,
       duration: parameterDuration,
       curve: curve,
       onComplete: () {
