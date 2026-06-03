@@ -233,6 +233,27 @@ void main() {
       expect(exif, containsPair('Artist', 'Flutter Fractals'));
       expect(exif, containsPair('UserComment', contains('mandelbrot')));
     });
+
+    test('snapshots parameters before export metadata is reused', () {
+      final params = <String, Object>{'iterations': 100};
+      final metadata = ExportMetadata(
+        fractalType: 'mandelbrot',
+        parameters: params,
+        createdAt: DateTime(2024, 1, 15),
+      );
+
+      params['iterations'] = 200;
+      params['bailout'] = 4.0;
+
+      expect(metadata.parameters, equals({'iterations': 100}));
+      expect(
+        () => metadata.parameters['iterations'] = 300,
+        throwsUnsupportedError,
+      );
+      expect(metadata.toExifMap()['UserComment'], contains('iterations: 100'));
+      expect(metadata.toExifMap()['UserComment'], isNot(contains('200')));
+      expect(metadata.toExifMap()['UserComment'], isNot(contains('bailout')));
+    });
   });
 
   group('ExportPresets', () {

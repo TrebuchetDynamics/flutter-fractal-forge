@@ -133,6 +133,20 @@ extension ExportResolutionExtension on ExportResolution {
   }
 }
 
+/// Replayable export parameter snapshot for embedded metadata.
+///
+/// Export metadata may be created from live controller parameter maps. Snapshot
+/// the map at construction so EXIF/user-comment provenance cannot drift if the
+/// controller changes before encoding or sharing finishes.
+final class ExportMetadataParameters {
+  const ExportMetadataParameters._();
+
+  static Map<String, Object> snapshot(Map<String, Object> parameters) {
+    if (parameters.isEmpty) return const <String, Object>{};
+    return Map<String, Object>.unmodifiable(parameters);
+  }
+}
+
 /// Metadata to embed in exported images
 class ExportMetadata extends Equatable {
   final String? title;
@@ -142,14 +156,14 @@ class ExportMetadata extends Equatable {
   final DateTime createdAt;
   final String appVersion;
 
-  const ExportMetadata({
+  ExportMetadata({
     this.title,
     this.description,
     required this.fractalType,
-    required this.parameters,
+    required Map<String, Object> parameters,
     required this.createdAt,
     this.appVersion = '1.0.0',
-  });
+  }) : parameters = ExportMetadataParameters.snapshot(parameters);
 
   Map<String, String> toExifMap() {
     return {
