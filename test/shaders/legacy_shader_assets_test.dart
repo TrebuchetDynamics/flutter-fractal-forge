@@ -4,29 +4,46 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'support/shader_asset_expectations.dart';
 
+const legacyShaderAssetsByResponsibility = <String, List<String>>{
+  'diagnostics': [
+    'mandelbrot.frag',
+    'mandelbrot_hardgrad.frag',
+    'mandelbrot_simple.frag',
+  ],
+  'escape_time': [
+    'burning_ship.frag',
+    'julia.frag',
+    'mandel_step_escape.frag',
+    'mandel_step_smooth.frag',
+    'mandelbrot_et.frag',
+    'mandelbrot_tex.frag',
+    'phoenix.frag',
+  ],
+  'precision': [
+    'mandelbrot_df2.frag',
+  ],
+  'raymarched_3d': [
+    'mandelbulb.frag',
+  ],
+};
+
+List<String> expectedLegacyShaderAssets() {
+  return [
+    for (final responsibility in legacyShaderAssetsByResponsibility.entries)
+      for (final fileName in responsibility.value)
+        'shaders/legacy/${responsibility.key}/$fileName',
+  ]..sort();
+}
+
 void main() {
   group('legacy shader assets', () {
-    const legacyShaderAssets = <String>[
-      'shaders/legacy/diagnostics/mandelbrot.frag',
-      'shaders/legacy/diagnostics/mandelbrot_hardgrad.frag',
-      'shaders/legacy/diagnostics/mandelbrot_simple.frag',
-      'shaders/legacy/escape_time/burning_ship.frag',
-      'shaders/legacy/escape_time/julia.frag',
-      'shaders/legacy/escape_time/mandel_step_escape.frag',
-      'shaders/legacy/escape_time/mandel_step_smooth.frag',
-      'shaders/legacy/escape_time/mandelbrot_et.frag',
-      'shaders/legacy/escape_time/mandelbrot_tex.frag',
-      'shaders/legacy/escape_time/phoenix.frag',
-      'shaders/legacy/precision/mandelbrot_df2.frag',
-      'shaders/legacy/raymarched_3d/mandelbulb.frag',
-    ];
-
     test('declared legacy asset paths exist under responsibility folders', () {
       final declaredShaderAssets = loadDeclaredShaderAssets();
       final declaredLegacyShaderAssets = declaredShaderAssets
           .where((asset) => asset.startsWith('shaders/legacy/'))
           .toList()
         ..sort();
+      final legacyShaderAssets = expectedLegacyShaderAssets();
 
       expect(declaredLegacyShaderAssets, orderedEquals(legacyShaderAssets));
       expectAssetsDeclaredAndExist(
