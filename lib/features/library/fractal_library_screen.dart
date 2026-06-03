@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/catalog_thumbnail.dart';
 import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
+import 'package:flutter_fractals/features/library/library_filter.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Library screen showing all fractals with category filters and search.
@@ -24,55 +25,25 @@ class FractalLibraryScreen extends StatefulWidget {
   State<FractalLibraryScreen> createState() => _FractalLibraryScreenState();
 }
 
-enum _LibrarySortOrder { byName, alphabetical }
-
 class _FractalLibraryScreenState extends State<FractalLibraryScreen> {
   String? _selectedCategory;
   bool _showSearch = false;
-  _LibrarySortOrder _sortOrder = _LibrarySortOrder.byName;
+  LibrarySortOrder _sortOrder = LibrarySortOrder.byCategory;
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
 
   // All categories from catalog
-  List<String> get _categories {
-    final cats = widget.catalog.entries.map((e) => e.category).toSet().toList();
-    cats.sort();
-    return cats;
-  }
+  List<String> get _categories => libraryCategories(widget.catalog.entries);
 
   // Filtered entries
   List<CatalogEntry> _filteredEntries(AppLocalizations l10n) {
-    final query = _searchController.text.toLowerCase();
-    var entries = widget.catalog.entries.toList();
-
-    // Filter by category
-    if (_selectedCategory != null) {
-      entries = entries.where((e) => e.category == _selectedCategory).toList();
-    }
-
-    // Filter by search
-    if (query.isNotEmpty) {
-      entries = entries.where((e) {
-        final name = e.module.displayName(l10n);
-        return name.toLowerCase().contains(query) ||
-            e.category.toLowerCase().contains(query) ||
-            e.catalogId.toLowerCase().contains(query);
-      }).toList();
-    }
-
-    // Sort
-    if (_sortOrder == _LibrarySortOrder.alphabetical) {
-      entries.sort((a, b) =>
-          a.module.displayName(l10n).compareTo(b.module.displayName(l10n)));
-    } else {
-      entries.sort((a, b) {
-        final cat = a.category.compareTo(b.category);
-        if (cat != 0) return cat;
-        return a.module.displayName(l10n).compareTo(b.module.displayName(l10n));
-      });
-    }
-
-    return entries;
+    return filterAndSortLibraryEntries(
+      entries: widget.catalog.entries,
+      l10n: l10n,
+      searchText: _searchController.text,
+      selectedCategory: _selectedCategory,
+      sortOrder: _sortOrder,
+    );
   }
 
   @override
@@ -194,17 +165,17 @@ class _FractalLibraryScreenState extends State<FractalLibraryScreen> {
               ),
               const SizedBox(width: AppSpacing.xs),
               // Sort dropdown
-              PopupMenuButton<_LibrarySortOrder>(
+              PopupMenuButton<LibrarySortOrder>(
                 tooltip: l10n.catalogFilterSortOrder,
                 initialValue: _sortOrder,
                 onSelected: (value) => setState(() => _sortOrder = value),
                 itemBuilder: (_) => [
                   PopupMenuItem(
-                    value: _LibrarySortOrder.byName,
+                    value: LibrarySortOrder.byCategory,
                     child: Text(l10n.catalogSortByCategory),
                   ),
                   PopupMenuItem(
-                    value: _LibrarySortOrder.alphabetical,
+                    value: LibrarySortOrder.alphabetical,
                     child: Text(l10n.catalogSortAlphabetical),
                   ),
                 ],
