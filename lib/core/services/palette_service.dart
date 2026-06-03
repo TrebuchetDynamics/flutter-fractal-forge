@@ -139,7 +139,7 @@ class PaletteService extends ChangeNotifier {
   FractalPalette paletteAtIndex(int index) {
     final all = allPalettes;
     if (all.isEmpty) {
-      return const FractalPalette(
+      return FractalPalette(
         id: 'fallback',
         name: 'Fallback',
         stops: _fallbackPaletteStops,
@@ -309,7 +309,7 @@ class PaletteService extends ChangeNotifier {
   }
 
   static List<FractalPalette> _createBuiltIns() {
-    return const [
+    return [
       FractalPalette(
         id: 'builtin_fire',
         name: 'Fire',

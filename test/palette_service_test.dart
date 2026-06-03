@@ -122,7 +122,7 @@ void main() {
 
     test('allPalettes includes both built-in and user palettes', () async {
       final service = await PaletteService.create();
-      final userPalette = const FractalPalette(
+      final userPalette = FractalPalette(
         id: 'user_test_palette',
         name: 'My Custom',
         stops: [
@@ -148,7 +148,7 @@ void main() {
     test('addPalette avoids duplicate IDs that would alias texture cache keys',
         () async {
       final service = await PaletteService.create();
-      const first = FractalPalette(
+      final first = FractalPalette(
         id: 'user_collision',
         name: 'First',
         stops: [
@@ -156,7 +156,7 @@ void main() {
           FractalColorStop(position: 1.0, colorArgb: 0xFF0000FF),
         ],
       );
-      const duplicate = FractalPalette(
+      final duplicate = FractalPalette(
         id: 'user_collision',
         name: 'Duplicate',
         stops: [
@@ -271,7 +271,7 @@ void main() {
     test('updatePalette invalidates cached textures for the same palette id',
         () async {
       final service = await PaletteService.create();
-      const palette = FractalPalette(
+      final palette = FractalPalette(
         id: 'mutable_palette',
         name: 'Mutable',
         stops: [

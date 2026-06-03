@@ -22,7 +22,7 @@ void main() {
       final store = await PaletteStore.create();
 
       final palettes = [
-        const FractalPalette(
+        FractalPalette(
           id: 'pal-1',
           name: 'Fire',
           stops: [
@@ -30,7 +30,7 @@ void main() {
             FractalColorStop(position: 1.0, colorArgb: 0xFFFFFF00),
           ],
         ),
-        const FractalPalette(
+        FractalPalette(
           id: 'pal-2',
           name: 'Ocean',
           stops: [
@@ -58,7 +58,7 @@ void main() {
     test('savePalettes and loadPalettes preserves stop positions', () async {
       final store = await PaletteStore.create();
 
-      final palette = const FractalPalette(
+      final palette = FractalPalette(
         id: 'gradient',
         name: 'Gradient',
         stops: [
@@ -76,7 +76,7 @@ void main() {
     });
 
     test('loadPalettes skips corrupted string-list entries', () async {
-      final goodEntry = const FractalPalette(
+      final goodEntry = FractalPalette(
         id: 'ok',
         name: 'Good',
         stops: [FractalColorStop(position: 0.0, colorArgb: 0xFFFFFFFF)],
@@ -96,7 +96,7 @@ void main() {
     test('loadPalettes loads legacy JSON array payloads', () async {
       SharedPreferences.setMockInitialValues({
         'user_palettes_v1': jsonEncode([
-          const FractalPalette(
+          FractalPalette(
             id: 'legacy',
             name: 'Legacy',
             stops: [FractalColorStop(position: 0.0, colorArgb: 0xFFFFFFFF)],
@@ -115,12 +115,12 @@ void main() {
     test('loadPalettes skips palettes with empty id', () async {
       // Use the List<String> primary path: two serialised palette JSON strings,
       // one with an empty id (should be filtered) and one with a valid id.
-      final badEntry = const FractalPalette(
+      final badEntry = FractalPalette(
         id: '',
         name: 'Bad',
         stops: [],
       ).toJsonString(pretty: false);
-      final goodEntry = const FractalPalette(
+      final goodEntry = FractalPalette(
         id: 'ok',
         name: 'Good',
         stops: [],
@@ -140,14 +140,14 @@ void main() {
       final store = await PaletteStore.create();
 
       final first = [
-        const FractalPalette(
+        FractalPalette(
           id: 'first',
           name: 'First',
           stops: [FractalColorStop(position: 0.0, colorArgb: 0xFFFF0000)],
         ),
       ];
       final second = [
-        const FractalPalette(
+        FractalPalette(
           id: 'second',
           name: 'Second',
           stops: [FractalColorStop(position: 0.0, colorArgb: 0xFF00FF00)],
@@ -166,7 +166,7 @@ void main() {
       final store = await PaletteStore.create();
 
       final palettes = [
-        const FractalPalette(
+        FractalPalette(
           id: 'p1',
           name: 'P1',
           stops: [FractalColorStop(position: 0.0, colorArgb: 0xFFFFFFFF)],
