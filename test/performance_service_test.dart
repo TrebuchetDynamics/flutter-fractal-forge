@@ -148,6 +148,57 @@ void main() {
       expect(metrics.p95FrameTimeMs, 95.0);
       expect(metrics.p99FrameTimeMs, 99.0);
     });
+
+    test('ignores malformed frame timings before computing metrics', () {
+      const samples = [
+        FrameSample(
+          timestamp: Duration(milliseconds: 1),
+          frameTimeMs: double.nan,
+          wasDropped: true,
+        ),
+        FrameSample(
+          timestamp: Duration(milliseconds: 2),
+          frameTimeMs: double.infinity,
+          wasDropped: true,
+        ),
+        FrameSample(
+          timestamp: Duration(milliseconds: 3),
+          frameTimeMs: -5,
+          wasDropped: true,
+        ),
+        FrameSample(
+          timestamp: Duration(milliseconds: 4),
+          frameTimeMs: 16,
+          wasDropped: false,
+        ),
+        FrameSample(
+          timestamp: Duration(milliseconds: 5),
+          frameTimeMs: 33,
+          wasDropped: true,
+        ),
+      ];
+
+      final sampleWindow = PerformanceFrameSampleWindow.fromSamples(samples);
+      final metrics = PerformanceMetricsCalculator.fromSamples(
+        samples: samples,
+        shaderCompilations: 0,
+        durationSeconds: 1.0,
+      );
+
+      expect(sampleWindow.rejectedSampleCount, 3);
+      expect(sampleWindow.acceptedSamples.map((sample) => sample.frameTimeMs), [
+        16,
+        33,
+      ]);
+      expect(metrics.frameCount, 2);
+      expect(metrics.droppedFrames, 1);
+      expect(metrics.avgFrameTimeMs, 24.5);
+      expect(metrics.minFrameTimeMs, 16);
+      expect(metrics.maxFrameTimeMs, 33);
+      expect(metrics.p95FrameTimeMs, 33);
+      expect(metrics.p99FrameTimeMs, 33);
+      expect(metrics.fps, predicate<double>((value) => value.isFinite));
+    });
   });
 
   group('PerformanceSampleCadence', () {

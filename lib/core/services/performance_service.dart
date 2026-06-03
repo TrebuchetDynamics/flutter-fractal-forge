@@ -117,6 +117,56 @@ class FrameSample {
   });
 }
 
+/// Replayable accepted/rejected frame sample window.
+///
+/// Public tests and future telemetry replays can construct [FrameSample]
+/// directly. Keep the aggregation candidate step explicit so malformed frame
+/// timings cannot poison averages, percentiles, FPS, or jank status with NaN.
+@visibleForTesting
+class PerformanceFrameSampleWindow {
+  final List<FrameSample> acceptedSamples;
+  final int rejectedSampleCount;
+
+  const PerformanceFrameSampleWindow._({
+    required this.acceptedSamples,
+    required this.rejectedSampleCount,
+  });
+
+  factory PerformanceFrameSampleWindow.fromSamples(
+    Iterable<FrameSample> samples,
+  ) {
+    final accepted = <FrameSample>[];
+    var rejected = 0;
+
+    for (final sample in samples) {
+      if (_hasUsableFrameTime(sample.frameTimeMs)) {
+        accepted.add(sample);
+      } else {
+        rejected++;
+      }
+    }
+
+    return PerformanceFrameSampleWindow._(
+      acceptedSamples: List<FrameSample>.unmodifiable(accepted),
+      rejectedSampleCount: rejected,
+    );
+  }
+
+  bool get isEmpty => acceptedSamples.isEmpty;
+
+  List<double> sortedFrameTimes() => acceptedSamples
+      .map((sample) => sample.frameTimeMs)
+      .toList(growable: false)
+    ..sort();
+
+  Iterable<FrameSample> recentSamples({int limit = 10}) =>
+      acceptedSamples.reversed.take(limit);
+
+  static bool _hasUsableFrameTime(double frameTimeMs) {
+    return frameTimeMs.isFinite && frameTimeMs > 0.0;
+  }
+}
+
 /// Pure calculator for replayable frame-time metrics.
 ///
 /// [PerformanceService] collects frame samples from a ticker. Keeping the
@@ -134,12 +184,13 @@ class PerformanceMetricsCalculator {
     double? peakMemoryMb,
     double targetFrameTimeMs = PerformanceService.targetFrameTimeMs,
   }) {
-    final sampleList = List<FrameSample>.of(samples);
-    if (sampleList.isEmpty) {
+    final sampleWindow = PerformanceFrameSampleWindow.fromSamples(samples);
+    if (sampleWindow.isEmpty) {
       return const PerformanceMetrics.empty();
     }
 
-    final frameTimes = sampleList.map((s) => s.frameTimeMs).toList()..sort();
+    final sampleList = sampleWindow.acceptedSamples;
+    final frameTimes = sampleWindow.sortedFrameTimes();
 
     final avg = frameTimes.reduce((a, b) => a + b) / frameTimes.length;
     final min = frameTimes.first;
@@ -166,7 +217,7 @@ class PerformanceMetricsCalculator {
     final stabilityScore =
         (100 - (stdDev / targetFrameTimeMs * 100)).clamp(0.0, 100.0);
 
-    final recentSamples = sampleList.reversed.take(10);
+    final recentSamples = sampleWindow.recentSamples();
     final recentDrops = recentSamples.where((s) => s.wasDropped).length;
     final isJanky = recentDrops > 3;
 
