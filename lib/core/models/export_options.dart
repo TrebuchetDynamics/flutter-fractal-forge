@@ -136,14 +136,34 @@ extension ExportResolutionExtension on ExportResolution {
 /// Replayable export parameter snapshot for embedded metadata.
 ///
 /// Export metadata may be created from live controller parameter maps. Snapshot
-/// the map at construction so EXIF/user-comment provenance cannot drift if the
-/// controller changes before encoding or sharing finishes.
+/// the map and common collection values at construction so EXIF/user-comment
+/// provenance cannot drift if the controller changes before encoding or sharing
+/// finishes.
 final class ExportMetadataParameters {
   const ExportMetadataParameters._();
 
   static Map<String, Object> snapshot(Map<String, Object> parameters) {
     if (parameters.isEmpty) return const <String, Object>{};
-    return Map<String, Object>.unmodifiable(parameters);
+    return Map<String, Object>.unmodifiable({
+      for (final entry in parameters.entries)
+        entry.key: _snapshotValue(entry.value) as Object,
+    });
+  }
+
+  static Object? _snapshotValue(Object? value) {
+    if (value is Map) {
+      return Map<Object?, Object?>.unmodifiable({
+        for (final entry in value.entries)
+          _snapshotValue(entry.key): _snapshotValue(entry.value),
+      });
+    }
+    if (value is List) {
+      return List<Object?>.unmodifiable(value.map(_snapshotValue));
+    }
+    if (value is Set) {
+      return Set<Object?>.unmodifiable(value.map(_snapshotValue));
+    }
+    return value;
   }
 }
 

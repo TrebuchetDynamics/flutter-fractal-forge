@@ -254,6 +254,35 @@ void main() {
       expect(metadata.toExifMap()['UserComment'], isNot(contains('200')));
       expect(metadata.toExifMap()['UserComment'], isNot(contains('bailout')));
     });
+
+    test('snapshots nested collection parameter values before metadata reuse',
+        () {
+      final paletteStops = <double>[0.1, 0.2];
+      final palette = <String, Object>{'stops': paletteStops};
+      final metadata = ExportMetadata(
+        fractalType: 'custom_fractal',
+        parameters: {
+          'palette': palette,
+          'weights': paletteStops,
+        },
+        createdAt: DateTime(2024, 1, 15),
+      );
+
+      paletteStops.add(0.3);
+      palette['mode'] = 'mutated';
+
+      final comment = metadata.toExifMap()['UserComment']!;
+      expect(comment, contains('palette: {stops: [0.1, 0.2]}'));
+      expect(comment, contains('weights: [0.1, 0.2]'));
+      expect(comment, isNot(contains('0.3')));
+      expect(comment, isNot(contains('mutated')));
+
+      final snapshotPalette =
+          metadata.parameters['palette'] as Map<Object?, Object?>;
+      final snapshotWeights = metadata.parameters['weights'] as List<Object?>;
+      expect(() => snapshotPalette['mode'] = 'mutated', throwsUnsupportedError);
+      expect(() => snapshotWeights.add(0.4), throwsUnsupportedError);
+    });
   });
 
   group('ExportPresets', () {
