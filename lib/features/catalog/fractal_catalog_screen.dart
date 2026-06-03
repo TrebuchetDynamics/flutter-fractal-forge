@@ -18,8 +18,6 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 enum CatalogViewMode { grid, list }
 
-enum _DimensionFilter { all, twoD, threeD, kaleidoscope }
-
 /// Featured fractal IDs shown in the hero carousel at the top of the catalog.
 /// NOTE: These IDs MUST have corresponding thumbnails in assets/catalog_thumbs/.
 const _kFeaturedFractalIds = <String>[
@@ -182,7 +180,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   bool get _isSearchFocused => _focusNode.hasFocus;
   bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
-  _DimensionFilter _dimensionFilter = _DimensionFilter.all;
+  CatalogDimensionFilter _dimensionFilter = CatalogDimensionFilter.all;
   String? _selectedCategory;
 
   // Search debounce - prevents rebuild on every keystroke
@@ -265,89 +263,13 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     await prefs.setBool(_viewPrefKey, mode == CatalogViewMode.grid);
   }
 
-  bool get _hasActiveCatalogRefinements =>
-      _searchController.text.trim().isNotEmpty ||
-      _dimensionFilter != _DimensionFilter.all ||
-      _selectedCategory != null;
+  CatalogFilterCriteria get _currentFilterCriteria => CatalogFilterCriteria(
+        query: _debouncedQuery,
+        dimensionFilter: _dimensionFilter,
+        selectedCategory: _selectedCategory,
+      );
 
-  bool _matchesDimension(CatalogEntry entry, _DimensionFilter filter) {
-    switch (filter) {
-      case _DimensionFilter.all:
-        return true;
-      case _DimensionFilter.twoD:
-        return entry.module.dimension == FractalDimension.twoD;
-      case _DimensionFilter.threeD:
-        return entry.module.dimension == FractalDimension.threeD;
-      case _DimensionFilter.kaleidoscope:
-        return entry.category.toLowerCase().contains('kaleidoscope');
-    }
-  }
-
-  bool _matchesSearch(
-    CatalogEntry entry,
-    AppLocalizations l10n,
-    String query,
-  ) {
-    return CatalogSearchQuery.fromText(query).matches(entry, l10n);
-  }
-
-  List<CatalogEntry> _entriesMatchingSearch(AppLocalizations l10n) {
-    final query = _debouncedQuery.trim().toLowerCase();
-    return _catalog!.entries.where((entry) {
-      return _matchesSearch(entry, l10n, query);
-    }).toList(growable: false);
-  }
-
-  List<CatalogEntry> _entriesForDimensionCounts(AppLocalizations l10n) {
-    final matchesSearch = _entriesMatchingSearch(l10n);
-    return matchesSearch.where((entry) {
-      if (_selectedCategory == null) return true;
-      return entry.category == _selectedCategory;
-    }).toList(growable: false);
-  }
-
-  List<CatalogEntry> _entriesForCategoryCounts(AppLocalizations l10n) {
-    final matchesSearch = _entriesMatchingSearch(l10n);
-    return matchesSearch.where((entry) {
-      return _matchesDimension(entry, _dimensionFilter);
-    }).toList(growable: false);
-  }
-
-  List<CatalogEntry> _filteredEntries(AppLocalizations l10n) {
-    final matchesSearchAndDimension = _entriesForCategoryCounts(l10n);
-    return matchesSearchAndDimension.where((entry) {
-      if (_selectedCategory == null) return true;
-      return entry.category == _selectedCategory;
-    }).toList(growable: false);
-  }
-
-  Map<String, int> _categoryCounts(List<CatalogEntry> entries) {
-    final counts = <String, int>{};
-    for (final entry in entries) {
-      counts.update(entry.category, (count) => count + 1, ifAbsent: () => 1);
-    }
-    return counts;
-  }
-
-  List<String> _sortedCategories(Map<String, int> categoryCounts) {
-    final categories = categoryCounts.keys.toList()
-      ..sort((a, b) {
-        final countCompare = (categoryCounts[b] ?? 0).compareTo(
-          categoryCounts[a] ?? 0,
-        );
-        if (countCompare != 0) return countCompare;
-        return a.compareTo(b);
-      });
-
-    final selected = _selectedCategory;
-    if (selected != null && !categories.contains(selected)) {
-      categories.insert(0, selected);
-    }
-
-    return categories;
-  }
-
-  void _updateDimensionFilter(_DimensionFilter filter) {
+  void _updateDimensionFilter(CatalogDimensionFilter filter) {
     setState(() {
       _dimensionFilter = filter;
     });
@@ -371,7 +293,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     setState(() {
       _resetSearchInputState();
       _isSearchVisible = false;
-      _dimensionFilter = _DimensionFilter.all;
+      _dimensionFilter = CatalogDimensionFilter.all;
       _selectedCategory = null;
     });
   }
@@ -401,14 +323,19 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final query = _debouncedQuery.trim().toLowerCase();
-    final filteredEntries = _filteredEntries(l10n);
+    final filterCriteria = _currentFilterCriteria;
+    final filterResult = CatalogFilter.apply(
+      entries: _catalog!.entries,
+      criteria: filterCriteria,
+      l10n: l10n,
+    );
+    final query = filterCriteria.searchQuery.value;
+    final filteredEntries = filterResult.filteredEntries;
     final groupedEntries = _groupAndSort(filteredEntries, l10n);
-    final categoryBaseEntries = _entriesForCategoryCounts(l10n);
-    final categoryCounts = _categoryCounts(categoryBaseEntries);
-    final sortedCategories = _sortedCategories(categoryCounts);
+    final categoryCounts = filterResult.categoryCounts;
+    final sortedCategories = filterResult.sortedCategories;
     final showFeatured = query.isEmpty &&
-        _dimensionFilter == _DimensionFilter.all &&
+        _dimensionFilter == CatalogDimensionFilter.all &&
         _selectedCategory == null;
 
     return CustomScrollView(
@@ -416,8 +343,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         SliverToBoxAdapter(
           child: Column(
             children: [
-              _buildFilterAndSortBar(context, l10n),
+              _buildFilterAndSortBar(context, l10n, filterResult),
               if (_isSearchVisible) _buildSearchField(context, l10n),
+              _buildCategoryBar(
+                context,
+                l10n,
+                categories: sortedCategories,
+                categoryCounts: categoryCounts,
+                totalCount: filterResult.categoryBaseEntries.length,
+              ),
               // Featured carousel disabled - TEMPORARILY DISABLED (assets issue)
               // if (showFeatured && _viewMode == CatalogViewMode.grid)
               //   _FeaturedSection(...),
@@ -444,18 +378,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   Widget _buildFilterAndSortBar(
     BuildContext context,
     AppLocalizations l10n,
+    CatalogFilterResult filterResult,
   ) {
-    final dimensionBaseEntries = _entriesForDimensionCounts(l10n);
-    final allCount = dimensionBaseEntries.length;
-    final twoDCount = dimensionBaseEntries
-        .where((entry) => entry.module.dimension == FractalDimension.twoD)
-        .length;
-    final threeDCount = dimensionBaseEntries
-        .where((entry) => entry.module.dimension == FractalDimension.threeD)
-        .length;
-    final kaleidoscopeCount = dimensionBaseEntries
-        .where((entry) => entry.category.toLowerCase().contains('kaleidoscope'))
-        .length;
+    final allCount = filterResult.countForDimension(CatalogDimensionFilter.all);
+    final twoDCount =
+        filterResult.countForDimension(CatalogDimensionFilter.twoD);
+    final threeDCount =
+        filterResult.countForDimension(CatalogDimensionFilter.threeD);
+    final kaleidoscopeCount =
+        filterResult.countForDimension(CatalogDimensionFilter.kaleidoscope);
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -474,34 +405,38 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                     chipKey: const Key('catalogDimensionChip_all'),
                     label: l10n.catalogFilterAll,
                     count: allCount,
-                    selected: _dimensionFilter == _DimensionFilter.all,
-                    onTap: () => _updateDimensionFilter(_DimensionFilter.all),
+                    selected: _dimensionFilter == CatalogDimensionFilter.all,
+                    onTap: () =>
+                        _updateDimensionFilter(CatalogDimensionFilter.all),
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   _DimChip(
                     chipKey: const Key('catalogDimensionChip_2d'),
                     label: l10n.dimension2d,
                     count: twoDCount,
-                    selected: _dimensionFilter == _DimensionFilter.twoD,
-                    onTap: () => _updateDimensionFilter(_DimensionFilter.twoD),
+                    selected: _dimensionFilter == CatalogDimensionFilter.twoD,
+                    onTap: () =>
+                        _updateDimensionFilter(CatalogDimensionFilter.twoD),
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   _DimChip(
                     chipKey: const Key('catalogDimensionChip_3d'),
                     label: l10n.dimension3d,
                     count: threeDCount,
-                    selected: _dimensionFilter == _DimensionFilter.threeD,
+                    selected: _dimensionFilter == CatalogDimensionFilter.threeD,
                     onTap: () =>
-                        _updateDimensionFilter(_DimensionFilter.threeD),
+                        _updateDimensionFilter(CatalogDimensionFilter.threeD),
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   _DimChip(
                     chipKey: const Key('catalogDimensionChip_kaleidoscope'),
                     label: l10n.dimensionKaleidoscope,
                     count: kaleidoscopeCount,
-                    selected: _dimensionFilter == _DimensionFilter.kaleidoscope,
-                    onTap: () =>
-                        _updateDimensionFilter(_DimensionFilter.kaleidoscope),
+                    selected:
+                        _dimensionFilter == CatalogDimensionFilter.kaleidoscope,
+                    onTap: () => _updateDimensionFilter(
+                      CatalogDimensionFilter.kaleidoscope,
+                    ),
                   ),
                   const SizedBox(width: AppSpacing.md),
                 ],
@@ -542,6 +477,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     AppLocalizations l10n, {
     required List<String> categories,
     required Map<String, int> categoryCounts,
+    required int totalCount,
   }) {
     if (categories.isEmpty) return const SizedBox.shrink();
 
@@ -576,7 +512,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                   return _DimChip(
                     chipKey: const Key('catalogCategoryChip_all'),
                     label: l10n.catalogFilterAll,
-                    count: _entriesForCategoryCounts(l10n).length,
+                    count: totalCount,
                     selected: _selectedCategory == null,
                     onTap: () {
                       setState(() {

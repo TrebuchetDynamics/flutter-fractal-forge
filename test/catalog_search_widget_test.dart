@@ -80,6 +80,19 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
   });
 
+  testWidgets('Catalog renders category chips for category refinements',
+      (tester) async {
+    await pumpCatalog(tester);
+
+    expect(find.text('Categories'), findsOneWidget);
+    expect(
+      find.byKey(const Key('catalogCategoryChip_escape_time')),
+      findsOneWidget,
+    );
+
+    await tester.pump(const Duration(seconds: 3));
+  });
+
   testWidgets('Catalog search field uses the focused visual state',
       (tester) async {
     await pumpCatalog(tester);
