@@ -302,7 +302,7 @@ class _BoundedIntQueryParam implements _DeepLinkQueryParamContract {
   }
 
   String? format(Object? value) {
-    final parsed = _DeepLinkIntegerValue.tryParse(value);
+    final parsed = _DeepLinkIntegerValue.tryParseObject(value);
     if (parsed == null || !_contains(parsed)) {
       return null;
     }
@@ -317,15 +317,26 @@ class _DeepLinkIntegerValue {
 
   const _DeepLinkIntegerValue._();
 
-  /// Mirrors runtime module int-param readers for generated links: persisted
-  /// parameter maps may carry slider-originated doubles, but generated URLs
-  /// must contain replayable integer query values.
-  static int? tryParse(Object? value) {
+  /// Mirrors runtime module int-param readers for generated and incoming links:
+  /// persisted parameter maps and hand-authored URLs may carry slider-originated
+  /// doubles, but replay needs integer query values.
+  static int? tryParseObject(Object? value) {
     return switch (value) {
       int v => v,
-      double v when _isSafeIntegerDouble(v) => v.round(),
+      double v => _roundSafeDouble(v),
+      String v => tryParseText(v),
       _ => null,
     };
+  }
+
+  static int? tryParseText(String? value) {
+    if (value == null) return null;
+    return int.tryParse(value) ?? _roundSafeDouble(double.tryParse(value));
+  }
+
+  static int? _roundSafeDouble(double? value) {
+    if (value == null || !_isSafeIntegerDouble(value)) return null;
+    return value.round();
   }
 
   static bool _isSafeIntegerDouble(double value) {
@@ -715,7 +726,7 @@ class DeepLinkService {
 
   static int? _parseBoundedInt(String? v, int min, int max, String paramName) {
     if (v == null) return null;
-    final i = int.tryParse(v);
+    final i = _DeepLinkIntegerValue.tryParseText(v);
     if (i == null) {
       if (kDebugMode)
         debugPrint('DeepLink: invalid value for "$paramName": "$v" — ignoring');

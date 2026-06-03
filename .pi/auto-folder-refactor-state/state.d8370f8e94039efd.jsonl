@@ -128,3 +128,6 @@
 {"ts":"2026-06-02T14:38:12-06:00","candidate":"shaders/escape_time_family/julia_variants","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T22:38:12-06:00"}
 {"ts":"2026-06-02T14:42:38-06:00","candidate":"shaders/escape_time_family/newton_and_orthogonal","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T18:42:38-06:00"}
 {"ts":"2026-06-02T17:22:44-06:00","candidate":"shaders/escape_time_family/families/nova","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T18:22:44-06:00"}
+{"ts":"2026-06-02T18:41:09-06:00","candidate":"lib/features/history","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T19:41:09-06:00"}
+{"ts":"2026-06-02T18:43:54-06:00","candidate":"shaders/escape_time_family/families/nova","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-02T20:43:54-06:00"}
+{"ts":"2026-06-02T18:46:52-06:00","candidate":"shaders/escape_time_family/newton_and_orthogonal","reason":"no metric progress rollback","scope":"candidate","state":"cooldown","until":"2026-06-03T02:46:52-06:00"}

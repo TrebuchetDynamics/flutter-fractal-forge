@@ -73,6 +73,17 @@ void main() {
         expect(data.juliaY, 0.27);
       });
 
+      test('parses decimal integer parameters like generated links do', () {
+        final uri = Uri.parse(
+          'fractalforge://view?type=mandelbrot&iterations=120.5&colorScheme=2.0',
+        );
+        final data = DeepLinkService.parseUri(uri);
+
+        expect(data, isNotNull);
+        expect(data!.iterations, 121);
+        expect(data.colorScheme, 2);
+      });
+
       test('returns null for non-fractalforge scheme', () {
         final uri = Uri.parse('https://example.com/view?type=mandelbrot');
         final data = DeepLinkService.parseUri(uri);
