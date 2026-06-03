@@ -437,6 +437,50 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // VideoStartView
+  // ---------------------------------------------------------------------------
+  group('VideoStartView', () {
+    test('normalizes malformed zoom, pan, and rotation with provenance', () {
+      final normalized = VideoStartView.normalize(
+        FractalViewState(
+          pan: Vector2(double.nan, double.infinity),
+          zoom: double.nan,
+          rotation: Vector3(0.25, double.infinity, double.negativeInfinity),
+        ),
+      );
+
+      expect(normalized.view.zoom, VideoStartZoom.neutral);
+      expect(normalized.view.pan.x, 0.0);
+      expect(normalized.view.pan.y, 0.0);
+      expect(normalized.view.rotation.x, closeTo(0.25, 1e-9));
+      expect(normalized.view.rotation.y, 0.0);
+      expect(normalized.view.rotation.z, 0.0);
+      expect(normalized.zoomWasNormalized, isTrue);
+      expect(normalized.panWasNormalized, isTrue);
+      expect(normalized.rotationWasNormalized, isTrue);
+      expect(normalized.wasNormalized, isTrue);
+    });
+
+    test('preserves finite start views', () {
+      final normalized = VideoStartView.normalize(
+        FractalViewState(
+          pan: Vector2(0.5, -0.25),
+          zoom: 4.0,
+          rotation: Vector3(0.1, 0.2, 0.3),
+        ),
+      );
+
+      expect(normalized.view.zoom, 4.0);
+      expect(normalized.view.pan.x, 0.5);
+      expect(normalized.view.pan.y, -0.25);
+      expect(normalized.view.rotation.x, closeTo(0.1, 1e-7));
+      expect(normalized.view.rotation.y, closeTo(0.2, 1e-7));
+      expect(normalized.view.rotation.z, closeTo(0.3, 1e-7));
+      expect(normalized.wasNormalized, isFalse);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // VideoExportService.calculateAnimationFrame
   // ---------------------------------------------------------------------------
   group('VideoExportService.calculateAnimationFrame', () {
@@ -553,6 +597,41 @@ void main() {
           expect(frame.pan.y.isFinite, isTrue,
               reason: '$animationType startZoom=$startZoom');
         }
+      }
+    });
+
+    test('malformed start pan and rotation samples stay replayable', () {
+      final view = FractalViewState(
+        pan: Vector2(double.nan, double.infinity),
+        zoom: 2.0,
+        rotation: Vector3(
+          double.nan,
+          double.infinity,
+          double.negativeInfinity,
+        ),
+      );
+
+      for (final animationType in VideoAnimationType.values) {
+        final frame = service.calculateAnimationFrame(
+          startView: view,
+          options: VideoExportOptions(
+            animationType: animationType,
+            zoomFactor: 5.0,
+            easing: AnimationEasing.linear,
+          ),
+          frameIndex: 5,
+          totalFrames: 10,
+        );
+
+        expect(frame.zoom.isFinite, isTrue, reason: '$animationType zoom');
+        expect(frame.pan.x.isFinite, isTrue, reason: '$animationType pan.x');
+        expect(frame.pan.y.isFinite, isTrue, reason: '$animationType pan.y');
+        expect(frame.rotation.x.isFinite, isTrue,
+            reason: '$animationType rotation.x');
+        expect(frame.rotation.y.isFinite, isTrue,
+            reason: '$animationType rotation.y');
+        expect(frame.rotation.z.isFinite, isTrue,
+            reason: '$animationType rotation.z');
       }
     });
 

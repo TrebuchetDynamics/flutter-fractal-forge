@@ -96,6 +96,65 @@ class VideoStartZoom {
   static double panOrbitRadius(double zoom) => 0.5 / normalize(zoom);
 }
 
+/// Replayable start-view contract for video animation frames.
+///
+/// Zoom was already normalized at the export boundary, but pan and rotation can
+/// also be restored from stale persisted state or direct callers. Keep all view
+/// components finite before frame interpolation so every animation type can hand
+/// a replayable [FractalViewState] to the caller's update callback.
+final class VideoStartView {
+  final FractalViewState view;
+  final bool zoomWasNormalized;
+  final bool panWasNormalized;
+  final bool rotationWasNormalized;
+
+  const VideoStartView._({
+    required this.view,
+    required this.zoomWasNormalized,
+    required this.panWasNormalized,
+    required this.rotationWasNormalized,
+  });
+
+  factory VideoStartView.normalize(FractalViewState startView) {
+    final pan = startView.pan;
+    final rotation = startView.rotation;
+    final zoom = VideoStartZoom.normalize(startView.zoom);
+    final normalizedPan = Vector2(
+      _finiteOrZero(pan.x),
+      _finiteOrZero(pan.y),
+    );
+    final normalizedRotation = Vector3(
+      _finiteOrZero(rotation.x),
+      _finiteOrZero(rotation.y),
+      _finiteOrZero(rotation.z),
+    );
+
+    return VideoStartView._(
+      view: FractalViewState(
+        pan: normalizedPan,
+        zoom: zoom,
+        rotation: normalizedRotation,
+      ),
+      zoomWasNormalized: zoom != startView.zoom,
+      panWasNormalized: !_isFiniteVector2(pan),
+      rotationWasNormalized: !_isFiniteVector3(rotation),
+    );
+  }
+
+  double get zoom => view.zoom;
+  double get panOrbitRadius => VideoStartZoom.panOrbitRadius(zoom);
+  bool get wasNormalized =>
+      zoomWasNormalized || panWasNormalized || rotationWasNormalized;
+
+  static double _finiteOrZero(double value) => value.isFinite ? value : 0.0;
+
+  static bool _isFiniteVector2(Vector2 value) =>
+      value.x.isFinite && value.y.isFinite;
+
+  static bool _isFiniteVector3(Vector3 value) =>
+      value.x.isFinite && value.y.isFinite && value.z.isFinite;
+}
+
 /// Replayable parameter-sweep frame contract for video animations.
 ///
 /// [VideoExportService.calculateParameterFrame] hands updates to an arbitrary
@@ -220,10 +279,9 @@ class VideoExportService {
       totalFrames: totalFrames,
     );
     final easedT = options.easing.apply(t);
-    final startZoom = VideoStartZoom.normalize(startView.zoom);
-    final replayableStartView = startZoom == startView.zoom
-        ? startView
-        : startView.copyWith(zoom: startZoom);
+    final replayableStart = VideoStartView.normalize(startView);
+    final replayableStartView = replayableStart.view;
+    final startZoom = replayableStart.zoom;
 
     switch (options.animationType) {
       case VideoAnimationType.zoomIn:
@@ -247,7 +305,7 @@ class VideoExportService {
 
       case VideoAnimationType.pan:
         final angle = easedT * 2 * math.pi;
-        final radius = VideoStartZoom.panOrbitRadius(startView.zoom);
+        final radius = replayableStart.panOrbitRadius;
         return replayableStartView.copyWith(
           pan: Vector2(
             replayableStartView.pan.x + radius * math.cos(angle),
