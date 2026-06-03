@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
@@ -345,6 +347,30 @@ void main() {
 
     expect(controller.view.pan.x, inInclusiveRange(-3.0, 3.0));
     expect(controller.view.pan.y, inInclusiveRange(-3.0, 3.0));
+  });
+
+  testWidgets('Mouse wheel zoom preserves targets inside controller bounds',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final targetZoom = 5e11;
+    final scrollDeltaY = -math.log(targetZoom / controller.view.zoom) / 0.001;
+
+    await tester.sendEventToBinding(
+      PointerScrollEvent(
+        position: center,
+        scrollDelta: Offset(0, scrollDeltaY),
+        kind: PointerDeviceKind.mouse,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(controller.view.zoom, closeTo(targetZoom, targetZoom * 1e-9));
   });
 
   testWidgets('Mouse wheel zoom clamps to max and min limits', (tester) async {

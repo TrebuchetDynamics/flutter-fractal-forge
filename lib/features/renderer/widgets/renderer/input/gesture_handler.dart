@@ -6,11 +6,12 @@ part of '../fractal_renderer.dart';
 /// context-menu gestures. Apply alongside `TickerProviderStateMixin`.
 mixin _GestureHandlerMixin on State<FractalRenderer> {
   // Gesture tuning constants
-  static const double _kMinZoom = 1e-10;
-  static const double _kMaxZoom = 1e10;
-  static const double _kPanMin = -3.0;
-  static const double _kPanMax = 3.0;
-  static const double _kRubberBandStrength = 0.5;
+  static const double _kMinZoom = RendererGestureViewBounds.minZoom;
+  static const double _kMaxZoom = RendererGestureViewBounds.maxZoom;
+  static const double _kPanMin = RendererGestureViewBounds.minPan;
+  static const double _kPanMax = RendererGestureViewBounds.maxPan;
+  static const double _kRubberBandStrength =
+      RendererGestureViewBounds.defaultRubberBandStrength;
   static const double _kTiltMaxRadians = 67.5 * math.pi / 180.0;
   // Raised from 0.06 → 0.12 rad: fingers are never perfectly parallel during
   // pinch, so the old threshold triggered accidental rotation too easily.
@@ -213,9 +214,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
   double _rubberBand(double value, double min, double max,
       {double strength = _kRubberBandStrength}) {
-    if (value < min) return min + (value - min) * strength;
-    if (value > max) return max + (value - max) * strength;
-    return value;
+    return RendererGestureViewBounds.rubberBand(
+      value,
+      min,
+      max,
+      strength: strength,
+    );
   }
 
   Offset _normalizedPoint(Offset p, Size size, double scalePx) {
@@ -426,7 +430,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     final controller = context.read<FractalController>();
     if (_activePointers.isEmpty || _activePointers.length == 1) {
       // Pan end: log final position and delta from start
-      final endFocal = _velHistory.isNotEmpty ? _velHistory.last.pos : _startFocalPoint;
+      final endFocal =
+          _velHistory.isNotEmpty ? _velHistory.last.pos : _startFocalPoint;
       final dx = endFocal.dx - _startFocalPoint.dx;
       final dy = endFocal.dy - _startFocalPoint.dy;
       AppLogger.instance.debug('gesture', 'pan_end', data: {
