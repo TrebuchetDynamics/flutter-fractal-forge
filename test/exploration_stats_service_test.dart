@@ -1,8 +1,43 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_fractals/core/models/exploration_stats.dart';
 import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 
 void main() {
+  group('ExplorationStats model', () {
+    test('snapshots and freezes explored fractal IDs at construction', () {
+      final ids = <String>{'mandelbrot'};
+      final stats = ExplorationStats(uniqueFractalsExplored: ids);
+
+      ids.add('julia');
+
+      expect(stats.uniqueFractalsExplored, {'mandelbrot'});
+      expect(
+        () => stats.uniqueFractalsExplored.add('phoenix'),
+        throwsUnsupportedError,
+      );
+    });
+
+    test('decode skips stale fractal IDs without dropping valid stats', () {
+      final stats = ExplorationStats.decode(jsonEncode({
+        'totalZoomDistance': 2.5,
+        'totalTimeSeconds': 60,
+        'screenshotsTaken': 3,
+        'uniqueFractalsExplored': ['mandelbrot', 42, null, '', 'julia'],
+        'firstExplorationDate': '2024-01-01T00:00:00.000Z',
+        'lastUpdated': '2024-01-02T00:00:00.000Z',
+      }));
+
+      expect(stats.totalZoomDistance, 2.5);
+      expect(stats.totalTimeSeconds, 60);
+      expect(stats.screenshotsTaken, 3);
+      expect(stats.uniqueFractalsExplored, {'mandelbrot', 'julia'});
+      expect(stats.firstExplorationDate, DateTime.utc(2024, 1, 1));
+    });
+  });
+
   group('ExplorationStatsService', () {
     late ExplorationStatsService service;
 

@@ -1,6 +1,27 @@
 import 'dart:convert';
 
 /// Tracks exploration statistics across sessions.
+class _ExplorationStatsFractalIds {
+  const _ExplorationStatsFractalIds._();
+
+  static Set<String> snapshot(Iterable<Object?>? ids) {
+    if (ids == null) return const <String>{};
+
+    final safeIds = <String>{};
+    for (final id in ids) {
+      if (id is String && id.isNotEmpty) {
+        safeIds.add(id);
+      }
+    }
+    return Set<String>.unmodifiable(safeIds);
+  }
+
+  static Set<String> fromJsonValue(Object? value) {
+    if (value is! Iterable) return const <String>{};
+    return snapshot(value.cast<Object?>());
+  }
+}
+
 class ExplorationStats {
   final double totalZoomDistance;
   final int totalTimeSeconds;
@@ -16,7 +37,9 @@ class ExplorationStats {
     Set<String>? uniqueFractalsExplored,
     this.firstExplorationDate,
     DateTime? lastUpdated,
-  })  : uniqueFractalsExplored = uniqueFractalsExplored ?? {},
+  })  : uniqueFractalsExplored = _ExplorationStatsFractalIds.snapshot(
+          uniqueFractalsExplored,
+        ),
         lastUpdated = lastUpdated ?? DateTime.now();
 
   ExplorationStats copyWith({
@@ -31,7 +54,8 @@ class ExplorationStats {
       totalZoomDistance: totalZoomDistance ?? this.totalZoomDistance,
       totalTimeSeconds: totalTimeSeconds ?? this.totalTimeSeconds,
       screenshotsTaken: screenshotsTaken ?? this.screenshotsTaken,
-      uniqueFractalsExplored: uniqueFractalsExplored ?? this.uniqueFractalsExplored,
+      uniqueFractalsExplored:
+          uniqueFractalsExplored ?? this.uniqueFractalsExplored,
       firstExplorationDate: firstExplorationDate ?? this.firstExplorationDate,
       lastUpdated: lastUpdated ?? DateTime.now(),
     );
@@ -51,10 +75,9 @@ class ExplorationStats {
       totalZoomDistance: (json['totalZoomDistance'] as num?)?.toDouble() ?? 0.0,
       totalTimeSeconds: json['totalTimeSeconds'] as int? ?? 0,
       screenshotsTaken: json['screenshotsTaken'] as int? ?? 0,
-      uniqueFractalsExplored: (json['uniqueFractalsExplored'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toSet() ??
-          {},
+      uniqueFractalsExplored: _ExplorationStatsFractalIds.fromJsonValue(
+        json['uniqueFractalsExplored'],
+      ),
       firstExplorationDate: json['firstExplorationDate'] != null
           ? DateTime.tryParse(json['firstExplorationDate'] as String)
           : null,
@@ -68,7 +91,8 @@ class ExplorationStats {
 
   static ExplorationStats decode(String source) {
     try {
-      return ExplorationStats.fromJson(jsonDecode(source) as Map<String, dynamic>);
+      return ExplorationStats.fromJson(
+          jsonDecode(source) as Map<String, dynamic>);
     } catch (_) {
       return ExplorationStats();
     }
