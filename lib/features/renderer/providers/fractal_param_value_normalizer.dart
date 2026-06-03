@@ -19,18 +19,36 @@ final class FractalNumericParamBounds {
   final double min;
   final double max;
 
-  bool get containsInteger => min.ceil() <= max.floor();
+  bool get hasFiniteOrderedRange => min.isFinite && max.isFinite && min <= max;
 
-  double normalizeFloat(double value) => value.clamp(min, max).toDouble();
+  bool get containsInteger =>
+      hasFiniteOrderedRange && min.ceil() <= max.floor();
+
+  double? tryNormalizeFloat(double value) {
+    if (!hasFiniteOrderedRange) return null;
+    return value.clamp(min, max).toDouble();
+  }
+
+  int? tryNormalizeInteger(double value) {
+    if (!containsInteger) return null;
+    final rounded = tryNormalizeFloat(value)!.round();
+    return rounded.clamp(min.ceil(), max.floor()).toInt();
+  }
+
+  double normalizeFloat(double value) {
+    assert(
+      hasFiniteOrderedRange,
+      'numeric parameter bounds must be finite and ordered',
+    );
+    return tryNormalizeFloat(value) ?? value;
+  }
 
   int normalizeInteger(double value) {
     assert(
       containsInteger,
       'integer parameter bounds must include at least one integer value',
     );
-    final rounded = normalizeFloat(value).round();
-    if (!containsInteger) return rounded;
-    return rounded.clamp(min.ceil(), max.floor()).toInt();
+    return tryNormalizeInteger(value) ?? value.round();
   }
 }
 
@@ -54,9 +72,9 @@ Object normalizeFractalParamValue(FractalParameter schema, Object value) {
   if (numericValue != null) {
     final bounds = FractalNumericParamBounds.fromSchema(schema);
     if (schema.type == FractalParamType.integer) {
-      return bounds.normalizeInteger(numericValue);
+      return bounds.tryNormalizeInteger(numericValue) ?? schema.defaultValue;
     }
-    return bounds.normalizeFloat(numericValue);
+    return bounds.tryNormalizeFloat(numericValue) ?? schema.defaultValue;
   }
   return schema.defaultValue;
 }

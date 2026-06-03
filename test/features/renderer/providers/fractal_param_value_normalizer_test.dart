@@ -81,6 +81,38 @@ void main() {
       }
     });
 
+    test('falls back when numeric schema bounds cannot clamp safely', () {
+      final reversedRange = _numericParam(
+        type: FractalParamType.float,
+        defaultValue: 4.0,
+        min: 10,
+        max: 1,
+      );
+      final nonFiniteRange = _numericParam(
+        type: FractalParamType.float,
+        defaultValue: 5.0,
+        min: double.nan,
+        max: 10,
+      );
+
+      expect(normalizeFractalParamValue(reversedRange, 6.0), 4.0);
+      expect(normalizeFractalParamValue(nonFiniteRange, 6.0), 5.0);
+    });
+
+    test('falls back when integer schema bounds contain no integer value', () {
+      final schema = _numericParam(
+        type: FractalParamType.integer,
+        defaultValue: 4,
+        min: 1.2,
+        max: 1.8,
+      );
+      final bounds = FractalNumericParamBounds.fromSchema(schema);
+
+      expect(bounds.hasFiniteOrderedRange, isTrue);
+      expect(bounds.containsInteger, isFalse);
+      expect(normalizeFractalParamValue(schema, 1.6), 4);
+    });
+
     test('keeps rounded integer values inside fractional schema bounds', () {
       final schema = _numericParam(
         type: FractalParamType.integer,
