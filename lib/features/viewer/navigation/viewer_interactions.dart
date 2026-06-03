@@ -77,6 +77,68 @@ void _viewerEnsureCompareController(
   state._compareController!.setTransparentBackground(a.transparentBackground);
 }
 
+/// Why a module is included or skipped by random viewer navigation.
+enum ViewerRandomFractalCandidateReason {
+  eligible,
+  currentModule,
+  diagnosticModule,
+}
+
+/// Replayable candidate decision for the random-fractal navigation action.
+///
+/// The runtime path receives the full registry and used to hide diagnostics via
+/// broad substring checks. Keeping the decision pure makes dropped real catalog
+/// IDs and leaked debug modules visible in focused tests.
+@visibleForTesting
+final class ViewerRandomFractalCandidate {
+  final String moduleId;
+  final ViewerRandomFractalCandidateReason reason;
+
+  const ViewerRandomFractalCandidate._({
+    required this.moduleId,
+    required this.reason,
+  });
+
+  factory ViewerRandomFractalCandidate.fromModule(
+    FractalModule module, {
+    required String currentModuleId,
+  }) {
+    if (module.id == currentModuleId) {
+      return ViewerRandomFractalCandidate._(
+        moduleId: module.id,
+        reason: ViewerRandomFractalCandidateReason.currentModule,
+      );
+    }
+    if (_isDiagnosticModule(module)) {
+      return ViewerRandomFractalCandidate._(
+        moduleId: module.id,
+        reason: ViewerRandomFractalCandidateReason.diagnosticModule,
+      );
+    }
+    return ViewerRandomFractalCandidate._(
+      moduleId: module.id,
+      reason: ViewerRandomFractalCandidateReason.eligible,
+    );
+  }
+
+  bool get isEligible => reason == ViewerRandomFractalCandidateReason.eligible;
+
+  static const Set<String> _diagnosticModuleIds = {
+    'test_always_red',
+    'test_uniform_only',
+    'test_minimal',
+    'test_gl_fragcoord',
+    'test_flutter_coord',
+    'gpu_gradient',
+    'gpu_sampler_diag',
+  };
+
+  static bool _isDiagnosticModule(FractalModule module) {
+    return _diagnosticModuleIds.contains(module.id) ||
+        module.shaderAsset.startsWith('shaders/diagnostic/');
+  }
+}
+
 void _viewerJumpToRandomFractal(
   _FractalViewerScreenState state,
   BuildContext context,
@@ -87,10 +149,12 @@ void _viewerJumpToRandomFractal(
   final currentId = controller.module.id;
   // Filter to real fractals (skip diagnostics)
   final candidates = registry.modules
-      .where((m) =>
-          m.id != currentId &&
-          !m.id.contains('diag') &&
-          !m.id.contains('gradient'))
+      .where(
+        (m) => ViewerRandomFractalCandidate.fromModule(
+          m,
+          currentModuleId: currentId,
+        ).isEligible,
+      )
       .toList();
   if (candidates.isEmpty) return;
   final rng = math.Random();
