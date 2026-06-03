@@ -2,8 +2,93 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+const int maxFractalPaletteStops = 8;
+
+const List<FractalColorStop> fallbackFractalPaletteStops = [
+  FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
+  FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
+];
+
 List<FractalColorStop> _snapshotPaletteStops(List<FractalColorStop> stops) {
   return List<FractalColorStop>.unmodifiable(stops);
+}
+
+/// Normalizes palette stops before display, persistence, or shader upload.
+///
+/// Imported palette JSON can contain empty, single-stop, overlong, out-of-range,
+/// or non-finite stop positions. Keep this contract in the model so gradients
+/// and shader paths cannot drift on which endpoint colors survive.
+List<FractalColorStop> normalizeFractalPaletteStops(
+  List<FractalColorStop> stops, {
+  int maxStops = maxFractalPaletteStops,
+}) {
+  final effectiveMaxStops = maxStops < 2 ? 2 : maxStops;
+  final finiteStops = _stopsWithFinitePositions(stops);
+  if (finiteStops.isEmpty) return fallbackFractalPaletteStops;
+
+  final sorted = [...finiteStops]
+    ..sort((a, b) => a.position.compareTo(b.position));
+  final clamped = sorted
+      .map((stop) => stop.copyWith(
+            position: _clampPaletteStopPosition(stop.position),
+          ))
+      .toList();
+
+  final bounded = _capPaletteStopsPreservingEndpoint(
+    clamped,
+    maxStops: effectiveMaxStops,
+  );
+  final normalized = _ensurePaletteEndpointStops(bounded);
+
+  assert(normalized.length >= 2);
+  assert(normalized.length <= effectiveMaxStops);
+  assert(normalized.first.position == 0.0);
+  assert(normalized.last.position == 1.0);
+  return normalized;
+}
+
+List<FractalColorStop> _stopsWithFinitePositions(
+  List<FractalColorStop> stops,
+) {
+  return stops.where((stop) => stop.position.isFinite).toList();
+}
+
+List<FractalColorStop> _capPaletteStopsPreservingEndpoint(
+  List<FractalColorStop> stops, {
+  required int maxStops,
+}) {
+  assert(stops.isNotEmpty);
+  return stops.length > maxStops
+      ? [
+          ...stops.take(maxStops - 1),
+          stops.last,
+        ]
+      : stops;
+}
+
+List<FractalColorStop> _ensurePaletteEndpointStops(
+  List<FractalColorStop> stops,
+) {
+  assert(stops.isNotEmpty);
+  if (stops.length == 1) {
+    final stop = stops.single;
+    return [
+      stop.copyWith(position: 0.0),
+      stop.copyWith(position: 1.0),
+    ];
+  }
+
+  return [
+    stops.first.copyWith(position: 0.0),
+    ...stops.skip(1).take(stops.length - 2),
+    stops.last.copyWith(position: 1.0),
+  ];
+}
+
+/// Clamp a finite palette stop position into the shader/gradient range.
+double _clampPaletteStopPosition(double position) {
+  assert(position.isFinite, 'Palette stop position must be finite');
+  return position.clamp(0.0, 1.0).toDouble();
 }
 
 @immutable
@@ -69,10 +154,10 @@ class FractalPalette {
   }
 
   LinearGradient toLinearGradient() {
-    final sorted = [...stops]..sort((a, b) => a.position.compareTo(b.position));
+    final normalized = normalizeFractalPaletteStops(stops);
     return LinearGradient(
-      colors: sorted.map((s) => s.color).toList(),
-      stops: sorted.map((s) => s.position.clamp(0.0, 1.0)).toList(),
+      colors: normalized.map((s) => s.color).toList(),
+      stops: normalized.map((s) => s.position).toList(),
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -69,6 +70,22 @@ void main() {
       expect(copy.stops, hasLength(1));
       expect(copy.stops.single.position, 0.25);
       expect(copy.stops.single.colorArgb, 0xFF123456);
+    });
+
+    test('toLinearGradient normalizes malformed imported stops before display',
+        () {
+      final palette = FractalPalette(
+        id: 'malformed',
+        name: 'Malformed',
+        stops: const [
+          FractalColorStop(position: double.nan, colorArgb: 0xFF112233),
+        ],
+      );
+
+      final gradient = palette.toLinearGradient();
+
+      expect(gradient.colors, const [Color(0xFF000000), Color(0xFFFFFFFF)]);
+      expect(gradient.stops, const [0.0, 1.0]);
     });
   });
 }
