@@ -600,39 +600,39 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   void _onPointerUp(PointerEvent event) {
     // Check two-finger tap FIRST (before removing pointer)
     // This prevents single-finger logic from running when second finger lifts
-    if (_twoFingerTapCandidate && _activePointers.length == 2) {
-      final elapsedMs = DateTime.now()
-          .difference(_twoFingerTapStartedAt ?? DateTime.now())
-          .inMilliseconds;
-      if (elapsedMs <= 220) {
-        final points = _activePointers.values.toList(growable: false);
-        final midpoint = Offset(
-          (points[0].dx + points[1].dx) / 2.0,
-          (points[0].dy + points[1].dy) / 2.0,
-        );
-        final controller = context.read<FractalController>();
-        final zoom = controller.view.zoom;
-        _deferUserInteractionEndToAnimation = true;
-        if (widget.onUserInteractionStart != null) {
-          widget.onUserInteractionStart!.call();
-        } else {
-          widget.onUserInteraction?.call();
-        }
-        _animateZoomTo(
-          zoom,
-          (zoom * 0.5).clamp(_kMinZoom, _kMaxZoom),
-          focalPoint: midpoint,
-          onCompleted: () {
-            _deferUserInteractionEndToAnimation = false;
-            if (widget.onUserInteractionEnd != null) {
-              widget.onUserInteractionEnd!.call();
-            } else {
-              widget.onUserInteraction?.call();
-            }
-          },
-        );
-        HapticFeedback.lightImpact();
+    final twoFingerTap = RendererTwoFingerTapDecision.evaluate(
+      isPointerUp: event is PointerUpEvent,
+      candidate: _twoFingerTapCandidate,
+      activePointerCount: _activePointers.length,
+      elapsed: _twoFingerTapStartedAt == null
+          ? null
+          : DateTime.now().difference(_twoFingerTapStartedAt!),
+      activePositions: _activePointers.values,
+    );
+    final midpoint = twoFingerTap.midpoint;
+    if (midpoint != null) {
+      final controller = context.read<FractalController>();
+      final zoom = controller.view.zoom;
+      _deferUserInteractionEndToAnimation = true;
+      if (widget.onUserInteractionStart != null) {
+        widget.onUserInteractionStart!.call();
+      } else {
+        widget.onUserInteraction?.call();
       }
+      _animateZoomTo(
+        zoom,
+        (zoom * 0.5).clamp(_kMinZoom, _kMaxZoom),
+        focalPoint: midpoint,
+        onCompleted: () {
+          _deferUserInteractionEndToAnimation = false;
+          if (widget.onUserInteractionEnd != null) {
+            widget.onUserInteractionEnd!.call();
+          } else {
+            widget.onUserInteraction?.call();
+          }
+        },
+      );
+      HapticFeedback.lightImpact();
     }
 
     // Check single-finger double-tap (only when 1 finger remains)

@@ -20,6 +20,7 @@ import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import '../../providers/fractal_provider.dart';
 import '../../cpu/cpu_fractal_renderer.dart';
 import 'input/gesture_view_bounds.dart';
+import 'input/gesture_tap_classification.dart';
 import '../../policy/deep_zoom_precision_policy.dart';
 import '../canvas/fractal_canvas.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
