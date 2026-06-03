@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
+import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
@@ -253,28 +254,22 @@ class _ParamControl extends StatelessWidget {
     switch (param.type) {
       case FractalParamType.float:
       case FractalParamType.integer:
-        final v = value;
-        final doubleValue = v is num ? v.toDouble() : param.min;
-        final divisions = ((param.max - param.min) / param.step).round();
+        final plan = NumericParamControlPlan.fromParam(
+          param: param,
+          value: value,
+        );
 
         return Padding(
           padding: const EdgeInsets.only(bottom: AppSpacing.md),
           child: _CompactParamSlider(
             label: param.label(l10n),
-            value: doubleValue.clamp(param.min, param.max),
-            min: param.min,
-            max: param.max,
-            divisions: divisions > 0 ? divisions : null,
-            valueLabel: param.type == FractalParamType.integer
-                ? doubleValue.round().toString()
-                : doubleValue.toStringAsFixed(2),
-            onChanged: (newValue) {
-              if (param.type == FractalParamType.integer) {
-                onChanged(newValue.round());
-              } else {
-                onChanged(double.parse(newValue.toStringAsFixed(2)));
-              }
-            },
+            value: plan.value,
+            min: plan.min,
+            max: plan.max,
+            divisions: plan.divisions,
+            valueLabel: plan.valueLabel,
+            onChanged: (newValue) =>
+                onChanged(plan.valueForSliderPosition(newValue)),
           ),
         );
 
