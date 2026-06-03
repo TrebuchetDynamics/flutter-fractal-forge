@@ -56,6 +56,24 @@ void main() {
       expect(plan.valueLabel, '4.25');
     });
 
+    test('uses schema step precision for fine-grained float labels and updates',
+        () {
+      final plan = NumericParamControlPlan.fromParam(
+        param: _numericParam(
+          type: FractalParamType.float,
+          defaultValue: 0.0,
+          min: -2,
+          max: 2,
+          step: 0.001,
+        ),
+        value: 1.234,
+      );
+
+      expect(plan.value, 1.234);
+      expect(plan.valueLabel, '1.234');
+      expect(plan.valueForSliderPosition(-1.234), -1.234);
+    });
+
     test('does not derive slider divisions from malformed steps', () {
       for (final step in [0.0, -1.0, double.nan, double.infinity]) {
         final plan = NumericParamControlPlan.fromParam(

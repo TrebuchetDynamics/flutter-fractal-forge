@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 
 /// Replayable presentation and update contract for numeric parameter controls.
@@ -13,6 +15,7 @@ final class NumericParamControlPlan {
     required this.value,
     required this.divisions,
     required this.valueLabel,
+    required this.floatPrecision,
   });
 
   factory NumericParamControlPlan.fromParam({
@@ -30,6 +33,7 @@ final class NumericParamControlPlan {
         _finiteNumericValue(param.defaultValue) ??
         range.min;
     final sliderValue = range.clamp(rawValue);
+    final floatPrecision = NumericParamFloatPrecision.fromStep(param.step);
 
     return NumericParamControlPlan._(
       type: param.type,
@@ -40,7 +44,9 @@ final class NumericParamControlPlan {
         type: param.type,
         range: range,
         sliderValue: sliderValue,
+        floatPrecision: floatPrecision,
       ),
+      floatPrecision: floatPrecision,
     );
   }
 
@@ -56,6 +62,9 @@ final class NumericParamControlPlan {
   /// Label for the same normalized value shown by the slider.
   final String valueLabel;
 
+  /// Float formatting/emission precision derived from the schema step.
+  final NumericParamFloatPrecision floatPrecision;
+
   double get min => range.min;
   double get max => range.max;
 
@@ -63,7 +72,7 @@ final class NumericParamControlPlan {
     final clamped = range.clamp(sliderPosition);
     return switch (type) {
       FractalParamType.integer => range.integerValueFor(clamped),
-      FractalParamType.float => double.parse(clamped.toStringAsFixed(2)),
+      FractalParamType.float => floatPrecision.round(clamped),
       FractalParamType.boolean || FractalParamType.enumeration => clamped,
     };
   }
@@ -72,11 +81,12 @@ final class NumericParamControlPlan {
     required FractalParamType type,
     required NumericParamControlRange range,
     required double sliderValue,
+    required NumericParamFloatPrecision floatPrecision,
   }) {
     if (type == FractalParamType.integer) {
       return range.integerValueFor(sliderValue).toString();
     }
-    return sliderValue.toStringAsFixed(2);
+    return floatPrecision.format(sliderValue);
   }
 
   static double? _finiteNumericValue(Object value) {
@@ -130,4 +140,44 @@ final class NumericParamControlRange {
     if (lower > upper) return rounded;
     return rounded.clamp(lower, upper).toInt();
   }
+}
+
+/// Float label/update precision derived from a slider schema step.
+///
+/// The old control contract used a hard-coded two decimal places for every
+/// float. Some module parameters declare finer steps (for example 0.001), so
+/// replayed slider positions must retain at least the precision the schema
+/// promises while preserving the existing two-decimal minimum for coarser
+/// controls.
+final class NumericParamFloatPrecision {
+  static const int defaultFractionDigits = 2;
+  static const int maxFractionDigits = 12;
+  static const double _integerTolerance = 1e-9;
+
+  const NumericParamFloatPrecision._(this.fractionDigits);
+
+  factory NumericParamFloatPrecision.fromStep(double step) {
+    if (!step.isFinite || step <= 0.0 || step >= 1.0) {
+      return const NumericParamFloatPrecision._(defaultFractionDigits);
+    }
+
+    for (var digits = defaultFractionDigits;
+        digits <= maxFractionDigits;
+        digits++) {
+      final scale = pow(10.0, digits).toDouble();
+      final scaledStep = step * scale;
+      if (!scaledStep.isFinite) break;
+      if ((scaledStep - scaledStep.round()).abs() <= _integerTolerance) {
+        return NumericParamFloatPrecision._(digits);
+      }
+    }
+
+    return const NumericParamFloatPrecision._(defaultFractionDigits);
+  }
+
+  final int fractionDigits;
+
+  double round(double value) => double.parse(format(value));
+
+  String format(double value) => value.toStringAsFixed(fractionDigits);
 }
