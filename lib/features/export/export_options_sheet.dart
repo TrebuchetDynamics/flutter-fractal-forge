@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/features/export/custom_export_dimensions.dart';
+import 'package:flutter_fractals/features/export/export_resolution_summary.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 enum ExportAction {
@@ -568,18 +569,12 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   Widget _buildExportSummary(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final effectiveOptions = _effectiveOptionsForExport();
-    final dims = effectiveOptions.resolution.dimensions;
-
-    String resolutionText;
-    if (effectiveOptions.resolution == ExportResolution.custom) {
-      final w = effectiveOptions.customWidth ?? defaultCustomExportWidth;
-      final h = effectiveOptions.customHeight ?? defaultCustomExportHeight;
-      resolutionText = '$w×$h';
-    } else if (dims != null) {
-      resolutionText = '${dims.$1}×${dims.$2}';
-    } else {
-      resolutionText = l10n.exportScreenResolution;
-    }
+    final screenSize = MediaQuery.sizeOf(context);
+    final resolutionText = ExportResolutionSummary.fromEffectiveOptions(
+      options: effectiveOptions,
+      screenWidth: screenSize.width,
+      screenHeight: screenSize.height,
+    ).label(screenResolutionLabel: l10n.exportScreenResolution);
 
     return Container(
       padding: const EdgeInsets.all(16),

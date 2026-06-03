@@ -1,5 +1,6 @@
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/features/export/custom_export_dimensions.dart';
+import 'package:flutter_fractals/features/export/export_resolution_summary.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -85,6 +86,30 @@ void main() {
 
       expect(resolved.customWidth, ExportDimensionPolicy.maxPixelDimension);
       expect(resolved.customHeight, ExportDimensionPolicy.maxPixelDimension);
+    });
+  });
+
+  group('ExportResolutionSummary', () {
+    test('uses oriented target dimensions for portrait preset summaries', () {
+      final summary = ExportResolutionSummary.fromEffectiveOptions(
+        options: const ExportOptions(resolution: ExportResolution.fullHd),
+        screenWidth: 800,
+        screenHeight: 1200,
+      );
+
+      expect(summary.usesScreenResolution, isFalse);
+      expect(summary.label(screenResolutionLabel: 'Screen'), '1080×1920');
+    });
+
+    test('preserves screen-resolution summary copy', () {
+      final summary = ExportResolutionSummary.fromEffectiveOptions(
+        options: const ExportOptions(resolution: ExportResolution.screen),
+        screenWidth: 800,
+        screenHeight: 1200,
+      );
+
+      expect(summary.usesScreenResolution, isTrue);
+      expect(summary.label(screenResolutionLabel: 'Screen'), 'Screen');
     });
   });
 }

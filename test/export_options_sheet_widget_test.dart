@@ -89,6 +89,23 @@ void main() {
     expect(submission.options.customHeight, 1080);
   });
 
+  testWidgets('preset summary uses actual oriented target dimensions',
+      (tester) async {
+    tester.view.physicalSize = const Size(800, 1200);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await pumpSheet(
+      tester,
+      initialOptions: const ExportOptions(
+        resolution: ExportResolution.fullHd,
+      ),
+    );
+
+    expect(find.text('1080×1920'), findsOneWidget);
+    expect(find.text('1920×1080'), findsNothing);
+  });
+
   testWidgets('custom fields remain export source after preset round-trip',
       (tester) async {
     tester.view.physicalSize = const Size(800, 1200);
