@@ -8,30 +8,55 @@ class Complex {
   final double re;
   final double im;
 
-  Complex operator +(Complex other) => Complex(re + other.re, im + other.im);
-  Complex operator -(Complex other) => Complex(re - other.re, im - other.im);
+  Complex operator +(Complex other) => ComplexArithmeticContract.finiteResult(
+      'add', Complex(re + other.re, im + other.im));
+  Complex operator -(Complex other) => ComplexArithmeticContract.finiteResult(
+      'subtract', Complex(re - other.re, im - other.im));
 
-  Complex operator *(Complex other) => Complex(
-        re * other.re - im * other.im,
-        re * other.im + im * other.re,
+  Complex operator *(Complex other) => ComplexArithmeticContract.finiteResult(
+        'multiply',
+        Complex(
+          re * other.re - im * other.im,
+          re * other.im + im * other.re,
+        ),
       );
 
   Complex operator /(Complex other) {
     final denom = ComplexDivisionContract.denominatorFor(other);
-    return Complex(
-      (re * other.re + im * other.im) / denom,
-      (im * other.re - re * other.im) / denom,
+    return ComplexArithmeticContract.finiteResult(
+      'divide',
+      Complex(
+        (re * other.re + im * other.im) / denom,
+        (im * other.re - re * other.im) / denom,
+      ),
     );
   }
 
   bool get isFinite => re.isFinite && im.isFinite;
 
-  Complex scale(double s) => Complex(re * s, im * s);
+  Complex scale(double s) =>
+      ComplexArithmeticContract.finiteResult('scale', Complex(re * s, im * s));
 
   double abs2() => re * re + im * im;
 
   @override
   String toString() => '($re,$im)';
+}
+
+/// Replayable finite-result contract for complex arithmetic.
+///
+/// FRM numeric literals are finite, but finite operands can still overflow
+/// during arithmetic. Keep that invariant at the arithmetic seam so evaluator
+/// tests can replay malformed formulas before non-finite state enters vars.
+final class ComplexArithmeticContract {
+  const ComplexArithmeticContract._();
+
+  static Complex finiteResult(String operation, Complex result) {
+    if (result.isFinite) return result;
+    throw StateError(
+      'Complex arithmetic result must be finite after $operation: $result',
+    );
+  }
 }
 
 /// Replayable denominator contract for complex division.

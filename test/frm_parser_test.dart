@@ -121,6 +121,31 @@ Test {
       expect(ctx.vars, isNot(contains('z')));
     });
 
+    test('rejects arithmetic overflow before leaking non-finite state', () {
+      const src = r'''
+Test {
+  z = (1e308,0) * (1e308,0)
+:
+  z = z
+}
+''';
+
+      final formula = FrmParser(src).parseFile().formulas.single;
+      final ctx = FrmEvalContext(vars: {'pixel': const Complex(0, 0)});
+
+      expect(
+        () => formula.init.single.run(ctx),
+        throwsA(
+          isA<StateError>().having(
+            (e) => e.message,
+            'message',
+            contains('Complex arithmetic result must be finite'),
+          ),
+        ),
+      );
+      expect(ctx.vars, isNot(contains('z')));
+    });
+
     test('rejects non-finite numeric literals before evaluation', () {
       const src = r'''
 Test {
