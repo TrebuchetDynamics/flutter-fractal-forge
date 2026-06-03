@@ -150,6 +150,47 @@ void main() {
     });
   });
 
+  group('PerformanceSampleCadence', () {
+    test('keeps update cadence tied to total frames after sample window caps',
+        () {
+      expect(
+        const PerformanceSampleCadence(
+          retainedSampleCount: 300,
+          totalSamplesRecorded: 300,
+        ).shouldUpdateMetrics,
+        isTrue,
+      );
+      expect(
+        const PerformanceSampleCadence(
+          retainedSampleCount: 300,
+          totalSamplesRecorded: 301,
+        ).shouldUpdateMetrics,
+        isFalse,
+      );
+      expect(
+        const PerformanceSampleCadence(
+          retainedSampleCount: 300,
+          totalSamplesRecorded: 330,
+        ).shouldUpdateMetrics,
+        isTrue,
+      );
+      expect(
+        const PerformanceSampleCadence(
+          retainedSampleCount: 300,
+          totalSamplesRecorded: 301,
+        ).shouldLogSnapshot,
+        isFalse,
+      );
+      expect(
+        const PerformanceSampleCadence(
+          retainedSampleCount: 300,
+          totalSamplesRecorded: 360,
+        ).shouldLogSnapshot,
+        isTrue,
+      );
+    });
+  });
+
   group('PerformanceService', () {
     test('starts in stopped state', () {
       final service = PerformanceService();

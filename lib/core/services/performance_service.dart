@@ -205,6 +205,44 @@ class PerformanceMetricsCalculator {
   }
 }
 
+/// Replayable cadence for sample-window side effects.
+///
+/// [PerformanceService] keeps only the latest 300 samples. Cadence decisions
+/// must use the total number of recorded samples, not the retained queue length,
+/// otherwise every frame after the queue caps at 300 looks like an interval hit.
+@visibleForTesting
+class PerformanceSampleCadence {
+  static const int metricsIntervalSamples = 30;
+  static const int snapshotLogIntervalSamples = 60;
+
+  final int retainedSampleCount;
+  final int totalSamplesRecorded;
+
+  const PerformanceSampleCadence({
+    required this.retainedSampleCount,
+    required this.totalSamplesRecorded,
+  })  : assert(
+            retainedSampleCount >= 0, 'retainedSampleCount cannot be negative'),
+        assert(totalSamplesRecorded >= 0,
+            'totalSamplesRecorded cannot be negative'),
+        assert(
+          retainedSampleCount <= totalSamplesRecorded,
+          'retained samples cannot exceed total recorded samples',
+        );
+
+  bool get retainedWindowIsCapped => totalSamplesRecorded > retainedSampleCount;
+
+  bool get shouldUpdateMemoryUsage => _isIntervalHit(metricsIntervalSamples);
+
+  bool get shouldUpdateMetrics => _isIntervalHit(metricsIntervalSamples);
+
+  bool get shouldLogSnapshot => _isIntervalHit(snapshotLogIntervalSamples);
+
+  bool _isIntervalHit(int interval) {
+    return totalSamplesRecorded > 0 && totalSamplesRecorded % interval == 0;
+  }
+}
+
 /// Service for collecting and analyzing rendering performance.
 ///
 /// Tracks frame times, detects shader compilation stalls, and monitors
@@ -225,6 +263,7 @@ class PerformanceService extends ChangeNotifier {
 
   bool _isRunning = false;
   int _shaderCompilations = 0;
+  int _totalSamplesRecorded = 0;
   double _peakMemoryMb = 0;
   PerformanceMetrics _currentMetrics = const PerformanceMetrics.empty();
 
@@ -246,6 +285,7 @@ class PerformanceService extends ChangeNotifier {
     _isRunning = true;
     _samples.clear();
     _shaderCompilations = 0;
+    _totalSamplesRecorded = 0;
     _peakMemoryMb = 0;
     _lastFrameTime = Duration.zero;
     _sessionStopwatch = Stopwatch()..start();
@@ -274,6 +314,7 @@ class PerformanceService extends ChangeNotifier {
   void reset() {
     _samples.clear();
     _shaderCompilations = 0;
+    _totalSamplesRecorded = 0;
     _peakMemoryMb = 0;
     _currentMetrics = const PerformanceMetrics.empty();
     _sessionStopwatch?.reset();
@@ -306,23 +347,29 @@ class PerformanceService extends ChangeNotifier {
     );
 
     _samples.addLast(sample);
+    _totalSamplesRecorded++;
     if (_samples.length > _maxSamples) {
       _samples.removeFirst();
     }
 
+    final cadence = PerformanceSampleCadence(
+      retainedSampleCount: _samples.length,
+      totalSamplesRecorded: _totalSamplesRecorded,
+    );
+
     // Update memory tracking periodically
-    if (_samples.length % 30 == 0) {
+    if (cadence.shouldUpdateMemoryUsage) {
       _updateMemoryUsage();
     }
 
     // Update metrics every ~0.5 seconds (30 frames)
-    if (_samples.length % 30 == 0) {
+    if (cadence.shouldUpdateMetrics) {
       _updateMetrics();
       notifyListeners();
     }
 
     // Log performance snapshot every ~1 second (60 frames) — sampled to avoid noise
-    if (_samples.length % 60 == 0) {
+    if (cadence.shouldLogSnapshot) {
       _logPerformanceSnapshot();
     }
   }
