@@ -25,6 +25,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Fractal Catalog'), findsOneWidget);
+    expect(find.text('Fractal Forge'), findsOneWidget);
+    expect(find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
   });
 }

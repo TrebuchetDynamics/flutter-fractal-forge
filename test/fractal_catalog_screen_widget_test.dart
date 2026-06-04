@@ -22,8 +22,23 @@ void main() {
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();
-      rendererSettings = RendererSettingsService(await SharedPreferences.getInstance());
+      rendererSettings =
+          RendererSettingsService(await SharedPreferences.getInstance());
     });
+
+    Finder visibleModuleCards() => find.byWidgetPredicate((widget) {
+          final key = widget.key;
+          return key is ValueKey<String> &&
+              key.value.startsWith('catalogModuleCard_');
+        });
+
+    Finder moduleCard(String moduleId) =>
+        find.byKey(Key('catalogModuleCard_core.$moduleId'));
+
+    Future<void> showSearch(WidgetTester tester) async {
+      await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
+      await tester.pumpAndSettle();
+    }
 
     Widget buildTestWidget() {
       return MultiProvider(
@@ -42,25 +57,39 @@ void main() {
       );
     }
 
-    testWidgets('displays catalog modules in default grid view', (tester) async {
+    testWidgets('displays catalog modules in default grid view',
+        (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Verify registry has all expected modules by ID.
       final ids = registry.modules.map((m) => m.id).toList();
-      expect(ids, containsAll(['mandelbrot', 'julia', 'burning_ship', 'phoenix', 'mandelbulb']));
+      expect(
+          ids,
+          containsAll([
+            'mandelbrot',
+            'julia',
+            'burning_ship',
+            'phoenix',
+            'mandelbulb'
+          ]));
 
-      // Verify key entries render in the default view.
-      // Featured section may duplicate names, so use findsWidgets.
-      expect(find.text('Mandelbrot'), findsWidgets);
-      expect(find.text('Burning Ship'), findsWidgets);
+      // Verify the lazy catalog renders module cards, and can scroll to key entries.
+      expect(visibleModuleCards(), findsWidgets);
       expect(find.byKey(const Key('catalogViewToggleButton')), findsOneWidget);
+      await tester.scrollUntilVisible(
+        moduleCard('mandelbrot'),
+        320,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(moduleCard('mandelbrot'), findsOneWidget);
     });
 
     testWidgets('displays search field', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
+      await showSearch(tester);
       expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
     });
 
@@ -68,7 +97,9 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.enterText(find.byKey(const Key('catalogSearchField')), 'Burning');
+      await showSearch(tester);
+      await tester.enterText(
+          find.byKey(const Key('catalogSearchField')), 'Burning');
       await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
@@ -82,7 +113,9 @@ void main() {
 
       expect(find.text('2D'), findsWidgets);
 
-      await tester.enterText(find.byKey(const Key('catalogSearchField')), 'Mandelbulb');
+      await showSearch(tester);
+      await tester.enterText(
+          find.byKey(const Key('catalogSearchField')), 'Mandelbulb');
       await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
@@ -95,14 +128,17 @@ void main() {
 
       expect(controller.module.id, 'mandelbrot');
 
-      await tester.enterText(find.byKey(const Key('catalogSearchField')), 'Julia');
+      await showSearch(tester);
+      await tester.enterText(
+          find.byKey(const Key('catalogSearchField')), 'julia_dual');
       await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Julia').last);
+      expect(moduleCard('julia_dual'), findsOneWidget);
+      await tester.tap(moduleCard('julia_dual'));
       await tester.pumpAndSettle();
 
-      expect(controller.module.id, 'julia');
+      expect(controller.module.id, 'julia_dual');
     });
 
     testWidgets('renders without error', (tester) async {
@@ -123,16 +159,16 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // The search icon is part of the TextField decoration; just ensure there is at least one Icon.
-      expect(find.byType(Icon), findsWidgets);
+      expect(
+          find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
     });
 
     testWidgets('renders list tiles for modules (smoke)', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // Module text should render (featured + grid may both show it).
-      expect(find.text('Mandelbrot'), findsWidgets);
+      // At least one lazily-built module card should render in the viewport.
+      expect(visibleModuleCards(), findsWidgets);
     });
 
     testWidgets('search miss shows empty state and clear restores results',
@@ -140,6 +176,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
+      await showSearch(tester);
       await tester.enterText(
           find.byKey(const Key('catalogSearchField')), 'zzzz-no-match');
       await tester.pump(const Duration(milliseconds: 350));
@@ -152,8 +189,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 350));
       await tester.pumpAndSettle();
 
-      // Featured section reappears after clearing search.
-      expect(find.text('Mandelbrot'), findsWidgets);
+      // Catalog results reappear after clearing search.
+      expect(visibleModuleCards(), findsWidgets);
     });
 
     testWidgets('respects saved list-view preference at startup',

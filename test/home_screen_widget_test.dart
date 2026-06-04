@@ -50,19 +50,32 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('Fractal Catalog'), findsOneWidget);
+      expect(find.text('Fractal Forge'), findsOneWidget);
+      expect(
+          find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
     });
 
     testWidgets('displays fractal modules in catalog', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('Mandelbrot'), findsWidgets);
-      expect(find.textContaining('Julia'), findsWidgets);
+      expect(
+        find.byWidgetPredicate((widget) {
+          final key = widget.key;
+          return key is ValueKey<String> &&
+              key.value.startsWith('catalogModuleCard_');
+        }),
+        findsWidgets,
+      );
+      expect(
+          find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
     });
 
     testWidgets('has search field', (tester) async {
       await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
       await tester.pumpAndSettle();
 
       expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);

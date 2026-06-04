@@ -12,7 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class _DenyAllPermissions extends PermissionHandlerPlatform {
   @override
-  Future<Map<Permission, PermissionStatus>> requestPermissions(List<Permission> permissions) async {
+  Future<Map<Permission, PermissionStatus>> requestPermissions(
+      List<Permission> permissions) async {
     return {
       for (final permission in permissions) permission: PermissionStatus.denied,
     };
@@ -52,10 +53,13 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Fractal Catalog'), findsOneWidget);
+      expect(find.text('Fractal Forge'), findsOneWidget);
+      expect(
+          find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
     });
 
-    testWidgets('AppLocalizations can be obtained from context', (tester) async {
+    testWidgets('AppLocalizations can be obtained from context',
+        (tester) async {
       AppLocalizations? capturedL10n;
 
       await tester.pumpWidget(
@@ -89,10 +93,12 @@ void main() {
             home: Builder(
               builder: (context) {
                 final l10n = AppLocalizations.of(context)!;
-                return ListView(
-                  children: registry.modules.map((module) {
-                    return Text(module.displayName(l10n));
-                  }).toList(),
+                return SingleChildScrollView(
+                  child: Column(
+                    children: registry.modules.map((module) {
+                      return Text(module.displayName(l10n));
+                    }).toList(),
+                  ),
                 );
               },
             ),

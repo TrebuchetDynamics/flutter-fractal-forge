@@ -42,7 +42,7 @@ void main() {
   }
 
   Future<void> showSearch(WidgetTester tester) async {
-    await tester.tap(find.byIcon(Icons.search_rounded));
+    await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
     await tester.pump();
     await tester.pump();
 

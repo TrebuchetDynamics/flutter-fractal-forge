@@ -162,11 +162,11 @@ void main() {
       expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
     });
 
-    testWidgets('share FAB is shown', (tester) async {
+    testWidgets('export FAB is shown', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byTooltip('Share'), findsOneWidget);
+      expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
     });
 
     testWidgets('displays fractal renderer surface', (tester) async {

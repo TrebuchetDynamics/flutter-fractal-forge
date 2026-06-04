@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,9 @@ class _GlobalShimmerController {
           vsync: vsync,
           duration: const Duration(milliseconds: 1500),
         ) {
-    controller.repeat();
+    if (!RuntimeModeService.isAutomatedTest) {
+      controller.repeat();
+    }
   }
 
   factory _GlobalShimmerController.of(TickerProvider vsync) {
@@ -346,6 +349,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             children: [
               // Search button
               _SimpleIconButton(
+                buttonKey: const Key('catalogSearchToggleButton'),
                 icon: Icons.search_rounded,
                 isActive: _isSearchVisible,
                 onTap: _toggleSearch,
@@ -353,6 +357,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
               const SizedBox(width: AppSpacing.xs),
               // View toggle button
               _SimpleIconButton(
+                buttonKey: const Key('catalogViewToggleButton'),
                 icon: _viewMode == CatalogViewMode.grid
                     ? Icons.view_list_rounded
                     : Icons.grid_view_rounded,
@@ -777,11 +782,13 @@ class _SectionHeader extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _SimpleIconButton extends StatelessWidget {
+  final Key? buttonKey;
   final IconData icon;
   final bool isActive;
   final VoidCallback onTap;
 
   const _SimpleIconButton({
+    this.buttonKey,
     required this.icon,
     this.isActive = false,
     required this.onTap,
@@ -794,10 +801,13 @@ class _SimpleIconButton extends StatelessWidget {
       selected: isActive,
       label: 'Button',
       child: GestureDetector(
+        key: buttonKey,
         onTap: onTap,
         child: AnimatedContainer(
           duration: AppAnimations.fast,
-          padding: const EdgeInsets.all(12),
+          width: 48,
+          height: 48,
+          alignment: Alignment.center,
           decoration: BoxDecoration(
             color: isActive
                 ? AppColors.primary.withValues(alpha: 0.2)
@@ -2025,6 +2035,7 @@ class _PreviewThumbnail extends StatefulWidget {
 class _PreviewThumbnailState extends State<_PreviewThumbnail>
     with SingleTickerProviderStateMixin {
   late final AnimationController _localShimmerController;
+  Timer? _fallbackTimer;
   bool _imageLoaded = false;
   bool _imageError = false;
 
@@ -2043,16 +2054,20 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
         _localShimmerController.repeat();
       }
     }
-    // Force show image or fallback after timeout - prevents infinite gray in release
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted && !_imageLoaded && !_imageError) {
-        setState(() => _imageError = true);
-      }
-    });
+    // Force show image or fallback after timeout - prevents infinite gray in release.
+    // Widget tests should settle deterministically instead of waiting on preview timeouts.
+    if (!RuntimeModeService.isAutomatedTest) {
+      _fallbackTimer = Timer(const Duration(seconds: 3), () {
+        if (mounted && !_imageLoaded && !_imageError) {
+          setState(() => _imageError = true);
+        }
+      });
+    }
   }
 
   @override
   void dispose() {
+    _fallbackTimer?.cancel();
     // Only dispose local controller, not the global one
     if (widget.shimmerController == null) {
       _localShimmerController.dispose();

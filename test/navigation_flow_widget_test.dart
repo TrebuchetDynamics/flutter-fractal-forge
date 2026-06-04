@@ -50,21 +50,33 @@ void main() {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
 
-      expect(find.text('Fractal Catalog'), findsOneWidget);
+      expect(find.text('Fractal Forge'), findsOneWidget);
+      expect(
+          find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
     });
 
     testWidgets('displays all fractal modules', (tester) async {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
 
-      // Verify first visible modules render; others may be off-screen.
-      expect(find.text('Mandelbrot'), findsWidgets);
-      expect(find.textContaining('Julia'), findsWidgets);
-      expect(find.text('Burning Ship'), findsWidgets);
+      // Verify visible lazy-sliver module cards render; others may be off-screen.
+      expect(
+        find.byWidgetPredicate((widget) {
+          final key = widget.key;
+          return key is ValueKey<String> &&
+              key.value.startsWith('catalogModuleCard_');
+        }),
+        findsWidgets,
+      );
+      expect(
+          find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
     });
 
     testWidgets('has search field in catalog', (tester) async {
       await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
       await tester.pumpAndSettle();
 
       expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);

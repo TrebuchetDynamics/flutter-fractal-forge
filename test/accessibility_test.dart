@@ -40,10 +40,12 @@ void main() {
 
       // Verify fractal cards have semantics
       final semanticsHandle = tester.ensureSemantics();
-      
+
       // Find all semantic nodes with button role
-      final buttonNodes = find.bySemanticsLabel(RegExp(r'.*fractal.*', caseSensitive: false));
-      expect(buttonNodes, findsWidgets, reason: 'Fractal cards should have semantic labels');
+      final buttonNodes =
+          find.bySemanticsLabel(RegExp(r'.*fractal.*', caseSensitive: false));
+      expect(buttonNodes, findsWidgets,
+          reason: 'Fractal cards should have semantic labels');
 
       semanticsHandle.dispose();
     });
@@ -60,11 +62,11 @@ void main() {
 
       // Check for Explore tab semantic label
       expect(
-        find.bySemanticsLabel(RegExp(r'.*Explore.*|.*catalog.*', caseSensitive: false)),
+        find.bySemanticsLabel(
+            RegExp(r'.*Explore.*|.*catalog.*', caseSensitive: false)),
         findsWidgets,
         reason: 'Explore tab should have a semantic label',
       );
-
 
       semanticsHandle.dispose();
     });
@@ -79,7 +81,10 @@ void main() {
 
       final semanticsHandle = tester.ensureSemantics();
 
-      // The search field should be identifiable
+      await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
+      await tester.pumpAndSettle();
+
+      // The search field should be identifiable after opening search.
       expect(
         find.byKey(const Key('catalogSearchField')),
         findsOneWidget,
@@ -91,7 +96,8 @@ void main() {
   });
 
   group('Touch Target Size', () {
-    testWidgets('Interactive elements meet minimum 48x48 touch target', (tester) async {
+    testWidgets('Interactive elements meet minimum 48x48 touch target',
+        (tester) async {
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
         accessibilityService: accessibilityService,
@@ -101,7 +107,7 @@ void main() {
 
       // Find all GestureDetector widgets that are interactive
       final gestures = find.byType(GestureDetector);
-      
+
       for (final gesture in gestures.evaluate()) {
         final size = tester.getSize(find.byWidget(gesture.widget));
         // Only check interactive elements (width and height > 0)
@@ -116,8 +122,8 @@ void main() {
 
   group('High Contrast Mode', () {
     testWidgets('High contrast mode applies correct theme', (tester) async {
-      // Enable high contrast mode
-      await accessibilityService.setHighContrast(true);
+      // Select the high contrast theme mode.
+      await accessibilityService.setThemeMode(AppThemeMode.highContrast);
 
       await tester.pumpWidget(_buildTestApp(
         presetStore: presetStore,
@@ -134,7 +140,7 @@ void main() {
       expect(
         theme.colorScheme.primary,
         equals(HighContrastColors.primary),
-        reason: 'High contrast mode should use bright yellow primary',
+        reason: 'High contrast theme should use bright yellow primary',
       );
     });
 
