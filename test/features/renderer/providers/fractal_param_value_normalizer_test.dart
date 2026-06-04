@@ -34,6 +34,30 @@ FractalParameter _numericParam({
 }
 
 void main() {
+  group('FractalNumericParamBounds', () {
+    test('rejects non-finite candidate values before clamp semantics apply',
+        () {
+      const bounds = FractalNumericParamBounds(min: 1, max: 10);
+
+      for (final candidate in [
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+      ]) {
+        expect(
+          bounds.tryNormalizeFloat(candidate),
+          isNull,
+          reason: 'float candidate=$candidate',
+        );
+        expect(
+          bounds.tryNormalizeInteger(candidate),
+          isNull,
+          reason: 'integer candidate=$candidate',
+        );
+      }
+    });
+  });
+
   group('normalizeFractalParamValue', () {
     test('preserves real boolean parameter values', () {
       final schema = _booleanParam(defaultValue: true);

@@ -24,13 +24,18 @@ final class FractalNumericParamBounds {
   bool get containsInteger =>
       hasFiniteOrderedRange && min.ceil() <= max.floor();
 
+  bool canNormalizeFloat(double value) =>
+      value.isFinite && hasFiniteOrderedRange;
+
+  bool canNormalizeInteger(double value) => value.isFinite && containsInteger;
+
   double? tryNormalizeFloat(double value) {
-    if (!hasFiniteOrderedRange) return null;
+    if (!canNormalizeFloat(value)) return null;
     return value.clamp(min, max).toDouble();
   }
 
   int? tryNormalizeInteger(double value) {
-    if (!containsInteger) return null;
+    if (!canNormalizeInteger(value)) return null;
     final rounded = tryNormalizeFloat(value)!.round();
     return rounded.clamp(min.ceil(), max.floor()).toInt();
   }
@@ -40,6 +45,7 @@ final class FractalNumericParamBounds {
       hasFiniteOrderedRange,
       'numeric parameter bounds must be finite and ordered',
     );
+    assert(value.isFinite, 'numeric parameter values must be finite');
     return tryNormalizeFloat(value) ?? value;
   }
 
@@ -48,6 +54,7 @@ final class FractalNumericParamBounds {
       containsInteger,
       'integer parameter bounds must include at least one integer value',
     );
+    assert(value.isFinite, 'integer parameter values must be finite');
     return tryNormalizeInteger(value) ?? value.round();
   }
 }
