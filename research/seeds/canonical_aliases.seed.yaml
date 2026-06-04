@@ -13,3 +13,172 @@
 #   canonical_name: "Mandelbrot Set"
 #   aliases: ["Mandelbrot", "M-set", "z^2 + c set", "曼德勃罗集合"]
 #   family: mandelbrot
+
+# Phase 1 reference-backlog reconciliation.
+# These aliases map reference-tier duplicates/taxonomy-drift entries back to
+# already implemented app-catalog entries so future review batches do not
+# inflate the catalog with duplicate cards.
+halley:
+  canonical_name: "Halley"
+  aliases:
+    - f0006_halley_s_method
+    - "Halley's Method"
+    - "Halley's cubic method"
+    - "Tangent hyperbolas method"
+  family: root_finding
+
+schroeder:
+  canonical_name: "Schröder"
+  aliases:
+    - f0007_schr_der_s_method
+    - "Schroder"
+    - "Schröder's Method"
+    - "Schröder iteration"
+    - "Konig's method"
+    - "Modified Newton for multiple roots"
+  family: root_finding
+
+chebyshev:
+  canonical_name: "Chebyshev Fractal"
+  aliases:
+    - f0008_chebyshev_s_method
+    - "Chebyshev's Method"
+    - "Chebyshev method"
+  family: root_finding
+
+householder:
+  canonical_name: "Householder Fractal"
+  aliases:
+    - f0009_householder_s_method_3rd_order
+    - "Householder's Method (3rd Order)"
+    - "Householder H3"
+    - "Householder method"
+  family: root_finding
+
+newton_z3:
+  canonical_name: "Newton Fractal (z³ - 1)"
+  aliases:
+    - f1184_newton_z_3_1
+    - "Newton z^3 - 1"
+    - "Newton z³ - 1"
+    - "Newton cubic"
+  family: root_finding
+
+newton_z4:
+  canonical_name: "Newton z⁴−1"
+  aliases:
+    - f1185_newton_z_4_1
+    - "Newton z^4 - 1"
+    - "Newton z⁴ - 1"
+    - "Newton quartic"
+  family: root_finding
+
+newton_z5:
+  canonical_name: "Newton z⁵−1"
+  aliases:
+    - f1186_newton_z_5_1
+    - "Newton z^5 - 1"
+    - "Newton z⁵ - 1"
+    - "Newton quintic"
+  family: root_finding
+
+newton_z6:
+  canonical_name: "Newton z⁶−1"
+  aliases:
+    - f1187_newton_z_6_1
+    - "Newton z^6 - 1"
+    - "Newton z⁶ - 1"
+  family: root_finding
+
+newton_z7:
+  canonical_name: "Newton z⁷−1"
+  aliases:
+    - f1188_newton_z_7_1
+    - "Newton z^7 - 1"
+    - "Newton z⁷ - 1"
+  family: root_finding
+
+newton_z8:
+  canonical_name: "Newton z⁸−1"
+  aliases:
+    - f1189_newton_z_8_1
+    - "Newton z^8 - 1"
+    - "Newton z⁸ - 1"
+  family: root_finding
+
+moore_curve:
+  canonical_name: "Moore Curve"
+  aliases:
+    - f0230_moore_curve
+  family: space_filling
+
+levy_c_curve:
+  canonical_name: "Lévy C Curve"
+  aliases:
+    - f0232_l_vy_c_curve
+    - "Levy C Curve"
+    - "Lévy C Curve"
+  family: space_filling
+
+mcworter_pentigree:
+  canonical_name: "McWorter Pentigree"
+  aliases:
+    - f0233_mcworter_pentigree
+  family: space_filling
+
+cesaro_fractal:
+  canonical_name: "Cesàro Fractal"
+  aliases:
+    - f0237_ces_ro_fractal
+    - "Cesaro Fractal"
+    - "Cesàro Fractal"
+  family: l_system
+
+ammann_beenker:
+  canonical_name: "Ammann-Beenker Tiling"
+  aliases:
+    - f0686_ammann_beenker_tiling
+  family: tiling
+
+pinwheel_tiling:
+  canonical_name: "Pinwheel Tiling"
+  aliases:
+    - f0691_pinwheel_tiling
+  family: tiling
+
+chair_tiling:
+  canonical_name: "Chair Tiling"
+  aliases:
+    - f0696_chair_tiling
+  family: tiling
+
+sphinx_tiling:
+  canonical_name: "Sphinx Tiling"
+  aliases:
+    - f0698_sphinx_tiling
+  family: tiling
+
+collatz:
+  canonical_name: "Collatz Fractal"
+  aliases:
+    - f0768_collatz_fractal
+  family: number_theory
+
+gauss_map:
+  canonical_name: "Gauss Map"
+  aliases:
+    - f0771_gauss_map_fractal
+    - "Gauss Map Fractal"
+  family: number_theory
+
+fibonacci_word:
+  canonical_name: "Fibonacci Word Fractal"
+  aliases:
+    - f0777_fibonacci_word_fractal
+  family: number_theory
+
+bicomplex:
+  canonical_name: "Bicomplex Mandelbrot"
+  aliases:
+    - f0551_bicomplex_mandelbrot
+  family: hypercomplex

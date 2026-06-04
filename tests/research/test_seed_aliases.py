@@ -36,6 +36,15 @@ def test_seed_merges_hand_curated_aliases(tmp_registry):
     assert table["mandelbrot"]["family"] == "mandelbrot"
 
 
+def test_seed_merges_registry_entry_aliases(tmp_registry):
+    r = Registry.load(tmp_registry)
+    retrofit_entries(r.entries)
+    r.entries[0]["aliases"] = ["M-set", "z^2 + c set"]
+    table = build_alias_table(r.entries, seed={})
+    assert "M-set" in table["mandelbrot"]["aliases"]
+    assert "z^2 + c set" in table["mandelbrot"]["aliases"]
+
+
 def test_seed_always_includes_entry_id_and_name_as_aliases(tmp_registry):
     r = Registry.load(tmp_registry)
     retrofit_entries(r.entries)

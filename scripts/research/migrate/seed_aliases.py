@@ -40,6 +40,8 @@ def build_alias_table(entries: list[dict], seed: dict) -> dict[str, dict[str, An
         aliases = set()
         aliases.add(eid)
         aliases.add(name)
+        for a in entry.get("aliases", []):
+            aliases.add(a)
         for a in seed_entry.get("aliases", []):
             aliases.add(a)
 
