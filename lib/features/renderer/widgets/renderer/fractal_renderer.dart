@@ -23,29 +23,14 @@ import 'input/gesture_view_bounds.dart';
 import 'input/gesture_tap_classification.dart';
 import '../../policy/deep_zoom_precision_policy.dart';
 import '../canvas/fractal_canvas.dart';
+import 'shaders/shader_error_policy.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+
+export 'shaders/shader_error_policy.dart' show ShaderErrorType;
 
 part 'input/gesture_handler.dart';
 part 'shaders/shader_loader.dart';
 part 'errors/shader_error_display.dart';
-
-/// Types of shader errors for categorization and display.
-enum ShaderErrorType {
-  /// Shader code failed to compile on the GPU.
-  compilation,
-
-  /// The shader asset file was not found.
-  assetNotFound,
-
-  /// GPU ran out of memory.
-  outOfMemory,
-
-  /// GPU does not support required features.
-  gpuUnsupported,
-
-  /// Unknown or uncategorized error.
-  unknown,
-}
 
 /// A widget that renders fractals using GPU-accelerated shaders.
 ///

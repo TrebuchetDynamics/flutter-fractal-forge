@@ -16,14 +16,45 @@ void main() {
       expect(policy.categorize('unexpected failure'), ShaderErrorType.unknown);
     });
 
-    test('keeps user-facing copy stable for loader and display callers', () {
+    test('keeps user-facing copy stable for loader callers', () {
       expect(
         policy.errorMessage('compile failed', ShaderErrorType.compilation),
         'Shader compilation failed. This fractal may not be compatible with your device.',
       );
       expect(
+        policy.errorMessage('missing', ShaderErrorType.assetNotFound),
+        'Shader file not found. Please reinstall the app.',
+      );
+      expect(
+        policy.errorMessage('oom', ShaderErrorType.outOfMemory),
+        'Not enough GPU memory. Try closing other apps.',
+      );
+      expect(
+        policy.errorMessage('driver', ShaderErrorType.gpuUnsupported),
+        'Your GPU does not support this fractal\'s shader requirements.',
+      );
+    });
+
+    test('keeps recovery tips stable for display callers', () {
+      expect(
+        policy.tipFor(ShaderErrorType.compilation),
+        'This fractal\'s shader may not be compatible with your GPU. Try a simpler fractal type.',
+      );
+      expect(
         policy.tipFor(ShaderErrorType.assetNotFound),
         'The shader file appears to be missing. Reinstalling the app may fix this issue.',
+      );
+      expect(
+        policy.tipFor(ShaderErrorType.outOfMemory),
+        'Close other apps to free up GPU memory, then try again.',
+      );
+      expect(
+        policy.tipFor(ShaderErrorType.gpuUnsupported),
+        'Your device\'s GPU may not support the features required by this fractal.',
+      );
+      expect(
+        policy.tipFor(ShaderErrorType.unknown),
+        'If this problem persists, try restarting the app or your device.',
       );
     });
 

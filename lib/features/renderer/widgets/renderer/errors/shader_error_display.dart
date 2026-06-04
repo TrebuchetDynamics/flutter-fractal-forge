@@ -26,6 +26,8 @@ class _ShaderErrorDisplay extends StatefulWidget {
 
 class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
     with SingleTickerProviderStateMixin {
+  static const ShaderErrorPolicy _shaderErrorPolicy = ShaderErrorPolicy();
+
   bool _showDetails = false;
   late AnimationController _pulseController;
 
@@ -102,8 +104,8 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: _errorColor
-                                .withValues(alpha: 0.2 * _pulseController.value),
+                            color: _errorColor.withValues(
+                                alpha: 0.2 * _pulseController.value),
                             blurRadius: 20,
                             spreadRadius: 5,
                           ),
@@ -179,7 +181,8 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                     ElevatedButton.icon(
                       onPressed: widget.onRetry,
                       icon: const Icon(Icons.refresh_rounded, size: 18),
-                      label: Text(AppLocalizations.of(context)!.shaderErrorTryAgain),
+                      label: Text(
+                          AppLocalizations.of(context)!.shaderErrorTryAgain),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
@@ -195,7 +198,8 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
                   OutlinedButton.icon(
                     onPressed: widget.onGoBack,
                     icon: const Icon(Icons.arrow_back_rounded, size: 18),
-                    label: Text(AppLocalizations.of(context)!.shaderErrorGoBack),
+                    label:
+                        Text(AppLocalizations.of(context)!.shaderErrorGoBack),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.textSecondary,
                       side: BorderSide(
@@ -295,18 +299,5 @@ class _ShaderErrorDisplayState extends State<_ShaderErrorDisplay>
     );
   }
 
-  String _getTipForErrorType() {
-    switch (widget.errorType) {
-      case ShaderErrorType.compilation:
-        return 'This fractal\'s shader may not be compatible with your GPU. Try a simpler fractal type.';
-      case ShaderErrorType.assetNotFound:
-        return 'The shader file appears to be missing. Reinstalling the app may fix this issue.';
-      case ShaderErrorType.outOfMemory:
-        return 'Close other apps to free up GPU memory, then try again.';
-      case ShaderErrorType.gpuUnsupported:
-        return 'Your device\'s GPU may not support the features required by this fractal.';
-      case ShaderErrorType.unknown:
-        return 'If this problem persists, try restarting the app or your device.';
-    }
-  }
+  String _getTipForErrorType() => _shaderErrorPolicy.tipFor(widget.errorType);
 }

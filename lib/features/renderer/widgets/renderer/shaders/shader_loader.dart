@@ -10,6 +10,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
 
   /// Maximum number of shader load retries before showing error.
   static const int _maxShaderRetries = 3;
+  static const ShaderErrorPolicy _shaderErrorPolicy = ShaderErrorPolicy();
 
   ui.FragmentProgram? _program;
   ui.FragmentProgram? _shaderForCachedFragment;
@@ -92,8 +93,9 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
       final dt = DateTime.now()
           .difference(_shaderLoadStartedAt ?? DateTime.now())
           .inMilliseconds;
-      if (kDebugMode) debugPrint(
-          '[renderer] shader_cache_hit asset=$asset load_ms=$dt cache_size=${_programCache.length}');
+      if (kDebugMode)
+        debugPrint(
+            '[renderer] shader_cache_hit asset=$asset load_ms=$dt cache_size=${_programCache.length}');
       AppLogger.instance.logState('gpu', 'Shader loaded', {
         'asset': asset,
         'compileMs': dt,
@@ -120,15 +122,17 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
         final dt = DateTime.now()
             .difference(_shaderLoadStartedAt ?? DateTime.now())
             .inMilliseconds;
-        if (kDebugMode) debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
+        if (kDebugMode)
+          debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
         AppLogger.instance.logState(
             'gpu', 'Shader loaded', {'asset': asset, 'compileMs': dt});
         _loading = false;
         return;
       } catch (e, stack) {
-        final errorType = _categorizeShaderError(e);
-        if (kDebugMode) debugPrint(
-            '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
+        final errorType = _shaderErrorPolicy.categorize(e);
+        if (kDebugMode)
+          debugPrint(
+              '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
         AppLogger.instance.logState(
             'gpu',
             'Shader load failed',
@@ -163,7 +167,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
         // Final failure
         if (mounted) {
           setState(() {
-            _shaderError = _getShaderErrorMessage(e, errorType);
+            _shaderError = _shaderErrorPolicy.errorMessage(e, errorType);
             _shaderErrorDetails = e.toString();
             _shaderErrorType = errorType;
             _shaderRetryCount = attempt;
@@ -173,41 +177,6 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     }
 
     _loading = false;
-  }
-
-  /// Categorizes shader errors for better error messages.
-  ShaderErrorType _categorizeShaderError(Object error) {
-    final message = error.toString().toLowerCase();
-
-    if (message.contains('compile') || message.contains('glsl')) {
-      return ShaderErrorType.compilation;
-    }
-    if (message.contains('not found') || message.contains('asset')) {
-      return ShaderErrorType.assetNotFound;
-    }
-    if (message.contains('memory') || message.contains('oom')) {
-      return ShaderErrorType.outOfMemory;
-    }
-    if (message.contains('gpu') || message.contains('driver')) {
-      return ShaderErrorType.gpuUnsupported;
-    }
-    return ShaderErrorType.unknown;
-  }
-
-  /// Returns a user-friendly error message based on error type.
-  String _getShaderErrorMessage(Object error, ShaderErrorType type) {
-    switch (type) {
-      case ShaderErrorType.compilation:
-        return 'Shader compilation failed. This fractal may not be compatible with your device.';
-      case ShaderErrorType.assetNotFound:
-        return 'Shader file not found. Please reinstall the app.';
-      case ShaderErrorType.outOfMemory:
-        return 'Not enough GPU memory. Try closing other apps.';
-      case ShaderErrorType.gpuUnsupported:
-        return 'Your GPU does not support this fractal\'s shader requirements.';
-      case ShaderErrorType.unknown:
-        return 'Failed to load shader: ${error.toString().length > 100 ? '${error.toString().substring(0, 100)}...' : error}';
-    }
   }
 
   /// Retries loading the current shader.
