@@ -16,7 +16,12 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
     from scripts.research.doctor.check_registry import run_doctor
-    return run_doctor(REPO_ROOT, verbose=args.verbose)
+    return run_doctor(
+        REPO_ROOT,
+        verbose=args.verbose,
+        include_app_catalog=args.app_catalog,
+        strict_app_catalog=args.strict_app_catalog,
+    )
 
 
 def _cmd_retrofit(args: argparse.Namespace) -> int:
@@ -68,6 +73,16 @@ def build_parser() -> argparse.ArgumentParser:
         sp = sub.add_parser(name, help=help_text)
         if name == "doctor":
             sp.add_argument("-v", "--verbose", action="store_true")
+            sp.add_argument(
+                "--app-catalog",
+                action="store_true",
+                help="also audit app-facing shader paths and declarations as warnings",
+            )
+            sp.add_argument(
+                "--strict-app-catalog",
+                action="store_true",
+                help="fail when app-facing shader path/declaration drift is found",
+            )
         if name == "retrofit":
             sp.add_argument("--dry-run", action="store_true",
                             help="Show what would change without writing")

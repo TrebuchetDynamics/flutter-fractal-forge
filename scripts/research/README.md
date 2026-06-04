@@ -17,6 +17,26 @@ pip install -r scripts/research/requirements.txt
 python3 scripts/research/forge.py --help
 ```
 
+Validate registry invariants:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor
+```
+
+Audit the app-facing catalog admission seam (shader declarations, Dart catalog
+shader paths, and implemented registry shader paths):
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --app-catalog
+```
+
+Use strict mode when the current app-catalog drift has been cleaned up and the
+audit should become a failing CI gate:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --strict-app-catalog
+```
+
 ## Test
 
 ```bash

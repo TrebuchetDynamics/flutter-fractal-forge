@@ -45,7 +45,7 @@ mat3 rotationMatrix(vec3 angles) {
 }
 
 vec3 palette(float t, float scheme) {
-    int s = int(scheme) % 8;
+    int s = int(mod(scheme, 8.0));
     vec3 a, b, c, d;
     if (s == 0) {
         a = vec3(0.5, 0.1, 0.0); b = vec3(0.5, 0.3, 0.1);
@@ -98,7 +98,7 @@ float shapeR2(vec3 z, int shape) {
 // Shape-inversion Mandelbox distance estimator.
 float shapeMandelboxDE(vec3 pos) {
     int maxIter = int(clamp(uIterations, 1.0, 20.0));
-    int shape = int(uFractalType) % 4;
+    int shape = int(mod(uFractalType, 4.0));
     float scale = uPower;
     vec3 z = pos;
     float dr = 1.0;

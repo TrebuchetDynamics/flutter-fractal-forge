@@ -136,7 +136,7 @@ def test_emit_unsupported_iteration_type_raises(tmp_path):
     cand = _load_candidate("f_sample_mandelbrot.yaml")
     reg = _registry_entry_for(cand)
     with pytest.raises(ValueError):
-        emit(cand, reg, "reaction_diffusion", tmp_path)
+        emit(cand, reg, "unsupported_iteration_type", tmp_path)
 
 
 def test_emit_module_hits_loc_target_range(tmp_path):

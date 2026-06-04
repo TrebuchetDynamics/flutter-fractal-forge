@@ -42,7 +42,7 @@ mat3 rotationMatrix(vec3 angles) {
 
 // Palette: cosine color palette (IQ-style) driven by colorScheme index.
 vec3 palette(float t, float scheme) {
-    int s = int(scheme) % 8;
+    int s = int(mod(scheme, 8.0));
     vec3 a, b, c, d;
     if (s == 0) {
         // Fire

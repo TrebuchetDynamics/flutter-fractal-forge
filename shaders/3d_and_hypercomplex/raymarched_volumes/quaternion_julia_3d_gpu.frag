@@ -42,7 +42,7 @@ mat3 rotationMatrix(vec3 angles) {
 }
 
 vec3 palette(float t, float scheme) {
-    int s = int(scheme) % 8;
+    int s = int(mod(scheme, 8.0));
     vec3 a, b, c, d;
     if (s == 0) {
         a = vec3(0.5, 0.1, 0.0); b = vec3(0.5, 0.3, 0.1);
@@ -75,7 +75,7 @@ vec3 palette(float t, float scheme) {
 // Select quaternion Julia constant based on uFractalType and uPower.
 vec4 getJuliaC() {
     float mag = max(uPower, 0.1) / 2.0;
-    int preset = int(uFractalType) % 4;
+    int preset = int(mod(uFractalType, 4.0));
     if (preset == 0) return mag * vec4(-0.2, 0.6, 0.2, 0.2);
     if (preset == 1) return mag * vec4(-0.4, 0.4, -0.3, 0.1);
     if (preset == 2) return mag * vec4(0.3, -0.5, 0.1, -0.2);

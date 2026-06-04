@@ -13,6 +13,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from scripts.research.doctor.app_catalog_audit import audit_app_catalog
 from scripts.research.lib.registry import Registry
 from scripts.research.lib.schema_lint import SchemaLintError, lint
 
@@ -21,6 +22,7 @@ from scripts.research.lib.schema_lint import SchemaLintError, lint
 class DoctorResult:
     ok: bool
     errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
     entry_count: int = 0
 
     def format_errors(self) -> str:
@@ -28,12 +30,26 @@ class DoctorResult:
             return "(no errors)"
         return "\n".join(f"  - {e}" for e in self.errors)
 
+    def format_warnings(self) -> str:
+        if not self.warnings:
+            return "(no warnings)"
+        return "\n".join(f"  - {w}" for w in self.warnings)
+
     def format_summary(self) -> str:
         status = "OK" if self.ok else "FAIL"
-        return f"forge doctor: {status} ({self.entry_count} entries, {len(self.errors)} error(s))"
+        return (
+            f"forge doctor: {status} ({self.entry_count} entries, "
+            f"{len(self.errors)} error(s), {len(self.warnings)} warning(s))"
+        )
 
 
-def check_registry(path: Path) -> DoctorResult:
+def check_registry(
+    path: Path,
+    *,
+    repo_root: Path | None = None,
+    include_app_catalog: bool = False,
+    strict_app_catalog: bool = False,
+) -> DoctorResult:
     registry = Registry.load(path)
     entries = registry.entries
     errors: list[str] = []
@@ -76,13 +92,39 @@ def check_registry(path: Path) -> DoctorResult:
                 f"{entry.get('id')}: tier={entry.get('tier')} but implemented={entry.get('implemented')}"
             )
 
-    return DoctorResult(ok=not errors, errors=errors, entry_count=len(entries))
+    warnings: list[str] = []
+    if include_app_catalog or strict_app_catalog:
+        audit_root = Path(repo_root) if repo_root is not None else path.parents[2]
+        app_audit = audit_app_catalog(audit_root, strict=strict_app_catalog)
+        warnings.extend(app_audit.warnings)
+        if strict_app_catalog and app_audit.issues:
+            errors.extend(f"app catalog: {warning}" for warning in app_audit.warnings)
+
+    return DoctorResult(
+        ok=not errors,
+        errors=errors,
+        warnings=warnings,
+        entry_count=len(entries),
+    )
 
 
-def run_doctor(repo_root: Path, verbose: bool = False) -> int:
+def run_doctor(
+    repo_root: Path,
+    verbose: bool = False,
+    include_app_catalog: bool = False,
+    strict_app_catalog: bool = False,
+) -> int:
     path = Path(repo_root) / "docs" / "catalog" / "fractal_registry.yaml"
-    result = check_registry(path)
+    result = check_registry(
+        path,
+        repo_root=repo_root,
+        include_app_catalog=include_app_catalog,
+        strict_app_catalog=strict_app_catalog,
+    )
     print(result.format_summary())
     if not result.ok or verbose:
         print(result.format_errors())
+    if result.warnings and (include_app_catalog or strict_app_catalog or verbose):
+        print("Warnings:")
+        print(result.format_warnings())
     return 0 if result.ok else 1

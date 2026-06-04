@@ -1,7 +1,7 @@
 fractals:
   - id: dual_quaternion_julia
     name: Dual-Quaternion Julia
-    shader: shaders/dual_quaternion_julia_gpu.frag
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 1.0
@@ -34,7 +34,7 @@ fractals:
       confidence: 1.0
   - id: inversive_limit_set_3d
     name: Inversive Limit Set 3D
-    shader: shaders/inversive_limit_set_3d_gpu.frag
+    shader: shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 1.4
@@ -68,7 +68,7 @@ fractals:
       confidence: 1.0
   - id: kifs_koch_fold
     name: KIFS Koch 3D
-    shader: shaders/kifs_koch_fold_gpu.frag
+    shader: shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 2.0
@@ -101,7 +101,7 @@ fractals:
       confidence: 1.0
   - id: kifs_menger
     name: KIFS Menger Sponge
-    shader: shaders/kifs_menger_gpu.frag
+    shader: shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 3.0
@@ -135,7 +135,7 @@ fractals:
       confidence: 1.0
   - id: kifs_sierpinski_tetra
     name: KIFS Sierpinski Tetrahedron
-    shader: shaders/kifs_sierpinski_tetra_gpu.frag
+    shader: shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 2.0
@@ -169,7 +169,7 @@ fractals:
       confidence: 1.0
   - id: kifs_snowflake_fold
     name: KIFS Snowflake 3D
-    shader: shaders/kifs_snowflake_fold_gpu.frag
+    shader: shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 3.0
@@ -203,7 +203,7 @@ fractals:
       confidence: 1.0
   - id: mandelbox_shape_inversion
     name: Mandelbox Shape Inversion
-    shader: shaders/mandelbox_shape_inversion_gpu.frag
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 2.0
@@ -237,7 +237,7 @@ fractals:
       confidence: 1.0
   - id: quaternion_julia_3d
     name: Quaternion Julia 3D
-    shader: shaders/quaternion_julia_3d_gpu.frag
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 2.0
@@ -271,7 +271,7 @@ fractals:
       confidence: 1.0
   - id: mandelbulb_time_modulated
     name: Time-Modulated Mandelbulb
-    shader: shaders/mandelbulb_time_modulated_gpu.frag
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag
     category: 3D Fractals
     dimension: 3D
     defaultPower: 8.0
@@ -305,7 +305,7 @@ fractals:
       confidence: 1.0
   - id: generalized_mcmullen
     name: Generalized McMullen
-    shader: shaders/generalized_mcmullen_gpu.frag
+    shader: shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag
     category: Advanced Rational & Polynomial
     dimension: 2D
     defaultZoom: 0.95
@@ -341,7 +341,7 @@ fractals:
       confidence: 1.0
   - id: mcmullen_map
     name: McMullen Map
-    shader: shaders/mcmullen_map_gpu.frag
+    shader: shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag
     category: Advanced Rational & Polynomial
     dimension: 2D
     defaultZoom: 0.9
@@ -377,7 +377,7 @@ fractals:
       confidence: 1.0
   - id: dielectric_breakdown
     name: Dielectric Breakdown
-    shader: shaders/dielectric_breakdown_gpu.frag
+    shader: shaders/cellular_and_stochastic/dielectric_breakdown_gpu.frag
     category: Cellular & Stochastic Growth
     dimension: 2D
     defaultZoom: 1.0
@@ -413,7 +413,7 @@ fractals:
       confidence: 1.0
   - id: damped_newton
     name: Damped Newton
-    shader: shaders/damped_newton_gpu.frag
+    shader: shaders/root_finding/damped_newton_gpu.frag
     category: Convergent & Root-Finding
     dimension: 2D
     defaultZoom: 0.7
@@ -449,7 +449,7 @@ fractals:
       confidence: 1.0
   - id: durand_kerner
     name: Durand-Kerner
-    shader: shaders/durand_kerner_gpu.frag
+    shader: shaders/root_finding/durand_kerner_gpu.frag
     category: Convergent & Root-Finding
     dimension: 2D
     defaultZoom: 0.9
@@ -485,7 +485,7 @@ fractals:
       confidence: 1.0
   - id: ehrlich_aberth
     name: Ehrlich-Aberth
-    shader: shaders/ehrlich_aberth_gpu.frag
+    shader: shaders/root_finding/ehrlich_aberth_gpu.frag
     category: Convergent & Root-Finding
     dimension: 2D
     defaultZoom: 0.85
@@ -521,7 +521,7 @@ fractals:
       confidence: 1.0
   - id: arnold_cat
     name: "Arnold's Cat Map"
-    shader: shaders/arnold_cat_gpu.frag
+    shader: shaders/strange_attractors/arnold_cat_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -555,7 +555,7 @@ fractals:
       confidence: 1.0
   - id: chua_circuit
     name: "Chua's Circuit"
-    shader: shaders/chua_gpu.frag
+    shader: shaders/strange_attractors/chua_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -589,7 +589,7 @@ fractals:
       confidence: 1.0
   - id: halley
     name: "Halley"
-    shader: shaders/halley_gpu.frag
+    shader: shaders/root_finding/halley_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -623,7 +623,7 @@ fractals:
       confidence: 1.0
   - id: schroeder
     name: "Schröder"
-    shader: shaders/schroeder_gpu.frag
+    shader: shaders/root_finding/schroeder_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -657,7 +657,7 @@ fractals:
       confidence: 1.0
   - id: langton_ant
     name: "Langton's Ant"
-    shader: shaders/langton_ant_gpu.frag
+    shader: shaders/cellular_and_stochastic/langton_ant_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -691,7 +691,7 @@ fractals:
       confidence: 1.0
   - id: brian_brain
     name: "Brian's Brain"
-    shader: shaders/brian_brain_gpu.frag
+    shader: shaders/cellular_and_stochastic/brian_brain_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -725,7 +725,7 @@ fractals:
       confidence: 1.0
   - id: mcworter_pentigree
     name: "McWorter Pentigree"
-    shader: shaders/mcworter_pentigree_gpu.frag
+    shader: shaders/ifs_and_geometric/mcworter_pentigree_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -759,7 +759,7 @@ fractals:
       confidence: 1.0
   - id: 3d_fractal
     name: 3D Fractal
-    shader: shaders/3d_fractal_gpu.frag
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/3d_fractal_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -794,7 +794,7 @@ fractals:
       confidence: 1.0
   - id: sandpile
     name: Abelian Sandpile
-    shader: shaders/sandpile_gpu.frag
+    shader: shaders/cellular_and_stochastic/sandpile_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -828,7 +828,7 @@ fractals:
       confidence: 1.0
   - id: aizawa
     name: Aizawa Attractor
-    shader: shaders/aizawa_gpu.frag
+    shader: shaders/strange_attractors/aizawa_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -862,7 +862,7 @@ fractals:
       confidence: 1.0
   - id: ammann_beenker
     name: Ammann-Beenker Tiling
-    shader: shaders/ammann_beenker_gpu.frag
+    shader: shaders/ifs_and_geometric/ammann_beenker_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -896,7 +896,7 @@ fractals:
       confidence: 1.0
   - id: angrybrot
     name: Angrybrot
-    shader: shaders/angrybrot_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/iterative_maps/angrybrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -931,7 +931,7 @@ fractals:
       confidence: 1.0
   - id: anti_buddhabrot
     name: Anti-Buddhabrot
-    shader: shaders/anti_buddhabrot_gpu.frag
+    shader: shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -965,7 +965,7 @@ fractals:
       confidence: 1.0
   - id: apollonian_gasket
     name: Apollonian Gasket
-    shader: shaders/apollonian_gasket_gpu.frag
+    shader: shaders/ifs_and_geometric/apollonian_gasket_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -999,7 +999,7 @@ fractals:
       confidence: 1.0
   - id: arneodo
     name: Arneodo Attractor
-    shader: shaders/arneodo_gpu.frag
+    shader: shaders/strange_attractors/arneodo_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1033,7 +1033,7 @@ fractals:
       confidence: 1.0
   - id: astroid
     name: Astroid Fractal
-    shader: shaders/astroid_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/astroid_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1067,7 +1067,7 @@ fractals:
       confidence: 1.0
   - id: barnsley_fern
     name: Barnsley Fern
-    shader: shaders/barnsley_fern_gpu.frag
+    shader: shaders/ifs_and_geometric/barnsley_fern_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1101,7 +1101,7 @@ fractals:
       confidence: 1.0
   - id: barnsley_j1
     name: Barnsley J1 Relief
-    shader: shaders/barnsley_j1_gpu.frag
+    shader: shaders/ifs_and_geometric/barnsley_j1_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1136,7 +1136,7 @@ fractals:
       confidence: 1.0
   - id: barnsley_j2
     name: Barnsley J2
-    shader: shaders/barnsley_j2_gpu.frag
+    shader: shaders/ifs_and_geometric/barnsley_j2_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1171,7 +1171,7 @@ fractals:
       confidence: 1.0
   - id: barnsley_j3
     name: Barnsley J3
-    shader: shaders/barnsley_j3_gpu.frag
+    shader: shaders/ifs_and_geometric/barnsley_j3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1206,7 +1206,7 @@ fractals:
       confidence: 1.0
   - id: benesi
     name: Benesi Fractal
-    shader: shaders/benesi_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/benesi_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1240,7 +1240,7 @@ fractals:
       confidence: 1.0
   - id: bicomplex
     name: Bicomplex Mandelbrot
-    shader: shaders/bicomplex_gpu.frag
+    shader: shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1275,7 +1275,7 @@ fractals:
       confidence: 1.0
   - id: biomorph
     name: Biomorph
-    shader: shaders/biomorph_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/biomorph_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1310,7 +1310,7 @@ fractals:
       confidence: 1.0
   - id: blaschke
     name: Blaschke Product
-    shader: shaders/blaschke_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1346,7 +1346,7 @@ fractals:
       confidence: 1.0
   - id: bouali
     name: Bouali Attractor
-    shader: shaders/bouali_gpu.frag
+    shader: shaders/strange_attractors/bouali_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1380,7 +1380,7 @@ fractals:
       confidence: 1.0
   - id: buddhabrot_approx
     name: Buddhabrot (Approx)
-    shader: shaders/buddhabrot_gpu.frag
+    shader: shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1414,7 +1414,7 @@ fractals:
       confidence: 1.0
   - id: buffalo
     name: Buffalo
-    shader: shaders/buffalo_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 0.35
@@ -1450,7 +1450,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_cubic
     name: Buffalo Cubic
-    shader: shaders/buffalo_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1485,7 +1485,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_cubic_julia
     name: Buffalo Cubic Julia
-    shader: shaders/buffalo_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1519,7 +1519,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_julia
     name: Buffalo Julia
-    shader: shaders/buffalo_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1554,7 +1554,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power4
     name: Buffalo ⁴
-    shader: shaders/buffalo_power4_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1588,7 +1588,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power5
     name: Buffalo ⁵
-    shader: shaders/buffalo_power5_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1622,7 +1622,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power4_julia
     name: Buffalo⁴ Julia
-    shader: shaders/buffalo_power4_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1656,7 +1656,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power5_julia
     name: Buffalo⁵ Julia
-    shader: shaders/buffalo_power5_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1690,7 +1690,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power6
     name: Buffalo⁶
-    shader: shaders/buffalo_power6_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1724,7 +1724,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power6_julia
     name: Buffalo⁶ Julia
-    shader: shaders/buffalo_power6_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1758,7 +1758,7 @@ fractals:
       confidence: 1.0
   - id: bullet_shot
     name: Bullet Shot
-    shader: shaders/bullet_shot_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/polynomial_variants/bullet_shot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1793,7 +1793,7 @@ fractals:
       confidence: 1.0
   - id: burke_shaw
     name: Burke-Shaw Attractor
-    shader: shaders/burke_shaw_gpu.frag
+    shader: shaders/strange_attractors/burke_shaw_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1827,7 +1827,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship
     name: Burning Ship
-    shader: shaders/burning_ship_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 0.35
@@ -1870,7 +1870,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_cubic_julia
     name: Burning Ship Cubic Julia
-    shader: shaders/burning_ship_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_cubic_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1904,7 +1904,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_julia
     name: Burning Ship Julia
-    shader: shaders/burning_ship_julia_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1939,7 +1939,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_power4
     name: Burning Ship ⁴
-    shader: shaders/burning_ship_power4_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1973,7 +1973,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_power5
     name: Burning Ship ⁵
-    shader: shaders/burning_ship_power5_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2007,7 +2007,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_power4_julia
     name: Burning Ship⁴ Julia
-    shader: shaders/burning_ship_power4_julia_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power4_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2041,7 +2041,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_power5_julia
     name: Burning Ship⁵ Julia
-    shader: shaders/burning_ship_power5_julia_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power5_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2075,7 +2075,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_power6
     name: Burning Ship⁶
-    shader: shaders/burning_ship_power6_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power6_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2109,7 +2109,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_power6_julia
     name: Burning Ship⁶ Julia
-    shader: shaders/burning_ship_power6_julia_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power6_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2143,7 +2143,7 @@ fractals:
       confidence: 1.0
   - id: cactus
     name: Cactus Fractal
-    shader: shaders/cactus_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/cactus_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2178,7 +2178,7 @@ fractals:
       confidence: 1.0
   - id: cantor_dust
     name: Cantor Dust
-    shader: shaders/cantor_dust_gpu.frag
+    shader: shaders/ifs_and_geometric/cantor_dust_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2212,7 +2212,7 @@ fractals:
       confidence: 1.0
   - id: cantor_set
     name: Cantor Set
-    shader: shaders/cantor_set_gpu.frag
+    shader: shaders/ifs_and_geometric/cantor_set_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2246,7 +2246,7 @@ fractals:
       confidence: 1.0
   - id: car_road
     name: Car Road
-    shader: shaders/car_road_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/physical_simulation/car_road_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2281,7 +2281,7 @@ fractals:
       confidence: 1.0
   - id: cayley_graph
     name: Cayley Graph Fractal
-    shader: shaders/cayley_graph_gpu.frag
+    shader: shaders/ifs_and_geometric/cayley_graph_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2315,7 +2315,7 @@ fractals:
       confidence: 1.0
   - id: celtic
     name: Celtic
-    shader: shaders/celtic_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 0.35
@@ -2351,7 +2351,7 @@ fractals:
       confidence: 1.0
   - id: celtic_cubic
     name: Celtic Cubic
-    shader: shaders/celtic_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2386,7 +2386,7 @@ fractals:
       confidence: 1.0
   - id: celtic_cubic_julia
     name: Celtic Cubic Julia
-    shader: shaders/celtic_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2420,7 +2420,7 @@ fractals:
       confidence: 1.0
   - id: celtic_julia
     name: Celtic Julia
-    shader: shaders/celtic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2455,7 +2455,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power4
     name: Celtic ⁴
-    shader: shaders/celtic_power4_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2489,7 +2489,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power5
     name: Celtic ⁵
-    shader: shaders/celtic_power5_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2523,7 +2523,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power4_julia
     name: Celtic⁴ Julia
-    shader: shaders/celtic_power4_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2557,7 +2557,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power5_julia
     name: Celtic⁵ Julia
-    shader: shaders/celtic_power5_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2591,7 +2591,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power6
     name: Celtic⁶
-    shader: shaders/celtic_power6_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2625,7 +2625,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power6_julia
     name: Celtic⁶ Julia
-    shader: shaders/celtic_power6_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2659,7 +2659,7 @@ fractals:
       confidence: 1.0
   - id: cesaro_fractal
     name: Cesàro Fractal
-    shader: shaders/cesaro_gpu.frag
+    shader: shaders/ifs_and_geometric/cesaro_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2693,7 +2693,7 @@ fractals:
       confidence: 1.0
   - id: chair_tiling
     name: Chair Tiling
-    shader: shaders/chair_tiling_gpu.frag
+    shader: shaders/ifs_and_geometric/chair_tiling_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2727,7 +2727,7 @@ fractals:
       confidence: 1.0
   - id: chebyshev
     name: Chebyshev Fractal
-    shader: shaders/chebyshev_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/chebyshev_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2762,7 +2762,7 @@ fractals:
       confidence: 1.0
   - id: chen
     name: Chen Attractor
-    shader: shaders/chen_gpu.frag
+    shader: shaders/strange_attractors/chen_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2796,7 +2796,7 @@ fractals:
       confidence: 1.0
   - id: chen_lee
     name: Chen-Lee Attractor
-    shader: shaders/chen_lee_gpu.frag
+    shader: shaders/strange_attractors/chen_lee_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2830,7 +2830,7 @@ fractals:
       confidence: 1.0
   - id: circle_map_lyapunov
     name: Circle Map Lyapunov
-    shader: shaders/circle_map_lyapunov_gpu.frag
+    shader: shaders/lyapunov_and_stability/circle_map_lyapunov_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2864,7 +2864,7 @@ fractals:
       confidence: 1.0
   - id: clifford
     name: Clifford Attractor
-    shader: shaders/clifford_gpu.frag
+    shader: shaders/strange_attractors/clifford_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2898,7 +2898,7 @@ fractals:
       confidence: 1.0
   - id: collatz
     name: Collatz Fractal
-    shader: shaders/collatz_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/collatz_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2933,7 +2933,7 @@ fractals:
       confidence: 1.0
   - id: contused_fields
     name: Contused Fields
-    shader: shaders/contused_fields_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/polynomial_variants/contused_fields_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2968,7 +2968,7 @@ fractals:
       confidence: 1.0
   - id: cosh_julia
     name: Cosh Julia
-    shader: shaders/cosh_julia_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/hyperbolic/cosh_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3002,7 +3002,7 @@ fractals:
       confidence: 1.0
   - id: cosh_mandelbrot
     name: Cosh Mandelbrot
-    shader: shaders/cosh_mandelbrot_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/hyperbolic/cosh_mandelbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3037,7 +3037,7 @@ fractals:
       confidence: 1.0
   - id: cosine_julia
     name: Cosine Julia
-    shader: shaders/cosine_julia_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3072,7 +3072,7 @@ fractals:
       confidence: 1.0
   - id: cosine_mandelbrot
     name: Cosine Mandelbrot
-    shader: shaders/cosine_mandelbrot_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 0.3
@@ -3107,7 +3107,7 @@ fractals:
       confidence: 1.0
   - id: coullet
     name: Coullet Attractor
-    shader: shaders/coullet_gpu.frag
+    shader: shaders/strange_attractors/coullet_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3141,7 +3141,7 @@ fractals:
       confidence: 1.0
   - id: crazybrot
     name: Crazybrot
-    shader: shaders/crazybrot_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/iterative_maps/crazybrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3176,7 +3176,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_cubic
     name: Cubic Burning Ship
-    shader: shaders/burning_ship_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_cubic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3211,7 +3211,7 @@ fractals:
       confidence: 1.0
   - id: cyclosorus_fern
     name: Cyclosorus Fern
-    shader: shaders/cyclosorus_fern_gpu.frag
+    shader: shaders/ifs_and_geometric/cyclosorus_fern_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3245,7 +3245,7 @@ fractals:
       confidence: 1.0
   - id: dla
     name: DLA (Approximation)
-    shader: shaders/dla_gpu.frag
+    shader: shaders/cellular_and_stochastic/dla_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3279,7 +3279,7 @@ fractals:
       confidence: 1.0
   - id: dadras
     name: Dadras Attractor
-    shader: shaders/dadras_gpu.frag
+    shader: shaders/strange_attractors/dadras_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3313,7 +3313,7 @@ fractals:
       confidence: 1.0
   - id: damaged_doublebrot
     name: Damaged DoubleBrot
-    shader: shaders/damaged_doublebrot_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/iterative_maps/damaged_doublebrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3348,7 +3348,7 @@ fractals:
       confidence: 1.0
   - id: day_night
     name: Day & Night
-    shader: shaders/day_night_gpu.frag
+    shader: shaders/cellular_and_stochastic/day_night_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3382,7 +3382,7 @@ fractals:
       confidence: 1.0
   - id: deltoid
     name: Deltoid Fractal
-    shader: shaders/deltoid_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/deltoid_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3416,7 +3416,7 @@ fractals:
       confidence: 1.0
   - id: dequan_li
     name: Dequan Li Attractor
-    shader: shaders/dequan_li_gpu.frag
+    shader: shaders/strange_attractors/dequan_li_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3450,7 +3450,7 @@ fractals:
       confidence: 1.0
   - id: dragon_curve
     name: Dragon Curve
-    shader: shaders/dragon_curve_gpu.frag
+    shader: shaders/ifs_and_geometric/dragon_curve_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3484,7 +3484,7 @@ fractals:
       confidence: 1.0
   - id: drill
     name: Drill Fractal
-    shader: shaders/drill_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/polynomial_variants/drill_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3519,7 +3519,7 @@ fractals:
       confidence: 1.0
   - id: druid
     name: Druid Fractal
-    shader: shaders/druid_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/druid_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3554,7 +3554,7 @@ fractals:
       confidence: 1.0
   - id: dual_complex
     name: Dual-Complex Fractal
-    shader: shaders/dual_complex_gpu.frag
+    shader: shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3588,7 +3588,7 @@ fractals:
       confidence: 1.0
   - id: ducky
     name: Ducky Fractal
-    shader: shaders/ducky_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/discrete_attractors/ducky_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3623,7 +3623,7 @@ fractals:
       confidence: 1.0
   - id: duffing
     name: Duffing Map
-    shader: shaders/duffing_gpu.frag
+    shader: shaders/strange_attractors/duffing_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3657,7 +3657,7 @@ fractals:
       confidence: 1.0
   - id: eaten
     name: Eaten
-    shader: shaders/eaten_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/rational_singularities/eaten_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3692,7 +3692,7 @@ fractals:
       confidence: 1.0
   - id: eden_growth
     name: Eden Growth Model
-    shader: shaders/eden_growth_gpu.frag
+    shader: shaders/cellular_and_stochastic/eden_growth_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3726,7 +3726,7 @@ fractals:
       confidence: 1.0
   - id: eisenstein
     name: Eisenstein Fractal
-    shader: shaders/eisenstein_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3760,7 +3760,7 @@ fractals:
       confidence: 1.0
   - id: exponential
     name: Exponential Fractal
-    shader: shaders/exponential_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3795,7 +3795,7 @@ fractals:
       confidence: 1.0
   - id: exponential_julia
     name: Exponential Julia
-    shader: shaders/exponential_julia_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/exponential_iteration/exponential_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3829,7 +3829,7 @@ fractals:
       confidence: 1.0
   - id: farey_diagram
     name: Farey Diagram
-    shader: shaders/farey_diagram_gpu.frag
+    shader: shaders/escape_time_family/geometry_and_ifs/farey_diagram_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3863,7 +3863,7 @@ fractals:
       confidence: 1.0
   - id: fatou_exp
     name: Fatou Exponential
-    shader: shaders/fatou_exp_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/fatou_exp_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3899,7 +3899,7 @@ fractals:
       confidence: 1.0
   - id: fatou
     name: Fatou Set
-    shader: shaders/fatou_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/fatou_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3933,7 +3933,7 @@ fractals:
       confidence: 1.0
   - id: feather
     name: Feather Fractal
-    shader: shaders/feather_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/feather_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -3968,7 +3968,7 @@ fractals:
       confidence: 1.0
   - id: feather_julia
     name: Feather Julia
-    shader: shaders/feather_julia_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/feather_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4002,7 +4002,7 @@ fractals:
       confidence: 1.0
   - id: feigenbaum
     name: Feigenbaum Logistic Map
-    shader: shaders/feigenbaum_gpu.frag
+    shader: shaders/lyapunov_and_stability/feigenbaum_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4036,7 +4036,7 @@ fractals:
       confidence: 1.0
   - id: fibonacci_spiral
     name: Fibonacci Spiral Fractal
-    shader: shaders/fibonacci_spiral_gpu.frag
+    shader: shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4070,7 +4070,7 @@ fractals:
       confidence: 1.0
   - id: fibonacci_word
     name: Fibonacci Word Fractal
-    shader: shaders/fibonacci_word_gpu.frag
+    shader: shaders/ifs_and_geometric/fibonacci_word_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4104,7 +4104,7 @@ fractals:
       confidence: 1.0
   - id: fish
     name: Fish Fractal
-    shader: shaders/fish_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/discrete_attractors/fish_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4139,7 +4139,7 @@ fractals:
       confidence: 1.0
   - id: ford_circles
     name: Ford Circles
-    shader: shaders/ford_circles_gpu.frag
+    shader: shaders/ifs_and_geometric/ford_circles_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4173,7 +4173,7 @@ fractals:
       confidence: 1.0
   - id: forest_fire
     name: Forest Fire Model
-    shader: shaders/forest_fire_gpu.frag
+    shader: shaders/cellular_and_stochastic/forest_fire_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4207,7 +4207,7 @@ fractals:
       confidence: 1.0
   - id: four_wing
     name: Four-Wing Attractor
-    shader: shaders/four_wing_gpu.frag
+    shader: shaders/strange_attractors/four_wing_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4241,7 +4241,7 @@ fractals:
       confidence: 1.0
   - id: fractal_canopy
     name: Fractal Canopy
-    shader: shaders/fractal_canopy_gpu.frag
+    shader: shaders/ifs_and_geometric/fractal_canopy_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4275,7 +4275,7 @@ fractals:
       confidence: 1.0
   - id: gamma_fractal
     name: Gamma Fractal
-    shader: shaders/gamma_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/gamma_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4309,7 +4309,7 @@ fractals:
       confidence: 1.0
   - id: gauss_map
     name: Gauss Map
-    shader: shaders/gauss_map_gpu.frag
+    shader: shaders/lyapunov_and_stability/gauss_map_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4343,7 +4343,7 @@ fractals:
       confidence: 1.0
   - id: genesio_tesi
     name: Genesio-Tesi Attractor
-    shader: shaders/genesio_tesi_gpu.frag
+    shader: shaders/strange_attractors/genesio_tesi_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4377,7 +4377,7 @@ fractals:
       confidence: 1.0
   - id: gingerbreadman
     name: Gingerbreadman Map
-    shader: shaders/gingerbreadman_gpu.frag
+    shader: shaders/strange_attractors/gingerbreadman_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4411,7 +4411,7 @@ fractals:
       confidence: 1.0
   - id: globo_toroid
     name: Globo-Toroid Attractor
-    shader: shaders/globo_toroid_gpu.frag
+    shader: shaders/strange_attractors/globo_toroid_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4445,7 +4445,7 @@ fractals:
       confidence: 1.0
   - id: glynn
     name: Glynn Fractal
-    shader: shaders/glynn_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/glynn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4480,7 +4480,7 @@ fractals:
       confidence: 1.0
   - id: golden_dragon
     name: Golden Dragon
-    shader: shaders/golden_dragon_gpu.frag
+    shader: shaders/ifs_and_geometric/golden_dragon_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4514,7 +4514,7 @@ fractals:
       confidence: 1.0
   - id: gosper_curve
     name: Gosper Curve
-    shader: shaders/gosper_curve_gpu.frag
+    shader: shaders/ifs_and_geometric/gosper_curve_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4548,7 +4548,7 @@ fractals:
       confidence: 1.0
   - id: greek_cross_fractal
     name: Greek Cross Fractal
-    shader: shaders/greek_cross_gpu.frag
+    shader: shaders/ifs_and_geometric/greek_cross_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4582,7 +4582,7 @@ fractals:
       confidence: 1.0
   - id: gumowski_mira
     name: Gumowski-Mira Map
-    shader: shaders/gumowski_mira_gpu.frag
+    shader: shaders/strange_attractors/gumowski_mira_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4616,7 +4616,7 @@ fractals:
       confidence: 1.0
   - id: hadley
     name: Hadley Circulation
-    shader: shaders/hadley_gpu.frag
+    shader: shaders/strange_attractors/hadley_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4650,7 +4650,7 @@ fractals:
       confidence: 1.0
   - id: halley_z4
     name: Halley z⁴−1
-    shader: shaders/halley_z4_gpu.frag
+    shader: shaders/root_finding/halley_z4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4684,7 +4684,7 @@ fractals:
       confidence: 1.0
   - id: halvorsen
     name: Halvorsen Attractor
-    shader: shaders/halvorsen_gpu.frag
+    shader: shaders/strange_attractors/halvorsen_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4718,7 +4718,7 @@ fractals:
       confidence: 1.0
   - id: heart
     name: Heart Fractal
-    shader: shaders/heart_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/heart_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4752,7 +4752,7 @@ fractals:
       confidence: 1.0
   - id: heart_julia
     name: Heart Julia
-    shader: shaders/heart_julia_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/heart_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4786,7 +4786,7 @@ fractals:
       confidence: 1.0
   - id: hermite
     name: Hermite Fractal
-    shader: shaders/hermite_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/hermite_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4820,7 +4820,7 @@ fractals:
       confidence: 1.0
   - id: hexaflake
     name: Hexaflake
-    shader: shaders/hexaflake_gpu.frag
+    shader: shaders/ifs_and_geometric/hexaflake_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4854,7 +4854,7 @@ fractals:
       confidence: 1.0
   - id: highlife
     name: HighLife
-    shader: shaders/highlife_gpu.frag
+    shader: shaders/cellular_and_stochastic/highlife_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4888,7 +4888,7 @@ fractals:
       confidence: 1.0
   - id: hilbert_curve
     name: Hilbert Curve
-    shader: shaders/hilbert_curve_gpu.frag
+    shader: shaders/ifs_and_geometric/hilbert_curve_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4922,7 +4922,7 @@ fractals:
       confidence: 1.0
   - id: hopalong
     name: Hopalong Attractor
-    shader: shaders/hopalong_gpu.frag
+    shader: shaders/strange_attractors/hopalong_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4956,7 +4956,7 @@ fractals:
       confidence: 1.0
   - id: householder
     name: Householder Fractal
-    shader: shaders/householder_gpu.frag
+    shader: shaders/root_finding/householder_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -4990,7 +4990,7 @@ fractals:
       confidence: 1.0
   - id: hypercomplex_newton
     name: Hypercomplex Newton (Quaternion z³ - 1)
-    shader: shaders/hypercomplex_newton_gpu.frag
+    shader: shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5024,7 +5024,7 @@ fractals:
       confidence: 1.0
   - id: henon
     name: Hénon Map
-    shader: shaders/henon_gpu.frag
+    shader: shaders/strange_attractors/henon_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5058,7 +5058,7 @@ fractals:
       confidence: 1.0
   - id: ikeda
     name: Ikeda Map
-    shader: shaders/ikeda_gpu.frag
+    shader: shaders/strange_attractors/ikeda_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5092,7 +5092,7 @@ fractals:
       confidence: 1.0
   - id: inverse_mandelbrot
     name: Inverse Mandelbrot
-    shader: shaders/inverse_mandelbrot_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/iterative_maps/inverse_mandelbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5127,7 +5127,7 @@ fractals:
       confidence: 1.0
   - id: jerusalem_cube
     name: Jerusalem Cube (2D Cross-Section)
-    shader: shaders/jerusalem_cube_gpu.frag
+    shader: shaders/ifs_and_geometric/jerusalem_cube_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5161,7 +5161,7 @@ fractals:
       confidence: 1.0
   - id: julia_de
     name: Julia DE Glow
-    shader: shaders/julia_de_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/julia_de_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5197,7 +5197,7 @@ fractals:
       confidence: 1.0
   - id: kicked_rotator
     name: Kicked Rotator
-    shader: shaders/kicked_rotator_gpu.frag
+    shader: shaders/strange_attractors/kicked_rotator_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5231,7 +5231,7 @@ fractals:
       confidence: 1.0
   - id: koch_anti_snowflake
     name: Koch Anti-Snowflake
-    shader: shaders/koch_anti_snowflake_gpu.frag
+    shader: shaders/ifs_and_geometric/koch_anti_snowflake_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5265,7 +5265,7 @@ fractals:
       confidence: 1.0
   - id: koch_snowflake
     name: Koch Snowflake
-    shader: shaders/koch_snowflake_gpu.frag
+    shader: shaders/ifs_and_geometric/koch_snowflake_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5299,7 +5299,7 @@ fractals:
       confidence: 1.0
   - id: laguerre
     name: Laguerre Fractal
-    shader: shaders/laguerre_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/laguerre_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5333,7 +5333,7 @@ fractals:
       confidence: 1.0
   - id: lambda
     name: Lambda Fractal
-    shader: shaders/lambda_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/lambda_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5368,7 +5368,7 @@ fractals:
       confidence: 1.0
   - id: lambda_julia
     name: Lambda Julia
-    shader: shaders/lambda_julia_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/lambda_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5402,7 +5402,7 @@ fractals:
       confidence: 1.0
   - id: lambda_w
     name: Lambda W Fractal
-    shader: shaders/lambda_w_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/lambda_w_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5437,7 +5437,7 @@ fractals:
       confidence: 1.0
   - id: legendre
     name: Legendre Fractal
-    shader: shaders/legendre_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/legendre_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5471,7 +5471,7 @@ fractals:
       confidence: 1.0
   - id: lightningbrot
     name: LightningBrot
-    shader: shaders/lightningbrot_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/iterative_maps/lightningbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5506,7 +5506,7 @@ fractals:
       confidence: 1.0
   - id: liu_chen
     name: Liu-Chen Attractor
-    shader: shaders/liu_chen_gpu.frag
+    shader: shaders/strange_attractors/liu_chen_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5540,7 +5540,7 @@ fractals:
       confidence: 1.0
   - id: log_spiral
     name: Log Spiral Fractal
-    shader: shaders/log_spiral_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/log_spiral_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5574,7 +5574,7 @@ fractals:
       confidence: 1.0
   - id: logistic_lyapunov
     name: Logistic Lyapunov
-    shader: shaders/logistic_lyapunov_gpu.frag
+    shader: shaders/lyapunov_and_stability/logistic_lyapunov_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5608,7 +5608,7 @@ fractals:
       confidence: 1.0
   - id: lorenz_2d
     name: Lorenz Attractor (2D)
-    shader: shaders/lorenz_2d_gpu.frag
+    shader: shaders/strange_attractors/lorenz_2d_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5642,7 +5642,7 @@ fractals:
       confidence: 1.0
   - id: lozi
     name: Lozi Map
-    shader: shaders/lozi_gpu.frag
+    shader: shaders/strange_attractors/lozi_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5676,7 +5676,7 @@ fractals:
       confidence: 1.0
   - id: lu_chen
     name: Lu-Chen Attractor
-    shader: shaders/lu_chen_gpu.frag
+    shader: shaders/strange_attractors/lu_chen_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5710,7 +5710,7 @@ fractals:
       confidence: 1.0
   - id: lyapunov
     name: Lyapunov Fractal
-    shader: shaders/lyapunov_gpu.frag
+    shader: shaders/lyapunov_and_stability/lyapunov_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5744,7 +5744,7 @@ fractals:
       confidence: 1.0
   - id: levy_c_curve
     name: Lévy C Curve
-    shader: shaders/levy_c_gpu.frag
+    shader: shaders/ifs_and_geometric/levy_c_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5778,7 +5778,7 @@ fractals:
       confidence: 1.0
   - id: levy_tapestry
     name: Lévy Tapestry
-    shader: shaders/levy_tapestry_gpu.frag
+    shader: shaders/ifs_and_geometric/levy_tapestry_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5812,7 +5812,7 @@ fractals:
       confidence: 1.0
   - id: magnet_type_1
     name: Magnet Fractal (Type I)
-    shader: shaders/magnet1_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5847,7 +5847,7 @@ fractals:
       confidence: 1.0
   - id: magnet_type_2
     name: Magnet Fractal (Type II)
-    shader: shaders/magnet2_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet2_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5882,7 +5882,7 @@ fractals:
       confidence: 1.0
   - id: magnet_type_3
     name: Magnet Fractal (Type III)
-    shader: shaders/magnet3_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5917,7 +5917,7 @@ fractals:
       confidence: 1.0
   - id: magnet1_julia
     name: Magnet I Julia
-    shader: shaders/magnet1_julia_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/magnet1_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5951,7 +5951,7 @@ fractals:
       confidence: 1.0
   - id: magnet2_julia
     name: Magnet II Julia
-    shader: shaders/magnet2_julia_gpu.frag
+    shader: shaders/escape_time_family/julia_variants/magnet2_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -5985,7 +5985,7 @@ fractals:
       confidence: 1.0
   - id: magnet_newton
     name: Magnet Newton
-    shader: shaders/magnet_newton_gpu.frag
+    shader: shaders/root_finding/magnet_newton_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6019,7 +6019,7 @@ fractals:
       confidence: 1.0
   - id: magnet1
     name: Magnet Type I
-    shader: shaders/magnet1_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6053,7 +6053,7 @@ fractals:
       confidence: 1.0
   - id: manair_fire
     name: Man-Air-Fire
-    shader: shaders/manair_fire_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/physical_simulation/manair_fire_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6087,7 +6087,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_cubic
     name: Mandelbar Cubic (Tricorn ³)
-    shader: shaders/mandelbar_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6121,7 +6121,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_power6
     name: Mandelbar⁶
-    shader: shaders/mandelbar_power6_gpu.frag
+    shader: shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6155,7 +6155,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_power7
     name: Mandelbar⁷
-    shader: shaders/mandelbar_power7_gpu.frag
+    shader: shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6189,7 +6189,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_power8
     name: Mandelbar⁸
-    shader: shaders/mandelbar_power8_gpu.frag
+    shader: shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6223,7 +6223,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_power9
     name: Mandelbar⁹
-    shader: shaders/mandelbar_power9_gpu.frag
+    shader: shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6257,7 +6257,7 @@ fractals:
       confidence: 1.0
   - id: mandelbrot
     name: Mandelbrot
-    shader: shaders/mandel_step_smooth.frag
+    shader: shaders/legacy/escape_time/mandel_step_smooth.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 0.35
@@ -6301,7 +6301,7 @@ fractals:
       confidence: 1.0
   - id: mandelbrot_curvature_avg
     name: Mandelbrot Curvature Avg
-    shader: shaders/mandelbrot_curvature_avg_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_curvature_avg_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6337,7 +6337,7 @@ fractals:
       confidence: 1.0
   - id: mandelbrot_de
     name: Mandelbrot DE Glow
-    shader: shaders/mandelbrot_de_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_de_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6373,7 +6373,7 @@ fractals:
       confidence: 1.0
   - id: mandelbrot_orbit_trap
     name: Mandelbrot Orbit Trap
-    shader: shaders/mandelbrot_orbit_trap_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6408,7 +6408,7 @@ fractals:
       confidence: 1.0
   - id: mandelbrot_stripe_avg
     name: Mandelbrot Stripe Average
-    shader: shaders/mandelbrot_stripe_avg_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_stripe_avg_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6444,7 +6444,7 @@ fractals:
       confidence: 1.0
   - id: mandelbrot_tia
     name: Mandelbrot TIA
-    shader: shaders/mandelbrot_tia_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_tia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6480,7 +6480,7 @@ fractals:
       confidence: 1.0
   - id: mandelpinski
     name: Mandelpinski Necklaces
-    shader: shaders/mandelpinski_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/singular_perturbations/mandelpinski_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6516,7 +6516,7 @@ fractals:
       confidence: 1.0
   - id: manowar
     name: Manowar Fractal
-    shader: shaders/manowar_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/manowar_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6551,7 +6551,7 @@ fractals:
       confidence: 1.0
   - id: menger_sponge_2d
     name: Menger Sponge (2D Cross-Section)
-    shader: shaders/menger_sponge_gpu.frag
+    shader: shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6585,7 +6585,7 @@ fractals:
       confidence: 1.0
   - id: menger_3d_slice
     name: Menger Sponge (3D Slice)
-    shader: shaders/menger_3d_slice_gpu.frag
+    shader: shaders/ifs_and_geometric/self_similar_sets/menger_3d_slice_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6619,7 +6619,7 @@ fractals:
       confidence: 1.0
   - id: moore_curve
     name: Moore Curve
-    shader: shaders/moore_curve_gpu.frag
+    shader: shaders/ifs_and_geometric/moore_curve_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6653,7 +6653,7 @@ fractals:
       confidence: 1.0
   - id: moore_spiegel
     name: Moore-Spiegel Attractor
-    shader: shaders/moore_spiegel_gpu.frag
+    shader: shaders/strange_attractors/moore_spiegel_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6687,7 +6687,7 @@ fractals:
       confidence: 1.0
   - id: multibrot_neg2
     name: Multibrot d=-2
-    shader: shaders/multibrot_neg2_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6721,7 +6721,7 @@ fractals:
       confidence: 1.0
   - id: multibrot_15
     name: Multibrot d=1.5
-    shader: shaders/multibrot_15_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6756,7 +6756,7 @@ fractals:
       confidence: 1.0
   - id: multibrot_25
     name: Multibrot d=2.5
-    shader: shaders/multibrot_25_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6791,7 +6791,7 @@ fractals:
       confidence: 1.0
   - id: multibrot3
     name: Multibrot d=3
-    shader: shaders/multibrot3_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6826,7 +6826,7 @@ fractals:
       confidence: 1.0
   - id: multibrot4
     name: Multibrot d=4
-    shader: shaders/multibrot4_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6861,7 +6861,7 @@ fractals:
       confidence: 1.0
   - id: multibrot5
     name: Multibrot d=5
-    shader: shaders/multibrot5_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6896,7 +6896,7 @@ fractals:
       confidence: 1.0
   - id: multibrot6
     name: Multibrot ⁶
-    shader: shaders/multibrot6_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6930,7 +6930,7 @@ fractals:
       confidence: 1.0
   - id: multibrot7
     name: Multibrot ⁷
-    shader: shaders/multibrot7_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6964,7 +6964,7 @@ fractals:
       confidence: 1.0
   - id: multibrot8
     name: Multibrot ⁸
-    shader: shaders/multibrot8_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6998,7 +6998,7 @@ fractals:
       confidence: 1.0
   - id: multibrot12
     name: Multibrot¹²
-    shader: shaders/multibrot12_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7032,7 +7032,7 @@ fractals:
       confidence: 1.0
   - id: multibrot11
     name: Multibrot¹¹
-    shader: shaders/multibrot11_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7066,7 +7066,7 @@ fractals:
       confidence: 1.0
   - id: multibrot10
     name: Multibrot¹⁰
-    shader: shaders/multibrot10_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7100,7 +7100,7 @@ fractals:
       confidence: 1.0
   - id: multibrot9
     name: Multibrot⁹
-    shader: shaders/multibrot9_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7134,7 +7134,7 @@ fractals:
       confidence: 1.0
   - id: multijulia3
     name: Multijulia ³
-    shader: shaders/multijulia3_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7168,7 +7168,7 @@ fractals:
       confidence: 1.0
   - id: multijulia4
     name: Multijulia ⁴
-    shader: shaders/multijulia4_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7202,7 +7202,7 @@ fractals:
       confidence: 1.0
   - id: multijulia5
     name: Multijulia ⁵
-    shader: shaders/multijulia5_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7236,7 +7236,7 @@ fractals:
       confidence: 1.0
   - id: multijulia6
     name: Multijulia ⁶
-    shader: shaders/multijulia6_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia6_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7270,7 +7270,7 @@ fractals:
       confidence: 1.0
   - id: multijulia7
     name: Multijulia ⁷
-    shader: shaders/multijulia7_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia7_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7304,7 +7304,7 @@ fractals:
       confidence: 1.0
   - id: multijulia8
     name: Multijulia ⁸
-    shader: shaders/multijulia8_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia8_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7338,7 +7338,7 @@ fractals:
       confidence: 1.0
   - id: multijulia12
     name: Multijulia¹²
-    shader: shaders/multijulia12_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia12_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7372,7 +7372,7 @@ fractals:
       confidence: 1.0
   - id: multijulia11
     name: Multijulia¹¹
-    shader: shaders/multijulia11_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia11_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7406,7 +7406,7 @@ fractals:
       confidence: 1.0
   - id: multijulia10
     name: Multijulia¹⁰
-    shader: shaders/multijulia10_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia10_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7440,7 +7440,7 @@ fractals:
       confidence: 1.0
   - id: multijulia9
     name: Multijulia⁹
-    shader: shaders/multijulia9_gpu.frag
+    shader: shaders/escape_time_family/families/multijulia/multijulia9_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7474,7 +7474,7 @@ fractals:
       confidence: 1.0
   - id: nebulabrot
     name: Nebulabrot (Approx)
-    shader: shaders/nebulabrot_gpu.frag
+    shader: shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7508,7 +7508,7 @@ fractals:
       confidence: 1.0
   - id: newton_z3
     name: Newton Fractal (z³ - 1)
-    shader: shaders/newton_z3_gpu.frag
+    shader: shaders/root_finding/newton_z3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7542,7 +7542,7 @@ fractals:
       confidence: 1.0
   - id: newton_general
     name: Newton Fractal (z⁴ - 1)
-    shader: shaders/newton_general_gpu.frag
+    shader: shaders/root_finding/newton_general_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7576,7 +7576,7 @@ fractals:
       confidence: 1.0
   - id: newton_sin
     name: Newton sin(z)
-    shader: shaders/newton_sin_gpu.frag
+    shader: shaders/root_finding/newton_sin_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7610,7 +7610,7 @@ fractals:
       confidence: 1.0
   - id: newton_z4
     name: Newton z⁴−1
-    shader: shaders/newton_z4_gpu.frag
+    shader: shaders/root_finding/newton_z4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7644,7 +7644,7 @@ fractals:
       confidence: 1.0
   - id: newton_z5
     name: Newton z⁵−1
-    shader: shaders/newton_z5_gpu.frag
+    shader: shaders/root_finding/newton_z5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7678,7 +7678,7 @@ fractals:
       confidence: 1.0
   - id: newton_z6
     name: Newton z⁶−1
-    shader: shaders/newton_z6_gpu.frag
+    shader: shaders/root_finding/newton_z6_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7712,7 +7712,7 @@ fractals:
       confidence: 1.0
   - id: newton_z7
     name: Newton z⁷−1
-    shader: shaders/newton_z7_gpu.frag
+    shader: shaders/root_finding/newton_z7_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7746,7 +7746,7 @@ fractals:
       confidence: 1.0
   - id: newton_z8
     name: Newton z⁸−1
-    shader: shaders/newton_z8_gpu.frag
+    shader: shaders/root_finding/newton_z8_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7780,7 +7780,7 @@ fractals:
       confidence: 1.0
   - id: newton_leipnik
     name: Newton-Leipnik Attractor
-    shader: shaders/newton_leipnik_gpu.frag
+    shader: shaders/strange_attractors/newton_leipnik_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7814,7 +7814,7 @@ fractals:
       confidence: 1.0
   - id: nose_hoover
     name: Nosé-Hoover Attractor
-    shader: shaders/nose_hoover_gpu.frag
+    shader: shaders/strange_attractors/nose_hoover_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7848,7 +7848,7 @@ fractals:
       confidence: 1.0
   - id: nova_cubic
     name: Nova Cubic
-    shader: shaders/nova_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/nova/parameter_plane/nova_cubic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7882,7 +7882,7 @@ fractals:
       confidence: 1.0
   - id: nova_cubic_julia
     name: Nova Cubic Julia
-    shader: shaders/nova_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/nova/julia_sets/nova_cubic_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7916,7 +7916,7 @@ fractals:
       confidence: 1.0
   - id: nova_julia
     name: Nova Julia
-    shader: shaders/nova_julia_gpu.frag
+    shader: shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7952,7 +7952,7 @@ fractals:
       confidence: 1.0
   - id: nova_degree4
     name: Nova⁴
-    shader: shaders/nova_degree4_gpu.frag
+    shader: shaders/escape_time_family/families/nova/parameter_plane/nova_degree4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7986,7 +7986,7 @@ fractals:
       confidence: 1.0
   - id: nova_degree4_julia
     name: Nova⁴ Julia
-    shader: shaders/nova_degree4_julia_gpu.frag
+    shader: shaders/escape_time_family/families/nova/julia_sets/nova_degree4_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8020,7 +8020,7 @@ fractals:
       confidence: 1.0
   - id: peano_curve
     name: Peano Curve
-    shader: shaders/peano_curve_gpu.frag
+    shader: shaders/ifs_and_geometric/peano_curve_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8054,7 +8054,7 @@ fractals:
       confidence: 1.0
   - id: penrose_tiling
     name: Penrose Tiling (P3)
-    shader: shaders/penrose_tiling_gpu.frag
+    shader: shaders/ifs_and_geometric/penrose_tiling_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8088,7 +8088,7 @@ fractals:
       confidence: 1.0
   - id: pentaflake
     name: Pentaflake
-    shader: shaders/pentaflake_gpu.frag
+    shader: shaders/ifs_and_geometric/pentaflake_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8122,7 +8122,7 @@ fractals:
       confidence: 1.0
   - id: percolation
     name: Percolation Cluster
-    shader: shaders/percolation_gpu.frag
+    shader: shaders/cellular_and_stochastic/percolation_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8156,7 +8156,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_bs_cubic_julia
     name: Perp. BS Cubic Julia
-    shader: shaders/perpendicular_bs_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8190,7 +8190,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_bs_cubic
     name: Perpendicular BS Cubic
-    shader: shaders/perpendicular_bs_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8224,7 +8224,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_burning_ship_julia
     name: Perpendicular BS Julia
-    shader: shaders/perpendicular_burning_ship_julia_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8258,7 +8258,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_bs_power4
     name: Perpendicular BS⁴
-    shader: shaders/perpendicular_bs_power4_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8292,7 +8292,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_bs_power5
     name: Perpendicular BS⁵
-    shader: shaders/perpendicular_bs_power5_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8326,7 +8326,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_perp
     name: Perpendicular Burning Ship
-    shader: shaders/burning_ship_perp_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_perp_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8361,7 +8361,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_burning_ship
     name: Perpendicular Burning Ship
-    shader: shaders/perpendicular_burning_ship_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8395,7 +8395,7 @@ fractals:
       confidence: 1.0
   - id: perp_celtic
     name: Perpendicular Celtic
-    shader: shaders/perp_celtic_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8430,7 +8430,7 @@ fractals:
       confidence: 1.0
   - id: perp_celtic_cubic
     name: Perpendicular Celtic Cubic
-    shader: shaders/perp_celtic_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/perp_celtic_cubic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8465,7 +8465,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_julia
     name: Perpendicular Julia
-    shader: shaders/perpendicular_julia_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8500,7 +8500,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_mandelbrot
     name: Perpendicular Mandelbrot
-    shader: shaders/perpendicular_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8535,7 +8535,7 @@ fractals:
       confidence: 1.0
   - id: burning_ship_perp_julia
     name: Perpendicular Ship Julia
-    shader: shaders/burning_ship_perp_julia_gpu.frag
+    shader: shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_perp_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8570,7 +8570,7 @@ fractals:
       confidence: 1.0
   - id: peter_de_jong
     name: Peter de Jong Attractor
-    shader: shaders/peter_de_jong_gpu.frag
+    shader: shaders/strange_attractors/peter_de_jong_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8604,7 +8604,7 @@ fractals:
       confidence: 1.0
   - id: pickover_biomorph
     name: Pickover Biomorph
-    shader: shaders/pickover_gpu.frag
+    shader: shaders/strange_attractors/pickover_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8638,7 +8638,7 @@ fractals:
       confidence: 1.0
   - id: pinwheel_tiling
     name: Pinwheel Tiling
-    shader: shaders/pinwheel_gpu.frag
+    shader: shaders/ifs_and_geometric/pinwheel_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8672,7 +8672,7 @@ fractals:
       confidence: 1.0
   - id: pola_sierpinski
     name: Pola-Sierpinski Hybrid
-    shader: shaders/pola_sierpinski_gpu.frag
+    shader: shaders/ifs_and_geometric/pola_sierpinski_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8706,7 +8706,7 @@ fractals:
       confidence: 1.0
   - id: polar_cowlick
     name: Polar Cowlick
-    shader: shaders/polar_cowlick_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/polynomial_variants/polar_cowlick_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8741,7 +8741,7 @@ fractals:
       confidence: 1.0
   - id: popcorn
     name: Popcorn Fractal
-    shader: shaders/popcorn_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/popcorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8775,7 +8775,7 @@ fractals:
       confidence: 1.0
   - id: popcorn2
     name: Popcorn II
-    shader: shaders/popcorn2_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/popcorn2_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8809,7 +8809,7 @@ fractals:
       confidence: 1.0
   - id: power_sum
     name: Power Sum Fractal
-    shader: shaders/power_sum_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8844,7 +8844,7 @@ fractals:
       confidence: 1.0
   - id: prison
     name: Prison
-    shader: shaders/prison_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/rational_singularities/prison_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8879,7 +8879,7 @@ fractals:
       confidence: 1.0
   - id: pseudo_kleinian
     name: Pseudo-Kleinian
-    shader: shaders/pseudo_kleinian_gpu.frag
+    shader: shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8913,7 +8913,7 @@ fractals:
       confidence: 1.0
   - id: pythagorean_tree
     name: Pythagorean Tree
-    shader: shaders/pythagorean_tree_gpu.frag
+    shader: shaders/ifs_and_geometric/pythagorean_tree_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8947,7 +8947,7 @@ fractals:
       confidence: 1.0
   - id: qi_chen
     name: Qi-Chen Attractor
-    shader: shaders/qi_chen_gpu.frag
+    shader: shaders/strange_attractors/qi_chen_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8981,7 +8981,7 @@ fractals:
       confidence: 1.0
   - id: quadratic_koch_island
     name: Quadratic Koch Island
-    shader: shaders/quadratic_koch_gpu.frag
+    shader: shaders/escape_time_family/geometry_and_ifs/quadratic_koch_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9015,7 +9015,7 @@ fractals:
       confidence: 1.0
   - id: quaternion_julia_2d
     name: Quaternion Julia (2D Slice)
-    shader: shaders/quaternion_julia_2d_gpu.frag
+    shader: shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9050,7 +9050,7 @@ fractals:
       confidence: 1.0
   - id: rabinovich_fabrikant
     name: Rabinovich-Fabrikant Attractor
-    shader: shaders/rabinovich_fabrikant_gpu.frag
+    shader: shaders/strange_attractors/rabinovich_fabrikant_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9084,7 +9084,7 @@ fractals:
       confidence: 1.0
   - id: rational_map
     name: Rational Map Fractal
-    shader: shaders/rational_map_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9119,7 +9119,7 @@ fractals:
       confidence: 1.0
   - id: rauzy_fractal
     name: Rauzy Fractal
-    shader: shaders/rauzy_gpu.frag
+    shader: shaders/ifs_and_geometric/rauzy_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9153,7 +9153,7 @@ fractals:
       confidence: 1.0
   - id: rayleigh_benard
     name: Rayleigh-Bénard Attractor
-    shader: shaders/rayleigh_benard_gpu.frag
+    shader: shaders/strange_attractors/rayleigh_benard_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9187,7 +9187,7 @@ fractals:
       confidence: 1.0
   - id: riemann_zeta
     name: Riemann Zeta Fractal
-    shader: shaders/zeta_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9222,7 +9222,7 @@ fractals:
       confidence: 1.0
   - id: rikitake
     name: Rikitake Dynamo
-    shader: shaders/rikitake_gpu.frag
+    shader: shaders/strange_attractors/rikitake_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9256,7 +9256,7 @@ fractals:
       confidence: 1.0
   - id: robinson
     name: Robinson Attractor
-    shader: shaders/robinson_gpu.frag
+    shader: shaders/strange_attractors/robinson_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9290,7 +9290,7 @@ fractals:
       confidence: 1.0
   - id: rossler_2d
     name: Rossler Attractor (2D)
-    shader: shaders/rossler_2d_gpu.frag
+    shader: shaders/strange_attractors/rossler_2d_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9324,7 +9324,7 @@ fractals:
       confidence: 1.0
   - id: rucklidge
     name: Rucklidge Attractor
-    shader: shaders/rucklidge_gpu.frag
+    shader: shaders/strange_attractors/rucklidge_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9358,7 +9358,7 @@ fractals:
       confidence: 1.0
   - id: sakarya
     name: Sakarya Attractor
-    shader: shaders/sakarya_gpu.frag
+    shader: shaders/strange_attractors/sakarya_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9392,7 +9392,7 @@ fractals:
       confidence: 1.0
   - id: schroeder_z3
     name: Schröder z³−1
-    shader: shaders/schroeder_z3_gpu.frag
+    shader: shaders/root_finding/schroeder_z3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9426,7 +9426,7 @@ fractals:
       confidence: 1.0
   - id: schroeder_z4
     name: Schröder z⁴−1
-    shader: shaders/schroeder_z4_gpu.frag
+    shader: shaders/root_finding/schroeder_z4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9460,7 +9460,7 @@ fractals:
       confidence: 1.0
   - id: scroll_waves
     name: Scroll Waves Attractor
-    shader: shaders/scroll_waves_gpu.frag
+    shader: shaders/strange_attractors/scroll_waves_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9494,7 +9494,7 @@ fractals:
       confidence: 1.0
   - id: secant_fractal
     name: Secant Fractal
-    shader: shaders/secant_fractal_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/secant_fractal_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9528,7 +9528,7 @@ fractals:
       confidence: 1.0
   - id: secant_cosecant
     name: Secant/Cosecant Map
-    shader: shaders/secant_cosecant_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9562,7 +9562,7 @@ fractals:
       confidence: 1.0
   - id: shark_fin
     name: Shark Fin
-    shader: shaders/shark_fin_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9597,7 +9597,7 @@ fractals:
       confidence: 1.0
   - id: shimizu_morioka
     name: Shimizu-Morioka Attractor
-    shader: shaders/shimizu_morioka_gpu.frag
+    shader: shaders/strange_attractors/shimizu_morioka_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9631,7 +9631,7 @@ fractals:
       confidence: 1.0
   - id: sierpinski_arrowhead
     name: Sierpinski Arrowhead
-    shader: shaders/sierpinski_arrowhead_gpu.frag
+    shader: shaders/ifs_and_geometric/sierpinski_arrowhead_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9665,7 +9665,7 @@ fractals:
       confidence: 1.0
   - id: sierpinski_carpet
     name: Sierpinski Carpet
-    shader: shaders/sierpinski_carpet_gpu.frag
+    shader: shaders/ifs_and_geometric/sierpinski_carpet_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9699,7 +9699,7 @@ fractals:
       confidence: 1.0
   - id: sierpinski_pentagon
     name: Sierpinski Pentagon
-    shader: shaders/sierpinski_pentagon_gpu.frag
+    shader: shaders/ifs_and_geometric/sierpinski_pentagon_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9733,7 +9733,7 @@ fractals:
       confidence: 1.0
   - id: sierpinski_tetrahedron
     name: Sierpinski Tetrahedron (2D Projection)
-    shader: shaders/sierpinski_tetrahedron_gpu.frag
+    shader: shaders/ifs_and_geometric/sierpinski_tetrahedron_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9767,7 +9767,7 @@ fractals:
       confidence: 1.0
   - id: sierpinski_triangle
     name: Sierpinski Triangle
-    shader: shaders/sierpinski_triangle_gpu.frag
+    shader: shaders/ifs_and_geometric/sierpinski_triangle_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9801,7 +9801,7 @@ fractals:
       confidence: 1.0
   - id: simonbrot
     name: Simonbrot
-    shader: shaders/simonbrot_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/iterative_maps/simonbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9836,7 +9836,7 @@ fractals:
       confidence: 1.0
   - id: sine_julia
     name: Sine Julia
-    shader: shaders/sine_julia_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9871,7 +9871,7 @@ fractals:
       confidence: 1.0
   - id: sine_mandelbrot
     name: Sine Mandelbrot
-    shader: shaders/sine_mandelbrot_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9906,7 +9906,7 @@ fractals:
       confidence: 1.0
   - id: sine_map_lyapunov
     name: Sine Map Lyapunov
-    shader: shaders/sine_map_lyapunov_gpu.frag
+    shader: shaders/lyapunov_and_stability/sine_map_lyapunov_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9940,7 +9940,7 @@ fractals:
       confidence: 1.0
   - id: singularity
     name: Singularity
-    shader: shaders/singularity_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/rational_singularities/singularity_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -9975,7 +9975,7 @@ fractals:
       confidence: 1.0
   - id: sinh_cosh
     name: Sinh Fractal
-    shader: shaders/sinh_cosh_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10010,7 +10010,7 @@ fractals:
       confidence: 1.0
   - id: sinh_julia
     name: Sinh Julia
-    shader: shaders/sinh_julia_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/hyperbolic/sinh_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10044,7 +10044,7 @@ fractals:
       confidence: 1.0
   - id: sinh_mandelbrot
     name: Sinh Mandelbrot
-    shader: shaders/sinh_mandelbrot_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10079,7 +10079,7 @@ fractals:
       confidence: 1.0
   - id: space_fractal
     name: Space Fractal
-    shader: shaders/space_fractal_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/rational_singularities/space_fractal_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10114,7 +10114,7 @@ fractals:
       confidence: 1.0
   - id: sphinx_tiling
     name: Sphinx Tiling
-    shader: shaders/sphinx_tiling_gpu.frag
+    shader: shaders/ifs_and_geometric/sphinx_tiling_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10148,7 +10148,7 @@ fractals:
       confidence: 1.0
   - id: spider
     name: Spider Fractal
-    shader: shaders/spider_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/coupled_orbits/spider_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10183,7 +10183,7 @@ fractals:
       confidence: 1.0
   - id: spider_x
     name: Spider-X
-    shader: shaders/spider_x_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/coupled_orbits/spider_x_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10218,7 +10218,7 @@ fractals:
       confidence: 1.0
   - id: split_complex
     name: Split-Complex Fractal
-    shader: shaders/split_complex_gpu.frag
+    shader: shaders/3d_and_hypercomplex/hypercomplex_escape_time/split_complex_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10253,7 +10253,7 @@ fractals:
       confidence: 1.0
   - id: sprott_a
     name: Sprott Case A
-    shader: shaders/sprott_a_gpu.frag
+    shader: shaders/strange_attractors/sprott_a_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10287,7 +10287,7 @@ fractals:
       confidence: 1.0
   - id: sprott_b
     name: Sprott Case B
-    shader: shaders/sprott_b_gpu.frag
+    shader: shaders/strange_attractors/sprott_b_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10321,7 +10321,7 @@ fractals:
       confidence: 1.0
   - id: sprott_c
     name: Sprott Case C
-    shader: shaders/sprott_c_gpu.frag
+    shader: shaders/strange_attractors/sprott_c_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10355,7 +10355,7 @@ fractals:
       confidence: 1.0
   - id: sprott_d
     name: Sprott Case D
-    shader: shaders/sprott_d_gpu.frag
+    shader: shaders/strange_attractors/sprott_d_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10389,7 +10389,7 @@ fractals:
       confidence: 1.0
   - id: sprott_e
     name: Sprott Case E
-    shader: shaders/sprott_e_gpu.frag
+    shader: shaders/strange_attractors/sprott_e_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10423,7 +10423,7 @@ fractals:
       confidence: 1.0
   - id: sprott_f
     name: Sprott Case F
-    shader: shaders/sprott_f_gpu.frag
+    shader: shaders/strange_attractors/sprott_f_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10457,7 +10457,7 @@ fractals:
       confidence: 1.0
   - id: standard_map
     name: Standard Map (Chirikov)
-    shader: shaders/standard_map_gpu.frag
+    shader: shaders/strange_attractors/standard_map_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10491,7 +10491,7 @@ fractals:
       confidence: 1.0
   - id: steffensen_z3
     name: Steffensen z³−1
-    shader: shaders/steffensen_z3_gpu.frag
+    shader: shaders/root_finding/steffensen_z3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10527,7 +10527,7 @@ fractals:
       confidence: 1.0
   - id: steffensen_z4
     name: Steffensen z⁴−1
-    shader: shaders/steffensen_z4_gpu.frag
+    shader: shaders/root_finding/steffensen_z4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10563,7 +10563,7 @@ fractals:
       confidence: 1.0
   - id: steffensen_z5
     name: Steffensen z⁵−1
-    shader: shaders/steffensen_z5_gpu.frag
+    shader: shaders/root_finding/steffensen_z5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10599,7 +10599,7 @@ fractals:
       confidence: 1.0
   - id: steiner_chain
     name: Steiner Chain
-    shader: shaders/steiner_chain_gpu.frag
+    shader: shaders/ifs_and_geometric/steiner_chain_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10633,7 +10633,7 @@ fractals:
       confidence: 1.0
   - id: svensson
     name: Svensson Attractor
-    shader: shaders/svensson_gpu.frag
+    shader: shaders/strange_attractors/svensson_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10667,7 +10667,7 @@ fractals:
       confidence: 1.0
   - id: tsucs
     name: TSUCS Attractor
-    shader: shaders/tsucs_gpu.frag
+    shader: shaders/strange_attractors/tsucs_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10701,7 +10701,7 @@ fractals:
       confidence: 1.0
   - id: talis
     name: Talis Fractal
-    shader: shaders/talis_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/talis_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10736,7 +10736,7 @@ fractals:
       confidence: 1.0
   - id: tamari
     name: Tamari Attractor
-    shader: shaders/tamari_gpu.frag
+    shader: shaders/strange_attractors/tamari_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10770,7 +10770,7 @@ fractals:
       confidence: 1.0
   - id: tangent
     name: Tangent Fractal
-    shader: shaders/tangent_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10805,7 +10805,7 @@ fractals:
       confidence: 1.0
   - id: tangent_julia
     name: Tangent Julia
-    shader: shaders/tangent_julia_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/tangent_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10839,7 +10839,7 @@ fractals:
       confidence: 1.0
   - id: tangent_mandelbrot
     name: Tangent Mandelbrot
-    shader: shaders/tangent_mandelbrot_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10874,7 +10874,7 @@ fractals:
       confidence: 1.0
   - id: tanh_julia
     name: Tanh Julia
-    shader: shaders/tanh_julia_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/hyperbolic/tanh_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10908,7 +10908,7 @@ fractals:
       confidence: 1.0
   - id: tanh_mandelbrot
     name: Tanh Mandelbrot
-    shader: shaders/tanh_mandelbrot_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10943,7 +10943,7 @@ fractals:
       confidence: 1.0
   - id: taylor
     name: Taylor Series Fractal
-    shader: shaders/taylor_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/taylor_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -10977,7 +10977,7 @@ fractals:
       confidence: 1.0
   - id: tent_map
     name: Tent Map
-    shader: shaders/tent_map_gpu.frag
+    shader: shaders/lyapunov_and_stability/tent_map_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11011,7 +11011,7 @@ fractals:
       confidence: 1.0
   - id: terdragon
     name: Terdragon
-    shader: shaders/terdragon_gpu.frag
+    shader: shaders/ifs_and_geometric/terdragon_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11045,7 +11045,7 @@ fractals:
       confidence: 1.0
   - id: tessarine_julia
     name: Tessarine Julia
-    shader: shaders/tessarine_julia_gpu.frag
+    shader: shaders/3d_and_hypercomplex/hypercomplex_escape_time/tessarine_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11080,7 +11080,7 @@ fractals:
       confidence: 1.0
   - id: tetration
     name: Tetration Fractal
-    shader: shaders/tetration_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/exponential_iteration/tetration_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11115,7 +11115,7 @@ fractals:
       confidence: 1.0
   - id: hat_monotile
     name: The Hat Monotile
-    shader: shaders/hat_monotile_gpu.frag
+    shader: shaders/ifs_and_geometric/hat_monotile_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11149,7 +11149,7 @@ fractals:
       confidence: 1.0
   - id: spectre_monotile
     name: The Spectre Monotile
-    shader: shaders/spectre_monotile_gpu.frag
+    shader: shaders/ifs_and_geometric/spectre_monotile_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11183,7 +11183,7 @@ fractals:
       confidence: 1.0
   - id: thomas_attractor
     name: Thomas Attractor
-    shader: shaders/thomas_attractor_gpu.frag
+    shader: shaders/strange_attractors/thomas_attractor_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11217,7 +11217,7 @@ fractals:
       confidence: 1.0
   - id: tinkerbell
     name: Tinkerbell Map
-    shader: shaders/tinkerbell_gpu.frag
+    shader: shaders/strange_attractors/tinkerbell_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11251,7 +11251,7 @@ fractals:
       confidence: 1.0
   - id: tricorn
     name: Tricorn
-    shader: shaders/tricorn_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11287,7 +11287,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_cubic
     name: Tricorn Cubic
-    shader: shaders/tricorn_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11322,7 +11322,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_cubic_julia
     name: Tricorn Cubic Julia
-    shader: shaders/tricorn_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_cubic_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11356,7 +11356,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_julia
     name: Tricorn Julia
-    shader: shaders/tricorn_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11391,7 +11391,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power4
     name: Tricorn ⁴ (Mandelbar)
-    shader: shaders/tricorn_power4_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11425,7 +11425,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power5
     name: Tricorn ⁵ (Mandelbar)
-    shader: shaders/tricorn_power5_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power5_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11459,7 +11459,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power4_julia
     name: Tricorn⁴ Julia
-    shader: shaders/tricorn_power4_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11493,7 +11493,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power5_julia
     name: Tricorn⁵ Julia
-    shader: shaders/tricorn_power5_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power5_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11527,7 +11527,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power6_julia
     name: Tricorn⁶ Julia
-    shader: shaders/tricorn_power6_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power6_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11561,7 +11561,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power7_julia
     name: Tricorn⁷ Julia
-    shader: shaders/tricorn_power7_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11595,7 +11595,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power8_julia
     name: Tricorn⁸ Julia
-    shader: shaders/tricorn_power8_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11629,7 +11629,7 @@ fractals:
       confidence: 1.0
   - id: turmite
     name: Turmite
-    shader: shaders/turmite_gpu.frag
+    shader: shaders/cellular_and_stochastic/turmite_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11663,7 +11663,7 @@ fractals:
       confidence: 1.0
   - id: twin_dragon
     name: Twin Dragon
-    shader: shaders/twin_dragon_gpu.frag
+    shader: shaders/ifs_and_geometric/twin_dragon_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11697,7 +11697,7 @@ fractals:
       confidence: 1.0
   - id: undefined
     name: Undefined Fractal
-    shader: shaders/undefined_gpu.frag
+    shader: shaders/escape_time_family/mandelbrot_variants/iterative_maps/undefined_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11732,7 +11732,7 @@ fractals:
       confidence: 1.0
   - id: vase
     name: Vase
-    shader: shaders/vase_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/rational_singularities/vase_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11767,7 +11767,7 @@ fractals:
       confidence: 1.0
   - id: vicsek_fractal
     name: Vicsek Fractal
-    shader: shaders/vicsek_gpu.frag
+    shader: shaders/ifs_and_geometric/vicsek_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11801,7 +11801,7 @@ fractals:
       confidence: 1.0
   - id: virial
     name: Virial Fractal
-    shader: shaders/virial_gpu.frag
+    shader: shaders/escape_time_family/newton_and_orthogonal/series_maps/virial_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11836,7 +11836,7 @@ fractals:
       confidence: 1.0
   - id: wang_sun_cang
     name: Wang-Sun-Cang Attractor
-    shader: shaders/wang_sun_cang_gpu.frag
+    shader: shaders/strange_attractors/wang_sun_cang_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11870,7 +11870,7 @@ fractals:
       confidence: 1.0
   - id: washed_away
     name: Washed Away
-    shader: shaders/washed_away_gpu.frag
+    shader: shaders/escape_time_family/experimental_named/polynomial_variants/washed_away_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11904,7 +11904,7 @@ fractals:
       confidence: 1.0
   - id: weierstrass_roots
     name: Weierstrass Roots
-    shader: shaders/weierstrass_roots_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/special_functions/weierstrass_roots_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11940,7 +11940,7 @@ fractals:
       confidence: 1.0
   - id: weierstrass_p
     name: Weierstrass ℘ + c
-    shader: shaders/weierstrass_p_gpu.frag
+    shader: shaders/trigonometric_and_transcendental/special_functions/weierstrass_p_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11976,7 +11976,7 @@ fractals:
       confidence: 1.0
   - id: wireworld
     name: Wireworld
-    shader: shaders/wireworld_gpu.frag
+    shader: shaders/cellular_and_stochastic/wireworld_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -12010,7 +12010,7 @@ fractals:
       confidence: 1.0
   - id: wolfram_rule30
     name: Wolfram Rule 30
-    shader: shaders/wolfram_rule30_gpu.frag
+    shader: shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -12044,7 +12044,7 @@ fractals:
       confidence: 1.0
   - id: yu_wang
     name: Yu-Wang Attractor
-    shader: shaders/yu_wang_gpu.frag
+    shader: shaders/strange_attractors/yu_wang_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -12078,7 +12078,7 @@ fractals:
       confidence: 1.0
   - id: z_order_curve
     name: Z-Order Curve (Morton)
-    shader: shaders/z_order_curve_gpu.frag
+    shader: shaders/ifs_and_geometric/z_order_curve_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -12112,7 +12112,7 @@ fractals:
       confidence: 1.0
   - id: zaslavsky
     name: Zaslavsky Map
-    shader: shaders/zaslavsky_gpu.frag
+    shader: shaders/strange_attractors/zaslavsky_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -12146,7 +12146,7 @@ fractals:
       confidence: 1.0
   - id: zhou_chen
     name: Zhou-Chen Attractor
-    shader: shaders/zhou_chen_gpu.frag
+    shader: shaders/strange_attractors/zhou_chen_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -12180,7 +12180,7 @@ fractals:
       confidence: 1.0
   - id: zircon_zity
     name: Zircon Zity
-    shader: shaders/zircon_zity_gpu.frag
+    shader: shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -12215,7 +12215,7 @@ fractals:
       confidence: 1.0
   - id: sin_z2
     name: sin(z²) + c
-    shader: shaders/sin_z2_gpu.frag
+    shader: shaders/escape_time_family/transcendental_maps/sin_z2_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -12251,7 +12251,7 @@ fractals:
       confidence: 1.0
   - id: fractal_flame
     name: Fractal Flame
-    shader: shaders/fractal_flame_gpu.frag
+    shader: shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag
     category: IFS / Geometric Fractals
     dimension: 2D
     defaultZoom: 1.0

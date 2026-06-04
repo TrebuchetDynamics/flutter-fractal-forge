@@ -46,7 +46,7 @@ mat3 rotationMatrix(vec3 angles) {
 }
 
 vec3 palette(float t, float scheme) {
-    int s = int(scheme) % 8;
+    int s = int(mod(scheme, 8.0));
     vec3 a, b, c, d;
     if (s == 0) {
         a = vec3(0.5, 0.1, 0.0); b = vec3(0.5, 0.3, 0.1);
@@ -129,7 +129,7 @@ bool invertThroughSphere(inout vec3 p, inout float scale, vec4 s) {
 float inversiveDE(vec3 p) {
     int maxIter = int(clamp(uIterations, 1.0, 30.0));
     float radius = clamp(uPower, 0.5, 3.0);
-    int arrangement = int(uFractalType) % 4;
+    int arrangement = int(mod(uFractalType, 4.0));
 
     vec4 s1, s2, s3, s4;
     getSpheres(arrangement, radius, s1, s2, s3, s4);
@@ -155,7 +155,7 @@ float inversiveDE(vec3 p) {
 float inversiveColor(vec3 p) {
     int maxIter = int(clamp(uIterations, 1.0, 30.0));
     float radius = clamp(uPower, 0.5, 3.0);
-    int arrangement = int(uFractalType) % 4;
+    int arrangement = int(mod(uFractalType, 4.0));
 
     vec4 s1, s2, s3, s4;
     getSpheres(arrangement, radius, s1, s2, s3, s4);
