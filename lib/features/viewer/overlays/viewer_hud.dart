@@ -66,8 +66,10 @@ Widget _viewerBuildViewerStatusChip(
   BuildContext context,
   FractalController controller,
 ) {
-  final backendLabel =
-      state._backendDecision.backend == RendererBackend.cpu ? 'CPU' : 'GPU';
+  final precisionDecision = state._currentPrecisionDecision(controller);
+  final backendLabel = state._backendDecision.backend == RendererBackend.cpu
+      ? 'CPU'
+      : precisionDecision.statusLabel;
   final zoomLabel = state._formatZoomLabel(controller.view.zoom);
   final iterations = (controller.params['iterations'] as num?)?.toInt() ?? 0;
   final moduleId = controller.module.id;

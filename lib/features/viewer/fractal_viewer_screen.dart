@@ -20,7 +20,7 @@ import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
 import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
+import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
@@ -150,6 +150,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _recordHistory(context);
 
       _gpuHealthFailed = false;
+      _refreshPrecisionDecision(controller);
       _refreshBackendDecision();
       _scheduleGpuHealthCheck();
       _detectEmulatorProfile();
@@ -182,15 +183,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _scheduleGpuHealthCheck();
     }
 
-    // Deep-zoom precision indicator — uses same hysteresis state as decision
-    // so the UI badge and backend decision stay in sync.
-    final dzActive = _dzHysteresis.update(
-      moduleId: controller.module.id,
-      zoom: controller.view.zoom,
-    );
-    if (dzActive != _deepZoomPrecisionActive) {
-      _deepZoomPrecisionActive = dzActive;
-    }
+    // Deep-zoom precision indicator — uses same decision as backend routing
+    // so the UI badge and renderer path stay in sync.
+    _refreshPrecisionDecision(controller);
     _refreshBackendDecision();
 
     // Record view/config changes into history
@@ -403,6 +398,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                               )
                             : FractalRenderer(
                                 boundaryKey: _fractalKeyA,
+                                precisionDecision:
+                                    _currentPrecisionDecision(controller),
                                 animationEnabled: !_freezeFrameForExport,
                                 onOpenControls: () => _openControls(context),
                                 onOpenPresets: () => _openPresets(context),
@@ -471,36 +468,40 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     Positioned(
                       top: overlayTop,
                       right: 12,
-                      child: GestureDetector(
-                        onTap: () {
-                          context
-                              .read<RendererSettingsService>()
-                              .setBackendMode(RendererBackendMode.cpuOnly);
-                          setState(() {
-                            _refreshBackendDecision();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.6),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                                color: Colors.cyan.withValues(alpha: 0.7)),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.precision_manufacturing_rounded,
-                                  color: Colors.cyan, size: 16),
-                              SizedBox(width: 6),
-                              Text(
-                                l10n.deepZoomCpuFallback,
-                                style: const TextStyle(
-                                    color: Colors.cyan, fontSize: 11),
-                              ),
-                            ],
+                      child: Semantics(
+                        label: 'Switch to CPU for deep zoom',
+                        button: true,
+                        child: GestureDetector(
+                          onTap: () {
+                            context
+                                .read<RendererSettingsService>()
+                                .setBackendMode(RendererBackendMode.cpuOnly);
+                            setState(() {
+                              _refreshBackendDecision();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.6),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                  color: Colors.cyan.withValues(alpha: 0.7)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.precision_manufacturing_rounded,
+                                    color: Colors.cyan, size: 16),
+                                SizedBox(width: 6),
+                                Text(
+                                  l10n.deepZoomCpuFallback,
+                                  style: const TextStyle(
+                                      color: Colors.cyan, fontSize: 11),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

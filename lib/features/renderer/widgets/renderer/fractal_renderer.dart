@@ -22,6 +22,7 @@ import '../../cpu/cpu_fractal_renderer.dart';
 import 'input/gesture_view_bounds.dart';
 import 'input/gesture_tap_classification.dart';
 import '../../policy/deep_zoom_precision_policy.dart';
+import '../../policy/precision_ladder_policy.dart';
 import '../canvas/fractal_canvas.dart';
 import 'shaders/shader_error_policy.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -104,6 +105,11 @@ class FractalRenderer extends StatefulWidget {
   /// replacing the visual renderer content.
   final Widget? overrideChild;
 
+  /// Optional precision decision supplied by the viewer.
+  ///
+  /// When absent, the renderer computes the pure immediate decision itself.
+  final PrecisionLadderDecision? precisionDecision;
+
   /// Creates a [FractalRenderer] widget.
   const FractalRenderer({
     Key? key,
@@ -117,6 +123,7 @@ class FractalRenderer extends StatefulWidget {
     this.onUserInteractionEnd,
     this.animationEnabled = true,
     this.overrideChild,
+    this.precisionDecision,
   }) : super(key: key);
 
   @override
@@ -130,6 +137,8 @@ class _FractalRendererState extends State<FractalRenderer>
         _ShaderLoaderMixin {
   static const DeepZoomPrecisionPolicy _precisionPolicy =
       DeepZoomPrecisionPolicy();
+  static const PrecisionLadderPolicy _precisionLadderPolicy =
+      PrecisionLadderPolicy();
 
   bool get _isAutomatedTest => RuntimeModeService.isAutomatedTest;
 
@@ -199,6 +208,7 @@ class _FractalRendererState extends State<FractalRenderer>
     required bool highPrecisionActive,
   }) {
     if (!kDebugMode && !highPrecisionActive) return child;
+    final highPrecisionLabel = mode == 'CPU' ? 'High precision (CPU)' : mode;
 
     return Stack(
       children: [
@@ -218,9 +228,9 @@ class _FractalRendererState extends State<FractalRenderer>
                   borderRadius: BorderRadius.circular(999),
                   border: Border.all(color: Colors.white24),
                 ),
-                child: const Text(
-                  'High precision (CPU)',
-                  style: TextStyle(
+                child: Text(
+                  highPrecisionLabel,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -300,24 +310,15 @@ class _FractalRendererState extends State<FractalRenderer>
       return _wrapWithGestures(widget.overrideChild!);
     }
 
-    final bool usesJuliaPerturb = module.id == 'julia' &&
-        controller.view.zoom >= 5e6 &&
-        controller.view.zoom < 1e30;
-
-    final bool usesEscapeTimePerturb =
-        kPerturbableEscapeTimeIds.contains(module.id) &&
-            controller.view.zoom >= 5e6 &&
-            controller.view.zoom < 1e30;
-
-    final bool usesAnyPerturb = usesJuliaPerturb || usesEscapeTimePerturb;
-
-    final shouldUseCpuFallback = !usesAnyPerturb &&
-        _precisionPolicy.shouldUseCpuFallback(
+    final precisionDecision = widget.precisionDecision ??
+        _precisionLadderPolicy.decide(
           moduleId: module.id,
+          dimension: module.dimension,
           zoom: controller.view.zoom,
         );
 
-    if (shouldUseCpuFallback && module.dimension == FractalDimension.twoD) {
+    if (precisionDecision.usesCpuRenderer &&
+        module.dimension == FractalDimension.twoD) {
       final cpuContent = _withRendererIndicator(
         mode: 'CPU',
         fallbackActive: true,
@@ -350,27 +351,27 @@ class _FractalRendererState extends State<FractalRenderer>
     }
 
     // Select df2 shader for deep-zoom Mandelbrot.
-    final bool usesDf2 = _precisionPolicy.shouldUseDoubleFloat(
-      moduleId: module.id,
-      zoom: controller.view.zoom,
-    );
+    final usesDf2 = precisionDecision.usesDoubleFloatGpu;
+    final usesPerturb = precisionDecision.usesPerturbationGpu;
     // Cache the df2 wrapper; rebuild only when the standard module changes.
     if (usesDf2 && (module.id == 'mandelbrot')) {
       _df2Module ??= buildMandelbrotDf2Module(module);
     }
     // Cache the escape-time perturb wrapper; invalidate if module id changes.
-    if (usesEscapeTimePerturb && _escapeTimePerturbModuleId != module.id) {
+    if (usesPerturb &&
+        module.id != 'julia' &&
+        _escapeTimePerturbModuleId != module.id) {
       _escapeTimePerturbModule = buildEscapeTimePerturbModule(module);
       _escapeTimePerturbModuleId = module.id;
     }
-    final effectiveModule = usesJuliaPerturb
-        ? (_juliaPerturbModule ??= buildJuliaPerturbModule(module))
-        : usesEscapeTimePerturb
-            ? (_escapeTimePerturbModule ??=
-                buildEscapeTimePerturbModule(module))
-            : ((usesDf2 && module.id == 'mandelbrot')
-                ? (_df2Module ??= buildMandelbrotDf2Module(module))
-                : module);
+    final effectiveModule = usesPerturb
+        ? (module.id == 'julia'
+            ? (_juliaPerturbModule ??= buildJuliaPerturbModule(module))
+            : (_escapeTimePerturbModule ??=
+                buildEscapeTimePerturbModule(module)))
+        : ((usesDf2 && module.id == 'mandelbrot')
+            ? (_df2Module ??= buildMandelbrotDf2Module(module))
+            : module);
 
     // Check if we need to load a new shader
     if (_shaderAsset != effectiveModule.shaderAsset && !_loading) {
@@ -483,9 +484,9 @@ class _FractalRendererState extends State<FractalRenderer>
     );
 
     final content = _withRendererIndicator(
-      mode: usesDf2 ? 'GPU-DF2' : 'GPU',
+      mode: precisionDecision.debugRendererLabel,
       fallbackActive: false,
-      highPrecisionActive: usesDf2,
+      highPrecisionActive: precisionDecision.usesExtendedGpu,
       child: RepaintBoundary(
         key: widget.boundaryKey,
         child: fractalContent,

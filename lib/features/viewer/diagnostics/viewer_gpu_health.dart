@@ -43,7 +43,38 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
   // Deep-zoom precision indicator + hysteresis filter
   // (avoids rapid GPU↔CPU flicker when zooming near the threshold)
   bool _deepZoomPrecisionActive = false;
-  final DeepZoomHysteresis _dzHysteresis = DeepZoomHysteresis();
+  final PrecisionLadderPolicy _precisionLadderPolicy =
+      const PrecisionLadderPolicy();
+  final PrecisionLadderHysteresis _precisionLadderHysteresis =
+      PrecisionLadderHysteresis();
+  PrecisionLadderDecision? _precisionDecision;
+
+  PrecisionLadderDecision _currentPrecisionDecision(
+    FractalController controller,
+  ) {
+    final cached = _precisionDecision;
+    if (cached != null &&
+        cached.moduleId == controller.module.id &&
+        cached.dimension == controller.module.dimension &&
+        cached.zoom == controller.view.zoom) {
+      return cached;
+    }
+    return _precisionLadderPolicy.decide(
+      moduleId: controller.module.id,
+      dimension: controller.module.dimension,
+      zoom: controller.view.zoom,
+    );
+  }
+
+  void _refreshPrecisionDecision(FractalController controller) {
+    final decision = _precisionLadderHysteresis.update(
+      moduleId: controller.module.id,
+      dimension: controller.module.dimension,
+      zoom: controller.view.zoom,
+    );
+    _precisionDecision = decision;
+    _deepZoomPrecisionActive = decision.showPrecisionIndicator;
+  }
 
   Future<void> _detectEmulatorProfile() async {
     final isEmulator = await detectAndroidEmulator();
@@ -65,8 +96,7 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
     final currentModuleId = controller.module.id;
     final moduleChanged = _lastBackendDecisionModuleId != currentModuleId;
 
-    // Reset hysteresis on module change so we start fresh for the new fractal.
-    if (moduleChanged) _dzHysteresis.reset();
+    final precisionDecision = _currentPrecisionDecision(controller);
 
     final newDecision = _backendPolicy.decide(
       BackendPolicyInput(
@@ -75,10 +105,7 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
         isEmulator: _isAndroidEmulator,
         userMode: mode,
         gpuHealthFailed: _gpuHealthFailed,
-        deepZoomNeedsCpu: _dzHysteresis.update(
-          moduleId: controller.module.id,
-          zoom: controller.view.zoom,
-        ),
+        deepZoomNeedsCpu: precisionDecision.usesCpuRenderer,
         dimension: controller.module.dimension,
       ),
     );
