@@ -17,6 +17,14 @@ class RuntimeModeService {
   static const bool forceGpuRender =
       bool.fromEnvironment('FORCE_GPU_RENDER', defaultValue: false);
 
+  /// Enables the web-only Playwright catalog smoke hook.
+  ///
+  /// This is compile-time false in normal builds. Test builds can pass
+  /// `--dart-define=PLAYWRIGHT_CATALOG_SMOKE=true` and navigate to
+  /// `/?smokeModule=<moduleId>` to open a module directly in the viewer.
+  static const bool playwrightCatalogSmoke =
+      bool.fromEnvironment('PLAYWRIGHT_CATALOG_SMOKE', defaultValue: false);
+
   static String _bindingTypeName() {
     try {
       return WidgetsBinding.instance.runtimeType.toString();

@@ -55,7 +55,7 @@ void main() {
   p *= 2.5;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 8 + 2, 2, 72);
+  int depth = int(clamp(float(target / 8 + 2), 2.0, 72.0));
   float bailout = max(2.0, uBailout);
 
   vec2 q = p;
@@ -85,7 +85,7 @@ void main() {
     return;
   }
 
-  float t = fract(parity / float(max(depth, 1)) + edge * 0.52 + uTime * 0.00011);
+  float t = fract(parity / max(float(depth), 1.0) + edge * 0.52 + uTime * 0.00011);
   vec3 color = getPaletteColor(t, int(uColorScheme));
   color *= 0.44 + 1.05 * edge;
 

@@ -143,7 +143,7 @@ void main() {
     light = pow(light, 1.0 / 1.8);
 
     float baseT   = fract(smoothVal / 64.0 + uTime * 0.0001);
-    int basePal   = (schemeInt - 50) % 4;  // cycle palettes 0-3 across 14 angles
+    int basePal   = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;  // cycle palettes 0-3 across 14 angles
     vec3 col = palette(baseT, basePal) * light;
     fragColor = vec4(linearToSRGB(col), 1.0);
     return;

@@ -24,18 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <!-- Deep link: fractalforge://view?type=mandelbrot&zoom=10 -->
-            <intent-filter android:autoVerify="true">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="fractalforge"/>
             </intent-filter>
-            <!-- Universal link: https://fractalforge.app/view?type=... -->
+            <!-- Universal link: https://fractal.trebuchetdynamics.com/view?type=... -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="https" android:host="fractalforge.app" android:pathPrefix="/view"/>
+                <data android:scheme="https" android:host="fractal.trebuchetdynamics.com" android:pathPrefix="/view"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
@@ -43,12 +43,12 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- Impeller (Vulkan) enabled: Skia GLES SkRuntimeEffect is broken on
-             Android emulator v35+, but Impeller/Vulkan executes custom
-             FragmentShaders correctly (confirmed via PictureRecorder diagnostic). -->
+        <!-- Keep Android on Flutter's default renderer. Forcing Impeller/Vulkan
+             can device-loss during release image capture/PNG encoding on some
+             physical GPUs, which freezes export. -->
         <meta-data
             android:name="io.flutter.embedding.android.EnableImpeller"
-            android:value="true" />
+            android:value="false" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

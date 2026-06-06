@@ -28,6 +28,13 @@ ios/Pods/
 # Local artifacts
 *.log
 *.lock
+node_modules/
+playwright-report/
+test-results/
+.env
+.env.*
+.pi/logs/
+.pi/*/logs.jsonl
 
 # Local embeds
 third_party/

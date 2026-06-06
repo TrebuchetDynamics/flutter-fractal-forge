@@ -171,7 +171,11 @@ class _DeepLinkCustomRouteShape {
 }
 
 class _DeepLinkRoute {
-  static const allowedWebHosts = {'fractalforge.app', 'www.fractalforge.app'};
+  static const allowedWebHosts = {
+    'fractal.trebuchetdynamics.com',
+    'fractalforge.app',
+    'www.fractalforge.app',
+  };
 
   final _DeepLinkRouteKind kind;
 
@@ -691,7 +695,7 @@ class DeepLinkService {
 
   /// Builds a web-compatible URL for sharing.
   ///
-  /// Uses a hypothetical web domain for universal link support.
+  /// Uses the verified web domain for universal link support.
   static Uri buildWebUri({
     required String moduleId,
     required Map<String, Object> params,
@@ -700,7 +704,7 @@ class DeepLinkService {
     final customUri = buildUri(moduleId: moduleId, params: params, view: view);
     return Uri(
       scheme: 'https',
-      host: 'fractalforge.app',
+      host: 'fractal.trebuchetdynamics.com',
       path: '/view',
       queryParameters: customUri.queryParameters,
     );

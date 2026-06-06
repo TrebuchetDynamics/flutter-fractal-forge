@@ -26,7 +26,6 @@ import 'package:flutter_fractals/app/diagnostic_apps.dart';
 import 'package:flutter_fractals/app/startup.dart';
 import 'package:flutter_fractals/core/services/crash_reporter.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
-import 'package:flutter_fractals/core/theme/app_theme.dart';
 
 export 'package:flutter_fractals/app/flutter_fractals_app.dart';
 
@@ -45,11 +44,11 @@ Future<void> main() async {
     // Lightweight, local-only crash/error reporting.
     CrashReporter.install();
 
-    // Set immersive status bar styling.
+    // Keep system-bar icons readable. Android edge-to-edge and transparent
+    // system bars are configured natively in MainActivity to avoid Android 15
+    // deprecated system-bar color APIs.
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: AppColors.background,
       systemNavigationBarIconBrightness: Brightness.light,
     ));
 

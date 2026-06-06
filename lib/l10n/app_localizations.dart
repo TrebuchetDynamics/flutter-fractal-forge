@@ -377,7 +377,7 @@ abstract class AppLocalizations {
   /// No description provided for @exportFormatHintWebp.
   ///
   /// In en, this message translates to:
-  /// **'Modern format with excellent compression. Wide support.'**
+  /// **'WebP is not encoded yet; exports use PNG fallback.'**
   String get exportFormatHintWebp;
 
   /// No description provided for @exportResolution.
@@ -925,6 +925,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View reset'**
   String get gestureDoubleTapReset;
+
+  /// No description provided for @exportActionSaveImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Save image'**
+  String get exportActionSaveImage;
+
+  /// No description provided for @exportActionSaveAndShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & share'**
+  String get exportActionSaveAndShare;
+
+  /// No description provided for @exportSaveLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Saves to Pictures/FractalForge. No storage permission prompt.'**
+  String get exportSaveLocationHint;
+
+  /// No description provided for @exportFormatFallbackPng.
+  ///
+  /// In en, this message translates to:
+  /// **'PNG fallback'**
+  String get exportFormatFallbackPng;
+
+  /// No description provided for @exportSavedShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export saved. Sharing did not open; try sharing the saved image from Photos.'**
+  String get exportSavedShareFailed;
 
   /// No description provided for @accessibilityTitle.
   ///

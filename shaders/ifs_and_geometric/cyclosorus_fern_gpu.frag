@@ -72,7 +72,7 @@ void main() {
   vec2 query = vec2(p.x * 3.0, (p.y + 0.2) * 5.0);
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int steps = clamp(target * 2, 24, 500);
+  int steps = int(clamp(float(target * 2), 24.0, 500.0));
   float bailout = max(4.0, uBailout);
 
   vec2 z = vec2(0.0);

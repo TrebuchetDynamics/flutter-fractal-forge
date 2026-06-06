@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/core/services/export_service.dart';
 import 'package:flutter_fractals/features/export/custom_export_dimensions.dart';
 import 'package:flutter_fractals/features/export/export_resolution_summary.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -100,13 +101,25 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     return _optionsWithCustomFields();
   }
 
+  ExportFormat _effectiveFormatForExport(ExportOptions options) {
+    return const ExportService().resolveEffectiveFormat(options.format);
+  }
+
+  String _formatSummaryValue(ExportOptions options, AppLocalizations l10n) {
+    final effectiveFormat = _effectiveFormatForExport(options);
+    if (effectiveFormat != options.format) {
+      return '${effectiveFormat.displayName} (${l10n.exportFormatFallbackPng})';
+    }
+    return effectiveFormat.displayName;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return DraggableScrollableSheet(
-      initialChildSize: 0.7,
+      initialChildSize: 0.95,
       minChildSize: 0.5,
       maxChildSize: 0.95,
       expand: false,
@@ -136,10 +149,25 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                   children: [
                     Icon(Icons.share_rounded, color: theme.colorScheme.primary),
                     const SizedBox(width: 12),
-                    Text(
-                      l10n.exportTitle,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.exportTitle,
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            l10n.exportSaveLocationHint,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurface
+                                  .withValues(alpha: 0.62),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -575,6 +603,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
       screenWidth: screenSize.width,
       screenHeight: screenSize.height,
     ).label(screenResolutionLabel: l10n.exportScreenResolution);
+    final effectiveFormat = _effectiveFormatForExport(effectiveOptions);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -601,9 +630,31 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           _SummaryRow(
             icon: Icons.image,
             label: l10n.exportFormat,
-            value: effectiveOptions.format.displayName,
+            value: _formatSummaryValue(effectiveOptions, l10n),
           ),
-          if (effectiveOptions.format != ExportFormat.png) ...[
+          if (effectiveFormat != effectiveOptions.format) ...[
+            const SizedBox(height: 8),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 16,
+                  color: theme.colorScheme.primary,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    l10n.exportFormatHintWebp,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          if (effectiveFormat != ExportFormat.png) ...[
             const SizedBox(height: 8),
             _SummaryRow(
               icon: Icons.tune,
@@ -651,39 +702,49 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
         child: Row(
           children: [
             Expanded(
-              child: OutlinedButton.icon(
-                key: const ValueKey('exportSaveButton'),
-                onPressed: () {
-                  Navigator.of(context).pop(
-                    ExportSheetSubmission(
-                      options: effectiveOptions,
-                      action: ExportAction.saveOnly,
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.save_alt_rounded),
-                label: Text(l10n.exportNow),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Semantics(
+                button: true,
+                label: l10n.exportActionSaveImage,
+                hint: l10n.exportSaveLocationHint,
+                child: OutlinedButton.icon(
+                  key: const ValueKey('exportSaveButton'),
+                  onPressed: () {
+                    Navigator.of(context).pop(
+                      ExportSheetSubmission(
+                        options: effectiveOptions,
+                        action: ExportAction.saveOnly,
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.save_alt_rounded),
+                  label: Text(l10n.exportActionSaveImage),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
                 ),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: FilledButton.icon(
-                key: const ValueKey('exportShareButton'),
-                onPressed: () {
-                  Navigator.of(context).pop(
-                    ExportSheetSubmission(
-                      options: effectiveOptions,
-                      action: ExportAction.saveAndShare,
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.share_rounded),
-                label: Text(l10n.share),
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Semantics(
+                button: true,
+                label: l10n.exportActionSaveAndShare,
+                hint: l10n.exportSaveLocationHint,
+                child: FilledButton.icon(
+                  key: const ValueKey('exportShareButton'),
+                  onPressed: () {
+                    Navigator.of(context).pop(
+                      ExportSheetSubmission(
+                        options: effectiveOptions,
+                        action: ExportAction.saveAndShare,
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.share_rounded),
+                  label: Text(l10n.exportActionSaveAndShare),
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
                 ),
               ),
             ),

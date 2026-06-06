@@ -89,8 +89,8 @@ void main() {
     bool turnRight = (machineState == 0 && cellColor < 0.5) ||
                      (machineState == 1 && cellColor > 0.5);
 
-    if (turnRight) dir = (dir + 1) % 4;
-    else dir = (dir + 3) % 4;
+    if (turnRight) dir = (dir + 1) - ((dir + 1) / 4) * 4;
+    else dir = (dir + 3) - ((dir + 3) / 4) * 4;
 
     float newCellColor;
     if (machineState == 0) {
@@ -108,7 +108,10 @@ void main() {
     }
 
     ant += stepDir(dir);
-    ant = clamp(ant, ivec2(-256), ivec2(256));
+    ant = ivec2(
+      int(clamp(float(ant.x), -256.0, 256.0)),
+      int(clamp(float(ant.y), -256.0, 256.0))
+    );
   }
 
   float stateMix = 0.5 * lastCellColor + 0.5 * lastMachineState;

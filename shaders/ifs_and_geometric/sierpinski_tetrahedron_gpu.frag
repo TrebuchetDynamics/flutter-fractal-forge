@@ -64,7 +64,7 @@ void main() {
 
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 24 + 1, 1, 12);
+  int depth = int(clamp(float(target / 24 + 1), 1.0, 12.0));
 
   vec2 v0 = vec2(0.0, 0.78);
   vec2 v1 = vec2(-0.9, -0.52);

@@ -9,6 +9,8 @@ analyzer:
 
   exclude:
     - third_party/**
+    - opensource/repos/**
+    - opensource/par-fractal/**
 
 linter:
   rules:

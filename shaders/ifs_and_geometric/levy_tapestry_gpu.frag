@@ -83,7 +83,7 @@ void main() {
   p *= 2.8;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 8 + 2, 2, 64);
+  int depth = int(clamp(float(target / 8 + 2), 2.0, 64.0));
   float bailout = max(2.0, uBailout);
 
   float d0 = levyOrbitDensity(p, depth);

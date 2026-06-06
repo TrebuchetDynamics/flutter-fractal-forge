@@ -1,22 +1,34 @@
 package com.trebuchetdynamics.fractal.forge
 
 import android.content.ContentValues
+import android.graphics.Color
 import android.media.MediaScannerConnection
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.plugin.common.MethodChannel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-class MainActivity : FlutterActivity() {
+class MainActivity : FlutterFragmentActivity() {
     companion object {
         private const val DEVICE_CHANNEL = "fractalforge/device"
         private const val MEDIA_STORE_CHANNEL = "fractalforge/media_store"
         private const val MEDIA_STORE_SUBDIR = "FractalForge"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge(
+            SystemBarStyle.dark(Color.TRANSPARENT),
+            SystemBarStyle.dark(Color.TRANSPARENT)
+        )
+        super.onCreate(savedInstanceState)
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {

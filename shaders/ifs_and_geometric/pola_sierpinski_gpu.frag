@@ -70,7 +70,7 @@ void main() {
 
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 22 + 1, 1, 11);
+  int depth = int(clamp(float(target / 22 + 1), 1.0, 11.0));
 
   float hit = 0.0;
   float level = 0.0;

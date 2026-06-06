@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/deep_link_service.dart';
+import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   StreamSubscription<DeepLinkData>? _deepLinkSubscription;
   bool _handledInitialLink = false;
+  bool _handledPlaywrightSmokeModule = false;
 
   @override
   void initState() {
@@ -43,6 +45,10 @@ class _HomeScreenState extends State<HomeScreen>
     // Set up deep link handling (skip in SAFE_MODE)
     if (kSafeMode == 0) {
       _initDeepLinks();
+    }
+
+    if (RuntimeModeService.playwrightCatalogSmoke) {
+      _initPlaywrightCatalogSmoke();
     }
   }
 
@@ -75,6 +81,16 @@ class _HomeScreenState extends State<HomeScreen>
     _deepLinkSubscription = deepLinkService.linkStream.listen(_handleDeepLink);
   }
 
+  void _initPlaywrightCatalogSmoke() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _handledPlaywrightSmokeModule) return;
+      final moduleId = Uri.base.queryParameters['smokeModule'];
+      if (moduleId == null || moduleId.isEmpty) return;
+      _handledPlaywrightSmokeModule = true;
+      _openSmokeModule(moduleId);
+    });
+  }
+
   void _handleDeepLink(DeepLinkData data) {
     // Try to find the module by type
     try {
@@ -95,35 +111,7 @@ class _HomeScreenState extends State<HomeScreen>
         _exploreController.updateParam(entry.key, entry.value);
       }
 
-      // Navigate to the viewer screen
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              MultiProvider(
-            providers: [
-              ChangeNotifierProvider.value(value: _exploreController),
-            ],
-            child: const FractalViewerScreen(),
-          ),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            final curvedAnimation = CurvedAnimation(
-              parent: animation,
-              curve: AppAnimations.defaultCurve,
-            );
-            return FadeTransition(
-              opacity: curvedAnimation,
-              child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 0.05),
-                  end: Offset.zero,
-                ).animate(curvedAnimation),
-                child: child,
-              ),
-            );
-          },
-          transitionDuration: AppAnimations.normal,
-        ),
-      );
+      _pushViewer(transitionDuration: AppAnimations.normal);
     } catch (e) {
       // Module not found, show error
       ScaffoldMessenger.of(context).showSnackBar(
@@ -136,31 +124,79 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
+  void _openSmokeModule(String moduleId) {
+    try {
+      final module = _registry.byId(moduleId);
+      _exploreController.selectModule(module, animate: false);
+      _exploreController.resetView();
+      print('PLAYWRIGHT_CATALOG_SMOKE_OPENED:$moduleId');
+      _pushViewer(transitionDuration: Duration.zero);
+    } catch (e) {
+      print('PLAYWRIGHT_CATALOG_SMOKE_UNKNOWN_MODULE:$moduleId');
+      rethrow;
+    }
+  }
+
+  void _pushViewer({required Duration transitionDuration}) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: _exploreController),
+          ],
+          child: const FractalViewerScreen(),
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final curvedAnimation = CurvedAnimation(
+            parent: animation,
+            curve: AppAnimations.defaultCurve,
+          );
+          return FadeTransition(
+            opacity: curvedAnimation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.05),
+                end: Offset.zero,
+              ).animate(curvedAnimation),
+              child: child,
+            ),
+          );
+        },
+        transitionDuration: transitionDuration,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
     // Build tab content
+    final smokeModuleId = RuntimeModeService.playwrightCatalogSmoke
+        ? Uri.base.queryParameters['smokeModule']
+        : null;
     final exploreTab = ChangeNotifierProvider.value(
       key: const ValueKey('explore'),
       value: _exploreController,
-      child: Column(
-        children: [
-          if (kSafeMode >= 1)
-            MaterialBanner(
-              backgroundColor: AppColors.warning.withValues(alpha: 0.15),
-              content: Text(
-                'SAFE MODE: Shader rendering disabled for device crash triage.',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: AppColors.warning),
-              ),
-              actions: const [],
+      child: smokeModuleId != null
+          ? const SizedBox.expand()
+          : Column(
+              children: [
+                if (kSafeMode >= 1)
+                  MaterialBanner(
+                    backgroundColor: AppColors.warning.withValues(alpha: 0.15),
+                    content: Text(
+                      'SAFE MODE: Shader rendering disabled for device crash triage.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: AppColors.warning),
+                    ),
+                    actions: const [],
+                  ),
+                const Expanded(child: FractalCatalogScreen()),
+              ],
             ),
-          const Expanded(child: FractalCatalogScreen()),
-        ],
-      ),
     );
 
     final libraryTab = ChangeNotifierProvider.value(

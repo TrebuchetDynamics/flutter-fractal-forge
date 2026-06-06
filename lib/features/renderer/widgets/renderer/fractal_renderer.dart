@@ -432,6 +432,10 @@ class _FractalRendererState extends State<FractalRenderer>
             if (kDebugMode)
               debugPrint(
                   '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
+            if (RuntimeModeService.playwrightCatalogSmoke) {
+              print(
+                  'PLAYWRIGHT_CATALOG_SMOKE_FIRST_FRAME:${controller.module.id}');
+            }
           }
 
           // Sampled frame-time logging: measure and log every 10th GPU frame.

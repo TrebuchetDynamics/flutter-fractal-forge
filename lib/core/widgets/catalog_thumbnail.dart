@@ -1,7 +1,28 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+
+Future<Set<String>>? _thumbnailAssetIdsFuture;
+
+Future<Set<String>> _loadThumbnailAssetIds() async {
+  try {
+    final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+    return manifest
+        .listAssets()
+        .where((asset) =>
+            asset.startsWith('assets/catalog_thumbs/') &&
+            asset.endsWith('.png'))
+        .map((asset) => asset.split('/').last.replaceAll('.png', ''))
+        .toSet();
+  } catch (_) {
+    // Test bundles and unusual embedders may not expose an asset manifest.
+    // Fall back to the historical exact-thumbnail allow-list rather than
+    // making missing web assets perform 404-generating HTTP fetches.
+    return _kKnownThumbnailIds;
+  }
+}
 
 const _kKnownThumbnailIds = <String>{
   'mandelbrot',
@@ -528,19 +549,15 @@ class CatalogThumbnail extends StatefulWidget {
 class _CatalogThumbnailState extends State<CatalogThumbnail>
     with SingleTickerProviderStateMixin {
   late final AnimationController _localShimmerController;
+  late final Future<Set<String>> _thumbnailAssetIds;
   bool _imageLoaded = false;
   bool _imageError = false;
-
-  bool get _hasExactCpuThumbnail {
-    final thumbId = widget.catalogId.startsWith('core.')
-        ? widget.catalogId.substring(5)
-        : widget.catalogId;
-    return _kKnownThumbnailIds.contains(thumbId);
-  }
 
   @override
   void initState() {
     super.initState();
+    _thumbnailAssetIds = _thumbnailAssetIdsFuture ??= _loadThumbnailAssetIds();
+
     // Use global controller if available, otherwise local fallback
     if (widget.shimmerController != null) {
       _localShimmerController = widget.shimmerController!.controller;
@@ -564,6 +581,15 @@ class _CatalogThumbnailState extends State<CatalogThumbnail>
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(CatalogThumbnail oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.catalogId != widget.catalogId) {
+      _imageLoaded = false;
+      _imageError = false;
+    }
+  }
+
   void _markImageLoaded() {
     if (_imageLoaded) return;
     if (!mounted) return;
@@ -582,114 +608,137 @@ class _CatalogThumbnailState extends State<CatalogThumbnail>
         ? widget.catalogId.substring(5)
         : widget.catalogId;
     final thumbAsset = 'assets/catalog_thumbs/$thumbId.png';
-    final isApproximate = !_hasExactCpuThumbnail;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Shimmer shown while image is loading
-          if (!_imageLoaded && !_imageError)
-            ShimmerSkeleton(controller: _localShimmerController),
+    return FutureBuilder<Set<String>>(
+      future: _thumbnailAssetIds,
+      builder: (context, snapshot) {
+        final availableThumbnailIds = snapshot.data;
+        final hasManifest = availableThumbnailIds != null;
+        final hasExactThumbnail =
+            hasManifest && availableThumbnailIds.contains(thumbId);
+        final isApproximate =
+            hasManifest && (!hasExactThumbnail || _imageError);
 
-          // Image (or gradient fallback on error)
-          Image(
-            image: ResizeImage(
-              AssetImage(thumbAsset),
-              width: 256,
-              height: 256,
-            ),
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.medium,
-            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-              final imageReady = wasSynchronouslyLoaded || frame != null;
-              if (imageReady && !_imageLoaded) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _markImageLoaded();
-                });
-              }
-              return AnimatedOpacity(
-                opacity: imageReady ? 1.0 : 0.0,
-                duration: imageReady
-                    ? Duration.zero
-                    : const Duration(milliseconds: 250),
-                child: child,
-              );
-            },
-            errorBuilder: (context, error, stack) {
-              if (!_imageError) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _markImageError();
-                });
-              }
-              return FractalGradientFallback(
-                catalogId: widget.catalogId,
-                category: widget.category,
-              );
-            },
-          ),
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Shimmer shown while the manifest or exact image is loading.
+              if (!hasManifest ||
+                  (hasExactThumbnail && !_imageLoaded && !_imageError))
+                ShimmerSkeleton(controller: _localShimmerController),
 
-          // Dimension badge — pill shape, amber for 3D, subtle for 2D.
-          Positioned(
-            top: 7,
-            right: 6,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-              decoration: BoxDecoration(
-                color: widget.is3D
-                    ? AppColors.warning.withValues(alpha: 0.92)
-                    : Colors.white.withValues(alpha: 0.18),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: widget.is3D
-                      ? AppColors.warning
-                      : Colors.white.withValues(alpha: 0.45),
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.25),
-                    blurRadius: 4,
+              // Avoid creating AssetImage for missing thumbnails. On web that
+              // prevents 404s for catalog entries that intentionally use the
+              // generated gradient fallback.
+              if (hasExactThumbnail)
+                Image(
+                  image: ResizeImage(
+                    AssetImage(thumbAsset),
+                    width: 256,
+                    height: 256,
                   ),
-                ],
-              ),
-              child: Text(
-                widget.is3D ? '3D' : '2D',
-                style: AppTypography.labelSmall.copyWith(
-                  color: widget.is3D ? Colors.black87 : Colors.white,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 10,
-                  letterSpacing: 0.3,
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.medium,
+                  frameBuilder:
+                      (context, child, frame, wasSynchronouslyLoaded) {
+                    final imageReady = wasSynchronouslyLoaded || frame != null;
+                    if (imageReady && !_imageLoaded) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _markImageLoaded();
+                      });
+                    }
+                    return AnimatedOpacity(
+                      opacity: imageReady ? 1.0 : 0.0,
+                      duration: imageReady
+                          ? Duration.zero
+                          : const Duration(milliseconds: 250),
+                      child: child,
+                    );
+                  },
+                  errorBuilder: (context, error, stack) {
+                    if (!_imageError) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _markImageError();
+                      });
+                    }
+                    return FractalGradientFallback(
+                      catalogId: widget.catalogId,
+                      category: widget.category,
+                    );
+                  },
+                )
+              else if (hasManifest)
+                FractalGradientFallback(
+                  catalogId: widget.catalogId,
+                  category: widget.category,
                 ),
-              ),
-            ),
-          ),
 
-          // "Preview approximate" label
-          if (isApproximate)
-            Positioned(
-              bottom: 4,
-              left: 4,
-              right: 4,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.6),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  'Preview approximate',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: Colors.white70,
-                    fontSize: 9,
+              // Dimension badge — pill shape, amber for 3D, subtle for 2D.
+              Positioned(
+                top: 7,
+                right: 6,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: widget.is3D
+                        ? AppColors.warning.withValues(alpha: 0.92)
+                        : Colors.white.withValues(alpha: 0.18),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: widget.is3D
+                          ? AppColors.warning
+                          : Colors.white.withValues(alpha: 0.45),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.25),
+                        blurRadius: 4,
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    widget.is3D ? '3D' : '2D',
+                    style: AppTypography.labelSmall.copyWith(
+                      color: widget.is3D ? Colors.black87 : Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 10,
+                      letterSpacing: 0.3,
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
-      ),
+
+              // "Preview approximate" label
+              if (isApproximate)
+                Positioned(
+                  bottom: 4,
+                  left: 4,
+                  right: 4,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.6),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      'Preview approximate',
+                      textAlign: TextAlign.center,
+                      style: AppTypography.labelSmall.copyWith(
+                        color: Colors.white70,
+                        fontSize: 9,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -236,14 +236,13 @@ class ExportService {
           throw StateError('Boundary not found');
         }
 
-        // Defensive: boundary.toImage() can throw if the layer hasn't painted yet.
-        if (boundary.debugNeedsPaint) {
-          await WidgetsBinding.instance.endOfFrame;
-          boundary = boundaryKey.currentContext?.findRenderObject()
-              as RenderRepaintBoundary?;
-          if (boundary == null) {
-            throw StateError('Boundary not found');
-          }
+        // Wait for a completed paint without using Flutter's debug-only paint
+        // dirtiness getter, which throws in release builds.
+        await WidgetsBinding.instance.endOfFrame;
+        boundary = boundaryKey.currentContext?.findRenderObject()
+            as RenderRepaintBoundary?;
+        if (boundary == null) {
+          throw StateError('Boundary not found');
         }
 
         final image = await boundary.toImage(pixelRatio: pixelRatio);

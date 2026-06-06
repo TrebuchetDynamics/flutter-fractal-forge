@@ -51,8 +51,8 @@ float hash21(vec2 p) {
   return fract(p.x * p.y);
 }
 
-void turnRight(inout int dir) { dir = (dir + 1) % 4; }
-void turnLeft(inout int dir) { dir = (dir + 3) % 4; }
+void turnRight(inout int dir) { dir = (dir + 1) - ((dir + 1) / 4) * 4; }
+void turnLeft(inout int dir) { dir = (dir + 3) - ((dir + 3) / 4) * 4; }
 
 ivec2 stepDir(int d) {
   if (d == 0) return ivec2(1, 0);
@@ -93,7 +93,10 @@ void main() {
     }
 
     ant += stepDir(dir);
-    ant = clamp(ant, ivec2(-gridHalf), ivec2(gridHalf));
+    ant = ivec2(
+      int(clamp(float(ant.x), float(-gridHalf), float(gridHalf))),
+      int(clamp(float(ant.y), float(-gridHalf), float(gridHalf)))
+    );
   }
 
   float t = fract(0.12 * visits + 0.8 * finalState + uTime * 0.0001);

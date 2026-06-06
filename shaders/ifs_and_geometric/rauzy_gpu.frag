@@ -54,7 +54,7 @@ void main() {
   p *= 2.8;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 18 + 4, 4, 40);
+  int depth = int(clamp(float(target / 18 + 4), 4.0, 40.0));
 
   // Rauzy-like membership via tribonacci substitution contraction maps.
   vec2 q = p;

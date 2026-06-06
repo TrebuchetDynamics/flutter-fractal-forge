@@ -9,6 +9,10 @@
 [![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart)](https://dart.dev)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+**Fractal Forge** is an open-source Flutter fractal explorer focused on real-time GPU shader rendering, deep zoom, and a broad catalog of mathematical systems.
+
+> **Launch status:** the installable app is the primary experience today. A JavaScript browser build has passed local Chrome smoke testing and is suitable for a web-preview launch after remaining browser QA polish; WebAssembly is not currently supported. See [`docs/planning/LAUNCH_LADDER.md`](docs/planning/LAUNCH_LADDER.md) and [`docs/engineering/rendering/renderer_backend_matrix.md`](docs/engineering/rendering/renderer_backend_matrix.md).
+
 ---
 
 ## ✨ Features
@@ -98,8 +102,13 @@ Save any fractal as a high-resolution PNG with optional transparency and share d
 
 ## 📸 Screenshots
 
-| :---: | :---: | :---: |
-| Browse 350+ fractal types | Interactive viewer with deep zoom | Place fractals on real surfaces |
+Current browser-preview smoke captures:
+
+| Catalog exploration | GPU viewer |
+| :---: | :---: |
+| <img src="docs/assets/launch/web_catalog_smoke.png" alt="Fractal Forge catalog showing hundreds of fractal modules" width="420"/> | <img src="docs/assets/launch/web_viewer_smoke.png" alt="Fractal Forge GPU viewer rendering a 3D fractal" width="420"/> |
+
+> Launch note: refreshed store/social screenshots and a short GIF/video are still needed before a bigger Reddit/social push.
 
 ---
 

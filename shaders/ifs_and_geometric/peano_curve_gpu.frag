@@ -55,7 +55,7 @@ void main() {
   p *= 2.0;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(int(floor(log(float(target + 1)) / log(3.0))), 1, 8);
+  int depth = int(clamp(float(int(floor(log(float(target + 1)) / log(3.0)))), 1.0, 8.0));
 
   vec2 q = p + 0.5;
   float onCurve = 1.0;
@@ -107,9 +107,9 @@ void main() {
     return;
   }
 
-  float t = fract(level / float(max(depth, 1)) + 0.08 * sin(uTime * 0.0002));
+  float t = fract(level / max(float(depth), 1.0) + 0.08 * sin(uTime * 0.0002));
   vec3 color = getPaletteColor(t, int(uColorScheme));
-  color *= 0.65 + 0.45 * (level / float(max(depth, 1)));
+  color *= 0.65 + 0.45 * (level / max(float(depth), 1.0));
 
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

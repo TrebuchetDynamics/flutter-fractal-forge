@@ -68,7 +68,7 @@ void main() {
   vec2 p = uv / max(0.000001, uZoom) + uCenter;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int bits = clamp(target / 45 + 2, 2, 10);
+  int bits = int(clamp(float(target / 45 + 2), 2.0, 10.0));
 
   float n = exp2(float(bits));
   vec2 g = (p + 0.5) * n;

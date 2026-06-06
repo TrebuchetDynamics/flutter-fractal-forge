@@ -12,7 +12,7 @@ Cross-references our actual files in `lib/` and `shaders/`. Companion to
 - [Project Matrix](#project-matrix) — all 19 at a glance
 - [Project Entries](#project-entries) — per-project findings
 - [Synthesis: What to Build](#synthesis-what-to-build)
-- [Shader Code Vault](#shader-code-vault) — copy-paste GLSL
+- [Shader Pattern Vault](#shader-pattern-vault) — provenance-reviewed GLSL patterns to adapt
 - [Coloring Algorithm Comparison](#coloring-algorithm-comparison)
 - [Precision Tier Map](#precision-tier-map)
 
@@ -663,9 +663,9 @@ Ranked by impact/effort ratio across all 19 projects.
 
 ---
 
-## Shader Code Vault
+## Shader Pattern Vault
 
-Ready-to-paste GLSL ES 3.0 / 3.1 snippets for Flutter's `FragmentProgram`.
+GLSL ES 3.0 / 3.1 patterns for Flutter's `FragmentProgram`. Treat this as tracked distillation: verify the cited source and license context before direct reuse, and prefer implementing an adapted version in our own shader style.
 
 ### A. sRGB Gamma Correction (from Psychtoolbox-3)
 ```glsl

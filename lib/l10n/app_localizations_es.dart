@@ -153,7 +153,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exportFormatHintWebp =>
-      'Formato moderno con excelente compresión. Amplio soporte.';
+      'WebP aún no se codifica; la exportación usa PNG de respaldo.';
 
   @override
   String get exportResolution => 'Resolución';
@@ -436,6 +436,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get gestureDoubleTapReset => 'Vista restablecida';
+
+  @override
+  String get exportActionSaveImage => 'Guardar imagen';
+
+  @override
+  String get exportActionSaveAndShare => 'Guardar y compartir';
+
+  @override
+  String get exportSaveLocationHint =>
+      'Se guarda en Imágenes/FractalForge. No requiere permiso de almacenamiento.';
+
+  @override
+  String get exportFormatFallbackPng => 'PNG de respaldo';
+
+  @override
+  String get exportSavedShareFailed =>
+      'Exportación guardada. No se abrió compartir; intenta compartir la imagen guardada desde Fotos.';
 
   @override
   String get accessibilityTitle => 'Accesibilidad';

@@ -1,0 +1,12 @@
+{
+  "name": "flutter-fractal-forge-web-smoke",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:web:catalog": "bash scripts/playwright-catalog-smoke.sh",
+    "playwright:install": "playwright install chromium firefox"
+  },
+  "devDependencies": {
+    "playwright": "1.59.1"
+  }
+}

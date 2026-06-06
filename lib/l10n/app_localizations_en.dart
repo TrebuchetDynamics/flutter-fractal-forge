@@ -152,7 +152,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportFormatHintWebp =>
-      'Modern format with excellent compression. Wide support.';
+      'WebP is not encoded yet; exports use PNG fallback.';
 
   @override
   String get exportResolution => 'Resolution';
@@ -434,6 +434,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gestureDoubleTapReset => 'View reset';
+
+  @override
+  String get exportActionSaveImage => 'Save image';
+
+  @override
+  String get exportActionSaveAndShare => 'Save & share';
+
+  @override
+  String get exportSaveLocationHint =>
+      'Saves to Pictures/FractalForge. No storage permission prompt.';
+
+  @override
+  String get exportFormatFallbackPng => 'PNG fallback';
+
+  @override
+  String get exportSavedShareFailed =>
+      'Export saved. Sharing did not open; try sharing the saved image from Photos.';
 
   @override
   String get accessibilityTitle => 'Accessibility';

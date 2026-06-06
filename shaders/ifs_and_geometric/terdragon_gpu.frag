@@ -61,7 +61,7 @@ void main() {
   p *= 2.9;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 9 + 2, 2, 72);
+  int depth = int(clamp(float(target / 9 + 2), 2.0, 72.0));
   float bailout = max(2.0, uBailout);
 
   mat2 r120 = rot(2.0 * PI / 3.0);
@@ -95,7 +95,7 @@ void main() {
     return;
   }
 
-  float t = fract(branch / (3.0 * float(max(depth, 1))) + edge * 0.5 + uTime * 0.00012);
+  float t = fract(branch / (3.0 * max(float(depth), 1.0)) + edge * 0.5 + uTime * 0.00012);
   vec3 color = getPaletteColor(t, int(uColorScheme));
   color *= 0.48 + 1.0 * edge;
 

@@ -38,6 +38,7 @@ import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
 import 'package:flutter_fractals/features/viewer/rendering/compare_renderer.dart';
 import 'package:flutter_fractals/features/viewer/rendering/cpu_fallback_pane.dart';

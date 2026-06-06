@@ -1,0 +1,5 @@
+# Third-party reference clones are local-only.
+# Keep research notes, manifests, and scripts tracked; do not commit cloned repos.
+/repos/*
+!/repos/README.md
+/par-fractal/

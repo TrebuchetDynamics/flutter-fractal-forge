@@ -61,7 +61,7 @@ void main() {
   p *= 2.6;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 10 + 2, 2, 72);
+  int depth = int(clamp(float(target / 10 + 2), 2.0, 72.0));
   float bailout = max(2.0, uBailout);
 
   float theta = 3.14159265359 / (2.0 + PHI);
@@ -93,7 +93,7 @@ void main() {
     return;
   }
 
-  float t = fract(turns / float(max(depth, 1)) + edge * 0.45 + uTime * 0.00012);
+  float t = fract(turns / max(float(depth), 1.0) + edge * 0.45 + uTime * 0.00012);
   vec3 color = getPaletteColor(t, int(uColorScheme));
   color *= 0.45 + 0.95 * edge;
 

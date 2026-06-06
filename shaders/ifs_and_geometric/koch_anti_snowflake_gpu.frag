@@ -61,7 +61,7 @@ void main() {
   p *= 3.0;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 10 + 2, 2, 64);
+  int depth = int(clamp(float(target / 10 + 2), 2.0, 64.0));
   float bailout = max(2.0, uBailout);
 
   mat2 r60 = rot(PI / 3.0);

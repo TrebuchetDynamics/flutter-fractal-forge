@@ -46,7 +46,7 @@
   "exportFormat": "Format",
   "exportFormatHintPng": "Lossless, large file size",
   "exportFormatHintJpg": "Smaller file, slight quality loss",
-  "exportFormatHintWebp": "Modern format, best compression",
+  "exportFormatHintWebp": "WebP is not encoded yet; exports use PNG fallback.",
   "exportResolution": "Resolution",
   "exportWidth": "Width",
   "exportHeight": "Height",
@@ -149,7 +149,7 @@
   "exportFormat": "Format",
   "exportFormatHintPng": "Lossless quality, supports transparency. Best for editing.",
   "exportFormatHintJpg": "Smaller file size, great for sharing. No transparency.",
-  "exportFormatHintWebp": "Modern format with excellent compression. Wide support.",
+  "exportFormatHintWebp": "WebP is not encoded yet; exports use PNG fallback.",
   
   "exportResolution": "Resolution",
   "exportScreenResolution": "Screen size",
@@ -167,6 +167,11 @@
   
   "exportSummary": "Export Summary",
   "exportNow": "Export Now",
+  "exportActionSaveImage": "Save image",
+  "exportActionSaveAndShare": "Save & share",
+  "exportSaveLocationHint": "Saves to Pictures/FractalForge. No storage permission prompt.",
+  "exportFormatFallbackPng": "PNG fallback",
+  "exportSavedShareFailed": "Export saved. Sharing did not open; try sharing the saved image from Photos.",
   
   "@exportFailed": {
     "placeholders": {

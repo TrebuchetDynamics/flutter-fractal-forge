@@ -48,6 +48,44 @@ void main() {
       }
     });
 
+    test('waits for asset manifest before loading images', () {
+      const loadingManifest = CatalogThumbnailLoadState(
+        assetManifestLoaded: false,
+        hasExactAsset: false,
+        imageLoaded: false,
+        imageError: false,
+      );
+
+      expect(loadingManifest.showsLoadingPlaceholder, isTrue);
+      expect(loadingManifest.showsFallbackPreview, isFalse);
+      expect(loadingManifest.shouldLoadImage, isFalse);
+      expect(loadingManifest.isApproximatePreview, isFalse);
+    });
+
+    test('loads only thumbnails present in the asset manifest', () {
+      const exactPending = CatalogThumbnailLoadState(
+        assetManifestLoaded: true,
+        hasExactAsset: true,
+        imageLoaded: false,
+        imageError: false,
+      );
+      const missingAsset = CatalogThumbnailLoadState(
+        assetManifestLoaded: true,
+        hasExactAsset: false,
+        imageLoaded: false,
+        imageError: false,
+      );
+
+      expect(exactPending.shouldLoadImage, isTrue);
+      expect(exactPending.showsLoadingPlaceholder, isTrue);
+      expect(exactPending.showsFallbackPreview, isFalse);
+
+      expect(missingAsset.shouldLoadImage, isFalse);
+      expect(missingAsset.showsLoadingPlaceholder, isFalse);
+      expect(missingAsset.showsFallbackPreview, isTrue);
+      expect(missingAsset.isApproximatePreview, isTrue);
+    });
+
     test('marks only fallback thumbnails as approximate previews', () {
       const failed = CatalogThumbnailLoadState(
         imageLoaded: false,

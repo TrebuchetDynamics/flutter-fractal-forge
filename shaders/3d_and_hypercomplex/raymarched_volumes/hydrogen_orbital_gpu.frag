@@ -114,7 +114,8 @@ float orbitalDensity(vec3 p) {
 }
 
 vec3 densityColor(float rho, vec3 p) {
-  int scheme = int(uColorScheme) % 4;
+  int schemeRaw = int(uColorScheme);
+  int scheme = schemeRaw - (schemeRaw / 4) * 4;
   float matter = smoothstep(0.10, 0.60, rho);
   float hot = smoothstep(0.60, 1.20, rho);
   float radialGlow = 1.0 - smoothstep(0.2, 3.8 * max(uRadialScale, 0.1), length(p));

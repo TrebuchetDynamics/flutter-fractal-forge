@@ -197,15 +197,17 @@ class _AppBootstrap extends StatefulWidget {
 }
 
 class _AppBootstrapState extends State<_AppBootstrap> {
-  late bool _showSplash =
-      !RuntimeModeService.isAutomatedTest && !widget.skipSplash;
+  late bool _showSplash = !RuntimeModeService.isAutomatedTest &&
+      !RuntimeModeService.playwrightCatalogSmoke &&
+      !widget.skipSplash;
   bool _showOnboarding = false;
 
   @override
   void initState() {
     super.initState();
     if (widget.onboardingService != null) {
-      _showOnboarding = !widget.onboardingService!.isOnboardingComplete;
+      _showOnboarding = !RuntimeModeService.playwrightCatalogSmoke &&
+          !widget.onboardingService!.isOnboardingComplete;
     }
   }
 

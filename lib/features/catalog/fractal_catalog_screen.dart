@@ -2035,6 +2035,7 @@ class _PreviewThumbnail extends StatefulWidget {
 class _PreviewThumbnailState extends State<_PreviewThumbnail>
     with SingleTickerProviderStateMixin {
   late final AnimationController _localShimmerController;
+  late final Future<Set<String>> _thumbnailAssetIds;
   Timer? _fallbackTimer;
   bool _imageLoaded = false;
   bool _imageError = false;
@@ -2042,6 +2043,8 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   @override
   void initState() {
     super.initState();
+    _thumbnailAssetIds = loadCatalogThumbnailAssetIds();
+
     // Use global controller if available, otherwise local fallback
     if (widget.shimmerController != null) {
       _localShimmerController = widget.shimmerController!.controller;
@@ -2075,6 +2078,15 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(_PreviewThumbnail oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.catalogId != widget.catalogId) {
+      _imageLoaded = false;
+      _imageError = false;
+    }
+  }
+
   void _markImageLoaded() {
     if (_imageLoaded) return;
     if (!mounted) return;
@@ -2091,119 +2103,137 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   Widget build(BuildContext context) {
     final thumbnailPlan = CatalogThumbnailPlan.fromCatalogId(widget.catalogId);
     final thumbAsset = thumbnailPlan.assetPath;
-    final thumbnailState = CatalogThumbnailLoadState(
-      imageLoaded: _imageLoaded,
-      imageError: _imageError,
-    );
-    final isApproximate = thumbnailState.isApproximatePreview;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Show shimmer while loading OR show gradient fallback on error
-          if (thumbnailState.showsLoadingPlaceholder)
-            _ShimmerSkeleton(controller: _localShimmerController)
-          else if (thumbnailState.showsFallbackPreview)
-            _GradientFallback(
-              catalogId: widget.catalogId,
-              category: widget.category,
-            ),
+    return FutureBuilder<Set<String>>(
+      future: _thumbnailAssetIds,
+      builder: (context, snapshot) {
+        final availableThumbnailIds = snapshot.data;
+        final assetManifestLoaded =
+            availableThumbnailIds != null || snapshot.hasError;
+        final hasExactAsset =
+            availableThumbnailIds?.contains(thumbnailPlan.assetId) ?? false;
+        final thumbnailState = CatalogThumbnailLoadState(
+          assetManifestLoaded: assetManifestLoaded,
+          hasExactAsset: hasExactAsset,
+          imageLoaded: _imageLoaded,
+          imageError: _imageError,
+        );
+        final isApproximate = thumbnailState.isApproximatePreview;
 
-          // Image - always rendered but may be transparent until loaded
-          Image.asset(
-            thumbAsset,
-            width: 256,
-            height: 256,
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.medium,
-            gaplessPlayback: true,
-            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-              final imageReady = wasSynchronouslyLoaded || frame != null;
-              if (imageReady && !_imageLoaded) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _markImageLoaded();
-                });
-              }
-              return AnimatedOpacity(
-                opacity: imageReady ? 1.0 : 0.0,
-                duration: imageReady
-                    ? Duration.zero
-                    : const Duration(milliseconds: 250),
-                child: child,
-              );
-            },
-            errorBuilder: (context, error, stack) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                _markImageError();
-              });
-              return const SizedBox.shrink(); // Fallback already shown above
-            },
-          ),
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Show shimmer while loading OR show gradient fallback on error.
+              if (thumbnailState.showsLoadingPlaceholder)
+                _ShimmerSkeleton(controller: _localShimmerController)
+              else if (thumbnailState.showsFallbackPreview)
+                _GradientFallback(
+                  catalogId: widget.catalogId,
+                  category: widget.category,
+                ),
 
-          // Dimension badge — pill shape, amber for 3D, subtle for 2D.
-          Positioned(
-            top: 7,
-            right: 6,
-            child: ExcludeSemantics(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                decoration: BoxDecoration(
-                  color: widget.is3D
-                      ? AppColors.warning.withValues(alpha: 0.92)
-                      : Colors.white.withValues(alpha: 0.18),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: widget.is3D
-                        ? AppColors.warning
-                        : Colors.white.withValues(alpha: 0.45),
-                    width: 1,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.25),
-                      blurRadius: 4,
+              // Only load images that are present in the asset manifest. This
+              // avoids browser-console 404s for entries that use fallbacks.
+              if (thumbnailState.shouldLoadImage)
+                Image.asset(
+                  thumbAsset,
+                  width: 256,
+                  height: 256,
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.medium,
+                  gaplessPlayback: true,
+                  frameBuilder:
+                      (context, child, frame, wasSynchronouslyLoaded) {
+                    final imageReady = wasSynchronouslyLoaded || frame != null;
+                    if (imageReady && !_imageLoaded) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _markImageLoaded();
+                      });
+                    }
+                    return AnimatedOpacity(
+                      opacity: imageReady ? 1.0 : 0.0,
+                      duration: imageReady
+                          ? Duration.zero
+                          : const Duration(milliseconds: 250),
+                      child: child,
+                    );
+                  },
+                  errorBuilder: (context, error, stack) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _markImageError();
+                    });
+                    return const SizedBox.shrink();
+                  },
+                ),
+
+              // Dimension badge — pill shape, amber for 3D, subtle for 2D.
+              Positioned(
+                top: 7,
+                right: 6,
+                child: ExcludeSemantics(
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: widget.is3D
+                          ? AppColors.warning.withValues(alpha: 0.92)
+                          : Colors.white.withValues(alpha: 0.18),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: widget.is3D
+                            ? AppColors.warning
+                            : Colors.white.withValues(alpha: 0.45),
+                        width: 1,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.25),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Text(
-                  widget.is3D ? '3D' : '2D',
-                  style: AppTypography.labelSmall.copyWith(
-                    color: widget.is3D ? Colors.black87 : Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 10,
-                    letterSpacing: 0.3,
+                    child: Text(
+                      widget.is3D ? '3D' : '2D',
+                      style: AppTypography.labelSmall.copyWith(
+                        color: widget.is3D ? Colors.black87 : Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 10,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
 
-          // "Preview approximate" label
-          if (isApproximate)
-            Positioned(
-              bottom: 4,
-              left: 4,
-              right: 4,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.6),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  'Preview approximate',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: Colors.white70,
-                    fontSize: 9,
+              // "Preview approximate" label
+              if (isApproximate)
+                Positioned(
+                  bottom: 4,
+                  left: 4,
+                  right: 4,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.6),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      'Preview approximate',
+                      textAlign: TextAlign.center,
+                      style: AppTypography.labelSmall.copyWith(
+                        color: Colors.white70,
+                        fontSize: 9,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-        ],
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

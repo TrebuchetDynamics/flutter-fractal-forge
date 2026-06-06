@@ -56,6 +56,34 @@ void main() {
     return harness.submission;
   }
 
+  testWidgets('shows explicit save actions and save location hint',
+      (tester) async {
+    await pumpSheet(tester);
+
+    expect(find.text('Save image'), findsOneWidget);
+    expect(find.text('Save & share'), findsOneWidget);
+    expect(
+      find.text(
+          'Saves to Pictures/FractalForge. No storage permission prompt.'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('WebP preset summary advertises PNG fallback truthfully',
+      (tester) async {
+    await pumpSheet(
+      tester,
+      initialOptions: ExportPresets.webOptimized,
+    );
+
+    expect(find.text('PNG (PNG fallback)'), findsOneWidget);
+    expect(
+      find.text('WebP is not encoded yet; exports use PNG fallback.'),
+      findsOneWidget,
+    );
+    expect(find.text('85%'), findsNothing);
+  });
+
   testWidgets('save action triggers saveOnly export action', (tester) async {
     final submission = await pumpSheetAndSubmit(
       tester,

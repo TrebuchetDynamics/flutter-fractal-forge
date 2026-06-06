@@ -1,0 +1,46 @@
+name: Web preview GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_preview_deploy:
+        description: "Type deploy-web-preview to publish the current main branch to GitHub Pages"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: web-preview-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event.inputs.confirm_preview_deploy == 'deploy-web-preview'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Build web preview for repository subpath
+        run: scripts/build-web-preview.sh /flutter-fractal-forge/
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

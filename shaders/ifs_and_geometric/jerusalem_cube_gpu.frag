@@ -64,7 +64,7 @@ void main() {
   vec2 p = (uv / max(0.000001, uZoom) + uCenter) * 1.8;
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 22 + 1, 1, 10);
+  int depth = int(clamp(float(target / 22 + 1), 1.0, 10.0));
 
   float removed = 0.0;
   float level = 0.0;

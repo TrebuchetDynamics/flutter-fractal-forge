@@ -96,7 +96,7 @@ void main() {
   vec2 p = uv / max(0.000001, uZoom) + uCenter;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int steps = clamp(target / 6, 1, 80);
+  int steps = int(clamp(float(target / 6), 1.0, 80.0));
   ivec2 cell = ivec2(floor(p * 96.0));
 
   int state = evolveCell(cell, steps);

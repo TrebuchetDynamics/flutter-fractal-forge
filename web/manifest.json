@@ -1,11 +1,11 @@
 {
-    "name": "flutter_fractals",
-    "short_name": "flutter_fractals",
+    "name": "Fractal Forge",
+    "short_name": "Fractal Forge",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0A0520",
+    "theme_color": "#8A5CFF",
+    "description": "Open-source Flutter fractal explorer with hundreds of GPU-rendered fractals.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

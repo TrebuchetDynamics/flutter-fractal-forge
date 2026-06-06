@@ -98,9 +98,9 @@ void main() {
         expect(data, isNull);
       });
 
-      test('parses https://fractalforge.app universal link', () {
-        final uri =
-            Uri.parse('https://fractalforge.app/view?type=mandelbrot&zoom=5');
+      test('parses https://fractal.trebuchetdynamics.com universal link', () {
+        final uri = Uri.parse(
+            'https://fractal.trebuchetdynamics.com/view?type=mandelbrot&zoom=5');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
@@ -114,6 +114,8 @@ void main() {
           'fractalforge://view/?type=mandelbrot',
           'fractalforge:/view?type=mandelbrot',
           'fractalforge:view?type=mandelbrot',
+          'https://fractal.trebuchetdynamics.com/view?type=mandelbrot',
+          'https://fractal.trebuchetdynamics.com/view/?type=mandelbrot',
           'https://fractalforge.app/view?type=mandelbrot',
           'https://fractalforge.app/view/?type=mandelbrot',
           'https://www.fractalforge.app/view?type=mandelbrot',
@@ -493,7 +495,7 @@ void main() {
     });
 
     group('buildWebUri', () {
-      test('creates https URL with fractalforge.app host', () {
+      test('creates https URL with fractal.trebuchetdynamics.com host', () {
         final uri = DeepLinkService.buildWebUri(
           moduleId: 'mandelbrot',
           params: {'iterations': 100},
@@ -501,7 +503,7 @@ void main() {
         );
 
         expect(uri.scheme, 'https');
-        expect(uri.host, 'fractalforge.app');
+        expect(uri.host, 'fractal.trebuchetdynamics.com');
         expect(uri.path, '/view');
         expect(uri.queryParameters['type'], 'mandelbrot');
         expect(uri.queryParameters['iterations'], '100');

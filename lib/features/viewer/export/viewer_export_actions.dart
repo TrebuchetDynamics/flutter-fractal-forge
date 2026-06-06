@@ -143,39 +143,28 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         await HapticService.heavy();
         context.read<ExplorationStatsService?>()?.recordScreenshot();
 
+        Object? shareError;
         if (shareAfterSave) {
-          await _exportService.shareFile(result.file, text: l10n.exportTitle);
+          try {
+            await _exportService.shareFile(result.file, text: l10n.exportTitle);
+          } catch (error) {
+            shareError = error;
+            _log.warn(
+              'export',
+              'Share failed after export saved',
+              data: {'error': error.toString()},
+            );
+          }
         }
 
-        final formatLabel =
-            usedFallback ? 'PNG (fallback)' : result.format.displayName;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                const Icon(Icons.check_circle_rounded,
-                    color: AppColors.success),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(l10n.exportSaved),
-                      Text(
-                        '${result.resolution} • $formatLabel • ${result.formattedSize}',
-                        style: AppTypography.bodySmall.copyWith(
-                          color: Colors.white.withValues(alpha: 0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 4),
+        if (!mounted) return;
+        _showExportCompletionSnackBar(
+          context,
+          l10n,
+          ViewerExportFeedback(
+            result: result,
+            usedFallback: usedFallback,
+            shareError: shareError,
           ),
         );
       }
@@ -196,6 +185,46 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         });
       }
     }
+  }
+
+  void _showExportCompletionSnackBar(
+    BuildContext context,
+    AppLocalizations l10n,
+    ViewerExportFeedback feedback,
+  ) {
+    final icon = feedback.isWarning
+        ? Icons.warning_amber_rounded
+        : Icons.check_circle_rounded;
+    final iconColor =
+        feedback.isWarning ? AppColors.warning : AppColors.success;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(icon, color: iconColor),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(feedback.title(l10n)),
+                  Text(
+                    feedback.detail(l10n),
+                    style: AppTypography.bodySmall.copyWith(
+                      color: Colors.white.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        behavior: SnackBarBehavior.floating,
+        duration: Duration(seconds: feedback.isWarning ? 6 : 4),
+      ),
+    );
   }
 
   Future<ExportResult> _performFallbackPngExport({

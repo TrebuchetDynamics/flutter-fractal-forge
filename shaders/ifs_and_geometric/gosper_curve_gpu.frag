@@ -67,7 +67,7 @@ void main() {
   p *= 2.4;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 20 + 1, 1, 14);
+  int depth = int(clamp(float(target / 20 + 1), 1.0, 14.0));
 
   vec2 q = p;
   float trap = 1e9;
@@ -95,7 +95,7 @@ void main() {
     return;
   }
 
-  float t = fract((foldScore / float(max(depth, 1) * 2)) + 0.35 * edge + uTime * 0.0001);
+  float t = fract((foldScore / (max(float(depth), 1.0) * 2.0)) + 0.35 * edge + uTime * 0.0001);
   vec3 color = getPaletteColor(t, int(uColorScheme));
   color *= 0.45 + 0.9 * edge;
   fragColor = vec4(linearToSRGB(color), 1.0);

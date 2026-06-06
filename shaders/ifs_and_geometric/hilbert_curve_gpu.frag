@@ -55,7 +55,7 @@ void main() {
   p = p * 1.8;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(int(floor(log2(float(target + 1)))), 1, 12);
+  int depth = int(clamp(float(int(floor(log2(float(target + 1))))), 1.0, 12.0));
 
   float gridF = exp2(float(depth));
   vec2 g = (p + 0.5) * gridF;
@@ -69,9 +69,9 @@ void main() {
 
     vec2 local = fract(g) - 0.5;
 
-    int div = 1 << (depth - i - 1);
-    float bx = mod(floor(cell.x / float(max(div, 1))), 2.0);
-    float by = mod(floor(cell.y / float(max(div, 1))), 2.0);
+    int div = int(exp2(float(depth - i - 1)));
+    float bx = mod(floor(cell.x / max(float(div), 1.0)), 2.0);
+    float by = mod(floor(cell.y / max(float(div), 1.0)), 2.0);
 
     float quad = bx + 2.0 * by;
     float d = max(abs(local.x), abs(local.y));
@@ -101,8 +101,8 @@ void main() {
     return;
   }
 
-  float t = fract(level / float(max(depth, 1)) + uTime * 0.0001);
+  float t = fract(level / max(float(depth), 1.0) + uTime * 0.0001);
   vec3 color = getPaletteColor(t, int(uColorScheme));
-  color *= 0.6 + 0.5 * (level / float(max(depth, 1)));
+  color *= 0.6 + 0.5 * (level / max(float(depth), 1.0));
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

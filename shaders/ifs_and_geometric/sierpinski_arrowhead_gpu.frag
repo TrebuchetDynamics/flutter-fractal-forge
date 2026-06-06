@@ -71,7 +71,7 @@ void main() {
     return;
   }
 
-  float t = fract(level / float(max(depth, 1)) + 0.2 * line + uTime * 0.0001);
+  float t = fract(level / max(float(depth), 1.0) + 0.2 * line + uTime * 0.0001);
   vec3 col = getPaletteColor(t, int(uColorScheme));
   col *= mix(0.25, 1.2, line);
   fragColor = vec4(linearToSRGB(col), (uTransparentBg > 0.5) ? line : 1.0);

@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Fractal Forge is an open-source Flutter fractal explorer with hundreds of GPU-rendered fractals and a browser preview.">
+  <meta name="theme-color" content="#0a0520">
+  <title>Fractal Forge — Open-source Flutter fractal explorer</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070612;
+      --surface: #111122;
+      --surface-strong: #18152d;
+      --text: #f6f2ff;
+      --muted: #c8bedb;
+      --accent: #8a5cff;
+      --accent-2: #00f0ff;
+      --warning: #ffd166;
+      --line: rgb(255 255 255 / 14%);
+      --shadow: 0 24px 80px rgb(0 0 0 / 38%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-block-size: 100dvh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 8%, rgb(138 92 255 / 34%), transparent 28rem),
+        radial-gradient(circle at 82% 18%, rgb(0 240 255 / 20%), transparent 26rem),
+        linear-gradient(135deg, #05040c 0%, var(--bg) 52%, #0e0822 100%);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--accent-2);
+      outline-offset: 4px;
+    }
+
+    img {
+      max-inline-size: 100%;
+      block-size: auto;
+      border-radius: 1rem;
+    }
+
+    .shell {
+      inline-size: min(1120px, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 1.25rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      inline-size: 2.35rem;
+      aspect-ratio: 1;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 0.8rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 12px 40px rgb(138 92 255 / 30%);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: end;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    nav a {
+      min-block-size: 2rem;
+      padding: 0.25rem 0.45rem;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+      gap: clamp(2rem, 4vw, 4.5rem);
+      align-items: center;
+      padding-block: clamp(3rem, 8vw, 7rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgb(255 255 255 / 6%);
+      font-size: 0.92rem;
+    }
+
+    h1 {
+      max-inline-size: 12ch;
+      margin-block: 1.25rem 1rem;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.93;
+      letter-spacing: -0.08em;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      max-inline-size: 62ch;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1vw + 0.8rem, 1.35rem);
+      text-wrap: pretty;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-block-start: 2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-block-size: 2.75rem;
+      padding: 0.85rem 1.05rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgb(255 255 255 / 7%);
+      color: var(--text);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .button.primary {
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--accent), #5a7cff);
+      box-shadow: 0 16px 48px rgb(138 92 255 / 32%);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-card {
+      position: relative;
+      isolation: isolate;
+      padding: 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: 1.5rem;
+      background: linear-gradient(180deg, rgb(255 255 255 / 11%), rgb(255 255 255 / 5%));
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card::before {
+      position: absolute;
+      inset: -1px;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgb(138 92 255 / 42%), rgb(0 240 255 / 22%), transparent 58%);
+      content: "";
+      filter: blur(20px);
+      opacity: 0.65;
+    }
+
+    .hero-card img {
+      display: block;
+      aspect-ratio: 1280 / 761;
+      object-fit: cover;
+    }
+
+    .proof {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin-block-end: clamp(3rem, 8vw, 6rem);
+    }
+
+    .metric,
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 1.25rem;
+      background: rgb(255 255 255 / 7%);
+      box-shadow: 0 18px 50px rgb(0 0 0 / 18%);
+    }
+
+    .metric {
+      padding: 1.1rem;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: clamp(1.4rem, 2vw, 2rem);
+      line-height: 1.1;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    section {
+      padding-block: clamp(2.5rem, 7vw, 5.5rem);
+    }
+
+    section h2 {
+      margin-block: 0 1rem;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      text-wrap: balance;
+    }
+
+    .section-intro {
+      max-inline-size: 64ch;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-block-start: 1.5rem;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    figure img {
+      display: block;
+      inline-size: 100%;
+      aspect-ratio: 1280 / 761;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    figcaption {
+      margin-block-start: 0.6rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-block-start: 1.5rem;
+    }
+
+    .card {
+      padding: 1.25rem;
+    }
+
+    .card h3 {
+      margin-block: 0 0.55rem;
+      font-size: 1.1rem;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+    }
+
+    .card ul {
+      margin-block: 0;
+      padding-inline-start: 1.2rem;
+    }
+
+    .notice {
+      border-color: rgb(255 209 102 / 48%);
+      background: rgb(255 209 102 / 10%);
+    }
+
+    .notice strong {
+      color: var(--warning);
+    }
+
+    .download-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: 1.25rem;
+      background: var(--surface-strong);
+    }
+
+    .site-footer {
+      padding-block: 2rem;
+      border-block-start: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 860px) {
+      .site-header,
+      .hero,
+      .download-card {
+        grid-template-columns: 1fr;
+      }
+
+      .site-header {
+        display: grid;
+      }
+
+      nav {
+        justify-content: start;
+      }
+
+      .proof,
+      .gallery,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (pointer: coarse) {
+      .button,
+      nav a {
+        min-block-size: 2.75rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .button:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header shell" aria-label="Fractal Forge site header">
+    <a class="brand" href="landing.html" aria-label="Fractal Forge landing page">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span>Fractal Forge</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#preview">Preview</a>
+      <a href="#gallery">Screenshots</a>
+      <a href="#download">Download</a>
+      <a href="https://github.com/XelHaku/flutter-fractal-forge">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero shell" id="preview">
+      <div>
+        <span class="eyebrow">Open-source · Flutter · GPU shaders</span>
+        <h1>Explore fractals in your browser.</h1>
+        <p>
+          Fractal Forge is an open-source Flutter fractal explorer for hundreds
+          of Mandelbrot, Julia, Newton, tiling, IFS, strange-attractor, and 3D
+          systems. The installable app is primary today; this page prepares the
+          browser preview for public testing.
+        </p>
+        <div class="cta-row" aria-label="Launch actions">
+          <a class="button primary" href="index.html">Try web preview</a>
+          <a class="button" href="#download">Download app</a>
+          <a class="button" href="https://github.com/XelHaku/flutter-fractal-forge">View on GitHub</a>
+        </div>
+      </div>
+      <div class="hero-card" aria-label="Fractal Forge web preview screenshot">
+        <img src="landing-assets/web_viewer_smoke.png" alt="Fractal Forge browser preview rendering a GPU-labelled 3D fractal" width="1280" height="761" fetchpriority="high" decoding="sync">
+      </div>
+    </section>
+
+    <div class="proof shell" aria-label="Project proof points">
+      <div class="metric"><strong>500+</strong><span>downloads reported by the project owner</span></div>
+      <div class="metric"><strong>350+</strong><span>fractal types across many mathematical families</span></div>
+      <div class="metric"><strong>MIT</strong><span>open-source license</span></div>
+      <div class="metric"><strong>No ads</strong><span>no tracking and no account required</span></div>
+    </div>
+
+    <section class="shell" id="gallery">
+      <h2>First public-preview screenshots</h2>
+      <p class="section-intro">
+        These captures come from the local Chrome web smoke test. Replace or
+        supplement them with polished store/social images and a longer video
+        before the bigger Reddit launch.
+      </p>
+      <p>
+        <a class="button" href="landing-assets/web_preview_loop.gif">Download preview GIF</a>
+      </p>
+      <div class="gallery">
+        <figure>
+          <img src="landing-assets/web_catalog_smoke.png" alt="Fractal Forge catalog view showing hundreds of fractal modules" width="1280" height="761" loading="lazy" decoding="async">
+          <figcaption>Catalog preview: browse hundreds of modules by dimension and category.</figcaption>
+        </figure>
+        <figure>
+          <img src="landing-assets/web_viewer_smoke.png" alt="Fractal Forge viewer showing a colorful GPU-rendered 3D fractal" width="1280" height="761" loading="lazy" decoding="async">
+          <figcaption>Viewer preview: the web smoke opened a GPU-labelled 3D fractal.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="shell" aria-labelledby="why-heading">
+      <h2 id="why-heading">Why try it?</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Broad fractal catalog</h3>
+          <p>Mandelbrot and Julia families, Newton basins, tilings, IFS, strange attractors, and 3D raymarched systems.</p>
+        </article>
+        <article class="card">
+          <h3>GPU-first rendering</h3>
+          <p>Flutter fragment shaders drive the interactive viewer; backend health policy falls back when needed.</p>
+        </article>
+        <article class="card">
+          <h3>Open-source project</h3>
+          <p>MIT licensed, contribution-friendly, and looking for feedback on thumbnails, presets, shader polish, and web QA.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell" id="download">
+      <h2>Download and source</h2>
+      <div class="download-card">
+        <div>
+          <strong>Public download URL goes here before launch.</strong>
+          <p>
+            Add the Play Store, GitHub Releases, or package URL here once it is
+            verified. Until then, the source repository and local build steps are
+            the canonical install path.
+          </p>
+        </div>
+        <a class="button" href="https://github.com/XelHaku/flutter-fractal-forge#-getting-started">Build from source</a>
+      </div>
+    </section>
+
+    <section class="shell" aria-labelledby="limits-heading">
+      <h2 id="limits-heading">Known preview limits</h2>
+      <div class="cards">
+        <article class="card notice">
+          <h3><strong>Browser preview, not full parity</strong></h3>
+          <ul>
+            <li>JavaScript web build passed local Chrome smoke testing.</li>
+            <li>WebAssembly build is currently blocked by dependency imports.</li>
+            <li>Export/share, CPU precision fallback, and deep zoom still need browser QA.</li>
+          </ul>
+        </article>
+        <article class="card notice">
+          <h3><strong>Performance still needs real hardware checks</strong></h3>
+          <p>The current automated proof used headless Chromium, which may report software WebGL/SwiftShader warnings.</p>
+        </article>
+        <article class="card notice">
+          <h3><strong>Feedback wanted</strong></h3>
+          <p>If a fractal fails, looks wrong, or performs badly, please include browser, OS, GPU, and the fractal name in the report.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      Fractal Forge is open source under the MIT License. No ads, no tracking, no account required.
+    </div>
+  </footer>
+</body>
+</html>

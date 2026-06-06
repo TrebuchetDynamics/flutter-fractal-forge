@@ -24,6 +24,12 @@ val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
+val releaseStoreFile = (keystoreProperties["storeFile"] as String?)?.let { file(it) }
+val hasReleaseSigning = keystorePropertiesFile.exists() &&
+    releaseStoreFile?.exists() == true &&
+    keystoreProperties["keyAlias"] != null &&
+    keystoreProperties["keyPassword"] != null &&
+    keystoreProperties["storePassword"] != null
 
 android {
     namespace = "com.trebuchetdynamics.fractal.forge"
@@ -51,16 +57,15 @@ android {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String?
             keyPassword = keystoreProperties["keyPassword"] as String?
-            val storeFileProp = keystoreProperties["storeFile"] as String?
-            storeFile = if (storeFileProp != null) file(storeFileProp) else null
+            storeFile = releaseStoreFile
             storePassword = keystoreProperties["storePassword"] as String?
         }
     }
 
     buildTypes {
         getByName("release") {
-            // If key.properties is missing, sign with debug so local installs work.
-            signingConfig = if (keystorePropertiesFile.exists()) {
+            // If release signing is unavailable, sign with debug so local installs work.
+            signingConfig = if (hasReleaseSigning) {
                 signingConfigs.getByName("release")
             } else {
                 signingConfigs.getByName("debug")
@@ -80,6 +85,9 @@ flutter {
 }
 
 dependencies {
+    // Android 15 edge-to-edge compatibility helper used by MainActivity.
+    implementation("androidx.activity:activity:1.12.4")
+
     // Play Core modular library for SDK 34+ compatibility
     // Replaces deprecated com.google.android.play:core:1.10.3
     implementation("com.google.android.play:feature-delivery:2.1.0")

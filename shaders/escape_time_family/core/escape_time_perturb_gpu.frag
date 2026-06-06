@@ -29,8 +29,8 @@ vec3 linearToSRGB(vec3 lin) {
 
 vec2 fetchOrbit(int n) {
   int totalWidth = int(uIterations) * 2;
-  float u0 = (float(n * 2) + 0.5) / float(max(totalWidth, 1));
-  float u1 = (float(n * 2 + 1) + 0.5) / float(max(totalWidth, 1));
+  float u0 = (float(n * 2) + 0.5) / max(float(totalWidth), 1.0);
+  float u1 = (float(n * 2 + 1) + 0.5) / max(float(totalWidth), 1.0);
   vec4 px0 = texture(uOrbit, vec2(u0, 0.5));
   vec4 px1 = texture(uOrbit, vec2(u1, 0.5));
   float zr = px0.r * 8.0 - 4.0 + px0.g / 256.0 * 8.0;

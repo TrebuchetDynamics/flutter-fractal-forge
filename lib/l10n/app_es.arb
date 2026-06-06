@@ -46,7 +46,7 @@
   "exportFormat": "Formato",
   "exportFormatHintPng": "Sin pérdida, archivo grande",
   "exportFormatHintJpg": "Archivo pequeño, leve pérdida de calidad",
-  "exportFormatHintWebp": "Formato moderno, mejor compresión",
+  "exportFormatHintWebp": "WebP aún no se codifica; la exportación usa PNG de respaldo.",
   "exportResolution": "Resolución",
   "exportWidth": "Ancho",
   "exportHeight": "Alto",
@@ -137,7 +137,7 @@
   "exportFormat": "Formato",
   "exportFormatHintPng": "Calidad sin pérdida, soporta transparencia. Ideal para edición.",
   "exportFormatHintJpg": "Archivo más pequeño, excelente para compartir. Sin transparencia.",
-  "exportFormatHintWebp": "Formato moderno con excelente compresión. Amplio soporte.",
+  "exportFormatHintWebp": "WebP aún no se codifica; la exportación usa PNG de respaldo.",
   
   "exportResolution": "Resolución",
   "exportScreenResolution": "Tamaño de pantalla",
@@ -155,6 +155,11 @@
   
   "exportSummary": "Resumen de Exportación",
   "exportNow": "Exportar Ahora",
+  "exportActionSaveImage": "Guardar imagen",
+  "exportActionSaveAndShare": "Guardar y compartir",
+  "exportSaveLocationHint": "Se guarda en Imágenes/FractalForge. No requiere permiso de almacenamiento.",
+  "exportFormatFallbackPng": "PNG de respaldo",
+  "exportSavedShareFailed": "Exportación guardada. No se abrió compartir; intenta compartir la imagen guardada desde Fotos.",
   
   "tooltipExpand": "Expandir",
   "tooltipCollapse": "Contraer",

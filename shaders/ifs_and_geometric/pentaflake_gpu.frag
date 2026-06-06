@@ -61,7 +61,7 @@ void main() {
   p *= 2.1;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 16 + 1, 1, 14);
+  int depth = int(clamp(float(target / 16 + 1), 1.0, 14.0));
 
   vec2 z = p;
   float keep = 1.0;

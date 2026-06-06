@@ -56,7 +56,7 @@ void main() {
   p *= 5.0;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 24 + 2, 2, 18);
+  int depth = int(clamp(float(target / 24 + 2), 2.0, 18.0));
 
   // de Bruijn dual style: project on 5 star directions and classify by 36°/72° edge relation.
   float minGap = 1e9;

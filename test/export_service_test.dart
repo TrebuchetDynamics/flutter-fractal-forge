@@ -24,6 +24,15 @@ class _FakePathProviderPlatform extends Fake
 void main() {
   const service = ExportService();
 
+  group('ExportService.capturePng', () {
+    test('does not call release-unsafe debug paint getters', () {
+      final source =
+          File('lib/core/services/export_service.dart').readAsStringSync();
+
+      expect(source, isNot(contains('.debugNeedsPaint')));
+    });
+  });
+
   group('ExportService.generateFilename', () {
     test('uses default prefix and format extension', () {
       final name = service.generateFilename(format: ExportFormat.png);

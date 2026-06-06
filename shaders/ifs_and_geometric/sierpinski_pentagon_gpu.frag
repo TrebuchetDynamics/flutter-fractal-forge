@@ -55,7 +55,8 @@ float sdRegularPentagon(vec2 p, float r) {
   float d = -1e9;
   for (int i = 0; i < 5; i++) {
     vec2 a = pentagonVertex(i);
-    vec2 b = pentagonVertex((i + 1) % 5);
+    int nextIndex = (i + 1) - ((i + 1) / 5) * 5;
+    vec2 b = pentagonVertex(nextIndex);
     vec2 edge = b - a;
     vec2 n = normalize(vec2(-edge.y, edge.x));
     d = max(d, dot(p / r - a, n));
@@ -72,7 +73,7 @@ void main() {
   p *= 1.9;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = clamp(target / 18 + 1, 1, 16);
+  int depth = int(clamp(float(target / 18 + 1), 1.0, 16.0));
 
   float keep = 1.0;
   float score = 0.0;
