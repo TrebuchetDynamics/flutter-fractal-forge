@@ -64,12 +64,7 @@ android {
 
     buildTypes {
         getByName("release") {
-            // If release signing is unavailable, sign with debug so local installs work.
-            signingConfig = if (hasReleaseSigning) {
-                signingConfigs.getByName("release")
-            } else {
-                signingConfigs.getByName("debug")
-            }
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -77,6 +72,17 @@ android {
                 "proguard-rules.pro",
             )
         }
+    }
+}
+
+gradle.taskGraph.whenReady {
+    val releaseTaskRequested = allTasks.any { task ->
+        task.name.contains("Release", ignoreCase = false)
+    }
+    if (releaseTaskRequested && !hasReleaseSigning) {
+        throw GradleException(
+            "Release builds require android/key.properties and a valid keystore; debug signing is not allowed for release.",
+        )
     }
 }
 

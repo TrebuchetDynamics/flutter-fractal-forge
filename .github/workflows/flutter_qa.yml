@@ -6,6 +6,12 @@ on:
     branches: [main]
 
 jobs:
+  tracked_artifact_audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: scripts/audit-tracked-artifacts.sh
+
   unit_widget_tests:
     runs-on: ubuntu-latest
     steps:
@@ -15,11 +21,8 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-        working-directory: flutter-fractal-forge
       - run: flutter analyze
-        working-directory: flutter-fractal-forge
       - run: flutter test
-        working-directory: flutter-fractal-forge
 
   golden_tests:
     runs-on: ubuntu-latest
@@ -30,9 +33,7 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-        working-directory: flutter-fractal-forge
       - run: flutter test test/golden/
-        working-directory: flutter-fractal-forge
 
   integration_tests:
     runs-on: ubuntu-latest
@@ -51,6 +52,4 @@ jobs:
           emulator -avd test_device -no-window -no-audio -no-boot-anim &
           adb wait-for-device
       - run: flutter pub get
-        working-directory: flutter-fractal-forge
       - run: flutter test integration_test/
-        working-directory: flutter-fractal-forge

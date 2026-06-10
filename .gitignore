@@ -44,6 +44,9 @@ ios/Pods/
 *.log
 *.lock
 *.bak
+*.pyc
+__pycache__/
+**/__pycache__/
 node_modules/
 playwright-report/
 test-results/
