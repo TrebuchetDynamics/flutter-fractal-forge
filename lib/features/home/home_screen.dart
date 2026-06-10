@@ -128,7 +128,6 @@ class _HomeScreenState extends State<HomeScreen>
     try {
       final module = _registry.byId(moduleId);
       _exploreController.selectModule(module, animate: false);
-      _exploreController.resetView();
       print('PLAYWRIGHT_CATALOG_SMOKE_OPENED:$moduleId');
       _pushViewer(transitionDuration: Duration.zero);
     } catch (e) {

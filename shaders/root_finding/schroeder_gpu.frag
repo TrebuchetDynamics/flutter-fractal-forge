@@ -10,6 +10,7 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uRelaxation;     // 10
 
 out vec4 fragColor;
 
@@ -90,7 +91,7 @@ void main() {
     vec2 num2 = cmul(cmul(fz, fz), fpp);
     vec2 term2 = cdivSafe(num2, 2.0 * fp3);
 
-    vec2 zNext = z - term1 - term2;
+    vec2 zNext = z - uRelaxation * (term1 + term2);
     vec2 dz = zNext - z;
     z = zNext;
 

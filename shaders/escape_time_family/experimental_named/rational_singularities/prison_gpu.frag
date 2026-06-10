@@ -70,7 +70,11 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
+    float bars = smoothstep(0.28, 0.50, max(abs(sin(10.0 * c.x)), abs(sin(10.0 * c.y))));
+    float phase = atan(c.y, c.x) / 6.28318530718 + 0.5;
+    float tBound = fract(phase + 0.26 * bars + 0.08 * length(c) + uTime * 0.0001);
+    vec3 col = palette(tBound, schemeInt) * (0.52 + 0.48 * bars);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

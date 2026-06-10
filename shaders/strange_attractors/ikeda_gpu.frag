@@ -74,14 +74,14 @@ void main() {
     if (r2 > bailoutSq) { it = j + 1; break; }
   }
 
-  if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
-    return;
-  }
-
   float r2 = max(1e-12, x * x + y * y);
-  float smoothVal = float(it) - log2(log2(r2));
-  float tt = fract(smoothVal / 64.0 + uTime * 0.0001);
+  float tt;
+  if (it >= target) {
+    tt = fract(0.2 * sin(2.0 * x) + 0.23 * cos(1.6 * y) + 0.08 * length(vec2(x, y)) + uTime * 0.0001);
+  } else {
+    float smoothVal = float(it) - log2(log2(r2));
+    tt = fract(smoothVal / 64.0 + uTime * 0.0001);
+  }
 
   fragColor = vec4(linearToSRGB(palette(tt, int(uColorScheme))), 1.0);
 }

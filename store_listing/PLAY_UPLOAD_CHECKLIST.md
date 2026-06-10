@@ -1,8 +1,8 @@
-# Play Console Upload Checklist (First Submission)
+# Play Console Upload Checklist
 
-Updated: 2026-02-17 03:18 CST (America/Monterrey)
+Updated: 2026-06-05 CST (America/Monterrey)
 
-This checklist is intended for Juan to execute directly in Google Play Console.
+This checklist is for Google Play Console maintenance releases. The app is published on Google Play; keep all signing material private and outside the public repository.
 
 ## A) Artifacts verified on disk
 
@@ -33,31 +33,27 @@ This checklist is intended for Juan to execute directly in Google Play Console.
 - [DONE] Permissions audit
   - Path: `store_listing/manifest_permissions_audit.md`
 
-## B) Privacy policy URL requirement (hostable plan)
+## B) Privacy policy URL requirement
 
 Google Play requires a **public HTTPS URL** for the privacy policy.
 
-- Current text is ready to publish: `store_listing/privacy_policy.md`
-- No fixed custom domain is required; GitHub Pages is sufficient.
+- Public app/site: `https://fractal.trebuchetdynamics.com`
+- Repository copy: `store_listing/privacy_policy.md`
+- Static HTML copy: `privacy-policy.html`
 
-### Recommended publish flow (Juan action)
-1. Copy privacy policy content into a published page in this repo (`docs/privacy-policy.md` or `docs/privacy-policy/index.html`).
-2. Enable GitHub Pages for the repository.
-3. Confirm public URL loads in browser.
-4. Paste URL into Play Console Privacy Policy field.
-
-Expected URL pattern (if using GitHub Pages):
-- `https://xelhaku.github.io/flutter-fractal-forge/...`
+Confirm the deployed privacy policy URL loads over HTTPS before pasting it into Play Console.
 
 ## C) App signing readiness
 
-- [DONE] Upload keystore file exists: `android/app/upload-keystore.jks`
-- [DONE] Key properties file exists: `android/key.properties`
-- [DONE] Release build is configured to use signing config from key.properties.
+- [REQUIRED] Keep the upload keystore and passwords private; do not commit them.
+- [REQUIRED] Create local-only `android/key.properties` from `android/key.properties.example`.
+- [REQUIRED] Store the private upload keystore outside the repository when possible.
+- [DONE] Release build is configured to use signing config from local `android/key.properties`.
+- [DONE] `scripts/build-play-console.sh` verifies the upload certificate SHA1 before producing a Play artifact.
 
-### Juan-required Play Console steps
-- [JUAN-ACTION-NEEDED] Enable/confirm Play App Signing during first upload flow.
-- [JUAN-ACTION-NEEDED] Keep offline backup of upload keystore and credentials.
+### Owner-required Play Console steps
+- [OWNER-ACTION-NEEDED] Confirm Play App Signing / upload-key fingerprint before each release.
+- [OWNER-ACTION-NEEDED] Keep offline backups of the upload keystore and credentials.
 
 ## D) Play Console submission steps (manual)
 

@@ -1,0 +1,463 @@
+priority,app_id,name,kind,category,shader,shader_exists,pubspec_declared,uniform_time_declared,time_code_refs,animation_class_guess,registry_status,registry_resolution
+1,buddhabrot_full,Buddhabrot Full,escape_time,Escape-Time,shaders/escape_time_family/families/buddhabrot/buddhabrot_full_gpu.frag,true,true,true,5,growth_process/time_parametric,alias,f1142_buddhabrot
+1,fractal_flame,Fractal Flame,escape_time,IFS / Geometric Fractals,shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag,true,true,true,3,time_parametric_sampling,exact,fractal_flame
+1,gray_scott_rd,Gray Scott Rd,escape_time,Escape-Time,shaders/cellular_and_stochastic/gray_scott_rd_gpu.frag,true,true,true,3,time_parametric_sampling,exact,gray_scott_rd
+1,lichtenberg_growth,Lichtenberg Growth,escape_time,Cellular & Stochastic Growth,shaders/cellular_and_stochastic/lichtenberg_growth_gpu.frag,true,true,true,3,growth_process/time_parametric,exact,lichtenberg_growth
+1,magnetic_pendulum,Magnetic Pendulum,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/physical_simulation/magnetic_pendulum_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,magnetic_pendulum
+1,mandelbulb_time_modulated,Time-Modulated Mandelbulb,raymarched_3d,3D Fractals,shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,mandelbulb_time_modulated
+2,dielectric_breakdown,Dielectric Breakdown,escape_time,Cellular & Stochastic Growth,shaders/cellular_and_stochastic/dielectric_breakdown_gpu.frag,true,true,true,3,growth_process/time_parametric,exact,dielectric_breakdown
+2,inversive_limit_set_3d,Inversive Limit Set 3D,raymarched_3d,3D Fractals,shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,inversive_limit_set_3d
+3,3d_fractal,3D Fractal,escape_time,Escape-Time,shaders/3d_and_hypercomplex/raymarched_volumes/3d_fractal_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,3d_fractal
+3,aizawa,Aizawa Attractor,escape_time,Escape-Time,shaders/strange_attractors/aizawa_gpu.frag,true,true,true,3,time_parametric_sampling,exact,aizawa
+3,alternated_iteration,Alternated Iteration,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/coupled_orbits/alternated_iteration_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,ammann_beenker,Ammann-Beenker Tiling,escape_time,Escape-Time,shaders/ifs_and_geometric/ammann_beenker_gpu.frag,true,true,true,2,color_time_parametric,exact,ammann_beenker
+3,angrybrot,Angrybrot,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/iterative_maps/angrybrot_gpu.frag,true,true,true,2,color_time_parametric,exact,angrybrot
+3,anti_buddhabrot,Anti-Buddhabrot,escape_time,Escape-Time,shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,anti_buddhabrot
+3,apollonian_gasket,Apollonian Gasket,escape_time,Escape-Time,shaders/ifs_and_geometric/apollonian_gasket_gpu.frag,true,true,true,2,color_time_parametric,exact,apollonian_gasket
+3,arneodo,Arneodo Attractor,escape_time,Escape-Time,shaders/strange_attractors/arneodo_gpu.frag,true,true,true,3,color_time_parametric,exact,arneodo
+3,arnold_cat,,escape_time,Escape-Time,shaders/strange_attractors/arnold_cat_gpu.frag,true,true,true,1,color_time_parametric,exact,arnold_cat
+3,astroid,Astroid Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/astroid_gpu.frag,true,true,true,1,color_time_parametric,exact,astroid
+3,barnsley_fern,Barnsley Fern,escape_time,Escape-Time,shaders/ifs_and_geometric/barnsley_fern_gpu.frag,true,true,true,1,color_time_parametric,exact,barnsley_fern
+3,barnsley_j1,Barnsley J1 Relief,escape_time,Escape-Time,shaders/ifs_and_geometric/barnsley_j1_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,barnsley_j1
+3,barnsley_j2,Barnsley J2,escape_time,Escape-Time,shaders/ifs_and_geometric/barnsley_j2_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,barnsley_j2
+3,barnsley_j3,Barnsley J3,escape_time,Escape-Time,shaders/ifs_and_geometric/barnsley_j3_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,barnsley_j3
+3,bedhead,Bedhead,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/discrete_attractors/bedhead_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,benesi,Benesi Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/benesi_gpu.frag,true,true,true,3,color_time_parametric,exact,benesi
+3,bicomplex,Bicomplex Mandelbrot,escape_time,Escape-Time,shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag,true,true,true,4,color_time_parametric,exact,bicomplex
+3,biomorph,Biomorph,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/biomorph_gpu.frag,true,true,true,2,color_time_parametric,exact,biomorph
+3,blaschke,Blaschke Product,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,blaschke
+3,bogdanov_map,Bogdanov Map,escape_time,Escape-Time,shaders/strange_attractors/bogdanov_map_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,bouali,Bouali Attractor,escape_time,Escape-Time,shaders/strange_attractors/bouali_gpu.frag,true,true,true,3,color_time_parametric,exact,bouali
+3,brian_brain,,escape_time,Escape-Time,shaders/cellular_and_stochastic/brian_brain_gpu.frag,true,true,true,1,time_parametric_sampling,exact,brian_brain
+3,buffalo,Buffalo,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_gpu.frag,true,true,true,2,color_time_parametric,exact,buffalo
+3,buffalo2,Buffalo2,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo2_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,missing,
+3,buffalo_cubic,Buffalo Cubic,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,buffalo_cubic
+3,buffalo_cubic_julia,Buffalo Cubic Julia,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,buffalo_cubic_julia
+3,buffalo_julia,Buffalo Julia,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag,true,true,true,2,time_parametric_sampling,exact,buffalo_julia
+3,buffalo_power4,Buffalo ⁴,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag,true,true,true,2,color_time_parametric,exact,buffalo_power4
+3,buffalo_power4_julia,Buffalo⁴ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,buffalo_power4_julia
+3,buffalo_power5,Buffalo ⁵,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,buffalo_power5
+3,buffalo_power5_julia,Buffalo⁵ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,buffalo_power5_julia
+3,buffalo_power6,Buffalo⁶,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag,true,true,true,2,color_time_parametric,exact,buffalo_power6
+3,buffalo_power6_julia,Buffalo⁶ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,buffalo_power6_julia
+3,buffalo_power7,Buffalo Power7,escape_time,Escape-Time,shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag,true,true,true,2,growth_process/time_parametric,missing,
+3,bullet_shot,Bullet Shot,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/polynomial_variants/bullet_shot_gpu.frag,true,true,true,2,color_time_parametric,exact,bullet_shot
+3,burke_shaw,Burke-Shaw Attractor,escape_time,Escape-Time,shaders/strange_attractors/burke_shaw_gpu.frag,true,true,true,3,color_time_parametric,exact,burke_shaw
+3,burning_ship,Burning Ship,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship
+3,burning_ship_cubic,Cubic Burning Ship,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_cubic_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_cubic
+3,burning_ship_cubic_julia,Burning Ship Cubic Julia,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_cubic_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_cubic_julia
+3,burning_ship_julia,Burning Ship Julia,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag,true,true,true,2,time_parametric_sampling,exact,burning_ship_julia
+3,burning_ship_perp,Perpendicular Burning Ship,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_perp_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_perp
+3,burning_ship_perp_julia,Perpendicular Ship Julia,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_perp_julia_gpu.frag,true,true,true,2,time_parametric_sampling,exact,burning_ship_perp_julia
+3,burning_ship_power4,Burning Ship ⁴,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power4_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_power4
+3,burning_ship_power4_julia,Burning Ship⁴ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power4_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_power4_julia
+3,burning_ship_power5,Burning Ship ⁵,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power5_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_power5
+3,burning_ship_power5_julia,Burning Ship⁵ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power5_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_power5_julia
+3,burning_ship_power6,Burning Ship⁶,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power6_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_power6
+3,burning_ship_power6_julia,Burning Ship⁶ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power6_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,burning_ship_power6_julia
+3,burning_ship_power7,Burning Ship Power7,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power7_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,burning_ship_power7_julia,Burning Ship Power7 Julia,escape_time,Escape-Time,shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power7_julia_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,cactus,Cactus Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/cactus_gpu.frag,true,true,true,2,color_time_parametric,exact,cactus
+3,cantor_dust,Cantor Dust,escape_time,Escape-Time,shaders/ifs_and_geometric/cantor_dust_gpu.frag,true,true,true,1,color_time_parametric,exact,cantor_dust
+3,cantor_set,Cantor Set,escape_time,Escape-Time,shaders/ifs_and_geometric/cantor_set_gpu.frag,true,true,true,1,color_time_parametric,exact,cantor_set
+3,car_road,Car Road,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/physical_simulation/car_road_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,car_road
+3,cayley_graph,Cayley Graph Fractal,escape_time,Escape-Time,shaders/ifs_and_geometric/cayley_graph_gpu.frag,true,true,true,1,color_time_parametric,exact,cayley_graph
+3,celtic,Celtic,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_gpu.frag,true,true,true,2,color_time_parametric,exact,celtic
+3,celtic2,Celtic2,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic2_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,celtic_cubic,Celtic Cubic,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag,true,true,true,2,color_time_parametric,exact,celtic_cubic
+3,celtic_cubic_julia,Celtic Cubic Julia,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,celtic_cubic_julia
+3,celtic_julia,Celtic Julia,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag,true,true,true,2,time_parametric_sampling,exact,celtic_julia
+3,celtic_power4,Celtic ⁴,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag,true,true,true,2,color_time_parametric,exact,celtic_power4
+3,celtic_power4_julia,Celtic⁴ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,celtic_power4_julia
+3,celtic_power5,Celtic ⁵,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag,true,true,true,2,color_time_parametric,exact,celtic_power5
+3,celtic_power5_julia,Celtic⁵ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,celtic_power5_julia
+3,celtic_power6,Celtic⁶,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,celtic_power6
+3,celtic_power6_julia,Celtic⁶ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,celtic_power6_julia
+3,celtic_power7,Celtic Power7,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,cesaro_fractal,Cesàro Fractal,escape_time,Escape-Time,shaders/ifs_and_geometric/cesaro_gpu.frag,true,true,true,1,color_time_parametric,exact,cesaro_fractal
+3,chair_tiling,Chair Tiling,escape_time,Escape-Time,shaders/ifs_and_geometric/chair_tiling_gpu.frag,true,true,true,1,color_time_parametric,exact,chair_tiling
+3,chebyshev,Chebyshev Fractal,escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/chebyshev_gpu.frag,true,true,true,2,color_time_parametric,exact,chebyshev
+3,chebyshev_fractal,Chebyshev Fractal,escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/chebyshev_fractal_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,chebyshev_halley_param,Chebyshev Halley Param,escape_time,Escape-Time,shaders/root_finding/chebyshev_halley_param_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,chen,Chen Attractor,escape_time,Escape-Time,shaders/strange_attractors/chen_gpu.frag,true,true,true,3,color_time_parametric,exact,chen
+3,chen_lee,Chen-Lee Attractor,escape_time,Escape-Time,shaders/strange_attractors/chen_lee_gpu.frag,true,true,true,3,color_time_parametric,exact,chen_lee
+3,chua_circuit,,escape_time,Escape-Time,shaders/strange_attractors/chua_gpu.frag,true,true,true,3,color_time_parametric,exact,chua_circuit
+3,clifford,Clifford Attractor,escape_time,Escape-Time,shaders/strange_attractors/clifford_gpu.frag,true,true,true,2,color_time_parametric,exact,clifford
+3,collatz,Collatz Fractal,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/collatz_gpu.frag,true,true,true,2,color_time_parametric,exact,collatz
+3,contused_fields,Contused Fields,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/polynomial_variants/contused_fields_gpu.frag,true,true,true,2,color_time_parametric,exact,contused_fields
+3,cosecant_julia,Cosecant Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/cosecant_julia_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,cosecant_mandelbrot,Cosecant Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/cosecant_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,cosh_julia,Cosh Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/hyperbolic/cosh_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,cosh_julia
+3,cosh_mandelbrot,Cosh Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/hyperbolic/cosh_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,exact,cosh_mandelbrot
+3,cosine_julia,Cosine Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag,true,true,true,2,time_parametric_sampling,exact,cosine_julia
+3,cosine_mandelbrot,Cosine Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,exact,cosine_mandelbrot
+3,cotangent_julia,Cotangent Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/cotangent_julia_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,cotangent_mandelbrot,Cotangent Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/cotangent_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,coullet,Coullet Attractor,escape_time,Escape-Time,shaders/strange_attractors/coullet_gpu.frag,true,true,true,3,color_time_parametric,exact,coullet
+3,crazybrot,Crazybrot,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/iterative_maps/crazybrot_gpu.frag,true,true,true,2,color_time_parametric,exact,crazybrot
+3,cyclosorus_fern,Cyclosorus Fern,escape_time,Escape-Time,shaders/ifs_and_geometric/cyclosorus_fern_gpu.frag,true,true,true,2,time_parametric_sampling,exact,cyclosorus_fern
+3,dadras,Dadras Attractor,escape_time,Escape-Time,shaders/strange_attractors/dadras_gpu.frag,true,true,true,3,color_time_parametric,exact,dadras
+3,damaged_doublebrot,Damaged DoubleBrot,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/iterative_maps/damaged_doublebrot_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,damaged_doublebrot
+3,damped_newton,Damped Newton,escape_time,Convergent & Root-Finding,shaders/root_finding/damped_newton_gpu.frag,true,true,true,1,color_time_parametric,exact,damped_newton
+3,day_night,Day & Night,escape_time,Escape-Time,shaders/cellular_and_stochastic/day_night_gpu.frag,true,true,true,1,time_parametric_sampling,exact,day_night
+3,deltoid,Deltoid Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/deltoid_gpu.frag,true,true,true,1,color_time_parametric,exact,deltoid
+3,dequan_li,Dequan Li Attractor,escape_time,Escape-Time,shaders/strange_attractors/dequan_li_gpu.frag,true,true,true,3,color_time_parametric,exact,dequan_li
+3,dirichlet_eta,Dirichlet Eta,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/special_functions/dirichlet_eta_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,dla,DLA (Approximation),escape_time,Escape-Time,shaders/cellular_and_stochastic/dla_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,dla
+3,domain_coloring,Domain Coloring,escape_time,Escape-Time,shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag,true,true,true,3,time_parametric_sampling,exact,domain_coloring
+3,dragon_curve,Dragon Curve,escape_time,Escape-Time,shaders/ifs_and_geometric/dragon_curve_gpu.frag,true,true,true,1,color_time_parametric,exact,dragon_curve
+3,drill,Drill Fractal,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/polynomial_variants/drill_gpu.frag,true,true,true,2,color_time_parametric,exact,drill
+3,druid,Druid Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/druid_gpu.frag,true,true,true,2,color_time_parametric,exact,druid
+3,dual_complex,Dual-Complex Fractal,escape_time,Escape-Time,shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag,true,true,true,2,color_time_parametric,exact,dual_complex
+3,ducky,Ducky Fractal,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/discrete_attractors/ducky_gpu.frag,true,true,true,2,color_time_parametric,exact,ducky
+3,duffing,Duffing Map,escape_time,Escape-Time,shaders/strange_attractors/duffing_gpu.frag,true,true,true,1,color_time_parametric,exact,duffing
+3,durand_kerner,Durand-Kerner,escape_time,Convergent & Root-Finding,shaders/root_finding/durand_kerner_gpu.frag,true,true,true,1,color_time_parametric,exact,durand_kerner
+3,eaten,Eaten,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/rational_singularities/eaten_gpu.frag,true,true,true,2,color_time_parametric,exact,eaten
+3,eden_growth,Eden Growth Model,escape_time,Escape-Time,shaders/cellular_and_stochastic/eden_growth_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,eden_growth
+3,ehrlich_aberth,Ehrlich-Aberth,escape_time,Convergent & Root-Finding,shaders/root_finding/ehrlich_aberth_gpu.frag,true,true,true,1,color_time_parametric,exact,ehrlich_aberth
+3,eisenstein,Eisenstein Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag,true,true,true,1,color_time_parametric,exact,eisenstein
+3,exp_additive_mandelbrot,Exp Additive Mandelbrot,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/iterative_maps/exp_additive_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,exponential,Exponential Fractal,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag,true,true,true,2,color_time_parametric,exact,exponential
+3,exponential_julia,Exponential Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/exponential_iteration/exponential_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,exponential_julia
+3,farey_diagram,Farey Diagram,escape_time,Escape-Time,shaders/escape_time_family/geometry_and_ifs/farey_diagram_gpu.frag,true,true,true,1,color_time_parametric,exact,farey_diagram
+3,fatou,Fatou Set,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/fatou_gpu.frag,true,true,true,2,color_time_parametric,exact,fatou
+3,fatou_exp,Fatou Exponential,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/fatou_exp_gpu.frag,true,true,true,2,color_time_parametric,exact,fatou_exp
+3,feather,Feather Fractal,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/feather_gpu.frag,true,true,true,2,color_time_parametric,exact,feather
+3,feather_julia,Feather Julia,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/feather_julia_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,feather_julia
+3,feigenbaum,Feigenbaum Logistic Map,escape_time,Escape-Time,shaders/lyapunov_and_stability/feigenbaum_gpu.frag,true,true,true,1,color_time_parametric,exact,feigenbaum
+3,fibonacci_spiral,Fibonacci Spiral Fractal,escape_time,Escape-Time,shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,fibonacci_spiral
+3,fibonacci_word,Fibonacci Word Fractal,escape_time,Escape-Time,shaders/ifs_and_geometric/fibonacci_word_gpu.frag,true,true,true,1,color_time_parametric,exact,fibonacci_word
+3,fish,Fish Fractal,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/discrete_attractors/fish_gpu.frag,true,true,true,2,color_time_parametric,exact,fish
+3,ford_circles,Ford Circles,escape_time,Escape-Time,shaders/ifs_and_geometric/ford_circles_gpu.frag,true,true,true,1,color_time_parametric,exact,ford_circles
+3,four_wing,Four-Wing Attractor,escape_time,Escape-Time,shaders/strange_attractors/four_wing_gpu.frag,true,true,true,3,color_time_parametric,exact,four_wing
+3,fractal_canopy,Fractal Canopy,escape_time,Escape-Time,shaders/ifs_and_geometric/fractal_canopy_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,fractal_canopy
+3,fractal_dream,Fractal Dream,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/discrete_attractors/fractal_dream_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,gamma_fractal,Gamma Fractal,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/gamma_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,gamma_fractal
+3,gauss_map,Gauss Map,escape_time,Escape-Time,shaders/lyapunov_and_stability/gauss_map_gpu.frag,true,true,true,1,color_time_parametric,exact,gauss_map
+3,generalized_mcmullen,Generalized McMullen,escape_time,Advanced Rational & Polynomial,shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,generalized_mcmullen
+3,genesio_tesi,Genesio-Tesi Attractor,escape_time,Escape-Time,shaders/strange_attractors/genesio_tesi_gpu.frag,true,true,true,3,color_time_parametric,exact,genesio_tesi
+3,gingerbreadman,Gingerbreadman Map,escape_time,Escape-Time,shaders/strange_attractors/gingerbreadman_gpu.frag,true,true,true,1,color_time_parametric,exact,gingerbreadman
+3,globo_toroid,Globo-Toroid Attractor,escape_time,Escape-Time,shaders/strange_attractors/globo_toroid_gpu.frag,true,true,true,3,color_time_parametric,exact,globo_toroid
+3,glynn,Glynn Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/glynn_gpu.frag,true,true,true,2,color_time_parametric,exact,glynn
+3,golden_dragon,Golden Dragon,escape_time,Escape-Time,shaders/ifs_and_geometric/golden_dragon_gpu.frag,true,true,true,1,color_time_parametric,exact,golden_dragon
+3,gosper_curve,Gosper Curve,escape_time,Escape-Time,shaders/ifs_and_geometric/gosper_curve_gpu.frag,true,true,true,1,color_time_parametric,exact,gosper_curve
+3,greek_cross_fractal,Greek Cross Fractal,escape_time,Escape-Time,shaders/ifs_and_geometric/greek_cross_gpu.frag,true,true,true,1,color_time_parametric,exact,greek_cross_fractal
+3,gumowski_mira,Gumowski-Mira Map,escape_time,Escape-Time,shaders/strange_attractors/gumowski_mira_gpu.frag,true,true,true,2,color_time_parametric,exact,gumowski_mira
+3,hadley,Hadley Circulation,escape_time,Escape-Time,shaders/strange_attractors/hadley_gpu.frag,true,true,true,3,color_time_parametric,exact,hadley
+3,halley,,escape_time,Escape-Time,shaders/root_finding/halley_gpu.frag,true,true,true,1,color_time_parametric,exact,halley
+3,halley_nova,Halley Nova,escape_time,Convergent & Root-Finding,shaders/root_finding/halley_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,halvorsen,Halvorsen Attractor,escape_time,Escape-Time,shaders/strange_attractors/halvorsen_gpu.frag,true,true,true,3,color_time_parametric,exact,halvorsen
+3,hat_monotile,The Hat Monotile,escape_time,Escape-Time,shaders/ifs_and_geometric/hat_monotile_gpu.frag,true,true,true,1,color_time_parametric,exact,hat_monotile
+3,heart,Heart Fractal,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/heart_gpu.frag,true,true,true,1,color_time_parametric,exact,heart
+3,heart_julia,Heart Julia,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/heart_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,heart_julia
+3,henon,Hénon Map,escape_time,Escape-Time,shaders/strange_attractors/henon_gpu.frag,true,true,true,1,color_time_parametric,exact,henon
+3,hermite,Hermite Fractal,escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/hermite_gpu.frag,true,true,true,1,color_time_parametric,exact,hermite
+3,hexaflake,Hexaflake,escape_time,Escape-Time,shaders/ifs_and_geometric/hexaflake_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,hexaflake
+3,highlife,HighLife,escape_time,Escape-Time,shaders/cellular_and_stochastic/highlife_gpu.frag,true,true,true,1,time_parametric_sampling,exact,highlife
+3,hilbert_curve,Hilbert Curve,escape_time,Escape-Time,shaders/ifs_and_geometric/hilbert_curve_gpu.frag,true,true,true,1,color_time_parametric,exact,hilbert_curve
+3,hofstadter_butterfly,Hofstadter Butterfly,escape_time,Escape-Time,shaders/escape_time_family/geometry_and_ifs/hofstadter_butterfly_gpu.frag,true,true,true,1,color_time_parametric,exact,hofstadter_butterfly
+3,hopalong,Hopalong Attractor,escape_time,Escape-Time,shaders/strange_attractors/hopalong_gpu.frag,true,true,true,1,time_parametric_sampling,exact,hopalong
+3,householder,Householder Fractal,escape_time,Escape-Time,shaders/root_finding/householder_gpu.frag,true,true,true,1,color_time_parametric,exact,householder
+3,householder_nova,Householder Nova,escape_time,Convergent & Root-Finding,shaders/root_finding/householder_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,hypercomplex_newton,Hypercomplex Newton (Quaternion z³ - 1),escape_time,Escape-Time,shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag,true,true,true,3,color_time_parametric,exact,hypercomplex_newton
+3,ikeda,Ikeda Map,escape_time,Escape-Time,shaders/strange_attractors/ikeda_gpu.frag,true,true,true,1,color_time_parametric,exact,ikeda
+3,inverse_mandelbrot,Inverse Mandelbrot,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/iterative_maps/inverse_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,exact,inverse_mandelbrot
+3,inverse_quadratic,Inverse Quadratic,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,jacobi_sn,Jacobi Sn,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/special_functions/jacobi_sn_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,jarratt,Jarratt,escape_time,Escape-Time,shaders/root_finding/jarratt_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,jason_rampe_1,Jason Rampe 1,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_1_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,jason_rampe_2,Jason Rampe 2,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_2_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,jerusalem_cube,Jerusalem Cube (2D Cross-Section),escape_time,Escape-Time,shaders/ifs_and_geometric/jerusalem_cube_gpu.frag,true,true,true,1,color_time_parametric,exact,jerusalem_cube
+3,julia,Julia,escape_time,Escape-Time,shaders/escape_time_family/core/julia_gpu.frag,true,true,true,4,color_time_parametric,missing,
+3,julia_de,Julia DE Glow,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/julia_de_gpu.frag,true,true,true,2,time_parametric_sampling,exact,julia_de
+3,kaleidoscope_basic,Kaleidoscope Basic,escape_time,Kaleidoscopes,shaders/kaleidoscopes/classic_symmetry/kaleidoscope_basic_gpu.frag,true,true,true,3,growth_process/time_parametric,missing,
+3,kaleidoscope_crystal,Kaleidoscope Crystal,escape_time,Kaleidoscopes,shaders/kaleidoscopes/classic_symmetry/kaleidoscope_crystal_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_flower,Kaleidoscope Flower,escape_time,Kaleidoscopes,shaders/kaleidoscopes/radial_ornaments/kaleidoscope_flower_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_fractal,Kaleidoscope Fractal,escape_time,Kaleidoscopes,shaders/kaleidoscopes/textured_light/kaleidoscope_fractal_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_geometric,Kaleidoscope Geometric,escape_time,Kaleidoscopes,shaders/kaleidoscopes/classic_symmetry/kaleidoscope_geometric_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_jewel,Kaleidoscope Jewel,escape_time,Kaleidoscopes,shaders/kaleidoscopes/textured_light/kaleidoscope_jewel_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_mandala,Kaleidoscope Mandala,escape_time,Kaleidoscopes,shaders/kaleidoscopes/classic_symmetry/kaleidoscope_mandala_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_nebula,Kaleidoscope Nebula,escape_time,Kaleidoscopes,shaders/kaleidoscopes/textured_light/kaleidoscope_nebula_gpu.frag,true,true,true,3,time_parametric_sampling,missing,
+3,kaleidoscope_rays,Kaleidoscope Rays,escape_time,Kaleidoscopes,shaders/kaleidoscopes/radial_ornaments/kaleidoscope_rays_gpu.frag,true,true,true,3,camera_or_raymarch_time_parametric,missing,
+3,kaleidoscope_ring,Kaleidoscope Ring,escape_time,Kaleidoscopes,shaders/kaleidoscopes/radial_ornaments/kaleidoscope_ring_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_rosette,Kaleidoscope Rosette,escape_time,Kaleidoscopes,shaders/kaleidoscopes/classic_symmetry/kaleidoscope_rosette_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_snowflake,Kaleidoscope Snowflake,escape_time,Kaleidoscopes,shaders/kaleidoscopes/classic_symmetry/kaleidoscope_snowflake_gpu.frag,true,true,true,3,growth_process/time_parametric,missing,
+3,kaleidoscope_spiral,Kaleidoscope Spiral,escape_time,Kaleidoscopes,shaders/kaleidoscopes/radial_ornaments/kaleidoscope_spiral_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kaleidoscope_star,Kaleidoscope Star,escape_time,Kaleidoscopes,shaders/kaleidoscopes/radial_ornaments/kaleidoscope_star_gpu.frag,true,true,true,3,camera_or_raymarch_time_parametric,missing,
+3,kaleidoscope_wave,Kaleidoscope Wave,escape_time,Kaleidoscopes,shaders/kaleidoscopes/radial_ornaments/kaleidoscope_wave_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,kicked_rotator,Kicked Rotator,escape_time,Escape-Time,shaders/strange_attractors/kicked_rotator_gpu.frag,true,true,true,1,color_time_parametric,exact,kicked_rotator
+3,king,King,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/discrete_attractors/king_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,kleinian_limit_set,Kleinian Limit Set,escape_time,Escape-Time,shaders/ifs_and_geometric/kleinian_limit_set_gpu.frag,true,true,true,1,time_parametric_sampling,alias,f0290_kleinian_limit_set
+3,koch_anti_snowflake,Koch Anti-Snowflake,escape_time,Escape-Time,shaders/ifs_and_geometric/koch_anti_snowflake_gpu.frag,true,true,true,1,color_time_parametric,exact,koch_anti_snowflake
+3,koch_snowflake,Koch Snowflake,escape_time,Escape-Time,shaders/ifs_and_geometric/koch_snowflake_gpu.frag,true,true,true,1,color_time_parametric,exact,koch_snowflake
+3,laguerre,Laguerre Fractal,escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/laguerre_gpu.frag,true,true,true,1,color_time_parametric,exact,laguerre
+3,laguerre_fractal,Laguerre Fractal,escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/laguerre_fractal_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,lambda,Lambda Fractal,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/lambda_gpu.frag,true,true,true,2,color_time_parametric,exact,lambda
+3,lambda_julia,Lambda Julia,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/lambda_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,lambda_julia
+3,lambda_w,Lambda W Fractal,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/lambda_w_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,lambda_w
+3,langton_ant,,escape_time,Escape-Time,shaders/cellular_and_stochastic/langton_ant_gpu.frag,true,true,true,1,time_parametric_sampling,exact,langton_ant
+3,legendre,Legendre Fractal,escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/legendre_gpu.frag,true,true,true,1,color_time_parametric,exact,legendre
+3,levy_c_curve,Lévy C Curve,escape_time,Escape-Time,shaders/ifs_and_geometric/levy_c_gpu.frag,true,true,true,1,color_time_parametric,exact,levy_c_curve
+3,levy_tapestry,Lévy Tapestry,escape_time,Escape-Time,shaders/ifs_and_geometric/levy_tapestry_gpu.frag,true,true,true,1,color_time_parametric,exact,levy_tapestry
+3,lightningbrot,LightningBrot,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/iterative_maps/lightningbrot_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,lightningbrot
+3,liu_chen,Liu-Chen Attractor,escape_time,Escape-Time,shaders/strange_attractors/liu_chen_gpu.frag,true,true,true,3,color_time_parametric,exact,liu_chen
+3,log_spiral,Log Spiral Fractal,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/log_spiral_gpu.frag,true,true,true,1,color_time_parametric,exact,log_spiral
+3,lorenz_2d,Lorenz Attractor (2D),escape_time,Escape-Time,shaders/strange_attractors/lorenz_2d_gpu.frag,true,true,true,3,color_time_parametric,exact,lorenz_2d
+3,lozi,Lozi Map,escape_time,Escape-Time,shaders/strange_attractors/lozi_gpu.frag,true,true,true,1,color_time_parametric,exact,lozi
+3,lu_chen,Lu-Chen Attractor,escape_time,Escape-Time,shaders/strange_attractors/lu_chen_gpu.frag,true,true,true,3,color_time_parametric,exact,lu_chen
+3,magnet1,Magnet Type I,escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag,true,true,true,2,color_time_parametric,exact,magnet1
+3,magnet1_julia,Magnet I Julia,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/magnet1_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,magnet1_julia
+3,magnet2_julia,Magnet II Julia,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/magnet2_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,magnet2_julia
+3,magnet_newton,Magnet Newton,escape_time,Escape-Time,shaders/root_finding/magnet_newton_gpu.frag,true,true,true,1,color_time_parametric,exact,magnet_newton
+3,magnet_type_1,Magnet Fractal (Type I),escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag,true,true,true,2,color_time_parametric,exact,magnet_type_1
+3,magnet_type_2,Magnet Fractal (Type II),escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet2_gpu.frag,true,true,true,2,color_time_parametric,exact,magnet_type_2
+3,magnet_type_3,Magnet Fractal (Type III),escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet3_gpu.frag,true,true,true,2,color_time_parametric,exact,magnet_type_3
+3,manair_fire,Man-Air-Fire,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/physical_simulation/manair_fire_gpu.frag,true,true,true,1,color_time_parametric,exact,manair_fire
+3,mandel_julia_dual,Mandel Julia Dual,escape_time,Escape-Time,shaders/escape_time_family/core/mandel_julia_dual_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,mandel_step_escape,Mandel Step Escape,escape_time,Escape-Time,shaders/legacy/escape_time/mandel_step_escape.frag,true,true,true,1,color_time_parametric,missing,
+3,mandelbar_cubic,Mandelbar Cubic (Tricorn ³),escape_time,Escape-Time,shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag,true,true,true,2,color_time_parametric,exact,mandelbar_cubic
+3,mandelbar_power6,Mandelbar⁶,escape_time,Escape-Time,shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,mandelbar_power6
+3,mandelbar_power7,Mandelbar⁷,escape_time,Escape-Time,shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,mandelbar_power7
+3,mandelbar_power8,Mandelbar⁸,escape_time,Escape-Time,shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,mandelbar_power8
+3,mandelbar_power9,Mandelbar⁹,escape_time,Escape-Time,shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,mandelbar_power9
+3,mandelbrot,Mandelbrot,escape_time,Escape-Time,shaders/legacy/escape_time/mandel_step_smooth.frag,true,true,true,2,color_time_parametric,exact,mandelbrot
+3,mandelbrot_curvature_avg,Mandelbrot Curvature Avg,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_curvature_avg_gpu.frag,true,true,true,3,color_time_parametric,exact,mandelbrot_curvature_avg
+3,mandelbrot_de,Mandelbrot DE Glow,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_de_gpu.frag,true,true,true,2,color_time_parametric,exact,mandelbrot_de
+3,mandelbrot_df2,Mandelbrot Df2,escape_time,Escape-Time,shaders/legacy/precision/mandelbrot_df2.frag,true,true,true,1,color_time_parametric,missing,
+3,mandelbrot_et,Mandelbrot Et,escape_time,Escape-Time,shaders/legacy/escape_time/mandelbrot_et.frag,true,true,true,3,time_parametric_sampling,missing,
+3,mandelbrot_hardgrad,Mandelbrot Hardgrad,escape_time,Escape-Time,shaders/legacy/diagnostics/mandelbrot_hardgrad.frag,true,true,true,1,color_time_parametric,missing,
+3,mandelbrot_orbit_trap,Mandelbrot Orbit Trap,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag,true,true,true,1,color_time_parametric,exact,mandelbrot_orbit_trap
+3,mandelbrot_stripe_avg,Mandelbrot Stripe Average,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_stripe_avg_gpu.frag,true,true,true,3,color_time_parametric,exact,mandelbrot_stripe_avg
+3,mandelbrot_tex,Mandelbrot Tex,escape_time,Escape-Time,shaders/legacy/escape_time/mandelbrot_tex.frag,true,true,true,1,time_parametric_sampling,missing,
+3,mandelbrot_tia,Mandelbrot TIA,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_tia_gpu.frag,true,true,true,3,color_time_parametric,exact,mandelbrot_tia
+3,mandelpinski,Mandelpinski Necklaces,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/singular_perturbations/mandelpinski_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,mandelpinski
+3,manowar,Manowar Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/manowar_gpu.frag,true,true,true,2,color_time_parametric,exact,manowar
+3,mcmullen_map,McMullen Map,escape_time,Advanced Rational & Polynomial,shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,mcmullen_map
+3,mcworter_pentigree,,escape_time,Escape-Time,shaders/ifs_and_geometric/mcworter_pentigree_gpu.frag,true,true,true,1,color_time_parametric,exact,mcworter_pentigree
+3,menger_3d_slice,Menger Sponge (3D Slice),escape_time,Escape-Time,shaders/ifs_and_geometric/self_similar_sets/menger_3d_slice_gpu.frag,true,true,true,2,color_time_parametric,exact,menger_3d_slice
+3,menger_sponge_2d,Menger Sponge (2D Cross-Section),escape_time,Escape-Time,shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag,true,true,true,1,color_time_parametric,exact,menger_sponge_2d
+3,mittag_leffler,Mittag Leffler,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,moore_curve,Moore Curve,escape_time,Escape-Time,shaders/ifs_and_geometric/moore_curve_gpu.frag,true,true,true,1,camera_or_raymarch_time_parametric,exact,moore_curve
+3,moore_spiegel,Moore-Spiegel Attractor,escape_time,Escape-Time,shaders/strange_attractors/moore_spiegel_gpu.frag,true,true,true,3,color_time_parametric,exact,moore_spiegel
+3,muller,Muller,escape_time,Escape-Time,shaders/root_finding/muller_gpu.frag,true,true,true,1,color_time_parametric,alias,f0011_m_ller_s_method
+3,multibrot10,Multibrot¹⁰,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,multibrot10
+3,multibrot11,Multibrot¹¹,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,multibrot11
+3,multibrot12,Multibrot¹²,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,multibrot12
+3,multibrot3,Multibrot d=3,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag,true,true,true,2,color_time_parametric,exact,multibrot3
+3,multibrot4,Multibrot d=4,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag,true,true,true,2,color_time_parametric,exact,multibrot4
+3,multibrot5,Multibrot d=5,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag,true,true,true,2,color_time_parametric,exact,multibrot5
+3,multibrot6,Multibrot ⁶,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,multibrot6
+3,multibrot7,Multibrot ⁷,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,multibrot7
+3,multibrot8,Multibrot ⁸,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,multibrot8
+3,multibrot9,Multibrot⁹,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,multibrot9
+3,multibrot_15,Multibrot d=1.5,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag,true,true,true,2,color_time_parametric,exact,multibrot_15
+3,multibrot_25,Multibrot d=2.5,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag,true,true,true,2,color_time_parametric,exact,multibrot_25
+3,multibrot_neg2,Multibrot d=-2,escape_time,Escape-Time,shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag,true,true,true,1,color_time_parametric,exact,multibrot_neg2
+3,multijulia10,Multijulia¹⁰,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia10_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,multijulia10
+3,multijulia11,Multijulia¹¹,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia11_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,multijulia11
+3,multijulia12,Multijulia¹²,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia12_gpu.frag,true,true,true,2,color_time_parametric,exact,multijulia12
+3,multijulia3,Multijulia ³,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia3_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,multijulia3
+3,multijulia4,Multijulia ⁴,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia4_gpu.frag,true,true,true,2,color_time_parametric,exact,multijulia4
+3,multijulia5,Multijulia ⁵,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia5_gpu.frag,true,true,true,2,color_time_parametric,exact,multijulia5
+3,multijulia6,Multijulia ⁶,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia6_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,multijulia6
+3,multijulia7,Multijulia ⁷,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia7_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,multijulia7
+3,multijulia8,Multijulia ⁸,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia8_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,multijulia8
+3,multijulia9,Multijulia⁹,escape_time,Escape-Time,shaders/escape_time_family/families/multijulia/multijulia9_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,multijulia9
+3,nebulabrot,Nebulabrot (Approx),escape_time,Escape-Time,shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag,true,true,true,1,color_time_parametric,exact,nebulabrot
+3,neta_order16,Neta Order16,escape_time,Escape-Time,shaders/root_finding/neta_order16_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,newton_general,Newton Fractal (z⁴ - 1),escape_time,Escape-Time,shaders/root_finding/newton_general_gpu.frag,true,true,true,1,color_time_parametric,exact,newton_general
+3,newton_leipnik,Newton-Leipnik Attractor,escape_time,Escape-Time,shaders/strange_attractors/newton_leipnik_gpu.frag,true,true,true,3,color_time_parametric,exact,newton_leipnik
+3,newton_sin,Newton sin(z),escape_time,Escape-Time,shaders/root_finding/newton_sin_gpu.frag,true,true,true,1,color_time_parametric,exact,newton_sin
+3,newton_z3,Newton Fractal (z³ - 1),escape_time,Escape-Time,shaders/root_finding/newton_z3_gpu.frag,true,true,true,1,color_time_parametric,exact,newton_z3
+3,newton_z3_nova,Newton z³ Nova,escape_time,Convergent & Root-Finding,shaders/root_finding/newton_z3_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,newton_z4,Newton z⁴−1,escape_time,Escape-Time,shaders/root_finding/newton_z4_gpu.frag,true,true,true,1,color_time_parametric,exact,newton_z4
+3,newton_z4_nova,Newton z⁴ Nova,escape_time,Convergent & Root-Finding,shaders/root_finding/newton_z4_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,newton_z5,Newton z⁵−1,escape_time,Escape-Time,shaders/root_finding/newton_z5_gpu.frag,true,true,true,1,color_time_parametric,exact,newton_z5
+3,newton_z5_nova,Newton z⁵ Nova,escape_time,Convergent & Root-Finding,shaders/root_finding/newton_z5_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,newton_z6,Newton z⁶−1,escape_time,Escape-Time,shaders/root_finding/newton_z6_gpu.frag,true,true,true,1,color_time_parametric,exact,newton_z6
+3,newton_z6_nova,Newton z⁶ Nova,escape_time,Convergent & Root-Finding,shaders/root_finding/newton_z6_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,newton_z7,Newton z⁷−1,escape_time,Escape-Time,shaders/root_finding/newton_z7_gpu.frag,true,true,true,1,color_time_parametric,exact,newton_z7
+3,newton_z8,Newton z⁸−1,escape_time,Escape-Time,shaders/root_finding/newton_z8_gpu.frag,true,true,true,1,color_time_parametric,exact,newton_z8
+3,noor_newton,Noor Newton,escape_time,Escape-Time,shaders/root_finding/noor_newton_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,nose_hoover,Nosé-Hoover Attractor,escape_time,Escape-Time,shaders/strange_attractors/nose_hoover_gpu.frag,true,true,true,3,color_time_parametric,exact,nose_hoover
+3,nova,Nova,escape_time,Escape-Time,shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,nova_cubic,Nova Cubic,escape_time,Escape-Time,shaders/escape_time_family/families/nova/parameter_plane/nova_cubic_gpu.frag,true,true,true,2,color_time_parametric,exact,nova_cubic
+3,nova_cubic_julia,Nova Cubic Julia,escape_time,Escape-Time,shaders/escape_time_family/families/nova/julia_sets/nova_cubic_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,nova_cubic_julia
+3,nova_degree4,Nova⁴,escape_time,Escape-Time,shaders/escape_time_family/families/nova/parameter_plane/nova_degree4_gpu.frag,true,true,true,2,color_time_parametric,exact,nova_degree4
+3,nova_degree4_julia,Nova⁴ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/nova/julia_sets/nova_degree4_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,nova_degree4_julia
+3,nova_degree5,Nova Degree5,escape_time,Escape-Time,shaders/escape_time_family/families/nova/parameter_plane/nova_degree5_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,nova_degree5_julia,Nova Degree5 Julia,escape_time,Escape-Time,shaders/escape_time_family/families/nova/julia_sets/nova_degree5_julia_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,nova_julia,Nova Julia,escape_time,Escape-Time,shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag,true,true,true,1,color_time_parametric,exact,nova_julia
+3,nova_mandelbrot,Nova Mandelbrot,escape_time,Escape-Time,shaders/escape_time_family/families/nova/parameter_plane/nova_mandelbrot_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,orbit_trap_cross,Orbit Trap Cross,escape_time,Escape-Time,shaders/escape_time_family/orbit_and_domain/orbit_trap_cross_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,orbit_trap_point,Orbit Trap Point,escape_time,Escape-Time,shaders/escape_time_family/orbit_and_domain/orbit_trap_point_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,orbit_trap_ring,Orbit Trap Ring,escape_time,Escape-Time,shaders/escape_time_family/orbit_and_domain/orbit_trap_ring_gpu.frag,true,true,true,2,growth_process/time_parametric,missing,
+3,ostrowski,Ostrowski,escape_time,Escape-Time,shaders/root_finding/ostrowski_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,peano_curve,Peano Curve,escape_time,Escape-Time,shaders/ifs_and_geometric/peano_curve_gpu.frag,true,true,true,1,color_time_parametric,exact,peano_curve
+3,penrose_tiling,Penrose Tiling (P3),escape_time,Escape-Time,shaders/ifs_and_geometric/penrose_tiling_gpu.frag,true,true,true,2,color_time_parametric,exact,penrose_tiling
+3,pentaflake,Pentaflake,escape_time,Escape-Time,shaders/ifs_and_geometric/pentaflake_gpu.frag,true,true,true,1,color_time_parametric,exact,pentaflake
+3,percolation,Percolation Cluster,escape_time,Escape-Time,shaders/cellular_and_stochastic/percolation_gpu.frag,true,true,true,1,time_parametric_sampling,exact,percolation
+3,perp_celtic,Perpendicular Celtic,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag,true,true,true,2,color_time_parametric,exact,perp_celtic
+3,perp_celtic_cubic,Perpendicular Celtic Cubic,escape_time,Escape-Time,shaders/escape_time_family/families/celtic/perp_celtic_cubic_gpu.frag,true,true,true,2,color_time_parametric,exact,perp_celtic_cubic
+3,perpendicular_bs_cubic,Perpendicular BS Cubic,escape_time,Escape-Time,shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_gpu.frag,true,true,true,2,color_time_parametric,exact,perpendicular_bs_cubic
+3,perpendicular_bs_cubic_julia,Perp. BS Cubic Julia,escape_time,Escape-Time,shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,perpendicular_bs_cubic_julia
+3,perpendicular_bs_power4,Perpendicular BS⁴,escape_time,Escape-Time,shaders/escape_time_family/families/perpendicular/perpendicular_bs_power4_gpu.frag,true,true,true,2,color_time_parametric,exact,perpendicular_bs_power4
+3,perpendicular_bs_power5,Perpendicular BS⁵,escape_time,Escape-Time,shaders/escape_time_family/families/perpendicular/perpendicular_bs_power5_gpu.frag,true,true,true,2,color_time_parametric,exact,perpendicular_bs_power5
+3,perpendicular_burning_ship,Perpendicular Burning Ship,escape_time,Escape-Time,shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag,true,true,true,2,color_time_parametric,exact,perpendicular_burning_ship
+3,perpendicular_burning_ship_julia,Perpendicular BS Julia,escape_time,Escape-Time,shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,perpendicular_burning_ship_julia
+3,perpendicular_julia,Perpendicular Julia,escape_time,Escape-Time,shaders/escape_time_family/families/perpendicular/perpendicular_julia_gpu.frag,true,true,true,2,time_parametric_sampling,exact,perpendicular_julia
+3,perpendicular_mandelbrot,Perpendicular Mandelbrot,escape_time,Escape-Time,shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag,true,true,true,2,color_time_parametric,exact,perpendicular_mandelbrot
+3,peter_de_jong,Peter de Jong Attractor,escape_time,Escape-Time,shaders/strange_attractors/peter_de_jong_gpu.frag,true,true,true,2,color_time_parametric,exact,peter_de_jong
+3,phase_portrait,Phase Portrait,escape_time,Escape-Time,shaders/escape_time_family/orbit_and_domain/phase_portrait_gpu.frag,true,true,true,2,color_time_parametric,exact,phase_portrait
+3,phoenix,Phoenix,escape_time,Escape-Time,shaders/escape_time_family/core/phoenix_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,phoenix_julia,Phoenix Julia,escape_time,Escape-Time,shaders/escape_time_family/core/phoenix_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,picard_mann_newton,Picard Mann Newton,escape_time,Escape-Time,shaders/root_finding/picard_mann_newton_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,pickover_biomorph,Pickover Biomorph,escape_time,Escape-Time,shaders/strange_attractors/pickover_gpu.frag,true,true,true,2,color_time_parametric,exact,pickover_biomorph
+3,pinwheel_tiling,Pinwheel Tiling,escape_time,Escape-Time,shaders/ifs_and_geometric/pinwheel_gpu.frag,true,true,true,1,color_time_parametric,exact,pinwheel_tiling
+3,pola_sierpinski,Pola-Sierpinski Hybrid,escape_time,Escape-Time,shaders/ifs_and_geometric/pola_sierpinski_gpu.frag,true,true,true,1,color_time_parametric,exact,pola_sierpinski
+3,polar_cowlick,Polar Cowlick,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/polynomial_variants/polar_cowlick_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,polar_cowlick
+3,popcorn,Popcorn Fractal,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/popcorn_gpu.frag,true,true,true,1,color_time_parametric,exact,popcorn
+3,popcorn2,Popcorn II,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/popcorn2_gpu.frag,true,true,true,2,color_time_parametric,exact,popcorn2
+3,power_sum,Power Sum Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag,true,true,true,2,color_time_parametric,exact,power_sum
+3,prison,Prison,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/rational_singularities/prison_gpu.frag,true,true,true,2,color_time_parametric,exact,prison
+3,pseudo_kleinian,Pseudo-Kleinian,escape_time,Escape-Time,shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag,true,true,true,2,color_time_parametric,exact,pseudo_kleinian
+3,pythagorean_tree,Pythagorean Tree,escape_time,Escape-Time,shaders/ifs_and_geometric/pythagorean_tree_gpu.frag,true,true,true,1,color_time_parametric,exact,pythagorean_tree
+3,qi_chen,Qi-Chen Attractor,escape_time,Escape-Time,shaders/strange_attractors/qi_chen_gpu.frag,true,true,true,3,color_time_parametric,exact,qi_chen
+3,quadratic_koch_island,Quadratic Koch Island,escape_time,Escape-Time,shaders/escape_time_family/geometry_and_ifs/quadratic_koch_gpu.frag,true,true,true,1,color_time_parametric,exact,quadratic_koch_island
+3,quaternion_julia_2d,Quaternion Julia (2D Slice),escape_time,Escape-Time,shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag,true,true,true,4,color_time_parametric,exact,quaternion_julia_2d
+3,rabinovich_fabrikant,Rabinovich-Fabrikant Attractor,escape_time,Escape-Time,shaders/strange_attractors/rabinovich_fabrikant_gpu.frag,true,true,true,3,color_time_parametric,exact,rabinovich_fabrikant
+3,rational_map,Rational Map Fractal,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag,true,true,true,2,color_time_parametric,exact,rational_map
+3,rauzy_fractal,Rauzy Fractal,escape_time,Escape-Time,shaders/ifs_and_geometric/rauzy_gpu.frag,true,true,true,1,color_time_parametric,exact,rauzy_fractal
+3,rayleigh_benard,Rayleigh-Bénard Attractor,escape_time,Escape-Time,shaders/strange_attractors/rayleigh_benard_gpu.frag,true,true,true,3,camera_or_raymarch_time_parametric,exact,rayleigh_benard
+3,riemann_zeta,Riemann Zeta Fractal,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag,true,true,true,2,color_time_parametric,exact,riemann_zeta
+3,rikitake,Rikitake Dynamo,escape_time,Escape-Time,shaders/strange_attractors/rikitake_gpu.frag,true,true,true,3,color_time_parametric,exact,rikitake
+3,robinson,Robinson Attractor,escape_time,Escape-Time,shaders/strange_attractors/robinson_gpu.frag,true,true,true,3,color_time_parametric,exact,robinson
+3,rossler_2d,Rossler Attractor (2D),escape_time,Escape-Time,shaders/strange_attractors/rossler_2d_gpu.frag,true,true,true,3,color_time_parametric,exact,rossler_2d
+3,rucklidge,Rucklidge Attractor,escape_time,Escape-Time,shaders/strange_attractors/rucklidge_gpu.frag,true,true,true,3,time_parametric_sampling,exact,rucklidge
+3,sakarya,Sakarya Attractor,escape_time,Escape-Time,shaders/strange_attractors/sakarya_gpu.frag,true,true,true,3,color_time_parametric,exact,sakarya
+3,sandpile,Abelian Sandpile,escape_time,Escape-Time,shaders/cellular_and_stochastic/sandpile_gpu.frag,true,true,true,1,color_time_parametric,exact,sandpile
+3,schroeder,,escape_time,Escape-Time,shaders/root_finding/schroeder_gpu.frag,true,true,true,1,color_time_parametric,exact,schroeder
+3,schroeder_nova,Schröder Nova,escape_time,Convergent & Root-Finding,shaders/root_finding/schroeder_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,schroeder_z3,Schröder z³−1,escape_time,Escape-Time,shaders/root_finding/schroeder_z3_gpu.frag,true,true,true,1,color_time_parametric,exact,schroeder_z3
+3,schroeder_z4,Schröder z⁴−1,escape_time,Escape-Time,shaders/root_finding/schroeder_z4_gpu.frag,true,true,true,1,color_time_parametric,exact,schroeder_z4
+3,scroll_waves,Scroll Waves Attractor,escape_time,Escape-Time,shaders/strange_attractors/scroll_waves_gpu.frag,true,true,true,3,color_time_parametric,exact,scroll_waves
+3,secant_cosecant,Secant/Cosecant Map,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag,true,true,true,1,color_time_parametric,exact,secant_cosecant
+3,secant_fractal,Secant Fractal,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/secant_fractal_gpu.frag,true,true,true,1,color_time_parametric,exact,secant_fractal
+3,secant_julia,Secant Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/secant_julia_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,secant_mandelbrot,Secant Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/secant_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,shape_modulus_julia,Shape Modulus Julia,escape_time,Escape-Time,shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,shape_modulus_julia
+3,shark_fin,Shark Fin,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag,true,true,true,2,color_time_parametric,exact,shark_fin
+3,shimizu_morioka,Shimizu-Morioka Attractor,escape_time,Escape-Time,shaders/strange_attractors/shimizu_morioka_gpu.frag,true,true,true,3,time_parametric_sampling,exact,shimizu_morioka
+3,sierpinski_arrowhead,Sierpinski Arrowhead,escape_time,Escape-Time,shaders/ifs_and_geometric/sierpinski_arrowhead_gpu.frag,true,true,true,1,color_time_parametric,exact,sierpinski_arrowhead
+3,sierpinski_carpet,Sierpinski Carpet,escape_time,Escape-Time,shaders/ifs_and_geometric/sierpinski_carpet_gpu.frag,true,true,true,1,color_time_parametric,exact,sierpinski_carpet
+3,sierpinski_julia_rational,Sierpinski Julia Rational,escape_time,Escape-Time,shaders/ifs_and_geometric/sierpinski_julia_rational_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,sierpinski_pentagon,Sierpinski Pentagon,escape_time,Escape-Time,shaders/ifs_and_geometric/sierpinski_pentagon_gpu.frag,true,true,true,1,color_time_parametric,exact,sierpinski_pentagon
+3,sierpinski_tetrahedron,Sierpinski Tetrahedron (2D Projection),escape_time,Escape-Time,shaders/ifs_and_geometric/sierpinski_tetrahedron_gpu.frag,true,true,true,1,color_time_parametric,exact,sierpinski_tetrahedron
+3,sierpinski_triangle,Sierpinski Triangle,escape_time,Escape-Time,shaders/ifs_and_geometric/sierpinski_triangle_gpu.frag,true,true,true,1,color_time_parametric,exact,sierpinski_triangle
+3,simonbrot,Simonbrot,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/iterative_maps/simonbrot_gpu.frag,true,true,true,2,color_time_parametric,exact,simonbrot
+3,sin_z2,sin(z²) + c,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/sin_z2_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,sin_z2
+3,sine_julia,Sine Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,sine_julia
+3,sine_mandelbrot,Sine Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,exact,sine_mandelbrot
+3,singularity,Singularity,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/rational_singularities/singularity_gpu.frag,true,true,true,2,color_time_parametric,exact,singularity
+3,sinh_cosh,Sinh Fractal,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag,true,true,true,2,time_parametric_sampling,exact,sinh_cosh
+3,sinh_julia,Sinh Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/hyperbolic/sinh_julia_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,sinh_julia
+3,sinh_mandelbrot,Sinh Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,exact,sinh_mandelbrot
+3,space_fractal,Space Fractal,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/rational_singularities/space_fractal_gpu.frag,true,true,true,2,color_time_parametric,exact,space_fractal
+3,spectre_monotile,The Spectre Monotile,escape_time,Escape-Time,shaders/ifs_and_geometric/spectre_monotile_gpu.frag,true,true,true,1,color_time_parametric,exact,spectre_monotile
+3,sphinx_tiling,Sphinx Tiling,escape_time,Escape-Time,shaders/ifs_and_geometric/sphinx_tiling_gpu.frag,true,true,true,1,color_time_parametric,exact,sphinx_tiling
+3,spider,Spider Fractal,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/coupled_orbits/spider_gpu.frag,true,true,true,2,color_time_parametric,exact,spider
+3,spider_x,Spider-X,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/coupled_orbits/spider_x_gpu.frag,true,true,true,2,color_time_parametric,exact,spider_x
+3,split_complex,Split-Complex Fractal,escape_time,Escape-Time,shaders/3d_and_hypercomplex/hypercomplex_escape_time/split_complex_gpu.frag,true,true,true,2,color_time_parametric,exact,split_complex
+3,sprott_a,Sprott Case A,escape_time,Escape-Time,shaders/strange_attractors/sprott_a_gpu.frag,true,true,true,3,color_time_parametric,exact,sprott_a
+3,sprott_b,Sprott Case B,escape_time,Escape-Time,shaders/strange_attractors/sprott_b_gpu.frag,true,true,true,3,color_time_parametric,exact,sprott_b
+3,sprott_c,Sprott Case C,escape_time,Escape-Time,shaders/strange_attractors/sprott_c_gpu.frag,true,true,true,3,color_time_parametric,exact,sprott_c
+3,sprott_d,Sprott Case D,escape_time,Escape-Time,shaders/strange_attractors/sprott_d_gpu.frag,true,true,true,3,color_time_parametric,exact,sprott_d
+3,sprott_e,Sprott Case E,escape_time,Escape-Time,shaders/strange_attractors/sprott_e_gpu.frag,true,true,true,3,color_time_parametric,exact,sprott_e
+3,sprott_f,Sprott Case F,escape_time,Escape-Time,shaders/strange_attractors/sprott_f_gpu.frag,true,true,true,3,color_time_parametric,exact,sprott_f
+3,sprott_g,Sprott G,escape_time,Escape-Time,shaders/strange_attractors/sprott_g_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,sprott_h,Sprott H,escape_time,Escape-Time,shaders/strange_attractors/sprott_h_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,sprott_i,Sprott I,escape_time,Escape-Time,shaders/strange_attractors/sprott_i_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,sprott_k,Sprott K,escape_time,Escape-Time,shaders/strange_attractors/sprott_k_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,sprott_l,Sprott L,escape_time,Escape-Time,shaders/strange_attractors/sprott_l_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,sprott_m,Sprott M,escape_time,Escape-Time,shaders/strange_attractors/sprott_m_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,sprott_n,Sprott N,escape_time,Escape-Time,shaders/strange_attractors/sprott_n_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,sprott_o,Sprott O,escape_time,Escape-Time,shaders/strange_attractors/sprott_o_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,sprott_s,Sprott S,escape_time,Escape-Time,shaders/strange_attractors/sprott_s_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,standard_map,Standard Map (Chirikov),escape_time,Escape-Time,shaders/strange_attractors/standard_map_gpu.frag,true,true,true,1,color_time_parametric,exact,standard_map
+3,steffensen,Steffensen,escape_time,Escape-Time,shaders/root_finding/steffensen_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,steffensen_order8,Steffensen Order8,escape_time,Escape-Time,shaders/root_finding/steffensen_order8_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,steffensen_z3,Steffensen z³−1,escape_time,Escape-Time,shaders/root_finding/steffensen_z3_gpu.frag,true,true,true,1,color_time_parametric,exact,steffensen_z3
+3,steffensen_z4,Steffensen z⁴−1,escape_time,Escape-Time,shaders/root_finding/steffensen_z4_gpu.frag,true,true,true,1,camera_or_raymarch_time_parametric,exact,steffensen_z4
+3,steffensen_z5,Steffensen z⁵−1,escape_time,Escape-Time,shaders/root_finding/steffensen_z5_gpu.frag,true,true,true,1,color_time_parametric,exact,steffensen_z5
+3,steiner_chain,Steiner Chain,escape_time,Escape-Time,shaders/ifs_and_geometric/steiner_chain_gpu.frag,true,true,true,1,color_time_parametric,exact,steiner_chain
+3,super_halley,Super Halley,escape_time,Escape-Time,shaders/root_finding/super_halley_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,superexponential,Superexponential,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/exponential_iteration/superexponential_gpu.frag,true,true,true,3,color_time_parametric,missing,
+3,svensson,Svensson Attractor,escape_time,Escape-Time,shaders/strange_attractors/svensson_gpu.frag,true,true,true,2,color_time_parametric,exact,svensson
+3,symmetric_icon,Symmetric Icon,escape_time,Escape-Time,shaders/escape_time_family/geometry_and_ifs/symmetric_icon_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,talis,Talis Fractal,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/talis_gpu.frag,true,true,true,2,color_time_parametric,exact,talis
+3,tamari,Tamari Attractor,escape_time,Escape-Time,shaders/strange_attractors/tamari_gpu.frag,true,true,true,3,color_time_parametric,exact,tamari
+3,tangent,Tangent Fractal,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag,true,true,true,2,time_parametric_sampling,exact,tangent
+3,tangent_julia,Tangent Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/tangent_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,tangent_julia
+3,tangent_mandelbrot,Tangent Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,exact,tangent_mandelbrot
+3,tanh_julia,Tanh Julia,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/hyperbolic/tanh_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,tanh_julia
+3,tanh_mandelbrot,Tanh Mandelbrot,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag,true,true,true,2,color_time_parametric,exact,tanh_mandelbrot
+3,taylor,Taylor Series Fractal,escape_time,Escape-Time,shaders/escape_time_family/transcendental_maps/taylor_gpu.frag,true,true,true,1,color_time_parametric,exact,taylor
+3,tent_map,Tent Map,escape_time,Escape-Time,shaders/lyapunov_and_stability/tent_map_gpu.frag,true,true,true,1,color_time_parametric,exact,tent_map
+3,terdragon,Terdragon,escape_time,Escape-Time,shaders/ifs_and_geometric/terdragon_gpu.frag,true,true,true,1,growth_process/time_parametric,exact,terdragon
+3,tessarine_julia,Tessarine Julia,escape_time,Escape-Time,shaders/3d_and_hypercomplex/hypercomplex_escape_time/tessarine_julia_gpu.frag,true,true,true,4,color_time_parametric,exact,tessarine_julia
+3,tetration,Tetration Fractal,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/exponential_iteration/tetration_gpu.frag,true,true,true,2,color_time_parametric,exact,tetration
+3,thomas_attractor,Thomas Attractor,escape_time,Escape-Time,shaders/strange_attractors/thomas_attractor_gpu.frag,true,true,true,3,color_time_parametric,exact,thomas_attractor
+3,tinkerbell,Tinkerbell Map,escape_time,Escape-Time,shaders/strange_attractors/tinkerbell_gpu.frag,true,true,true,1,color_time_parametric,exact,tinkerbell
+3,transcendental_sin,Transcendental Sin,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/elementary_trig/transcendental_sin_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,traub_ostrowski,Traub Ostrowski,escape_time,Escape-Time,shaders/root_finding/traub_ostrowski_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,tricorn,Tricorn,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag,true,true,true,2,color_time_parametric,exact,tricorn
+3,tricorn_cubic,Tricorn Cubic,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag,true,true,true,2,growth_process/time_parametric,exact,tricorn_cubic
+3,tricorn_cubic_julia,Tricorn Cubic Julia,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/julia_sets/tricorn_cubic_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,tricorn_cubic_julia
+3,tricorn_julia,Tricorn Julia,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/julia_sets/tricorn_julia_gpu.frag,true,true,true,2,time_parametric_sampling,exact,tricorn_julia
+3,tricorn_power4,Tricorn ⁴ (Mandelbar),escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag,true,true,true,2,color_time_parametric,exact,tricorn_power4
+3,tricorn_power4_julia,Tricorn⁴ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,tricorn_power4_julia
+3,tricorn_power5,Tricorn ⁵ (Mandelbar),escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power5_gpu.frag,true,true,true,2,camera_or_raymarch_time_parametric,exact,tricorn_power5
+3,tricorn_power5_julia,Tricorn⁵ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power5_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,tricorn_power5_julia
+3,tricorn_power6_julia,Tricorn⁶ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power6_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,tricorn_power6_julia
+3,tricorn_power7_julia,Tricorn⁷ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,tricorn_power7_julia
+3,tricorn_power8_julia,Tricorn⁸ Julia,escape_time,Escape-Time,shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag,true,true,true,2,color_time_parametric,exact,tricorn_power8_julia
+3,tsucs,TSUCS Attractor,escape_time,Escape-Time,shaders/strange_attractors/tsucs_gpu.frag,true,true,true,3,color_time_parametric,exact,tsucs
+3,turmite,Turmite,escape_time,Escape-Time,shaders/cellular_and_stochastic/turmite_gpu.frag,true,true,true,1,time_parametric_sampling,exact,turmite
+3,twin_dragon,Twin Dragon,escape_time,Escape-Time,shaders/ifs_and_geometric/twin_dragon_gpu.frag,true,true,true,1,color_time_parametric,exact,twin_dragon
+3,undefined,Undefined Fractal,escape_time,Escape-Time,shaders/escape_time_family/mandelbrot_variants/iterative_maps/undefined_gpu.frag,true,true,true,2,color_time_parametric,exact,undefined
+3,vase,Vase,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/rational_singularities/vase_gpu.frag,true,true,true,2,color_time_parametric,exact,vase
+3,vicsek_fractal,Vicsek Fractal,escape_time,Escape-Time,shaders/ifs_and_geometric/vicsek_gpu.frag,true,true,true,1,color_time_parametric,exact,vicsek_fractal
+3,virial,Virial Fractal,escape_time,Escape-Time,shaders/escape_time_family/newton_and_orthogonal/series_maps/virial_gpu.frag,true,true,true,2,color_time_parametric,exact,virial
+3,wang_sun_cang,Wang-Sun-Cang Attractor,escape_time,Escape-Time,shaders/strange_attractors/wang_sun_cang_gpu.frag,true,true,true,3,time_parametric_sampling,exact,wang_sun_cang
+3,washed_away,Washed Away,escape_time,Escape-Time,shaders/escape_time_family/experimental_named/polynomial_variants/washed_away_gpu.frag,true,true,true,1,camera_or_raymarch_time_parametric,exact,washed_away
+3,weierstrass_elliptic,Weierstrass Elliptic,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/special_functions/weierstrass_elliptic_gpu.frag,true,true,true,2,color_time_parametric,missing,
+3,weierstrass_function,Weierstrass Function,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/special_functions/weierstrass_function_gpu.frag,true,true,true,1,color_time_parametric,missing,
+3,weierstrass_p,Weierstrass ℘ + c,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/special_functions/weierstrass_p_gpu.frag,true,true,true,2,color_time_parametric,exact,weierstrass_p
+3,weierstrass_roots,Weierstrass Roots,escape_time,Escape-Time,shaders/trigonometric_and_transcendental/special_functions/weierstrass_roots_gpu.frag,true,true,true,1,color_time_parametric,exact,weierstrass_roots
+3,wireworld,Wireworld,escape_time,Escape-Time,shaders/cellular_and_stochastic/wireworld_gpu.frag,true,true,true,1,time_parametric_sampling,exact,wireworld
+3,wolfram_rule30,Wolfram Rule 30,escape_time,Escape-Time,shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag,true,true,true,1,color_time_parametric,exact,wolfram_rule30
+3,yu_wang,Yu-Wang Attractor,escape_time,Escape-Time,shaders/strange_attractors/yu_wang_gpu.frag,true,true,true,3,color_time_parametric,exact,yu_wang
+3,z_order_curve,Z-Order Curve (Morton),escape_time,Escape-Time,shaders/ifs_and_geometric/z_order_curve_gpu.frag,true,true,true,1,color_time_parametric,exact,z_order_curve
+3,zaslavsky,Zaslavsky Map,escape_time,Escape-Time,shaders/strange_attractors/zaslavsky_gpu.frag,true,true,true,1,color_time_parametric,exact,zaslavsky
+3,zhou_chen,Zhou-Chen Attractor,escape_time,Escape-Time,shaders/strange_attractors/zhou_chen_gpu.frag,true,true,true,3,color_time_parametric,exact,zhou_chen
+3,zircon_zity,Zircon Zity,escape_time,Escape-Time,shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag,true,true,true,2,color_time_parametric,exact,zircon_zity
+3,buddhabrot_approx,Buddhabrot (Approx),escape_time,Escape-Time,shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag,true,true,true,0,static_or_unused_time,exact,buddhabrot_approx
+3,circle_map_lyapunov,Circle Map Lyapunov,escape_time,Escape-Time,shaders/lyapunov_and_stability/circle_map_lyapunov_gpu.frag,true,true,true,0,static_or_unused_time,exact,circle_map_lyapunov
+3,dual_quaternion_julia,Dual Quaternion Julia,escape_time,3D & Hypercomplex,shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag,true,true,true,0,static_or_unused_time,exact,dual_quaternion_julia
+3,dual_quaternion_julia,Dual-Quaternion Julia,raymarched_3d,3D Fractals,shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag,true,true,true,0,static_or_unused_time,exact,dual_quaternion_julia
+3,forest_fire,Forest Fire Model,escape_time,Escape-Time,shaders/cellular_and_stochastic/forest_fire_gpu.frag,true,true,true,0,static_or_unused_time,exact,forest_fire
+3,halley_z4,Halley z⁴−1,escape_time,Escape-Time,shaders/root_finding/halley_z4_gpu.frag,true,true,true,0,static_or_unused_time,exact,halley_z4
+3,kifs_koch_fold,KIFS Koch 3D,raymarched_3d,3D Fractals,shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag,true,true,true,0,static_or_unused_time,exact,kifs_koch_fold
+3,kifs_menger,KIFS Menger Sponge,raymarched_3d,3D Fractals,shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag,true,true,true,0,static_or_unused_time,exact,kifs_menger
+3,kifs_sierpinski_tetra,KIFS Sierpinski Tetrahedron,raymarched_3d,3D Fractals,shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag,true,true,true,0,static_or_unused_time,exact,kifs_sierpinski_tetra
+3,kifs_snowflake_fold,KIFS Snowflake 3D,raymarched_3d,3D Fractals,shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag,true,true,true,0,static_or_unused_time,exact,kifs_snowflake_fold
+3,logistic_lyapunov,Logistic Lyapunov,escape_time,Escape-Time,shaders/lyapunov_and_stability/logistic_lyapunov_gpu.frag,true,true,true,0,static_or_unused_time,exact,logistic_lyapunov
+3,lyapunov,Lyapunov Fractal,escape_time,Escape-Time,shaders/lyapunov_and_stability/lyapunov_gpu.frag,true,true,true,0,static_or_unused_time,exact,lyapunov
+3,mandelbox_shape_inversion,Mandelbox Shape Inversion,raymarched_3d,3D Fractals,shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag,true,true,true,0,static_or_unused_time,exact,mandelbox_shape_inversion
+3,mandelbrot_simple,Mandelbrot Simple,escape_time,Escape-Time,shaders/legacy/diagnostics/mandelbrot_simple.frag,true,true,false,0,static_or_unused_time,missing,
+3,mandelbulb,Mandelbulb,raymarched_3d,3D Fractals,shaders/legacy/raymarched_3d/mandelbulb.frag,true,true,true,0,static_or_unused_time,missing,
+3,quaternion_julia_3d,Quaternion Julia 3D,escape_time,3D & Hypercomplex,shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag,true,true,true,0,static_or_unused_time,exact,quaternion_julia_3d
+3,quaternion_julia_3d,Quaternion Julia 3D,raymarched_3d,3D Fractals,shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag,true,true,true,0,static_or_unused_time,exact,quaternion_julia_3d
+3,schroeder_z5,Schroeder Z5,escape_time,Escape-Time,shaders/root_finding/schroeder_z5_gpu.frag,true,true,true,0,static_or_unused_time,missing,
+3,schroeder_z6,Schroeder Z6,escape_time,Escape-Time,shaders/root_finding/schroeder_z6_gpu.frag,true,true,true,0,static_or_unused_time,missing,
+3,sine_map_lyapunov,Sine Map Lyapunov,escape_time,Escape-Time,shaders/lyapunov_and_stability/sine_map_lyapunov_gpu.frag,true,true,true,0,static_or_unused_time,exact,sine_map_lyapunov

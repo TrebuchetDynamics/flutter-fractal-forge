@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -164,6 +165,9 @@ class FractalController extends ChangeNotifier {
     if (_kaleidoscopeEnabled != enabled) {
       _kaleidoscopeEnabled = enabled;
       notifyListeners();
+      _logChange('stateChange', 'kaleidoscopeEnabled',
+          enabled ? 'Kaleidoscope enabled' : 'Kaleidoscope disabled',
+          metadata: {'enabled': enabled});
     }
   }
 
@@ -172,6 +176,8 @@ class FractalController extends ChangeNotifier {
     if (_kaleidoscopeSectors != clamped) {
       _kaleidoscopeSectors = clamped;
       notifyListeners();
+      _logChange('stateChange', 'kaleidoscopeSectors',
+          'Kaleidoscope sectors updated', metadata: {'sectors': clamped});
     }
   }
 
@@ -179,6 +185,8 @@ class FractalController extends ChangeNotifier {
     if (_kaleidoscopeMirror != mirror) {
       _kaleidoscopeMirror = mirror;
       notifyListeners();
+      _logChange('stateChange', 'kaleidoscopeMirror',
+          'Kaleidoscope mirror updated', metadata: {'mirror': mirror});
     }
   }
 
@@ -187,6 +195,8 @@ class FractalController extends ChangeNotifier {
     if (_kaleidoscopeMirrorMode != clamped) {
       _kaleidoscopeMirrorMode = clamped;
       notifyListeners();
+      _logChange('stateChange', 'kaleidoscopeMirrorMode',
+          'Kaleidoscope mirror mode updated', metadata: {'mode': clamped});
     }
   }
 
@@ -198,6 +208,8 @@ class FractalController extends ChangeNotifier {
     if (_kaleidoscopeRotation != normalized) {
       _kaleidoscopeRotation = normalized;
       notifyListeners();
+      _logChange('stateChange', 'kaleidoscopeRotation',
+          'Kaleidoscope rotation updated', metadata: {'rotation': normalized});
     }
   }
 
@@ -495,6 +507,16 @@ class FractalController extends ChangeNotifier {
       message: message,
       metadata: metadata,
     ));
+
+    if (RuntimeModeService.playwrightCatalogSmoke) {
+      print('PLAYWRIGHT_FRACTAL_CONTROLLER:${jsonEncode({
+            'type': type,
+            'category': category,
+            'moduleId': _module.id,
+            'message': message,
+            if (metadata != null) 'metadata': metadata,
+          })}');
+    }
   }
 
   /// Records finding an interesting spot in the fractal.

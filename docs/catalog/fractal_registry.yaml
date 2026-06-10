@@ -12285,6 +12285,263 @@ fractals:
         approved_by: retrofit
         batch: stage_a_retrofit_2026_04
       confidence: 1.0
+  - id: domain_coloring
+    name: Domain Coloring
+    shader: shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag
+    category: Escape-Time (Complex Plane)
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: []
+    variants: []
+    references: []
+    tier: implemented
+    aliases:
+      - Complex domain coloring
+      - Argument coloring
+    canonical_name: Domain Coloring
+    formula_hash: sha256:4ee6c879904d3501598e20456e6cb91521203a915311331cd23aebf9c26d9b46
+    quality:
+      formula_hash: sha256:4ee6c879904d3501598e20456e6cb91521203a915311331cd23aebf9c26d9b46
+      citation_health:
+        last_checked: '2026-06-06'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
+  - id: phase_portrait
+    name: Phase Portrait
+    shader: shaders/escape_time_family/orbit_and_domain/phase_portrait_gpu.frag
+    category: Escape-Time (Complex Plane)
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: []
+    variants: []
+    references: []
+    tier: implemented
+    aliases:
+      - Complex phase portrait
+      - Argument portrait
+    canonical_name: Phase Portrait
+    formula_hash: sha256:806f5909ed5a85c619012f4443d7446f97e7dbe0ace0e5d62945e46b180eda72
+    quality:
+      formula_hash: sha256:806f5909ed5a85c619012f4443d7446f97e7dbe0ace0e5d62945e46b180eda72
+      citation_health:
+        last_checked: '2026-06-06'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
+  - id: gray_scott_rd
+    name: Gray-Scott Reaction-Diffusion
+    shader: shaders/cellular_and_stochastic/gray_scott_rd_gpu.frag
+    category: Reaction-Diffusion & Chemical
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: []
+    variants: []
+    references: []
+    tier: implemented
+    aliases:
+      - Gray Scott RD
+      - Gray-Scott procedural renderer
+    canonical_name: Gray-Scott Reaction-Diffusion
+    formula_hash: sha256:f365904b7a0e149b85e0cc1bf10f8fd825b4245832fee33867e3ffca75abb089
+    quality:
+      formula_hash: sha256:f365904b7a0e149b85e0cc1bf10f8fd825b4245832fee33867e3ffca75abb089
+      citation_health:
+        last_checked: '2026-06-06'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
+  - id: lichtenberg_growth
+    name: Lichtenberg Growth
+    shader: shaders/cellular_and_stochastic/lichtenberg_growth_gpu.frag
+    category: Cellular & Stochastic Growth
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 30
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: []
+    variants: []
+    references: []
+    tier: implemented
+    aliases:
+      - Lichtenberg figure
+      - Dielectric breakdown growth
+    canonical_name: Lichtenberg Growth
+    formula_hash: sha256:24e047052a0c5942bd6a2042cf8c7a518ef51a915337ceda60d895865950b402
+    quality:
+      formula_hash: sha256:24e047052a0c5942bd6a2042cf8c7a518ef51a915337ceda60d895865950b402
+      citation_health:
+        last_checked: '2026-06-06'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
+  - id: hofstadter_butterfly
+    name: Hofstadter Butterfly
+    shader: shaders/escape_time_family/geometry_and_ifs/hofstadter_butterfly_gpu.frag
+    category: Number-Theory Fractals
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: []
+    variants: []
+    references: []
+    tier: implemented
+    aliases:
+      - Hofstadter spectrum
+    canonical_name: Hofstadter Butterfly
+    formula_hash: sha256:999c937072fce4b8f54c9a5d2e00c271db97a5750dfea2d9ed9212000a55c494
+    quality:
+      formula_hash: sha256:999c937072fce4b8f54c9a5d2e00c271db97a5750dfea2d9ed9212000a55c494
+      citation_health:
+        last_checked: '2026-06-06'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
+  - id: magnetic_pendulum
+    name: Magnetic Pendulum
+    shader: shaders/escape_time_family/experimental_named/physical_simulation/magnetic_pendulum_gpu.frag
+    category: Physical & Constructed Fractals
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: []
+    variants: []
+    references: []
+    tier: implemented
+    aliases:
+      - Magnetic pendulum basins
+    canonical_name: Magnetic Pendulum
+    formula_hash: sha256:81e592acc113e2d93613fcae2f1b575527e5d733de5f8d48733a2febbe8dd1b9
+    quality:
+      formula_hash: sha256:81e592acc113e2d93613fcae2f1b575527e5d733de5f8d48733a2febbe8dd1b9
+      citation_health:
+        last_checked: '2026-06-06'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
+  - id: shape_modulus_julia
+    name: Shape Modulus Julia
+    shader: shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag
+    category: Escape-Time (Complex Plane)
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: []
+    variants: []
+    references: []
+    tier: implemented
+    aliases:
+      - Shape-driven Julia
+      - Shape modulus Julia set
+    canonical_name: Shape Modulus Julia
+    formula_hash: sha256:8aa9058168d671782d97ced31a46965f72858926b2864f6f8d0f1348b5be1414
+    quality:
+      formula_hash: sha256:8aa9058168d671782d97ced31a46965f72858926b2864f6f8d0f1348b5be1414
+      citation_health:
+        last_checked: '2026-06-06'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
   - id: f0001_mitchell_adjusted_newton
     name: "Mitchell Adjusted Newton"
     shader: shaders/f0001_mitchell_adjusted_newton_gpu.frag
@@ -12747,48 +13004,42 @@ fractals:
       confidence: 0.85
   - id: f0011_m_ller_s_method
     name: "Müller's Method"
-    shader: shaders/f0011_m_ller_s_method_gpu.frag
+    shader: shaders/root_finding/muller_gpu.frag
     category: Newton / Root-Finding
     dimension: 2D
     defaultPower: 3.0
-    defaultIterations: 64.0
+    defaultIterations: 120
     defaultSteps: 0.0
-    defaultBailout: 0.001
+    defaultBailout: 4.0
     defaultColorScheme: 0
-    hasThumbnail: true
-    implemented: false
-    presets:
-      - cubic
-      - quartic
+    hasThumbnail: false
+    implemented: true
+    presets: []
     variants: []
     references:
       - author: "David E. Müller"
         title: "A Method for Solving Algebraic Equations Using an Automatic Computer"
         year: 1956
         url: "https://en.wikipedia.org/wiki/M%C3%BCller%27s_method"
-    tier: reference
-    formula_hash: sha256:481d6abb22c692edad42fc046d62220a993d0a29950bacbb976394a055f47b51
-    aliases: ["Muller", "Mueller", "Quadratic interpolation method"]
+    tier: implemented
+    aliases: ["Muller", "Mueller", "Müller", "muller", "Quadratic interpolation method"]
     canonical_name: "Müller's Method"
+    formula_hash: sha256:f6f476c28714d4c61dcad37056271915c7b1f78364f5f8dcb64861ba622d4f5b
     quality:
-      formula_hash: sha256:481d6abb22c692edad42fc046d62220a993d0a29950bacbb976394a055f47b51
+      formula_hash: sha256:f6f476c28714d4c61dcad37056271915c7b1f78364f5f8dcb64861ba622d4f5b
       citation_health:
-        last_checked: '2026-04-13'
+        last_checked: '2026-06-06'
         status: unchecked
       shader_compile:
-        sksl: n/a
-        glsl: n/a
-        checked: '2026-04-13'
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
       thumbnail:
-        entropy: 5.338
-        checked: '2026-04-13'
-        placeholder: true
-        size:
-          - 512
-          - 512
+        entropy: 0.0
+        checked: '2026-06-06'
       review:
-        approved_by: admit
-        batch: newton_family
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
       confidence: 0.8
   - id: f0012_nova_fractal
     name: "Nova Fractal"
@@ -25911,18 +26162,17 @@ fractals:
       confidence: 0.9
   - id: f0290_kleinian_limit_set
     name: Kleinian Limit Set
-    shader: shaders/f0290_kleinian_limit_set_gpu.frag
+    shader: shaders/ifs_and_geometric/kleinian_limit_set_gpu.frag
     category: IFS & Geometric Construction
     dimension: 2D
     defaultPower: 2.0
-    defaultIterations: 100000.0
+    defaultIterations: 120
     defaultSteps: 0.0
-    defaultBailout: 2.0
+    defaultBailout: 4.0
     defaultColorScheme: 0
-    hasThumbnail: true
-    implemented: false
-    presets:
-      - default
+    hasThumbnail: false
+    implemented: true
+    presets: []
     variants: []
     references:
       - author: M. F. Barnsley
@@ -25930,31 +26180,28 @@ fractals:
         year: 1988
         url: https://doi.org/10.1016/C2013-0-10335-2
         doi: 10.1016/C2013-0-10335-2
-    tier: reference
-    formula_hash: sha256:b934ffae1c8d552eefac965c27def707ac0747d4eeca25f70acb8b11e66aa0fd
+    tier: implemented
     aliases:
       - Kleinian limit
+      - kleinian_limit_set
     canonical_name: Kleinian Limit Set
+    formula_hash: sha256:48e892a23879c22ed3d1341a98143b33ce1c626febc204b7c254ac3ade8f15b0
     quality:
-      formula_hash: sha256:b934ffae1c8d552eefac965c27def707ac0747d4eeca25f70acb8b11e66aa0fd
+      formula_hash: sha256:48e892a23879c22ed3d1341a98143b33ce1c626febc204b7c254ac3ade8f15b0
       citation_health:
-        last_checked: '2026-04-13'
+        last_checked: '2026-06-06'
         status: unchecked
       shader_compile:
-        sksl: n/a
-        glsl: n/a
-        checked: '2026-04-13'
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
       thumbnail:
-        entropy: 3.538
-        checked: '2026-04-13'
-        placeholder: true
-        size:
-          - 512
-          - 512
+        entropy: 0.0
+        checked: '2026-06-06'
       review:
-        approved_by: admit
-        batch: ifs_classics
-      confidence: 0.9
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
   - id: f0291_schottky_circle_ifs
     name: Schottky Circle IFS
     shader: shaders/f0291_schottky_circle_ifs_gpu.frag
@@ -65648,49 +65895,46 @@ fractals:
       confidence: 0.9
   - id: f1142_buddhabrot
     name: Buddhabrot
-    shader: shaders/f1142_buddhabrot_gpu.frag
+    shader: shaders/escape_time_family/families/buddhabrot/buddhabrot_full_gpu.frag
     category: Escape-Time (Complex Plane)
     dimension: 2D
     defaultPower: 2.0
-    defaultIterations: 1024.0
+    defaultIterations: 120
     defaultSteps: 0.0
     defaultBailout: 4.0
     defaultColorScheme: 0
-    hasThumbnail: true
-    implemented: false
-    presets:
-      - default
+    hasThumbnail: false
+    implemented: true
+    presets: []
     variants: []
     references:
       - author: Lori Gardi (Melinda Green's adaptation)
         title: The Buddhabrot Technique
         year: 1993
         url: http://superliminal.com/fractals/bbrot/bbrot.htm
-    tier: reference
-    formula_hash: sha256:c9d0865ae5f4b171e739f2368baeba7e2256173e04157ef65e0134dc2a113a6d
+    tier: implemented
     aliases:
       - Buddhabrot
+      - Buddhabrot Full
+      - buddhabrot_full
     canonical_name: Buddhabrot
+    formula_hash: sha256:d287a1d7efd0c6fe0c574771611d49680e62754e84a08655719edacb9d8893b8
     quality:
-      formula_hash: sha256:c9d0865ae5f4b171e739f2368baeba7e2256173e04157ef65e0134dc2a113a6d
+      formula_hash: sha256:d287a1d7efd0c6fe0c574771611d49680e62754e84a08655719edacb9d8893b8
       citation_health:
-        last_checked: '2026-04-13'
+        last_checked: '2026-06-06'
         status: unchecked
       shader_compile:
-        sksl: n/a
-        glsl: n/a
-        checked: '2026-04-13'
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-06-06'
       thumbnail:
-        entropy: 6.24
-        checked: '2026-04-13'
-        placeholder: true
-        size:
-          - 512
-          - 512
+        entropy: 0.0
+        checked: '2026-06-06'
       review:
-        approved_by: admit
-        batch: orbit_traps
-      confidence: 0.9
+        approved_by: lgtm_registry_sync
+        batch: registry_sync_2026_06_06
+      confidence: 0.85
   - id: f1143_anti_buddhabrot
     name: Anti-Buddhabrot
     shader: shaders/f1143_anti_buddhabrot_gpu.frag
@@ -69688,3 +69932,799 @@ fractals:
         approved_by: admit
         batch: rational_maps
       confidence: 0.9
+  - id: exponential_family_parameter_plane
+    name: Exponential Family Parameter Plane
+    shader: shaders/reference/complex_dynamics/exponential_family_parameter_plane_gpu.frag
+    category: Escape-Time (Complex Plane)
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 200.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Exponential map (discrete dynamical systems)
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Exponential_map_(discrete_dynamical_systems)
+    tier: reference
+    aliases:
+    - lambda exponential map
+    - z -> lambda exp(z) parameter plane
+    canonical_name: Exponential Family Parameter Plane
+    formula_ast:
+      iteration_type: escape_time
+      variables:
+      - z
+      - lambda
+      init: z0 = 0 for parameter-plane rendering; pixel encodes lambda
+      update: z_{n+1} = lambda * exp(z_n)
+      family: transcendental entire maps
+    formula_hash: sha256:be27e2cabee6ada3b127fce653ef44d79433a61501ab62a9cb793d133d583af1
+    quality:
+      formula_hash: sha256:be27e2cabee6ada3b127fce653ef44d79433a61501ab62a9cb793d133d583af1
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2026_06_06
+      confidence: 0.74
+  - id: sine_family_parameter_plane
+    name: Sine Family Parameter Plane
+    shader: shaders/reference/complex_dynamics/sine_family_parameter_plane_gpu.frag
+    category: Escape-Time (Complex Plane)
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 200.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Transcendental entire function
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Transcendental_entire_function
+    - author: Wikipedia contributors
+      title: Complex dynamics
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Complex_dynamics
+    tier: reference
+    aliases:
+    - lambda sine map
+    - z -> lambda sin(z) parameter plane
+    canonical_name: Sine Family Parameter Plane
+    formula_ast:
+      iteration_type: escape_time
+      variables:
+      - z
+      - lambda
+      init: z0 = 0 for parameter-plane rendering; pixel encodes lambda
+      update: z_{n+1} = lambda * sin(z_n)
+      family: transcendental entire maps
+    formula_hash: sha256:43729f594afc08625966f577d26833b4b7ad2e70124785c6c25093bf1918920d
+    quality:
+      formula_hash: sha256:43729f594afc08625966f577d26833b4b7ad2e70124785c6c25093bf1918920d
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2026_06_06
+      confidence: 0.74
+  - id: dedekind_eta_function_coloring
+    name: Dedekind Eta Function Coloring
+    shader: shaders/reference/number_theory/dedekind_eta_function_coloring_gpu.frag
+    category: Number-Theory Fractals
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 160.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wolfram MathWorld
+      title: Dedekind Eta Function
+      year: 2026
+      url: https://mathworld.wolfram.com/DedekindEtaFunction.html
+    tier: reference
+    aliases:
+    - Dedekind eta domain coloring
+    - eta function coloring
+    canonical_name: Dedekind Eta Function Coloring
+    formula_ast:
+      iteration_type: number_theory
+      variables:
+      - tau
+      - q
+      init: q = exp(2*pi*i*tau)
+      update: eta(tau) = q^(1/24) * product_{n>=1}(1 - q^n)
+      family: modular forms and domain coloring
+    formula_hash: sha256:60fc40d17f7812e3a549d09c1dbf6e296b1129a2e4d92df625a15fc32ba1bdac
+    quality:
+      formula_hash: sha256:60fc40d17f7812e3a549d09c1dbf6e296b1129a2e4d92df625a15fc32ba1bdac
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2026_06_06
+      confidence: 0.74
+  - id: schwarz_triangle_function_tessellation
+    name: Schwarz Triangle Function Tessellation
+    shader: shaders/reference/tiling/schwarz_triangle_function_tessellation_gpu.frag
+    category: Tiling & Aperiodic
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Schwarz triangle function
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Schwarz_triangle_function
+    - author: Wikipedia contributors
+      title: Triangle group
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Triangle_group
+    tier: reference
+    aliases:
+    - Schwarz triangle map tessellation
+    - triangle group tessellation
+    canonical_name: Schwarz Triangle Function Tessellation
+    formula_ast:
+      iteration_type: tiling
+      variables:
+      - z
+      - triangle angles
+      init: upper half-plane coordinate z
+      update: Schwarz triangle function maps between half-plane and a triangle; triangle-group
+        reflections tessellate the plane
+      family: triangle groups and conformal tilings
+    formula_hash: sha256:1fc96799889f8c9e51bf65cb20f48467bf029362cc7139ac0c5e34dc64422136
+    quality:
+      formula_hash: sha256:1fc96799889f8c9e51bf65cb20f48467bf029362cc7139ac0c5e34dc64422136
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2026_06_06
+      confidence: 0.74
+  - id: gamma_function_newton_fractal
+    name: Gamma Function Newton Fractal
+    shader: shaders/reference/root_finding/gamma_function_newton_fractal_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wolfram MathWorld
+      title: Gamma Function
+      year: 2026
+      url: https://mathworld.wolfram.com/GammaFunction.html
+    - author: Wikipedia contributors
+      title: Newton fractal
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Newton_fractal
+    tier: reference
+    aliases:
+    - reciprocal gamma Newton fractal
+    - Newton fractal of 1/Gamma(z)
+    canonical_name: Gamma Function Newton Fractal
+    formula_ast:
+      iteration_type: newton
+      variables:
+      - z
+      init: pixel encodes z0
+      update: z_{n+1} = z_n - f(z_n)/f_prime(z_n), f(z)=1/Gamma(z)
+      family: special-function Newton fractals
+    formula_hash: sha256:c7081619bc6ff3caaaac402eafb70ff20f8b20d14e36fcab7816bc49ba8910ec
+    quality:
+      formula_hash: sha256:c7081619bc6ff3caaaac402eafb70ff20f8b20d14e36fcab7816bc49ba8910ec
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2026_06_06
+      confidence: 0.74
+  - id: baker_domain_exponential_map
+    name: Baker Domain Exponential Map
+    shader: shaders/reference/complex_dynamics/baker_domain_exponential_map_gpu.frag
+    category: Escape-Time (Complex Plane)
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 200.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Núria Fagella, Anna Jové-Campabadal
+      title: A model for boundary dynamics of Baker domains
+      year: 2022
+      url: https://arxiv.org/abs/2202.04969
+    - author: Wikipedia contributors
+      title: Transcendental entire function
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Transcendental_entire_function
+    tier: reference
+    aliases:
+    - doubly parabolic Baker domain
+    - z plus exp negative z Baker-domain map
+    canonical_name: Baker Domain Exponential Map
+    formula_ast:
+      iteration_type: escape_time
+      variables:
+      - z
+      init: pixel encodes z0
+      update: z_{n+1} = z_n + exp(-z_n)
+      family: transcendental entire maps with Baker domains
+    formula_hash: sha256:66a138632acab455ac80c5a717046e8c7b1072cba9f2d9d24e6d91c147d79832
+    quality:
+      formula_hash: sha256:66a138632acab455ac80c5a717046e8c7b1072cba9f2d9d24e6d91c147d79832
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2_2026_06_06
+      confidence: 0.74
+  - id: modular_lambda_function_coloring
+    name: Modular Lambda Function Coloring
+    shader: shaders/reference/number_theory/modular_lambda_function_coloring_gpu.frag
+    category: Number-Theory Fractals
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 160.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Modular lambda function
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Modular_lambda_function
+    tier: reference
+    aliases:
+    - elliptic modular lambda coloring
+    - lambda modular function domain coloring
+    canonical_name: Modular Lambda Function Coloring
+    formula_ast:
+      iteration_type: number_theory
+      variables:
+      - tau
+      init: upper half-plane coordinate tau
+      update: lambda(tau) = (theta_2(tau) / theta_3(tau))^4
+      family: modular functions and domain coloring
+    formula_hash: sha256:d6e6671c9ca3fc1efe2ed5a40212a2654378d104f3bd9de142d57853a59dcb12
+    quality:
+      formula_hash: sha256:d6e6671c9ca3fc1efe2ed5a40212a2654378d104f3bd9de142d57853a59dcb12
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2_2026_06_06
+      confidence: 0.74
+  - id: newton_basins_for_trigonometric_equations
+    name: Newton Basins for Trigonometric Equations
+    shader: shaders/reference/root_finding/newton_basins_for_trigonometric_equations_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Newton fractal
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Newton_fractal
+    - author: Wikipedia contributors
+      title: Trigonometric functions
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Trigonometric_functions
+    tier: reference
+    aliases:
+    - trigonometric Newton basin family
+    - sin cos tan Newton fractals
+    canonical_name: Newton Basins for Trigonometric Equations
+    formula_ast:
+      iteration_type: newton
+      variables:
+      - z
+      - f
+      init: pixel encodes z0; f is selected from a trigonometric equation family
+      update: z_{n+1} = z_n - f(z_n) / f_prime(z_n), for examples f(z)=sin(z), cos(z)-z,
+        or tan(z)-z
+      family: trigonometric Newton basins
+    formula_hash: sha256:2c3c5f8f5debafff6be82d33042cc02ae23033f4cd7f6d6dcf5ea24279ffc875
+    quality:
+      formula_hash: sha256:2c3c5f8f5debafff6be82d33042cc02ae23033f4cd7f6d6dcf5ea24279ffc875
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2_2026_06_06
+      confidence: 0.74
+  - id: householder_order_four_basin
+    name: Householder Order Four Basin
+    shader: shaders/reference/root_finding/householder_order_four_basin_gpu.frag
+    category: Newton / Root-Finding
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Householder's method
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Householder%27s_method
+    tier: reference
+    aliases:
+    - fourth-order Householder basin
+    - Householder method order 4
+    canonical_name: Householder Order Four Basin
+    formula_ast:
+      iteration_type: newton
+      variables:
+      - z
+      - f
+      init: pixel encodes z0
+      update: z_{n+1} = z_n + 4 * ((1/f)^(3)(z_n)) / ((1/f)^(4)(z_n))
+      family: Householder root-finding basins
+    formula_hash: sha256:aea5c64c224877567227e6d40d8e6a852289463def1abf55ba8a4ed2d6c79613
+    quality:
+      formula_hash: sha256:aea5c64c224877567227e6d40d8e6a852289463def1abf55ba8a4ed2d6c79613
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2_2026_06_06
+      confidence: 0.74
+  - id: coxeter_honeycomb_435_slice
+    name: Coxeter Honeycomb {4,3,5} Slice
+    shader: shaders/reference/3d_and_hypercomplex/coxeter_honeycomb_435_slice_gpu.frag
+    category: 3D Raymarching & Hypercomplex
+    dimension: 3D
+    defaultPower: 2.0
+    defaultIterations: 80.0
+    defaultSteps: 120.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Order-5 cubic honeycomb
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Order-5_cubic_honeycomb
+    - author: Wikipedia contributors
+      title: Coxeter group
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Coxeter_group
+    tier: reference
+    aliases:
+    - 435 Coxeter honeycomb
+    - order-5 cubic honeycomb slice
+    - '{4,3,5} hyperbolic honeycomb'
+    canonical_name: Coxeter Honeycomb {4,3,5} Slice
+    formula_ast:
+      iteration_type: raymarch_3d
+      variables:
+      - p
+      - Coxeter mirrors
+      init: 3D point p in a hyperbolic/sliced raymarch coordinate model
+      update: fold/reflect p across Coxeter simplex mirrors for the {4,3,5} order-5
+        cubic honeycomb
+      family: Coxeter hyperbolic honeycomb slices
+    formula_hash: sha256:f1f7362201120f3021779a620bdc1da1af774b3f61ce67a644cec9c7f33b47c1
+    quality:
+      formula_hash: sha256:f1f7362201120f3021779a620bdc1da1af774b3f61ce67a644cec9c7f33b47c1
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_2_2026_06_06
+      confidence: 0.74
+  - id: hyperbolic_honeycomb_534_slice
+    name: Hyperbolic Honeycomb {5,3,4} Slice
+    shader: shaders/reference/3d_and_hypercomplex/hyperbolic_honeycomb_534_slice_gpu.frag
+    category: 3D Raymarching & Hypercomplex
+    dimension: 3D
+    defaultPower: 2.0
+    defaultIterations: 80.0
+    defaultSteps: 120.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Order-4 dodecahedral honeycomb
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Order-4_dodecahedral_honeycomb
+    - author: Wikipedia contributors
+      title: Coxeter group
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Coxeter_group
+    tier: reference
+    aliases:
+    - 534 hyperbolic honeycomb
+    - order-4 dodecahedral honeycomb slice
+    - '{5,3,4} hyperbolic honeycomb'
+    canonical_name: Hyperbolic Honeycomb {5,3,4} Slice
+    formula_ast:
+      iteration_type: raymarch_3d
+      variables:
+      - p
+      - Coxeter mirrors
+      init: 3D point p in a hyperbolic/sliced raymarch coordinate model
+      update: fold/reflect p across Coxeter simplex mirrors for the {5,3,4} order-4
+        dodecahedral honeycomb
+      family: Coxeter hyperbolic honeycomb slices
+    formula_hash: sha256:458ce27a95bce4216140592f31265e3d24fa84fde832f972c69729fc33e7fb44
+    quality:
+      formula_hash: sha256:458ce27a95bce4216140592f31265e3d24fa84fde832f972c69729fc33e7fb44
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_3_2026_06_06
+      confidence: 0.74
+  - id: dodecahedral_fold_fractal
+    name: Dodecahedral Fold Fractal
+    shader: shaders/reference/3d_and_hypercomplex/dodecahedral_fold_fractal_gpu.frag
+    category: 3D Raymarching & Hypercomplex
+    dimension: 3D
+    defaultPower: 2.0
+    defaultIterations: 80.0
+    defaultSteps: 120.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Cruz Godar
+      title: Kaleidoscopic IFS Fractals
+      year: 2026
+      url: https://cruzgodar.com/applets/kaleidoscopic-ifs-fractals/
+    - author: Wikipedia contributors
+      title: Polyhedral group
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Polyhedral_group
+    - author: Wikipedia contributors
+      title: Iterated function system
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Iterated_function_system
+    tier: reference
+    aliases:
+    - dodecahedral KIFS
+    - dodecahedral kaleidoscopic IFS
+    - polyhedral fold fractal
+    canonical_name: Dodecahedral Fold Fractal
+    formula_ast:
+      iteration_type: raymarch_3d
+      variables:
+      - p
+      - dodecahedral symmetry mirrors
+      init: 3D point p in a raymarch/fold coordinate model
+      update: iteratively fold p into a dodecahedral/polyhedral symmetry chamber, then
+        apply scale/offset transforms as a kaleidoscopic IFS
+      family: polyhedral kaleidoscopic IFS folds
+    formula_hash: sha256:c8548afe54640b7cd4f039ad9ded7942a18013e643f1d26ca4da6c02b359dac7
+    quality:
+      formula_hash: sha256:c8548afe54640b7cd4f039ad9ded7942a18013e643f1d26ca4da6c02b359dac7
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_3_2026_06_06
+      confidence: 0.74
+  - id: 4d_polychoron_fold_slice
+    name: 4D Polychoron Fold Slice
+    shader: shaders/reference/3d_and_hypercomplex/4d_polychoron_fold_slice_gpu.frag
+    category: 3D Raymarching & Hypercomplex
+    dimension: 4D
+    defaultPower: 2.0
+    defaultIterations: 80.0
+    defaultSteps: 120.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Regular 4-polytope
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Regular_4-polytope
+    - author: Wikipedia contributors
+      title: Coxeter group
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Coxeter_group
+    tier: reference
+    aliases:
+    - 4D polytope fold slice
+    - polychoron kaleidoscopic slice
+    - 4-polytope reflection fractal
+    canonical_name: 4D Polychoron Fold Slice
+    formula_ast:
+      iteration_type: raymarch_3d
+      variables:
+      - p4
+      - Coxeter mirrors
+      - slice hyperplane
+      init: 4D point p4 generated from a 3D ray/sample plus a fixed slice coordinate
+      update: fold/reflect p4 across regular 4-polytope Coxeter mirrors, then render
+        a 3D slice/projection of the orbit/fold distance
+      family: 4D polytope and Coxeter fold slices
+    formula_hash: sha256:dd984e00b2393077e0d75b58b987f551b174e07cbe01f79350beb9024d58e2fe
+    quality:
+      formula_hash: sha256:dd984e00b2393077e0d75b58b987f551b174e07cbe01f79350beb9024d58e2fe
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_3_2026_06_06
+      confidence: 0.74
+  - id: paperfolding_curve_atlas
+    name: Paperfolding Curve Atlas
+    shader: shaders/reference/l_systems/paperfolding_curve_atlas_gpu.frag
+    category: L-Systems & Space-Filling
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 12.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Paperfolding sequence
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Paperfolding_sequence
+    - author: Wikipedia contributors
+      title: Dragon curve
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Dragon_curve
+    tier: reference
+    aliases:
+    - regular paperfolding curve family
+    - paperfolding dragon atlas
+    - folding curve construction atlas
+    canonical_name: Paperfolding Curve Atlas
+    formula_ast:
+      iteration_type: l_system
+      variables:
+      - fold sequence
+      - turn sequence
+      init: start with a unit segment and a paperfolding turn sequence
+      update: convert the regular paperfolding sequence into left/right turtle turns
+        to construct dragon/paperfolding curve variants by generation
+      family: paperfolding and dragon curve constructions
+    formula_hash: sha256:9146c5dfcd3b20372be9cc373745aca8dffc225cbb4fa6aebee4a2e9428e1b2e
+    quality:
+      formula_hash: sha256:9146c5dfcd3b20372be9cc373745aca8dffc225cbb4fa6aebee4a2e9428e1b2e
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_3_2026_06_06
+      confidence: 0.74
+  - id: modular_tessellation_fundamental_domain
+    name: Modular Tessellation Fundamental Domain
+    shader: shaders/reference/number_theory/modular_tessellation_fundamental_domain_gpu.frag
+    category: Number-Theory Fractals
+    dimension: 2D
+    defaultPower: 2.0
+    defaultIterations: 120.0
+    defaultSteps: 0.0
+    defaultBailout: 100.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: false
+    presets: []
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Modular group
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Modular_group
+    - author: Wikipedia contributors
+      title: Fundamental domain
+      year: 2026
+      url: https://en.wikipedia.org/wiki/Fundamental_domain
+    tier: reference
+    aliases:
+    - PSL(2,Z) fundamental domain tessellation
+    - modular group tessellation
+    - upper half-plane modular tiling
+    canonical_name: Modular Tessellation Fundamental Domain
+    formula_ast:
+      iteration_type: number_theory
+      variables:
+      - tau
+      - S
+      - T
+      init: upper half-plane point tau
+      update: 'apply PSL(2,Z) generators S: tau -> -1/tau and T: tau -> tau+1 to map
+        points into repeated fundamental-domain copies'
+      family: modular group tessellations
+    formula_hash: sha256:77d8be7678225fdb03acfcee91823835f60a9086680c26b28bb52b486495e20f
+    quality:
+      formula_hash: sha256:77d8be7678225fdb03acfcee91823835f60a9086680c26b28bb52b486495e20f
+      citation_health:
+        last_checked: '2026-06-06'
+        status: ok
+      shader_compile:
+        sksl: n/a
+        glsl: n/a
+        checked: '2026-06-06'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-06-06'
+      review:
+        approved_by: frontier_reference_microbatch
+        batch: frontier_reference_microbatch_3_2026_06_06
+      confidence: 0.74

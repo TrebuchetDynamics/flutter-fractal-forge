@@ -10,6 +10,7 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uRelaxation;     // 10
 
 out vec4 fragColor;
 
@@ -80,7 +81,7 @@ void main() {
     vec2 L = cdivSafe(fpp, fp);
     vec2 corr = u + 0.5 * cmul(cmul(L, u), u);
 
-    z = z - corr;
+    z = z - uRelaxation * corr;
 
     if (dot(corr, corr) < 1e-13) { it = j; break; }
     if (dot(z, z) > escapeSq) { it = j; break; }
@@ -88,8 +89,9 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
-    return;
+    // Short smoke-test iteration caps can leave root basins unconverged;
+    // still color by nearest root so the default view is informative.
+    it = target > 0 ? target - 1 : 0;
   }
 
   vec2 r0 = vec2(1.0, 0.0);

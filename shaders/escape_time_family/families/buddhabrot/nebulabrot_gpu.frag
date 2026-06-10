@@ -68,7 +68,11 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float phase = atan(z.y, z.x) / 6.28318530718 + 0.5;
+    float nebula = smoothstep(0.28, 0.50, abs(sin(12.0 * c.x - 9.0 * c.y + 7.0 * length(z))));
+    vec3 tint = getPaletteColor(fract(phase + 0.22 * nebula + uTime * 0.0001), int(uColorScheme));
+    vec3 color = tint * (0.42 + 0.58 * nebula);
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

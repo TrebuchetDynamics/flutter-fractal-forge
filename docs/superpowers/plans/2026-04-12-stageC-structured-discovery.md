@@ -99,9 +99,9 @@
 - [ ] **Step 3: `config/credentials.yaml.example`:**
   ```yaml
   shadertoy:
-    api_key: "YOUR_SHADERTOY_KEY_HERE"
+    api_key: null # set locally, never commit real credentials
   github:
-    token: "ghp_YOUR_GITHUB_TOKEN_HERE"
+    token: null # set locally, never commit real credentials
   ```
 
 - [ ] **Step 4: Add `config/credentials.yaml` to `.gitignore`. Commit config + deps.**

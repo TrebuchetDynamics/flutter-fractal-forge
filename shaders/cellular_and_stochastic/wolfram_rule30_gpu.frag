@@ -96,7 +96,7 @@ void main() {
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
   int gen = int(floor((p.y + 0.5) * float(target)));
-  gen = clamp(gen, 0, target - 1);
+  gen = int(clamp(float(gen), 0.0, float(target - 1)));
   int cell = int(floor((p.x + 0.5) * float(target)));
 
   float alive = cellStateRule30(gen, cell);

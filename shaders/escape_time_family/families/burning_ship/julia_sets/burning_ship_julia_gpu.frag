@@ -103,7 +103,11 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float phase = atan(z.y, z.x) / 6.28318530718 + 0.5;
+    float folds = smoothstep(0.34, 0.50, abs(sin(10.0 * z.x - 12.0 * z.y + 18.0 * uv.x + 7.0 * uv.y)));
+    float tBound = fract(phase + 0.20 * folds + 0.08 * length(z) + uTime * 0.0001);
+    vec3 col = getPaletteColor(tBound, schemeInt) * (0.60 + 0.40 * folds);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

@@ -89,13 +89,15 @@ void main() {
     it = j + 1;
   }
 
-  if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
-    return;
-  }
-
   float t = float(it) / max(1.0, uIterations);
-  t = fract(t + 0.15 * sin(0.05 * z.x + 0.07 * z.y) + uTime * 0.0001);
+  if (it >= target) {
+    // Popcorn is primarily a bounded orbit map, so the default viewport should
+    // still show the final-orbit texture instead of painting the whole stable
+    // region black.
+    t = fract(0.35 + 0.22 * sin(2.1 * z.x) + 0.18 * cos(2.7 * z.y) + uTime * 0.0001);
+  } else {
+    t = fract(t + 0.15 * sin(0.05 * z.x + 0.07 * z.y) + uTime * 0.0001);
+  }
 
   vec3 color = palette(t, int(uColorScheme));
   fragColor = vec4(linearToSRGB(color), 1.0);

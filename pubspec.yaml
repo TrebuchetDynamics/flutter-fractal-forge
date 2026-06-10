@@ -269,6 +269,11 @@ flutter:
     - shaders/cellular_and_stochastic/brian_brain_gpu.frag
     - shaders/cellular_and_stochastic/highlife_gpu.frag
     - shaders/cellular_and_stochastic/day_night_gpu.frag
+    - shaders/cellular_and_stochastic/seeds_ca_gpu.frag
+    - shaders/cellular_and_stochastic/maze_ca_gpu.frag
+    - shaders/cellular_and_stochastic/cyclic_ca_gpu.frag
+    - shaders/cellular_and_stochastic/replicator_ca_gpu.frag
+    - shaders/cellular_and_stochastic/hodgepodge_machine_gpu.frag
     - shaders/cellular_and_stochastic/eden_growth_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/farey_diagram_gpu.frag
     - shaders/ifs_and_geometric/cayley_graph_gpu.frag
@@ -433,6 +438,10 @@ flutter:
     - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/hydrogen_orbital_gpu.frag
     - shaders/escape_time_family/experimental_named/coupled_orbits/alternated_iteration_gpu.frag
     - shaders/escape_time_family/experimental_named/discrete_attractors/bedhead_gpu.frag

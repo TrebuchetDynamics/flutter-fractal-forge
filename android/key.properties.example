@@ -1,4 +1,7 @@
-storePassword=your-store-password
-keyPassword=your-key-password
+# Copy this file to android/key.properties for local release signing.
+# Never commit android/key.properties or the private keystore file.
+# Prefer a storeFile path outside this repository.
+storePassword=
+keyPassword=
 keyAlias=upload
-storeFile=/path/to/your/upload-keystore.jks
+storeFile=/absolute/path/outside/repo/upload-keystore.jks

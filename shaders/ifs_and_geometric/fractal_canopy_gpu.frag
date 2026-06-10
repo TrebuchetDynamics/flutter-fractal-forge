@@ -83,7 +83,7 @@ void main() {
   }
 
   const int MAX_BRANCHES = 256;
-  branchCount = min(branchCount, MAX_BRANCHES);
+  branchCount = int(min(float(branchCount), float(MAX_BRANCHES)));
   for (int i = 0; i < MAX_BRANCHES; i++) {
     if (i >= branchCount) break;
 

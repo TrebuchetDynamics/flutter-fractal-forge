@@ -90,9 +90,18 @@ void main() {
     it = j + 1;
   }
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float phase = atan(c.y, c.x) / 6.28318530718 + 0.5;
+    float radius = length(c);
+    float lobes = smoothstep(0.26, 0.50, abs(sin(float(n) * 6.0 * phase + 11.0 * radius + 18.0 * uv.x - 7.0 * uv.y)));
+    float tBound = fract(phase + 0.28 * lobes + 0.07 * float(n) + uTime * 0.0001);
+    vec3 col = palette(tBound, int(uColorScheme)) * (0.52 + 0.48 * lobes);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
-  float t = fract(float(it) / max(1.0, uIterations) + 0.07 * float(n) + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
+  float phase = atan(c.y, c.x) / 6.28318530718 + 0.5;
+  float radius = length(c);
+  float lobes = smoothstep(0.26, 0.50, abs(sin(float(n) * 6.0 * phase + 11.0 * radius + 18.0 * uv.x - 7.0 * uv.y)));
+  float t = fract(float(it) / max(1.0, uIterations) + 0.16 * phase + 0.24 * lobes + 0.07 * float(n) + uTime * 0.0001);
+  vec3 col = palette(t, int(uColorScheme)) * (0.52 + 0.48 * lobes);
+  fragColor = vec4(linearToSRGB(col), 1.0);
 }

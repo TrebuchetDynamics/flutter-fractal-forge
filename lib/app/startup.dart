@@ -18,7 +18,13 @@ const int kEnableDeepLinks =
     int.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: 0);
 
 class DeferredStartupApp extends StatefulWidget {
-  const DeferredStartupApp();
+  final Future<Widget> Function()? fullAppLoader;
+  final Duration startupTimeout;
+
+  const DeferredStartupApp({
+    this.fullAppLoader,
+    this.startupTimeout = const Duration(seconds: 30),
+  });
 
   @override
   State<DeferredStartupApp> createState() => DeferredStartupAppState();
@@ -26,6 +32,7 @@ class DeferredStartupApp extends StatefulWidget {
 
 class DeferredStartupAppState extends State<DeferredStartupApp> {
   Widget? _fullApp;
+  Object? _startupError;
 
   @override
   void initState() {
@@ -33,7 +40,7 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
     _initServices();
   }
 
-  Future<void> _initServices() async {
+  Future<Widget> _createFullApp() async {
     final results = await Future.wait([
       PresetStore.create(),
       HistoryStore.create(),
@@ -52,18 +59,41 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
       await deepLinkService.initialize();
     }
 
-    if (!mounted) return;
+    return FlutterFractalsApp(
+      presetStore: presetStore,
+      historyStore: historyStore,
+      accessibilityService: accessibilityService,
+      rendererSettingsService: rendererSettingsService,
+      onboardingService: onboardingService,
+      deepLinkService: deepLinkService,
+      skipSplash: true, // Deferred startup already showed loading UI.
+    );
+  }
+
+  Future<void> _initServices() async {
     setState(() {
-      _fullApp = FlutterFractalsApp(
-        presetStore: presetStore,
-        historyStore: historyStore,
-        accessibilityService: accessibilityService,
-        rendererSettingsService: rendererSettingsService,
-        onboardingService: onboardingService,
-        deepLinkService: deepLinkService,
-        skipSplash: true, // Deferred startup already showed loading UI.
-      );
+      _startupError = null;
     });
+
+    try {
+      final loader = widget.fullAppLoader ?? _createFullApp;
+      final fullApp = await loader().timeout(widget.startupTimeout);
+      if (!mounted) return;
+      setState(() {
+        _fullApp = fullApp;
+      });
+    } catch (error, stack) {
+      FlutterError.reportError(FlutterErrorDetails(
+        exception: error,
+        stack: stack,
+        library: 'flutter_fractals startup',
+        context: ErrorDescription('while initializing startup services'),
+      ));
+      if (!mounted) return;
+      setState(() {
+        _startupError = error;
+      });
+    }
   }
 
   @override
@@ -77,19 +107,57 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: AppColors.background,
       ),
-      home: const Scaffold(
+      home: Scaffold(
         body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(color: AppColors.primary),
-              SizedBox(height: 16),
-              Text(
-                'Loading...',
-                style: TextStyle(color: Colors.white70, fontSize: 16),
-              ),
-            ],
-          ),
+          child: _startupError == null
+              ? const Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(color: AppColors.primary),
+                    SizedBox(height: 16),
+                    Text(
+                      'Loading...',
+                      style: TextStyle(color: Colors.white70, fontSize: 16),
+                    ),
+                  ],
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        color: AppColors.error,
+                        size: 40,
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Startup failed',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'The app could not finish loading. Try again, or launch with SAFE_MODE=1 for diagnostics.',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      FilledButton.icon(
+                        onPressed: _initServices,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ),
     );

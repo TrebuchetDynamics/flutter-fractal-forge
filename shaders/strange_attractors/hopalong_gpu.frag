@@ -80,7 +80,11 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float phase = atan(p.y, p.x) / 6.28318530718 + 0.5;
+    float weave = smoothstep(0.30, 0.50, abs(sin(0.9 * p.x + 1.2 * p.y + 18.0 * uv.x - 9.0 * uv.y)));
+    float tBound = fract(phase + 0.25 * weave + 0.04 * length(p) + uTime * 0.0001);
+    vec3 color = getPaletteColor(tBound, int(uColorScheme)) * (0.56 + 0.44 * weave);
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

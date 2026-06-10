@@ -87,8 +87,12 @@ void main() {
   }
 
   if (it >= target) {
-    float t = fract((density / float(target)) * 2.4 + 0.05 * atan(y, x) + uTime * 0.00005);
+    float angle = atan(y, x);
+    float bands = smoothstep(0.45, 0.55, fract(7.0 * angle + 0.035 * z + 18.0 * density / float(target)));
+    float ribs = smoothstep(0.38, 0.50, abs(sin(16.0 * p.x + 13.0 * p.y + 0.08 * z)));
+    float t = fract((density / float(target)) * 3.4 + 0.12 * angle + 0.18 * ribs + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
+    col *= 0.62 + 0.38 * max(bands, ribs);
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }

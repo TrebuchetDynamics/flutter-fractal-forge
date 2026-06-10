@@ -25,6 +25,15 @@ class RuntimeModeService {
   static const bool playwrightCatalogSmoke =
       bool.fromEnvironment('PLAYWRIGHT_CATALOG_SMOKE', defaultValue: false);
 
+  /// Upper bound for GPU iteration uniforms in Playwright catalog smoke builds.
+  ///
+  /// The smoke test checks that every module opens and renders a first frame; it
+  /// is not a visual-quality test. Keeping this low prevents heavyweight
+  /// shaders from triggering browser/GPU watchdog stalls during the full sweep.
+  static const int playwrightCatalogSmokeMaxGpuIterations = int.fromEnvironment(
+      'PLAYWRIGHT_CATALOG_SMOKE_MAX_GPU_ITERATIONS',
+      defaultValue: 10);
+
   static String _bindingTypeName() {
     try {
       return WidgetsBinding.instance.runtimeType.toString();

@@ -71,7 +71,12 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
+    float phase = atan(c.y, c.x) / 6.28318530718 + 0.5;
+    float ridges = smoothstep(0.25, 0.52, abs(sin(16.0 * atan(c.x) - 20.0 * atan(c.y))));
+    float teeth = smoothstep(0.30, 0.56, abs(sin(10.0 * length(c) + 24.0 * phase)));
+    float tBound = fract(phase + 0.24 * ridges + 0.12 * teeth + uTime * 0.0001);
+    vec3 col = palette(tBound, schemeInt) * (0.48 + 0.52 * max(ridges, teeth));
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

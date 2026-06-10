@@ -70,7 +70,7 @@ void main() {
   for (int i = 0; i < 50; i++) {
     if (i >= warmup) break;
     // Sequence "AB": even=a, odd=b
-    float r = (i & 1) == 0 ? a : b;
+    float r = (i - (i / 2) * 2) == 0 ? a : b;
     x = r * x * (1.0 - x);
     x = clamp(x, 1e-10, 1.0 - 1e-10);
   }
@@ -79,7 +79,7 @@ void main() {
   float lyapunov = 0.0;
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= iters) break;
-    float r = (i & 1) == 0 ? a : b;
+    float r = (i - (i / 2) * 2) == 0 ? a : b;
     x = r * x * (1.0 - x);
     x = clamp(x, 1e-10, 1.0 - 1e-10);
     float deriv = abs(r * (1.0 - 2.0 * x));

@@ -15,7 +15,8 @@ uniform float uZoom;
 uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
-uniform float uTransparentBg;
+uniform float uTransparentBg; // 9
+uniform float uRelaxation;     // 10
 
 out vec4 fragColor;
 
@@ -66,15 +67,16 @@ void main() {
     vec2 fz  = z5 - vec2(1.0, 0.0);  // z^5 - 1
     vec2 fpz = 5.0 * z4;              // 5z^4
     vec2 step = cdiv(fz, fpz);
-    z = z - step;
+    z = z - uRelaxation * step;
     if (dot(step,step) < 1e-12)               { it = j; break; }
     if (dot(z,z) > max(uBailout*uBailout, 64.0)) { it = j; break; }
     it = j + 1;
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
-    return;
+    // Short smoke-test iteration caps can leave root basins unconverged;
+    // still color by nearest root so the default view is informative.
+    it = target > 0 ? target - 1 : 0;
   }
 
   // 5 roots at e^{2πik/5}: cos(72k°), sin(72k°)

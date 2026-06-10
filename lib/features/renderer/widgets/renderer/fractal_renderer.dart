@@ -416,8 +416,17 @@ class _FractalRendererState extends State<FractalRenderer>
             baseIterations: baseIterations,
             zoom: controller.view.zoom,
           );
+          final effectiveIterations = RuntimeModeService.playwrightCatalogSmoke
+              ? math.min(
+                  scaledIterations,
+                  math.max(
+                      4,
+                      RuntimeModeService
+                          .playwrightCatalogSmokeMaxGpuIterations),
+                )
+              : scaledIterations;
           final gpuParams = Map<String, Object>.from(controller.params)
-            ..['iterations'] = scaledIterations;
+            ..['iterations'] = effectiveIterations;
 
           final renderState = FractalRenderState(
             params: gpuParams,

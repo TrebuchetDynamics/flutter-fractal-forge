@@ -11,7 +11,12 @@
 
 **Fractal Forge** is an open-source Flutter fractal explorer focused on real-time GPU shader rendering, deep zoom, and a broad catalog of mathematical systems.
 
-> **Launch status:** the installable app is the primary experience today. A JavaScript browser build has passed local Chrome smoke testing and is suitable for a web-preview launch after remaining browser QA polish; WebAssembly is not currently supported. See [`docs/planning/LAUNCH_LADDER.md`](docs/planning/LAUNCH_LADDER.md) and [`docs/engineering/rendering/renderer_backend_matrix.md`](docs/engineering/rendering/renderer_backend_matrix.md).
+## Try it
+
+- **Web:** [fractal.trebuchetdynamics.com](https://fractal.trebuchetdynamics.com)
+- **Android:** [Google Play Store](https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge)
+
+> The installable app is the primary experience. The browser build targets WebGL 2.0; WebAssembly is not currently supported. See [`docs/planning/LAUNCH_LADDER.md`](docs/planning/LAUNCH_LADDER.md) and [`docs/engineering/rendering/renderer_backend_matrix.md`](docs/engineering/rendering/renderer_backend_matrix.md).
 
 ---
 
@@ -102,13 +107,11 @@ Save any fractal as a high-resolution PNG with optional transparency and share d
 
 ## 📸 Screenshots
 
-Current browser-preview smoke captures:
+Representative catalog and viewer captures:
 
 | Catalog exploration | GPU viewer |
 | :---: | :---: |
 | <img src="docs/assets/launch/web_catalog_smoke.png" alt="Fractal Forge catalog showing hundreds of fractal modules" width="420"/> | <img src="docs/assets/launch/web_viewer_smoke.png" alt="Fractal Forge GPU viewer rendering a 3D fractal" width="420"/> |
-
-> Launch note: refreshed store/social screenshots and a short GIF/video are still needed before a bigger Reddit/social push.
 
 ---
 
@@ -125,7 +128,7 @@ Current browser-preview smoke captures:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/XelHaku/flutter-fractal-forge.git
+   git clone https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
    cd flutter-fractal-forge
    ```
 
@@ -147,9 +150,20 @@ Current browser-preview smoke captures:
 
 ```bash
 flutter build apk --release
-# or for app bundle
+# or for a local app bundle
 flutter build appbundle --release
 ```
+
+Release signing files are intentionally not tracked. For Google Play upload builds:
+
+1. Copy `android/key.properties.example` to `android/key.properties`.
+2. Point `storeFile` to your private upload keystore, preferably outside the repo.
+3. Never commit `android/key.properties`, `*.jks`, `*.keystore`, `*.p12`, `*.pfx`, or `*.pem` files.
+4. Build the Play Console artifact with:
+
+   ```bash
+   scripts/build-play-console.sh
+   ```
 
 #### iOS
 

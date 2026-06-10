@@ -14,7 +14,7 @@ void main() {
     final assets =
         declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
 
-    expect(assets, hasLength(15));
+    expect(assets, hasLength(20));
     expectAssetsExist(assets);
   });
 
@@ -22,7 +22,7 @@ void main() {
       () {
     final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
 
-    expect(catalogAssets, hasLength(15));
+    expect(catalogAssets, hasLength(20));
     expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
   });
 }

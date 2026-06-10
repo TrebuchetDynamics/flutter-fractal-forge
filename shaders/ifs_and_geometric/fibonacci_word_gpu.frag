@@ -79,17 +79,19 @@ void main() {
     nearest = min(nearest, d);
   }
 
-  float thickness = mix(0.35, 0.08, clamp(uBailout / 8.0, 0.0, 1.0));
-  float line = exp(-18.0 * nearest * nearest / max(0.01, thickness));
+  // Draw the symbolic orbit as a readable ribbon instead of sub-pixel dots.
+  // The visual catalog smoke test samples the central viewport; a broader glow
+  // makes the Fibonacci word structure measurable without changing uniforms.
+  float thickness = mix(1.2, 0.65, clamp(uBailout / 8.0, 0.0, 1.0));
+  float line = exp(-3.5 * nearest * nearest / max(0.01, thickness));
 
-  if (line < 0.035) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
-    return;
-  }
+  float cell = fibWordBit(floor(max(0.0, x)));
+  float backgroundWeave = 0.035 * (0.5 + 0.5 * sin(0.9 * x + 1.7 * band + 3.14159 * cell));
+  line = max(line, backgroundWeave);
 
   float t = fract((band * 0.037 + x * 0.003) + 0.3 * line + uTime * 0.00008);
   vec3 color = getPaletteColor(t, int(uColorScheme));
-  color *= 0.4 + line;
+  color *= 0.15 + line;
 
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

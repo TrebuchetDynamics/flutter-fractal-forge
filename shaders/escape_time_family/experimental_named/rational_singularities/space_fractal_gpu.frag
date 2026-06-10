@@ -75,7 +75,12 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
+    float phase = atan(c.y + 0.01, c.x + 0.5) / 6.28318530718 + 0.5;
+    float spiral = smoothstep(0.24, 0.52, abs(sin(11.0 * log(1.0 + length(c + 0.5)) + 18.0 * phase)));
+    float stars = smoothstep(0.985, 1.0, fract(sin(dot(floor(uv * 180.0), vec2(12.9898, 78.233))) * 43758.5453));
+    float tBound = fract(phase + 0.25 * spiral + 0.08 * stars + uTime * 0.0001);
+    vec3 col = palette(tBound, schemeInt) * (0.42 + 0.52 * spiral) + vec3(stars);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 
@@ -103,6 +108,10 @@ void main() {
     return;
   }
 
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
+  float phase = atan(c.y + 0.01, c.x + 0.5) / 6.28318530718 + 0.5;
+  float spiral = smoothstep(0.24, 0.52, abs(sin(11.0 * log(1.0 + length(c + 0.5)) + 18.0 * phase)));
+  float stars = smoothstep(0.985, 1.0, fract(sin(dot(floor(uv * 180.0), vec2(12.9898, 78.233))) * 43758.5453));
+  float t = fract(smoothVal / 40.0 + 0.22 * spiral + 0.10 * stars + uTime * 0.0001);
+  vec3 col = palette(t, schemeInt) * (0.62 + 0.38 * spiral) + vec3(stars);
+  fragColor = vec4(linearToSRGB(col), 1.0);
 }

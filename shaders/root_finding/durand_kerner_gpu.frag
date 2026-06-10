@@ -109,18 +109,27 @@ vec3 runDK(vec2 startPos, int n, int trackIdx, int target) {
       newRoots[k] = roots[k] - cdiv(pVal, prod);
     }
 
-    vec2 step = newRoots[trackIdx] - roots[trackIdx];
+    vec2 step = vec2(0.0);
+    vec2 trackedRoot = roots[0];
     for (int k = 0; k < 8; k++) {
       if (k >= n) break;
+      if (k == trackIdx) {
+        step = newRoots[k] - roots[k];
+        trackedRoot = newRoots[k];
+      }
       roots[k] = newRoots[k];
     }
 
     if (dot(step, step) < 1e-12) { it = j; break; }
-    if (dot(roots[trackIdx], roots[trackIdx]) > 1024.0) { it = j; break; }
+    if (dot(trackedRoot, trackedRoot) > 1024.0) { it = j; break; }
     it = j + 1;
   }
 
-  vec2 finalZ = roots[trackIdx];
+  vec2 finalZ = roots[0];
+  for (int k = 0; k < 8; k++) {
+    if (k >= n) break;
+    if (k == trackIdx) finalZ = roots[k];
+  }
 
   // Determine which actual root z^n=1 was found
   float bestDist = 1e10;

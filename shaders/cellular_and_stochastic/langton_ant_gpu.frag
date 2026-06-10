@@ -108,6 +108,8 @@ void main() {
     return;
   }
 
-  vec3 bg = vec3(0.02, 0.03, 0.04);
+  float gridLine = 1.0 - smoothstep(0.018, 0.035, min(abs(fract(p.x * 16.0) - 0.5), abs(fract(p.y * 16.0) - 0.5)));
+  float noise = hash21(floor(p * 48.0));
+  vec3 bg = getPaletteColor(fract(0.15 * noise + 0.04 * p.x - 0.03 * p.y), int(uColorScheme)) * (0.18 + 0.16 * gridLine);
   fragColor = vec4(linearToSRGB(mix(bg, col, min(1.0, visits / 3.0 + 0.2))), 1.0);
 }

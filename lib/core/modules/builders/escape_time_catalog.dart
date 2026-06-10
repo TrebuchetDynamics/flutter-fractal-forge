@@ -474,6 +474,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset:
         'shaders/escape_time_family/transcendental_maps/lambda_gpu.frag',
     defaultIterations: 120,
+    defaultCenterX: 0.3,
+    defaultCenterY: 0.3,
+    defaultZoom: 0.5,
     extraPresets: [
       FractalPreset(
         id: 'lambda-relief',
@@ -521,7 +524,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         name: 'Magnet II Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
-            pan: Vector2(1.0, 0.0), zoom: 1.2, rotation: Vector3.zero()),
+            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
         createdAt: DateTime.now(),
         isBuiltIn: true,
       ),
@@ -589,6 +592,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Astroid Fractal',
     shaderAsset: 'shaders/escape_time_family/polynomial_maps/astroid_gpu.frag',
     defaultIterations: 160,
+    defaultCenterX: 0.4,
+    defaultCenterY: 0.0,
+    defaultZoom: 0.4,
   ),
   EscapeTimeConfig(
     id: 'deltoid',
@@ -602,6 +608,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset:
         'shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag',
     defaultIterations: 170,
+    defaultCenterX: 0.0,
+    defaultCenterY: 3.0,
+    defaultZoom: 0.3,
   ),
   EscapeTimeConfig(
     id: 'druid',
@@ -884,6 +893,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/ifs_and_geometric/golden_dragon_gpu.frag',
     defaultIterations: 170,
     defaultBailout: 8.0,
+    defaultCenterX: 0.56,
+    defaultCenterY: 0.4,
+    defaultZoom: 0.75,
   ),
   EscapeTimeConfig(
     id: 'twin_dragon',
@@ -957,6 +969,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/ifs_and_geometric/fibonacci_word_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
+    defaultCenterX: 0.2,
+    defaultZoom: 0.4,
   ),
   EscapeTimeConfig(
     id: 'rauzy_fractal',
@@ -2264,6 +2278,41 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     id: 'day_night',
     name: 'Day & Night',
     shaderAsset: 'shaders/cellular_and_stochastic/day_night_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'seeds_ca',
+    name: 'Seeds CA',
+    shaderAsset: 'shaders/cellular_and_stochastic/seeds_ca_gpu.frag',
+    defaultIterations: 240,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'maze_ca',
+    name: 'Maze CA',
+    shaderAsset: 'shaders/cellular_and_stochastic/maze_ca_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'cyclic_ca',
+    name: 'Cyclic CA',
+    shaderAsset: 'shaders/cellular_and_stochastic/cyclic_ca_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'replicator_ca',
+    name: 'Replicator CA',
+    shaderAsset: 'shaders/cellular_and_stochastic/replicator_ca_gpu.frag',
+    defaultIterations: 260,
+    defaultBailout: 4.0,
+  ),
+  EscapeTimeConfig(
+    id: 'hodgepodge_machine',
+    name: 'Hodgepodge Machine',
+    shaderAsset: 'shaders/cellular_and_stochastic/hodgepodge_machine_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 4.0,
   ),
@@ -5481,14 +5530,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(
-    id: 'escape_time_perturb',
-    name: 'Escape Time Perturb',
-    shaderAsset: 'shaders/escape_time_family/core/escape_time_perturb_gpu.frag',
-    defaultIterations: 120,
-    defaultBailout: 4.0,
-    category: 'Escape-Time',
-  ),
-  EscapeTimeConfig(
     id: 'exp_additive_mandelbrot',
     name: 'Exp Additive Mandelbrot',
     shaderAsset:
@@ -5649,6 +5690,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    usesPaletteSampler: true,
   ),
   EscapeTimeConfig(
     id: 'mandel_julia_dual',

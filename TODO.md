@@ -97,7 +97,14 @@ NOT Perturbation-Capable: ~290
 ### P0-2: User-Reported Blockers (2026-02-25)
 
 - [x] GPU→CPU fallback too slow when zooming deep; reduce hysteresis/threshold so CPU engages faster
-- [ ] **Controls too big/too intrusive** — Redesign for smaller, less cluttered UI
+- [x] **Controls too big/too intrusive** — Redesign for smaller, less cluttered UI ✅ 2026-06-06
+  - Replaced modal bottom sheet (38% screen height) with semi-transparent HUD overlay
+  - Game-like glass-morphism HUD with compact sliders, palette chips, and action buttons
+  - Tap-outside-to-dismiss behavior (like game HUD)
+  - Fractal visible and updating behind controls
+  - New: `fractal_controls_hud.dart` overlay widget
+  - Changed: viewer FAB toggles overlay instead of opening modal
+  - Tests: 5 new HUD tests + all 18 existing controls tests pass
 - [x] **3D fractals not working** — Investigate 3D pipeline/shaders and fix ✅ FIXED 2026-04-05
   - **Root cause:** SkSL `%` and `clamp(int, int, int)` not supported
   - **Fix:** See P0-1 items above

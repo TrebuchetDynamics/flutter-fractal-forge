@@ -107,13 +107,14 @@ void main() {
     score = float(i + 1) / float(depth);
   }
 
-  if (keep < 0.5) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
-    return;
-  }
+  float edge = exp(-12.0 * trap);
+  float pentagonField = 0.5 + 0.5 * cos(18.0 * sdRegularPentagon(p, 1.0));
+  float brightness = keep > 0.5
+      ? 0.55 + 0.85 * smoothstep(0.22, 0.0, trap)
+      : 0.08 + 0.55 * edge + 0.12 * pentagonField;
 
-  float t = fract(score + 0.35 * exp(-12.0 * trap) + uTime * 0.0001);
+  float t = fract(score + 0.35 * edge + 0.06 * pentagonField + uTime * 0.0001);
   vec3 color = getPaletteColor(t, int(uColorScheme));
-  color *= 0.55 + 0.85 * smoothstep(0.22, 0.0, trap);
+  color *= brightness;
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

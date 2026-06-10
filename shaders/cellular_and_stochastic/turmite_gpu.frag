@@ -122,11 +122,10 @@ void main() {
   vec3 color = base * (0.25 + 0.95 * energy);
 
   if (visits < 0.5) {
-    if (uTransparentBg > 0.5) {
-      fragColor = vec4(0.0);
-      return;
-    }
-    fragColor = vec4(linearToSRGB(vec3(0.015, 0.02, 0.025)), 1.0);
+    float gridLine = 1.0 - smoothstep(0.018, 0.035, min(abs(fract(p.x * 16.0) - 0.5), abs(fract(p.y * 16.0) - 0.5)));
+    float noise = hash21(floor(p * 48.0));
+    vec3 bg = getPaletteColor(fract(0.15 * noise + 0.04 * p.x - 0.03 * p.y), int(uColorScheme)) * (0.16 + 0.18 * gridLine);
+    fragColor = vec4(linearToSRGB(bg), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

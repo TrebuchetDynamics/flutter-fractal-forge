@@ -21,6 +21,21 @@ profile/
 release/
 android/.gradle/
 android/**/build/
+android/local.properties
+android/key.properties
+android/**/key.properties
+
+# Local signing / secrets
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+google-services.json
+GoogleService-Info.plist
+.env
+.env.*
+.mcp.json
 
 # iOS
 ios/Pods/
@@ -28,18 +43,32 @@ ios/Pods/
 # Local artifacts
 *.log
 *.lock
+*.bak
 node_modules/
 playwright-report/
 test-results/
-.env
-.env.*
-.pi/logs/
-.pi/*/logs.jsonl
+graphify-out/
+maestro_reports/
+flutter_*.log
+.flutter-plugins
+.flutter-plugins-dependencies
+.vscode/
+
+# Local AI/agent state
+.pi/
+**/.pi/
+.claude/
+**/.claude/
+.claude-flow/
+**/.claude-flow/
+.superpowers/
+**/.superpowers/
+.swarm/
+**/.swarm/
 
 # Local embeds
 third_party/
 !third_party/arcore_flutter_plugin/
-.flutter-plugins-dependencies
 
 # Worktrees
 .worktrees/

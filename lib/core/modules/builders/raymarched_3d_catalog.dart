@@ -56,7 +56,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_sierpinski_tetra',
     name: 'KIFS Sierpinski Tetrahedron',
-    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -92,7 +93,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_koch_fold',
     name: 'KIFS Koch 3D',
-    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -107,7 +109,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'kifs_snowflake_fold',
     name: 'KIFS Snowflake 3D',
-    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag',
     category: '3D Fractals',
     defaultPower: 3.0,
     minPower: 2.0,
@@ -145,7 +148,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'quaternion_julia_3d',
     name: 'Quaternion Julia 3D',
-    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.0,
@@ -190,7 +194,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'dual_quaternion_julia',
     name: 'Dual-Quaternion Julia',
-    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag',
     category: '3D Fractals',
     defaultPower: 1.0,
     minPower: 0.1,
@@ -207,7 +212,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'mandelbox_shape_inversion',
     name: 'Mandelbox Shape Inversion',
-    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag',
     category: '3D Fractals',
     defaultPower: 2.0,
     minPower: 1.5,
@@ -252,7 +258,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'inversive_limit_set_3d',
     name: 'Inversive Limit Set 3D',
-    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag',
     category: '3D Fractals',
     defaultPower: 1.4,
     minPower: 1.0,
@@ -288,7 +295,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   Raymarched3DConfig(
     id: 'mandelbulb_time_modulated',
     name: 'Time-Modulated Mandelbulb',
-    shaderAsset: 'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag',
     category: '3D Fractals',
     defaultPower: 8.0,
     minPower: 2.0,
@@ -319,6 +327,112 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
         isBuiltIn: true,
       ),
     ],
+  ),
+
+  Raymarched3DConfig(
+    id: 'amazing_box',
+    name: 'Amazing Box',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag',
+    category: '3D Fractals',
+    defaultPower: 2.0,
+    minPower: 1.6,
+    maxPower: 3.2,
+    powerLabel: 'Fold Scale',
+    defaultIterations: 16,
+    maxIterations: 32,
+    defaultSteps: 120,
+    defaultBailout: 6.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'amazing_box-compact',
+        moduleId: 'amazing_box',
+        name: 'Compact Wirebox',
+        params: const {
+          'power': 2.25,
+          'iterations': 18,
+          'steps': 140,
+          'bailout': 6.0,
+          'colorScheme': 1,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.4,
+          rotation: Vector3(0.45, 0.35, 0.0),
+        ),
+        createdAt: DateTime.utc(2025, 1, 1),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  Raymarched3DConfig(
+    id: 'bulbils',
+    name: 'Bulbils',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag',
+    category: '3D Fractals',
+    defaultPower: 6.0,
+    minPower: 3.0,
+    maxPower: 10.0,
+    powerLabel: 'Bulb Power',
+    defaultIterations: 18,
+    maxIterations: 50,
+    defaultSteps: 120,
+    defaultBailout: 4.0,
+    extraPresets: [
+      FractalPreset(
+        id: 'bulbils-cluster',
+        moduleId: 'bulbils',
+        name: 'Bulbil Cluster',
+        params: const {
+          'power': 7.0,
+          'iterations': 24,
+          'steps': 140,
+          'bailout': 4.0,
+          'colorScheme': 2,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.5,
+          rotation: Vector3(0.35, -0.45, 0.1),
+        ),
+        createdAt: DateTime.utc(2025, 1, 1),
+        isBuiltIn: true,
+      ),
+    ],
+  ),
+
+  Raymarched3DConfig(
+    id: 'hartverdrahtet',
+    name: 'Hartverdrahtet',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag',
+    category: '3D Fractals',
+    defaultPower: 2.2,
+    minPower: 1.4,
+    maxPower: 3.6,
+    powerLabel: 'Wire Scale',
+    defaultIterations: 18,
+    maxIterations: 40,
+    defaultSteps: 120,
+    defaultBailout: 5.0,
+  ),
+
+  Raymarched3DConfig(
+    id: 'tglad_formula',
+    name: "Tglad's Formula",
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag',
+    category: '3D Fractals',
+    defaultPower: 2.1,
+    minPower: 1.6,
+    maxPower: 3.4,
+    powerLabel: 'Fold Scale',
+    defaultIterations: 18,
+    maxIterations: 40,
+    defaultSteps: 120,
+    defaultBailout: 5.0,
   ),
 
   // ── Mandelbulb Family ──────────────────────────

@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
+import 'package:flutter_fractals/core/services/palette_service.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Declarative config for a standard 2D escape-time fractal.
@@ -25,6 +28,7 @@ class EscapeTimeConfig {
   final double defaultZoom;
   final int maxIterations;
   final String category;
+  final bool usesPaletteSampler;
   final List<FractalParameter> extraParams;
   final List<FractalPreset> extraPresets;
 
@@ -43,6 +47,7 @@ class EscapeTimeConfig {
     // Keep the UI/params cap aligned with shader reality to avoid misleading controls.
     this.maxIterations = 500,
     this.category = 'Escape-Time',
+    this.usesPaletteSampler = false,
     this.extraParams = const [],
     this.extraPresets = const [],
   });
@@ -126,12 +131,17 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
           readDouble(state.params, 'iterations', defaults.iterations));
       shader.setFloat(EscapeTimeUniformSlots.bailout,
           readDouble(state.params, 'bailout', config.defaultBailout));
-      shader.setFloat(
-          EscapeTimeUniformSlots.colorScheme,
-          readDouble(state.params, 'colorScheme',
-              config.defaultColorScheme.toDouble()));
+      final colorScheme = readDouble(
+        state.params,
+        'colorScheme',
+        config.defaultColorScheme.toDouble(),
+      );
+      shader.setFloat(EscapeTimeUniformSlots.colorScheme, colorScheme);
       shader.setFloat(EscapeTimeUniformSlots.transparentBackground,
           state.transparentBackground ? 1.0 : 0.0);
+      if (config.usesPaletteSampler) {
+        shader.setImageSampler(0, _paletteSamplerTexture(colorScheme.round()));
+      }
       for (int i = 0; i < config.extraParams.length; i++) {
         final p = config.extraParams[i];
         shader.setFloat(EscapeTimeUniformSlots.extraStart + i,
@@ -139,6 +149,27 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       }
     },
   );
+}
+
+ui.Image? _fallbackPaletteSamplerTexture;
+
+ui.Image _paletteSamplerTexture(int colorScheme) {
+  try {
+    final palette = PaletteService.instance.paletteAtIndex(colorScheme);
+    return PaletteService.instance.paletteTexture(palette);
+  } catch (_) {
+    final cached = _fallbackPaletteSamplerTexture;
+    if (cached != null) return cached;
+
+    final recorder = ui.PictureRecorder();
+    final canvas = ui.Canvas(recorder);
+    canvas.drawRect(
+      const ui.Rect.fromLTWH(0, 0, 1, 1),
+      ui.Paint()..color = const ui.Color(0xFF000000),
+    );
+    return _fallbackPaletteSamplerTexture =
+        recorder.endRecording().toImageSync(1, 1);
+  }
 }
 
 class _EscapeTimeDefaults {

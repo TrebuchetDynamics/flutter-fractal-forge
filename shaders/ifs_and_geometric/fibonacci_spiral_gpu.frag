@@ -84,13 +84,10 @@ void main() {
     level = fi / float(depth);
   }
 
-  float glow = exp(-35.0 * trap);
-  if (glow < 0.02) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
-    return;
-  }
-
-  float t = fract(level + 0.6 * glow + uTime * 0.0001);
+  float glow = exp(-24.0 * trap);
+  float spiral = smoothstep(0.20, 0.55, abs(sin(8.0 * atan(p.y, p.x) + 14.0 * log(1.0 + length(p)) + 10.0 * level)));
+  float t = fract(level + 0.6 * glow + 0.18 * spiral + uTime * 0.0001);
   vec3 color = palette(t, int(uColorScheme));
-  fragColor = vec4(linearToSRGB(color * (0.55 + 0.9 * glow)), 1.0);
+  float intensity = max(0.18 * spiral, 0.45 + 1.1 * glow);
+  fragColor = vec4(linearToSRGB(color * intensity), uTransparentBg > 0.5 && glow < 0.01 ? 0.9 : 1.0);
 }

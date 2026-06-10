@@ -32,3 +32,5 @@ Upload-key safety check:
   `android/play-upload-cert-sha1.txt`
 - You can override with `--expected-sha1 ...` or disable with
   `--no-verify-sha1`
+- Signing files (`android/key.properties`, `*.jks`, `*.keystore`, `*.p12`,
+  `*.pfx`, `*.pem`) must stay private and are ignored by git.

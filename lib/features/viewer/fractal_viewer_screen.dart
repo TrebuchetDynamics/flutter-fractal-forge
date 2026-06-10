@@ -37,6 +37,7 @@ import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
@@ -61,6 +62,7 @@ class FractalViewerScreen extends StatefulWidget {
 
 class _FractalViewerScreenState extends State<FractalViewerScreen>
     with
+        WidgetsBindingObserver,
         TickerProviderStateMixin,
         _GpuHealthMixin,
         _DebugReportMixin,
@@ -88,6 +90,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   // Visual simplification state
   bool _showMiniMap = false;
   bool _fullscreenUnobtrusive = false;
+  bool _showControlsHud = false;
 
   // History tracking
   FractalController? _lastController;
@@ -104,6 +107,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   String? _lastBackendDecisionLogged;
   Timer? _backendDebounceTimer;
+  bool _appVisible = true;
+
+  bool get _liveRenderingEnabled => _appVisible && !_freezeFrameForExport;
 
   @override
   final AppLogger _log = AppLogger.instance;
@@ -113,11 +119,21 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _fabController = AnimationController(
       duration: AppAnimations.normal,
       vsync: this,
     )..forward();
     _log.info('lifecycle', 'FractalViewerScreen initState');
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final visible = state == AppLifecycleState.resumed;
+    if (_appVisible == visible) return;
+    setState(() {
+      _appVisible = visible;
+    });
   }
 
   @override
@@ -220,6 +236,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _gpuHealthTimer?.cancel();
     _backendDebounceTimer?.cancel();
     _lastController?.removeListener(_onControllerChanged);
@@ -237,6 +254,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _compareController?.dispose();
     _keyboardFocusNode.dispose();
     super.dispose();
+  }
+
+  void _toggleControlsHud() {
+    setState(() {
+      _showControlsHud = !_showControlsHud;
+    });
+    if (_showControlsHud) {
+      HapticService.medium();
+    }
   }
 
   void _toggleFullscreenUnobtrusive() {
@@ -364,7 +390,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                 setState(() => _compareDivider = v),
                             onActivePaneChanged: (pane) =>
                                 setState(() => _activePane = pane),
-                            onOpenControls: () => _openControls(context),
+                            onOpenControls: () => _toggleControlsHud(),
                             onOpenPresets: () => _openPresets(context),
                             onOpenExport: () => _openExport(context),
                             onUserInteraction: _onAutoExploreUserCorrection,
@@ -372,12 +398,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                 _onAutoExploreUserInteractionStart,
                             onUserInteractionEnd:
                                 _onAutoExploreUserInteractionEnd,
-                            freezeFrame: _freezeFrameForExport,
+                            freezeFrame: !_liveRenderingEnabled,
                           )
                         : (_backendDecision.backend == RendererBackend.cpu
                             ? FractalRenderer(
-                                animationEnabled: !_freezeFrameForExport,
-                                onOpenControls: () => _openControls(context),
+                                animationEnabled: _liveRenderingEnabled,
+                                onOpenControls: () => _toggleControlsHud(),
                                 onOpenPresets: () => _openPresets(context),
                                 onOpenExport: () => _openExport(context),
                                 onUserInteraction: _onAutoExploreUserCorrection,
@@ -401,8 +427,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                 boundaryKey: _fractalKeyA,
                                 precisionDecision:
                                     _currentPrecisionDecision(controller),
-                                animationEnabled: !_freezeFrameForExport,
-                                onOpenControls: () => _openControls(context),
+                                animationEnabled: _liveRenderingEnabled,
+                                onOpenControls: () => _toggleControlsHud(),
                                 onOpenPresets: () => _openPresets(context),
                                 onOpenExport: () => _openExport(context),
                                 onUserInteraction: _onAutoExploreUserCorrection,
@@ -537,8 +563,23 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         onOpenAutoExploreSettings: () =>
                             _openAutoExploreSettings(context),
                         onOpenRandomFractal: () => _onRandomFractalFab(context),
-                        onOpenControls: () => _openControls(context),
+                        onOpenControls: () => _toggleControlsHud(),
                         onOpenExport: () => _openExport(context),
+                      ),
+                    ),
+
+                  // Controls HUD overlay (replaces bottom sheet modal)
+                  if (_showControlsHud)
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      height: MediaQuery.of(context).size.height * 0.42,
+                      child: ChangeNotifierProvider.value(
+                        value: controller,
+                        child: FractalControlsHud(
+                          onClose: _toggleControlsHud,
+                        ),
                       ),
                     ),
 

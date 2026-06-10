@@ -24,7 +24,8 @@ if [[ "${PLAYWRIGHT_SKIP_BUILD:-0}" != "1" ]]; then
     --release \
     --no-wasm-dry-run \
     --base-href "${BASE_HREF}" \
-    --dart-define=PLAYWRIGHT_CATALOG_SMOKE=true
+    --dart-define=PLAYWRIGHT_CATALOG_SMOKE=true \
+    --dart-define=PLAYWRIGHT_CATALOG_SMOKE_MAX_GPU_ITERATIONS="${PLAYWRIGHT_CATALOG_SMOKE_MAX_GPU_ITERATIONS:-10}"
 fi
 
 if [[ ! -d build/web ]]; then

@@ -76,7 +76,7 @@ void main() {
           if (np > qp) break;
 
           int det = np * q - n * qp;
-          if (abs(det) != 1) continue;
+          if (det != 1 && det != -1) continue;
 
           float x0 = float(n) / float(q);
           float x1 = float(np) / float(qp);
@@ -93,7 +93,7 @@ void main() {
 
           if (d < best) {
             best = d;
-            bestQ = float(max(q, qp));
+            bestQ = max(float(q), float(qp));
             edgeHit = 1.0;
           }
         }
