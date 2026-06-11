@@ -29,7 +29,7 @@ void main() {
       expect(decision.renderPath, PrecisionLadderRenderPath.gpuDoubleFloat);
       expect(decision.tier, PrecisionLadderTier.extendedGpu);
       expect(decision.exactness, PrecisionLadderExactness.extendedGpuPreview);
-      expect(decision.statusLabel, 'Deep GPU');
+      expect(decision.statusLabel, 'Deep GPU preview');
       expect(decision.debugRendererLabel, 'GPU-DF2');
     });
 
@@ -48,6 +48,8 @@ void main() {
           reason: moduleId,
         );
         expect(decision.tier, PrecisionLadderTier.extendedGpu);
+        expect(decision.exactness, PrecisionLadderExactness.extendedGpuPreview);
+        expect(decision.statusLabel, 'Deep GPU preview');
         expect(decision.usesCpuRenderer, isFalse);
       }
     });
@@ -87,7 +89,7 @@ void main() {
       expect(decision.renderPath, PrecisionLadderRenderPath.cpu);
       expect(decision.tier, PrecisionLadderTier.precisionRefine);
       expect(decision.exactness, PrecisionLadderExactness.cpuPrecision);
-      expect(decision.statusLabel, 'Precision');
+      expect(decision.statusLabel, 'CPU Precision');
     });
   });
 

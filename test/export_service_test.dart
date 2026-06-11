@@ -5,6 +5,7 @@ import 'package:image/image.dart' as img;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/share_service.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 
 /// Minimal fake that satisfies PathProviderPlatform for unit tests.
@@ -342,6 +343,54 @@ void main() {
       expect(ExportResolution.instagram.dimensions, (1080, 1080));
       expect(ExportResolution.screen.dimensions, isNull);
       expect(ExportResolution.custom.dimensions, isNull);
+    });
+  });
+
+  group('ExportSizePolicy', () {
+    test('allows 4K preset pixel counts', () {
+      expect(
+        () => ExportSizePolicy.validateTargetDimensions(3840, 2160),
+        returnsNormally,
+      );
+    });
+
+    test('rejects oversized custom dimensions before capture', () {
+      expect(
+        () => ExportSizePolicy.validateTargetDimensions(20000, 20000),
+        throwsStateError,
+      );
+    });
+
+    test('rejects oversized encoded payloads before save/share', () {
+      expect(
+        () => ExportSizePolicy.validateEncodedByteLength(
+          ExportSizePolicy.maxEncodedImageBytes + 1,
+        ),
+        throwsStateError,
+      );
+    });
+  });
+
+  group('ExportService.shareFile', () {
+    test('uses injected file share adapter', () async {
+      File? sharedFile;
+      String? sharedText;
+      final service = ExportService(
+        shareFile: (file, {text}) async {
+          sharedFile = file;
+          sharedText = text;
+        },
+      );
+      final file = File('/tmp/fractal.png');
+
+      await service.shareFile(file, text: 'Fractal Forge');
+
+      expect(sharedFile, file);
+      expect(sharedText, 'Fractal Forge');
+    });
+
+    test('uses AppShareService file adapter by default', () {
+      expect(const ExportService().shareFileAdapter, isA<ShareFileCallback>());
     });
   });
 

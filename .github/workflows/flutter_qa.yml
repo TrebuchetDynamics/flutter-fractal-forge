@@ -2,18 +2,22 @@ name: Flutter QA Pipeline
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Comprehensive QA is intentionally slower than the PR fast lane in ci.yml.
+    - cron: '17 5 * * 1'
 
 jobs:
   tracked_artifact_audit:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - run: scripts/audit-tracked-artifacts.sh
 
   catalog_shader_manifest_audit:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -24,6 +28,7 @@ jobs:
 
   unit_widget_tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -36,6 +41,7 @@ jobs:
 
   golden_tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -47,6 +53,7 @@ jobs:
 
   integration_tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -61,5 +68,18 @@ jobs:
           avdmanager create avd -n test_device -k "system-images;android-34;google_apis;x86_64" --force
           emulator -avd test_device -no-window -no-audio -no-boot-anim &
           adb wait-for-device
+          boot_deadline=$((SECONDS + 180))
+          until [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ]; do
+            if [ "$SECONDS" -gt "$boot_deadline" ]; then
+              echo "Timed out waiting for emulator boot_completed" >&2
+              adb shell getprop >&2 || true
+              exit 1
+            fi
+            sleep 5
+          done
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+          adb shell pm list packages >/dev/null
       - run: flutter pub get
       - run: flutter test integration_test/

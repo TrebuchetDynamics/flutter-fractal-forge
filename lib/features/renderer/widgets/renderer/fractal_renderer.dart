@@ -497,7 +497,7 @@ class _FractalRendererState extends State<FractalRenderer>
     );
 
     final content = _withRendererIndicator(
-      mode: precisionDecision.debugRendererLabel,
+      mode: precisionDecision.statusLabel,
       fallbackActive: false,
       highPrecisionActive: precisionDecision.usesExtendedGpu,
       child: RepaintBoundary(

@@ -25,6 +25,7 @@ import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
+import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';

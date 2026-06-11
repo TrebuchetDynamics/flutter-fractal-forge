@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:flutter_fractals/core/services/share_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
@@ -102,12 +102,36 @@ class ExportOverlay extends StatelessWidget {
 class ShareSheet extends StatelessWidget {
   final Uri uri;
   final String fractalName;
+  final ShareTextCallback? shareText;
 
   const ShareSheet({
     super.key,
     required this.uri,
     required this.fractalName,
+    this.shareText,
   });
+
+  Future<void> _share(BuildContext context, AppLocalizations l10n) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    final linkText = uri.toString();
+
+    try {
+      await (shareText ?? const AppShareService().shareText)(
+        l10n.shareMessage(fractalName, linkText),
+        subject: l10n.shareSubject(fractalName),
+      );
+      navigator.pop();
+    } catch (error) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(l10n.exportFailed(error.toString())),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,13 +239,7 @@ class ShareSheet extends StatelessWidget {
                       icon: Icons.share_rounded,
                       label: l10n.actionShare,
                       isPrimary: true,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Share.share(
-                          l10n.shareMessage(fractalName, linkText),
-                          subject: l10n.shareSubject(fractalName),
-                        );
-                      },
+                      onPressed: () => _share(context, l10n),
                     ),
                   ),
                 ],

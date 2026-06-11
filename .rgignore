@@ -1,0 +1,7 @@
+# Local/generated/reference artifacts are intentionally excluded from routine search.
+graphify-out/
+opensource/repos/
+opensource/par-fractal/
+.worktrees/
+build/
+.dart_tool/

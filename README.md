@@ -9,7 +9,7 @@
 [![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart)](https://dart.dev)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**Fractal Forge** is an open-source Flutter fractal explorer focused on real-time GPU shader rendering, deep zoom, and a broad catalog of mathematical systems.
+**Fractal Forge** is an open-source Flutter fractal explorer focused on GPU-first shader rendering, deep zoom, and a broad catalog of mathematical systems.
 
 ## Try it
 
@@ -48,21 +48,21 @@ Newton, Halley, Householder, Schroeder, and other numerical method basins of att
 **3D ray-marched fractals**
 Mandelbulb, Mandelbox, pseudo-Kleinian, and other distance-estimated 3D structures — rendered in real time by GLSL fragment shaders on the GPU.
 
-All 350+ types are rendered in real time entirely on the GPU via GLSL fragment shaders.
+Fractal Forge is GPU-first: the interactive catalog uses GLSL fragment shaders where the platform supports them, with documented CPU Precision paths for deep-zoom cases that need stable refinement.
 
 
 
-### 🔬 Deep Zoom — Multi-Precision Rendering
+### 🔬 Deep Zoom — Precision Ladder
 
-A three-tier precision engine provides:
+A three-tier precision ladder routes supported modules through the most honest available render path:
 
-| Tier | Method | Magnification |
+| Tier | Method | Intended use |
 | :--- | :--- | :--- |
-| 1 | float32 GPU | Standard zoom |
-| 2 | Double-float GPU emulation | Up to 10^14x |
-| 3 | CPU double fallback | Unlimited precision |
+| 1 | float32 GPU | Standard interactive zoom |
+| 2 | Extended GPU preview | Double-float or perturbation preview for deeper interactive zoom |
+| 3 | CPU Precision | Stable refinement path for supported deep-zoom 2D modules |
 
-This far exceeds the limit of standard 32-bit GPU rendering.
+The installable app is the primary experience. Browser support is a WebGL 2.0 preview; export/share, CPU precision fallback, and deep-zoom browser behavior are tracked in the renderer backend matrix.
 
 ### 🎨 60+ Colour Schemes with sRGB-Correct Rendering
 
@@ -98,7 +98,7 @@ Jump straight to famous regions — Seahorse Valley, Elephant Valley, deep spira
 
 ### 📤 Export
 
-Save any fractal as a high-resolution PNG with optional transparency and share directly from the app.
+Save fractals as high-resolution PNGs with optional transparency and share directly from the installable app. Browser export/share behavior is preview-grade until validated in the web launch checklist.
 
 ### 🔒 No Ads. No Tracking. No Data Collection.
 

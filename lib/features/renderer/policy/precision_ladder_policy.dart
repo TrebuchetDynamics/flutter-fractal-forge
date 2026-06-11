@@ -71,9 +71,9 @@ class PrecisionLadderDecision {
       case PrecisionLadderTier.realtimeGpu:
         return cpuFallbackPending ? 'Precision pending' : 'GPU';
       case PrecisionLadderTier.extendedGpu:
-        return 'Deep GPU';
+        return 'Deep GPU preview';
       case PrecisionLadderTier.precisionRefine:
-        return 'Precision';
+        return 'CPU Precision';
     }
   }
 

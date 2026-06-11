@@ -1,24 +1,11 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
 import 'package:flutter_fractals/features/export/custom_export_dimensions.dart';
+import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/features/export/export_resolution_summary.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
-
-enum ExportAction {
-  saveOnly,
-  saveAndShare,
-}
-
-class ExportSheetSubmission {
-  final ExportOptions options;
-  final ExportAction action;
-
-  const ExportSheetSubmission({
-    required this.options,
-    required this.action,
-  });
-}
 
 /// A bottom sheet for configuring export options
 class ExportOptionsSheet extends StatefulWidget {
@@ -685,6 +672,9 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
   Widget _buildExportActions(BuildContext context, AppLocalizations l10n) {
     final effectiveOptions = _effectiveOptionsForExport();
+    final canSaveAndShare = ExportActionAvailability.canSaveAndShare(
+      isWeb: kIsWeb,
+    );
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -728,18 +718,21 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
             Expanded(
               child: Semantics(
                 button: true,
+                enabled: canSaveAndShare,
                 label: l10n.exportActionSaveAndShare,
                 hint: l10n.exportSaveLocationHint,
                 child: FilledButton.icon(
                   key: const ValueKey('exportShareButton'),
-                  onPressed: () {
-                    Navigator.of(context).pop(
-                      ExportSheetSubmission(
-                        options: effectiveOptions,
-                        action: ExportAction.saveAndShare,
-                      ),
-                    );
-                  },
+                  onPressed: canSaveAndShare
+                      ? () {
+                          Navigator.of(context).pop(
+                            ExportSheetSubmission(
+                              options: effectiveOptions,
+                              action: ExportAction.saveAndShare,
+                            ),
+                          );
+                        }
+                      : null,
                   icon: const Icon(Icons.share_rounded),
                   label: Text(l10n.exportActionSaveAndShare),
                   style: FilledButton.styleFrom(

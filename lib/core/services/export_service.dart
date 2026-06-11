@@ -6,8 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/core/services/share_service.dart';
 
 /// Replayable filename contract for exported files.
 ///
@@ -100,10 +100,56 @@ final class _WallpaperOverlayGradient {
   }
 }
 
+class ExportSizePolicy {
+  /// Enough for 4K presets with headroom for square/social custom exports.
+  static const int maxPixelCount = 16 * 1024 * 1024;
+
+  /// Guard against accidentally routing huge byte payloads through file IO or
+  /// Android MethodChannels. PNG/JPG exports that exceed this should be reduced
+  /// before save/share instead of failing late in platform code.
+  static const int maxEncodedImageBytes = 64 * 1024 * 1024;
+
+  const ExportSizePolicy._();
+
+  static void validateTargetDimensions(int width, int height) {
+    if (width <= 0 || height <= 0) {
+      throw StateError('Export dimensions must be positive.');
+    }
+    final pixels = width * height;
+    if (pixels > maxPixelCount) {
+      throw StateError(
+        'Export is too large: $width×$height exceeds '
+        '$maxPixelCount pixels.',
+      );
+    }
+  }
+
+  static void validateEncodedByteLength(int byteLength) {
+    if (byteLength < 0) {
+      throw StateError('Export byte length must be non-negative.');
+    }
+    if (byteLength > maxEncodedImageBytes) {
+      throw StateError(
+        'Export file is too large: $byteLength bytes exceeds '
+        '$maxEncodedImageBytes bytes.',
+      );
+    }
+  }
+}
+
+Future<void> _shareFileWithPlatform(File file, {String? text}) {
+  return const AppShareService().shareFile(file, text: text);
+}
+
 class ExportService {
   static const MethodChannel _mediaStoreChannel =
       MethodChannel('fractalforge/media_store');
-  const ExportService();
+
+  final ShareFileCallback shareFileAdapter;
+
+  const ExportService({
+    ShareFileCallback shareFile = _shareFileWithPlatform,
+  }) : shareFileAdapter = shareFile;
 
   /// Returns the actual format we can encode today.
   ///
@@ -278,11 +324,15 @@ class ExportService {
   }) async {
     onProgress?.call(0.1);
 
+    final targetDims = options.getTargetDimensions(screenWidth, screenHeight);
+    ExportSizePolicy.validateTargetDimensions(targetDims.$1, targetDims.$2);
+
     // Calculate pixel ratio for target resolution
     final pixelRatio = options.calculatePixelRatio(screenWidth, screenHeight);
 
     // Capture raw PNG from Flutter
     final rawPng = await capturePng(boundaryKey, pixelRatio: pixelRatio);
+    ExportSizePolicy.validateEncodedByteLength(rawPng.lengthInBytes);
     onProgress?.call(0.4);
 
     // Decode the PNG for processing
@@ -293,7 +343,6 @@ class ExportService {
     onProgress?.call(0.5);
 
     // Resize if needed for target resolution
-    final targetDims = options.getTargetDimensions(screenWidth, screenHeight);
     img.Image processedImage;
 
     if (decodedImage.width != targetDims.$1 ||
@@ -324,6 +373,7 @@ class ExportService {
     // Encode to target format
     final effectiveFormat = resolveEffectiveFormat(options.format);
     final encoded = _encodeToFormat(processedImage, options, effectiveFormat);
+    ExportSizePolicy.validateEncodedByteLength(encoded.lengthInBytes);
     onProgress?.call(1.0);
 
     return Uint8List.fromList(encoded);
@@ -415,6 +465,7 @@ class ExportService {
   }
 
   Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+    ExportSizePolicy.validateEncodedByteLength(bytes.lengthInBytes);
     final file = await createExportFile(filename: filename);
     final written = await file.writeAsBytes(bytes, flush: true);
     await _mirrorImageToMediaStoreIfNeeded(bytes, filename);
@@ -422,7 +473,7 @@ class ExportService {
   }
 
   Future<void> shareFile(File file, {String? text}) async {
-    await Share.shareXFiles([XFile(file.path)], text: text);
+    await shareFileAdapter(file, text: text);
   }
 
   bool _isImageFilename(String filename) {

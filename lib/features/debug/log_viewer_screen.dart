@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'package:flutter_fractals/core/services/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/share_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
@@ -143,14 +143,16 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
         Uint8List.fromList(content.codeUnits),
         filename: filename,
       );
-      await Share.shareXFiles(
-        [XFile(file.path)],
+      await const AppShareService().shareFile(
+        file,
         text: 'Flutter Fractal Forge diagnostic log',
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.logShareFailed(e.toString()))),
+        SnackBar(
+            content: Text(
+                AppLocalizations.of(context)!.logShareFailed(e.toString()))),
       );
     }
   }
@@ -176,10 +178,14 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             onSelected: (v) => setState(() => _filter = v),
             itemBuilder: (_) => [
               PopupMenuItem(value: null, child: Text(l10n.logFilterAll)),
-              PopupMenuItem(value: LogLevel.debug, child: Text(l10n.logFilterDebug)),
-              PopupMenuItem(value: LogLevel.info, child: Text(l10n.logFilterInfo)),
-              PopupMenuItem(value: LogLevel.warn, child: Text(l10n.logFilterWarn)),
-              PopupMenuItem(value: LogLevel.error, child: Text(l10n.logFilterError)),
+              PopupMenuItem(
+                  value: LogLevel.debug, child: Text(l10n.logFilterDebug)),
+              PopupMenuItem(
+                  value: LogLevel.info, child: Text(l10n.logFilterInfo)),
+              PopupMenuItem(
+                  value: LogLevel.warn, child: Text(l10n.logFilterWarn)),
+              PopupMenuItem(
+                  value: LogLevel.error, child: Text(l10n.logFilterError)),
             ],
           ),
           IconButton(

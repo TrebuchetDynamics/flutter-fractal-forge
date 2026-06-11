@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,6 +10,11 @@ class _SheetHarness {
 }
 
 void main() {
+  test('ExportActionAvailability disables share on web preview', () {
+    expect(ExportActionAvailability.canSaveAndShare(isWeb: false), isTrue);
+    expect(ExportActionAvailability.canSaveAndShare(isWeb: true), isFalse);
+  });
+
   Future<_SheetHarness> pumpSheet(
     WidgetTester tester, {
     ExportOptions initialOptions = const ExportOptions(),
