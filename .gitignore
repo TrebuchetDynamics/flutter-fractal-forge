@@ -16,9 +16,12 @@ build/
 *.freezed.dart
 
 # Android
-debug/
-profile/
-release/
+/debug/
+/profile/
+/release/
+# Local release evidence/staging directories.
+/docs/release/
+/scripts/release/
 android/.gradle/
 android/**/build/
 android/local.properties
@@ -42,7 +45,6 @@ ios/Pods/
 
 # Local artifacts
 *.log
-*.lock
 *.bak
 *.pyc
 __pycache__/
@@ -50,7 +52,6 @@ __pycache__/
 node_modules/
 playwright-report/
 test-results/
-graphify-out/
 maestro_reports/
 flutter_*.log
 .flutter-plugins

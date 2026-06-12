@@ -5,7 +5,7 @@ set -euo pipefail
 # This complements .gitignore: ignored files that are already tracked still need
 # an explicit `git rm --cached` cleanup.
 
-pattern='(^|/)\.claude|(^|/)\.claude-flow|(^|/)\.pi|(^|/)\.swarm|(^|/)\.superpowers|graphify-out|maestro_reports|__pycache__|\.pyc$|\.bak$|\.log$|android/key\.properties$|android/(.*/)?build/'
+pattern='(^|/)\.claude|(^|/)\.claude-flow|(^|/)\.pi|(^|/)\.swarm|(^|/)\.superpowers|(^|/)\.mcp\.json$|(^|/)\.flutter-plugins(-dependencies)?$|(^|/)\.vscode/|maestro_reports|__pycache__|\.pyc$|\.bak$|\.log$|android/key\.properties$|android/(.*/)?build/'
 
 mapfile -t offenders < <(git ls-files | grep -E "$pattern" || true)
 

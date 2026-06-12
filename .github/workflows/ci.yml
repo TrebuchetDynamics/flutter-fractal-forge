@@ -10,6 +10,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Tracked artifact audit
+        run: scripts/audit-tracked-artifacts.sh
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
