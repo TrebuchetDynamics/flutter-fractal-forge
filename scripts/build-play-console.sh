@@ -266,13 +266,13 @@ sanitize_release_registrant() {
 
   REGISTRANT_BACKUP="$(mktemp)"
   cp "$REGISTRANT_FILE" "$REGISTRANT_BACKUP"
+  RESTORE_REGISTRANT=1
   sed -i '/dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin()/d' "$REGISTRANT_FILE"
 
   if grep -q 'dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin()' "$REGISTRANT_FILE"; then
     die "Failed to sanitize GeneratedPluginRegistrant.java for release build"
   fi
 
-  RESTORE_REGISTRANT=1
   log "Temporarily removed integration_test native registration for release build compatibility"
 }
 

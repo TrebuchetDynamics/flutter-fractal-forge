@@ -12,6 +12,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Tracked artifact audit
         run: scripts/audit-tracked-artifacts.sh
+      - name: Install script test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats
+      - name: Script tests
+        run: bats tests/scripts/build_play_console.bats
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -22,6 +28,7 @@ jobs:
       - name: Fast safety tests
         run: >-
           flutter test
+          test/android_edge_to_edge_boundary_test.dart
           test/precision_ladder_policy_test.dart
           test/backend_policy_comprehensive_test.dart
           test/fractal_controller_behavior_test.dart

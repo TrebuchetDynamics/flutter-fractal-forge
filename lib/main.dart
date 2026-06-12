@@ -20,7 +20,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:flutter_fractals/app/diagnostic_apps.dart';
 import 'package:flutter_fractals/app/startup.dart';
@@ -43,14 +42,6 @@ Future<void> main() async {
 
     // Lightweight, local-only crash/error reporting.
     CrashReporter.install();
-
-    // Keep system-bar icons readable. Android edge-to-edge and transparent
-    // system bars are configured natively in MainActivity to avoid Android 15
-    // deprecated system-bar color APIs.
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ));
 
     if (kSafeMode >= 2) {
       runApp(const UltraSafeApp());
