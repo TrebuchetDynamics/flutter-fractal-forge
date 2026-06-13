@@ -8,6 +8,7 @@ import 'dart:math' as math;
 
 import 'package:vector_math/vector_math.dart' show Vector2;
 
+import 'cpu_coloring.dart';
 import 'cpu_complex_math.dart';
 import 'cpu_scalar_math.dart';
 
@@ -290,8 +291,6 @@ CpuFormula cpuFormulaForModuleId(String moduleId) {
   });
 }
 
-const (double r, double g, double b) _insideColor = (46.0, 120.0, 220.0);
-
 int _fnv1a32(String s) {
   int h = 0x811c9dc5;
   for (final cu in s.codeUnits) {
@@ -299,26 +298,6 @@ int _fnv1a32(String s) {
     h = (h * 0x01000193) & 0xFFFFFFFF;
   }
   return h;
-}
-
-@pragma('vm:prefer-inline')
-(double r, double g, double b) _palette(double t) {
-  final r = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.00))) * 255.0;
-  final g = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.33))) * 255.0;
-  final b = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.67))) * 255.0;
-  return (r, g, b);
-}
-
-double _smoothEscape({
-  required int it,
-  required int iterations,
-  required double mag2,
-  double power = 2.0,
-}) {
-  final m2 = math.max(1e-16, mag2);
-  final lp = log2(power);
-  final v = it - log2(log2(m2)) / (lp == 0.0 ? 1.0 : lp);
-  return fract(v / 64.0);
 }
 
 (double x, double y) _gammaStirling(double zx, double zy) {
@@ -334,43 +313,6 @@ double _smoothEscape({
   final logGammaY = power.$2 - zsy;
 
   return cexpSafe(logGammaX, logGammaY, clampX: 40.0);
-}
-
-typedef _ZUpdate = (double, double) Function(
-    double zx, double zy, double cx, double cy);
-
-/// Higher-order escape-time formula.
-///
-/// Runs the standard escape-time loop using [update] as the recurrence, then
-/// colours using [_smoothEscape] + [_palette].  Optional [zx0]/[zy0] override
-/// the initial z value (default 0+0i).  [power] forwards to [_smoothEscape].
-@pragma('vm:prefer-inline')
-(double r, double g, double b) _escapeTime(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  _ZUpdate update, {
-  double zx0 = 0.0,
-  double zy0 = 0.0,
-  double power = 2.0,
-}) {
-  double zx = zx0;
-  double zy = zy0;
-  final bailout2 = bailout * bailout;
-  int it = 0;
-  while (it < iterations) {
-    if (zx * zx + zy * zy > bailout2) break;
-    final n = update(zx, zy, x, y);
-    zx = n.$1;
-    zy = n.$2;
-    it++;
-  }
-  if (it >= iterations) return _insideColor;
-  final mag2 = zx * zx + zy * zy;
-  return _palette(
-    _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: power),
-  );
 }
 
 (double r, double g, double b) _cpu_synthetic(
@@ -449,11 +391,11 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final baseT = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
+  final baseT = smoothEscape(it: it, mag2: mag2 + 1.0);
   final offset = ((s ^ (s >> 13)) & 1023) / 1024.0;
-  return _palette(fract(baseT + offset));
+  return palette(fract(baseT + offset));
 }
 
 (double r, double g, double b) _cpu_mandelbrot(
@@ -463,7 +405,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    _escapeTime(x, y, iterations, bailout,
+    escapeTime(x, y, iterations, bailout,
         (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, 2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_julia(
   double x,
@@ -475,7 +417,7 @@ typedef _ZUpdate = (double, double) Function(
   // Julia set: z₀ = (x, y), c = juliaC
   final c0x = juliaC.x;
   final c0y = juliaC.y;
-  return _escapeTime(
+  return escapeTime(
     x,
     y,
     iterations,
@@ -525,9 +467,9 @@ typedef _ZUpdate = (double, double) Function(
     }
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  return _palette(_smoothEscape(it: it, iterations: iterations, mag2: mag2));
+  return palette(smoothEscape(it: it, mag2: mag2));
 }
 
 (double r, double g, double b) _cpu_celtic(
@@ -537,7 +479,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    _escapeTime(
+    escapeTime(
         x,
         y,
         iterations,
@@ -551,7 +493,7 @@ typedef _ZUpdate = (double, double) Function(
   double bailout,
   Vector2 juliaC,
 ) =>
-    _escapeTime(
+    escapeTime(
         x,
         y,
         iterations,
@@ -567,7 +509,7 @@ typedef _ZUpdate = (double, double) Function(
 ) {
   // Ported from shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag.
   final c = cpuBurningShipParameterPlanePoint(x, y);
-  return _escapeTime(c.x, c.y, iterations, bailout, (zx, zy, cx, cy) {
+  return escapeTime(c.x, c.y, iterations, bailout, (zx, zy, cx, cy) {
     final ax = zx.abs();
     final ay = zy.abs();
     return (ax * ax - ay * ay + cx, 2.0 * ax * ay + cy);
@@ -582,7 +524,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag (Mandelbar: conj(z)^2 + c)
-    _escapeTime(x, y, iterations, bailout,
+    escapeTime(x, y, iterations, bailout,
         (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, -2.0 * zx * zy + cy));
 (double r, double g, double b) _cpu_multibrot3(
   double x,
@@ -592,7 +534,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag (z^3 + c)
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final x2 = zx * zx;
       final y2 = zy * zy;
       return (zx * (x2 - 3.0 * y2) + cx, zy * (3.0 * x2 - y2) + cy);
@@ -641,11 +583,11 @@ typedef _ZUpdate = (double, double) Function(
     }
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final angle = math.atan2(zy, zx);
   final rootPhase = floorMod(angle / (2.0 * math.pi) + 1.0, 1.0);
   final t = fract(it / math.max(1, iterations) + rootPhase * 0.33);
-  return _palette(t);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_nova_julia(
@@ -692,7 +634,7 @@ typedef _ZUpdate = (double, double) Function(
     }
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
 
   // Root phase for 3 roots of unity
   const r0x = 1.0;
@@ -712,7 +654,7 @@ typedef _ZUpdate = (double, double) Function(
   else if (d2 < d0 && d2 < d1) rootPhase = 0.6666667;
 
   final t = fract(it / math.max(1, iterations) + rootPhase);
-  return _palette(t);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_fatou(
@@ -763,7 +705,7 @@ typedef _ZUpdate = (double, double) Function(
       mu = it + 1.0 - log2(0.5 * math.log(z2));
     }
     final t = fract(mu / math.max(1, iterations));
-    return _palette(t);
+    return palette(t);
   }
 
   // Interior coloring by a crude period hint.
@@ -774,7 +716,7 @@ typedef _ZUpdate = (double, double) Function(
   final t = fract(0.5 * periodHint +
       attractorPhase +
       0.2 * math.log(1.0 + math.sqrt(zx * zx + zy * zy)));
-  return _palette(t);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_gamma_fractal(
@@ -803,10 +745,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final ang = math.atan2(zy, zx) / (2.0 * math.pi) + 0.5;
   final t = fract(it / math.max(1, iterations) + 0.25 * ang);
-  return _palette(t);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_perpendicular_mandelbrot(
@@ -817,7 +759,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag
-    _escapeTime(
+    escapeTime(
         x,
         y,
         iterations,
@@ -832,7 +774,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/transcendental_maps/holomorphic_dynamics/lambda_gpu.frag: z = c*z*(1-z), z₀ = c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       // z*(1-z): real = zx - zx^2 + zy^2, imag = zy - 2*zx*zy
       final t1x = zx - zx * zx + zy * zy;
       final t1y = zy - 2.0 * zx * zy;
@@ -876,10 +818,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
-  return _palette(t);
+  final t = smoothEscape(it: it, mag2: mag2 + 1.0);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_magnet_type_2(
@@ -938,10 +880,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
-  return _palette(t);
+  final t = smoothEscape(it: it, mag2: mag2 + 1.0);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_magnet_type_3(
@@ -1008,10 +950,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
-  return _palette(t);
+  final t = smoothEscape(it: it, mag2: mag2 + 1.0);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_power_sum(
@@ -1022,7 +964,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/polynomial_maps/polynomial_iterations/power_sum_gpu.frag: z = z^3 + z^2 + c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
       final z3x = z2x * zx - z2y * zy;
@@ -1037,7 +979,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/polynomial_maps/polynomial_iterations/cactus_gpu.frag: z = z^3 + (c-1)z - c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
       final z3x = z2x * zx - z2y * zy;
@@ -1055,7 +997,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/polynomial_maps/fractional_and_folded/astroid_gpu.frag: z = z^(2/3) + c, z₀ = c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final r = math.sqrt(zx * zx + zy * zy);
       final theta = math.atan2(zy, zx);
       final rp = math.pow(math.max(r, 1e-12), 2.0 / 3.0).toDouble();
@@ -1070,7 +1012,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/polynomial_maps/fractional_and_folded/deltoid_gpu.frag: z = z^2 + c*conj(z), z₀ = c
-    _escapeTime(
+    escapeTime(
         x,
         y,
         iterations,
@@ -1125,10 +1067,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
-  return _palette(t);
+  final t = smoothEscape(it: it, mag2: mag2 + 1.0);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_druid(
@@ -1139,7 +1081,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/polynomial_maps/polynomial_iterations/druid_gpu.frag (cubic Mandelbrot, z^3 + c)
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final x2 = zx * zx;
       final y2 = zy * zy;
       return (zx * (x2 - 3.0 * y2) + cx, zy * (3.0 * x2 - y2) + cy);
@@ -1152,7 +1094,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/mandelbrot_variants/iterative_maps/inverse_mandelbrot_gpu.frag: z = 1/z^2 + c, z₀ = c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
       final d = math.max(1e-12, z2x * z2x + z2y * z2y);
@@ -1166,7 +1108,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/polynomial_maps/fractional_and_folded/glynn_gpu.frag: z = z^1.5 + c, z₀ = c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final r = math.sqrt(zx * zx + zy * zy);
       final theta = math.atan2(zy, zx);
       final rp = math.pow(math.max(r, 1e-12), 1.5).toDouble();
@@ -1181,7 +1123,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/mandelbrot_variants/iterative_maps/simonbrot_gpu.frag: z = z^2 + unit(z) + c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final r = math.sqrt(zx * zx + zy * zy);
       final ux = r > 1e-12 ? zx / r : 0.0;
       final uy = r > 1e-12 ? zy / r : 0.0;
@@ -1195,7 +1137,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/polynomial_maps/fractional_and_folded/shark_fin_gpu.frag: z = zx^2 - |zy|^2 + cx, 2*zx*|zy| + cy
-    _escapeTime(x, y, iterations, bailout,
+    escapeTime(x, y, iterations, bailout,
         (zx, zy, cx, cy) => (zx * zx - zy * zy + cx, 2.0 * zx * zy.abs() + cy));
 (double r, double g, double b) _cpu_manowar(
   double x,
@@ -1226,10 +1168,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2);
-  return _palette(t);
+  final t = smoothEscape(it: it, mag2: mag2);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_spider(
@@ -1260,10 +1202,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2);
-  return _palette(t);
+  final t = smoothEscape(it: it, mag2: mag2);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_collatz(
@@ -1305,10 +1247,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2);
-  return _palette(t);
+  final t = smoothEscape(it: it, mag2: mag2);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_popcorn(
@@ -1339,11 +1281,11 @@ typedef _ZUpdate = (double, double) Function(
     }
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final base = it / math.max(1, iterations);
   final wobble = 0.15 * math.sin(0.05 * zx + 0.07 * zy);
   final t = fract(base + wobble);
-  return _palette(t);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_talis(
@@ -1354,7 +1296,7 @@ typedef _ZUpdate = (double, double) Function(
   Vector2 juliaC,
 ) =>
     // Ported from shaders/escape_time_family/polynomial_maps/rational_singularities/talis_gpu.frag: z = z^2 / (1+z) + c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
       final q = cdivSafe(z2x, z2y, 1.0 + zx, zy);
@@ -1384,10 +1326,10 @@ typedef _ZUpdate = (double, double) Function(
     it++;
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  final t = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
-  return _palette(t);
+  final t = smoothEscape(it: it, mag2: mag2 + 1.0);
+  return palette(t);
 }
 
 (double r, double g, double b) _cpu_sierpinski_triangle(
@@ -3115,7 +3057,7 @@ typedef _ZUpdate = (double, double) Function(
 ) =>
     // Ported from shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag and common Multibrot references.
     // z -> z^4 + c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
       final z4x = z2x * z2x - z2y * z2y;
@@ -3132,7 +3074,7 @@ typedef _ZUpdate = (double, double) Function(
 ) =>
     // Ported from shaders/escape_time_family/families/multibrot/integer_powers/multibrot5_gpu.frag and common Multibrot references.
     // z -> z^5 + c
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
       final z4x = z2x * z2x - z2y * z2y;
@@ -3250,8 +3192,8 @@ typedef _ZUpdate = (double, double) Function(
   while (it < iterations) {
     final mag2 = zx * zx + zy * zy;
     if (mag2 > bail2) {
-      return _palette(
-        _smoothEscape(it: it, iterations: iterations, mag2: mag2),
+      return palette(
+        smoothEscape(it: it, mag2: mag2),
       );
     }
     final nx = zx * zx - zy * zy;
@@ -3265,7 +3207,7 @@ typedef _ZUpdate = (double, double) Function(
     }
     it++;
   }
-  return _insideColor;
+  return kInsideColor;
 }
 
 /// Domain coloring: evaluate f(z) = z^2 and color by phase + magnitude.
@@ -3325,13 +3267,13 @@ typedef _ZUpdate = (double, double) Function(
   while (it < iterations) {
     final mag2 = zx * zx + zy * zy;
     if (mag2 > bail2) {
-      return _palette(
-        _smoothEscape(it: it, iterations: iterations, mag2: mag2),
+      return palette(
+        smoothEscape(it: it, mag2: mag2),
       );
     }
     // Guard singularity at z≈0
     if (mag2 < 1e-12) {
-      return _insideColor;
+      return kInsideColor;
     }
     // z^2
     final z2x = zx * zx - zy * zy;
@@ -3343,7 +3285,7 @@ typedef _ZUpdate = (double, double) Function(
     zy = z2y + inv.$2;
     it++;
   }
-  return _insideColor;
+  return kInsideColor;
 }
 
 /// HSV to RGB (h,s,v all 0..1) → (r,g,b) 0..255.
@@ -3376,7 +3318,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_burning_ship_cubic(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
       final ay = zy.abs();
       // w = (ax, ay), w^3 = w * w^2
@@ -3388,7 +3330,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_burning_ship_power4(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
       final ay = zy.abs();
       // w^2
@@ -3403,7 +3345,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_burning_ship_power5(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
       final ay = zy.abs();
       final w2x = ax * ax - ay * ay;
@@ -3419,7 +3361,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_burning_ship_power6(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
       final ay = zy.abs();
       final w2x = ax * ax - ay * ay;
@@ -3435,7 +3377,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_burning_ship_power7(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
       final ay = zy.abs();
       final w2x = ax * ax - ay * ay;
@@ -3456,7 +3398,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_celtic_cubic(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final x2 = zx * zx;
       final y2 = zy * zy;
       final x3 = zx * (x2 - 3.0 * y2); // Re(z^3)
@@ -3467,7 +3409,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_celtic_power4(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       // z^2
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
@@ -3480,7 +3422,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_celtic_power5(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
       final z4x = z2x * z2x - z2y * z2y;
@@ -3497,7 +3439,7 @@ typedef _ZUpdate = (double, double) Function(
 (double r, double g, double b) _cpu_buffalo_cubic(
   double x, double y, int iterations, double bailout, Vector2 juliaC,
 ) =>
-    _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
+    escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final x2 = zx * zx;
       final y2 = zy * zy;
       final x3 = zx * (x2 - 3.0 * y2); // Re(z^3)
@@ -3540,10 +3482,10 @@ typedef _ZUpdate = (double, double) Function(
       break;
     }
   }
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  return _palette(
-    _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: n.toDouble()),
+  return palette(
+    smoothEscape(it: it, mag2: mag2, power: n.toDouble()),
   );
 }
 
@@ -3581,10 +3523,10 @@ typedef _ZUpdate = (double, double) Function(
       break;
     }
   }
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  return _palette(
-    _smoothEscape(it: it, iterations: iterations, mag2: mag2, power: pn.toDouble()),
+  return palette(
+    smoothEscape(it: it, mag2: mag2, power: pn.toDouble()),
   );
 }
 
@@ -3630,7 +3572,7 @@ typedef _ZUpdate = (double, double) Function(
     }
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
 
   // Color by nearest root of z^3 - 1
   double bestDist = 1e10;
@@ -3647,7 +3589,7 @@ typedef _ZUpdate = (double, double) Function(
       rootPhase = k / degree;
     }
   }
-  return _palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+  return palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
 }
 
 // ── Durand-Kerner ───────────────────────────────────────────────────────────
@@ -3688,7 +3630,7 @@ typedef _ZUpdate = (double, double) Function(
     }
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   double bestDist = 1e10;
   double rootPhase = 0.0;
   for (int k = 0; k < degree; k++) {
@@ -3701,7 +3643,7 @@ typedef _ZUpdate = (double, double) Function(
       rootPhase = k / degree;
     }
   }
-  return _palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+  return palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
 }
 
 // ── Ehrlich-Aberth ──────────────────────────────────────────────────────────
@@ -3749,7 +3691,7 @@ typedef _ZUpdate = (double, double) Function(
     }
   }
 
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   double bestDist = 1e10;
   double rootPhase = 0.0;
   for (int k = 0; k < degree; k++) {
@@ -3762,7 +3704,7 @@ typedef _ZUpdate = (double, double) Function(
       rootPhase = k / degree;
     }
   }
-  return _palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+  return palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
 }
 
 // ── Shape Modulus Julia ─────────────────────────────────────────────────────
@@ -3795,9 +3737,9 @@ typedef _ZUpdate = (double, double) Function(
       break;
     }
   }
-  if (it >= iterations) return _insideColor;
+  if (it >= iterations) return kInsideColor;
   final mag2 = zx * zx + zy * zy;
-  return _palette(_smoothEscape(it: it, iterations: iterations, mag2: mag2));
+  return palette(smoothEscape(it: it, mag2: mag2));
 }
 
 // ── Fractal Flame ───────────────────────────────────────────────────────────
@@ -3835,11 +3777,11 @@ typedef _ZUpdate = (double, double) Function(
 
     if (zx * zx + zy * zy > bailout * bailout) {
       final t = fract(j / 64.0 + colorAccum);
-      return _palette(t);
+      return palette(t);
     }
   }
   // Use accumulated color for inside points
-  return _palette(fract(colorAccum));
+  return palette(fract(colorAccum));
 }
 
 // ── Buddhabrot Full ─────────────────────────────────────────────────────────
@@ -3872,10 +3814,10 @@ typedef _ZUpdate = (double, double) Function(
     }
   }
   // Buddhabrot colors escaping orbits; inside = dark
-  if (escapeIt >= iterations) return _insideColor;
+  if (escapeIt >= iterations) return kInsideColor;
   // Color by normalized path length + escape time
   final t = fract(pathLen * 0.1 + escapeIt / 64.0);
-  return _palette(t);
+  return palette(t);
 }
 
 // ── Gray-Scott Reaction-Diffusion ───────────────────────────────────────────
@@ -3926,7 +3868,7 @@ double _simplexNoise2D(double px, double py) {
   final u = clampDouble(val + feedRate * 5.0, 0.0, 1.0);
   final v = clampDouble(1.0 - val - killRate * 8.0, 0.0, 1.0);
   final t = fract(u * 0.6 + v * 0.4);
-  return _palette(t);
+  return palette(t);
 }
 
 // ── Dielectric Breakdown ────────────────────────────────────────────────────
@@ -3953,8 +3895,8 @@ double _simplexNoise2D(double px, double py) {
       math.exp(-dist * 0.5);
   final intensity = clampDouble(branchVal + val * 0.3, 0.0, 1.0);
 
-  if (intensity < 0.1) return _insideColor;
-  return _palette(fract(intensity + dist * 0.1));
+  if (intensity < 0.1) return kInsideColor;
+  return palette(fract(intensity + dist * 0.1));
 }
 
 // ── Lichtenberg Growth ──────────────────────────────────────────────────────
@@ -3982,6 +3924,6 @@ double _simplexNoise2D(double px, double py) {
   final angularBranch = (math.sin(angle * 7.0 + val * 3.0) * 0.5 + 0.5);
   final intensity = clampDouble(val * angularBranch * radialDecay, 0.0, 1.0);
 
-  if (intensity < 0.05) return _insideColor;
-  return _palette(fract(intensity * 1.5 + dist * 0.05));
+  if (intensity < 0.05) return kInsideColor;
+  return palette(fract(intensity * 1.5 + dist * 0.05));
 }
