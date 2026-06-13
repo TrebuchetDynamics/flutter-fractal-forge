@@ -8,6 +8,8 @@ import 'dart:math' as math;
 
 import 'package:vector_math/vector_math.dart' show Vector2;
 
+import 'cpu_scalar_math.dart';
+
 typedef CpuFormula = (double r, double g, double b) Function(
   double x,
   double y,
@@ -289,31 +291,6 @@ CpuFormula cpuFormulaForModuleId(String moduleId) {
 
 const (double r, double g, double b) _insideColor = (46.0, 120.0, 220.0);
 
-// Guard the input against non-positive values so the nested `_log2(_log2(m2))`
-// in [_smoothEscape] cannot produce NaN/-Infinity when the inner result is <= 0
-// (i.e. m2 < 1). Mirrors the `math.max(1e-16, mag2)` guard already used there.
-double _log2(double x) => math.log(math.max(1e-16, x)) / math.ln2;
-
-double _fract(double x) => x - x.floorToDouble();
-
-double _clamp(double x, double a, double b) => x < a ? a : (x > b ? b : x);
-
-double _mix(double a, double b, double t) => a + (b - a) * t;
-
-double _smoothstep(double edge0, double edge1, double x) {
-  final t = _clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
-  return t * t * (3.0 - 2.0 * t);
-}
-
-double _mod(double x, double y) => x - y * (x / y).floorToDouble();
-
-double _sinh(double x) => (math.exp(x) - math.exp(-x)) * 0.5;
-double _cosh(double x) => (math.exp(x) + math.exp(-x)) * 0.5;
-double _tanh(double x) {
-  final e2x = math.exp(2.0 * x);
-  return (e2x - 1.0) / (e2x + 1.0);
-}
-
 int _fnv1a32(String s) {
   int h = 0x811c9dc5;
   for (final cu in s.codeUnits) {
@@ -342,7 +319,7 @@ int _fnv1a32(String s) {
 
 @pragma('vm:prefer-inline')
 (double x, double y) _cexpSafe(double ax, double ay, {double clampX = 80.0}) {
-  final ex = math.exp(_clamp(ax, -clampX, clampX));
+  final ex = math.exp(clampDouble(ax, -clampX, clampX));
   return (ex * math.cos(ay), ex * math.sin(ay));
 }
 
@@ -367,9 +344,9 @@ double _smoothEscape({
   double power = 2.0,
 }) {
   final m2 = math.max(1e-16, mag2);
-  final lp = _log2(power);
-  final v = it - _log2(_log2(m2)) / (lp == 0.0 ? 1.0 : lp);
-  return _fract(v / 64.0);
+  final lp = log2(power);
+  final v = it - log2(log2(m2)) / (lp == 0.0 ? 1.0 : lp);
+  return fract(v / 64.0);
 }
 
 (double x, double y) _gammaStirling(double zx, double zy) {
@@ -504,7 +481,7 @@ typedef _ZUpdate = (double, double) Function(
   final mag2 = zx * zx + zy * zy;
   final baseT = _smoothEscape(it: it, iterations: iterations, mag2: mag2 + 1.0);
   final offset = ((s ^ (s >> 13)) & 1023) / 1024.0;
-  return _palette(_fract(baseT + offset));
+  return _palette(fract(baseT + offset));
 }
 
 (double r, double g, double b) _cpu_mandelbrot(
@@ -694,8 +671,8 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final angle = math.atan2(zy, zx);
-  final rootPhase = _mod(angle / (2.0 * math.pi) + 1.0, 1.0);
-  final t = _fract(it / math.max(1, iterations) + rootPhase * 0.33);
+  final rootPhase = floorMod(angle / (2.0 * math.pi) + 1.0, 1.0);
+  final t = fract(it / math.max(1, iterations) + rootPhase * 0.33);
   return _palette(t);
 }
 
@@ -762,7 +739,7 @@ typedef _ZUpdate = (double, double) Function(
     rootPhase = 0.3333333;
   else if (d2 < d0 && d2 < d1) rootPhase = 0.6666667;
 
-  final t = _fract(it / math.max(1, iterations) + rootPhase);
+  final t = fract(it / math.max(1, iterations) + rootPhase);
   return _palette(t);
 }
 
@@ -811,9 +788,9 @@ typedef _ZUpdate = (double, double) Function(
     double mu = it.toDouble();
     if (z2 > 1.0) {
       // mu = it + 1 - log2(0.5 * log(z2))
-      mu = it + 1.0 - _log2(0.5 * math.log(z2));
+      mu = it + 1.0 - log2(0.5 * math.log(z2));
     }
-    final t = _fract(mu / math.max(1, iterations));
+    final t = fract(mu / math.max(1, iterations));
     return _palette(t);
   }
 
@@ -821,8 +798,8 @@ typedef _ZUpdate = (double, double) Function(
   final d1 = math.sqrt((zx - zpx) * (zx - zpx) + (zy - zpy) * (zy - zpy));
   final d2 = math.sqrt((zx - zp2x) * (zx - zp2x) + (zy - zp2y) * (zy - zp2y));
   final periodHint = (d1 < d2) ? 1.0 : 2.0;
-  final attractorPhase = _fract(0.2 * math.atan2(zy, zx) / math.pi + 0.5);
-  final t = _fract(0.5 * periodHint +
+  final attractorPhase = fract(0.2 * math.atan2(zy, zx) / math.pi + 0.5);
+  final t = fract(0.5 * periodHint +
       attractorPhase +
       0.2 * math.log(1.0 + math.sqrt(zx * zx + zy * zy)));
   return _palette(t);
@@ -856,7 +833,7 @@ typedef _ZUpdate = (double, double) Function(
 
   if (it >= iterations) return _insideColor;
   final ang = math.atan2(zy, zx) / (2.0 * math.pi) + 0.5;
-  final t = _fract(it / math.max(1, iterations) + 0.25 * ang);
+  final t = fract(it / math.max(1, iterations) + 0.25 * ang);
   return _palette(t);
 }
 
@@ -1337,8 +1314,8 @@ typedef _ZUpdate = (double, double) Function(
     // ccos(PI * z) where cos(x+iy) = cos(x)cosh(y) - i sin(x)sinh(y)
     final pizx = pi * zx;
     final pizy = pi * zy;
-    final cyh = _cosh(_clamp(pizy, -20.0, 20.0));
-    final syh = _sinh(_clamp(pizy, -20.0, 20.0));
+    final cyh = cosh(clampDouble(pizy, -20.0, 20.0));
+    final syh = sinh(clampDouble(pizy, -20.0, 20.0));
     final cospizX = math.cos(pizx) * cyh;
     final cospizY = -math.sin(pizx) * syh;
 
@@ -1376,8 +1353,8 @@ typedef _ZUpdate = (double, double) Function(
 
   int it = iterations;
   for (int j = 0; j < iterations; j++) {
-    final tx = _clamp(math.tan(3.0 * zy), -50.0, 50.0);
-    final ty = _clamp(math.tan(3.0 * zx), -50.0, 50.0);
+    final tx = clampDouble(math.tan(3.0 * zy), -50.0, 50.0);
+    final ty = clampDouble(math.tan(3.0 * zx), -50.0, 50.0);
 
     final xn = zx - h * math.sin(zy + tx);
     final yn = zy - h * math.sin(zx + ty);
@@ -1393,7 +1370,7 @@ typedef _ZUpdate = (double, double) Function(
   if (it >= iterations) return _insideColor;
   final base = it / math.max(1, iterations);
   final wobble = 0.15 * math.sin(0.05 * zx + 0.07 * zy);
-  final t = _fract(base + wobble);
+  final t = fract(base + wobble);
   return _palette(t);
 }
 
@@ -3357,7 +3334,7 @@ typedef _ZUpdate = (double, double) Function(
   // Log-scale magnitude contour rings
   final logMag = math.log(mag + 1e-10);
   final ring = 0.7 + 0.3 * math.cos(logMag * 6.28318);
-  return _hsv2rgb(hue, 0.85, _clamp(ring, 0.0, 1.0));
+  return _hsv2rgb(hue, 0.85, clampDouble(ring, 0.0, 1.0));
 }
 
 /// Sierpinski-Julia rational map: f(z) = z^2 + c/z^2.
@@ -3709,7 +3686,7 @@ typedef _ZUpdate = (double, double) Function(
       rootPhase = k / degree;
     }
   }
-  return _palette(_fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+  return _palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
 }
 
 // ── Durand-Kerner ───────────────────────────────────────────────────────────
@@ -3763,7 +3740,7 @@ typedef _ZUpdate = (double, double) Function(
       rootPhase = k / degree;
     }
   }
-  return _palette(_fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+  return _palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
 }
 
 // ── Ehrlich-Aberth ──────────────────────────────────────────────────────────
@@ -3824,7 +3801,7 @@ typedef _ZUpdate = (double, double) Function(
       rootPhase = k / degree;
     }
   }
-  return _palette(_fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
+  return _palette(fract(it / math.max(1.0, iterations.toDouble()) + rootPhase));
 }
 
 // ── Shape Modulus Julia ─────────────────────────────────────────────────────
@@ -3838,7 +3815,7 @@ typedef _ZUpdate = (double, double) Function(
   const double shapeScale = 1.0;
   final pixDist = math.sqrt(x * x + y * y);
   final shapeDist = pixDist - shapeScale;
-  final modulation = _tanh(shapeDist * 2.0);
+  final modulation = tanh(shapeDist * 2.0);
   final cx = juliaC.x + modulation * 0.3;
   final cy = juliaC.y + modulation * 0.15;
 
@@ -3896,12 +3873,12 @@ typedef _ZUpdate = (double, double) Function(
     colorAccum += hash * 0.3;
 
     if (zx * zx + zy * zy > bailout * bailout) {
-      final t = _fract(j / 64.0 + colorAccum);
+      final t = fract(j / 64.0 + colorAccum);
       return _palette(t);
     }
   }
   // Use accumulated color for inside points
-  return _palette(_fract(colorAccum));
+  return _palette(fract(colorAccum));
 }
 
 // ── Buddhabrot Full ─────────────────────────────────────────────────────────
@@ -3936,7 +3913,7 @@ typedef _ZUpdate = (double, double) Function(
   // Buddhabrot colors escaping orbits; inside = dark
   if (escapeIt >= iterations) return _insideColor;
   // Color by normalized path length + escape time
-  final t = _fract(pathLen * 0.1 + escapeIt / 64.0);
+  final t = fract(pathLen * 0.1 + escapeIt / 64.0);
   return _palette(t);
 }
 
@@ -3965,7 +3942,7 @@ double _simplexNoise2D(double px, double py) {
   final n10 = _hash21(ix + 1, iy);
   final n01 = _hash21(ix, iy + 1);
   final n11 = _hash21(ix + 1, iy + 1);
-  return _mix(_mix(n00, n10, ux), _mix(n01, n11, ux), uy);
+  return mix(mix(n00, n10, ux), mix(n01, n11, ux), uy);
 }
 
 (double r, double g, double b) _cpu_gray_scott_rd(
@@ -3985,9 +3962,9 @@ double _simplexNoise2D(double px, double py) {
     amp *= 0.5;
   }
   // Modulate with F and k to create spots/stripes
-  final u = _clamp(val + feedRate * 5.0, 0.0, 1.0);
-  final v = _clamp(1.0 - val - killRate * 8.0, 0.0, 1.0);
-  final t = _fract(u * 0.6 + v * 0.4);
+  final u = clampDouble(val + feedRate * 5.0, 0.0, 1.0);
+  final v = clampDouble(1.0 - val - killRate * 8.0, 0.0, 1.0);
+  final t = fract(u * 0.6 + v * 0.4);
   return _palette(t);
 }
 
@@ -4013,10 +3990,10 @@ double _simplexNoise2D(double px, double py) {
   // Create branch-like structure
   final branchVal = (math.sin(angle * 5.0 + val * 4.0) * 0.5 + 0.5) *
       math.exp(-dist * 0.5);
-  final intensity = _clamp(branchVal + val * 0.3, 0.0, 1.0);
+  final intensity = clampDouble(branchVal + val * 0.3, 0.0, 1.0);
 
   if (intensity < 0.1) return _insideColor;
-  return _palette(_fract(intensity + dist * 0.1));
+  return _palette(fract(intensity + dist * 0.1));
 }
 
 // ── Lichtenberg Growth ──────────────────────────────────────────────────────
@@ -4042,8 +4019,8 @@ double _simplexNoise2D(double px, double py) {
   // Growth from center with angular branches
   final radialDecay = math.exp(-dist * 0.8);
   final angularBranch = (math.sin(angle * 7.0 + val * 3.0) * 0.5 + 0.5);
-  final intensity = _clamp(val * angularBranch * radialDecay, 0.0, 1.0);
+  final intensity = clampDouble(val * angularBranch * radialDecay, 0.0, 1.0);
 
   if (intensity < 0.05) return _insideColor;
-  return _palette(_fract(intensity * 1.5 + dist * 0.05));
+  return _palette(fract(intensity * 1.5 + dist * 0.05));
 }
