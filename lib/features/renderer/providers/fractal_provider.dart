@@ -474,18 +474,22 @@ class FractalController extends ChangeNotifier {
   }
 
   void setGlowSigma(double value) {
-    _glowSigma = FractalEffectInputBounds.normalizeGlowSigma(
+    final normalized = FractalEffectInputBounds.normalizeGlowSigma(
       candidate: value,
       current: _glowSigma,
     );
+    if (_glowSigma == normalized) return;
+    _glowSigma = normalized;
     notifyListeners();
   }
 
   void setGlowIntensity(double value) {
-    _glowIntensity = FractalEffectInputBounds.normalizeGlowIntensity(
+    final normalized = FractalEffectInputBounds.normalizeGlowIntensity(
       candidate: value,
       current: _glowIntensity,
     );
+    if (_glowIntensity == normalized) return;
+    _glowIntensity = normalized;
     notifyListeners();
   }
 
@@ -494,6 +498,7 @@ class FractalController extends ChangeNotifier {
   /// When [value] is true, the shader renders background pixels
   /// with alpha=0, suitable for transparent PNG export.
   void setTransparentBackground(bool value) {
+    if (_transparentBackground == value) return;
     _transparentBackground = value;
     notifyListeners();
   }

@@ -289,7 +289,10 @@ CpuFormula cpuFormulaForModuleId(String moduleId) {
 
 const (double r, double g, double b) _insideColor = (46.0, 120.0, 220.0);
 
-double _log2(double x) => math.log(x) / math.ln2;
+// Guard the input against non-positive values so the nested `_log2(_log2(m2))`
+// in [_smoothEscape] cannot produce NaN/-Infinity when the inner result is <= 0
+// (i.e. m2 < 1). Mirrors the `math.max(1e-16, mag2)` guard already used there.
+double _log2(double x) => math.log(math.max(1e-16, x)) / math.ln2;
 
 double _fract(double x) => x - x.floorToDouble();
 
