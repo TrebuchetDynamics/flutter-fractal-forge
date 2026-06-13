@@ -8,6 +8,7 @@ import 'dart:math' as math;
 
 import 'package:vector_math/vector_math.dart' show Vector2;
 
+import 'cpu_complex_math.dart';
 import 'cpu_scalar_math.dart';
 
 typedef CpuFormula = (double r, double g, double b) Function(
@@ -301,35 +302,6 @@ int _fnv1a32(String s) {
 }
 
 @pragma('vm:prefer-inline')
-(double x, double y) _cmul(double ax, double ay, double bx, double by) {
-  return (ax * bx - ay * by, ax * by + ay * bx);
-}
-
-@pragma('vm:prefer-inline')
-(double x, double y) _cdivSafe(double ax, double ay, double bx, double by) {
-  final d = math.max(1e-20, bx * bx + by * by);
-  return ((ax * bx + ay * by) / d, (ay * bx - ax * by) / d);
-}
-
-@pragma('vm:prefer-inline')
-(double x, double y) _clogSafe(double ax, double ay) {
-  final r2 = math.max(1e-20, ax * ax + ay * ay);
-  return (0.5 * math.log(r2), math.atan2(ay, ax));
-}
-
-@pragma('vm:prefer-inline')
-(double x, double y) _cexpSafe(double ax, double ay, {double clampX = 80.0}) {
-  final ex = math.exp(clampDouble(ax, -clampX, clampX));
-  return (ex * math.cos(ay), ex * math.sin(ay));
-}
-
-@pragma('vm:prefer-inline')
-(double x, double y) _cpowSafe(double ax, double ay, double bx, double by) {
-  final logA = _clogSafe(ax, ay);
-  final prod = _cmul(bx, by, logA.$1, logA.$2);
-  return _cexpSafe(prod.$1, prod.$2);
-}
-
 (double r, double g, double b) _palette(double t) {
   final r = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.00))) * 255.0;
   final g = (0.5 + 0.5 * math.cos(6.28318 * (t + 0.33))) * 255.0;
@@ -355,13 +327,13 @@ double _smoothEscape({
   var zsy = zy;
   if (zsx < 0.15) zsx = 0.15; // keep away from branch/poles
 
-  final logZ = _clogSafe(zsx, zsy); // (log(r), atan)
-  final power = _cmul(zsx - 0.5, zsy, logZ.$1, logZ.$2);
+  final logZ = clogSafe(zsx, zsy); // (log(r), atan)
+  final power = cmul(zsx - 0.5, zsy, logZ.$1, logZ.$2);
 
   final logGammaX = 0.5 * math.log(2.0 * math.pi) + power.$1 - zsx;
   final logGammaY = power.$2 - zsy;
 
-  return _cexpSafe(logGammaX, logGammaY, clampX: 40.0);
+  return cexpSafe(logGammaX, logGammaY, clampX: 40.0);
 }
 
 typedef _ZUpdate = (double, double) Function(
@@ -895,7 +867,7 @@ typedef _ZUpdate = (double, double) Function(
     final denx = 2.0 * zx + cx - 2.0;
     final deny = 2.0 * zy + cy;
 
-    final q = _cdivSafe(numx, numy, denx, deny);
+    final q = cdivSafe(numx, numy, denx, deny);
     final qx = q.$1;
     final qy = q.$2;
 
@@ -957,7 +929,7 @@ typedef _ZUpdate = (double, double) Function(
     final denx = 3.0 * z2x + 3.0 * c2zx + c2x - cx + 3.0;
     final deny = 3.0 * z2y + 3.0 * c2zy + c2y - cy;
 
-    final q = _cdivSafe(numx, numy, denx, deny);
+    final q = cdivSafe(numx, numy, denx, deny);
     final qx = q.$1;
     final qy = q.$2;
 
@@ -1024,7 +996,7 @@ typedef _ZUpdate = (double, double) Function(
     final denx = kCz3x + kDzx + kEx;
     final deny = kCz3y + kDzy + kEy;
 
-    final q = _cdivSafe(numx, numy, denx, deny);
+    final q = cdivSafe(numx, numy, denx, deny);
     final qx = q.$1;
     final qy = q.$2;
 
@@ -1385,7 +1357,7 @@ typedef _ZUpdate = (double, double) Function(
     _escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
       final z2y = 2.0 * zx * zy;
-      final q = _cdivSafe(z2x, z2y, 1.0 + zx, zy);
+      final q = cdivSafe(z2x, z2y, 1.0 + zx, zy);
       return (q.$1 + cx, q.$2 + cy);
     });
 (double r, double g, double b) _cpu_tetration(
@@ -1406,7 +1378,7 @@ typedef _ZUpdate = (double, double) Function(
   while (it < iterations) {
     if (zx * zx + zy * zy > bailout2) break;
 
-    final p = _cpowSafe(cx, cy, zx, zy);
+    final p = cpowSafe(cx, cy, zx, zy);
     zx = p.$1;
     zy = p.$2;
     it++;
@@ -3365,7 +3337,7 @@ typedef _ZUpdate = (double, double) Function(
     final z2x = zx * zx - zy * zy;
     final z2y = 2.0 * zx * zy;
     // c / z^2
-    final inv = _cdivSafe(cx, cy, z2x, z2y);
+    final inv = cdivSafe(cx, cy, z2x, z2y);
     // f(z) = z^2 + c/z^2
     zx = z2x + inv.$1;
     zy = z2y + inv.$2;
@@ -3398,17 +3370,6 @@ typedef _ZUpdate = (double, double) Function(
 
 /// Complex integer power: z^n for n >= 0. Returns (re, im).
 @pragma('vm:prefer-inline')
-(double, double) _cpowInt(double zx, double zy, int n) {
-  double rx = 1.0, ry = 0.0;
-  for (int i = 0; i < n; i++) {
-    final nx = rx * zx - ry * zy;
-    final ny = rx * zy + ry * zx;
-    rx = nx;
-    ry = ny;
-  }
-  return (rx, ry);
-}
-
 // ── Burning Ship higher-power variants ──────────────────────────────────────
 // Pattern: z = (|Re(z)| + i|Im(z)|)^p + c  (Y-flip for upright orientation)
 
@@ -3562,7 +3523,7 @@ typedef _ZUpdate = (double, double) Function(
 
   for (int j = 0; j < iterations; j++) {
     // z^n
-    final zn = _cpowInt(zx, zy, n);
+    final zn = cpowInt(zx, zy, n);
     // 1/z^n = conj(z^n) / |z^n|^2
     final znMag2 = math.max(1e-20, zn.$1 * zn.$1 + zn.$2 * zn.$2);
     final invZnX = zn.$1 / znMag2;
@@ -3605,8 +3566,8 @@ typedef _ZUpdate = (double, double) Function(
   int it = iterations;
 
   for (int j = 0; j < iterations; j++) {
-    final zn = _cpowInt(zx, zy, pn);
-    final zm = _cpowInt(zx, zy, pm);
+    final zn = cpowInt(zx, zy, pn);
+    final zm = cpowInt(zx, zy, pm);
     final zmMag2 = math.max(1e-20, zm.$1 * zm.$1 + zm.$2 * zm.$2);
     final invZmX = zm.$1 / zmMag2;
     final invZmY = -zm.$2 / zmMag2;
@@ -3655,7 +3616,7 @@ typedef _ZUpdate = (double, double) Function(
     final fpx = 3.0 * z2x;
     final fpy = 3.0 * z2y;
     // step = f/f'
-    final step = _cdivSafe(fx, fy, fpx, fpy);
+    final step = cdivSafe(fx, fy, fpx, fpy);
     zx -= alpha * step.$1;
     zy -= alpha * step.$2;
 
@@ -3704,15 +3665,15 @@ typedef _ZUpdate = (double, double) Function(
 
   for (int j = 0; j < iterations; j++) {
     // f(z) = z^3 - 1
-    final z2 = _cmul(zx, zy, zx, zy);
-    final z3 = _cmul(z2.$1, z2.$2, zx, zy);
+    final z2 = cmul(zx, zy, zx, zy);
+    final z3 = cmul(z2.$1, z2.$2, zx, zy);
     final fx = z3.$1 - 1.0;
     final fy = z3.$2;
     // f'(z) = 3z^2
     final fpx = 3.0 * z2.$1;
     final fpy = 3.0 * z2.$2;
     // Durand-Kerner: modified Newton step with perturbation in denominator
-    final corr = _cdivSafe(fx, fy,
+    final corr = cdivSafe(fx, fy,
         fpx - 0.5 * fx, fpy - 0.5 * fy);
     zx -= corr.$1;
     zy -= corr.$2;
@@ -3755,8 +3716,8 @@ typedef _ZUpdate = (double, double) Function(
   int it = iterations;
 
   for (int j = 0; j < iterations; j++) {
-    final z2 = _cmul(zx, zy, zx, zy);
-    final z3 = _cmul(z2.$1, z2.$2, zx, zy);
+    final z2 = cmul(zx, zy, zx, zy);
+    final z3 = cmul(z2.$1, z2.$2, zx, zy);
     final fx = z3.$1 - 1.0;
     final fy = z3.$2;
     final fpx = 3.0 * z2.$1;
@@ -3767,14 +3728,14 @@ typedef _ZUpdate = (double, double) Function(
     // f''(z) = 6z
     final fppx = 6.0 * zx;
     final fppy = 6.0 * zy;
-    final ratio = _cdivSafe(fx, fy, fpx, fpy);
-    final halfRatioTimesSecond = _cmul(ratio.$1, ratio.$2, fppx, fppy);
+    final ratio = cdivSafe(fx, fy, fpx, fpy);
+    final halfRatioTimesSecond = cmul(ratio.$1, ratio.$2, fppx, fppy);
     // Halley correction: step = ratio / (1 - 0.5*ratio*f''/f')
-    final corrDivX = 1.0 - 0.5 * _cdivSafe(halfRatioTimesSecond.$1,
+    final corrDivX = 1.0 - 0.5 * cdivSafe(halfRatioTimesSecond.$1,
         halfRatioTimesSecond.$2, fpx, fpy).$1;
-    final corrDivY = -0.5 * _cdivSafe(halfRatioTimesSecond.$1,
+    final corrDivY = -0.5 * cdivSafe(halfRatioTimesSecond.$1,
         halfRatioTimesSecond.$2, fpx, fpy).$2;
-    final step = _cdivSafe(ratio.$1, ratio.$2, corrDivX, corrDivY);
+    final step = cdivSafe(ratio.$1, ratio.$2, corrDivX, corrDivY);
     zx -= step.$1;
     zy -= step.$2;
 
