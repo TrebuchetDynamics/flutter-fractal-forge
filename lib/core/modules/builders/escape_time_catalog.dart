@@ -1,6 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:vector_math/vector_math.dart';
@@ -38,7 +39,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 25.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -51,7 +52,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 15.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -64,7 +65,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 500.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -77,7 +78,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 80.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -90,7 +91,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 200.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -103,7 +104,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -116,7 +117,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 150.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       // Normal-map (bas-relief) presets — colorScheme 50-63 activates 3D shading.
@@ -130,7 +131,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -143,7 +144,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 25.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -156,7 +157,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 500.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -183,7 +184,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.5,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -196,7 +197,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 100.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -209,7 +210,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 500.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -222,7 +223,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 2.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -235,7 +236,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 50.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -248,7 +249,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 30.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -261,7 +262,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.8,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -274,7 +275,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 200.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -287,7 +288,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.5,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -306,7 +307,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -316,7 +317,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(-0.16, 0.9), zoom: 30.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -336,7 +337,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -346,7 +347,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 4.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -366,7 +367,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(-0.5, -0.5), zoom: 1.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -376,7 +377,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(-0.3, 0.5), zoom: 8.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -395,7 +396,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -416,7 +417,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -426,7 +427,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 1},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 3.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -463,7 +464,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -485,7 +486,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -505,7 +506,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(1.0, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -525,7 +526,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -545,7 +546,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -564,7 +565,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -582,7 +583,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -625,7 +626,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -644,7 +645,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -662,7 +663,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -681,7 +682,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -700,7 +701,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -718,7 +719,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -737,7 +738,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -756,7 +757,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -782,7 +783,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -801,7 +802,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 130, 'bailout': 4.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1545,7 +1546,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 160, 'bailout': 8.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1565,7 +1566,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 160, 'bailout': 8.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1585,7 +1586,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 10.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1613,7 +1614,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 12.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1635,7 +1636,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1655,7 +1656,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1674,7 +1675,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1693,7 +1694,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1712,7 +1713,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1731,7 +1732,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1751,7 +1752,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1770,7 +1771,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1789,7 +1790,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1837,7 +1838,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1855,7 +1856,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 63},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1873,7 +1874,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1892,7 +1893,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1911,7 +1912,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1930,7 +1931,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1949,7 +1950,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -1968,7 +1969,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2006,7 +2007,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(-0.4, 0.0), zoom: 0.3, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2026,7 +2027,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2046,7 +2047,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2066,7 +2067,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2086,7 +2087,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2386,7 +2387,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2406,7 +2407,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2432,7 +2433,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2460,7 +2461,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 140, 'bailout': 6.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2503,7 +2504,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2536,7 +2537,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2555,7 +2556,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2651,7 +2652,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 8.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(-0.3, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2675,7 +2676,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2698,7 +2699,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2722,7 +2723,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2746,7 +2747,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2771,7 +2772,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 500, 'bailout': 6.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(-0.747, 0.1), zoom: 20.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2791,7 +2792,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2811,7 +2812,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2832,7 +2833,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 300, 'bailout': 6.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -2842,7 +2843,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2861,7 +2862,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 350, 'bailout': 6.0, 'colorScheme': 0},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -2871,7 +2872,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2892,7 +2893,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 350, 'bailout': 6.0, 'colorScheme': 1},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -2902,7 +2903,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2922,7 +2923,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2943,7 +2944,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 300, 'bailout': 6.0, 'colorScheme': 3},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -2953,7 +2954,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2973,7 +2974,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -2994,7 +2995,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 300, 'bailout': 8.0, 'colorScheme': 5},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -3004,7 +3005,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3024,7 +3025,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3044,7 +3045,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3065,7 +3066,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(-0.5, -0.5), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3092,7 +3093,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3117,7 +3118,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3142,7 +3143,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 280, 'bailout': 6.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3167,7 +3168,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3193,7 +3194,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 220, 'bailout': 8.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3219,7 +3220,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3245,7 +3246,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(-0.3, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3271,7 +3272,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3295,7 +3296,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3319,7 +3320,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 10.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3343,7 +3344,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 8.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3367,7 +3368,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3391,7 +3392,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 10.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3415,7 +3416,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3439,7 +3440,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3463,7 +3464,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 10.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -3666,7 +3667,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 100, 'bailout': 10.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4234,7 +4235,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 1},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.35, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4244,7 +4245,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 8.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.35, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4264,7 +4265,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4274,7 +4275,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4294,7 +4295,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 120, 'bailout': 50.0, 'colorScheme': 0},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.3, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4304,7 +4305,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 50.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.3, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4324,7 +4325,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 20.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4334,7 +4335,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 200, 'bailout': 20.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4357,7 +4358,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 0},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4367,7 +4368,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4388,7 +4389,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 80, 'bailout': 4.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.6, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4398,7 +4399,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 100, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.6, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4418,7 +4419,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 0},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4428,7 +4429,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 5},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4448,7 +4449,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 1},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4458,7 +4459,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 4},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4478,7 +4479,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4488,7 +4489,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 6},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4546,7 +4547,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.7,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4565,7 +4566,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.75,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4616,7 +4617,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.9,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4635,7 +4636,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.95,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4686,7 +4687,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.85,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4705,7 +4706,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4767,7 +4768,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.9,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4787,7 +4788,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.05,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4879,7 +4880,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.95,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4902,7 +4903,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -4968,7 +4969,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -4987,7 +4988,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.1,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -5050,7 +5051,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -5070,7 +5071,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.15,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -5131,7 +5132,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.2,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -5151,7 +5152,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6080,7 +6081,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.6, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -6096,7 +6097,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.8, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6144,7 +6145,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.6, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6182,7 +6183,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
       FractalPreset(
@@ -6197,7 +6198,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.8, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6235,7 +6236,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6273,7 +6274,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6311,7 +6312,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6349,7 +6350,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6387,7 +6388,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6425,7 +6426,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
@@ -6471,7 +6472,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: DateTime.now(),
+        createdAt: builtInPresetCreatedAt,
         isBuiltIn: true,
       ),
     ],
