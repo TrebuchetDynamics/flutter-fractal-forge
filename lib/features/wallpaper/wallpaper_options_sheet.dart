@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_fractals/shared/widgets/sheet_section_label.dart';
 
 class WallpaperOptionsSheet extends StatefulWidget {
@@ -48,14 +49,9 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
           ),
           child: Column(
             children: [
-              Container(
+              SheetDragHandle(
                 margin: const EdgeInsets.symmetric(vertical: 12),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

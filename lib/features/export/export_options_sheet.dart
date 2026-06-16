@@ -6,6 +6,7 @@ import 'package:flutter_fractals/features/export/custom_export_dimensions.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/features/export/export_resolution_summary.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_fractals/shared/widgets/sheet_section_label.dart';
 
 /// A bottom sheet for configuring export options
@@ -120,14 +121,9 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           child: Column(
             children: [
               // Handle bar
-              Container(
+              SheetDragHandle(
                 margin: const EdgeInsets.symmetric(vertical: 12),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
               ),
 
               // Title

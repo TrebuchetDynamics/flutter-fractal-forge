@@ -7,6 +7,7 @@ import 'package:flutter_fractals/features/history/history_entry.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
 /// A modal bottom sheet displaying exploration history and favorites.
@@ -69,13 +70,8 @@ class _HistorySheetState extends State<HistorySheet>
                 children: [
                   // Drag handle
                   const SizedBox(height: AppSpacing.md),
-                  Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: AppColors.textMuted.withValues(alpha: 0.4),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
+                  SheetDragHandle(
+                    color: AppColors.textMuted.withValues(alpha: 0.4),
                   ),
                   const SizedBox(height: AppSpacing.lg),
 

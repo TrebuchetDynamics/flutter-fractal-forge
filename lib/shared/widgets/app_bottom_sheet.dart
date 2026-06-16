@@ -48,20 +48,39 @@ class AppBottomSheet extends StatelessWidget {
   }
 }
 
+/// The small rounded grabber bar shown at the top of a modal bottom sheet.
+///
+/// Standardizes the `40×4`, radius-2 pill shared by every sheet. [color] and
+/// [margin] vary per sheet, so they are parameters rather than baked in.
+class SheetDragHandle extends StatelessWidget {
+  final Color color;
+  final EdgeInsetsGeometry? margin;
+
+  const SheetDragHandle({super.key, required this.color, this.margin});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      width: 40,
+      height: 4,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
+  }
+}
+
 class _DragHandle extends StatelessWidget {
   const _DragHandle();
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.only(top: AppSpacing.md),
-        width: 40,
-        height: 4,
-        decoration: BoxDecoration(
-          color: AppColors.border,
-          borderRadius: BorderRadius.circular(2),
-        ),
+    return const Center(
+      child: SheetDragHandle(
+        margin: EdgeInsets.only(top: AppSpacing.md),
+        color: AppColors.border,
       ),
     );
   }
