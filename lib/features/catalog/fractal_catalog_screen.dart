@@ -17,6 +17,7 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/utils/slugify.dart';
 
 enum CatalogViewMode { grid, list }
 
@@ -427,7 +428,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                 final category = categories[index - 1];
                 return _DimChip(
                   chipKey: Key(
-                    'catalogCategoryChip_${_keySegment(category)}',
+                    'catalogCategoryChip_${slugify(category, emptyFallback: '')!}',
                   ),
                   label: category,
                   count: categoryCounts[category] ?? 0,
@@ -1990,13 +1991,6 @@ class _ModuleCardState extends State<_ModuleCard>
 // ---------------------------------------------------------------------------
 // Category color helpers
 // ---------------------------------------------------------------------------
-
-String _keySegment(String value) {
-  return value
-      .toLowerCase()
-      .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
-      .replaceAll(RegExp(r'^_+|_+$'), '');
-}
 
 /// Returns the accent color for a given fractal category string.
 Color _categoryAccentColor(String category) {

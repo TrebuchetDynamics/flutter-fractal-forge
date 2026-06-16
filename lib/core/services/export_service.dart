@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/services/share_service.dart';
 import 'package:flutter_fractals/shared/utils/byte_format.dart';
+import 'package:flutter_fractals/shared/utils/slugify.dart';
 
 /// Replayable filename contract for exported files.
 ///
@@ -28,31 +29,19 @@ class ExportFilenameParts {
     this.fractalType,
   });
 
-  String get safePrefix => _sanitizeSegment(prefix, fallback: 'fractal')!;
+  String get safePrefix =>
+      slugify(prefix, allowHyphen: true, emptyFallback: 'fractal')!;
 
   String? get safeFractalType {
     final value = fractalType;
     if (value == null) return null;
-    return _sanitizeSegment(value, fallback: null);
+    return slugify(value, allowHyphen: true, emptyFallback: null);
   }
 
   String get filename {
     final type = safeFractalType;
     final typePart = type == null ? '' : '_$type';
     return '$safePrefix${typePart}_$timestampMillis.${format.extension}';
-  }
-
-  static String? _sanitizeSegment(String value, {required String? fallback}) {
-    final sanitized = value
-        .trim()
-        .toLowerCase()
-        .replaceAll(RegExp(r'[^a-z0-9_\-]+'), '_')
-        .replaceAll(RegExp(r'_+'), '_')
-        .replaceAll(RegExp(r'^[_\-.]+|[_\-.]+$'), '');
-    if (sanitized.isEmpty || sanitized == '.' || sanitized == '..') {
-      return fallback;
-    }
-    return sanitized;
   }
 }
 

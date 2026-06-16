@@ -7,6 +7,7 @@ import 'package:image/image.dart' as img;
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/shared/utils/slugify.dart';
 
 class BatchExportItemResult {
   final FractalPreset preset;
@@ -174,19 +175,9 @@ class BatchExportPresetFilename {
 
   String get value {
     final idx = (index + 1).toString().padLeft(3, '0');
-    final slug = _safeBatchExportSlug(presetName);
-    return '${_safeBatchExportSlug(moduleId)}_${idx}_$slug.${format.extension}';
+    final slug = slugify(presetName, emptyFallback: 'untitled')!;
+    return '${slugify(moduleId, emptyFallback: 'untitled')!}_${idx}_$slug.${format.extension}';
   }
-}
-
-String _safeBatchExportSlug(String input) {
-  final trimmed = input.trim().toLowerCase();
-  final replaced = trimmed
-      .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
-      .replaceAll(RegExp(r'_+'), '_')
-      .replaceAll(RegExp(r'^_'), '')
-      .replaceAll(RegExp(r'_$'), '');
-  return replaced.isEmpty ? 'untitled' : replaced;
 }
 
 /// Clock contract for replayable batch export directory naming.
@@ -311,7 +302,8 @@ class BatchExportService {
             tileSize: 512,
             padding: 16,
           );
-          final name = 'contact_sheet_${_safeBatchExportSlug(moduleId)}.png';
+          final name =
+              'contact_sheet_${slugify(moduleId, emptyFallback: 'untitled')!}.png';
           final out = File('${directory.path}/$name');
           await out.writeAsBytes(pngBytes, flush: true);
           contactSheet = out;
@@ -337,7 +329,7 @@ class BatchExportService {
     final stamp =
         '${ts.year.toString().padLeft(4, '0')}${ts.month.toString().padLeft(2, '0')}${ts.day.toString().padLeft(2, '0')}_${ts.hour.toString().padLeft(2, '0')}${ts.minute.toString().padLeft(2, '0')}${ts.second.toString().padLeft(2, '0')}';
     final prefix =
-        '${base.path}/batch_${_safeBatchExportSlug(moduleId)}_$stamp';
+        '${base.path}/batch_${slugify(moduleId, emptyFallback: 'untitled')!}_$stamp';
 
     for (var attempt = 1;; attempt++) {
       final suffix =
