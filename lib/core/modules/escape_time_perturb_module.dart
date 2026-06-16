@@ -87,17 +87,15 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       final colorScheme = readDouble(state.params, 'colorScheme', 0.0).round();
 
       // Phoenix extra param: p (memory term)
-      final phoenixP = id == 'phoenix'
-          ? readDouble(state.params, 'phoenixP', 0.0)
-          : 0.0;
+      final phoenixP =
+          id == 'phoenix' ? readDouble(state.params, 'phoenixP', 0.0) : 0.0;
 
       // G15 color cycling speed (cycles per second via uExtra1).
       final colorSpeed = readDouble(state.params, 'colorCycleSpeed', 0.0);
 
       ui.Image paletteTex;
       try {
-        final palette =
-            PaletteService.instance.paletteAtIndex(colorScheme);
+        final palette = PaletteService.instance.paletteAtIndex(colorScheme);
         paletteTex = PaletteService.instance.paletteTexture(palette);
       } catch (_) {
         // PaletteService unavailable; use a 1×1 black fallback texture.
@@ -127,9 +125,9 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       shader.setFloat(7, bailout);
       shader.setFloat(8, state.transparentBackground ? 1.0 : 0.0);
       shader.setFloat(9, formula.toDouble());
-      shader.setFloat(10, phoenixP);   // uExtra0
+      shader.setFloat(10, phoenixP); // uExtra0
       shader.setFloat(11, colorSpeed); // uExtra1 = color cycle speed (G15)
-      shader.setFloat(12, 0.0);        // uExtra2
+      shader.setFloat(12, 0.0); // uExtra2
 
       shader.setImageSampler(0, paletteTex);
       shader.setImageSampler(1, orbitTex);
@@ -316,19 +314,51 @@ class _EscapeTimePerturbOrbitCache {
   }
 
   /// Encode a double value in [-4, 4) into two uint8 channels (RG).
-  ///
-  /// Matching the decode in escape_time_perturb_gpu.frag:
-  ///   float decoded = r * 8.0 - 4.0 + g / 256.0 * 8.0;
   void _encodeToRg(double value, Uint8List out, int offset) {
-    final clamped = value.clamp(-4.0, 3.999999).toDouble();
-    final normalized = ((clamped + 4.0) / 8.0).clamp(0.0, 1.0);
-    final scaled = (normalized * 65535.0).round().clamp(0, 65535);
-    final r = (scaled >> 8) & 0xFF;
-    final g = scaled & 0xFF;
-    out[offset + 0] = r;
-    out[offset + 1] = g;
+    final (high, low) = packPerturbOrbitComponent(value);
+    out[offset + 0] = high;
+    out[offset + 1] = low;
     out[offset + 2] = 0;
     out[offset + 3] = 255;
   }
 }
 
+/// Packs an orbit component in `[-4, 4)` into the `(high, low)` byte pair the
+/// perturbation shader reads back.
+///
+/// The shader (escape_time_perturb_gpu.frag) decodes the two channels — sampled
+/// as `r, g` in `[0, 1]` (= byte / 255) — as:
+///   value = r * 8 - 4 + (g / 256) * 8
+/// i.e. `r` is a coarse `/255` value and `g` refines it by `1/256` of a step.
+///
+/// The packing MUST match that decode. A previous 16-bit integer packing
+/// (`scaled = round(norm * 65535); high = scaled >> 8; low = scaled & 0xFF`) did
+/// not: fed through the `r + g/256` decode it round-tripped to only ~8 effective
+/// bits (~3e-2 error over the [-4, 4) range) instead of the intended ~16 bits
+/// (~1.2e-4), because the high byte was treated as `/255` while it had been
+/// packed as `/65535`. That capped the perturbation reference-orbit precision
+/// far below its design and produced deep-zoom artifacts well before the
+/// nominal GPU range limit.
+(int high, int low) packPerturbOrbitComponent(double value) {
+  final clamped = value.clamp(-4.0, 3.999999).toDouble();
+  final normalized = ((clamped + 4.0) / 8.0).clamp(0.0, 1.0);
+  final scaled =
+      normalized * 255.0; // value in coarse-channel (high-byte) units
+  var high = scaled.floor();
+  var low = ((scaled - high) * 256.0).round();
+  if (low > 255) {
+    low = 0;
+    high += 1;
+  }
+  high = high.clamp(0, 255).toInt();
+  return (high, low);
+}
+
+/// Inverse of [packPerturbOrbitComponent], mirroring the shader decode exactly
+/// (`r, g` are the sampled channels in `[0, 1]`). Exposed so the round-trip
+/// contract can be tested against the GPU's formula without a GPU.
+double decodePerturbOrbitComponent(int high, int low) {
+  final r = high / 255.0;
+  final g = low / 255.0;
+  return r * 8.0 - 4.0 + g / 256.0 * 8.0;
+}
