@@ -10,6 +10,7 @@ import 'package:vector_math/vector_math.dart';
 import 'package:image/image.dart' as img;
 import '../models/video_export_options.dart';
 import '../models/fractal_view_state.dart';
+import '../../shared/utils/byte_format.dart';
 
 /// Result of a video export operation.
 class VideoExportResult {
@@ -31,12 +32,7 @@ class VideoExportResult {
     required this.format,
   });
 
-  String get formattedSize {
-    if (fileSizeBytes < 1024) return '$fileSizeBytes B';
-    if (fileSizeBytes < 1024 * 1024)
-      return '${(fileSizeBytes / 1024).toStringAsFixed(1)} KB';
-    return '${(fileSizeBytes / 1024 / 1024).toStringAsFixed(1)} MB';
-  }
+  String get formattedSize => formatByteSize(fileSizeBytes);
 }
 
 /// Replayable frame timeline contract for video animations.

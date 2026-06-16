@@ -8,6 +8,7 @@ import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/services/share_service.dart';
+import 'package:flutter_fractals/shared/utils/byte_format.dart';
 
 /// Replayable filename contract for exported files.
 ///
@@ -589,15 +590,7 @@ class ExportResult {
     required this.fileSize,
   });
 
-  String get formattedSize {
-    if (fileSize < 1024) {
-      return '$fileSize B';
-    } else if (fileSize < 1024 * 1024) {
-      return '${(fileSize / 1024).toStringAsFixed(1)} KB';
-    } else {
-      return '${(fileSize / (1024 * 1024)).toStringAsFixed(1)} MB';
-    }
-  }
+  String get formattedSize => formatByteSize(fileSize);
 
   String get resolution => '$width×$height';
 }
