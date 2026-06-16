@@ -501,30 +501,16 @@ class _NavigationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltip,
-      child: Material(
-        color: onPressed != null
-            ? AppColors.surfaceVariant
-            : AppColors.surfaceVariant.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(10),
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            width: 40,
-            height: 40,
-            alignment: Alignment.center,
-            child: Icon(
-              icon,
-              size: 20,
-              color: onPressed != null
-                  ? AppColors.textPrimary
-                  : AppColors.textMuted.withValues(alpha: 0.5),
-            ),
-          ),
-        ),
-      ),
+    return _SheetIconButton(
+      tooltip: tooltip,
+      onTap: onPressed,
+      backgroundColor: onPressed != null
+          ? AppColors.surfaceVariant
+          : AppColors.surfaceVariant.withValues(alpha: 0.5),
+      icon: icon,
+      iconColor: onPressed != null
+          ? AppColors.textPrimary
+          : AppColors.textMuted.withValues(alpha: 0.5),
     );
   }
 }
@@ -543,25 +529,53 @@ class _SaveFavoriteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
+    return _SheetIconButton(
+      tooltip: isFavorite ? l10n.alreadyFavorite : l10n.saveAsFavorite,
+      onTap: isFavorite ? null : onSave,
+      backgroundColor: isFavorite
+          ? AppColors.primary.withValues(alpha: 0.2)
+          : AppColors.surfaceVariant,
+      icon: isFavorite ? Icons.star_rounded : Icons.star_outline_rounded,
+      iconColor: isFavorite ? AppColors.primary : AppColors.textSecondary,
+    );
+  }
+}
+
+/// Shared 40×40 rounded icon button shell used by the history header buttons.
+///
+/// The chrome (tooltip, Material + InkWell with radius 10, centered 20px icon)
+/// is identical across buttons; callers supply the colors, icon, tooltip, and
+/// tap handler.
+class _SheetIconButton extends StatelessWidget {
+  final String tooltip;
+  final Color backgroundColor;
+  final VoidCallback? onTap;
+  final IconData icon;
+  final Color iconColor;
+
+  const _SheetIconButton({
+    required this.tooltip,
+    required this.backgroundColor,
+    required this.onTap,
+    required this.icon,
+    required this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Tooltip(
-      message: isFavorite ? l10n.alreadyFavorite : l10n.saveAsFavorite,
+      message: tooltip,
       child: Material(
-        color: isFavorite
-            ? AppColors.primary.withValues(alpha: 0.2)
-            : AppColors.surfaceVariant,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
-          onTap: isFavorite ? null : onSave,
+          onTap: onTap,
           borderRadius: BorderRadius.circular(10),
           child: Container(
             width: 40,
             height: 40,
             alignment: Alignment.center,
-            child: Icon(
-              isFavorite ? Icons.star_rounded : Icons.star_outline_rounded,
-              size: 20,
-              color: isFavorite ? AppColors.primary : AppColors.textSecondary,
-            ),
+            child: Icon(icon, size: 20, color: iconColor),
           ),
         ),
       ),
