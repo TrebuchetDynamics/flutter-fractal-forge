@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/sheet_section_label.dart';
 
 class WallpaperOptionsSheet extends StatefulWidget {
   final WallpaperOptions initial;
@@ -89,10 +90,7 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                     const SizedBox(height: 20),
                     Text(
                       l10n.wallpaperTarget,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color:
-                            theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                      ),
+                      style: sheetSectionLabelStyle(theme),
                     ),
                     const SizedBox(height: 12),
                     SegmentedButton(
@@ -123,10 +121,7 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                     const SizedBox(height: 20),
                     Text(
                       l10n.wallpaperPresets,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color:
-                            theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                      ),
+                      style: sheetSectionLabelStyle(theme),
                     ),
                     const SizedBox(height: 12),
                     Wrap(

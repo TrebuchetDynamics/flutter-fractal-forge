@@ -6,6 +6,7 @@ import 'package:flutter_fractals/features/export/custom_export_dimensions.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/features/export/export_resolution_summary.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/sheet_section_label.dart';
 
 /// A bottom sheet for configuring export options
 class ExportOptionsSheet extends StatefulWidget {
@@ -273,9 +274,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
       children: [
         Text(
           l10n.exportQuickPresets,
-          style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
+          style: sheetSectionLabelStyle(theme),
         ),
         const SizedBox(height: 12),
         SingleChildScrollView(
@@ -328,9 +327,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
       children: [
         Text(
           l10n.exportFormat,
-          style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
+          style: sheetSectionLabelStyle(theme),
         ),
         const SizedBox(height: 12),
         SegmentedButton<ExportFormat>(
@@ -402,9 +399,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
       children: [
         Text(
           l10n.exportResolution,
-          style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
+          style: sheetSectionLabelStyle(theme),
         ),
         const SizedBox(height: 12),
         Wrap(
@@ -493,9 +488,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           children: [
             Text(
               l10n.exportQuality,
-              style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-              ),
+              style: sheetSectionLabelStyle(theme),
             ),
             Text(
               '${_options.quality}%',
@@ -535,9 +528,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           children: [
             Text(
               l10n.exportAdvancedOptions,
-              style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-              ),
+              style: sheetSectionLabelStyle(theme),
             ),
             const Spacer(),
             Icon(
