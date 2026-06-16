@@ -33,8 +33,9 @@ vec2 fetchOrbit(int n) {
   float u1 = (float(n * 2 + 1) + 0.5) / max(float(totalWidth), 1.0);
   vec4 px0 = texture(uOrbit, vec2(u0, 0.5));
   vec4 px1 = texture(uOrbit, vec2(u1, 0.5));
-  float zr = px0.r * 8.0 - 4.0 + px0.g / 256.0 * 8.0;
-  float zi = px1.r * 8.0 - 4.0 + px1.g / 256.0 * 8.0;
+  // 24-bit RGB fixed point: r coarse, g/b successive 1/256 refinements.
+  float zr = px0.r * 8.0 - 4.0 + px0.g / 256.0 * 8.0 + px0.b / 65536.0 * 8.0;
+  float zi = px1.r * 8.0 - 4.0 + px1.g / 256.0 * 8.0 + px1.b / 65536.0 * 8.0;
   return vec2(zr, zi);
 }
 

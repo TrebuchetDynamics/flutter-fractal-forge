@@ -196,7 +196,7 @@ class _EscapeTimePerturbOrbitCache {
   }
 
   /// Compute the reference orbit (from the exact center point) for the
-  /// requested fractal formula and encode each z into RG pairs.
+  /// requested fractal formula and encode each z component into RGB bytes.
   ///
   /// Layout: pixel[2n] = Re(Zn) encoded, pixel[2n+1] = Im(Zn) encoded.
   Uint8List _computeOrbit({
@@ -216,8 +216,8 @@ class _EscapeTimePerturbOrbitCache {
 
     for (int n = 0; n < iterations; n++) {
       // Store current Z before iterating
-      _encodeToRg(zr, bytes, n * 8);
-      _encodeToRg(zi, bytes, n * 8 + 4);
+      _encodeToRgb(zr, bytes, n * 8);
+      _encodeToRgb(zi, bytes, n * 8 + 4);
 
       // Compute Z(n+1) = f(Z(n), c)
       final nextZ = _iterate(
@@ -313,52 +313,64 @@ class _EscapeTimePerturbOrbitCache {
     }
   }
 
-  /// Encode a double value in [-4, 4) into two uint8 channels (RG).
-  void _encodeToRg(double value, Uint8List out, int offset) {
-    final (high, low) = packPerturbOrbitComponent(value);
+  /// Encode a double value in [-4, 4) into three uint8 channels (RGB).
+  void _encodeToRgb(double value, Uint8List out, int offset) {
+    final (high, mid, low) = packPerturbOrbitComponent(value);
     out[offset + 0] = high;
-    out[offset + 1] = low;
-    out[offset + 2] = 0;
+    out[offset + 1] = mid;
+    out[offset + 2] = low;
     out[offset + 3] = 255;
   }
 }
 
-/// Packs an orbit component in `[-4, 4)` into the `(high, low)` byte pair the
-/// perturbation shader reads back.
+/// Packs an orbit component in `[-4, 4)` into the `(high, mid, low)` RGB bytes
+/// the perturbation shader reads back.
 ///
-/// The shader (escape_time_perturb_gpu.frag) decodes the two channels — sampled
-/// as `r, g` in `[0, 1]` (= byte / 255) — as:
-///   value = r * 8 - 4 + (g / 256) * 8
-/// i.e. `r` is a coarse `/255` value and `g` refines it by `1/256` of a step.
+/// The shader (escape_time_perturb_gpu.frag) decodes the three channels —
+/// sampled as `r, g, b` in `[0, 1]` (= byte / 255) — as:
+///   value = (r + g/256 + b/65536) * 8 - 4
+/// i.e. `r` is the coarse value and `g`, `b` refine it by successive `1/256`
+/// steps. This is a 24-bit fixed point over the [-4, 4) range (~7.2 decimal
+/// digits, resolution ~5e-7).
 ///
-/// The packing MUST match that decode. A previous 16-bit integer packing
-/// (`scaled = round(norm * 65535); high = scaled >> 8; low = scaled & 0xFF`) did
-/// not: fed through the `r + g/256` decode it round-tripped to only ~8 effective
-/// bits (~3e-2 error over the [-4, 4) range) instead of the intended ~16 bits
-/// (~1.2e-4), because the high byte was treated as `/255` while it had been
-/// packed as `/65535`. That capped the perturbation reference-orbit precision
-/// far below its design and produced deep-zoom artifacts well before the
-/// nominal GPU range limit.
-(int high, int low) packPerturbOrbitComponent(double value) {
+/// Alpha is deliberately left at 255: the orbit image is built with
+/// `toImageSync`, which premultiplies, so orbit data in the alpha channel would
+/// scale RGB. The packing MUST match the decode — see the round-trip
+/// characterization test.
+///
+/// History: an earlier 16-bit integer packing (`scaled >> 8 / scaled & 0xFF`)
+/// did not match the `r + g/256` decode and degraded the reference orbit to ~8
+/// effective bits; this 3-channel fixed point fixes that and adds a byte of
+/// precision (the B channel was previously unused).
+(int high, int mid, int low) packPerturbOrbitComponent(double value) {
   final clamped = value.clamp(-4.0, 3.999999).toDouble();
   final normalized = ((clamped + 4.0) / 8.0).clamp(0.0, 1.0);
-  final scaled =
-      normalized * 255.0; // value in coarse-channel (high-byte) units
-  var high = scaled.floor();
-  var low = ((scaled - high) * 256.0).round();
+  final s0 = normalized * 255.0; // value in coarse-channel (high-byte) units
+  var high = s0.floor();
+  final s1 = (s0 - high) * 256.0;
+  var mid = s1.floor();
+  var low = ((s1 - mid) * 256.0).round();
+  // Propagate rounding carries upward.
   if (low > 255) {
-    low = 0;
+    low -= 256;
+    mid += 1;
+  }
+  if (mid > 255) {
+    mid -= 256;
     high += 1;
   }
   high = high.clamp(0, 255).toInt();
-  return (high, low);
+  mid = mid.clamp(0, 255).toInt();
+  low = low.clamp(0, 255).toInt();
+  return (high, mid, low);
 }
 
 /// Inverse of [packPerturbOrbitComponent], mirroring the shader decode exactly
-/// (`r, g` are the sampled channels in `[0, 1]`). Exposed so the round-trip
+/// (`r, g, b` are the sampled channels in `[0, 1]`). Exposed so the round-trip
 /// contract can be tested against the GPU's formula without a GPU.
-double decodePerturbOrbitComponent(int high, int low) {
+double decodePerturbOrbitComponent(int high, int mid, int low) {
   final r = high / 255.0;
-  final g = low / 255.0;
-  return r * 8.0 - 4.0 + g / 256.0 * 8.0;
+  final g = mid / 255.0;
+  final b = low / 255.0;
+  return r * 8.0 - 4.0 + g / 256.0 * 8.0 + b / 65536.0 * 8.0;
 }
