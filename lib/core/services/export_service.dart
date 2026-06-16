@@ -370,7 +370,14 @@ class ExportService {
   }
 
   img.Image _addWatermark(img.Image image, String text) {
-    // Simple text watermark in bottom-right corner
+    // Simple text watermark in bottom-right corner.
+    //
+    // NOTE: the x/y/padding math below sizes the layout to [fontSize], but
+    // drawString renders with the fixed img.arial14 bitmap font (~14px). On
+    // large/4K exports the watermark therefore looks small and sits further
+    // from the corner than intended, since the offset over-estimates the real
+    // text width. This is cosmetic; a proper fix needs a scalable font, which
+    // the pure-Dart image package does not currently provide.
     final fontSize = (image.width / 40).round().clamp(12, 48);
     final padding = fontSize;
 
@@ -413,8 +420,12 @@ class ExportService {
         // JPG doesn't support transparency - always composite onto background
         // transparentBackground option is ignored for JPG (use black background)
         final rgbImage = _removeAlpha(image);
+        // encodeJpg expects quality in [1, 100]. The UI slider stays within
+        // that range, but ExportOptions can be constructed directly, so clamp
+        // defensively at the encode boundary.
+        final jpgQuality = options.quality.clamp(1, 100);
         return Uint8List.fromList(
-          img.encodeJpg(rgbImage, quality: options.quality),
+          img.encodeJpg(rgbImage, quality: jpgQuality),
         );
 
       case ExportFormat.webp:
