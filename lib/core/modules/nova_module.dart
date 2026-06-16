@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -21,22 +21,21 @@ FractalModule buildNovaModule() {
     CommonFractalParams.colorScheme64(defaultValue: 0),
   ];
 
-  final defaultPreset = FractalPreset(
+  final defaultPreset = catalogPreset(
     id: 'nova-default',
     moduleId: 'nova',
     name: 'Default',
     params: {'iterations': 200, 'relaxation': 1.0, 'colorScheme': 2},
     view: FractalViewState(
         pan: Vector2(0.0, 0.0), zoom: 1.5, rotation: Vector3.zero()),
-    createdAt: DateTime.now(),
-    isBuiltIn: true,
   );
 
   return FractalModule(
     id: 'nova',
     displayName: (l10n) => 'Nova',
     dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag',
+    shaderAsset:
+        'shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag',
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [

@@ -1,6 +1,6 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d_builder.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:vector_math/vector_math.dart';
@@ -31,7 +31,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultSteps: 120,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'kifs_menger-cathedral',
         moduleId: 'kifs_menger',
         name: 'Cathedral',
@@ -47,8 +47,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 2.0,
           rotation: Vector3(0.5, 0.3, 0.0),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -68,7 +66,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultSteps: 120,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'kifs_sierpinski_tetra-crystal',
         moduleId: 'kifs_sierpinski_tetra',
         name: 'Crystal Pyramid',
@@ -84,8 +82,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.5,
           rotation: Vector3(0.4, 0.6, 0.0),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -121,7 +117,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultSteps: 120,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'kifs_snowflake_fold-ice',
         moduleId: 'kifs_snowflake_fold',
         name: 'Ice Crystal',
@@ -137,8 +133,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.8,
           rotation: Vector3(0.3, 0.5, 0.1),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -168,7 +162,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
       FractalParamOption(value: 3, label: (_) => 'Spiral'),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'quaternion_julia_3d-organic',
         moduleId: 'quaternion_julia_3d',
         name: 'Organic Shell',
@@ -185,8 +179,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.5,
           rotation: Vector3(0.4, 0.2, 0.0),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -232,7 +224,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
       FractalParamOption(value: 3, label: (_) => 'Octahedron'),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbox_shape_inversion-torus',
         moduleId: 'mandelbox_shape_inversion',
         name: 'Toroidal Fold',
@@ -249,8 +241,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.3,
           rotation: Vector3(0.5, 0.3, 0.0),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -270,7 +260,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultSteps: 120,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'inversive_limit_set_3d-pearls',
         moduleId: 'inversive_limit_set_3d',
         name: 'Pearl Necklace',
@@ -286,8 +276,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 2.0,
           rotation: Vector3(0.3, 0.5, 0.0),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -307,7 +295,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultSteps: 120,
     defaultBailout: 2.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbulb_time_modulated-breathing',
         moduleId: 'mandelbulb_time_modulated',
         name: 'Breathing Form',
@@ -323,8 +311,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.8,
           rotation: Vector3(0.4, 0.3, 0.1),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -344,7 +330,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultSteps: 120,
     defaultBailout: 6.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'amazing_box-compact',
         moduleId: 'amazing_box',
         name: 'Compact Wirebox',
@@ -360,8 +346,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.4,
           rotation: Vector3(0.45, 0.35, 0.0),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -381,7 +365,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultSteps: 120,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'bulbils-cluster',
         moduleId: 'bulbils',
         name: 'Bulbil Cluster',
@@ -397,8 +381,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.5,
           rotation: Vector3(0.35, -0.45, 0.1),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -457,7 +439,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
       FractalParamOption(value: 1, label: (_) => 'Mandelbox'),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbulb-classic',
         moduleId: 'mandelbulb',
         name: 'Classic Bulb',
@@ -474,10 +456,8 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.5,
           rotation: Vector3(0.3, -0.4, 0.0),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbulb-spiky',
         moduleId: 'mandelbulb',
         name: 'Spiky Variant',
@@ -494,8 +474,6 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           zoom: 1.8,
           rotation: Vector3(0.5, 0.2, 0.1),
         ),
-        createdAt: DateTime.utc(2025, 1, 1),
-        isBuiltIn: true,
       ),
     ],
   ),

@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
@@ -51,7 +51,7 @@ FractalModule buildMandelbulbModule() {
     ),
   ];
 
-  final defaultPreset = FractalPreset(
+  final defaultPreset = catalogPreset(
     id: 'mandelbulb-default',
     moduleId: 'mandelbulb',
     name: 'Default',
@@ -64,8 +64,6 @@ FractalModule buildMandelbulbModule() {
       'fractalType': 0,
     },
     view: FractalViewState.initial(),
-    createdAt: DateTime.now(),
-    isBuiltIn: true,
   );
 
   return FractalModule(

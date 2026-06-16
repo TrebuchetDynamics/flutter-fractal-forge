@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:vector_math/vector_math.dart';
@@ -9,7 +9,7 @@ import 'package:vector_math/vector_math.dart';
 /// Shader: shaders/diagnostic/diag_min.frag
 /// Uniforms: uSize (vec2) only.
 FractalModule buildGpuGradientModule() {
-  final defaultPreset = FractalPreset(
+  final defaultPreset = catalogPreset(
     id: 'gpu-gradient-default',
     moduleId: 'gpu_gradient',
     name: 'Default',
@@ -19,8 +19,6 @@ FractalModule buildGpuGradientModule() {
       zoom: 1.0,
       rotation: Vector3.zero(),
     ),
-    createdAt: DateTime.now(),
-    isBuiltIn: true,
   );
 
   return FractalModule(

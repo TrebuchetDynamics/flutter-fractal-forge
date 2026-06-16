@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -47,7 +47,7 @@ FractalModule buildPhoenixModule() {
     ),
   ];
 
-  final defaultPreset = FractalPreset(
+  final defaultPreset = catalogPreset(
     id: 'phoenix-default',
     moduleId: 'phoenix',
     name: 'Default',
@@ -64,8 +64,6 @@ FractalModule buildPhoenixModule() {
       zoom: 1.0,
       rotation: Vector3.zero(),
     ),
-    createdAt: DateTime.now(),
-    isBuiltIn: true,
   );
 
   return FractalModule(

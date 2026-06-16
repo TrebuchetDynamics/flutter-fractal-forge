@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -31,7 +31,7 @@ FractalModule buildJuliaModule() {
     ),
   ];
 
-  final defaultPreset = FractalPreset(
+  final defaultPreset = catalogPreset(
     id: 'julia-default',
     moduleId: 'julia',
     name: 'Default',
@@ -43,8 +43,6 @@ FractalModule buildJuliaModule() {
       'juliaCImag': 0.156,
     },
     view: FractalViewState.initial(),
-    createdAt: DateTime.now(),
-    isBuiltIn: true,
   );
 
   return FractalModule(

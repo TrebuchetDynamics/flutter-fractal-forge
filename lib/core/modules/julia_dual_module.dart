@@ -1,5 +1,6 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -48,7 +49,7 @@ FractalModule buildJuliaDualModule() {
   ];
 
   FractalPreset preset(String id, String name, double cr, double ci, int cs) =>
-      FractalPreset(
+      catalogPreset(
         id: 'julia-dual-$id',
         moduleId: 'julia_dual',
         name: name,
@@ -64,8 +65,6 @@ FractalModule buildJuliaDualModule() {
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: DateTime.now(),
-        isBuiltIn: true,
       );
 
   return FractalModule(

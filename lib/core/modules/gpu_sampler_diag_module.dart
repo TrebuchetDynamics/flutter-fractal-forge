@@ -2,14 +2,14 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Diagnostic module: tests sampler2D path in FragmentShader.
 FractalModule buildGpuSamplerDiagModule() {
-  final defaultPreset = FractalPreset(
+  final defaultPreset = catalogPreset(
     id: 'gpu-sampler-diag-default',
     moduleId: 'gpu_sampler_diag',
     name: 'Default',
@@ -19,8 +19,6 @@ FractalModule buildGpuSamplerDiagModule() {
       zoom: 1.0,
       rotation: Vector3.zero(),
     ),
-    createdAt: DateTime.now(),
-    isBuiltIn: true,
   );
 
   return FractalModule(
@@ -38,7 +36,8 @@ FractalModule buildGpuSamplerDiagModule() {
       // Provide a tiny 1x1 red texture.
       final recorder = ui.PictureRecorder();
       final canvas = Canvas(recorder, const Rect.fromLTWH(0, 0, 1, 1));
-      canvas.drawRect(const Rect.fromLTWH(0, 0, 1, 1), Paint()..color = const Color(0xFFFF0000));
+      canvas.drawRect(const Rect.fromLTWH(0, 0, 1, 1),
+          Paint()..color = const Color(0xFFFF0000));
       final picture = recorder.endRecording();
       final img = picture.toImageSync(1, 1);
       shader.setImageSampler(0, img);
