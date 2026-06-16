@@ -1,4 +1,3 @@
-import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
@@ -29,7 +28,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-seahorse',
         moduleId: 'mandelbrot',
         name: 'Seahorse Valley',
@@ -39,10 +38,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 25.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-elephant',
         moduleId: 'mandelbrot',
         name: 'Elephant Valley',
@@ -52,10 +49,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 15.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-spiral',
         moduleId: 'mandelbrot',
         name: 'Deep Spiral',
@@ -65,10 +60,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 500.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-lightning',
         moduleId: 'mandelbrot',
         name: 'Lightning Strike',
@@ -78,10 +71,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 80.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-mini',
         moduleId: 'mandelbrot',
         name: 'Mini Mandelbrot',
@@ -91,10 +82,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 200.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-aurora',
         moduleId: 'mandelbrot',
         name: 'Aurora Borealis',
@@ -104,10 +93,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-cosmic',
         moduleId: 'mandelbrot',
         name: 'Cosmic Web',
@@ -117,11 +104,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 150.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
       // Normal-map (bas-relief) presets — colorScheme 50-63 activates 3D shading.
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-relief-sunrise',
         moduleId: 'mandelbrot',
         name: 'Bas-Relief: Sunrise',
@@ -131,10 +116,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-relief-seahorse',
         moduleId: 'mandelbrot',
         name: 'Bas-Relief: Seahorse',
@@ -144,10 +127,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 25.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelbrot-relief-moonlit',
         moduleId: 'mandelbrot',
         name: 'Bas-Relief: Moonlit',
@@ -157,8 +138,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 500.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -174,7 +153,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-vessel',
         moduleId: 'burning_ship',
         name: 'The Vessel',
@@ -184,10 +163,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.5,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-armada',
         moduleId: 'burning_ship',
         name: 'Armada',
@@ -197,10 +174,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 100.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-inferno',
         moduleId: 'burning_ship',
         name: 'Inferno Core',
@@ -210,10 +185,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 500.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-ghost',
         moduleId: 'burning_ship',
         name: 'Ghost Ship',
@@ -223,10 +196,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 2.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-mast',
         moduleId: 'burning_ship',
         name: 'Mast & Rigging',
@@ -236,10 +207,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 50.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-volcanic',
         moduleId: 'burning_ship',
         name: 'Volcanic Ash',
@@ -249,10 +218,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 30.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-neon',
         moduleId: 'burning_ship',
         name: 'Neon Voyage',
@@ -262,10 +229,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.8,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-wreck',
         moduleId: 'burning_ship',
         name: 'Deep Sea Wreck',
@@ -275,10 +240,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 200.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-relief',
         moduleId: 'burning_ship',
         name: 'Bas-Relief: Hull',
@@ -288,8 +251,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.5,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -300,25 +261,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tricorn-relief-dawn',
         moduleId: 'tricorn',
         name: 'Bas-Relief: Dawn',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'tricorn-relief-dusk',
         moduleId: 'tricorn',
         name: 'Bas-Relief: Dusk',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(-0.16, 0.9), zoom: 30.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -330,25 +287,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'celtic-relief-iron',
         moduleId: 'celtic',
         name: 'Bas-Relief: Iron',
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'celtic-relief-storm',
         moduleId: 'celtic',
         name: 'Bas-Relief: Storm',
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 4.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -360,25 +313,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'buffalo-relief-plains',
         moduleId: 'buffalo',
         name: 'Bas-Relief: Plains',
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(-0.5, -0.5), zoom: 1.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'buffalo-relief-stampede',
         moduleId: 'buffalo',
         name: 'Bas-Relief: Stampede',
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(-0.3, 0.5), zoom: 8.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -389,15 +338,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'multibrot3-relief-trine',
         moduleId: 'multibrot3',
         name: 'Bas-Relief: Trine',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -410,25 +357,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'nova-julia-classic',
         moduleId: 'nova_julia',
         name: 'Nova Classic',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'nova-julia-spiral',
         moduleId: 'nova_julia',
         name: 'Nova Spiral',
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 1},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 3.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -457,15 +400,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'perp-mandel-relief',
         moduleId: 'perpendicular_mandelbrot',
         name: 'Stone Fold',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -479,15 +420,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultCenterY: 0.3,
     defaultZoom: 0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'lambda-relief',
         moduleId: 'lambda',
         name: 'Lambda Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -499,15 +438,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'magnet1-relief',
         moduleId: 'magnet_type_1',
         name: 'Magnet Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(1.0, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -519,15 +456,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'magnet2-relief',
         moduleId: 'magnet_type_2',
         name: 'Magnet II Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -539,15 +474,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'magnet3-relief',
         moduleId: 'magnet_type_3',
         name: 'Rational Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -558,15 +491,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'power-sum-relief',
         moduleId: 'power_sum',
         name: 'Power Sum Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -576,15 +507,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/escape_time_family/polynomial_maps/cactus_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'cactus-relief',
         moduleId: 'cactus',
         name: 'Cactus Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -619,15 +548,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/escape_time_family/polynomial_maps/druid_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'druid-relief',
         moduleId: 'druid',
         name: 'Druid Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -638,15 +565,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/mandelbrot_variants/iterative_maps/inverse_mandelbrot_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'inverse-mandelbrot-relief',
         moduleId: 'inverse_mandelbrot',
         name: 'Inverse Mandelbrot Relief',
         params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -656,15 +581,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/escape_time_family/polynomial_maps/glynn_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'glynn-relief',
         moduleId: 'glynn',
         name: 'Glynn Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -675,15 +598,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/mandelbrot_variants/iterative_maps/simonbrot_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'simonbrot-relief',
         moduleId: 'simonbrot',
         name: 'Simonbrot Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -694,15 +615,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'shark-fin-relief',
         moduleId: 'shark_fin',
         name: 'Shark Fin Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -712,15 +631,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/escape_time_family/polynomial_maps/manowar_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'manowar-relief',
         moduleId: 'manowar',
         name: 'Manowar Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -731,15 +648,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/experimental_named/coupled_orbits/spider_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'spider-relief',
         moduleId: 'spider',
         name: 'Spider Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -750,15 +665,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/transcendental_maps/collatz_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'collatz-relief',
         moduleId: 'collatz',
         name: 'Collatz Relief',
         params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -776,15 +689,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/escape_time_family/polynomial_maps/talis_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'talis-relief',
         moduleId: 'talis',
         name: 'Talis Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -795,15 +706,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/trigonometric_and_transcendental/exponential_iteration/tetration_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tetration-relief',
         moduleId: 'tetration',
         name: 'Tetration Relief',
         params: {'iterations': 130, 'bailout': 4.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.2, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1539,15 +1448,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 160,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'quaternion_julia_2d-relief',
         moduleId: 'quaternion_julia_2d',
         name: 'Quaternion Relief',
         params: {'iterations': 160, 'bailout': 8.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1559,15 +1466,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 160,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tessarine_julia-relief',
         moduleId: 'tessarine_julia',
         name: 'Tessarine Relief',
         params: {'iterations': 160, 'bailout': 8.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1579,15 +1484,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 10.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'split_complex-relief',
         moduleId: 'split_complex',
         name: 'Split-Complex Relief',
         params: {'iterations': 180, 'bailout': 10.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1607,15 +1510,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 12.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'bicomplex-relief',
         moduleId: 'bicomplex',
         name: 'Bicomplex Relief',
         params: {'iterations': 180, 'bailout': 12.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1629,15 +1530,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'sine-julia-relief',
         moduleId: 'sine_julia',
         name: 'Sine Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1649,15 +1548,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'cosine-julia-relief',
         moduleId: 'cosine_julia',
         name: 'Cosine Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1668,15 +1565,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag',
     defaultIterations: 100,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tangent-relief',
         moduleId: 'tangent',
         name: 'Tangent Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1687,15 +1582,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag',
     defaultIterations: 100,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'sinh-cosh-relief',
         moduleId: 'sinh_cosh',
         name: 'Sinh Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1706,15 +1599,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag',
     defaultIterations: 100,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'exponential-relief',
         moduleId: 'exponential',
         name: 'Exponential Relief',
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1725,15 +1616,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag',
     defaultIterations: 130,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'zircon-zity-relief',
         moduleId: 'zircon_zity',
         name: 'Zircon Zity Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1745,15 +1634,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/ifs_and_geometric/barnsley_j1_gpu.frag',
     defaultIterations: 120,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'barnsley-j1-relief',
         moduleId: 'barnsley_j1',
         name: 'Barnsley J1 Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1764,15 +1651,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/experimental_named/discrete_attractors/fish_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'fish-relief',
         moduleId: 'fish',
         name: 'Fish Relief',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1783,15 +1668,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/experimental_named/discrete_attractors/ducky_gpu.frag',
     defaultIterations: 130,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'ducky-relief',
         moduleId: 'ducky',
         name: 'Ducky Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1831,15 +1714,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'rational_map-relief',
         moduleId: 'rational_map',
         name: 'Rational Map Relief',
         params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1849,15 +1730,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/ifs_and_geometric/barnsley_j2_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'barnsley_j2-relief',
         moduleId: 'barnsley_j2',
         name: 'Barnsley J2 Relief',
         params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 63},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1867,15 +1746,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/ifs_and_geometric/barnsley_j3_gpu.frag',
     defaultIterations: 140,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'barnsley_j3-relief',
         moduleId: 'barnsley_j3',
         name: 'Barnsley J3 Relief',
         params: {'iterations': 140, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1886,15 +1763,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'celtic-julia-relief',
         moduleId: 'celtic_julia',
         name: 'Ember Knot',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1905,15 +1780,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'buffalo-julia-relief',
         moduleId: 'buffalo_julia',
         name: 'Herd Relief',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1924,15 +1797,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/perpendicular/perpendicular_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'perp-julia-relief',
         moduleId: 'perpendicular_julia',
         name: 'Mirror Relief',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1943,15 +1814,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tricorn-julia-relief',
         moduleId: 'tricorn_julia',
         name: 'Horn Relief',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -1962,15 +1831,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'ship-julia-relief',
         moduleId: 'burning_ship_julia',
         name: 'Flame Relief',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2000,15 +1867,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultCenterX: -0.4,
     defaultZoom: 0.3,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'cosine-mandel-relief',
         moduleId: 'cosine_mandelbrot',
         name: 'Cosine Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(-0.4, 0.0), zoom: 0.3, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2020,15 +1885,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 110,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tangent-mandel-relief',
         moduleId: 'tangent_mandelbrot',
         name: 'Tangent Relief',
         params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2040,15 +1903,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'sinh-mandel-relief',
         moduleId: 'sinh_mandelbrot',
         name: 'Sinh Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2060,15 +1921,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'cosh-mandel-relief',
         moduleId: 'cosh_mandelbrot',
         name: 'Cosh Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2080,15 +1939,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tanh-mandel-relief',
         moduleId: 'tanh_mandelbrot',
         name: 'Tanh Relief',
         params: {'iterations': 180, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2380,15 +2237,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'lambda_w-relief',
         moduleId: 'lambda_w',
         name: 'Lambert W Relief',
         params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2400,15 +2255,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'riemann_zeta-relief',
         moduleId: 'riemann_zeta',
         name: 'Zeta Relief',
         params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2426,15 +2279,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/experimental_named/coupled_orbits/spider_x_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'spider_x-relief',
         moduleId: 'spider_x',
         name: 'Spider Relief',
         params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2454,15 +2305,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 140,
     defaultBailout: 6.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'chebyshev-relief',
         moduleId: 'chebyshev',
         name: 'Chebyshev Relief',
         params: {'iterations': 140, 'bailout': 6.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2497,15 +2346,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/newton_and_orthogonal/series_maps/virial_gpu.frag',
     defaultIterations: 150,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'virial-relief',
         moduleId: 'virial',
         name: 'Virial Relief',
         params: {'iterations': 150, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2530,15 +2377,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag',
     defaultIterations: 160,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'multibrot4-relief-quad',
         moduleId: 'multibrot4',
         name: 'Bas-Relief: Quad',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2549,15 +2394,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag',
     defaultIterations: 170,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'multibrot5-relief-quint',
         moduleId: 'multibrot5',
         name: 'Bas-Relief: Quint',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2645,15 +2488,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 8.0,
     defaultCenterX: -0.3,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'damaged-doublebrot-relief',
         moduleId: 'damaged_doublebrot',
         name: 'Damaged DoubleBrot Relief',
         params: {'iterations': 250, 'bailout': 8.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(-0.3, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2669,15 +2510,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag',
     defaultIterations: 180,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'perp-celtic-relief-jade',
         moduleId: 'perp_celtic',
         name: 'Bas-Relief: Jade',
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2692,15 +2531,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'feather-relief',
         moduleId: 'feather',
         name: 'Feather Relief',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2716,15 +2553,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'burning-ship-cubic-relief',
         moduleId: 'burning_ship_cubic',
         name: 'Bas-Relief: Forge',
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2740,15 +2575,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'celtic-cubic-relief',
         moduleId: 'celtic_cubic',
         name: 'Bas-Relief: Knot',
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2765,15 +2598,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'orbit-trap-deep',
         moduleId: 'mandelbrot_orbit_trap',
         name: 'Deep Trap',
         params: {'iterations': 500, 'bailout': 6.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(-0.747, 0.1), zoom: 20.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2785,15 +2616,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 150,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'multibrot15-relief',
         moduleId: 'multibrot_15',
         name: 'Half-Power Relief',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2805,15 +2634,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'perp-celtic-cubic-relief',
         moduleId: 'perp_celtic_cubic',
         name: 'Fold Relief',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2826,25 +2653,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'curvature-bands',
         moduleId: 'mandelbrot_curvature_avg',
         name: 'Curvature Bands',
         params: {'iterations': 300, 'bailout': 6.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'curvature-relief',
         moduleId: 'mandelbrot_curvature_avg',
         name: 'Curvature Relief',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2855,25 +2678,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 250,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'julia-de-dragon',
         moduleId: 'julia_de',
         name: 'Dragon Glow',
         params: {'iterations': 350, 'bailout': 6.0, 'colorScheme': 0},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'julia-de-relief',
         moduleId: 'julia_de',
         name: 'Dragon Relief',
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2886,25 +2705,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'de-wireframe',
         moduleId: 'mandelbrot_de',
         name: 'Boundary Glow',
         params: {'iterations': 350, 'bailout': 6.0, 'colorScheme': 1},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'de-relief-glow',
         moduleId: 'mandelbrot_de',
         name: 'Relief Glow',
         params: {'iterations': 300, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2916,15 +2731,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tricorn-cubic-relief',
         moduleId: 'tricorn_cubic',
         name: 'Triple Horn',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2937,25 +2750,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'tia-organic',
         moduleId: 'mandelbrot_tia',
         name: 'Organic Flow',
         params: {'iterations': 300, 'bailout': 6.0, 'colorScheme': 3},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'tia-relief',
         moduleId: 'mandelbrot_tia',
         name: 'TIA Relief',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2967,15 +2776,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 160,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'buffalo-cubic-relief',
         moduleId: 'buffalo_cubic',
         name: 'Prairie Thunder',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -2988,25 +2795,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'stripe-freq8',
         moduleId: 'mandelbrot_stripe_avg',
         name: 'Dense Stripe',
         params: {'iterations': 300, 'bailout': 8.0, 'colorScheme': 5},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'stripe-relief',
         moduleId: 'mandelbrot_stripe_avg',
         name: 'Stripe Relief',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3018,15 +2821,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'perp-ship-julia-relief',
         moduleId: 'burning_ship_perp_julia',
         name: 'Filament Julia Relief',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3038,15 +2839,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 150,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'multibrot25-relief',
         moduleId: 'multibrot_25',
         name: 'Two-and-Half Relief',
         params: {'iterations': 220, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3059,15 +2858,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'perp-ship-relief',
         moduleId: 'burning_ship_perp',
         name: 'Filament Relief',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 54},
         view: FractalViewState(
             pan: Vector2(-0.5, -0.5), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3086,15 +2883,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: 0.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'prison-relief',
         moduleId: 'prison',
         name: 'Prison Relief',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3111,15 +2906,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: 0.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'crazybrot-relief',
         moduleId: 'crazybrot',
         name: 'Crazybrot Relief',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3136,15 +2929,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 6.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'eaten-relief',
         moduleId: 'eaten',
         name: 'Eaten Relief',
         params: {'iterations': 280, 'bailout': 6.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3161,15 +2952,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: 0.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'polar-cowlick-relief',
         moduleId: 'polar_cowlick',
         name: 'Cowlick Relief',
         params: {'iterations': 250, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3187,15 +2976,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 8.0,
     defaultCenterX: 0.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'vase-relief',
         moduleId: 'vase',
         name: 'Vase Relief',
         params: {'iterations': 220, 'bailout': 8.0, 'colorScheme': 62},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3213,15 +3000,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'lightningbrot-relief',
         moduleId: 'lightningbrot',
         name: 'Lightning Relief',
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3239,15 +3024,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.3,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'angrybrot-relief',
         moduleId: 'angrybrot',
         name: 'Angry Relief',
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(-0.3, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3265,15 +3048,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'singularity-relief',
         moduleId: 'singularity',
         name: 'Singularity Relief',
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 58},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3289,15 +3070,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'space-fractal-relief',
         moduleId: 'space_fractal',
         name: 'Space Fractal Relief',
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3313,15 +3092,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 10.0,
     defaultCenterX: 0.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'contused-fields-relief',
         moduleId: 'contused_fields',
         name: 'Contused Fields Relief',
         params: {'iterations': 200, 'bailout': 10.0, 'colorScheme': 55},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3337,15 +3114,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 8.0,
     defaultCenterX: 0.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'car-road-relief',
         moduleId: 'car_road',
         name: 'Car Road Relief',
         params: {'iterations': 260, 'bailout': 8.0, 'colorScheme': 57},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3361,15 +3136,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'bullet-shot-relief',
         moduleId: 'bullet_shot',
         name: 'Bullet Shot Relief',
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 60},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3385,15 +3158,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 10.0,
     defaultCenterX: 0.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'sine-mandelbrot-relief',
         moduleId: 'sine_mandelbrot',
         name: 'Sine Mandelbrot Relief',
         params: {'iterations': 260, 'bailout': 10.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3409,15 +3180,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'drill-relief',
         moduleId: 'drill',
         name: 'Drill Relief',
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 56},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3433,15 +3202,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: '3d-fractal-relief',
         moduleId: '3d_fractal',
         name: '3D Fractal Relief',
         params: {'iterations': 260, 'bailout': 4.0, 'colorScheme': 59},
         view: FractalViewState(
             pan: Vector2(-0.5, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3457,15 +3224,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 10.0,
     defaultCenterX: 0.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'undefined-relief',
         moduleId: 'undefined',
         name: 'Undefined Relief',
         params: {'iterations': 200, 'bailout': 10.0, 'colorScheme': 61},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -3660,15 +3425,13 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 80,
     defaultBailout: 10.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'biomorph-relief',
         moduleId: 'biomorph',
         name: 'Biomorph Relief',
         params: {'iterations': 100, 'bailout': 10.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4228,25 +3991,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 150,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'mandelpinski-necklace',
         moduleId: 'mandelpinski',
         name: 'Necklace Ring',
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 1},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.35, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mandelpinski-relief',
         moduleId: 'mandelpinski',
         name: 'Necklace Relief',
         params: {'iterations': 200, 'bailout': 8.0, 'colorScheme': 52},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.35, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4258,25 +4017,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'blaschke-cantor',
         moduleId: 'blaschke',
         name: 'Cantor Circles',
         params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'blaschke-relief',
         moduleId: 'blaschke',
         name: 'Blaschke Relief',
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4288,25 +4043,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 50.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'fatou-exp-spiral',
         moduleId: 'fatou_exp',
         name: 'Spiral Arms',
         params: {'iterations': 120, 'bailout': 50.0, 'colorScheme': 0},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.3, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'fatou-exp-relief',
         moduleId: 'fatou_exp',
         name: 'Fatou Relief',
         params: {'iterations': 150, 'bailout': 50.0, 'colorScheme': 53},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.3, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4318,25 +4069,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 150,
     defaultBailout: 20.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'sin-z2-quad',
         moduleId: 'sin_z2',
         name: 'Quad Symmetry',
         params: {'iterations': 150, 'bailout': 20.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'sin-z2-relief',
         moduleId: 'sin_z2',
         name: 'sin(z²) Relief',
         params: {'iterations': 200, 'bailout': 20.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4351,25 +4098,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'wp-classic',
         moduleId: 'weierstrass_p',
         name: 'Square Lattice',
         params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 0},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'wp-relief',
         moduleId: 'weierstrass_p',
         name: '℘ Relief',
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 50},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4382,25 +4125,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 80,
     defaultBailout: 4.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'wroots-basins',
         moduleId: 'weierstrass_roots',
         name: 'Three Basins',
         params: {'iterations': 80, 'bailout': 4.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.6, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'wroots-relief',
         moduleId: 'weierstrass_roots',
         name: 'Weierstrass Relief',
         params: {'iterations': 100, 'bailout': 4.0, 'colorScheme': 51},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.6, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4412,25 +4151,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'steff3-trefoil',
         moduleId: 'steffensen_z3',
         name: 'Trefoil Basins',
         params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 0},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'steff3-golden',
         moduleId: 'steffensen_z3',
         name: 'Golden Ornaments',
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 5},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4442,25 +4177,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'steff4-cross',
         moduleId: 'steffensen_z4',
         name: 'Cross Basins',
         params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 1},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'steff4-sapphire',
         moduleId: 'steffensen_z4',
         name: 'Sapphire Quatrefoil',
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 4},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4472,25 +4203,21 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 100,
     defaultBailout: 8.0,
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'steff5-penta',
         moduleId: 'steffensen_z5',
         name: 'Pentagonal Basins',
         params: {'iterations': 100, 'bailout': 8.0, 'colorScheme': 2},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'steff5-fire',
         moduleId: 'steffensen_z5',
         name: 'Fire Pentagon',
         params: {'iterations': 150, 'bailout': 8.0, 'colorScheme': 6},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 0.5, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4531,7 +4258,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'damped-newton-classic',
         moduleId: 'damped_newton',
         name: 'Cubic Basins',
@@ -4547,10 +4274,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.7,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'damped-newton-relaxed',
         moduleId: 'damped_newton',
         name: 'Relaxed Quartic',
@@ -4566,8 +4291,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.75,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4601,7 +4324,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'durand-kerner-quartic',
         moduleId: 'durand_kerner',
         name: 'Quartic Rings',
@@ -4617,10 +4340,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.9,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'durand-kerner-pentagonal',
         moduleId: 'durand_kerner',
         name: 'Pentagonal Basins',
@@ -4636,8 +4357,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.95,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4671,7 +4390,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'ehrlich-aberth-quartic',
         moduleId: 'ehrlich_aberth',
         name: 'Quartic Attraction',
@@ -4687,10 +4406,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.85,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'ehrlich-aberth-octic',
         moduleId: 'ehrlich_aberth',
         name: 'Octic Crown',
@@ -4706,8 +4423,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4751,7 +4466,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'mcmullen-classic',
         moduleId: 'mcmullen_map',
         name: 'Classic m=3',
@@ -4768,10 +4483,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.9,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'mcmullen-spiral',
         moduleId: 'mcmullen_map',
         name: 'Spiral Web',
@@ -4788,8 +4501,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.05,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4860,7 +4571,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'generalized-mcmullen-symmetric',
         moduleId: 'generalized_mcmullen',
         name: 'Symmetric (n=3,m=3)',
@@ -4880,10 +4591,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 0.95,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'generalized-mcmullen-asymmetric',
         moduleId: 'generalized_mcmullen',
         name: 'Asymmetric (n=5,m=2)',
@@ -4903,8 +4612,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -4953,7 +4660,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'flame-swirl-triad',
         moduleId: 'fractal_flame',
         name: 'Swirl Triad',
@@ -4969,10 +4676,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'flame-horseshoe-kaleidoscope',
         moduleId: 'fractal_flame',
         name: 'Horseshoe Kaleidoscope',
@@ -4988,8 +4693,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.1,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -5034,7 +4737,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'dielectric-lightning',
         moduleId: 'dielectric_breakdown',
         name: 'Lightning Tree',
@@ -5051,10 +4754,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'dielectric-filament',
         moduleId: 'dielectric_breakdown',
         name: 'Filament Storm',
@@ -5071,8 +4772,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.15,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -5115,7 +4814,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'lichtenberg-dendrite',
         moduleId: 'lichtenberg_growth',
         name: 'Dendrite Growth',
@@ -5132,10 +4831,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.2,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'lichtenberg-lichen',
         moduleId: 'lichtenberg_growth',
         name: 'Lichen Pattern',
@@ -5152,8 +4849,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
           zoom: 1.0,
           rotation: Vector3.zero(),
         ),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6068,7 +5763,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'quaternion-julia-3d-classic',
         moduleId: 'quaternion_julia_3d',
         name: 'Classic',
@@ -6081,10 +5776,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.6, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'quaternion-julia-3d-organic',
         moduleId: 'quaternion_julia_3d',
         name: 'Organic',
@@ -6097,8 +5790,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.8, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6132,7 +5823,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'dual-quaternion-julia-classic',
         moduleId: 'dual_quaternion_julia',
         name: 'Classic',
@@ -6145,8 +5836,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.6, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6171,7 +5860,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'newton-z3-nova-classic',
         moduleId: 'newton_z3_nova',
         name: 'Classic',
@@ -6183,10 +5872,8 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
-      FractalPreset(
+      catalogPreset(
         id: 'newton-z3-nova-relaxed',
         moduleId: 'newton_z3_nova',
         name: 'Relaxed',
@@ -6198,8 +5885,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.8, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6224,7 +5909,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'newton-z4-nova-classic',
         moduleId: 'newton_z4_nova',
         name: 'Classic',
@@ -6236,8 +5921,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6262,7 +5945,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'newton-z5-nova-classic',
         moduleId: 'newton_z5_nova',
         name: 'Classic',
@@ -6274,8 +5957,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6300,7 +5981,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'newton-z6-nova-classic',
         moduleId: 'newton_z6_nova',
         name: 'Classic',
@@ -6312,8 +5993,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6338,7 +6017,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'halley-nova-classic',
         moduleId: 'halley_nova',
         name: 'Classic',
@@ -6350,8 +6029,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6376,7 +6053,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'schroeder-nova-classic',
         moduleId: 'schroeder_nova',
         name: 'Classic',
@@ -6388,8 +6065,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6414,7 +6089,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'householder-nova-classic',
         moduleId: 'householder_nova',
         name: 'Classic',
@@ -6426,8 +6101,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 0.7, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),
@@ -6459,7 +6132,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
       ),
     ],
     extraPresets: [
-      FractalPreset(
+      catalogPreset(
         id: 'phoenix-julia-classic',
         moduleId: 'phoenix_julia',
         name: 'Classic',
@@ -6472,8 +6145,6 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         },
         view: FractalViewState(
             pan: Vector2(0, 0), zoom: 1.0, rotation: Vector3.zero()),
-        createdAt: builtInPresetCreatedAt,
-        isBuiltIn: true,
       ),
     ],
   ),

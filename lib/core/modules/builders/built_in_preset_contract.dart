@@ -1,10 +1,37 @@
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 
 /// Stable provenance marker for generated built-in presets.
 ///
 /// Builder-owned presets are part of the app catalog, not user-created data, so
 /// their metadata must be replayable across registry rebuilds and test runs.
 final builtInPresetCreatedAt = DateTime.utc(2025, 1, 1);
+
+/// Constructs a curated built-in catalog preset with replayable provenance.
+///
+/// Catalog entries only vary by [id], [moduleId], [name], [params], and [view];
+/// the provenance fields ([createdAt], [isBuiltIn]) are fixed by contract. This
+/// factory bakes them in so catalog data cannot accidentally reintroduce
+/// non-deterministic timestamps (e.g. `DateTime.now()`) or a wrong built-in flag.
+FractalPreset catalogPreset({
+  required String id,
+  required String moduleId,
+  required String name,
+  required Map<String, Object> params,
+  required FractalViewState view,
+  String? thumbnailPath,
+}) {
+  return FractalPreset(
+    id: id,
+    moduleId: moduleId,
+    name: name,
+    params: params,
+    view: view,
+    createdAt: builtInPresetCreatedAt,
+    isBuiltIn: true,
+    thumbnailPath: thumbnailPath,
+  );
+}
 
 /// Returns the builder-facing built-in preset list with replayable metadata.
 ///
