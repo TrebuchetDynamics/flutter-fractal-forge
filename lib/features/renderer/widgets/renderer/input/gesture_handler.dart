@@ -144,16 +144,25 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
             Vector3(_panVelocity.dy * 0.0008, _panVelocity.dx * 0.0008, 0),
       );
     } else {
-      // Map pixel velocity to world coordinates — divide by zoom (linear)
+      // Map pixel velocity to world coordinates through the SAME transform the
+      // interactive drag uses (_screenDeltaToWorldDelta), so a fling on a
+      // rotated 2D view continues in the direction the finger released. This
+      // previously ignored rotation.z, sending flings the wrong way on rotated
+      // views; for an unrotated view the result is identical.
       final renderBox = context.findRenderObject() as RenderBox?;
       final size = renderBox?.size;
       final scalePx = (size == null)
           ? 1.0
           : math.max(1.0, math.min(size.width, size.height));
-      final safeZoom = math.max(1e-9, view.zoom);
+      final worldDelta = _screenDeltaToWorldDelta(
+        deltaPx: _panVelocity,
+        scalePx: scalePx,
+        rotationZ: view.rotation.z,
+        zoom: view.zoom,
+      );
       final nextPan = Vector2(
-        view.pan.x - (_panVelocity.dx / scalePx) / safeZoom,
-        view.pan.y - (_panVelocity.dy / scalePx) / safeZoom,
+        view.pan.x - worldDelta.x,
+        view.pan.y - worldDelta.y,
       );
       final boundedPan = Vector2(
         _rubberBand(nextPan.x, _kPanMin, _kPanMax),
