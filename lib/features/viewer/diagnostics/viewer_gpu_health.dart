@@ -110,43 +110,49 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
       ),
     );
 
-    // Add hysteresis to prevent rapid backend switching (flicker bug)
-    // Only switch if decision changed AND enough time has passed
-    if (newDecision.backend != oldBackend) {
-      if (oldBackend == RendererBackend.gpu &&
-          newDecision.backend == RendererBackend.cpu) {
-        unawaited(_captureLastGpuSnapshot());
-      }
-      if (_gpuProbeActive) {
-        _gpuProbeBackendSwitches++;
-      }
-      _log.logState('render', 'Backend switch', {
-        'from': oldBackend.name,
-        'to': newDecision.backend.name,
-        'reason': newDecision.reasonToken,
-        'detail': newDecision.detail,
-        'duringGpuProbe': _gpuProbeActive,
-      });
-    }
-    if (newDecision.backend != _backendDecision.backend) {
-      final now = DateTime.now();
-      final lastSwitch = _lastBackendSwitch;
-
-      // Module switches should always update immediately. The hysteresis is
-      // only meant to prevent rapid CPU<->GPU flip-flopping on *the same* module
-      // due to health-check/precision conditions.
-      if (moduleChanged ||
-          lastSwitch == null ||
-          now.difference(lastSwitch).inMilliseconds >= 500) {
-        _backendDecision = newDecision;
-        _lastBackendSwitch = now;
-      }
-      // Else: keep old decision to prevent flicker
-    } else {
-      // Same backend, update decision immediately
+    if (newDecision.backend == oldBackend) {
+      // Same backend: refresh reason/detail immediately. No switch side-effects.
       _backendDecision = newDecision;
+      _lastBackendDecisionModuleId = currentModuleId;
+      return;
     }
 
+    // Backend differs. Hysteresis prevents rapid CPU<->GPU flip-flopping on the
+    // same module: module switches apply immediately, otherwise wait 500ms since
+    // the last applied switch.
+    final now = DateTime.now();
+    final lastSwitch = _lastBackendSwitch;
+    final switchAllowed = moduleChanged ||
+        lastSwitch == null ||
+        now.difference(lastSwitch).inMilliseconds >= 500;
+
+    if (!switchAllowed) {
+      // Suppressed to prevent flicker: keep the old decision and fire NO switch
+      // side-effects. Previously the snapshot/log/probe-counter ran on every
+      // suppressed candidate, spamming expensive GPU snapshots and inflating the
+      // "expected 0 switches on healthy GPU" probe metric near a threshold.
+      _lastBackendDecisionModuleId = currentModuleId;
+      return;
+    }
+
+    // Switch is actually being applied — run the switch side-effects now.
+    if (oldBackend == RendererBackend.gpu &&
+        newDecision.backend == RendererBackend.cpu) {
+      unawaited(_captureLastGpuSnapshot());
+    }
+    if (_gpuProbeActive) {
+      _gpuProbeBackendSwitches++;
+    }
+    _log.logState('render', 'Backend switch', {
+      'from': oldBackend.name,
+      'to': newDecision.backend.name,
+      'reason': newDecision.reasonToken,
+      'detail': newDecision.detail,
+      'duringGpuProbe': _gpuProbeActive,
+    });
+
+    _backendDecision = newDecision;
+    _lastBackendSwitch = now;
     _lastBackendDecisionModuleId = currentModuleId;
   }
 
