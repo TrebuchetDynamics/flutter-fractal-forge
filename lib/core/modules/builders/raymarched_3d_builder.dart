@@ -129,7 +129,7 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
     if (config.maxFractalType > 0) 'fractalType': config.defaultFractalType,
   };
 
-  final defaultPreset = FractalPreset(
+  final defaultPreset = catalogPreset(
     id: '${config.id}-default',
     moduleId: config.id,
     name: 'Default',
@@ -139,8 +139,6 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       zoom: 1.0,
       rotation: Vector3(0.3, -0.4, 0.0),
     ),
-    createdAt: builtInPresetCreatedAt,
-    isBuiltIn: true,
   );
 
   return FractalModule(

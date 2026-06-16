@@ -94,7 +94,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
     defaultParams[p.id] = p.defaultValue;
   }
 
-  final defaultPreset = FractalPreset(
+  final defaultPreset = catalogPreset(
     id: '${config.id}-default',
     moduleId: config.id,
     name: 'Default',
@@ -104,8 +104,6 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       zoom: defaults.zoom,
       rotation: Vector3.zero(),
     ),
-    createdAt: builtInPresetCreatedAt,
-    isBuiltIn: true,
   );
 
   return FractalModule(
