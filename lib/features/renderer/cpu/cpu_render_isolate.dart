@@ -228,6 +228,7 @@ Uint8List renderCpuRectRgba({
   required int w,
   required int h,
   required int sampleCount,
+  CpuFormula? formulaOverride,
 }) {
   CpuRenderRect(
     fullWidth: fullWidth,
@@ -242,7 +243,9 @@ Uint8List renderCpuRectRgba({
   final sampleGrid = CpuSampleGrid.fromRequestedCount(sampleCount);
 
   final juliaC = Vector2(juliaCX, juliaCY);
-  final formula = cpuFormulaForModuleId(moduleId);
+  // [formulaOverride] lets non-catalog formulas (e.g. parsed FRM) reuse this
+  // pixel loop; otherwise dispatch by module id as usual.
+  final formula = formulaOverride ?? cpuFormulaForModuleId(moduleId);
   final viewport = CpuViewportMapping.fromScalars(
     panX: panX,
     panY: panY,
