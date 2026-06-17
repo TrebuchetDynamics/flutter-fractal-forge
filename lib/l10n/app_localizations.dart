@@ -152,6 +152,18 @@ abstract class AppLocalizations {
   /// **'Clear search'**
   String get actionClearSearch;
 
+  /// No description provided for @catalogClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get catalogClearFilters;
+
+  /// No description provided for @catalogResultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} results'**
+  String catalogResultsCount(int count);
+
   /// No description provided for @viewerTitle.
   ///
   /// In en, this message translates to:
@@ -302,6 +314,12 @@ abstract class AppLocalizations {
   /// **'Actions'**
   String get sectionActions;
 
+  /// No description provided for @sectionParameters.
+  ///
+  /// In en, this message translates to:
+  /// **'Parameters'**
+  String get sectionParameters;
+
   /// No description provided for @resetView.
   ///
   /// In en, this message translates to:
@@ -319,6 +337,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Randomize'**
   String get randomize;
+
+  /// No description provided for @kaleidoscopeEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get kaleidoscopeEnable;
+
+  /// No description provided for @kaleidoscopeSectors.
+  ///
+  /// In en, this message translates to:
+  /// **'Sectors'**
+  String get kaleidoscopeSectors;
+
+  /// No description provided for @kaleidoscopeRotation.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotate'**
+  String get kaleidoscopeRotation;
+
+  /// No description provided for @kaleidoscopeMirror.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror'**
+  String get kaleidoscopeMirror;
+
+  /// No description provided for @kaleidoscopeMirrorAlternate.
+  ///
+  /// In en, this message translates to:
+  /// **'Alternate'**
+  String get kaleidoscopeMirrorAlternate;
+
+  /// No description provided for @kaleidoscopeMirrorDouble.
+  ///
+  /// In en, this message translates to:
+  /// **'Double'**
+  String get kaleidoscopeMirrorDouble;
+
+  /// No description provided for @kaleidoscopeMirrorTriple.
+  ///
+  /// In en, this message translates to:
+  /// **'Triple'**
+  String get kaleidoscopeMirrorTriple;
+
+  /// No description provided for @kaleidoscopeMirrorNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get kaleidoscopeMirrorNone;
 
   /// No description provided for @exportTitle.
   ///

@@ -21,19 +21,6 @@ import 'package:flutter_fractals/shared/utils/slugify.dart';
 
 enum CatalogViewMode { grid, list }
 
-/// Featured fractal IDs shown in the hero carousel at the top of the catalog.
-/// NOTE: These IDs MUST have corresponding thumbnails in assets/catalog_thumbs/.
-const _kFeaturedFractalIds = <String>[
-  'mandelbrot',
-  'julia',
-  'burning_ship',
-  'newton_z3',
-  'menger_3d_slice', // mandelbulb.png does not exist
-  'buddhabrot_approx', // buddhabrot.png does not exist
-  'sierpinski_triangle',
-  'barnsley_fern',
-];
-
 /// Global shimmer animation controller shared by all thumbnails.
 /// Single controller instead of one per thumbnail (350+ savings).
 class _GlobalShimmerController {
@@ -199,6 +186,13 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     });
   }
 
+  /// True when a search query, dimension, or category filter is narrowing the
+  /// catalog — used to surface the result count + one-tap "clear all".
+  bool get _hasActiveRefinements =>
+      _debouncedQuery.isNotEmpty ||
+      _dimensionFilter != CatalogDimensionFilter.all ||
+      _selectedCategory != null;
+
   Map<String, List<CatalogEntry>> _groupAndSort(
       List<CatalogEntry> entries, AppLocalizations l10n) {
     final grouped = <String, List<CatalogEntry>>{};
@@ -235,10 +229,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final groupedEntries = _groupAndSort(filteredEntries, l10n);
     final categoryCounts = filterResult.categoryCounts;
     final sortedCategories = filterResult.sortedCategories;
-    final showFeatured = query.isEmpty &&
-        _dimensionFilter == CatalogDimensionFilter.all &&
-        _selectedCategory == null;
-
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -246,6 +236,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             children: [
               _buildFilterAndSortBar(context, l10n, filterResult),
               if (_isSearchVisible) _buildSearchField(context, l10n),
+              if (_hasActiveRefinements)
+                _buildActiveFilterSummary(
+                    context, l10n, filteredEntries.length),
               _buildCategoryBar(
                 context,
                 l10n,
@@ -253,9 +246,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                 categoryCounts: categoryCounts,
                 totalCount: filterResult.categoryBaseEntries.length,
               ),
-              // Featured carousel disabled - TEMPORARILY DISABLED (assets issue)
-              // if (showFeatured && _viewMode == CatalogViewMode.grid)
-              //   _FeaturedSection(...),
             ],
           ),
         ),
@@ -375,6 +365,52 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     );
   }
 
+  /// Slim summary row shown only while a filter is active: result count on the
+  /// left, a one-tap "clear all" on the right so users can always recover.
+  Widget _buildActiveFilterSummary(
+    BuildContext context,
+    AppLocalizations l10n,
+    int resultCount,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.sm,
+        0,
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.filter_list_rounded, size: 14, color: AppColors.textMuted),
+          const SizedBox(width: AppSpacing.xs),
+          Expanded(
+            child: Text(
+              l10n.catalogResultsCount(resultCount),
+              style: AppTypography.labelSmall.copyWith(
+                color: AppColors.textSecondary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          TextButton.icon(
+            key: const Key('catalogClearFiltersButton'),
+            onPressed: _clearCatalogRefinements,
+            icon: const Icon(Icons.clear_all_rounded, size: 16),
+            label: Text(l10n.catalogClearFilters),
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.primary,
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+              minimumSize: const Size(0, 32),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              textStyle: AppTypography.labelSmall
+                  .copyWith(fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCategoryBar(
     BuildContext context,
     AppLocalizations l10n, {
@@ -387,7 +423,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
-        AppSpacing.xs,
+        2,
         AppSpacing.lg,
         AppSpacing.xs,
       ),
@@ -395,16 +431,17 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            l10n.catalogFilterCategories,
+            l10n.catalogFilterCategories.toUpperCase(),
             style: AppTypography.labelSmall.copyWith(
-              color: AppColors.textPrimary,
+              color: AppColors.textMuted,
               fontWeight: FontWeight.w700,
-              letterSpacing: 0.8,
+              fontSize: 10,
+              letterSpacing: 1.0,
             ),
           ),
-          const SizedBox(height: AppSpacing.xs),
+          const SizedBox(height: 6),
           SizedBox(
-            height: 40,
+            height: 36,
             child: ListView.separated(
               key: const Key('catalogCategoryScroll'),
               scrollDirection: Axis.horizontal,
@@ -516,29 +553,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           onChanged: (_) {
             setState(() {});
           },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildViewToggle(BuildContext context, AppLocalizations l10n) {
-    final isGrid = _viewMode == CatalogViewMode.grid;
-    return Semantics(
-      button: true,
-      label: isGrid ? l10n.catalogSwitchToList : l10n.catalogSwitchToGrid,
-      child: Tooltip(
-        message: isGrid ? l10n.catalogListView : l10n.catalogGridView,
-        child: IconButton(
-          key: const Key('catalogViewToggleButton'),
-          tooltip: isGrid ? l10n.catalogListView : l10n.catalogGridView,
-          onPressed: () => _setViewMode(
-            isGrid ? CatalogViewMode.list : CatalogViewMode.grid,
-          ),
-          icon: Icon(
-            isGrid ? Icons.view_list_rounded : Icons.grid_view_rounded,
-            color: AppColors.textMuted,
-            size: 22,
-          ),
         ),
       ),
     );
@@ -676,8 +690,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   void _openViewer(BuildContext context, FractalModule module,
       {String? heroTag}) {
     final controller = context.read<FractalController>();
-    controller.selectModule(module);
-    controller.resetView();
+    controller.selectModule(module, resetView: true);
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(
@@ -853,10 +866,10 @@ class _DimChip extends StatelessWidget {
       label: selected
           ? '$label filter, selected, $count fractals'
           : '$label filter, $count fractals',
-      child: GestureDetector(
+      child: PressableScale(
         key: chipKey,
         onTap: onTap,
-        child: AnimatedContainer(
+        builder: (isPressed) => AnimatedContainer(
           duration: AppAnimations.fast,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(
@@ -923,63 +936,6 @@ class _DimChip extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CatalogSummaryPill extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String? value;
-
-  const CatalogSummaryPill({
-    required this.icon,
-    required this.label,
-    this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: AppSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.75),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: AppColors.border.withValues(alpha: 0.3),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 12,
-            color: AppColors.textMuted,
-          ),
-          const SizedBox(width: AppSpacing.xs),
-          Text(
-            label,
-            style: AppTypography.labelSmall.copyWith(
-              color: AppColors.textPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          if (value != null) ...[
-            const SizedBox(width: AppSpacing.xs),
-            Text(
-              value!,
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ],
       ),
     );
   }
@@ -1236,577 +1192,6 @@ class _EmptyState extends StatelessWidget {
                 ),
               ],
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Featured hero carousel
-// ---------------------------------------------------------------------------
-
-class _FeaturedSection extends StatelessWidget {
-  final CatalogRepository catalog;
-  final AppLocalizations l10n;
-  final void Function(FractalModule, String catalogId) onTap;
-
-  const _FeaturedSection({
-    required this.catalog,
-    required this.l10n,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // Resolve featured entries from the catalog, preserving order.
-    final featured = _kFeaturedFractalIds
-        .map((id) {
-          try {
-            return catalog.entries.firstWhere(
-              (e) => e.catalogId == id || e.catalogId == 'core.$id',
-            );
-          } catch (_) {
-            return null;
-          }
-        })
-        .whereType<CatalogEntry>()
-        .toList();
-
-    if (featured.isEmpty) return const SizedBox.shrink();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.lg,
-            AppSpacing.sm,
-            AppSpacing.lg,
-            AppSpacing.sm,
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: [AppColors.primary, AppColors.secondary],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.45),
-                      blurRadius: 8,
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.auto_awesome_rounded,
-                  size: 11,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                l10n.catalogFeatured,
-                style: AppTypography.labelSmall.copyWith(
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.6,
-                  fontSize: 10,
-                ),
-              ),
-            ],
-          ),
-        ),
-        // Featured cards - PageView carousel with snapping
-        SizedBox(
-          height: 380,
-          child: PageView.builder(
-            controller: PageController(
-              viewportFraction: 0.85,
-              initialPage: 0,
-            ),
-            itemCount: featured.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: GestureDetector(
-                  onTap: () =>
-                      onTap(featured[index].module, featured[index].catalogId),
-                  child: _FeaturedHeroCard(
-                    entry: featured[index],
-                    l10n: l10n,
-                    onTap: () => onTap(
-                        featured[index].module, featured[index].catalogId),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        // Divider
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-          child: Container(
-            height: 1,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  AppColors.border.withValues(alpha: 0.6),
-                  AppColors.border.withValues(alpha: 0.6),
-                  Colors.transparent,
-                ],
-                stops: const [0, 0.15, 0.85, 1],
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.xs),
-      ],
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Hero Featured Card - Full width card with category, name, and tags
-// ---------------------------------------------------------------------------
-
-class _FeaturedHeroCard extends StatefulWidget {
-  final CatalogEntry entry;
-  final AppLocalizations l10n;
-  final VoidCallback onTap;
-
-  const _FeaturedHeroCard({
-    required this.entry,
-    required this.l10n,
-    required this.onTap,
-  });
-
-  @override
-  State<_FeaturedHeroCard> createState() => _FeaturedHeroCardState();
-}
-
-class _FeaturedHeroCardState extends State<_FeaturedHeroCard> {
-  bool _isPressed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final is3D = widget.entry.module.dimension == FractalDimension.threeD;
-    final name = widget.entry.module.displayName(widget.l10n);
-    final category = widget.entry.category.toUpperCase();
-
-    return GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) => setState(() => _isPressed = false),
-      onTapCancel: () => setState(() => _isPressed = false),
-      onTap: widget.onTap,
-      child: AnimatedScale(
-        scale: _isPressed ? 0.98 : 1.0,
-        duration: const Duration(milliseconds: 100),
-        child: SizedBox(
-          height: 380,
-          width: 320,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.4),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
-                ),
-                if (_isPressed)
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 24,
-                    spreadRadius: 2,
-                  ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Background image
-                  _PreviewThumbnail(
-                    catalogId: widget.entry.catalogId,
-                    is3D: is3D,
-                    category: widget.entry.category,
-                  ),
-                  // Gradient overlays
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.black.withValues(alpha: 0.1),
-                          Colors.black.withValues(alpha: 0.3),
-                          Colors.black.withValues(alpha: 0.85),
-                        ],
-                        stops: const [0, 0.4, 1],
-                      ),
-                    ),
-                  ),
-                  // Content
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Category badge
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.secondary.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: AppColors.secondary.withValues(alpha: 0.5),
-                            ),
-                          ),
-                          child: Text(
-                            category,
-                            style: AppTypography.labelSmall.copyWith(
-                              color: AppColors.secondary,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        // Title and tags
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              name,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTypography.headlineMedium.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black.withValues(alpha: 0.5),
-                                    blurRadius: 8,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            // Tags row
-                            Wrap(
-                              spacing: 6,
-                              runSpacing: 4,
-                              children: [
-                                // Dimension tag
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Text(
-                                    is3D ? '3D' : '2D',
-                                    style: AppTypography.labelSmall.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                // Category tag
-                                Flexible(
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Colors.white.withValues(alpha: 0.15),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      category,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppTypography.labelSmall.copyWith(
-                                        color:
-                                            Colors.white.withValues(alpha: 0.8),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FeaturedCard extends StatefulWidget {
-  final CatalogEntry entry;
-  final AppLocalizations l10n;
-  final VoidCallback onTap;
-
-  const _FeaturedCard({
-    required this.entry,
-    required this.l10n,
-    required this.onTap,
-  });
-
-  @override
-  State<_FeaturedCard> createState() => _FeaturedCardState();
-}
-
-class _FeaturedCardState extends State<_FeaturedCard>
-    with SingleTickerProviderStateMixin {
-  bool _isHovered = false;
-  bool _isPressed = false;
-  late final AnimationController _scaleController;
-  late final Animation<double> _scaleAnim;
-
-  @override
-  void initState() {
-    super.initState();
-    _scaleController = AnimationController(
-      vsync: this,
-      duration: AppAnimations.fast,
-    );
-    _scaleAnim = Tween<double>(begin: 1.0, end: 1.03).animate(
-      CurvedAnimation(
-          parent: _scaleController, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _scaleController.dispose();
-    super.dispose();
-  }
-
-  void _setHover(bool on) {
-    setState(() => _isHovered = on);
-    if (on) {
-      _scaleController.forward();
-    } else {
-      _scaleController.reverse();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final is3D = widget.entry.module.dimension == FractalDimension.threeD;
-    final name = widget.entry.module.displayName(widget.l10n);
-    final accentColor = _categoryAccentColor(widget.entry.category);
-
-    final is3DLabel = widget.entry.module.dimension == FractalDimension.threeD
-        ? widget.l10n.dimension3d
-        : widget.l10n.dimension2d;
-    final featuredName = widget.entry.module.displayName(widget.l10n);
-
-    return Semantics(
-      label: widget.l10n.semanticFractalCard(featuredName, is3DLabel),
-      button: true,
-      child: MouseRegion(
-        onEnter: (_) => _setHover(true),
-        onExit: (_) => _setHover(false),
-        child: GestureDetector(
-          onTapDown: (_) => setState(() => _isPressed = true),
-          onTapUp: (_) => setState(() => _isPressed = false),
-          onTapCancel: () => setState(() => _isPressed = false),
-          onTap: widget.onTap,
-          child: ScaleTransition(
-            scale: _scaleAnim,
-            child: AnimatedContainer(
-              duration: AppAnimations.fast,
-              width: 180,
-              height: 180,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                  if (_isHovered || _isPressed)
-                    BoxShadow(
-                      color: accentColor.withValues(alpha: 0.45),
-                      blurRadius: 20,
-                      spreadRadius: 1,
-                    ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        _PreviewThumbnail(
-                          catalogId: widget.entry.catalogId,
-                          is3D: is3D,
-                          category: widget.entry.category,
-                        ),
-                        // Deep bottom gradient for name legibility
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          height: 90,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withValues(alpha: 0.85),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        // Name label
-                        Positioned(
-                          left: 8,
-                          right: 8,
-                          bottom: 8,
-                          child: Text(
-                            name,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: AppTypography.labelSmall.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              shadows: const [
-                                Shadow(color: Colors.black87, blurRadius: 6),
-                              ],
-                            ),
-                          ),
-                        ),
-                        // Top accent gradient strip
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            height: 3,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(AppSpacing.cardRadius),
-                                topRight:
-                                    Radius.circular(AppSpacing.cardRadius),
-                              ),
-                              gradient: LinearGradient(
-                                colors: [
-                                  AppColors.primary.withValues(alpha: 0.9),
-                                  accentColor.withValues(alpha: 0.9),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        // 3D badge
-                        if (is3D)
-                          Positioned(
-                            top: 10,
-                            right: 8,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 7,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color:
-                                    AppColors.warning.withValues(alpha: 0.92),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: AppColors.warning,
-                                  width: 1,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.25),
-                                    blurRadius: 4,
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                '3D',
-                                style: AppTypography.labelSmall.copyWith(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 10,
-                                  letterSpacing: 0.3,
-                                ),
-                              ),
-                            ),
-                          ),
-                        // Press overlay
-                        if (_isPressed)
-                          Positioned.fill(
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Colors.black.withValues(alpha: 0.18),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  // Glow border on hover / press
-                  if (_isHovered || _isPressed)
-                    Positioned.fill(
-                      child: IgnorePointer(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(AppSpacing.cardRadius),
-                            border: Border.all(
-                              color: accentColor.withValues(alpha: 0.8),
-                              width: 1.5,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
           ),
         ),
       ),

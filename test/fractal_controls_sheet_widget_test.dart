@@ -7,7 +7,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  testWidgets('FractalControlsSheet renders controls and Reset Params restores defaults', (tester) async {
+  testWidgets(
+      'FractalControlsSheet renders controls and Reset Params restores defaults',
+      (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
     final controller = FractalController(ModuleRegistry());
@@ -37,6 +39,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(controller.params['iterations'], 500);
 
+    // Actions live in a card below the parameter list, so scroll it in first.
+    await tester.ensureVisible(find.text('Reset Params'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Reset Params'));
     await tester.pumpAndSettle();
 

@@ -66,6 +66,8 @@ void main() {
       controller.updateParam('iterations', 500);
       expect(controller.params['iterations'], 500);
 
+      await tester.ensureVisible(find.text('Reset Params'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Reset Params'));
       await tester.pumpAndSettle();
 
@@ -80,6 +82,8 @@ void main() {
       controller.updateZoom(2.0);
       expect(controller.view.zoom, 2.0);
 
+      await tester.ensureVisible(find.text('Reset View'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Reset View'));
       await tester.pumpAndSettle();
 
@@ -129,7 +133,8 @@ void main() {
       expect(newIterations, isNot(initialIterations));
     });
 
-    testWidgets('color scheme options are present (if rendered)', (tester) async {
+    testWidgets('color scheme options are present (if rendered)',
+        (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
@@ -186,10 +191,12 @@ void main() {
       await tester.pumpAndSettle();
 
       // Reset buttons should be in a Row
-      expect(find.ancestor(
-        of: find.text('Reset View'),
-        matching: find.byType(Row),
-      ), findsWidgets);
+      expect(
+          find.ancestor(
+            of: find.text('Reset View'),
+            matching: find.byType(Row),
+          ),
+          findsWidgets);
     });
 
     testWidgets('Randomize button exists', (tester) async {

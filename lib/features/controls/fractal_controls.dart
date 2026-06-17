@@ -19,7 +19,7 @@ class FractalControlsSheet extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return AppBottomSheet(
-      maxHeightFactor: 0.38,
+      maxHeightFactor: 0.62,
       children: [
         AppBottomSheetHeader(
           icon: Icons.tune_rounded,
@@ -32,75 +32,123 @@ class FractalControlsSheet extends StatelessWidget {
         Flexible(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
               AppSpacing.sm,
-              AppSpacing.xs,
-              AppSpacing.sm,
+              AppSpacing.md,
               AppSpacing.sm,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionHeader(title: l10n.controlsTitle),
-                ...controller.module.parameters.asMap().entries.map((entry) {
-                  return StaggeredItem(
-                    index: entry.key,
-                    itemDelay: const Duration(milliseconds: 30),
-                    child: _ParamControl(
-                      param: entry.value,
-                      value: controller.params[entry.value.id] ??
-                          entry.value.defaultValue,
-                      onChanged: (value) =>
-                          controller.updateParam(entry.value.id, value),
-                    ),
-                  );
-                }),
-                const SizedBox(height: AppSpacing.lg),
-                SectionHeader(title: 'Kaleidoscope'),
-                const SizedBox(height: AppSpacing.sm),
-                _KaleidoscopeControls(),
-                const SizedBox(height: AppSpacing.xl),
-                SectionHeader(title: l10n.sectionActions),
-                const SizedBox(height: AppSpacing.sm),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _ActionButton(
-                        icon: Icons.restart_alt_rounded,
-                        label: l10n.resetView,
-                        onPressed: controller.resetView,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: _ActionButton(
-                        icon: Icons.settings_backup_restore_rounded,
-                        label: l10n.resetParams,
-                        onPressed: controller.resetParams,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.md),
-                SizedBox(
-                  width: double.infinity,
-                  child: _AnimatedRandomizeButton(
-                    label: l10n.randomize,
-                    onPressed: () {
-                      HapticFeedback.mediumImpact();
-                      controller.randomizeParams();
-                      // Trigger a small celebration for discovering new fractals
-                      controller.recordInterestingSpot();
-                    },
+                _ControlCard(
+                  title: l10n.sectionParameters,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...controller.module.parameters
+                          .asMap()
+                          .entries
+                          .map((entry) {
+                        return StaggeredItem(
+                          index: entry.key,
+                          itemDelay: const Duration(milliseconds: 30),
+                          child: _ParamControl(
+                            param: entry.value,
+                            value: controller.params[entry.value.id] ??
+                                entry.value.defaultValue,
+                            onChanged: (value) =>
+                                controller.updateParam(entry.value.id, value),
+                          ),
+                        );
+                      }),
+                    ],
                   ),
                 ),
-                SizedBox(
-                    height:
-                        MediaQuery.of(context).padding.bottom + AppSpacing.lg),
+                _ControlCard(
+                  title: l10n.dimensionKaleidoscope,
+                  child: _KaleidoscopeControls(),
+                ),
+                _ControlCard(
+                  title: l10n.sectionActions,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _ActionButton(
+                              icon: Icons.restart_alt_rounded,
+                              label: l10n.resetView,
+                              onPressed: controller.resetView,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.md),
+                          Expanded(
+                            child: _ActionButton(
+                              icon: Icons.settings_backup_restore_rounded,
+                              label: l10n.resetParams,
+                              onPressed: controller.resetParams,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      SizedBox(
+                        width: double.infinity,
+                        child: _AnimatedRandomizeButton(
+                          label: l10n.randomize,
+                          onPressed: () {
+                            HapticFeedback.mediumImpact();
+                            controller.randomizeParams();
+                            // Trigger a small celebration for discovering new
+                            // fractals.
+                            controller.recordInterestingSpot();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Subtle grouping card with an uppercase [SectionHeader] for the controls
+/// sheet, giving the parameter / kaleidoscope / action groups clear hierarchy.
+class _ControlCard extends StatelessWidget {
+  final String title;
+  final Widget child;
+
+  const _ControlCard({required this.title, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        AppSpacing.md,
+        AppSpacing.md,
+        AppSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceVariant.withValues(alpha: 0.35),
+        borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+        border: Border.all(color: AppColors.border.withValues(alpha: 0.25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader(title: title),
+          child,
+        ],
+      ),
     );
   }
 }
@@ -341,25 +389,21 @@ class _KaleidoscopeControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: _ActionButton(
-                icon: Icons.auto_awesome,
-                label: 'Activar',
-                onPressed: () => controller
-                    .setKaleidoscopeEnabled(!controller.kaleidoscopeEnabled),
-              ),
-            ),
-          ],
+        // A real switch so the enabled state is visible at a glance, instead of
+        // a plain button that gave no on/off feedback.
+        _PremiumSwitch(
+          label: l10n.kaleidoscopeEnable,
+          value: controller.kaleidoscopeEnabled,
+          onChanged: controller.setKaleidoscopeEnabled,
         ),
         if (controller.kaleidoscopeEnabled) ...[
           const SizedBox(height: AppSpacing.md),
           _SliderRow(
-            label: 'Sectores',
+            label: l10n.kaleidoscopeSectors,
             value: controller.kaleidoscopeSectors.toDouble(),
             min: 4,
             max: 16,
@@ -378,7 +422,7 @@ class _KaleidoscopeControls extends StatelessWidget {
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: _SliderRow(
-                  label: 'Rotar',
+                  label: l10n.kaleidoscopeRotation,
                   value: controller.kaleidoscopeRotation,
                   min: 0,
                   max: 6.28,
@@ -451,12 +495,18 @@ class _MirrorModeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final modes = ['Alternado', 'Doble', 'Triple', 'Sin'];
+    final l10n = AppLocalizations.of(context)!;
+    final modes = [
+      l10n.kaleidoscopeMirrorAlternate,
+      l10n.kaleidoscopeMirrorDouble,
+      l10n.kaleidoscopeMirrorTriple,
+      l10n.kaleidoscopeMirrorNone,
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Espejo',
+          l10n.kaleidoscopeMirror,
           style:
               AppTypography.labelSmall.copyWith(color: AppColors.textSecondary),
         ),

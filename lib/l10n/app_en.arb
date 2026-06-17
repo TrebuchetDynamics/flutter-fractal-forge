@@ -9,6 +9,13 @@
   "catalogSearchHint": "Search fractals",
   "catalogSearchEmpty": "No fractals match your search.",
   "actionClearSearch": "Clear search",
+  "catalogClearFilters": "Clear all",
+  "catalogResultsCount": "{count} results",
+  "@catalogResultsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "viewerTitle": "Fractal Viewer",
   "controlsTitle": "Controls",
   "presetsTitle": "Presets",
@@ -34,9 +41,18 @@
   "presetNameRequired": "Enter a preset name.",
   "presetSaveFailed": "Couldn’t save preset: {error}",
   "sectionActions": "Actions",
+  "sectionParameters": "Parameters",
   "resetView": "Reset View",
   "resetParams": "Reset Params",
   "randomize": "Randomize",
+  "kaleidoscopeEnable": "Enable",
+  "kaleidoscopeSectors": "Sectors",
+  "kaleidoscopeRotation": "Rotate",
+  "kaleidoscopeMirror": "Mirror",
+  "kaleidoscopeMirrorAlternate": "Alternate",
+  "kaleidoscopeMirrorDouble": "Double",
+  "kaleidoscopeMirrorTriple": "Triple",
+  "kaleidoscopeMirrorNone": "None",
   "exportTitle": "Export",
   "exportQuickPresets": "Quick Presets",
   "exportPresetSocial": "Social",

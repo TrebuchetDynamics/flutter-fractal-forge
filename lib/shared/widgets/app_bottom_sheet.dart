@@ -29,20 +29,30 @@ class AppBottomSheet extends StatelessWidget {
     final isLandscape = mq.orientation == Orientation.landscape;
     final effectiveFactor =
         isLandscape ? maxHeightFactor.clamp(0.85, 0.92) : maxHeightFactor;
+    // Inset content above the system navigation bar / gesture area so the
+    // bottom of the sheet never merges with the phone's on-screen buttons.
+    // The surface still extends to the screen edge — only the content is
+    // padded — and the extra inset is added to the height budget so the
+    // visible content area is unchanged.
+    final bottomInset = mq.viewPadding.bottom;
     return Container(
       constraints: BoxConstraints(
-        maxHeight: math.max(mq.size.height * effectiveFactor, 280),
+        maxHeight:
+            math.max(mq.size.height * effectiveFactor, 280) + bottomInset,
       ),
       decoration: const BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const _DragHandle(),
-          ...children,
-        ],
+      child: Padding(
+        padding: EdgeInsets.only(bottom: bottomInset),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const _DragHandle(),
+            ...children,
+          ],
+        ),
       ),
     );
   }

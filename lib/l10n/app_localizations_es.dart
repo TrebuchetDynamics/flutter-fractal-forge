@@ -37,6 +37,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get actionClearSearch => 'Borrar búsqueda';
 
   @override
+  String get catalogClearFilters => 'Limpiar todo';
+
+  @override
+  String catalogResultsCount(int count) {
+    return '$count resultados';
+  }
+
+  @override
   String get viewerTitle => 'Visor de fractales';
 
   @override
@@ -114,6 +122,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sectionActions => 'Acciones';
 
   @override
+  String get sectionParameters => 'Parámetros';
+
+  @override
   String get resetView => 'Restablecer vista';
 
   @override
@@ -121,6 +132,30 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get randomize => 'Aleatorizar';
+
+  @override
+  String get kaleidoscopeEnable => 'Activar';
+
+  @override
+  String get kaleidoscopeSectors => 'Sectores';
+
+  @override
+  String get kaleidoscopeRotation => 'Rotar';
+
+  @override
+  String get kaleidoscopeMirror => 'Espejo';
+
+  @override
+  String get kaleidoscopeMirrorAlternate => 'Alternado';
+
+  @override
+  String get kaleidoscopeMirrorDouble => 'Doble';
+
+  @override
+  String get kaleidoscopeMirrorTriple => 'Triple';
+
+  @override
+  String get kaleidoscopeMirrorNone => 'Sin';
 
   @override
   String get exportTitle => 'Exportar';
