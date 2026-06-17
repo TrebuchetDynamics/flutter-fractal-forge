@@ -4,6 +4,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/features/settings/accessibility_settings_screen.dart';
+import 'package:flutter_fractals/features/formulas/frm_formula_screen.dart';
 
 /// Main settings screen with navigation to accessibility and other options.
 class SettingsScreen extends StatelessWidget {
@@ -42,6 +43,19 @@ class SettingsScreen extends StatelessWidget {
                   subtitle: 'Customize color palettes',
                   onTap: () {
                     _showThemeSelector(context);
+                  },
+                ),
+                const SizedBox(height: AppSpacing.md),
+                _SettingsTile(
+                  icon: Icons.functions_rounded,
+                  title: 'Formula Lab',
+                  subtitle: 'Write & preview custom FRM formulas',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const FrmFormulaScreen(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: AppSpacing.md),
