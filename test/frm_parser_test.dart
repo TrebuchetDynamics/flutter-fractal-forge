@@ -226,5 +226,24 @@ Test {
         throwsUnsupportedError,
       );
     });
+
+    test('rejects pathologically deep expression nesting without crashing', () {
+      String body(String expr) => 'Deep {\n  z = $expr\n:\n  z = z\n}\n';
+
+      // Deeply nested parens would overflow the stack without the depth guard;
+      // the parser must reject them with a FormatException instead.
+      final deepParens = body('${'(' * 2000}1${')' * 2000}');
+      expect(() => FrmParser(deepParens).parseFile(),
+          throwsA(isA<FormatException>()));
+
+      // Long unary-minus chains recurse through _parsePrimary the same way.
+      final deepMinus = body('${'-' * 2000}1');
+      expect(() => FrmParser(deepMinus).parseFile(),
+          throwsA(isA<FormatException>()));
+
+      // A modestly nested expression (well under the limit) still parses.
+      final ok = body('${'(' * 32}1${')' * 32} + pixel');
+      expect(FrmParser(ok).parseFile().formulas.single.name, 'Deep');
+    });
   });
 }

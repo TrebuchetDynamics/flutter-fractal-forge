@@ -27,6 +27,14 @@ final class FrmParser {
   final List<FrmTok> _toks;
   int _p = 0;
 
+  /// Maximum nesting depth for an expression. Parenthesised groups and unary
+  /// minus both recurse through [_parsePrimary]; without a bound, adversarial
+  /// input like deeply nested `(((…)))` or a long `----…` chain would overflow
+  /// the stack. Real formulas never approach this, so rejecting deeper input is
+  /// a malformed-input contract, consistent with the finite/divisor seams.
+  static const int _maxExprDepth = 256;
+  int _exprDepth = 0;
+
   FrmFile parseFile() {
     final formulas = <FrmFormula>[];
     _skipNewlines();
@@ -127,6 +135,18 @@ final class FrmParser {
   }
 
   FrmExpr _parsePrimary() {
+    if (_exprDepth >= _maxExprDepth) {
+      throw FormatException('Expression nested too deeply', '', _peek().offset);
+    }
+    _exprDepth++;
+    try {
+      return _parsePrimaryInner();
+    } finally {
+      _exprDepth--;
+    }
+  }
+
+  FrmExpr _parsePrimaryInner() {
     if (_match(FrmTokKind.number)) {
       return FrmNumber(FrmNumberLiteral.fromToken(_prev()).parseFinite());
     }
