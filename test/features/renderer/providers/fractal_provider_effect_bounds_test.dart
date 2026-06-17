@@ -32,6 +32,29 @@ void main() {
       expect(controller.kaleidoscopeRotation, 0.75);
     });
 
+    test('snaps odd kaleidoscope sector counts down to even', () {
+      final controller = FractalController(ModuleRegistry());
+      addTearDown(controller.dispose);
+
+      // Even values pass through unchanged and stay within [4, 16].
+      controller.setKaleidoscopeSectors(6);
+      expect(controller.kaleidoscopeSectors, 6);
+
+      // Odd values snap down to the nearest even count so reflective wedges
+      // tile the circle without gaps/overlaps.
+      controller.setKaleidoscopeSectors(7);
+      expect(controller.kaleidoscopeSectors, 6);
+
+      controller.setKaleidoscopeSectors(15);
+      expect(controller.kaleidoscopeSectors, 14);
+
+      // Out-of-range inputs clamp first, then snap (5 -> 4, not below the min).
+      controller.setKaleidoscopeSectors(5);
+      expect(controller.kaleidoscopeSectors, 4);
+      controller.setKaleidoscopeSectors(99);
+      expect(controller.kaleidoscopeSectors, 16);
+    });
+
     test('does not leak forced kaleidoscope defaults after module exit', () {
       final registry = ModuleRegistry();
       final controller = FractalController(registry);

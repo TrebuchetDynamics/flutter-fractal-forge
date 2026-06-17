@@ -403,11 +403,13 @@ class _KaleidoscopeControls extends StatelessWidget {
         if (controller.kaleidoscopeEnabled) ...[
           const SizedBox(height: AppSpacing.md),
           _SliderRow(
+            // Even-only stops (4,6,…,16): reflective sectors must be even to
+            // tile without seams.
             label: l10n.kaleidoscopeSectors,
             value: controller.kaleidoscopeSectors.toDouble(),
             min: 4,
             max: 16,
-            divisions: 12,
+            divisions: 6,
             onChanged: (v) => controller.setKaleidoscopeSectors(v.round()),
           ),
           const SizedBox(height: AppSpacing.sm),

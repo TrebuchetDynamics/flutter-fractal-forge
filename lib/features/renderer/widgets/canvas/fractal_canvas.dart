@@ -43,14 +43,14 @@ class FractalCanvas extends CustomPainter {
 
     final bool kaleidoEnabled = kaleidoscopeEnabled;
     final int sectors = kaleidoscopeSectors;
-    final bool mirror = kaleidoscopeMirror;
     final double rot = kaleidoscopeRotation;
     final int mode = kaleidoscopeMirrorMode;
 
     if (kaleidoEnabled) {
       final center = Offset(size.width / 2, size.height / 2);
       // Use a radius large enough to cover every corner of the screen from any point
-      final double diagRadius = math.sqrt(size.width * size.width + size.height * size.height) * 2.0;
+      final double diagRadius =
+          math.sqrt(size.width * size.width + size.height * size.height) * 2.0;
 
       final double sectorAngle = 2 * math.pi / sectors;
 
@@ -82,7 +82,8 @@ class FractalCanvas extends CustomPainter {
         wedgePath.moveTo(center.dx, center.dy);
         // Use arcTo so the outer edge follows a curve, not a straight chord
         final double startAngle = -sectorAngle / 2;
-        final Rect arcRect = Rect.fromCircle(center: center, radius: diagRadius);
+        final Rect arcRect =
+            Rect.fromCircle(center: center, radius: diagRadius);
         wedgePath.lineTo(
           center.dx + diagRadius * math.cos(startAngle),
           center.dy + diagRadius * math.sin(startAngle),
@@ -116,7 +117,8 @@ class FractalCanvas extends CustomPainter {
         rect,
         Paint()
           ..blendMode = BlendMode.screen
-          ..color = Color.fromRGBO(255, 255, 255, glowIntensity.clamp(0.0, 1.0)),
+          ..color =
+              Color.fromRGBO(255, 255, 255, glowIntensity.clamp(0.0, 1.0)),
       );
       canvas.drawRect(
         rect,

@@ -172,12 +172,17 @@ class FractalController extends ChangeNotifier {
   }
 
   void setKaleidoscopeSectors(int sectors) {
+    // Sectors must be even: the reflective mirror modes flip every other wedge
+    // to the opposite side of the circle, which only tiles the plane without
+    // gaps/overlaps when the sector count is even. Snap odd inputs down.
     final clamped = sectors.clamp(4, 16);
-    if (_kaleidoscopeSectors != clamped) {
-      _kaleidoscopeSectors = clamped;
+    final even = clamped - (clamped % 2);
+    if (_kaleidoscopeSectors != even) {
+      _kaleidoscopeSectors = even;
       notifyListeners();
-      _logChange('stateChange', 'kaleidoscopeSectors',
-          'Kaleidoscope sectors updated', metadata: {'sectors': clamped});
+      _logChange(
+          'stateChange', 'kaleidoscopeSectors', 'Kaleidoscope sectors updated',
+          metadata: {'sectors': even});
     }
   }
 
@@ -185,8 +190,9 @@ class FractalController extends ChangeNotifier {
     if (_kaleidoscopeMirror != mirror) {
       _kaleidoscopeMirror = mirror;
       notifyListeners();
-      _logChange('stateChange', 'kaleidoscopeMirror',
-          'Kaleidoscope mirror updated', metadata: {'mirror': mirror});
+      _logChange(
+          'stateChange', 'kaleidoscopeMirror', 'Kaleidoscope mirror updated',
+          metadata: {'mirror': mirror});
     }
   }
 
@@ -196,7 +202,8 @@ class FractalController extends ChangeNotifier {
       _kaleidoscopeMirrorMode = clamped;
       notifyListeners();
       _logChange('stateChange', 'kaleidoscopeMirrorMode',
-          'Kaleidoscope mirror mode updated', metadata: {'mode': clamped});
+          'Kaleidoscope mirror mode updated',
+          metadata: {'mode': clamped});
     }
   }
 
@@ -209,7 +216,8 @@ class FractalController extends ChangeNotifier {
       _kaleidoscopeRotation = normalized;
       notifyListeners();
       _logChange('stateChange', 'kaleidoscopeRotation',
-          'Kaleidoscope rotation updated', metadata: {'rotation': normalized});
+          'Kaleidoscope rotation updated',
+          metadata: {'rotation': normalized});
     }
   }
 
