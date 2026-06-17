@@ -40,6 +40,13 @@ class Complex {
   double abs2() => re * re + im * im;
 
   @override
+  bool operator ==(Object other) =>
+      other is Complex && other.re == re && other.im == im;
+
+  @override
+  int get hashCode => Object.hash(re, im);
+
+  @override
   String toString() => '($re,$im)';
 }
 

@@ -120,18 +120,47 @@ final class FrmParser {
   }
 
   FrmExpr _parseMulDiv() {
-    var expr = _parsePrimary();
+    var expr = _parseUnary();
     while (true) {
       if (_match(FrmTokKind.star)) {
-        expr = FrmBinary(FrmBinaryOp.mul, expr, _parsePrimary());
+        expr = FrmBinary(FrmBinaryOp.mul, expr, _parseUnary());
         continue;
       }
       if (_match(FrmTokKind.slash)) {
-        expr = FrmBinary(FrmBinaryOp.div, expr, _parsePrimary());
+        expr = FrmBinary(FrmBinaryOp.div, expr, _parseUnary());
         continue;
       }
       return expr;
     }
+  }
+
+  /// Unary minus binds looser than `^` so `-z^2` parses as `-(z^2)`.
+  FrmExpr _parseUnary() {
+    if (_match(FrmTokKind.minus)) {
+      // Guard the unary-minus recursion too: `----...` would otherwise overflow
+      // the stack (the parens recursion is bounded in [_parsePrimary]).
+      if (_exprDepth >= _maxExprDepth) {
+        throw FormatException(
+            'Expression nested too deeply', '', _peek().offset);
+      }
+      _exprDepth++;
+      try {
+        return FrmBinary(FrmBinaryOp.sub, const FrmNumber(0), _parseUnary());
+      } finally {
+        _exprDepth--;
+      }
+    }
+    return _parsePower();
+  }
+
+  /// Power `^` is right-associative and binds tighter than unary minus, so the
+  /// exponent itself may be a unary expression (`z^-2`).
+  FrmExpr _parsePower() {
+    final base = _parsePrimary();
+    if (_match(FrmTokKind.caret)) {
+      return FrmBinary(FrmBinaryOp.pow, base, _parseUnary());
+    }
+    return base;
   }
 
   FrmExpr _parsePrimary() {
@@ -152,7 +181,20 @@ final class FrmParser {
     }
 
     if (_match(FrmTokKind.ident)) {
-      return FrmVar(_prev().lexeme);
+      final name = _prev().lexeme;
+      // `name(args...)` is a function call; a bare ident is a variable.
+      if (_match(FrmTokKind.lParen)) {
+        final args = <FrmExpr>[];
+        if (!_peekIs(FrmTokKind.rParen)) {
+          args.add(_parseExpr());
+          while (_match(FrmTokKind.comma)) {
+            args.add(_parseExpr());
+          }
+        }
+        _expect(FrmTokKind.rParen, 'Expected ")" after function arguments');
+        return FrmCall(name, args);
+      }
+      return FrmVar(name);
     }
 
     if (_match(FrmTokKind.lParen)) {
@@ -165,11 +207,6 @@ final class FrmParser {
       }
       _expect(FrmTokKind.rParen, 'Expected ")"');
       return first;
-    }
-
-    if (_match(FrmTokKind.minus)) {
-      // unary minus: -x  => (0 - x)
-      return FrmBinary(FrmBinaryOp.sub, const FrmNumber(0), _parsePrimary());
     }
 
     throw FormatException('Expected expression', '', _peek().offset);

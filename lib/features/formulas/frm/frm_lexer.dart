@@ -20,6 +20,7 @@ enum FrmTokKind {
   minus,
   star,
   slash,
+  caret,
   newline,
   eof,
 }
@@ -114,6 +115,9 @@ final class FrmLexer {
       case 0x2F: // /
         _i++;
         return FrmTok(FrmTokKind.slash, '/', _i - 1);
+      case 0x5E: // ^
+        _i++;
+        return FrmTok(FrmTokKind.caret, '^', _i - 1);
     }
 
     if (_isDigit(c) || c == 0x2E /* . */) {
@@ -124,7 +128,8 @@ final class FrmLexer {
       return _ident();
     }
 
-    throw FormatException('Unexpected character: ${String.fromCharCode(c)}', src, _i);
+    throw FormatException(
+        'Unexpected character: ${String.fromCharCode(c)}', src, _i);
   }
 
   void _skipSpaces() {
@@ -201,6 +206,7 @@ final class FrmLexer {
   }
 
   static bool _isDigit(int c) => c >= 0x30 && c <= 0x39;
-  static bool _isAlpha(int c) => (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A);
+  static bool _isAlpha(int c) =>
+      (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A);
   static bool _isAlphaNum(int c) => _isAlpha(c) || _isDigit(c);
 }

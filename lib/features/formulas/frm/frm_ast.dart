@@ -1,4 +1,5 @@
 import 'complex.dart';
+import 'frm_complex_functions.dart';
 
 sealed class FrmExpr {
   const FrmExpr();
@@ -57,7 +58,7 @@ final class FrmVar extends FrmExpr {
       ctx.vars[name] ?? (throw StateError('Unknown var: $name'));
 }
 
-enum FrmBinaryOp { add, sub, mul, div }
+enum FrmBinaryOp { add, sub, mul, div, pow }
 
 final class FrmBinary extends FrmExpr {
   const FrmBinary(this.op, this.left, this.right);
@@ -75,7 +76,25 @@ final class FrmBinary extends FrmExpr {
       FrmBinaryOp.sub => a - b,
       FrmBinaryOp.mul => a * b,
       FrmBinaryOp.div => a / b,
+      FrmBinaryOp.pow => cPow(a, b),
     };
+  }
+}
+
+/// A call to a built-in complex function, e.g. `sin(z)` or `conj(z+c)`.
+final class FrmCall extends FrmExpr {
+  const FrmCall(this.name, this.args);
+
+  final String name;
+  final List<FrmExpr> args;
+
+  @override
+  Complex eval(FrmEvalContext ctx) {
+    final fn = frmComplexFunctions[name];
+    if (fn == null) {
+      throw StateError('Unknown function: $name');
+    }
+    return fn(args.map((a) => a.eval(ctx)).toList());
   }
 }
 
