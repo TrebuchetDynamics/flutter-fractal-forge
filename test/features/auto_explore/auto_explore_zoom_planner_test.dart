@@ -2,6 +2,24 @@ import 'package:flutter_fractals/features/auto_explore/auto_explore_zoom_planner
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('AutoExploreZoomPlanner.hardMaxZoomFor', () {
+    const planner = AutoExploreZoomPlanner(config: AutoExploreConfig());
+
+    test('lets perturbation-capable modules reach the deep-zoom config cap',
+        () {
+      // Previously these were capped at the stale float32 threshold (~9.2e8);
+      // perturbation lets them go as deep as mandelbrot's df2 range.
+      expect(planner.hardMaxZoomFor('burning_ship'), greaterThan(1e11));
+      expect(planner.hardMaxZoomFor('julia'), greaterThan(1e11));
+    });
+
+    test('keeps mandelbrot at its df2 ceiling and others conservative', () {
+      expect(planner.hardMaxZoomFor('mandelbrot'), greaterThan(1e11));
+      // A float32-only / unlisted module stays near its 1e7 threshold.
+      expect(planner.hardMaxZoomFor('some_unknown_module'), lessThan(1e7));
+    });
+  });
+
   group('AutoExploreCorrectionDecision', () {
     test('maps visible zoom changes to the next leg direction', () {
       expect(

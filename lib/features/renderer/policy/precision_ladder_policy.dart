@@ -182,6 +182,20 @@ class PrecisionLadderPolicy {
 
   bool _supportsPerturbationGpu(String moduleId) =>
       moduleId == 'julia' || kPerturbableEscapeTimeIds.contains(moduleId);
+
+  /// Deepest zoom [moduleId] can still render on the GPU — via float32, the
+  /// double-float shader, or perturbation — before CPU fallback is required.
+  ///
+  /// This is the GPU ceiling, not the float32 CPU-fallback threshold: for a
+  /// perturbation-capable module that threshold is stale (perturbation extends
+  /// the GPU range to [_perturbationUpperZoom]). Auto-explore uses this so it
+  /// does not cap perturbable fractals far shallower than the renderer can go.
+  double gpuRenderableCeilingZoom(String moduleId) {
+    if (_supportsPerturbationGpu(moduleId)) return _perturbationUpperZoom;
+    // mandelbrot's df2 shader already raises its CPU-fallback threshold; other
+    // float32-only modules keep theirs.
+    return deepZoomPolicy.thresholdFor(moduleId);
+  }
 }
 
 /// Stateful hysteresis wrapper for CPU precision-refine activation.

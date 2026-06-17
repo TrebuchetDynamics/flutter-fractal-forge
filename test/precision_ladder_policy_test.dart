@@ -5,6 +5,23 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   const policy = PrecisionLadderPolicy();
 
+  group('PrecisionLadderPolicy.gpuRenderableCeilingZoom', () {
+    test('uses the perturbation ceiling for perturbation-capable modules', () {
+      // Perturbation extends the GPU range well past the stale float32
+      // CPU-fallback threshold (1e9), so the ceiling must reflect that.
+      expect(policy.gpuRenderableCeilingZoom('julia'), greaterThan(1e12));
+      expect(
+          policy.gpuRenderableCeilingZoom('burning_ship'), greaterThan(1e12));
+    });
+
+    test('uses the df2 / float32 threshold for non-perturbable modules', () {
+      // mandelbrot keeps its df2-extended CPU-fallback threshold (1e12).
+      expect(policy.gpuRenderableCeilingZoom('mandelbrot'), 1e12);
+      // Unlisted modules fall back to the conservative default (1e7).
+      expect(policy.gpuRenderableCeilingZoom('some_unknown_module'), 1e7);
+    });
+  });
+
   group('PrecisionLadderPolicy', () {
     test('keeps ordinary 2D zoom on realtime GPU', () {
       final decision = policy.decide(

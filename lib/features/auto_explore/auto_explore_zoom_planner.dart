@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
+import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
 
 /// Auto-zoom configuration.
 class AutoExploreConfig {
@@ -694,11 +694,11 @@ class AutoExploreZoomTargetPlan {
 /// replayable in tests without constructing timers or a renderer controller.
 class AutoExploreZoomPlanner {
   final AutoExploreConfig config;
-  final DeepZoomPrecisionPolicy precisionPolicy;
+  final PrecisionLadderPolicy precisionPolicy;
 
   const AutoExploreZoomPlanner({
     required this.config,
-    this.precisionPolicy = const DeepZoomPrecisionPolicy(),
+    this.precisionPolicy = const PrecisionLadderPolicy(),
   });
 
   AutoExploreZoomBounds get _bounds => AutoExploreZoomBounds.fromConfig(config);
@@ -711,7 +711,8 @@ class AutoExploreZoomPlanner {
     final headroom = AutoExplorePrecisionHeadroom.normalize(
       config.precisionHeadroom,
     );
-    final safeThreshold = precisionPolicy.thresholdFor(moduleId) * headroom;
+    final safeThreshold =
+        precisionPolicy.gpuRenderableCeilingZoom(moduleId) * headroom;
     return _bounds.clamp(safeThreshold);
   }
 
