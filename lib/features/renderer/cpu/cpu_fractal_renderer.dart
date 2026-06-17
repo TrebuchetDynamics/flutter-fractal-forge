@@ -331,7 +331,10 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         final img =
             await CpuRenderFrame(rgba: full, width: width, height: height)
                 .toImage();
-        if (!mounted || job != _job) break;
+        if (!mounted || job != _job) {
+          img.dispose();
+          break;
+        }
         onPartial(img);
       }
     }
@@ -380,7 +383,10 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         job: job,
         maxTime: maxTime,
         onPartial: (img) {
-          if (!mounted || job != _job) return;
+          if (!mounted || job != _job) {
+            img.dispose();
+            return;
+          }
           final oldImage = _image;
           setState(() {
             _image = img;
@@ -449,7 +455,10 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           debugPrint(validation.summary('cpu'));
         }
 
-        if (!mounted || job != _job) return;
+        if (!mounted || job != _job) {
+          img.dispose();
+          return;
+        }
         final oldImage = _image;
         setState(() {
           _image = img;
@@ -459,7 +468,10 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         oldImage?.dispose();
       } else {
         // Refine pass completion.
-        if (!mounted || job != _job) return;
+        if (!mounted || job != _job) {
+          img.dispose();
+          return;
+        }
         final oldImage = _image;
         setState(() {
           _image = img;
@@ -564,6 +576,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           final img =
               await CpuRenderFrame(rgba: buffer, width: w, height: h).toImage();
           if (!mounted || job != _job) {
+            img.dispose();
             _setSlowModeActive(false);
             return;
           }
