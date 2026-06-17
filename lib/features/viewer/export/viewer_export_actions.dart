@@ -227,6 +227,74 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     );
   }
 
+  Future<void> _openWallpaper(BuildContext context) async {
+    _log.info('action', 'Open wallpaper');
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => WallpaperOptionsSheet(
+        initial: const WallpaperOptions(),
+        onApply: (options) => _applyWallpaper(context, options),
+      ),
+    );
+  }
+
+  Future<void> _applyWallpaper(
+    BuildContext context,
+    WallpaperOptions options,
+  ) async {
+    final controller = _activeController(context);
+    final boundaryKey = _activeBoundaryKey();
+    final l10n = AppLocalizations.of(context)!;
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+
+    try {
+      // Capture the current frame at the device's native resolution (capped),
+      // apply the legibility overlay, then hand it to the platform.
+      final pngBytes = await _exportService.capturePng(
+        boundaryKey,
+        pixelRatio: devicePixelRatio.clamp(1.0, 3.0).toDouble(),
+      );
+      final styled = _exportService.applyWallpaperStyle(
+        pngBytes,
+        style: options.style.name,
+      );
+
+      final ok = await const WallpaperService()
+          .setWallpaper(styled, target: options.target);
+
+      if (options.saveCopy) {
+        final filename = _exportService.generateFilename(
+          format: ExportFormat.png,
+          fractalType: controller.module.id,
+        );
+        await _exportService.saveBytes(styled, filename: filename);
+      }
+
+      if (!mounted) return;
+      await HapticService.heavy();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(ok ? l10n.wallpaperApplied : l10n.wallpaperFailed),
+          backgroundColor: ok ? AppColors.success : AppColors.error,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } catch (e) {
+      _log.warn('wallpaper', 'Set wallpaper failed',
+          data: {'error': e.toString()});
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.wallpaperFailedWithError(e.toString())),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
   Future<ExportResult> _performFallbackPngExport({
     required GlobalKey boundaryKey,
     required ExportOptions options,

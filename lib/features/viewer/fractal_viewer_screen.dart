@@ -11,11 +11,13 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/wallpaper_service.dart';
 import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/haptic_service.dart';
 import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
@@ -27,6 +29,7 @@ import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
+import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
@@ -566,6 +569,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         onOpenRandomFractal: () => _onRandomFractalFab(context),
                         onOpenControls: () => _toggleControlsHud(),
                         onOpenExport: () => _openExport(context),
+                        onOpenWallpaper: () => _openWallpaper(context),
                       ),
                     ),
 

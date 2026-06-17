@@ -1,6 +1,8 @@
 package com.trebuchetdynamics.fractal.forge
 
+import android.app.WallpaperManager
 import android.content.ContentValues
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.MediaScannerConnection
 import android.os.Build
@@ -20,6 +22,7 @@ class MainActivity : FlutterFragmentActivity() {
     companion object {
         private const val DEVICE_CHANNEL = "fractalforge/device"
         private const val MEDIA_STORE_CHANNEL = "fractalforge/media_store"
+        private const val WALLPAPER_CHANNEL = "com.fractalforge/wallpaper"
         private const val MEDIA_STORE_SUBDIR = "FractalForge"
     }
 
@@ -66,6 +69,79 @@ class MainActivity : FlutterFragmentActivity() {
                     else -> result.notImplemented()
                 }
             }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, WALLPAPER_CHANNEL)
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "setWallpaper" -> {
+                        val bytes = call.argument<ByteArray>("bytes")
+                        val target = call.argument<String>("target") ?: "home"
+                        if (bytes == null) {
+                            result.error("invalid_args", "bytes are required", null)
+                            return@setMethodCallHandler
+                        }
+                        setDeviceWallpaper(bytes, target, result)
+                    }
+
+                    "saveToPhotos" -> {
+                        val bytes = call.argument<ByteArray>("bytes")
+                        if (bytes == null) {
+                            result.error("invalid_args", "bytes are required", null)
+                            return@setMethodCallHandler
+                        }
+                        saveBytesToPhotos(bytes, result)
+                    }
+
+                    else -> result.notImplemented()
+                }
+            }
+    }
+
+    private fun setDeviceWallpaper(
+        bytes: ByteArray,
+        target: String,
+        result: MethodChannel.Result,
+    ) {
+        Thread {
+            try {
+                val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    ?: throw IOException("Failed to decode wallpaper bitmap")
+                val manager = WallpaperManager.getInstance(applicationContext)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    val which = when (target) {
+                        "lock" -> WallpaperManager.FLAG_LOCK
+                        "both" -> WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
+                        else -> WallpaperManager.FLAG_SYSTEM // "home"
+                    }
+                    manager.setBitmap(bitmap, null, true, which)
+                } else {
+                    // Pre-N: only the system (home) wallpaper, no per-target flags.
+                    manager.setBitmap(bitmap)
+                }
+                bitmap.recycle()
+                runOnUiThread { result.success(true) }
+            } catch (t: Throwable) {
+                runOnUiThread {
+                    result.error(
+                        "set_wallpaper_failed",
+                        t.message ?: "Failed to set wallpaper",
+                        null
+                    )
+                }
+            }
+        }.start()
+    }
+
+    private fun saveBytesToPhotos(bytes: ByteArray, result: MethodChannel.Result) {
+        Thread {
+            try {
+                val filename = "fractal_wallpaper_${System.currentTimeMillis()}.png"
+                persistImageToMediaStore(bytes, filename, "image/png")
+                runOnUiThread { result.success(true) }
+            } catch (t: Throwable) {
+                runOnUiThread { result.success(false) }
+            }
+        }.start()
     }
 
     private fun isEmulator(): Boolean {
@@ -96,57 +172,7 @@ class MainActivity : FlutterFragmentActivity() {
     ) {
         Thread {
             try {
-                val resolver = applicationContext.contentResolver
-                val safeName = filename.replace("/", "_").replace("\\", "_")
-
-                val savedRef: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val relativePath = "${Environment.DIRECTORY_PICTURES}/$MEDIA_STORE_SUBDIR"
-                    val values = ContentValues().apply {
-                        put(MediaStore.Images.Media.DISPLAY_NAME, safeName)
-                        put(MediaStore.Images.Media.MIME_TYPE, mimeType)
-                        put(MediaStore.Images.Media.RELATIVE_PATH, relativePath)
-                        put(MediaStore.Images.Media.ORIENTATION, 0)
-                        put(MediaStore.Images.Media.IS_PENDING, 1)
-                    }
-
-                    val collection = MediaStore.Images.Media.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL_PRIMARY
-                    )
-                    val uri = resolver.insert(collection, values)
-                        ?: throw IOException("Failed to create MediaStore record")
-
-                    resolver.openOutputStream(uri)?.use { stream ->
-                        stream.write(bytes)
-                        stream.flush()
-                    } ?: throw IOException("Failed to open output stream for MediaStore URI")
-
-                    values.clear()
-                    values.put(MediaStore.Images.Media.IS_PENDING, 0)
-                    resolver.update(uri, values, null, null)
-                    uri.toString()
-                } else {
-                    // Legacy fallback (API < 29): write to public Pictures and trigger scan.
-                    val picturesDir = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES
-                    )
-                    val targetDir = File(picturesDir, MEDIA_STORE_SUBDIR)
-                    if (!targetDir.exists() && !targetDir.mkdirs()) {
-                        throw IOException("Failed to create ${targetDir.absolutePath}")
-                    }
-                    val file = File(targetDir, safeName)
-                    FileOutputStream(file).use { out ->
-                        out.write(bytes)
-                        out.flush()
-                    }
-                    MediaScannerConnection.scanFile(
-                        applicationContext,
-                        arrayOf(file.absolutePath),
-                        arrayOf(mimeType),
-                        null
-                    )
-                    file.absolutePath
-                }
-
+                val savedRef = persistImageToMediaStore(bytes, filename, mimeType)
                 runOnUiThread { result.success(savedRef) }
             } catch (t: Throwable) {
                 runOnUiThread {
@@ -158,6 +184,66 @@ class MainActivity : FlutterFragmentActivity() {
                 }
             }
         }.start()
+    }
+
+    /** Writes [bytes] into MediaStore (Pictures/FractalForge) and returns the
+     *  saved reference (content URI on Q+, absolute path on legacy). Throws on
+     *  failure. Must be called off the main thread. */
+    private fun persistImageToMediaStore(
+        bytes: ByteArray,
+        filename: String,
+        mimeType: String,
+    ): String {
+        val resolver = applicationContext.contentResolver
+        val safeName = filename.replace("/", "_").replace("\\", "_")
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val relativePath = "${Environment.DIRECTORY_PICTURES}/$MEDIA_STORE_SUBDIR"
+            val values = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, safeName)
+                put(MediaStore.Images.Media.MIME_TYPE, mimeType)
+                put(MediaStore.Images.Media.RELATIVE_PATH, relativePath)
+                put(MediaStore.Images.Media.ORIENTATION, 0)
+                put(MediaStore.Images.Media.IS_PENDING, 1)
+            }
+
+            val collection = MediaStore.Images.Media.getContentUri(
+                MediaStore.VOLUME_EXTERNAL_PRIMARY
+            )
+            val uri = resolver.insert(collection, values)
+                ?: throw IOException("Failed to create MediaStore record")
+
+            resolver.openOutputStream(uri)?.use { stream ->
+                stream.write(bytes)
+                stream.flush()
+            } ?: throw IOException("Failed to open output stream for MediaStore URI")
+
+            values.clear()
+            values.put(MediaStore.Images.Media.IS_PENDING, 0)
+            resolver.update(uri, values, null, null)
+            uri.toString()
+        } else {
+            // Legacy fallback (API < 29): write to public Pictures and trigger scan.
+            val picturesDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+            )
+            val targetDir = File(picturesDir, MEDIA_STORE_SUBDIR)
+            if (!targetDir.exists() && !targetDir.mkdirs()) {
+                throw IOException("Failed to create ${targetDir.absolutePath}")
+            }
+            val file = File(targetDir, safeName)
+            FileOutputStream(file).use { out ->
+                out.write(bytes)
+                out.flush()
+            }
+            MediaScannerConnection.scanFile(
+                applicationContext,
+                arrayOf(file.absolutePath),
+                arrayOf(mimeType),
+                null
+            )
+            file.absolutePath
+        }
     }
 
     private fun inferImageMimeType(filename: String): String {

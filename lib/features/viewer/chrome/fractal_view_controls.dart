@@ -18,6 +18,7 @@ class FractalViewControls extends StatelessWidget {
   final VoidCallback onOpenRandomFractal;
   final VoidCallback onOpenControls;
   final VoidCallback onOpenExport;
+  final VoidCallback onOpenWallpaper;
 
   const FractalViewControls({
     super.key,
@@ -31,6 +32,7 @@ class FractalViewControls extends StatelessWidget {
     required this.onOpenRandomFractal,
     required this.onOpenControls,
     required this.onOpenExport,
+    required this.onOpenWallpaper,
   });
 
   @override
@@ -106,6 +108,14 @@ class FractalViewControls extends StatelessWidget {
                   tooltip: l10n.tooltipExport,
                   onPressed: isExporting ? null : onOpenExport,
                   delay: const Duration(milliseconds: 180),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                FloatingActionButtonWidget(
+                  key: const ValueKey('viewerWallpaperButton'),
+                  icon: Icons.wallpaper_rounded,
+                  tooltip: l10n.wallpaperTitle,
+                  onPressed: isExporting ? null : onOpenWallpaper,
+                  delay: const Duration(milliseconds: 210),
                 ),
               ],
             ),
