@@ -41,92 +41,89 @@ class FractalCanvas extends CustomPainter {
       ..shader = shader
       ..style = PaintingStyle.fill;
 
-    final bool kaleidoEnabled = kaleidoscopeEnabled;
-    final int sectors = kaleidoscopeSectors;
-    final double rot = kaleidoscopeRotation;
-    final int mode = kaleidoscopeMirrorMode;
+    // Base fractal (kaleidoscoped or plain).
+    _paintFractal(canvas, size, basePaint);
 
-    if (kaleidoEnabled) {
-      final center = Offset(size.width / 2, size.height / 2);
-      // Use a radius large enough to cover every corner of the screen from any point
-      final double diagRadius =
-          math.sqrt(size.width * size.width + size.height * size.height) * 2.0;
-
-      final double sectorAngle = 2 * math.pi / sectors;
-
-      for (int i = 0; i < sectors; i++) {
-        canvas.save();
-
-        // Mover al centro
-        canvas.translate(center.dx, center.dy);
-
-        // Rotar al sector
-        canvas.rotate(rot + i * sectorAngle);
-
-        // Espejo según modo
-        if (mode == 0) {
-          if (i % 2 == 0) canvas.scale(-1.0, 1.0);
-        } else if (mode == 1) {
-          canvas.scale(-1.0, 1.0);
-        } else if (mode == 2) {
-          final m = i % 3;
-          if (m == 1) canvas.scale(-1.0, 1.0);
-          if (m == 2) canvas.scale(1.0, -1.0);
-        }
-
-        // Volver a coordenadas originales
-        canvas.translate(-center.dx, -center.dy);
-
-        // Cuña con arco: cubre exactamente 1/sectors de la pantalla
-        final Path wedgePath = Path();
-        wedgePath.moveTo(center.dx, center.dy);
-        // Use arcTo so the outer edge follows a curve, not a straight chord
-        final double startAngle = -sectorAngle / 2;
-        final Rect arcRect =
-            Rect.fromCircle(center: center, radius: diagRadius);
-        wedgePath.lineTo(
-          center.dx + diagRadius * math.cos(startAngle),
-          center.dy + diagRadius * math.sin(startAngle),
-        );
-        wedgePath.arcTo(arcRect, startAngle, sectorAngle, false);
-        wedgePath.close();
-
-        canvas.save();
-        canvas.clipPath(wedgePath);
-        // Draw a rect large enough to fill the clip region regardless of canvas rotation.
-        // The shader renders in screen-space so the fractal content is not affected.
-        canvas.drawRect(
-          Rect.fromCenter(
-            center: center,
-            width: diagRadius * 4,
-            height: diagRadius * 4,
-          ),
-          basePaint,
-        );
-        canvas.restore();
-
-        canvas.restore();
-      }
-    } else {
-      canvas.drawRect(rect, basePaint);
-    }
-
+    // Glow is a blurred, screen-blended copy of the SAME fractal content, so it
+    // follows the kaleidoscope tiling instead of leaking the un-mirrored image.
+    // The blur lives on the saveLayer so the whole composite is blurred as one,
+    // which also avoids per-wedge clip seams.
     if (glowEnabled && glowIntensity > 0.0) {
       final sigma = (glowSigma * 8.0).clamp(2.0, 48.0);
       canvas.saveLayer(
         rect,
         Paint()
           ..blendMode = BlendMode.screen
-          ..color =
-              Color.fromRGBO(255, 255, 255, glowIntensity.clamp(0.0, 1.0)),
-      );
-      canvas.drawRect(
-        rect,
-        Paint()
-          ..shader = shader
-          ..style = PaintingStyle.fill
+          ..color = Color.fromRGBO(255, 255, 255, glowIntensity.clamp(0.0, 1.0))
           ..imageFilter = ui.ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
       );
+      _paintFractal(canvas, size, basePaint);
+      canvas.restore();
+    }
+  }
+
+  /// Paints the fractal with [paint] across the canvas, applying the
+  /// kaleidoscope wedge tiling when enabled. Shared by the base pass and the
+  /// glow pass so the glow matches the on-screen geometry exactly.
+  void _paintFractal(Canvas canvas, Size size, Paint paint) {
+    if (!kaleidoscopeEnabled) {
+      canvas.drawRect(Offset.zero & size, paint);
+      return;
+    }
+
+    final int sectors = kaleidoscopeSectors;
+    final double rot = kaleidoscopeRotation;
+    final int mode = kaleidoscopeMirrorMode;
+    final center = Offset(size.width / 2, size.height / 2);
+    // Radius large enough to cover every corner of the screen from any point.
+    final double diagRadius =
+        math.sqrt(size.width * size.width + size.height * size.height) * 2.0;
+    final double sectorAngle = 2 * math.pi / sectors;
+
+    for (int i = 0; i < sectors; i++) {
+      canvas.save();
+      canvas.translate(center.dx, center.dy);
+      canvas.rotate(rot + i * sectorAngle);
+
+      // Mirror per mode.
+      if (mode == 0) {
+        if (i % 2 == 0) canvas.scale(-1.0, 1.0);
+      } else if (mode == 1) {
+        canvas.scale(-1.0, 1.0);
+      } else if (mode == 2) {
+        final m = i % 3;
+        if (m == 1) canvas.scale(-1.0, 1.0);
+        if (m == 2) canvas.scale(1.0, -1.0);
+      }
+
+      canvas.translate(-center.dx, -center.dy);
+
+      // Wedge covering exactly 1/sectors of the screen, with a curved outer edge
+      // (arcTo) instead of a straight chord.
+      final double startAngle = -sectorAngle / 2;
+      final Rect arcRect = Rect.fromCircle(center: center, radius: diagRadius);
+      final Path wedgePath = Path()
+        ..moveTo(center.dx, center.dy)
+        ..lineTo(
+          center.dx + diagRadius * math.cos(startAngle),
+          center.dy + diagRadius * math.sin(startAngle),
+        )
+        ..arcTo(arcRect, startAngle, sectorAngle, false)
+        ..close();
+
+      canvas.save();
+      canvas.clipPath(wedgePath);
+      // Rect large enough to fill the clip region regardless of canvas rotation.
+      // The shader renders in screen-space, so the fractal content is unaffected.
+      canvas.drawRect(
+        Rect.fromCenter(
+          center: center,
+          width: diagRadius * 4,
+          height: diagRadius * 4,
+        ),
+        paint,
+      );
+      canvas.restore();
       canvas.restore();
     }
   }
