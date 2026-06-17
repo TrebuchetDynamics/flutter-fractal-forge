@@ -133,4 +133,64 @@ void main() {
       expect(controller.view.zoom, AutoExploreConfig.defaultMinZoom);
     });
   });
+
+  _registerAnimationLeakRegression();
+}
+
+void _registerAnimationLeakRegression() {
+  group('AutoExploreService animation interruption', () {
+    test('interrupting a zoom leg resolves the in-flight animation future',
+        () async {
+      final controller = FractalController(ModuleRegistry());
+      controller.resetView();
+      controller.updateZoom(1.0);
+
+      final service = AutoExploreService(
+        controller: controller,
+        // Long enough that the leg is still animating when we interrupt it.
+        config: const AutoExploreConfig(
+          travelDuration: Duration(seconds: 2),
+        ),
+      );
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      // Let the scheduled leg start its periodic animation.
+      await Future<void>.delayed(const Duration(milliseconds: 16));
+      expect(service.debugHasPendingAnimation, isTrue,
+          reason: 'a zoom-leg animation should be in flight after start');
+
+      // Interrupting motion cancels the periodic timer. The in-flight future
+      // must be resolved (not left hanging), so no suspended async frame leaks.
+      service.onUserInteractionStart();
+      expect(service.debugHasPendingAnimation, isFalse,
+          reason: 'interruption must resolve the animation future');
+
+      // Service stays usable: ending the gesture resumes auto-explore.
+      service.onUserInteractionEnd();
+      expect(service.isExploring, isTrue);
+    });
+
+    test('pausing mid-leg resolves the animation future', () async {
+      final controller = FractalController(ModuleRegistry());
+      controller.resetView();
+      controller.updateZoom(1.0);
+
+      final service = AutoExploreService(
+        controller: controller,
+        config: const AutoExploreConfig(travelDuration: Duration(seconds: 2)),
+      );
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      await Future<void>.delayed(const Duration(milliseconds: 16));
+      expect(service.debugHasPendingAnimation, isTrue);
+
+      service.pause();
+      expect(service.debugHasPendingAnimation, isFalse);
+      expect(service.isPaused, isTrue);
+    });
+  });
 }

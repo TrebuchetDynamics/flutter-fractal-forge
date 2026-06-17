@@ -33,6 +33,7 @@ class AutoExploreService extends ChangeNotifier {
 
   Timer? _timer;
   Timer? _anim;
+  Completer<bool>? _animCompleter;
 
   double? _cycleBaseZoom;
   double? _lastCorrectionZoom;
@@ -49,6 +50,13 @@ class AutoExploreService extends ChangeNotifier {
 
   /// True while user interaction temporarily takes control.
   bool get pausedByUserCorrection => _pausedByUserCorrection;
+
+  /// Test-only: whether a zoom-leg animation future is still unresolved.
+  ///
+  /// Used to assert that interrupting motion resolves the in-flight
+  /// [_animateZoomTo] future instead of leaking a suspended async frame.
+  @visibleForTesting
+  bool get debugHasPendingAnimation => _animCompleter != null;
 
   double get speed => _speed;
   set speed(double v) {
@@ -187,6 +195,16 @@ class AutoExploreService extends ChangeNotifier {
     _timer = null;
     _anim?.cancel();
     _anim = null;
+    // Cancelling the periodic timer stops it from ever ticking again, so the
+    // in-flight _animateZoomTo() future would otherwise hang forever (its
+    // completer only fires from inside the timer callback). Resolve it as "not
+    // reached" so the awaiting _scheduleNext continuation unwinds instead of
+    // leaking a suspended async frame on every interrupted leg.
+    final pending = _animCompleter;
+    _animCompleter = null;
+    if (pending != null && !pending.isCompleted) {
+      pending.complete(false);
+    }
   }
 
   double _clampZoom(double z) => _zoomPlanner.clampZoom(z);
@@ -261,10 +279,12 @@ class AutoExploreService extends ChangeNotifier {
     var step = 0;
 
     final completer = Completer<bool>();
+    _animCompleter = completer;
     _anim = Timer.periodic(plan.frameInterval, (timer) {
       if (_runtimeState.shouldInterruptAnimation) {
         timer.cancel();
         _anim = null;
+        _animCompleter = null;
         if (!completer.isCompleted) completer.complete(false);
         return;
       }
@@ -279,6 +299,7 @@ class AutoExploreService extends ChangeNotifier {
       if (progress.reachedEnd) {
         timer.cancel();
         _anim = null;
+        _animCompleter = null;
         if (!completer.isCompleted) completer.complete(true);
       }
     });
