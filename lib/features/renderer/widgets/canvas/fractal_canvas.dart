@@ -49,7 +49,11 @@ class FractalCanvas extends CustomPainter {
     // The blur lives on the saveLayer so the whole composite is blurred as one,
     // which also avoids per-wedge clip seams.
     if (glowEnabled && glowIntensity > 0.0) {
-      final sigma = (glowSigma * 8.0).clamp(2.0, 48.0);
+      // Map the controller's glowSigma range [0.1, 5.0] linearly onto a blur
+      // sigma of [2, 48]. A flat `glowSigma * 8` left the bottom of the slider
+      // (<=0.25) flattened to the clamp floor and never reached the ceiling.
+      final s = glowSigma.clamp(0.1, 5.0);
+      final sigma = 2.0 + (s - 0.1) * (46.0 / 4.9);
       canvas.saveLayer(
         rect,
         Paint()

@@ -69,6 +69,10 @@ class FractalControlsSheet extends StatelessWidget {
                   child: _KaleidoscopeControls(),
                 ),
                 _ControlCard(
+                  title: l10n.sectionGlow,
+                  child: _GlowControls(),
+                ),
+                _ControlCard(
                   title: l10n.sectionActions,
                   child: Column(
                     children: [
@@ -433,6 +437,47 @@ class _KaleidoscopeControls extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _GlowControls extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final controller = context.watch<FractalController>();
+    final l10n = AppLocalizations.of(context)!;
+
+    return Column(
+      children: [
+        _PremiumSwitch(
+          label: l10n.glowEnable,
+          value: controller.glowEnabled,
+          onChanged: controller.setGlowEnabled,
+        ),
+        if (controller.glowEnabled) ...[
+          const SizedBox(height: AppSpacing.md),
+          // Softness maps to the blur sigma; bounded to [0.1, 5.0] by the
+          // controller.
+          _SliderRow(
+            label: l10n.glowSoftness,
+            value: controller.glowSigma,
+            min: 0.1,
+            max: 5.0,
+            divisions: 49,
+            onChanged: controller.setGlowSigma,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          // Strength is the glow layer opacity in [0, 1].
+          _SliderRow(
+            label: l10n.glowStrength,
+            value: controller.glowIntensity,
+            min: 0.0,
+            max: 1.0,
+            divisions: 20,
+            onChanged: controller.setGlowIntensity,
           ),
         ],
       ],

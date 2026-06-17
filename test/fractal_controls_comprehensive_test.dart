@@ -212,5 +212,20 @@ void main() {
 
       expect(find.byType(SingleChildScrollView), findsOneWidget);
     });
+
+    testWidgets('Glow sliders appear only when glow is enabled',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // Mandelbrot has 2 numeric params; glow off => no extra sliders.
+      expect(find.byType(Slider), findsNWidgets(2));
+
+      controller.setGlowEnabled(true);
+      await tester.pumpAndSettle();
+
+      // Glow card now exposes softness + strength sliders.
+      expect(find.byType(Slider), findsNWidgets(4));
+    });
   });
 }

@@ -320,6 +320,30 @@ abstract class AppLocalizations {
   /// **'Parameters'**
   String get sectionParameters;
 
+  /// No description provided for @sectionGlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Glow'**
+  String get sectionGlow;
+
+  /// No description provided for @glowEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get glowEnable;
+
+  /// No description provided for @glowStrength.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength'**
+  String get glowStrength;
+
+  /// No description provided for @glowSoftness.
+  ///
+  /// In en, this message translates to:
+  /// **'Softness'**
+  String get glowSoftness;
+
   /// No description provided for @resetView.
   ///
   /// In en, this message translates to:

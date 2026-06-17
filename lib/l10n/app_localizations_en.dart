@@ -124,6 +124,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sectionParameters => 'Parameters';
 
   @override
+  String get sectionGlow => 'Glow';
+
+  @override
+  String get glowEnable => 'Enable';
+
+  @override
+  String get glowStrength => 'Strength';
+
+  @override
+  String get glowSoftness => 'Softness';
+
+  @override
   String get resetView => 'Reset View';
 
   @override

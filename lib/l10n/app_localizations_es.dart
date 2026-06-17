@@ -125,6 +125,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sectionParameters => 'Parámetros';
 
   @override
+  String get sectionGlow => 'Brillo';
+
+  @override
+  String get glowEnable => 'Activar';
+
+  @override
+  String get glowStrength => 'Intensidad';
+
+  @override
+  String get glowSoftness => 'Suavidad';
+
+  @override
   String get resetView => 'Restablecer vista';
 
   @override
