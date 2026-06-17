@@ -74,6 +74,38 @@ void main() {
     });
   });
 
+  group('bailout condition', () {
+    test('parses one explicit bailout into the formula', () {
+      final formula = FrmParser(
+        'M {\n  z = (0,0)\n  c = pixel\n:\n  z = z^2 + c\n  cabs2(z) <= 4\n}\n',
+      ).parseFile().formulas.single;
+      expect(formula.bailout, isNotNull);
+      expect(formula.iter, hasLength(1)); // the assignment only
+    });
+
+    test('every comparison operator lexes and evaluates', () {
+      FrmBailout cond(String src) => FrmParser(
+            'M {\n  z = pixel\n:\n  z = z\n  $src\n}\n',
+          ).parseFile().formulas.single.bailout!;
+      final ctx = FrmEvalContext(vars: {'z': const Complex(3, 0)});
+      expect(cond('real(z) < 4').test(ctx), isTrue);
+      expect(cond('real(z) <= 3').test(ctx), isTrue);
+      expect(cond('real(z) > 4').test(ctx), isFalse);
+      expect(cond('real(z) >= 3').test(ctx), isTrue);
+      expect(cond('real(z) == 3').test(ctx), isTrue);
+      expect(cond('real(z) != 3').test(ctx), isFalse);
+    });
+
+    test('rejects a second bailout condition', () {
+      expect(
+        () => FrmParser(
+          'M {\n  z = pixel\n:\n  cabs2(z) < 4\n  cabs2(z) > 1\n}\n',
+        ).parseFile(),
+        throwsFormatException,
+      );
+    });
+  });
+
   group('rendering with new syntax', () {
     test('Mandelbrot via z^2 matches native, pixel-for-pixel', () {
       final formula = FrmParser(
@@ -87,6 +119,27 @@ void main() {
           final x = -2.2 + ix * (3.0 / 19);
           final y = -1.4 + iy * (2.8 / 15);
           expect(frm(x, y, 150, 2.0, juliaC), native(x, y, 150, 2.0, juliaC),
+              reason: 'mismatch at ($x, $y)');
+        }
+      }
+    });
+
+    test('explicit |z|^2<=4 bailout matches the default Mandelbrot', () {
+      // bailout = 2.0 => |z|^2 > 4 escapes; `cabs2(z) <= 4` is the same test.
+      final native = FrmParser(
+        'M {\n  z = (0,0)\n  c = pixel\n:\n  z = z^2 + c\n}\n',
+      ).parseFile().formulas.single;
+      final explicit = FrmParser(
+        'M {\n  z = (0,0)\n  c = pixel\n:\n  z = z^2 + c\n  cabs2(z) <= 4\n}\n',
+      ).parseFile().formulas.single;
+      final a = frmAsCpuFormula(native);
+      final b = frmAsCpuFormula(explicit);
+      final juliaC = Vector2.zero();
+      for (var iy = 0; iy < 16; iy++) {
+        for (var ix = 0; ix < 20; ix++) {
+          final x = -2.2 + ix * (3.0 / 19);
+          final y = -1.4 + iy * (2.8 / 15);
+          expect(b(x, y, 150, 2.0, juliaC), a(x, y, 150, 2.0, juliaC),
               reason: 'mismatch at ($x, $y)');
         }
       }

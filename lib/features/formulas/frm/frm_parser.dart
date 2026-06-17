@@ -8,10 +8,10 @@ import 'frm_number_literal.dart';
 /// - Multiple formulas per file.
 /// - `name { <init-stmts> : <iter-stmts> }`
 /// - Stmts: `<ident> = <expr>` separated by newlines.
-/// - Expr: numbers, identifiers, (re,im) complex literals, + - * / with parens.
-///
-/// This is intentionally small; we’ll extend it iteratively with functions,
-/// power, comparisons, and bailout conditions once golden iteration tests are in.
+/// - Expr: numbers, identifiers, (re,im) complex literals, function calls
+///   `name(args...)`, `+ - * /`, right-associative `^`, and parens.
+/// - Bailout: the iter section may include one `<expr> <cmp> <expr>` condition
+///   (`== != < <= > >=`); iteration continues while it holds.
 bool isFrmStatementBoundary(FrmTokKind kind) =>
     kind == FrmTokKind.newline ||
     kind == FrmTokKind.colon ||
@@ -64,18 +64,61 @@ final class FrmParser {
     _expect(FrmTokKind.colon, 'Expected ":" separating init/iter');
     _skipNewlines();
 
+    FrmBailout? bailout;
     while (!_peekIs(FrmTokKind.rBrace)) {
       if (_peekIs(FrmTokKind.eof)) {
         throw FormatException('Unterminated formula body', '', _peek().offset);
       }
-      final stmt = _parseStmt();
-      iter.add(stmt);
+      // A line is an assignment (`ident = expr`) or, otherwise, a bailout
+      // condition (`expr <cmp> expr`). `==` is a distinct token from `=`, so
+      // `z == c` is read as a comparison, not an assignment.
+      if (_assignmentAhead()) {
+        iter.add(_parseStmt());
+      } else {
+        if (bailout != null) {
+          throw FormatException(
+              'A formula may declare at most one bailout condition',
+              '',
+              _peek().offset);
+        }
+        bailout = _parseBailout();
+      }
       _skipNewlines();
     }
 
     _expect(FrmTokKind.rBrace, 'Expected "}"');
 
-    return FrmFormula(name: nameTok.lexeme, init: init, iter: iter);
+    return FrmFormula(
+        name: nameTok.lexeme, init: init, iter: iter, bailout: bailout);
+  }
+
+  bool _assignmentAhead() =>
+      _peekIs(FrmTokKind.ident) && _peekAheadIs(1, FrmTokKind.eq);
+
+  FrmBailout _parseBailout() {
+    final left = _parseExpr();
+    final op = _expectCmpOp();
+    final right = _parseExpr();
+    _expectStmtBoundary();
+    return FrmBailout(left, op, right);
+  }
+
+  FrmCmpOp _expectCmpOp() {
+    final tok = _peek();
+    final op = switch (tok.kind) {
+      FrmTokKind.lt => FrmCmpOp.lt,
+      FrmTokKind.le => FrmCmpOp.le,
+      FrmTokKind.gt => FrmCmpOp.gt,
+      FrmTokKind.ge => FrmCmpOp.ge,
+      FrmTokKind.eqEq => FrmCmpOp.eq,
+      FrmTokKind.ne => FrmCmpOp.ne,
+      _ => throw FormatException(
+          'Expected a comparison operator in bailout condition',
+          '',
+          tok.offset),
+    };
+    _p++;
+    return op;
   }
 
   FrmStmt _parseStmt() {
@@ -236,4 +279,8 @@ final class FrmParser {
   FrmTok _peek() => _toks[_p];
   FrmTok _prev() => _toks[_p - 1];
   bool _peekIs(FrmTokKind k) => _peek().kind == k;
+  bool _peekAheadIs(int n, FrmTokKind k) {
+    final i = _p + n;
+    return i < _toks.length && _toks[i].kind == k;
+  }
 }

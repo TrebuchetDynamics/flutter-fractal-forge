@@ -98,6 +98,40 @@ final class FrmCall extends FrmExpr {
   }
 }
 
+/// Comparison operators usable in a bailout condition.
+enum FrmCmpOp { lt, le, gt, ge, eq, ne }
+
+/// A formula's escape test, e.g. `cabs2(z) <= 4`.
+///
+/// Iteration continues *while* this condition is true (Fractint convention), so
+/// the engine escapes the pixel when [test] first returns false. Both sides must
+/// evaluate to real scalars — comparing complex magnitudes is what these
+/// conditions express, and silently dropping an imaginary part would make replay
+/// depend on an undocumented truncation rule (same contract as a complex
+/// literal's components).
+final class FrmBailout {
+  const FrmBailout(this.left, this.op, this.right);
+
+  final FrmExpr left;
+  final FrmCmpOp op;
+  final FrmExpr right;
+
+  bool test(FrmEvalContext ctx) {
+    final a = evalFrmRealScalarComponent(left, ctx,
+        componentName: 'left side of bailout comparison');
+    final b = evalFrmRealScalarComponent(right, ctx,
+        componentName: 'right side of bailout comparison');
+    return switch (op) {
+      FrmCmpOp.lt => a < b,
+      FrmCmpOp.le => a <= b,
+      FrmCmpOp.gt => a > b,
+      FrmCmpOp.ge => a >= b,
+      FrmCmpOp.eq => a == b,
+      FrmCmpOp.ne => a != b,
+    };
+  }
+}
+
 sealed class FrmStmt {
   const FrmStmt();
 
@@ -128,6 +162,7 @@ final class FrmFormula {
     required this.name,
     required Iterable<FrmStmt> init,
     required Iterable<FrmStmt> iter,
+    this.bailout,
   })  : init = List.unmodifiable(init),
         iter = List.unmodifiable(iter);
 
@@ -138,6 +173,10 @@ final class FrmFormula {
 
   /// Statements after `:`
   final List<FrmStmt> iter;
+
+  /// Optional explicit escape test from the iter section. When null the engine
+  /// falls back to the default `|z|^2 > bailout^2`.
+  final FrmBailout? bailout;
 }
 
 final class FrmFile {

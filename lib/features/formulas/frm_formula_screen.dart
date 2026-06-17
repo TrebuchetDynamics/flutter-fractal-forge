@@ -10,9 +10,10 @@ import 'package:flutter_fractals/features/formulas/frm/frm_parser.dart';
 /// Interactive lab for the restricted Fractint-style FRM formula subset.
 ///
 /// Type a formula (init section, `:`, iter section), render a CPU preview, and
-/// see parse/eval errors. The language currently supports `+ - * /`, complex
-/// `(re, im)` literals, and the variables `pixel`/`z`/`c`; escape is the fixed
-/// convention `|z|^2 > 4`. That covers polynomial Mandelbrot/Julia-class maps.
+/// see parse/eval errors. The language supports `+ - * /`, right-associative
+/// `^`, complex `(re, im)` literals, function calls (`sqr`, `conj`, `exp`,
+/// `sin`, …), and the variables `pixel`/`z`/`c`. Escape defaults to `|z|^2 > 4`
+/// but a formula may declare its own bailout (e.g. `cabs2(z) <= 4`).
 class FrmFormulaScreen extends StatefulWidget {
   const FrmFormulaScreen({super.key});
 
@@ -27,7 +28,9 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
     'Mandelbrot':
         'Mandelbrot {\n  z = (0,0)\n  c = pixel\n:\n  z = z*z + c\n}\n',
     'Julia': 'Julia {\n  z = pixel\n  c = (-0.8, 0.156)\n:\n  z = z*z + c\n}\n',
-    'Cubic': 'Cubic {\n  z = (0,0)\n  c = pixel\n:\n  z = z*z*z + c\n}\n',
+    'Cubic': 'Cubic {\n  z = (0,0)\n  c = pixel\n:\n  z = z^3 + c\n}\n',
+    'Tricorn': 'Tricorn {\n  z = (0,0)\n  c = pixel\n'
+        ':\n  z = conj(z)^2 + c\n  cabs2(z) <= 4\n}\n',
   };
 
   late final TextEditingController _controller =
@@ -161,8 +164,10 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Supports + - * / and (re, im) literals with variables '
-                'pixel / z / c. Escape is |z|² > 4.',
+                'Supports + - * / ^, functions (sqr, conj, exp, sin, …) and '
+                '(re, im) literals with variables pixel / z / c. Escape '
+                'defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set '
+                'your own.',
                 style: theme.textTheme.bodySmall,
               ),
             ],

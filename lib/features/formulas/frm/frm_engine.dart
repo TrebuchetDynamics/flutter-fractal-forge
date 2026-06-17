@@ -14,17 +14,21 @@ import 'frm_parser.dart';
 /// renderer's [CpuFormula] contract so FRM formulas reuse the existing
 /// (anti-aliased, NaN-safe) CPU pixel loop.
 ///
-/// Convention (the FRM subset has no bailout/comparison syntax yet):
+/// Convention:
 /// - The pixel position is bound to the variable `pixel`.
 /// - The formula's `init` section runs once; the `iter` section is the
 ///   recurrence.
-/// - The iterated value is the variable `z`. Escape is `|z|^2 > bailout^2`,
-///   checked before each `iter` step, exactly like the native [escapeTime]
-///   engine — so e.g. `Mandelbrot { z=(0,0) c=pixel : z=z*z+c }` matches the
-///   built-in Mandelbrot pixel-for-pixel.
+/// - The iterated value is the variable `z`. By default escape is
+///   `|z|^2 > bailout^2`, checked before each `iter` step, exactly like the
+///   native [escapeTime] engine — so e.g. `Mandelbrot { z=(0,0) c=pixel :
+///   z=z*z+c }` matches the built-in Mandelbrot pixel-for-pixel.
+/// - A formula may instead declare its own escape test in the iter section
+///   (e.g. `cabs2(z) <= 4`); iteration continues while that condition holds
+///   and escapes when it first fails.
 /// - Colouring reuses [smoothEscape] + [palette]; interior points use
 ///   [kInsideColor].
 CpuFormula frmAsCpuFormula(FrmFormula formula) {
+  final bailoutCond = formula.bailout;
   return (double x, double y, int iterations, double bailout, _) {
     try {
       final ctx = FrmEvalContext(vars: {'pixel': Complex(x, y)});
@@ -38,7 +42,9 @@ CpuFormula frmAsCpuFormula(FrmFormula formula) {
         final z = ctx.vars['z'];
         // A formula that never assigns `z` cannot escape; treat as interior.
         if (z == null) return kInsideColor;
-        if (z.abs2() > bailout2) break;
+        final escaped =
+            bailoutCond == null ? z.abs2() > bailout2 : !bailoutCond.test(ctx);
+        if (escaped) break;
         for (final stmt in formula.iter) {
           stmt.run(ctx);
         }

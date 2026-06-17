@@ -3,7 +3,8 @@
 // Supported tokens (initial subset):
 // - identifiers: [A-Za-z_][A-Za-z0-9_]*
 // - numbers: 123, 1.23, .5, 1e-3
-// - punctuation: { } ( ) , : = + - * /
+// - punctuation: { } ( ) , : = + - * / ^
+// - comparisons: == != < <= > >=
 // - comments: ; to end of line
 
 enum FrmTokKind {
@@ -16,6 +17,12 @@ enum FrmTokKind {
   comma,
   colon,
   eq,
+  eqEq,
+  lt,
+  le,
+  gt,
+  ge,
+  ne,
   plus,
   minus,
   star,
@@ -100,9 +107,34 @@ final class FrmLexer {
       case 0x3A: // :
         _i++;
         return FrmTok(FrmTokKind.colon, ':', _i - 1);
-      case 0x3D: // =
+      case 0x3D: // = or ==
         _i++;
+        if (_i < src.length && src.codeUnitAt(_i) == 0x3D) {
+          _i++;
+          return FrmTok(FrmTokKind.eqEq, '==', _i - 2);
+        }
         return FrmTok(FrmTokKind.eq, '=', _i - 1);
+      case 0x3C: // < or <=
+        _i++;
+        if (_i < src.length && src.codeUnitAt(_i) == 0x3D) {
+          _i++;
+          return FrmTok(FrmTokKind.le, '<=', _i - 2);
+        }
+        return FrmTok(FrmTokKind.lt, '<', _i - 1);
+      case 0x3E: // > or >=
+        _i++;
+        if (_i < src.length && src.codeUnitAt(_i) == 0x3D) {
+          _i++;
+          return FrmTok(FrmTokKind.ge, '>=', _i - 2);
+        }
+        return FrmTok(FrmTokKind.gt, '>', _i - 1);
+      case 0x21: // != (a bare ! is not a valid token)
+        _i++;
+        if (_i < src.length && src.codeUnitAt(_i) == 0x3D) {
+          _i++;
+          return FrmTok(FrmTokKind.ne, '!=', _i - 2);
+        }
+        throw FormatException('Unexpected character: !', src, _i - 1);
       case 0x2B: // +
         _i++;
         return FrmTok(FrmTokKind.plus, '+', _i - 1);
