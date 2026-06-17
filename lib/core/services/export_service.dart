@@ -125,6 +125,28 @@ class ExportSizePolicy {
       );
     }
   }
+
+  /// Rejects export filenames that could escape the export directory.
+  ///
+  /// Export filenames are expected to be plain basenames produced by
+  /// [ExportService.generateFilename] / the slug helpers. A name containing a
+  /// path separator (`/`, `\`), a NUL byte, or that is `.`/`..` could traverse
+  /// out of the app export dir when joined as `${dir}/${filename}`, so the file
+  /// boundary rejects it. A literal `..` inside a longer segment (e.g.
+  /// `my..name`) is harmless and allowed.
+  static void validateExportFilename(String filename) {
+    if (filename.isEmpty || filename == '.' || filename == '..') {
+      throw StateError('Invalid export filename: "$filename".');
+    }
+    if (filename.contains('/') ||
+        filename.contains(r'\') ||
+        filename.contains('\u0000')) {
+      throw StateError(
+        'Export filename must be a plain basename (no path separators): '
+        '"$filename".',
+      );
+    }
+  }
 }
 
 Future<void> _shareFileWithPlatform(File file, {String? text}) {
@@ -255,6 +277,11 @@ class ExportService {
   }
 
   Future<File> createExportFile({required String filename}) async {
+    // Boundary guard: an exported file must stay inside the app export dir.
+    // Callers pass sanitized basenames (generateFilename / slug helpers), but
+    // validate here too so a future unsanitized filename cannot write or share
+    // outside the export dir via a path separator or a `..` segment.
+    ExportSizePolicy.validateExportFilename(filename);
     final dir = await getExportDirectory();
     return File('${dir.path}/$filename');
   }
