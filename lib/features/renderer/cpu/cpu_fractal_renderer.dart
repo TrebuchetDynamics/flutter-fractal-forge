@@ -444,7 +444,11 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
             sampleCount: 1,
             job: job,
             maxTime: null,
-            onPartial: (_) {},
+            // The probe only needs the final rgba for validation; its progressive
+            // partials are never shown, so dispose each one. (A no-op handler
+            // here leaked a ui.Image per throttled tile update on every debug
+            // preview pass — _renderFrameTiled hands ownership to the callback.)
+            onPartial: (img) => img.dispose(),
           );
           validation = validateRenderPair(
             frameA: frame.rgba,
