@@ -25,6 +25,64 @@ class _FakePathProviderPlatform extends Fake
 void main() {
   const service = ExportService();
 
+  group('ExportAspectCrop.center', () {
+    test('center-crops a portrait capture to a square target', () {
+      final crop = ExportAspectCrop.center(
+        sourceWidth: 1080,
+        sourceHeight: 2338,
+        targetWidth: 1080,
+        targetHeight: 1080,
+      );
+      expect(crop.width, 1080);
+      expect(crop.height, 1080);
+      expect(crop.x, 0);
+      expect(crop.y, 629); // (2338 - 1080) / 2
+    });
+
+    test('crops a portrait capture to a landscape target without stretching',
+        () {
+      final crop = ExportAspectCrop.center(
+        sourceWidth: 1080,
+        sourceHeight: 2338,
+        targetWidth: 1200,
+        targetHeight: 675,
+      );
+      expect(crop.width, 1080);
+      expect(crop.height, 608); // round(1080 / (1200/675))
+      // The crop must carry the target aspect, not the source aspect.
+      expect((crop.width / crop.height - 1200 / 675).abs(), lessThan(0.01));
+      expect(crop.x, 0);
+    });
+
+    test('returns the full frame when the aspects already match', () {
+      final crop = ExportAspectCrop.center(
+        sourceWidth: 1080,
+        sourceHeight: 1920,
+        targetWidth: 540,
+        targetHeight: 960,
+      );
+      expect(crop.width, 1080);
+      expect(crop.height, 1920);
+      expect(crop.x, 0);
+      expect(crop.y, 0);
+    });
+
+    test('stays within the source bounds for extreme aspect ratios', () {
+      final crop = ExportAspectCrop.center(
+        sourceWidth: 100,
+        sourceHeight: 100,
+        targetWidth: 1000,
+        targetHeight: 1,
+      );
+      expect(crop.x, greaterThanOrEqualTo(0));
+      expect(crop.y, greaterThanOrEqualTo(0));
+      expect(crop.x + crop.width, lessThanOrEqualTo(100));
+      expect(crop.y + crop.height, lessThanOrEqualTo(100));
+      expect(crop.width, greaterThan(0));
+      expect(crop.height, greaterThan(0));
+    });
+  });
+
   group('ExportService.capturePng', () {
     test('does not call release-unsafe debug paint getters', () {
       final source =

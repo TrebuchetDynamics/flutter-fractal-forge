@@ -90,6 +90,60 @@ final class _WallpaperOverlayGradient {
   }
 }
 
+/// Pure center-crop geometry for matching a capture to an export aspect ratio.
+///
+/// The export capture is taken at the screen aspect ratio. Scaling it straight
+/// to a preset of a different aspect would stretch the fractal, so the capture
+/// is first cropped to the largest centered rectangle that matches the target
+/// aspect. Keeping this geometry pure makes the no-distortion contract testable
+/// without decoding real images.
+final class ExportAspectCrop {
+  final int x;
+  final int y;
+  final int width;
+  final int height;
+
+  const ExportAspectCrop({
+    required this.x,
+    required this.y,
+    required this.width,
+    required this.height,
+  });
+
+  factory ExportAspectCrop.center({
+    required int sourceWidth,
+    required int sourceHeight,
+    required int targetWidth,
+    required int targetHeight,
+  }) {
+    assert(sourceWidth > 0 && sourceHeight > 0, 'source must be positive');
+    assert(targetWidth > 0 && targetHeight > 0, 'target must be positive');
+
+    final sourceAspect = sourceWidth / sourceHeight;
+    final targetAspect = targetWidth / targetHeight;
+
+    int cropW;
+    int cropH;
+    if (sourceAspect > targetAspect) {
+      // Source is wider than the target: keep full height, trim the sides.
+      cropH = sourceHeight;
+      cropW = (sourceHeight * targetAspect).round();
+    } else {
+      // Source is taller than the target: keep full width, trim top/bottom.
+      cropW = sourceWidth;
+      cropH = (sourceWidth / targetAspect).round();
+    }
+    cropW = cropW.clamp(1, sourceWidth);
+    cropH = cropH.clamp(1, sourceHeight);
+
+    final x = ((sourceWidth - cropW) / 2).round().clamp(0, sourceWidth - cropW);
+    final y =
+        ((sourceHeight - cropH) / 2).round().clamp(0, sourceHeight - cropH);
+
+    return ExportAspectCrop(x: x, y: y, width: cropW, height: cropH);
+  }
+}
+
 class ExportSizePolicy {
   /// Enough for 4K presets with headroom for square/social custom exports.
   static const int maxPixelCount = 16 * 1024 * 1024;
@@ -359,17 +413,40 @@ class ExportService {
     }
     onProgress?.call(0.5);
 
-    // Resize if needed for target resolution
+    // Resize if needed for target resolution.
     img.Image processedImage;
+    final targetW = targetDims.$1;
+    final targetH = targetDims.$2;
 
-    if (decodedImage.width != targetDims.$1 ||
-        decodedImage.height != targetDims.$2) {
-      processedImage = img.copyResize(
-        decodedImage,
-        width: targetDims.$1,
-        height: targetDims.$2,
-        interpolation: img.Interpolation.cubic,
+    if (decodedImage.width != targetW || decodedImage.height != targetH) {
+      // Center-crop to the target aspect ratio first, then scale to the exact
+      // size. The capture is at the screen aspect, so resizing straight to a
+      // preset of a different aspect (square Instagram, 16:9 Twitter, 9:16
+      // story on a portrait phone) would stretch and distort the fractal.
+      final crop = ExportAspectCrop.center(
+        sourceWidth: decodedImage.width,
+        sourceHeight: decodedImage.height,
+        targetWidth: targetW,
+        targetHeight: targetH,
       );
+      final cropped = (crop.width == decodedImage.width &&
+              crop.height == decodedImage.height)
+          ? decodedImage
+          : img.copyCrop(
+              decodedImage,
+              x: crop.x,
+              y: crop.y,
+              width: crop.width,
+              height: crop.height,
+            );
+      processedImage = (cropped.width == targetW && cropped.height == targetH)
+          ? cropped
+          : img.copyResize(
+              cropped,
+              width: targetW,
+              height: targetH,
+              interpolation: img.Interpolation.cubic,
+            );
     } else {
       processedImage = decodedImage;
     }
