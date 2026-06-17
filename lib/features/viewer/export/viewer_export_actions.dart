@@ -274,9 +274,15 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
 
       if (!mounted) return;
       await HapticService.heavy();
+      // iOS can't set wallpaper programmatically — the image was saved to
+      // Photos instead, so report that rather than claiming it was applied.
+      final savedToPhotosOnly = !kIsWeb && Platform.isIOS;
+      final successMessage = savedToPhotosOnly
+          ? l10n.wallpaperSavedToPhotos
+          : l10n.wallpaperApplied;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(ok ? l10n.wallpaperApplied : l10n.wallpaperFailed),
+          content: Text(ok ? successMessage : l10n.wallpaperFailed),
           backgroundColor: ok ? AppColors.success : AppColors.error,
           behavior: SnackBarBehavior.floating,
         ),

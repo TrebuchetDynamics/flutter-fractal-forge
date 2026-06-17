@@ -420,13 +420,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get wallpaperSaveCopySubtitle =>
-      'También exporta y abre el menú de compartir.';
+      'También guarda una copia en tu galería.';
 
   @override
   String get wallpaperApply => 'Aplicar';
 
   @override
   String get wallpaperApplied => 'Fondo listo';
+
+  @override
+  String get wallpaperSavedToPhotos => 'Guardado en Fotos';
 
   @override
   String get wallpaperFailed => 'No se pudo aplicar el fondo';

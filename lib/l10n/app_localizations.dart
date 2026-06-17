@@ -893,7 +893,7 @@ abstract class AppLocalizations {
   /// No description provided for @wallpaperSaveCopySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Also export and open the share sheet.'**
+  /// **'Also saves a copy to your gallery.'**
   String get wallpaperSaveCopySubtitle;
 
   /// No description provided for @wallpaperApply.
@@ -907,6 +907,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Wallpaper ready'**
   String get wallpaperApplied;
+
+  /// No description provided for @wallpaperSavedToPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Photos'**
+  String get wallpaperSavedToPhotos;
 
   /// No description provided for @wallpaperFailed.
   ///

@@ -417,14 +417,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wallpaperSaveCopy => 'Save a copy';
 
   @override
-  String get wallpaperSaveCopySubtitle =>
-      'Also export and open the share sheet.';
+  String get wallpaperSaveCopySubtitle => 'Also saves a copy to your gallery.';
 
   @override
   String get wallpaperApply => 'Apply';
 
   @override
   String get wallpaperApplied => 'Wallpaper ready';
+
+  @override
+  String get wallpaperSavedToPhotos => 'Saved to Photos';
 
   @override
   String get wallpaperFailed => 'Couldn’t apply wallpaper';
