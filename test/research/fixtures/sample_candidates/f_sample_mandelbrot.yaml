@@ -1,0 +1,71 @@
+candidate_id: ct_20260412_f001
+source:
+  type: wikipedia
+  url: "https://en.wikipedia.org/wiki/Mandelbrot_set"
+  fetched_at: "2026-04-12T20:00:00Z"
+  license: "CC-BY-SA-3.0"
+proposed_name: "Mandelbrot Set"
+aliases:
+  - "Mandelbrot"
+  - "M-set"
+formula_latex: "z_{n+1} = z_n^2 + c"
+formula_ast:
+  iteration_type: escape_time
+  variables: [z, c]
+  update: "z = z**2 + c"
+  init: "z = 0"
+  family: "quadratic"
+params:
+  iterations:
+    default: 500
+    range: [1, 10000]
+    description: "Max iteration count for escape test"
+  bailout:
+    default: 2.0
+    range: [1.0, 10.0]
+    description: "Escape radius"
+  power:
+    default: 2.0
+    range: [1.0, 12.0]
+    description: "Exponent d in z -> z^d + c"
+presets:
+  - id: seahorse_valley
+    name: "Seahorse Valley"
+    params:
+      center_x: -0.747
+      center_y: 0.1
+      zoom: 2.5
+  - id: elephant_valley
+    name: "Elephant Valley"
+    params:
+      center_x: -1.75
+      center_y: 0.0
+      zoom: 0.1
+  - id: mini_mandelbrot
+    name: "Mini-Mandelbrot"
+    params:
+      center_x: -1.7499
+      center_y: 0.00001
+      zoom: 0.0005
+variants:
+  - id: multibrot_3
+    name: "Multibrot (d=3)"
+    params:
+      power: 3.0
+  - id: multibrot_4
+    name: "Multibrot (d=4)"
+    params:
+      power: 4.0
+description_en: "The Mandelbrot set is the set of complex numbers c for which the iteration z -> z^2 + c does not diverge."
+references:
+  - author: "Benoit Mandelbrot"
+    title: "Les objets fractals: forme, hasard et dimension"
+    year: 1975
+    url: "https://en.wikipedia.org/wiki/Mandelbrot_set"
+  - author: "Adrien Douady"
+    title: "Etude dynamique des polynomes complexes"
+    year: 1984
+    url: "https://mathworld.wolfram.com/MandelbrotSet.html"
+quality:
+  formula_hash: "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+  confidence: 1.0

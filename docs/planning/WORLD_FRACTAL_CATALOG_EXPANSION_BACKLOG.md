@@ -10,7 +10,7 @@ This backlog is grounded in the current repo state:
 
 | Signal | Current evidence |
 |---|---:|
-| Reference library manifest | 200 entries in `fractals-library/data/fractal_manifest.json` |
+| Reference library manifest | 200 entries in `research/fractals-library/data/fractal_manifest.json` |
 | Registry | 1,610 entries in `docs/catalog/fractal_registry.yaml` |
 | Implemented tier | 367 entries marked `tier: implemented` |
 | Reference tier | 1,243 entries marked `tier: reference` |

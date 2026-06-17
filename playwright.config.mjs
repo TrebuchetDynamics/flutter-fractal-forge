@@ -6,7 +6,7 @@ const useBundledWebServer = process.env.PLAYWRIGHT_SKIP_WEBSERVER !== '1' &&
   !process.env.PLAYWRIGHT_BASE_URL;
 
 export default defineConfig({
-  testDir: './tests/playwright',
+  testDir: './test/playwright',
   timeout: 20 * 60 * 1000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
@@ -14,8 +14,9 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { open: 'never' }],
-    ['json', { outputFile: 'test-results/playwright-results.json' }],
+    ['json', { outputFile: 'test/results/playwright-results.json' }],
   ],
+  outputDir: './test/results',
   use: {
     baseURL,
     viewport: { width: 1280, height: 900 },

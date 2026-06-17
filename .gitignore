@@ -51,7 +51,7 @@ __pycache__/
 **/__pycache__/
 node_modules/
 playwright-report/
-test-results/
+test/results/
 maestro_reports/
 flutter_*.log
 .flutter-plugins

@@ -37,11 +37,22 @@ dev_dependencies:
   yaml: ^3.1.2
 flutter_launcher_icons:
   android: true
-  ios: false
+  ios: true
   image_path: assets/icon/ic_launcher.png
   adaptive_icon_background: "#0A0520"
-  adaptive_icon_foreground: assets/icon/ic_launcher.png
+  adaptive_icon_foreground: assets/icon/ic_launcher_foreground.png
   min_sdk_android: 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: assets/icon/ic_launcher.png
+  windows:
+    generate: true
+    image_path: assets/icon/ic_launcher.png
+    icon_size: 256
+  macos:
+    generate: true
+    image_path: assets/icon/ic_launcher.png
 flutter:
   generate: true
   uses-material-design: true

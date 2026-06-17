@@ -40,7 +40,7 @@ if ! grep -Fq "<base href=\"${BASE_HREF}\">" build/web/index.html; then
 fi
 
 PLAYWRIGHT_PROJECT="${PLAYWRIGHT_PROJECT:-firefox}"
-args=(test tests/playwright/catalog-smoke.spec.mjs --workers=1)
+args=(test test/playwright/catalog-smoke.spec.mjs --workers=1)
 if [[ "${PLAYWRIGHT_PROJECT}" != "all" ]]; then
   args+=(--project "${PLAYWRIGHT_PROJECT}")
 fi

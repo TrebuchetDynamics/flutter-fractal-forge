@@ -23,7 +23,7 @@
 |-----------|---------|
 | `lib/` | Application source code - models, modules, services, features (see `lib/AGENTS.md`) |
 | `shaders/` | 220+ GLSL fragment shaders for GPU fractal rendering (see `shaders/AGENTS.md`) |
-| `fractals-library/` | 200 fractal definitions organized by mathematical category (see `fractals-library/AGENTS.md`) |
+| `research/fractals-library/` | 200 fractal definitions organized by mathematical category (see `research/fractals-library/AGENTS.md`) |
 | `test/` | Unit and widget tests (see `test/AGENTS.md`) |
 | `integration_test/` | Integration and screenshot tests (see `integration_test/AGENTS.md`) |
 | `assets/` | App icons and 250+ catalog thumbnail images (see `assets/AGENTS.md`) |

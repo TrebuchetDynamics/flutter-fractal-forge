@@ -40,5 +40,5 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --strict-app-
 ## Test
 
 ```bash
-pytest tests/research -v
+pytest test/research -v
 ```
