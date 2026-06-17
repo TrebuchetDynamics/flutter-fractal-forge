@@ -541,6 +541,11 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       fromZoom: currentZoom,
       toZoom: targetZoom,
       onCompleted: () {
+        // A later continuous gesture (which clears this flag in _onScaleStart)
+        // or a newer deferred animation now owns the interaction end. Suppress
+        // this stale completion so auto-explore doesn't resume mid-gesture and
+        // fight the user's drag/pinch.
+        if (!_deferUserInteractionEndToAnimation) return;
         _deferUserInteractionEndToAnimation = false;
         if (widget.onUserInteractionEnd != null) {
           widget.onUserInteractionEnd!.call();
@@ -633,6 +638,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         (zoom * 0.5).clamp(_kMinZoom, _kMaxZoom),
         focalPoint: midpoint,
         onCompleted: () {
+          // See _triggerDoubleTapAt: ignore a stale deferred end once a later
+          // gesture or animation has taken ownership, so auto-explore never
+          // resumes in the middle of an ongoing gesture.
+          if (!_deferUserInteractionEndToAnimation) return;
           _deferUserInteractionEndToAnimation = false;
           if (widget.onUserInteractionEnd != null) {
             widget.onUserInteractionEnd!.call();
