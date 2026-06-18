@@ -10,6 +10,8 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uMu;
+uniform float uYScale;
 
 out vec4 fragColor;
 
@@ -60,8 +62,9 @@ void main() {
   float x = p.x;
   float y = p.y;
 
-  const float mu = 0.008;
+  float mu = uMu;
   const float a = -0.496;
+  float yScale = uYScale;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
   float bailoutSq = max(1.0, uBailout * uBailout);
@@ -72,7 +75,7 @@ void main() {
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
 
-    float xNext = y + a * (1.0 - 0.05 * y * y) * y + gmF(x, mu);
+    float xNext = y + a * (1.0 - yScale * y * y) * y + gmF(x, mu);
     float yNext = -x + gmF(xNext, mu);
     x = xNext;
     y = yNext;

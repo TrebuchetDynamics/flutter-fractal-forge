@@ -1,0 +1,20 @@
+10.1007/978-3-642-84574-1_34	Random Fractal Forgeries
+10.1111/cgf.14905	A Shape Modulus for Fractal Geometry Generation
+10.5220/0012380500003660	Efficiency of 3D Fractal Generation Through Raymarching
+10.1007/978-3-642-84574-1_11	Algorithms of Conic Generation
+10.1007/978-3-642-84574-1_10	Algorithms for Circular Arc Generation
+10.1016/s0146-664x(77)80012-9	On circle generation algorithms
+10.3724/sp.j.1089.2010.10670	Present Status of Shadow Generation Algorithms Based on Shadow Maps
+10.1007/978-3-642-77586-4_11	Multilevel Generation of Fractal Images Using the Associated Markov Process
+10.1007/978-3-642-84574-1_18	Character Generation and Display
+10.1016/s0146-664x(79)80044-1	Algorithms for generation of discrete circles, rings, and disks
+10.1016/j.future.2004.05.026	Computer graphics for water modeling and rendering: a survey
+10.33243/2313-7010-26-29-35	FRACTAL GRAPHICS FOR VIRTUAL ENVIRONMENT GENERATION
+10.1007/978-1-4471-1011-8_1	A Survey of Parallel Algorithms for Graphics and Visualization
+10.1017/cbo9780511663031.010	Fractal Computer Graphics
+10.1007/978-3-642-84574-1_12	A High Precision Digital Differential Analyzer for Circle Generation
+10.1111/j.1467-8659.2012.03185.x	Computer Assisted Relief Generation—A Survey
+10.1111/cgf.142658	A Survey of Control Mechanisms for Creative Pattern Generation
+10.1007/978-3-642-84574-1_44	Visual Perception and Computer Graphics
+10.1007/978-3-642-95678-2_4	Fractal Sounds
+10.1007/978-3-319-27122-4_15	Identification of Natural Images and Computer Generated Graphics Using Multi-fractal Differences of PRNU

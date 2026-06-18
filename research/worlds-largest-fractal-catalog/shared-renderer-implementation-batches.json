@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-06-18T06:42:14.767807+00:00",
+  "purpose": "Non-counting deterministic implementation batches for shared-renderer ready backlog.",
+  "counting_rule": "Implementation batches are not counted entries. Count only after renderer mapping, registration, render-smoke validation, duplicate audit, and catalog-goal validators pass.",
+  "input_backlog": "research/worlds-largest-fractal-catalog/shared-renderer-ready-backlog.json",
+  "batch_size": 25,
+  "candidate_total": 19,
+  "batch_count": 1,
+  "ready_by_family": {
+    "mandelbrot": 19
+  },
+  "batches": [
+    {
+      "batch_index": 0,
+      "offset": 0,
+      "limit": 19,
+      "candidate_ids": [
+        "f0431_mini_mandelbrot_period_2",
+        "f0432_mini_mandelbrot_period_3",
+        "f0433_mini_mandelbrot_period_4",
+        "f0434_mini_mandelbrot_period_5",
+        "f0435_mini_mandelbrot_period_6",
+        "f0436_mini_mandelbrot_period_7",
+        "f0437_mini_mandelbrot_period_8",
+        "f0438_mini_mandelbrot_period_9",
+        "f0439_mini_mandelbrot_period_10",
+        "f0440_mini_mandelbrot_period_11",
+        "f0441_mini_mandelbrot_period_12",
+        "f0442_mini_mandelbrot_period_13",
+        "f0443_mini_mandelbrot_period_14",
+        "f0444_mini_mandelbrot_period_15",
+        "f0445_mini_mandelbrot_period_16",
+        "f0446_mini_mandelbrot_period_17",
+        "f0447_mini_mandelbrot_period_18",
+        "f0448_mini_mandelbrot_period_19",
+        "f0449_mini_mandelbrot_period_20"
+      ],
+      "families": [
+        "mandelbrot"
+      ],
+      "renderer_candidates": [
+        "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag"
+      ],
+      "status": "implementation_batch_not_counted",
+      "required_gates": [
+        "review shared renderer semantic compatibility",
+        "implement parameter mapping/registration for each formula or rule identity",
+        "run render-smoke validation for every candidate in this batch",
+        "verify thumbnails remain existing bundled assets",
+        "rerun duplicate-risk audit and ready-backlog validator",
+        "only then regenerate a promoted counted ledger"
+      ]
+    }
+  ]
+}

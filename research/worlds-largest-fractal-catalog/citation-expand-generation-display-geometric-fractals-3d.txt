@@ -1,0 +1,2 @@
+wrote citation graph with 55 edges to citation-graph-generation-display-geometric-fractals-3d.json
+wrote citation graph report to citation-report-generation-display-geometric-fractals-3d.md

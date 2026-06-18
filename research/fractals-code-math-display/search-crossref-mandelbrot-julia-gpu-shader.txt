@@ -1,0 +1,20 @@
+10.3390/fractalfract8010069	Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order
+10.1201/b18805-36	2: Semantic-Based Shader Generation Using Shader Shaker
+10.1201/b14077-17	The Skylanders SWAP Force Depth-of-Field Shader
+10.1201/b11642-3	Vertex Shader Tessellation
+10.1201/9781351261524-2	NPR Effects Using the Geometry Shader
+10.3840/07000706	Julia Sets and the Mandelbrot Set
+10.3840/000706	Julia Sets and the Mandelbrot Set
+10.1201/b10648-12	NPR Effects Using the Geometry Shader
+10.1007/bfb0104002	The Abstract Mandelbrot set
+10.32614/cran.package.julia	Julia: Fractal Image Data Generator
+10.5120/8822-2743	Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 3 Mandelbrot and Julia Set
+10.1515/9783111689685	Dynamics of Entire Functions
+10.2139/ssrn.5074772	Generateing Mandelbrot and Julia Set Using Pv Iterative Technique
+10.1515/9783111689685-toc	Contents
+10.1016/s0097-8493(01)00162-5	Parametric 2-dimensional L systems and recursive fractal images: Mandelbrot set, Julia sets and biomorphs
+10.1515/9783111689685-006	6 The Fatou and Julia sets
+10.1515/9783111689685-016	Bibliography
+10.1515/9783111689685-201	Preface
+10.1515/9783111689685-fm	Frontmatter
+10.1201/b11642-28	Interactive Ray Tracing Using the Compute Shader in DirectX 11

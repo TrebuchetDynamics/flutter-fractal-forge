@@ -5,7 +5,8 @@ precision highp float;
 // KIFS Menger Sponge — 3D ray-marched distance-estimated fractal.
 // Kaleidoscopic IFS: repeated abs-fold + scale + translate produces the
 // classic Menger sponge from an initial unit cube.  uPower controls the
-// scale factor (canonical value 3.0).
+// scale factor (canonical value 3.0). uFractalType selects reviewed KIFS
+// family rules: 0=Menger sponge, 1=Sierpinski carpet / Menger cross.
 
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
@@ -66,10 +67,19 @@ float mengerDE(vec3 p, int maxIter) {
         s *= scale;
         p = p * scale - vec3(scale - 1.0);
 
-        // Fold back the z-cross
+        // Fold back the z-cross. Type 1 keeps a stronger paired-axis cross
+        // term, matching the Sierpinski-carpet/Menger-cross family identity.
         if (p.z < -1.0) p.z += 2.0;
 
-        d = min(d, max(max(abs(p.x), abs(p.y)), abs(p.z)) / s);
+        float boxD = max(max(abs(p.x), abs(p.y)), abs(p.z));
+        if (int(uFractalType) == 1) {
+            float crossD = min(
+                max(abs(p.x), abs(p.y)),
+                min(max(abs(p.x), abs(p.z)), max(abs(p.y), abs(p.z)))
+            );
+            boxD = max(boxD, -crossD + 0.35);
+        }
+        d = min(d, boxD / s);
     }
     return d;
 }

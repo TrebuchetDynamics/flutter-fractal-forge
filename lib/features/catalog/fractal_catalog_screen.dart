@@ -433,7 +433,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           Text(
             l10n.catalogFilterCategories.toUpperCase(),
             style: AppTypography.labelSmall.copyWith(
-              color: AppColors.textMuted,
+              color: AppColors.textSecondary,
               fontWeight: FontWeight.w700,
               fontSize: 10,
               letterSpacing: 1.0,

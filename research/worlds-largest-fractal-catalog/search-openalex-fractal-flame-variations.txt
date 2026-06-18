@@ -1,0 +1,20 @@
+10.1007/s12559-020-09730-8	Comprehensive Taxonomies of Nature- and Bio-inspired Optimization: Inspiration Versus Algorithmic Behavior, Critical Analysis Recommendations
+10.1109/access.2020.2987991	Optimal Placement and Intelligent Smoke Detection Algorithm for Wildfire-Monitoring Cameras
+10.1038/s41598-020-80059-w	Fractal structures arising from interfacial instabilities in bio-oil atomization
+10.1051/0004-6361/202449943	SDSS-V Local Volume Mapper (LVM): A glimpse into Orion
+10.1109/access.2023.3304889	Recent Advances in Grey Wolf Optimizer, its Versions and Applications: Review
+10.1007/s10462-025-11377-6	Applications, classifications, and challenges: a comprehensive evaluation of recently developed metaheuristics for search and analysis
+10.1155/2010/350891	The Data Big Bang and the Expanding Digital Universe: High‐Dimensional, Complex and Massive Data Sets in an Inflationary Epoch
+10.1515/geo-2022-0361	Spatio-temporal analysis of East Asian seismic zones based on multifractal theory
+10.1016/j.csbj.2024.04.060	Visualizing metagenomic and metatranscriptomic data: A comprehensive review
+10.1093/jmammal/gyaf041	Moth munchers: limited intraspecific variation in summer diet of the endangered Florida Bonneted Bat (<i>Eumops floridanus</i>)
+10.1525/9780520393950	Governable Spaces
+10.21657/soilst.1143238	Field scale variability in soil properties and silage corn yield
+	Supersonic combustion modelling using the conditional moment closure approach
+10.1525/luminos.181	Governable Spaces: Democratic Design for Online Life
+10.1016/j.jvolgeores.2024.108131	Search for anomalies in Stromboli's pre-paroxysm activity through an automatic hybrid method of time series analysis
+10.4236/oalib.1104985	Near Death Experiences: Falling Down a Very Deep Well
+	Limitations of partially premixed combustion
+10.16995/orbit.8645	Introduction: Becoming Familiar with The Familiar, or, The Imaginary Novel and the Imagination
+10.1002/sej.1500	Mix with the crowd? Craft‐based campaigns and the value of distinctiveness in campaign success
+10.48550/arxiv.1308.4015	Jacob's Ladder and Scientific Ontologies

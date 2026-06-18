@@ -1,0 +1,20 @@
+10.1175/1520-0477(1989)070<0014:csaaw>2.0.co;2	Chaos, Strange Attractors, and Weather
+10.1088/0951-7715/15/4/312	Bifurcations and strange attractors in the Lorenz-84 climate model with seasonal forcing
+10.1140/epjst/e2015-02470-3	Homoclinic orbits, and self-excited and hidden attractors in a Lorenz-like system describing convective fluid motion
+10.1016/0162-3095(90)90012-u	Epigenetic rules and Darwinian algorithms
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.1371/journal.pbio.0050008	Large-Scale Mapping and Validation of Escherichia coli Transcriptional Regulation from a Compendium of Expression Profiles
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.1111/cgf.14034	The State of the Art in Enhancing Trust in Machine Learning Models with the Use of Visualizations
+10.1142/s0218127405013034	TEMPORAL TRANSFORMATIONS AND VISUALIZATION DIAGRAMS FOR NONSMOOTH PERIODIC MOTIONS
+10.1063/1.868600	Direct numerical simulation of rotating fluid flow in a closed cylinder
+10.1103/physrevlett.104.108001	Force Attractor in Confined Comminution of Granular Materials
+10.3389/fninf.2014.00008	Dipy, a library for the analysis of diffusion MRI data
+10.3390/a15020071	A Review of Deep Learning Algorithms and Their Applications in Healthcare
+10.1007/bf02985416	Crocheting the Lorenz Manifold
+10.1109/tcyb.2016.2533545	Multilayered Echo State Machine: A Novel Architecture and Algorithm
+10.1214/20-ba1221	Rank-Normalization, Folding, and Localization: An Improved Rˆ for Assessing Convergence of MCMC (with Discussion)
+10.1007/s11071-022-08078-y	Hidden attractors in Chua circuit: mathematical theory meets physical experiments
+10.1038/s44172-024-00242-z	Implementing the analogous neural network using chaotic strange attractors
+10.24908/pceea.v0i0.4706	IMPLEMENTATION OF A CHUA CIRCUIT TO DEMONSTRATE BIFURCATIONS AND STRANGE ATTRACTORS IN A CLASS
+10.1371/journal.pcbi.1002057	Attracting Dynamics of Frontal Cortex Ensembles during Memory-Guided Decision-Making

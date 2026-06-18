@@ -1,0 +1,20 @@
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Mandelbrot set as a particular Julia set of Fractional Order, echipotential lines and external rays of Mandelbrot and Julia sets of Fractional Order
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Julia sets appear quasiconformally in the Mandelbrot set
+	Mandelbrot set and Julia sets of fractional order
+	Julia and Mandelbrot sets for dynamics over the hyperbolic numbers
+	The Hausdorff dimension of the boundary of the Mandelbrot set and Julia sets
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+	Fractals of the Julia and Mandelbrot sets of the Riemann Zeta Function
+	New Julia and Mandelbrot Sets for Jungck Ishikawa Iterates
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+10.3390/fractalfract6100534	On Benford's Law and the Coefficients of the Riemann Mapping Function for the Exterior of the Mandelbrot Set
+10.1007/s13324-020-00357-4	Zalcman functions and similarity between the Mandelbrot set, Julia sets, and the tricorn
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	Julia sets appear quasiconformally in the Mandelbrot set, II: A parabolic proof
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Kernels, Data & Physics
+	Dual-Quaternion Julia Fractals
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon

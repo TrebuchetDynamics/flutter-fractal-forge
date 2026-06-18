@@ -1,0 +1,20 @@
+10.1145/74334.74337	The synthesis and rendering of eroded fractal terrains
+10.1111/j.1467-8659.2010.01827.x	A Survey of Procedural Noise Functions
+10.1155/2009/125714	Breeding Terrains with Genetic Terrain Programming: The Evolution of Terrain Generators
+10.1145/3072959.3073667	Authoring landscapes by combining ecosystem and terrain erosion simulation
+10.3133/ofr02465	A bibliography of terrain modeling (geomorphometry), the quantitative representation of topography: Supplement 4.0
+10.1145/285857.285859	Sampling procedural shaders using affine arithmetic
+10.1155/2010/360458	Declarative Terrain Modeling for Military Training Games
+	Terrain synthesis using noise
+10.1007/s00371-006-0090-7	Ray casting implicit fractal surfaces with reduced affine arithmetic
+	Interactive voxel terrain design using procedural techniques
+10.1109/taes.2014.120282	Modeling cratered surfaces with real and synthetic terrain for testing planetary landers
+	Terrainosaurus: realistic terrain synthesis using genetic algorithms
+10.1145/311535.311561	Pattern-based texturing revisited
+10.3390/ijgi11100531	GIS Based Procedural Modeling in 3D Urban Design
+10.25669/qqg1-2wh5	Computer generation and rendering of terrain
+	Procedural Terrain Generation Based on Constraint Paths
+10.1111/cgf.15033	Physically‐based analytical erosion for fast terrain generation
+10.48550/arxiv.2407.09013	Procedural Content Generation via Generative Artificial Intelligence
+10.3390/app14167299	Enhancing 3D Printing with Procedural Generation and STL Formatting Using Python
+10.82308/14	Rendering falling snow using an inverse Fourier transform

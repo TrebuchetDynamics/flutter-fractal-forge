@@ -1,0 +1,20 @@
+	A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+10.1063/5.0092933	Templex: a bridge between homologies and templates for chaotic attractors
+10.1016/j.cnsns.2024.108562	Resonance and Weak Chaos in Quasiperiodically-Forced Circle Maps
+	Potential Function in a Continuous Dissipative Chaotic System: Decomposition Scheme and Role of Strange Attractor
+	Strange Non-Chaotic Attractors with Unpredictable Trajectories
+10.1007/978-3-030-04414-5_8	Visualizing the Template of a Chaotic Attractor
+	Generalized Attracting Horseshoes and Chaotic Strange Attractors
+	Strange non-chaotic attractors in quasiperiodically forced circle maps
+10.1088/0951-7715/19/9/001	How chaotic are strange nonchaotic attractors
+	Stability enhanced by transient attractors in a memristive chaotic map
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.3938/jkps.69.1631	An Analytical Study on the Synchronization of Strange Non-Chaotic Attractors
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1103/physreve.57.1576	Strange Nonchaotic Attractors in the Quasiperiodically forced Logistic Map
+	A New Hyperchaotic Attractor with Complex Patterns
+	Structure of strange baryons
+10.1063/1.2259821	Strange Nonchaotic Attractors in Harper Maps
+	Strange attractors for the family of orientation preserving Lozi maps
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable

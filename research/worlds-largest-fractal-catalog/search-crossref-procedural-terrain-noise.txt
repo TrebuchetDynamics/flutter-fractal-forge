@@ -1,0 +1,20 @@
+10.1109/cec.2012.6256610	A survey of procedural terrain generation techniques using evolutionary algorithms
+10.36227/techrxiv.175424318.82556506/v1	Everling Noise: A Linear-Time Noise Algorithm for Multi-Dimensional Procedural Terrain Generation
+10.1007/979-8-8688-1787-8_6	Fractal Terrain Generation
+10.1109/iccsit.2009.5234644	Photorealistic terrain generation method based on fractal geometry theory and procedural texture
+10.9734/ajrcos/2023/v16i1333	Procedural Terrain Generation by Sampling a 2D Monochrom Perlin Noise Map in Unity
+10.22215/etd/2015-10635	Controllable Procedural Terrain Synthesis Using Curve Networks
+10.26686/rf62-pf23	Better Ways to Build Pipelines for Procedural Terrain Generation
+10.26686/wgtn.25658514	Distributed Architecture for Procedural Terrain Generation in Video Games
+10.1109/icivc66358.2025.11200410	Noise Algorithms in Game Terrain Generation
+10.1109/vs-games.2016.7590336	Algorithms and Approaches for Procedural Terrain Generation - A Brief Review of Current Techniques
+10.1260/174830107781389021	A Survey of Parallel Algorithms for Fractal Image Compression
+10.1145/3571600.3571657	Adaptive &amp; Multi-Resolution Procedural Infinite Terrain Generation with Diffusion Models and Perlin Noise
+10.21236/ada396871	Terrain Generation Using Fractal Methods
+10.5753/sibgrapi.est.2025.38302	Terrain generation using Neural Transfer Style and Fractal Brownian Motion noise with constraints
+10.47643/1815-1337_2021_4_225	Features of the procedural assessment of the results of an operational search event-a survey of premises, buildings, structures, terrain areas and vehicles
+10.1016/b978-155860848-1/50045-0	Procedural fractal terrains
+10.1016/b978-0-12-228760-2.50015-6	Procedural Fractal Terrains
+10.1080/00396265.2025.2596381	Assessing the effectiveness of filtering algorithms and semantic segmentation for photogrammetric UAV-derived digital terrain models in urban and sloped environments
+10.1007/978-3-030-97057-4_12	Algorithms Optimization for Procedural Terrain Generation in Real Time Graphics
+10.21236/ada219620	Fractal Terrain Analysis from an Attractor Viewpoint

@@ -1,0 +1,981 @@
+{
+  "generated_at": "2026-06-18T05:05:53.786416+00:00",
+  "purpose": "Non-counting Julia shared-renderer parameter mapping worklist for existing-app source leads.",
+  "counting_rule": "Formula/rule identities remain uncounted until renderer mapping and render validation pass; aliases are used only to derive named Julia constants, not random presets.",
+  "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+  "candidate_count": 56,
+  "ready_for_reviewed_mapping_count": 50,
+  "needs_manual_review_count": 6,
+  "items": [
+    {
+      "stable_id": "f0143_dendrite_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0143_dendrite_julia/f0143_dendrite_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0143_dendrite_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "dendrite",
+        "c=i Julia",
+        "c=0.0+1.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.0+1.0i",
+        "c_re": 0.0,
+        "c_im": 1.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0144_airplane_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0144_airplane_julia/f0144_airplane_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0144_airplane_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "airplane",
+        "c=-1.7548776662+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.7548776662+0.0i",
+        "c_re": -1.7548776662,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0145_seahorse_valley_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0145_seahorse_valley_julia/f0145_seahorse_valley_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0145_seahorse_valley_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "seahorse",
+        "c=-0.75+0.1i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.75+0.1i",
+        "c_re": -0.75,
+        "c_im": 0.1
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0146_basilica_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0146_basilica_julia/f0146_basilica_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0146_basilica_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "basilica",
+        "c=-1 Julia",
+        "c=-1.0+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.0+0.0i",
+        "c_re": -1.0,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0147_san_marco_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0147_san_marco_julia/f0147_san_marco_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0147_san_marco_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "San Marco",
+        "parabolic Julia",
+        "c=-0.75+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.75+0.0i",
+        "c_re": -0.75,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0148_kaleidoscope_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0148_kaleidoscope_julia/f0148_kaleidoscope_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0148_kaleidoscope_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=-0.4+0.6i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.4+0.6i",
+        "c_re": -0.4,
+        "c_im": 0.6
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0149_cactus_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0149_cactus_julia/f0149_cactus_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0149_cactus_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "cactus",
+        "c=0.285+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.285+0.0i",
+        "c_re": 0.285,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0150_fatou_dust_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0150_fatou_dust_julia/f0150_fatou_dust_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0150_fatou_dust_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "Fatou dust",
+        "Cantor dust Julia",
+        "c=0.4+0.4i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.4+0.4i",
+        "c_re": 0.4,
+        "c_im": 0.4
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0151_siegel_disk_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0151_siegel_disk_julia/f0151_siegel_disk_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0151_siegel_disk_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "Siegel Julia",
+        "c=-0.391-0.587i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.391-0.587i",
+        "c_re": -0.391,
+        "c_im": -0.587
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0152_galaxy_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0152_galaxy_julia/f0152_galaxy_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0152_galaxy_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "galaxy spiral",
+        "c=0.285+0.01i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.285+0.01i",
+        "c_re": 0.285,
+        "c_im": 0.01
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0153_dragon_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0153_dragon_julia/f0153_dragon_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0153_dragon_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "dragon Julia",
+        "c=-0.8+0.156i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.8+0.156i",
+        "c_re": -0.8,
+        "c_im": 0.156
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0154_period_3_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0154_period_3_julia/f0154_period_3_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0154_period_3_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "period 3",
+        "c=-0.12+0.74i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.12+0.74i",
+        "c_re": -0.12,
+        "c_im": 0.74
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0155_period_4_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0155_period_4_julia/f0155_period_4_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0155_period_4_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "period 4",
+        "c=0.27334+0.00742i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.27334+0.00742i",
+        "c_re": 0.27334,
+        "c_im": 0.00742
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0156_period_5_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0156_period_5_julia/f0156_period_5_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0156_period_5_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "period 5",
+        "c=-0.5046+0.5631i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.5046+0.5631i",
+        "c_re": -0.5046,
+        "c_im": 0.5631
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0157_period_6_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0157_period_6_julia/f0157_period_6_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0157_period_6_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "period 6",
+        "c=-1.3107+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.3107+0.0i",
+        "c_re": -1.3107,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0158_period_7_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0158_period_7_julia/f0158_period_7_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0158_period_7_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "period 7",
+        "c=0.4388+0.3499i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.4388+0.3499i",
+        "c_re": 0.4388,
+        "c_im": 0.3499
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0161_swirl_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0161_swirl_julia/f0161_swirl_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0161_swirl_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "swirl",
+        "c=-0.54+0.54i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.54+0.54i",
+        "c_re": -0.54,
+        "c_im": 0.54
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0162_lightning_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0162_lightning_julia/f0162_lightning_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0162_lightning_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "lightning",
+        "c=-0.7269+0.1889i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.7269+0.1889i",
+        "c_re": -0.7269,
+        "c_im": 0.1889
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0163_filigree_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0163_filigree_julia/f0163_filigree_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0163_filigree_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "filigree",
+        "c=0.355+0.355i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.355+0.355i",
+        "c_re": 0.355,
+        "c_im": 0.355
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0164_spiral_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0164_spiral_julia/f0164_spiral_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0164_spiral_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "spiral",
+        "c=-0.75+0.11i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.75+0.11i",
+        "c_re": -0.75,
+        "c_im": 0.11
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0166_chebyshev_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0166_chebyshev_julia/f0166_chebyshev_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0166_chebyshev_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "real interval Julia",
+        "c=2.0+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=2.0+0.0i",
+        "c_re": 2.0,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0167_cauliflower_bulb_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0167_cauliflower_bulb_julia/f0167_cauliflower_bulb_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0167_cauliflower_bulb_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "cauliflower",
+        "c=-1.25+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.25+0.0i",
+        "c_re": -1.25,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0173_mini_brot_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0173_mini_brot_julia/f0173_mini_brot_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0173_mini_brot_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=0.3+0.5i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.3+0.5i",
+        "c_re": 0.3,
+        "c_im": 0.5
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0174_elephant_valley_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0174_elephant_valley_julia/f0174_elephant_valley_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0174_elephant_valley_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "elephant valley",
+        "c=0.25+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.25+0.0i",
+        "c_re": 0.25,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0175_near_elephant_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0175_near_elephant_julia/f0175_near_elephant_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0175_near_elephant_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=0.251+0.0001i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.251+0.0001i",
+        "c_re": 0.251,
+        "c_im": 0.0001
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0176_dendritic_tree_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0176_dendritic_tree_julia/f0176_dendritic_tree_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0176_dendritic_tree_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "dendritic tree",
+        "c=-0.8+0.2i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.8+0.2i",
+        "c_re": -0.8,
+        "c_im": 0.2
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0177_mink_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0177_mink_julia/f0177_mink_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0177_mink_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "mink",
+        "c=-0.12-0.77i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.12-0.77i",
+        "c_re": -0.12,
+        "c_im": -0.77
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0178_star_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0178_star_julia/f0178_star_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0178_star_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "star",
+        "c=-0.835-0.2321i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.835-0.2321i",
+        "c_re": -0.835,
+        "c_im": -0.2321
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0180_jumping_jack_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0180_jumping_jack_julia/f0180_jumping_jack_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0180_jumping_jack_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=0.285-0.01i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.285-0.01i",
+        "c_re": 0.285,
+        "c_im": -0.01
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0181_twin_spiral_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0181_twin_spiral_julia/f0181_twin_spiral_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0181_twin_spiral_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "twin spiral",
+        "c=-0.74543+0.11301i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.74543+0.11301i",
+        "c_re": -0.74543,
+        "c_im": 0.11301
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0182_hyperbolic_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0182_hyperbolic_julia/f0182_hyperbolic_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0182_hyperbolic_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "hyperbolic",
+        "c=-0.1+0.75i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.1+0.75i",
+        "c_re": -0.1,
+        "c_im": 0.75
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0184_centrally_symmetric_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0184_centrally_symmetric_julia/f0184_centrally_symmetric_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0184_centrally_symmetric_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "symmetric",
+        "c=-0.8+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.8+0.0i",
+        "c_re": -0.8,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0185_thistle_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0185_thistle_julia/f0185_thistle_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0185_thistle_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "thistle",
+        "c=-0.1015352+0.6333312i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.1015352+0.6333312i",
+        "c_re": -0.1015352,
+        "c_im": 0.6333312
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0186_zig_zag_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0186_zig_zag_julia/f0186_zig_zag_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0186_zig_zag_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=-0.39054-0.58679i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.39054-0.58679i",
+        "c_re": -0.39054,
+        "c_im": -0.58679
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0187_spider_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0187_spider_julia/f0187_spider_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0187_spider_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "spider",
+        "c=-0.235125+0.827215i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.235125+0.827215i",
+        "c_re": -0.235125,
+        "c_im": 0.827215
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0188_flower_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0188_flower_julia/f0188_flower_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0188_flower_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "flower",
+        "c=0.38+0.295i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.38+0.295i",
+        "c_re": 0.38,
+        "c_im": 0.295
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0189_medusa_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0189_medusa_julia/f0189_medusa_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0189_medusa_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "medusa",
+        "c=0.25+0.52i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.25+0.52i",
+        "c_re": 0.25,
+        "c_im": 0.52
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0190_broccoli_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0190_broccoli_julia/f0190_broccoli_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0190_broccoli_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "broccoli",
+        "c=-0.158+1.033i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.158+1.033i",
+        "c_re": -0.158,
+        "c_im": 1.033
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0191_spring_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0191_spring_julia/f0191_spring_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0191_spring_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=-1.04+0.27i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.04+0.27i",
+        "c_re": -1.04,
+        "c_im": 0.27
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0192_maze_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0192_maze_julia/f0192_maze_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0192_maze_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "maze",
+        "c=0.37+0.1i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.37+0.1i",
+        "c_re": 0.37,
+        "c_im": 0.1
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0193_gossamer_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0193_gossamer_julia/f0193_gossamer_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0193_gossamer_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "gossamer",
+        "c=-0.162+1.04i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.162+1.04i",
+        "c_re": -0.162,
+        "c_im": 1.04
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0194_sparse_dust_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0194_sparse_dust_julia/f0194_sparse_dust_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0194_sparse_dust_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=0.6+0.3i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.6+0.3i",
+        "c_re": 0.6,
+        "c_im": 0.3
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0195_period_8_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0195_period_8_julia/f0195_period_8_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0195_period_8_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "period 8",
+        "c=-1.3761+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.3761+0.0i",
+        "c_re": -1.3761,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0196_period_9_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0196_period_9_julia/f0196_period_9_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0196_period_9_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "period 9",
+        "c=-1.3811+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.3811+0.0i",
+        "c_re": -1.3811,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0197_near_boundary_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0197_near_boundary_julia/f0197_near_boundary_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0197_near_boundary_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=-0.7+0.3i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.7+0.3i",
+        "c_re": -0.7,
+        "c_im": 0.3
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0198_grainy_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0198_grainy_julia/f0198_grainy_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0198_grainy_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=-1.476+0.0i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.476+0.0i",
+        "c_re": -1.476,
+        "c_im": 0.0
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0199_flying_bird_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0199_flying_bird_julia/f0199_flying_bird_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0199_flying_bird_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "flying bird",
+        "c=-0.36+0.1i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.36+0.1i",
+        "c_re": -0.36,
+        "c_im": 0.1
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0200_infinity_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0200_infinity_julia/f0200_infinity_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0200_infinity_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "c=-1.9+1e-05i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-1.9+1e-05i",
+        "c_re": -1.9,
+        "c_im": 1e-05
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0201_northern_light_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0201_northern_light_julia/f0201_northern_light_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0201_northern_light_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "aurora",
+        "c=-0.2209+0.7448i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=-0.2209+0.7448i",
+        "c_re": -0.2209,
+        "c_im": 0.7448
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0202_lacework_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0202_lacework_julia/f0202_lacework_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0202_lacework_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "lacework",
+        "c=0.3-0.5i"
+      ],
+      "parsed_c": {
+        "source_alias": "c=0.3-0.5i",
+        "c_re": 0.3,
+        "c_im": -0.5
+      },
+      "status": "ready_for_reviewed_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0461_julia_island",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0461_julia_island/f0461_julia_island_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0461_julia_island.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "Julia island"
+      ],
+      "parsed_c": null,
+      "status": "needs_manual_c_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0484_miniature_julia_region",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0484_miniature_julia_region/f0484_miniature_julia_region_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0484_miniature_julia_region.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "view (-0.1011, -0.9562) zoom 1000.0"
+      ],
+      "parsed_c": null,
+      "status": "needs_manual_c_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1224_chebyshev_julia_t_2",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1224_chebyshev_julia_t_2/f1224_chebyshev_julia_t_2_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1224_chebyshev_julia_t_2.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "Chebyshev T2"
+      ],
+      "parsed_c": null,
+      "status": "needs_manual_c_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1225_chebyshev_julia_t_3",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1225_chebyshev_julia_t_3/f1225_chebyshev_julia_t_3_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1225_chebyshev_julia_t_3.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "Chebyshev T3"
+      ],
+      "parsed_c": null,
+      "status": "needs_manual_c_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1226_chebyshev_julia_t_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1226_chebyshev_julia_t_5/f1226_chebyshev_julia_t_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1226_chebyshev_julia_t_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [
+        "Chebyshev T5"
+      ],
+      "parsed_c": null,
+      "status": "needs_manual_c_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1232_elliptic_function_julia",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1232_elliptic_function_julia/f1232_elliptic_function_julia_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1232_elliptic_function_julia.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/julia_gpu.frag",
+      "aliases": [],
+      "parsed_c": null,
+      "status": "needs_manual_c_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Implement reviewed Julia c-parameter mapping, render-smoke the mapped formula identity, then regenerate counted ledger."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	The Extreme-ultraviolet Stellar Characterization for Atmospheric Physics and Evolution (ESCAPE) Mission: Motivation and Overview
+	Mandelbrot set as a particular Julia set of Fractional Order, echipotential lines and external rays of Mandelbrot and Julia sets of Fractional Order
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Mandelbrot set and Julia sets of fractional order
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	Roman Observations Time Allocation Committee: Final Report and Recommendations
+	Space-time distributions
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Julia and Mandelbrot sets for dynamics over the hyperbolic numbers
+	Julia sets appear quasiconformally in the Mandelbrot set
+10.18148/srm/2025.v19i4.8568	AIn't Nothing But a Survey? Using Large Language Models for Coding German Open-Ended Survey Responses on Survey Motivation
+	Kernels, Data & Physics
+10.1002/asna.200310012	The XMM-Newton Survey Science Centre Medium Sensitivity Survey
+	A rich bounty of AGN in the 9 square degree Bootes survey: high-z obscured AGN and large-scale structure
+10.1088/0264-9381/33/7/075002	The Dynamics of the Schrodinger-Newton System with Self-Field Coupling
+	Fractals of the Julia and Mandelbrot sets of the Riemann Zeta Function
+	New Julia and Mandelbrot Sets for Jungck Ishikawa Iterates
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon

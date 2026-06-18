@@ -1,0 +1,2 @@
+wrote citation graph with 72 edges to citation-graph-synthesis-rendering-eroded-fractal-terrains.json
+wrote citation graph report to citation-report-synthesis-rendering-eroded-fractal-terrains.md

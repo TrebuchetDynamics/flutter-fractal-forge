@@ -1,0 +1,20 @@
+10.1186/s40327-016-0037-7	Application of fractal algorithms of coastline echo’s generation on marine radar simulator
+10.31219/osf.io/nq2p5_v1	A New Fractal Mass Generation Mechanism Theory and Its Mathematical Framework
+10.1007/b106657_4	DeBruijn Counting for Visualization Algorithms
+10.1155/2023/9871515	Retracted: Fractal Visual Art Graphic Design Based on Computer‐Aided Algorithms
+10.1201/b10676-22	Scientific Visualization Algorithms
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization
+10.1007/978-1-4471-0695-1_1	Mathematical Background
+10.2528/pierm10012610	OPTIMIZED SIMULATION ALGORITHMS FOR FRACTAL GENERATION AND ANALYSIS
+10.1134/s1054661812020150	Nonlinear recurrent algorithms for fractal pattern generation
+10.1007/978-3-662-03567-2_7	Efficient Volume-Generation During the Simulation of NC-Milling
+10.1080/21681163.2022.2062450	A Metaphorical Interpretation on Vessel Segmentation Algorithms by using Local Connected Fractal Dimension
+10.1090/bull/1773	The algebro-geometric method: Solving algebraic differential equations by parametrizations
+10.1155/2021/1431491	Automatic Algorithm for Fractal Plant Art Image Similarity Feature Generation
+10.29020/nybg.ejpam.v18i4.6896	Mathematical Visualization of Fractal-Based Batik Designs
+10.7763/ijiet.2015.v5.598	An Auto-Generation Approach to Create Visualization Teaching Materials for Data Structures and Algorithms in MS-PPT Format
+10.1007/bf01580252	A note on column generation in Dantzig—Wolfe decomposition algorithms
+10.6028/nist.ir.6413	Using numerical grid generation to facilitate 3D visualization of complicated mathematical functions
+10.1201/b10676-14	Visualization Principles
+10.1016/j.cageo.2005.03.016	A comparison of fractal dimension estimators based on multiple surface generation algorithms
+10.32469/10355/6781	Simulation algorithms for fractal radiation

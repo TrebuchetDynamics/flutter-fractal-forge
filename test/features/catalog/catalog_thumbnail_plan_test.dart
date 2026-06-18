@@ -19,6 +19,17 @@ void main() {
       expect(plan.assetId, 'phoenix');
       expect(plan.assetPath, 'assets/catalog_thumbs/phoenix.png');
     });
+
+    test('maps generated Life-like rule IDs to a shared CA family thumbnail',
+        () {
+      final first = CatalogThumbnailPlan.fromCatalogId('life_like_b000_s000');
+      final later = CatalogThumbnailPlan.fromCatalogId('life_like_b103_s008');
+
+      expect(first.assetId, 'maze_ca');
+      expect(later.assetId, 'maze_ca');
+      expect(later.assetPath, 'assets/catalog_thumbs/maze_ca.png');
+      expect(File(later.assetPath).existsSync(), isTrue);
+    });
   });
 
   group('CatalogThumbnailLoadState', () {

@@ -1,0 +1,3 @@
+10.3390/sym15020478	Fractals as Julia and Mandelbrot Sets of Complex Cosine Functions via Fixed Point Iterations
+10.3390/math10183324	Dynamics of RK Iteration and Basic Family of Iterations for Polynomiography
+10.19139/soic-2310-5070-2871	An application of nonstandard viscosity iterative methods with s-convexity in the generation of fractals for rational maps

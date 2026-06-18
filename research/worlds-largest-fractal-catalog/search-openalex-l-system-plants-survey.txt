@@ -1,0 +1,20 @@
+	A Survey of Procedural Methods for Terrain Modelling
+10.1109/5.949485	Interactive evolutionary computation: fusion of the capabilities of EC optimization and human evaluation
+10.1145/2897824.2925951	Interactive sketching of urban procedural models
+10.1071/fp08084	OpenAlea: a visual programming and component-based software platform for plant modelling
+10.1016/j.cag.2010.11.011	A declarative approach to procedural modeling of virtual worlds
+10.1613/jair.3908	AI Methods in Algorithmic Composition: A Comprehensive Survey
+10.17705/1cais.00708	Enterprise Resource Planning Systems Research: An Annotated Bibliography
+10.1007/s00371-020-01920-7	AutoBiomes: procedural generation of multi-biome landscapes
+10.17083/ijsg.v4i2.161	Procedural Attack! Procedural Generation for Populated Virtual Cities: A Survey
+10.1270/jsbbs.21074	3D modeling and reconstruction of plants and trees: A cross-cutting review across computer graphics, vision, and plant phenotyping
+10.1155/2017/7057141	Ecologically Sound Procedural Generation of Natural Environments
+	Automatic Structure Generation using Genetic Programming and Fractal Geometry
+10.1016/j.compag.2024.108733	A 3D functional plant modelling framework for agricultural digital twins
+10.1016/j.earscirev.2017.04.011	Scale-dependent perspectives on the geomorphology and evolution of beach-dune systems
+10.1007/s11042-020-09476-3	Procedural modelling of terrains with constraints
+10.1007/s10796-022-10252-x	Cyber-Physical Systems in the Context of Industry 4.0: A Review, Categorization and Outlook
+10.1016/j.compag.2024.108922	PlantSegNet: 3D point cloud instance segmentation of nearby plant organs with identical semantics
+10.3390/app14146214	A Comprehensive Review on the Role of Artificial Intelligence in Power System Stability, Control, and Protection: Insights and Future Directions
+10.1109/tvcg.2023.3344935	Point Cloud Completion: A Survey
+10.3390/ijerph17155478	Introducing the Extended Safety Fractal: Reusing the Concept of Safety Management Systems to Organize Resilient Organizations

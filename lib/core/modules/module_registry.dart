@@ -2,6 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_3d_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_clifford_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_de_jong_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_direct_3d_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_direct_transcendental_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_elementary_ca_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_escape_expression_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_escape_power_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_exact_attractor_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_exact_escape_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_fractal_flame_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_gumowski_mira_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_hopalong_catalog.dart';
 import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
 import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
 import 'package:flutter_fractals/core/modules/hydrogen_orbital_module.dart';
@@ -11,6 +24,20 @@ import 'package:flutter_fractals/core/modules/mandelbox_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/nova_module.dart';
 import 'package:flutter_fractals/core/modules/phoenix_module.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_julia_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_life_like_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_lozi_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_kifs_menger_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_multibrot_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_number_theory_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_orbit_trap_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_phoenix_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_quaternion_julia_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_residual_ca_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_sprott_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_standard_map_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_svensson_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_tinkerbell_catalog.dart';
 import 'package:flutter_fractals/core/modules/test_shaders_module.dart';
 
 /// Registry of all available fractal modules.
@@ -62,8 +89,9 @@ class ModuleRegistry {
       if (!catalogIds.contains('julia')) buildJuliaModule(),
       // Julia Dual: side-by-side Mandelbrot + Julia viewer
       if (!catalogIds.contains('julia_dual')) buildJuliaDualModule(),
-      // Phoenix needs extra (p, q) params
-      if (!catalogIds.contains('phoenix')) buildPhoenixModule(),
+      // Phoenix needs extra c/p/power-aware uniforms; keep the custom module so
+      // the core Phoenix shader is never driven by the generic escape-time layout.
+      buildPhoenixModule(),
       // Nova needs relaxation param instead of bailout
       if (!catalogIds.contains('nova')) buildNovaModule(),
       // Mandelbulb is 3D with rotation uniforms
@@ -126,6 +154,40 @@ class ModuleRegistry {
         result.add(m);
       }
     }
+
+    // Keep the custom Phoenix module after the declarative catalog duplicate so
+    // final preferLast de-duplication selects the custom uniform layout.
+    result.add(buildPhoenixModule());
+
+    // Shared renderer promotion batches: stable formula identities that reuse
+    // reviewed shared shaders with fixed mathematical parameters.
+    result.addAll(buildSharedJuliaCatalogModules());
+    result.addAll(buildSharedDirectTranscendentalCatalogModules());
+    result.addAll(buildSharedPhoenixCatalogModules());
+    result.addAll(buildSharedSprottCatalogModules());
+    result.addAll(buildSharedCliffordCatalogModules());
+    result.addAll(buildSharedSvenssonCatalogModules());
+    result.addAll(buildSharedHopalongCatalogModules());
+    result.addAll(buildSharedDeJongCatalogModules());
+    result.addAll(buildSharedLoziCatalogModules());
+    result.addAll(buildSharedTinkerbellCatalogModules());
+    result.addAll(buildSharedStandardMapCatalogModules());
+    result.addAll(buildSharedGumowskiMiraCatalogModules());
+    result.addAll(buildSharedExactAttractorCatalogModules());
+    result.addAll(buildSharedExactEscapeCatalogModules());
+    result.addAll(buildShared3DCatalogModules());
+    result.addAll(buildSharedDirect3DCatalogModules());
+    result.addAll(buildSharedQuaternionJuliaCatalogModules());
+    result.addAll(buildSharedKifsMengerCatalogModules());
+    result.addAll(buildSharedNumberTheoryCatalogModules());
+    result.addAll(buildSharedResidualCaCatalogModules());
+    result.addAll(buildSharedElementaryCaCatalogModules());
+    result.addAll(buildSharedLifeLikeCatalogModules());
+    result.addAll(buildSharedMultibrotCatalogModules());
+    result.addAll(buildSharedEscapePowerCatalogModules());
+    result.addAll(buildSharedEscapeExpressionCatalogModules());
+    result.addAll(buildSharedFractalFlameCatalogModules());
+    result.addAll(buildSharedOrbitTrapCatalogModules());
 
     // 3D ray-marched catalog modules (KIFS, Quaternion, exotic)
     final raymarched3DModules = buildRaymarched3DCatalogModules();

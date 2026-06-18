@@ -95,12 +95,81 @@ vec2 varHorseshoe(vec2 p) {
   return (1.0 / r) * vec2((p.x - p.y) * (p.x + p.y), 2.0 * p.x * p.y);
 }
 
+vec2 cdiv(vec2 a, vec2 b) {
+  float d = max(dot(b, b), 1e-6);
+  return vec2(a.x * b.x + a.y * b.y, a.y * b.x - a.x * b.y) / d;
+}
+
 vec2 applyVariation(vec2 p, int var_id) {
+  float r = max(length(p), 1e-6);
+  float r2 = max(dot(p, p), 1e-6);
+  float theta = atan(p.y, p.x);
+  float phi = atan(p.x, p.y);
+
   if (var_id == 0) return varLinear(p);
   if (var_id == 1) return varSinusoidal(p);
   if (var_id == 2) return varSpherical(p);
   if (var_id == 3) return varSwirl(p);
-  return varHorseshoe(p);
+  if (var_id == 4) return varHorseshoe(p);
+  if (var_id == 5) return vec2(theta / 3.14159265, r - 1.0); // polar
+  if (var_id == 6) return r * vec2(sin(theta + r), cos(theta - r)); // handkerchief
+  if (var_id == 7) return r * vec2(sin(theta * r), -cos(theta * r)); // heart
+  if (var_id == 8) return (theta / 3.14159265) * vec2(sin(3.14159265 * r), cos(3.14159265 * r)); // disc
+  if (var_id == 9) return (1.0 / r) * vec2(cos(theta) + sin(r), sin(theta) - cos(r)); // spiral
+  if (var_id == 10) return vec2(sin(theta) / r, r * cos(theta)); // hyperbolic
+  if (var_id == 11) return sin(theta) * cos(theta) * vec2(1.0, 1.0); // diamond
+  if (var_id == 12) {
+    float p0 = sin(theta + r);
+    float p1 = cos(theta - r);
+    return r * vec2(p0 * p0 * p0 + p1 * p1 * p1, p0 * p0 * p0 - p1 * p1 * p1);
+  }
+  if (var_id == 13) {
+    float omega = (p.x >= 0.0) ? 0.0 : 3.14159265;
+    return sqrt(r) * vec2(cos(theta * 0.5 + omega), sin(theta * 0.5 + omega));
+  }
+  if (var_id == 14) return vec2(p.x >= 0.0 ? p.x : 2.0 * p.x, p.y >= 0.0 ? p.y : 0.5 * p.y); // bent
+  if (var_id == 15) return vec2(p.x + 0.35 * sin(p.y / 0.55), p.y + 0.55 * sin(p.x / 0.35)); // waves
+  if (var_id == 16) return (2.0 / (r + 1.0)) * p; // fisheye
+  if (var_id == 17) return vec2(p.x + 0.05 * sin(tan(3.0 * p.y)), p.y + 0.05 * sin(tan(3.0 * p.x))); // popcorn
+  if (var_id == 18) return exp(p.x - 1.0) * vec2(cos(3.14159265 * p.y), sin(3.14159265 * p.y)); // exponential
+  if (var_id == 19) return pow(r, sin(theta)) * vec2(cos(theta), sin(theta)); // power
+  if (var_id == 20) return vec2(cos(3.14159265 * p.x) * cosh(p.y), -sin(3.14159265 * p.x) * sinh(p.y)); // cosine
+  if (var_id == 21) return mod(r + 0.35, 0.7) - 0.35 + r * vec2(cos(theta), sin(theta)); // rings
+  if (var_id == 22) {
+    float f = 3.14159265 * mod(theta + 0.5, 1.0);
+    return r * vec2(cos(theta + f), sin(theta + f));
+  }
+  if (var_id == 23) return p * (0.65 + 0.35 * sin(5.0 * theta)); // blob
+  if (var_id == 24) return vec2(sin(2.3 * p.y) - cos(1.9 * p.x), sin(2.1 * p.x) - cos(2.7 * p.y)); // PDJ
+  if (var_id == 25) return r * vec2(sin(theta + sin(3.0 * theta)), cos(theta - sin(3.0 * theta))); // fan2
+  if (var_id == 26) return p * (0.75 + 0.25 * cos(8.0 * r)); // rings2
+  if (var_id == 27) return (2.0 / (r + 1.0)) * vec2(p.y, p.x); // eyefish
+  if (var_id == 28) return (4.0 / (r2 + 4.0)) * p; // bubble
+  if (var_id == 29) return vec2(sin(p.x), p.y); // cylinder
+  if (var_id == 30) return p / max(1.0 - 0.35 * p.y, 0.2); // perspective
+  if (var_id == 31) return p + 0.08 * vec2(sin(91.7 * dot(p, vec2(12.1, 3.7))), sin(77.3 * dot(p, vec2(4.3, 19.1)))); // noise
+  if (var_id == 32) {
+    float n = 3.0;
+    return pow(r, 1.0 / n) * vec2(cos(theta / n), sin(theta / n));
+  }
+  if (var_id == 33) {
+    float n = 3.0;
+    float omega = floor(mod(abs(theta) * n / 6.2831853, n));
+    return pow(r, 1.0 / n) * vec2(cos((theta + 2.0 * 3.14159265 * omega) / n), sin((theta + 2.0 * 3.14159265 * omega) / n));
+  }
+  if (var_id == 34) return vec2(0.5 * p.x, p.y); // blur proxy, deterministic
+  if (var_id == 35) return p + 0.12 * vec2(sin(37.0 * p.x), cos(41.0 * p.y)); // gaussian blur proxy
+  if (var_id == 36) return p + 0.16 * vec2(cos(theta), sin(theta)); // radial blur proxy
+  if (var_id == 37) return 0.5 * vec2(cos(theta), sin(theta)) + vec2(0.15 * sin(5.0 * theta), 0.15 * cos(5.0 * theta)); // pie
+  if (var_id == 38) {
+    float sides = 5.0;
+    float sector = 6.2831853 / sides;
+    float a = mod(theta + 0.5 * sector, sector) - 0.5 * sector;
+    return r * vec2(cos(a), sin(a));
+  }
+  if (var_id == 39) return cdiv(p, vec2(1.0, 0.45 * r2)); // curl
+  if (var_id == 40) return vec2((floor(p.x * 3.0) + 0.5) / 3.0, (floor(p.y * 3.0) + 0.5) / 3.0); // rectangles
+  return varLinear(p);
 }
 
 // ---------- affine transforms (3 IFS functions) ----------
@@ -193,7 +262,7 @@ void main() {
   vec2 p = uv / max(0.000001, uZoom) + uCenter;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int var_id = int(clamp(uVariation, 0.0, 4.0));
+  int var_id = int(clamp(uVariation, 0.0, 40.0));
   int sym = int(clamp(uSymmetry, 0.0, 3.0));
   int schemeInt = int(uColorScheme);
   float time = uTime * 0.01;

@@ -1,0 +1,3232 @@
+{
+  "generated_at": "2026-06-18T07:33:43.329020+00:00",
+  "purpose": "Non-counting duplicate-risk audit for shared-renderer candidates against counted live-registry identities.",
+  "counting_rule": "Do not promote a generated candidate as a new counted entry if it is the same formula/rule identity as an already counted live module; aliases/presets must not inflate totals.",
+  "live_ledger": "research/worlds-largest-fractal-catalog/curated-entry-ledger.live-registry.json",
+  "candidate_total": 355,
+  "duplicate_risk_count": 291,
+  "non_duplicate_candidate_count": 64,
+  "candidates_by_batch": {
+    "julia": 56,
+    "sprott": 34,
+    "phoenix": 3,
+    "elementary": 99,
+    "mandelbrot": 44,
+    "orbit": 25,
+    "multibrot": 20,
+    "3d": 27,
+    "escape": 39,
+    "residual": 8
+  },
+  "duplicates_by_batch": {
+    "julia": 50,
+    "sprott": 15,
+    "phoenix": 3,
+    "elementary": 99,
+    "mandelbrot": 9,
+    "orbit": 25,
+    "multibrot": 18,
+    "3d": 27,
+    "escape": 37,
+    "residual": 8
+  },
+  "duplicate_risks": [
+    {
+      "batch": "julia",
+      "stable_id": "f0143_dendrite_julia",
+      "canonical_identity": "dendrite_julia",
+      "live_registry_match": "f0143_dendrite_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0144_airplane_julia",
+      "canonical_identity": "airplane_julia",
+      "live_registry_match": "f0144_airplane_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0145_seahorse_valley_julia",
+      "canonical_identity": "seahorse_valley_julia",
+      "live_registry_match": "f0145_seahorse_valley_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0146_basilica_julia",
+      "canonical_identity": "basilica_julia",
+      "live_registry_match": "f0146_basilica_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0147_san_marco_julia",
+      "canonical_identity": "san_marco_julia",
+      "live_registry_match": "f0147_san_marco_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0148_kaleidoscope_julia",
+      "canonical_identity": "kaleidoscope_julia",
+      "live_registry_match": "f0148_kaleidoscope_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0149_cactus_julia",
+      "canonical_identity": "cactus_julia",
+      "live_registry_match": "f0149_cactus_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0150_fatou_dust_julia",
+      "canonical_identity": "fatou_dust_julia",
+      "live_registry_match": "f0150_fatou_dust_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0151_siegel_disk_julia",
+      "canonical_identity": "siegel_disk_julia",
+      "live_registry_match": "f0151_siegel_disk_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0152_galaxy_julia",
+      "canonical_identity": "galaxy_julia",
+      "live_registry_match": "f0152_galaxy_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0153_dragon_julia",
+      "canonical_identity": "dragon_julia",
+      "live_registry_match": "f0153_dragon_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0154_period_3_julia",
+      "canonical_identity": "period_3_julia",
+      "live_registry_match": "f0154_period_3_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0155_period_4_julia",
+      "canonical_identity": "period_4_julia",
+      "live_registry_match": "f0155_period_4_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0156_period_5_julia",
+      "canonical_identity": "period_5_julia",
+      "live_registry_match": "f0156_period_5_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0157_period_6_julia",
+      "canonical_identity": "period_6_julia",
+      "live_registry_match": "f0157_period_6_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0158_period_7_julia",
+      "canonical_identity": "period_7_julia",
+      "live_registry_match": "f0158_period_7_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0161_swirl_julia",
+      "canonical_identity": "swirl_julia",
+      "live_registry_match": "f0161_swirl_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0162_lightning_julia",
+      "canonical_identity": "lightning_julia",
+      "live_registry_match": "f0162_lightning_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0163_filigree_julia",
+      "canonical_identity": "filigree_julia",
+      "live_registry_match": "f0163_filigree_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0164_spiral_julia",
+      "canonical_identity": "spiral_julia",
+      "live_registry_match": "f0164_spiral_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0166_chebyshev_julia",
+      "canonical_identity": "chebyshev_julia",
+      "live_registry_match": "f0166_chebyshev_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0167_cauliflower_bulb_julia",
+      "canonical_identity": "cauliflower_bulb_julia",
+      "live_registry_match": "f0167_cauliflower_bulb_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0173_mini_brot_julia",
+      "canonical_identity": "mini_brot_julia",
+      "live_registry_match": "f0173_mini_brot_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0174_elephant_valley_julia",
+      "canonical_identity": "elephant_valley_julia",
+      "live_registry_match": "f0174_elephant_valley_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0175_near_elephant_julia",
+      "canonical_identity": "near_elephant_julia",
+      "live_registry_match": "f0175_near_elephant_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0176_dendritic_tree_julia",
+      "canonical_identity": "dendritic_tree_julia",
+      "live_registry_match": "f0176_dendritic_tree_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0177_mink_julia",
+      "canonical_identity": "mink_julia",
+      "live_registry_match": "f0177_mink_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0178_star_julia",
+      "canonical_identity": "star_julia",
+      "live_registry_match": "f0178_star_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0180_jumping_jack_julia",
+      "canonical_identity": "jumping_jack_julia",
+      "live_registry_match": "f0180_jumping_jack_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0181_twin_spiral_julia",
+      "canonical_identity": "twin_spiral_julia",
+      "live_registry_match": "f0181_twin_spiral_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0182_hyperbolic_julia",
+      "canonical_identity": "hyperbolic_julia",
+      "live_registry_match": "f0182_hyperbolic_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0184_centrally_symmetric_julia",
+      "canonical_identity": "centrally_symmetric_julia",
+      "live_registry_match": "f0184_centrally_symmetric_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0185_thistle_julia",
+      "canonical_identity": "thistle_julia",
+      "live_registry_match": "f0185_thistle_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0186_zig_zag_julia",
+      "canonical_identity": "zig_zag_julia",
+      "live_registry_match": "f0186_zig_zag_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0187_spider_julia",
+      "canonical_identity": "spider_julia",
+      "live_registry_match": "f0187_spider_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0188_flower_julia",
+      "canonical_identity": "flower_julia",
+      "live_registry_match": "f0188_flower_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0189_medusa_julia",
+      "canonical_identity": "medusa_julia",
+      "live_registry_match": "f0189_medusa_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0190_broccoli_julia",
+      "canonical_identity": "broccoli_julia",
+      "live_registry_match": "f0190_broccoli_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0191_spring_julia",
+      "canonical_identity": "spring_julia",
+      "live_registry_match": "f0191_spring_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0192_maze_julia",
+      "canonical_identity": "maze_julia",
+      "live_registry_match": "f0192_maze_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0193_gossamer_julia",
+      "canonical_identity": "gossamer_julia",
+      "live_registry_match": "f0193_gossamer_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0194_sparse_dust_julia",
+      "canonical_identity": "sparse_dust_julia",
+      "live_registry_match": "f0194_sparse_dust_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0195_period_8_julia",
+      "canonical_identity": "period_8_julia",
+      "live_registry_match": "f0195_period_8_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0196_period_9_julia",
+      "canonical_identity": "period_9_julia",
+      "live_registry_match": "f0196_period_9_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0197_near_boundary_julia",
+      "canonical_identity": "near_boundary_julia",
+      "live_registry_match": "f0197_near_boundary_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0198_grainy_julia",
+      "canonical_identity": "grainy_julia",
+      "live_registry_match": "f0198_grainy_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0199_flying_bird_julia",
+      "canonical_identity": "flying_bird_julia",
+      "live_registry_match": "f0199_flying_bird_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0200_infinity_julia",
+      "canonical_identity": "infinity_julia",
+      "live_registry_match": "f0200_infinity_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0201_northern_light_julia",
+      "canonical_identity": "northern_light_julia",
+      "live_registry_match": "f0201_northern_light_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0202_lacework_julia",
+      "canonical_identity": "lacework_julia",
+      "live_registry_match": "f0202_lacework_julia",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_reviewed_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0014_sprott_a",
+      "canonical_identity": "sprott_a",
+      "live_registry_match": "f0014_sprott_a",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0015_sprott_b",
+      "canonical_identity": "sprott_b",
+      "live_registry_match": "f0015_sprott_b",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0016_sprott_c",
+      "canonical_identity": "sprott_c",
+      "live_registry_match": "f0016_sprott_c",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0017_sprott_d",
+      "canonical_identity": "sprott_d",
+      "live_registry_match": "f0017_sprott_d",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0018_sprott_e",
+      "canonical_identity": "sprott_e",
+      "live_registry_match": "f0018_sprott_e",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0019_sprott_f",
+      "canonical_identity": "sprott_f",
+      "live_registry_match": "f0019_sprott_f",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0020_sprott_g",
+      "canonical_identity": "sprott_g",
+      "live_registry_match": "f0020_sprott_g",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0021_sprott_h",
+      "canonical_identity": "sprott_h",
+      "live_registry_match": "f0021_sprott_h",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0022_sprott_i",
+      "canonical_identity": "sprott_i",
+      "live_registry_match": "f0022_sprott_i",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0024_sprott_k",
+      "canonical_identity": "sprott_k",
+      "live_registry_match": "f0024_sprott_k",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0025_sprott_l",
+      "canonical_identity": "sprott_l",
+      "live_registry_match": "f0025_sprott_l",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0026_sprott_m",
+      "canonical_identity": "sprott_m",
+      "live_registry_match": "f0026_sprott_m",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0027_sprott_n",
+      "canonical_identity": "sprott_n",
+      "live_registry_match": "f0027_sprott_n",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0028_sprott_o",
+      "canonical_identity": "sprott_o",
+      "live_registry_match": "f0028_sprott_o",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0032_sprott_s",
+      "canonical_identity": "sprott_s",
+      "live_registry_match": "f0032_sprott_s",
+      "duplicate_risk": true,
+      "candidate_status": "exact_live_sprott_shader_available",
+      "counted_entry": false
+    },
+    {
+      "batch": "phoenix",
+      "stable_id": "f0131_phoenix_d_2",
+      "canonical_identity": "phoenix_d_2",
+      "live_registry_match": "f0131_phoenix_d_2",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_override_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "phoenix",
+      "stable_id": "f0132_phoenix_d_3",
+      "canonical_identity": "phoenix_d_3",
+      "live_registry_match": "f0132_phoenix_d_3",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_override_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "phoenix",
+      "stable_id": "f0133_phoenix_d_4",
+      "canonical_identity": "phoenix_d_4",
+      "live_registry_match": "f0133_phoenix_d_4",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_override_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0881_elementary_ca_rule_2",
+      "canonical_identity": "elementary_ca_rule_2",
+      "live_registry_match": "f0881_elementary_ca_rule_2",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0882_elementary_ca_rule_4",
+      "canonical_identity": "elementary_ca_rule_4",
+      "live_registry_match": "f0882_elementary_ca_rule_4",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0883_elementary_ca_rule_6",
+      "canonical_identity": "elementary_ca_rule_6",
+      "live_registry_match": "f0883_elementary_ca_rule_6",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0884_elementary_ca_rule_8",
+      "canonical_identity": "elementary_ca_rule_8",
+      "live_registry_match": "f0884_elementary_ca_rule_8",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0885_elementary_ca_rule_10",
+      "canonical_identity": "elementary_ca_rule_10",
+      "live_registry_match": "f0885_elementary_ca_rule_10",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0886_elementary_ca_rule_12",
+      "canonical_identity": "elementary_ca_rule_12",
+      "live_registry_match": "f0886_elementary_ca_rule_12",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0887_elementary_ca_rule_14",
+      "canonical_identity": "elementary_ca_rule_14",
+      "live_registry_match": "f0887_elementary_ca_rule_14",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0888_elementary_ca_rule_16",
+      "canonical_identity": "elementary_ca_rule_16",
+      "live_registry_match": "f0888_elementary_ca_rule_16",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0889_elementary_ca_rule_18",
+      "canonical_identity": "elementary_ca_rule_18",
+      "live_registry_match": "f0889_elementary_ca_rule_18",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0890_elementary_ca_rule_20",
+      "canonical_identity": "elementary_ca_rule_20",
+      "live_registry_match": "f0890_elementary_ca_rule_20",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0891_elementary_ca_rule_24",
+      "canonical_identity": "elementary_ca_rule_24",
+      "live_registry_match": "f0891_elementary_ca_rule_24",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0892_elementary_ca_rule_26",
+      "canonical_identity": "elementary_ca_rule_26",
+      "live_registry_match": "f0892_elementary_ca_rule_26",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0893_elementary_ca_rule_28",
+      "canonical_identity": "elementary_ca_rule_28",
+      "live_registry_match": "f0893_elementary_ca_rule_28",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0894_elementary_ca_rule_32",
+      "canonical_identity": "elementary_ca_rule_32",
+      "live_registry_match": "f0894_elementary_ca_rule_32",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0895_elementary_ca_rule_34",
+      "canonical_identity": "elementary_ca_rule_34",
+      "live_registry_match": "f0895_elementary_ca_rule_34",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0896_elementary_ca_rule_36",
+      "canonical_identity": "elementary_ca_rule_36",
+      "live_registry_match": "f0896_elementary_ca_rule_36",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0897_elementary_ca_rule_38",
+      "canonical_identity": "elementary_ca_rule_38",
+      "live_registry_match": "f0897_elementary_ca_rule_38",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0898_elementary_ca_rule_40",
+      "canonical_identity": "elementary_ca_rule_40",
+      "live_registry_match": "f0898_elementary_ca_rule_40",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0899_elementary_ca_rule_42",
+      "canonical_identity": "elementary_ca_rule_42",
+      "live_registry_match": "f0899_elementary_ca_rule_42",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0900_elementary_ca_rule_44",
+      "canonical_identity": "elementary_ca_rule_44",
+      "live_registry_match": "f0900_elementary_ca_rule_44",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0901_elementary_ca_rule_46",
+      "canonical_identity": "elementary_ca_rule_46",
+      "live_registry_match": "f0901_elementary_ca_rule_46",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0902_elementary_ca_rule_56",
+      "canonical_identity": "elementary_ca_rule_56",
+      "live_registry_match": "f0902_elementary_ca_rule_56",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0903_elementary_ca_rule_58",
+      "canonical_identity": "elementary_ca_rule_58",
+      "live_registry_match": "f0903_elementary_ca_rule_58",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0904_elementary_ca_rule_64",
+      "canonical_identity": "elementary_ca_rule_64",
+      "live_registry_match": "f0904_elementary_ca_rule_64",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0905_elementary_ca_rule_66",
+      "canonical_identity": "elementary_ca_rule_66",
+      "live_registry_match": "f0905_elementary_ca_rule_66",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0906_elementary_ca_rule_68",
+      "canonical_identity": "elementary_ca_rule_68",
+      "live_registry_match": "f0906_elementary_ca_rule_68",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0907_elementary_ca_rule_70",
+      "canonical_identity": "elementary_ca_rule_70",
+      "live_registry_match": "f0907_elementary_ca_rule_70",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0908_elementary_ca_rule_72",
+      "canonical_identity": "elementary_ca_rule_72",
+      "live_registry_match": "f0908_elementary_ca_rule_72",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0909_elementary_ca_rule_74",
+      "canonical_identity": "elementary_ca_rule_74",
+      "live_registry_match": "f0909_elementary_ca_rule_74",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0910_elementary_ca_rule_76",
+      "canonical_identity": "elementary_ca_rule_76",
+      "live_registry_match": "f0910_elementary_ca_rule_76",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0911_elementary_ca_rule_78",
+      "canonical_identity": "elementary_ca_rule_78",
+      "live_registry_match": "f0911_elementary_ca_rule_78",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0912_elementary_ca_rule_80",
+      "canonical_identity": "elementary_ca_rule_80",
+      "live_registry_match": "f0912_elementary_ca_rule_80",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0913_elementary_ca_rule_82",
+      "canonical_identity": "elementary_ca_rule_82",
+      "live_registry_match": "f0913_elementary_ca_rule_82",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0914_elementary_ca_rule_84",
+      "canonical_identity": "elementary_ca_rule_84",
+      "live_registry_match": "f0914_elementary_ca_rule_84",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0915_elementary_ca_rule_88",
+      "canonical_identity": "elementary_ca_rule_88",
+      "live_registry_match": "f0915_elementary_ca_rule_88",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0916_elementary_ca_rule_92",
+      "canonical_identity": "elementary_ca_rule_92",
+      "live_registry_match": "f0916_elementary_ca_rule_92",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0917_elementary_ca_rule_96",
+      "canonical_identity": "elementary_ca_rule_96",
+      "live_registry_match": "f0917_elementary_ca_rule_96",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0918_elementary_ca_rule_98",
+      "canonical_identity": "elementary_ca_rule_98",
+      "live_registry_match": "f0918_elementary_ca_rule_98",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0919_elementary_ca_rule_100",
+      "canonical_identity": "elementary_ca_rule_100",
+      "live_registry_match": "f0919_elementary_ca_rule_100",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0920_elementary_ca_rule_104",
+      "canonical_identity": "elementary_ca_rule_104",
+      "live_registry_match": "f0920_elementary_ca_rule_104",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0921_elementary_ca_rule_106",
+      "canonical_identity": "elementary_ca_rule_106",
+      "live_registry_match": "f0921_elementary_ca_rule_106",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0922_elementary_ca_rule_108",
+      "canonical_identity": "elementary_ca_rule_108",
+      "live_registry_match": "f0922_elementary_ca_rule_108",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0923_elementary_ca_rule_112",
+      "canonical_identity": "elementary_ca_rule_112",
+      "live_registry_match": "f0923_elementary_ca_rule_112",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0924_elementary_ca_rule_114",
+      "canonical_identity": "elementary_ca_rule_114",
+      "live_registry_match": "f0924_elementary_ca_rule_114",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0925_elementary_ca_rule_118",
+      "canonical_identity": "elementary_ca_rule_118",
+      "live_registry_match": "f0925_elementary_ca_rule_118",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0926_elementary_ca_rule_120",
+      "canonical_identity": "elementary_ca_rule_120",
+      "live_registry_match": "f0926_elementary_ca_rule_120",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0927_elementary_ca_rule_124",
+      "canonical_identity": "elementary_ca_rule_124",
+      "live_registry_match": "f0927_elementary_ca_rule_124",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0928_elementary_ca_rule_128",
+      "canonical_identity": "elementary_ca_rule_128",
+      "live_registry_match": "f0928_elementary_ca_rule_128",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0929_elementary_ca_rule_130",
+      "canonical_identity": "elementary_ca_rule_130",
+      "live_registry_match": "f0929_elementary_ca_rule_130",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0930_elementary_ca_rule_132",
+      "canonical_identity": "elementary_ca_rule_132",
+      "live_registry_match": "f0930_elementary_ca_rule_132",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0931_elementary_ca_rule_134",
+      "canonical_identity": "elementary_ca_rule_134",
+      "live_registry_match": "f0931_elementary_ca_rule_134",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0932_elementary_ca_rule_136",
+      "canonical_identity": "elementary_ca_rule_136",
+      "live_registry_match": "f0932_elementary_ca_rule_136",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0933_elementary_ca_rule_138",
+      "canonical_identity": "elementary_ca_rule_138",
+      "live_registry_match": "f0933_elementary_ca_rule_138",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0934_elementary_ca_rule_140",
+      "canonical_identity": "elementary_ca_rule_140",
+      "live_registry_match": "f0934_elementary_ca_rule_140",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0935_elementary_ca_rule_142",
+      "canonical_identity": "elementary_ca_rule_142",
+      "live_registry_match": "f0935_elementary_ca_rule_142",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0936_elementary_ca_rule_144",
+      "canonical_identity": "elementary_ca_rule_144",
+      "live_registry_match": "f0936_elementary_ca_rule_144",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0937_elementary_ca_rule_146",
+      "canonical_identity": "elementary_ca_rule_146",
+      "live_registry_match": "f0937_elementary_ca_rule_146",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0938_elementary_ca_rule_148",
+      "canonical_identity": "elementary_ca_rule_148",
+      "live_registry_match": "f0938_elementary_ca_rule_148",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0939_elementary_ca_rule_152",
+      "canonical_identity": "elementary_ca_rule_152",
+      "live_registry_match": "f0939_elementary_ca_rule_152",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0940_elementary_ca_rule_154",
+      "canonical_identity": "elementary_ca_rule_154",
+      "live_registry_match": "f0940_elementary_ca_rule_154",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0941_elementary_ca_rule_156",
+      "canonical_identity": "elementary_ca_rule_156",
+      "live_registry_match": "f0941_elementary_ca_rule_156",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0942_elementary_ca_rule_158",
+      "canonical_identity": "elementary_ca_rule_158",
+      "live_registry_match": "f0942_elementary_ca_rule_158",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0943_elementary_ca_rule_160",
+      "canonical_identity": "elementary_ca_rule_160",
+      "live_registry_match": "f0943_elementary_ca_rule_160",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0944_elementary_ca_rule_162",
+      "canonical_identity": "elementary_ca_rule_162",
+      "live_registry_match": "f0944_elementary_ca_rule_162",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0945_elementary_ca_rule_164",
+      "canonical_identity": "elementary_ca_rule_164",
+      "live_registry_match": "f0945_elementary_ca_rule_164",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0946_elementary_ca_rule_166",
+      "canonical_identity": "elementary_ca_rule_166",
+      "live_registry_match": "f0946_elementary_ca_rule_166",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0947_elementary_ca_rule_168",
+      "canonical_identity": "elementary_ca_rule_168",
+      "live_registry_match": "f0947_elementary_ca_rule_168",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0948_elementary_ca_rule_170",
+      "canonical_identity": "elementary_ca_rule_170",
+      "live_registry_match": "f0948_elementary_ca_rule_170",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0949_elementary_ca_rule_172",
+      "canonical_identity": "elementary_ca_rule_172",
+      "live_registry_match": "f0949_elementary_ca_rule_172",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0950_elementary_ca_rule_174",
+      "canonical_identity": "elementary_ca_rule_174",
+      "live_registry_match": "f0950_elementary_ca_rule_174",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0951_elementary_ca_rule_176",
+      "canonical_identity": "elementary_ca_rule_176",
+      "live_registry_match": "f0951_elementary_ca_rule_176",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0952_elementary_ca_rule_178",
+      "canonical_identity": "elementary_ca_rule_178",
+      "live_registry_match": "f0952_elementary_ca_rule_178",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0953_elementary_ca_rule_180",
+      "canonical_identity": "elementary_ca_rule_180",
+      "live_registry_match": "f0953_elementary_ca_rule_180",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0954_elementary_ca_rule_186",
+      "canonical_identity": "elementary_ca_rule_186",
+      "live_registry_match": "f0954_elementary_ca_rule_186",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0955_elementary_ca_rule_188",
+      "canonical_identity": "elementary_ca_rule_188",
+      "live_registry_match": "f0955_elementary_ca_rule_188",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0956_elementary_ca_rule_190",
+      "canonical_identity": "elementary_ca_rule_190",
+      "live_registry_match": "f0956_elementary_ca_rule_190",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0957_elementary_ca_rule_192",
+      "canonical_identity": "elementary_ca_rule_192",
+      "live_registry_match": "f0957_elementary_ca_rule_192",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0958_elementary_ca_rule_194",
+      "canonical_identity": "elementary_ca_rule_194",
+      "live_registry_match": "f0958_elementary_ca_rule_194",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0959_elementary_ca_rule_196",
+      "canonical_identity": "elementary_ca_rule_196",
+      "live_registry_match": "f0959_elementary_ca_rule_196",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0960_elementary_ca_rule_198",
+      "canonical_identity": "elementary_ca_rule_198",
+      "live_registry_match": "f0960_elementary_ca_rule_198",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0961_elementary_ca_rule_200",
+      "canonical_identity": "elementary_ca_rule_200",
+      "live_registry_match": "f0961_elementary_ca_rule_200",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0962_elementary_ca_rule_202",
+      "canonical_identity": "elementary_ca_rule_202",
+      "live_registry_match": "f0962_elementary_ca_rule_202",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0963_elementary_ca_rule_204",
+      "canonical_identity": "elementary_ca_rule_204",
+      "live_registry_match": "f0963_elementary_ca_rule_204",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0964_elementary_ca_rule_206",
+      "canonical_identity": "elementary_ca_rule_206",
+      "live_registry_match": "f0964_elementary_ca_rule_206",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0965_elementary_ca_rule_208",
+      "canonical_identity": "elementary_ca_rule_208",
+      "live_registry_match": "f0965_elementary_ca_rule_208",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0966_elementary_ca_rule_210",
+      "canonical_identity": "elementary_ca_rule_210",
+      "live_registry_match": "f0966_elementary_ca_rule_210",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0967_elementary_ca_rule_212",
+      "canonical_identity": "elementary_ca_rule_212",
+      "live_registry_match": "f0967_elementary_ca_rule_212",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0968_elementary_ca_rule_214",
+      "canonical_identity": "elementary_ca_rule_214",
+      "live_registry_match": "f0968_elementary_ca_rule_214",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0969_elementary_ca_rule_218",
+      "canonical_identity": "elementary_ca_rule_218",
+      "live_registry_match": "f0969_elementary_ca_rule_218",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0970_elementary_ca_rule_220",
+      "canonical_identity": "elementary_ca_rule_220",
+      "live_registry_match": "f0970_elementary_ca_rule_220",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0971_elementary_ca_rule_222",
+      "canonical_identity": "elementary_ca_rule_222",
+      "live_registry_match": "f0971_elementary_ca_rule_222",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0972_elementary_ca_rule_226",
+      "canonical_identity": "elementary_ca_rule_226",
+      "live_registry_match": "f0972_elementary_ca_rule_226",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0973_elementary_ca_rule_230",
+      "canonical_identity": "elementary_ca_rule_230",
+      "live_registry_match": "f0973_elementary_ca_rule_230",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0974_elementary_ca_rule_232",
+      "canonical_identity": "elementary_ca_rule_232",
+      "live_registry_match": "f0974_elementary_ca_rule_232",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0975_elementary_ca_rule_234",
+      "canonical_identity": "elementary_ca_rule_234",
+      "live_registry_match": "f0975_elementary_ca_rule_234",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0976_elementary_ca_rule_238",
+      "canonical_identity": "elementary_ca_rule_238",
+      "live_registry_match": "f0976_elementary_ca_rule_238",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0977_elementary_ca_rule_242",
+      "canonical_identity": "elementary_ca_rule_242",
+      "live_registry_match": "f0977_elementary_ca_rule_242",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0978_elementary_ca_rule_246",
+      "canonical_identity": "elementary_ca_rule_246",
+      "live_registry_match": "f0978_elementary_ca_rule_246",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "elementary",
+      "stable_id": "f0979_elementary_ca_rule_254",
+      "canonical_identity": "elementary_ca_rule_254",
+      "live_registry_match": "f0979_elementary_ca_rule_254",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_rule_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0122_perpendicular_mandelbrot",
+      "canonical_identity": "perpendicular_mandelbrot",
+      "live_registry_match": "perpendicular_mandelbrot",
+      "duplicate_risk": true,
+      "candidate_status": "needs_formula_variant_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0134_mandelbrot_power_d_2_7",
+      "canonical_identity": "mandelbrot_power_d_2_7",
+      "live_registry_match": "f0134_mandelbrot_power_d_2_7",
+      "duplicate_risk": true,
+      "candidate_status": "needs_power_uniform_compatibility_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0135_mandelbrot_power_d_1_25",
+      "canonical_identity": "mandelbrot_power_d_1_25",
+      "live_registry_match": "f0135_mandelbrot_power_d_1_25",
+      "duplicate_risk": true,
+      "candidate_status": "needs_power_uniform_compatibility_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0486_sine_mandelbrot",
+      "canonical_identity": "sine_mandelbrot",
+      "live_registry_match": "sine_mandelbrot",
+      "duplicate_risk": true,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0487_cosine_mandelbrot",
+      "canonical_identity": "cosine_mandelbrot",
+      "live_registry_match": "cosine_mandelbrot",
+      "duplicate_risk": true,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0490_tangent_mandelbrot",
+      "canonical_identity": "tangent_mandelbrot",
+      "live_registry_match": "f0490_tangent_mandelbrot",
+      "duplicate_risk": true,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0491_hyperbolic_sine_mandelbrot",
+      "canonical_identity": "hyperbolic_sine_mandelbrot",
+      "live_registry_match": "f0491_hyperbolic_sine_mandelbrot",
+      "duplicate_risk": true,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0492_hyperbolic_cosine_mandelbrot",
+      "canonical_identity": "hyperbolic_cosine_mandelbrot",
+      "live_registry_match": "f0492_hyperbolic_cosine_mandelbrot",
+      "duplicate_risk": true,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0493_hyperbolic_tangent_mandelbrot",
+      "canonical_identity": "hyperbolic_tangent_mandelbrot",
+      "live_registry_match": "f0493_hyperbolic_tangent_mandelbrot",
+      "duplicate_risk": true,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1155_orbit_trap_circle_pickover_stalks",
+      "canonical_identity": "orbit_trap_circle_pickover_stalks",
+      "live_registry_match": "f1155_orbit_trap_circle_pickover_stalks",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1156_orbit_trap_cross",
+      "canonical_identity": "orbit_trap_cross",
+      "live_registry_match": "f1156_orbit_trap_cross",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1157_orbit_trap_square",
+      "canonical_identity": "orbit_trap_square",
+      "live_registry_match": "f1157_orbit_trap_square",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1158_orbit_trap_point_origin",
+      "canonical_identity": "orbit_trap_point_origin",
+      "live_registry_match": "f1158_orbit_trap_point_origin",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1159_orbit_trap_point_custom",
+      "canonical_identity": "orbit_trap_point_custom",
+      "live_registry_match": "f1159_orbit_trap_point_custom",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1160_orbit_trap_line_real_axis",
+      "canonical_identity": "orbit_trap_line_real_axis",
+      "live_registry_match": "f1160_orbit_trap_line_real_axis",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1161_orbit_trap_line_imaginary_axis",
+      "canonical_identity": "orbit_trap_line_imaginary_axis",
+      "live_registry_match": "f1161_orbit_trap_line_imaginary_axis",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1162_orbit_trap_multi_lines_cross",
+      "canonical_identity": "orbit_trap_multi_lines_cross",
+      "live_registry_match": "f1162_orbit_trap_multi_lines_cross",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1163_orbit_trap_heart_curve",
+      "canonical_identity": "orbit_trap_heart_curve",
+      "live_registry_match": "f1163_orbit_trap_heart_curve",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1164_orbit_trap_star_5_pointed",
+      "canonical_identity": "orbit_trap_star_5_pointed",
+      "live_registry_match": "f1164_orbit_trap_star_5_pointed",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1165_orbit_trap_spiral",
+      "canonical_identity": "orbit_trap_spiral",
+      "live_registry_match": "f1165_orbit_trap_spiral",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1166_orbit_trap_text_a",
+      "canonical_identity": "orbit_trap_text_a",
+      "live_registry_match": "f1166_orbit_trap_text_a",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1167_orbit_trap_text_m",
+      "canonical_identity": "orbit_trap_text_m",
+      "live_registry_match": "f1167_orbit_trap_text_m",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1168_orbit_trap_epicycloid",
+      "canonical_identity": "orbit_trap_epicycloid",
+      "live_registry_match": "f1168_orbit_trap_epicycloid",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1169_orbit_trap_rose_curve",
+      "canonical_identity": "orbit_trap_rose_curve",
+      "live_registry_match": "f1169_orbit_trap_rose_curve",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1170_orbit_trap_lima_on",
+      "canonical_identity": "orbit_trap_lima_on",
+      "live_registry_match": "f1170_orbit_trap_lima_on",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1171_orbit_trap_cardioid",
+      "canonical_identity": "orbit_trap_cardioid",
+      "live_registry_match": "f1171_orbit_trap_cardioid",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1172_orbit_trap_lemniscate",
+      "canonical_identity": "orbit_trap_lemniscate",
+      "live_registry_match": "f1172_orbit_trap_lemniscate",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1173_orbit_trap_astroid",
+      "canonical_identity": "orbit_trap_astroid",
+      "live_registry_match": "f1173_orbit_trap_astroid",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1174_orbit_trap_hypocycloid_3_cusp",
+      "canonical_identity": "orbit_trap_hypocycloid_3_cusp",
+      "live_registry_match": "f1174_orbit_trap_hypocycloid_3_cusp",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1175_orbit_trap_square_lattice",
+      "canonical_identity": "orbit_trap_square_lattice",
+      "live_registry_match": "f1175_orbit_trap_square_lattice",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1176_orbit_trap_hexagonal_lattice",
+      "canonical_identity": "orbit_trap_hexagonal_lattice",
+      "live_registry_match": "f1176_orbit_trap_hexagonal_lattice",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1177_orbit_trap_field_lines",
+      "canonical_identity": "orbit_trap_field_lines",
+      "live_registry_match": "f1177_orbit_trap_field_lines",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1178_orbit_trap_composite_multi_shape",
+      "canonical_identity": "orbit_trap_composite_multi_shape",
+      "live_registry_match": "f1178_orbit_trap_composite_multi_shape",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "orbit",
+      "stable_id": "f1179_orbit_trap_concentric_rings",
+      "canonical_identity": "orbit_trap_concentric_rings",
+      "live_registry_match": "f1179_orbit_trap_concentric_rings",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_trap_geometry_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0088_multibrot_z_13",
+      "canonical_identity": "multibrot_z_13",
+      "live_registry_match": "f0088_multibrot_z_13",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0089_multibrot_z_14",
+      "canonical_identity": "multibrot_z_14",
+      "live_registry_match": "f0089_multibrot_z_14",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0090_multibrot_z_15",
+      "canonical_identity": "multibrot_z_15",
+      "live_registry_match": "f0090_multibrot_z_15",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0091_multibrot_z_16",
+      "canonical_identity": "multibrot_z_16",
+      "live_registry_match": "f0091_multibrot_z_16",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0092_multibrot_z_17",
+      "canonical_identity": "multibrot_z_17",
+      "live_registry_match": "f0092_multibrot_z_17",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0093_multibrot_z_18",
+      "canonical_identity": "multibrot_z_18",
+      "live_registry_match": "f0093_multibrot_z_18",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0094_multibrot_z_19",
+      "canonical_identity": "multibrot_z_19",
+      "live_registry_match": "f0094_multibrot_z_19",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0095_multibrot_z_20",
+      "canonical_identity": "multibrot_z_20",
+      "live_registry_match": "f0095_multibrot_z_20",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0096_multibrot_d_0_5",
+      "canonical_identity": "multibrot_d_0_5",
+      "live_registry_match": "f0096_multibrot_d_0_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0097_multibrot_d_3_5",
+      "canonical_identity": "multibrot_d_3_5",
+      "live_registry_match": "f0097_multibrot_d_3_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0098_multibrot_d_4_5",
+      "canonical_identity": "multibrot_d_4_5",
+      "live_registry_match": "f0098_multibrot_d_4_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0099_multibrot_d_5_5",
+      "canonical_identity": "multibrot_d_5_5",
+      "live_registry_match": "f0099_multibrot_d_5_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0100_multibrot_d_6_5",
+      "canonical_identity": "multibrot_d_6_5",
+      "live_registry_match": "f0100_multibrot_d_6_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0101_multibrot_d_7_5",
+      "canonical_identity": "multibrot_d_7_5",
+      "live_registry_match": "f0101_multibrot_d_7_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0102_multibrot_d_8_5",
+      "canonical_identity": "multibrot_d_8_5",
+      "live_registry_match": "f0102_multibrot_d_8_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0103_inverse_multibrot_d_3",
+      "canonical_identity": "inverse_multibrot_d_3",
+      "live_registry_match": "f0103_inverse_multibrot_d_3",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0104_inverse_multibrot_d_4",
+      "canonical_identity": "inverse_multibrot_d_4",
+      "live_registry_match": "f0104_inverse_multibrot_d_4",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0105_inverse_multibrot_d_5",
+      "canonical_identity": "inverse_multibrot_d_5",
+      "live_registry_match": "f0105_inverse_multibrot_d_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_uniform_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0570_mandelbox_s_1_5",
+      "canonical_identity": "mandelbox_s_1_5",
+      "live_registry_match": "f0570_mandelbox_s_1_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0571_mandelbox_s_1_8",
+      "canonical_identity": "mandelbox_s_1_8",
+      "live_registry_match": "f0571_mandelbox_s_1_8",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0572_mandelbox_s_2_0",
+      "canonical_identity": "mandelbox_s_2_0",
+      "live_registry_match": "f0572_mandelbox_s_2_0",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0573_mandelbox_s_2_2",
+      "canonical_identity": "mandelbox_s_2_2",
+      "live_registry_match": "f0573_mandelbox_s_2_2",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0574_mandelbox_s_2_5",
+      "canonical_identity": "mandelbox_s_2_5",
+      "live_registry_match": "f0574_mandelbox_s_2_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0575_mandelbox_s_2_7",
+      "canonical_identity": "mandelbox_s_2_7",
+      "live_registry_match": "f0575_mandelbox_s_2_7",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0576_mandelbox_s_3_0",
+      "canonical_identity": "mandelbox_s_3_0",
+      "live_registry_match": "f0576_mandelbox_s_3_0",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0577_mandelbox_s_3_5",
+      "canonical_identity": "mandelbox_s_3_5",
+      "live_registry_match": "f0577_mandelbox_s_3_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0578_mandelbox_s_4_0",
+      "canonical_identity": "mandelbox_s_4_0",
+      "live_registry_match": "f0578_mandelbox_s_4_0",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0579_mandelbox_s_1_5",
+      "canonical_identity": "mandelbox_s_1_5",
+      "live_registry_match": "f0570_mandelbox_s_1_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0580_mandelbox_s_2_0",
+      "canonical_identity": "mandelbox_s_2_0",
+      "live_registry_match": "f0572_mandelbox_s_2_0",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0581_mandelbox_s_2_5",
+      "canonical_identity": "mandelbox_s_2_5",
+      "live_registry_match": "f0574_mandelbox_s_2_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0582_mandelbox_s_3_0",
+      "canonical_identity": "mandelbox_s_3_0",
+      "live_registry_match": "f0576_mandelbox_s_3_0",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_scale_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0561_mandelbulb_n_8",
+      "canonical_identity": "mandelbulb_n_8",
+      "live_registry_match": "f0561_mandelbulb_n_8",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0562_mandelbulb_n_9",
+      "canonical_identity": "mandelbulb_n_9",
+      "live_registry_match": "f0562_mandelbulb_n_9",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0563_mandelbulb_n_10",
+      "canonical_identity": "mandelbulb_n_10",
+      "live_registry_match": "f0563_mandelbulb_n_10",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0564_mandelbulb_n_11",
+      "canonical_identity": "mandelbulb_n_11",
+      "live_registry_match": "f0564_mandelbulb_n_11",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0565_mandelbulb_n_12",
+      "canonical_identity": "mandelbulb_n_12",
+      "live_registry_match": "f0565_mandelbulb_n_12",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0566_mandelbulb_n_14",
+      "canonical_identity": "mandelbulb_n_14",
+      "live_registry_match": "f0566_mandelbulb_n_14",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0567_mandelbulb_n_16",
+      "canonical_identity": "mandelbulb_n_16",
+      "live_registry_match": "f0567_mandelbulb_n_16",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0568_mandelbulb_n_20",
+      "canonical_identity": "mandelbulb_n_20",
+      "live_registry_match": "f0568_mandelbulb_n_20",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0569_mandelbulb_n_24",
+      "canonical_identity": "mandelbulb_n_24",
+      "live_registry_match": "f0569_mandelbulb_n_24",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0540_quaternion_julia_0_2_0_8_0_0_0_0",
+      "canonical_identity": "quaternion_julia_0_2_0_8_0_0_0_0",
+      "live_registry_match": "f0540_quaternion_julia_0_2_0_8_0_0_0_0",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_quaternion_c_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0544_quaternion_julia_0_291_0_399_0_339_0_437",
+      "canonical_identity": "quaternion_julia_0_291_0_399_0_339_0_437",
+      "live_registry_match": "f0544_quaternion_julia_0_291_0_399_0_339_0_437",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_quaternion_c_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0545_quaternion_julia_0_08_0_0_0_8_0_0",
+      "canonical_identity": "quaternion_julia_0_08_0_0_0_8_0_0",
+      "live_registry_match": "f0545_quaternion_julia_0_08_0_0_0_8_0_0",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_quaternion_c_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0594_menger_sponge_3d",
+      "canonical_identity": "menger_sponge_3d",
+      "live_registry_match": "f0594_menger_sponge_3d",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_kifs_family_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "3d",
+      "stable_id": "f0597_sierpinski_carpet_3d_menger_cross",
+      "canonical_identity": "sierpinski_carpet_3d_menger_cross",
+      "live_registry_match": "f0597_sierpinski_carpet_3d_menger_cross",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_kifs_family_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0498_sin_z_c",
+      "canonical_identity": "sin_z_c",
+      "live_registry_match": "f0498_sin_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0502_sin_1_z_c",
+      "canonical_identity": "sin_1_z_c",
+      "live_registry_match": "f0502_sin_1_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0505_sin_z_cos_z_c",
+      "canonical_identity": "sin_z_cos_z_c",
+      "live_registry_match": "f0505_sin_z_cos_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0506_sinh_z_cosh_z_c",
+      "canonical_identity": "sinh_z_cosh_z_c",
+      "live_registry_match": "f0506_sinh_z_cosh_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0507_log_sin_z_c",
+      "canonical_identity": "log_sin_z_c",
+      "live_registry_match": "f0507_log_sin_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0509_sin_z_z_c",
+      "canonical_identity": "sin_z_z_c",
+      "live_registry_match": "f0509_sin_z_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0517_sin_z_1_c",
+      "canonical_identity": "sin_z_1_c",
+      "live_registry_match": "f0517_sin_z_1_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0519_sin_z_c",
+      "canonical_identity": "sin_z_c",
+      "live_registry_match": "f0498_sin_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0521_sin_z_c",
+      "canonical_identity": "sin_z_c",
+      "live_registry_match": "f0498_sin_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0525_sinh_z_c",
+      "canonical_identity": "sinh_z_c",
+      "live_registry_match": "f0525_sinh_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0526_sin_z_z_c",
+      "canonical_identity": "sin_z_z_c",
+      "live_registry_match": "f0509_sin_z_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0528_exp_z_sin_z_c",
+      "canonical_identity": "exp_z_sin_z_c",
+      "live_registry_match": "f0528_exp_z_sin_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0538_newton_sin",
+      "canonical_identity": "newton_sin",
+      "live_registry_match": "f0538_newton_sin",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f1220_m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin",
+      "canonical_identity": "m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin",
+      "live_registry_match": "f1220_m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0106_tricorn_d_9",
+      "canonical_identity": "tricorn_d_9",
+      "live_registry_match": "f0106_tricorn_d_9",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0107_tricorn_d_10",
+      "canonical_identity": "tricorn_d_10",
+      "live_registry_match": "f0107_tricorn_d_10",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0108_tricorn_d_11",
+      "canonical_identity": "tricorn_d_11",
+      "live_registry_match": "f0108_tricorn_d_11",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0109_tricorn_d_12",
+      "canonical_identity": "tricorn_d_12",
+      "live_registry_match": "f0109_tricorn_d_12",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0110_tricorn_d_13",
+      "canonical_identity": "tricorn_d_13",
+      "live_registry_match": "f0110_tricorn_d_13",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0111_tricorn_d_14",
+      "canonical_identity": "tricorn_d_14",
+      "live_registry_match": "f0111_tricorn_d_14",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0112_tricorn_d_15",
+      "canonical_identity": "tricorn_d_15",
+      "live_registry_match": "f0112_tricorn_d_15",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0138_tricorn_z_1_5",
+      "canonical_identity": "tricorn_z_1_5",
+      "live_registry_match": "f0138_tricorn_z_1_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0139_tricorn_z_2_5",
+      "canonical_identity": "tricorn_z_2_5",
+      "live_registry_match": "f0139_tricorn_z_2_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0113_burning_ship_d_7",
+      "canonical_identity": "burning_ship_d_7",
+      "live_registry_match": "f0113_burning_ship_d_7",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0114_burning_ship_d_8",
+      "canonical_identity": "burning_ship_d_8",
+      "live_registry_match": "f0114_burning_ship_d_8",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0115_burning_ship_d_9",
+      "canonical_identity": "burning_ship_d_9",
+      "live_registry_match": "f0115_burning_ship_d_9",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0116_burning_ship_d_10",
+      "canonical_identity": "burning_ship_d_10",
+      "live_registry_match": "f0116_burning_ship_d_10",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0117_burning_ship_d_11",
+      "canonical_identity": "burning_ship_d_11",
+      "live_registry_match": "f0117_burning_ship_d_11",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0118_burning_ship_d_12",
+      "canonical_identity": "burning_ship_d_12",
+      "live_registry_match": "f0118_burning_ship_d_12",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0140_burning_ship_z_2_5",
+      "canonical_identity": "burning_ship_z_2_5",
+      "live_registry_match": "f0140_burning_ship_z_2_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0141_burning_ship_z_1_5",
+      "canonical_identity": "burning_ship_z_1_5",
+      "live_registry_match": "f0141_burning_ship_z_1_5",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_power_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0499_cos_z_c",
+      "canonical_identity": "cos_z_c",
+      "live_registry_match": "f0499_cos_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0508_log_cos_z_c",
+      "canonical_identity": "log_cos_z_c",
+      "live_registry_match": "f0508_log_cos_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0518_cos_z_1_c",
+      "canonical_identity": "cos_z_1_c",
+      "live_registry_match": "f0518_cos_z_1_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0520_cos_z_c",
+      "canonical_identity": "cos_z_c",
+      "live_registry_match": "f0499_cos_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0527_cos_z_z_c",
+      "canonical_identity": "cos_z_z_c",
+      "live_registry_match": "f0527_cos_z_z_c",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f0537_newton_cos",
+      "canonical_identity": "newton_cos",
+      "live_registry_match": "f0537_newton_cos",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_expression_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "residual",
+      "stable_id": "f0980_replicator_b1357_s1357",
+      "canonical_identity": "replicator_b1357_s1357",
+      "live_registry_match": "f0980_replicator_b1357_s1357",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "residual",
+      "stable_id": "f0981_fredkin_s_replicator_b1357_s02468",
+      "canonical_identity": "fredkin_s_replicator_b1357_s02468",
+      "live_registry_match": "f0981_fredkin_s_replicator_b1357_s02468",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "residual",
+      "stable_id": "f0995_replicator_4_b1357_s03567",
+      "canonical_identity": "replicator_4_b1357_s03567",
+      "live_registry_match": "f0995_replicator_4_b1357_s03567",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "residual",
+      "stable_id": "f1021_cyclic_ca_n_4",
+      "canonical_identity": "cyclic_ca_n_4",
+      "live_registry_match": "f1021_cyclic_ca_n_4",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_cyclic_state_count_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "residual",
+      "stable_id": "f1022_cyclic_ca_n_16",
+      "canonical_identity": "cyclic_ca_n_16",
+      "live_registry_match": "f1022_cyclic_ca_n_16",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_cyclic_state_count_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "residual",
+      "stable_id": "f0983_mazectric_b3_s1234",
+      "canonical_identity": "mazectric_b3_s1234",
+      "live_registry_match": "f0983_mazectric_b3_s1234",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "residual",
+      "stable_id": "f1005_maze_with_mice_b37_s12345",
+      "canonical_identity": "maze_with_mice_b37_s12345",
+      "live_registry_match": "f1005_maze_with_mice_b37_s12345",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "residual",
+      "stable_id": "f1024_forest_fire_ca",
+      "canonical_identity": "forest_fire_ca",
+      "live_registry_match": "f1024_forest_fire_ca",
+      "duplicate_risk": true,
+      "candidate_status": "ready_for_stochastic_rule_review",
+      "counted_entry": false
+    }
+  ],
+  "non_duplicate_candidates": [
+    {
+      "batch": "julia",
+      "stable_id": "f0461_julia_island",
+      "canonical_identity": "julia_island",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_c_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f0484_miniature_julia_region",
+      "canonical_identity": "miniature_julia_region",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_c_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f1224_chebyshev_julia_t_2",
+      "canonical_identity": "chebyshev_julia_t_2",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_c_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f1225_chebyshev_julia_t_3",
+      "canonical_identity": "chebyshev_julia_t_3",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_c_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f1226_chebyshev_julia_t_5",
+      "canonical_identity": "chebyshev_julia_t_5",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_c_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "julia",
+      "stable_id": "f1232_elliptic_function_julia",
+      "canonical_identity": "elliptic_function_julia",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_c_parameter_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0023_sprott_j",
+      "canonical_identity": "sprott_j",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0029_sprott_p",
+      "canonical_identity": "sprott_p",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0030_sprott_q",
+      "canonical_identity": "sprott_q",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0031_sprott_r",
+      "canonical_identity": "sprott_r",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0033_sprott_linz_a",
+      "canonical_identity": "sprott_linz_a",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0034_sprott_linz_b",
+      "canonical_identity": "sprott_linz_b",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0035_sprott_linz_c",
+      "canonical_identity": "sprott_linz_c",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0036_sprott_linz_d",
+      "canonical_identity": "sprott_linz_d",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0037_sprott_linz_e",
+      "canonical_identity": "sprott_linz_e",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0038_sprott_linz_f",
+      "canonical_identity": "sprott_linz_f",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0039_sprott_linz_g",
+      "canonical_identity": "sprott_linz_g",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0040_sprott_linz_h",
+      "canonical_identity": "sprott_linz_h",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0041_sprott_linz_i",
+      "canonical_identity": "sprott_linz_i",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0042_sprott_linz_j",
+      "canonical_identity": "sprott_linz_j",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0043_sprott_labyrinth_chaos",
+      "canonical_identity": "sprott_labyrinth_chaos",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0044_sprott_minimum_chaotic_flow",
+      "canonical_identity": "sprott_minimum_chaotic_flow",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0045_sprott_windmi",
+      "canonical_identity": "sprott_windmi",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0046_sprott_conservative_sc",
+      "canonical_identity": "sprott_conservative_sc",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "sprott",
+      "stable_id": "f0086_sprott_jafari_no_equilibrium",
+      "canonical_identity": "sprott_jafari_no_equilibrium",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0119_celtic_mandelbrot",
+      "canonical_identity": "celtic_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_formula_variant_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0120_buffalo_mandelbrot",
+      "canonical_identity": "buffalo_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_formula_variant_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0121_heart_mandelbrot",
+      "canonical_identity": "heart_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_formula_variant_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0123_anti_mandelbrot",
+      "canonical_identity": "anti_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_formula_variant_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0124_cubic_mandelbrot_c_additive",
+      "canonical_identity": "cubic_mandelbrot_c_additive",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_mandelbrot_mapping_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0125_quartic_mandelbrot_c_additive",
+      "canonical_identity": "quartic_mandelbrot_c_additive",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_mandelbrot_mapping_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0126_mandelbrot_scaled",
+      "canonical_identity": "mandelbrot_scaled",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_mandelbrot_mapping_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0127_lambda_mandelbrot",
+      "canonical_identity": "lambda_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_formula_variant_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0431_mini_mandelbrot_period_2",
+      "canonical_identity": "mini_mandelbrot_period_2",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0432_mini_mandelbrot_period_3",
+      "canonical_identity": "mini_mandelbrot_period_3",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0433_mini_mandelbrot_period_4",
+      "canonical_identity": "mini_mandelbrot_period_4",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0434_mini_mandelbrot_period_5",
+      "canonical_identity": "mini_mandelbrot_period_5",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0435_mini_mandelbrot_period_6",
+      "canonical_identity": "mini_mandelbrot_period_6",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0436_mini_mandelbrot_period_7",
+      "canonical_identity": "mini_mandelbrot_period_7",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0437_mini_mandelbrot_period_8",
+      "canonical_identity": "mini_mandelbrot_period_8",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0438_mini_mandelbrot_period_9",
+      "canonical_identity": "mini_mandelbrot_period_9",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0439_mini_mandelbrot_period_10",
+      "canonical_identity": "mini_mandelbrot_period_10",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0440_mini_mandelbrot_period_11",
+      "canonical_identity": "mini_mandelbrot_period_11",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0441_mini_mandelbrot_period_12",
+      "canonical_identity": "mini_mandelbrot_period_12",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0442_mini_mandelbrot_period_13",
+      "canonical_identity": "mini_mandelbrot_period_13",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0443_mini_mandelbrot_period_14",
+      "canonical_identity": "mini_mandelbrot_period_14",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0444_mini_mandelbrot_period_15",
+      "canonical_identity": "mini_mandelbrot_period_15",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0445_mini_mandelbrot_period_16",
+      "canonical_identity": "mini_mandelbrot_period_16",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0446_mini_mandelbrot_period_17",
+      "canonical_identity": "mini_mandelbrot_period_17",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0447_mini_mandelbrot_period_18",
+      "canonical_identity": "mini_mandelbrot_period_18",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0448_mini_mandelbrot_period_19",
+      "canonical_identity": "mini_mandelbrot_period_19",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0449_mini_mandelbrot_period_20",
+      "canonical_identity": "mini_mandelbrot_period_20",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "ready_for_view_region_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0475_mandelbrot_antenna",
+      "canonical_identity": "mandelbrot_antenna",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_mandelbrot_mapping_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0488_exponential_mandelbrot",
+      "canonical_identity": "exponential_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0489_log_mandelbrot",
+      "canonical_identity": "log_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0494_z_exp_z_mandelbrot",
+      "canonical_identity": "z_exp_z_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0495_z_sin_z_mandelbrot",
+      "canonical_identity": "z_sin_z_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0496_z_sin_z_mandelbrot",
+      "canonical_identity": "z_sin_z_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0497_z_cos_z_mandelbrot",
+      "canonical_identity": "z_cos_z_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "mandelbrot",
+      "stable_id": "f0531_gamma_mandelbrot",
+      "canonical_identity": "gamma_mandelbrot",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_transcendental_shader_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0136_multibrot_z_1_8",
+      "canonical_identity": "multibrot_z_1_8",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_power_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "multibrot",
+      "stable_id": "f0137_multibrot_z_2_3",
+      "canonical_identity": "multibrot_z_2_3",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_power_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f1153_buddhabrot_tricorn",
+      "canonical_identity": "buddhabrot_tricorn",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_escape_variant_review",
+      "counted_entry": false
+    },
+    {
+      "batch": "escape",
+      "stable_id": "f1152_buddhabrot_burning_ship",
+      "canonical_identity": "buddhabrot_burning_ship",
+      "live_registry_match": null,
+      "duplicate_risk": false,
+      "candidate_status": "needs_manual_escape_variant_review",
+      "counted_entry": false
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "generated_at": "2026-06-18T03:45:00Z",
+  "purpose": "Wave 0 promoted proof that the count ledger can represent real app-renderable formula/rule entries without counting random presets.",
+  "counting_rule": "Only formula/rule identities with counted_entry=true and ingest_status=promoted contribute to the 5k-10k objective.",
+  "entries": [
+    {
+      "stable_id": "mandelbrot",
+      "display_name": "Mandelbrot Set",
+      "family": "escape_time_polynomial_complex",
+      "mathematical_identity_type": "formula",
+      "formula_or_rule": "z0 = 0; z(n+1) = z(n)^2 + c; escape when |z| exceeds bailout",
+      "renderer_path": "shaders/legacy/escape_time/mandel_step_smooth.frag",
+      "parameter_schema": {"iterations": "integer", "bailout": "float", "colorScheme": "integer"},
+      "provenance": {
+        "source_type": "app_module_and_reference_manifest",
+        "source": "research/fractals-library/data/fractal_manifest.json",
+        "doi": "10.1080/17513470701210485",
+        "reuse_decision": "formula identity is public mathematical definition; app renderer is local implementation"
+      },
+      "license_context": "formula identity only; no upstream source copied",
+      "thumbnail_plan": "assets/catalog_thumbs/mandelbrot.png",
+      "validation": {"status": "validated", "signals": ["ModuleRegistry id found", "shader asset exists", "thumbnail asset exists", "featured_launch_set_test selectable coverage"]},
+      "accessibility_label": "Mandelbrot Set fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Core escape-time formula; presets such as Seahorse Valley are not counted separately."
+    },
+    {
+      "stable_id": "julia",
+      "display_name": "Julia Sets",
+      "family": "escape_time_polynomial_complex",
+      "mathematical_identity_type": "formula",
+      "formula_or_rule": "z0 = pixel; z(n+1) = z(n)^2 + k for fixed complex parameter k; escape when |z| exceeds bailout",
+      "renderer_path": "shaders/escape_time_family/core/julia_gpu.frag",
+      "parameter_schema": {"iterations": "integer", "bailout": "float", "colorScheme": "integer", "juliaCReal": "float", "juliaCImag": "float"},
+      "provenance": {
+        "source_type": "app_module_and_reference_manifest",
+        "source": "research/fractals-library/data/fractal_manifest.json",
+        "doi": "10.1063/1.5095111",
+        "reuse_decision": "formula identity is public mathematical definition; app renderer is local implementation"
+      },
+      "license_context": "formula identity only; no upstream source copied",
+      "thumbnail_plan": "assets/catalog_thumbs/julia.png",
+      "validation": {"status": "validated", "signals": ["ModuleRegistry id found", "shader asset exists", "thumbnail asset exists", "featured_launch_set_test selectable coverage"]},
+      "accessibility_label": "Julia Sets fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Julia parameter presets are not counted separately unless promoted as named stable formula variants."
+    },
+    {
+      "stable_id": "burning_ship",
+      "display_name": "Burning Ship",
+      "family": "escape_time_polynomial_complex",
+      "mathematical_identity_type": "formula",
+      "formula_or_rule": "z = (abs(real(z)), abs(imag(z))); z(n+1) = z^2 + c; escape when |z| exceeds bailout",
+      "renderer_path": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parameter_schema": {"iterations": "integer", "bailout": "float", "colorScheme": "integer"},
+      "provenance": {
+        "source_type": "app_module_and_reference_manifest",
+        "source": "research/fractals-library/data/fractal_manifest.json",
+        "doi": "10.1080/17513470701210485",
+        "reuse_decision": "formula identity is public mathematical definition; app renderer is local implementation"
+      },
+      "license_context": "formula identity only; no upstream source copied",
+      "thumbnail_plan": "assets/catalog_thumbs/burning_ship.png",
+      "validation": {"status": "validated", "signals": ["ModuleRegistry id found", "shader asset exists", "thumbnail asset exists", "featured_launch_set_test selectable coverage"]},
+      "accessibility_label": "Burning Ship fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Escape-time folded-coordinate formula; camera/palette presets are not counted."
+    },
+    {
+      "stable_id": "phoenix",
+      "display_name": "Phoenix Set",
+      "family": "escape_time_polynomial_complex",
+      "mathematical_identity_type": "formula",
+      "formula_or_rule": "z(n+1) = z(n)^2 + c + p*z(n-1); escape when |z| exceeds bailout",
+      "renderer_path": "shaders/escape_time_family/core/phoenix_gpu.frag",
+      "parameter_schema": {"iterations": "integer", "bailout": "float", "colorScheme": "integer", "phoenixCReal": "float", "phoenixCImag": "float", "phoenixP": "float"},
+      "provenance": {
+        "source_type": "app_module_and_reference_manifest",
+        "source": "research/fractals-library/data/fractal_manifest.json",
+        "reuse_decision": "formula identity is public mathematical definition; app renderer is local implementation"
+      },
+      "license_context": "formula identity only; no upstream source copied",
+      "thumbnail_plan": "assets/catalog_thumbs/phoenix.png",
+      "validation": {"status": "validated", "signals": ["ModuleRegistry id found", "shader asset exists", "thumbnail asset exists", "catalog_thumbnail_plan_test regression fixture"]},
+      "accessibility_label": "Phoenix Set fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Memory-term Julia-family formula; parameter presets are not counted."
+    },
+    {
+      "stable_id": "newton_z3",
+      "display_name": "Newton Fractal (z³ - 1)",
+      "family": "root_finding_polynomiography",
+      "mathematical_identity_type": "formula",
+      "formula_or_rule": "Newton iteration z(n+1) = z - (z^3 - 1)/(3*z^2); color by converged root basin",
+      "renderer_path": "shaders/root_finding/newton_z3_gpu.frag",
+      "parameter_schema": {"iterations": "integer", "bailout": "float", "colorScheme": "integer"},
+      "provenance": {
+        "source_type": "app_module_and_reference_manifest",
+        "source": "research/fractals-library/data/fractal_manifest.json",
+        "reuse_decision": "formula identity is public mathematical definition; app renderer is local implementation"
+      },
+      "license_context": "formula identity only; no upstream source copied",
+      "thumbnail_plan": "assets/catalog_thumbs/newton_z3.png",
+      "validation": {"status": "validated", "signals": ["ModuleRegistry id found", "shader asset exists", "thumbnail asset exists"]},
+      "accessibility_label": "Newton z cubed minus one root basin fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Counts the z^3-1 Newton method identity; individual root colors/palettes are not counted."
+    }
+  ]
+}

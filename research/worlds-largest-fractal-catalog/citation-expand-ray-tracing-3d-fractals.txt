@@ -1,0 +1,2 @@
+wrote citation graph with 74 edges to citation-graph-ray-tracing-3d-fractals.json
+wrote citation graph report to citation-report-ray-tracing-3d-fractals.md

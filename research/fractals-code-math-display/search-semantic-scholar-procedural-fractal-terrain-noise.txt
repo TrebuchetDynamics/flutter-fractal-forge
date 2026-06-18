@@ -1,0 +1,20 @@
+10.5753/sibgrapi.est.2025.38302	Terrain generation using Neural Transfer Style and Fractal Brownian Motion noise with constraints
+10.32626/2308-5916.2025-27.16-25	Procedural Generation of Digital Terrain Using Discrete Hydrodynamic Models
+10.48550/arxiv.2503.06784	Infinite Leagues Under the Sea: Photorealistic 3D Underwater Terrain Generation by Latent Fractal Diffusion Models
+10.1111/cgf.14992	Real‐time Terrain Enhancement with Controlled Procedural Patterns
+10.1111/cgf.70072	Fast sphere tracing of procedural volumetric noise for very large and detailed scenes
+10.48550/arxiv.2506.19751	A modular and extensible library for parameterized terrain generation
+10.62051/0swzbh75	Analysis of Procedural Content Generation and Stylisation Techniques in Developing Video Games
+	Moonscape : Realtime Procedural Planetary Terrain Rendering Using Quadtrees and Discrete Levels of Detail
+10.1016/b978-155860848-1/50045-0	Procedural fractal terrains
+	Polynomial methods for fast Procedural Terrain Generation
+10.1016/j.gmod.2018.04.001	Terrain rendering with unlimited detail and resolution
+	Realtime Procedural Terrain Generation Realtime Synthesis of Eroded Fractal Terrain for Use in Computer Games
+	Real-Time Massive Terrain Generation using Procedural Erosion on the GPU
+	Polynomial method for Procedural Terrain Generation
+10.1109/eiecc67963.2025.11409559	RanPTG: Hyper-Realistic Terrain Generation Coupling Tectonic Uplift and Inertial Hydraulic Erosion with Applications to Underwater Robot Simulation
+10.1109/ecice47484.2019.8942651	Texture designs and workflows for physically based rendering using procedural texture generation
+	Procedural terrain generation with Perlin noise
+	Designer Worlds: Procedural Generation of Infinite Terrain from Real-World Elevation Data
+	Procedural Generation and Rendering of Trees and Landscapes in the Style of Eyvind Earle
+	Designer Worlds : Procedural Generation of Infinite Terrain from USGS Elevation Data

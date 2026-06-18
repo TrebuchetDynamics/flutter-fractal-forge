@@ -5,7 +5,8 @@ precision highp float;
 // Quaternion Julia set — 3D slice of a 4D quaternion Julia fractal.
 // Maps 3D position to quaternion (w,x,y,z) with z.w=0, iterates z = z*z + c.
 // Distance estimator via running derivative (|dz|) for sphere tracing.
-// uFractalType selects c-constant preset (0..3); uPower modulates c magnitude.
+// uFractalType selects c-constant preset (0..3); negative uses explicit uJuliaC.
+// uPower modulates preset c magnitude and is otherwise a UI-compatible control.
 
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
@@ -19,6 +20,7 @@ uniform float uBailout;       // 12
 uniform float uColorScheme;   // 13
 uniform float uFractalType;   // 14
 uniform float uTransparentBg; // 15
+uniform vec4  uJuliaC;        // 16-19
 
 out vec4 fragColor;
 
@@ -74,6 +76,7 @@ vec3 palette(float t, float scheme) {
 
 // Select quaternion Julia constant based on uFractalType and uPower.
 vec4 getJuliaC() {
+    if (uFractalType < 0.0) return uJuliaC;
     float mag = max(uPower, 0.1) / 2.0;
     int preset = int(mod(uFractalType, 4.0));
     if (preset == 0) return mag * vec4(-0.2, 0.6, 0.2, 0.2);

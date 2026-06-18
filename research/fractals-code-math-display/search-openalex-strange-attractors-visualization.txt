@@ -1,0 +1,20 @@
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.1074/jbc.r115.685859	Dancing Protein Clouds: The Strange Biology and Chaotic Physics of Intrinsically Disordered Proteins
+10.1103/physreve.64.066208	Wada basins and chaotic invariant sets in the Hénon-Heiles system
+10.1038/s41467-017-00030-8	Chaos as an intermittently forced linear system
+10.3390/systems4040037	Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.1017/s0022112002001635	A magnetohydrodynamic chaotic stirrer
+10.1007/s10207-022-00588-5	Survey on image encryption techniques using chaotic maps in spatial, transform and spatiotemporal domains
+10.1038/s44172-024-00242-z	Implementing the analogous neural network using chaotic strange attractors
+10.1038/nphys2593	The chaotic dynamics of jamming
+10.1007/s11071-022-08078-y	Hidden attractors in Chua circuit: mathematical theory meets physical experiments
+10.1175/jcli-d-14-00459.1	Probabilistic Concepts in a Changing Climate: A Snapshot Attractor Picture
+10.1103/revmodphys.78.1213	Dynamical principles in neuroscience
+10.1016/j.jare.2022.03.008	Chaotic attractors that exist only in fractional-order case
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1155/2020/2826850	Analysis, Synchronization, and Robotic Application of a Modified Hyperjerk Chaotic System
+10.1371/journal.pone.0197704	Data-assisted reduced-order modeling of extreme events in complex dynamical systems
+10.3390/e21030279	Chaotic Map with No Fixed Points: Entropy, Implementation and Control
+10.1049/ipr2.12778	Image encryption algorithm based on 2D‐CLICM chaotic system
+10.37514/wri-b.2017.0124	Network Sense: Methods for Visualizing a Discipline

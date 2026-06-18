@@ -15,6 +15,7 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uVariant;
 
 out vec4 fragColor;
 
@@ -64,6 +65,13 @@ vec2 ccosh(vec2 z) {
   return vec2(cosh(z.x)*cos(y), sinh(z.x)*sin(y));
 }
 vec2 ctanh(vec2 z) { return cdiv(csinh(z), ccosh(z)); }
+vec2 cpow2(vec2 z) { return cmul(z, z); }
+
+vec2 evalVariant(vec2 z, vec2 c, int variant) {
+  if (variant == 1) return ctanh(cpow2(z)) + c;
+  if (variant == 2) return cdiv(vec2(1.0, 0.0), ccosh(z)) + c;
+  return ctanh(z) + c;
+}
 
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
@@ -81,11 +89,13 @@ void main() {
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
-    // sech²(z) = 1 − tanh²(z); compute tanh once, reuse for z update
-    vec2 tanh_z = ctanh(z);
-    // d(tanh(z))/dc = sech²(z)·der + 1
-    der = cmul(vec2(1.0, 0.0) - cmul(tanh_z, tanh_z), der) + vec2(1.0, 0.0);
-    z   = tanh_z + c;
+    int variant = int(uVariant);
+    float eps = 1e-4;
+    vec2 f0 = evalVariant(z, c, variant);
+    vec2 dFdz = (evalVariant(z + vec2(eps, 0.0), c, variant) -
+                 evalVariant(z - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
+    der = cmul(dFdz, der) + vec2(1.0, 0.0);
+    z = f0;
     if (dot(z, z) > bailoutSq) { it = j; break; }
   }
 

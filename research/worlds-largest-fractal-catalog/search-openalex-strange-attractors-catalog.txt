@@ -1,0 +1,20 @@
+10.1137/100791233	Mixed-Mode Oscillations with Multiple Time Scales
+10.1098/rspa.2023.0422	Discovering governing equations from partial measurements with deep delay autoencoders
+10.1016/0304-3800(94)90102-3	The qualitative behavior of coupled predator-prey oscillations as deduced from simple circle maps
+10.1007/s11831-018-9301-4	Virtual, Digital and Hybrid Twins: A New Paradigm in Data-Based Engineering and Engineered Data
+10.1145/42372.42376	Pattern formation and chaos in networks
+10.26443/seismica.v4i1.1568	Large earthquakes are more predictable than smaller ones
+10.1016/j.chaos.2023.113419	Global versus local clustering of seismicity: Implications with earthquake prediction
+10.48550/arxiv.1711.10302	Hidden attractors in aircraft control systems with saturated inputs
+10.3389/fnhum.2015.00011	Traumatic Brain Injury Detection Using Electrophysiological Methods
+10.1002/ecy.4218	Combining intransitive and higher‐order effects in a coupled oscillator framework: A case study of an ant community
+10.3389/fnmol.2022.869935	Consciousness, Cognition and the Neuronal Cytoskeleton – A New Paradigm Needed in Neuroscience
+10.1111/j.1365-246x.2009.04380.x	The fractal description of seismicity
+10.3389/fphar.2018.00172	Unifying Theories of Psychedelic Drug Effects
+10.1038/s41598-024-67685-4	Toward quantitative characterization of simulated earthquake-cycle complexities
+10.1038/s42003-023-04837-8	Morphodynamical cell state description via live-cell imaging trajectory embedding
+10.1353/book.43167	Traces of the Old Uses of the New The Emergence of Digital Literary Studies
+10.5821/dissertation-2117-93156	Chaos in the buck converter
+10.3389/fclim.2021.675840	Information Entropy as Quantifier of Potential Predictability in the Tropical Indo-Pacific Basin
+10.1007/978-981-99-5873-3	Reshaping Engineering Education
+10.1353/book.6387	The Hyperlinked Society Questioning Connections in the Digital Age

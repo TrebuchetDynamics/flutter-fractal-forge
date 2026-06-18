@@ -10,6 +10,7 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uK;
 
 out vec4 fragColor;
 
@@ -57,7 +58,7 @@ void main() {
   float theta = TAU * p0.x;
   float mom = TAU * p0.y;
 
-  const float K = 0.9;
+  float K = uK;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
   float chaos = 0.0;

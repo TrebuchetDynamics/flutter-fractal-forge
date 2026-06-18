@@ -1,0 +1,20 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+10.1145/3472538.3472600	Ensemble Learning For Mega Man Level Generation
+10.1145/3472538.3472601	Toward Co-creative Dungeon Generation via Transfer Learning
+10.1145/3472538.3472602	Generating Lode Runner Levels by Learning Player Paths with LSTMs
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.18148/srm/2025.v19i4.8568	AIn't Nothing But a Survey? Using Large Language Models for Coding German Open-Ended Survey Responses on Survey Motivation
+	A rich bounty of AGN in the 9 square degree Bootes survey: high-z obscured AGN and large-scale structure
+10.1145/3472538.3472589	TaikoNation: Patterning-focused Chart Generation for Rhythm Action Games
+	The Methanol Multibeam Survey
+	The Dark Energy Survey
+10.1017/s1743921314009417	The SAMI Galaxy Survey: first 1000 galaxies
+	Roman Galactic Plane Survey Definition Committee Report
+10.1051/0004-6361/201629450	The Gaia-ESO Survey: calibration strategy
+10.1063/1.3246504	IRSF/SIRIUS JHKs near-infrared variable star survey in the Magellanic Clouds
+	Text-to-image Diffusion Models in Generative AI: A Survey
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	Ground-Based Optical Deep Pencil Beam Surveys
+	Theory of Carry Value Transformation (CVT) and its Application in Fractal formation
+10.24963/ijcai.2021/635	A Survey On Universal Adversarial Attack
+	Stellar atmospheric parameters and the Gaia-ESO Survey experience with multiple analysis pipelines

@@ -1,0 +1,20 @@
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.1090/s0273-0979-1993-00432-4	Iteration of meromorphic functions
+10.1109/tmi.2014.2377694	The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)
+10.3389/fphys.2010.00015	Fractals in the nervous system: conceptual implications for theoretical neuroscience
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.1145/965145.801263	Generation and display of geometric fractals in 3-D
+10.3390/e18030084	Entropy and Fractal Antennas
+10.3390/app12178392	An Overview of Variants and Advancements of PSO Algorithm
+10.1145/74334.74337	The synthesis and rendering of eroded fractal terrains
+10.3390/en14196204	A Novel Approach of Design and Analysis of a Hexagonal Fractal Antenna Array (HFAA) for Next-Generation Wireless Communication
+10.1371/journal.pone.0122827	A Comprehensive Review of Swarm Optimization Algorithms
+10.1111/cgf.12783	Inversion Fractals and Iteration Processes in the Generation of Aesthetic Patterns
+10.1016/j.energy.2013.10.041	MES (multi-energy systems): An overview of concepts and evaluation models
+10.3390/e21030304	Primality, Fractality, and Image Analysis
+10.1109/access.2022.3172954	Robust Speech Emotion Recognition Using CNN+LSTM Based on Stochastic Fractal Search Optimization Algorithm
+10.3390/app9112383	Auto-Generation System Based on Fractal Geometry for Batik Pattern Design
+10.1016/0097-8493(94)90042-6	Automatic generation of iterated function systems
+10.1017/s0962492917000046	The cardiovascular system: Mathematical modelling, numerical algorithms and clinical applications
+10.1038/s41598-020-72193-2	New insights and best practices for the successful use of Empirical Mode Decomposition, Iterative Filtering and derived algorithms
+10.1142/s0218348x93000125	FRACTAL SURFACES: MEASUREMENT AND APPLICATIONS IN THE EARTH SCIENCES

@@ -10,6 +10,7 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uPower;         // 10
 
 out vec4 fragColor;
 
@@ -44,6 +45,15 @@ vec3 palette(float t, int scheme) {
   return clamp(col, 0.0, 1.0);
 }
 
+vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
+
+vec2 cpowReal(vec2 z, float power) {
+  float r = max(length(z), 1e-8);
+  float a = atan(z.y, z.x);
+  float rp = pow(r, power);
+  return rp * vec2(cos(power * a), sin(power * a));
+}
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
@@ -52,8 +62,10 @@ void main() {
   int schemeInt = int(uColorScheme);
   vec2 c   = uv / max(0.000001, uZoom) + uCenter;
   vec2 z   = vec2(0.0);
+  float power = clamp(uPower, -8.0, 24.0);
+  if (abs(power) < 0.001) power = 3.0;
   // Complex derivative dz/dc for normal-map shading.
-  // d(z^3)/dc = 3*z^2 * der  →  der_next = 3*z^2*der + 1
+  // d(z^p)/dc = p*z^(p-1) * der  →  der_next = p*z^(p-1)*der + 1
   vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
@@ -71,14 +83,10 @@ void main() {
     for (int j = 0; j < MAX_ITERS; j++) {
       if (j >= target) { it = target; break; }
 
-      // z^3 + c  (Multibrot d=3)
-      float x2 = z.x*z.x;
-      float y2 = z.y*z.y;
-      // Derivative update using z^2: der = 3*z^2*der + 1
-      vec2 z2v = vec2(x2 - y2, 2.0*z.x*z.y);
-      der = 3.0 * vec2(z2v.x*der.x - z2v.y*der.y,
-                       z2v.x*der.y + z2v.y*der.x) + vec2(1.0, 0.0);
-      z = vec2(z.x*(x2 - 3.0*y2) + c.x, z.y*(3.0*x2 - y2) + c.y);
+      // z^p + c  (parameterized Multibrot)
+      vec2 derivFactor = power * cpowReal(z, power - 1.0);
+      der = cmul(derivFactor, der) + vec2(1.0, 0.0);
+      z = cpowReal(z, power) + c;
 
       if (dot(z, z) > bailoutSq) { it = j; break; }
       it = j + 1;
@@ -94,7 +102,7 @@ void main() {
   // Continuous potential for z -> z^p + c (Douady/Hubbard smooth coloring):
   // nu = n + 1 - log(log|z_n|) / log(p).  Here |z| = sqrt(mag2).
   float logZn = 0.5 * log(mag2);
-  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(3.0);
+  float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(max(1.001, abs(power)));
 
   // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
   if (schemeInt >= 50) {

@@ -1,0 +1,20 @@
+	InfiniteDiffusion: Bridging Learned Fidelity and Procedural Utility for Open-World Terrain Generation
+	Tabletop Roleplaying Games as Procedural Content Generators
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1142/s0219477510000320	Noise and Bell's inequality
+10.1142/s0219477516020016	Quantum and Classical Frontiers of Noise
+	Stokes' Drift and Hypersensitive Response with Dichotomous Markov Noise
+	Procedural Planetary Multi-resolution Terrain Generation for Games
+	Procedural terrain generation with style transfer
+	Evolutive Rendering Models
+	Noise based logic: why noise? A comparative study of the necessity of randomness out of orthogonality
+10.1142/s0219477516400034	Decoherence and noise in open quantum system dynamics
+10.1142/s0219477510000253	Instantaneous noise-based logic
+10.1109/icnf57520.2023.10472766	Noise Dynamics in the Quantum Regime
+10.1142/s0219477524500597	Simple Cracking of (Noise-Based) Dynamic Watermarking in Smart Grids
+10.1007/978-3-031-48683-8_33	Points of convergence -- music meets mathematics
+	Procedural Pretraining: Warming Up Language Models with Abstract Data
+	Theory of Carry Value Transformation (CVT) and its Application in Fractal formation
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	Application of the Modified Fractal Signature Method for Terrain Classification from Synthetic Aperture Radar Images
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach

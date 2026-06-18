@@ -11,6 +11,7 @@ uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
 uniform float uA;
+uniform float uB;
 
 out vec4 fragColor;
 
@@ -78,7 +79,7 @@ void main() {
 
   int schemeInt = int(uColorScheme);
   float a_param = clamp(uA, 0.01, 0.99);
-  float b_param = 7.0;  // standard Weierstrass b parameter (odd integer, a*b > 1+3pi/2)
+  float b_param = clamp(uB, 2.0, 15.0);  // standard b values are odd integers, with a*b > 1+3pi/2
 
   int terms = int(clamp(uIterations, 2.0, 30.0));
 

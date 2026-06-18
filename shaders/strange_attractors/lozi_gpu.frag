@@ -10,6 +10,8 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uA;             // 10
+uniform float uB;             // 11
 
 out vec4 fragColor;
 
@@ -52,8 +54,8 @@ void main() {
   float x = p.x;
   float y = p.y;
 
-  const float a = 1.7;
-  const float b = 0.5;
+  float a = uA;
+  float b = uB;
 
   float bailoutSq = uBailout * uBailout;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));

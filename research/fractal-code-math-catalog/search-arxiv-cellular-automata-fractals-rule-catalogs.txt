@@ -1,0 +1,20 @@
+	A Note on Elementary Cellular Automata Classification
+	Isotropic Cellular Automata: the DDLab iso-rule paradigm
+	On Decidability Properties of One-Dimensional Cellular Automata
+	On the decomposition of stochastic cellular automata
+	A guided tour of asynchronous cellular automata
+10.1007/978-3-032-01570-9_7	Ternary cellular automata induced by semigroups of order 3 are solvable
+	Nonequilibrium physics aspects of probabilistic cellular automata
+	Probabilistic Cellular Automata for Granular Media in Video Games
+	Non-Uniform Cellular Automata: classes, dynamics, and decidability
+	The X-rule: universal computation in a non-isotropic Life-like Cellular Automaton
+	Coarse Graining of Partitioned Cellular Automata
+	Classification of Cellular Automata Rules Based on Their Properties
+	Introducing Lyapunov profiles of cellular automata
+	Asynchronism Induces Second Order Phase Transitions in Elementary Cellular Automata
+10.4204/eptcs.90.19	Phase Space Invertible Asynchronous Cellular Automata
+10.4204/eptcs.90.17	Intrinsic Simulations between Stochastic Cellular Automata
+	Enumeration of number-conserving cellular automata rules with two inputs
+10.4204/eptcs.90.18	Strictly Temporally Periodic Points in Cellular Automata
+	Density Classification Quality of the Traffic-majority Rules
+10.1007/978-3-031-78757-7_12	A study on the composition of elementary cellular automata

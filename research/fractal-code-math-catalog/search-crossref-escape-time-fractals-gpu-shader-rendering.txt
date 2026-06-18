@@ -1,0 +1,20 @@
+10.1201/b18805-36	2: Semantic-Based Shader Generation Using Shader Shaker
+10.1201/b14077-17	The Skylanders SWAP Force Depth-of-Field Shader
+10.1201/b11642-3	Vertex Shader Tessellation
+10.1201/9781351261524-2	NPR Effects Using the Geometry Shader
+10.1201/b10648-12	NPR Effects Using the Geometry Shader
+10.1201/b21261-21	Real-Time BC6H Compression on GPU
+10.1201/b16721-14	TressFX: Advanced Real-Time Hair Rendering
+10.1201/b11642-28	Interactive Ray Tracing Using the Compute Shader in DirectX 11
+10.5353/th_b4501537	A novel shape representation on GPU for real-time rendering
+10.1109/pvgs.2003.1249044	Real-time volume rendering of time-varying data using a fragment-shader compression approach
+10.3724/sp.j.1016.2009.00231	GPU Based Real-Time Rendering of Spherical Depth Image
+10.1201/b18805-13	4: Real-Time Rendering of Physically Based Clouds Using Precomputed Scattering
+10.1201/b16721-21	Realistic Real-Time Skin Rendering on Mobile Renaldas Zioma and Ole Ciliox
+10.14711/thesis-b1029161	A GPU-based framework for real-time rendering of open water phenomena
+10.1201/b21261-11	Real-Time Volumetric Cloudscapes
+10.1201/b11325-33	A Rendering Pipeline for Real-Time Crowds
+10.70675/7aaf619bz53a9z4cfdzbcecz83efab4c2d85	Modeling and real-time rendering of participating media using the GPU
+10.1201/9781351261524-28	Real-Time Rendering of Physically Based Clouds Using Precomputed Scattering
+10.1201/9781351261524-12	Volumetric Real-Time Water and Foam Rendering
+10.1201/b11325-29	Shader-Based Water Effects

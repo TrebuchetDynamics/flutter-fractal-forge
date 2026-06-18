@@ -10,6 +10,9 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uA;
+uniform float uB;
+uniform float uC;
 
 out vec4 fragColor;
 
@@ -58,9 +61,9 @@ void main() {
   // Hopalong as an escape-time style orbit seeded from each pixel.
   vec2 p = uv / max(0.000001, uZoom) + uCenter;
 
-  const float a = 2.0;
-  const float b = 1.0;
-  const float c = 7.5;
+  float a = uA;
+  float b = uB;
+  float c = uC;
 
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   float bailoutSq = uBailout * uBailout;

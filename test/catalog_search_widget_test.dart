@@ -84,11 +84,8 @@ void main() {
       (tester) async {
     await pumpCatalog(tester);
 
-    expect(find.text('Categories'), findsOneWidget);
-    expect(
-      find.byKey(const Key('catalogCategoryChip_escape_time')),
-      findsOneWidget,
-    );
+    expect(find.text('CATEGORIES'), findsOneWidget);
+    expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
 
     await tester.pump(const Duration(seconds: 3));
   });

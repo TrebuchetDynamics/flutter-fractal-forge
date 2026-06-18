@@ -3,7 +3,7 @@
 precision highp float;
 
 // IMPORTANT: uniform ORDER matches phoenix_module.dart setFloat indices.
-// Phoenix Fractal: z_{n+1} = z_n² + c + p·z_{n-1}  (memory / coupled iteration)
+// Phoenix Fractal: z_{n+1} = z_n^d + c + p·z_{n-1}  (memory / coupled iteration)
 // Julia-like: z₀ = pixel, c = (uPhoenixCReal, uPhoenixCImag), p = uPhoenixP.
 // The memory term p·z_{n-1} breaks symmetry, producing flame and feather shapes.
 // Derivative (dz/dz₀, Julia-style): derNew = 2z·der + p·derPrev, der₀=(1,0), derPrev₀=(0,0).
@@ -18,7 +18,8 @@ uniform float uColorScheme;   // 8
 uniform float uPhoenixCReal;  // 9
 uniform float uPhoenixCImag;  // 10
 uniform float uPhoenixP;      // 11
-uniform float uTransparentBg; // 12
+uniform float uPhoenixPower;  // 12
+uniform float uTransparentBg; // 13
 
 out vec4 fragColor;
 
@@ -68,6 +69,15 @@ vec3 palette(float t, int scheme) {
 
 vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
 
+vec2 cpowInt(vec2 z, int power) {
+  vec2 result = vec2(1.0, 0.0);
+  for (int i = 0; i < 8; i++) {
+    if (i >= power) break;
+    result = cmul(result, z);
+  }
+  return result;
+}
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
@@ -79,6 +89,7 @@ void main() {
   vec2 z    = uv / max(0.000001, uZoom) + uCenter;
   vec2 c    = vec2(uPhoenixCReal, uPhoenixCImag);
   float p   = uPhoenixP;
+  int power = int(clamp(floor(uPhoenixPower + 0.5), 2.0, 8.0));
   vec2 zPrev = vec2(0.0);
 
   // Julia-style derivative dz/dz₀: der₀=(1,0), derPrev₀=(0,0)
@@ -93,10 +104,11 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // z_{n+1} = z² + c + p·zPrev
-    vec2 zNew = cmul(z, z) + c + p * zPrev;
-    // d(z_{n+1})/dz₀ = 2z·der + p·derPrev
-    vec2 derNew = 2.0 * cmul(z, der) + p * derPrev;
+    // z_{n+1} = z^d + c + p·zPrev
+    vec2 zPower = cpowInt(z, power);
+    vec2 zNew = zPower + c + p * zPrev;
+    // d(z_{n+1})/dz₀ = d*z^(d-1)*der + p·derPrev
+    vec2 derNew = float(power) * cmul(cpowInt(z, power - 1), der) + p * derPrev;
     derPrev = der;
     der     = derNew;
     zPrev   = z;

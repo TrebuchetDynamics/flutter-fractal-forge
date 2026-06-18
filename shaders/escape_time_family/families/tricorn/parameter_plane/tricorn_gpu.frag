@@ -10,6 +10,7 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uPower;         // 10
 
 out vec4 fragColor;
 
@@ -24,6 +25,17 @@ vec3 linearToSRGB(vec3 lin) {
 
 // colorScheme 0-49: standard palette coloring.
 // colorScheme 50-63: normal-map (bas-relief) mode — 14 light angles × 4 base palettes.
+vec2 cmul(vec2 a, vec2 b) {
+  return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);
+}
+
+vec2 cpowReal(vec2 z, float p) {
+  float r = max(length(z), 1e-12);
+  float theta = atan(z.y, z.x);
+  float rp = pow(r, p);
+  return rp * vec2(cos(p * theta), sin(p * theta));
+}
+
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(
@@ -80,12 +92,12 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // Tricorn / Mandelbar: z_{n+1} = conj(z_n)^2 + c
+    // Tricorn / Mandelbar family: z_{n+1} = conj(z_n)^p + c
+    float power = max(abs(uPower), 0.5);
     vec2 zc = vec2(z.x, -z.y);
-    // Derivative update (before z update): 2 * conj(z) * der + 1
-    der = 2.0 * vec2(zc.x * der.x - zc.y * der.y,
-                     zc.x * der.y + zc.y * der.x) + vec2(1.0, 0.0);
-    z = vec2(zc.x * zc.x - zc.y * zc.y, 2.0 * zc.x * zc.y) + c;
+    vec2 zcPowMinusOne = cpowReal(zc, power - 1.0);
+    der = power * cmul(zcPowMinusOne, der) + vec2(1.0, 0.0);
+    z = cpowReal(zc, power) + c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;

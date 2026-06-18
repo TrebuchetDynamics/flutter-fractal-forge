@@ -245,6 +245,7 @@ FractalModule buildPhoenixModule() {
       final phoenixCReal = readDouble(state.params, 'phoenixCReal', 0.5667);
       final phoenixCImag = readDouble(state.params, 'phoenixCImag', 0.0);
       final phoenixP = readDouble(state.params, 'phoenixP', -0.5);
+      const phoenixPower = 2.0;
 
       shader.setFloat(0, time);
       shader.setFloat(1, size.width);
@@ -258,7 +259,8 @@ FractalModule buildPhoenixModule() {
       shader.setFloat(9, phoenixCReal);
       shader.setFloat(10, phoenixCImag);
       shader.setFloat(11, phoenixP);
-      shader.setFloat(12, state.transparentBackground ? 1.0 : 0.0);
+      shader.setFloat(12, phoenixPower);
+      shader.setFloat(13, state.transparentBackground ? 1.0 : 0.0);
 
       // GPU-safe: no custom palette uniform block in phoenix_gpu.frag
     },

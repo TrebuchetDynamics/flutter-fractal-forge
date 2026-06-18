@@ -1,0 +1,20 @@
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1016/s0370-1573(99)00096-4	The control of chaos: theory and applications
+10.1016/j.ins.2015.05.010	Algorithm selection for black-box continuous optimization problems: A survey on methods and challenges
+	Memetic algorithms for combinatorial optimization problems : fitness landscapes and effective search strategies
+10.1109/iccv.2019.01008	Escaping Plato’s Cave: 3D Shape From Adversarial Rendering
+10.1109/access.2019.2937021	An Enhanced Version of Black Hole Algorithm via Levy Flight for Optimization and Data Clustering Problems
+10.1007/s00371-020-01953-y	A survey of modeling, rendering and animation of clouds in computer graphics
+10.5772/intechopen.93051	Optimization of Fractal Image Compression
+10.1051/epjnbp/2017001	Capturing time-varying brain dynamics
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.1109/access.2024.3365700	Advances in Henry Gas Solubility Optimization: A Physics-Inspired Metaheuristic Algorithm With Its Variants and Applications
+	Surface reflection model estimation from naturally illuminated image sequences
+10.1175/jcli3663.1	A Technique to Detect Microclimatic Inhomogeneities in Historical Records of Screen-Level Air Temperature
+10.3390/rs12111729	Review: Deep Learning on 3D Point Clouds
+10.1371/journal.pone.0295579	A feature selection method based on the Golden Jackal-Grey Wolf Hybrid Optimization Algorithm
+10.1109/access.2013.2260814	Information Forensics: An Overview of the First Decade
+10.1186/s40462-015-0032-y	Analysis and visualisation of movement: an interdisciplinary review
+10.1016/j.cemconres.2009.03.005	Quantification of tortuosity in hardened cement pastes using synchrotron-based X-ray computed microtomography
+10.1038/s41467-020-20699-8	The challenges of containing SARS-CoV-2 via test-trace-and-isolate

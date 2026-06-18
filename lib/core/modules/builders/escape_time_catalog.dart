@@ -152,6 +152,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 200,
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
+    extraParams: [
+      FractalParameter(
+        id: 'power',
+        label: (_) => 'Power',
+        type: FractalParamType.float,
+        min: 1.0,
+        max: 16.0,
+        step: 0.1,
+        defaultValue: 2.0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'burning-ship-vessel',
@@ -260,6 +271,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset:
         'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 150,
+    extraParams: [
+      FractalParameter(
+        id: 'power',
+        label: (_) => 'Power',
+        type: FractalParamType.float,
+        min: 1.0,
+        max: 16.0,
+        step: 0.1,
+        defaultValue: 2.0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'tricorn-relief-dawn',
@@ -337,6 +359,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset:
         'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 150,
+    extraParams: [
+      FractalParameter(
+        id: 'power',
+        label: (_) => 'Power',
+        type: FractalParamType.float,
+        min: -8,
+        max: 24,
+        step: 0.1,
+        defaultValue: 3.0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'multibrot3-relief-trine',
@@ -1013,6 +1046,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/strange_attractors/tinkerbell_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 32.0,
+    extraParams: [
+      FractalParameter(
+        id: 'a',
+        label: (_) => 'a',
+        type: FractalParamType.float,
+        min: -2,
+        max: 2,
+        step: 0.01,
+        defaultValue: 0.9,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'gingerbreadman',
@@ -1027,6 +1071,26 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/strange_attractors/lozi_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 24.0,
+    extraParams: [
+      FractalParameter(
+        id: 'a',
+        label: (_) => 'a',
+        type: FractalParamType.float,
+        min: -4,
+        max: 4,
+        step: 0.01,
+        defaultValue: 1.7,
+      ),
+      FractalParameter(
+        id: 'b',
+        label: (_) => 'b',
+        type: FractalParamType.float,
+        min: -2,
+        max: 2,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'duffing',
@@ -1048,6 +1112,44 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/strange_attractors/clifford_gpu.frag',
     defaultIterations: 220,
     defaultBailout: 16.0,
+    extraParams: [
+      FractalParameter(
+        id: 'a',
+        label: (_) => 'a',
+        type: FractalParamType.float,
+        min: -3,
+        max: 3,
+        step: 0.01,
+        defaultValue: -1.4,
+      ),
+      FractalParameter(
+        id: 'b',
+        label: (_) => 'b',
+        type: FractalParamType.float,
+        min: -3,
+        max: 3,
+        step: 0.01,
+        defaultValue: 1.6,
+      ),
+      FractalParameter(
+        id: 'c',
+        label: (_) => 'c',
+        type: FractalParamType.float,
+        min: -3,
+        max: 3,
+        step: 0.01,
+        defaultValue: 1.0,
+      ),
+      FractalParameter(
+        id: 'd',
+        label: (_) => 'd',
+        type: FractalParamType.float,
+        min: -3,
+        max: 3,
+        step: 0.01,
+        defaultValue: 0.7,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'peter_de_jong',
@@ -1055,6 +1157,44 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/strange_attractors/peter_de_jong_gpu.frag',
     defaultIterations: 220,
     defaultBailout: 16.0,
+    extraParams: [
+      FractalParameter(
+        id: 'a',
+        label: (_) => 'a',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.01,
+        defaultValue: 1.4,
+      ),
+      FractalParameter(
+        id: 'b',
+        label: (_) => 'b',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.01,
+        defaultValue: -2.3,
+      ),
+      FractalParameter(
+        id: 'c',
+        label: (_) => 'c',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.01,
+        defaultValue: 2.4,
+      ),
+      FractalParameter(
+        id: 'd',
+        label: (_) => 'd',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.01,
+        defaultValue: -2.1,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'svensson',
@@ -1062,6 +1202,44 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/strange_attractors/svensson_gpu.frag',
     defaultIterations: 220,
     defaultBailout: 24.0,
+    extraParams: [
+      FractalParameter(
+        id: 'a',
+        label: (_) => 'a',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.01,
+        defaultValue: 1.5,
+      ),
+      FractalParameter(
+        id: 'b',
+        label: (_) => 'b',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.01,
+        defaultValue: -1.8,
+      ),
+      FractalParameter(
+        id: 'c',
+        label: (_) => 'c',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.01,
+        defaultValue: 1.6,
+      ),
+      FractalParameter(
+        id: 'd',
+        label: (_) => 'd',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.01,
+        defaultValue: 0.9,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'gumowski_mira',
@@ -1069,6 +1247,26 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/strange_attractors/gumowski_mira_gpu.frag',
     defaultIterations: 240,
     defaultBailout: 48.0,
+    extraParams: [
+      FractalParameter(
+        id: 'mu',
+        label: (_) => 'mu',
+        type: FractalParamType.float,
+        min: -2,
+        max: 2,
+        step: 0.001,
+        defaultValue: 0.008,
+      ),
+      FractalParameter(
+        id: 'yScale',
+        label: (_) => 'y scale',
+        type: FractalParamType.float,
+        min: 0,
+        max: 1,
+        step: 0.001,
+        defaultValue: 0.05,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'arnold_cat',
@@ -1083,6 +1281,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/strange_attractors/standard_map_gpu.frag',
     defaultIterations: 220,
     defaultBailout: 12.0,
+    extraParams: [
+      FractalParameter(
+        id: 'k',
+        label: (_) => 'K',
+        type: FractalParamType.float,
+        min: 0,
+        max: 8,
+        step: 0.01,
+        defaultValue: 0.9,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'zaslavsky',
@@ -1866,6 +2075,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     // escape structure immediately.
     defaultCenterX: -0.4,
     defaultZoom: 0.3,
+    extraParams: [
+      FractalParameter(
+        id: 'variant',
+        label: (_) => 'Variant',
+        type: FractalParamType.integer,
+        min: 0,
+        max: 4,
+        step: 1,
+        defaultValue: 0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'cosine-mandel-relief',
@@ -1884,6 +2104,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag',
     defaultIterations: 110,
     defaultBailout: 4.0,
+    extraParams: [
+      FractalParameter(
+        id: 'variant',
+        label: (_) => 'Variant',
+        type: FractalParamType.integer,
+        min: 0,
+        max: 1,
+        step: 1,
+        defaultValue: 0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'tangent-mandel-relief',
@@ -1938,6 +2169,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
+    extraParams: [
+      FractalParameter(
+        id: 'variant',
+        label: (_) => 'Variant',
+        type: FractalParamType.integer,
+        min: 0,
+        max: 2,
+        step: 1,
+        defaultValue: 0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'tanh-mandel-relief',
@@ -2004,6 +2246,35 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/strange_attractors/hopalong_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 32.0,
+    extraParams: [
+      FractalParameter(
+        id: 'a',
+        label: (_) => 'a',
+        type: FractalParamType.float,
+        min: -250,
+        max: 250,
+        step: 0.01,
+        defaultValue: 2.0,
+      ),
+      FractalParameter(
+        id: 'b',
+        label: (_) => 'b',
+        type: FractalParamType.float,
+        min: -20,
+        max: 20,
+        step: 0.01,
+        defaultValue: 1.0,
+      ),
+      FractalParameter(
+        id: 'c',
+        label: (_) => 'c',
+        type: FractalParamType.float,
+        min: -100,
+        max: 100,
+        step: 0.01,
+        defaultValue: 7.5,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'pickover_biomorph',
@@ -2068,6 +2339,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag',
     defaultIterations: 240,
     defaultBailout: 4.0,
+    extraParams: [
+      FractalParameter(
+        id: 'rule',
+        label: (_) => 'Rule',
+        type: FractalParamType.float,
+        min: 0,
+        max: 255,
+        step: 1,
+        defaultValue: 30.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'langton_ant',
@@ -2152,6 +2434,26 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/cellular_and_stochastic/maze_ca_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 4.0,
+    extraParams: [
+      FractalParameter(
+        id: 'birthMask',
+        label: (_) => 'Birth mask',
+        type: FractalParamType.float,
+        min: 0,
+        max: 511,
+        step: 1,
+        defaultValue: 8.0,
+      ),
+      FractalParameter(
+        id: 'survivalMask',
+        label: (_) => 'Survival mask',
+        type: FractalParamType.float,
+        min: 0,
+        max: 511,
+        step: 1,
+        defaultValue: 62.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'cyclic_ca',
@@ -2159,6 +2461,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/cellular_and_stochastic/cyclic_ca_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 4.0,
+    extraParams: [
+      FractalParameter(
+        id: 'states',
+        label: (_) => 'States',
+        type: FractalParamType.float,
+        min: 2,
+        max: 32,
+        step: 1,
+        defaultValue: 8.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'replicator_ca',
@@ -2166,6 +2479,26 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     shaderAsset: 'shaders/cellular_and_stochastic/replicator_ca_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 4.0,
+    extraParams: [
+      FractalParameter(
+        id: 'birthMask',
+        label: (_) => 'Birth mask',
+        type: FractalParamType.float,
+        min: 0,
+        max: 511,
+        step: 1,
+        defaultValue: 170.0,
+      ),
+      FractalParameter(
+        id: 'survivalMask',
+        label: (_) => 'Survival mask',
+        type: FractalParamType.float,
+        min: 0,
+        max: 511,
+        step: 1,
+        defaultValue: 170.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'hodgepodge_machine',
@@ -2597,6 +2930,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 300,
     defaultBailout: 4.0,
     defaultCenterX: -0.5,
+    extraParams: [
+      FractalParameter(
+        id: 'trapMode',
+        label: (_) => 'Trap Mode',
+        type: FractalParamType.integer,
+        min: 0,
+        max: 24,
+        step: 1,
+        defaultValue: 0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'orbit-trap-deep',
@@ -3157,6 +3501,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 200,
     defaultBailout: 10.0,
     defaultCenterX: 0.0,
+    extraParams: [
+      FractalParameter(
+        id: 'variant',
+        label: (_) => 'Variant',
+        type: FractalParamType.integer,
+        min: 0,
+        max: 16,
+        step: 1,
+        defaultValue: 0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'sine-mandelbrot-relief',
@@ -5732,6 +6087,26 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      FractalParameter(
+        id: 'a',
+        label: (_) => 'a',
+        type: FractalParamType.float,
+        min: 0.01,
+        max: 0.99,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+      FractalParameter(
+        id: 'b',
+        label: (_) => 'b',
+        type: FractalParamType.float,
+        min: 2,
+        max: 15,
+        step: 1,
+        defaultValue: 7.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'quaternion_julia_3d',

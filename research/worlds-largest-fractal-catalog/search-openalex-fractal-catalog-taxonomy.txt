@@ -1,0 +1,20 @@
+10.1086/306386	Three Types of Gamma‐Ray Bursts
+10.3390/info11050238	A Self-Operating Time Crystal Model of the Human Brain: Can We Replace Entire Brain Hardware with a 3D Fractal Architecture of Clocks Alone?
+10.3140/bull.geosci.1608	The Neuropteris ovata frond and its cyclopteroids: micromorphology-spectrochemistry-fractal taxonomy: Propositions for restructuring and taxonomy (Pennsylvanian, Canada)
+10.1007/s12559-020-09730-8	Comprehensive Taxonomies of Nature- and Bio-inspired Optimization: Inspiration Versus Algorithmic Behavior, Critical Analysis Recommendations
+10.1186/s13100-020-00230-y	The Dfam community resource of transposable element families, sequence models, and genome annotations
+10.1007/s11263-018-1125-z	From BoW to CNN: Two Decades of Texture Representation for Texture Classification
+10.1101/gr.171001	The Complete Human Olfactory Subgenome
+10.1371/journal.pcbi.1003491	Resolving Structural Variability in Network Models and the Brain
+10.3390/ani13030521	Features of Fractal Conformity and Bioconsolidation in the Early Myogenesis Gene Expression and Their Relationship to the Genetic Diversity of Chicken Breeds
+10.17705/1thci.00055	Interaction Design for Complex Cognitive Activities with Visual Representations: A Pattern-Based Approach
+10.1002/jez.b.23300	Fractal Dimension and Suture Complexity During Postnatal Ontogeny in Neotropical Deer in Relation to Sexual Dimorphism and Other Biological Features
+10.1109/tsipn.2015.2448520	Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing
+10.1016/0022-0248(90)90217-9	A classification scheme for visual defects arising in semiconductor wafer inspection
+10.5962/bhl.title.15368	Contributions to morphometrics
+10.1093/cercor/bhj126	Correlation Between Axonal Morphologies and Synaptic Input Kinetics of Interneurons from Mouse Visual Cortex
+10.1371/journal.pbio.2006643	Large-scale investigation of the reasons why potentially important genes are ignored
+10.3390/su151914643	Soil Microbiome: Diversity, Benefits and Interactions with Plants
+10.1007/s11063-022-11023-0	Application of Deep Learning Techniques in Diagnosis of Covid-19 (Coronavirus): A Systematic Review
+10.1038/s41467-021-22994-4	Marine snow morphology illuminates the evolution of phytoplankton blooms and determines their subsequent vertical export
+10.1146/annurev-ecolsys-011620-031032	Diversification of Neotropical Freshwater Fishes

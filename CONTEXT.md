@@ -24,6 +24,22 @@ _Avoid_: Scattered thresholds, backend toggle
 A scoped, evidence-backed review of launch-critical shaders, presets, thumbnails, and screenshots before visual polish changes are made. It is not a blanket shader rewrite; it identifies measurable first-impression fixes for the Featured Launch Set.
 _Avoid_: Visual vibes, global shader pass, polish sweep
 
+**Seeded Thumbnail Palette**:
+A deterministic color variation chosen from a thumbnail generation seed and a stable fractal/module ID. It should feel visually varied while keeping regenerated catalog thumbnails reviewable and reproducible.
+_Avoid_: True random thumbnail colors, one-off palette shuffle, unreviewable visual diff
+
+**Launch Thumbnail Standard**:
+The thumbnail contract for bundled catalog assets used in launch-critical browsing and screenshots: 320×320 PNGs. Smaller staged smoke outputs are allowed only as generation-test artifacts, not as bundled catalog assets.
+_Avoid_: Smoke thumbnail size, arbitrary thumbnail size, per-run asset size
+
+**Launch Visual Metrics**:
+The objective thumbnail measurements used during a Visual Fidelity Audit for the Featured Launch Set. They describe first-impression image health without making long-tail catalog visuals fail by default.
+_Avoid_: Visual vibes, subjective polish score, catalog-wide failure rule
+
+**Counted Catalog Identity**:
+A stable renderable formula, rule, grammar, transform system, map, or distance estimator counted toward the world-largest catalog goal. Presets, palettes, camera views, thumbnails, and renderer implementation details do not create Counted Catalog Identities.
+_Avoid_: Preset count, thumbnail count, random variant, renderer count
+
 **Extended GPU Preview**:
 A GPU render path that extends useful deep zoom beyond ordinary float32, currently through double-float Mandelbrot or perturbation shaders. It is preview-grade unless a later refine path proves exactness.
 _Avoid_: Exact GPU, CPU fallback

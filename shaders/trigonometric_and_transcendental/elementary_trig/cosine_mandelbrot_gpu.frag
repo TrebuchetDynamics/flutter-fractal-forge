@@ -15,6 +15,7 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uVariant;
 
 out vec4 fragColor;
 
@@ -50,6 +51,11 @@ vec3 getPaletteColor(float t, int scheme) {
 }
 
 vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
+vec2 cdiv(vec2 a, vec2 b) {
+  float d = max(dot(b, b), 1e-12);
+  return vec2(a.x*b.x + a.y*b.y, a.y*b.x - a.x*b.y) / d;
+}
+vec2 clogSafe(vec2 z) { return vec2(log(max(length(z), 1e-12)), atan(z.y, z.x)); }
 
 vec2 csin(vec2 z) {
   float y = clamp(z.y, -20.0, 20.0);
@@ -58,6 +64,14 @@ vec2 csin(vec2 z) {
 vec2 ccos(vec2 z) {
   float y = clamp(z.y, -20.0, 20.0);
   return vec2(cos(z.x)*cosh(y), -sin(z.x)*sinh(y));
+}
+
+vec2 evalVariant(vec2 z, vec2 c, int variant) {
+  if (variant == 1) return clogSafe(ccos(z)) + c; // log(cos(z))+c
+  if (variant == 2) return ccos(z) + vec2(1.0, 0.0) + c; // cos(z)+1+c
+  if (variant == 3) return cmul(ccos(z), z) + c; // z cos(z)+c
+  if (variant == 4) return z + cdiv(ccos(z), csin(z)) + c; // Newton-cosine + c
+  return ccos(z) + c; // cos(z)+c
 }
 
 void main() {
@@ -78,9 +92,13 @@ void main() {
     if (j >= target) break;
     // Clamp before transcendental to prevent cosh overflow
     vec2 zc = vec2(clamp(z.x, -20.0, 20.0), clamp(z.y, -20.0, 20.0));
-    // d(cos(z))/dc = -sin(z)·der + 1
-    der = cmul(-csin(zc), der) + vec2(1.0, 0.0);
-    z   = ccos(zc) + c;
+    int variant = int(uVariant);
+    float eps = 1e-4;
+    vec2 f0 = evalVariant(zc, c, variant);
+    vec2 dFdz = (evalVariant(zc + vec2(eps, 0.0), c, variant) -
+                 evalVariant(zc - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
+    der = cmul(dFdz, der) + vec2(1.0, 0.0);
+    z = f0;
     float mag2 = dot(z, z);
     if (mag2 > bailoutSq || mag2 != mag2) { it = j; break; }
   }

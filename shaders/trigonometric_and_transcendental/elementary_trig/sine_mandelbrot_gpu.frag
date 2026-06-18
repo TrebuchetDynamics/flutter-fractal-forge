@@ -19,6 +19,7 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uVariant;
 
 out vec4 fragColor;
 
@@ -44,6 +45,15 @@ vec3 palette(float t, int scheme) {
 }
 
 vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
+vec2 cdiv(vec2 a, vec2 b) {
+  float d = max(dot(b, b), 1e-12);
+  return vec2(a.x*b.x + a.y*b.y, a.y*b.x - a.x*b.y) / d;
+}
+vec2 cexp(vec2 z) {
+  float ex = exp(clamp(z.x, -20.0, 20.0));
+  return ex * vec2(cos(z.y), sin(z.y));
+}
+vec2 clogSafe(vec2 z) { return vec2(log(max(length(z), 1e-12)), atan(z.y, z.x)); }
 
 // Complex sin: sin(x+iy) = sin(x)cosh(y) + i·cos(x)sinh(y)
 // Clamp imaginary part to prevent cosh/sinh overflow.
@@ -56,6 +66,38 @@ vec2 ccos(vec2 z) {
   float y = clamp(z.y, -20.0, 20.0);
   return vec2(cos(z.x)*cosh(y), -sin(z.x)*sinh(y));
 }
+vec2 csinh(vec2 z) {
+  float x = clamp(z.x, -20.0, 20.0);
+  return vec2(sinh(x)*cos(z.y), cosh(x)*sin(z.y));
+}
+vec2 ccosh(vec2 z) {
+  float x = clamp(z.x, -20.0, 20.0);
+  return vec2(cosh(x)*cos(z.y), sinh(x)*sin(z.y));
+}
+
+vec2 evalVariant(vec2 z, vec2 c, int variant) {
+  if (variant == 1) return csin(cdiv(vec2(1.0, 0.0), z)) + c; // sin(1/z)+c
+  if (variant == 2) return cmul(csin(z), ccos(z)) + c; // sin(z)cos(z)+c
+  if (variant == 3) return cmul(csinh(z), ccosh(z)) + c; // sinh(z)cosh(z)+c
+  if (variant == 4) return clogSafe(csin(z)) + c; // log(sin(z))+c
+  if (variant == 5) return cmul(csin(z), z) + c; // z sin(z)+c
+  if (variant == 6) return csin(z) + vec2(1.0, 0.0) + c; // sin(z)+1+c
+  if (variant == 7) return csinh(z) + c; // sinh(z)+c
+  if (variant == 8) return cmul(cexp(z), csin(z)) + c; // exp(z)sin(z)+c
+  if (variant == 9) {
+    vec2 a = vec2(cos(0.7), sin(0.7));
+    vec2 d = vec2(cos(0.7), -sin(0.7));
+    return cdiv(cmul(a, z) + vec2(1.0, 0.0), z + d);
+  }
+  if (variant == 10) return cexp(cmul(z, z)) + c; // exp(z²)+c
+  if (variant == 11) return clogSafe(cmul(z, z)) + c; // log(z²)+c
+  if (variant == 12) return cexp(cdiv(vec2(1.0, 0.0), z)) + c; // exp(1/z)+c
+  if (variant == 13) return cmul(z, cdiv(csin(z), ccos(z))) + c; // z·tan(z)+c
+  if (variant == 14) return cmul(z, cexp(-cmul(z, z))) + c; // z·exp(-z²)+c
+  if (variant == 15) return cexp(vec2(-z.y, z.x)) + c; // exp(i·z)+c
+  if (variant == 16) return cexp(z) + z + c; // exp(z)+z+c
+  return csin(z) + c; // sin(z)+c
+}
 
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
@@ -63,7 +105,8 @@ void main() {
   vec2 uv = (fragCoord - 0.5*uResolution) / max(1.0, scale);
   int schemeInt = int(uColorScheme);
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z   = vec2(0.0);
+  int variant = int(uVariant);
+  vec2 z = (variant == 9) ? c : vec2(0.0);
   vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
@@ -74,9 +117,12 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // d(sin(z))/dc = cos(z)·der + 1
-    der = cmul(ccos(z), der) + vec2(1.0, 0.0);
-    z   = csin(z) + c;
+    float eps = 1e-4;
+    vec2 f0 = evalVariant(z, c, variant);
+    vec2 dFdz = (evalVariant(z + vec2(eps, 0.0), c, variant) -
+                 evalVariant(z - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
+    der = cmul(dFdz, der) + vec2(1.0, 0.0);
+    z = f0;
 
     float mag2 = dot(z, z);
     if (mag2 > bailoutSq || mag2 != mag2) { it = j; break; }

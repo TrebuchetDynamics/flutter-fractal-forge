@@ -1,0 +1,20 @@
+	InfiniteDiffusion: Bridging Learned Fidelity and Procedural Utility for Open-World Terrain Generation
+	Tabletop Roleplaying Games as Procedural Content Generators
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.18148/srm/2025.v19i4.8568	AIn't Nothing But a Survey? Using Large Language Models for Coding German Open-Ended Survey Responses on Survey Motivation
+	A rich bounty of AGN in the 9 square degree Bootes survey: high-z obscured AGN and large-scale structure
+	The Methanol Multibeam Survey
+10.5220/0010799700003124	Visually Improved Erosion Algorithm for the Procedural Generation of Tile-based Terrain
+	The Dark Energy Survey
+10.1142/s0219477510000320	Noise and Bell's inequality
+	Procedural terrain generation with style transfer
+10.1142/s0219477516020016	Quantum and Classical Frontiers of Noise
+10.1017/s1743921314009417	The SAMI Galaxy Survey: first 1000 galaxies
+	Noise based logic: why noise? A comparative study of the necessity of randomness out of orthogonality
+10.3390/a5040545	Distributing an Exact Algorithm for Maximum Clique: maximising the costup
+10.1142/s0219477516400034	Decoherence and noise in open quantum system dynamics
+10.1142/s0219477510000253	Instantaneous noise-based logic
+	Roman Galactic Plane Survey Definition Committee Report
+10.1051/0004-6361/201629450	The Gaia-ESO Survey: calibration strategy
+10.1109/icnf57520.2023.10472766	Noise Dynamics in the Quantum Regime
+10.1063/1.3246504	IRSF/SIRIUS JHKs near-infrared variable star survey in the Magellanic Clouds

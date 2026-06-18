@@ -1,0 +1,231 @@
+{
+  "generated_at": "2026-06-18T05:14:11.751670+00:00",
+  "purpose": "Non-counting Multibrot shared-renderer power mapping worklist for existing-app source leads.",
+  "counting_rule": "Multibrot power/exponent identities remain uncounted until shared renderer mapping and render validation pass; presets/random seeds/palettes/camera views do not count.",
+  "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+  "candidate_count": 20,
+  "ready_for_power_uniform_review_count": 18,
+  "needs_manual_review_count": 2,
+  "items": [
+    {
+      "stable_id": "f0088_multibrot_z_13",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0088_multibrot_z_13/f0088_multibrot_z_13_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0088_multibrot_z_13.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 13.0,
+      "power_kind": "integer_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0089_multibrot_z_14",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0089_multibrot_z_14/f0089_multibrot_z_14_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0089_multibrot_z_14.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 14.0,
+      "power_kind": "integer_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0090_multibrot_z_15",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0090_multibrot_z_15/f0090_multibrot_z_15_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0090_multibrot_z_15.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 15.0,
+      "power_kind": "integer_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0091_multibrot_z_16",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0091_multibrot_z_16/f0091_multibrot_z_16_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0091_multibrot_z_16.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 16.0,
+      "power_kind": "integer_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0092_multibrot_z_17",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0092_multibrot_z_17/f0092_multibrot_z_17_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0092_multibrot_z_17.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 17.0,
+      "power_kind": "integer_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0093_multibrot_z_18",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0093_multibrot_z_18/f0093_multibrot_z_18_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0093_multibrot_z_18.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 18.0,
+      "power_kind": "integer_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0094_multibrot_z_19",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0094_multibrot_z_19/f0094_multibrot_z_19_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0094_multibrot_z_19.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 19.0,
+      "power_kind": "integer_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0095_multibrot_z_20",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0095_multibrot_z_20/f0095_multibrot_z_20_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0095_multibrot_z_20.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 20.0,
+      "power_kind": "integer_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0096_multibrot_d_0_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0096_multibrot_d_0_5/f0096_multibrot_d_0_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0096_multibrot_d_0_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 0.5,
+      "power_kind": "fractional_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0097_multibrot_d_3_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0097_multibrot_d_3_5/f0097_multibrot_d_3_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0097_multibrot_d_3_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 3.5,
+      "power_kind": "fractional_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0098_multibrot_d_4_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0098_multibrot_d_4_5/f0098_multibrot_d_4_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0098_multibrot_d_4_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 4.5,
+      "power_kind": "fractional_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0099_multibrot_d_5_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0099_multibrot_d_5_5/f0099_multibrot_d_5_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0099_multibrot_d_5_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 5.5,
+      "power_kind": "fractional_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0100_multibrot_d_6_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0100_multibrot_d_6_5/f0100_multibrot_d_6_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0100_multibrot_d_6_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 6.5,
+      "power_kind": "fractional_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0101_multibrot_d_7_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0101_multibrot_d_7_5/f0101_multibrot_d_7_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0101_multibrot_d_7_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 7.5,
+      "power_kind": "fractional_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0102_multibrot_d_8_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0102_multibrot_d_8_5/f0102_multibrot_d_8_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0102_multibrot_d_8_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": 8.5,
+      "power_kind": "fractional_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0103_inverse_multibrot_d_3",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0103_inverse_multibrot_d_3/f0103_inverse_multibrot_d_3_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0103_inverse_multibrot_d_3.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": -3.0,
+      "power_kind": "inverse_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0104_inverse_multibrot_d_4",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0104_inverse_multibrot_d_4/f0104_inverse_multibrot_d_4_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0104_inverse_multibrot_d_4.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": -4.0,
+      "power_kind": "inverse_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0105_inverse_multibrot_d_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0105_inverse_multibrot_d_5/f0105_inverse_multibrot_d_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0105_inverse_multibrot_d_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": -5.0,
+      "power_kind": "inverse_power",
+      "status": "ready_for_power_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0136_multibrot_z_1_8",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0136_multibrot_z_1_8/f0136_multibrot_z_1_8_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0136_multibrot_z_1_8.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": null,
+      "power_kind": "manual_review",
+      "status": "needs_manual_power_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0137_multibrot_z_2_3",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0137_multibrot_z_2_3/f0137_multibrot_z_2_3_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0137_multibrot_z_2_3.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+      "parsed_power": null,
+      "power_kind": "manual_review",
+      "status": "needs_manual_power_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shared Multibrot shader support for parsed power, render-smoke the mapped formula identity, then regenerate counted ledger."
+    }
+  ]
+}

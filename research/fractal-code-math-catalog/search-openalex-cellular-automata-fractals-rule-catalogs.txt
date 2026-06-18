@@ -1,0 +1,20 @@
+10.25088/complexsystems.17.1.79	Using Shape Grammar to Derive Cellular Automata Rule Patterns
+10.1051/0004-6361/201118237	A statistical fractal-diffusive avalanche model of a slowly-driven self-organized criticality system
+10.20537/2076-7633-2019-11-1-9-57	Cellular automata review based on modern domestic publications
+10.1016/j.physd.2008.07.006	Boolean delay equations: A simple way of looking at complex systems
+10.1371/journal.pone.0013541	Urban Scaling and Its Deviations: Revealing the Structure of Wealth, Innovation and Crime across Cities
+10.1109/tsipn.2015.2448520	Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing
+10.20944/preprints202311.1615.v1	A Blind Digital Image Watermarking Scheme Exploiting Elementary Cellular Automata Rule-30
+10.1007/s11214-014-0054-6	25 Years of Self-Organized Criticality: Solar and Astrophysics
+10.1051/aas:1996242	Cellular Automaton experiments on local galactic structure. II. Numerical simulations
+10.20944/preprints202311.1615.v2	Exploring Cellular Automata Learning: An Innovative Approach for Secure and Imperceptible Digital Image Watermarking
+10.1038/s43588-024-00606-7	Digital twins in city planning
+10.5194/npg-14-5-2007	An Ising model for earthquake dynamics
+10.4236/ijg.2014.53028	Study on Simulation of Foreshock Activity Properties before Strong Earthquake Using Heterogeneous Cellular Automata Models
+10.3390/su12010114	Smart Techniques in Urban Planning: An Insight to Ruled-Based Design
+10.4294/zisin1948.40.3_459	A New Perspective for Earthquakes and Fractals
+10.1086/523349	Avalanche Dynamics of Radio Pulsar Glitches
+10.1109/tnnls.2021.3106777	Synergistic Integration Between Machine Learning and Agent-Based Modeling: A Multidisciplinary Review
+10.1145/42372.42376	Pattern formation and chaos in networks
+10.1111/j.1574-6976.2008.00137.x	Bacteria as computers making computers
+10.1109/access.2023.3304889	Recent Advances in Grey Wolf Optimizer, its Versions and Applications: Review

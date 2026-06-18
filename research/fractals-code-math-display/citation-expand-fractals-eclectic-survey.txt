@@ -1,0 +1,2 @@
+wrote citation graph with 100 edges to citation-graph-fractals-eclectic-survey.json
+wrote citation graph report to citation-report-fractals-eclectic-survey.md

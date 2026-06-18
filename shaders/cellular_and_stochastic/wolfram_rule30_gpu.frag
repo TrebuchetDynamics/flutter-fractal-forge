@@ -10,6 +10,7 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uRule;          // 10
 
 out vec4 fragColor;
 
@@ -46,10 +47,10 @@ vec3 getPaletteColor(float t, int scheme) {
   return clamp(iqPalette(t, a, b, c, d), 0.0, 1.0);
 }
 
-float rule30(float l, float c, float r) {
-  // 111 110 101 100 011 010 001 000 -> 0 0 0 1 1 1 1 0
+float elementaryRule(float rule, float l, float c, float r) {
   float idx = 4.0 * l + 2.0 * c + r;
-  return (idx > 0.5 && idx < 4.5) ? 1.0 : 0.0;
+  float bit = pow(2.0, clamp(floor(idx + 0.5), 0.0, 7.0));
+  return step(bit, mod(floor(rule / bit), 2.0) * bit);
 }
 
 float cellStateRule30(int gen, int cell) {
@@ -70,9 +71,10 @@ float cellStateRule30(int gen, int cell) {
 
       for (int k = 0; k < MAX_ITERS; k++) {
         if (k >= g) break;
-        float nL = rule30(0.0, vL, vC);
-        float nC = rule30(vL, vC, vR);
-        float nR = rule30(vC, vR, 0.0);
+        float rule = clamp(floor(uRule + 0.5), 0.0, 255.0);
+        float nL = elementaryRule(rule, 0.0, vL, vC);
+        float nC = elementaryRule(rule, vL, vC, vR);
+        float nR = elementaryRule(rule, vC, vR, 0.0);
         vL = nL;
         vC = nC;
         vR = nR;
@@ -82,7 +84,7 @@ float cellStateRule30(int gen, int cell) {
       right = vR;
     }
 
-    v = rule30(left, center, right);
+    v = elementaryRule(clamp(floor(uRule + 0.5), 0.0, 255.0), left, center, right);
   }
   return v;
 }

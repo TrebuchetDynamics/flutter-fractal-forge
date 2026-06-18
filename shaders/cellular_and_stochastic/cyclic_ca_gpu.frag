@@ -10,6 +10,7 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uStates;        // 10
 
 out vec4 fragColor;
 
@@ -58,7 +59,7 @@ void main() {
   vec2 g = floor(p * 70.0);
   float steps = clamp(uIterations, 1.0, 500.0);
 
-  float states = 8.0;
+  float states = clamp(floor(uStates + 0.5), 2.0, 32.0);
   float v = floor(hash21(g * 0.37) * states);
   float influence = 0.0;
   for (int y = -1; y <= 1; y++) {

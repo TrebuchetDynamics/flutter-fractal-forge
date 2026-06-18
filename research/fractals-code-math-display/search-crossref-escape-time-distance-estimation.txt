@@ -1,0 +1,20 @@
+10.1109/vsmm.2001.969714	Towards realistic modeling and rendering of 3-D escape-time deterministic fractal shapes
+10.1201/9781315365459-19	Acceleration Algorithms
+10.2139/ssrn.5361537	Escape from a Black Hole: An Approach using Fractal Time Dynamics
+10.12681/eadd/28752	Efficient texture representation and sampling algorithms for real-time rendering
+10.1080/17513470701210485	Fractal art using variations on escape time algorithms in the complex plane
+10.1063/1.5095111	A comparison of fractal dimension estimations for filled Julia fractal sets based on the escape time algorithm
+10.12681/eadd/41947	Efficient Illumination Algorithms for Global Illumination In Interactive and Real-Time Rendering
+10.1201/b10644-15	Acceleration Algorithms
+10.1007/1-84628-686-7_5	IFS Rendering Algorithms
+10.1109/inmic.2008.4777779	Time Difference of Arrival estimation using super resolution algorithms to minimize Distance Measurement Error for indoor positioning systems
+10.3390/fractalfract5020055	On the Connectivity Measurement of the Fractal Julia Sets Generated from Polynomial Maps: A Novel Escape-Time Algorithm
+10.1201/b22086-19	Acceleration Algorithms
+10.1109/vr.1999.756935	Dynamic image quality measurements of real-time rendering algorithms
+10.7717/peerj-cs.1201/table-2	Table 2: Comparison of estimation errors and time running algorithms.
+10.1117/12.666745	Classifiers and distance-based evidential fusion for road travel time estimation
+10.15476/elte.2023.289	Distance-based surface presentations and rendering
+10.1007/978-3-7091-6492-1_27	Estimation of Fractal Signals by Wavelets and GAs
+10.1201/9781003529231-37	Blind People Assistant: Real-Time Objects Detection and Distance Estimation with Voice Feedback
+10.1201/b10636-11	Introduction to Haptic Rendering Algorithms
+10.12988/ams.2014.311647	Fuzzy fractal dimension based on escape time algorithm

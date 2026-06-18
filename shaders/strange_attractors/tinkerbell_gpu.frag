@@ -10,6 +10,7 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uA;             // 10
 
 out vec4 fragColor;
 
@@ -52,7 +53,7 @@ void main() {
   float x = p.x;
   float y = p.y;
 
-  const float a = 0.9;
+  float a = uA;
   const float b = -0.6013;
   const float c = 2.0;
   const float d = 0.50;

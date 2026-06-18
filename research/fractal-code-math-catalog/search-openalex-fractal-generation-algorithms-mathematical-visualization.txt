@@ -1,0 +1,20 @@
+10.1371/journal.pbio.0020424	Algorithmic Self-Assembly of DNA Sierpinski Triangles
+10.1145/965145.801263	Generation and display of geometric fractals in 3-D
+10.1109/4.735545	Fractal capacitors
+10.2478/s11534-011-0096-2	Gwyddion: an open-source software for SPM data analysis
+10.1038/s41598-017-07209-5	Reliable Multi-Fractal Characterization of Weighted Complex Networks: Algorithms and Implications
+10.1007/s10462-023-10470-y	An exhaustive review of the metaheuristic algorithms for search and optimization: taxonomy, applications, and open challenges
+10.1137/0905021	A Method for Constructing Local Monotone Piecewise Cubic Interpolants
+10.1023/a:1007612920971	Concept Decompositions for Large Sparse Text Data Using Clustering
+10.1111/j.1467-8659.1990.tb00398.x	The Douglas‐Peucker Algorithm for Line Simplification: Re‐evaluation through Visualization
+10.1016/j.ijheatmasstransfer.2016.10.011	Recent developments on fractal-based approaches to nanofluids and nanoparticle aggregation
+10.1145/74334.74338	From splines to fractals
+10.1007/s11831-023-09928-7	A Systematic Review of the Whale Optimization Algorithm: Theoretical Foundation, Improvements, and Hybridizations
+10.1109/access.2019.2904677	Fractal Generation in Modified Jungck–S Orbit
+10.1145/229473.229475	Algorithm 756: a MATLAB toolbox for Schwarz-Christoffel mapping
+10.1109/access.2019.2923218	Liver Tumor Segmentation Based on Multi-Scale Candidate Generation and Fractal Residual Network
+10.1109/access.2019.2956508	A Survey on the New Generation of Deep Learning in Image Processing
+10.1007/s13373-013-0041-3	Developments in fractal geometry
+10.1029/98wr01209	Influence of image resolution and thresholding on the apparent mass fractal characteristics of preferential flow patterns in field soils
+10.22436/jnsa.010.03.24	Fractal generation method based on asymptote family of generalized Mandelbrot set and its application
+10.1093/cercor/bhac363	The fractal brain: scale-invariance in structure and dynamics

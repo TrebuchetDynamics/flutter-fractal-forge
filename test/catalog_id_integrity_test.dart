@@ -116,10 +116,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 479 (non-debug)', () {
+    test('total module count is 5239 (non-debug)', () {
       // Debug-only diagnostic modules are excluded in release/test builds
       // because kDebugMode is false in test environments.
-      expect(registry.modules.length, 479,
+      expect(registry.modules.length, 5239,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });

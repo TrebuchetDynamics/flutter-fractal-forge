@@ -15,6 +15,7 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uVariant;
 
 out vec4 fragColor;
 
@@ -82,6 +83,11 @@ vec2 ccosh(vec2 z) {
 }
 vec2 ctanh(vec2 z) { return cdiv(csinh(z), ccosh(z)); }
 
+vec2 evalVariant(vec2 z, vec2 c, int variant) {
+  if (variant == 1) return ctan(cpow2(z)) + c;
+  return ctan(z) + c;
+}
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
@@ -98,10 +104,13 @@ void main() {
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
-    // d(tan(z))/dc = (1 + tan²(z))·der + 1
-    vec2 tan_z = ctan(z);
-    der = cmul(vec2(1.0, 0.0) + cmul(tan_z, tan_z), der) + vec2(1.0, 0.0);
-    z   = tan_z + c;
+    int variant = int(uVariant);
+    float eps = 1e-4;
+    vec2 f0 = evalVariant(z, c, variant);
+    vec2 dFdz = (evalVariant(z + vec2(eps, 0.0), c, variant) -
+                 evalVariant(z - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
+    der = cmul(dFdz, der) + vec2(1.0, 0.0);
+    z = f0;
     if (dot(z, z) > bailoutSq) { it = j; break; }
   }
 

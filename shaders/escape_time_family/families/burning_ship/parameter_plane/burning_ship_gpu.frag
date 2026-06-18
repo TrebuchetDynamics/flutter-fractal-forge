@@ -11,6 +11,7 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uPower;         // 10
 
 out vec4 fragColor;
 
@@ -25,6 +26,17 @@ vec3 linearToSRGB(vec3 lin) {
 
 // colorScheme 0-49: standard palette coloring.
 // colorScheme 50-63: normal-map (bas-relief) mode — 14 light angles × 4 base palettes.
+vec2 cmul(vec2 a, vec2 b) {
+  return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);
+}
+
+vec2 cpowReal(vec2 z, float p) {
+  float r = max(length(z), 1e-12);
+  float theta = atan(z.y, z.x);
+  float rp = pow(r, p);
+  return rp * vec2(cos(p * theta), sin(p * theta));
+}
+
 vec3 palette(float t, int scheme) {
   if (scheme == 0) {
     return vec3(
@@ -71,12 +83,12 @@ void main() {
 
   vec2 z   = vec2(0.0);
   // Complex derivative dz/dc for normal-map shading.
-  // The Burning Ship formula applies abs() before squaring, so the chain rule
+  // The Burning Ship formula applies abs() before exponentiation, so the chain rule
   // for the derivative includes element-wise sign gates:
   //   w     = |Re(z)| + i|Im(z)|   (abs)
   //   dw/dc = sign(z.x)*der.x + i*sign(z.y)*der.y   (element-wise, not complex)
-  //   z_next = w^2 + c
-  //   der_next = 2 * w * dw/dc + 1   (complex multiply on the squaring part)
+  //   z_next = w^p + c
+  //   der_next = p * w^(p-1) * dw/dc + 1   (complex multiply on exponentiation)
   vec2 der = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
 
@@ -94,12 +106,11 @@ void main() {
     // Derivative update:
     //  Step 1 — abs gate: dw/dc = (sign(z.x)*der.x, sign(z.y)*der.y) [element-wise]
     vec2 der_w = vec2(sz.x * der.x, sz.y * der.y);
-    //  Step 2 — squaring: der = 2*w*der_w + 1  [complex multiply]
-    der = 2.0 * vec2(w.x * der_w.x - w.y * der_w.y,
-                     w.x * der_w.y + w.y * der_w.x) + vec2(1.0, 0.0);
-
-    // Burning Ship iteration: z = (abs(Re(z)) + i*abs(Im(z)))^2 + c
-    z = vec2(w.x * w.x - w.y * w.y, 2.0 * w.x * w.y) + c;
+    // Burning Ship family: z = (abs(Re(z)) + i*abs(Im(z)))^p + c
+    float power = max(abs(uPower), 0.5);
+    vec2 wPowMinusOne = cpowReal(w, power - 1.0);
+    der = power * cmul(wPowMinusOne, der_w) + vec2(1.0, 0.0);
+    z = cpowReal(w, power) + c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;

@@ -1,0 +1,1397 @@
+{
+  "generated_at": "2026-06-18T05:07:26.386306+00:00",
+  "purpose": "Non-counting elementary CA shared-renderer rule mapping worklist for existing-app source leads.",
+  "counting_rule": "Elementary CA Rule N is a stable rule identity, but remains uncounted until shared renderer mapping and render validation pass; presets/random seeds/palettes/camera views do not count.",
+  "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+  "candidate_count": 99,
+  "ready_for_rule_uniform_review_count": 99,
+  "needs_manual_review_count": 0,
+  "items": [
+    {
+      "stable_id": "f0881_elementary_ca_rule_2",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0881_elementary_ca_rule_2/f0881_elementary_ca_rule_2_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0881_elementary_ca_rule_2.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 2,
+      "proposed_parameter_mapping": {
+        "rule": 2,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0882_elementary_ca_rule_4",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0882_elementary_ca_rule_4/f0882_elementary_ca_rule_4_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0882_elementary_ca_rule_4.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 4,
+      "proposed_parameter_mapping": {
+        "rule": 4,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0883_elementary_ca_rule_6",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0883_elementary_ca_rule_6/f0883_elementary_ca_rule_6_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0883_elementary_ca_rule_6.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 6,
+      "proposed_parameter_mapping": {
+        "rule": 6,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0884_elementary_ca_rule_8",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0884_elementary_ca_rule_8/f0884_elementary_ca_rule_8_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0884_elementary_ca_rule_8.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 8,
+      "proposed_parameter_mapping": {
+        "rule": 8,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0885_elementary_ca_rule_10",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0885_elementary_ca_rule_10/f0885_elementary_ca_rule_10_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0885_elementary_ca_rule_10.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 10,
+      "proposed_parameter_mapping": {
+        "rule": 10,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0886_elementary_ca_rule_12",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0886_elementary_ca_rule_12/f0886_elementary_ca_rule_12_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0886_elementary_ca_rule_12.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 12,
+      "proposed_parameter_mapping": {
+        "rule": 12,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0887_elementary_ca_rule_14",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0887_elementary_ca_rule_14/f0887_elementary_ca_rule_14_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0887_elementary_ca_rule_14.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 14,
+      "proposed_parameter_mapping": {
+        "rule": 14,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0888_elementary_ca_rule_16",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0888_elementary_ca_rule_16/f0888_elementary_ca_rule_16_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0888_elementary_ca_rule_16.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 16,
+      "proposed_parameter_mapping": {
+        "rule": 16,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0889_elementary_ca_rule_18",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0889_elementary_ca_rule_18/f0889_elementary_ca_rule_18_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0889_elementary_ca_rule_18.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 18,
+      "proposed_parameter_mapping": {
+        "rule": 18,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0890_elementary_ca_rule_20",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0890_elementary_ca_rule_20/f0890_elementary_ca_rule_20_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0890_elementary_ca_rule_20.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 20,
+      "proposed_parameter_mapping": {
+        "rule": 20,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0891_elementary_ca_rule_24",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0891_elementary_ca_rule_24/f0891_elementary_ca_rule_24_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0891_elementary_ca_rule_24.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 24,
+      "proposed_parameter_mapping": {
+        "rule": 24,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0892_elementary_ca_rule_26",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0892_elementary_ca_rule_26/f0892_elementary_ca_rule_26_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0892_elementary_ca_rule_26.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 26,
+      "proposed_parameter_mapping": {
+        "rule": 26,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0893_elementary_ca_rule_28",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0893_elementary_ca_rule_28/f0893_elementary_ca_rule_28_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0893_elementary_ca_rule_28.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 28,
+      "proposed_parameter_mapping": {
+        "rule": 28,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0894_elementary_ca_rule_32",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0894_elementary_ca_rule_32/f0894_elementary_ca_rule_32_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0894_elementary_ca_rule_32.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 32,
+      "proposed_parameter_mapping": {
+        "rule": 32,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0895_elementary_ca_rule_34",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0895_elementary_ca_rule_34/f0895_elementary_ca_rule_34_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0895_elementary_ca_rule_34.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 34,
+      "proposed_parameter_mapping": {
+        "rule": 34,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0896_elementary_ca_rule_36",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0896_elementary_ca_rule_36/f0896_elementary_ca_rule_36_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0896_elementary_ca_rule_36.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 36,
+      "proposed_parameter_mapping": {
+        "rule": 36,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0897_elementary_ca_rule_38",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0897_elementary_ca_rule_38/f0897_elementary_ca_rule_38_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0897_elementary_ca_rule_38.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 38,
+      "proposed_parameter_mapping": {
+        "rule": 38,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0898_elementary_ca_rule_40",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0898_elementary_ca_rule_40/f0898_elementary_ca_rule_40_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0898_elementary_ca_rule_40.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 40,
+      "proposed_parameter_mapping": {
+        "rule": 40,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0899_elementary_ca_rule_42",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0899_elementary_ca_rule_42/f0899_elementary_ca_rule_42_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0899_elementary_ca_rule_42.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 42,
+      "proposed_parameter_mapping": {
+        "rule": 42,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0900_elementary_ca_rule_44",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0900_elementary_ca_rule_44/f0900_elementary_ca_rule_44_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0900_elementary_ca_rule_44.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 44,
+      "proposed_parameter_mapping": {
+        "rule": 44,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0901_elementary_ca_rule_46",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0901_elementary_ca_rule_46/f0901_elementary_ca_rule_46_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0901_elementary_ca_rule_46.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 46,
+      "proposed_parameter_mapping": {
+        "rule": 46,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0902_elementary_ca_rule_56",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0902_elementary_ca_rule_56/f0902_elementary_ca_rule_56_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0902_elementary_ca_rule_56.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 56,
+      "proposed_parameter_mapping": {
+        "rule": 56,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0903_elementary_ca_rule_58",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0903_elementary_ca_rule_58/f0903_elementary_ca_rule_58_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0903_elementary_ca_rule_58.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 58,
+      "proposed_parameter_mapping": {
+        "rule": 58,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0904_elementary_ca_rule_64",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0904_elementary_ca_rule_64/f0904_elementary_ca_rule_64_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0904_elementary_ca_rule_64.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 64,
+      "proposed_parameter_mapping": {
+        "rule": 64,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0905_elementary_ca_rule_66",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0905_elementary_ca_rule_66/f0905_elementary_ca_rule_66_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0905_elementary_ca_rule_66.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 66,
+      "proposed_parameter_mapping": {
+        "rule": 66,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0906_elementary_ca_rule_68",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0906_elementary_ca_rule_68/f0906_elementary_ca_rule_68_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0906_elementary_ca_rule_68.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 68,
+      "proposed_parameter_mapping": {
+        "rule": 68,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0907_elementary_ca_rule_70",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0907_elementary_ca_rule_70/f0907_elementary_ca_rule_70_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0907_elementary_ca_rule_70.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 70,
+      "proposed_parameter_mapping": {
+        "rule": 70,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0908_elementary_ca_rule_72",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0908_elementary_ca_rule_72/f0908_elementary_ca_rule_72_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0908_elementary_ca_rule_72.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 72,
+      "proposed_parameter_mapping": {
+        "rule": 72,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0909_elementary_ca_rule_74",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0909_elementary_ca_rule_74/f0909_elementary_ca_rule_74_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0909_elementary_ca_rule_74.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 74,
+      "proposed_parameter_mapping": {
+        "rule": 74,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0910_elementary_ca_rule_76",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0910_elementary_ca_rule_76/f0910_elementary_ca_rule_76_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0910_elementary_ca_rule_76.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 76,
+      "proposed_parameter_mapping": {
+        "rule": 76,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0911_elementary_ca_rule_78",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0911_elementary_ca_rule_78/f0911_elementary_ca_rule_78_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0911_elementary_ca_rule_78.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 78,
+      "proposed_parameter_mapping": {
+        "rule": 78,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0912_elementary_ca_rule_80",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0912_elementary_ca_rule_80/f0912_elementary_ca_rule_80_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0912_elementary_ca_rule_80.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 80,
+      "proposed_parameter_mapping": {
+        "rule": 80,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0913_elementary_ca_rule_82",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0913_elementary_ca_rule_82/f0913_elementary_ca_rule_82_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0913_elementary_ca_rule_82.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 82,
+      "proposed_parameter_mapping": {
+        "rule": 82,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0914_elementary_ca_rule_84",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0914_elementary_ca_rule_84/f0914_elementary_ca_rule_84_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0914_elementary_ca_rule_84.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 84,
+      "proposed_parameter_mapping": {
+        "rule": 84,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0915_elementary_ca_rule_88",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0915_elementary_ca_rule_88/f0915_elementary_ca_rule_88_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0915_elementary_ca_rule_88.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 88,
+      "proposed_parameter_mapping": {
+        "rule": 88,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0916_elementary_ca_rule_92",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0916_elementary_ca_rule_92/f0916_elementary_ca_rule_92_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0916_elementary_ca_rule_92.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 92,
+      "proposed_parameter_mapping": {
+        "rule": 92,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0917_elementary_ca_rule_96",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0917_elementary_ca_rule_96/f0917_elementary_ca_rule_96_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0917_elementary_ca_rule_96.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 96,
+      "proposed_parameter_mapping": {
+        "rule": 96,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0918_elementary_ca_rule_98",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0918_elementary_ca_rule_98/f0918_elementary_ca_rule_98_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0918_elementary_ca_rule_98.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 98,
+      "proposed_parameter_mapping": {
+        "rule": 98,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0919_elementary_ca_rule_100",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0919_elementary_ca_rule_100/f0919_elementary_ca_rule_100_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0919_elementary_ca_rule_100.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 100,
+      "proposed_parameter_mapping": {
+        "rule": 100,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0920_elementary_ca_rule_104",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0920_elementary_ca_rule_104/f0920_elementary_ca_rule_104_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0920_elementary_ca_rule_104.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 104,
+      "proposed_parameter_mapping": {
+        "rule": 104,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0921_elementary_ca_rule_106",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0921_elementary_ca_rule_106/f0921_elementary_ca_rule_106_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0921_elementary_ca_rule_106.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 106,
+      "proposed_parameter_mapping": {
+        "rule": 106,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0922_elementary_ca_rule_108",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0922_elementary_ca_rule_108/f0922_elementary_ca_rule_108_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0922_elementary_ca_rule_108.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 108,
+      "proposed_parameter_mapping": {
+        "rule": 108,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0923_elementary_ca_rule_112",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0923_elementary_ca_rule_112/f0923_elementary_ca_rule_112_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0923_elementary_ca_rule_112.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 112,
+      "proposed_parameter_mapping": {
+        "rule": 112,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0924_elementary_ca_rule_114",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0924_elementary_ca_rule_114/f0924_elementary_ca_rule_114_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0924_elementary_ca_rule_114.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 114,
+      "proposed_parameter_mapping": {
+        "rule": 114,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0925_elementary_ca_rule_118",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0925_elementary_ca_rule_118/f0925_elementary_ca_rule_118_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0925_elementary_ca_rule_118.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 118,
+      "proposed_parameter_mapping": {
+        "rule": 118,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0926_elementary_ca_rule_120",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0926_elementary_ca_rule_120/f0926_elementary_ca_rule_120_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0926_elementary_ca_rule_120.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 120,
+      "proposed_parameter_mapping": {
+        "rule": 120,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0927_elementary_ca_rule_124",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0927_elementary_ca_rule_124/f0927_elementary_ca_rule_124_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0927_elementary_ca_rule_124.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 124,
+      "proposed_parameter_mapping": {
+        "rule": 124,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0928_elementary_ca_rule_128",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0928_elementary_ca_rule_128/f0928_elementary_ca_rule_128_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0928_elementary_ca_rule_128.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 128,
+      "proposed_parameter_mapping": {
+        "rule": 128,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0929_elementary_ca_rule_130",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0929_elementary_ca_rule_130/f0929_elementary_ca_rule_130_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0929_elementary_ca_rule_130.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 130,
+      "proposed_parameter_mapping": {
+        "rule": 130,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0930_elementary_ca_rule_132",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0930_elementary_ca_rule_132/f0930_elementary_ca_rule_132_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0930_elementary_ca_rule_132.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 132,
+      "proposed_parameter_mapping": {
+        "rule": 132,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0931_elementary_ca_rule_134",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0931_elementary_ca_rule_134/f0931_elementary_ca_rule_134_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0931_elementary_ca_rule_134.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 134,
+      "proposed_parameter_mapping": {
+        "rule": 134,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0932_elementary_ca_rule_136",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0932_elementary_ca_rule_136/f0932_elementary_ca_rule_136_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0932_elementary_ca_rule_136.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 136,
+      "proposed_parameter_mapping": {
+        "rule": 136,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0933_elementary_ca_rule_138",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0933_elementary_ca_rule_138/f0933_elementary_ca_rule_138_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0933_elementary_ca_rule_138.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 138,
+      "proposed_parameter_mapping": {
+        "rule": 138,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0934_elementary_ca_rule_140",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0934_elementary_ca_rule_140/f0934_elementary_ca_rule_140_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0934_elementary_ca_rule_140.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 140,
+      "proposed_parameter_mapping": {
+        "rule": 140,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0935_elementary_ca_rule_142",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0935_elementary_ca_rule_142/f0935_elementary_ca_rule_142_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0935_elementary_ca_rule_142.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 142,
+      "proposed_parameter_mapping": {
+        "rule": 142,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0936_elementary_ca_rule_144",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0936_elementary_ca_rule_144/f0936_elementary_ca_rule_144_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0936_elementary_ca_rule_144.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 144,
+      "proposed_parameter_mapping": {
+        "rule": 144,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0937_elementary_ca_rule_146",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0937_elementary_ca_rule_146/f0937_elementary_ca_rule_146_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0937_elementary_ca_rule_146.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 146,
+      "proposed_parameter_mapping": {
+        "rule": 146,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0938_elementary_ca_rule_148",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0938_elementary_ca_rule_148/f0938_elementary_ca_rule_148_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0938_elementary_ca_rule_148.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 148,
+      "proposed_parameter_mapping": {
+        "rule": 148,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0939_elementary_ca_rule_152",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0939_elementary_ca_rule_152/f0939_elementary_ca_rule_152_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0939_elementary_ca_rule_152.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 152,
+      "proposed_parameter_mapping": {
+        "rule": 152,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0940_elementary_ca_rule_154",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0940_elementary_ca_rule_154/f0940_elementary_ca_rule_154_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0940_elementary_ca_rule_154.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 154,
+      "proposed_parameter_mapping": {
+        "rule": 154,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0941_elementary_ca_rule_156",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0941_elementary_ca_rule_156/f0941_elementary_ca_rule_156_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0941_elementary_ca_rule_156.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 156,
+      "proposed_parameter_mapping": {
+        "rule": 156,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0942_elementary_ca_rule_158",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0942_elementary_ca_rule_158/f0942_elementary_ca_rule_158_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0942_elementary_ca_rule_158.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 158,
+      "proposed_parameter_mapping": {
+        "rule": 158,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0943_elementary_ca_rule_160",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0943_elementary_ca_rule_160/f0943_elementary_ca_rule_160_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0943_elementary_ca_rule_160.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 160,
+      "proposed_parameter_mapping": {
+        "rule": 160,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0944_elementary_ca_rule_162",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0944_elementary_ca_rule_162/f0944_elementary_ca_rule_162_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0944_elementary_ca_rule_162.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 162,
+      "proposed_parameter_mapping": {
+        "rule": 162,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0945_elementary_ca_rule_164",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0945_elementary_ca_rule_164/f0945_elementary_ca_rule_164_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0945_elementary_ca_rule_164.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 164,
+      "proposed_parameter_mapping": {
+        "rule": 164,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0946_elementary_ca_rule_166",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0946_elementary_ca_rule_166/f0946_elementary_ca_rule_166_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0946_elementary_ca_rule_166.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 166,
+      "proposed_parameter_mapping": {
+        "rule": 166,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0947_elementary_ca_rule_168",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0947_elementary_ca_rule_168/f0947_elementary_ca_rule_168_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0947_elementary_ca_rule_168.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 168,
+      "proposed_parameter_mapping": {
+        "rule": 168,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0948_elementary_ca_rule_170",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0948_elementary_ca_rule_170/f0948_elementary_ca_rule_170_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0948_elementary_ca_rule_170.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 170,
+      "proposed_parameter_mapping": {
+        "rule": 170,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0949_elementary_ca_rule_172",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0949_elementary_ca_rule_172/f0949_elementary_ca_rule_172_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0949_elementary_ca_rule_172.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 172,
+      "proposed_parameter_mapping": {
+        "rule": 172,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0950_elementary_ca_rule_174",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0950_elementary_ca_rule_174/f0950_elementary_ca_rule_174_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0950_elementary_ca_rule_174.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 174,
+      "proposed_parameter_mapping": {
+        "rule": 174,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0951_elementary_ca_rule_176",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0951_elementary_ca_rule_176/f0951_elementary_ca_rule_176_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0951_elementary_ca_rule_176.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 176,
+      "proposed_parameter_mapping": {
+        "rule": 176,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0952_elementary_ca_rule_178",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0952_elementary_ca_rule_178/f0952_elementary_ca_rule_178_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0952_elementary_ca_rule_178.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 178,
+      "proposed_parameter_mapping": {
+        "rule": 178,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0953_elementary_ca_rule_180",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0953_elementary_ca_rule_180/f0953_elementary_ca_rule_180_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0953_elementary_ca_rule_180.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 180,
+      "proposed_parameter_mapping": {
+        "rule": 180,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0954_elementary_ca_rule_186",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0954_elementary_ca_rule_186/f0954_elementary_ca_rule_186_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0954_elementary_ca_rule_186.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 186,
+      "proposed_parameter_mapping": {
+        "rule": 186,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0955_elementary_ca_rule_188",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0955_elementary_ca_rule_188/f0955_elementary_ca_rule_188_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0955_elementary_ca_rule_188.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 188,
+      "proposed_parameter_mapping": {
+        "rule": 188,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0956_elementary_ca_rule_190",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0956_elementary_ca_rule_190/f0956_elementary_ca_rule_190_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0956_elementary_ca_rule_190.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 190,
+      "proposed_parameter_mapping": {
+        "rule": 190,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0957_elementary_ca_rule_192",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0957_elementary_ca_rule_192/f0957_elementary_ca_rule_192_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0957_elementary_ca_rule_192.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 192,
+      "proposed_parameter_mapping": {
+        "rule": 192,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0958_elementary_ca_rule_194",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0958_elementary_ca_rule_194/f0958_elementary_ca_rule_194_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0958_elementary_ca_rule_194.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 194,
+      "proposed_parameter_mapping": {
+        "rule": 194,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0959_elementary_ca_rule_196",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0959_elementary_ca_rule_196/f0959_elementary_ca_rule_196_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0959_elementary_ca_rule_196.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 196,
+      "proposed_parameter_mapping": {
+        "rule": 196,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0960_elementary_ca_rule_198",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0960_elementary_ca_rule_198/f0960_elementary_ca_rule_198_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0960_elementary_ca_rule_198.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 198,
+      "proposed_parameter_mapping": {
+        "rule": 198,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0961_elementary_ca_rule_200",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0961_elementary_ca_rule_200/f0961_elementary_ca_rule_200_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0961_elementary_ca_rule_200.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 200,
+      "proposed_parameter_mapping": {
+        "rule": 200,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0962_elementary_ca_rule_202",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0962_elementary_ca_rule_202/f0962_elementary_ca_rule_202_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0962_elementary_ca_rule_202.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 202,
+      "proposed_parameter_mapping": {
+        "rule": 202,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0963_elementary_ca_rule_204",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0963_elementary_ca_rule_204/f0963_elementary_ca_rule_204_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0963_elementary_ca_rule_204.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 204,
+      "proposed_parameter_mapping": {
+        "rule": 204,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0964_elementary_ca_rule_206",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0964_elementary_ca_rule_206/f0964_elementary_ca_rule_206_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0964_elementary_ca_rule_206.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 206,
+      "proposed_parameter_mapping": {
+        "rule": 206,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0965_elementary_ca_rule_208",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0965_elementary_ca_rule_208/f0965_elementary_ca_rule_208_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0965_elementary_ca_rule_208.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 208,
+      "proposed_parameter_mapping": {
+        "rule": 208,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0966_elementary_ca_rule_210",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0966_elementary_ca_rule_210/f0966_elementary_ca_rule_210_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0966_elementary_ca_rule_210.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 210,
+      "proposed_parameter_mapping": {
+        "rule": 210,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0967_elementary_ca_rule_212",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0967_elementary_ca_rule_212/f0967_elementary_ca_rule_212_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0967_elementary_ca_rule_212.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 212,
+      "proposed_parameter_mapping": {
+        "rule": 212,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0968_elementary_ca_rule_214",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0968_elementary_ca_rule_214/f0968_elementary_ca_rule_214_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0968_elementary_ca_rule_214.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 214,
+      "proposed_parameter_mapping": {
+        "rule": 214,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0969_elementary_ca_rule_218",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0969_elementary_ca_rule_218/f0969_elementary_ca_rule_218_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0969_elementary_ca_rule_218.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 218,
+      "proposed_parameter_mapping": {
+        "rule": 218,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0970_elementary_ca_rule_220",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0970_elementary_ca_rule_220/f0970_elementary_ca_rule_220_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0970_elementary_ca_rule_220.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 220,
+      "proposed_parameter_mapping": {
+        "rule": 220,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0971_elementary_ca_rule_222",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0971_elementary_ca_rule_222/f0971_elementary_ca_rule_222_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0971_elementary_ca_rule_222.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 222,
+      "proposed_parameter_mapping": {
+        "rule": 222,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0972_elementary_ca_rule_226",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0972_elementary_ca_rule_226/f0972_elementary_ca_rule_226_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0972_elementary_ca_rule_226.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 226,
+      "proposed_parameter_mapping": {
+        "rule": 226,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0973_elementary_ca_rule_230",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0973_elementary_ca_rule_230/f0973_elementary_ca_rule_230_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0973_elementary_ca_rule_230.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 230,
+      "proposed_parameter_mapping": {
+        "rule": 230,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0974_elementary_ca_rule_232",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0974_elementary_ca_rule_232/f0974_elementary_ca_rule_232_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0974_elementary_ca_rule_232.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 232,
+      "proposed_parameter_mapping": {
+        "rule": 232,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0975_elementary_ca_rule_234",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0975_elementary_ca_rule_234/f0975_elementary_ca_rule_234_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0975_elementary_ca_rule_234.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 234,
+      "proposed_parameter_mapping": {
+        "rule": 234,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0976_elementary_ca_rule_238",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0976_elementary_ca_rule_238/f0976_elementary_ca_rule_238_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0976_elementary_ca_rule_238.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 238,
+      "proposed_parameter_mapping": {
+        "rule": 238,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0977_elementary_ca_rule_242",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0977_elementary_ca_rule_242/f0977_elementary_ca_rule_242_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0977_elementary_ca_rule_242.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 242,
+      "proposed_parameter_mapping": {
+        "rule": 242,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0978_elementary_ca_rule_246",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0978_elementary_ca_rule_246/f0978_elementary_ca_rule_246_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0978_elementary_ca_rule_246.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 246,
+      "proposed_parameter_mapping": {
+        "rule": 246,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0979_elementary_ca_rule_254",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0979_elementary_ca_rule_254/f0979_elementary_ca_rule_254_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0979_elementary_ca_rule_254.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "parsed_rule_number": 254,
+      "proposed_parameter_mapping": {
+        "rule": 254,
+        "generations": 256
+      },
+      "status": "ready_for_rule_uniform_review",
+      "counted_entry": false,
+      "promotion_gate": "Review shader support for arbitrary Wolfram rule uniform, implement mapping, render-smoke each rule identity, then regenerate counted ledger."
+    }
+  ]
+}

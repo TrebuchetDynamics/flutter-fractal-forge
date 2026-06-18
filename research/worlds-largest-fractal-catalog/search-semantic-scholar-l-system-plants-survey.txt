@@ -1,0 +1,20 @@
+10.1109/isemantic63362.2024.10762496	Gardening Simulator Based on L-System Algorithm
+	Polyhedral covers based on l-system fractal construction
+10.1007/978-3-642-01973-9_89	Tools for Procedural Generation of Plants in Virtual Scenes
+10.1063/1.5005419	Comparison of L-system applications towards plant modelling, music rendering and score generation using visual language programming
+	LSound: An L-System Framework for Score Generation
+10.58915/aset.v4i2.2512	Off-Grid Smart Hydroponics - PART 1: Market Survey and Concept Generation
+	Generation and Application of 3D Fractal Plants in VRML Environment
+	Procedural Generation : Fractals and L-Systems
+	Improvement of Plant Structure Modeling Based on L-System
+	Pengembangan Motif Karang Jenis Coeloseris Mayeri Pada Aplikasi Batik Berbasis Web Dengan Metode Lindenmayer System (l-system
+10.1155/2021/5599654	Ethnopharmacological Survey on Medicinal Plants Used for Cosmetic Treatments in Traditional and Ayurveda Systems of Medicine in Sri Lanka
+10.3390/fractalfract10010009	Reverse Fractal Design via Lindenmayer Systems Based on Box-Counting Dimension
+10.21427/d76m9p	A Survey of Procedural Techniques for City Generation
+10.1016/s0076-5392(07)x8066-4	L-System Fractals
+	L SYSTEM AND 3D LANDSCAPE GRAPHICS
+10.28925/2663-4023.2025.30.972	SYSTEMATIC ANALYSIS OF MAZE GENERATION ALGORITHMS IN INTERACTIVE GAME ENVIRONMENTS
+10.3389/fsufs.2025.1606420	An ethnobotanical study on wild edible plants in Taishan County, Guangdong, China
+10.1109/itcgi.2018.8602928	Space Colonisation for Procedural Road Generation
+10.3390/agronomy10060805	Fractal and Topological Analyses and Antioxidant Defense Systems of Alfalfa (Medicago sativa L.) Root System under Drought and Rehydration Regimes
+10.1109/tec.2006.889614	Survey of Failures in Wind Power Systems With Focus on Swedish Wind Power Plants During 1997–2005

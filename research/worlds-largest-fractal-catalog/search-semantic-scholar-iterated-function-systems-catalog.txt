@@ -1,0 +1,20 @@
+10.1186/s13663-025-00784-7	Proximal iterated function systems using cyclic Meir-Keeler contractions and an application to fractal theory
+10.1016/j.cnsns.2017.08.010	Efficient fractal-based mutation in evolutionary algorithms from iterated function systems
+10.3390/fractalfract10060361	Applying Iterated Function Systems in Waste Recycling Processes by Identifying Fractal-Like Patterns in Material Decomposition
+10.3390/axioms13120881	Mathematical Modeling of Fractals via Proximal F-Iterated Function Systems
+10.1007/s12346-024-01095-9	Continuity Dependence of Attractors of Iterated Function Systems with Orbital Condition
+10.3934/dcdss.2026011	Dimensional analysis of general recurrent fractal functions corresponding to a weak iterated function system
+10.1177/18758967261447101	Mandelbrot Set and Julia Set in Fuzzy Iterated Function Systems
+10.1007/978-3-319-62392-4_26	Genetic Estimation of Iterated Function Systems for Accurate Fractal Modeling in Pattern Recognition Tools
+10.1186/s13663-024-00761-6	Fixed point theorem and iterated function system in φ-metric modular space
+10.3390/fractalfract9100637	Iterated Relation Systems on Riemannian Manifolds
+10.1007/s11075-016-0104-0	Algorithms generating images of attractors of generalized iterated function systems
+10.1109/icpr48806.2021.9413227	HP2IFS: Head Pose estimation exploiting Partitioned Iterated Function Systems
+10.1007/s11075-016-0104-0	Algorithms generating images of attractors of generalized iterated function systems
+10.1002/dac.4932	An extensive survey on fractal structures using iterated function system in patch antennas
+10.1007/s11784-020-00790-9	Cyclic iterated function systems
+10.3934/dcdsb.2021070	Public debt dynamics under ambiguity by means of iterated function systems on density functions
+10.1109/38.511849	Fractal image compression and recurrent iterated function systems
+10.1007/978-1-4471-0995-2_5	Correspondence Between Fractal-Wavelet Transforms and Iterated Function Systems With Grey Level Maps
+10.1016/j.aim.2020.107548	Iterated function systems with super-exponentially close cylinders II
+10.1007/s00454-014-9589-2	Fractal Tilings from Iterated Function Systems

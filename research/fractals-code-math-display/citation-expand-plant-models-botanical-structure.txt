@@ -1,0 +1,2 @@
+wrote citation graph with 67 edges to citation-graph-plant-models-botanical-structure.json
+wrote citation graph report to citation-report-plant-models-botanical-structure.md

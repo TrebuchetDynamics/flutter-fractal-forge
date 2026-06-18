@@ -1,0 +1,20 @@
+	The Extreme-ultraviolet Stellar Characterization for Atmospheric Physics and Evolution (ESCAPE) Mission: Motivation and Overview
+	Space-time distributions
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Extreme Narrow Escape: shortest paths for the first particles to escape through a small window
+	A Linear-Time Approximation Algorithm for Rotation Distance
+	The Discrete and Semi-continuous Fréchet Distance with Shortcuts via Approximate Distance Counting and Selection Techniques
+	Evolutive Rendering Models
+10.3390/a5040545	Distributing an Exact Algorithm for Maximum Clique: maximising the costup
+10.1111/jtsa.12688	Clustering Multivariate Time Series using Energy Distance
+10.1109/tit.2023.3321121	Fast Quantum Algorithms for Trace Distance Estimation
+10.1137/1.9781611977554.ch46	A Sublinear-Time Quantum Algorithm for Approximating Partition Functions
+10.1007/978-3-031-49815-2	Fast Parallel Algorithms for Submodular $p$-Superseparable Maximization
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+10.1145/1644015.1644017	An O(n^3)-Time Algorithm for Tree Edit Distance
+10.1016/j.nancom.2020.100300	Distance Estimation Methods for a Practical Macroscale Molecular Communication System
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+10.1007/s11075-011-9473-6	Novel Modifications of Parallel Jacobi Algorithms
+10.1103/physreva.76.031403	Fractal templates in the escape dynamics of trapped ultracold atoms
+10.1016/s0196-6774(03)00047-6	Approximation algorithms for TSP with neighborhoods in the plane
+	Schrodingerization based quantum algorithms for the time-fractional heat equation

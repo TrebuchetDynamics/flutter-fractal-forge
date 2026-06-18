@@ -1,0 +1,20 @@
+10.1109/42.974918	Computer-aided diagnosis in chest radiography: a survey
+10.3758/bf03195475	A breadth-first survey of eye-tracking applications
+10.1109/5.949485	Interactive evolutionary computation: fusion of the capabilities of EC optimization and human evaluation
+10.1613/jair.3908	AI Methods in Algorithmic Composition: A Comprehensive Survey
+10.1109/access.2019.2956508	A Survey on the New Generation of Deep Learning in Image Processing
+10.1145/965145.801263	Generation and display of geometric fractals in 3-D
+10.1145/74334.74337	The synthesis and rendering of eroded fractal terrains
+10.1145/258734.258896	Computer-generated watercolor
+10.1007/s10462-023-10662-6	Autoencoders and their applications in machine learning: a survey
+10.21427/d76m9p	A Survey of Procedural Techniques for City Generation
+10.1007/s11831-019-09324-0	Applications of Computer Vision in Plant Pathology: A Survey
+10.1109/access.2018.2890743	Texture Feature Extraction Methods: A Survey
+10.1111/j.1467-8659.2010.01827.x	A Survey of Procedural Noise Functions
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1186/s40854-021-00321-6	Cryptocurrency trading: a comprehensive survey
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.1016/j.isprsjprs.2013.04.009	Accurate 3D comparison of complex topography with terrestrial laser scanner: Application to the Rangitikei canyon (N-Z)
+10.1145/74334.74338	From splines to fractals
+10.4208/cicp.110113.010813a	A Survey on Parallel Computing and Its Applications in Data-Parallel Problems Using GPU Architectures
+10.1006/jvci.1999.0413	Image Retrieval: Current Techniques, Promising Directions, and Open Issues

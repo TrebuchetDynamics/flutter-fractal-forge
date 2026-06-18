@@ -1,0 +1,20 @@
+10.3390/fractalfract8050251	A Novel Application of Fractional Order Derivative Moth Flame Optimization Algorithm for Solving the Problem of Optimal Coordination of Directional Overcurrent Relays
+10.1016/j.combustflame.2024.113330	A novel method for quantifying variations in NO formation pathways using a sub-mechanism accounting and reaction tracing algorithm
+10.1109/mps.2017.7974468	Optimal capacitor placement and sizing considering load profile variations using moth-flame optimization algorithm
+10.3390/fractalfract8020087	Otsu Image Segmentation Based on a Fractional Order Moth–Flame Optimization Algorithm
+10.5962/bhl.title.126726	New dahlia, Wade's flame, finest flame scarlet : [announcement] /
+10.1016/0010-2180(90)90085-6	Fractal behavior of a wrinkled annular diffusion flame
+10.1016/j.combustflame.2024.113926	Flame-turbulence interactions in lean hydrogen flames: Implications for turbulent flame speed and fractal modelling
+10.1145/1086057.1086171	Green's fractal terrain
+10.3390/fractalfract9120762	Elementary Fractal Geometry 7: An Algorithm Visualizing the Magnification Flow
+10.1007/978-981-16-9716-6_3	Fractal Algorithm of Recognization and Reconstruction of Pore Structure Using AI Technology
+10.1016/0010-2180(89)90132-6	Chemical closure model for fractal flamelets
+10.1016/j.combustflame.2016.11.003	Morphological variations of in-flame and exhaust soot particles associated with jet-to-jet variations and jet–jet interactions in a light-duty diesel engine
+10.1142/9789812777720_0021	FLAME FRONT INSTABILITIES AND DEVELOPMENT OF FRACTAL FLAMES
+10.1007/978-981-16-9716-6_1	Fractal Algorithm of an Area Covering Method for Describing the Self-Similarity of Spatial Curve
+10.1163/9789004444522_coco_cc0828	The Eternal Flame
+10.1016/j.combustflame.2013.05.017	Fractal structures of hydrodynamically unstable and diffusive-thermally unstable flames
+10.1016/j.combustflame.2016.02.022	Enhancement of turbulent flame speed of V-shaped flames in fractal-grid-generated turbulence
+10.2139/ssrn.5587710	A Fractal Dimension Stability Test Reveals Fault Zone Complexity And AI Seismic Catalog Artifacts
+10.1016/j.combustflame.2014.03.010	Lean premixed opposed jet flames in fractal grid generated multiscale turbulence
+10.1007/978-981-16-9716-6_2	Fractal Algorithm of a Volume Covering Method for Describing the Self-Similarity of Curved and Rough Surface

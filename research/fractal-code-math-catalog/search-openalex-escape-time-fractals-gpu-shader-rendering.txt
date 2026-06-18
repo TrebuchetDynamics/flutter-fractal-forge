@@ -1,0 +1,20 @@
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.1007/s00371-020-01953-y	A survey of modeling, rendering and animation of clouds in computer graphics
+10.25007/ajnu.v10n2a1030	Implementation and Analysis of Fractals Shapes using GPU-CUDA Model
+	Raymarching the Mandelbulb Fractal in VR
+10.32657/10220/47356	Real-time watercolor rendering of 3D objects and animation with enhanced control
+10.24132/csrn.2018.2801.6	Barycentric Combinations Based Subdivision Shaders
+	Unlimited object instancing in real-time
+10.1038/s41567-023-02052-0	Creation of an isolated turbulent blob fed by vortex rings
+10.1145/3592443	Neural Prefiltering for Correlation-Aware Levels of Detail
+10.14733/cadaps.2022.s3.97-107	Computer-Aided Three-Dimensional Ceramic Product Design
+	Design of a fractal generator for on-the-fly generation of textures for Mali GPU
+10.5281/zenodo.8123311	ON OPENCL AND CHAOTIC PHENOMENA
+10.5402/2012/825782	GPU-Accelerated Rendering of Unbounded Nonlinear Iterated Function System Fixed Points
+	Interactive Exploration in Virtual Environments
+10.48550/arxiv.2303.14827	Dual-Quaternion Julia Fractals
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals
+	Real-time rendering and dynamics of sparse voxel octree clouds
+	Generation of fractal aesthetic objects with application in digital domain
+10.31449/inf.v49i37.10767	Optimizing Graphics Rendering and Illumination Simulation using Enhanced L-BFGS Algorithm
+10.1101/2025.05.15.654348	DeepTRACE: Flexible Machine Learning for Analysis and Discovery in Single Molecule Tracks

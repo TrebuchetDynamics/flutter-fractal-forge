@@ -10,6 +10,8 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uBirthMask;     // 10
+uniform float uSurvivalMask;  // 11
 
 out vec4 fragColor;
 
@@ -42,10 +44,18 @@ float hash21(vec2 p) {
   return fract(p.x * p.y);
 }
 
+float fmax2(float a, float b) { return a > b ? a : b; }
+float fmin2(float a, float b) { return a < b ? a : b; }
+
 float smoothCell(vec2 p, float v) {
   vec2 f = abs(fract(p) - 0.5);
-  float cell = 1.0 - smoothstep(0.42, 0.50, max(f.x, f.y));
+  float cell = 1.0 - smoothstep(0.42, 0.50, fmax2(f.x, f.y));
   return v * cell;
+}
+
+float maskHas(float mask, float n) {
+  float bit = pow(2.0, clamp(floor(n + 0.5), 0.0, 8.0));
+  return step(bit, mod(floor(mask / bit), 2.0) * bit);
 }
 
 
@@ -65,14 +75,22 @@ float parityPattern(vec2 g, float steps) {
 
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
-  float scale = min(uResolution.x, uResolution.y);
+  float scale = fmin2(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(scale, 1.0);
   vec2 p = uv / max(uZoom, 0.000001) + uCenter;
   vec2 g = floor(p * 96.0);
   float steps = clamp(uIterations, 1.0, 500.0);
   float v = parityPattern(g, steps);
+  float n = 0.0;
+  for (int y = -1; y <= 1; y++) {
+    for (int x = -1; x <= 1; x++) {
+      if (x == 0 && y == 0) continue;
+      n += step(0.5, hash21(g + vec2(float(x), float(y)) + floor(steps * 0.03)));
+    }
+  }
+  float next = mix(maskHas(uBirthMask, n), maskHas(uSurvivalMask, n), v);
   float diag = 0.5 + 0.5 * sin((g.x + g.y) * 0.22 + steps * 0.025);
-  float alive = clamp(v * (0.65 + 0.35 * diag), 0.0, 1.0);
+  float alive = clamp(next * (0.65 + 0.35 * diag), 0.0, 1.0);
 
   if (alive < 0.05 && uTransparentBg > 0.5) { fragColor = vec4(0.0); return; }
   vec3 bg = vec3(0.012, 0.016, 0.026);

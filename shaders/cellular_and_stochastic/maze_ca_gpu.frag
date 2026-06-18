@@ -10,6 +10,8 @@ uniform float uIterations;    // 6
 uniform float uBailout;       // 7
 uniform float uColorScheme;   // 8
 uniform float uTransparentBg; // 9
+uniform float uBirthMask;     // 10
+uniform float uSurvivalMask;  // 11
 
 out vec4 fragColor;
 
@@ -48,6 +50,11 @@ float smoothCell(vec2 p, float v) {
   return v * cell;
 }
 
+float maskHas(float mask, float n) {
+  float bit = pow(2.0, clamp(floor(n + 0.5), 0.0, 8.0));
+  return step(bit, mod(floor(mask / bit), 2.0) * bit);
+}
+
 
 // Maze-like Life rule (B3/S12345): stable corridors and branching walls.
 void main() {
@@ -68,8 +75,8 @@ void main() {
     }
   }
   float base = hash21(g * 0.73 + floor(steps * 0.01));
-  float birth = 1.0 - smoothstep(0.25, 0.75, abs(n - 3.0));
-  float survive = smoothstep(0.4, 1.0, n) * (1.0 - smoothstep(5.5, 6.5, n));
+  float birth = maskHas(uBirthMask, n);
+  float survive = maskHas(uSurvivalMask, n);
   float alive = mix(birth, survive, step(0.44, base));
   float wall = smoothstep(0.30, 0.90, alive + 0.25 * sin((g.x + g.y) * 0.35));
 

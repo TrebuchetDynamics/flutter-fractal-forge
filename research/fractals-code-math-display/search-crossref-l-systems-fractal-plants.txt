@@ -1,0 +1,20 @@
+10.1002/9781394305810.ch33	Fractal Natural Language Semantics and Fractal Machine Learning Engineering
+10.1201/b10676-22	Scientific Visualization Algorithms
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization
+10.1201/b10676-7	2D and 3D Coordinate Systems and Transformations
+10.1186/s40327-016-0037-7	Application of fractal algorithms of coastline echo’s generation on marine radar simulator
+10.1201/9781420024524-4	Genetic Algorithms and Fractal Theory for Modelling and Simulation
+10.1117/12.2038392	2D-fractal based algorithms for nanoparticles characterization
+10.1080/21681163.2022.2062450	A Metaphorical Interpretation on Vessel Segmentation Algorithms by using Local Connected Fractal Dimension
+10.1201/b10676-14	Visualization Principles
+10.32469/10355/6781	Simulation algorithms for fractal radiation
+10.1201/9781420024524.ch4	Genetic Algorithms and Fractal Theory for Modelling and Simulation
+10.1007/978-1-4615-1177-9_5	Specializing Visualization Algorithms
+10.1007/3-211-27389-1_93	Visualization of Meta-Reasoning in Multi-Agent Systems
+10.1201/b10676-6	Rasterization Algorithms
+10.2174/9789815136357123010008	Development of Hybrid Bio-inspired Computing Algorithms for Design of Fractal Antennas
+10.5220/0011929100003497	Emotion Based Music Visualization with Fractal Arts
+10.1201/b10676-20	Global Illumination Algorithms
+10.3390/fractalfract6060296	Properties of q-Differential Equations of Higher Order and Visualization of Fractal Using q-Bernoulli Polynomials
+10.1007/978-3-642-71001-8_10	Efficient Algorithms for Computing Fractal Dimensions
+10.1201/b10676-15	Color in Graphics and Visualization

@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-06-18T05:05:53.850260+00:00",
+  "purpose": "Non-counting Phoenix shared-renderer parameter mapping worklist for existing-app source leads.",
+  "counting_rule": "Phoenix formula identities remain uncounted until shared renderer parameter mapping and render validation pass; degree names are formula identities, not random presets.",
+  "candidate_shared_shader": "shaders/escape_time_family/core/phoenix_gpu.frag",
+  "candidate_count": 3,
+  "ready_for_power_override_review_count": 3,
+  "needs_manual_review_count": 0,
+  "items": [
+    {
+      "stable_id": "f0131_phoenix_d_2",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0131_phoenix_d_2/f0131_phoenix_d_2_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0131_phoenix_d_2.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/phoenix_gpu.frag",
+      "parsed_degree": 2,
+      "proposed_parameter_mapping": {
+        "power": 2,
+        "bailout": 4.0,
+        "iterations": 500,
+        "feedback": "requires review against live phoenix shader uniforms"
+      },
+      "status": "ready_for_power_override_review",
+      "counted_entry": false,
+      "promotion_gate": "Review Phoenix degree/feedback compatibility, implement parameter mapping, render-smoke each identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0132_phoenix_d_3",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0132_phoenix_d_3/f0132_phoenix_d_3_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0132_phoenix_d_3.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/phoenix_gpu.frag",
+      "parsed_degree": 3,
+      "proposed_parameter_mapping": {
+        "power": 3,
+        "bailout": 4.0,
+        "iterations": 500,
+        "feedback": "requires review against live phoenix shader uniforms"
+      },
+      "status": "ready_for_power_override_review",
+      "counted_entry": false,
+      "promotion_gate": "Review Phoenix degree/feedback compatibility, implement parameter mapping, render-smoke each identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0133_phoenix_d_4",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0133_phoenix_d_4/f0133_phoenix_d_4_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0133_phoenix_d_4.png",
+      "candidate_shared_shader": "shaders/escape_time_family/core/phoenix_gpu.frag",
+      "parsed_degree": 4,
+      "proposed_parameter_mapping": {
+        "power": 4,
+        "bailout": 4.0,
+        "iterations": 500,
+        "feedback": "requires review against live phoenix shader uniforms"
+      },
+      "status": "ready_for_power_override_review",
+      "counted_entry": false,
+      "promotion_gate": "Review Phoenix degree/feedback compatibility, implement parameter mapping, render-smoke each identity, then regenerate counted ledger."
+    }
+  ]
+}

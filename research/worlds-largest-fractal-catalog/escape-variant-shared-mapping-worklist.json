@@ -1,0 +1,515 @@
+{
+  "generated_at": "2026-06-18T05:19:04.970375+00:00",
+  "purpose": "Non-counting escape-variant shared-renderer mapping worklist for existing-app source leads.",
+  "counting_rule": "Escape variant formula identities remain uncounted until shared renderer mapping and render validation pass; presets/random seeds/palettes/camera views do not count.",
+  "candidate_count": 39,
+  "ready_for_review_count": 37,
+  "needs_manual_review_count": 2,
+  "items": [
+    {
+      "stable_id": "f0498_sin_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0498_sin_z_c/f0498_sin_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0498_sin_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sin_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0502_sin_1_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0502_sin_1_z_c/f0502_sin_1_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0502_sin_1_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sin_1_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0505_sin_z_cos_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0505_sin_z_cos_z_c/f0505_sin_z_cos_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0505_sin_z_cos_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sin_z_cos_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0506_sinh_z_cosh_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0506_sinh_z_cosh_z_c/f0506_sinh_z_cosh_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0506_sinh_z_cosh_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sinh_z_cosh_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0507_log_sin_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0507_log_sin_z_c/f0507_log_sin_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0507_log_sin_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "log_sin_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0509_sin_z_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0509_sin_z_z_c/f0509_sin_z_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0509_sin_z_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sin_z_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0517_sin_z_1_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0517_sin_z_1_c/f0517_sin_z_1_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0517_sin_z_1_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sin_z_1_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0519_sin_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0519_sin_z_c/f0519_sin_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0519_sin_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sin_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0521_sin_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0521_sin_z_c/f0521_sin_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0521_sin_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sin_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0525_sinh_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0525_sinh_z_c/f0525_sinh_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0525_sinh_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sinh_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0526_sin_z_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0526_sin_z_z_c/f0526_sin_z_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0526_sin_z_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "sin_z_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0528_exp_z_sin_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0528_exp_z_sin_z_c/f0528_exp_z_sin_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0528_exp_z_sin_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "exp_z_sin_z_c",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0538_newton_sin",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0538_newton_sin/f0538_newton_sin_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0538_newton_sin.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "newton_sin",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1220_m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1220_m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin/f1220_m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1220_m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin",
+        "variant_family": "sine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0106_tricorn_d_9",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0106_tricorn_d_9/f0106_tricorn_d_9_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0106_tricorn_d_9.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 9,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0107_tricorn_d_10",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0107_tricorn_d_10/f0107_tricorn_d_10_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0107_tricorn_d_10.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 10,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0108_tricorn_d_11",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0108_tricorn_d_11/f0108_tricorn_d_11_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0108_tricorn_d_11.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 11,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0109_tricorn_d_12",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0109_tricorn_d_12/f0109_tricorn_d_12_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0109_tricorn_d_12.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 12,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0110_tricorn_d_13",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0110_tricorn_d_13/f0110_tricorn_d_13_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0110_tricorn_d_13.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 13,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0111_tricorn_d_14",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0111_tricorn_d_14/f0111_tricorn_d_14_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0111_tricorn_d_14.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 14,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0112_tricorn_d_15",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0112_tricorn_d_15/f0112_tricorn_d_15_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0112_tricorn_d_15.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 15,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0138_tricorn_z_1_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0138_tricorn_z_1_5/f0138_tricorn_z_1_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0138_tricorn_z_1_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 1.5,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0139_tricorn_z_2_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0139_tricorn_z_2_5/f0139_tricorn_z_2_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0139_tricorn_z_2_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "power": 2.5,
+        "variant_family": "tricorn"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1153_buddhabrot_tricorn",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1153_buddhabrot_tricorn/f1153_buddhabrot_tricorn_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1153_buddhabrot_tricorn.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+      "parsed_mapping": {
+        "variant_family": "tricorn"
+      },
+      "status": "needs_manual_escape_variant_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0113_burning_ship_d_7",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0113_burning_ship_d_7/f0113_burning_ship_d_7_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0113_burning_ship_d_7.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "power": 7,
+        "variant_family": "burning_ship"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0114_burning_ship_d_8",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0114_burning_ship_d_8/f0114_burning_ship_d_8_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0114_burning_ship_d_8.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "power": 8,
+        "variant_family": "burning_ship"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0115_burning_ship_d_9",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0115_burning_ship_d_9/f0115_burning_ship_d_9_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0115_burning_ship_d_9.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "power": 9,
+        "variant_family": "burning_ship"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0116_burning_ship_d_10",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0116_burning_ship_d_10/f0116_burning_ship_d_10_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0116_burning_ship_d_10.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "power": 10,
+        "variant_family": "burning_ship"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0117_burning_ship_d_11",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0117_burning_ship_d_11/f0117_burning_ship_d_11_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0117_burning_ship_d_11.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "power": 11,
+        "variant_family": "burning_ship"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0118_burning_ship_d_12",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0118_burning_ship_d_12/f0118_burning_ship_d_12_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0118_burning_ship_d_12.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "power": 12,
+        "variant_family": "burning_ship"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0140_burning_ship_z_2_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0140_burning_ship_z_2_5/f0140_burning_ship_z_2_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0140_burning_ship_z_2_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "power": 2.5,
+        "variant_family": "burning_ship"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0141_burning_ship_z_1_5",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0141_burning_ship_z_1_5/f0141_burning_ship_z_1_5_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0141_burning_ship_z_1_5.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "power": 1.5,
+        "variant_family": "burning_ship"
+      },
+      "status": "ready_for_power_parameter_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1152_buddhabrot_burning_ship",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1152_buddhabrot_burning_ship/f1152_buddhabrot_burning_ship_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1152_buddhabrot_burning_ship.png",
+      "candidate_shared_shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+      "parsed_mapping": {
+        "variant_family": "burning_ship"
+      },
+      "status": "needs_manual_escape_variant_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0499_cos_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0499_cos_z_c/f0499_cos_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0499_cos_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "cos_z_c",
+        "variant_family": "cosine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0508_log_cos_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0508_log_cos_z_c/f0508_log_cos_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0508_log_cos_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "log_cos_z_c",
+        "variant_family": "cosine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0518_cos_z_1_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0518_cos_z_1_c/f0518_cos_z_1_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0518_cos_z_1_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "cos_z_1_c",
+        "variant_family": "cosine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0520_cos_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0520_cos_z_c/f0520_cos_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0520_cos_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "cos_z_c",
+        "variant_family": "cosine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0527_cos_z_z_c",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0527_cos_z_z_c/f0527_cos_z_z_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0527_cos_z_z_c.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "cos_z_z_c",
+        "variant_family": "cosine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0537_newton_cos",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f0537_newton_cos/f0537_newton_cos_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0537_newton_cos.png",
+      "candidate_shared_shader": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+      "parsed_mapping": {
+        "expression_token": "newton_cos",
+        "variant_family": "cosine"
+      },
+      "status": "ready_for_expression_shader_review",
+      "counted_entry": false,
+      "promotion_gate": "Review escape-variant shared shader support, render-smoke the mapped formula identity, then regenerate counted ledger."
+    }
+  ]
+}

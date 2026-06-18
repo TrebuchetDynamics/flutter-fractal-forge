@@ -1,0 +1,20 @@
+10.1142/s0218127401002237	Iterated Function Systems for Object Generation and Rendering
+10.1186/s13663-025-00817-1	An approach to fractal construction in m-metric spaces via F-contractions
+	Genetic Algorithms for the 1-D Fractal Inverse Problem
+10.1016/j.cageo.2017.04.009	Fractal generator for efficient production of random planar patterns and symbols in digital mapping
+10.2495/vid930171	Invited PaperVisualization And Generation Of IteratedFunction Systems
+10.1007/978-3-642-78097-4_10	Analysis, Generation and Compression of Pavement Distress Images Using Fractals
+10.1186/s13663-025-00784-7	Proximal iterated function systems using cyclic Meir-Keeler contractions and an application to fractal theory
+10.1016/j.cnsns.2017.08.010	Efficient fractal-based mutation in evolutionary algorithms from iterated function systems
+10.3390/fractalfract10060361	Applying Iterated Function Systems in Waste Recycling Processes by Identifying Fractal-Like Patterns in Material Decomposition
+10.3934/math.2024651	Generating irregular fractals based on iterated function systems
+10.3390/axioms13120881	Mathematical Modeling of Fractals via Proximal F-Iterated Function Systems
+10.1007/s12346-024-01095-9	Continuity Dependence of Attractors of Iterated Function Systems with Orbital Condition
+10.1002/nme.1620330205	Mesh generation/refinement using fractal concepts and iterated function systems
+10.1007/978-3-319-62392-4_26	Genetic Estimation of Iterated Function Systems for Accurate Fractal Modeling in Pattern Recognition Tools
+10.26502/jbsb.5107051	Constrained disorder principle-based second-generation algorithms implement quantified variability signatures to improve the function of complex systems
+10.3390/math13040646	Mathematical Modeling and Recursive Algorithms for Constructing Complex Fractal Patterns
+10.1109/cac67268.2025.11487440	Iterated Function System-based Shape Formation for Large-scale Robotic Swarm with Collision Avoidance
+10.1186/s13663-024-00761-6	Fixed point theorem and iterated function system in φ-metric modular space
+10.3390/fractalfract9100637	Iterated Relation Systems on Riemannian Manifolds
+10.1109/icpr48806.2021.9413227	HP2IFS: Head Pose estimation exploiting Partitioned Iterated Function Systems

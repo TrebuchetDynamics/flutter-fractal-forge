@@ -1,0 +1,20 @@
+10.1145/3793853.3798184	A Procedural Generation System for Chinese Traditional Artifacts Based on Fractal Structures
+10.1007/979-8-8688-1787-8_6	Fractal Terrain Generation
+10.17083/ijsg.v4i2.161	Procedural Attack! Procedural Generation for Populated Virtual Cities: A Survey
+10.1145/3472538.3472576	Fractal Coordinates for Incremental Procedural Content Generation
+10.1145/2538528.2538538	Procedural Generation of Narrative Puzzles in Adventure Games
+10.1201/9781315156378-6	Ethical Procedural Generation
+10.1201/9781315156378-4	Aesthetics in Procedural Generation
+10.1109/iccsit.2009.5234644	Photorealistic terrain generation method based on fractal geometry theory and procedural texture
+10.1201/9781315156378-2	When and Why to Use Procedural Generation
+10.3390/mti1040027	A Survey on the Procedural Generation of Virtual Worlds
+10.5753/jis.2021.999	Procedural Dungeon Generation: A Survey
+10.1016/b978-155860848-1/50045-0	Procedural fractal terrains
+10.1016/b978-0-12-228760-2.50015-6	Procedural Fractal Terrains
+10.1109/cec.2012.6256610	A survey of procedural terrain generation techniques using evolutionary algorithms
+10.1109/tg.2019.2917792	Procedural Puzzle Generation: A Survey
+10.47749/t/unicamp.2020.1129306	Harena System for medical training
+10.1109/cost57098.2022.00046	A Survey of Procedural Content Generation for Games
+10.1201/9781315156378-14	Procedural Logic
+10.1097/01.sa.0000204688.11148.0a	A Method for Measuring System Safety and Latent Errors Associated With Pediatric Procedural Sedation
+10.1201/9781315156378-16	Procedural Enemy Waves

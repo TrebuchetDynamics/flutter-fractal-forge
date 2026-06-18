@@ -1,0 +1,351 @@
+{
+  "generated_at": "2026-06-18T05:05:53.828585+00:00",
+  "purpose": "Non-counting Sprott shared-renderer mapping worklist for existing-app source leads.",
+  "counting_rule": "Sprott formula identities remain uncounted until exact shader or reviewed coefficient mapping and render validation pass; presets/random seeds/palettes/camera views are not entries.",
+  "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+  "candidate_count": 34,
+  "exact_live_shader_available_count": 15,
+  "needs_equation_mapping_count": 19,
+  "items": [
+    {
+      "stable_id": "f0014_sprott_a",
+      "metadata_source": "lib/core/modules/strange_attractors/f0014_sprott_a/f0014_sprott_a_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0014_sprott_a.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0015_sprott_b",
+      "metadata_source": "lib/core/modules/strange_attractors/f0015_sprott_b/f0015_sprott_b_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0015_sprott_b.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_b_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0016_sprott_c",
+      "metadata_source": "lib/core/modules/strange_attractors/f0016_sprott_c/f0016_sprott_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0016_sprott_c.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_c_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0017_sprott_d",
+      "metadata_source": "lib/core/modules/strange_attractors/f0017_sprott_d/f0017_sprott_d_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0017_sprott_d.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_d_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0018_sprott_e",
+      "metadata_source": "lib/core/modules/strange_attractors/f0018_sprott_e/f0018_sprott_e_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0018_sprott_e.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_e_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0019_sprott_f",
+      "metadata_source": "lib/core/modules/strange_attractors/f0019_sprott_f/f0019_sprott_f_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0019_sprott_f.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_f_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0020_sprott_g",
+      "metadata_source": "lib/core/modules/strange_attractors/f0020_sprott_g/f0020_sprott_g_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0020_sprott_g.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_g_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0021_sprott_h",
+      "metadata_source": "lib/core/modules/strange_attractors/f0021_sprott_h/f0021_sprott_h_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0021_sprott_h.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_h_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0022_sprott_i",
+      "metadata_source": "lib/core/modules/strange_attractors/f0022_sprott_i/f0022_sprott_i_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0022_sprott_i.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_i_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0023_sprott_j",
+      "metadata_source": "lib/core/modules/strange_attractors/f0023_sprott_j/f0023_sprott_j_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0023_sprott_j.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0024_sprott_k",
+      "metadata_source": "lib/core/modules/strange_attractors/f0024_sprott_k/f0024_sprott_k_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0024_sprott_k.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_k_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0025_sprott_l",
+      "metadata_source": "lib/core/modules/strange_attractors/f0025_sprott_l/f0025_sprott_l_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0025_sprott_l.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_l_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0026_sprott_m",
+      "metadata_source": "lib/core/modules/strange_attractors/f0026_sprott_m/f0026_sprott_m_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0026_sprott_m.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_m_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0027_sprott_n",
+      "metadata_source": "lib/core/modules/strange_attractors/f0027_sprott_n/f0027_sprott_n_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0027_sprott_n.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_n_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0028_sprott_o",
+      "metadata_source": "lib/core/modules/strange_attractors/f0028_sprott_o/f0028_sprott_o_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0028_sprott_o.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_o_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0029_sprott_p",
+      "metadata_source": "lib/core/modules/strange_attractors/f0029_sprott_p/f0029_sprott_p_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0029_sprott_p.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0030_sprott_q",
+      "metadata_source": "lib/core/modules/strange_attractors/f0030_sprott_q/f0030_sprott_q_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0030_sprott_q.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0031_sprott_r",
+      "metadata_source": "lib/core/modules/strange_attractors/f0031_sprott_r/f0031_sprott_r_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0031_sprott_r.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0032_sprott_s",
+      "metadata_source": "lib/core/modules/strange_attractors/f0032_sprott_s/f0032_sprott_s_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0032_sprott_s.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": "shaders/strange_attractors/sprott_s_gpu.frag",
+      "status": "exact_live_sprott_shader_available",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0033_sprott_linz_a",
+      "metadata_source": "lib/core/modules/strange_attractors/f0033_sprott_linz_a/f0033_sprott_linz_a_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0033_sprott_linz_a.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0034_sprott_linz_b",
+      "metadata_source": "lib/core/modules/strange_attractors/f0034_sprott_linz_b/f0034_sprott_linz_b_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0034_sprott_linz_b.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0035_sprott_linz_c",
+      "metadata_source": "lib/core/modules/strange_attractors/f0035_sprott_linz_c/f0035_sprott_linz_c_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0035_sprott_linz_c.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0036_sprott_linz_d",
+      "metadata_source": "lib/core/modules/strange_attractors/f0036_sprott_linz_d/f0036_sprott_linz_d_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0036_sprott_linz_d.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0037_sprott_linz_e",
+      "metadata_source": "lib/core/modules/strange_attractors/f0037_sprott_linz_e/f0037_sprott_linz_e_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0037_sprott_linz_e.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0038_sprott_linz_f",
+      "metadata_source": "lib/core/modules/strange_attractors/f0038_sprott_linz_f/f0038_sprott_linz_f_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0038_sprott_linz_f.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0039_sprott_linz_g",
+      "metadata_source": "lib/core/modules/strange_attractors/f0039_sprott_linz_g/f0039_sprott_linz_g_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0039_sprott_linz_g.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0040_sprott_linz_h",
+      "metadata_source": "lib/core/modules/strange_attractors/f0040_sprott_linz_h/f0040_sprott_linz_h_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0040_sprott_linz_h.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0041_sprott_linz_i",
+      "metadata_source": "lib/core/modules/strange_attractors/f0041_sprott_linz_i/f0041_sprott_linz_i_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0041_sprott_linz_i.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0042_sprott_linz_j",
+      "metadata_source": "lib/core/modules/strange_attractors/f0042_sprott_linz_j/f0042_sprott_linz_j_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0042_sprott_linz_j.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0043_sprott_labyrinth_chaos",
+      "metadata_source": "lib/core/modules/strange_attractors/f0043_sprott_labyrinth_chaos/f0043_sprott_labyrinth_chaos_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0043_sprott_labyrinth_chaos.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0044_sprott_minimum_chaotic_flow",
+      "metadata_source": "lib/core/modules/strange_attractors/f0044_sprott_minimum_chaotic_flow/f0044_sprott_minimum_chaotic_flow_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0044_sprott_minimum_chaotic_flow.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0045_sprott_windmi",
+      "metadata_source": "lib/core/modules/strange_attractors/f0045_sprott_windmi/f0045_sprott_windmi_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0045_sprott_windmi.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0046_sprott_conservative_sc",
+      "metadata_source": "lib/core/modules/strange_attractors/f0046_sprott_conservative_sc/f0046_sprott_conservative_sc_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0046_sprott_conservative_sc.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    },
+    {
+      "stable_id": "f0086_sprott_jafari_no_equilibrium",
+      "metadata_source": "lib/core/modules/strange_attractors/f0086_sprott_jafari_no_equilibrium/f0086_sprott_jafari_no_equilibrium_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0086_sprott_jafari_no_equilibrium.png",
+      "candidate_seed_shader": "shaders/strange_attractors/sprott_a_gpu.frag",
+      "resolved_live_shader": null,
+      "status": "needs_sprott_equation_coefficient_mapping",
+      "counted_entry": false,
+      "promotion_gate": "Use exact live shader only after render smoke confirms formula identity; coefficient variants need reviewed equation mapping before promotion."
+    }
+  ]
+}

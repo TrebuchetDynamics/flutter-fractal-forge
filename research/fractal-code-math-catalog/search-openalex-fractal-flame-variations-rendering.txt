@@ -1,0 +1,20 @@
+10.1145/218380.218427	Creation and rendering of realistic trees
+10.1145/97879.97923	Particle animation and rendering using data parallel computation
+10.1017/jfm.2013.141	Flame front/turbulence interaction for syngas fuels in the thin reaction zones regime: turbulent and stretched laminar flame speeds at elevated pressures and temperatures
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.2478/v10178-012-0039-2	Algorithms and methods for analysis of the optical structure factor of fractal aggregates
+10.1002/adma.202002471	Photonic Fractal Metamaterials: A Metal–Semiconductor Platform with Enhanced Volatile‐Compound Sensing Performance
+10.1080/00102200802261852	LES Modeling of Premixed Deflagrating Flames in a Small-Scale Vented Explosion Chamber with a Series of Solid Obstructions
+10.1039/d0ta01723j	Multifunctional nanostructures of Au–Bi<sub>2</sub>O<sub>3</sub> fractals for CO<sub>2</sub> reduction and optical sensing
+10.1016/j.enconman.2009.01.002	Multi-zone thermodynamic modelling of spark-ignition engine combustion – An overview
+10.1002/adpr.202100020	Engineering Fractal Photonic Metamaterials by Stochastic Self‐Assembly of Nanoparticles
+10.1016/j.combustflame.2024.113505	Flame wrinkling and self-disturbance in cellularly unstable hydrogen-air laminar flames
+10.3390/s22093310	Recent Advances in Sensors for Fire Detection
+10.1016/j.jaerosci.2023.106211	Overview of methods to characterize the mass, size, and morphology of soot
+10.1007/s10694-022-01341-z	Visual Fire Power: An Algorithm for Measuring Heat Release Rate of Visible Flames in Camera Footage, with Applications in Facade Fire Experiments
+10.22215/etd/2009-08921	Spectrally-resolved light absorption properties of cooled soot from a methane flame
+10.5194/acp-18-13363-2018	Ice nucleation abilities of soot particles determined with the Horizontal Ice Nucleation Chamber
+	Effect of Pressure on Soot Morphology in Laminar Diffusion Flames
+10.3390/ma17030634	Simultaneous Inversion of Particle Size Distribution, Thermal Accommodation Coefficient, and Temperature of In-Flame Soot Aggregates Using Laser-Induced Incandescence
+10.14257/ijsip.2013.6.6.37	Simulation Method of Random Ocean Waves Based on Fractal Interpolation
+10.1016/j.pecs.2024.101202	Recent advances in combustion science related to hydrogen safety

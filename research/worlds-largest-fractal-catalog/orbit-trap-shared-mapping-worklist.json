@@ -1,0 +1,261 @@
+{
+  "generated_at": "2026-06-18T05:11:54.022440+00:00",
+  "purpose": "Non-counting orbit-trap shared-renderer geometry mapping worklist for existing-app source leads.",
+  "counting_rule": "Orbit-trap geometry identities remain uncounted until shared renderer mapping and render validation pass; palette/camera-only variants do not count.",
+  "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+  "candidate_count": 25,
+  "ready_for_trap_geometry_review_count": 25,
+  "needs_manual_review_count": 0,
+  "items": [
+    {
+      "stable_id": "f1155_orbit_trap_circle_pickover_stalks",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1155_orbit_trap_circle_pickover_stalks/f1155_orbit_trap_circle_pickover_stalks_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1155_orbit_trap_circle_pickover_stalks.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "circle_pickover_stalks",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1156_orbit_trap_cross",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1156_orbit_trap_cross/f1156_orbit_trap_cross_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1156_orbit_trap_cross.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "cross",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1157_orbit_trap_square",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1157_orbit_trap_square/f1157_orbit_trap_square_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1157_orbit_trap_square.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "square",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1158_orbit_trap_point_origin",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1158_orbit_trap_point_origin/f1158_orbit_trap_point_origin_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1158_orbit_trap_point_origin.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "point_origin",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1159_orbit_trap_point_custom",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1159_orbit_trap_point_custom/f1159_orbit_trap_point_custom_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1159_orbit_trap_point_custom.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "point_custom",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1160_orbit_trap_line_real_axis",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1160_orbit_trap_line_real_axis/f1160_orbit_trap_line_real_axis_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1160_orbit_trap_line_real_axis.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "line_real_axis",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1161_orbit_trap_line_imaginary_axis",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1161_orbit_trap_line_imaginary_axis/f1161_orbit_trap_line_imaginary_axis_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1161_orbit_trap_line_imaginary_axis.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "line_imaginary_axis",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1162_orbit_trap_multi_lines_cross",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1162_orbit_trap_multi_lines_cross/f1162_orbit_trap_multi_lines_cross_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1162_orbit_trap_multi_lines_cross.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "multi_lines_cross",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1163_orbit_trap_heart_curve",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1163_orbit_trap_heart_curve/f1163_orbit_trap_heart_curve_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1163_orbit_trap_heart_curve.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "heart_curve",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1164_orbit_trap_star_5_pointed",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1164_orbit_trap_star_5_pointed/f1164_orbit_trap_star_5_pointed_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1164_orbit_trap_star_5_pointed.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "star_5_pointed",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1165_orbit_trap_spiral",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1165_orbit_trap_spiral/f1165_orbit_trap_spiral_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1165_orbit_trap_spiral.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "spiral",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1166_orbit_trap_text_a",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1166_orbit_trap_text_a/f1166_orbit_trap_text_a_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1166_orbit_trap_text_a.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "text_a",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1167_orbit_trap_text_m",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1167_orbit_trap_text_m/f1167_orbit_trap_text_m_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1167_orbit_trap_text_m.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "text_m",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1168_orbit_trap_epicycloid",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1168_orbit_trap_epicycloid/f1168_orbit_trap_epicycloid_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1168_orbit_trap_epicycloid.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "epicycloid",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1169_orbit_trap_rose_curve",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1169_orbit_trap_rose_curve/f1169_orbit_trap_rose_curve_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1169_orbit_trap_rose_curve.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "rose_curve",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1170_orbit_trap_lima_on",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1170_orbit_trap_lima_on/f1170_orbit_trap_lima_on_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1170_orbit_trap_lima_on.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "lima_on",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1171_orbit_trap_cardioid",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1171_orbit_trap_cardioid/f1171_orbit_trap_cardioid_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1171_orbit_trap_cardioid.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "cardioid",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1172_orbit_trap_lemniscate",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1172_orbit_trap_lemniscate/f1172_orbit_trap_lemniscate_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1172_orbit_trap_lemniscate.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "lemniscate",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1173_orbit_trap_astroid",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1173_orbit_trap_astroid/f1173_orbit_trap_astroid_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1173_orbit_trap_astroid.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "astroid",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1174_orbit_trap_hypocycloid_3_cusp",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1174_orbit_trap_hypocycloid_3_cusp/f1174_orbit_trap_hypocycloid_3_cusp_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1174_orbit_trap_hypocycloid_3_cusp.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "hypocycloid_3_cusp",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1175_orbit_trap_square_lattice",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1175_orbit_trap_square_lattice/f1175_orbit_trap_square_lattice_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1175_orbit_trap_square_lattice.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "square_lattice",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1176_orbit_trap_hexagonal_lattice",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1176_orbit_trap_hexagonal_lattice/f1176_orbit_trap_hexagonal_lattice_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1176_orbit_trap_hexagonal_lattice.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "hexagonal_lattice",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1177_orbit_trap_field_lines",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1177_orbit_trap_field_lines/f1177_orbit_trap_field_lines_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1177_orbit_trap_field_lines.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "field_lines",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1178_orbit_trap_composite_multi_shape",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1178_orbit_trap_composite_multi_shape/f1178_orbit_trap_composite_multi_shape_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1178_orbit_trap_composite_multi_shape.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "composite_multi_shape",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1179_orbit_trap_concentric_rings",
+      "metadata_source": "lib/core/modules/escape_time_complex_plane/f1179_orbit_trap_concentric_rings/f1179_orbit_trap_concentric_rings_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1179_orbit_trap_concentric_rings.png",
+      "candidate_shared_shader": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+      "parsed_trap_geometry": "concentric_rings",
+      "status": "ready_for_trap_geometry_review",
+      "counted_entry": false,
+      "promotion_gate": "Review orbit-trap geometry uniform/mode mapping, render-smoke each stable trap geometry identity, then regenerate counted ledger."
+    }
+  ]
+}

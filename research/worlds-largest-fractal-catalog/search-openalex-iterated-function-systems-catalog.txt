@@ -1,0 +1,20 @@
+10.1038/s41598-020-72193-2	New insights and best practices for the successful use of Empirical Mode Decomposition, Iterative Filtering and derived algorithms
+10.1016/s0006-3495(87)83290-3	Fractal analysis of a voltage-dependent potassium channel from cultured mouse hippocampal neurons
+10.1109/tsipn.2015.2448520	Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing
+10.1186/s40537-024-00973-y	Enhancing K-nearest neighbor algorithm: a comprehensive review and performance analysis of modifications
+10.1051/0004-6361/201118237	A statistical fractal-diffusive avalanche model of a slowly-driven self-organized criticality system
+10.1029/2001jb000588	A spatial random field model to characterize complexity in earthquake slip
+10.1016/j.physrep.2017.10.001	The science of science: From the perspective of complex systems
+10.1029/2021jb023254	An Adaptable Random Forest Model for the Declustering of Earthquake Catalogs
+10.1007/s12559-020-09730-8	Comprehensive Taxonomies of Nature- and Bio-inspired Optimization: Inspiration Versus Algorithmic Behavior, Critical Analysis Recommendations
+10.1016/j.physd.2008.07.006	Boolean delay equations: A simple way of looking at complex systems
+10.1109/tie.2015.2412520	Observer-Based Air Excess Ratio Control of a PEM Fuel Cell System via High-Order Sliding Mode
+10.1051/0004-6361/200811416	Fast and robust segmentation of solar EUV images: algorithm and results for solar cycle 23
+10.1016/j.epsl.2023.118383	Explainable machine learning for labquake prediction using catalog-driven features
+10.1017/s0272263121000553	COMPLEX DYNAMIC SYSTEMS THEORY IN LANGUAGE LEARNING
+10.3319/tao.2004.15.3.469(ep)	Seismicity Pattern Changes Prior to Large Earthquakes An Approach of the RTL Algorithm
+10.1186/s13100-020-00230-y	The Dfam community resource of transposable element families, sequence models, and genome annotations
+10.1101/gr.171001	The Complete Human Olfactory Subgenome
+10.1109/access.2020.2987991	Optimal Placement and Intelligent Smoke Detection Algorithm for Wildfire-Monitoring Cameras
+10.1029/96jb03228	Improving local earthquake locations using the L1 norm and waveform cross correlation: Application to the Whittier Narrows, California, aftershock sequence
+10.1186/s40562-022-00218-x	Evaluation of the landslide susceptibility and its spatial difference in the whole Qinghai-Tibetan Plateau region by five learning algorithms

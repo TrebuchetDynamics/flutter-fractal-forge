@@ -1,0 +1,2 @@
+wrote citation graph with 43 edges to citation-graph-generalized-ifs-attractors.json
+wrote citation graph report to citation-report-generalized-ifs-attractors.md

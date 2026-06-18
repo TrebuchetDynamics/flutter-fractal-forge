@@ -1,0 +1,11 @@
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.25007/ajnu.v10n2a1030	Implementation and Analysis of Fractals Shapes using GPU-CUDA Model
+	Raymarching the Mandelbulb Fractal in VR
+10.1515/amcs-2017-0058	Procedural generation of aesthetic patterns from dynamics and iteration processes
+10.1186/s42492-018-0009-y	Towards additive manufacturing oriented geometric modeling using implicit functions
+10.48550/arxiv.2303.14827	Dual-Quaternion Julia Fractals
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals
+	Generation of fractal aesthetic objects with application in digital domain
+10.34726/hss.2015.26942	Ein Framework für die GPU-gestützte Erzeugung und Gestaltung induktiv rotierter Muster
+10.1080/02643290342000186	Modélisation et rendu temps-réel de milieux participants à l'aide du GPU
+	GigaVoxels : un pipeline de rendu basé Voxel pour l'exploration efficace de scènes larges et détaillées

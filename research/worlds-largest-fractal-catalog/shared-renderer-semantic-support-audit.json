@@ -1,0 +1,474 @@
+{
+  "generated_at": "2026-06-18T06:39:49.350409+00:00",
+  "purpose": "Non-counting semantic support audit for shared-renderer promotion candidates.",
+  "candidate_total": 19,
+  "status_counts": {
+    "needs_shader_or_mapper_extension": 19
+  },
+  "batch_counts": {
+    "mandelbrot": 19
+  },
+  "status_by_batch": {
+    "mandelbrot": {
+      "needs_shader_or_mapper_extension": 19
+    }
+  },
+  "items": [
+    {
+      "stable_id": "f0431_mini_mandelbrot_period_2",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0432_mini_mandelbrot_period_3",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0433_mini_mandelbrot_period_4",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0434_mini_mandelbrot_period_5",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0435_mini_mandelbrot_period_6",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0436_mini_mandelbrot_period_7",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0437_mini_mandelbrot_period_8",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0438_mini_mandelbrot_period_9",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0439_mini_mandelbrot_period_10",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0440_mini_mandelbrot_period_11",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0441_mini_mandelbrot_period_12",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0442_mini_mandelbrot_period_13",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0443_mini_mandelbrot_period_14",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0444_mini_mandelbrot_period_15",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0445_mini_mandelbrot_period_16",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0446_mini_mandelbrot_period_17",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0447_mini_mandelbrot_period_18",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0448_mini_mandelbrot_period_19",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    },
+    {
+      "stable_id": "f0449_mini_mandelbrot_period_20",
+      "batch": "mandelbrot",
+      "renderer_candidate": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+      "required_uniforms_or_aliases": [
+        "uPeriod",
+        "uViewRegion"
+      ],
+      "shader_uniforms": [
+        "uBailout",
+        "uCenter",
+        "uColorScheme",
+        "uIterations",
+        "uJuliaImag",
+        "uJuliaReal",
+        "uResolution",
+        "uTime",
+        "uTransparentBg",
+        "uZoom"
+      ],
+      "status": "needs_shader_or_mapper_extension",
+      "counted_entry": false,
+      "promotion_gate": "Only semantic_mapping_supported candidates may proceed to reviewed mapping + render-smoke; extension-needed candidates require shader/mapper changes first."
+    }
+  ]
+}

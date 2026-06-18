@@ -1,0 +1,20 @@
+10.5860/choice.51-2713	Computer graphics: principles and practice
+10.1145/74334.74337	The synthesis and rendering of eroded fractal terrains
+10.1109/38.364961	Rendering algorithms for deterministic fractals
+10.1145/218380.218427	Creation and rendering of realistic trees
+	Rendering and magnification of fractals using iterated function systems
+10.1613/jair.374	Identifying Hierarchical Structure in Sequences: A linear-time algorithm
+10.1145/97879.97923	Particle animation and rendering using data parallel computation
+10.5555/832271.833848	IFS fractal interpolation for 2D and 3D visualization
+10.1016/s0097-8493(03)00035-9	On bounding boxes of iterated function system attractors
+10.1145/325334.325245	Construction of fractal objects with iterated function systems
+10.1063/1.2432410	<scp>WSXM</scp>: A software for scanning probe microscopy and a tool for nanotechnology
+10.1038/s41598-017-07209-5	Reliable Multi-Fractal Characterization of Weighted Complex Networks: Algorithms and Implications
+10.1145/344779.344899	Adaptively sampled distance fields
+10.1145/127719.122728	Efficient antialiased rendering of 3-D linear fractals
+10.1145/311535.311560	Modeling and rendering of weathered stone
+10.1109/gmap.2004.1290020	The fractal nature of Bezier curves
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.1145/74334.74338	From splines to fractals
+10.1103/revmodphys.88.035006	Control principles of complex systems
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization

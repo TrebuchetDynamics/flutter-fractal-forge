@@ -1,0 +1,20 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+10.1142/s0218348x21500249	Fractal Interpretation of Bacterial Light Harvesters
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	Variable Topology on Fractal Manifold
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+	Fractal Properties of the Cosmic Web
+10.1063/5.0257273	A fractal geometry immersed in a hierarchical magnetic flux distribution
+	A generalized model for Yang-Fourier transforms in fractal space
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+	Theory of Carry Value Transformation (CVT) and its Application in Fractal formation
+	Fractal formation and ordering in Random Sequential Adsorption
+	Fractal dimension of discrete sets and percolation
+10.1103/physreve.92.042102	Fractal energy carpets in non-Hermitian Hofstadter quantum mechanics
+10.4171/jfg/37	Fractal dual substitution tilings
+	Optimal transport of signed measures: existence, uniqueness and fractal structure
+10.1088/1742-6596/582/1/012049	Fractal dimension and turbulence in Giant HII Regions
+	Anomalous diffusion by fractal homogenization
+10.1038/s41598-024-59765-2	Scaling theory of fractal complex networks

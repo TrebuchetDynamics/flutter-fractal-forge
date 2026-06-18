@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Curated Fractal Catalog Entry",
+  "type": "object",
+  "required": [
+    "stable_id",
+    "display_name",
+    "family",
+    "mathematical_identity_type",
+    "formula_or_rule",
+    "renderer_path",
+    "provenance",
+    "license_context",
+    "thumbnail_plan",
+    "validation",
+    "accessibility_label",
+    "counted_entry",
+    "ingest_status"
+  ],
+  "properties": {
+    "stable_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_\\-]*$"
+    },
+    "display_name": {"type": "string", "minLength": 1},
+    "family": {"type": "string", "minLength": 1},
+    "mathematical_identity_type": {
+      "type": "string",
+      "enum": [
+        "formula",
+        "grammar",
+        "transform_system",
+        "map",
+        "rule",
+        "simulation_model",
+        "named_stable_variant"
+      ]
+    },
+    "formula_or_rule": {"type": "string"},
+    "renderer_path": {"type": "string"},
+    "parameter_schema": {"type": "object"},
+    "provenance": {
+      "type": "object",
+      "required": ["source_type", "source", "reuse_decision"],
+      "properties": {
+        "source_type": {"type": "string"},
+        "source": {"type": "string"},
+        "doi": {"type": "string"},
+        "reuse_decision": {"type": "string"}
+      }
+    },
+    "license_context": {"type": "string"},
+    "thumbnail_plan": {"type": "string"},
+    "validation": {
+      "type": "object",
+      "required": ["status", "signals"],
+      "properties": {
+        "status": {"type": "string"},
+        "signals": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "accessibility_label": {"type": "string"},
+    "counted_entry": {"type": "boolean"},
+    "ingest_status": {
+      "type": "string",
+      "enum": ["source_lead", "schema_ready", "renderer_ready", "validated", "promoted"]
+    },
+    "notes": {"type": "string"}
+  }
+}

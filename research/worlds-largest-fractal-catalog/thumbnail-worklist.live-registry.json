@@ -1,0 +1,265 @@
+{
+  "generated_at": "2026-06-18T17:25:15.150258Z",
+  "purpose": "Live registry modules that are shader-backed but cannot be promoted because bundled thumbnails are missing.",
+  "thumbnailStandard": "Launch Thumbnail Standard: 320x320 bundled assets",
+  "missingCount": 30,
+  "batchSize": 25,
+  "batches": [
+    {
+      "offset": 0,
+      "limit": 25,
+      "moduleIds": [
+        "sprott_c",
+        "newton_z4",
+        "newton_z6",
+        "tangent_julia",
+        "newton_z5",
+        "celtic_power5",
+        "celtic_power5_julia",
+        "magnet2_julia",
+        "multijulia9",
+        "tricorn_power7_julia",
+        "lichtenberg_growth",
+        "bedhead",
+        "bogdanov_map",
+        "buddhabrot_full",
+        "fractal_dream",
+        "jason_rampe_1",
+        "jason_rampe_2",
+        "kleinian_limit_set",
+        "laguerre_fractal",
+        "magnetic_pendulum",
+        "mandelbrot_df2",
+        "mandelbrot_simple",
+        "mandelbrot_tex",
+        "noor_newton",
+        "shape_modulus_julia"
+      ],
+      "command": "CATALOG_THUMB_ONLY=sprott_c,newton_z4,newton_z6,tangent_julia,newton_z5,celtic_power5,celtic_power5_julia,magnet2_julia,multijulia9,tricorn_power7_julia,lichtenberg_growth,bedhead,bogdanov_map,buddhabrot_full,fractal_dream,jason_rampe_1,jason_rampe_2,kleinian_limit_set,laguerre_fractal,magnetic_pendulum,mandelbrot_df2,mandelbrot_simple,mandelbrot_tex,noor_newton,shape_modulus_julia /home/xel/flutter/bin/flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
+    },
+    {
+      "offset": 25,
+      "limit": 5,
+      "moduleIds": [
+        "symmetric_icon",
+        "weierstrass_elliptic",
+        "mandelbox",
+        "mandelbox_shape_inversion",
+        "amazing_box"
+      ],
+      "command": "CATALOG_THUMB_ONLY=symmetric_icon,weierstrass_elliptic,mandelbox,mandelbox_shape_inversion,amazing_box /home/xel/flutter/bin/flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
+    }
+  ],
+  "missingThumbnails": [
+    {
+      "moduleId": "sprott_c",
+      "catalogId": "core.sprott_c",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/strange_attractors/sprott_c_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/sprott_c.png"
+    },
+    {
+      "moduleId": "newton_z4",
+      "catalogId": "core.newton_z4",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/root_finding/newton_z4_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/newton_z4.png"
+    },
+    {
+      "moduleId": "newton_z6",
+      "catalogId": "core.newton_z6",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/root_finding/newton_z6_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/newton_z6.png"
+    },
+    {
+      "moduleId": "tangent_julia",
+      "catalogId": "core.tangent_julia",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/tangent_julia_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/tangent_julia.png"
+    },
+    {
+      "moduleId": "newton_z5",
+      "catalogId": "core.newton_z5",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/root_finding/newton_z5_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/newton_z5.png"
+    },
+    {
+      "moduleId": "celtic_power5",
+      "catalogId": "core.celtic_power5",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/celtic_power5.png"
+    },
+    {
+      "moduleId": "celtic_power5_julia",
+      "catalogId": "core.celtic_power5_julia",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/celtic_power5_julia.png"
+    },
+    {
+      "moduleId": "magnet2_julia",
+      "catalogId": "core.magnet2_julia",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/julia_variants/magnet2_julia_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/magnet2_julia.png"
+    },
+    {
+      "moduleId": "multijulia9",
+      "catalogId": "core.multijulia9",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia9_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/multijulia9.png"
+    },
+    {
+      "moduleId": "tricorn_power7_julia",
+      "catalogId": "core.tricorn_power7_julia",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/tricorn_power7_julia.png"
+    },
+    {
+      "moduleId": "lichtenberg_growth",
+      "catalogId": "core.lichtenberg_growth",
+      "category": "Cellular & Stochastic Growth",
+      "shaderAsset": "shaders/cellular_and_stochastic/lichtenberg_growth_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/lichtenberg_growth.png"
+    },
+    {
+      "moduleId": "bedhead",
+      "catalogId": "core.bedhead",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/bedhead_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/bedhead.png"
+    },
+    {
+      "moduleId": "bogdanov_map",
+      "catalogId": "core.bogdanov_map",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/strange_attractors/bogdanov_map_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/bogdanov_map.png"
+    },
+    {
+      "moduleId": "buddhabrot_full",
+      "catalogId": "core.buddhabrot_full",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/families/buddhabrot/buddhabrot_full_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/buddhabrot_full.png"
+    },
+    {
+      "moduleId": "fractal_dream",
+      "catalogId": "core.fractal_dream",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/fractal_dream_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/fractal_dream.png"
+    },
+    {
+      "moduleId": "jason_rampe_1",
+      "catalogId": "core.jason_rampe_1",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_1_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/jason_rampe_1.png"
+    },
+    {
+      "moduleId": "jason_rampe_2",
+      "catalogId": "core.jason_rampe_2",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_2_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/jason_rampe_2.png"
+    },
+    {
+      "moduleId": "kleinian_limit_set",
+      "catalogId": "core.kleinian_limit_set",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/ifs_and_geometric/kleinian_limit_set_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/kleinian_limit_set.png"
+    },
+    {
+      "moduleId": "laguerre_fractal",
+      "catalogId": "core.laguerre_fractal",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/laguerre_fractal_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/laguerre_fractal.png"
+    },
+    {
+      "moduleId": "magnetic_pendulum",
+      "catalogId": "core.magnetic_pendulum",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/experimental_named/physical_simulation/magnetic_pendulum_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/magnetic_pendulum.png"
+    },
+    {
+      "moduleId": "mandelbrot_df2",
+      "catalogId": "core.mandelbrot_df2",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/legacy/precision/mandelbrot_df2.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/mandelbrot_df2.png"
+    },
+    {
+      "moduleId": "mandelbrot_simple",
+      "catalogId": "core.mandelbrot_simple",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/legacy/diagnostics/mandelbrot_simple.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/mandelbrot_simple.png"
+    },
+    {
+      "moduleId": "mandelbrot_tex",
+      "catalogId": "core.mandelbrot_tex",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/legacy/escape_time/mandelbrot_tex.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/mandelbrot_tex.png"
+    },
+    {
+      "moduleId": "noor_newton",
+      "catalogId": "core.noor_newton",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/root_finding/noor_newton_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/noor_newton.png"
+    },
+    {
+      "moduleId": "shape_modulus_julia",
+      "catalogId": "core.shape_modulus_julia",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/shape_modulus_julia.png"
+    },
+    {
+      "moduleId": "symmetric_icon",
+      "catalogId": "core.symmetric_icon",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/symmetric_icon_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/symmetric_icon.png"
+    },
+    {
+      "moduleId": "weierstrass_elliptic",
+      "catalogId": "core.weierstrass_elliptic",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/weierstrass_elliptic_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/weierstrass_elliptic.png"
+    },
+    {
+      "moduleId": "mandelbox",
+      "catalogId": "core.mandelbox",
+      "category": "3D Fractals",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/mandelbox.png"
+    },
+    {
+      "moduleId": "mandelbox_shape_inversion",
+      "catalogId": "core.mandelbox_shape_inversion",
+      "category": "3D Fractals",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/mandelbox_shape_inversion.png"
+    },
+    {
+      "moduleId": "amazing_box",
+      "catalogId": "core.amazing_box",
+      "category": "3D Fractals",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/amazing_box.png"
+    }
+  ]
+}

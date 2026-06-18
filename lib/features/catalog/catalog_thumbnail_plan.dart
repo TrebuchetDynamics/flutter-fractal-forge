@@ -25,7 +25,10 @@ final class CatalogThumbnailPlan {
   String get assetPath => 'assets/catalog_thumbs/$assetId.png';
 
   static String assetIdForCatalogId(String catalogId) {
-    return catalogId.startsWith('core.') ? catalogId.substring(5) : catalogId;
+    final rawId =
+        catalogId.startsWith('core.') ? catalogId.substring(5) : catalogId;
+    if (rawId.startsWith('life_like_b')) return 'maze_ca';
+    return rawId;
   }
 }
 

@@ -1,0 +1,154 @@
+{
+  "objective": "Target 5,000-10,000 curated renderable entries; count formulas/rules, not random presets.",
+  "counting_rules": {
+    "counted_entry": "A stable renderable mathematical formula, grammar, transform system, map, rule, or simulation model with its own catalog ID and renderer assignment.",
+    "not_counted_as_entry": [
+      "random parameter seed",
+      "camera-only preset",
+      "palette-only preset",
+      "thumbnail-only variant",
+      "renderer implementation detail",
+      "unproven copy of upstream source without provenance"
+    ],
+    "preset_rule": "Presets may be attached to entries, but do not increase the world-largest catalog count unless they encode a named, stable formula/rule variant.",
+    "provenance_rule": "Every new counted entry needs source/provenance, license context, formula/rule notes, renderer path, thumbnail plan, and validation signal before production use."
+  },
+  "current_seed_corpus": {
+    "reference_manifest": "research/fractals-library/data/fractal_manifest.json",
+    "reference_formula_count": 200,
+    "catalog_thumbnail_png_count_observed": 1347,
+    "note": "Thumbnail count is evidence of broad generated visual coverage, not a formula/rule count by itself."
+  },
+  "counted_entry_targets": [
+    {
+      "family": "escape_time_polynomial_complex",
+      "target_min": 1200,
+      "target_max": 1800,
+      "renderer": "fragment_shader",
+      "count_rule": "formula + exponent/view type",
+      "seed_sources": ["research/fractals-library:the_escape_time_family", "DOI:10.1080/17513470701210485", "DOI:10.1063/1.5095111"]
+    },
+    {
+      "family": "root_finding_polynomiography",
+      "target_min": 300,
+      "target_max": 500,
+      "renderer": "fragment_shader",
+      "count_rule": "method + polynomial family",
+      "seed_sources": ["research/fractals-library:convergent_and_root_finding"]
+    },
+    {
+      "family": "rational_transcendental_maps",
+      "target_min": 600,
+      "target_max": 1000,
+      "renderer": "fragment_shader",
+      "count_rule": "formula identity",
+      "seed_sources": ["research/fractals-library:trigonometric_and_transcendental", "research/fractals-library:advanced_rational_and_polynomial"]
+    },
+    {
+      "family": "distance_estimated_3d_raymarch",
+      "target_min": 200,
+      "target_max": 350,
+      "renderer": "raymarch_shader",
+      "count_rule": "distance estimator or fold system",
+      "seed_sources": ["research/fractals-library:3d_raymarching_and_hypercomplex", "DOI:10.1145/74333.74363", "DOI:10.1145/965145.801263"]
+    },
+    {
+      "family": "ifs_geometric",
+      "target_min": 400,
+      "target_max": 700,
+      "renderer": "point_mesh_accumulation",
+      "count_rule": "transform system or geometric rule set",
+      "seed_sources": ["research/fractals-library:ifs_and_geometric_construction", "DOI:10.1007/s11075-016-0104-0"]
+    },
+    {
+      "family": "l_systems_plants_curves",
+      "target_min": 200,
+      "target_max": 350,
+      "renderer": "grammar_turtle_mesh",
+      "count_rule": "axiom/rule grammar",
+      "seed_sources": ["research/fractals-library:l_systems_and_space_filling_curves", "DOI:10.1016/s0076-5392(07)x8066-4", "DOI:10.3389/fpls.2012.00076"]
+    },
+    {
+      "family": "strange_attractors_maps",
+      "target_min": 500,
+      "target_max": 900,
+      "renderer": "point_accumulation",
+      "count_rule": "ODE or discrete map equation",
+      "seed_sources": ["research/fractals-library:strange_attractors", "research/fractals-library:deep_chaos_and_flows"]
+    },
+    {
+      "family": "cellular_automata",
+      "target_min": 500,
+      "target_max": 900,
+      "renderer": "grid_simulation",
+      "count_rule": "rule number or named rule family",
+      "seed_sources": ["research/fractals-library:cellular_and_stochastic"]
+    },
+    {
+      "family": "reaction_diffusion",
+      "target_min": 100,
+      "target_max": 200,
+      "renderer": "grid_simulation",
+      "count_rule": "model + stable parameter class",
+      "seed_sources": ["research/worlds-largest-fractal-catalog/report.md"]
+    },
+    {
+      "family": "noise_terrain_textures",
+      "target_min": 200,
+      "target_max": 350,
+      "renderer": "shader_heightfield",
+      "count_rule": "noise basis + fractal composition",
+      "seed_sources": ["DOI:10.1111/j.1467-8659.2010.01827.x", "DOI:10.1145/74334.74337"]
+    },
+    {
+      "family": "tilings_substitution_graphs",
+      "target_min": 200,
+      "target_max": 350,
+      "renderer": "mesh_recursive_geometry",
+      "count_rule": "substitution or graph rule",
+      "seed_sources": ["research/fractals-library:tiling_and_graph_fractals"]
+    },
+    {
+      "family": "number_theory_special_functions",
+      "target_min": 250,
+      "target_max": 450,
+      "renderer": "shader_grid",
+      "count_rule": "sequence/function identity",
+      "seed_sources": ["research/fractals-library:the_lyapunov_and_stability", "research/fractals-library:high_dimensional_algebra"]
+    },
+    {
+      "family": "fractal_flames_variation_systems",
+      "target_min": 500,
+      "target_max": 1000,
+      "renderer": "iterated_transform_accumulation",
+      "count_rule": "stable variation recipe, not random genome",
+      "seed_sources": ["research/worlds-largest-fractal-catalog/report.md"]
+    }
+  ],
+  "non_counted_mode_targets": [
+    {
+      "family": "orbit_traps_coloring_modes",
+      "target_min": 50,
+      "target_max": 200,
+      "renderer": "shader_post_color_layer",
+      "count_rule": "mode count only; do not add to formula/rule entry total unless geometry changes"
+    }
+  ],
+  "target_totals": {
+    "counted_entry_min": 5150,
+    "counted_entry_max": 8850,
+    "within_objective_range": true
+  },
+  "ingest_gates": [
+    "stable_id",
+    "family",
+    "formula_or_rule",
+    "parameter_schema",
+    "renderer_path",
+    "provenance_record",
+    "license_context",
+    "thumbnail_plan",
+    "visual_metrics_or_render_audit",
+    "accessibility_label"
+  ]
+}

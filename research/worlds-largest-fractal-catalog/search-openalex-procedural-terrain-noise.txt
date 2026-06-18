@@ -1,0 +1,20 @@
+10.1111/j.1467-8659.2010.01827.x	A Survey of Procedural Noise Functions
+10.1145/74334.74337	The synthesis and rendering of eroded fractal terrains
+	A Survey of Procedural Methods for Terrain Modelling
+10.1016/j.cag.2010.11.011	A declarative approach to procedural modeling of virtual worlds
+10.1155/2009/125714	Breeding Terrains with Genetic Terrain Programming: The Evolution of Terrain Generators
+10.1145/3072959.3073667	Authoring landscapes by combining ecosystem and terrain erosion simulation
+10.1145/800059.801137	New techniques for ray tracing procedurally defined objects
+10.1007/s11042-020-09476-3	Procedural modelling of terrains with constraints
+10.3133/ofr02465	A bibliography of terrain modeling (geomorphometry), the quantitative representation of topography: Supplement 4.0
+10.1155/2010/360458	Declarative Terrain Modeling for Military Training Games
+	Terrain synthesis using noise
+10.1007/s00371-006-0090-7	Ray casting implicit fractal surfaces with reduced affine arithmetic
+	Terrainosaurus: realistic terrain synthesis using genetic algorithms
+10.5194/we-22-1-2022	Perlin noise as a hierarchical neutral landscape model
+10.1007/s00371-020-01920-7	AutoBiomes: procedural generation of multi-biome landscapes
+10.3390/rs14051166	Generating Terrain Data for Geomorphological Analysis by Integrating Topographical Features and Conditional Generative Adversarial Networks
+10.1109/taes.2014.120282	Modeling cratered surfaces with real and synthetic terrain for testing planetary landers
+10.1155/2017/7057141	Ecologically Sound Procedural Generation of Natural Environments
+10.48550/arxiv.2401.17807	Advances in 3D Generation: A Survey
+10.48550/arxiv.2407.09013	Procedural Content Generation via Generative Artificial Intelligence

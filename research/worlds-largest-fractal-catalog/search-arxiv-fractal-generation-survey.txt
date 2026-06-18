@@ -1,0 +1,20 @@
+10.1111/j.1467-8659.2010.01828.x	A Survey of Ocean Simulation and Rendering Techniques in Computer Graphics
+10.1561/0600000106	Towards Better User Studies in Computer Graphics and Vision
+10.1111/cgf.14784	TACHYON: Efficient Shared Memory Parallel Computation of Extremum Graphs
+	Groebner bases in Java with applications in computer graphics
+10.1016/j.future.2025.108207	A Survey on Heterogeneous Computing Using SmartNICs and Emerging Data Processing Units
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1145/3386569.3392413	Code Replicability in Computer Graphics
+10.18148/srm/2025.v19i4.8568	AIn't Nothing But a Survey? Using Large Language Models for Coding German Open-Ended Survey Responses on Survey Motivation
+	A rich bounty of AGN in the 9 square degree Bootes survey: high-z obscured AGN and large-scale structure
+	LayoutRectifier: An Optimization-based Post-processing for Graphic Design Layout Generation
+10.1145/3731209.	MoVer: Motion Verification for Motion Graphics Animations
+	Temperature Illusions in Mixed Reality using Color and Dynamic Graphics
+	Spatio-temporal Manifold Learning for Human Motions via Long-horizon Modeling
+	Text/Graphics Separation for Business Card Images for Mobile Devices
+	The Methanol Multibeam Survey
+	The Dark Energy Survey
+	A Computational Algorithm based on Empirical Analysis, that Composes Sanskrit Poetry
+10.1017/s1743921314009417	The SAMI Galaxy Survey: first 1000 galaxies
+10.1145/3528223.3530127	Instant Neural Graphics Primitives with a Multiresolution Hash Encoding
+10.3390/a5040545	Distributing an Exact Algorithm for Maximum Clique: maximising the costup

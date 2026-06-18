@@ -27,14 +27,20 @@ class CatalogRepository {
               // Stable prefix to decouple future module refactors from IDs.
               catalogId: 'core.${module.id}',
               module: module,
-              category: categoriesById[module.id] ??
-                  (module.dimension == FractalDimension.threeD
-                      ? '3D Fractals'
-                      : 'Other'),
+              category: categoriesById[module.id] ?? _categoryForModule(module),
             ),
           )
           .toList(growable: false),
     );
+  }
+
+  static String _categoryForModule(FractalModule module) {
+    if (module.id.startsWith('life_like_b')) {
+      return 'Cellular & Stochastic';
+    }
+    return module.dimension == FractalDimension.threeD
+        ? '3D Fractals'
+        : 'Other';
   }
 
   CatalogEntry byCatalogId(String catalogId) {

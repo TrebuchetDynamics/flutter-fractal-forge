@@ -1,0 +1,2 @@
+wrote citation graph with 100 edges to citation-graph-visual-models-plants-environment.json
+wrote citation graph report to citation-report-visual-models-plants-environment.md

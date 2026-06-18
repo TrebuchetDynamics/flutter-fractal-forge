@@ -1,0 +1,20 @@
+10.1007/978-0-387-21830-4_9	Strange attractors and chaotic motions of dynamical systems
+10.1017/cbo9780511608773.007	Attracting sets and attractors
+10.1201/9781003568643-9	Existence proofs for strange attractors in piecewise-smooth nonlinear Lozi-Hénon and Belykh maps
+10.1017/cbo9780511608773	Chaotic Evolution and Strange Attractors
+10.1007/s00220-009-0753-0	Strange Non-Chaotic Attractors in Quasiperiodically Forced Circle Maps
+10.1017/cbo9780511608773.017	Conclusions
+10.1017/cbo9780511608773.002	Introduction
+10.1017/cbo9780511608773.016	Resonances
+10.1017/cbo9780511608773.018	References
+10.1017/cbo9780511608773.019	Bibliography
+10.1017/cbo9780511608773.014	Entropy
+10.1017/cbo9780511608773.001	Foreword
+10.1017/cbo9780511608773.015	Dimensions
+10.1017/cbo9780511608773.010	Physical measures
+10.1017/cbo9780511608773.012	Invariant manifolds
+10.1017/cbo9780511608773.011	Characteristic exponents
+10.1007/978-3-642-69591-9_13	Nonuniform Information Processing by Strange Attractors of Chaotic Maps and Flows
+10.1017/cbo9780511608773.005	The Hénon mapping
+10.1007/978-0-387-21830-4_12	Measuring the Strangeness of Strange Attractors
+10.1017/cbo9780511608773.009	Invariant probability measures

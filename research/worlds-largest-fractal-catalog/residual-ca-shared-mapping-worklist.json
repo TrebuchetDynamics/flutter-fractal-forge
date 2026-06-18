@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-18T05:21:23.040039+00:00",
+  "purpose": "Non-counting residual CA shared-renderer mapping worklist for existing-app source leads.",
+  "counting_rule": "Residual CA/stochastic rule identities remain uncounted until shared renderer mapping and render validation pass; random seeds/palettes/camera views do not count.",
+  "candidate_count": 8,
+  "ready_for_review_count": 8,
+  "needs_manual_review_count": 0,
+  "items": [
+    {
+      "stable_id": "f0980_replicator_b1357_s1357",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0980_replicator_b1357_s1357/f0980_replicator_b1357_s1357_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0980_replicator_b1357_s1357.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/replicator_ca_gpu.frag",
+      "parsed_mapping": {
+        "birth": "1357",
+        "survival": "1357",
+        "family": "replicator"
+      },
+      "status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false,
+      "promotion_gate": "Review residual CA shared renderer mapping, render-smoke the mapped rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0981_fredkin_s_replicator_b1357_s02468",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0981_fredkin_s_replicator_b1357_s02468/f0981_fredkin_s_replicator_b1357_s02468_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0981_fredkin_s_replicator_b1357_s02468.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/replicator_ca_gpu.frag",
+      "parsed_mapping": {
+        "birth": "1357",
+        "survival": "02468",
+        "family": "replicator"
+      },
+      "status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false,
+      "promotion_gate": "Review residual CA shared renderer mapping, render-smoke the mapped rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0995_replicator_4_b1357_s03567",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0995_replicator_4_b1357_s03567/f0995_replicator_4_b1357_s03567_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0995_replicator_4_b1357_s03567.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/replicator_ca_gpu.frag",
+      "parsed_mapping": {
+        "birth": "1357",
+        "survival": "03567",
+        "family": "replicator"
+      },
+      "status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false,
+      "promotion_gate": "Review residual CA shared renderer mapping, render-smoke the mapped rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1021_cyclic_ca_n_4",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f1021_cyclic_ca_n_4/f1021_cyclic_ca_n_4_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1021_cyclic_ca_n_4.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/cyclic_ca_gpu.frag",
+      "parsed_mapping": {
+        "states": 4
+      },
+      "status": "ready_for_cyclic_state_count_review",
+      "counted_entry": false,
+      "promotion_gate": "Review residual CA shared renderer mapping, render-smoke the mapped rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1022_cyclic_ca_n_16",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f1022_cyclic_ca_n_16/f1022_cyclic_ca_n_16_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1022_cyclic_ca_n_16.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/cyclic_ca_gpu.frag",
+      "parsed_mapping": {
+        "states": 16
+      },
+      "status": "ready_for_cyclic_state_count_review",
+      "counted_entry": false,
+      "promotion_gate": "Review residual CA shared renderer mapping, render-smoke the mapped rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f0983_mazectric_b3_s1234",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f0983_mazectric_b3_s1234/f0983_mazectric_b3_s1234_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f0983_mazectric_b3_s1234.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+      "parsed_mapping": {
+        "birth": "3",
+        "survival": "1234",
+        "family": "maze"
+      },
+      "status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false,
+      "promotion_gate": "Review residual CA shared renderer mapping, render-smoke the mapped rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1005_maze_with_mice_b37_s12345",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f1005_maze_with_mice_b37_s12345/f1005_maze_with_mice_b37_s12345_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1005_maze_with_mice_b37_s12345.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+      "parsed_mapping": {
+        "birth": "37",
+        "survival": "12345",
+        "family": "maze"
+      },
+      "status": "ready_for_birth_survival_rule_review",
+      "counted_entry": false,
+      "promotion_gate": "Review residual CA shared renderer mapping, render-smoke the mapped rule identity, then regenerate counted ledger."
+    },
+    {
+      "stable_id": "f1024_forest_fire_ca",
+      "metadata_source": "lib/core/modules/cellular_stochastic/f1024_forest_fire_ca/f1024_forest_fire_ca_metadata.dart",
+      "thumbnail_plan": "assets/catalog_thumbs/f1024_forest_fire_ca.png",
+      "candidate_shared_shader": "shaders/cellular_and_stochastic/forest_fire_gpu.frag",
+      "parsed_mapping": {
+        "family": "forest_fire"
+      },
+      "status": "ready_for_stochastic_rule_review",
+      "counted_entry": false,
+      "promotion_gate": "Review residual CA shared renderer mapping, render-smoke the mapped rule identity, then regenerate counted ledger."
+    }
+  ]
+}

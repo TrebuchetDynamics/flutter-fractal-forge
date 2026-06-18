@@ -1,0 +1,20 @@
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1145/237170.237279	Visual models of plants interacting with their environment
+10.1145/378456.378505	Plant models faithful to botanical structure and development
+10.1109/38.736469	Interactive modeling of plants
+10.3390/pr11051502	Waterwheel Plant Algorithm: A Novel Metaheuristic Optimization Method
+10.1111/1467-9868.00160	Fractal Analysis of Surface Roughness by Using Spatial Data
+10.1071/fp08084	OpenAlea: a visual programming and component-based software platform for plant modelling
+10.1007/s10462-023-10470-y	An exhaustive review of the metaheuristic algorithms for search and optimization: taxonomy, applications, and open challenges
+10.1371/journal.pbio.1001406	OneZoom: A Fractal Explorer for the Tree of Life
+10.3389/fpls.2012.00076	L-Py: An L-System Simulation Framework for Modeling Plant Architecture Development Based on a Dynamic Language
+10.1007/s11104-010-0284-7	A dynamic root system growth model based on L-Systems
+10.1145/166117.166161	Animation of plant development
+10.1371/journal.pcbi.1005993	Automated plant species identification—Trends and future directions
+10.1093/aob/mch078	A Dynamic, Architectural Plant Model Simulating Resource-dependent Growth
+10.1007/s11831-023-09928-7	A Systematic Review of the Whale Optimization Algorithm: Theoretical Foundation, Improvements, and Hybridizations
+10.1145/636886.636890	An efficient instantiation algorithm for simulating radiant energy transfer in plant models
+10.1029/98wr01209	Influence of image resolution and thresholding on the apparent mass fractal characteristics of preferential flow patterns in field soils
+10.3390/plants11060717	Salt Stress in Plants and Mitigation Approaches
+10.1093/cercor/bhac363	The fractal brain: scale-invariance in structure and dynamics
+10.1016/s0370-1573(99)00096-4	The control of chaos: theory and applications

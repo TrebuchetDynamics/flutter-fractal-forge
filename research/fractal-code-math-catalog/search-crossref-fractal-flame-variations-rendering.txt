@@ -1,0 +1,20 @@
+10.1007/978-3-642-95678-2_9	3D-Rendering of Fractal Landscapes
+10.1016/b978-0-12-440740-4.50009-6	Color Rendering Example (Color Mac Only)
+10.1016/0010-2180(90)90085-6	Fractal behavior of a wrinkled annular diffusion flame
+10.1016/j.combustflame.2024.113926	Flame-turbulence interactions in lean hydrogen flames: Implications for turbulent flame speed and fractal modelling
+10.1109/whc49131.2021.9517158	Characterizing the Effects of Haptic Rendering Parameter Variations on Perceived Kinesthetic Rendering Accuracy
+10.1109/iecon.2006.347289	Fractal Rendering of 3D Shapes
+10.1109/sitis.2010.20	Fractal-based Impressionist Style Rendering
+10.1016/0010-2180(89)90132-6	Chemical closure model for fractal flamelets
+10.1016/j.combustflame.2016.11.003	Morphological variations of in-flame and exhaust soot particles associated with jet-to-jet variations and jet–jet interactions in a light-duty diesel engine
+10.1142/9789812777720_0021	FLAME FRONT INSTABILITIES AND DEVELOPMENT OF FRACTAL FLAMES
+10.1007/978-1-4612-4538-4_10	Oct-Tree Encoding and Fractal Rendering of Polyhedra
+10.1016/j.combustflame.2013.05.017	Fractal structures of hydrodynamically unstable and diffusive-thermally unstable flames
+10.1016/j.combustflame.2016.02.022	Enhancement of turbulent flame speed of V-shaped flames in fractal-grid-generated turbulence
+10.1109/icassp.2006.1660386	Fractal Volume Rendering
+10.1145/965105.807478	Computer rendering of fractal curves and surfaces
+10.1145/988447.988449	Computer rendering of fractal curves and surfaces
+10.1016/j.combustflame.2014.03.010	Lean premixed opposed jet flames in fractal grid generated multiscale turbulence
+10.1109/urai.2017.7992732	Haptic texture rendering using random fractal surface
+10.1017/9781108778459.004	Some Variations on the Assouad Dimension
+10.1016/0010-2180(91)90029-b	Agglomerate parameters and fractal dimension of soot using light scattering—effects on surface growth
