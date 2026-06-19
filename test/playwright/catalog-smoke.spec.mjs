@@ -479,7 +479,7 @@ async function captureAndAnalyze(page, result, browserName, config) {
     return null;
   }
 
-  const png = await page.screenshot({ clip, animations: 'disabled' });
+  const png = await page.screenshot({ clip, animations: 'disabled', timeout: 30_000 });
   const image = decodePng(png);
   const metrics = analyzeImage(image, config);
   result.visual = { clip, metrics };

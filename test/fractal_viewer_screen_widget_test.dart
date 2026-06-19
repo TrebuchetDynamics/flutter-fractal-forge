@@ -9,25 +9,11 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_provider.da
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:permission_handler_platform_interface/permission_handler_platform_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'a11y/shared/permission_test_harness.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
-
-class _DenyAllPermissions extends PermissionHandlerPlatform {
-  @override
-  Future<Map<Permission, PermissionStatus>> requestPermissions(
-      List<Permission> permissions) async {
-    return {
-      for (final permission in permissions) permission: PermissionStatus.denied,
-    };
-  }
-
-  @override
-  Future<PermissionStatus> checkPermissionStatus(Permission permission) async {
-    return PermissionStatus.denied;
-  }
-}
 
 void main() {
   group('FractalViewerScreen', () {
@@ -41,7 +27,7 @@ void main() {
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
       SharedPreferences.setMockInitialValues({});
-      PermissionHandlerPlatform.instance = _DenyAllPermissions();
+      installDenyAllPermissionsHandler();
       registry = ModuleRegistry();
       controller = FractalController(registry);
       presetStore = await PresetStore.create();

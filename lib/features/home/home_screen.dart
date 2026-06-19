@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen>
       child: FractalLibraryScreen(
         catalog: _catalog,
         onEntryTap: (entry) {
-          _exploreController.selectModule(entry.module);
+          _exploreController.selectModule(entry.module, resetView: true);
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => MultiProvider(
@@ -355,7 +355,7 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.asset(
-                              'assets/icon/Gemini_Generated_Image_ccd4rgccd4rgccd4.png',
+                              'assets/icon/fractal-forge-icon.png',
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(

@@ -159,7 +159,7 @@ void _viewerJumpToRandomFractal(
   if (candidates.isEmpty) return;
   final rng = math.Random();
   final pick = candidates[rng.nextInt(candidates.length)];
-  controller.selectModule(pick);
+  controller.selectModule(pick, resetView: true);
 }
 
 void _viewerOnRandomFractalFab(

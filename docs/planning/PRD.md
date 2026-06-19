@@ -83,7 +83,7 @@ Size: 55.7 MB
 | Feature | Current Status | Acceptance Criteria | Priority |
 |---|---|---|---|
 | Catalog grid/list view | ✅ Shipped | 209 modules, search, category headers, preference persisted | P0 |
-| Catalog thumbnails | ✅ Shipped | 320×320 CPU-rendered, 199 PNGs, 0 missing, 8.66MB | P0 |
+| Catalog thumbnails | ⚠️ Audit aligned | Launch Thumbnail Standard: 320×320 bundled PNGs; staged smoke output may use 256×256 | P0 |
 | GPU renderer (escape-time) | ✅ Shipped | 196 shaders pass audit (196/196 PASS, edge 0.01–0.99) | P0 |
 | CPU fallback auto-switch | ✅ Shipped | Health probe triggers after 6 failing frames (DeepZoomHysteresis) | P0 |
 | Smooth escape-time coloring | ✅ Shipped | `float(it) - log2(log2(...))` on 10 core shaders | P0 |
@@ -270,7 +270,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 - [x] flutter analyze: No issues
 - [x] Headless emulator integration test: 7/7 pass (API 34)
 - [x] AAB builds clean at 55.7 MB
-- [x] 199 catalog thumbnails at 320×320 (upgraded from 128×128)
+- [x] Launch Thumbnail Standard aligned: bundled catalog assets target 320×320; staged smoke output may use 256×256
 - [x] GPU-primary rendering + CPU auto-fallback
 - [x] Smooth escape-time coloring on 10 core shaders
 - [x] Perturbation theory (Mandelbrot)

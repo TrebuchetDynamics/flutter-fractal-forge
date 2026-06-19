@@ -48,7 +48,7 @@ android {
     defaultConfig {
         applicationId = "com.trebuchetdynamics.fractal.forge"
         minSdk = flutter.minSdkVersion
-        targetSdk = 35
+        targetSdk = 36
         versionCode = flutterVersionCode
         versionName = flutterVersionName
     }

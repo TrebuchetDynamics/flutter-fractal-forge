@@ -15,7 +15,7 @@ Options:
   --branch NAME         Pages deployment branch.
                         Default: $CLOUDFLARE_PAGES_BRANCH or the current git branch.
   --base-href HREF      Flutter web base href. Default: $BASE_HREF or /.
-  --build-dir DIR       Directory to deploy. Default: $BUILD_DIR or build/web.
+  --build-dir DIR       Directory to build and deploy. Default: $BUILD_DIR or build/web.
   --skip-build          Deploy the existing build directory without running flutter build.
   --dry-run             Build and validate only; print the Wrangler command.
   -h, --help            Show this help.
@@ -116,8 +116,17 @@ if [[ "${skip_build}" != "1" ]]; then
   fi
   [[ -n "${flutter_bin}" ]] || die "flutter not found; set FLUTTER_BIN"
 
-  echo "Building Flutter web release with base href '${base_href}'..."
-  "${flutter_bin}" build web --release --no-wasm-dry-run --base-href "${base_href}"
+  echo "Building Flutter web release with base href '${base_href}' into '${build_dir}'..."
+  flutter_build_cmd=(
+    "${flutter_bin}" build web
+    --release
+    --no-wasm-dry-run
+    --base-href "${base_href}"
+  )
+  if [[ "${build_dir}" != "build/web" ]]; then
+    flutter_build_cmd+=(--output "${build_dir}")
+  fi
+  "${flutter_build_cmd[@]}"
 else
   echo "Skipping Flutter build; deploying existing '${build_dir}'."
 fi
