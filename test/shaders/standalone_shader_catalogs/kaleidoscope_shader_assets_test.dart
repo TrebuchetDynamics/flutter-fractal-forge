@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 
 import '../support/shader_asset_expectations.dart';
@@ -13,18 +11,11 @@ void main() {
   });
 
   test('declared kaleidoscope shader assets exist on disk', () {
-    final assets =
-        declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
-
-    expect(assets, isNotEmpty);
-    expectAssetsExist(assets);
+    expectDeclaredShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 
   test('catalog kaleidoscope shader assets are declared in pubspec', () {
-    final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-    expect(catalogAssets, isNotEmpty);
-    expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
+    expectCatalogShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 
   test('kaleidoscope shader assets are grouped by responsibility', () {
@@ -37,18 +28,11 @@ void main() {
         .where((asset) =>
             asset.substring(shaderRoot.length).split('/').length != 2)
         .toList();
-    final rootShaderFiles = Directory(shaderRoot)
-        .listSync()
-        .whereType<File>()
-        .where((file) => file.path.endsWith('.frag'))
-        .map((file) => file.path)
-        .toList();
-
     expect(
         subfolders, {'classic_symmetry', 'radial_ornaments', 'textured_light'});
     expect(directlyNestedAssets, isEmpty,
         reason: 'kaleidoscope shaders should live exactly one subfolder deep');
-    expect(rootShaderFiles, isEmpty,
+    expectNoRootShaderFiles(shaderRoot,
         reason: 'root-level kaleidoscope .frag files are topology debt');
   });
 }

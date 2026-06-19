@@ -28,9 +28,10 @@ void main() {
         hasLength(4));
     expect(assets.where((asset) => asset.startsWith(specialFunctionsRoot)),
         hasLength(8));
-    expect(
-      assets.where((asset) => asset.substring(shaderRoot.length).contains('/')),
-      hasLength(35),
+    expectAssetsUnderSubfolders(
+      assets,
+      shaderRoot,
+      matcher: hasLength(35),
       reason:
           'Trigonometric and transcendental shaders belong in responsibility subfolders',
     );

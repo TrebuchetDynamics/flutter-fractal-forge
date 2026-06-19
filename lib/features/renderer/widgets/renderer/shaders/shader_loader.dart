@@ -56,6 +56,15 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     }
   }
 
+  void _setLoadedProgram(String asset, ui.FragmentProgram program) {
+    _program = program;
+    _shaderForCachedFragment = null;
+    _cachedFragmentShader = null;
+    _shaderAsset = asset;
+    _shaderRetryCount = 0;
+    _loading = false;
+  }
+
   /// Loads a shader with retry logic and error reporting.
   ///
   /// Attempts to load the shader up to [_maxShaderRetries] times before
@@ -67,28 +76,28 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     _loading = true;
     _shaderLoadStartedAt = DateTime.now();
     if (kDebugMode) debugPrint('[renderer] shader_load_start asset=$asset');
-    setState(() {
+    void clearStaleShader() {
+      _program = null;
+      _shaderForCachedFragment = null;
+      _cachedFragmentShader = null;
+      _shaderAsset = asset;
       _shaderError = null;
       _shaderErrorDetails = null;
-    });
+      _firstFrameLogged = false;
+    }
+
+    if (mounted) {
+      setState(clearStaleShader);
+    } else {
+      clearStaleShader();
+    }
 
     final cached = _takeProgramFromCache(asset);
     if (cached != null) {
       if (mounted) {
-        setState(() {
-          _program = cached;
-          _shaderForCachedFragment = null;
-          _cachedFragmentShader = null;
-          _shaderAsset = asset;
-          _shaderRetryCount = 0;
-          _loading = false;
-        });
+        setState(() => _setLoadedProgram(asset, cached));
       } else {
-        _program = cached;
-        _shaderForCachedFragment = null;
-        _cachedFragmentShader = null;
-        _shaderAsset = asset;
-        _shaderRetryCount = 0;
+        _setLoadedProgram(asset, cached);
       }
       final dt = DateTime.now()
           .difference(_shaderLoadStartedAt ?? DateTime.now())
@@ -110,14 +119,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
         final program = await ui.FragmentProgram.fromAsset(asset);
         _storeProgramInCache(asset, program);
         if (mounted) {
-          setState(() {
-            _program = program;
-            _shaderForCachedFragment = null;
-            _cachedFragmentShader = null;
-            _shaderAsset = asset;
-            _shaderRetryCount = 0;
-            _loading = false;
-          });
+          setState(() => _setLoadedProgram(asset, program));
         }
         final dt = DateTime.now()
             .difference(_shaderLoadStartedAt ?? DateTime.now())

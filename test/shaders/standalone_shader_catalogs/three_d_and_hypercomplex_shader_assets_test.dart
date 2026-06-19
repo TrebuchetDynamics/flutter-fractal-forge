@@ -12,11 +12,7 @@ void main() {
   });
 
   test('declared 3D and hypercomplex shader assets exist on disk', () {
-    final assets =
-        declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
-
-    expect(assets, isNotEmpty);
-    expectAssetsExist(assets);
+    expectDeclaredShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 
   test('catalog 3D and hypercomplex shader assets are declared in pubspec', () {

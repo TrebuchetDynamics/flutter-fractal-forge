@@ -11,18 +11,19 @@ void main() {
   });
 
   test('declared cellular and stochastic shader assets exist on disk', () {
-    final assets =
-        declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
-
-    expect(assets, hasLength(20));
-    expectAssetsExist(assets);
+    expectDeclaredShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: hasLength(20),
+    );
   });
 
   test('catalog cellular and stochastic shader assets are declared in pubspec',
       () {
-    final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-    expect(catalogAssets, hasLength(20));
-    expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
+    expectCatalogShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: hasLength(20),
+    );
   });
 }

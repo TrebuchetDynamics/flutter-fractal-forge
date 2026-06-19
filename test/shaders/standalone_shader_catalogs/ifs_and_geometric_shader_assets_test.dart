@@ -13,11 +13,7 @@ void main() {
   });
 
   test('declared IFS and geometric shader assets exist on disk', () {
-    final ifsAssets =
-        declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
-
-    expect(ifsAssets, isNotEmpty);
-    expectAssetsExist(ifsAssets);
+    expectDeclaredShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 
   test('catalog IFS and geometric shader assets are declared in pubspec', () {

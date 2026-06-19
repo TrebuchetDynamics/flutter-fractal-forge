@@ -1,34 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 
-import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
-import 'package:flutter_fractals/l10n/app_localizations.dart';
+
+import 'helpers/fractal_controller_widget_harness.dart';
 
 void main() {
   group('FractalControlsHud', () {
-    late ModuleRegistry registry;
-    late FractalController controller;
+    late FractalControllerWidgetHarness harness;
 
     setUp(() {
       TestWidgetsFlutterBinding.ensureInitialized();
-      registry = ModuleRegistry();
-      controller = FractalController(registry);
+      harness = FractalControllerWidgetHarness();
     });
 
-    Widget buildTestWidget() {
-      return ChangeNotifierProvider.value(
-        value: controller,
-        child: MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: const Scaffold(body: FractalControlsHud()),
-        ),
-      );
-    }
+    tearDown(() => harness.dispose());
+
+    Widget buildTestWidget() =>
+        harness.wrapScaffold(const FractalControlsHud());
 
     testWidgets('renders core param sliders', (tester) async {
       await tester.pumpWidget(buildTestWidget());
@@ -77,7 +66,7 @@ void main() {
       expect(slider, findsOneWidget);
 
       // Get initial value
-      final initialValue = controller.params['iterations'] as int;
+      final initialValue = harness.controller.params['iterations'] as int;
       expect(initialValue, greaterThan(0));
 
       // Drag slider right to increase
@@ -90,7 +79,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Value should have changed
-      final newValue = controller.params['iterations'] as int;
+      final newValue = harness.controller.params['iterations'] as int;
       expect(newValue, isNot(equals(initialValue)));
     });
 
@@ -98,17 +87,7 @@ void main() {
       bool closed = false;
 
       await tester.pumpWidget(
-        ChangeNotifierProvider.value(
-          value: controller,
-          child: MaterialApp(
-            locale: const Locale('en'),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: Scaffold(
-              body: FractalControlsHud(onClose: () => closed = true),
-            ),
-          ),
-        ),
+        harness.wrapScaffold(FractalControlsHud(onClose: () => closed = true)),
       );
       await tester.pumpAndSettle();
 

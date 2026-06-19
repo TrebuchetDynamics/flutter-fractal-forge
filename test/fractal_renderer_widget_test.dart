@@ -1,34 +1,32 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
-import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
+
+import 'helpers/fractal_controller_widget_harness.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 
 void main() {
   group('FractalRenderer', () {
+    late FractalControllerWidgetHarness harness;
     late ModuleRegistry registry;
     late FractalController controller;
 
     setUp(() {
       TestWidgetsFlutterBinding.ensureInitialized();
-      registry = ModuleRegistry();
-      controller = FractalController(registry);
+      harness = FractalControllerWidgetHarness();
+      registry = harness.registry;
+      controller = harness.controller;
     });
 
+    tearDown(() => harness.dispose());
+
     Widget buildTestWidget({bool gesturesEnabled = true}) {
-      return ChangeNotifierProvider.value(
-        value: controller,
-        child: MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(
-            body: FractalRenderer(gesturesEnabled: gesturesEnabled),
-          ),
-        ),
+      return harness.wrapScaffold(
+        FractalRenderer(gesturesEnabled: gesturesEnabled),
       );
     }
 
@@ -56,7 +54,8 @@ void main() {
       final initialZoom = controller.view.zoom;
 
       // Simulate scale gesture
-      final center = tester.getCenter(find.byKey(const Key('fractalTestSurface')));
+      final center =
+          tester.getCenter(find.byKey(const Key('fractalTestSurface')));
       final gesture1 = await tester.startGesture(center - const Offset(50, 0));
       final gesture2 = await tester.startGesture(center + const Offset(50, 0));
 
@@ -89,7 +88,8 @@ void main() {
       expect(controller.view.pan.y, isNot(initialPan.y));
     });
 
-    testWidgets('responds to drag gesture for 3D fractals with rotation', (tester) async {
+    testWidgets('responds to drag gesture for 3D fractals with rotation',
+        (tester) async {
       controller.selectModule(registry.byId('mandelbulb'));
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
@@ -106,7 +106,8 @@ void main() {
       expect(controller.view.rotation.y, isNot(initialRotation.y));
     });
 
-    testWidgets('gestures are disabled when gesturesEnabled is false', (tester) async {
+    testWidgets('gestures are disabled when gesturesEnabled is false',
+        (tester) async {
       await tester.pumpWidget(buildTestWidget(gesturesEnabled: false));
       await tester.pumpAndSettle();
 
@@ -135,10 +136,12 @@ void main() {
       await tester.pumpAndSettle();
 
       final sizedBox = tester.widget<SizedBox>(
-        find.ancestor(
-          of: find.byKey(const Key('fractalTestSurface')),
-          matching: find.byType(SizedBox),
-        ).first,
+        find
+            .ancestor(
+              of: find.byKey(const Key('fractalTestSurface')),
+              matching: find.byType(SizedBox),
+            )
+            .first,
       );
       expect(sizedBox.width, double.infinity);
       expect(sizedBox.height, double.infinity);
@@ -239,6 +242,18 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.module.id, 'julia');
+    });
+
+    test('shader load start clears stale program before async compile', () {
+      final source = File(
+        'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart',
+      ).readAsStringSync();
+
+      expect(source, contains('void clearStaleShader()'));
+      expect(source, contains('_program = null;'));
+      expect(source, contains('_shaderForCachedFragment = null;'));
+      expect(source, contains('_cachedFragmentShader = null;'));
+      expect(source, contains('_shaderAsset = asset;'));
     });
   });
 }

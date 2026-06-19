@@ -11,17 +11,18 @@ void main() {
   });
 
   test('declared Celtic shader assets exist on disk', () {
-    final assets =
-        declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
-
-    expect(assets, hasLength(14));
-    expectAssetsExist(assets);
+    expectDeclaredShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: hasLength(14),
+    );
   });
 
   test('catalog Celtic shader assets are declared in pubspec', () {
-    final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-    expect(catalogAssets, hasLength(14));
-    expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
+    expectCatalogShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: hasLength(14),
+    );
   });
 }

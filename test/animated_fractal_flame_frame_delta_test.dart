@@ -1,9 +1,10 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'helpers/render_test_shader.dart';
 
 const _shaderAsset =
     'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag';
@@ -92,35 +93,24 @@ void main() {
 Future<Uint8List> _renderFractalFlameFrame(
   ui.FragmentProgram program, {
   required double time,
-}) async {
-  final shader = program.fragmentShader();
-  shader.setFloat(0, time);
-  shader.setFloat(1, _width.toDouble());
-  shader.setFloat(2, _height.toDouble());
-  shader.setFloat(3, 0.0); // uCenter.x
-  shader.setFloat(4, 0.0); // uCenter.y
-  shader.setFloat(5, 0.7); // uZoom
-  shader.setFloat(6, 120.0); // uIterations
-  shader.setFloat(7, 4.0); // uBailout
-  shader.setFloat(8, 0.0); // uColorScheme
-  shader.setFloat(9, 0.0); // uTransparentBg
-  shader.setFloat(10, 3.0); // uVariation: swirl
-  shader.setFloat(11, 2.0); // uSymmetry: 3-fold
-
-  final recorder = ui.PictureRecorder();
-  final canvas = Canvas(recorder);
-  canvas.drawRect(
-    Rect.fromLTWH(0, 0, _width.toDouble(), _height.toDouble()),
-    Paint()..shader = shader,
-  );
-  final picture = recorder.endRecording();
-  final image = await picture.toImage(_width, _height);
-  final bytes = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
-  picture.dispose();
-  image.dispose();
-
-  if (bytes == null) {
-    throw StateError('Unable to read raw RGBA bytes from $_shaderAsset');
-  }
-  return bytes.buffer.asUint8List();
-}
+}) =>
+    renderTestShaderFrame(
+      program: program,
+      shaderAsset: _shaderAsset,
+      width: _width,
+      height: _height,
+      uniforms: [
+        time,
+        _width.toDouble(),
+        _height.toDouble(),
+        0.0, // uCenter.x
+        0.0, // uCenter.y
+        0.7, // uZoom
+        120.0, // uIterations
+        4.0, // uBailout
+        0.0, // uColorScheme
+        0.0, // uTransparentBg
+        3.0, // uVariation: swirl
+        2.0, // uSymmetry: 3-fold
+      ],
+    );

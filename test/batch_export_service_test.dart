@@ -133,6 +133,32 @@ void main() {
     if (await tmpDir.exists()) await tmpDir.delete(recursive: true);
   });
 
+  Future<BatchExportResult> runBatchExport({
+    BatchExportService? usingService,
+    Future<void> Function(FractalPreset preset)? applyPreset,
+    List<FractalPreset> presets = const [],
+    String moduleId = 'mandelbrot',
+    String moduleDisplayName = 'Mandelbrot',
+    void Function(double overallProgress, String status)? onProgress,
+    void Function(BatchExportItemResult item)? onItemDone,
+    bool Function()? isCancelled,
+  }) {
+    return (usingService ?? service).exportPresets(
+      boundaryKey: GlobalKey(),
+      applyPreset: applyPreset ?? (_) async {},
+      presets: presets,
+      options: const ExportOptions(format: ExportFormat.png),
+      screenWidth: 400,
+      screenHeight: 800,
+      moduleId: moduleId,
+      moduleDisplayName: moduleDisplayName,
+      currentParameters: () => {},
+      onProgress: onProgress,
+      onItemDone: onItemDone,
+      isCancelled: isCancelled ?? () => false,
+    );
+  }
+
   // ---------------------------------------------------------------------------
   // Construction
   // ---------------------------------------------------------------------------
@@ -293,20 +319,7 @@ void main() {
   group('BatchExportService.exportPresets cancellation before loop body', () {
     test('empty preset list returns empty result without reaching loop body',
         () async {
-      final result = await service.exportPresets(
-        boundaryKey: GlobalKey(),
-        applyPreset: (_) async {},
-        presets: const [],
-        options: const ExportOptions(format: ExportFormat.png),
-        screenWidth: 400,
-        screenHeight: 800,
-        moduleId: 'mandelbrot',
-        moduleDisplayName: 'Mandelbrot',
-        currentParameters: () => {},
-        onProgress: null,
-        onItemDone: null,
-        isCancelled: () => false,
-      );
+      final result = await runBatchExport();
 
       expect(result.items, isEmpty);
       expect(result.contactSheet, isNull);
@@ -315,20 +328,7 @@ void main() {
     test('empty preset list: only final 1.0 progress call is made', () async {
       final progressValues = <double>[];
 
-      await service.exportPresets(
-        boundaryKey: GlobalKey(),
-        applyPreset: (_) async {},
-        presets: const [],
-        options: const ExportOptions(format: ExportFormat.png),
-        screenWidth: 400,
-        screenHeight: 800,
-        moduleId: 'mandelbrot',
-        moduleDisplayName: 'Mandelbrot',
-        currentParameters: () => {},
-        onProgress: (p, _) => progressValues.add(p),
-        onItemDone: null,
-        isCancelled: () => false,
-      );
+      await runBatchExport(onProgress: (p, _) => progressValues.add(p));
 
       expect(progressValues, equals([1.0]));
     });
@@ -336,18 +336,9 @@ void main() {
     test('isCancelled=true: applyPreset is never called', () async {
       bool applyWasCalled = false;
 
-      await service.exportPresets(
-        boundaryKey: GlobalKey(),
+      await runBatchExport(
         applyPreset: (_) async => applyWasCalled = true,
         presets: [_makePreset('Alpha')],
-        options: const ExportOptions(format: ExportFormat.png),
-        screenWidth: 400,
-        screenHeight: 800,
-        moduleId: 'mandelbrot',
-        moduleDisplayName: 'Mandelbrot',
-        currentParameters: () => {},
-        onProgress: null,
-        onItemDone: null,
         isCancelled: () => true,
       );
 
@@ -356,18 +347,8 @@ void main() {
 
     test('isCancelled=true: result has empty items and no contact sheet',
         () async {
-      final result = await service.exportPresets(
-        boundaryKey: GlobalKey(),
-        applyPreset: (_) async {},
+      final result = await runBatchExport(
         presets: [_makePreset('Alpha'), _makePreset('Beta')],
-        options: const ExportOptions(format: ExportFormat.png),
-        screenWidth: 400,
-        screenHeight: 800,
-        moduleId: 'mandelbrot',
-        moduleDisplayName: 'Mandelbrot',
-        currentParameters: () => {},
-        onProgress: null,
-        onItemDone: null,
         isCancelled: () => true,
       );
 
@@ -378,18 +359,9 @@ void main() {
     test('isCancelled=true with many presets: none are applied', () async {
       int applyCount = 0;
 
-      await service.exportPresets(
-        boundaryKey: GlobalKey(),
+      await runBatchExport(
         applyPreset: (_) async => applyCount++,
         presets: [_makePreset('A'), _makePreset('B'), _makePreset('C')],
-        options: const ExportOptions(format: ExportFormat.png),
-        screenWidth: 400,
-        screenHeight: 800,
-        moduleId: 'mandelbrot',
-        moduleDisplayName: 'Mandelbrot',
-        currentParameters: () => {},
-        onProgress: null,
-        onItemDone: null,
         isCancelled: () => true,
       );
 
@@ -399,17 +371,8 @@ void main() {
     test('isCancelled=true: onItemDone is never called', () async {
       int doneCalls = 0;
 
-      await service.exportPresets(
-        boundaryKey: GlobalKey(),
-        applyPreset: (_) async {},
+      await runBatchExport(
         presets: [_makePreset('X'), _makePreset('Y')],
-        options: const ExportOptions(format: ExportFormat.png),
-        screenWidth: 400,
-        screenHeight: 800,
-        moduleId: 'mandelbrot',
-        moduleDisplayName: 'Mandelbrot',
-        currentParameters: () => {},
-        onProgress: null,
         onItemDone: (_) => doneCalls++,
         isCancelled: () => true,
       );
@@ -418,20 +381,7 @@ void main() {
     });
 
     test('result directory exists after empty export', () async {
-      final result = await service.exportPresets(
-        boundaryKey: GlobalKey(),
-        applyPreset: (_) async {},
-        presets: const [],
-        options: const ExportOptions(format: ExportFormat.png),
-        screenWidth: 400,
-        screenHeight: 800,
-        moduleId: 'mandelbrot',
-        moduleDisplayName: 'Mandelbrot',
-        currentParameters: () => {},
-        onProgress: null,
-        onItemDone: null,
-        isCancelled: () => false,
-      );
+      final result = await runBatchExport();
 
       expect(await result.directory.exists(), isTrue);
     });

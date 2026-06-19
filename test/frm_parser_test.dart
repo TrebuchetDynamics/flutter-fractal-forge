@@ -79,19 +79,9 @@ Test {
 }
 ''';
 
-      final formula = FrmParser(src).parseFile().formulas.single;
-      final ctx = FrmEvalContext(vars: {'pixel': const Complex(0, 0)});
-
-      expect(
-        () => formula.init.single.run(ctx),
-        throwsA(
-          isA<StateError>().having(
-            (e) => e.message,
-            'message',
-            contains(
-                'Complex literal components must evaluate to real scalars'),
-          ),
-        ),
+      _expectInitThrows(
+        src,
+        contains('Complex literal components must evaluate to real scalars'),
       );
     });
 
@@ -105,18 +95,9 @@ Test {
 }
 ''';
 
-      final formula = FrmParser(src).parseFile().formulas.single;
-      final ctx = FrmEvalContext(vars: {'pixel': const Complex(0, 0)});
-
-      expect(
-        () => formula.init.single.run(ctx),
-        throwsA(
-          isA<StateError>().having(
-            (e) => e.message,
-            'message',
-            contains('Complex divisor must be finite and non-zero'),
-          ),
-        ),
+      final ctx = _expectInitThrows(
+        src,
+        contains('Complex divisor must be finite and non-zero'),
       );
       expect(ctx.vars, isNot(contains('z')));
     });
@@ -130,18 +111,9 @@ Test {
 }
 ''';
 
-      final formula = FrmParser(src).parseFile().formulas.single;
-      final ctx = FrmEvalContext(vars: {'pixel': const Complex(0, 0)});
-
-      expect(
-        () => formula.init.single.run(ctx),
-        throwsA(
-          isA<StateError>().having(
-            (e) => e.message,
-            'message',
-            contains('Complex arithmetic result must be finite'),
-          ),
-        ),
+      final ctx = _expectInitThrows(
+        src,
+        contains('Complex arithmetic result must be finite'),
       );
       expect(ctx.vars, isNot(contains('z')));
     });
@@ -246,4 +218,27 @@ Test {
       expect(FrmParser(ok).parseFile().formulas.single.name, 'Deep');
     });
   });
+}
+
+FrmFormula _parseSingle(String src) =>
+    FrmParser(src).parseFile().formulas.single;
+
+FrmEvalContext _pixelContext() =>
+    FrmEvalContext(vars: {'pixel': const Complex(0, 0)});
+
+FrmEvalContext _expectInitThrows(String src, Object messageMatcher) {
+  final formula = _parseSingle(src);
+  final ctx = _pixelContext();
+
+  expect(
+    () => formula.init.single.run(ctx),
+    throwsA(
+      isA<StateError>().having(
+        (e) => e.message,
+        'message',
+        messageMatcher,
+      ),
+    ),
+  );
+  return ctx;
 }

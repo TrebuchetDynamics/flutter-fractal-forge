@@ -10,14 +10,13 @@ void main() {
     final intVectorClampPattern = RegExp(r'clamp\([^;]*ivec\d?\(');
     final offenders = <String>[];
 
-    for (final file in Directory('shaders').listSync(recursive: true)) {
-      if (file is! File || !file.path.endsWith('.frag')) continue;
-      final lines = file.readAsLinesSync();
+    for (final shaderFile in _shaderFiles()) {
+      final lines = shaderFile.lines;
       for (var index = 0; index < lines.length; index += 1) {
         final line = lines[index];
         if (intClampPattern.hasMatch(line) ||
             intVectorClampPattern.hasMatch(line)) {
-          offenders.add('${file.path}:${index + 1}: ${line.trim()}');
+          offenders.add('${shaderFile.path}:${index + 1}: ${line.trim()}');
         }
       }
     }
@@ -38,9 +37,8 @@ void main() {
     );
     final offenders = <String>[];
 
-    for (final file in Directory('shaders').listSync(recursive: true)) {
-      if (file is! File || !file.path.endsWith('.frag')) continue;
-      final lines = file.readAsLinesSync();
+    for (final shaderFile in _shaderFiles()) {
+      final lines = shaderFile.lines;
       final intIdentifiers = _intIdentifiers(lines);
       for (var index = 0; index < lines.length; index += 1) {
         final codeBeforeComment = lines[index].split('//').first;
@@ -50,7 +48,8 @@ void main() {
               intIdentifiers,
               functions: const {'min', 'max'},
             )) {
-          offenders.add('${file.path}:${index + 1}: ${lines[index].trim()}');
+          offenders
+              .add('${shaderFile.path}:${index + 1}: ${lines[index].trim()}');
         }
       }
     }
@@ -68,9 +67,8 @@ void main() {
       () {
     final offenders = <String>[];
 
-    for (final file in Directory('shaders').listSync(recursive: true)) {
-      if (file is! File || !file.path.endsWith('.frag')) continue;
-      final lines = file.readAsLinesSync();
+    for (final shaderFile in _shaderFiles()) {
+      final lines = shaderFile.lines;
       final intIdentifiers = _intIdentifiers(lines);
       for (var index = 0; index < lines.length; index += 1) {
         final codeBeforeComment = lines[index].split('//').first;
@@ -79,7 +77,8 @@ void main() {
           intIdentifiers,
           functions: const {'clamp'},
         )) {
-          offenders.add('${file.path}:${index + 1}: ${lines[index].trim()}');
+          offenders
+              .add('${shaderFile.path}:${index + 1}: ${lines[index].trim()}');
         }
       }
     }
@@ -97,9 +96,8 @@ void main() {
       () {
     final offenders = <String>[];
 
-    for (final file in Directory('shaders').listSync(recursive: true)) {
-      if (file is! File || !file.path.endsWith('.frag')) continue;
-      final lines = file.readAsLinesSync();
+    for (final shaderFile in _shaderFiles()) {
+      final lines = shaderFile.lines;
       final intIdentifiers = _intIdentifiers(lines);
       for (var index = 0; index < lines.length; index += 1) {
         final codeBeforeComment = lines[index].split('//').first;
@@ -108,7 +106,8 @@ void main() {
           intIdentifiers,
           functions: const {'abs'},
         )) {
-          offenders.add('${file.path}:${index + 1}: ${lines[index].trim()}');
+          offenders
+              .add('${shaderFile.path}:${index + 1}: ${lines[index].trim()}');
         }
       }
     }
@@ -125,15 +124,15 @@ void main() {
       () {
     final offenders = <String>[];
 
-    for (final file in Directory('shaders').listSync(recursive: true)) {
-      if (file is! File || !file.path.endsWith('.frag')) continue;
-      final lines = file.readAsLinesSync();
+    for (final shaderFile in _shaderFiles()) {
+      final lines = shaderFile.lines;
       for (var index = 0; index < lines.length; index += 1) {
         final codeBeforeComment = lines[index].split('//').first;
         if (codeBeforeComment.contains('<<') ||
             codeBeforeComment.contains('>>') ||
             codeBeforeComment.replaceAll('&&', '').contains('&')) {
-          offenders.add('${file.path}:${index + 1}: ${lines[index].trim()}');
+          offenders
+              .add('${shaderFile.path}:${index + 1}: ${lines[index].trim()}');
         }
       }
     }
@@ -154,13 +153,13 @@ void main() {
     );
     final offenders = <String>[];
 
-    for (final file in Directory('shaders').listSync(recursive: true)) {
-      if (file is! File || !file.path.endsWith('.frag')) continue;
-      final lines = file.readAsLinesSync();
+    for (final shaderFile in _shaderFiles()) {
+      final lines = shaderFile.lines;
       for (var index = 0; index < lines.length; index += 1) {
         final codeBeforeComment = lines[index].split('//').first;
         if (dynamicIndexPattern.hasMatch(codeBeforeComment)) {
-          offenders.add('${file.path}:${index + 1}: ${lines[index].trim()}');
+          offenders
+              .add('${shaderFile.path}:${index + 1}: ${lines[index].trim()}');
         }
       }
     }
@@ -179,13 +178,13 @@ void main() {
       () {
     final offenders = <String>[];
 
-    for (final file in Directory('shaders').listSync(recursive: true)) {
-      if (file is! File || !file.path.endsWith('.frag')) continue;
-      final lines = file.readAsLinesSync();
+    for (final shaderFile in _shaderFiles()) {
+      final lines = shaderFile.lines;
       for (var index = 0; index < lines.length; index += 1) {
         final codeBeforeComment = lines[index].split('//').first;
         if (codeBeforeComment.contains('%')) {
-          offenders.add('${file.path}:${index + 1}: ${lines[index].trim()}');
+          offenders
+              .add('${shaderFile.path}:${index + 1}: ${lines[index].trim()}');
         }
       }
     }
@@ -197,6 +196,14 @@ void main() {
           'Use integer division arithmetic instead, e.g. n - (n / m) * m.',
     );
   });
+}
+
+Iterable<({String path, List<String> lines})> _shaderFiles() sync* {
+  for (final file in Directory('shaders').listSync(recursive: true)) {
+    if (file is File && file.path.endsWith('.frag')) {
+      yield (path: file.path, lines: file.readAsLinesSync());
+    }
+  }
 }
 
 Set<String> _intIdentifiers(List<String> lines) {

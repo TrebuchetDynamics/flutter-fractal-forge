@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../support/shader_asset_expectations.dart';
@@ -22,11 +20,11 @@ void main() {
   });
 
   test('catalog experimental named shader assets are declared and present', () {
-    final assets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-    expect(assets, isNotEmpty);
-    expectAssetsDeclaredAndExist(assets, declaredShaderAssets,
-        fileReason: 'file must exist');
+    expectCatalogShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      fileReason: 'file must exist',
+    );
   });
 
   test('catalog experimental named shader assets are grouped by responsibility',
@@ -45,14 +43,6 @@ void main() {
   });
 
   test('experimental named root has no orphan shader files', () {
-    final rootShaderFiles = Directory(shaderRoot)
-        .listSync()
-        .whereType<File>()
-        .where((file) => file.path.endsWith('.frag'))
-        .map((file) => file.uri.pathSegments.last)
-        .toList()
-      ..sort();
-
-    expect(rootShaderFiles, isEmpty);
+    expectNoRootShaderFiles(shaderRoot);
   });
 }

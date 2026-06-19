@@ -44,6 +44,62 @@ List<String> undeclaredShaderAssets(
     ..sort();
 }
 
+List<String> expectDeclaredShaderAssetsForRoot(
+  Set<String> declaredShaderAssets,
+  String shaderRoot, {
+  Object? matcher,
+  String fileReason = 'must exist',
+}) {
+  final assets =
+      declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
+
+  expect(assets, matcher ?? isNotEmpty);
+  expectAssetsExist(assets, fileReason: fileReason);
+  return assets;
+}
+
+List<String> expectCatalogShaderAssetsForRoot(
+  Set<String> declaredShaderAssets,
+  String shaderRoot, {
+  Object? matcher,
+  String fileReason = 'must exist',
+}) {
+  final assets = escapeTimeShaderAssetsStartingWith(shaderRoot);
+
+  expect(assets, matcher ?? isNotEmpty);
+  expectAssetsDeclaredAndExist(
+    assets,
+    declaredShaderAssets,
+    fileReason: fileReason,
+  );
+  return assets;
+}
+
+void expectAssetsUnderSubfolders(
+  Iterable<String> assets,
+  String shaderRoot, {
+  Object? matcher,
+  String? reason,
+}) {
+  expect(
+    assets.where((asset) => asset.substring(shaderRoot.length).contains('/')),
+    matcher ?? hasLength(assets.length),
+    reason: reason,
+  );
+}
+
+void expectNoRootShaderFiles(String shaderRoot, {String? reason}) {
+  final rootShaderFiles = Directory(shaderRoot)
+      .listSync()
+      .whereType<File>()
+      .where((file) => file.path.endsWith('.frag'))
+      .map((file) => file.path)
+      .toList()
+    ..sort();
+
+  expect(rootShaderFiles, isEmpty, reason: reason);
+}
+
 void expectAssetsExist(Iterable<String> assets,
     {String fileReason = 'must exist'}) {
   final missingAssets = missingShaderAssets(assets);

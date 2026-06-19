@@ -49,6 +49,26 @@ void main() {
       expect(colorScheme as int, inInclusiveRange(0, 63));
     });
 
+    test('selectModule can reset view atomically without zoom-out flash', () {
+      final registry = ModuleRegistry();
+      final controller = FractalController(registry);
+      final target = registry.modules.firstWhere(
+        (module) =>
+            module.id != controller.module.id &&
+            (module.defaultPreset.view.zoom - 1.0).abs() > 0.001,
+      );
+      final notifiedZooms = <double>[];
+      controller
+        ..updateZoom(2.0)
+        ..addListener(() => notifiedZooms.add(controller.view.zoom));
+
+      controller.selectModule(target, animate: false, resetView: true);
+
+      expect(controller.module.id, target.id);
+      expect(controller.view.zoom, 1.0);
+      expect(notifiedZooms, [1.0]);
+    });
+
     test('updateZoom adaptively increases iterations when zooming in', () {
       final controller = FractalController(ModuleRegistry());
       final startZoom = controller.view.zoom;

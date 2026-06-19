@@ -19,11 +19,12 @@ void main() {
     expect(assets, hasLength(14));
     expect(assets.where((asset) => asset.startsWith(parameterPlaneRoot)),
         hasLength(7));
-    expect(assets.where((asset) => asset.startsWith(juliaSetsRoot)),
-        hasLength(7));
     expect(
-      assets.where((asset) => asset.substring(shaderRoot.length).contains('/')),
-      hasLength(14),
+        assets.where((asset) => asset.startsWith(juliaSetsRoot)), hasLength(7));
+    expectAssetsUnderSubfolders(
+      assets,
+      shaderRoot,
+      matcher: hasLength(14),
       reason: 'Burning Ship shaders belong in responsibility subfolders',
     );
     expectAssetsExist(assets);

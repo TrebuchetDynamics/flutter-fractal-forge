@@ -33,8 +33,6 @@ void main() {
   });
 
   test('catalog Mandelbrot variant shader assets are declared and present', () {
-    final assets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
     final expectedAssets = expectedShaderAssetsByResponsibility.entries
         .expand(
           (entry) => entry.value.map(
@@ -42,15 +40,17 @@ void main() {
           ),
         )
         .toSet();
-    final rootAssets = assets.where((asset) {
-      final relativeAsset = asset.substring(shaderRoot.length);
-      return !relativeAsset.contains('/');
-    }).toList();
+    final assets = expectCatalogShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: containsAll(expectedAssets),
+      fileReason: 'file must exist',
+    );
 
-    expect(assets.toSet(), containsAll(expectedAssets));
-    expect(rootAssets, isEmpty,
-        reason: 'Mandelbrot variants should live in responsibility subfolders');
-    expectAssetsDeclaredAndExist(assets, declaredShaderAssets,
-        fileReason: 'file must exist');
+    expectAssetsUnderSubfolders(
+      assets,
+      shaderRoot,
+      reason: 'Mandelbrot variants should live in responsibility subfolders',
+    );
   });
 }

@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
-import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
+
+import 'helpers/fractal_controller_widget_harness.dart';
 
 void main() {
   group('FractalControlsSheet', () {
-    late ModuleRegistry registry;
+    late FractalControllerWidgetHarness harness;
     late FractalController controller;
+    late ModuleRegistry registry;
 
     setUp(() {
       TestWidgetsFlutterBinding.ensureInitialized();
-      registry = ModuleRegistry();
-      controller = FractalController(registry);
+      harness = FractalControllerWidgetHarness();
+      controller = harness.controller;
+      registry = harness.registry;
     });
 
-    Widget buildTestWidget() {
-      return ChangeNotifierProvider.value(
-        value: controller,
-        child: MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: const Scaffold(body: FractalControlsSheet()),
-        ),
-      );
-    }
+    tearDown(() => harness.dispose());
+
+    Widget buildTestWidget() =>
+        harness.wrapScaffold(const FractalControlsSheet());
 
     testWidgets('displays Controls title', (tester) async {
       await tester.pumpWidget(buildTestWidget());

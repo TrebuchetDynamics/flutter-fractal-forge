@@ -253,15 +253,25 @@ class FractalController extends ChangeNotifier {
   /// Applies the module's default preset after switching.
   /// Triggers a smooth morph transition animation.
   ///
-  /// No-op if [module] is already the current module.
-  void selectModule(FractalModule module, {bool animate = true}) {
+  /// No-op if [module] is already the current module, unless [resetView] is true.
+  void selectModule(
+    FractalModule module, {
+    bool animate = true,
+    bool resetView = false,
+  }) {
     if (_module.id == module.id) {
+      if (resetView) {
+        this.resetView();
+      }
       return;
     }
 
     final previousId = _module.id;
     _module = module;
     _applyPreset(module.defaultPreset);
+    if (resetView) {
+      _resetViewState();
+    }
 
     if (animate) {
       _startMorphTransition(previousId);
@@ -359,10 +369,14 @@ class FractalController extends ChangeNotifier {
   /// Sets zoom to 1.0, pan to center, and rotation to zero.
   /// Does not affect fractal parameters.
   void resetView() {
-    _view = FractalViewState.initial();
-    _lastAdaptiveZoom = _view.zoom;
+    _resetViewState();
     notifyListeners();
     _logChange('stateChange', 'reset', 'Reset view');
+  }
+
+  void _resetViewState() {
+    _view = FractalViewState.initial();
+    _lastAdaptiveZoom = _view.zoom;
   }
 
   /// Resets the entire session state.
@@ -374,8 +388,7 @@ class FractalController extends ChangeNotifier {
     // Reset params to module defaults, but reset the view to the true "initial" view.
     // (Module default presets may intentionally start at a non-zero pan like -0.5,0.0 for Mandelbrot.)
     _applyPreset(_module.defaultPreset);
-    _view = FractalViewState.initial();
-    _lastAdaptiveZoom = _view.zoom;
+    _resetViewState();
     _transparentBackground = false;
     _rotationLocked = false;
     notifyListeners();

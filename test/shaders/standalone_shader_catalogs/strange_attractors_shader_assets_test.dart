@@ -11,19 +11,10 @@ void main() {
   });
 
   test('declared strange-attractor shader assets exist on disk', () {
-    final strangeAttractorAssets = declaredShaderAssetsStartingWith(
-      declaredShaderAssets,
-      shaderRoot,
-    );
-
-    expect(strangeAttractorAssets, isNotEmpty);
-    expectAssetsExist(strangeAttractorAssets);
+    expectDeclaredShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 
   test('catalog strange-attractor shader assets are declared in pubspec', () {
-    final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-    expect(catalogAssets, isNotEmpty);
-    expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
+    expectCatalogShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 }

@@ -11,17 +11,18 @@ void main() {
   });
 
   test('declared Buffalo shader assets exist on disk', () {
-    final assets =
-        declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
-
-    expect(assets, hasLength(12));
-    expectAssetsExist(assets);
+    expectDeclaredShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: hasLength(12),
+    );
   });
 
   test('catalog Buffalo shader assets are declared in pubspec', () {
-    final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-    expect(catalogAssets, hasLength(12));
-    expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
+    expectCatalogShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: hasLength(12),
+    );
   });
 }

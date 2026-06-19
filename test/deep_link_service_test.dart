@@ -346,12 +346,14 @@ void main() {
           view: FractalViewState.initial(),
         );
 
-        expect(uri.queryParameters.containsKey('iterations'), isFalse);
-        expect(uri.queryParameters.containsKey('colorScheme'), isFalse);
-        expect(uri.queryParameters.containsKey('bailout'), isFalse);
-        expect(uri.queryParameters.containsKey('power'), isFalse);
-        expect(uri.queryParameters.containsKey('juliaX'), isFalse);
-        expect(uri.queryParameters.containsKey('juliaY'), isFalse);
+        expectNoQueryParameters(uri, const [
+          'iterations',
+          'colorScheme',
+          'bailout',
+          'power',
+          'juliaX',
+          'juliaY',
+        ]);
       });
 
       test('omits out-of-range parameters instead of creating clamped links',
@@ -369,12 +371,14 @@ void main() {
           view: FractalViewState.initial(),
         );
 
-        expect(uri.queryParameters.containsKey('iterations'), isFalse);
-        expect(uri.queryParameters.containsKey('colorScheme'), isFalse);
-        expect(uri.queryParameters.containsKey('bailout'), isFalse);
-        expect(uri.queryParameters.containsKey('power'), isFalse);
-        expect(uri.queryParameters.containsKey('juliaX'), isFalse);
-        expect(uri.queryParameters.containsKey('juliaY'), isFalse);
+        expectNoQueryParameters(uri, const [
+          'iterations',
+          'colorScheme',
+          'bailout',
+          'power',
+          'juliaX',
+          'juliaY',
+        ]);
       });
 
       test(
@@ -390,12 +394,8 @@ void main() {
           ),
         );
 
-        expect(uri.queryParameters.containsKey('zoom'), isFalse);
-        expect(uri.queryParameters.containsKey('x'), isFalse);
-        expect(uri.queryParameters.containsKey('y'), isFalse);
-        expect(uri.queryParameters.containsKey('rotX'), isFalse);
+        expectNoQueryParameters(uri, const ['zoom', 'x', 'y', 'rotX', 'rotZ']);
         expect(uri.queryParameters['rotY'], '0.5');
-        expect(uri.queryParameters.containsKey('rotZ'), isFalse);
       });
 
       test('omits default values for cleaner URLs', () {
@@ -406,10 +406,7 @@ void main() {
         );
 
         // Default values should not be included
-        expect(uri.queryParameters.containsKey('zoom'), isFalse);
-        expect(uri.queryParameters.containsKey('x'), isFalse);
-        expect(uri.queryParameters.containsKey('y'), isFalse);
-        expect(uri.queryParameters.containsKey('rotX'), isFalse);
+        expectNoQueryParameters(uri, const ['zoom', 'x', 'y', 'rotX']);
       });
     });
 
@@ -476,8 +473,7 @@ void main() {
 
         expect(params['juliaCReal'], -0.7);
         expect(params['juliaCImag'], 0.27015);
-        expect(params.containsKey('juliaX'), isFalse);
-        expect(params.containsKey('juliaY'), isFalse);
+        expectNoKeys(params, const ['juliaX', 'juliaY']);
       });
 
       test('toParams omits null values', () {
@@ -489,8 +485,7 @@ void main() {
         final params = data.toParams();
 
         expect(params.containsKey('iterations'), isTrue);
-        expect(params.containsKey('colorScheme'), isFalse);
-        expect(params.containsKey('bailout'), isFalse);
+        expectNoKeys(params, const ['colorScheme', 'bailout']);
       });
     });
 
@@ -918,4 +913,14 @@ void main() {
       });
     });
   });
+}
+
+void expectNoQueryParameters(Uri uri, Iterable<String> names) {
+  expectNoKeys(uri.queryParameters, names);
+}
+
+void expectNoKeys(Map<String, Object?> values, Iterable<String> names) {
+  for (final name in names) {
+    expect(values.containsKey(name), isFalse, reason: name);
+  }
 }

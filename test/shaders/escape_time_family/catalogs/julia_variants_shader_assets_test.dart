@@ -11,17 +11,10 @@ void main() {
   });
 
   test('declared Julia variant shader assets exist on disk', () {
-    final assets =
-        declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
-
-    expect(assets, isNotEmpty);
-    expectAssetsExist(assets);
+    expectDeclaredShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 
   test('catalog Julia variant shader assets are declared in pubspec', () {
-    final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-    expect(catalogAssets, isNotEmpty);
-    expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
+    expectCatalogShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 }

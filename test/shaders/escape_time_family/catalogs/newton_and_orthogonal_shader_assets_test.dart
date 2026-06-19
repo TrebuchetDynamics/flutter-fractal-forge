@@ -24,11 +24,11 @@ void main() {
   });
 
   test('declared Newton and orthogonal shader assets exist on disk', () {
-    final assets =
-        declaredShaderAssetsStartingWith(declaredShaderAssets, shaderRoot);
-
-    expect(assets.toSet(), containsAll(expectedCatalogAssets));
-    expectAssetsExist(assets);
+    expectDeclaredShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: containsAll(expectedCatalogAssets),
+    );
   });
 
   test('Newton and orthogonal shader assets stay in responsibility subfolders',
@@ -48,9 +48,10 @@ void main() {
 
   test('catalog Newton and orthogonal shader assets are declared in pubspec',
       () {
-    final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-    expect(catalogAssets.toSet(), containsAll(expectedCatalogAssets));
-    expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
+    expectCatalogShaderAssetsForRoot(
+      declaredShaderAssets,
+      shaderRoot,
+      matcher: containsAll(expectedCatalogAssets),
+    );
   });
 }

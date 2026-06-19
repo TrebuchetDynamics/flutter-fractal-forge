@@ -53,13 +53,7 @@ void main() {
       expect(find.text('Welcome to Fractal Forge'), findsOneWidget);
 
       // Tap Next to go to page 2 — step through the 350 ms page transition
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 200));
+      await goToSecondOnboardingPage(tester);
 
       // Final onboarding section should show CTA.
       expect(find.text('Get Started'), findsOneWidget);
@@ -74,13 +68,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 700));
 
       // Navigate to last page (page 2 of 2) — step through the 350 ms transition
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 200));
+      await goToSecondOnboardingPage(tester);
 
       // Tap Get Started
       await tester.tap(find.text('Get Started'));
@@ -155,13 +143,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 700));
 
       // Navigate to second page — step through the 350 ms page transition
-      await tester.tap(find.text('Next'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 200));
+      await goToSecondOnboardingPage(tester);
 
       // Check for export-focused features present on page 2
       expect(find.textContaining('Export'), findsWidgets);
@@ -202,8 +184,8 @@ void main() {
       expect(find.text(l10n.onboardingSkip), findsOneWidget);
 
       // Page 1 description is from l10n.
-      expect(find.textContaining(l10n.onboardingWelcomeDescription),
-          findsWidgets);
+      expect(
+          find.textContaining(l10n.onboardingWelcomeDescription), findsWidgets);
 
       // Navigate to page 2 and verify page 2 title and button from l10n.
       await tester.tap(find.text(l10n.onboardingNext));
@@ -264,4 +246,13 @@ void main() {
       expect(service.isOnboardingComplete, false);
     });
   });
+}
+
+Future<void> goToSecondOnboardingPage(WidgetTester tester) async {
+  await tester.tap(find.text('Next'));
+  await tester.pump();
+  for (var i = 0; i < 4; i++) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+  await tester.pump(const Duration(milliseconds: 200));
 }

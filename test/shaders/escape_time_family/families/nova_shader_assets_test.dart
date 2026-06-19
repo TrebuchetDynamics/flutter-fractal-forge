@@ -22,11 +22,12 @@ void main() {
     expect(assets, hasLength(9));
     expect(assets.where((asset) => asset.startsWith(parameterPlaneRoot)),
         hasLength(5));
-    expect(assets.where((asset) => asset.startsWith(juliaSetsRoot)),
-        hasLength(4));
     expect(
-      assets.where((asset) => asset.substring(shaderRoot.length).contains('/')),
-      hasLength(9),
+        assets.where((asset) => asset.startsWith(juliaSetsRoot)), hasLength(4));
+    expectAssetsUnderSubfolders(
+      assets,
+      shaderRoot,
+      matcher: hasLength(9),
       reason: 'Nova shaders belong in responsibility subfolders',
     );
     expectAssetsExist(assets);

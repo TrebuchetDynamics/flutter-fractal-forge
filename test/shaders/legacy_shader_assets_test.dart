@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/shader_asset_expectations.dart';
@@ -54,17 +52,8 @@ void main() {
     });
 
     test('legacy root contains no fragment shaders', () {
-      final rootFragmentFiles = Directory('shaders/legacy')
-          .listSync()
-          .whereType<File>()
-          .where((file) => file.path.endsWith('.frag'))
-          .map((file) => file.uri.pathSegments.last)
-          .toList()
-        ..sort();
-
-      expect(
-        rootFragmentFiles,
-        isEmpty,
+      expectNoRootShaderFiles(
+        'shaders/legacy',
         reason: 'legacy shaders belong in responsibility subfolders, not root',
       );
     });

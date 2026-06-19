@@ -6,24 +6,11 @@ import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:permission_handler_platform_interface/permission_handler_platform_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class _DenyAllPermissions extends PermissionHandlerPlatform {
-  @override
-  Future<Map<Permission, PermissionStatus>> requestPermissions(
-      List<Permission> permissions) async {
-    return {
-      for (final permission in permissions) permission: PermissionStatus.denied,
-    };
-  }
-
-  @override
-  Future<PermissionStatus> checkPermissionStatus(Permission permission) async {
-    return PermissionStatus.denied;
-  }
-}
+import 'a11y/shared/permission_test_harness.dart';
+import 'helpers/localized_material_app.dart';
 
 void main() {
   group('Localization', () {
@@ -35,7 +22,7 @@ void main() {
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
       SharedPreferences.setMockInitialValues({});
-      PermissionHandlerPlatform.instance = _DenyAllPermissions();
+      installDenyAllPermissionsHandler();
       presetStore = await PresetStore.create();
       accessibilityService = await AccessibilityService.create();
       rendererSettingsService = await RendererSettingsService.create();
@@ -63,10 +50,7 @@ void main() {
       AppLocalizations? capturedL10n;
 
       await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+        localizedMaterialApp(
           home: Builder(
             builder: (context) {
               capturedL10n = AppLocalizations.of(context);
@@ -86,10 +70,7 @@ void main() {
           providers: [
             Provider.value(value: registry),
           ],
-          child: MaterialApp(
-            locale: const Locale('en'),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
+          child: localizedMaterialApp(
             home: Builder(
               builder: (context) {
                 final l10n = AppLocalizations.of(context)!;
@@ -113,10 +94,7 @@ void main() {
 
     testWidgets('dimension labels are accessible', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+        localizedMaterialApp(
           home: Builder(
             builder: (context) {
               final l10n = AppLocalizations.of(context)!;
@@ -138,10 +116,7 @@ void main() {
 
     testWidgets('parameter labels are accessible', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+        localizedMaterialApp(
           home: Builder(
             builder: (context) {
               final l10n = AppLocalizations.of(context)!;
@@ -165,10 +140,7 @@ void main() {
 
     testWidgets('control labels are accessible', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+        localizedMaterialApp(
           home: Builder(
             builder: (context) {
               final l10n = AppLocalizations.of(context)!;

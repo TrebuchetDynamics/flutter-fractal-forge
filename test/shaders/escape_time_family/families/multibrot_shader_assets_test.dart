@@ -12,17 +12,11 @@ void main() {
 
   group('Multibrot shader assets', () {
     test('catalog multibrot assets exist on disk', () {
-      final assets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-      expect(assets, isNotEmpty);
-      expectAssetsExist(assets);
+      expectCatalogShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
     });
 
     test('catalog multibrot assets are registered in pubspec', () {
-      final assets = escapeTimeShaderAssetsStartingWith(shaderRoot);
-
-      expect(assets, isNotEmpty);
-      expectAssetsDeclaredAndExist(assets, declaredShaderAssets);
+      expectCatalogShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
     });
   });
 }
