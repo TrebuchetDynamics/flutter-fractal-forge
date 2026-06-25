@@ -33,6 +33,15 @@ class _HostState extends State<_Host> with SingleTickerProviderStateMixin {
 Future<bool> _pumpControls(
   WidgetTester tester, {
   required bool isExporting,
+  VoidCallback? onOpenExport,
+  VoidCallback? onShareImage,
+  VoidCallback? onOpenLooper,
+  VoidCallback? onOpenPalettePicker,
+  VoidCallback? onOpenRandomFractal,
+  VoidCallback? onResetParams,
+  VoidCallback? onDecreaseIterations,
+  bool kaleidoscopeEnabled = false,
+  VoidCallback? onToggleKaleidoscope,
   required VoidCallback onOpenWallpaper,
 }) async {
   await tester.pumpWidget(
@@ -44,15 +53,23 @@ Future<bool> _pumpControls(
         body: _Host(
           (controller) => FractalViewControls(
             fabController: controller,
-            autoExploreService: null,
             isExporting: isExporting,
-            backTooltip: 'Back',
-            onGoBack: () {},
             onToggleFullscreen: () {},
-            onOpenAutoExploreSettings: () {},
-            onOpenRandomFractal: () {},
+            onOpenRandomFractal: onOpenRandomFractal ?? () {},
             onOpenControls: () {},
-            onOpenExport: () {},
+            onOpenPresets: () {},
+            onResetView: () {},
+            onResetParams: onResetParams ?? () {},
+            onRandomizeParams: () {},
+            onDecreaseIterations: onDecreaseIterations ?? () {},
+            onIncreaseIterations: () {},
+            onCycleColorScheme: () {},
+            onOpenPalettePicker: onOpenPalettePicker ?? () {},
+            kaleidoscopeEnabled: kaleidoscopeEnabled,
+            onToggleKaleidoscope: onToggleKaleidoscope ?? () {},
+            onOpenExport: onOpenExport ?? () {},
+            onShareImage: onShareImage ?? () {},
+            onOpenLooper: onOpenLooper ?? () {},
             onOpenWallpaper: onOpenWallpaper,
           ),
         ),
@@ -64,30 +81,138 @@ Future<bool> _pumpControls(
 }
 
 void main() {
-  testWidgets('wallpaper FAB is present and fires its callback',
-      (tester) async {
-    var tapped = false;
-    await _pumpControls(tester,
-        isExporting: false, onOpenWallpaper: () => tapped = true);
+  testWidgets('export FAB opens export/wallpaper actions', (tester) async {
+    var exported = false;
+    var shared = false;
+    var looper = false;
+    var wallpaper = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onOpenExport: () => exported = true,
+      onShareImage: () => shared = true,
+      onOpenLooper: () => looper = true,
+      onOpenWallpaper: () => wallpaper = true,
+    );
 
-    final fab = find.byKey(const ValueKey('viewerWallpaperButton'));
+    final fab = find.byKey(const ValueKey('viewerExportButton'));
     expect(fab, findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerWallpaperButton')), findsNothing);
 
     await tester.tap(fab);
-    await tester.pump();
-    expect(tapped, isTrue);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('viewerExportMenuItem')));
+    await tester.pumpAndSettle();
+    expect(exported, isTrue);
+
+    await tester.tap(fab);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('viewerShareMenuItem')));
+    await tester.pumpAndSettle();
+    expect(shared, isTrue);
+
+    await tester.tap(fab);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('viewerLooperMenuItem')));
+    await tester.pumpAndSettle();
+    expect(looper, isTrue);
+
+    await tester.tap(fab);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('viewerWallpaperMenuItem')));
+    await tester.pumpAndSettle();
+    expect(wallpaper, isTrue);
   });
 
-  testWidgets('wallpaper FAB is disabled while exporting', (tester) async {
+  testWidgets('quick control FABs are present', (tester) async {
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+
+    expect(
+        find.byKey(const ValueKey('viewerFullscreenButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerPresetsButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerResetButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerResetParamsButton')), findsNothing);
+    expect(
+        find.byKey(const ValueKey('viewerIterationsButton')), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('viewerIterationsDownButton')), findsNothing);
+    expect(
+        find.byKey(const ValueKey('viewerIterationsUpButton')), findsNothing);
+    expect(
+        find.byKey(const ValueKey('viewerColorCycleButton')), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('viewerKaleidoscopeButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerBailoutButton')), findsNothing);
+  });
+
+  testWidgets('merged FABs expose long-press secondary actions',
+      (tester) async {
+    var resetParams = false;
+    var decreaseIterations = false;
+    var randomFractal = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onResetParams: () => resetParams = true,
+      onDecreaseIterations: () => decreaseIterations = true,
+      onOpenRandomFractal: () => randomFractal = true,
+      onOpenWallpaper: () {},
+    );
+
+    await tester.longPress(find.byKey(const ValueKey('viewerResetButton')));
+    await tester.pump();
+    expect(resetParams, isTrue);
+
+    await tester
+        .longPress(find.byKey(const ValueKey('viewerIterationsButton')));
+    await tester.pump();
+    expect(decreaseIterations, isTrue);
+
+    await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
+    await tester.pump();
+    expect(randomFractal, isTrue);
+  });
+
+  testWidgets('kaleidoscope FAB toggles kaleidoscope', (tester) async {
+    var toggled = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onToggleKaleidoscope: () => toggled = true,
+      onOpenWallpaper: () {},
+    );
+
+    await tester.tap(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+    await tester.pump();
+    expect(toggled, isTrue);
+  });
+
+  testWidgets('palette FAB long press opens palette picker', (tester) async {
+    var opened = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onOpenPalettePicker: () => opened = true,
+      onOpenWallpaper: () {},
+    );
+
+    await tester
+        .longPress(find.byKey(const ValueKey('viewerColorCycleButton')));
+    await tester.pump();
+    expect(opened, isTrue);
+  });
+
+  testWidgets('export FAB is disabled while exporting', (tester) async {
     var tapped = false;
     await _pumpControls(tester,
         isExporting: true, onOpenWallpaper: () => tapped = true);
 
     await tester.tap(
-      find.byKey(const ValueKey('viewerWallpaperButton')),
+      find.byKey(const ValueKey('viewerExportButton')),
       warnIfMissed: false,
     );
     await tester.pump();
     expect(tapped, isFalse);
+    expect(find.byKey(const ValueKey('viewerWallpaperMenuItem')), findsNothing);
   });
 }

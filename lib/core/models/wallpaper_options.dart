@@ -20,7 +20,7 @@ class WallpaperOptions extends Equatable {
   const WallpaperOptions({
     this.target = WallpaperTarget.home,
     this.style = WallpaperStyle.homeOptimized,
-    this.saveCopy = false,
+    this.saveCopy = true,
   });
 
   WallpaperOptions copyWith({

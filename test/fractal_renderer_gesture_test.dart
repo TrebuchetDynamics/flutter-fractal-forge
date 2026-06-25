@@ -101,6 +101,55 @@ void main() {
     expect(controller.view.zoom, greaterThan(initialZoom));
   });
 
+  testWidgets('3D drag clamps pitch before rotation feels off-axis',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+    final initialY = controller.view.rotation.y;
+
+    await tester.drag(find.byType(FractalRenderer), const Offset(0, 2000));
+    await tester.pump();
+
+    expect(controller.view.rotation.x.abs(),
+        lessThanOrEqualTo((67.5 * math.pi / 180.0) + 1e-6));
+    expect(controller.view.rotation.y, closeTo(initialY, 0.001));
+
+    // Drain fling/double-tap timers created by the synthetic large drag.
+    await tester.pump(const Duration(seconds: 3));
+  });
+
+  testWidgets('Module switch stops in-flight zoom animation', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final renderer = find.byType(FractalRenderer);
+    await tester.tap(renderer);
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.tap(renderer);
+    await tester.pump(const Duration(milliseconds: 50));
+
+    controller.selectModule(
+      registry.modules.firstWhere((m) => m.id != controller.module.id),
+      resetView: true,
+    );
+    await tester.pump();
+    expect(controller.view.zoom, 1.0);
+
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(controller.view.zoom, 1.0);
+  });
+
   testWidgets('Double-tap zoom anchors to tap coordinate', (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 

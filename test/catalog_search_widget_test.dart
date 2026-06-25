@@ -80,12 +80,12 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
   });
 
-  testWidgets('Catalog renders category chips for category refinements',
+  testWidgets('Catalog renders category chips in the single filter row',
       (tester) async {
     await pumpCatalog(tester);
 
-    expect(find.text('CATEGORIES'), findsOneWidget);
-    expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
+    expect(find.byKey(const Key('catalogCategoryChip_all')), findsOneWidget);
+    expect(find.byKey(const Key('catalogCategoryScroll')), findsNothing);
 
     await tester.pump(const Duration(seconds: 3));
   });

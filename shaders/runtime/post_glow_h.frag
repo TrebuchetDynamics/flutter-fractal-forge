@@ -31,15 +31,15 @@ vec3 linearToSRGB(vec3 lin) {
 // 13-tap Gaussian kernel (σ ≈ 3.0).
 // Weights are symmetric; we use 7 unique values (centre + 6 pairs).
 const int TAPS = 7;
-const float kWeights[7] = float[7](
-  0.2270270270,  // 0
-  0.1945945946,  // ±1
-  0.1216216216,  // ±2
-  0.0540540541,  // ±3
-  0.0162162162,  // ±4
-  0.0030030030,  // ±5
-  0.0006000600   // ±6
-);
+float gaussianWeight(int index) {
+  if (index == 0) return 0.2270270270;
+  if (index == 1) return 0.1945945946;
+  if (index == 2) return 0.1216216216;
+  if (index == 3) return 0.0540540541;
+  if (index == 4) return 0.0162162162;
+  if (index == 5) return 0.0030030030;
+  return 0.0006000600;
+}
 
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
@@ -47,11 +47,12 @@ void main() {
 
   float stepX = uRadius / max(uResolution.x, 1.0);
 
-  vec4 result = texture(uFrame, uv) * kWeights[0];
+  vec4 result = texture(uFrame, uv) * gaussianWeight(0);
   for (int i = 1; i < TAPS; i++) {
     float offset = float(i) * stepX;
-    result += texture(uFrame, vec2(uv.x + offset, uv.y)) * kWeights[i];
-    result += texture(uFrame, vec2(uv.x - offset, uv.y)) * kWeights[i];
+    float weight = gaussianWeight(i);
+    result += texture(uFrame, vec2(uv.x + offset, uv.y)) * weight;
+    result += texture(uFrame, vec2(uv.x - offset, uv.y)) * weight;
   }
 
   fragColor = result;

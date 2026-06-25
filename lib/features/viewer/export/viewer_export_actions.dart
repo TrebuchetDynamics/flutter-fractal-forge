@@ -8,6 +8,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
   AppLogger get _log;
   ExportService get _exportService;
   AutoExploreService? get _autoExploreService;
+  LooperController? get _looperController;
   FractalController _activeController(BuildContext context);
   GlobalKey _activeBoundaryKey();
 
@@ -49,6 +50,130 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final shouldResume = _exportSession.resumeAutoExploreWhenFinished;
     _resumeAutoExploreAfterExportFlowIfNeeded(shouldResume);
     _exportSession = _exportSession.finish();
+  }
+
+  Future<void> _exportLooperGif(BuildContext context) async {
+    final looper = _looperController;
+    final plan = looper?.plan;
+    if (looper == null || plan == null) return;
+
+    _log.info('action', 'Export looper GIF');
+    final controller = _activeController(context);
+    final boundaryKey = _activeBoundaryKey();
+    final l10n = AppLocalizations.of(context)!;
+    final originalView = controller.view;
+    final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
+    looper.stop();
+
+    setState(() {
+      _exportSession = _exportSession
+          .openSheet(resumeAutoExploreWhenFinished: shouldResumeAutoExplore)
+          .startExport();
+    });
+
+    try {
+      final frameMs = (1000 / LooperPlan.exportFps).round();
+      img.Image? animation;
+
+      for (var i = 0; i < plan.frameCount; i++) {
+        controller.updateView(plan.poseAtFrame(i).toView());
+        await WidgetsBinding.instance.endOfFrame;
+
+        final pngBytes = await _exportService.capturePng(
+          boundaryKey,
+          pixelRatio: 1.0,
+        );
+        var frame = img.decodePng(pngBytes);
+        if (frame == null) throw StateError('Failed to decode loop frame');
+        if (frame.width > 640) {
+          frame = img.copyResize(
+            frame,
+            width: 640,
+            interpolation: img.Interpolation.average,
+          );
+        }
+        frame.frameDuration = frameMs;
+
+        if (animation == null) {
+          animation = frame
+            ..frameType = img.FrameType.animation
+            ..loopCount = 0;
+        } else {
+          animation.addFrame(frame).frameDuration = frameMs;
+        }
+
+        if (mounted) {
+          setState(() {
+            _exportSession = _exportSession.updateProgress(
+              (i + 1) / plan.frameCount,
+            );
+          });
+        }
+      }
+
+      final gif = animation;
+      if (gif == null) throw StateError('No loop frames captured');
+      final bytes = img.encodeGif(gif, samplingFactor: 12);
+      final file = await _exportService.saveBytes(
+        bytes,
+        filename:
+            'looper_${controller.module.id}_${DateTime.now().millisecondsSinceEpoch}.gif',
+      );
+
+      final view = controller.view;
+      final pan = view.pan;
+      final rotation = view.rotation;
+      await _exportService.shareFile(
+        file,
+        text: ViewerShareCaption.build(
+          fractalName: controller.module.displayName(l10n),
+          cameraX: pan.x,
+          cameraY: pan.y,
+          cameraZ: view.zoom,
+          rotationX: rotation.x,
+          rotationY: rotation.y,
+          rotationZ: rotation.z,
+        ),
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Looper GIF exported')),
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.videoExportFailed(error.toString())),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      controller.updateView(originalView);
+      if (mounted) {
+        setState(() {
+          _finishExportFlow();
+        });
+      }
+    }
+  }
+
+  Future<void> _shareCurrentImage(BuildContext context) async {
+    _log.info('action', 'Quick share image');
+    final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
+    setState(() {
+      _exportSession = _exportSession.openSheet(
+        resumeAutoExploreWhenFinished: shouldResumeAutoExplore,
+      );
+    });
+
+    await _performExport(
+      context,
+      const ExportOptions(resolution: ExportResolution.twitter),
+      shareAfterSave: true,
+    );
   }
 
   Future<void> _openExport(BuildContext context) async {
@@ -146,7 +271,21 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         Object? shareError;
         if (shareAfterSave) {
           try {
-            await _exportService.shareFile(result.file, text: l10n.exportTitle);
+            final view = controller.view;
+            final pan = view.pan;
+            final rotation = view.rotation;
+            await _exportService.shareFile(
+              result.file,
+              text: ViewerShareCaption.build(
+                fractalName: controller.module.displayName(l10n),
+                cameraX: pan.x,
+                cameraY: pan.y,
+                cameraZ: view.zoom,
+                rotationX: rotation.x,
+                rotationY: rotation.y,
+                rotationZ: rotation.z,
+              ),
+            );
           } catch (error) {
             shareError = error;
             _log.warn(

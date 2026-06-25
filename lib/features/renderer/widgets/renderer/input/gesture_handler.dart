@@ -59,6 +59,15 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
   AnimationController? _zoomAnimation;
 
+  void _stopGestureAnimations() {
+    _zoomMomentumController.stop();
+    _panMomentumController.stop();
+    _zoomAnimation?.stop();
+    _zoomVelocity = 0.0;
+    _panVelocity = Offset.zero;
+    _deferUserInteractionEndToAnimation = false;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -140,8 +149,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     if (module.dimension == FractalDimension.threeD) {
       controller.updateRotation(
-        view.rotation +
-            Vector3(_panVelocity.dy * 0.0008, _panVelocity.dx * 0.0008, 0),
+        _bounded3DRotation(
+          view.rotation +
+              Vector3(_panVelocity.dy * 0.0008, _panVelocity.dx * 0.0008, 0),
+        ),
       );
     } else {
       // Map pixel velocity to world coordinates through the SAME transform the
@@ -244,6 +255,14 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     );
   }
 
+  Vector3 _bounded3DRotation(Vector3 rotation) {
+    return Vector3(
+      rotation.x.clamp(-_kTiltMaxRadians, _kTiltMaxRadians).toDouble(),
+      rotation.y,
+      rotation.z,
+    );
+  }
+
   Vector2 _screenDeltaToWorldDelta({
     required Offset deltaPx,
     required double scalePx,
@@ -314,7 +333,9 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
           // Use incremental deltas to avoid jumps when pointer count changes.
           final d = details.focalPointDelta;
           controller.updateRotation(
-            view.rotation + Vector3(d.dy * 0.0009, d.dx * 0.0009, 0),
+            _bounded3DRotation(
+              view.rotation + Vector3(d.dy * 0.0009, d.dx * 0.0009, 0),
+            ),
           );
         }
       } else {

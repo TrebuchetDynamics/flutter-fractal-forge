@@ -106,6 +106,39 @@ void main() {
       expect(controller.view.zoom, 1200.0);
     });
 
+    test('module switch replans from new default instead of stale zoom-out',
+        () async {
+      final registry = ModuleRegistry();
+      final controller = FractalController(registry);
+      controller.resetView();
+      controller.updateZoom(1.0);
+
+      final service = AutoExploreService(
+        controller: controller,
+        config: const AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1),
+        ),
+      );
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      service.start();
+      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      expect(controller.view.zoom, 120.0);
+
+      final nextModule = registry.modules.firstWhere(
+        (module) => module.id != controller.module.id,
+      );
+      controller.selectModule(nextModule, animate: false, resetView: true);
+      final resetZoom = controller.view.zoom;
+
+      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(controller.view.zoom, greaterThanOrEqualTo(resetZoom));
+    });
+
     test('ignores unmatched continuous interaction end callbacks', () async {
       final controller = FractalController(ModuleRegistry());
       controller.resetView();

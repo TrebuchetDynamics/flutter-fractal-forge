@@ -33,6 +33,30 @@ part 'input/gesture_handler.dart';
 part 'shaders/shader_loader.dart';
 part 'errors/shader_error_display.dart';
 
+class WebRendererPerformancePolicy {
+  static const int webMaxGpuIterations = 160;
+
+  const WebRendererPerformancePolicy._();
+
+  static int effectiveGpuIterations({
+    required int scaledIterations,
+    required bool isWeb,
+    required bool playwrightSmoke,
+    required int playwrightSmokeMaxGpuIterations,
+  }) {
+    if (playwrightSmoke) {
+      return math.min(
+        scaledIterations,
+        math.max(4, playwrightSmokeMaxGpuIterations),
+      );
+    }
+    if (isWeb) {
+      return math.min(scaledIterations, webMaxGpuIterations);
+    }
+    return scaledIterations;
+  }
+}
+
 /// A widget that renders fractals using GPU-accelerated shaders.
 ///
 /// [FractalRenderer] is the core rendering component of the app. It:
@@ -154,6 +178,8 @@ class _FractalRendererState extends State<FractalRenderer>
   // Frame metrics for sampled performance logging.
   int _gpuFrameCount = 0;
   DateTime? _gpuLastFrameAt;
+  FractalController? _gestureController;
+  String? _lastGestureModuleId;
 
   @override
   void initState() {
@@ -172,7 +198,29 @@ class _FractalRendererState extends State<FractalRenderer>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final controller = context.read<FractalController>();
+    if (_gestureController == controller) return;
+    _gestureController?.removeListener(_handleControllerModuleChange);
+    _gestureController = controller;
+    _lastGestureModuleId = controller.module.id;
+    controller.addListener(_handleControllerModuleChange);
+  }
+
+  void _handleControllerModuleChange() {
+    final controller = _gestureController;
+    if (controller == null) return;
+    final moduleId = controller.module.id;
+    if (_lastGestureModuleId != null && _lastGestureModuleId != moduleId) {
+      _stopGestureAnimations();
+    }
+    _lastGestureModuleId = moduleId;
+  }
+
+  @override
   void dispose() {
+    _gestureController?.removeListener(_handleControllerModuleChange);
     _animationController.dispose();
     super.dispose();
   }
@@ -327,9 +375,13 @@ class _FractalRendererState extends State<FractalRenderer>
           key: widget.boundaryKey,
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final dpr = MediaQuery.of(context).devicePixelRatio;
+              final dpr = kIsWeb
+                  ? 1.0
+                  : MediaQuery.of(context).devicePixelRatio.clamp(1.0, 2.0);
               // CPU renderer internal resolution:
               // - Preview/refine logic will further downscale while interacting.
+              // - Web browsers already pay CanvasKit/compositor overhead; avoid
+              //   high-DPI CPU fallbacks there.
               // - Keep a cap to avoid blowing up render cost on high-DPI screens.
               final w = (constraints.maxWidth * dpr).round().clamp(320, 900);
               final h = (constraints.maxHeight * dpr).round().clamp(320, 900);
@@ -403,36 +455,38 @@ class _FractalRendererState extends State<FractalRenderer>
       );
     }
 
-    // Create the base fractal content
+    final controllerParams = controller.params;
+    final controllerView = controller.view;
+    final baseIterations =
+        (controllerParams['iterations'] as num?)?.toInt() ?? 160;
+    final scaledIterations = _precisionPolicy.scaledGpuIterations(
+      baseIterations: baseIterations,
+      zoom: controllerView.zoom,
+    );
+    final effectiveIterations =
+        WebRendererPerformancePolicy.effectiveGpuIterations(
+      scaledIterations: scaledIterations,
+      isWeb: kIsWeb,
+      playwrightSmoke: RuntimeModeService.playwrightCatalogSmoke,
+      playwrightSmokeMaxGpuIterations:
+          RuntimeModeService.playwrightCatalogSmokeMaxGpuIterations,
+    );
+    final gpuParams = Map<String, Object>.from(controllerParams)
+      ..['iterations'] = effectiveIterations;
+    final renderState = FractalRenderState(
+      params: gpuParams,
+      view: controllerView,
+      transparentBackground: controller.transparentBackground,
+    );
+
+    // Create the base fractal content. Keep render-state allocation outside the
+    // animation tick closure; most frames only change shader time.
     Widget fractalContent = SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: AnimatedBuilder(
         animation: _animationController,
         builder: (context, child) {
-          final baseIterations =
-              (controller.params['iterations'] as num?)?.toInt() ?? 160;
-          final scaledIterations = _precisionPolicy.scaledGpuIterations(
-            baseIterations: baseIterations,
-            zoom: controller.view.zoom,
-          );
-          final effectiveIterations = RuntimeModeService.playwrightCatalogSmoke
-              ? math.min(
-                  scaledIterations,
-                  math.max(
-                      4,
-                      RuntimeModeService
-                          .playwrightCatalogSmokeMaxGpuIterations),
-                )
-              : scaledIterations;
-          final gpuParams = Map<String, Object>.from(controller.params)
-            ..['iterations'] = effectiveIterations;
-
-          final renderState = FractalRenderState(
-            params: gpuParams,
-            view: controller.view,
-            transparentBackground: controller.transparentBackground,
-          );
           if (!_firstFrameLogged) {
             _firstFrameLogged = true;
             final dt = DateTime.now()
@@ -452,7 +506,7 @@ class _FractalRendererState extends State<FractalRenderer>
           final now = DateTime.now();
           final prev = _gpuLastFrameAt;
           _gpuLastFrameAt = now;
-          if (_gpuFrameCount % 10 == 0 && prev != null) {
+          if (kDebugMode && _gpuFrameCount % 60 == 0 && prev != null) {
             final frameMs = now.difference(prev).inMicroseconds / 1000.0;
             AppLogger.instance.debug('perf', 'gpu_frame', data: {
               'frame_ms': frameMs.toStringAsFixed(2),

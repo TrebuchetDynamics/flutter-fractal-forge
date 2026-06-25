@@ -11,12 +11,13 @@ void main() {
   });
 
   group('WallpaperOptions', () {
-    test('defaults to home-optimized home wallpaper without saving a copy', () {
+    test('defaults to home-optimized home wallpaper and saves a local copy',
+        () {
       const options = WallpaperOptions();
 
       expect(options.target, WallpaperTarget.home);
       expect(options.style, WallpaperStyle.homeOptimized);
-      expect(options.saveCopy, isFalse);
+      expect(options.saveCopy, isTrue);
     });
 
     test('copyWith replaces provided fields and preserves omitted fields', () {

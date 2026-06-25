@@ -21,9 +21,8 @@ class LogEvent {
   @override
   String toString() {
     final timestampStr = timestamp.toIso8601String();
-    final metadataStr = metadata != null && metadata!.isNotEmpty
-        ? ' $metadata'
-        : '';
+    final metadataStr =
+        metadata != null && metadata!.isNotEmpty ? ' $metadata' : '';
     return '[$timestampStr] [$type/$category] $message$metadataStr';
   }
 }
@@ -34,6 +33,8 @@ class LogEvent {
 /// Supports event types: userAction, stateChange, navigation, screenshot.
 class TestLogger {
   static TestLogger? _instance;
+
+  static const int maxBufferEntries = 2000;
 
   IOSink? _sink;
   final List<LogEvent> _buffer = [];
@@ -81,6 +82,9 @@ class TestLogger {
   /// Log an event to buffer, console, and file (if initialized).
   void log(LogEvent event) {
     _buffer.add(event);
+    if (_buffer.length > maxBufferEntries) {
+      _buffer.removeRange(0, _buffer.length - maxBufferEntries);
+    }
     if (kDebugMode) debugPrint(event.toString());
 
     if (_initialized && _sink != null) {
@@ -89,7 +93,8 @@ class TestLogger {
   }
 
   /// Log a user action event.
-  void logAction(String category, String message, {Map<String, dynamic>? metadata}) {
+  void logAction(String category, String message,
+      {Map<String, dynamic>? metadata}) {
     log(LogEvent(
       timestamp: DateTime.now(),
       type: 'userAction',
@@ -100,7 +105,8 @@ class TestLogger {
   }
 
   /// Log a state change event.
-  void logStateChange(String category, String message, {Map<String, dynamic>? metadata}) {
+  void logStateChange(String category, String message,
+      {Map<String, dynamic>? metadata}) {
     log(LogEvent(
       timestamp: DateTime.now(),
       type: 'stateChange',

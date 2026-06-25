@@ -40,6 +40,14 @@ void main() {
       await tester.pumpAndSettle();
     }
 
+    Future<void> showAllCategories(WidgetTester tester) async {
+      await tester.drag(
+          find.byKey(const Key('catalogFilterScroll')), const Offset(-420, 0));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('catalogCategoryChip_all')));
+      await tester.pumpAndSettle();
+    }
+
     Widget buildTestWidget() {
       return MultiProvider(
         providers: [
@@ -80,6 +88,16 @@ void main() {
       expect(find.byKey(const Key('catalogViewToggleButton')), findsOneWidget);
     });
 
+    testWidgets('defaults to Escape-Time category', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(
+        find.bySemanticsLabel(RegExp(r'Escape-Time filter, selected')),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('displays search field', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
@@ -108,6 +126,7 @@ void main() {
 
       expect(find.text('2D'), findsWidgets);
 
+      await showAllCategories(tester);
       await showSearch(tester);
       await tester.enterText(
           find.byKey(const Key('catalogSearchField')), 'Mandelbulb');
@@ -143,11 +162,11 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('has ListView for scrolling', (tester) async {
+    testWidgets('has scroll view for scrolling', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byType(ListView), findsWidgets);
+      expect(find.byType(CustomScrollView), findsOneWidget);
     });
 
     testWidgets('has search icon', (tester) async {

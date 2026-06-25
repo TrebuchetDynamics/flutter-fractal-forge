@@ -38,6 +38,9 @@ class CatalogRepository {
     if (module.id.startsWith('life_like_b')) {
       return 'Cellular & Stochastic';
     }
+    if (const {'julia', 'julia_dual', 'phoenix', 'nova'}.contains(module.id)) {
+      return 'Escape-Time';
+    }
     return module.dimension == FractalDimension.threeD
         ? '3D Fractals'
         : 'Other';

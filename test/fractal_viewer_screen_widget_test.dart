@@ -80,12 +80,11 @@ void main() {
       expect(statusText.data, contains('it='));
     });
 
-    testWidgets('back button includes tooltip for accessibility',
-        (tester) async {
+    testWidgets('back FAB is not shown', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byTooltip('Back'), findsOneWidget);
+      expect(find.byTooltip('Back'), findsNothing);
     });
 
     testWidgets('fullscreen FAB is shown', (tester) async {
@@ -101,7 +100,7 @@ void main() {
 
       expect(controller.module.id, equals('mandelbrot'));
 
-      await tester.tap(find.byTooltip('Random Fractal'));
+      await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
       await tester.pumpAndSettle();
 
       expect(controller.module.id, isNot(equals('mandelbrot')));
@@ -128,7 +127,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byTooltip('Fullscreen view'), findsOneWidget);
-      expect(find.byTooltip('Back'), findsOneWidget);
+      expect(find.byTooltip('Back'), findsNothing);
       expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
       expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
 
@@ -143,7 +142,7 @@ void main() {
       await tester.tap(find.byTooltip('Exit fullscreen view'));
       await tester.pumpAndSettle();
 
-      expect(find.byTooltip('Back'), findsOneWidget);
+      expect(find.byTooltip('Back'), findsNothing);
       expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
       expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
     });

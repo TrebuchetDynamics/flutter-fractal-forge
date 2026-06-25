@@ -18,7 +18,8 @@ void main() {
       expect(identical(a, b), isTrue);
     });
 
-    test('dispose resets singleton so next call returns a new instance', () async {
+    test('dispose resets singleton so next call returns a new instance',
+        () async {
       final first = TestLogger();
       await first.dispose();
       final second = TestLogger();
@@ -77,6 +78,26 @@ void main() {
       logger.clearBuffer();
       expect(logger.buffer, isEmpty);
     });
+
+    test('buffer is capped for long many-fractal sessions', () {
+      final logger = TestLogger();
+
+      for (var i = 0; i < TestLogger.maxBufferEntries + 50; i++) {
+        logger.log(LogEvent(
+          timestamp: DateTime(2026, 1, 1, 0, 0, i),
+          type: 'stateChange',
+          category: 'moduleSwitch',
+          message: 'fractal $i',
+        ));
+      }
+
+      expect(logger.buffer.length, TestLogger.maxBufferEntries);
+      expect(logger.buffer.first.message, 'fractal 50');
+      expect(
+        logger.buffer.last.message,
+        'fractal ${TestLogger.maxBufferEntries + 49}',
+      );
+    });
   });
 
   group('TestLogger — convenience methods', () {
@@ -97,7 +118,9 @@ void main() {
       expect(logger.buffer.first.message, 'zoom changed');
     });
 
-    test('logNavigation creates event with type navigation and category navigation', () {
+    test(
+        'logNavigation creates event with type navigation and category navigation',
+        () {
       final logger = TestLogger();
       logger.logNavigation('went to catalog');
       expect(logger.buffer.first.type, 'navigation');
@@ -105,7 +128,9 @@ void main() {
       expect(logger.buffer.first.message, 'went to catalog');
     });
 
-    test('logScreenshot creates event with type screenshot and category screenshot', () {
+    test(
+        'logScreenshot creates event with type screenshot and category screenshot',
+        () {
       final logger = TestLogger();
       logger.logScreenshot('screen01');
       expect(logger.buffer.first.type, 'screenshot');

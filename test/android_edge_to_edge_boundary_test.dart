@@ -30,7 +30,7 @@ void main() {
       );
       expect(
         android15Styles,
-        contains('android:windowLayoutInDisplayCutoutMode">shortEdges'),
+        contains('android:windowLayoutInDisplayCutoutMode">always'),
       );
       expect(buildGradle, contains('targetSdk = 36'));
       expect(dartMain, isNot(contains('SystemChrome.setSystemUIOverlayStyle')));

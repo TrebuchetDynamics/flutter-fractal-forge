@@ -410,6 +410,37 @@ class FractalController extends ChangeNotifier {
         'stateChange', 'randomize', 'Randomized params for ${_module.id}');
   }
 
+  /// Updates pan, zoom, and rotation as one camera move.
+  ///
+  /// Used by animation/export paths so camera interpolation does not fire three
+  /// notifications per frame or accidentally tune fractal params.
+  void updateView(FractalViewState view) {
+    final pan = view.pan;
+    _view = FractalViewState(
+      pan: Vector2(
+        FractalViewInputBounds.normalizePanComponent(
+          candidate: pan.x,
+          current: _view.pan.x,
+        ),
+        FractalViewInputBounds.normalizePanComponent(
+          candidate: pan.y,
+          current: _view.pan.y,
+        ),
+      ),
+      zoom: FractalViewInputBounds.normalizeZoom(
+        candidate: view.zoom,
+        currentZoom: _view.zoom,
+        moduleId: _module.id,
+      ),
+      rotation: FractalViewInputBounds.normalizeRotation(
+        candidate: view.rotation,
+        current: _view.rotation,
+      ),
+    );
+    _lastAdaptiveZoom = _view.zoom;
+    notifyListeners();
+  }
+
   /// Updates the zoom level.
   ///
   /// The [zoom] value is clamped to range [moduleMinZoom, 1e12] to support

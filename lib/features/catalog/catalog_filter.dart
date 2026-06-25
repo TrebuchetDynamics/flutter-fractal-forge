@@ -192,7 +192,8 @@ final class CatalogFilter {
         return a.compareTo(b);
       });
 
-    if (selectedCategory != null && !categories.contains(selectedCategory)) {
+    if (selectedCategory != null) {
+      categories.remove(selectedCategory);
       categories.insert(0, selectedCategory);
     }
 

@@ -30,6 +30,20 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
     );
   }
 
+  void _openLooper(BuildContext context) {
+    _log.info('action', 'Open looper');
+    final looper = _looperController;
+    if (looper == null) return;
+    _showViewerBottomSheet<void>(
+      context,
+      builder: (_) => LooperSheet(
+        controller: looper,
+        isExporting: _exporting,
+        onExportGif: () => _exportLooperGif(context),
+      ),
+    );
+  }
+
   void _openPresets(BuildContext context) {
     _log.info('action', 'Open presets');
     final controller = _activeController(context);
@@ -56,18 +70,6 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
           Provider.value(value: context.read<PresetStore>()),
         ],
         child: BatchExportDialog(boundaryKey: boundaryKey),
-      ),
-    );
-  }
-
-  void _openAutoExploreSettings(BuildContext context) {
-    if (_autoExploreService == null) return;
-
-    _showViewerBottomSheet<void>(
-      context,
-      builder: (_) => ChangeNotifierProvider<AutoExploreService>.value(
-        value: _autoExploreService!,
-        child: const AutoExploreSettingsSheet(),
       ),
     );
   }

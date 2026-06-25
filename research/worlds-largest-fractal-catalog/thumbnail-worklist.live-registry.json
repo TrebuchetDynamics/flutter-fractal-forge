@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T17:25:15.150258Z",
+  "generated_at": "2026-06-25T21:06:11.770611Z",
   "purpose": "Live registry modules that are shader-backed but cannot be promoted because bundled thumbnails are missing.",
   "thumbnailStandard": "Launch Thumbnail Standard: 320x320 bundled assets",
   "missingCount": 30,

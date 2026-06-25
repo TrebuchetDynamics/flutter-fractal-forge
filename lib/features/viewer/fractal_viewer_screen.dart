@@ -8,9 +8,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/wallpaper_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -31,6 +33,8 @@ import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/features/wallpaper/wallpaper_options_sheet.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
+import 'package:flutter_fractals/features/looper/looper_controller.dart';
+import 'package:flutter_fractals/features/looper/looper_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
 import 'package:flutter_fractals/features/renderer/backend_policy.dart';
@@ -48,6 +52,7 @@ import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.da
 import 'package:flutter_fractals/features/viewer/rendering/compare_renderer.dart';
 import 'package:flutter_fractals/features/viewer/rendering/cpu_fallback_pane.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
+import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 
 part 'diagnostics/viewer_gpu_health.dart';
 part 'diagnostics/viewer_debug_report.dart';
@@ -108,6 +113,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   // Auto-explore service
   @override
   AutoExploreService? _autoExploreService;
+  @override
+  LooperController? _looperController;
 
   String? _lastBackendDecisionLogged;
   Timer? _backendDebounceTimer;
@@ -179,6 +186,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       // Initialize auto-explore service
       _autoExploreService?.dispose();
       _autoExploreService = AutoExploreService(controller: controller);
+      _looperController?.dispose();
+      _looperController = LooperController(controller: controller);
     }
   }
 
@@ -255,6 +264,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _fabController.dispose();
     _debugRunner?.dispose();
     _autoExploreService?.dispose();
+    _looperController?.dispose();
     _compareController?.dispose();
     _keyboardFocusNode.dispose();
     super.dispose();
@@ -306,6 +316,100 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   GlobalKey _activeBoundaryKey() {
     if (_compareMode && _activePane == 1) return _fractalKeyB;
     return _fractalKeyA;
+  }
+
+  void _bumpIterations(BuildContext context, int delta) {
+    final controller = _activeController(context);
+    final current = controller.params['iterations'];
+    final value = current is num ? current.round() : 120;
+    controller.updateParam('iterations', value + delta);
+  }
+
+  void _toggleKaleidoscope(BuildContext context) {
+    final controller = _activeController(context);
+    controller.setKaleidoscopeEnabled(!controller.kaleidoscopeEnabled);
+  }
+
+  void _cycleColorScheme(BuildContext context) {
+    final controller = _activeController(context);
+    final current = controller.params['colorScheme'];
+    var max = 63;
+    for (final param in controller.module.parameters) {
+      if (param.id == 'colorScheme') {
+        max = param.max.round();
+        break;
+      }
+    }
+    final value = current is num ? current.round() : 0;
+    controller.updateParam('colorScheme', value >= max ? 0 : value + 1);
+  }
+
+  void _openPalettePicker(BuildContext context) {
+    final controller = _activeController(context);
+    final l10n = AppLocalizations.of(context)!;
+    FractalParameter? colorParam;
+    for (final param in controller.module.parameters) {
+      if (param.id == 'colorScheme') {
+        colorParam = param;
+        break;
+      }
+    }
+    final options = colorParam?.options ?? const <FractalParamOption>[];
+    if (options.isEmpty) {
+      _cycleColorScheme(context);
+      return;
+    }
+
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (context, setSheetState) {
+          final current = controller.params['colorScheme'];
+          return Container(
+            margin: const EdgeInsets.all(AppSpacing.lg),
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceElevated.withValues(alpha: 0.96),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: AppColors.glassBorder),
+            ),
+            child: SafeArea(
+              top: false,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.paramColorScheme,
+                    style: AppTypography.titleMedium.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Wrap(
+                    spacing: AppSpacing.xs,
+                    runSpacing: AppSpacing.xs,
+                    children: [
+                      for (final option in options)
+                        ChoiceChip(
+                          label: Text(option.label(l10n)),
+                          selected: option.value == current,
+                          onSelected: (_) {
+                            controller.updateParam('colorScheme', option.value);
+                            setSheetState(() {});
+                          },
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   KeyEventResult _onKeyEvent(BuildContext context, KeyEvent event) =>
@@ -375,6 +479,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             builder: (context, constraints) {
               final viewportSize =
                   Size(constraints.maxWidth, constraints.maxHeight);
+              final activeController = _activeController(context);
               final topInset = MediaQuery.of(context).padding.top;
               final overlayTop = topInset + 56;
 
@@ -538,6 +643,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                     ),
 
+                  Positioned.fill(
+                    child: AutoPilotAlignmentOverlay(
+                      service: _autoExploreService,
+                    ),
+                  ),
+
                   // Minimap overlay (optional, hidden by default to reduce clutter)
                   if (!_fullscreenUnobtrusive && _showMiniMap)
                     Positioned(
@@ -558,17 +669,34 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           MediaQuery.of(context).padding.bottom + AppSpacing.xl,
                       child: FractalViewControls(
                         fabController: _fabController,
-                        autoExploreService: _autoExploreService,
                         isExporting: _exporting,
-                        backTooltip:
-                            MaterialLocalizations.of(context).backButtonTooltip,
-                        onGoBack: () => Navigator.of(context).pop(),
                         onToggleFullscreen: _toggleFullscreenUnobtrusive,
-                        onOpenAutoExploreSettings: () =>
-                            _openAutoExploreSettings(context),
                         onOpenRandomFractal: () => _onRandomFractalFab(context),
                         onOpenControls: () => _toggleControlsHud(),
+                        onOpenPresets: () => _openPresets(context),
+                        onResetView: () =>
+                            _activeController(context).resetView(),
+                        onResetParams: () =>
+                            _activeController(context).resetParams(),
+                        onRandomizeParams: () {
+                          HapticFeedback.mediumImpact();
+                          final activeController = _activeController(context);
+                          activeController.randomizeParams();
+                          activeController.recordInterestingSpot();
+                        },
+                        onDecreaseIterations: () =>
+                            _bumpIterations(context, -20),
+                        onIncreaseIterations: () =>
+                            _bumpIterations(context, 20),
+                        onCycleColorScheme: () => _cycleColorScheme(context),
+                        onOpenPalettePicker: () => _openPalettePicker(context),
+                        kaleidoscopeEnabled:
+                            activeController.kaleidoscopeEnabled,
+                        onToggleKaleidoscope: () =>
+                            _toggleKaleidoscope(context),
                         onOpenExport: () => _openExport(context),
+                        onShareImage: () => _shareCurrentImage(context),
+                        onOpenLooper: () => _openLooper(context),
                         onOpenWallpaper: () => _openWallpaper(context),
                       ),
                     ),

@@ -2,6 +2,35 @@ import 'package:flutter/foundation.dart';
 
 enum ViewerExportPhase { idle, sheetOpen, exporting }
 
+class ViewerShareCaption {
+  const ViewerShareCaption._();
+
+  static String build({
+    required String fractalName,
+    required double cameraX,
+    required double cameraY,
+    required double cameraZ,
+    required double rotationX,
+    required double rotationY,
+    required double rotationZ,
+  }) {
+    return '#fractalforge $fractalName\n'
+        'Camera x=${_fmt(cameraX)} y=${_fmt(cameraY)} z=${_fmt(cameraZ)}\n'
+        'Rotation x=${_fmt(rotationX)} y=${_fmt(rotationY)} z=${_fmt(rotationZ)}';
+  }
+
+  static String _fmt(double value) {
+    final abs = value.abs();
+    if (abs != 0 && (abs < 0.001 || abs >= 1000000)) {
+      return value.toStringAsExponential(4);
+    }
+    return value
+        .toStringAsFixed(6)
+        .replaceFirst(RegExp(r'0+$'), '')
+        .replaceFirst(RegExp(r'\.$'), '');
+  }
+}
+
 /// Normalizes export progress telemetry for determinate UI rendering.
 ///
 /// Export backends may report malformed progress while falling back between

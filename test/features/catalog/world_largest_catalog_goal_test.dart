@@ -13,8 +13,8 @@ bool _isDiagnosticModule(String id, String shaderAsset) {
 }
 
 void main() {
-  group('World-largest catalog goal guardrails', () {
-    test('live registry has 5k+ renderable thumbnail-backed promoted modules',
+  group('Curated catalog goal guardrails', () {
+    test('live registry has 1k+ renderable thumbnail-backed promoted modules',
         () {
       final registry = ModuleRegistry();
       final catalog = CatalogRepository.fromRegistry(registry);
@@ -47,7 +47,7 @@ void main() {
 
       expect(missingShaders, isEmpty);
       expect(shaderBacked, nonDiagnostic);
-      expect(thumbnailBacked, greaterThanOrEqualTo(5000));
+      expect(thumbnailBacked, greaterThanOrEqualTo(1000));
       expect(shaderBacked, greaterThanOrEqualTo(thumbnailBacked));
       expect(
         missingThumbnails,

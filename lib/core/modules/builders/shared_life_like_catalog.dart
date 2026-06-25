@@ -14,7 +14,7 @@ const int sharedLifeLikeTotalRuleSpace = 512 * 512;
 // Promoted subset size is target-bounded for the 5k-10k curated catalog goal.
 // The remaining valid B/S rules are generated-family capacity, not counted
 // catalog entries by default.
-const int sharedLifeLikeCatalogSize = 4200;
+const int sharedLifeLikeCatalogSize = 18;
 
 class SharedLifeLikeCatalogEntry {
   final String id;

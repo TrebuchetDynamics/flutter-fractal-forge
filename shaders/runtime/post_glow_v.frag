@@ -33,15 +33,15 @@ vec3 linearToSRGB(vec3 lin) {
 }
 
 const int TAPS = 7;
-const float kWeights[7] = float[7](
-  0.2270270270,
-  0.1945945946,
-  0.1216216216,
-  0.0540540541,
-  0.0162162162,
-  0.0030030030,
-  0.0006000600
-);
+float gaussianWeight(int index) {
+  if (index == 0) return 0.2270270270;
+  if (index == 1) return 0.1945945946;
+  if (index == 2) return 0.1216216216;
+  if (index == 3) return 0.0540540541;
+  if (index == 4) return 0.0162162162;
+  if (index == 5) return 0.0030030030;
+  return 0.0006000600;
+}
 
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
@@ -50,11 +50,12 @@ void main() {
   float stepY = uRadius / max(uResolution.y, 1.0);
 
   // Vertical blur of the already-horizontally-blurred input.
-  vec4 glow = texture(uBlur, uv) * kWeights[0];
+  vec4 glow = texture(uBlur, uv) * gaussianWeight(0);
   for (int i = 1; i < TAPS; i++) {
     float offset = float(i) * stepY;
-    glow += texture(uBlur, vec2(uv.x, uv.y + offset)) * kWeights[i];
-    glow += texture(uBlur, vec2(uv.x, uv.y - offset)) * kWeights[i];
+    float weight = gaussianWeight(i);
+    glow += texture(uBlur, vec2(uv.x, uv.y + offset)) * weight;
+    glow += texture(uBlur, vec2(uv.x, uv.y - offset)) * weight;
   }
 
   // Original sharp frame.

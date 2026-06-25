@@ -39,11 +39,15 @@ class AutoExploreService extends ChangeNotifier {
   double? _lastCorrectionZoom;
   double? _interactionStartZoom;
   bool _zoomingIn = true;
+  late String _lastModuleId;
 
   AutoExploreService({
     required this.controller,
     this.config = const AutoExploreConfig(),
-  });
+  }) {
+    _lastModuleId = controller.module.id;
+    controller.addListener(_handleControllerChanged);
+  }
 
   bool get isExploring => _isExploring;
   bool get isPaused => _isPaused;
@@ -190,6 +194,24 @@ class AutoExploreService extends ChangeNotifier {
     if (notify) notifyListeners();
   }
 
+  void _handleControllerChanged() {
+    final moduleId = controller.module.id;
+    if (moduleId == _lastModuleId) return;
+
+    _lastModuleId = moduleId;
+    _pausedByUserCorrection = false;
+    _isUserInteracting = false;
+    _interactionStartZoom = null;
+    _zoomingIn = true;
+    _adoptCurrentZoomAsCycleBase();
+    _cancelScheduledMotion();
+
+    if (_isExploring && !_isPaused) {
+      _scheduleNext();
+    }
+    notifyListeners();
+  }
+
   void _cancelScheduledMotion() {
     _timer?.cancel();
     _timer = null;
@@ -309,6 +331,7 @@ class AutoExploreService extends ChangeNotifier {
 
   @override
   void dispose() {
+    controller.removeListener(_handleControllerChanged);
     _transitionToStopped(notify: false);
     super.dispose();
   }

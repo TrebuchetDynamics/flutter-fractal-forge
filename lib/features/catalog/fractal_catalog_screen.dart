@@ -62,6 +62,7 @@ class FractalCatalogScreen extends StatefulWidget {
 class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     with TickerProviderStateMixin {
   static const _viewPrefKey = 'catalog_view_grid';
+  static const _defaultCategory = 'Escape-Time';
 
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
@@ -69,7 +70,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
   CatalogDimensionFilter _dimensionFilter = CatalogDimensionFilter.all;
-  String? _selectedCategory;
+  String? _selectedCategory = _defaultCategory;
 
   // Search debounce - prevents rebuild on every keystroke
   final CatalogSearchDebouncer _searchDebouncer = CatalogSearchDebouncer();
@@ -182,7 +183,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       _resetSearchInputState();
       _isSearchVisible = false;
       _dimensionFilter = CatalogDimensionFilter.all;
-      _selectedCategory = null;
+      _selectedCategory = _defaultCategory;
     });
   }
 
@@ -191,7 +192,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   bool get _hasActiveRefinements =>
       _debouncedQuery.isNotEmpty ||
       _dimensionFilter != CatalogDimensionFilter.all ||
-      _selectedCategory != null;
+      _selectedCategory != _defaultCategory;
 
   Map<String, List<CatalogEntry>> _groupAndSort(
       List<CatalogEntry> entries, AppLocalizations l10n) {
@@ -227,25 +228,20 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final query = filterCriteria.searchQuery.value;
     final filteredEntries = filterResult.filteredEntries;
     final groupedEntries = _groupAndSort(filteredEntries, l10n);
-    final categoryCounts = filterResult.categoryCounts;
-    final sortedCategories = filterResult.sortedCategories;
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
           child: Column(
             children: [
+              _buildCatalogHeader(
+                l10n,
+                resultCount: filteredEntries.length,
+              ),
               _buildFilterAndSortBar(context, l10n, filterResult),
               if (_isSearchVisible) _buildSearchField(context, l10n),
               if (_hasActiveRefinements)
                 _buildActiveFilterSummary(
                     context, l10n, filteredEntries.length),
-              _buildCategoryBar(
-                context,
-                l10n,
-                categories: sortedCategories,
-                categoryCounts: categoryCounts,
-                totalCount: filterResult.categoryBaseEntries.length,
-              ),
             ],
           ),
         ),
@@ -266,6 +262,99 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     );
   }
 
+  Widget _buildCatalogHeader(
+    AppLocalizations l10n, {
+    required int resultCount,
+  }) {
+    final title = _selectedCategory ?? l10n.catalogAllFractals;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.sm,
+        AppSpacing.lg,
+        AppSpacing.xs,
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.primary.withValues(alpha: 0.22),
+              AppColors.surfaceElevated.withValues(alpha: 0.92),
+              AppColors.secondary.withValues(alpha: 0.08),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(color: AppColors.glassBorder),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.08),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.catalogTitle.toUpperCase(),
+                    style: AppTypography.labelSmall.copyWith(
+                      color: AppColors.secondaryLight,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.titleLarge.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.catalogResultsCount(resultCount),
+                    style: AppTypography.bodySmall.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ExcludeSemantics(
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.08),
+                  border: Border.all(color: AppColors.glassBorder),
+                ),
+                child: const Icon(
+                  Icons.auto_awesome_rounded,
+                  color: AppColors.secondaryLight,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildFilterAndSortBar(
     BuildContext context,
     AppLocalizations l10n,
@@ -278,89 +367,140 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         filterResult.countForDimension(CatalogDimensionFilter.threeD);
     final kaleidoscopeCount =
         filterResult.countForDimension(CatalogDimensionFilter.kaleidoscope);
+    final categories = filterResult.sortedCategories;
+    final categoryCounts = filterResult.categoryCounts;
+    final totalCategoryCount = filterResult.categoryBaseEntries.length;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.xs,
       ),
-      child: Row(
-        children: [
-          // Dimension filters + Search — horizontally scrollable
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _DimChip(
-                    chipKey: const Key('catalogDimensionChip_all'),
-                    label: l10n.catalogFilterAll,
-                    count: allCount,
-                    selected: _dimensionFilter == CatalogDimensionFilter.all,
-                    onTap: () =>
-                        _updateDimensionFilter(CatalogDimensionFilter.all),
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  _DimChip(
-                    chipKey: const Key('catalogDimensionChip_2d'),
-                    label: l10n.dimension2d,
-                    count: twoDCount,
-                    selected: _dimensionFilter == CatalogDimensionFilter.twoD,
-                    onTap: () =>
-                        _updateDimensionFilter(CatalogDimensionFilter.twoD),
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  _DimChip(
-                    chipKey: const Key('catalogDimensionChip_3d'),
-                    label: l10n.dimension3d,
-                    count: threeDCount,
-                    selected: _dimensionFilter == CatalogDimensionFilter.threeD,
-                    onTap: () =>
-                        _updateDimensionFilter(CatalogDimensionFilter.threeD),
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  _DimChip(
-                    chipKey: const Key('catalogDimensionChip_kaleidoscope'),
-                    label: l10n.dimensionKaleidoscope,
-                    count: kaleidoscopeCount,
-                    selected:
-                        _dimensionFilter == CatalogDimensionFilter.kaleidoscope,
-                    onTap: () => _updateDimensionFilter(
-                      CatalogDimensionFilter.kaleidoscope,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: AppColors.surface.withValues(alpha: 0.78),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.border.withValues(alpha: 0.45)),
+        ),
+        child: Row(
+          children: [
+            // Dimension filters + Search — horizontally scrollable
+            Expanded(
+              child: SingleChildScrollView(
+                key: const Key('catalogFilterScroll'),
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _DimChip(
+                      chipKey: const Key('catalogDimensionChip_all'),
+                      label: l10n.catalogFilterAll,
+                      count: allCount,
+                      selected: _dimensionFilter == CatalogDimensionFilter.all,
+                      onTap: () =>
+                          _updateDimensionFilter(CatalogDimensionFilter.all),
                     ),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                ],
-              ),
-            ),
-          ),
-          // Action buttons on the right
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Search button
-              _SimpleIconButton(
-                buttonKey: const Key('catalogSearchToggleButton'),
-                icon: Icons.search_rounded,
-                isActive: _isSearchVisible,
-                onTap: _toggleSearch,
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              // View toggle button
-              _SimpleIconButton(
-                buttonKey: const Key('catalogViewToggleButton'),
-                icon: _viewMode == CatalogViewMode.grid
-                    ? Icons.view_list_rounded
-                    : Icons.grid_view_rounded,
-                onTap: () => _setViewMode(
-                  _viewMode == CatalogViewMode.grid
-                      ? CatalogViewMode.list
-                      : CatalogViewMode.grid,
+                    const SizedBox(width: AppSpacing.xs),
+                    _DimChip(
+                      chipKey: const Key('catalogDimensionChip_2d'),
+                      label: l10n.dimension2d,
+                      count: twoDCount,
+                      selected: _dimensionFilter == CatalogDimensionFilter.twoD,
+                      onTap: () =>
+                          _updateDimensionFilter(CatalogDimensionFilter.twoD),
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    _DimChip(
+                      chipKey: const Key('catalogDimensionChip_3d'),
+                      label: l10n.dimension3d,
+                      count: threeDCount,
+                      selected:
+                          _dimensionFilter == CatalogDimensionFilter.threeD,
+                      onTap: () =>
+                          _updateDimensionFilter(CatalogDimensionFilter.threeD),
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    _DimChip(
+                      chipKey: const Key('catalogDimensionChip_kaleidoscope'),
+                      label: l10n.dimensionKaleidoscope,
+                      count: kaleidoscopeCount,
+                      selected: _dimensionFilter ==
+                          CatalogDimensionFilter.kaleidoscope,
+                      onTap: () => _updateDimensionFilter(
+                        CatalogDimensionFilter.kaleidoscope,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    _InlineFilterLabel(
+                      icon: Icons.category_rounded,
+                      label: l10n.catalogFilterCategories,
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    _DimChip(
+                      chipKey: const Key('catalogCategoryChip_all'),
+                      label: l10n.catalogFilterAll,
+                      count: totalCategoryCount,
+                      selected: _selectedCategory == null,
+                      onTap: () {
+                        setState(() {
+                          _selectedCategory = null;
+                        });
+                      },
+                    ),
+                    for (final category in categories) ...[
+                      const SizedBox(width: AppSpacing.xs),
+                      _DimChip(
+                        chipKey: Key(
+                          'catalogCategoryChip_${slugify(category, emptyFallback: '')!}',
+                        ),
+                        label: category,
+                        count: categoryCounts[category] ?? 0,
+                        selected: _selectedCategory == category,
+                        onTap: () {
+                          setState(() {
+                            _selectedCategory =
+                                _selectedCategory == category ? null : category;
+                          });
+                        },
+                      ),
+                    ],
+                    const SizedBox(width: AppSpacing.md),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            // Action buttons on the right
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Search button
+                _SimpleIconButton(
+                  buttonKey: const Key('catalogSearchToggleButton'),
+                  icon: Icons.search_rounded,
+                  semanticLabel: l10n.catalogSearchHint,
+                  isActive: _isSearchVisible,
+                  onTap: _toggleSearch,
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                // View toggle button
+                _SimpleIconButton(
+                  buttonKey: const Key('catalogViewToggleButton'),
+                  icon: _viewMode == CatalogViewMode.grid
+                      ? Icons.view_list_rounded
+                      : Icons.grid_view_rounded,
+                  semanticLabel: _viewMode == CatalogViewMode.grid
+                      ? l10n.catalogSwitchToList
+                      : l10n.catalogSwitchToGrid,
+                  onTap: () => _setViewMode(
+                    _viewMode == CatalogViewMode.grid
+                        ? CatalogViewMode.list
+                        : CatalogViewMode.grid,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -617,15 +757,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   ) {
     final width = MediaQuery.of(context).size.width;
     final crossAxisCount = width >= 1024
-        ? 6
+        ? 5
         : width >= 840
-            ? 5
+            ? 4
             : width >= 600
-                ? 4
-                : 3;
-    final itemWidth = (width - AppSpacing.lg * 2) / crossAxisCount;
-    final tileHeight = itemWidth * 0.68;
-
+                ? 3
+                : 2;
     final children = <Widget>[];
 
     for (final section in groupedEntries.entries) {
@@ -663,9 +800,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
-              mainAxisSpacing: AppSpacing.sm,
-              crossAxisSpacing: AppSpacing.sm,
-              childAspectRatio: 1 / 0.68,
+              mainAxisSpacing: AppSpacing.md,
+              crossAxisSpacing: AppSpacing.md,
+              childAspectRatio: 1 / 0.82,
             ),
           ),
         ),
@@ -798,12 +935,14 @@ class _SectionHeader extends StatelessWidget {
 class _SimpleIconButton extends StatelessWidget {
   final Key? buttonKey;
   final IconData icon;
+  final String semanticLabel;
   final bool isActive;
   final VoidCallback onTap;
 
   const _SimpleIconButton({
     this.buttonKey,
     required this.icon,
+    required this.semanticLabel,
     this.isActive = false,
     required this.onTap,
   });
@@ -813,7 +952,7 @@ class _SimpleIconButton extends StatelessWidget {
     return Semantics(
       button: true,
       selected: isActive,
-      label: 'Button',
+      label: semanticLabel,
       child: GestureDetector(
         key: buttonKey,
         onTap: onTap,
@@ -833,6 +972,43 @@ class _SimpleIconButton extends StatelessWidget {
             size: 22,
             color: isActive ? AppColors.primary : AppColors.textSecondary,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InlineFilterLabel extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _InlineFilterLabel({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return ExcludeSemantics(
+      child: Container(
+        height: 40,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceVariant.withValues(alpha: 0.55),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.border.withValues(alpha: 0.25)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: AppColors.textMuted),
+            const SizedBox(width: 5),
+            Text(
+              label,
+              style: AppTypography.labelSmall.copyWith(
+                color: AppColors.textMuted,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.4,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -871,7 +1047,8 @@ class _DimChip extends StatelessWidget {
         onTap: onTap,
         builder: (isPressed) => AnimatedContainer(
           duration: AppAnimations.fast,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          constraints: const BoxConstraints(minHeight: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             gradient: selected
                 ? LinearGradient(
@@ -1026,12 +1203,16 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
               return AnimatedContainer(
                 duration: AppAnimations.fast,
                 decoration: BoxDecoration(
+                  color: AppColors.surfaceElevated.withValues(alpha: 0.55),
                   borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                  border: Border.all(
+                    color: accentColor.withValues(alpha: 0.18),
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.22),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
+                      color: Colors.black.withValues(alpha: 0.3),
+                      blurRadius: 14,
+                      offset: const Offset(0, 6),
                     ),
                     if (_isHovered || _isPressed)
                       BoxShadow(
@@ -1063,14 +1244,16 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                             right: 0,
                             bottom: 0,
                             child: Container(
-                              padding: const EdgeInsets.fromLTRB(6, 20, 6, 7),
+                              padding:
+                                  const EdgeInsets.fromLTRB(10, 26, 10, 10),
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
                                     Colors.transparent,
-                                    Colors.black.withValues(alpha: 0.78),
+                                    Colors.black.withValues(alpha: 0.55),
+                                    Colors.black.withValues(alpha: 0.9),
                                   ],
                                 ),
                               ),
@@ -1078,15 +1261,16 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                                 name,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.left,
                                 style: AppTypography.labelSmall.copyWith(
                                   color: Colors.white,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                  height: 1.15,
+                                  fontWeight: FontWeight.w700,
                                   shadows: const [
                                     Shadow(
-                                      color: Colors.black54,
-                                      blurRadius: 4,
+                                      color: Colors.black87,
+                                      blurRadius: 5,
                                     ),
                                   ],
                                 ),
@@ -1300,8 +1484,8 @@ class _ModuleCardState extends State<_ModuleCard>
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         border: Border.all(
           color: _isPressed
-              ? AppColors.primary.withValues(alpha: 0.4)
-              : AppColors.border.withValues(alpha: 0.4),
+              ? AppColors.primary.withValues(alpha: 0.45)
+              : AppColors.borderLight.withValues(alpha: 0.36),
         ),
         boxShadow: _isPressed
             ? [
@@ -1314,13 +1498,12 @@ class _ModuleCardState extends State<_ModuleCard>
             : null,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+        padding: const EdgeInsets.all(AppSpacing.sm),
         child: Row(
           children: [
             SizedBox(
-              width: 48,
-              height: 48,
+              width: 60,
+              height: 60,
               child: _PreviewThumbnail(
                 catalogId: widget.entry.catalogId,
                 is3D: is3D,
@@ -1339,6 +1522,7 @@ class _ModuleCardState extends State<_ModuleCard>
                     overflow: TextOverflow.ellipsis,
                     style: AppTypography.titleMedium.copyWith(
                       color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 4),
