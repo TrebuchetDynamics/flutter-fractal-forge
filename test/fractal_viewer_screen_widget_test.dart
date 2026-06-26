@@ -94,13 +94,43 @@ void main() {
       expect(find.byTooltip('Fullscreen view'), findsOneWidget);
     });
 
+    testWidgets('FAB column stays on-screen and scrolls on short viewports',
+        (tester) async {
+      // Simulate a short viewport (e.g. landscape phone / small web window)
+      // where the stacked FAB column is taller than the available height.
+      tester.view.physicalSize = const Size(400, 360);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // The stacked column must not overflow its parent.
+      expect(tester.takeException(), isNull);
+
+      // The top-most quick-control FAB must stay within the viewport instead of
+      // being pushed above the top edge (the pre-fix overflow symptom).
+      final fullscreen = find.byKey(const ValueKey('viewerFullscreenButton'));
+      expect(fullscreen, findsOneWidget);
+      expect(tester.getRect(fullscreen).top, greaterThanOrEqualTo(0.0),
+          reason: 'top FAB was pushed off the top of the viewport');
+
+      // The scroll container is height-bounded (so it can actually scroll)
+      // rather than expanding to its full natural content height.
+      final column = find.byKey(const ValueKey('viewerFabColumn'));
+      expect(column, findsOneWidget);
+      expect(tester.getSize(column).height, lessThan(360.0),
+          reason: 'FAB column is unbounded and cannot scroll');
+    });
+
     testWidgets('random fractal FAB switches module', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       expect(controller.module.id, equals('mandelbrot'));
 
-      await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
+      await tester.tap(find.byKey(const ValueKey('viewerRandomButton')));
       await tester.pumpAndSettle();
 
       expect(controller.module.id, isNot(equals('mandelbrot')));

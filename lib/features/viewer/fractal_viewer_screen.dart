@@ -428,13 +428,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void _recordHistory(BuildContext context) => _viewerRecordHistory(context);
 
   Widget _buildTopFab({
-    required String heroTag,
     required IconData icon,
     required String tooltip,
     required VoidCallback? onPressed,
   }) =>
       _viewerBuildTopFab(
-        heroTag: heroTag,
         icon: icon,
         tooltip: tooltip,
         onPressed: onPressed,
@@ -553,7 +551,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       top: topInset + 8,
                       right: AppSpacing.md,
                       child: _buildTopFab(
-                        heroTag: 'viewer_restore_ui_fab',
                         icon: Icons.fullscreen_exit_rounded,
                         tooltip: l10n.tooltipExitFullscreen,
                         onPressed: _toggleFullscreenUnobtrusive,
@@ -661,43 +658,53 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                     ),
 
-                  // Floating action buttons
+                  // Floating action buttons.
+                  // Bound the region vertically (top + bottom) so the inner
+                  // SingleChildScrollView gets a finite height and can actually
+                  // scroll. Without a `top`, the column of buttons was given
+                  // unbounded height and overflowed off the top of short
+                  // viewports (landscape phones / small web windows), pushing
+                  // the upper buttons off-screen and over the status chips.
                   if (!_fullscreenUnobtrusive)
                     Positioned(
+                      top: overlayTop,
+                      left: AppSpacing.lg,
                       right: AppSpacing.lg,
                       bottom:
                           MediaQuery.of(context).padding.bottom + AppSpacing.xl,
                       child: FractalViewControls(
                         fabController: _fabController,
                         isExporting: _exporting,
-                        onToggleFullscreen: _toggleFullscreenUnobtrusive,
-                        onOpenRandomFractal: () => _onRandomFractalFab(context),
-                        onOpenControls: () => _toggleControlsHud(),
-                        onOpenPresets: () => _openPresets(context),
-                        onResetView: () =>
-                            _activeController(context).resetView(),
-                        onResetParams: () =>
-                            _activeController(context).resetParams(),
-                        onRandomizeParams: () {
-                          HapticFeedback.mediumImpact();
-                          final activeController = _activeController(context);
-                          activeController.randomizeParams();
-                          activeController.recordInterestingSpot();
-                        },
-                        onDecreaseIterations: () =>
-                            _bumpIterations(context, -20),
-                        onIncreaseIterations: () =>
-                            _bumpIterations(context, 20),
-                        onCycleColorScheme: () => _cycleColorScheme(context),
-                        onOpenPalettePicker: () => _openPalettePicker(context),
                         kaleidoscopeEnabled:
                             activeController.kaleidoscopeEnabled,
-                        onToggleKaleidoscope: () =>
-                            _toggleKaleidoscope(context),
-                        onOpenExport: () => _openExport(context),
-                        onShareImage: () => _shareCurrentImage(context),
-                        onOpenLooper: () => _openLooper(context),
-                        onOpenWallpaper: () => _openWallpaper(context),
+                        actions: FractalViewControlActions(
+                          toggleFullscreen: _toggleFullscreenUnobtrusive,
+                          openRandomFractal: () => _onRandomFractalFab(context),
+                          openControls: () => _toggleControlsHud(),
+                          openPresets: () => _openPresets(context),
+                          resetView: () =>
+                              _activeController(context).resetView(),
+                          resetParams: () =>
+                              _activeController(context).resetParams(),
+                          randomizeParams: () {
+                            HapticFeedback.mediumImpact();
+                            final activeController = _activeController(context);
+                            activeController.randomizeParams();
+                            activeController.recordInterestingSpot();
+                          },
+                          decreaseIterations: () =>
+                              _bumpIterations(context, -20),
+                          increaseIterations: () =>
+                              _bumpIterations(context, 20),
+                          cycleColorScheme: () => _cycleColorScheme(context),
+                          openPalettePicker: () => _openPalettePicker(context),
+                          toggleKaleidoscope: () =>
+                              _toggleKaleidoscope(context),
+                          openExport: () => _openExport(context),
+                          shareImage: () => _shareCurrentImage(context),
+                          openLooper: () => _openLooper(context),
+                          openWallpaper: () => _openWallpaper(context),
+                        ),
                       ),
                     ),
 

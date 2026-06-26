@@ -6,128 +6,180 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+class FractalViewControlActions {
+  final VoidCallback toggleFullscreen;
+  final VoidCallback openRandomFractal;
+  final VoidCallback openControls;
+  final VoidCallback openPresets;
+  final VoidCallback resetView;
+  final VoidCallback resetParams;
+  final VoidCallback randomizeParams;
+  final VoidCallback decreaseIterations;
+  final VoidCallback increaseIterations;
+  final VoidCallback cycleColorScheme;
+  final VoidCallback openPalettePicker;
+  final VoidCallback toggleKaleidoscope;
+  final VoidCallback openExport;
+  final VoidCallback shareImage;
+  final VoidCallback openLooper;
+  final VoidCallback openWallpaper;
+
+  const FractalViewControlActions({
+    required this.toggleFullscreen,
+    required this.openRandomFractal,
+    required this.openControls,
+    required this.openPresets,
+    required this.resetView,
+    required this.resetParams,
+    required this.randomizeParams,
+    required this.decreaseIterations,
+    required this.increaseIterations,
+    required this.cycleColorScheme,
+    required this.openPalettePicker,
+    required this.toggleKaleidoscope,
+    required this.openExport,
+    required this.shareImage,
+    required this.openLooper,
+    required this.openWallpaper,
+  });
+}
+
 class FractalViewControls extends StatelessWidget {
   final AnimationController fabController;
   final bool isExporting;
-  final VoidCallback onToggleFullscreen;
-  final VoidCallback onOpenRandomFractal;
-  final VoidCallback onOpenControls;
-  final VoidCallback onOpenPresets;
-  final VoidCallback onResetView;
-  final VoidCallback onResetParams;
-  final VoidCallback onRandomizeParams;
-  final VoidCallback onDecreaseIterations;
-  final VoidCallback onIncreaseIterations;
-  final VoidCallback onCycleColorScheme;
-  final VoidCallback onOpenPalettePicker;
   final bool kaleidoscopeEnabled;
-  final VoidCallback onToggleKaleidoscope;
-  final VoidCallback onOpenExport;
-  final VoidCallback onShareImage;
-  final VoidCallback onOpenLooper;
-  final VoidCallback onOpenWallpaper;
+  final FractalViewControlActions actions;
 
   const FractalViewControls({
     super.key,
     required this.fabController,
     required this.isExporting,
-    required this.onToggleFullscreen,
-    required this.onOpenRandomFractal,
-    required this.onOpenControls,
-    required this.onOpenPresets,
-    required this.onResetView,
-    required this.onResetParams,
-    required this.onRandomizeParams,
-    required this.onDecreaseIterations,
-    required this.onIncreaseIterations,
-    required this.onCycleColorScheme,
-    required this.onOpenPalettePicker,
     required this.kaleidoscopeEnabled,
-    required this.onToggleKaleidoscope,
-    required this.onOpenExport,
-    required this.onShareImage,
-    required this.onOpenLooper,
-    required this.onOpenWallpaper,
+    required this.actions,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    final screenHeight = MediaQuery.of(context).size.height;
+    final actionButtons = <Widget>[
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerFullscreenButton'),
+        icon: Icons.fullscreen_rounded,
+        tooltip: l10n.tooltipFullscreen,
+        onPressed: isExporting ? null : actions.toggleFullscreen,
+        isCompact: true,
+        delay: const Duration(milliseconds: 60),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerControlsButton'),
+        icon: Icons.tune_rounded,
+        tooltip: l10n.tooltipOpenControls,
+        onPressed: isExporting ? null : actions.openControls,
+        isCompact: true,
+        delay: const Duration(milliseconds: 80),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerPresetsButton'),
+        icon: Icons.bookmarks_rounded,
+        tooltip: l10n.tooltipOpenPresets,
+        onPressed: isExporting ? null : actions.openPresets,
+        isCompact: true,
+        delay: const Duration(milliseconds: 100),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerResetButton'),
+        icon: Icons.center_focus_strong_rounded,
+        tooltip: l10n.tooltipResetViewWithParams,
+        onPressed: isExporting ? null : actions.resetView,
+        onLongPress: isExporting ? null : actions.resetParams,
+        isCompact: true,
+        delay: const Duration(milliseconds: 120),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerIterationsButton'),
+        icon: Icons.exposure_plus_1_rounded,
+        tooltip: l10n.tooltipIncreaseIterationsWithDecrease,
+        onPressed: isExporting ? null : actions.increaseIterations,
+        onLongPress: isExporting ? null : actions.decreaseIterations,
+        isCompact: true,
+        delay: const Duration(milliseconds: 140),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerColorCycleButton'),
+        icon: Icons.palette_rounded,
+        tooltip: l10n.tooltipColorSchemeWithPalette,
+        onPressed: isExporting ? null : actions.cycleColorScheme,
+        onLongPress: isExporting ? null : actions.openPalettePicker,
+        isCompact: true,
+        delay: const Duration(milliseconds: 160),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerKaleidoscopeButton'),
+        icon: Icons.filter_vintage_rounded,
+        tooltip: kaleidoscopeEnabled
+            ? l10n.tooltipKaleidoscopeOn
+            : l10n.tooltipKaleidoscopeOff,
+        onPressed: isExporting ? null : actions.toggleKaleidoscope,
+        isPrimary: kaleidoscopeEnabled,
+        isCompact: true,
+        delay: const Duration(milliseconds: 180),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerRandomParamsButton'),
+        icon: Icons.casino_rounded,
+        tooltip: l10n.randomize,
+        onPressed: isExporting ? null : actions.randomizeParams,
+        isCompact: true,
+        delay: const Duration(milliseconds: 200),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerRandomButton'),
+        icon: Icons.shuffle_rounded,
+        tooltip: l10n.tooltipRandomFractal,
+        onPressed: isExporting ? null : actions.openRandomFractal,
+        isPrimary: true,
+        isCompact: true,
+        delay: const Duration(milliseconds: 220),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerLooperButton'),
+        icon: Icons.loop_rounded,
+        tooltip: l10n.tooltipCameraLooper,
+        onPressed: isExporting ? null : actions.openLooper,
+        isCompact: true,
+        delay: const Duration(milliseconds: 240),
+      ),
+      _ExportWallpaperFab(
+        isExporting: isExporting,
+        l10n: l10n,
+        onOpenExport: actions.openExport,
+        onShareImage: actions.shareImage,
+        onOpenWallpaper: actions.openWallpaper,
+      ),
+    ];
 
     return FadeTransition(
       opacity: fabController,
       child: SlideTransition(
         position: Tween<Offset>(
-          begin: const Offset(0.5, 0),
+          begin: const Offset(0, 0.4),
           end: Offset.zero,
         ).animate(CurvedAnimation(
           parent: fabController,
           curve: AppAnimations.defaultCurve,
         )),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: screenHeight * 0.85),
+        child: Align(
+          alignment: Alignment.bottomRight,
           child: SingleChildScrollView(
-            reverse: true,
+            key: const ValueKey('viewerFabColumn'),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FloatingActionButtonWidget(
-                  key: const ValueKey('viewerFullscreenButton'),
-                  icon: Icons.fullscreen_rounded,
-                  tooltip: l10n.tooltipFullscreen,
-                  onPressed: isExporting ? null : onToggleFullscreen,
-                  delay: const Duration(milliseconds: 60),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                // Keep the viewer uncluttered: only core actions here.
-                FloatingActionButtonWidget(
-                  key: const ValueKey('viewerControlsButton'),
-                  icon: Icons.tune_rounded,
-                  tooltip: l10n.tooltipOpenControls,
-                  onPressed: isExporting ? null : onOpenControls,
-                  delay: const Duration(milliseconds: 120),
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                _QuickFabGrid(
-                  isExporting: isExporting,
-                  l10n: l10n,
-                  onOpenPresets: onOpenPresets,
-                  onResetView: onResetView,
-                  onResetParams: onResetParams,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                _TuneFabGrid(
-                  isExporting: isExporting,
-                  l10n: l10n,
-                  onDecreaseIterations: onDecreaseIterations,
-                  onIncreaseIterations: onIncreaseIterations,
-                  onCycleColorScheme: onCycleColorScheme,
-                  onOpenPalettePicker: onOpenPalettePicker,
-                  kaleidoscopeEnabled: kaleidoscopeEnabled,
-                  onToggleKaleidoscope: onToggleKaleidoscope,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                FloatingActionButtonWidget(
-                  key: const ValueKey('viewerRandomButton'),
-                  icon: Icons.casino_rounded,
-                  tooltip:
-                      '${l10n.randomize}. Long press for ${l10n.tooltipRandomFractal}',
-                  onPressed: isExporting ? null : onRandomizeParams,
-                  onLongPress: isExporting ? null : onOpenRandomFractal,
-                  isPrimary: true,
-                  delay: const Duration(milliseconds: 135),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                _ExportWallpaperFab(
-                  isExporting: isExporting,
-                  l10n: l10n,
-                  onOpenExport: onOpenExport,
-                  onShareImage: onShareImage,
-                  onOpenLooper: onOpenLooper,
-                  onOpenWallpaper: onOpenWallpaper,
-                ),
+                for (final action in actionButtons) ...[
+                  action,
+                  const SizedBox(height: AppSpacing.sm),
+                ],
               ],
             ),
           ),
@@ -142,7 +194,6 @@ class _ExportWallpaperFab extends StatelessWidget {
   final AppLocalizations l10n;
   final VoidCallback onOpenExport;
   final VoidCallback onShareImage;
-  final VoidCallback onOpenLooper;
   final VoidCallback onOpenWallpaper;
 
   const _ExportWallpaperFab({
@@ -150,7 +201,6 @@ class _ExportWallpaperFab extends StatelessWidget {
     required this.l10n,
     required this.onOpenExport,
     required this.onShareImage,
-    required this.onOpenLooper,
     required this.onOpenWallpaper,
   });
 
@@ -166,8 +216,6 @@ class _ExportWallpaperFab extends StatelessWidget {
           onOpenWallpaper();
         } else if (value == 'share') {
           onShareImage();
-        } else if (value == 'looper') {
-          onOpenLooper();
         } else {
           onOpenExport();
         }
@@ -179,20 +227,12 @@ class _ExportWallpaperFab extends StatelessWidget {
           child:
               _MenuRow(icon: Icons.download_rounded, label: l10n.tooltipExport),
         ),
-        const PopupMenuItem(
-          key: ValueKey('viewerShareMenuItem'),
+        PopupMenuItem(
+          key: const ValueKey('viewerShareMenuItem'),
           value: 'share',
           child: _MenuRow(
             icon: Icons.share_rounded,
-            label: 'Share to X / Reddit',
-          ),
-        ),
-        const PopupMenuItem(
-          key: ValueKey('viewerLooperMenuItem'),
-          value: 'looper',
-          child: _MenuRow(
-            icon: Icons.loop_rounded,
-            label: 'Looper / GIF',
+            label: l10n.shareToSocialTargets,
           ),
         ),
         PopupMenuItem(
@@ -202,9 +242,17 @@ class _ExportWallpaperFab extends StatelessWidget {
               icon: Icons.wallpaper_rounded, label: l10n.wallpaperTitle),
         ),
       ],
-      child: _FabMenuShell(
-        icon: Icons.ios_share_rounded,
+      child: Semantics(
+        label: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
+        button: true,
         enabled: !isExporting,
+        child: Tooltip(
+          message: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
+          child: _FabMenuShell(
+            icon: Icons.ios_share_rounded,
+            enabled: !isExporting,
+          ),
+        ),
       ),
     );
   }
@@ -264,127 +312,6 @@ class _FabMenuShell extends StatelessWidget {
         icon,
         size: 22,
         color: enabled ? AppColors.textSecondary : AppColors.textMuted,
-      ),
-    );
-  }
-}
-
-class _QuickFabGrid extends StatelessWidget {
-  final bool isExporting;
-  final AppLocalizations l10n;
-  final VoidCallback onOpenPresets;
-  final VoidCallback onResetView;
-  final VoidCallback onResetParams;
-
-  const _QuickFabGrid({
-    required this.isExporting,
-    required this.l10n,
-    required this.onOpenPresets,
-    required this.onResetView,
-    required this.onResetParams,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final action = isExporting ? null : onOpenPresets;
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.72),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.45)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButtonWidget(
-            key: const ValueKey('viewerPresetsButton'),
-            icon: Icons.bookmarks_rounded,
-            tooltip: l10n.tooltipOpenPresets,
-            onPressed: action,
-            isCompact: true,
-            delay: const Duration(milliseconds: 130),
-          ),
-          const SizedBox(width: 5),
-          FloatingActionButtonWidget(
-            key: const ValueKey('viewerResetButton'),
-            icon: Icons.center_focus_strong_rounded,
-            tooltip: '${l10n.resetView}. Long press for ${l10n.resetParams}',
-            onPressed: isExporting ? null : onResetView,
-            onLongPress: isExporting ? null : onResetParams,
-            isCompact: true,
-            delay: const Duration(milliseconds: 140),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TuneFabGrid extends StatelessWidget {
-  final bool isExporting;
-  final AppLocalizations l10n;
-  final VoidCallback onDecreaseIterations;
-  final VoidCallback onIncreaseIterations;
-  final VoidCallback onCycleColorScheme;
-  final VoidCallback onOpenPalettePicker;
-  final bool kaleidoscopeEnabled;
-  final VoidCallback onToggleKaleidoscope;
-
-  const _TuneFabGrid({
-    required this.isExporting,
-    required this.l10n,
-    required this.onDecreaseIterations,
-    required this.onIncreaseIterations,
-    required this.onCycleColorScheme,
-    required this.onOpenPalettePicker,
-    required this.kaleidoscopeEnabled,
-    required this.onToggleKaleidoscope,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.72),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.45)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButtonWidget(
-            key: const ValueKey('viewerIterationsButton'),
-            icon: Icons.exposure_plus_1_rounded,
-            tooltip: '${l10n.paramIterations} +. Long press for −',
-            onPressed: isExporting ? null : onIncreaseIterations,
-            onLongPress: isExporting ? null : onDecreaseIterations,
-            isCompact: true,
-            delay: const Duration(milliseconds: 165),
-          ),
-          const SizedBox(width: 5),
-          FloatingActionButtonWidget(
-            key: const ValueKey('viewerColorCycleButton'),
-            icon: Icons.palette_rounded,
-            tooltip: '${l10n.paramColorScheme}. Long press for palette',
-            onPressed: isExporting ? null : onCycleColorScheme,
-            onLongPress: isExporting ? null : onOpenPalettePicker,
-            isCompact: true,
-            delay: const Duration(milliseconds: 175),
-          ),
-          const SizedBox(width: 5),
-          FloatingActionButtonWidget(
-            key: const ValueKey('viewerKaleidoscopeButton'),
-            icon: Icons.filter_vintage_rounded,
-            tooltip:
-                kaleidoscopeEnabled ? 'Kaleidoscope on' : 'Kaleidoscope off',
-            onPressed: isExporting ? null : onToggleKaleidoscope,
-            isPrimary: kaleidoscopeEnabled,
-            isCompact: true,
-            delay: const Duration(milliseconds: 185),
-          ),
-        ],
       ),
     );
   }
@@ -454,6 +381,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
         child: Tooltip(
           message: widget.tooltip,
           child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTapDown: (widget.onPressed != null && !reduceMotion)
                 ? (_) {
                     setState(() => _isPressed = true);
@@ -475,12 +403,18 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
                 : null,
             onTap: widget.onPressed,
             onLongPress: widget.onLongPress,
-            child: reduceMotion
-                ? _buildButtonContent()
-                : ScaleTransition(
-                    scale: _scaleAnimation,
-                    child: _buildButtonContent(),
-                  ),
+            child: SizedBox.square(
+              dimension:
+                  widget.isCompact ? AccessibleSizing.minTouchTarget : 52,
+              child: Center(
+                child: reduceMotion
+                    ? _buildButtonContent()
+                    : ScaleTransition(
+                        scale: _scaleAnimation,
+                        child: _buildButtonContent(),
+                      ),
+              ),
+            ),
           ),
         ),
       ),
@@ -488,7 +422,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
   }
 
   Widget _buildButtonContent() {
-    return AnimatedContainer(
+    final container = AnimatedContainer(
       duration: AppAnimations.fast,
       width: widget.isCompact ? 42 : 52,
       height: widget.isCompact ? 42 : 52,
@@ -520,6 +454,33 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
             ? Colors.white
             : (_isPressed ? AppColors.primary : AppColors.textSecondary),
       ),
+    );
+
+    // Buttons with a long-press secondary action are otherwise invisible. Mark
+    // them with a small corner dot so the hidden affordance is discoverable.
+    // The action itself stays in the semantics label ("Long press for ...").
+    if (widget.onLongPress == null) return container;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        container,
+        Positioned(
+          top: 5,
+          right: 5,
+          child: IgnorePointer(
+            child: Container(
+              width: 5,
+              height: 5,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: widget.isPrimary
+                    ? Colors.white.withValues(alpha: 0.85)
+                    : AppColors.primary.withValues(alpha: 0.85),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

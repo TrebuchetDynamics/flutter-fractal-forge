@@ -32,6 +32,7 @@ class _HostState extends State<_Host> with SingleTickerProviderStateMixin {
 
 Future<bool> _pumpControls(
   WidgetTester tester, {
+  Locale locale = const Locale('en'),
   required bool isExporting,
   VoidCallback? onOpenExport,
   VoidCallback? onShareImage,
@@ -46,7 +47,7 @@ Future<bool> _pumpControls(
 }) async {
   await tester.pumpWidget(
     MaterialApp(
-      locale: const Locale('en'),
+      locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
@@ -54,23 +55,25 @@ Future<bool> _pumpControls(
           (controller) => FractalViewControls(
             fabController: controller,
             isExporting: isExporting,
-            onToggleFullscreen: () {},
-            onOpenRandomFractal: onOpenRandomFractal ?? () {},
-            onOpenControls: () {},
-            onOpenPresets: () {},
-            onResetView: () {},
-            onResetParams: onResetParams ?? () {},
-            onRandomizeParams: () {},
-            onDecreaseIterations: onDecreaseIterations ?? () {},
-            onIncreaseIterations: () {},
-            onCycleColorScheme: () {},
-            onOpenPalettePicker: onOpenPalettePicker ?? () {},
             kaleidoscopeEnabled: kaleidoscopeEnabled,
-            onToggleKaleidoscope: onToggleKaleidoscope ?? () {},
-            onOpenExport: onOpenExport ?? () {},
-            onShareImage: onShareImage ?? () {},
-            onOpenLooper: onOpenLooper ?? () {},
-            onOpenWallpaper: onOpenWallpaper,
+            actions: FractalViewControlActions(
+              toggleFullscreen: () {},
+              openRandomFractal: onOpenRandomFractal ?? () {},
+              openControls: () {},
+              openPresets: () {},
+              resetView: () {},
+              resetParams: onResetParams ?? () {},
+              randomizeParams: () {},
+              decreaseIterations: onDecreaseIterations ?? () {},
+              increaseIterations: () {},
+              cycleColorScheme: () {},
+              openPalettePicker: onOpenPalettePicker ?? () {},
+              toggleKaleidoscope: onToggleKaleidoscope ?? () {},
+              openExport: onOpenExport ?? () {},
+              shareImage: onShareImage ?? () {},
+              openLooper: onOpenLooper ?? () {},
+              openWallpaper: onOpenWallpaper,
+            ),
           ),
         ),
       ),
@@ -84,14 +87,12 @@ void main() {
   testWidgets('export FAB opens export/wallpaper actions', (tester) async {
     var exported = false;
     var shared = false;
-    var looper = false;
     var wallpaper = false;
     await _pumpControls(
       tester,
       isExporting: false,
       onOpenExport: () => exported = true,
       onShareImage: () => shared = true,
-      onOpenLooper: () => looper = true,
       onOpenWallpaper: () => wallpaper = true,
     );
 
@@ -111,11 +112,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(shared, isTrue);
 
-    await tester.tap(fab);
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const ValueKey('viewerLooperMenuItem')));
-    await tester.pumpAndSettle();
-    expect(looper, isTrue);
+    expect(find.byKey(const ValueKey('viewerLooperMenuItem')), findsNothing);
 
     await tester.tap(fab);
     await tester.pumpAndSettle();
@@ -142,20 +139,94 @@ void main() {
         find.byKey(const ValueKey('viewerColorCycleButton')), findsOneWidget);
     expect(
         find.byKey(const ValueKey('viewerKaleidoscopeButton')), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('viewerRandomParamsButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerRandomButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerLooperButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('viewerBailoutButton')), findsNothing);
+  });
+
+  testWidgets('quick control FABs keep accessible tap targets', (tester) async {
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+
+    const fabKeys = [
+      ValueKey('viewerFullscreenButton'),
+      ValueKey('viewerControlsButton'),
+      ValueKey('viewerPresetsButton'),
+      ValueKey('viewerResetButton'),
+      ValueKey('viewerIterationsButton'),
+      ValueKey('viewerColorCycleButton'),
+      ValueKey('viewerKaleidoscopeButton'),
+      ValueKey('viewerRandomParamsButton'),
+      ValueKey('viewerRandomButton'),
+      ValueKey('viewerLooperButton'),
+      ValueKey('viewerExportButton'),
+    ];
+
+    for (final key in fabKeys) {
+      final size = tester.getSize(find.byKey(key));
+      expect(size.width, greaterThanOrEqualTo(48.0), reason: '$key width');
+      expect(size.height, greaterThanOrEqualTo(48.0), reason: '$key height');
+    }
+  });
+
+  testWidgets('quick control FABs expose screen-reader labels', (tester) async {
+    final semantics = tester.ensureSemantics();
+
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+
+    for (final label in const [
+      'Fullscreen view',
+      'Controls',
+      'Presets',
+      'Reset View. Long press for Reset Params',
+      'Iterations +. Long press for −',
+      'Color Scheme. Long press for palette',
+      'Kaleidoscope off',
+      'Randomize',
+      'Random Fractal',
+      'Camera looper',
+      'Export / Wallpaper',
+    ]) {
+      expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
+    }
+
+    semantics.dispose();
+  });
+
+  testWidgets('quick control FAB labels localize to Spanish', (tester) async {
+    final semantics = tester.ensureSemantics();
+
+    await _pumpControls(
+      tester,
+      locale: const Locale('es'),
+      isExporting: false,
+      onOpenWallpaper: () {},
+    );
+
+    for (final label in const [
+      'Restablecer vista. Mantén presionado para restablecer parámetros',
+      'Iteraciones +. Mantén presionado para −',
+      'Esquema de color. Mantén presionado para paleta',
+      'Kaleidoscopio desactivado',
+      'Bucle de cámara',
+      'Exportar / Fondo de pantalla',
+    ]) {
+      expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
+    }
+
+    semantics.dispose();
   });
 
   testWidgets('merged FABs expose long-press secondary actions',
       (tester) async {
     var resetParams = false;
     var decreaseIterations = false;
-    var randomFractal = false;
     await _pumpControls(
       tester,
       isExporting: false,
       onResetParams: () => resetParams = true,
       onDecreaseIterations: () => decreaseIterations = true,
-      onOpenRandomFractal: () => randomFractal = true,
       onOpenWallpaper: () {},
     );
 
@@ -167,10 +238,27 @@ void main() {
         .longPress(find.byKey(const ValueKey('viewerIterationsButton')));
     await tester.pump();
     expect(decreaseIterations, isTrue);
+  });
 
-    await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
+  testWidgets('random fractal and looper are direct FAB actions',
+      (tester) async {
+    var randomFractal = false;
+    var looper = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onOpenRandomFractal: () => randomFractal = true,
+      onOpenLooper: () => looper = true,
+      onOpenWallpaper: () {},
+    );
+
+    await tester.tap(find.byKey(const ValueKey('viewerRandomButton')));
     await tester.pump();
     expect(randomFractal, isTrue);
+
+    await tester.tap(find.byKey(const ValueKey('viewerLooperButton')));
+    await tester.pump();
+    expect(looper, isTrue);
   });
 
   testWidgets('kaleidoscope FAB toggles kaleidoscope', (tester) async {

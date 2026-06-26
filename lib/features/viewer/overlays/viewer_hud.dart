@@ -1,25 +1,18 @@
 part of '../fractal_viewer_screen.dart';
 
 Widget _viewerBuildTopFab({
-  required String heroTag,
   required IconData icon,
   required String tooltip,
   required VoidCallback? onPressed,
 }) {
-  return Semantics(
-    label: tooltip,
-    button: true,
-    child: Tooltip(
-      message: tooltip,
-      child: FloatingActionButton.small(
-        heroTag: heroTag,
-        onPressed: onPressed,
-        elevation: 4,
-        backgroundColor: AppColors.surface.withValues(alpha: 0.9),
-        foregroundColor: AppColors.textPrimary,
-        child: Icon(icon),
-      ),
-    ),
+  // Reuse the custom FloatingActionButtonWidget so the top control matches the
+  // press animation, sizing, and accessibility behavior of the bottom FAB
+  // column instead of being a stock Material FAB.
+  return FloatingActionButtonWidget(
+    icon: icon,
+    tooltip: tooltip,
+    onPressed: onPressed,
+    isCompact: true,
   );
 }
 
