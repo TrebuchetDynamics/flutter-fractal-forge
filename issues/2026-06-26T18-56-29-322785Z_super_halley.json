@@ -1,0 +1,39 @@
+{
+  "createdAt": "2026-06-26T18:56:29.322785Z",
+  "moduleId": "super_halley",
+  "moduleName": "Super Halley",
+  "tags": [
+    "Other"
+  ],
+  "notes": "no shader",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=super_halley&iterations=198&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoxOTh9",
+  "params": {
+    "iterations": 198,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "note": "Verified super_halley is registered with a bundled shader and guarded the iteration-cap path so it cannot return missing-looking black before root coloring."
+  }
+}

@@ -20,8 +20,6 @@ void main() {
       expect(module!.shaderAsset, entry.shaderAsset);
       expect(File(entry.shaderAsset).existsSync(), isTrue,
           reason: entry.shaderAsset);
-      expect(File('assets/catalog_thumbs/${entry.id}.png').existsSync(), isTrue,
-          reason: entry.id);
       expect(module.defaultPreset.moduleId, entry.id);
       expect(module.defaultPreset.params['iterations'], 360);
       expect(shaderAssets.add(entry.shaderAsset), isTrue,

@@ -27,21 +27,6 @@ void main() {
         testWidgets(
           'no overflow at ${viewport.key} textScale=$textScale',
           (tester) async {
-            // Track overflow errors.
-            final overflowErrors = <String>[];
-            final originalOnError = FlutterError.onError;
-            FlutterError.onError = (details) {
-              final msg = details.exceptionAsString();
-              if (msg.contains('overflowed') ||
-                  msg.contains('OVERFLOW') ||
-                  msg.contains('RenderFlex')) {
-                overflowErrors.add(msg);
-              } else {
-                // Forward non-overflow errors to the default handler.
-                originalOnError?.call(details);
-              }
-            };
-
             try {
               tester.view.physicalSize =
                   viewport.value * tester.view.devicePixelRatio;
@@ -58,6 +43,19 @@ void main() {
               );
               await tester.pumpAndSettle();
 
+              final overflowErrors = <String>[];
+              Object? exception;
+              while ((exception = tester.takeException()) != null) {
+                final msg = exception.toString();
+                if (msg.contains('overflowed') ||
+                    msg.contains('OVERFLOW') ||
+                    msg.contains('RenderFlex')) {
+                  overflowErrors.add(msg);
+                } else {
+                  fail('Unexpected Flutter exception: $msg');
+                }
+              }
+
               if (overflowErrors.isNotEmpty) {
                 // ignore: avoid_print
                 print(
@@ -73,7 +71,6 @@ void main() {
                     'Overflow detected at ${viewport.key} textScale=$textScale',
               );
             } finally {
-              FlutterError.onError = originalOnError;
               tester.view.resetPhysicalSize();
               tester.view.resetDevicePixelRatio();
             }

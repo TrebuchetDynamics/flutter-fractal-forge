@@ -1,0 +1,10 @@
+10.1007/s40315-022-00458-0	Explosion Points and Topology of Julia Sets of Zorich Maps
+10.1017/etds.2021.123	Julia sets of Zorich maps
+10.5186/aasfm.2011.3610	Dynamics of a higher dimensional analog of the trigonometric functions
+10.1090/s1088-4173-2012-00236-6	Iteration of quasiregular tangent functions in three dimensions
+10.1017/s0305004121000438	Permutable quasiregular maps
+10.1090/s1088-4173-2010-00220-1	Lattès-type mappings on compact manifolds
+10.48550/arxiv.2107.13322	Explosion points and topology of Julia sets of Zorich maps
+	Escaping sets of entire and quasiregular maps
+	On the Measure of the Escaping Set of a Quasiregular Analogue of Sine
+	Fixpunkte und normale Familien quasiregulärer Abbildungen

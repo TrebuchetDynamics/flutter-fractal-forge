@@ -1,0 +1,10 @@
+	Analysis and Patterns of Nonlocal Klausmeier Model
+	Extinction and persistence criteria in non-local Klausmeier model of vegetation dynamics on flat landscapes
+	Blurring the Busse balloon: Patterns in a stochastic Klausmeier model
+	Busse balloon deformation and splitting by non-local interaction: the influence of grazing on a Klausmeier vegetation model
+	Confinement determines transport of a reaction-diffusion active matter front
+	A surprising regularizing effect of the nonlinear semigroup associated to the semilinear heat equation and applications to reaction diffusion systems
+10.1002/mma.9196	Well-posedness for a diffusion-reaction compartmental model simulating the spread of COVID-19
+10.1016/j.physd.2026.135230	Beyond water limitation in vegetation-autotoxicity patterning: a cross-diffusion model
+10.1088/1361-6544/ab1767	Stable planar vegetation stripe patterns on sloped terrain in dryland ecosystems
+10.1016/j.physd.2020.132637	The existence of localized vegetation patterns in a systematically reduced model for dryland vegetation

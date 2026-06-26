@@ -1,11 +1,9 @@
 import 'package:flutter/services.dart';
 
-/// Replayable thumbnail asset plan for one catalog entry.
+/// Legacy thumbnail asset plan for one catalog entry.
 ///
-/// Catalog IDs are stable public IDs such as `core.mandelbrot`, while asset
-/// thumbnails are stored by raw module ID under `assets/catalog_thumbs/`.
-/// Keeping that mapping pure makes thumbnail provenance testable without
-/// pumping the catalog widget.
+/// Catalog thumbnails now render at runtime. This mapping remains for the
+/// disabled static-asset fallback (`RUNTIME_CATALOG_THUMBNAILS=false`).
 final class CatalogThumbnailPlan {
   final String catalogId;
   final String assetId;
@@ -62,6 +60,44 @@ Future<Set<String>> _loadCatalogThumbnailAssetIds(AssetBundle bundle) async {
           asset.startsWith('assets/catalog_thumbs/') && asset.endsWith('.png'))
       .map((asset) => asset.split('/').last.replaceAll('.png', ''))
       .toSet();
+}
+
+final class CatalogThumbnailAvailability {
+  final CatalogThumbnailPlan plan;
+  final CatalogThumbnailLoadState state;
+
+  const CatalogThumbnailAvailability({
+    required this.plan,
+    required this.state,
+  });
+
+  factory CatalogThumbnailAvailability.fromCatalogId({
+    required String catalogId,
+    required Set<String>? availableThumbnailIds,
+    required bool manifestFailed,
+    required bool imageLoaded,
+    required bool imageError,
+  }) {
+    final plan = CatalogThumbnailPlan.fromCatalogId(catalogId);
+    final assetManifestLoaded = availableThumbnailIds != null || manifestFailed;
+    final hasExactAsset =
+        availableThumbnailIds?.contains(plan.assetId) ?? false;
+    return CatalogThumbnailAvailability(
+      plan: plan,
+      state: CatalogThumbnailLoadState(
+        assetManifestLoaded: assetManifestLoaded,
+        hasExactAsset: hasExactAsset,
+        imageLoaded: imageLoaded,
+        imageError: imageError,
+      ),
+    );
+  }
+
+  String get assetPath => plan.assetPath;
+  bool get shouldLoadImage => state.shouldLoadImage;
+  bool get showsLoadingPlaceholder => state.showsLoadingPlaceholder;
+  bool get showsFallbackPreview => state.showsFallbackPreview;
+  bool get isApproximatePreview => state.isApproximatePreview;
 }
 
 final class CatalogThumbnailLoadState {

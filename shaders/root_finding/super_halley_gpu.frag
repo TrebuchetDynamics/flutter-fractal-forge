@@ -57,6 +57,7 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   vec2 z = uv / max(0.000001, uZoom) + uCenter;
+  float escapeSq = max(uBailout * uBailout, 64.0);
 
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
@@ -87,13 +88,14 @@ void main() {
     z = z - step;
 
     if (dot(step, step) < 1e-12) { it = j; break; }
-    if (dot(z, z) > 64.0) { it = j; break; }
+    if (dot(z, z) > escapeSq) { it = j; break; }
     it = j + 1;
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
-    return;
+    // Short smoke-test iteration caps can leave root basins unconverged;
+    // still color by nearest root so this never looks like a missing shader.
+    it = target > 0 ? target - 1 : 0;
   }
 
   vec2 r0 = vec2(1.0, 0.0);

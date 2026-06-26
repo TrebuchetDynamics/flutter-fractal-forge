@@ -1,0 +1,10 @@
+10.25088/complexsystems.28.3.251	Lenia: Biology of Artificial Life
+10.1162/isal_a_00297	Lenia and Expanded Universe
+10.1162/isal_a_00827	Toward Artificial Open-Ended Evolution within Lenia using Quality-Diversity
+10.1145/3583133.3590670	Towards Large-Scale Simulations of Open-Ended Evolution in Continuous Cellular Automata
+10.48550/arxiv.2212.07906	Flow-Lenia: Towards open-ended evolution in cellular automata through mass conservation and parameter localization
+10.1162/artl_a_00471	Flow-Lenia: Emergent Evolutionary Dynamics in Mass Conservative Continuous Cellular Automata
+10.54854/imi2021.01	Towards Self-organized Control: Using Neural Cellular Automata to Robustly Control a Cart-pole Agent
+10.1162/artl_a_00451	Self-Reproduction and Evolution in Cellular Automata: 25 Years After Evoloops
+10.1126/sciadv.adp0834	Discovering sensorimotor agency in cellular automata using diversity search
+10.48550/arxiv.2305.13784	Implementation of Lenia as a Reaction-Diffusion System

@@ -11,12 +11,12 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog raw unique IDs       : 452
+/// - Escape-time catalog raw unique IDs       : 466
 /// - Raymarched-3D catalog unique IDs         :  10
 /// - Custom hand-built modules                :   7
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital)
-/// - Total ModuleRegistry modules (non-debug) : 936
+/// - Total ModuleRegistry modules (non-debug) : 945
 ///
 /// The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
@@ -31,8 +31,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 458', () {
-      expect(catalog.length, 458,
+    test('total entry count is 466', () {
+      expect(catalog.length, 466,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
@@ -116,10 +116,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 937 (non-debug)', () {
+    test('total module count is 945 (non-debug)', () {
       // Debug-only diagnostic modules are excluded in release/test builds
       // because kDebugMode is false in test environments.
-      expect(registry.modules.length, 937,
+      expect(registry.modules.length, 945,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });

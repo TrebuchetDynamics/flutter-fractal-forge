@@ -1,0 +1,5 @@
+10.32614/cran.package.jacobi	jacobi: Jacobi Theta Functions and Related Functions
+10.1017/cbo9780511617867.009	The Weierstrass elliptic functions
+10.1017/cbo9781107359901.003	The Weierstrass functions
+10.1007/978-3-031-30265-7_13	The Weierstrass &amp;#x2118;-Function
+10.32614/cran.package.elliptic	elliptic: Weierstrass and Jacobi Elliptic Functions

@@ -1,0 +1,5 @@
+10.32614/cran.package.ifs	ifs: Iterated Function Systems
+10.2307/1913973	The Iterated Minimum Distance Estimator and the Quasi-Maximum Likelihood Estimator
+10.1007/978-3-319-27857-5_10	Interactive Procedural Building Generation Using Kaleidoscopic Iterated Function Systems
+10.1145/3450626.3459937	An unbiased ray-marching transmittance estimator
+10.1201/9781439864708-10	Deterministic Theory of Iterated Function Systems

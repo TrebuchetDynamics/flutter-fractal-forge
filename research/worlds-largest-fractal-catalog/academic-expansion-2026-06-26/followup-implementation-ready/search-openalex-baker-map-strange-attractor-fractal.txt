@@ -1,0 +1,10 @@
+10.3389/fphys.2010.00015	Fractals in the nervous system: conceptual implications for theoretical neuroscience
+10.1088/0967-3334/30/8/005	Complexity analysis of EEG in patients with schizophrenia using fractal dimension
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.3390/e20010012	A New Chaotic System with Multiple Attractors: Dynamic Analysis, Circuit Realization and S-Box Design
+10.1186/s13662-020-03040-x	On the modeling of the interaction between tumor growth and the immune system using some new fractional and fractional-fractal operators
+10.1007/s10207-022-00588-5	Survey on image encryption techniques using chaotic maps in spatial, transform and spatiotemporal domains
+10.1186/s41235-018-0091-x	Temporal fractals in movies and mind
+10.1088/0031-8949/1988/t20/003	3. Driven Systems, Cantor Sets and Strange Attractors
+10.1068/b37132	Spatial Accessibility to Amenities in Fractal and Nonfractal Urban Patterns
+10.1006/tpbi.1998.1365	Spatial Structure, Environmental Heterogeneity, and Population Dynamics: Analysis of the Coupled Logistic Map

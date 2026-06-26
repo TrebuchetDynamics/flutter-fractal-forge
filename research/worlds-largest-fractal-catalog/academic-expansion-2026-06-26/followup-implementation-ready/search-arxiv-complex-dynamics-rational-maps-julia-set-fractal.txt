@@ -1,0 +1,10 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Laplacians on Julia sets of rational maps
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	Julia sets of rational maps with rotational symmetries
+10.1017/etds.2013.53	Rational maps whose Julia sets are Cantor circles
+	Symmetries for Julia sets of rational maps
+	Quasisymmetric geometry of the Cantor circles as the Julia sets of rational maps
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	The dynamics of hyperbolic rational maps with Cantor Julia sets
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings

@@ -1,0 +1,10 @@
+10.1126/science.1179047	Reaction-Diffusion Model as a Framework for Understanding Biological Pattern Formation
+10.1038/369215a0	Experimental observation of self-replicating spots in a reaction–diffusion system
+10.1098/rstb.2014.0218	Forging patterns and making waves from biology to geology: a commentary on Turing (1952) ‘The chemical basis of morphogenesis’
+10.1073/pnas.0808622106	Interactions between zebrafish pigment cells responsible for the generation of Turing patterns
+10.7554/elife.14022	High-throughput mathematical analysis identifies Turing networks for patterning with equally diffusing signals
+10.1038/259659a0	Hypothesis for origin of planktonic patchiness
+10.1145/122718.122749	Generating textures on arbitrary surfaces using reaction-diffusion
+10.1016/j.cnsns.2017.01.008	Turing pattern formation on the sphere for a morphochemical reaction-diffusion model for electrodeposition
+10.1007/s11071-012-0330-5	Pattern formation of an epidemic model with diffusion
+10.1090/s0002-9947-05-04010-9	Turing patterns in the Lengyel-Epstein system for the CIMA reaction

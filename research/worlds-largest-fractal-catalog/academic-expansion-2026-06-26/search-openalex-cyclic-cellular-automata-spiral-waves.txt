@@ -1,0 +1,10 @@
+10.1007/bf01890834	Threshold-range scaling of excitable cellular automata
+10.1080/10586458.1993.10504277	Asymptotic Behavior of Excitable Cellular Automata
+	Cellular automata methods in mathematical physics
+10.1038/srep38608	Biodiversity in models of cyclic dominance is preserved by heterogeneity in site-specific invasion rates
+10.1101/2020.06.29.176891	Cellular logics bringing the symmetry breaking in spiral nucleation revealed by trans-scale imaging
+10.1109/tsipn.2015.2448520	Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing
+10.1016/j.chaos.2022.113004	Competition of alliances in a cyclically dominant eight-species population
+10.1142/s0218127498000917	Spiral Waves are Stable in Discrete Element Models of Two-Dimensional Homogeneous Excitable Media
+10.1039/c3mb70602h	Evolutionary game theory: cells as players
+10.3934/nhm.2006.1.241	Models of aggregation in &lt;em&gt;dictyostelium discoideum&lt;/em&gt;: On the track of spiral waves

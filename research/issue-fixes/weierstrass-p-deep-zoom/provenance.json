@@ -1,0 +1,55 @@
+{
+  "question": "Why does Weierstrass-p fail at low deep zoom, and what minimal validated fix is appropriate?",
+  "rforge_version": "rforge v0.1.10 (d0f6612, 2026-06-26T18:09:12Z)",
+  "timestamp": "2026-06-26T19:48:14.583380Z",
+  "depth": "standard",
+  "queries": [
+    "Weierstrass elliptic p function Laurent series lattice",
+    "Weierstrass p function numerical evaluation elliptic functions",
+    "float32 precision deep zoom fractal rendering shader"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "search_stats": {
+    "raw": "Source coverage for .\n  arxiv                    15 records (3 files)\n  crossref                 15 records (3 files)\n  openalex                 10 records (3 files)\n  semantic-scholar         3 records (3 files)\n  stats                    0 records (1 files)\n\nTotal unique DOIs: 32",
+    "openalex": 10,
+    "crossref": 15,
+    "semantic-scholar": 3,
+    "arxiv": 15,
+    "total_unique_dois": 32
+  },
+  "citation_expand_attempted": [
+    "10.1090/s0002-9939-2011-11079-7"
+  ],
+  "citation_expand_succeeded": [
+    "10.1090/s0002-9939-2011-11079-7"
+  ],
+  "outputs": [
+    "citation-expand-weierstrass-julia.txt",
+    "citation-graph-weierstrass-julia.json",
+    "citation-report-weierstrass-julia.log",
+    "citation-report-weierstrass-julia.md",
+    "report.md",
+    "rforge-version.txt",
+    "search-arxiv-float32-precision-deep-zoom-fractal-rendering-shader.txt",
+    "search-arxiv-weierstrass-elliptic-p-function-laurent-series-lattice.txt",
+    "search-arxiv-weierstrass-p-function-numerical-evaluation-elliptic-functions.txt",
+    "search-crossref-float32-precision-deep-zoom-fractal-rendering-shader.txt",
+    "search-crossref-weierstrass-elliptic-p-function-laurent-series-lattice.txt",
+    "search-crossref-weierstrass-p-function-numerical-evaluation-elliptic-functions.txt",
+    "search-openalex-float32-precision-deep-zoom-fractal-rendering-shader.txt",
+    "search-openalex-weierstrass-elliptic-p-function-laurent-series-lattice.txt",
+    "search-openalex-weierstrass-p-function-numerical-evaluation-elliptic-functions.txt",
+    "search-semantic-scholar-float32-precision-deep-zoom-fractal-rendering-shader.txt",
+    "search-semantic-scholar-weierstrass-elliptic-p-function-laurent-series-lattice.txt",
+    "search-semantic-scholar-weierstrass-p-function-numerical-evaluation-elliptic-functions.txt",
+    "search-stats.txt"
+  ],
+  "errors": [
+    "Semantic Scholar search files contain HTTP 429 rate-limit responses; OpenAlex float32 query returned no records."
+  ]
+}

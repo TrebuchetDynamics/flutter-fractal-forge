@@ -1,0 +1,5 @@
+	Tiling Iterated Function Systems
+	Fractal Homeomorphism for Bi-affine Iterated Function Systems
+	The Chaos Game on a General Iterated Function System
+	The Hutchinson-Barnsley theory for generalized iterated function systems by means of infinite iterated function systems
+	Strongly-Fibred Iterated Function Systems and the Barnsley--Vince triangle

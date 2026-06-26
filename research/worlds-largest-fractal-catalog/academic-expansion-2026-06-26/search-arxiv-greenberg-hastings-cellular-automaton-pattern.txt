@@ -1,0 +1,10 @@
+	The X-rule: universal computation in a non-isotropic Life-like Cellular Automaton
+	A Personal History of the Hastings-Michalakis Proof of Hall Conductance Quantization
+10.22331/q-2023-03-09-940	A cellular automaton decoder for a noise-bias tailored color code
+	A Note on Elementary Cellular Automata Classification
+	A hierarchical cellular automaton model of distributed traffic signal control
+	On Decidability Properties of One-Dimensional Cellular Automata
+	Fault-Tolerant Hastings-Haah Codes in the Presence of Dead Qubits
+	Isotropic Cellular Automata: the DDLab iso-rule paradigm
+	Cellular Automata, PDEs, and Pattern Formation
+	Pattern formation of generalized fuzzy elementary cellular automaton

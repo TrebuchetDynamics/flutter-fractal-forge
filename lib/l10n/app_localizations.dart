@@ -866,6 +866,24 @@ abstract class AppLocalizations {
   /// **'Camera looper'**
   String get tooltipCameraLooper;
 
+  /// No description provided for @tooltipFractalMusicOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractal Music on'**
+  String get tooltipFractalMusicOn;
+
+  /// No description provided for @tooltipFractalMusicOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractal Music off'**
+  String get tooltipFractalMusicOff;
+
+  /// No description provided for @fractalMusicUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractal Music unavailable. Check your audio device.'**
+  String get fractalMusicUnavailable;
+
   /// No description provided for @shareToSocialTargets.
   ///
   /// In en, this message translates to:

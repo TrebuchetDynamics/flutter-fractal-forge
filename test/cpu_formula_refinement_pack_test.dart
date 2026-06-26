@@ -10,6 +10,7 @@ void main() {
       expect(hasNativeCpuFormula('phoenix'), isTrue);
       expect(hasNativeCpuFormula('multibrot4'), isTrue);
       expect(hasNativeCpuFormula('multibrot5'), isTrue);
+      expect(hasNativeCpuFormula('weierstrass_p'), isTrue);
     });
 
     test('module-aware CPU defaults are stable', () {

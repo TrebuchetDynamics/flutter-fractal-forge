@@ -1,0 +1,10 @@
+10.47974/jim-1569	Rational map has a Cantor Circle Julia set and a Sierpinski Carpet Julia set of degree m
+10.24033/ast.479	Rational maps with disconnected Julia set
+10.1515/9783110889314.114	5 The Geometry of the Julia Set
+10.1016/j.topol.2018.02.028	The shape of the Julia set of an expanding rational map
+10.1007/978-1-4612-4422-6_4	Properties of the Julia Set
+10.1090/surv/219/20	Connectedness of the Julia set
+10.1090/surv/219/18	Local structure of the Julia set
+10.4064/fm206-0-3	Rational Misiurewicz maps for which the Julia set is not the whole sphere
+10.4007/annals.2008.168.127	On local connectivity for the Julia set of rational maps: Newton’s famous example
+10.1214/aop/1176989536	Brownian Motion and the Equilibrium Measure on the Julia Set of a Rational Mapping

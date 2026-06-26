@@ -1,0 +1,10 @@
+10.1039/d5ra00635j	Radially evolving spiral wave patterns in the Gierer–Meinhardt reaction–diffusion system
+10.1098/rsta.2020.0277	Unified framework for localized patterns in reaction–diffusion systems; the Gray–Scott and Gierer–Meinhardt cases
+10.3390/buildings13081972	3D-Printed Bioreceptive Tiles of Reaction–Diffusion (Gierer–Meinhardt Model) for Multi-Scale Algal Strains’ Passive Immobilization
+10.1109/ccdc62350.2024.10588286	Optimization of Spatiotemporal Dynamics in the Gierer-Meinhardt Model using a PD Control Strategy
+10.12962/limits.v22i2.3471	Diffusion-Advection Reaction in Gierer-Meindhart System
+10.1007/s11071-021-06618-6	Turing patterns of Gierer–Meinhardt model on complex networks
+10.1088/1361-6544/abcb09	Competition instabilities of spike patterns for the 1D Gierer–Meinhardt and Schnakenberg models are subcritical
+10.1007/s00332-021-09688-3	Multi-spike Patterns in the Gierer–Meinhardt System with a Nonzero Activator Boundary Flux
+10.1137/20m135707x	An Asymptotic Analysis of Localized Three-Dimensional Spot Patterns for the Gierer-Meinhardt Model: Existence, Linear Stability, and Slow Dynamics
+	A P ] 2 8 A ug 2 02 1 THE STOCHASTIC GIERER-MEINHARDT SYSTEM

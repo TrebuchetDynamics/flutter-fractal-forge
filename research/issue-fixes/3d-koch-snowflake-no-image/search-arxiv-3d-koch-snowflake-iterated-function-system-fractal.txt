@@ -1,0 +1,5 @@
+	Families of Periodic Orbits of the Koch Snowflake Fractal Billiard
+10.1039/c6cp07496k	Small-angle scattering from the Cantor surface fractal on the plane and the Koch snowflake
+10.4171/jfg/155	Tube Formulae for Generalized von Koch Fractals through Scaling Functional Equations
+	A Fractal Comparison of Escher and Koch Tessellations
+	A gasket construction of the Koch snowflake and variations

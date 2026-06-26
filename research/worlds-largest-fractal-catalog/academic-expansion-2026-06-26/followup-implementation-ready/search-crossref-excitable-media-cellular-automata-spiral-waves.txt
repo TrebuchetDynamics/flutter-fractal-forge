@@ -1,0 +1,10 @@
+10.1007/978-94-011-1156-0_4	Spiral Waves in Weakly Excitable Media
+10.1142/s0217984997001572	Spiral Waves in a Cyclic Cellular Automaton Model for Excitable Media
+10.1007/978-1-4684-9405-1_15	Contagion in Excitable Media
+10.1007/978-3-031-78757-7_10	Developmental Construction of Face-Centered Cubic Cellular Automata Inspired by Excitable Media
+10.1007/3-540-54890-4_178	Spiral waves in excitable media
+10.1007/978-1-4899-3683-7_17	Randomized Automata for Isotropic Modelling of two- and Three-Dimensional Waves And Spatiotemporal Chaos in Excitable Media
+10.1103/physrevlett.68.2090	Linear stability analysis of rotating spiral waves in excitable media
+10.2139/ssrn.4047679	Impact of Local Timescales in a Cellular Automata Model of Excitable Media
+10.1007/978-1-4899-3683-7_33	Spiral Arm Waves in Galaxies
+10.23919/acc45564.2020.9147623	Reinforcement Learning for Elimination of Reentrant Spiral Waves in Excitable Media

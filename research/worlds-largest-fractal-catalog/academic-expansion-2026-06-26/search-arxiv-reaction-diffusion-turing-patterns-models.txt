@@ -1,0 +1,10 @@
+	Unveiling Biological Models Through Turing Patterns
+10.1007/s11587-016-0267-y	Effects of cross-diffusion on Turing patterns in a reaction-diffusion Schnakenberg model
+10.1103/physreve.55.5291	Effect of randomness and anisotropy on Turing patterns in reaction-diffusion systems
+	Turing Machines and Understanding Computational Complexity
+10.1007/s00285-016-1035-z	Instability of Turing patterns in reaction-diffusion-ODE systems
+	A surprising regularizing effect of the nonlinear semigroup associated to the semilinear heat equation and applications to reaction diffusion systems
+10.1016/j.matt.2025.102513	Imperfect Turing Patterns: Diffusiophoretic Assembly of Hard Spheres via Reaction-Diffusion Instabilities
+	On the speed of propagation in Turing patterns for reaction-diffusion systems
+	Spatial Heterogeneity Localizes Turing Patterns in Reaction-Cross-Diffusion Systems
+	Long-time shadow limit for reaction-diffusion-ODE systems

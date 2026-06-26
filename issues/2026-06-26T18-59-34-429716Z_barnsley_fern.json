@@ -1,0 +1,43 @@
+{
+  "createdAt": "2026-06-26T18:59:34.429716Z",
+  "moduleId": "barnsley_fern",
+  "moduleName": "Barnsley Fern",
+  "tags": [
+    "Other"
+  ],
+  "notes": "dosnt look correct",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=barnsley_fern&zoom=6.739596118112223&x=0.0015931811649352312&y=0.10223712772130966&iterations=163&bailout=7.9&colorScheme=23&p=eyJiYWlsb3V0Ijo3LjksImNvbG9yU2NoZW1lIjoyMywiaXRlcmF0aW9ucyI6MTYzfQ",
+  "params": {
+    "iterations": 163,
+    "bailout": 7.9,
+    "colorScheme": 23
+  },
+  "view": {
+    "zoom": 6.739596118112223,
+    "x": 0.0015931811649352312,
+    "y": 0.10223712772130966,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "fixedAt": "2026-06-26T19:16:25Z",
+  "fixes": [
+    "Replaced inverse-IFS hit test with deterministic forward Barnsley IFS point-distance render so the fern silhouette matches the classic attractor."
+  ],
+  "resolution": {
+    "status": "fixed",
+    "note": "Validated shader uses the classic forward Barnsley IFS probabilities/coefficients instead of the previous inverse-IFS hit test."
+  }
+}

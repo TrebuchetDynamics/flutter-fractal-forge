@@ -1,0 +1,10 @@
+10.1016/0375-9601(83)90751-x	Fractal dimension of the strange attractor in a piecewise linear two-dimensional map
+10.1007/bf02847692	Conversion of a chaotic attractor into a strange nonchaotic attractor in an one dimensional map and BVP oscillator
+10.1016/0375-9601(83)90960-x	Quantization of a two-dimensional map with a strange attractor
+10.1016/0167-2789(85)90137-x	The fractal dimension of the two-well potential strange attractor
+10.3182/20120620-3-mx-3012.00023	Circle Like Strange Attractor in a Piecewise Smooth Map
+10.3840/07000931	Strange Attractor of Gumowski-Mira
+10.3840/000931	Strange Attractor of Gumowski-Mira
+10.1016/0375-9601(84)90258-5	Structure of strange attractor and homoclinic bifurcation of two-dimensional cubic map
+10.4135/9781446247501.n3722	STRANGE ATTRACTOR
+10.1119/1.17974	Fractal dimension of the strange attractor of the bouncing ball circuit

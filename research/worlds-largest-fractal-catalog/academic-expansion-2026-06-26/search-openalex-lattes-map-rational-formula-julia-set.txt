@@ -1,0 +1,10 @@
+	Lattes Maps and Combinatorial Expansion
+10.4310/jdg/1214460037	Laminations in holomorphic dynamics
+10.2307/1999287	Moments of Balanced Measures on Julia Sets
+	Motions of Julia sets and dynamical stability in several complex variables
+10.1090/s0273-0979-1994-00519-1	Frontiers in complex dynamics
+10.3934/jmd.2019014	Lattès maps and the interior of the bifurcation locus
+10.1142/9789813272880_0131	THERMODYNAMIC FORMALISM METHODS IN ONE-DIMENSIONAL REAL AND COMPLEX DYNAMICS
+10.1145/3133904	FairSquare: probabilistic verification of program fairness
+	Dynamical Classification of some Birational Maps of C2
+10.1090/s0273-0979-1986-15463-7	Michael’s problem and the Poincaré-Fatou-Bieberbach phenomenon

@@ -1,0 +1,10 @@
+10.1080/00207160.2025.2561050	Higher-order root-finding algorithm and its applications
+10.1155/2020/5070363	Higher-Order Root-Finding Algorithms and Their Basins of Attraction
+10.3390/math9161996	A New Nonlinear Ninth-Order Root-Finding Method with Error Analysis and Basins of Attraction
+10.3390/fractalfract6100572	Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction
+10.1007/s10910-022-01371-6	An efficient class of optimal sixteenth-order root-finding methods and their basins of attraction
+10.3390/fractalfract8030133	A Class of Sixth-Order Iterative Methods for Solving Nonlinear Systems: The Convergence and Fractals of Attractive Basins
+10.1109/acc.2009.5160587	Derivative-free family of higher order root finding methods
+10.1109/acc.2007.4282965	On the Derivation of Higher Order Root-Finding Methods
+	New Higher Order Root Finding Algorithm Using Interval Analysis ∗
+10.3390/math10071144	A Novel n-Point Newton-Type Root-Finding Method of High Computational Efficiency

@@ -1,0 +1,10 @@
+10.3390/fractalfract10040245	A Computational Framework for Escape Dynamics and Fractal Structures in Transcendental Complex Maps
+10.3390/axioms14060404	Generalized Logistic Maps in the Complex Plane: Structure, Symmetry, and Escape-Time Dynamics
+10.2139/ssrn.5361537	Escape from a Black Hole: An Approach using Fractal Time Dynamics
+10.3390/fractalfract5020055	On the Connectivity Measurement of the Fractal Julia Sets Generated from Polynomial Maps: A Novel Escape-Time Algorithm
+10.1063/1.5095111	A comparison of fractal dimension estimations for filled Julia fractal sets based on the escape time algorithm
+10.1007/s11071-015-1930-7	Escape dynamics and fractal basin boundaries in Seyfert galaxies
+10.1080/17513470701210485	Fractal art using variations on escape time algorithms in the complex plane
+10.1007/s11071-016-2782-5	Fractal basin boundaries and escape dynamics in a multiwell potential
+10.1007/978-3-319-72179-8_5	Applications: Escape Rates for Multimodal Maps and One-Dimensional Complex Dynamics
+10.1007/978-3-319-24675-8_8	Fractal Methods in the Investigation of the Time Dynamics of Fires: An Overview

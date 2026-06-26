@@ -1,0 +1,1 @@
+wrote citation graph with 60 edges to citation-graph-coupled-logistic-lattice.json

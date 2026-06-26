@@ -1,0 +1,10 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+10.1017/etds.2013.53	Rational maps whose Julia sets are Cantor circles
+	Julia sets of rational maps with rotational symmetries
+	Puzzle Pieces, Bi-accessibility, and Connectivity of the Julia Set for Generalized Blaschke Products
+	Rational maps whose Julia sets are generalized Sierpiński gaskets
+	Laplacians on Julia sets of rational maps
+	Quasisymmetric geometry of the Cantor circles as the Julia sets of rational maps
+	Rational maps with Cantor bubble Julia sets
+	Symmetries for Julia sets of rational maps
+	Checkerboard Julia Sets for Rational Maps

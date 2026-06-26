@@ -58,7 +58,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon/
-    - assets/catalog_thumbs/
   shaders:
     - shaders/diagnostic/test_always_red.frag
     - shaders/diagnostic/test_uniform_only.frag
@@ -128,6 +127,7 @@ flutter:
     - shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag
     - shaders/escape_time_family/transcendental_maps/taylor_gpu.frag
     - shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/lattes_map_julia_gpu.frag
     - shaders/ifs_and_geometric/barnsley_j2_gpu.frag
     - shaders/ifs_and_geometric/barnsley_j3_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag
@@ -190,6 +190,8 @@ flutter:
     - shaders/ifs_and_geometric/penrose_tiling_gpu.frag
     - shaders/ifs_and_geometric/fibonacci_word_gpu.frag
     - shaders/ifs_and_geometric/rauzy_gpu.frag
+    - shaders/ifs_and_geometric/arnoux_rauzy_fractal_gpu.frag
+    - shaders/ifs_and_geometric/dual_substitution_tiling_gpu.frag
     - shaders/ifs_and_geometric/pinwheel_gpu.frag
     - shaders/ifs_and_geometric/chair_tiling_gpu.frag
     - shaders/ifs_and_geometric/z_order_curve_gpu.frag
@@ -255,6 +257,9 @@ flutter:
     - shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag
     - shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag
     - shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag
+    - shaders/cellular_and_stochastic/cyclic_cellular_automaton_gpu.frag
+    - shaders/cellular_and_stochastic/greenberg_hastings_ca_gpu.frag
+    - shaders/cellular_and_stochastic/klausmeier_vegetation_gpu.frag
     - shaders/cellular_and_stochastic/langton_ant_gpu.frag
     - shaders/cellular_and_stochastic/sandpile_gpu.frag
     - shaders/cellular_and_stochastic/dla_gpu.frag

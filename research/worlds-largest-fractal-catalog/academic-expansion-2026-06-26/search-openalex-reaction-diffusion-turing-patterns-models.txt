@@ -1,0 +1,10 @@
+10.1126/science.1179047	Reaction-Diffusion Model as a Framework for Understanding Biological Pattern Formation
+10.1103/physrevlett.88.208303	Spatial Resonances and Superposition Patterns in a Reaction-Diffusion Model with Interacting Turing Modes
+10.1016/s0167-2789(03)00068-x	Pattern formation in spatially heterogeneous Turing reaction–diffusion models
+10.1103/physrevlett.92.198303	Stable Squares and Other Oscillatory Turing Patterns in a Reaction-Diffusion Model
+10.1038/376765a0	A reaction–diffusion wave on the skin of the marine angelfish Pomacanthus
+10.1016/j.cnsns.2017.01.008	Turing pattern formation on the sphere for a morphochemical reaction-diffusion model for electrodeposition
+10.1016/j.jtbi.2005.10.016	Mixed-mode pattern in Doublefoot mutant mouse limb—Turing reaction–diffusion model on a growing domain during limb development
+10.1016/j.jde.2015.03.017	Turing patterns in a reaction–diffusion model with the Degn–Harrison reaction scheme
+10.1038/369215a0	Experimental observation of self-replicating spots in a reaction–diffusion system
+10.1063/1.464316	Lattice Boltzmann computations for reaction-diffusion equations

@@ -1,0 +1,5 @@
+10.1090/s0025-5718-1987-0866113-7	Speeding the Pollard and elliptic curve methods of factorization
+10.1090/s0273-0979-07-01153-6	A normal form for elliptic curves
+10.1007/jhep01(2019)023	Elliptic Feynman integrals and pure functions
+10.1090/s0025-5718-1985-0777280-6	Elliptic curves over finite fields and the computation of square roots mod 𝑝
+10.1007/jhep05(2018)093	Elliptic polylogarithms and iterated integrals on elliptic curves. Part I: general formalism

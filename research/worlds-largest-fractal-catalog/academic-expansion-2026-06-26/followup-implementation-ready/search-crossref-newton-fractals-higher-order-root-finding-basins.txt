@@ -1,0 +1,10 @@
+10.5120/8821-2742	Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals
+10.1109/acc.2009.5160587	Derivative-free family of higher order root finding methods
+10.1155/2020/5070363	Higher-Order Root-Finding Algorithms and Their Basins of Attraction
+10.3390/math9161996	A New Nonlinear Ninth-Order Root-Finding Method with Error Analysis and Basins of Attraction
+10.1109/acc.2007.4282965	On the Derivation of Higher Order Root-Finding Methods
+10.1016/j.chaos.2017.04.021	Nonlinear embeddings: Applications to analysis, fractals and polynomial root finding
+10.1007/s00209-023-03232-7	Correction to: On the basins of attraction of a one-dimensional family of root finding algorithms: from Newton to Traub
+10.1007/s00209-023-03215-8	On the basins of attraction of a one-dimensional family of root finding algorithms: from Newton to Traub
+10.1007/978-3-540-77851-6_4	Families of Simultaneous Methods of Higher Order: Part I
+10.1007/978-3-540-77851-6_5	Families of Simultaneous Methods of Higher Order: Part II

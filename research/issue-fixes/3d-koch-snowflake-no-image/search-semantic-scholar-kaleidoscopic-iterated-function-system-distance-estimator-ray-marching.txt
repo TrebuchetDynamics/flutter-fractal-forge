@@ -1,0 +1,5 @@
+10.1007/s13246-025-01684-1	Hybrid LiDAR-RGB 3D surface reconstruction for collision avoidance in radiotherapy: a proof‑of‑concept phantom study.
+10.51939/scores25.1	Raymarching 3D Julia Sets
+10.1002/9780470989746	Applied Computational Fluid Dynamics Techniques: An Introduction Based on Finite Element Methods
+	Contrast Enhancement Based on BAT Algorithm
+10.1155/2012/419647	Mathematical Methods for Images and Surfaces 2011

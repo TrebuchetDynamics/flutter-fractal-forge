@@ -1,0 +1,1 @@
+wrote citation graph with 48 edges to citation-graph-implicit-fractal-surfaces.json

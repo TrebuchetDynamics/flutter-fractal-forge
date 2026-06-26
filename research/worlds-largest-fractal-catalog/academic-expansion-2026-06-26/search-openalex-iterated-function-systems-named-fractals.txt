@@ -1,0 +1,10 @@
+10.1090/s0273-0979-1993-00432-4	Iteration of meromorphic functions
+10.1109/8.900236	The Koch monopole: a small fractal antenna
+10.3389/fncel.2013.00003	Quantitating the subtleties of microglial morphology with fractal analysis
+10.1007/978-94-015-7931-5	Fractal Geometry and Analysis
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1007/978-3-642-97149-5	Nonlinear Differential Equations and Dynamical Systems
+10.3389/fphys.2013.00001	A fractal approach to dynamic inference and distribution analysis
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.1090/s0025-5718-06-01861-8	Iterated function systems, Ruelle operators, and invariant projective measures
+10.1016/j.chaos.2021.110671	A new fractal pattern feature generation function based emotion recognition method using EEG

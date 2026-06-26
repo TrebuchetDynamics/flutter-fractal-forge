@@ -94,6 +94,18 @@ void main() {
       expect(find.byTooltip('Fullscreen view'), findsOneWidget);
     });
 
+    testWidgets('fractal music FAB is immediately visible', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final music = find.byKey(const ValueKey('viewerFractalMusicButton'));
+      expect(music, findsOneWidget);
+      final rect = tester.getRect(music);
+      expect(rect.top, greaterThanOrEqualTo(0));
+      expect(rect.bottom, lessThanOrEqualTo(600));
+      expect(find.byIcon(Icons.music_note), findsOneWidget);
+    });
+
     testWidgets('FAB column stays on-screen and scrolls on short viewports',
         (tester) async {
       // Simulate a short viewport (e.g. landscape phone / small web window)
@@ -130,7 +142,10 @@ void main() {
 
       expect(controller.module.id, equals('mandelbrot'));
 
-      await tester.tap(find.byKey(const ValueKey('viewerRandomButton')));
+      final randomButton = find.byKey(const ValueKey('viewerRandomButton'));
+      await tester.ensureVisible(randomButton);
+      await tester.pumpAndSettle();
+      await tester.tap(randomButton);
       await tester.pumpAndSettle();
 
       expect(controller.module.id, isNot(equals('mandelbrot')));

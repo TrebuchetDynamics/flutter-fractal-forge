@@ -1,0 +1,5 @@
+10.1103/physrevd.102.112012	First observation of the decay $Λ_b^0 \to η_c(1S) p K^-$
+10.1140/epjc/s10052-024-13478-y	Study of charmonium production via the decay to $p\bar{p}$ at $\sqrt{s} = 13 TeV$
+10.1103/physrevc.103.064905	Measurement of the prompt-production cross-section ratio $σ(χ_{c2})/σ(χ_{c1})$ in $p$Pb collisions at $\sqrt{s_{NN}}$ = 8.16 TeV
+10.1007/jhep07(2023)075	First observation and branching fraction measurement of the $Λ_b^0\to D_s^- p$ decay
+10.1103/physrevd.110.052007	Search for the rare decay of charmed baryon $Λ_c^+$ into $p μ^+ μ^-$ final state

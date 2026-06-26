@@ -1,0 +1,5 @@
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1002/dac.4932	An extensive survey on fractal structures using iterated function system in patch antennas
+10.1038/ncomms14026	Fractal nematic colloids
+10.3390/en14196204	A Novel Approach of Design and Analysis of a Hexagonal Fractal Antenna Array (HFAA) for Next-Generation Wireless Communication
+10.3390/fractalfract4010003	Fractal Antennas: An Historical Perspective

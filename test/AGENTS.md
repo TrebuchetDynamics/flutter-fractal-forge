@@ -31,8 +31,8 @@ Unit tests and widget tests for the Flutter Fractal Forge application. Tests cov
 | `performance_service_test.dart` | Performance monitoring tests |
 | `renderer_backend_policy_test.dart` | GPU vs CPU backend selection logic |
 | `catalog_repository_test.dart` | Catalog data layer tests |
-| `catalog_thumbnail_audit_test.dart` | Thumbnail existence/integrity audit |
-| `generate_catalog_thumbnails_test.dart` | GPU thumbnail generation test |
+| `catalog_thumbnail_audit_test.dart` | Verifies static catalog thumbnail bundle stays removed |
+| `generate_catalog_thumbnails_test.dart` | Legacy/manual GPU thumbnail generation test |
 | `shader_benchmark_test.dart` | Shader performance benchmarks |
 
 ## Subdirectories

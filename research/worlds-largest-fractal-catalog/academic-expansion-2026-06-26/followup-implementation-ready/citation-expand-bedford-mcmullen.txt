@@ -1,0 +1,1 @@
+wrote citation graph with 45 edges to citation-graph-bedford-mcmullen.json

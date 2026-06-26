@@ -1,0 +1,10 @@
+10.1103/physrevb.73.155304	Hall plateau diagram for the Hofstadter butterfly energy spectrum
+10.1088/1742-5468/2016/11/113101	Entanglement spectrum of fermionic bilayer honeycomb lattice: Hofstadter butterfly
+10.2139/ssrn.5076755	Interplay between Topology and Fractality Of Hofstadter Butterfly
+10.1103/physics.13.187	Topological Phases Beyond the Hofstadter Butterfly
+10.1142/9789811264726_0008	Chern–Simons Theory of Hofstadter Butterfly Spectrum
+10.1021/acs.nanolett.5b05161.s001	Hofstadter Butterfly and Many-Body Effects in Epitaxial Graphene Superlattice
+10.1103/physrevb.87.235429	Two-dimensional Bloch electrons in perpendicular magnetic fields: An exact calculation of the Hofstadter butterfly spectrum
+10.1016/j.physb.2007.10.016	The electronic spectrum of a quasiperiodic potential: From the Hofstadter butterfly to the Fibonacci chain
+10.1016/b978-0-323-90800-9.00054-8	Hofstadter butterfly in graphene
+10.2139/ssrn.4252407	Floquet Hofstadter Butterfly in Trilayer Graphene with a Twisted Top Layer

@@ -1,0 +1,10 @@
+10.4310/jdg/1214460037	Laminations in holomorphic dynamics
+10.1090/s0273-0979-1994-00519-1	Frontiers in complex dynamics
+	Lattes Maps and Combinatorial Expansion
+	Motions of Julia sets and dynamical stability in several complex variables
+10.1090/s0273-0979-1993-00432-4	Iteration of meromorphic functions
+10.1112/s0024610700001563	Rigidity and Expansion for Rational Maps
+10.1142/9789813272880_0131	THERMODYNAMIC FORMALISM METHODS IN ONE-DIMENSIONAL REAL AND COMPLEX DYNAMICS
+10.3934/jmd.2019014	Lattès maps and the interior of the bifurcation locus
+10.1017/s0305004121000438	Permutable quasiregular maps
+10.48550/arxiv.1701.04784	A-stabilization and the ranges of complex polynomials on the unit disk

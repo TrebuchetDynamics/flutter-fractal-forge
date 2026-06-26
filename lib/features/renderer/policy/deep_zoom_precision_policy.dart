@@ -153,6 +153,9 @@ class DeepZoomPrecisionPolicy {
     'phoenix': DeepZoomThresholds(
       cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
     ),
+    'weierstrass_p': DeepZoomThresholds(
+      cpuFallbackZoom: 1e5,
+    ),
   };
 
   /// Default threshold for any fractal type not listed above.

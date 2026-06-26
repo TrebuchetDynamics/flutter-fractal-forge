@@ -1,0 +1,1 @@
+wrote citation graph with 40 edges to citation-graph-barnsley-demko.json

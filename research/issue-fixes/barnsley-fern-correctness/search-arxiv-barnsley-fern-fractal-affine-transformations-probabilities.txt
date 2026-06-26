@@ -1,0 +1,5 @@
+	Fractal Homeomorphism for Bi-affine Iterated Function Systems
+	Fractal Transformations in 2 and 3 Dimensions
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Conjugacies provided by fractal transformations I : Conjugate measures, Hilbert spaces, orthogonal expansions, and flows, on self-referential spaces
+	Barnsley-Navascués fractal operators on Banach spaces on the Sierpiński gasket

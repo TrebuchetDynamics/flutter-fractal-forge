@@ -1,0 +1,10 @@
+	Quasiregular maps of Sierpi\'nski carpet Julia sets
+10.1017/etds.2021.123	Julia sets of Zorich maps
+10.1007/s40315-022-00458-0	Explosion Points and Topology of Julia Sets of Zorich Maps
+	Rational maps with Cantor bubble Julia sets
+10.1201/9781003072676-20	On the Dynamics of Iterated Maps VII: Domain-Filling (“Peano”) Sequences of Fractal Julia Sets, and an Intuitive Rationale for the Siegel Discs
+	The dynamics of hyperbolic rational maps with Cantor Julia sets.
+10.1201/9781003072676-19	On the Dynamics of Iterated Maps VI: Conjecture That Certain Julia Sets Include Smooth Components
+10.47974/jim-1560	Julia sets are quasicircles for rational maps of degree N
+10.1137/24m1648090	Connected McMullen-Like Julia Sets in a Chebyshev-Halley Family
+10.3934/dcds.2018139	Dynamics of regularly ramified rational maps: I. Julia sets of maps in one-parameter families

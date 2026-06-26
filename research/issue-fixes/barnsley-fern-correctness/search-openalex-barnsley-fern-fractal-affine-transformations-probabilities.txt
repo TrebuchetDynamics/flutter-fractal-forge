@@ -1,0 +1,5 @@
+10.1145/325334.325245	Construction of fractal objects with iterated function systems
+10.1093/bioinformatics/8.4.359	Applications of fractal geometry to biology
+10.1007/bf00114845	The induction of dynamical recognizers
+10.5121/sipij.2012.3215	Fractal Image Compression Using Quadtree Decomposition and Huffman Coding
+10.1063/1.5023782	Fractal attractors in economic growth models with random pollution externalities

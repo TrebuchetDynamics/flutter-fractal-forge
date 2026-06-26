@@ -1,0 +1,10 @@
+10.3934/dcdsb.2011.16.489	Consensus of Discrete-Time Linear Multi-Agent Systems with Observer-Type Protocols
+	Fractal trajectories of the dynamical system
+10.3934/dcdsb.2009.11.741	Cahn-Hilliard Equations and Phase Transition Dynamics for Binary Systems
+10.3934/dcds.2021204	Higher dimensional topology and generalized Hopf bifurcations for discrete dynamical systems
+	Carleman-Fourier linearization of nonlinear real dynamical systems with quasi-periodic fields
+10.1017/etds2015.83	Weak forms of topological and measure theoretical equicontinuity: relationships with discrete spectrum and sequence entropy
+	Strange attractors in a dynamical system inspired by a seasonally forced SIR model
+10.3934/dcdsb.2019259	Periodic orbits of discrete and continuous dynamical systems via Poincaré-Miranda theorem
+10.1017/s0143385707000521	Genericity in Topological Dynamics
+	On the dynamics of rotating rank-one strange attractors families

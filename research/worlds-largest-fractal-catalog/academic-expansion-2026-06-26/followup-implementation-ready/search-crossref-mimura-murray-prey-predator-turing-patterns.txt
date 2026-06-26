@@ -1,0 +1,10 @@
+10.2139/ssrn.6622869	Turing and Chaotic Patterns in a Predator–Prey model: the Role of Nonlinear Cross-Diffusion
+10.2139/ssrn.5788030	Turing and Chaotic Patterns in a Predator-Prey model: The Role of Nonlinear Cross-Diffusion
+10.1016/0022-5193(78)90332-6	On a diffusive prey-predator model which exhibits patchiness
+10.1007/978-3-319-17037-4_8	Turing and Non-Turing Patterns in Two-Dimensional Prey-Predator Models
+10.1186/1687-2770-2013-155	Turing instability and stationary patterns in a predator-prey systems with nonlinear cross-diffusions
+10.2139/ssrn.4153589	Turing-Hopf Bifurcation of a Diffusive Predator-Prey System with Nonlocal Effect and Group Defense in Prey Against Generalist Predator
+10.2139/ssrn.5087801	Turing-Bifurcation in a Cross-Diffusive Predator-Prey System with Generalist Predator and Nonlocal Terms
+10.18576/isl/100102	Modeling of Diffusive Patterns in Predator–Prey System using Turing Instability and Amplitude Equations
+10.22541/au.170664543.35363574/v1	Steady-state bifurcation and Turing instability in diffusion prey-predator models with Allee effect in predator population
+10.21203/rs.3.rs-594937/v1	Turing-Hopf Bifurcation in the Predator-prey Model with Cross-diffusion Considering Two Different Prey Behaviours Transition

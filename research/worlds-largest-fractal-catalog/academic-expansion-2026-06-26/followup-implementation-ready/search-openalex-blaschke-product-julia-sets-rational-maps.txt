@@ -1,0 +1,10 @@
+10.1007/bf02591353	Invariant sets under iteration of rational functions
+10.1353/ajm.1998.0031	Hausdorff dimension and conformal dynamics, III: Computation of dimension
+10.2307/2154231	Ergodic Theory for Markov Fibred Systems and Parabolic Rational Maps
+10.1090/s0002-9947-1993-1107025-2	Ergodic theory for Markov fibred systems and parabolic rational maps
+10.4007/annals.2004.159.1	On the Julia set of a typical quadratic polynomial with a Siegel disk
+10.1090/s0273-0979-1989-15750-9	On a theory of computation and complexity over the real numbers: 𝑁𝑃- completeness, recursive functions and universal machines
+10.1007/s00222-008-0152-8	Non-uniform hyperbolicity in complex dynamics
+10.1080/10236198.2015.1050387	On a family of rational perturbations of the doubling map
+10.3934/dcds.2017153	Singular perturbations of Blaschke products and connectivity of Fatou components
+10.1090/s0002-9947-2011-05308-0	Rational maps with real multipliers

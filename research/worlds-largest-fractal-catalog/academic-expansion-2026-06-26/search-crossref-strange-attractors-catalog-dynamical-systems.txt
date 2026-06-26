@@ -1,0 +1,10 @@
+10.2307/j.ctvc5pczn.12	STRANGE ATTRACTORS
+10.1007/978-0-387-21830-4_9	Strange attractors and chaotic motions of dynamical systems
+10.1017/cbo9780511803260.005	Strange attractors and fractal dimension
+10.2172/6441057	Statistical properties of chaotic dynamical systems which exhibit strange attractors
+10.1515/9780691189390-010	9. Strange Attractors
+10.1017/cbo9780511663031.005	Strange Attractors
+10.1007/978-94-015-8439-5_10	Homoclinic Bifurcations and Strange Attractors
+10.1080/14689367.2011.639295	Non-strange chaotic attractors equivalent to their templates
+10.1007/0-387-21749-5_31	Chaos and Strange Attractors
+10.1002/3527604804.ch6	Strange Attractors in Dissipative Dynamical Systems

@@ -49,11 +49,11 @@ void main() {
     expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
   }
 
-  int allDimensionCount(WidgetTester tester) {
+  int allCategoryCount(WidgetTester tester) {
     final countTexts = tester
         .widgetList<Text>(
           find.descendant(
-            of: find.byKey(const Key('catalogDimensionChip_all')),
+            of: find.byKey(const Key('catalogCategoryChip_all')),
             matching: find.byType(Text),
           ),
         )
@@ -65,7 +65,7 @@ void main() {
 
   testWidgets('Catalog search filters fractal modules', (tester) async {
     await pumpCatalog(tester);
-    final initialCount = allDimensionCount(tester);
+    final initialCount = allCategoryCount(tester);
     await showSearch(tester);
 
     await tester.enterText(
@@ -75,17 +75,23 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Julia'), findsWidgets);
-    expect(allDimensionCount(tester), lessThan(initialCount));
+    expect(allCategoryCount(tester), lessThan(initialCount));
 
     await tester.pump(const Duration(seconds: 3));
   });
 
-  testWidgets('Catalog renders category chips in the single filter row',
+  testWidgets('Catalog renders category chips in a separate rail',
       (tester) async {
     await pumpCatalog(tester);
 
     expect(find.byKey(const Key('catalogCategoryChip_all')), findsOneWidget);
-    expect(find.byKey(const Key('catalogCategoryScroll')), findsNothing);
+    expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
+    expect(find.byKey(const Key('catalogDimensionChip_all')), findsNothing);
+    expect(find.byKey(const Key('catalogDimensionChip_2d')), findsNothing);
+    expect(find.byKey(const Key('catalogDimensionChip_3d')), findsNothing);
+    expect(find.byKey(const Key('catalogDimensionChip_kaleidoscope')),
+        findsNothing);
+    expect(find.text('All categories'), findsOneWidget);
 
     await tester.pump(const Duration(seconds: 3));
   });
@@ -117,7 +123,7 @@ void main() {
     await pumpCatalog(tester);
     await showSearch(tester);
 
-    final initialCount = allDimensionCount(tester);
+    final initialCount = allCategoryCount(tester);
     final searchField = find.byKey(const Key('catalogSearchField'));
     await tester.enterText(searchField, 'J');
     await tester.pump(const Duration(milliseconds: 150));
@@ -126,11 +132,11 @@ void main() {
     // More than 300ms after the first edit, but less than 300ms after the
     // latest edit. Search results should still show the unfiltered catalog.
     await tester.pump(const Duration(milliseconds: 200));
-    expect(allDimensionCount(tester), initialCount);
+    expect(allCategoryCount(tester), initialCount);
 
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.text('Julia'), findsWidgets);
-    expect(allDimensionCount(tester), lessThan(initialCount));
+    expect(allCategoryCount(tester), lessThan(initialCount));
 
     await tester.pump(const Duration(seconds: 3));
   });
@@ -140,17 +146,17 @@ void main() {
     await pumpCatalog(tester);
     await showSearch(tester);
 
-    final initialCount = allDimensionCount(tester);
+    final initialCount = allCategoryCount(tester);
     final searchField = find.byKey(const Key('catalogSearchField'));
 
     await tester.enterText(searchField, 'Julia');
     await tester.pump(const Duration(milliseconds: 300));
-    expect(allDimensionCount(tester), lessThan(initialCount));
+    expect(allCategoryCount(tester), lessThan(initialCount));
 
     await tester.tap(find.byKey(const ValueKey('clear')));
     await tester.pump();
 
-    expect(allDimensionCount(tester), initialCount);
+    expect(allCategoryCount(tester), initialCount);
 
     await tester.pump(const Duration(seconds: 3));
   });

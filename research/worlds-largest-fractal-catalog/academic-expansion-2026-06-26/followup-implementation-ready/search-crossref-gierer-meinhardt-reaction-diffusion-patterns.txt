@@ -1,0 +1,10 @@
+10.1007/bfb0099283	The Gierer-Meinhardt model
+10.1039/d5ra00635j	Radially evolving spiral wave patterns in the Gierer–Meinhardt reaction–diffusion system
+10.3390/buildings13081972	3D-Printed Bioreceptive Tiles of Reaction–Diffusion (Gierer–Meinhardt Model) for Multi-Scale Algal Strains’ Passive Immobilization
+10.1007/bf03167754	Reaction-diffusion systems in the Gierer-Meinhardt theory of biological pattern formation
+10.3934/cpaa.2022013	Analysis and asymptotic reduction of a bulk-surface reaction-diffusion model of Gierer-Meinhardt type
+10.4249/scholarpedia.1418	Gierer-Meinhardt model
+10.1137/120885784	Identification of Space-Time Distributed Parameters in the Gierer--Meinhardt Reaction-Diffusion System
+10.1098/rsta.2020.0277	Unified framework for localized patterns in reaction–diffusion systems; the Gray–Scott and Gierer–Meinhardt cases
+10.3390/math10020243	Bifurcation and Patterns Analysis for a Spatiotemporal Discrete Gierer-Meinhardt System
+10.1016/j.padiff.2025.101142	Dynamics of the Gierer–Meinhardt reaction–diffusion system: Insights into finite-time stability and control strategies

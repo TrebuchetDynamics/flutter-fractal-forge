@@ -1,0 +1,10 @@
+	Unveiling Biological Models Through Turing Patterns
+10.1007/s11587-016-0267-y	Effects of cross-diffusion on Turing patterns in a reaction-diffusion Schnakenberg model
+10.1103/physreve.55.5291	Effect of randomness and anisotropy on Turing patterns in reaction-diffusion systems
+	Turing Machines and Understanding Computational Complexity
+10.1007/s00285-016-1035-z	Instability of Turing patterns in reaction-diffusion-ODE systems
+	Minimum nonlinearity for pattern-forming Turing instability in a mathematical autocatalytic model
+10.1002/mma.9196	Well-posedness for a diffusion-reaction compartmental model simulating the spread of COVID-19
+	Confinement determines transport of a reaction-diffusion active matter front
+	A surprising regularizing effect of the nonlinear semigroup associated to the semilinear heat equation and applications to reaction diffusion systems
+	Reaction-diffusion Equations on Complex Networks and Turing Patterns, via p-Adic Analysis

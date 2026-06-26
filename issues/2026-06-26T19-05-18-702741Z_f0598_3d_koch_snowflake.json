@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-26T19:05:18.702741Z",
+  "moduleId": "f0598_3d_koch_snowflake",
+  "moduleName": "3D Koch Snowflake",
+  "tags": [
+    "No image"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f0598_3d_koch_snowflake&zoom=0.6900439415587895&x=0.012773191556334496&y=0.15345129370689392&iterations=10&bailout=4&colorScheme=0&power=2&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoxMCwicG93ZXIiOjIuMCwic3RlcHMiOjEyMH0",
+  "params": {
+    "power": 2.0,
+    "iterations": 10,
+    "steps": 120,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 0.6900439415587895,
+    "x": 0.012773191556334496,
+    "y": 0.15345129370689392,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "fixedAt": "2026-06-26T19:16:25Z",
+  "fixes": [
+    "Fixed Koch KIFS fold conditions that were unreachable after abs().",
+    "Raised ray-hit tolerance and ambient light so the 3D snowflake is visible at the reported view."
+  ],
+  "resolution": {
+    "status": "fixed",
+    "note": "Validated the catalog module uses the bundled KIFS Koch shader, reachable tetrahedral folds, and a visible ray-hit tolerance at the reported view."
+  }
+}

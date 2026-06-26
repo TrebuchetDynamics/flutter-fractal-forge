@@ -1,0 +1,10 @@
+10.2298/tsci200127065h	New promises and future challenges of fractal calculus: From two-scale thermodynamics to fractal variational principle
+10.1088/1126-6708/2005/10/050	Fractal spacetime structure in asymptotically safe gravity
+10.1016/j.cma.2004.06.006	Algorithms for the fractional calculus: A selection of numerical methods
+10.1080/1040841x.2016.1208146	Critical review on biofilm methods
+10.3390/app10144966	Hybrid Malware Classification Method Using Segmentation-Based Fractal Texture Analysis and Deep Convolution Neural Network Features
+10.1038/s41377-024-01611-1	Observation of nonlinear fractal higher order topological insulator
+10.1016/j.electacta.2017.08.154	Derivation of a Distribution Function of Relaxation Times for the (fractal) Finite Length Warburg.
+10.1137/0708019	Blending-Function Methods of Bivariate and Multivariate Interpolation and Approximation
+10.1080/17513472.2019.1600959	Newton–Ellipsoid polynomiography
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods

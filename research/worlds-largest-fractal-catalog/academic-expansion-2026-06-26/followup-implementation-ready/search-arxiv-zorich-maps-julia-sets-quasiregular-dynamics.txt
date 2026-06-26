@@ -1,0 +1,10 @@
+	Julia sets of Zorich maps
+	Explosion points and topology of Julia sets of Zorich maps
+	Genus $g$ Cantor sets and germane Julia sets
+10.1017/s0305004111000478	Julia sets of uniformly quasiregular mappings are uniformly perfect
+	Strongly automorphic mappings and Julia sets of uniformly quasiregular mappings
+	Quasiregular maps of Sierpiński carpet Julia sets
+10.1007/s40315-014-0051-5	The Julia set and the fast escaping set of a quasiregular mapping
+	The size of Julia sets of quasiregular maps
+	Equivalence of quasiregular mappings on subRiemannian manifolds via the Popp extension
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)

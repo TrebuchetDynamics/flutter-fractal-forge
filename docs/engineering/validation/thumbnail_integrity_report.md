@@ -1,59 +1,45 @@
 # Thumbnail Integrity Report
-**Generated:** 2026-02-13 16:55 CST  
-**Commit:** (current working tree)
 
-## Summary
-- **CPU thumbnails (assets/catalog_thumbs/):** 199 files, valid fractal content
-- **GPU thumbnails (emulator attempt):** 197 files, 99.8% black pixels (SwiftShader rendering failure)
-- **Shipped:** CPU thumbnails (GPU blocked on emulator)
+**Updated:** 2026-06-26
+**Status:** Superseded by runtime-rendered catalog thumbnails
 
-## CPU Thumbnails (Current Assets)
-```
-Total files: 199
-Sample color counts:
-  mandelbrot: 243 unique colors
-  burning_ship: 443 unique colors
-  tricorn: 204 unique colors
-  phoenix: 198 unique colors
-```
+## Current shipping decision
 
-**Status:** ✅ Valid, rendering correctly in app after catalogId prefix fix (commit e926c16)
+Catalog thumbnails are rendered at runtime by the catalog UI. Static files under
+`assets/catalog_thumbs/` are no longer bundled in `pubspec.yaml`; the app only
+bundles `assets/icon/` as static assets.
 
-**Known limitation:** CPU renderer supports ~8 distinct formulas; remaining fractals render as variants with different color palettes.
+This makes the large `assets/catalog_thumbs/*.png` removal intentional for the
+runtime-thumbnail migration, not a missing-asset regression.
 
-## GPU Thumbnails (Emulator Generation Attempt)
-```
-Total files: 197
-Sample color counts:
-  mandelbrot: 21 unique colors (65381/65536 black pixels = 99.8%)
-  burning_ship: 21 unique colors (65381/65536 black pixels = 99.8%)
-  tricorn: 21 unique colors (65381/65536 black pixels = 99.8%)
-```
+## Why this changed
 
-**Status:** ❌ Invalid — emulator GPU (SwiftShader) compiles shaders but produces all-black output
+The previous report selected CPU-generated thumbnails because emulator GPU
+captures were black under SwiftShader. That static thumbnail set later became a
+second source of truth: generated files, asset manifests, catalog state, and
+fallback labels could drift independently.
 
-**Root cause:** Documented in `gpu_emulator_validation.md` — SwiftShader indirect mode does not produce valid fractal renders despite clean shader compilation.
+Runtime rendering is now the source of truth. The static-asset mapping remains
+only for the disabled fallback path (`RUNTIME_CATALOG_THUMBNAILS=false`), and the
+catalog checks the asset manifest before trying to load any fallback PNG.
 
-**Workaround:** Requires real Android device with hardware GPU or alternative thumbnail generation strategy.
+## Current validation signals
 
-## Integration Test Results
-```
-Command: flutter test integration_test/generate_gpu_thumbnails_test.dart -d emulator-5554
-Result: 197/197 generated, 0 failures
-Runtime: 6min 30s
-Output: /sdcard/Download/catalog_thumbs/*.png
+- `pubspec.yaml` declares `assets/icon/` only under `flutter.assets`.
+- `lib/features/catalog/AGENTS.md` documents runtime-rendered thumbnails.
+- `lib/features/catalog/catalog_thumbnail_plan.dart` owns fallback asset
+  availability state via `CatalogThumbnailAvailability`.
+- `test/features/catalog/catalog_thumbnail_plan_test.dart` covers exact,
+  missing, loading, and fallback/approximate states.
+- `test/golden/catalog_golden_test.dart` exercises the catalog UI.
+- Full suite and Linux build were rerun after the runtime-thumbnail updates.
 
-Issue: Screenshots captured successfully but shader output is black (not a screenshot API failure).
-```
+## Historical note
 
-## Catalog Coverage
-Expected catalog entries: 197  
-CPU thumbnails present: 199 (includes 2 extra)  
-Missing: 0  
-Corrupt: 0  
-Duplicate groups: (not analyzed — many CPU thumbnails intentionally similar due to formula coverage limit)
+The old static-thumbnail report from 2026-02-13 found:
 
-## Conclusion
-**Shipping decision:** Use existing CPU-generated thumbnails in `assets/catalog_thumbs/`.
+- CPU thumbnails: 199 PNGs, valid but formula-limited.
+- GPU emulator attempt: 197 PNGs, mostly black due to SwiftShader.
+- Former shipping decision: bundle CPU thumbnails from `assets/catalog_thumbs/`.
 
-**Future work:** Generate GPU thumbnails on real Android device when available.
+That decision is no longer current.

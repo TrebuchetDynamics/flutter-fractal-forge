@@ -1,0 +1,10 @@
+10.1063/1.4812724	Spatial dynamics in a predator-prey model with herd behavior
+10.1007/s00285-018-1289-8	Turing patterns in a predator–prey model with seasonality
+10.1038/srep10840	Pattern formation in multiplex networks
+10.3390/math8010101	Dynamics of a Diffusive Two-Prey-One-Predator Model with Nonlocal Intra-Specific Competition for Both the Prey Species
+10.1038/ncomms5517	The theory of pattern formation on directed networks
+10.1038/srep12927	Turing instabilities on Cartesian product networks
+10.1155/2012/814069	Pattern Formation in a Cross‐Diffusive Ratio‐Dependent Predator‐Prey Model
+10.1155/2013/487810	Allee-Effect-Induced Instability in a Reaction-Diffusion Predator-Prey Model
+10.1103/physrevx.13.021038	Emergence of Geometric Turing Patterns in Complex Networks
+10.1098/rspa.2024.0235	Turing patterns on discrete topologies: from networks to higher-order structures

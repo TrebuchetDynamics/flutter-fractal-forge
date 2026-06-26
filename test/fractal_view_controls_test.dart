@@ -38,12 +38,15 @@ Future<bool> _pumpControls(
   VoidCallback? onShareLink,
   VoidCallback? onShareImage,
   VoidCallback? onOpenLooper,
+  VoidCallback? onToggleFractalMusic,
   VoidCallback? onOpenPalettePicker,
   VoidCallback? onOpenRandomFractal,
   VoidCallback? onResetParams,
-  VoidCallback? onDecreaseIterations,
   bool kaleidoscopeEnabled = false,
+  bool fractalMusicEnabled = false,
+  bool showFractalReport = false,
   VoidCallback? onToggleKaleidoscope,
+  VoidCallback? onReportFractal,
   required VoidCallback onOpenWallpaper,
 }) async {
   await tester.pumpWidget(
@@ -57,6 +60,8 @@ Future<bool> _pumpControls(
             fabController: controller,
             isExporting: isExporting,
             kaleidoscopeEnabled: kaleidoscopeEnabled,
+            fractalMusicEnabled: fractalMusicEnabled,
+            showFractalReport: showFractalReport,
             actions: FractalViewControlActions(
               toggleFullscreen: () {},
               openRandomFractal: onOpenRandomFractal ?? () {},
@@ -65,8 +70,6 @@ Future<bool> _pumpControls(
               resetView: () {},
               resetParams: onResetParams ?? () {},
               randomizeParams: () {},
-              decreaseIterations: onDecreaseIterations ?? () {},
-              increaseIterations: () {},
               cycleColorScheme: () {},
               openPalettePicker: onOpenPalettePicker ?? () {},
               toggleKaleidoscope: onToggleKaleidoscope ?? () {},
@@ -74,6 +77,8 @@ Future<bool> _pumpControls(
               shareLink: onShareLink ?? () {},
               shareImage: onShareImage ?? () {},
               openLooper: onOpenLooper ?? () {},
+              toggleFractalMusic: onToggleFractalMusic ?? () {},
+              reportFractal: onReportFractal ?? () {},
               openWallpaper: onOpenWallpaper,
             ),
           ),
@@ -104,18 +109,24 @@ void main() {
     expect(fab, findsOneWidget);
     expect(find.byKey(const ValueKey('viewerWallpaperButton')), findsNothing);
 
+    await tester.ensureVisible(fab);
+    await tester.pumpAndSettle();
     await tester.tap(fab);
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('viewerExportMenuItem')));
     await tester.pumpAndSettle();
     expect(exported, isTrue);
 
+    await tester.ensureVisible(fab);
+    await tester.pumpAndSettle();
     await tester.tap(fab);
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('viewerShareLinkMenuItem')));
     await tester.pumpAndSettle();
     expect(sharedLink, isTrue);
 
+    await tester.ensureVisible(fab);
+    await tester.pumpAndSettle();
     await tester.tap(fab);
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('viewerShareMenuItem')));
@@ -124,6 +135,8 @@ void main() {
 
     expect(find.byKey(const ValueKey('viewerLooperMenuItem')), findsNothing);
 
+    await tester.ensureVisible(fab);
+    await tester.pumpAndSettle();
     await tester.tap(fab);
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('viewerWallpaperMenuItem')));
@@ -139,12 +152,7 @@ void main() {
     expect(find.byKey(const ValueKey('viewerPresetsButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('viewerResetButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('viewerResetParamsButton')), findsNothing);
-    expect(
-        find.byKey(const ValueKey('viewerIterationsButton')), findsOneWidget);
-    expect(
-        find.byKey(const ValueKey('viewerIterationsDownButton')), findsNothing);
-    expect(
-        find.byKey(const ValueKey('viewerIterationsUpButton')), findsNothing);
+    expect(find.byKey(const ValueKey('viewerIterationsButton')), findsNothing);
     expect(
         find.byKey(const ValueKey('viewerColorCycleButton')), findsOneWidget);
     expect(
@@ -153,7 +161,28 @@ void main() {
         find.byKey(const ValueKey('viewerRandomParamsButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('viewerRandomButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('viewerLooperButton')), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('viewerFractalMusicButton')), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('viewerReportFractalButton')), findsNothing);
     expect(find.byKey(const ValueKey('viewerBailoutButton')), findsNothing);
+  });
+
+  testWidgets('linux report FAB appears when enabled', (tester) async {
+    var reported = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      showFractalReport: true,
+      onReportFractal: () => reported = true,
+      onOpenWallpaper: () {},
+    );
+
+    final button = find.byKey(const ValueKey('viewerReportFractalButton'));
+    expect(button, findsOneWidget);
+    await tester.ensureVisible(button);
+    await tester.tap(button);
+    expect(reported, isTrue);
   });
 
   testWidgets('quick control FABs keep accessible tap targets', (tester) async {
@@ -164,12 +193,12 @@ void main() {
       ValueKey('viewerControlsButton'),
       ValueKey('viewerPresetsButton'),
       ValueKey('viewerResetButton'),
-      ValueKey('viewerIterationsButton'),
       ValueKey('viewerColorCycleButton'),
       ValueKey('viewerKaleidoscopeButton'),
       ValueKey('viewerRandomParamsButton'),
       ValueKey('viewerRandomButton'),
       ValueKey('viewerLooperButton'),
+      ValueKey('viewerFractalMusicButton'),
       ValueKey('viewerExportButton'),
     ];
 
@@ -190,12 +219,12 @@ void main() {
       'Controls',
       'Presets',
       'Reset View. Long press for Reset Params',
-      'Iterations +. Long press for −',
       'Color Scheme. Long press for palette',
       'Kaleidoscope off',
       'Randomize',
       'Random Fractal',
       'Camera looper',
+      'Fractal Music off',
       'Export / Wallpaper',
     ]) {
       expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
@@ -216,10 +245,10 @@ void main() {
 
     for (final label in const [
       'Restablecer vista. Mantén presionado para restablecer parámetros',
-      'Iteraciones +. Mantén presionado para −',
       'Esquema de color. Mantén presionado para paleta',
       'Kaleidoscopio desactivado',
       'Bucle de cámara',
+      'Música fractal desactivada',
       'Exportar / Fondo de pantalla',
     ]) {
       expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
@@ -228,26 +257,18 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('merged FABs expose long-press secondary actions',
-      (tester) async {
+  testWidgets('reset FAB exposes long-press secondary action', (tester) async {
     var resetParams = false;
-    var decreaseIterations = false;
     await _pumpControls(
       tester,
       isExporting: false,
       onResetParams: () => resetParams = true,
-      onDecreaseIterations: () => decreaseIterations = true,
       onOpenWallpaper: () {},
     );
 
     await tester.longPress(find.byKey(const ValueKey('viewerResetButton')));
     await tester.pump();
     expect(resetParams, isTrue);
-
-    await tester
-        .longPress(find.byKey(const ValueKey('viewerIterationsButton')));
-    await tester.pump();
-    expect(decreaseIterations, isTrue);
   });
 
   testWidgets('random fractal and looper are direct FAB actions',
@@ -281,6 +302,20 @@ void main() {
     );
 
     await tester.tap(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+    await tester.pump();
+    expect(toggled, isTrue);
+  });
+
+  testWidgets('fractal music FAB toggles music', (tester) async {
+    var toggled = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onToggleFractalMusic: () => toggled = true,
+      onOpenWallpaper: () {},
+    );
+
+    await tester.tap(find.byKey(const ValueKey('viewerFractalMusicButton')));
     await tester.pump();
     expect(toggled, isTrue);
   });

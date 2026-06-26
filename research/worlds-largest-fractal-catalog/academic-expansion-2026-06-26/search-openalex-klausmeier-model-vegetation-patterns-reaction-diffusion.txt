@@ -1,0 +1,10 @@
+10.1088/0951-7715/23/10/016	Pattern solutions of the Klausmeier Model for banded vegetation in semi-arid environments I
+10.1007/s00332-012-9139-0	Rise and Fall of Periodic Patterns for a Generalized Klausmeier–Gray–Scott Model
+10.1137/120899510	Pattern Solutions of the Klausmeier Model for Banded Vegetation in Semiarid Environments V: The Transition from Patterns to Desert
+10.1137/120862648	Pattern Solutions of the Klausmeier Model for Banded Vegetation in Semiarid Environments IV: Slowly Moving Patterns and Their Stability
+10.1137/18m1196996	Traveling Stripes in the Klausmeier Model of Vegetation Pattern Formation
+10.1073/pnas.1804771115	Multistability of model and real dryland ecosystems through spatial self-organization
+10.1016/j.physd.2012.08.014	Pattern solutions of the Klausmeier model for banded vegetation in semi-arid environments III: The transition between homoclinic solutions
+10.1063/1.4914450	Striped pattern selection by advective reaction-diffusion systems: Resilience of banded vegetation on slopes
+10.1007/s00285-018-1233-y	Analysis of a model for banded vegetation patterns in semi-arid environments with nonlocal dispersal
+10.1016/j.jmaa.2020.124860	Bifurcation and pattern formation in diffusive Klausmeier-Gray-Scott model of water-plant interaction

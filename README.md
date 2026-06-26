@@ -179,6 +179,10 @@ flutter build macos --release
 flutter build windows --release
 ```
 
+Linux notes:
+- Fractal Music uses `paplay` or `aplay` when available.
+- Mobile-aspect screenshot runs can set `FRACTAL_FORGE_MOBILE_SCREENSHOT=1`.
+
 > **Note:** Desktop platforms may have limited shader support depending on GPU drivers.
 
 ---

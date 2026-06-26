@@ -1,0 +1,10 @@
+10.1145/3746027.3758179	Turing Patterns for Multimedia: Reaction-Diffusion Multi-Modal Fusion for Language-Guided Video Moment Retrieval
+10.1016/j.chaos.2023.114152	Turing patterns in hyperbolic reaction-transport vegetation models with cross-diffusion
+10.1088/1361-6544/ad1a48	Synchronization of Turing patterns in complex networks of reaction–diffusion systems set in distinct domains
+10.1515/jncds-2025-0029	Higher-order finite difference modeling of chaos and Turing-like patterns in space-fractional reaction–diffusion systems
+10.1007/s00285-023-02026-z	A time independent least squares algorithm for parameter identification of Turing patterns in reaction–diffusion systems
+10.1063/5.0032677	Analysis of Turing patterns in distributed reaction-diffusion models with self-oscillations
+10.1016/j.jmaa.2020.124239	Reaction-diffusion equations on complex networks and Turing patterns, via p-adic analysis
+10.1186/s13662-025-03998-6	Turing pattern formation in a fractional-order reaction-diffusion Holling-IV predator-prey model
+10.1140/epjp/s13360-025-06182-7	Asymptotic and transient approaches of harvested predator–prey models with reaction–diffusion
+10.1140/epjp/i2018-12265-9	Numerical simulations of Turing patterns in a reaction-diffusion model with the Chebyshev spectral method

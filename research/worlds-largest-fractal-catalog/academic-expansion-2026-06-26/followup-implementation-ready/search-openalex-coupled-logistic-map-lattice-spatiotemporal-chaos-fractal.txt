@@ -1,0 +1,10 @@
+10.1016/s0370-1573(99)00096-4	The control of chaos: theory and applications
+10.1038/s41598-020-66486-9	A new image encryption scheme based on coupling map lattices with mixed multi-chaos
+10.1007/s10207-022-00588-5	Survey on image encryption techniques using chaotic maps in spatial, transform and spatiotemporal domains
+10.1006/tpbi.1998.1365	Spatial Structure, Environmental Heterogeneity, and Population Dynamics: Analysis of the Coupled Logistic Map
+10.3390/math11112585	Chaos-Based Image Encryption: Review, Application, and Challenges
+10.3390/e21030246	Breaking an Image Encryption Algorithm Based on DNA Encoding and Spatiotemporal Chaos
+10.1186/s13662-020-03162-2	Existence of chaos for partial difference equations via tangent and cotangent functions
+10.1016/j.chaos.2024.115076	A new image encryption algorithm based on cubic fractal matrix and L-LCCML system
+10.3390/e23030341	A New Algorithm for Digital Image Encryption Based on Chaos Theory
+10.1155/2009/238960	Modeling Nonlinear Dynamics and Chaos: A Review

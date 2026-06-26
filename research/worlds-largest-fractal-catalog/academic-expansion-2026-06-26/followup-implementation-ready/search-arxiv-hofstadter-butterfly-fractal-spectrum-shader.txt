@@ -1,0 +1,10 @@
+10.1103/physrevb.104.035305	Fractal defect states in the Hofstadter butterfly
+10.1103/physreve.92.042102	Fractal energy carpets in non-Hermitian Hofstadter quantum mechanics
+10.1143/jpsj.81.044605	Fractality of Hofstadter Butterfly in Specific Heat Oscillation
+10.1140/epjst/e2016-60021-3	A Tale of Two Fractals: The Hofstadter Butterfly and The Integral Apollonian Gaskets
+10.1038/s41586-024-08550-2	Spectroscopy of the Fractal Hofstadter Energy Spectrum
+10.1016/b978-0-323-90800-9.00054-8	Hofstadter Butterfly in Graphene
+	A numerical study of the window condition for Chern numbers of Hofstadter Butterflies
+10.1103/physrevb.74.165411	Hofstadter butterflies of carbon nanotubes: Pseudofractality of the magnetoelectronic spectrum
+	Geometric Superconductivity in 3D Hofstadter Butterfly
+10.1088/1742-5468/2016/11/113101	Entanglement spectrum of fermionic bilayer honeycomb lattice: Hofstadter butterfly

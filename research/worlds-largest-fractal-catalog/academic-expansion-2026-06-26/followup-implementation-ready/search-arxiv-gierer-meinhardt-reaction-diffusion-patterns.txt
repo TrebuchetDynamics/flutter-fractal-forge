@@ -1,0 +1,10 @@
+	Localized patterns in the Gierer Meinhardt model on a cycle graph
+	The stochastic Gierer-Meinhardt system
+10.1016/j.aml.2022.108147	Single-spike solutions to the 1D shadow Gierer-Meinhardt problem
+	The Linear Stability of Symmetric Spike Patterns for a Bulk-Membrane Coupled Gierer-Meinhardt Model
+	Simplifying the Kohlberg Criterion on the Nucleolus: A Correct Approach
+	A surprising regularizing effect of the nonlinear semigroup associated to the semilinear heat equation and applications to reaction diffusion systems
+10.1088/1361-6544/aa64b2	On the dynamics of a non-local parabolic equation arising from the Gierer-Meinhardt system
+	Localized Pattern Formation and Oscillatory Instabilities in a Three-component Gierer Meinhardt Model
+	Global existence of solutions for Gierer-Meinhardt system with three equations
+	Dynamics of shadow system of a singular Gierer-Meinhardt system on an evolving domain

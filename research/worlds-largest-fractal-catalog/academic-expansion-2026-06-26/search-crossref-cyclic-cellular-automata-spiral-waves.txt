@@ -1,0 +1,10 @@
+10.1007/11861201_6	On Spiral Glider–Guns in Hexagonal Cellular Automata: Activator–Inhibitor Paradigm
+10.1142/s0217984997001572	Spiral Waves in a Cyclic Cellular Automaton Model for Excitable Media
+10.1007/978-3-642-15979-4_60	Cellular Automata for a Cyclic Bus
+10.1007/978-3-319-11520-7_49	Simulation Study of the Spiral Motion of Pedestrians: A Cellular Automata Approach
+10.1007/978-3-319-44365-2_4	Resilient Vectorial Functions and Cyclic Codes Arising from Cellular Automata
+10.21203/rs.3.rs-6570417/v1	Cyclic Behaviour of 3-State 3-Neighborhood Cellular Automata
+10.3724/sp.j.1010.2008.00042	SEGMENTATION OF INFRARED WEAK AND SMALL TARGET IMAGE BASED ON CELLULAR AUTOMATA
+10.1007/978-3-031-81097-8_5	Waves, Crystals and Chaos a Survey of State Symmetric Cellular Automata
+10.1007/978-1-4612-0451-0_8	Cyclic Cellular Automata in Two Dimensions
+10.1093/oso/9780195137170.003.0010	Growth Phenomena in Cellular Automata

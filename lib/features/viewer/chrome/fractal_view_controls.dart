@@ -14,8 +14,6 @@ class FractalViewControlActions {
   final VoidCallback resetView;
   final VoidCallback resetParams;
   final VoidCallback randomizeParams;
-  final VoidCallback decreaseIterations;
-  final VoidCallback increaseIterations;
   final VoidCallback cycleColorScheme;
   final VoidCallback openPalettePicker;
   final VoidCallback toggleKaleidoscope;
@@ -23,6 +21,8 @@ class FractalViewControlActions {
   final VoidCallback shareLink;
   final VoidCallback shareImage;
   final VoidCallback openLooper;
+  final VoidCallback toggleFractalMusic;
+  final VoidCallback reportFractal;
   final VoidCallback openWallpaper;
 
   const FractalViewControlActions({
@@ -33,8 +33,6 @@ class FractalViewControlActions {
     required this.resetView,
     required this.resetParams,
     required this.randomizeParams,
-    required this.decreaseIterations,
-    required this.increaseIterations,
     required this.cycleColorScheme,
     required this.openPalettePicker,
     required this.toggleKaleidoscope,
@@ -42,6 +40,8 @@ class FractalViewControlActions {
     required this.shareLink,
     required this.shareImage,
     required this.openLooper,
+    required this.toggleFractalMusic,
+    required this.reportFractal,
     required this.openWallpaper,
   });
 }
@@ -50,6 +50,8 @@ class FractalViewControls extends StatelessWidget {
   final AnimationController fabController;
   final bool isExporting;
   final bool kaleidoscopeEnabled;
+  final bool fractalMusicEnabled;
+  final bool showFractalReport;
   final FractalViewControlActions actions;
 
   const FractalViewControls({
@@ -57,6 +59,8 @@ class FractalViewControls extends StatelessWidget {
     required this.fabController,
     required this.isExporting,
     required this.kaleidoscopeEnabled,
+    required this.fractalMusicEnabled,
+    this.showFractalReport = false,
     required this.actions,
   });
 
@@ -74,12 +78,23 @@ class FractalViewControls extends StatelessWidget {
         delay: const Duration(milliseconds: 60),
       ),
       FloatingActionButtonWidget(
+        key: const ValueKey('viewerFractalMusicButton'),
+        icon: Icons.music_note,
+        tooltip: fractalMusicEnabled
+            ? l10n.tooltipFractalMusicOn
+            : l10n.tooltipFractalMusicOff,
+        onPressed: isExporting ? null : actions.toggleFractalMusic,
+        isPrimary: true,
+        isCompact: true,
+        delay: const Duration(milliseconds: 80),
+      ),
+      FloatingActionButtonWidget(
         key: const ValueKey('viewerControlsButton'),
         icon: Icons.tune_rounded,
         tooltip: l10n.tooltipOpenControls,
         onPressed: isExporting ? null : actions.openControls,
         isCompact: true,
-        delay: const Duration(milliseconds: 80),
+        delay: const Duration(milliseconds: 100),
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerPresetsButton'),
@@ -97,15 +112,6 @@ class FractalViewControls extends StatelessWidget {
         onLongPress: isExporting ? null : actions.resetParams,
         isCompact: true,
         delay: const Duration(milliseconds: 120),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerIterationsButton'),
-        icon: Icons.exposure_plus_1_rounded,
-        tooltip: l10n.tooltipIncreaseIterationsWithDecrease,
-        onPressed: isExporting ? null : actions.increaseIterations,
-        onLongPress: isExporting ? null : actions.decreaseIterations,
-        isCompact: true,
-        delay: const Duration(milliseconds: 140),
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerColorCycleButton'),
@@ -152,6 +158,15 @@ class FractalViewControls extends StatelessWidget {
         isCompact: true,
         delay: const Duration(milliseconds: 240),
       ),
+      if (showFractalReport)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerReportFractalButton'),
+          icon: Icons.report_problem_rounded,
+          tooltip: 'Report fractal',
+          onPressed: isExporting ? null : actions.reportFractal,
+          isCompact: true,
+          delay: const Duration(milliseconds: 280),
+        ),
       _ExportWallpaperFab(
         isExporting: isExporting,
         l10n: l10n,

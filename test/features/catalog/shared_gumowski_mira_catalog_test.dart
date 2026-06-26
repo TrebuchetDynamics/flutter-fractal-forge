@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_fractals/core/modules/builders/shared_gumowski_mira_catalog.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,8 +17,6 @@ void main() {
       expect(module, isNotNull, reason: entry.id);
       expect(module!.shaderAsset,
           'shaders/strange_attractors/gumowski_mira_gpu.frag');
-      expect(File('assets/catalog_thumbs/${entry.id}.png').existsSync(), isTrue,
-          reason: entry.id);
       expect(module.defaultPreset.moduleId, entry.id);
       expect(module.defaultPreset.params['mu'], entry.mu);
       expect(module.defaultPreset.params['yScale'], entry.yScale);

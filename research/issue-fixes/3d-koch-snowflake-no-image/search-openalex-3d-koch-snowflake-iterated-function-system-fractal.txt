@@ -1,0 +1,5 @@
+10.34133/2021/9892689	Fractal Design Boosts Extrusion-Based 3D Printing of Bone-Mimicking Radial-Gradient Scaffolds
+10.1088/0960-1317/23/5/055024	Fabrication of 3D fractal structures using nanoscale anisotropic etching of single crystalline silicon
+10.1038/ncomms14026	Fractal nematic colloids
+10.3390/en14196204	A Novel Approach of Design and Analysis of a Hexagonal Fractal Antenna Array (HFAA) for Next-Generation Wireless Communication
+10.3390/fractalfract4010003	Fractal Antennas: An Historical Perspective

@@ -1,0 +1,10 @@
+	A Note on Elementary Cellular Automata Classification
+10.1162/artl_a_00471	Flow-Lenia: Emergent evolutionary dynamics in mass conservative continuous cellular automata
+	Isotropic Cellular Automata: the DDLab iso-rule paradigm
+	On Decidability Properties of One-Dimensional Cellular Automata
+	On the decomposition of stochastic cellular automata
+	A guided tour of asynchronous cellular automata
+	Glaberish: Generalizing the continuously-valued Lenia framework to arbitrary Life-like cellular automata
+	Nonequilibrium physics aspects of probabilistic cellular automata
+	Probabilistic Cellular Automata for Granular Media in Video Games
+10.1007/978-3-032-01570-9_7	Ternary cellular automata induced by semigroups of order 3 are solvable

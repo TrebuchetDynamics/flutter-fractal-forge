@@ -1,0 +1,10 @@
+10.1201/b17091-9	Modelling Spatial Morphologies: Fractal Patterns from Cellular Automata
+10.1109/chicc.2008.4604886	Production of patterns based on fractal fuzzy cellular automata
+10.1201/b17091-3	Modelling Spatial Morphologies: Fractal Patterns from Cellular Automata
+10.1142/9789811217166_0008	FRACTAL STRUCTURES FROM CELLULAR AUTOMATA
+10.1007/978-3-540-79992-4_36	Study on Acoustic Field with Fractal Boundary Using Cellular Automata
+10.3840/08004099	Highlighting Patterns in Cellular Automata
+10.5772/51708	Validating Spatial Patterns of Urban Growth from a Cellular Automata Model
+10.3840/07000854	Patterns from All Possible Elementary Cellular Automata
+10.1068/a251175	Cellular Automata and Fractal Urban Form: A Cellular Modelling Approach to the Evolution of Urban Land-Use Patterns
+10.3840/000854	Patterns from All Possible Elementary Cellular Automata

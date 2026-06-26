@@ -1,0 +1,10 @@
+10.1007/978-981-10-7050-1_7	Control of Julia Sets in Complex Henon Systems
+	DYNAMICS OF POLYNOMIAL DIFFEOMORPHISMS OF C2: COMBINATORIAL AND TOPOLOGICAL ASPECTS
+10.1007/s40598-017-0066-x	Dynamics of Polynomial Diffeomorphisms of $$\mathbb {C}^2$$C2: Combinatorial and Topological Aspects
+10.1007/s40598-017-0066-x	Dynamics of Polynomial Diffeomorphisms of C2\documentclass[12pt]{minimal} \usepackage{amsmath} \usepackage{wasysym} \usepackage{amsfonts} \usepackage{amssymb} \usepackage{amsbsy} \usepackage{mathrsfs} \usepackage{upgreek} \setlength{\oddsidemargin}{-69pt} \begin{document}$$\mathbb {C}^2$$\end{docume
+	Encounters with Chaos and Fractals
+10.3390/math11030727	On the Fractional-Order Complex Cosine Map: Fractal Analysis, Julia Set Control and Synchronization
+10.2206/kyushujm.80.1	CONTINUITY OF THE JULIA SET OF THE HÉNON MAP AT A SEMI-PARABOLIC PARAMETER
+10.1007/s13538-026-02014-w	Transient Chaos in the Hénon Map
+10.1142/s0218348x21502479	Parameter estimation of the classical fractal map based on a given Julia set's shape
+10.1007/s11071-015-2061-x	Synchronization between the spatial Julia sets of complex Lorenz system and complex Henon map

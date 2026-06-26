@@ -1,0 +1,10 @@
+10.1142/9789812832061_0031	The Reversible Greenberg-Hastings Cellular Automaton
+10.25088/complexsystems.27.2.101	The Time Evolution of a Greenberg–Hastings Cellular Automaton on a Finite Graph
+10.1103/physreve.75.032901	Excitable Greenberg-Hastings cellular automaton model on scale-free networks
+10.1007/0-8176-4415-6_4	Cellular Automata
+10.5772/7534	A Cellular Automaton Framework for Image Processing on GPU
+10.1007/0-8176-4415-6_9	Pigment Cell Pattern Formation
+10.1007/0-8176-4415-6_8	Alignment and Cellular Swarming
+10.1007/978-94-011-1691-6_9	How to Fire Almost any Arbitrary Pattern on a Cellular Automaton
+10.1007/b138451	Cellular Automaton Modeling of Biological Pattern Formation
+10.1007/0-8176-4415-6_3	Mathematical Modeling of Biological Pattern Formation

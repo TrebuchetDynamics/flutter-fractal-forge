@@ -1,0 +1,10 @@
+10.1090/s1088-4173-2012-00235-4	Uniformly quasiregular maps with toroidal Julia sets
+10.1017/etds.2021.123	Julia sets of Zorich maps
+10.1090/s1088-4173-97-00016-7	Branch sets of uniformly quasiregular maps
+10.23943/princeton/9780691159294.003.0008	Limiting behavior of Julia sets of singularly perturbed rational maps
+10.1007/s40315-022-00458-0	Explosion Points and Topology of Julia Sets of Zorich Maps
+10.1016/s0040-9383(97)00015-3	Quasiregular maps S3 → S3 with wild branch sets
+10.1201/9781003072676-19	On the Dynamics of Iterated Maps VI: Conjecture That Certain Julia Sets Include Smooth Components
+10.1007/s11854-021-0187-y	Obstructions for automorphic quasiregular maps and Lattès-type uniformly quasiregular maps
+10.1090/hmath/038/26	Understanding Julia sets of entire maps
+10.4171/011-1/7	Semiconjugacies between the Julia sets of geometrically finite rational maps II

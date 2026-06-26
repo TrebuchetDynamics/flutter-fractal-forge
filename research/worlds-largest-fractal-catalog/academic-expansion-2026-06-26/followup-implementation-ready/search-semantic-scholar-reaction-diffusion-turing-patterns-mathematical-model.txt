@@ -1,0 +1,10 @@
+10.1515/jncds-2025-0029	Higher-order finite difference modeling of chaos and Turing-like patterns in space-fractional reaction–diffusion systems
+10.1109/access.2017.2780324	A Semi-Automatic Numerical Algorithm for Turing Patterns Formation in a Reaction-Diffusion Model
+10.1140/epjp/i2018-12265-9	Numerical simulations of Turing patterns in a reaction-diffusion model with the Chebyshev spectral method
+10.3390/math11061459	Spatiotemporal Dynamics of Reaction–Diffusion System and Its Application to Turing Pattern Formation in a Gray–Scott Model
+10.1016/j.mbs.2025.109536	Turing patterns in a morphogenetic model with single regulatory function.
+10.1140/epjp/i2018-12265-9	Numerical simulations of Turing patterns in a reaction-diffusion model with the Chebyshev spectral method
+10.3934/mbe.2024334	Turing patterns in a networked vegetation model.
+10.1016/j.matcom.2014.10.002	Spatial patterns through Turing instability in a reaction-diffusion predator-prey model
+10.1007/s10910-024-01679-5	Analysis of a general reaction–diffusion model using Lie symmetries and conservation laws
+	STATISTICAL PARAMETER IDENTIFICATION OF REACTION-DIFFUSION SYSTEMS BY TURING PATTERNS

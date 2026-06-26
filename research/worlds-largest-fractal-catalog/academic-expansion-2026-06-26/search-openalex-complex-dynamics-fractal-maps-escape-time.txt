@@ -1,0 +1,10 @@
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1016/j.physrep.2018.10.005	Complex network approaches to nonlinear time series analysis
+10.1016/0893-6080(89)90018-x	Convergent activation dynamics in continuous time networks
+10.3389/fphys.2010.00015	Fractals in the nervous system: conceptual implications for theoretical neuroscience
+10.1146/annurev-astro-091918-104430	Star Clusters Across Cosmic Time
+10.1039/c4cp03465a	Anomalous diffusion models and their properties: non-stationarity, non-ergodicity, and ageing at the centenary of single particle tracking
+10.1007/bf02392694	Dynamics of quadratic polynomials, I–II
+10.1103/physrevx.10.031017	Bacterial Route Finding and Collective Escape in Mazes and Fractals
+10.1006/tpbi.1998.1365	Spatial Structure, Environmental Heterogeneity, and Population Dynamics: Analysis of the Coupled Logistic Map
+10.3390/jimaging4010017	Secure Image Transmission Using Fractal and 2D-Chaotic Map

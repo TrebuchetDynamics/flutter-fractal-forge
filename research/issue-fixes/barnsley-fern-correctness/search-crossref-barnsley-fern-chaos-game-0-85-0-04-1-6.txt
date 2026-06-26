@@ -1,0 +1,5 @@
+10.1142/s0218127414501399	The Chaos Game on a General Iterated Function System from a Topological Point of View
+10.1016/j.chaos.2024.114807	Tiling iterated function systems
+10.1017/s0143385710000428	The chaos game on a general iterated function system
+10.1016/j.jmaa.2015.11.022	Chaos game for IFSs on topological spaces
+10.1016/j.chaos.2023.113674	On the localization of Hutchinson–Barnsley fractals

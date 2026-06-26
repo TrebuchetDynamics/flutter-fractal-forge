@@ -1,0 +1,10 @@
+10.1145/357323.357324	New Techniques for Ray Tracing Procedurally Defined Objects
+10.1016/j.cemconres.2009.03.005	Quantification of tortuosity in hardened cement pastes using synchrotron-based X-ray computed microtomography
+10.2478/v10178-012-0039-2	Algorithms and methods for analysis of the optical structure factor of fractal aggregates
+10.1109/tit.2020.2996543	Levenshtein Distance, Sequence Comparison and Biological Database Search
+10.1007/s00371-006-0090-7	Ray casting implicit fractal surfaces with reduced affine arithmetic
+10.5194/angeo-21-2011-2003	Fractal approach to description of the auroral structure
+	The Pierre Auger Observatory: Contributions to the 34th International Cosmic Ray Conference (ICRC 2015)
+10.3390/bdcc5040078	Automatic Diagnosis of Epileptic Seizures in EEG Signals Using Fractal Dimension Features and Convolutional Autoencoder Method
+10.1016/j.advwatres.2017.04.006	Pore-scale capillary pressure analysis using multi-scale X-ray micromotography
+10.3390/min9030183	X-ray Microcomputed Tomography (µCT) for Mineral Characterization: A Review of Data Analysis Methods

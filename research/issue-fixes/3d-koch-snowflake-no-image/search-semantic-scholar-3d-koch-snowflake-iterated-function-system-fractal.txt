@@ -1,0 +1,5 @@
+10.1145/3641519.3657466	Into the Portal: Directable Fractal Self-Similarity
+10.19184/bst.v13i1.25656	Generation of Fractal Objects with Iterated Function System on the Developments of Trellis Ornament Designs
+10.1109/cac67268.2025.11487440	Iterated Function System-based Shape Formation for Large-scale Robotic Swarm with Collision Avoidance
+10.1111/exsy.13242	Fifth‐generation fractal antenna design based on the Koch Snowflake geometry. A fractal theory application
+10.1142/s0218348x26501173	Anisotropic Metric Deformations of Iterated Function Systems: A One-Parameter Family of Self-Affine Fractals with Riemannian--Lorentzian Transition

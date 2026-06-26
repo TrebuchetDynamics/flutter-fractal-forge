@@ -1,0 +1,10 @@
+10.3390/math11051084	Vegetation Patterns in the Hyperbolic Klausmeier Model with Secondary Seed Dispersal
+10.21203/rs.3.rs-1501523/v1	Cross-diffusion induced spatio-temporal patterns in Schnakenberg reaction-diffusion model
+10.3934/dcdss.2022043	Dynamics of patchy vegetation patterns in the two-dimensional generalized Klausmeier model
+10.1126/science.284.5421.1826	Regular and Irregular Patterns in Semiarid Vegetation
+10.1137/120899510	Pattern Solutions of the Klausmeier Model for Banded Vegetation in Semiarid Environments V: The Transition from Patterns to Desert
+10.1137/120862648	Pattern Solutions of the Klausmeier Model for Banded Vegetation in Semiarid Environments IV: Slowly Moving Patterns and Their Stability
+10.2139/ssrn.6791884	Extinction and persistence criteria in non-local Klausmeier model of vegetation dynamics on flat landscapes
+10.1101/370304	Reaction diffusion plus growth: A numerical model for Turing morphogenesis and Ben-Jacob patterns
+10.3934/math.2022776	Spatiotemporal patterns induced by cross-diffusion on vegetation model
+10.1016/j.chaos.2023.114152	Turing patterns in hyperbolic reaction-transport vegetation models with cross-diffusion

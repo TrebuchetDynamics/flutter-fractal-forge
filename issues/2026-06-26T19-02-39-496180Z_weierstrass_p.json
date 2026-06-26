@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-06-26T19:02:39.496180Z",
+  "moduleId": "weierstrass_p",
+  "moduleName": "Weierstrass ℘ + c",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=weierstrass_p&zoom=413329.3451351651&x=0.6230047941207886&y=1.6348036527633667&iterations=500&bailout=6.6&colorScheme=49&p=eyJiYWlsb3V0Ijo2LjYsImNvbG9yU2NoZW1lIjo0OSwiaXRlcmF0aW9ucyI6NTAwfQ",
+  "params": {
+    "iterations": 500,
+    "bailout": 6.6,
+    "colorScheme": 49
+  },
+  "view": {
+    "zoom": 413329.3451351651,
+    "x": 0.6230047941207886,
+    "y": 1.6348036527633667,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "fixedAt": "2026-06-26T19:16:25Z",
+  "fixes": [
+    "Added native CPU Weierstrass-p fallback formula.",
+    "Lowered Weierstrass-p deep-zoom CPU fallback threshold to avoid float32 GPU precision collapse at reported zoom."
+  ],
+  "resolution": {
+    "status": "fixed",
+    "note": "Validated the reported zoom routes Weierstrass-p to the native CPU formula before GPU float32 precision collapses."
+  }
+}

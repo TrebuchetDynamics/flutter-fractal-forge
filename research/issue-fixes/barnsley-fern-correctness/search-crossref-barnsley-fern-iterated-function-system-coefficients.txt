@@ -1,0 +1,5 @@
+10.1016/b978-0-12-079061-6.50015-2	Recurrent Iterated Function Systems
+10.1016/j.chaos.2024.114807	Tiling iterated function systems
+10.4064/bc125-9	The Hutchinson–Barnsley theory for generalized iterated function systems by means of infinite iterated function systems
+10.1081/e-eoe2-120009639	Iterated Function Systems
+10.1007/978-1-4899-6886-9_1	Recurrent Iterated Function Systems

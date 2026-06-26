@@ -1,0 +1,10 @@
+	Fractal trajectories of the dynamical system
+10.3934/dcdsb.2009.11.741	Cahn-Hilliard Equations and Phase Transition Dynamics for Binary Systems
+	Carleman-Fourier linearization of nonlinear real dynamical systems with quasi-periodic fields
+	Strange attractors in a dynamical system inspired by a seasonally forced SIR model
+10.1017/s0143385707000521	Genericity in Topological Dynamics
+	On the dynamics of rotating rank-one strange attractors families
+	Random Dynamical Systems
+	A model for dynamical systems with strange attractors
+	A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+10.3934/dcds.2022170	Dressing for generalised linear Hamiltonian systems depending rationally on the spectral parameter and some applications

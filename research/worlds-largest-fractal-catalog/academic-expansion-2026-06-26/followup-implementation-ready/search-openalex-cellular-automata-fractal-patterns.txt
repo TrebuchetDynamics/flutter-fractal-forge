@@ -1,0 +1,10 @@
+10.1068/a251175	Cellular Automata and Fractal Urban Form: A Cellular Modelling Approach to the Evolution of Urban Land-Use Patterns
+10.1103/revmodphys.55.601	Statistical mechanics of cellular automata
+	Cities and Complexity: Understanding Cities with Cellular Automata, Agent-Based Models, and Fractals
+10.1007/b72010	Lattice-Gas Cellular Automata and Lattice Boltzmann Models: An Introduction
+10.1016/s0304-3800(02)00059-5	dinamica—a stochastic cellular automata model designed to simulate the landscape dynamics in an Amazonian colonization frontier
+10.1145/349194.349202	A brief history of cellular automata
+10.1016/0960-0779(94)90066-3	Urban systems dynamics and cellular automata: Fractal structures between order and chaos
+10.1371/journal.pbio.0020424	Algorithmic Self-Assembly of DNA Sierpinski Triangles
+	Nonlinear Physics for Beginners: Fractals, Chaos, Solitons, Pattern Formation, Cellular Automata and Complex Systems
+10.1016/0022-0000(92)90007-6	Self-similarity of linear cellular automata

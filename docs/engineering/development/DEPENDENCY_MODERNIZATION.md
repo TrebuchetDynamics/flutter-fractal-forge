@@ -10,11 +10,12 @@ Generated while implementing the technical-audit quick wins. Evidence command:
 
 | Package | Current | Resolvable/latest | Risk | Recommended slice |
 | --- | ---: | ---: | --- | --- |
-| `share_plus` | 7.2.2 | 13.1.0 | High: export/share UX depends on this plugin and v13 has a newer share API surface. | Isolate share calls behind a project wrapper, then upgrade with export and log-sharing tests. |
+| `share_plus` | 7.2.2 | 13.2.0 | High: export/share UX depends on this plugin and v13 has a newer share API surface. | Isolate share calls behind a project wrapper, then upgrade with export and log-sharing tests. |
 | `shared_preferences` | 2.2.3 | 2.5.5 | Medium: many stores/services use test mocks; plugin update should be broad but mechanical. | Upgrade after fast-lane export/render tests are green; run all preference-backed service/widget tests. |
-| `path_provider` | 2.1.4 | 2.1.5 | Low: patch update, used by export/log/video services. | Patch upgrade with export/log/video tests. |
-| `image` | 4.7.2 | 4.8.0 resolvable, 4.9.1 latest | Medium: export encoding and wallpaper transforms rely on image codecs. | Upgrade separately with `test/export_service_test.dart`, batch/video export tests, and sample encoded output checks. |
+| `path_provider` | 2.1.4 | 2.1.6 | Low: patch update, used by export/log/video/report services. | Patch upgrade with export/log/video/report tests. |
+| `image` | 4.7.2 | 4.9.1 | Medium: export encoding and wallpaper transforms rely on image codecs. | Upgrade separately with `test/export_service_test.dart`, batch/video export tests, and sample encoded output checks. |
 | `flutter_lints` | 4.0.0 | 6.0.0 | Medium: analyzer rules may create repo-wide cleanup. | Defer until product/runtime plugin upgrades are complete. |
+| `vector_math` | 2.2.0 | 2.4.0 latest, 2.2.0 resolvable | Low: math-heavy app, but current SDK constraints do not resolve newer release. | Defer until Flutter/Dart SDK constraints allow it; run renderer/controller tests after upgrade. |
 
 ## Share plugin wrapper target
 

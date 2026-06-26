@@ -1,0 +1,10 @@
+	Ray Marching Distance Fields in Real-time on WebGL
+10.5220/0013335300003912	Reconstruction of the Botanical Trees from Single-View Images Using Signed Distance Functions
+10.3847/1538-4357/ae4335	Exploring the Spin Dependence on Mass Inclination and Distance for the Newly Discovered Black Hole X-Ray Binary Swift J151857.0–572147
+10.1051/0004-6361/202556179	Detection of low-luminosity X-ray pulsations from the accreting millisecond pulsar IGR J17511-3057: An ever-thinning thread between bright accretion and subluminous states
+10.51939/scores25.1	Raymarching 3D Julia Sets
+10.1088/1742-6596/2429/1/012037	Search for gravitational waves associated with Gamma Ray Bursts during the LIGO-Virgo run O3b
+10.3390/met11060925	Aluminium Alloy Foam Modelling and Prediction of Elastic Properties Using X-ray Microcomputed Tomography
+10.3847/1538-4357/ac532b	Search for Gravitational Waves Associated with Gamma-Ray Bursts Detected by Fermi and Swift During the LIGO-Virgo Run O3b
+10.48550/arxiv.2604.03748	Real-time Neural Six-way Lightmaps
+10.1016/j.prevetmed.2023.105990	A quantitative risk assessment for the incursion of lumpy skin disease virus into Australia via long-distance windborne dispersal of arthropod vectors.

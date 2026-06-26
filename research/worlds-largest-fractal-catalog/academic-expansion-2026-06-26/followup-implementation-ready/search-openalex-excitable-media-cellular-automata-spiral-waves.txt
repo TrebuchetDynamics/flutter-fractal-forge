@@ -1,0 +1,10 @@
+10.1126/science.2321017	A Cellular Automaton Model of Excitable Media Including Curvature and Dispersion
+10.1007/bf01890834	Threshold-range scaling of excitable cellular automata
+10.1080/10586458.1993.10504277	Asymptotic Behavior of Excitable Cellular Automata
+10.1063/1.1502481	Propagation through heterogeneous substrates in simple excitable media models
+	Feedback control of spiral waves in a cellular automata model of excitable media
+10.1103/physreve.77.051911	Deterministic excitable media under Poisson drive: Power law responses, spiral waves, and dynamic range
+10.1103/physreve.57.7025	Wave-front propagation in a discrete model of excitable media
+10.1016/s0008-6363(96)00216-7	Role of wavefront curvature in propagation of cardiac impulse
+	Cellular automata methods in mathematical physics
+	Modelling morphogenetic processes in excitable media using novel cellular automata.

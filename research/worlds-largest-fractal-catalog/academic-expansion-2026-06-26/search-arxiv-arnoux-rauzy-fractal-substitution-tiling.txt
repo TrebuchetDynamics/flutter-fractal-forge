@@ -1,0 +1,10 @@
+	A robust family of residually finite groups; spectra of residual finiteness growth, computability properties, and other applications (with an appendix by Arman Darbinyan and Emmanuel Rauzy)
+	Arnoux-Rauzy interval exchange transformations
+10.1051/ita/2014008	Connectedness of fractals associated with Arnoux-Rauzy substitutions
+10.4171/jfg/37	Fractal dual substitution tilings
+10.1016/j.aim.2025.110713	Rauzy fractals of random substitutions
+	The boundary of Rauzy fractal and discrete tilings
+10.3390/sym9020019	Cyclotomic Aperiodic Substitution Tilings
+10.24033/bsmf.2762	Topological substitutions and Rauzy fractals
+10.4171/jfg/13	Rauzy fractals with countable fundamental group
+	Substitutive Arnoux-Rauzy sequences have pure discrete spectrum

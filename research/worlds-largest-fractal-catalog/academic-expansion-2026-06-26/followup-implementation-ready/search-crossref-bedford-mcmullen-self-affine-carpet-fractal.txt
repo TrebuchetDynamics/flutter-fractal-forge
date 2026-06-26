@@ -1,0 +1,10 @@
+10.1007/978-1-4899-6886-9_2	Hölder Exponents and Box Dimension for Self-Affine Fractal Functions
+10.1142/s0218348x24500324	THREE PROPERTIES OF FRACTAL NETWORKS BASED ON BEDFORD–MCMULLEN CARPET
+10.1007/s00209-015-1588-3	On the quantization for self-affine measures on Bedford–McMullen carpets
+10.1007/bf01889597	Hölder exponents and box dimension for self-affine fractal functions
+10.1512/iumj.2016.65.5826	Doubling property of self-affine measures on carpets of Bedford and McMullen
+10.1017/s0305004100072789	The self-affine carpets of McMullen and Bedford have infinite Hausdorff measure
+10.1142/s0218348x2050036x	ASYMPTOTIC ORDER OF THE GEOMETRIC MEAN ERROR FOR SELF-AFFINE MEASURES ON BEDFORD–MCMULLEN CARPETS
+10.1127/ejm/10/1/0149	Self-affine fractal geometry of agate
+10.4171/jfg/190	Assouad and lower dimensions of graph-directed Bedford–McMullen carpets
+10.4171/jfg/118	An upper bound for the intermediate dimensions of Bedford–McMullen carpets

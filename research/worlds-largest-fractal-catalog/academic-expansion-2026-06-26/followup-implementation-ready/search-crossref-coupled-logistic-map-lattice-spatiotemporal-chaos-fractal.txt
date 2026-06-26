@@ -1,0 +1,10 @@
+10.15388/na.18.4.13977	Spatiotemporal chaos in Arnold coupled logistic map lattice
+10.1016/j.physa.2014.01.051	Spatiotemporal chaos in mixed linear–nonlinear coupled logistic map lattice
+10.1103/physrevlett.72.68	Controlling spatiotemporal chaos in coupled map lattice systems
+10.1007/s11071-017-3501-6	Spatiotemporal and synchronous chaos in accumulated coupled map lattice
+10.1063/1.51021	Controlling spatiotemporal chaos in one- and two-dimensional coupled logistic map lattices
+10.2139/ssrn.5650531	Spatiotemporal stability of synchronized coupled map lattice states
+10.1016/s0375-9601(97)00289-2	Controlling localized spatiotemporal chaos in a one-dimensional coupled map lattice
+10.1142/s021812740802080x	THE IDENTIFICATION OF COMPLEX SPATIOTEMPORAL PATTERNS USING COUPLED MAP LATTICE MODELS
+10.7498/aps.57.7517	The synchronization of spatiotemporal chaos of unilateral coupled map lattice
+10.3182/20060628-3-fr-3903.00008	COMPUTING LYAPUNOV EXPONENTS IN COUPLED MAP LATTICE FOR CONTROLLING SPATIOTEMPORAL CHAOS

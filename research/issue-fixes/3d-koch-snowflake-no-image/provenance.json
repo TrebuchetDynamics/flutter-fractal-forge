@@ -1,0 +1,61 @@
+{
+  "question": "Why does f0598 3D Koch Snowflake show no image, and what minimal validated fix is appropriate?",
+  "rforge_version": "rforge v0.1.10 (d0f6612, 2026-06-26T18:09:12Z)",
+  "timestamp": "2026-06-26T19:51:51.541516Z",
+  "depth": "standard",
+  "queries": [
+    "3D Koch snowflake iterated function system fractal",
+    "kaleidoscopic iterated function system distance estimator ray marching",
+    "Koch snowflake fractal construction iterated function system"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "search_stats": {
+    "raw": "Source coverage for .\n  arxiv                    15 records (3 files)\n  crossref                 15 records (3 files)\n  openalex                 10 records (3 files)\n  semantic-scholar         11 records (3 files)\n  stats                    0 records (1 files)\n\nTotal unique DOIs: 39",
+    "openalex": 10,
+    "crossref": 15,
+    "semantic-scholar": 11,
+    "arxiv": 15,
+    "total_unique_dois": 39
+  },
+  "citation_expand_attempted": [
+    "10.4169/amer.math.monthly.123.7.716",
+    "10.1007/978-3-319-27857-5_10"
+  ],
+  "citation_expand_succeeded": [
+    "10.4169/amer.math.monthly.123.7.716",
+    "10.1007/978-3-319-27857-5_10"
+  ],
+  "outputs": [
+    "citation-expand-kifs.txt",
+    "citation-expand-koch-ifs.txt",
+    "citation-graph-kifs.json",
+    "citation-graph-koch-ifs.json",
+    "citation-report-kifs.log",
+    "citation-report-kifs.md",
+    "citation-report-koch-ifs.log",
+    "citation-report-koch-ifs.md",
+    "report.md",
+    "rforge-version.txt",
+    "search-arxiv-3d-koch-snowflake-iterated-function-system-fractal.txt",
+    "search-arxiv-kaleidoscopic-iterated-function-system-distance-estimator-ray-marching.txt",
+    "search-arxiv-koch-snowflake-fractal-construction-iterated-function-system.txt",
+    "search-crossref-3d-koch-snowflake-iterated-function-system-fractal.txt",
+    "search-crossref-kaleidoscopic-iterated-function-system-distance-estimator-ray-marching.txt",
+    "search-crossref-koch-snowflake-fractal-construction-iterated-function-system.txt",
+    "search-openalex-3d-koch-snowflake-iterated-function-system-fractal.txt",
+    "search-openalex-kaleidoscopic-iterated-function-system-distance-estimator-ray-marching.txt",
+    "search-openalex-koch-snowflake-fractal-construction-iterated-function-system.txt",
+    "search-semantic-scholar-3d-koch-snowflake-iterated-function-system-fractal.txt",
+    "search-semantic-scholar-kaleidoscopic-iterated-function-system-distance-estimator-ray-marching.txt",
+    "search-semantic-scholar-koch-snowflake-fractal-construction-iterated-function-system.txt",
+    "search-stats.txt"
+  ],
+  "errors": [
+    "OpenAlex returned no records for the KIFS/ray-marching query; arXiv KIFS/ray-marching query returned unrelated X-ray timing matches."
+  ]
+}

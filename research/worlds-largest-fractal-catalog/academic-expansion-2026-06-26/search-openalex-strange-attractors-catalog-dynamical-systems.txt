@@ -1,0 +1,10 @@
+10.1103/revmodphys.75.559	The cosmological constant and dark energy
+10.1016/j.physrep.2017.10.001	The science of science: From the perspective of complex systems
+10.1016/j.actaastro.2014.07.037	An Earth–Moon system trajectory design reference catalog
+10.1039/c4cs00144c	Models and mechanisms of Hofmeister effects in electrolyte solutions, and colloid and protein systems revisited
+10.1037/0033-295x.109.2.306	Decisions and the evolution of memory: Multiple systems, multiple functions.
+10.1137/100791233	Mixed-Mode Oscillations with Multiple Time Scales
+10.1215/23289252-2399587	Cataloging
+10.1016/j.physd.2008.07.006	Boolean delay equations: A simple way of looking at complex systems
+10.4218/etrij.13.0112.0074	Feature Extraction Based on Speech Attractors in the Reconstructed Phase Space for Automatic Speech Recognition Systems
+10.1109/tpwrd.2021.3065342	Fault Diagnosis for Power Cables Based on Convolutional Neural Network With Chaotic System and Discrete Wavelet Transform

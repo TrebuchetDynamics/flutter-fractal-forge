@@ -1,0 +1,10 @@
+10.1007/978-3-030-74863-0_15	Fractal Geometry of Bedford-McMullen Carpets
+10.1090/s1088-4173-2011-00232-3	Assouad dimension of self-affine carpets
+10.1016/j.aim.2024.109735	Intermediate dimensions of Bedford–McMullen carpets with applications to Lipschitz equivalence
+10.1090/s0002-9947-2014-06202-8	Assouad type dimensions and homogeneity of fractals
+10.4064/fm209-3-1	The Hausdorff dimension of the projections of self-affine carpets
+10.2140/pjm.1998.183.143	Self-affine multifractal Sierpinski sponges in ℝ<sup>d</sup>
+10.1088/0951-7715/25/7/2075	On the packing dimension of box-like self-affine sets in the plane
+10.1017/etds.2017.42	Badly approximable points on self-affine sponges and the lower Assouad dimension
+10.1016/j.aim.2014.09.019	Scaling scenery of <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" altimg="si1.gif" overflow="scroll"><mml:mo stretchy="false">(</mml:mo><mml:mo>×</mml:mo><mml:mi>m</mml:mi><mml:mo>,</mml:mo><mml:mo>×</mml:mo><mml:mi>n</mml:mi><mml:mo stretchy="false">)</mml:mo></mml:math> invariant measures
+10.48550/arxiv.2111.05625	Intermediate dimensions of Bedford-McMullen carpets with applications to Lipschitz equivalence

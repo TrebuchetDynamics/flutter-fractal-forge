@@ -1,0 +1,10 @@
+10.31274/aperiodic2018-180810-46	Diffraction of block substitution tilings
+10.3390/sym9020019	Cyclotomic Aperiodic Substitution Tilings
+10.20944/preprints201809.0366.v1	Cut-and-Project Schemes for Pisot Family Substitution Tilings
+10.1088/1742-6596/226/1/012020	MLD relations of pisot substitution tilings
+10.1007/978-94-007-6431-6_9	Substitution Rules and Topological Properties of the Robinson Tilings
+10.1201/9780429197123-8	Matching Rules, Aperiodic Tiles, and Substitution Tilings
+10.1017/9781316285572.019	Substitution Dynamical Systems
+10.4171/dm/799	Fourier Transform of Rauzy Fractals and Point Spectrum of 1D Pisot Inflation Tilings
+10.31274/aperiodic2018-180810-22	Tilings with Singularity and Spiral Tilings Obtained from Archimedean Tilings
+10.31274/aperiodic2018-180810-13	Self-assembly of aperiodic tilings

@@ -1,0 +1,10 @@
+10.2140/pjm.2002.206.465	Self-affine tiling via substitution dynamical systems and Rauzy fractals
+10.1090/s0002-9947-01-02797-0	Geometric representation of substitutions of Pisot type
+10.5802/jtnb.556	Unimodular Pisot substitutions and their associated tiles
+10.4171/dm/799	Fourier Transform of Rauzy Fractals and Point Spectrum of 1D Pisot Inflation Tilings
+10.4153/cmb-2002-062-3	Pure Discrete Spectrum for One-dimensional Substitution Systems of Pisot Type
+10.1090/s0002-9947-2012-05362-1	Beta-expansions, natural extensions and multiple tilings associated with Pisot units
+10.5802/aif.2238	Geometric realization and coincidence for reducible non-unimodular Pisot tiling spaces with an application to <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"> <mml:mi>β</mml:mi> </mml:math> -shifts
+10.24033/msmf.430	Topological properties of Rauzy fractals
+10.46298/dmtcs.353	Connectedness of number theoretical tilings
+10.3934/dcds.2013.33.579	Pure discrete spectrum in substitution tiling spaces

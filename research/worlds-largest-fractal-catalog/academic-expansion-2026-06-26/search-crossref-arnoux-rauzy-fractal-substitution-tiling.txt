@@ -1,0 +1,10 @@
+10.24033/bsmf.2762	Topological substitution for the aperiodic Rauzy fractal tiling
+10.1016/s0019-3577(99)80032-9	Coboundary on colored tiling space as Rauzy fractal
+10.1090/noti1144	WHAT IS... a Rauzy Fractal?
+10.2140/pjm.2002.206.465	Self-affine tiling via substitution dynamical systems and Rauzy fractals
+10.1007/978-3-030-57666-0	Substitution and Tiling Dynamics: Introduction to Self-inducing Structures
+10.1016/j.crma.2008.06.014	On the triplex substitution – Rauzy fractal
+10.1080/10586458.2018.1446063	Rauzy Fractal of the Smallest Substitution Associated with the Smallest Pisot Number
+10.2422/2036-2145.201909_015	Arnoux-Rauzy interval exchanges
+10.1134/s1063774510050019	2D quasi-periodic Rauzy tiling as a section of 3D periodic tiling
+10.1007/978-0-8176-8400-6_1	The Rauzy Gasket

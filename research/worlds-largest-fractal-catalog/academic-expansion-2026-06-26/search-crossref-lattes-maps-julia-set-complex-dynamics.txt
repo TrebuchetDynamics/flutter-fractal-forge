@@ -1,0 +1,10 @@
+10.1007/978-3-663-08092-3_6	Using the Fatou Set to Study the Julia Set
+10.2307/j.ctt7rnxn.11	USING THE FATOU SET TO STUDY THE JULIA SET
+10.1515/9781400835539.174	Using the Fatou Set to Study the Julia Set
+10.23943/princeton/9780691159294.003.0008	Limiting behavior of Julia sets of singularly perturbed rational maps
+10.1090/hmath/038/26	Understanding Julia sets of entire maps
+10.1201/b10617-9	The Connectivity of the Julia Set and Fixed Points
+10.1016/0097-8493(93)90080-s	Morphosis of the Julia set of the real parameter family of complex quadratic maps
+10.1007/978-3-031-80115-0_7	Dimensions of Mandelbrot Set Boundary and of Julia Sets
+10.24033/ast.479	Rational maps with disconnected Julia set
+10.1515/9781400851317-009	Limiting behavior of Julia sets of singularly perturbed rational maps

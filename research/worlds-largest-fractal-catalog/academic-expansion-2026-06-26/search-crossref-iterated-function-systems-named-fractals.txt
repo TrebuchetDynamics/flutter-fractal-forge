@@ -1,0 +1,10 @@
+10.1016/b978-044450002-1/50058-8	Iterated Function Systems
+10.1016/b978-0-12-079061-6.50015-2	Recurrent Iterated Function Systems
+10.2139/ssrn.4654053	A Friendly Approach to Iterated Function Systems and Fractals
+10.1016/b978-044450002-1/50062-x	Automatic generation of iterated function systems
+10.1142/s0218348x00000299	ADMISSIBLE STRINGS AND ITERATED FUNCTION SYSTEMS
+10.1016/b978-044450002-1/50059-x	Some nonlinear iterated function systems
+10.1007/1-84628-686-7_1	Image Models for Fractals
+10.1142/s0218348x97000681	Zooming Using Iterated Function Systems
+10.1142/s0218348x08003946	FRACTAL VIDEOFEEDBACK AS ANALOG ITERATED FUNCTION SYSTEMS
+10.1016/j.chaos.2015.09.015	Homoclinic attractors in discontinuos iterated function systems

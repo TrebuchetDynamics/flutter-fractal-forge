@@ -1,0 +1,10 @@
+10.2307/j.ctvc5pczn.12	STRANGE ATTRACTORS
+10.3934/dcds.2008.20.939	Dynamics of local map of a discrete Brusselator model: eventually trapping regions and strange attractors
+10.3934/dcds.2012.32.605	On strange attractors in a class of pinched skew products
+10.3934/dcds.2021193	"Large" strange attractors in the unfolding of a heteroclinic attractor
+10.1007/978-0-387-21830-4_9	Strange attractors and chaotic motions of dynamical systems
+10.1017/cbo9780511803260.005	Strange attractors and fractal dimension
+10.3934/dcds.2010.27.285	Heterodimensional tangencies on cycles leading to strange attractors
+10.2172/6441057	Statistical properties of chaotic dynamical systems which exhibit strange attractors
+10.1515/9780691189390-010	9. Strange Attractors
+10.1017/cbo9780511663031.005	Strange Attractors

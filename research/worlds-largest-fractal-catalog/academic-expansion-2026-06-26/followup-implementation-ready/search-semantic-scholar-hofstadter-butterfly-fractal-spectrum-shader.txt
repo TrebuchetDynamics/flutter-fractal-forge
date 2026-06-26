@@ -1,0 +1,10 @@
+10.1038/s41586-024-08550-2	Spectroscopy of the fractal Hofstadter energy spectrum
+10.3389/fphy.2026.1667538	The Hofstadter butterfly: bridging condensed matter, topology, and number theory
+	Study of Correlated Disorders and interaction in the Hofstadter Butterfly
+	Quantized heat flow in the Hofstadter butterfly
+	Mobility-edge-embedded Hofstadter butterfly from a tilt-induced quasiperiodic potential
+10.1038/s41699-023-00426-9	Probing miniband structure and Hofstadter butterfly in gated graphene superlattices via magnetotransport
+10.1007/s11467-023-1319-x	Quantum simulation of Hofstadter butterfly with synthetic gauge fields on two-dimensional superconducting-qubit lattices
+10.1103/nz52-ypsw	Fractal Spectrum in Twisted Bilayer Optical Lattice.
+	Fractal spectrum in twisted bilayer optical lattice
+10.1103/physrevb.105.205424	Polaritonic Hofstadter butterfly and cavity control of the quantized Hall conductance

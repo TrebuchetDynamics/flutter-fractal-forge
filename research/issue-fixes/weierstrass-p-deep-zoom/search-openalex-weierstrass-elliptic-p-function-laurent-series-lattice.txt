@@ -1,0 +1,5 @@
+10.1007/bf02362332	Mirror symmetry for lattice polarizedK3 surfaces
+10.1007/jhep05(2018)093	Elliptic polylogarithms and iterated integrals on elliptic curves. Part I: general formalism
+10.1007/jhep05%282018%29093	Elliptic polylogarithms and iterated integrals on elliptic curves. Part I: general formalism
+10.1007/jhep01(2019)023	Elliptic Feynman integrals and pure functions
+10.1090/s0002-9939-2011-11079-7	Connectivity of Julia sets for Weierstrass elliptic functions on square lattices

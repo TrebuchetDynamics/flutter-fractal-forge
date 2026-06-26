@@ -1,0 +1,10 @@
+	Fractal geometry of Bedford-McMullen carpets
+10.1090/proc/13756	Asymptotic order of the quantization errors for self-affine measures on Bedford-McMullen carpets
+10.1007/s00209-015-1588-3	On the quantization for self-affine measures on Bedford-McMullen carpets
+	Self embeddings of Bedford-McMullen carpets
+	Self-embedding similitudes of Bedford-McMullen carpets with dependent ratios
+10.1142/s0218348x2050036x	Asymptotic order of the geometric mean error for self-affine measures on Bedford-McMullen carpets
+	Multifractal analysis for Bedford-McMullen carpets
+10.1112/plms.12151	Shrinking targets on Bedford-McMullen carpets
+10.1016/j.aim.2024.109735	Intermediate dimensions of Bedford-McMullen carpets with applications to Lipschitz equivalence
+	On the intermediate dimensions of Bedford-McMullen carpets

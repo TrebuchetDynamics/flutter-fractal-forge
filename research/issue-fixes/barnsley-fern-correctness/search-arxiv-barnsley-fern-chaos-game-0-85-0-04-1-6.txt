@@ -1,0 +1,5 @@
+	Playing a 2D Game Indefinitely using NEAT and Reinforcement Learning
+10.1007/s00182-012-0345-7	Optimal strategies for a game on amenable semigroups
+	The Chaos Game on a General Iterated Function System
+10.1063/1.4768666	Topological chaos, braiding and bifurcation of almost-cyclic sets
+10.21638/11701/spbu31.2022.26	Dynamic Structure in Four-strategy Game: Theory and Experiment

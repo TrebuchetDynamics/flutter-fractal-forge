@@ -84,6 +84,13 @@ void main() {
         isTrue,
       );
     });
+
+    test('routes Weierstrass p to CPU before float32 deep-zoom collapse', () {
+      expect(
+        policy.shouldUseCpuFallback(moduleId: 'weierstrass_p', zoom: 413329),
+        isTrue,
+      );
+    });
   });
 
   group('DeepZoomPrecisionPolicy.shouldUseDoubleFloat', () {

@@ -1,0 +1,10 @@
+10.1109/lsp.2021.3120327	l1-Norm Minimization with Regula Falsi Type Root Finding Methods
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Can We Remove the Square-Root in Adaptive Gradient Methods? A Second-Order Perspective
+	Fractal Basins of Attraction Associated with a Damped Newton's Method
+10.1016/j.newast.2020.101543	Fractal basins of attraction in a binary quasar model
+10.1007/s10509-017-3169-x	Comparing the fractal basins of attraction in the Hill problem with oblateness and radiation
+10.1007/s00209-023-03215-8	On the basins of attraction of a one-dimensional family of root finding algorithms: from Newton to Traub
+10.1016/j.cnsns.2020.105588	A test for fractal boundaries based on the basin entropy
+	From Basins to safe sets: a machine learning perspective on chaotic dynamics

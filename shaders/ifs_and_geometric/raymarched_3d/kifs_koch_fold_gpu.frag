@@ -56,10 +56,11 @@ float kochDE(vec3 p, int maxIter) {
 
         p = abs(p);
 
-        // Fold across diagonal planes (Koch-style reflections)
-        if (p.x + p.y < 0.0) p.xy = -p.yx;
-        if (p.x + p.z < 0.0) p.xz = -p.zx;
-        if (p.y + p.z < 0.0) p.yz = -p.zy;
+        // Fold into one tetrahedral wedge. The old sign tests ran after abs(),
+        // so they never fired and the ray marcher mostly saw an empty box.
+        if (p.x < p.y) p.xy = p.yx;
+        if (p.x < p.z) p.xz = p.zx;
+        if (p.y < p.z) p.yz = p.zy;
 
         // Scale and translate
         p = p * scale - offset * (scale - 1.0);
@@ -119,7 +120,7 @@ vec3 calculateLighting(vec3 position, vec3 normal, vec3 color, vec3 cameraPos) {
     float diffuse  = max(dot(normal, lightDir), 0.0);
     float specular = pow(max(dot(normal, halfDir), 0.0), 32.0);
 
-    return color * (0.1 + diffuse * 0.8) + vec3(1.0) * specular * 0.3;
+    return color * (0.25 + diffuse * 0.75) + vec3(1.0) * specular * 0.3;
 }
 
 // ── Ray marching ───────────────────────────────────────────────────────
@@ -129,7 +130,7 @@ vec4 rayMarch(vec3 origin, vec3 direction, int maxIter) {
 
     float lodFactor = clamp(uZoom * 0.5, 0.5, 1.0);
     int maxSteps = int(max(uSteps * lodFactor, 10.0));
-    float minDist = 0.001 / max(uZoom, 0.1);
+    float minDist = 0.003 / max(uZoom, 0.1);
 
     for (int i = 0; i < 150; i++) {
         if (i >= maxSteps) break;

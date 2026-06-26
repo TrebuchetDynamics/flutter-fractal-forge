@@ -17,15 +17,15 @@ Fractal catalog browser screen. Displays all available fractals in a searchable 
 ## For AI Agents
 
 ### Working In This Directory
-- Thumbnails loaded from `assets/catalog_thumbs/{fractal_id}.png`
-- CPU-fallback thumbnails show an approximate indicator (~) when GPU rendering unavailable
+- Thumbnails are rendered at runtime via the fractal renderer; static `assets/catalog_thumbs/` PNGs are not bundled.
+- CPU/gradient fallback thumbnails can still show an approximate indicator (~) when runtime rendering is unavailable
 - Search filters by fractal name (localized)
 - Selecting a catalog entry navigates to FractalViewerScreen
 
 ### Testing Requirements
 - Widget tests: `test/fractal_catalog_screen_widget_test.dart`, `test/catalog_search_widget_test.dart`
 - Data tests: `test/catalog_repository_test.dart`
-- Thumbnail audit: `test/catalog_thumbnail_audit_test.dart`
+- Thumbnail bundle audit: `test/catalog_thumbnail_audit_test.dart`
 
 ## Dependencies
 

@@ -1,0 +1,10 @@
+10.4310/jdg/1214460037	Laminations in holomorphic dynamics
+10.1088/1361-6544/ae54f4	Non-recurrent rational maps with disconnected Julia set
+10.1103/sbdw-2ly3	Julia set in quantum evolution: The case of dynamical quantum phase transitions
+10.1016/j.aim.2024.109723	Prime orbit theorems for expanding Thurston maps: Lattès maps and split Ruelle operators
+	Julia Sets, the Mandelbrot set, and Complex Dynamics
+	Porosity of Julia sets of semi-hyperbolic fibered ratonal maps rational (Complex dynamics and fields)
+10.47974/jim-1569	Rational map has a Cantor Circle Julia set  and  a Sierpinski Carpet Julia set of degree m
+	Puzzle Pieces, Bi-accessibility, and Connectivity of the Julia Set for Generalized Blaschke Products
+	Paper Fortune Tellers in the combinatorial dynamics of some generalized McMullen maps with both critical orbits bounded
+10.1177/18758967261447101	Mandelbrot Set and Julia Set in Fuzzy Iterated Function Systems

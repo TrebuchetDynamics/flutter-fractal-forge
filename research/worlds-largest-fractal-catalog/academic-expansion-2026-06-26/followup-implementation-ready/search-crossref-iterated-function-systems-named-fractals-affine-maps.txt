@@ -1,0 +1,10 @@
+10.1142/s0218348x26501173	Anisotropic Metric Deformations of Iterated Function Systems: A One-Parameter Family of Self-Affine Fractals with Riemannian--Lorentzian Transition
+10.1016/j.chaos.2020.110404	Contractive affine generalized iterated function systems which are topologically contracting
+10.1016/b978-044450002-1/50058-8	Iterated Function Systems
+10.1007/978-1-4471-0995-2_5	Correspondence Between Fractal-Wavelet Transforms and Iterated Function Systems With Grey Level Maps
+10.1016/j.aim.2025.110605	Iterated function systems of affine expanding and contracting maps on the unit interval
+10.1016/j.chaos.2012.07.015	Approximate convex hull of affine iterated function system attractors
+10.1016/b978-0-12-079061-6.50015-2	Recurrent Iterated Function Systems
+10.2139/ssrn.4654053	A Friendly Approach to Iterated Function Systems and Fractals
+10.1016/b978-044450002-1/50062-x	Automatic generation of iterated function systems
+10.4171/jfg/72	An explicit formula for the pressure of box-like affine iterated function systems

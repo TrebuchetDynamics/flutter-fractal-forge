@@ -1,0 +1,5 @@
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+	Deep Learning and Computational Physics (Lecture Notes)
+	Memorization in Deep Neural Networks: Does the Loss Function matter?
+	On the approximation of rough functions with deep neural networks
+	Learn to Accumulate Evidence from All Training Samples: Theory and Practice

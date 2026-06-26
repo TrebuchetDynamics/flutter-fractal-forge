@@ -28,6 +28,10 @@ _Avoid_: Visual vibes, global shader pass, polish sweep
 A deterministic color variation chosen from a thumbnail generation seed and a stable fractal/module ID. It should feel visually varied while keeping regenerated catalog thumbnails reviewable and reproducible.
 _Avoid_: True random thumbnail colors, one-off palette shuffle, unreviewable visual diff
 
+**Fractal Music**:
+A viewer audio mode that turns the current fractal state into explainable sonification, starting with constrained polar/spiral-scan motifs. It is not a generic background soundtrack, AI song generator, or MIDI export promise.
+_Avoid_: AI song, opaque music generator, soundtrack mode
+
 **Launch Thumbnail Standard**:
 The thumbnail contract for bundled catalog assets used in launch-critical browsing and screenshots: 320×320 PNGs. Smaller staged smoke outputs are allowed only as generation-test artifacts, not as bundled catalog assets.
 _Avoid_: Smoke thumbnail size, arbitrary thumbnail size, per-run asset size
@@ -82,6 +86,9 @@ Domain expert: “The Precision Ladder should move to CPU Precision after hyster
 
 Developer: “Can I paste this upstream GLSL function from the Reference Corpus into our shader?”
 Domain expert: “No. First create a Provenance Record with source, license context, target, and validation signal, then implement our own version or explicitly record why direct reuse is license-compatible.”
+
+Developer: “Can Fractal Music just play a nice backing track?”
+Domain expert: “No. Fractal Music should stay tied to the current fractal state through explainable sonification; a generic soundtrack is a different feature.”
 
 Developer: “Does the new Mandelbrot reference orbit mean CPU Precision is implemented?”
 Domain expert: “No. It is a Reference Orbit Fixture until orbit generation uses the exact-intended deep-zoom path.”

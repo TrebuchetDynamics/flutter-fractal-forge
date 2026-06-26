@@ -1,0 +1,10 @@
+10.1101/370304	Reaction diffusion plus growth: A numerical model for Turing morphogenesis and Ben-Jacob patterns
+10.70675/9c090b81z3f62z45c7zac92z968330b34889	Synthesis of reaction-diffusion patterns with DNA : towards Turing patterns
+10.30707/lib6.1mukherjee	Cross-Diffusion Induced Turing and non-Turing Patterns in Rosenzweig–MacArthur Model
+10.2139/ssrn.5069708	Oscillating Turing Patterns, Chaos and Strange Attractors in a Reaction-Diffusion System Augmented with Self- and Cross-Diffusion Terms
+10.1063/1.4765594	Numerical approximation of oscillating Turing patterns in a reaction-diffusion model for electrochemical material growth
+10.1002/mma.2899	Spike patterns in a reaction–diffusion ODE model with Turing instability
+10.1016/j.apm.2017.11.005	Study of cross-diffusion induced Turing patterns in a ratio-dependent prey-predator model via amplitude equations
+10.1103/physrevlett.92.198303	Stable Squares and Other Oscillatory Turing Patterns in a Reaction-Diffusion Model
+10.1016/j.jmaa.2020.124239	Reaction-diffusion equations on complex networks and Turing patterns, via p-adic analysis
+10.30707/libmukherjee	Cross-Diffusion Induced Turing and non-Turing Patterns in Rosenzweig–MacArthur Model

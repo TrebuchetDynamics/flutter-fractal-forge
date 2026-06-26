@@ -40,14 +40,6 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    Future<void> showAllCategories(WidgetTester tester) async {
-      await tester.drag(
-          find.byKey(const Key('catalogFilterScroll')), const Offset(-420, 0));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('catalogCategoryChip_all')));
-      await tester.pumpAndSettle();
-    }
-
     Widget buildTestWidget() {
       return MultiProvider(
         providers: [
@@ -120,20 +112,15 @@ void main() {
       expect(find.text('Mandelbrot'), findsNothing);
     });
 
-    testWidgets('displays dimension labels', (tester) async {
+    testWidgets('omits dimension filter chips', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('2D'), findsWidgets);
-
-      await showAllCategories(tester);
-      await showSearch(tester);
-      await tester.enterText(
-          find.byKey(const Key('catalogSearchField')), 'Mandelbulb');
-      await tester.pump(const Duration(milliseconds: 350));
-      await tester.pumpAndSettle();
-
-      expect(find.text('3D'), findsWidgets);
+      expect(find.byKey(const Key('catalogDimensionChip_all')), findsNothing);
+      expect(find.byKey(const Key('catalogDimensionChip_2d')), findsNothing);
+      expect(find.byKey(const Key('catalogDimensionChip_3d')), findsNothing);
+      expect(find.byKey(const Key('catalogDimensionChip_kaleidoscope')),
+          findsNothing);
     });
 
     testWidgets('tapping module card selects module', (tester) async {

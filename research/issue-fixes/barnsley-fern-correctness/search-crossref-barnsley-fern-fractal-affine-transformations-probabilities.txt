@@ -1,0 +1,5 @@
+10.1007/978-1-84996-486-9_4	Fractal Transformations
+10.3390/fractalfract6050239	Quantization for Infinite Affine Transformations
+10.3390/fractalfract8070410	Complex-Valued Suprametric Spaces, Related Fixed Point Results, and Their Applications to Barnsley Fern Fractal Generation and Mixed Volterra–Fredholm Integral Equations
+10.1117/12.696052	Fractal transformations of harmonic functions
+10.1504/ijans.2013.052750	Fractal homeomorphism for bi-affine iterated function systems

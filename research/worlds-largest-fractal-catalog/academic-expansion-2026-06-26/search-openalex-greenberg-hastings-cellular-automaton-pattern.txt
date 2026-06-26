@@ -1,0 +1,10 @@
+10.1007/978-3-319-65558-1	Probabilistic Cellular Automata
+10.1073/pnas.95.17.10283	Bursting calcium rotors in cultured cardiac myocyte monolayers
+10.1038/srep37329	Exploring Spatio-temporal Dynamics of Cellular Automata for Pattern Recognition in Networks
+10.1017/etds.2020.18	Dynamics and topological entropy of 1D Greenberg-Hastings cellular automata
+10.1016/j.protcy.2012.02.027	Educational software for the learning of electrical activation in the heart: A simple cellular automaton model
+10.1017/etds.2020.18	Dynamics and topological entropy of 1D Greenberg–Hastings cellular automata
+10.1371/journal.pcbi.1006084	Toward a theory of coactivation patterns in excitable neural networks
+10.1016/j.cnsns.2024.108362	A comprehensive taxonomy of cellular automata
+10.1007/s11047-016-9559-0	Cellular automata modelling of slime mould actin network signalling
+10.1214/14-aop918	Percolation and disorder-resistance in cellular automata

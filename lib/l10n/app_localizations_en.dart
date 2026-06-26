@@ -407,6 +407,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipCameraLooper => 'Camera looper';
 
   @override
+  String get tooltipFractalMusicOn => 'Fractal Music on';
+
+  @override
+  String get tooltipFractalMusicOff => 'Fractal Music off';
+
+  @override
+  String get fractalMusicUnavailable =>
+      'Fractal Music unavailable. Check your audio device.';
+
+  @override
   String get shareToSocialTargets => 'Share to X / Reddit';
 
   @override

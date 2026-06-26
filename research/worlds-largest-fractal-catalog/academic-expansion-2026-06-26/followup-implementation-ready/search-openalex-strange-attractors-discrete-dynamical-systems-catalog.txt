@@ -1,0 +1,10 @@
+10.1109/proc.1987.13852	Chaos from switched-capacitor circuits: Discrete maps
+10.1109/tpwrd.2021.3065342	Fault Diagnosis for Power Cables Based on Convolutional Neural Network With Chaotic System and Discrete Wavelet Transform
+10.1039/c4cs00144c	Models and mechanisms of Hofmeister effects in electrolyte solutions, and colloid and protein systems revisited
+10.1137/100791233	Mixed-Mode Oscillations with Multiple Time Scales
+10.1215/23289252-2399587	Cataloging
+10.1016/j.physd.2008.07.006	Boolean delay equations: A simple way of looking at complex systems
+10.3390/e22111204	Sir Isaac Newton Stranger in a Strange Land
+10.1098/rspa.2023.0422	Discovering governing equations from partial measurements with deep delay autoencoders
+10.3847/1538-4365/ab2241	Modules for Experiments in Stellar Astrophysics (MESA): Pulsating Variable Stars, Rotation, Convective Boundaries, and Energy Conservation
+10.1890/0012-9658(1999)080[1789:wdpcas]2.0.co;2	WHY DO POPULATIONS CYCLE? A SYNTHESIS OF STATISTICAL AND MECHANISTIC MODELING APPROACHES

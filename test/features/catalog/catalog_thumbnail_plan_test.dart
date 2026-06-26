@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_fractals/features/catalog/catalog_thumbnail_plan.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -28,35 +26,55 @@ void main() {
       expect(first.assetId, 'maze_ca');
       expect(later.assetId, 'maze_ca');
       expect(later.assetPath, 'assets/catalog_thumbs/maze_ca.png');
-      expect(File(later.assetPath).existsSync(), isTrue);
+    });
+  });
+
+  group('CatalogThumbnailAvailability', () {
+    test('centralizes asset path and state from manifest evidence', () {
+      final thumbnail = CatalogThumbnailAvailability.fromCatalogId(
+        catalogId: 'core.mandelbrot',
+        availableThumbnailIds: const {'mandelbrot'},
+        manifestFailed: false,
+        imageLoaded: false,
+        imageError: false,
+      );
+
+      expect(thumbnail.assetPath, 'assets/catalog_thumbs/mandelbrot.png');
+      expect(thumbnail.shouldLoadImage, isTrue);
+      expect(thumbnail.showsLoadingPlaceholder, isTrue);
+      expect(thumbnail.isApproximatePreview, isFalse);
+    });
+
+    test('uses fallback preview when manifest lacks an exact asset', () {
+      final thumbnail = CatalogThumbnailAvailability.fromCatalogId(
+        catalogId: 'core.mandelbrot',
+        availableThumbnailIds: const <String>{},
+        manifestFailed: false,
+        imageLoaded: false,
+        imageError: false,
+      );
+
+      expect(thumbnail.shouldLoadImage, isFalse);
+      expect(thumbnail.showsFallbackPreview, isTrue);
+      expect(thumbnail.isApproximatePreview, isTrue);
     });
   });
 
   group('CatalogThumbnailLoadState', () {
-    test('does not mark existing generated thumbnails approximate before error',
-        () {
-      for (final catalogId in ['core.nova', 'core.phoenix']) {
-        final plan = CatalogThumbnailPlan.fromCatalogId(catalogId);
-        expect(
-          File(plan.assetPath).existsSync(),
-          isTrue,
-          reason: '${plan.assetPath} is the regression fixture',
-        );
+    test('does not mark pending exact thumbnails approximate before error', () {
+      const loading = CatalogThumbnailLoadState(
+        imageLoaded: false,
+        imageError: false,
+      );
+      const loaded = CatalogThumbnailLoadState(
+        imageLoaded: true,
+        imageError: false,
+      );
 
-        const loading = CatalogThumbnailLoadState(
-          imageLoaded: false,
-          imageError: false,
-        );
-        const loaded = CatalogThumbnailLoadState(
-          imageLoaded: true,
-          imageError: false,
-        );
-
-        expect(loading.isApproximatePreview, isFalse, reason: catalogId);
-        expect(loading.showsLoadingPlaceholder, isTrue, reason: catalogId);
-        expect(loaded.isApproximatePreview, isFalse, reason: catalogId);
-        expect(loaded.showsFallbackPreview, isFalse, reason: catalogId);
-      }
+      expect(loading.isApproximatePreview, isFalse);
+      expect(loading.showsLoadingPlaceholder, isTrue);
+      expect(loaded.isApproximatePreview, isFalse);
+      expect(loaded.showsFallbackPreview, isFalse);
     });
 
     test('waits for asset manifest before loading images', () {

@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
-import 'package:flutter_fractals/features/catalog/catalog_thumbnail_plan.dart';
 import 'package:flutter_fractals/features/catalog/featured_launch_set.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -35,18 +32,6 @@ void main() {
           reason: '$moduleId must not be a diagnostic module',
         );
         expect(catalogIds, contains('core.$moduleId'));
-      }
-    });
-
-    test('has exact bundled thumbnail assets for every launch module', () {
-      for (final catalogId in kFeaturedLaunchSetCatalogIds) {
-        final plan = CatalogThumbnailPlan.fromCatalogId(catalogId);
-        expect(
-          File(plan.assetPath).existsSync(),
-          isTrue,
-          reason:
-              '$catalogId must have an exact thumbnail at ${plan.assetPath}',
-        );
       }
     });
 

@@ -1,0 +1,10 @@
+10.1103/physreve.54.6114	Fractalization of Torus Revisited as a Strange Nonchaotic Attractor
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Aspects of Dynamical Simulations, Emphasizing Nosé and Nosé-Hoover Dynamics and the Compressible Baker Map
+	Structure of strange baryons
+10.1103/physreve.64.045204	Critical States and Fractal Attractors in Fractal Tongues: Localization in the Harper map
+	Additive energy and a large sieve inequality for sparse sequences
+10.1007/s10208-011-9107-3	Hodge Theory on Metric Spaces
+10.1088/1751-8113/42/35/355101	A birational mapping with a strange attractor: Post critical set and covariant curves
+	Croissant Baker: Metadata Generation for Discoverable, Governable, and Reusable ML Datasets
+	Strange nonchaotic attractor in a dynamical system under periodic forcing

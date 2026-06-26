@@ -1,0 +1,10 @@
+10.2140/pjm.2002.206.465	Self-affine tiling via substitution dynamical systems and Rauzy fractals
+10.5802/aif.1792	Imbalances in Arnoux-Rauzy sequences
+10.24033/msmf.430	Topological properties of Rauzy fractals
+10.1051/ita:2007026	On substitution invariant Sturmian words: an application of Rauzy fractals
+10.4064/aa101-2-4	On the number of Arnoux–Rauzy words
+10.5802/aif.3273	Geometry, dynamics, and arithmetic of <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"> <mml:mi>S</mml:mi> </mml:math> -adic shifts
+10.18910/4300	On periodic β-expansions of Pisot numbers and Rauzy fractals
+10.5802/jtnb.556	Unimodular Pisot substitutions and their associated tiles
+10.1090/s0002-9947-01-02797-0	Geometric representation of substitutions of Pisot type
+10.46298/dmtcs.347	Tilings from some non-irreducible, Pisot substitutions

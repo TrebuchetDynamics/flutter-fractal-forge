@@ -1,0 +1,10 @@
+	Adapting the Predator-Prey Game Theoretic Environment to Army Tactical Edge Scenarios with Computational Multiagent Systems
+10.1103/physreve.73.040903	Fluctuations and Correlations in Lattice Models for Predator-Prey Interaction
+	Turing patterns in a Leslie-Gower predator prey model
+10.1103/physreve.86.056203	Turing patterns and apparent competition in predator-prey food webs on networks
+	Unveiling Biological Models Through Turing Patterns
+10.1016/j.amc.2011.02.018	Turing Instability for a Ratio-Dependent Predator-Prey Model with Diffusion
+	Turing patterns in a diffusive Holling-Tanner predator-prey model with an alternative food source for the predator
+	Prey-predator modeling of CO2 atmospheric concentration
+	Turing-Turing Bifurcation and Normal Form in a Predator-Prey Model with Predator-Taxis and Prey Refuge
+	Self-diffusion Driven Pattern Formation in Prey-Predator System with Complex Habitat under Fear Effect

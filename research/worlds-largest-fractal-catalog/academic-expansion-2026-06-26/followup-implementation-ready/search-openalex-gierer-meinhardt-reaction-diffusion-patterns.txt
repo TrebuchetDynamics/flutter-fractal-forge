@@ -1,0 +1,10 @@
+10.1007/bf03167754	Reaction-diffusion systems in the Gierer-Meinhardt theory of biological pattern formation
+10.1098/rsta.2020.0277	Unified framework for localized patterns in reaction–diffusion systems; the Gray–Scott and Gierer–Meinhardt cases
+10.1137/s0036139900375227	Existence of Turing Instabilities in a Two-Species Fractional Reaction-Diffusion System
+10.1512/iumj.2001.50.1873	Large stable pulse solutions in reaction-diffusion equations
+10.1016/j.physd.2005.01.022	Complex pattern formation in reaction–diffusion systems with spatially varying parameters
+10.1007/s00332-002-0531-z	Hopf Bifurcations and Oscillatory Instabilities of Spike Solutions for the One-Dimensional Gierer-Meinhardt Model
+10.1137/120885784	Identification of Space-Time Distributed Parameters in the Gierer--Meinhardt Reaction-Diffusion System
+10.4310/maa.2001.v8.n3.a2	Spatially periodic and aperiodic multi-pulse patterns in the one-dimensional Gierer–Meinhardt equation
+10.1242/dev.114991	Positional information and reaction-diffusion: two big ideas in developmental biology combine
+10.1007/s00285-014-0779-6	Cross-diffusion-driven instability for reaction-diffusion systems: analysis and simulations

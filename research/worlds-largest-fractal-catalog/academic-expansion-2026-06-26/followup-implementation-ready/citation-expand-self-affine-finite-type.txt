@@ -1,0 +1,1 @@
+wrote citation graph with 57 edges to citation-graph-self-affine-finite-type.json

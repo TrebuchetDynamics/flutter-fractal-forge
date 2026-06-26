@@ -1,0 +1,10 @@
+10.31274/aperiodic2018-180810-46	Diffraction of block substitution tilings
+10.3390/sym9020019	Cyclotomic Aperiodic Substitution Tilings
+10.1007/978-94-007-6431-6_9	Substitution Rules and Topological Properties of the Robinson Tilings
+10.1201/9780429197123-8	Matching Rules, Aperiodic Tiles, and Substitution Tilings
+10.1017/9781316285572.019	Substitution Dynamical Systems
+10.31274/aperiodic2018-180810-22	Tilings with Singularity and Spiral Tilings Obtained from Archimedean Tilings
+10.31274/aperiodic2018-180810-13	Self-assembly of aperiodic tilings
+10.1017/cbo9781139025256.008	Inflation Tilings
+10.1017/cbo9781139025256.007	Patterns and Tilings
+10.31274/aperiodic2018-180810-42	Brick tilings—new insights

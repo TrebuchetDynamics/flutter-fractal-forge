@@ -1,0 +1,10 @@
+10.1142/9789812778604_0009	Ray Tracing Methods by Distance Estimation
+10.31649/1997-9266-2025-179-2-132-137	Ray Tracing Algorithm Based on Screen Space Ray Marching
+10.2307/j.ctv21hrj87.104	Ray E. Cramer Marching Hundred Hall
+10.1016/j.chaos.2025.117388	Fast marching to branching morphologies
+10.1142/9789812778604_0002	Deterministic Fractals and Distance Estimation
+10.1142/s0218348x10005019	FRACTALS, AVERAGE DISTANCE AND THE CANTOR SET
+10.17760/d20316436	And the beat goes on
+10.1142/s0218348x24501329	AVERAGE GEODESIC DISTANCE OF (2 × 3)-TYPE HYBRID SIERPINSKI GASKET
+10.1142/s0218348x21501474	ECCENTRIC DISTANCE SUM OF SUBSTITUTION TREE NETWORKS
+10.1016/j.chaos.2025.116829	Dynamic Mandelbulb fractals: A mathematical framework for time-evolving 3D fractals using distance estimation

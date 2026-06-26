@@ -1,0 +1,10 @@
+10.1142/s0218127421500036	A New Image Encryption Algorithm with Cantor Diagonal Scrambling Based on the PUMCML System
+10.1109/access.2018.2855726	Spatiotemporal Chaos in Coupled Logistic Map Lattice With Dynamic Coupling Coefficient and its Application in Image Encryption
+10.1016/j.physa.2017.07.019	Spatiotemporal chaos in mixed linear–nonlinear two-dimensional coupled logistic map lattice
+10.1016/j.physa.2014.01.051	Spatiotemporal chaos in mixed linear–nonlinear coupled logistic map lattice
+10.15388/na.18.4.13977	Spatiotemporal chaos in Arnold coupled logistic map lattice
+10.1016/j.physd.2026.135148	Spatiotemporal stability of synchronized coupled map lattice states
+10.1016/j.ins.2020.07.051	Spatiotemporal chaos in improved cross coupled map lattice and its application in a bit-level image encryption scheme
+10.1140/epjs/s11734-022-00473-1	Cardiac reentry modeled by spatiotemporal chaos in a coupled map lattice
+10.1109/ihmsc52134.2021.00042	Spatiotemporal Chaos and Control of a Unidirectionally Traffic Coupled Map Lattice Model
+10.1016/j.chaos.2020.110028	Spatiotemporal chaos in cross coupled map lattice with dynamic coupling coefficient and its application in bit-level color image encryption

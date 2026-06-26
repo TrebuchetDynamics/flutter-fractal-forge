@@ -1,0 +1,5 @@
+10.1201/b18805-36	2: Semantic-Based Shader Generation Using Shader Shaker
+10.2139/ssrn.6688639	On the Geometric Consequences of Categorical Partition Dynamics on Terrain-Shader Rendering: Continuous Street View Navigation Map Rendering
+10.1109/visual.2005.1532787	A Shader-Based Parallel Rendering Framework
+10.1007/3-211-37769-7_18	Using and Creating Shader Libraries **
+10.1007/978-1-4842-2131-0_15	VFX Pipeline 3D Rendering: Shader, Material, and Texture

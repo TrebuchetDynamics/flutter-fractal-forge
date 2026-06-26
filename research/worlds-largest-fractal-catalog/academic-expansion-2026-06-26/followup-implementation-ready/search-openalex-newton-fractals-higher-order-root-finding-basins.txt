@@ -1,0 +1,10 @@
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.1155/2020/5070363	Higher-Order Root-Finding Algorithms and Their Basins of Attraction
+10.1155/2015/797594	Polynomiography Based on the Nonstandard Newton-Like Root Finding Methods
+10.3390/math9161996	A New Nonlinear Ninth-Order Root-Finding Method with Error Analysis and Basins of Attraction
+10.1016/j.amc.2009.06.041	Newton’s method’s basins of attraction revisited
+10.3390/math4020022	Higher Order Methods for Nonlinear Equations and Their Basins of Attraction
+10.1007/s11075-023-01625-7	A new optimal root-finding iterative algorithm: local and semilocal analysis with polynomiography
+10.15672/hujms.459810	A simple algorithm for high order Newton iteration formulae and some new variants
+10.3390/sym11081054	An Efficient Class of Weighted-Newton Multiple Root Solvers with Seventh Order Convergence
+10.1016/j.cnsns.2014.02.010	An adaptive Newton-method based on a dynamical systems approach

@@ -133,6 +133,9 @@
   "tooltipKaleidoscopeOn": "Kaleidoscopio activado",
   "tooltipKaleidoscopeOff": "Kaleidoscopio desactivado",
   "tooltipCameraLooper": "Bucle de cámara",
+  "tooltipFractalMusicOn": "Música fractal activada",
+  "tooltipFractalMusicOff": "Música fractal desactivada",
+  "fractalMusicUnavailable": "Música fractal no disponible. Revisa el dispositivo de audio.",
   "shareToSocialTargets": "Compartir en X / Reddit",
   "wallpaperTitle": "Fondo de pantalla",
   "wallpaperAndroidNote": "Exporta a la resolución nativa del dispositivo y lo establece como fondo.",
@@ -157,32 +160,32 @@
   "presetSoftGlow": "Brillo suave",
   "presetPsychedelic": "Psicodélico",
   "presetDeepBloom": "Floración profunda",
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
   "exportActionSaveImage": "Guardar imagen",
   "exportActionSaveAndShare": "Guardar y compartir",
   "exportSaveLocationHint": "Se guarda en Imágenes/FractalForge. No requiere permiso de almacenamiento.",
   "exportFormatFallbackPng": "PNG de respaldo",
   "exportSavedShareFailed": "Exportación guardada. No se abrió compartir; intenta compartir la imagen guardada desde Fotos.",
-  
+
   "tooltipExpand": "Expandir",
   "tooltipCollapse": "Contraer",
   "errorOverlayNotReady": "Superposición no lista",
   "errorCameraNotReady": "Cámara no lista",
   "shaderLoadFailed": "Error al cargar el shader",
-  
+
   "contextMenuResetView": "Restablecer vista",
   "contextMenuOpenControls": "Abrir controles",
   "contextMenuOpenPresets": "Abrir presets",
   "contextMenuRandomize": "Aleatorizar",
   "contextMenuExport": "Exportar",
   "gestureDoubleTapReset": "Vista restablecida",
-  
+
   "@exportFailed": {
     "placeholders": {
       "error": {}
@@ -202,12 +205,12 @@
   "accessibilityLargeTargets": "Objetivos Táctiles Grandes",
   "accessibilityLargeTargetsHint": "Aumentar el tamaño de los elementos interactivos",
   "accessibilityScreenReaderActive": "El lector de pantalla está activo",
-  
+
   "soundEffectsTitle": "Efectos de Sonido",
   "soundEffectsEnabled": "Sonidos de Interfaz",
   "soundEffectsEnabledHint": "Reproducir sonidos sutiles para toques y transiciones",
   "soundEffectsVolume": "Volumen",
-  
+
   "semanticFractalViewer": "Visor de fractales interactivo. Pellizca para acercar, arrastra para desplazar.",
   "semanticFractalCard": "Fractal {name}, {dimension}. Toca dos veces para abrir.",
   "@semanticFractalCard": {
@@ -266,7 +269,7 @@
       "label": {}
     }
   },
-  
+
   "announceFractalLoaded": "Fractal {name} cargado",
   "@announceFractalLoaded": {
     "placeholders": {
@@ -364,38 +367,38 @@
   "videoPresetSocial": "Redes Sociales",
   "videoPresetHighQuality": "Alta Calidad",
   "videoPresetLoop": "GIF en Bucle",
-  
+
   "videoTabAnimation": "Animación",
   "videoTabQuality": "Calidad",
   "videoTabAdvanced": "Avanzado",
-  
+
   "videoAnimationType": "Tipo de Animación",
   "videoDuration": "Duración",
   "videoFrames": "cuadros",
   "videoZoomFactor": "Factor de Zoom",
   "videoEasing": "Suavizado",
-  
+
   "videoParameterSweep": "Barrido de Parámetro",
   "videoSelectParameter": "Seleccionar Parámetro",
   "videoSweepStart": "Valor Inicial",
   "videoSweepEnd": "Valor Final",
   "videoPingPong": "Ping-Pong",
   "videoPingPongHint": "Animar de vuelta al valor inicial",
-  
+
   "videoFormat": "Formato",
   "videoResolution": "Resolución",
   "videoFrameRate": "Cuadros por Segundo",
   "videoQualityPreset": "Calidad",
-  
+
   "videoLoop": "Bucle",
   "videoLoopHint": "Repetir animación continuamente",
   "videoWatermark": "Agregar Marca de Agua",
   "videoWatermarkHint": "Agregar marca 'Flutter Fractals'",
-  
+
   "videoEstimatedOutput": "Salida Estimada",
   "videoTotalFrames": "Total de Cuadros",
   "videoEstimatedSize": "Tamaño Est. del Archivo",
-  
+
   "videoExportNow": "Exportar Video",
   "videoExporting": "Exportando video...",
   "videoExportProgress": "Renderizando cuadro {current} de {total}",
@@ -412,7 +415,7 @@
       "error": {}
     }
   },
-  
+
   "tooltipExportVideo": "Exportar Video",
   "tooltipOpenHistory": "Historial",
 

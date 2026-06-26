@@ -1,0 +1,10 @@
+10.1117/3.2278810.ch1	Complex and Hypercomplex Numbers
+10.1016/j.mex.2025.103644	Hypercomplex neural networks: Exploring quaternion, octonion, and beyond in deep learning
+10.1117/3.2278810.ch6	2-D Quaternion and Octonion Discrete Fourier Transforms
+10.1007/bf00715215	Nine-vectors, complex octonion/quaternion hypercomplex numbers, lie groups, and the ‘real’ world
+10.1117/3.2278810.ch5	1-D Quaternion and Octonion Discrete Fourier Transforms
+10.1142/9789812778604_0010	Quaternion Deterministic Fractals in Virtual Reality
+10.1117/3.2278810.ch2	Octonion Numbers
+10.1142/9789812778604_0004	Quaternion Analysis
+10.1142/9789812778604_0006	Quaternion Mandelbrot Sets
+10.1007/978-3-7643-9893-4_4	On Factorization of Bicomplex Meromorphic Functions

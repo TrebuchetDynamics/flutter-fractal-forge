@@ -14,9 +14,21 @@ struct _MyApplication {
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
+static gboolean mobile_screenshot_mode() {
+  const gchar* value = g_getenv("FRACTAL_FORGE_MOBILE_SCREENSHOT");
+  return g_strcmp0(value, "1") == 0;
+}
+
 // Called when first Flutter frame received.
 static void first_frame_cb(MyApplication* self, FlView* view) {
-  gtk_widget_show(gtk_widget_get_toplevel(GTK_WIDGET(view)));
+  GtkWidget* toplevel = gtk_widget_get_toplevel(GTK_WIDGET(view));
+  if (mobile_screenshot_mode()) {
+    GtkWindow* window = GTK_WINDOW(toplevel);
+    gtk_window_unmaximize(window);
+    gtk_window_resize(window, 720, 1280);
+    gtk_window_move(window, 100, 80);
+  }
+  gtk_widget_show(toplevel);
 }
 
 // Implements GApplication::activate.
@@ -52,7 +64,12 @@ static void my_application_activate(GApplication* application) {
     gtk_window_set_title(window, "flutter_fractals");
   }
 
-  gtk_window_set_default_size(window, 1280, 720);
+  if (mobile_screenshot_mode()) {
+    gtk_window_set_default_size(window, 720, 1280);
+    gtk_window_set_resizable(window, FALSE);
+  } else {
+    gtk_window_set_default_size(window, 1280, 720);
+  }
 
   g_autofree gchar* executable_path = g_file_read_link("/proc/self/exe", nullptr);
   g_autofree gchar* executable_dir = executable_path != nullptr

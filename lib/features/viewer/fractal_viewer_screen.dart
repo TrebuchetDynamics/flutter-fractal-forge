@@ -50,6 +50,7 @@ import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.d
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
 import 'package:flutter_fractals/features/viewer/rendering/compare_renderer.dart';
 import 'package:flutter_fractals/features/viewer/rendering/cpu_fallback_pane.dart';
+import 'package:flutter_fractals/features/viewer/actions/viewer_effects_controller.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 
@@ -90,6 +91,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   final GlobalKey _fractalKeyB = GlobalKey();
   @override
   final ExportService _exportService = const ExportService();
+  final ViewerEffectsController _viewerEffects = ViewerEffectsController();
 
   // Compare mode state
   @override
@@ -275,6 +277,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _autoExploreService?.dispose();
     _looperController?.dispose();
     _compareController?.dispose();
+    _viewerEffects.dispose();
     _keyboardFocusNode.dispose();
     super.dispose();
   }
@@ -286,6 +289,32 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     if (_showControlsHud) {
       HapticService.medium();
     }
+  }
+
+  Future<void> _toggleFractalMusic() async {
+    final result = await _viewerEffects.toggleFractalMusic(
+      _activeController(context),
+    );
+    if (!mounted) return;
+
+    setState(() {});
+    final l10n = AppLocalizations.of(context);
+    if (result.failed) {
+      final message = l10n?.fractalMusicUnavailable ??
+          'Fractal Music unavailable. Check your audio device.';
+      AccessibilityService.announce(message);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+      return;
+    }
+
+    AccessibilityService.announce(
+      result.enabled
+          ? (l10n?.tooltipFractalMusicOn ?? 'Fractal Music on')
+          : (l10n?.tooltipFractalMusicOff ?? 'Fractal Music off'),
+    );
+    HapticService.light();
   }
 
   void _toggleFullscreenUnobtrusive() {
@@ -313,13 +342,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   GlobalKey _activeBoundaryKey() {
     if (_compareMode && _activePane == 1) return _fractalKeyB;
     return _fractalKeyA;
-  }
-
-  void _bumpIterations(BuildContext context, int delta) {
-    final controller = _activeController(context);
-    final current = controller.params['iterations'];
-    final value = current is num ? current.round() : 120;
-    controller.updateParam('iterations', value + delta);
   }
 
   void _toggleKaleidoscope(BuildContext context) {
@@ -356,6 +378,101 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         fractalName: controller.module.displayName(l10n),
       ),
     );
+  }
+
+  Future<void> _reportFractal(BuildContext context) async {
+    const tags = ViewerEffectsController.defaultReportTags;
+    final controller = _activeController(context);
+    final l10n = AppLocalizations.of(context)!;
+    final selected = <String>{};
+    final notes = TextEditingController();
+
+    final saved = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text('Report fractal'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(controller.module.displayName(l10n)),
+                const SizedBox(height: AppSpacing.md),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    for (final tag in tags)
+                      FilterChip(
+                        label: Text(tag),
+                        selected: selected.contains(tag),
+                        onSelected: (value) => setDialogState(() {
+                          if (value) {
+                            selected.add(tag);
+                          } else {
+                            selected.remove(tag);
+                          }
+                        }),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TextField(
+                  controller: notes,
+                  minLines: 2,
+                  maxLines: 4,
+                  decoration: const InputDecoration(
+                    labelText: 'Notes (optional)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: selected.isEmpty
+                  ? null
+                  : () => Navigator.of(dialogContext).pop(true),
+              child: const Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (saved != true) {
+      notes.dispose();
+      return;
+    }
+
+    try {
+      final file = await _viewerEffects.saveFractalReport(
+        controller: controller,
+        moduleName: controller.module.displayName(l10n),
+        tags: selected.toList(),
+        shareUrl: _shareUriFor(controller).toString(),
+        notes: notes.text,
+      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Saved report: ${file.path}')),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Report failed: $error'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    } finally {
+      notes.dispose();
+    }
   }
 
   void _cycleColorScheme(BuildContext context) {
@@ -691,6 +808,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         isExporting: _exporting,
                         kaleidoscopeEnabled:
                             activeController.kaleidoscopeEnabled,
+                        fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
+                        showFractalReport: Platform.isLinux,
                         actions: FractalViewControlActions(
                           toggleFullscreen: _toggleFullscreenUnobtrusive,
                           openRandomFractal: () => _onRandomFractalFab(context),
@@ -706,10 +825,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             activeController.randomizeParams();
                             activeController.recordInterestingSpot();
                           },
-                          decreaseIterations: () =>
-                              _bumpIterations(context, -20),
-                          increaseIterations: () =>
-                              _bumpIterations(context, 20),
                           cycleColorScheme: () => _cycleColorScheme(context),
                           openPalettePicker: () => _openPalettePicker(context),
                           toggleKaleidoscope: () =>
@@ -718,6 +833,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           shareLink: () => _openShareLink(context),
                           shareImage: () => _shareCurrentImage(context),
                           openLooper: () => _openLooper(context),
+                          toggleFractalMusic: _toggleFractalMusic,
+                          reportFractal: () => _reportFractal(context),
                           openWallpaper: () => _openWallpaper(context),
                         ),
                       ),

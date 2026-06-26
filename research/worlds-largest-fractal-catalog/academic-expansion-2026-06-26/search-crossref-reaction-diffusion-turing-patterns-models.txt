@@ -1,0 +1,10 @@
+10.70675/9c090b81z3f62z45c7zac92z968330b34889	Synthesis of reaction-diffusion patterns with DNA : towards Turing patterns
+10.2139/ssrn.5069708	Oscillating Turing Patterns, Chaos and Strange Attractors in a Reaction-Diffusion System Augmented with Self- and Cross-Diffusion Terms
+10.1101/370304	Reaction diffusion plus growth: A numerical model for Turing morphogenesis and Ben-Jacob patterns
+10.21248/gups.96776	Coupled turing reaction-diffusion and chemotaxis models: new mechanisms for pattern formation
+10.1016/j.chaos.2023.114152	Turing patterns in hyperbolic reaction-transport vegetation models with cross-diffusion
+10.1101/213298	Model reduction permits Turing instability analysis of arbitrary reaction-diffusion models
+10.1063/5.0032677	Analysis of Turing patterns in distributed reaction-diffusion models with self-oscillations
+10.1109/sice.2002.1195562	Analysis of Turing patterns by stochastic reaction diffusion systems
+10.30707/lib6.1mukherjee	Cross-Diffusion Induced Turing and non-Turing Patterns in Rosenzweig–MacArthur Model
+10.1063/1.2784554	Bifurcation diagrams and Turing patterns in a chemical self-replicating reaction-diffusion system with cross diffusion

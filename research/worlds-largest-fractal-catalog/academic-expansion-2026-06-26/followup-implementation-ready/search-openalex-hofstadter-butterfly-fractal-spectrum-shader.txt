@@ -1,0 +1,10 @@
+10.1038/nphys3171	Measuring the Chern number of Hofstadter bands with ultracold bosonic atoms
+10.1103/physrevb.105.205424	Polaritonic Hofstadter butterfly and cavity control of the quantized Hall conductance
+10.1103/physrevb.98.245145	Floquet Hofstadter butterfly on the kagome and triangular lattices
+10.1103/physrevlett.125.236804	Hofstadter Topology: Noncrystalline Topological Materials at High Flux
+10.1103/revmodphys.91.015006	Topological photonics
+10.1103/physrevb.89.075401	Dirac edges of fractal magnetic minibands in graphene with hexagonal moiré superlattices
+10.1103/physrevresearch.3.023058	Coherence and decoherence in the Harper-Hofstadter model
+10.1038/s41467-022-35421-z	Perpendicular electric field drives Chern transitions and layer polarization changes in Hofstadter bands
+10.1038/s41467-020-19604-0	Long-range ballistic transport of Brown-Zak fermions in graphene superlattices
+10.1103/physrevresearch.6.013313	Localization, fractality, and ergodicity in a monitored qubit

@@ -1,0 +1,10 @@
+10.1007/bf00049580	An introduction to chaotic dynamical systems
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.1017/s0143385700009603	Repellers for real analytic maps
+10.24033/asens.1491	On the dynamics of polynomial-like mappings
+10.1007/s000140050140	Hausdorff dimension and conformal dynamics II: Geometrically finite rational maps
+10.1090/s0002-9947-1993-1107025-2	Ergodic theory for Markov fibred systems and parabolic rational maps
+10.1090/s0002-9947-1993-1182980-3	The geometry of Julia sets
+10.1090/s0002-9947-07-04150-5	Spectral zeta functions of fractals and the complex dynamics of polynomials
+10.1090/s0273-0979-1984-15253-4	Julia sets and bifurcation diagrams for exponential maps
+10.1017/cbo9780511569159.006	Local connectivity of Julia sets: expository lectures

@@ -86,6 +86,8 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'penrose_tiling': _cpu_penrose_tiling,
   'fibonacci_word': _cpu_fibonacci_word,
   'rauzy_fractal': _cpu_rauzy_fractal,
+  'arnoux_rauzy_fractal': _cpu_arnoux_rauzy_fractal,
+  'dual_substitution_tiling': _cpu_dual_substitution_tiling,
   'pinwheel_tiling': _cpu_pinwheel_tiling,
   'z_order_curve': _cpu_z_order_curve,
   'greek_cross_fractal': _cpu_greek_cross_fractal,
@@ -162,6 +164,7 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'secant_cosecant': _cpu_secant_cosecant,
   'taylor': _cpu_taylor,
   'rational_map': _cpu_rational_map,
+  'lattes_map_julia': _cpu_lattes_map_julia,
   'barnsley_j2': _cpu_barnsley_j2,
   'barnsley_j3': _cpu_barnsley_j3,
   'celtic_julia': _cpu_celtic_julia,
@@ -190,6 +193,11 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'anti_buddhabrot': _cpu_anti_buddhabrot,
   'nebulabrot': _cpu_nebulabrot,
   'wolfram_rule30': _cpu_wolfram_rule30,
+  'rule90_linear_ca': _cpu_rule90_linear_ca,
+  'rule150_linear_ca': _cpu_rule150_linear_ca,
+  'cyclic_cellular_automaton': _cpu_cyclic_cellular_automaton,
+  'greenberg_hastings_ca': _cpu_greenberg_hastings_ca,
+  'klausmeier_vegetation': _cpu_klausmeier_vegetation,
   'langton_ant': _cpu_langton_ant,
   'turmite': _cpu_turmite,
   'wireworld': _cpu_wireworld,
@@ -234,6 +242,7 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'domain_coloring': _cpu_domain_coloring,
   'phase_portrait': _cpu_phase_portrait,
   'sierpinski_julia_rational': _cpu_sierpinski_julia_rational,
+  'weierstrass_p': _cpu_weierstrass_p,
   // New 2D batch (CPU fallback formulas)
   'mcmullen_map': _cpu_mcmullen_map,
   'generalized_mcmullen': _cpu_generalized_mcmullen,
@@ -269,6 +278,101 @@ final Map<String, CpuFormula> _syntheticFallbackByModuleId =
 /// True when [moduleId] has an explicit CPU implementation in this file.
 bool hasNativeCpuFormula(String moduleId) =>
     cpuFormulasByModuleId.containsKey(moduleId);
+
+/// Returns a single-seed elementary cellular automaton row.
+///
+/// Rule 90 and Rule 150 use this in tests to lock the researched XOR formulae
+/// to concrete Pascal-mod-2 row counts.
+List<int> elementaryCaSingleSeedRow({
+  required int rule,
+  required int generation,
+}) {
+  var row = <int>[1];
+  for (var g = 0; g < generation; g++) {
+    final next = List<int>.filled(row.length + 2, 0);
+    for (var i = 0; i < next.length; i++) {
+      final left = _bitAt(row, i - 2);
+      final center = _bitAt(row, i - 1);
+      final right = _bitAt(row, i);
+      next[i] = _elementaryCaRule(rule, left, center, right);
+    }
+    row = next;
+  }
+  return row;
+}
+
+List<List<int>> cyclicCaStep(
+  List<List<int>> grid, {
+  required int states,
+  required int threshold,
+}) =>
+    _stepGrid(grid, (x, y) {
+      final state = grid[y][x];
+      final nextState = (state + 1) % states;
+      final count = _mooreCount(grid, x, y, nextState);
+      return count >= threshold ? nextState : state;
+    });
+
+List<List<int>> greenbergHastingsStep(
+  List<List<int>> grid, {
+  required int threshold,
+  required int refractoryPeriod,
+}) =>
+    _stepGrid(grid, (x, y) {
+      final state = grid[y][x];
+      if (state == 0) {
+        return _mooreCount(grid, x, y, 1) >= threshold ? 1 : 0;
+      }
+      if (state == 1) return 2;
+      final next = state + 1;
+      return next > refractoryPeriod + 1 ? 0 : next;
+    });
+
+({double plant, double water}) klausmeierCellStep({
+  required double plant,
+  required double water,
+  required double lapPlant,
+  required double lapWater,
+  required double rainfall,
+  required double mortality,
+  required double plantDiffusion,
+  required double waterDiffusion,
+  required double advectionGradient,
+  required double dt,
+}) {
+  final growth = plant * plant * water;
+  return (
+    plant:
+        plant + dt * (growth - mortality * plant + plantDiffusion * lapPlant),
+    water: water +
+        dt *
+            (rainfall -
+                water -
+                growth +
+                waterDiffusion * lapWater -
+                advectionGradient),
+  );
+}
+
+String arnouxRauzySubstitute(String word, int sigma) {
+  final out = StringBuffer();
+  for (final codeUnit in word.codeUnits) {
+    final letter = String.fromCharCode(codeUnit);
+    if (sigma == 1) out.write({'1': '1', '2': '21', '3': '31'}[letter]);
+    if (sigma == 2) out.write({'1': '12', '2': '2', '3': '32'}[letter]);
+    if (sigma == 3) out.write({'1': '13', '2': '23', '3': '3'}[letter]);
+  }
+  return out.toString();
+}
+
+List<int> dualSubstitutionStep(List<int> tiles) => [
+      for (final tile in tiles)
+        ...switch (tile) {
+          0 => [0, 1],
+          1 => [2, 0],
+          _ => [1, 2, 0],
+        },
+    ];
 
 /// Resolves a CPU formula for [moduleId].
 ///
@@ -313,6 +417,60 @@ int _fnv1a32(String s) {
   final logGammaY = power.$2 - zsy;
 
   return cexpSafe(logGammaX, logGammaY, clampX: 40.0);
+}
+
+(double r, double g, double b) _cpu_weierstrass_p(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  double zx = 0.5;
+  double zy = 0.5;
+  final bailout2 = bailout * bailout;
+
+  for (int it = 0; it < iterations; it++) {
+    final wp = _weierstrassP(zx, zy);
+    final mag2 = wp.$1 * wp.$1 + wp.$2 * wp.$2;
+    if (wp.$3 || mag2 > bailout2) {
+      return palette(smoothEscape(it: it, mag2: mag2));
+    }
+    zx = wp.$1 + x;
+    zy = wp.$2 + y;
+  }
+  return kInsideColor;
+}
+
+(double x, double y, bool pole) _weierstrassP(double zx, double zy) {
+  final z2 = cmul(zx, zy, zx, zy);
+  if (z2.$1 * z2.$1 + z2.$2 * z2.$2 < 1e-8) {
+    return (1e10, 0.0, true);
+  }
+
+  final start = cdivSafe(1.0, 0.0, z2.$1, z2.$2);
+  var rx = start.$1;
+  var ry = start.$2;
+
+  for (int m = -1; m <= 1; m++) {
+    for (int n = -1; n <= 1; n++) {
+      if (m == 0 && n == 0) continue;
+      final wx = m.toDouble();
+      final wy = n.toDouble();
+      final zmx = zx - wx;
+      final zmy = zy - wy;
+      if (zmx * zmx + zmy * zmy < 1e-8) {
+        return (1e10, 0.0, true);
+      }
+      final zm2 = cmul(zmx, zmy, zmx, zmy);
+      final w2 = cmul(wx, wy, wx, wy);
+      final a = cdivSafe(1.0, 0.0, zm2.$1, zm2.$2);
+      final b = cdivSafe(1.0, 0.0, w2.$1, w2.$2);
+      rx += a.$1 - b.$1;
+      ry += a.$2 - b.$2;
+    }
+  }
+  return (rx, ry, false);
 }
 
 (double r, double g, double b) _cpu_synthetic(
@@ -1585,6 +1743,37 @@ int _fnv1a32(String s) {
   return _cpu_synthetic(0x91060bc0, x, y, iterations, bailout);
 }
 
+(double r, double g, double b) _cpu_arnoux_rauzy_fractal(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  var word = '123';
+  for (var i = 0; i < 4; i++) {
+    word = arnouxRauzySubstitute(word, (i % 3) + 1);
+  }
+  final seed =
+      word.codeUnits.fold<int>(0, (acc, c) => (acc * 33 + c) & 0xffffffff);
+  return _cpu_synthetic(seed, x, y, iterations, bailout);
+}
+
+(double r, double g, double b) _cpu_dual_substitution_tiling(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  var tiles = [0, 1, 2];
+  for (var i = 0; i < 4; i++) {
+    tiles = dualSubstitutionStep(tiles);
+  }
+  final seed = tiles.fold<int>(0, (acc, t) => (acc * 31 + t + 1) & 0xffffffff);
+  return _cpu_synthetic(seed, x, y, iterations, bailout);
+}
+
 (double r, double g, double b) _cpu_pinwheel_tiling(
   double x,
   double y,
@@ -2421,6 +2610,54 @@ int _fnv1a32(String s) {
   return _cpu_synthetic(0x243fe48a, x, y, iterations, bailout);
 }
 
+(double r, double g, double b) _cpu_lattes_map_julia(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  var zx = x;
+  var zy = y;
+  var trap = _lattesPoleDistance(zx, zy);
+  final bailout2 = math.max(16.0, bailout * bailout);
+
+  for (var it = 0; it < iterations; it++) {
+    trap = math.min(trap, _lattesPoleDistance(zx, zy));
+    if (trap < 1e-5 || zx * zx + zy * zy > bailout2) {
+      return palette(it / math.max(1, iterations) + math.exp(-18.0 * trap));
+    }
+
+    final next = _lattesMap(zx, zy);
+    zx = next.$1;
+    zy = next.$2;
+  }
+
+  final t =
+      0.25 + math.exp(-18.0 * trap) + 0.05 * math.log(1.0 + zx * zx + zy * zy);
+  return palette(t);
+}
+
+(double, double) _lattesMap(double zx, double zy) {
+  final z2 = cmul(zx, zy, zx, zy);
+  final z2p1x = z2.$1 + 1.0;
+  final z2p1y = z2.$2;
+  final num = cmul(z2p1x, z2p1y, z2p1x, z2p1y);
+  final z2m1x = z2.$1 - 1.0;
+  final z2m1y = z2.$2;
+  final den = cmul(zx, zy, z2m1x, z2m1y);
+  return cdivSafe(num.$1, num.$2, 4.0 * den.$1, 4.0 * den.$2);
+}
+
+@pragma('vm:prefer-inline')
+double _lattesPoleDistance(double zx, double zy) => math.min(
+      math.sqrt(zx * zx + zy * zy),
+      math.min(
+        math.sqrt((zx - 1.0) * (zx - 1.0) + zy * zy),
+        math.sqrt((zx + 1.0) * (zx + 1.0) + zy * zy),
+      ),
+    );
+
 (double r, double g, double b) _cpu_barnsley_j2(
   double x,
   double y,
@@ -2727,6 +2964,132 @@ int _fnv1a32(String s) {
 ) {
   // Ported from shaders/cellular_and_stochastic/lattice_automata/wolfram_rule30_gpu.frag (CPU approximation, seed=0x48c5a56d)
   return _cpu_synthetic(0x48c5a56d, x, y, iterations, bailout);
+}
+
+(double r, double g, double b) _cpu_rule90_linear_ca(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) =>
+    _cpuElementaryLinearCa(90, x, y, iterations);
+
+(double r, double g, double b) _cpu_rule150_linear_ca(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) =>
+    _cpuElementaryLinearCa(150, x, y, iterations);
+
+(double r, double g, double b) _cpu_cyclic_cellular_automaton(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  final state = ((math.sin(37.0 * x + 53.0 * y + iterations) + 1.0) * 4.0)
+      .floor()
+      .clamp(0, 7);
+  return palette(state / 8.0);
+}
+
+(double r, double g, double b) _cpu_greenberg_hastings_ca(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  final phase = ((math.sin(41.0 * x - 29.0 * y + iterations) + 1.0) * 5.0)
+      .floor()
+      .clamp(0, 9);
+  if (phase == 0) return (4.0, 5.0, 9.0);
+  if (phase == 1) return (255.0, 210.0, 64.0);
+  return palette(0.55 + phase / 20.0);
+}
+
+(double r, double g, double b) _cpu_klausmeier_vegetation(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  var plant = 0.2 + 0.08 * math.sin(31.0 * x + 17.0 * y);
+  var water = 2.0 + 0.15 * math.sin(9.0 * x + 5.0 * math.sin(5.0 * y));
+  final steps = iterations.clamp(1, 96).toInt();
+  for (var i = 0; i < steps; i++) {
+    final terrain = 0.5 + 0.5 * math.sin(9.0 * x + i * 0.08);
+    final next = klausmeierCellStep(
+      plant: plant,
+      water: water,
+      lapPlant: (terrain - 0.5) - 0.35 * plant,
+      lapWater: (0.5 - terrain) - 0.12 * water,
+      rainfall: 2.0,
+      mortality: 0.45,
+      plantDiffusion: 1.0,
+      waterDiffusion: 10.0,
+      advectionGradient: 0.2 * math.cos(9.0 * x + i * 0.08),
+      dt: 0.018,
+    );
+    plant = next.plant.clamp(0.0, 4.0).toDouble();
+    water = next.water.clamp(0.0, 8.0).toDouble();
+  }
+  final biomass = plant.clamp(0.0, 1.0).toDouble();
+  return (40.0 + 60.0 * biomass, 45.0 + 160.0 * biomass, 24.0 + 45.0 * biomass);
+}
+
+(double r, double g, double b) _cpuElementaryLinearCa(
+  int rule,
+  double x,
+  double y,
+  int iterations,
+) {
+  final target = iterations.clamp(1, 500).toInt();
+  final gen = ((y + 0.5) * target).floor().clamp(0, target - 1).toInt();
+  final cell = ((x + 0.5) * target).floor();
+  final row = elementaryCaSingleSeedRow(rule: rule, generation: gen);
+  final idx = cell + gen;
+  final alive = idx >= 0 && idx < row.length && row[idx] == 1;
+  if (!alive) return (5.0, 5.0, 10.0);
+  return palette(gen / math.max(1, target));
+}
+
+int _bitAt(List<int> row, int index) =>
+    index >= 0 && index < row.length ? row[index] : 0;
+
+int _elementaryCaRule(int rule, int left, int center, int right) {
+  final idx = (left << 2) | (center << 1) | right;
+  return (rule >> idx) & 1;
+}
+
+List<List<int>> _stepGrid(
+  List<List<int>> grid,
+  int Function(int x, int y) update,
+) {
+  return [
+    for (var y = 0; y < grid.length; y++)
+      [for (var x = 0; x < grid[y].length; x++) update(x, y)],
+  ];
+}
+
+int _mooreCount(List<List<int>> grid, int x, int y, int target) {
+  var count = 0;
+  for (var dy = -1; dy <= 1; dy++) {
+    for (var dx = -1; dx <= 1; dx++) {
+      if (dx == 0 && dy == 0) continue;
+      final yy = y + dy;
+      final xx = x + dx;
+      if (yy < 0 || yy >= grid.length) continue;
+      if (xx < 0 || xx >= grid[yy].length) continue;
+      if (grid[yy][xx] == target) count++;
+    }
+  }
+  return count;
 }
 
 (double r, double g, double b) _cpu_langton_ant(
@@ -3296,12 +3659,30 @@ int _fnv1a32(String s) {
   double r, g, b;
   final sector = (h * 6.0).floor() % 6;
   switch (sector) {
-    case 0:  r = c; g = x; b = 0;
-    case 1:  r = x; g = c; b = 0;
-    case 2:  r = 0; g = c; b = x;
-    case 3:  r = 0; g = x; b = c;
-    case 4:  r = x; g = 0; b = c;
-    default: r = c; g = 0; b = x;
+    case 0:
+      r = c;
+      g = x;
+      b = 0;
+    case 1:
+      r = x;
+      g = c;
+      b = 0;
+    case 2:
+      r = 0;
+      g = c;
+      b = x;
+    case 3:
+      r = 0;
+      g = x;
+      b = c;
+    case 4:
+      r = x;
+      g = 0;
+      b = c;
+    default:
+      r = c;
+      g = 0;
+      b = x;
   }
   return ((r + m) * 255.0, (g + m) * 255.0, (b + m) * 255.0);
 }
@@ -3316,7 +3697,11 @@ int _fnv1a32(String s) {
 // Pattern: z = (|Re(z)| + i|Im(z)|)^p + c  (Y-flip for upright orientation)
 
 (double r, double g, double b) _cpu_burning_ship_cubic(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
@@ -3328,7 +3713,11 @@ int _fnv1a32(String s) {
     }, power: 3.0);
 
 (double r, double g, double b) _cpu_burning_ship_power4(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
@@ -3343,7 +3732,11 @@ int _fnv1a32(String s) {
     }, power: 4.0);
 
 (double r, double g, double b) _cpu_burning_ship_power5(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
@@ -3359,7 +3752,11 @@ int _fnv1a32(String s) {
     }, power: 5.0);
 
 (double r, double g, double b) _cpu_burning_ship_power6(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
@@ -3375,7 +3772,11 @@ int _fnv1a32(String s) {
     }, power: 6.0);
 
 (double r, double g, double b) _cpu_burning_ship_power7(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, -y, iterations, bailout, (zx, zy, cx, cy) {
       final ax = zx.abs();
@@ -3396,7 +3797,11 @@ int _fnv1a32(String s) {
 // Pattern: z = |Re(z^p)| + i*Im(z^p) + c  (abs on real part only)
 
 (double r, double g, double b) _cpu_celtic_cubic(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final x2 = zx * zx;
@@ -3407,7 +3812,11 @@ int _fnv1a32(String s) {
     }, power: 3.0);
 
 (double r, double g, double b) _cpu_celtic_power4(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       // z^2
@@ -3420,7 +3829,11 @@ int _fnv1a32(String s) {
     }, power: 4.0);
 
 (double r, double g, double b) _cpu_celtic_power5(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final z2x = zx * zx - zy * zy;
@@ -3437,7 +3850,11 @@ int _fnv1a32(String s) {
 // z = |Re(z^3)| + i|Im(z^3)| + c  (abs on BOTH parts)
 
 (double r, double g, double b) _cpu_buffalo_cubic(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) =>
     escapeTime(x, y, iterations, bailout, (zx, zy, cx, cy) {
       final x2 = zx * zx;
@@ -3451,7 +3868,11 @@ int _fnv1a32(String s) {
 // Julia-set style: z → z^n + a/z^n  (defaults: n=3, a=(-0.1, 0))
 
 (double r, double g, double b) _cpu_mcmullen_map(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   // Default parameters matching shader: n=3, a=(-0.1, 0)
   const int n = 3;
@@ -3493,7 +3914,11 @@ int _fnv1a32(String s) {
 // z → z^n + a/z^m + b  (defaults: n=3, m=3, a=(-0.1,0), b=(0,0))
 
 (double r, double g, double b) _cpu_generalized_mcmullen(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   const int pn = 3;
   const int pm = 3;
@@ -3535,7 +3960,11 @@ int _fnv1a32(String s) {
 // Color by which root is nearest.
 
 (double r, double g, double b) _cpu_damped_newton(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   const double alpha = 1.0;
   const int degree = 3;
@@ -3596,7 +4025,11 @@ int _fnv1a32(String s) {
 // Simultaneous root-finding for z^3-1. CPU approximation (simplified).
 
 (double r, double g, double b) _cpu_durand_kerner(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   // Approximate the basins of the Durand-Kerner iteration for z^3-1.
   // Uses the same convergence-to-root coloring as Newton methods.
@@ -3615,8 +4048,7 @@ int _fnv1a32(String s) {
     final fpx = 3.0 * z2.$1;
     final fpy = 3.0 * z2.$2;
     // Durand-Kerner: modified Newton step with perturbation in denominator
-    final corr = cdivSafe(fx, fy,
-        fpx - 0.5 * fx, fpy - 0.5 * fy);
+    final corr = cdivSafe(fx, fy, fpx - 0.5 * fx, fpy - 0.5 * fy);
     zx -= corr.$1;
     zy -= corr.$2;
 
@@ -3650,7 +4082,11 @@ int _fnv1a32(String s) {
 // Ehrlich-Aberth root-finding for z^3-1. CPU approximation.
 
 (double r, double g, double b) _cpu_ehrlich_aberth(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   const int degree = 3;
   double zx = x;
@@ -3673,10 +4109,12 @@ int _fnv1a32(String s) {
     final ratio = cdivSafe(fx, fy, fpx, fpy);
     final halfRatioTimesSecond = cmul(ratio.$1, ratio.$2, fppx, fppy);
     // Halley correction: step = ratio / (1 - 0.5*ratio*f''/f')
-    final corrDivX = 1.0 - 0.5 * cdivSafe(halfRatioTimesSecond.$1,
-        halfRatioTimesSecond.$2, fpx, fpy).$1;
-    final corrDivY = -0.5 * cdivSafe(halfRatioTimesSecond.$1,
-        halfRatioTimesSecond.$2, fpx, fpy).$2;
+    final corrDivX = 1.0 -
+        0.5 *
+            cdivSafe(halfRatioTimesSecond.$1, halfRatioTimesSecond.$2, fpx, fpy)
+                .$1;
+    final corrDivY = -0.5 *
+        cdivSafe(halfRatioTimesSecond.$1, halfRatioTimesSecond.$2, fpx, fpy).$2;
     final step = cdivSafe(ratio.$1, ratio.$2, corrDivX, corrDivY);
     zx -= step.$1;
     zy -= step.$2;
@@ -3712,7 +4150,11 @@ int _fnv1a32(String s) {
 // Default shape: circle, seed = juliaC.
 
 (double r, double g, double b) _cpu_shape_modulus_julia(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   // Compute shape modulation (circle, scale=1.0)
   const double shapeScale = 1.0;
@@ -3746,7 +4188,11 @@ int _fnv1a32(String s) {
 // Simplified IFS with nonlinear variations. CPU approximation.
 
 (double r, double g, double b) _cpu_fractal_flame(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   // Simplified: iterate IFS with sinusoidal variation from pixel coordinate.
   double zx = x;
@@ -3788,7 +4234,11 @@ int _fnv1a32(String s) {
 // Enhanced buddhabrot approximation. Uses forward iteration from pixel.
 
 (double r, double g, double b) _cpu_buddhabrot_full(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   // Forward Mandelbrot iteration to test escape
   final cx = x;
@@ -3849,7 +4299,11 @@ double _simplexNoise2D(double px, double py) {
 }
 
 (double r, double g, double b) _cpu_gray_scott_rd(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   // Approximate RD pattern using layered noise, modulated by F and k
   const double feedRate = 0.04;
@@ -3875,7 +4329,11 @@ double _simplexNoise2D(double px, double py) {
 // Lightning/DDB pattern approximation (CPU uses noise-based growth).
 
 (double r, double g, double b) _cpu_dielectric_breakdown(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   // Approximate lightning patterns using layered noise + distance field
   final dist = math.sqrt(x * x + y * y);
@@ -3885,14 +4343,15 @@ double _simplexNoise2D(double px, double py) {
   double amp = 1.0;
   double freq = 3.0;
   for (int i = 0; i < 8; i++) {
-    val += amp * (_simplexNoise2D(x * freq + i * 1.7, y * freq + i * 2.3) - 0.5);
+    val +=
+        amp * (_simplexNoise2D(x * freq + i * 1.7, y * freq + i * 2.3) - 0.5);
     freq *= 2.1;
     amp *= 0.45;
   }
 
   // Create branch-like structure
-  final branchVal = (math.sin(angle * 5.0 + val * 4.0) * 0.5 + 0.5) *
-      math.exp(-dist * 0.5);
+  final branchVal =
+      (math.sin(angle * 5.0 + val * 4.0) * 0.5 + 0.5) * math.exp(-dist * 0.5);
   final intensity = clampDouble(branchVal + val * 0.3, 0.0, 1.0);
 
   if (intensity < 0.1) return kInsideColor;
@@ -3903,7 +4362,11 @@ double _simplexNoise2D(double px, double py) {
 // Lichtenberg figure growth pattern approximation.
 
 (double r, double g, double b) _cpu_lichtenberg_growth(
-  double x, double y, int iterations, double bailout, Vector2 juliaC,
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
 ) {
   // Similar to dielectric breakdown but with different branching character
   final dist = math.sqrt(x * x + y * y);

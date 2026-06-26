@@ -1,0 +1,10 @@
+10.2172/919086	Heavy-Quark Masses from the Fermilab Method in Three-Flavor Lattice QCD
+	Form factors for $B$ to $Kll$ semileptonic decay from three-flavor lattice QCD
+10.1063/5.0298024	Matrix logistic map: fractal spectral distributions and transfer of chaos
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+10.1063/1.4768666	Topological chaos, braiding and bifurcation of almost-cyclic sets
+10.1063/1.3556683	Dynamic Phase Transition from Localized to Spatiotemporal Chaos in Coupled Circle Map with Feedback
+10.1063/1.5062364	Computational capabilities at the edge of chaos for one dimensional system undergoing continuous transitions
+	Automatic Guided Vehicles System and Its Coordination Control for Containers Terminal Logistics Application
+10.1063/1.166463	Anomalous spatio-temporal chaos in a two-dimensional system of non-locally coupled oscillators
+	Rotating lattice

@@ -133,6 +133,9 @@
   "tooltipKaleidoscopeOn": "Kaleidoscope on",
   "tooltipKaleidoscopeOff": "Kaleidoscope off",
   "tooltipCameraLooper": "Camera looper",
+  "tooltipFractalMusicOn": "Fractal Music on",
+  "tooltipFractalMusicOff": "Fractal Music off",
+  "fractalMusicUnavailable": "Fractal Music unavailable. Check your audio device.",
   "shareToSocialTargets": "Share to X / Reddit",
   "wallpaperTitle": "Wallpaper",
   "wallpaperAndroidNote": "Exports at your device’s native resolution and sets it as wallpaper.",
@@ -162,26 +165,26 @@
   "errorOverlayNotReady": "Overlay not ready",
   "errorCameraNotReady": "Camera not ready",
   "shaderLoadFailed": "Failed to load shader",
-  
+
   "contextMenuResetView": "Reset View",
   "contextMenuOpenControls": "Open Controls",
   "contextMenuOpenPresets": "Open Presets",
   "contextMenuRandomize": "Randomize",
   "contextMenuExport": "Export",
   "gestureDoubleTapReset": "View reset",
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
   "exportActionSaveImage": "Save image",
   "exportActionSaveAndShare": "Save & share",
   "exportSaveLocationHint": "Saves to Pictures/FractalForge. No storage permission prompt.",
   "exportFormatFallbackPng": "PNG fallback",
   "exportSavedShareFailed": "Export saved. Sharing did not open; try sharing the saved image from Photos.",
-  
+
   "@exportFailed": {
     "placeholders": {
       "error": {}
@@ -201,12 +204,12 @@
   "accessibilityLargeTargets": "Large Touch Targets",
   "accessibilityLargeTargetsHint": "Increase size of interactive elements",
   "accessibilityScreenReaderActive": "Screen reader is active",
-  
+
   "soundEffectsTitle": "Sound Effects",
   "soundEffectsEnabled": "UI Sounds",
   "soundEffectsEnabledHint": "Play subtle sounds for button taps and transitions",
   "soundEffectsVolume": "Volume",
-  
+
   "semanticFractalViewer": "Interactive fractal viewer. Pinch to zoom, drag to pan.",
   "semanticFractalCard": "{name} fractal, {dimension}. Double tap to open.",
   "@semanticFractalCard": {
@@ -265,7 +268,7 @@
       "label": {}
     }
   },
-  
+
   "announceFractalLoaded": "{name} fractal loaded",
   "@announceFractalLoaded": {
     "placeholders": {
@@ -363,38 +366,38 @@
   "videoPresetSocial": "Social",
   "videoPresetHighQuality": "High Quality",
   "videoPresetLoop": "Loop GIF",
-  
+
   "videoTabAnimation": "Animation",
   "videoTabQuality": "Quality",
   "videoTabAdvanced": "Advanced",
-  
+
   "videoAnimationType": "Animation Type",
   "videoDuration": "Duration",
   "videoFrames": "frames",
   "videoZoomFactor": "Zoom Factor",
   "videoEasing": "Easing",
-  
+
   "videoParameterSweep": "Parameter Sweep",
   "videoSelectParameter": "Select Parameter",
   "videoSweepStart": "Start Value",
   "videoSweepEnd": "End Value",
   "videoPingPong": "Ping-Pong",
   "videoPingPongHint": "Animate back to start value",
-  
+
   "videoFormat": "Format",
   "videoResolution": "Resolution",
   "videoFrameRate": "Frame Rate",
   "videoQualityPreset": "Quality",
-  
+
   "videoLoop": "Loop",
   "videoLoopHint": "Repeat animation continuously",
   "videoWatermark": "Add Watermark",
   "videoWatermarkHint": "Add 'Flutter Fractals' branding",
-  
+
   "videoEstimatedOutput": "Estimated Output",
   "videoTotalFrames": "Total Frames",
   "videoEstimatedSize": "Est. File Size",
-  
+
   "videoExportNow": "Export Video",
   "videoExporting": "Exporting video...",
   "videoExportProgress": "Rendering frame {current} of {total}",
@@ -411,7 +414,7 @@
       "error": {}
     }
   },
-  
+
   "tooltipExportVideo": "Export Video",
   "tooltipOpenHistory": "History",
 
@@ -460,7 +463,7 @@
   "buttonDelete": "Delete",
   "alreadyFavorite": "Already saved",
   "saveAsFavorite": "Save as favorite",
-  
+
   "disable3dMessage": "3D fractals are disabled on this device.\n(Mandelbulb shader load stalls.)",
   "deepZoomCpuFallback": "Deep Zoom — tap for CPU precision",
   "rendererAuto": "Renderer preference: Auto",

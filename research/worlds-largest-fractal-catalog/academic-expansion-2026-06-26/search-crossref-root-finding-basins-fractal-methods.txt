@@ -1,0 +1,10 @@
+10.3390/fractalfract6100572	Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction
+10.31258/jomso.1.1.11-16	COMPARISONS OF VARIOUS ROOT-FINDING METHODS BASED ON THEIR BASINS OF ATTRACTION
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.1007/s00454-011-9330-3	Polynomial Root-Finding Methods Whose Basins of Attraction Approximate Voronoi Diagram
+10.1017/cbo9781139525398.005	Root-finding
+10.1007/s10910-022-01371-6	An efficient class of optimal sixteenth-order root-finding methods and their basins of attraction
+10.3390/fractalfract5040204	A New Three-Step Root-Finding Numerical Method and Its Fractal Global Behavior
+10.1016/j.amc.2013.02.063	Contrasts in the basins of attraction of structurally identical iterative root finding methods
+10.2172/4477697	ROOT-CUBING AND THE GENERAL ROOT-POWERING METHODS FOR FINDING THE ZEROS OF POLYNOMIALS.
+10.1007/1-84628-133-4_4	Root Finding

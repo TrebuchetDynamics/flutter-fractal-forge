@@ -1,0 +1,10 @@
+10.3126/jnms.v1i2.41488	Higher Order Convergent Newton Type Iterative Methods
+10.1142/s0218348x23400790	FRACTIONAL-ORDER NEWTON–RAPHSON METHOD FOR NONLINEAR EQUATION WITH CONVERGENCE AND STABILITY ANALYSES
+10.1016/j.chaos.2021.111044	On higher order Fibonacci hyper complex numbers
+10.1016/0960-0779(94)90078-7	Higher-order Davey-Stewartson equations
+10.1007/s11590-015-0899-y	On the final steps of Newton and higher order methods
+10.3846/mma.2019.008	ON A CLASS OF EFFICIENT HIGHER ORDER NEWTON-LIKE METHODS
+10.3390/mca24020059	Some New Higher Order Weighted Newton Methods for Solving Nonlinear Equation with Applications
+10.1002/mma.8262	Variants of Mandelbrot and Julia fractals for higher‐order complex polynomials
+10.1016/j.chaos.2008.11.012	On a class of higher-order difference equations
+10.1016/j.chaos.2006.05.019	Variational approach to higher-order water-wave equations

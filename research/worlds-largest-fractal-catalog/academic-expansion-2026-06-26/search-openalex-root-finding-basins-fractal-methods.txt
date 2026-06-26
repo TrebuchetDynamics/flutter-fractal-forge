@@ -1,0 +1,10 @@
+10.3390/fractalfract6100572	Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.1155/2020/5070363	Higher-Order Root-Finding Algorithms and Their Basins of Attraction
+10.3390/fractalfract5040204	A New Three-Step Root-Finding Numerical Method and Its Fractal Global Behavior
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.1002/2014gl061099	A hydrogeomorphic river network model predicts where and why hyporheic exchange is important in large basins
+10.3390/math9161996	A New Nonlinear Ninth-Order Root-Finding Method with Error Analysis and Basins of Attraction
+	The analysis of river basins and channel networks using digital terrain data
+10.1007/s00454-011-9330-3	Polynomial Root-Finding Methods Whose Basins of Attraction Approximate Voronoi Diagram
