@@ -1,0 +1,20 @@
+	Network Modulation Synthesis: New Algorithms for Generating Musical Audio Using Autoencoder Networks
+10.1109/ijcnn52387.2021.9533461	MusCaps: Generating Captions for Music Audio
+10.1186/s13636-024-00354-6	The Whole Is Greater than the Sum of Its Parts: Improving Music Source Separation by Bridging Network
+	Digital Audio Processing Tools for Music Corpus Studies
+10.1109/taslpro.2025.3648794	Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio
+	Generation of lyrics lines conditioned on music audio clips
+	Adversarial Audio Synthesis with Complex-valued Polynomial Networks
+10.3390/electronics10111349	Stochastic Restoration of Heavily Compressed Musical Audio using Generative Adversarial Networks
+	Real time state monitoring and fault diagnosis system for motor based on LabVIEW
+	Tabletop Roleplaying Games as Procedural Content Generators
+	A Methodology for Exploring Deep Convolutional Features in Relation to Hand-Crafted Features with an Application to Music Audio Modeling
+	IteraTTA: An interface for exploring both text prompts and audio priors in generating music with text-to-audio models
+10.17743/jaes.2022.0129	Diffusion-Based Audio Inpainting
+	Audio Prompt Adapter: Unleashing Music Editing Abilities for Text-to-Music with Lightweight Finetuning
+10.1109/taslp.2015.2507862	Real-Time Audio-to-Score Alignment of Music Performances Containing Errors and Arbitrary Repeats and Skips
+	Improving Choral Music Separation through Expressive Synthesized Data from Sampled Instruments
+	VQCPC-GAN: Variable-Length Adversarial Audio Synthesis Using Vector-Quantized Contrastive Predictive Coding
+	Audio-Plane: Audio Factorization Plane Gaussian Splatting for Real-Time Talking Head Synthesis
+	Adversarial Music: Real World Audio Adversary Against Wake-word Detection System
+	LabelBuddy: An Open Source Music and Audio Language Annotation Tagging Tool Using AI Assistance

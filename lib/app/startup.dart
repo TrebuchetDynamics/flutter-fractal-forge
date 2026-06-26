@@ -10,12 +10,10 @@ import 'package:flutter_fractals/core/services/preset_store.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 
-/// Deep links can be noisy/flaky on emulators and in automated UI tests.
-///
-/// Default: disabled.
-/// Enable with: --dart-define=ENABLE_DEEP_LINKS=1
+/// Deep links are enabled by default so shared web URLs can open the app.
+/// Disable for diagnostics with: --dart-define=ENABLE_DEEP_LINKS=0
 const int kEnableDeepLinks =
-    int.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: 0);
+    int.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: 1);
 
 class DeferredStartupApp extends StatefulWidget {
   final Future<Widget> Function()? fullAppLoader;

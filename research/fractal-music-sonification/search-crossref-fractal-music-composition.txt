@@ -1,0 +1,20 @@
+10.1007/978-3-211-75540-2_6	Chaos and Self-Similarity
+10.1162/096112199750316866	Exploring the Self Through Algorithmic Composition
+10.3998/spobooks.bbv9810.0001.001	Algorithmic Composition: A Gentle Introduction to Music Composition Using Common LISP and Common Music
+10.24124/2020/59041	MU_PSYC : Algorithmic music composition with a music-psychology enriched genetic algorithm
+10.17918/00009042	Music in images
+10.31390/gradschool_dissertations.2190	Complexity and heuristics in ruled-based algorithmic music composition
+10.3390/fractalfract8100552	Fractal Self-Similarity in Semantic Convergence: Gradient of Embedding Similarity across Transformer Layers
+10.5353/th_b4098809	Algorithmic music composition using XML : a constraint-based approach
+10.2139/ssrn.5218968	On a Generalized Principle of Fractal Stiffness Self-Similarity
+10.2307/3681175	Algorithmic Composition
+10.2307/3680598	Nature, Music, and Algorithmic Composition
+10.7551/mitpress/4804.003.0019	Creation by Refinement and the Problem of Algorithmic Music Composition
+10.1017/9781316459874.008	Algorithmic Composition
+10.1007/978-94-017-9561-6_19	Algorithmic Music Composition
+10.2307/3680514	Chimpanzees, Wind Chimes, and Algorithmic Composition
+10.2307/3680513	Algorithmic Composition Panel at ICMC 1993
+10.1007/978-0-387-74749-1_4	Self-Similarity
+10.1021/acsnano.7b05554.s001	Self-Similarity of Plasmon Edge Modes on Koch Fractal Antennas
+10.7551/mitpress/4804.003.0017	A Connectionist Approach To Algorithmic Composition
+10.1017/ccol9780521868617.008	Algorithmic composition

@@ -1,0 +1,20 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.21785/icad2019.018	Three Orthogonal Dimensions for Psychoacoustic Sonification
+	Reef Elegy: An Auditory Display of Hawaii's 2019 Coral Bleaching Data
+	Psychoacoustic Sonification as User Interface for Human-Machine Interaction
+	Sonification Abstraite/Sonification Concrète: An 'Aesthetic Perspective Space' for Classifying Auditory Displays in the Ars Musica Domain
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+	Listen to Your Map: An Online Representation for Spatial Sonification
+	Evaluation of short range depth sonifications for visual-to-auditory sensory substitution
+10.21785/icad2024.008	SOMson -- Sonification of Multidimensional Data in Kohonen Maps
+	Fuzzy C-Means Clustering and Sonification of HRV Features
+10.1002/hbm.70548	Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration
+10.21785/icad2022.039	Tokyo Kion-On: Query-Based Generative Sonification of Atmospheric Data
+	Ways of Listening and Modes of Being: Electroacoustic Auditory Display
+10.1051/aacus/2022018	Towards a generalized monaural and binaural auditory model for psychoacoustics and speech intelligibility
+10.1145/3613904.3642442	Erie: A Declarative Grammar for Data Sonification
+	Creating Aesthetic Sonifications on the Web with SIREN
+10.21785/icad2022.003	Recommendations to Develop, Distribute and Market Sonification Apps
+10.1007/11821731	Lemma 4: Haptic Input + Auditory Display = Musical Instrument?

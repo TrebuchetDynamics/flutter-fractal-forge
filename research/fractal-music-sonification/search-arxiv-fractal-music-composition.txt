@@ -1,0 +1,20 @@
+	Models of Music Cognition and Composition
+10.1080/17459737.2018.1450902	Introduction to Gestural Similarity in Music. An Application of Category Theory to the Orchestra
+	The Machine Learning Algorithm as Creative Musical Tool
+	Dorabella Cipher as Musical Inspiration
+	On the Interesting World of Fractals and Their Applications to Music
+10.5334/tismir.167	Barwise Music Structure Analysis with the Correlation Block-Matching Segmentation Algorithm
+	Music SketchNet: Controllable Music Generation via Factorized Representations of Pitch and Rhythm
+	Improving Choral Music Separation through Expressive Synthesized Data from Sampled Instruments
+10.1103/revmodphys.88.045005	Quantum memories at finite temperature
+	Modeling Musical Context with Word2vec
+	Music Composition Using Quantum Annealing
+10.5281/zenodo.13359873	musif: a Python package for symbolic music feature extraction
+	Toward Interpretable Music Tagging with Self-Attention
+	Learning to Traverse Latent Spaces for Musical Score Inpainting
+	GlobalMood: A cross-cultural benchmark for music emotion recognition
+10.5281/zenodo.14877433	Sanidha: A Studio Quality Multi-Modal Dataset for Carnatic Music
+	Network Modulation Synthesis: New Algorithms for Generating Musical Audio Using Autoencoder Networks
+	Symbolic Music Representations for Classification Tasks: A Systematic Evaluation
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.5281/zenodo.4245368	Towards Multimodal MIR: Predicting individual differences from music-induced movement

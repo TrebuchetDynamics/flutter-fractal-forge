@@ -1,0 +1,20 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	A Visual Quality Assessment Method for Raster Images in Scanned Document
+	MARVEL: Raster Manga Vectorization via Primitive-wise Deep Reinforcement Learning
+	CAESynth: Real-Time Timbre Interpolation and Pitch Control with Conditional Autoencoders
+	Enhancement of Pitch Controllability using Timbre-Preserving Pitch Augmentation in FastPitch
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Perceiving Slope and Acceleration: Evidence for Variable Tempo Sampling in Pitch-Based Sonification of Functions
+10.23738/rcasb.009	Digital analysis of early color photographs taken using regular color screen processes
+	Learning Disentangled Representations of Timbre and Pitch for Musical Instrument Sounds Using Gaussian Mixture Variational Autoencoders
+	DisMix: Disentangling Mixtures of Musical Instruments for Source-level Pitch and Timbre Manipulation
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression
+	PolSeT: Polish Semantics of Timbre Dataset
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+10.1109/tip.2020.3020389	Learning a Single Model with a Wide Range of Quality Factors for JPEG Image Artifacts Removal
+10.1007/978-3-031-16446-0_13	Privacy Preserving Image Registration
+	Pitch-Conditioned Instrument Sound Synthesis From an Interactive Timbre Latent Space
+10.1007/978-3-030-27202-9_11	Locally Linear Image Structural Embedding for Image Structure Manifold Learning
+10.1007/978-3-031-07015-0_11	Some mathematical and computational relations between timbre and color
+10.1109/ipta.2015.7367207	Embedded Line Scan Image Sensors: The Low Cost Alternative for High Speed Imaging

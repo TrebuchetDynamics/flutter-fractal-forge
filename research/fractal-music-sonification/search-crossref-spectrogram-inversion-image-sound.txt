@@ -1,0 +1,20 @@
+10.32657/10356/59272	Sound event recognition in unstructured environments using spectrogram image processing
+10.21437/interspeech.2014-543	Analysis of spectrogram image methods for sound event classification
+10.12783/shm2019/32121	Application of Image Recognition Technology to Sound Spectrogram of Impact-Echo Method
+10.7717/peerj.16462/fig-2	Figure 2: A typical spectrogram of each sound component.
+10.15623/ijret.2017.0610015	ENVIRONMENTAL SOUND RECOGNITION USING SPECTROGRAM IMAGE FEATURES
+10.1016/j.procs.2017.06.020	Lanczos kernel based spectrogram image features for sound classification
+10.32629/jai.v6i3.678	Cross-domain synergy: Leveraging image processing techniques for enhanced sound classification through spectrogram analysis using CNNs
+10.21012/fc10.232724	Improvement of impact-echo method by applying image recognition of sound spectrogram
+10.58837/chula.the.2011.1083	Background-noise independent sound recognition using imagerial spectrogram patterns
+10.14264/f9017f3	A single absorption line inversion method and its application to a solar spectrogram
+10.1109/lsp.2010.2100380	Spectrogram Image Feature for Sound Event Classification in Mismatched Conditions
+10.1201/9781003189053-6	Spectrogram Image Textural Descriptors for Lung Sound Classification
+10.7717/peerj-cs.3717/fig-1	Figure 1: Processed spectrogram image of an AirCon signal.
+10.1007/978-3-319-55065-7_613	Sound Spectrogram
+10.21437/interspeech.2019-3242	A Modified Algorithm for Multiple Input Spectrogram Inversion
+10.1007/978-3-319-47829-6_613-1	Sound Spectrogram
+10.21203/rs.3.rs-8595275/v1	Environmental Sound Classification Using Feature Fusion of MFCCs, Mel-spectrogram, and Chroma
+10.36227/techrxiv.175615735.57354421/v1	DualStack: A Multi-Resolution Spectrogram Fusion Framework for Enhanced Bird Sound Classification
+10.1016/j.engappai.2023.105867	Randomized learning-based classification of sound quality using spectrogram image and time-series data: A practical perspective
+10.36227/techrxiv.23732205	ASFNet: Audio Spectrogram Fourier Network for Efficient Medical Sound Event Detection

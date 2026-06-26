@@ -1,0 +1,13 @@
+10.1007/s00779-023-01720-5	Towards a unified terminology for sonification and visualization
+10.21785/icad2019.045	Sonifyd: A Graphical Approach for Sound Synthesis and Synesthetic Visual Expression
+10.5555/1123196.1123261	Improving accessibility and usability of geo-referenced statistical data
+10.18293/jvlc2022-n1-015	An Innovative Methodology of the Algorithmic Composition Knowledge Base for the Chinese Calligraphy Painting Interaction: from Sonification to Musification
+	Aesthetics and Poietics of Sound Material, Form and (absent) Body in Electronic Music: Conceptual Tools for the Computer Musician, and their Applications
+10.32920/ryerson.14664129.v1	Making the invisible visible: visualization of music and lyrics for deaf and hard of hearing audiences
+	Neuro-Imaging Support for the Use of Audio to Represent Geospatial Location in Cartographic Design
+	1. Paintings as a Source of Musical Form, 2. A Portfolio of Compositions
+10.14714/cp23.775	Download Complete Issue: 23 (11MB)
+10.5281/zenodo.850484	Digitally Extending The Optical Soundtrack
+10.26180/5ce3cfe26d42c	Generating Accessible Online Graphics for Visually Impaired People: A Case Study with Floor Plans
+10.36253/music_tec-13300	Media archaeology-based Visual Music
+10.14714/cp39.712	Download Complete Issue: CP39 (8.4MB)

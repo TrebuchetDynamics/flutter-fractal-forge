@@ -6,14 +6,16 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('generates live registry promoted ledger', () {
-    final ledger = buildLiveRegistryLedger();
+    final ledger = buildLiveRegistryLedger(
+      generatedAt: DateTime.utc(2026, 6, 26),
+    );
     writeLiveRegistryLedger(ledger);
 
     final entries = ledger['entries']! as List<Object?>;
     final skipped = ledger['skipped']! as Map<String, Object>;
 
-    expect(entries, hasLength(1020));
-    expect(skipped['missingThumbnail'], 30);
+    expect(entries, hasLength(899));
+    expect(skipped['missingThumbnail'], 31);
     expect(skipped['unknownFamily'], 0);
     expect(File(outputPath).existsSync(), isTrue);
     expect(File(thumbnailWorklistPath).existsSync(), isTrue);
@@ -30,8 +32,8 @@ void main() {
 
     final worklist = jsonDecode(File(thumbnailWorklistPath).readAsStringSync())
         as Map<String, Object?>;
-    expect(worklist['missingCount'], 30);
+    expect(worklist['missingCount'], 31);
     expect(worklist['batches'], hasLength(2));
-    expect(worklist['missingThumbnails'], hasLength(30));
+    expect(worklist['missingThumbnails'], hasLength(31));
   });
 }

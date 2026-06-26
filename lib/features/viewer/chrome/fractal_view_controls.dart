@@ -20,6 +20,7 @@ class FractalViewControlActions {
   final VoidCallback openPalettePicker;
   final VoidCallback toggleKaleidoscope;
   final VoidCallback openExport;
+  final VoidCallback shareLink;
   final VoidCallback shareImage;
   final VoidCallback openLooper;
   final VoidCallback openWallpaper;
@@ -38,6 +39,7 @@ class FractalViewControlActions {
     required this.openPalettePicker,
     required this.toggleKaleidoscope,
     required this.openExport,
+    required this.shareLink,
     required this.shareImage,
     required this.openLooper,
     required this.openWallpaper,
@@ -154,6 +156,7 @@ class FractalViewControls extends StatelessWidget {
         isExporting: isExporting,
         l10n: l10n,
         onOpenExport: actions.openExport,
+        onShareLink: actions.shareLink,
         onShareImage: actions.shareImage,
         onOpenWallpaper: actions.openWallpaper,
       ),
@@ -193,6 +196,7 @@ class _ExportWallpaperFab extends StatelessWidget {
   final bool isExporting;
   final AppLocalizations l10n;
   final VoidCallback onOpenExport;
+  final VoidCallback onShareLink;
   final VoidCallback onShareImage;
   final VoidCallback onOpenWallpaper;
 
@@ -200,6 +204,7 @@ class _ExportWallpaperFab extends StatelessWidget {
     required this.isExporting,
     required this.l10n,
     required this.onOpenExport,
+    required this.onShareLink,
     required this.onShareImage,
     required this.onOpenWallpaper,
   });
@@ -214,7 +219,9 @@ class _ExportWallpaperFab extends StatelessWidget {
       onSelected: (value) {
         if (value == 'wallpaper') {
           onOpenWallpaper();
-        } else if (value == 'share') {
+        } else if (value == 'shareLink') {
+          onShareLink();
+        } else if (value == 'shareImage') {
           onShareImage();
         } else {
           onOpenExport();
@@ -228,8 +235,16 @@ class _ExportWallpaperFab extends StatelessWidget {
               _MenuRow(icon: Icons.download_rounded, label: l10n.tooltipExport),
         ),
         PopupMenuItem(
+          key: const ValueKey('viewerShareLinkMenuItem'),
+          value: 'shareLink',
+          child: _MenuRow(
+            icon: Icons.link_rounded,
+            label: l10n.tooltipShare,
+          ),
+        ),
+        PopupMenuItem(
           key: const ValueKey('viewerShareMenuItem'),
-          value: 'share',
+          value: 'shareImage',
           child: _MenuRow(
             icon: Icons.share_rounded,
             label: l10n.shareToSocialTargets,

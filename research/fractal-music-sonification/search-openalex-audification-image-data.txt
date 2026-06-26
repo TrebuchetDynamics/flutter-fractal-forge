@@ -1,0 +1,20 @@
+	TAXONOMY AND DEFINITIONS FOR SONIFICATION AND AUDITORY DISPLAY
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+	Sonific ation Report: Status of the Field and Research Agenda
+	The Discipline of Interactive Sonification
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+10.1038/s41598-019-54080-7	Using the Sonification for Hardly Detectable Details in Medical Images
+	Sonification of markov chain monte carlo simulations
+10.1007/s00779-023-01720-5	Towards a unified terminology for sonification and visualization
+10.46430/phen0057	The Sound of Data (a gentle introduction to sonification for historians)
+10.1109/tmm.2004.827516	Rendering Localized Spatial Audio in a Virtual Auditory Space
+10.21785/icad2021.033	A Systemic Perspective for Sonification Aesthetics
+10.1111/cgf.15114	Open Your Ears and Take a Look: A State‐of‐the‐Art Report on the Integration of Sonification and Visualization
+10.1145/3478384.3478415	It’s about Time: Adopting Theoretical Constructs from Visualization for Sonification
+10.21785/icad2018.010	Data-Driven Sonification of CFD Aneurysm Models
+10.7717/peerj-cs.51	Sonification of reference markers for auditory graphs: effects on non-visual point estimation tasks
+10.48550/arxiv.cs/0007007	Data sonification and sound visualization
+10.1007/s12193-019-00317-8	Focused Audification and the optimization of its parameters
+10.3389/fnins.2022.930944	PAMPAS: A PsychoAcoustical Method for the Perceptual Analysis of multidimensional Sonification
+10.22201/ia.14052059p.2022.54.01	THE POWER OF LISTENING TO YOUR DATA: OPENING DOORS AND ENHANCING DISCOVERY USING SONIFICATION
+10.56958/jesi.2019.4.2.155	On the sonification technique

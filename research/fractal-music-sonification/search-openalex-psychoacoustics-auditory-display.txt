@@ -1,0 +1,20 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.1145/3136755.3136783	Evaluation of psychoacoustic sound parameters for sonification
+10.21785/icad2018.007	A Psychoacoustic Auditory Display for Navigation
+10.21785/icad2019.018	Psychoacoustical Signal Processing for Three-dimensional Sonification
+	Using psychoacoustical models for information sonification
+10.21785/icad2019.069	Is Sonification Doomed to Fail?
+10.25911/5d7a2acd2b71d	Auditory Information Design
+	Sonific ation Report: Status of the Field and Research Agenda
+10.1098/rstb.2016.0101	Modelling auditory attention
+10.1162/comj_a_00358	Interactive Spatial Sonification of Multidimensional Data for Composition and Auditory Display
+10.2174/1874350101508010192	Sonification as Concurrent Augmented Feedback for Motor Skill Learning and the Importance of Mapping Design
+10.1201/9781410615862-23	NONSPEECH AUDITORY OUTPUT
+	THIRTEEN YEARS OF REFLECTION ON AUDITORY GRAPHING: PROMISES, PITFALLS, AND POTENTIAL NEW DIRECTIONS
+10.1007/s12193-020-00318-y	Mapping for meaning: the embodied sonification listening model and its implications for the mapping problem in sonic information design
+10.3389/fcomm.2020.00046	Using Data Sonification to Overcome Science Literacy, Numeracy, and Visualization Barriers in Science Communication
+10.1038/s41598-023-32778-z	Sonification as a reliable alternative to conventional visual surgical navigation
+10.3389/fnins.2022.930944	PAMPAS: A PsychoAcoustical Method for the Perceptual Analysis of multidimensional Sonification
+10.1155/2013/586138	On the Role of Auditory Feedback in Robot-Assisted Movement Training after Stroke: Review of the Literature
+10.1017/s135577181300040x	Can Micro-Gestural Inflections Be Used to Improve the Soniculatory Effectiveness of Parameter Mapping Sonifications?
+10.1007/s00779-023-01720-5	Towards a unified terminology for sonification and visualization

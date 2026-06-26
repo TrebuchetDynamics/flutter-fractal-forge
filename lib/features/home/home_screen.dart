@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen>
     // Set up deep link handling (skip in SAFE_MODE)
     if (kSafeMode == 0) {
       _initDeepLinks();
+      _initBrowserDeepLink();
     }
 
     if (RuntimeModeService.playwrightCatalogSmoke) {
@@ -85,25 +86,29 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
+  void _initBrowserDeepLink() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _handledInitialLink) return;
+      final data = DeepLinkService.parseUri(Uri.base);
+      if (data == null) return;
+      _handledInitialLink = true;
+      _handleDeepLink(data);
+    });
+  }
+
   void _handleDeepLink(DeepLinkData data) {
     // Try to find the module by type
     try {
       final module = _registry.byId(data.type);
 
-      // Apply the configuration to the explore controller
-      _exploreController.selectModule(module);
-
-      // Apply view state from deep link
-      final view = data.toViewState();
-      _exploreController.updateZoom(view.zoom);
-      _exploreController.updatePan(view.pan);
-      _exploreController.updateRotation(view.rotation);
-
-      // Apply fractal parameters
-      final params = data.toParams();
-      for (final entry in params.entries) {
-        _exploreController.updateParam(entry.key, entry.value);
-      }
+      _exploreController.loadState(
+        module: module,
+        params: data.toParams(),
+        view: data.toViewState(),
+        transparentBackground: data.transparentBackground ?? false,
+        animateModule: false,
+      );
+      _applyDeepLinkVisualState(data);
 
       _pushViewer(transitionDuration: AppAnimations.normal);
     } catch (e) {
@@ -118,26 +123,118 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
+  void _applyDeepLinkVisualState(DeepLinkData data) {
+    if (data.rotationLocked != null) {
+      _exploreController.setRotationLocked(data.rotationLocked!);
+    }
+    if (data.glowEnabled != null) {
+      _exploreController.setGlowEnabled(data.glowEnabled!);
+    }
+    if (data.glowSigma != null) {
+      _exploreController.setGlowSigma(data.glowSigma!);
+    }
+    if (data.glowIntensity != null) {
+      _exploreController.setGlowIntensity(data.glowIntensity!);
+    }
+    if (data.kaleidoscopeEnabled != null) {
+      _exploreController.setKaleidoscopeEnabled(data.kaleidoscopeEnabled!);
+    }
+    if (data.kaleidoscopeSectors != null) {
+      _exploreController.setKaleidoscopeSectors(data.kaleidoscopeSectors!);
+    }
+    if (data.kaleidoscopeMirror != null) {
+      _exploreController.setKaleidoscopeMirror(data.kaleidoscopeMirror!);
+    }
+    if (data.kaleidoscopeRotation != null) {
+      _exploreController.setKaleidoscopeRotation(data.kaleidoscopeRotation!);
+    }
+    if (data.kaleidoscopeMirrorMode != null) {
+      _exploreController.setKaleidoscopeMirrorMode(
+        data.kaleidoscopeMirrorMode!,
+      );
+    }
+  }
+
   void _openSmokeModule(String moduleId) {
     try {
       final module = _registry.byId(moduleId);
-      _exploreController.selectModule(module, animate: false);
+      final overrides = _smokeViewOverrides(moduleId);
+      if (overrides != null) {
+        // Apply curated framing/params from the query so launch-still captures
+        // open on a deliberate view instead of the module default.
+        _exploreController.loadState(
+          module: module,
+          params: overrides.toParams(),
+          view: overrides.toViewState(),
+          animateModule: false,
+        );
+      } else {
+        _exploreController.selectModule(module, animate: false);
+      }
       print('PLAYWRIGHT_CATALOG_SMOKE_OPENED:$moduleId');
-      _pushViewer(transitionDuration: Duration.zero);
+      _pushViewer(
+        transitionDuration: Duration.zero,
+        captureMode: _smokeCaptureMode(),
+      );
     } catch (e) {
       print('PLAYWRIGHT_CATALOG_SMOKE_UNKNOWN_MODULE:$moduleId');
       rethrow;
     }
   }
 
-  void _pushViewer({required Duration transitionDuration}) {
+  /// Recognized deep-link view/param query keys (zoom, pan, rotation, render
+  /// params). Presence of any of these in a `?smokeModule=` URL means the
+  /// capture wants curated framing rather than the module's default.
+  static const Set<String> _smokeOverrideKeys = {
+    'zoom',
+    'x',
+    'y',
+    'rotX',
+    'rotY',
+    'rotZ',
+    'iterations',
+    'bailout',
+    'colorScheme',
+    'power',
+    'juliaX',
+    'juliaY',
+    'p',
+  };
+
+  /// Translates the current web query parameters into validated [DeepLinkData]
+  /// for a smoke capture, reusing the deep-link bounds/validation. Returns null
+  /// when no override keys are present (keep the module's default framing).
+  DeepLinkData? _smokeViewOverrides(String moduleId) {
+    final base = Uri.base.queryParameters;
+    if (!base.keys.any(_smokeOverrideKeys.contains)) return null;
+    final query = Map<String, String>.from(base)
+      ..remove('smokeModule')
+      ..['type'] = moduleId;
+    final synthetic = Uri(
+      scheme: DeepLinkService.scheme,
+      host: DeepLinkService.host,
+      queryParameters: query,
+    );
+    return DeepLinkService.parseUri(synthetic);
+  }
+
+  /// Whether the smoke capture should open chrome-free (`?capture=1`).
+  bool _smokeCaptureMode() {
+    final value = Uri.base.queryParameters['capture'];
+    return value == '1' || value == 'true';
+  }
+
+  void _pushViewer({
+    required Duration transitionDuration,
+    bool captureMode = false,
+  }) {
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(
           providers: [
             ChangeNotifierProvider.value(value: _exploreController),
           ],
-          child: const FractalViewerScreen(),
+          child: FractalViewerScreen(captureMode: captureMode),
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           final curvedAnimation = CurvedAnimation(

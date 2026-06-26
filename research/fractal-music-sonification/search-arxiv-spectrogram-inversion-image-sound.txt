@@ -1,0 +1,20 @@
+	Images that Sound: Composing Images and Sounds on a Single Canvas
+	In situ sound absorption estimation with the discrete complex image source method
+10.1007/978-3-030-95538-0_6	Quanta in sound, the sound of quanta: a voice-informed quantum theoretical perspective on sound
+	Multi-View Spectrogram Transformer for Respiratory Sound Classification
+10.5281/zenodo.5054145	Signal Representations for Synthesizing Audio Textures with Generative Adversarial Networks
+	Sound Adversarial Audio-Visual Navigation
+	Improving Audio Spectrogram Transformers for Sound Event Detection Through Multi-Stage Training
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression
+	ReNoise: Real Image Inversion Through Iterative Noising
+10.1007/978-3-031-16446-0_13	Privacy Preserving Image Registration
+10.30746/978-91-519-5560-5	Spectrogram Inpainting for Interactive Generation of Instrument Sounds
+10.1016/j.jsv.2022.117050	Numerical simulation of sound propagation in and around ducts using thin boundary elements
+10.1121/10.0001687	Sound field reconstruction in rooms: inpainting meets super-resolution
+10.1007/978-3-030-27202-9_11	Locally Linear Image Structural Embedding for Image Structure Manifold Learning
+10.1016/j.media.2023.102945	A Generic Fundus Image Enhancement Network Boosted by Frequency Self-supervised Representation Learning
+	MARS: Sound Generation via Multi-Channel Autoregression on Spectrograms
+10.1109/tip.2022.3203562	FlexHDR: Modelling Alignment and Exposure Uncertainties for Flexible HDR Imaging
+10.1016/j.media.2026.103943	Fréchet Radiomic Distance (FRD): A Versatile Metric for Comparing Medical Imaging Datasets
+10.1109/tip.2024.3374074	Neuromorphic Imaging with Joint Image Deblurring and Event Denoising
+10.1016/j.media.2022.102704	Data synthesis and adversarial networks: A review and meta-analysis in cancer imaging

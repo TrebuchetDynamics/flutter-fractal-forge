@@ -73,6 +73,7 @@ class TestLogger {
     }
 
     final file = File(logFilePath);
+    await file.create(recursive: true);
     _sink = file.openWrite(mode: FileMode.append);
     _initialized = true;
 

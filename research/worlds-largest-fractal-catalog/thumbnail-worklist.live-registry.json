@@ -1,14 +1,15 @@
 {
-  "generated_at": "2026-06-25T21:06:11.770611Z",
+  "generated_at": "2026-06-26T00:00:00.000Z",
   "purpose": "Live registry modules that are shader-backed but cannot be promoted because bundled thumbnails are missing.",
   "thumbnailStandard": "Launch Thumbnail Standard: 320x320 bundled assets",
-  "missingCount": 30,
+  "missingCount": 31,
   "batchSize": 25,
   "batches": [
     {
       "offset": 0,
       "limit": 25,
       "moduleIds": [
+        "schottky_limit_set",
         "sprott_c",
         "newton_z4",
         "newton_z6",
@@ -32,25 +33,32 @@
         "mandelbrot_df2",
         "mandelbrot_simple",
         "mandelbrot_tex",
-        "noor_newton",
-        "shape_modulus_julia"
+        "noor_newton"
       ],
-      "command": "CATALOG_THUMB_ONLY=sprott_c,newton_z4,newton_z6,tangent_julia,newton_z5,celtic_power5,celtic_power5_julia,magnet2_julia,multijulia9,tricorn_power7_julia,lichtenberg_growth,bedhead,bogdanov_map,buddhabrot_full,fractal_dream,jason_rampe_1,jason_rampe_2,kleinian_limit_set,laguerre_fractal,magnetic_pendulum,mandelbrot_df2,mandelbrot_simple,mandelbrot_tex,noor_newton,shape_modulus_julia flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
+      "command": "CATALOG_THUMB_ONLY=schottky_limit_set,sprott_c,newton_z4,newton_z6,tangent_julia,newton_z5,celtic_power5,celtic_power5_julia,magnet2_julia,multijulia9,tricorn_power7_julia,lichtenberg_growth,bedhead,bogdanov_map,buddhabrot_full,fractal_dream,jason_rampe_1,jason_rampe_2,kleinian_limit_set,laguerre_fractal,magnetic_pendulum,mandelbrot_df2,mandelbrot_simple,mandelbrot_tex,noor_newton flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
     },
     {
       "offset": 25,
-      "limit": 5,
+      "limit": 6,
       "moduleIds": [
+        "shape_modulus_julia",
         "symmetric_icon",
         "weierstrass_elliptic",
         "mandelbox",
         "mandelbox_shape_inversion",
         "amazing_box"
       ],
-      "command": "CATALOG_THUMB_ONLY=symmetric_icon,weierstrass_elliptic,mandelbox,mandelbox_shape_inversion,amazing_box flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
+      "command": "CATALOG_THUMB_ONLY=shape_modulus_julia,symmetric_icon,weierstrass_elliptic,mandelbox,mandelbox_shape_inversion,amazing_box flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
     }
   ],
   "missingThumbnails": [
+    {
+      "moduleId": "schottky_limit_set",
+      "catalogId": "core.schottky_limit_set",
+      "category": "Escape-Time",
+      "shaderAsset": "shaders/ifs_and_geometric/schottky_limit_set_gpu.frag",
+      "thumbnailAsset": "assets/catalog_thumbs/schottky_limit_set.png"
+    },
     {
       "moduleId": "sprott_c",
       "catalogId": "core.sprott_c",

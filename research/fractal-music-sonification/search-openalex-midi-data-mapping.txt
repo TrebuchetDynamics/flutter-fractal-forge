@@ -1,0 +1,20 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.3389/fnins.2016.00219	Movement Sonification: Effects on Motor Learning beyond Rhythmic Adjustments
+10.1017/s1743921312000440	Sonification of Astronomical Data
+	Sonific ation Report: Status of the Field and Research Agenda
+10.3389/fneur.2016.00106	Sonification of Arm Movements in Stroke Rehabilitation – A Novel Approach in Neurologic Music Therapy
+10.3389/fcomm.2020.00046	Using Data Sonification to Overcome Science Literacy, Numeracy, and Visualization Barriers in Science Communication
+10.1109/rbme.2022.3187840	A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation
+10.1016/j.compedu.2019.04.010	Mobile virtual reality for musical genre learning in primary education
+10.1017/s135577181300040x	Can Micro-Gestural Inflections Be Used to Improve the Soniculatory Effectiveness of Parameter Mapping Sonifications?
+10.1017/s1355771819000220	Musical Borrowing in Sonification
+10.21785/icad2021.008	A Metaphor-Based Technical Framework for Musical Sonification in Movement Rehabilitation
+10.1371/journal.pone.0195948	Sonification of network traffic flow for monitoring and situational awareness
+10.21785/icad2018.006	Sonification with Musical Characteristics: A Path Guided by User-Engagement
+10.21785/icad2017.069	Participatory Design Research Methodologies: A Case Study in Dancer Sonification
+	Using psychoacoustical models for information sonification
+10.3390/s24010065	Sonification for Personalised Gait Intervention
+10.1186/s12859-021-04362-7	Using sound to understand protein sequence data: new sonification algorithms for protein sequences and multiple sequence alignments
+10.1162/comj_a_00580	Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis
+	Sonancia : sonification of procedurally generated game levels
+10.1039/d3dd00008g	Molecular sonification for molecule to music information transfer

@@ -1,0 +1,20 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.5281/zenodo.1176364	The Accordiatron: A MIDI Controller For Interactive Music
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Data Encoding for Byzantine-Resilient Distributed Optimization
+10.5281/zenodo.3672917	Vrengt: A Shared Body-Machine Instrument for Music-Dance Performance
+	Byzantine-Resilient SGD in High Dimensions on Heterogeneous Data
+10.1016/j.physletb.2012.07.011	Constraints on dark energy from H II starburst galaxy apparent magnitude versus redshift data
+	Data Melodification FM: Where Musical Rhetoric Meets Sonification
+	TerraGen: A Unified Multi-Task Layout Generation Framework for Remote Sensing Data Augmentation
+	AeroGen: Enhancing Remote Sensing Object Detection with Diffusion-Driven Data Generation
+	A Music-generating System Inspired by the Science of Complex Adaptive Systems
+	Musical Smart City: Perspectives on Ubiquitous Sonification
+	MIDI: Multi-Instance Diffusion for Single Image to 3D Scene Generation
+	Music and musical sonification for the rehabilitation of Parkinsonian dysgraphia: Conceptual framework
+	MIDI-LAB, a Powerful Visual Basic Program for Creating MIDI Music
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	A 20 Gbps Data Transmitting ASIC with PAM4 for Particle Physics Experiments
+10.5281/zenodo.1176749	Sonification of Facial Actions for Musical Expression
+	A case study of translating sonifications across musical cultures for an educational application
+	Opening the Design Space: Two Years of Performance with Intelligent Musical Instruments

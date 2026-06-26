@@ -1,0 +1,20 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+	Sonific ation Report: Status of the Field and Research Agenda
+	The importance of interaction in sonification
+10.21785/icad2019.069	Is Sonification Doomed to Fail?
+10.1080/07370024.2015.1085310	<i>Go-with-the-Flow</i>: Tracking, Analysis and Sonification of Movement and Breathing to Build Confidence in Activity Despite Chronic Pain
+10.1038/s41598-022-06210-x	Effects of pitch and musical sounds on body-representations when moving with sound
+10.3389/fnins.2014.00332	Sonification as a possible stroke rehabilitation strategy
+10.1007/s12193-018-0281-3	Interactive sonification of U-depth images in a navigation aid for the visually impaired
+10.3389/fneur.2016.00106	Sonification of Arm Movements in Stroke Rehabilitation – A Novel Approach in Neurologic Music Therapy
+	Principal Curve Sonification
+	Sonification of Spatial Data
+10.1109/rbme.2022.3187840	A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation
+10.1007/s12193-020-00318-y	Mapping for meaning: the embodied sonification listening model and its implications for the mapping problem in sonic information design
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+10.1038/srep44549	Polyphonic sonification of electrocardiography signals for diagnosis of cardiac pathologies
+	MULTI-CHANNEL SONIFICATION OF HUMAN EEG
+	The Discipline of Interactive Sonification
+10.21785/icad2017.027	Solar System Sonification: Exploring Earth and Its Neighbors Through Sound
+10.1016/j.ebiom.2019.01.028	Dermoscopy diagnosis of cancerous lesions utilizing dual deep learning algorithms via visual and audio (sonification) outputs: Laboratory and prospective observational studies
+10.3390/s20113222	A Comparative Study in Real-Time Scene Sonification for Visually Impaired People

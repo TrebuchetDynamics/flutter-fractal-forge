@@ -1,0 +1,80 @@
+{
+  "_comment": [
+    "Starting coordinates for the Featured Launch Set marketing stills.",
+    "Consumed by test/playwright/launch-stills.spec.mjs via",
+    "scripts/capture-launch-stills.sh. Each `query` is fed straight to the",
+    "in-app deep-link parser (DeepLinkService) through the chrome-free smoke",
+    "capture route (?smokeModule=<id>&capture=1&<query>).",
+    "",
+    "These are DRAFTS to refine by taste: capture, eyeball the PNG, nudge",
+    "zoom/x/y/colorScheme, recapture. zoom=1.0 keeps the module's default",
+    "framing; x/y pan in fractal-plane coordinates; juliaX/juliaY set the",
+    "Julia constant; colorScheme picks the palette; iterations raises detail",
+    "for deeper zooms. Omit a key to keep the module default."
+  ],
+  "stills": [
+    {
+      "id": "mandelbrot",
+      "family": "escape-time (2D)",
+      "caption": "The original — infinite detail at every zoom.",
+      "query": { "x": -0.745, "y": 0.113, "zoom": 6, "iterations": 500, "colorScheme": 2 },
+      "note": "Seahorse Valley. Deepen zoom (with iterations) for tighter spirals."
+    },
+    {
+      "id": "julia",
+      "family": "escape-time (2D)",
+      "caption": "Twist one constant, get a whole new universe.",
+      "query": { "juliaX": -0.7269, "juliaY": 0.1889, "zoom": 1.5, "iterations": 300, "colorScheme": 2 },
+      "note": "Matches the proven in-app 'Spiral Galaxy' preset (zoom 1.5, psychedelic). zoom=1 + colorScheme=4 rendered fully black."
+    },
+    {
+      "id": "burning_ship",
+      "family": "escape-time (2D)",
+      "caption": "Jagged, alien, unmistakable.",
+      "query": { "x": -1.755, "y": -0.03, "zoom": 25, "iterations": 400, "colorScheme": 6 },
+      "note": "Antenna/armada detail. Drop zoom to ~1.2 (x=-0.5,y=-0.5) for the whole ship."
+    },
+    {
+      "id": "phoenix",
+      "family": "escape-time (2D)",
+      "caption": "Fractals with memory — each step remembers the last.",
+      "query": { "zoom": 2.2, "iterations": 300, "colorScheme": 3 },
+      "note": "zoom=1 left too much empty white center; zoom in to fill the frame with the dendrite."
+    },
+    {
+      "id": "nova",
+      "family": "relaxation",
+      "caption": "Relaxation dynamics blooming into petals.",
+      "query": { "zoom": 1.0, "iterations": 200, "colorScheme": 5 },
+      "note": "Default framing shows the petal bloom; nudge colorScheme for contrast."
+    },
+    {
+      "id": "newton_z3",
+      "family": "Newton",
+      "caption": "Where root-finding turns into art.",
+      "query": { "zoom": 1.2, "iterations": 50, "colorScheme": 1 },
+      "note": "Three root basins. Slight zoom keeps the tri-fold boundary centered."
+    },
+    {
+      "id": "koch_snowflake",
+      "family": "IFS / geometric",
+      "caption": "Infinite perimeter, finite area.",
+      "query": { "zoom": 0.55 },
+      "note": "zoom=0.9 clipped the bottom; zoom further out so the whole snowflake fits."
+    },
+    {
+      "id": "barnsley_fern",
+      "family": "IFS attractor",
+      "caption": "Chaos that grows a leaf.",
+      "query": { "zoom": 1.0 },
+      "note": "Default framing centers the fern; verify it isn't cropped at the tip."
+    },
+    {
+      "id": "lorenz_2d",
+      "family": "strange attractor",
+      "caption": "The butterfly effect, drawn.",
+      "query": { "zoom": 1.0, "colorScheme": 2 },
+      "note": "Earlier default render looked flat — most likely a palette/param issue, not framing. Tune colorScheme here first."
+    }
+  ]
+}

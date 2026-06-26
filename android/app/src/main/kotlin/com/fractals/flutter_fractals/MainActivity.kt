@@ -2,6 +2,7 @@ package com.trebuchetdynamics.fractal.forge
 
 import android.app.WallpaperManager
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.MediaScannerConnection
@@ -19,8 +20,12 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 class MainActivity : FlutterFragmentActivity() {
+    private var deepLinkChannel: MethodChannel? = null
+    private var initialLink: String? = null
+
     companion object {
         private const val DEVICE_CHANNEL = "fractalforge/device"
+        private const val DEEPLINK_CHANNEL = "com.fractalforge/deeplink"
         private const val MEDIA_STORE_CHANNEL = "fractalforge/media_store"
         private const val WALLPAPER_CHANNEL = "com.fractalforge/wallpaper"
         private const val MEDIA_STORE_SUBDIR = "FractalForge"
@@ -32,6 +37,15 @@ class MainActivity : FlutterFragmentActivity() {
             navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
         )
         super.onCreate(savedInstanceState)
+        initialLink = intent?.dataString
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        intent.dataString?.let { link ->
+            deepLinkChannel?.invokeMethod("onDeepLink", link)
+        }
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -44,6 +58,18 @@ class MainActivity : FlutterFragmentActivity() {
                     else -> result.notImplemented()
                 }
             }
+
+        deepLinkChannel = MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            DEEPLINK_CHANNEL
+        ).also { channel ->
+            channel.setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "getInitialLink" -> result.success(initialLink)
+                    else -> result.notImplemented()
+                }
+            }
+        }
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, MEDIA_STORE_CHANNEL)
             .setMethodCallHandler { call, result ->

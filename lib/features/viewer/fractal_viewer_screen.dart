@@ -62,7 +62,16 @@ part 'navigation/viewer_history.dart';
 part 'overlays/viewer_hud.dart';
 
 class FractalViewerScreen extends StatefulWidget {
-  const FractalViewerScreen({Key? key}) : super(key: key);
+  /// Chrome-free capture mode for marketing/launch stills.
+  ///
+  /// When true the viewer opens in fullscreen-unobtrusive mode (no chips,
+  /// banners, or FAB column) AND suppresses the lone fullscreen-exit FAB, so the
+  /// rendered canvas fills the frame with zero overlays. Only set this from the
+  /// Playwright capture route — never from normal navigation.
+  final bool captureMode;
+
+  const FractalViewerScreen({Key? key, this.captureMode = false})
+      : super(key: key);
 
   @override
   State<FractalViewerScreen> createState() => _FractalViewerScreenState();
@@ -127,6 +136,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    if (widget.captureMode) {
+      // Open chrome-free: hide chips/banners/FAB column for clean stills.
+      _fullscreenUnobtrusive = true;
+    }
     _fabController = AnimationController(
       duration: AppAnimations.normal,
       vsync: this,
@@ -312,6 +325,37 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void _toggleKaleidoscope(BuildContext context) {
     final controller = _activeController(context);
     controller.setKaleidoscopeEnabled(!controller.kaleidoscopeEnabled);
+  }
+
+  Uri _shareUriFor(FractalController controller) {
+    return DeepLinkService.buildWebUri(
+      moduleId: controller.module.id,
+      params: controller.params,
+      view: controller.view,
+      transparentBackground: controller.transparentBackground,
+      rotationLocked: controller.rotationLocked,
+      glowEnabled: controller.glowEnabled,
+      glowSigma: controller.glowSigma,
+      glowIntensity: controller.glowIntensity,
+      kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+      kaleidoscopeSectors: controller.kaleidoscopeSectors,
+      kaleidoscopeMirror: controller.kaleidoscopeMirror,
+      kaleidoscopeRotation: controller.kaleidoscopeRotation,
+      kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+    );
+  }
+
+  void _openShareLink(BuildContext context) {
+    final controller = _activeController(context);
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => ShareSheet(
+        uri: _shareUriFor(controller),
+        fractalName: controller.module.displayName(l10n),
+      ),
+    );
   }
 
   void _cycleColorScheme(BuildContext context) {
@@ -528,7 +572,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                               )),
                   ),
 
-                  if (_fullscreenUnobtrusive)
+                  if (_fullscreenUnobtrusive && !widget.captureMode)
                     Positioned(
                       top: topInset + 8,
                       right: AppSpacing.md,
@@ -671,6 +715,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           toggleKaleidoscope: () =>
                               _toggleKaleidoscope(context),
                           openExport: () => _openExport(context),
+                          shareLink: () => _openShareLink(context),
                           shareImage: () => _shareCurrentImage(context),
                           openLooper: () => _openLooper(context),
                           openWallpaper: () => _openWallpaper(context),

@@ -1,0 +1,122 @@
+[
+  {
+    "doi": "10.1371/journal.pone.0082491",
+    "title": "A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities",
+    "container": "PLoS ONE",
+    "year": 2013,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1371/journal.pone.0082491"
+  },
+  {
+    "doi": "10.1007/s00779-023-01720-5",
+    "title": "Towards a unified terminology for sonification and visualization",
+    "container": "Personal and Ubiquitous Computing",
+    "year": 2023,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1007/s00779-023-01720-5"
+  },
+  {
+    "doi": "10.1111/cgf.15114",
+    "title": "Open Your Ears and Take a Look: A State‐of‐the‐Art Report on the Integration of Sonification and Visualization",
+    "container": "Computer Graphics Forum",
+    "year": 2024,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1111/cgf.15114"
+  },
+  {
+    "doi": "10.1007/s12193-019-00317-8",
+    "title": "Focused Audification and the optimization of its parameters",
+    "container": "Journal on Multimodal User Interfaces",
+    "year": 2020,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1007/s12193-019-00317-8"
+  },
+  {
+    "doi": "10.1109/taslp.2014.2367821",
+    "title": "Inversion of auditory spectrograms, traditional spectrograms, and other envelope representations",
+    "container": "IEEE/ACM Transactions on Audio, Speech, and Language Processing",
+    "year": 2014,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1109/taslp.2014.2367821"
+  },
+  {
+    "doi": "10.1016/s0960-0779(99)00137-x",
+    "title": "Fractal dimension and classification of music",
+    "container": "Chaos, Solitons &amp; Fractals",
+    "year": 2000,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1016/s0960-0779(99)00137-x"
+  },
+  {
+    "doi": "10.1613/jair.3908",
+    "title": "AI Methods in Algorithmic Composition: A Comprehensive Survey",
+    "container": "Journal of Artificial Intelligence Research",
+    "year": 2013,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1613/jair.3908"
+  },
+  {
+    "doi": "10.1145/3136755.3136783",
+    "title": "Evaluation of psychoacoustic sound parameters for sonification",
+    "container": "Proceedings of the 19th ACM International Conference on Multimodal Interaction",
+    "year": 2017,
+    "type": "proceedings-article",
+    "url": "https://doi.org/10.1145/3136755.3136783"
+  },
+  {
+    "doi": "10.3389/fnins.2022.930944",
+    "title": "PAMPAS: A PsychoAcoustical Method for the Perceptual Analysis of multidimensional Sonification",
+    "container": "Frontiers in Neuroscience",
+    "year": 2022,
+    "type": "journal-article",
+    "url": "https://doi.org/10.3389/fnins.2022.930944"
+  },
+  {
+    "doi": "10.1155/2013/371374",
+    "title": "Procedural Audio in Computer Games Using Motion Controllers: An Evaluation on the Effect and Perception",
+    "container": "International Journal of Computer Games Technology",
+    "year": 2013,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1155/2013/371374"
+  },
+  {
+    "doi": "10.1162/comj_a_00358",
+    "title": "Interactive Spatial Sonification of Multidimensional Data for Composition and Auditory Display",
+    "container": "Computer Music Journal",
+    "year": 2016,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1162/comj_a_00358"
+  },
+  {
+    "doi": "10.1162/comj_a_00580",
+    "title": "Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis",
+    "container": "Computer Music Journal",
+    "year": 2020,
+    "type": "journal-article",
+    "url": "https://doi.org/10.1162/comj_a_00580"
+  },
+  {
+    "doi": "10.21785/icad2021.033",
+    "title": "A Systemic Perspective for Sonification Aesthetics",
+    "container": "Proceedings of the 26th International Conference on Auditory Display (ICAD 2021)",
+    "year": 2021,
+    "type": "proceedings-article",
+    "url": "https://doi.org/10.21785/icad2021.033"
+  },
+  {
+    "doi": "10.21785/icad2018.006",
+    "title": "Sonification with Musical Characteristics: A Path Guided by User-Engagement",
+    "container": "Proceedings of the 24th International Conference on Auditory Display - ICAD 2018",
+    "year": 2018,
+    "type": "proceedings-article",
+    "url": "https://doi.org/10.21785/icad2018.006"
+  },
+  {
+    "doi": "10.21785/icad2019.069",
+    "title": "Is Sonification Doomed to Fail?",
+    "container": "Proceedings of the 25th International Conference on Auditory Display (ICAD 2019)",
+    "year": 2019,
+    "type": "proceedings-article",
+    "url": "https://doi.org/10.21785/icad2019.069"
+  }
+]

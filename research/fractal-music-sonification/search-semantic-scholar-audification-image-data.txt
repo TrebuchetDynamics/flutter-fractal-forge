@@ -1,0 +1,16 @@
+10.1007/978-3-030-01497-1_8	Parameter-Mapping Sonification of Tick-Data
+10.1117/1.1382811	Audification and sonification of texture in images
+	A JAVA FRAMEWORK FOR DATA SONIFICATION AND 3 D GRAPHIC RENDERING
+10.25071/10315/35338	Sonification of Flow Instabilities in CFD Aneurysm Models
+	Investigations in coarticulated performance gestures using interactive parameter-mapping 3D sonification
+10.1080/07494460600760981	The mirage of real-time algorithmic synaesthesia: Some compositional mechanisms and research agendas in computer music and sonification
+10.5281/zenodo.1178720	Reappropriating Museum Collections: Performing Geology Specimens and Meterology Data as New Instruments for Musical Expression
+10.21785/icad2021.028	Auditory Graphs from Denoising Real Images Using Fully Symmetric Convolutional Neural Networks
+10.1201/9780203492543	Biomedical Image Analysis
+	Studio composition : live audiovisualisation using emergent generative systems
+	Alchemical Sensing: Creating an Embodied Experience of the Unseen Organism
+	Events International Conference on Auditory Display 2004 : Listening to the Mind Listening
+	A platform for audiovisual seismic interpretation
+	An Agent Based Approach to Interaction and Composition
+	Understanding Images: Finding Meaning in Digital Imagery
+	Gesture in human-computer interaction and simulation : 6th International Gesture Workshop, GW 2005 : Berder Island, France, May 18-20, 2005 : revised selected papers

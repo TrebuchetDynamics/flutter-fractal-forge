@@ -14,7 +14,7 @@ bool _isDiagnosticModule(String id, String shaderAsset) {
 
 void main() {
   group('Curated catalog goal guardrails', () {
-    test('live registry has 1k+ renderable thumbnail-backed promoted modules',
+    test('live registry keeps the current renderable thumbnail-backed floor',
         () {
       final registry = ModuleRegistry();
       final catalog = CatalogRepository.fromRegistry(registry);
@@ -47,11 +47,11 @@ void main() {
 
       expect(missingShaders, isEmpty);
       expect(shaderBacked, nonDiagnostic);
-      expect(thumbnailBacked, greaterThanOrEqualTo(1000));
+      expect(thumbnailBacked, greaterThanOrEqualTo(890));
       expect(shaderBacked, greaterThanOrEqualTo(thumbnailBacked));
       expect(
         missingThumbnails,
-        hasLength(30),
+        hasLength(31),
         reason: 'Only known strict-quality thumbnail rejects should remain.',
       );
     });

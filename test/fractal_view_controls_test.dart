@@ -35,6 +35,7 @@ Future<bool> _pumpControls(
   Locale locale = const Locale('en'),
   required bool isExporting,
   VoidCallback? onOpenExport,
+  VoidCallback? onShareLink,
   VoidCallback? onShareImage,
   VoidCallback? onOpenLooper,
   VoidCallback? onOpenPalettePicker,
@@ -70,6 +71,7 @@ Future<bool> _pumpControls(
               openPalettePicker: onOpenPalettePicker ?? () {},
               toggleKaleidoscope: onToggleKaleidoscope ?? () {},
               openExport: onOpenExport ?? () {},
+              shareLink: onShareLink ?? () {},
               shareImage: onShareImage ?? () {},
               openLooper: onOpenLooper ?? () {},
               openWallpaper: onOpenWallpaper,
@@ -86,12 +88,14 @@ Future<bool> _pumpControls(
 void main() {
   testWidgets('export FAB opens export/wallpaper actions', (tester) async {
     var exported = false;
+    var sharedLink = false;
     var shared = false;
     var wallpaper = false;
     await _pumpControls(
       tester,
       isExporting: false,
       onOpenExport: () => exported = true,
+      onShareLink: () => sharedLink = true,
       onShareImage: () => shared = true,
       onOpenWallpaper: () => wallpaper = true,
     );
@@ -105,6 +109,12 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('viewerExportMenuItem')));
     await tester.pumpAndSettle();
     expect(exported, isTrue);
+
+    await tester.tap(fab);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('viewerShareLinkMenuItem')));
+    await tester.pumpAndSettle();
+    expect(sharedLink, isTrue);
 
     await tester.tap(fab);
     await tester.pumpAndSettle();

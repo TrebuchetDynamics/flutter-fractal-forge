@@ -1,0 +1,20 @@
+10.21203/rs.3.rs-2571628/v1	Application of Cloud-Based Audio Real-Time System in Music Teaching
+10.1049/ic:19980825	Real-time singing synthesis using a parallel processing system
+10.31274/rtd-20200803-282	Subsynth: A generic audio synthesis framework for real-time applications
+10.2307/3680763	Machine Tongues XIII: Real-Time Audio Conversion under a Time-Sharing Operating System
+10.1109/wdm.2004.1358096	An internet browser plug-in for real-time audio synthesis
+10.1109/iccmc.2019.8819852	Modelling of Audio Effects for Vocal and Music Synthesis in Real Time
+10.1201/9781439864869-5	Implementing Real-Time Granular Synthesis
+10.1121/1.3508129	Real-time computational audio scene analysis, transformation, and synthesis for active music listening.
+10.1186/s13636-025-00413-6	Real-time playing technique recognition embedded in a smart acoustic guitar
+10.1007/978-3-319-27299-3_4	Real-time Incremental Processing
+10.2307/3679574	A Development System for Real-Time Digital Audio Signal Processing
+10.1145/3441000.3441075	Generative Audio and Real-Time Soundtrack Synthesis in Gaming Environments
+10.1109/tau.1972.1162407	A real-time speech synthesis system
+10.1201/9781003519119-3	Oscillators for Real Time Synthesis
+10.1186/1687-4722-2008-849696	Real-Time Perceptual Simulation of Moving Sources: Application to the Leslie Cabinet and 3D Sound Immersion
+10.1007/978-3-319-27299-3_5	Real-Life Robustness
+10.1121/1.4777875	Music scene description: Toward audio-based real-time music understanding
+10.1007/978-3-030-72116-9_22	Deep Generative Models for Musical Audio Synthesis
+10.2139/ssrn.6882001	Data-driven and Procedural Dual-hand Motion Synthesis for Virtual Guitar Playing in Real-time
+10.1007/978-3-319-27299-3	Real-time Speech and Music Classification by Large Audio Feature Space Extraction

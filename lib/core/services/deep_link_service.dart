@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -51,6 +52,27 @@ class DeepLinkData {
   /// Julia set imaginary constant (c.y) from the public `juliaY` URL alias.
   final double? juliaY;
 
+  /// Full runtime parameter payload from the compact `p` query value.
+  final Map<String, Object> extraParams;
+
+  /// Transparent background export/rendering flag.
+  final bool? transparentBackground;
+
+  /// Whether gesture-based 3D rotation is locked.
+  final bool? rotationLocked;
+
+  /// Glow post-effect controls.
+  final bool? glowEnabled;
+  final double? glowSigma;
+  final double? glowIntensity;
+
+  /// Kaleidoscope post-effect controls.
+  final bool? kaleidoscopeEnabled;
+  final int? kaleidoscopeSectors;
+  final bool? kaleidoscopeMirror;
+  final double? kaleidoscopeRotation;
+  final int? kaleidoscopeMirrorMode;
+
   const DeepLinkData({
     required this.type,
     this.zoom,
@@ -65,6 +87,17 @@ class DeepLinkData {
     this.power,
     this.juliaX,
     this.juliaY,
+    this.extraParams = const {},
+    this.transparentBackground,
+    this.rotationLocked,
+    this.glowEnabled,
+    this.glowSigma,
+    this.glowIntensity,
+    this.kaleidoscopeEnabled,
+    this.kaleidoscopeSectors,
+    this.kaleidoscopeMirror,
+    this.kaleidoscopeRotation,
+    this.kaleidoscopeMirrorMode,
   });
 
   /// Creates a [FractalViewState] from the parsed deep link data.
@@ -80,7 +113,7 @@ class DeepLinkData {
   ///
   /// Returns a map of parameter IDs to values.
   Map<String, Object> toParams() {
-    final params = <String, Object>{};
+    final params = <String, Object>{...extraParams};
 
     if (iterations != null) params['iterations'] = iterations!;
     if (bailout != null) params['bailout'] = bailout!;
@@ -234,6 +267,7 @@ class _DeepLinkModuleId {
 class _DeepLinkQuery {
   static final recognizedNames = {
     'type',
+    DeepLinkService._paramsPayloadName,
     for (final param in DeepLinkService._allQueryParams) param.name,
   };
 
@@ -291,6 +325,25 @@ class _BoundedDoubleQueryParam implements _DeepLinkQueryParamContract {
   }
 
   bool _contains(double value) => value >= min && value <= max;
+}
+
+class _BoolQueryParam implements _DeepLinkQueryParamContract {
+  @override
+  final String name;
+
+  const _BoolQueryParam(this.name);
+
+  bool? parse(_DeepLinkQuery query) {
+    final value = query[name];
+    if (value == null) return null;
+    return switch (value.toLowerCase()) {
+      'true' || '1' => true,
+      'false' || '0' => false,
+      _ => null,
+    };
+  }
+
+  String? format(bool value) => value.toString();
 }
 
 class _BoundedIntQueryParam implements _DeepLinkQueryParamContract {
@@ -445,11 +498,32 @@ class DeepLinkService {
     -1e10,
     1e10,
   );
+  static const _transparentParam = _BoolQueryParam('transparent');
+  static const _rotationLockedParam = _BoolQueryParam('rotationLocked');
+  static const _glowEnabledParam = _BoolQueryParam('glowEnabled');
+  static const _glowSigmaParam =
+      _BoundedDoubleQueryParam('glowSigma', 0.1, 5.0);
+  static const _glowIntensityParam =
+      _BoundedDoubleQueryParam('glowIntensity', 0.0, 1.0);
+  static const _kaleidoscopeEnabledParam =
+      _BoolQueryParam('kaleidoscopeEnabled');
+  static const _kaleidoscopeSectorsParam =
+      _BoundedIntQueryParam('kaleidoscopeSectors', 4, 16);
+  static const _kaleidoscopeMirrorParam = _BoolQueryParam('kaleidoscopeMirror');
+  static const _kaleidoscopeRotationParam = _BoundedDoubleQueryParam(
+    'kaleidoscopeRotation',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _kaleidoscopeMirrorModeParam =
+      _BoundedIntQueryParam('kaleidoscopeMirrorMode', 0, 3);
 
   /// Keeps common Vector3 float32 artifacts (for example `0.3` becoming
   /// `0.3000000119`) from leaking into share URLs while still preserving
   /// rotation values where six-decimal formatting would visibly change input.
   static const double _rotationCompactTolerance = 5e-8;
+
+  static const String _paramsPayloadName = 'p';
 
   static const List<_DeepLinkQueryParamContract> _allQueryParams = [
     _zoomParam,
@@ -464,6 +538,16 @@ class DeepLinkService {
     _powerParam,
     _juliaXParam,
     _juliaYParam,
+    _transparentParam,
+    _rotationLockedParam,
+    _glowEnabledParam,
+    _glowSigmaParam,
+    _glowIntensityParam,
+    _kaleidoscopeEnabledParam,
+    _kaleidoscopeSectorsParam,
+    _kaleidoscopeMirrorParam,
+    _kaleidoscopeRotationParam,
+    _kaleidoscopeMirrorModeParam,
   ];
 
   // Method channel for receiving deep links from native code
@@ -485,12 +569,8 @@ class DeepLinkService {
   ///
   /// Sets up listeners for incoming deep links from the platform.
   Future<void> initialize() async {
-    // TEMPORARY SAFETY SWITCH (2026-02): deep link channel init causes a black screen
-    // on some Samsung S24 devices during startup.
-    // User confirmed deep links are not needed for the immediate release.
-    // We leave parsing + stream support intact for later re-enable.
     const bool kEnableDeepLinks =
-        bool.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: false);
+        bool.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: true);
     if (!kEnableDeepLinks) {
       return;
     }
@@ -505,8 +585,8 @@ class DeepLinkService {
       if (data != null) {
         _initialLink = data;
       }
-    } on PlatformException {
-      // Platform doesn't support deep links or no initial link
+    } catch (_) {
+      // Platform doesn't support deep links or no initial link.
     }
   }
 
@@ -591,6 +671,17 @@ class DeepLinkService {
       power: _powerParam.parse(query),
       juliaX: _juliaXParam.parse(query),
       juliaY: _juliaYParam.parse(query),
+      extraParams: _decodeParamsPayload(query[_paramsPayloadName]),
+      transparentBackground: _transparentParam.parse(query),
+      rotationLocked: _rotationLockedParam.parse(query),
+      glowEnabled: _glowEnabledParam.parse(query),
+      glowSigma: _glowSigmaParam.parse(query),
+      glowIntensity: _glowIntensityParam.parse(query),
+      kaleidoscopeEnabled: _kaleidoscopeEnabledParam.parse(query),
+      kaleidoscopeSectors: _kaleidoscopeSectorsParam.parse(query),
+      kaleidoscopeMirror: _kaleidoscopeMirrorParam.parse(query),
+      kaleidoscopeRotation: _kaleidoscopeRotationParam.parse(query),
+      kaleidoscopeMirrorMode: _kaleidoscopeMirrorModeParam.parse(query),
     );
   }
 
@@ -602,6 +693,16 @@ class DeepLinkService {
     required String moduleId,
     required Map<String, Object> params,
     required FractalViewState view,
+    bool transparentBackground = false,
+    bool rotationLocked = false,
+    bool glowEnabled = false,
+    double glowSigma = 1.0,
+    double glowIntensity = 0.35,
+    bool kaleidoscopeEnabled = false,
+    int kaleidoscopeSectors = 8,
+    bool kaleidoscopeMirror = true,
+    double kaleidoscopeRotation = 0.0,
+    int kaleidoscopeMirrorMode = 0,
   }) {
     final queryParams = <String, String>{
       'type': _DeepLinkModuleId.requireSafeForBuild(moduleId),
@@ -631,6 +732,58 @@ class DeepLinkService {
       _juliaYParam,
       _DeepLinkJuliaConstantParams.imaginaryValueForBuild(params),
       preservePrecision: true,
+    );
+    _addParamsPayload(queryParams, params);
+    _addNonDefaultBoolQueryParam(
+      queryParams,
+      _transparentParam,
+      transparentBackground,
+    );
+    _addNonDefaultBoolQueryParam(
+      queryParams,
+      _rotationLockedParam,
+      rotationLocked,
+    );
+    _addNonDefaultBoolQueryParam(queryParams, _glowEnabledParam, glowEnabled);
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _glowSigmaParam,
+      glowSigma,
+      defaultValue: 1.0,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _glowIntensityParam,
+      glowIntensity,
+      defaultValue: 0.35,
+    );
+    _addNonDefaultBoolQueryParam(
+      queryParams,
+      _kaleidoscopeEnabledParam,
+      kaleidoscopeEnabled,
+    );
+    _addNonDefaultBoundedIntQueryParam(
+      queryParams,
+      _kaleidoscopeSectorsParam,
+      kaleidoscopeSectors,
+      defaultValue: 8,
+    );
+    _addNonDefaultBoolQueryParam(
+      queryParams,
+      _kaleidoscopeMirrorParam,
+      kaleidoscopeMirror,
+      defaultValue: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _kaleidoscopeRotationParam,
+      kaleidoscopeRotation,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedIntQueryParam(
+      queryParams,
+      _kaleidoscopeMirrorModeParam,
+      kaleidoscopeMirrorMode,
     );
 
     return Uri(
@@ -700,14 +853,80 @@ class DeepLinkService {
     required String moduleId,
     required Map<String, Object> params,
     required FractalViewState view,
+    bool transparentBackground = false,
+    bool rotationLocked = false,
+    bool glowEnabled = false,
+    double glowSigma = 1.0,
+    double glowIntensity = 0.35,
+    bool kaleidoscopeEnabled = false,
+    int kaleidoscopeSectors = 8,
+    bool kaleidoscopeMirror = true,
+    double kaleidoscopeRotation = 0.0,
+    int kaleidoscopeMirrorMode = 0,
   }) {
-    final customUri = buildUri(moduleId: moduleId, params: params, view: view);
+    final customUri = buildUri(
+      moduleId: moduleId,
+      params: params,
+      view: view,
+      transparentBackground: transparentBackground,
+      rotationLocked: rotationLocked,
+      glowEnabled: glowEnabled,
+      glowSigma: glowSigma,
+      glowIntensity: glowIntensity,
+      kaleidoscopeEnabled: kaleidoscopeEnabled,
+      kaleidoscopeSectors: kaleidoscopeSectors,
+      kaleidoscopeMirror: kaleidoscopeMirror,
+      kaleidoscopeRotation: kaleidoscopeRotation,
+      kaleidoscopeMirrorMode: kaleidoscopeMirrorMode,
+    );
     return Uri(
       scheme: 'https',
       host: 'fractal.trebuchetdynamics.com',
       path: '/view',
       queryParameters: customUri.queryParameters,
     );
+  }
+
+  static void _addParamsPayload(
+    Map<String, String> queryParams,
+    Map<String, Object> params,
+  ) {
+    final payload = <String, Object>{};
+    for (final entry in params.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key))) {
+      final value = entry.value;
+      if (value is bool || value is int || value is String) {
+        payload[entry.key] = value;
+      } else if (value is double && value.isFinite) {
+        payload[entry.key] = value;
+      }
+    }
+    if (payload.isEmpty) return;
+    queryParams[_paramsPayloadName] =
+        base64Url.encode(utf8.encode(jsonEncode(payload))).replaceAll('=', '');
+  }
+
+  static Map<String, Object> _decodeParamsPayload(String? value) {
+    if (value == null || value.isEmpty) return const {};
+    try {
+      final padded =
+          value.padRight(value.length + (4 - value.length % 4) % 4, '=');
+      final decoded = jsonDecode(utf8.decode(base64Url.decode(padded)));
+      if (decoded is! Map) return const {};
+      final params = <String, Object>{};
+      for (final entry in decoded.entries) {
+        if (entry.key is! String) continue;
+        final paramValue = entry.value;
+        if (paramValue is bool || paramValue is int || paramValue is String) {
+          params[entry.key as String] = paramValue;
+        } else if (paramValue is double && paramValue.isFinite) {
+          params[entry.key as String] = paramValue;
+        }
+      }
+      return params;
+    } catch (_) {
+      return const {};
+    }
   }
 
   static double? _parseBoundedDouble(
@@ -810,6 +1029,30 @@ class DeepLinkService {
     _BoundedIntQueryParam param,
     Object? value,
   ) {
+    final formatted = param.format(value);
+    if (formatted != null) {
+      queryParams[param.name] = formatted;
+    }
+  }
+
+  static void _addNonDefaultBoundedIntQueryParam(
+    Map<String, String> queryParams,
+    _BoundedIntQueryParam param,
+    Object? value, {
+    int defaultValue = 0,
+  }) {
+    final parsed = _DeepLinkIntegerValue.tryParseObject(value);
+    if (parsed == null || parsed == defaultValue) return;
+    _addBoundedIntQueryParam(queryParams, param, parsed);
+  }
+
+  static void _addNonDefaultBoolQueryParam(
+    Map<String, String> queryParams,
+    _BoolQueryParam param,
+    bool value, {
+    bool defaultValue = false,
+  }) {
+    if (value == defaultValue) return;
     final formatted = param.format(value);
     if (formatted != null) {
       queryParams[param.name] = formatted;

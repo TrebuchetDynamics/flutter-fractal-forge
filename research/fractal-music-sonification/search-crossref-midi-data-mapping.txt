@@ -1,0 +1,20 @@
+10.1007/978-3-030-01497-1_8	Parameter-Mapping Sonification of Tick-Data
+10.1162/leon_a_02568	The Sound of Data: Designing a Framework for Parameter Mapping Sonification
+10.3390/biology12050670	Parameter Mapping Sonification of Human Olfactory Thresholds
+10.1109/visap51628.2020.00011	Leander: Navigating Musical Possibility Space Through Color Data Sonification
+10.14236/ewic/eva2019.25	Tackling the Issue of Student Debt Through Data Sonification and Musical Scores
+10.5772/intechopen.1013615	Musical Data Sonification: Expanding the Boundaries of Data Representation
+10.1093/oso/9780197618356.003.0001	Sonification
+10.1016/j.displa.2016.05.001	Comparative study on the effect of Parameter Mapping Sonification on perceived instabilities, efficiency, and accuracy in real-time interactive exploration of noisy data streams
+10.1109/icimu.2014.7066664	Sonification of 3D body movement using parameter mapping technique
+10.1145/2590651.2590777	A parameter mapping sonification for price differences in market research studies
+10.1145/1279740.1279812	The MIDI pick
+10.32614/cran.package.musicxml	musicXML: Data Sonification using 'musicXML'
+10.1093/oso/9780197618356.003.0003	Musical Selves
+10.21428/92fbeb44.0533b69a	Sonification of Ecological Environment through Electronic Musical Instruments
+10.1093/oso/9780197618356.003.0007	Conclusion
+10.21785/icad2024.034	Adapting Audio Mixing Principles and Tools to Parameter Mapping Sonification Design
+10.1093/oso/9780197618356.003.0006	The “Musical We”
+10.5753/sbcm.2019.10420	BUZU: Retrieving public transportation data for sonification
+10.22323/1.282.1042	ATLAS data sonification : a new interface for musical expression
+10.1093/oso/9780197618356.003.0002	A Brief Taxonomy of Musical Others

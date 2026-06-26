@@ -1,0 +1,20 @@
+10.21236/ada080469	A Color Raster Scanning System for Digitizing Cartographic Data.
+10.4324/9780240821368-19	Raster Image Processors
+10.1007/978-3-030-89862-5_300435	Raster Image Processing (RIP)
+10.1093/oxfordhb/9780190637224.013.33	Pitch vs. Timbre
+10.2307/40285905	The Effect of Key Color and Timbre on Absolute Pitch Recognition in Musical Contexts
+10.1117/12.958659	&lt;title&gt;Raster Revisited Or Raster-To-Vector And Vector-To-Raster Systems&lt;/title&gt;
+10.1007/springerreference_22893	raster scanning
+10.2307/40285445	Absolute Pitch Identification: Effects of Timbre and Pitch Region
+10.21437/interspeech.2022-55	Enhancement of Pitch Controllability using Timbre-Preserving Pitch Augmentation in FastPitch
+10.21007/etd.cghs.2012.0076	The Effect of Timbre and Vibrato on Vocal Pitch Matching Accuracy
+10.26226/morressier.606f15dd30a2e980041f2497	2pPP4 - Dynamically Varying Timbre Cues Interfere with Listeners’ Pitch Perception
+10.1093/oxfordhb/9780199935345.013.44	Timbre, Pitch, and Music
+10.1101/2022.01.13.476197	Relative pitch representations and invariance to timbre
+10.1109/ieeeconf60004.2024.10943019	Instrumental Timbre Transfer Based on Disentangled Representation of Timbre and Pitch
+10.1016/0024-3841(62)90048-7	Timbre, pitch and intonation
+10.1111/j.1469-8986.2005.00306.x	Absolute pitch and pupillary response: Effects of timbre and key color
+10.25144/15124	FRICTION DAMPING AND BOWED STRING PITCH AND TIMBRE
+10.1142/9789811222603_0004	Pitch, Timbre and Musical Scale
+10.1093/acprof:oso/9780195123753.003.0002	Sound Elements: Pitch and Timbre
+10.1007/springerreference_62738	Raster Image

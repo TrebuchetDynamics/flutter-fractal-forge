@@ -302,6 +302,56 @@ void main() {
         expect(uri.queryParameters['bailout'], '4.5');
       });
 
+      test('includes a compact payload for all runtime params', () {
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbrot',
+          params: {
+            'iterations': 200,
+            'colorScheme': 2,
+            'orbitTrapEnabled': true,
+            'customFloat': 0.125,
+          },
+          view: FractalViewState.initial(),
+        );
+
+        expect(uri.queryParameters['p'], isNotEmpty);
+        final parsed = DeepLinkService.parseUri(uri)!;
+        expect(parsed.toParams()['orbitTrapEnabled'], isTrue);
+        expect(parsed.toParams()['customFloat'], 0.125);
+        expect(parsed.toParams()['iterations'], 200);
+        expect(parsed.toParams()['colorScheme'], 2);
+      });
+
+      test('includes controller-only visual state', () {
+        final uri = DeepLinkService.buildUri(
+          moduleId: 'mandelbrot',
+          params: const {},
+          view: FractalViewState.initial(),
+          transparentBackground: true,
+          rotationLocked: true,
+          glowEnabled: true,
+          glowSigma: 2.5,
+          glowIntensity: 0.75,
+          kaleidoscopeEnabled: true,
+          kaleidoscopeSectors: 12,
+          kaleidoscopeMirror: false,
+          kaleidoscopeRotation: 0.125,
+          kaleidoscopeMirrorMode: 2,
+        );
+
+        final parsed = DeepLinkService.parseUri(uri)!;
+        expect(parsed.transparentBackground, isTrue);
+        expect(parsed.rotationLocked, isTrue);
+        expect(parsed.glowEnabled, isTrue);
+        expect(parsed.glowSigma, 2.5);
+        expect(parsed.glowIntensity, 0.75);
+        expect(parsed.kaleidoscopeEnabled, isTrue);
+        expect(parsed.kaleidoscopeSectors, 12);
+        expect(parsed.kaleidoscopeMirror, isFalse);
+        expect(parsed.kaleidoscopeRotation, 0.125);
+        expect(parsed.kaleidoscopeMirrorMode, 2);
+      });
+
       test('uses runtime Julia parameter names when building URL aliases', () {
         final uri = DeepLinkService.buildUri(
           moduleId: 'julia',

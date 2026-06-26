@@ -66,7 +66,7 @@ Map<String, String> parameterSchema(Iterable<dynamic> parameters) {
   };
 }
 
-Map<String, Object> buildLiveRegistryLedger() {
+Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
   final registry = ModuleRegistry();
   final catalog = CatalogRepository.fromRegistry(registry);
   final entries = <Map<String, Object>>[];
@@ -149,7 +149,7 @@ Map<String, Object> buildLiveRegistryLedger() {
   }
 
   return {
-    'generated_at': DateTime.now().toUtc().toIso8601String(),
+    'generated_at': (generatedAt ?? DateTime.now()).toUtc().toIso8601String(),
     'purpose':
         'Promoted ledger from live production ModuleRegistry entries that have shader and thumbnail assets.',
     'counting_rule':

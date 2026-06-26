@@ -1,0 +1,20 @@
+10.1080/07494460802663983	An Introduction to Procedural Music in Video Games
+10.1007/s12525-023-00680-1	Generative artificial intelligence
+10.1038/s41562-024-02004-5	Promises and challenges of generative artificial intelligence for human learning
+10.3390/informatics11030058	Ethical Challenges and Solutions of Generative AI: An Interdisciplinary Perspective
+10.1145/4468.4485	Programming languages for computer music synthesis, performance, and composition
+10.1109/access.2024.3381611	Privacy and Security Concerns in Generative AI: A Comprehensive Survey
+10.1109/access.2024.3367715	Generative AI for Transformative Healthcare: A Comprehensive Study of Emerging Models, Applications, Case Studies, and Limitations
+10.3390/healthcare11202776	Leveraging Generative AI and Large Language Models: A Comprehensive Roadmap for Healthcare Integration
+10.1109/access.2021.3052931	Music in Extended Realities
+10.3389/frai.2020.00014	Computational Creativity and Music Generation Systems: An Introduction to the State of the Art
+10.3844/jcssp.2024.801.818	A Survey of Generative AI Applications
+10.1145/4468.4469	Research in music and artificial intelligence
+10.1109/tg.2018.2846639	Procedural Content Generation via Machine Learning (PCGML)
+10.1017/dap.2022.10	Copyright in generative deep learning
+10.1145/3313831.3376514	Music Creation by Example
+10.1016/j.ijpe.2024.109283	Smart product platforming powered by AI and generative AI: Personalization for the circular economy
+10.1109/access.2023.3244620	Music Deep Learning: Deep Learning Methods for Music Signal Processing—A Review of the State-of-the-Art
+10.1155/2013/371374	Procedural Audio in Computer Games Using Motion Controllers: An Evaluation on the Effect and Perception
+10.1007/s10462-021-10039-7	Artificial intelligence in the creative industries: a review
+10.3390/electronics13020322	A Review of Generative Models in Generating Synthetic Attack Data for Cybersecurity

@@ -1,0 +1,20 @@
+10.1093/acprof:oso/9780195123753.003.0002	Sound Elements: Pitch and Timbre
+10.1142/9789811222603_0004	Pitch, Timbre and Musical Scale
+10.1142/9789811249075_0003	Sound, Pitch, Timbre, and Emotions
+10.1162/leon_a_02568	The Sound of Data: Designing a Framework for Parameter Mapping Sonification
+10.1016/j.procs.2010.04.043	Data sonification of volcano seismograms and Sound/Timbre reconstruction of ancient musical instruments with Grid infrastructures
+10.46430/phen0057	The Sound of Data (a gentle introduction to sonification for historians)
+10.3366/edinburgh/9781474478021.003.0001	Introduction: Images of Sound and Fury
+10.1007/978-3-030-01497-1_8	Parameter-Mapping Sonification of Tick-Data
+10.1121/1.4708880	Toward an effective use of timbre in data sonification
+10.5194/egusphere-egu25-10270	The sound of ice: using radar data and sonification in music composition
+10.1088/978-0-7503-5212-3ch13	Musical tones, pitch, timbre, and vibrato
+10.1093/oxfordhb/9780190637224.013.33	Pitch vs. Timbre
+10.1088/978-0-7503-6350-1ch13	Musical tones, pitch, timbre and vibrato
+10.3366/edinburgh/9781474478021.001.0001	Mapping the Rockumentary
+10.1121/1.425290	A model of primary sensations, pitch, loudness, and timbre, of sound signals
+10.1007/978-3-031-67503-4_17	The Problem with Sonification
+10.3366/edinburgh/9781474478021.003.0006	False Endings
+10.3366/edinburgh/9781474478021.002.0004	[Untitled]
+10.3366/edinburgh/9781474478021.002.0006	Figures
+10.3366/edinburgh/9781474478021.003.0022	Unknowable Dogs

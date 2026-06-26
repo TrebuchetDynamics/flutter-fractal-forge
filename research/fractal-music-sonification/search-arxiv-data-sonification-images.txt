@@ -1,0 +1,20 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	Images that Sound: Composing Images and Sounds on a Single Canvas
+	Learning Disentangled Representations of Timbre and Pitch for Musical Instrument Sounds Using Gaussian Mixture Variational Autoencoders
+	Pitch-Conditioned Instrument Sound Synthesis From an Interactive Timbre Latent Space
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Data Encoding for Byzantine-Resilient Distributed Optimization
+	Data sonification and sound visualization
+	Byzantine-Resilient SGD in High Dimensions on Heterogeneous Data
+10.17743/jaes.2022.0133	Sound Terminology Describing Production and Perception of Sonification
+	CAESynth: Real-Time Timbre Interpolation and Pitch Control with Conditional Autoencoders
+	PolSeT: Polish Semantics of Timbre Dataset
+10.1016/j.physletb.2012.07.011	Constraints on dark energy from H II starburst galaxy apparent magnitude versus redshift data
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+	TerraGen: A Unified Multi-Task Layout Generation Framework for Remote Sensing Data Augmentation
+	AeroGen: Enhancing Remote Sensing Object Detection with Diffusion-Driven Data Generation
+	Enhancement of Pitch Controllability using Timbre-Preserving Pitch Augmentation in FastPitch
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Timbre Difference Capturing in Anomalous Sound Detection
+	STRAUSS: Sonification Tools & Resources for Analysis Using Sound Synthesis
+	A 20 Gbps Data Transmitting ASIC with PAM4 for Particle Physics Experiments
