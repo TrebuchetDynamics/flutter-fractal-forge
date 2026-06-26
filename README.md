@@ -128,7 +128,7 @@ Representative catalog and viewer captures:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
+   git clone https://github.com/XelHaku/flutter-fractal-forge.git
    cd flutter-fractal-forge
    ```
 
@@ -335,7 +335,7 @@ Contributions are welcome. Please read the [Contributing Guide](CONTRIBUTING.md)
 
 ## 📄 License
 
-MIT License — see the [LICENSE](LICENSE) file for details.
+Apache License 2.0 — see the [LICENSE](LICENSE) file for details.
 
 ---
 

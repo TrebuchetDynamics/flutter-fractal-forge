@@ -46,6 +46,7 @@ ios/Pods/
 # Local artifacts
 *.log
 *.bak
+*.legacy
 *.pyc
 __pycache__/
 **/__pycache__/

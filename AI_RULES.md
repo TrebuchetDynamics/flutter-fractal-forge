@@ -15,17 +15,17 @@ This document defines the rules and patterns for AI agents working on Flutter Fr
 ## Build & Run
 
 ```bash
-# Linux
-PATH="/home/xel/.local/bin:$PATH" /home/xel/flutter/bin/flutter run -d linux
+# Run the app on a connected device or emulator
+flutter run
 
 # Run tests
-/home/xel/flutter/bin/flutter test
+flutter test
 
 # Integration tests
-/home/xel/flutter/bin/flutter test integration_test/
+flutter test integration_test/
 ```
 
-**Note**: Requires `lld` linker workaround via shell script at `~/.local/bin/clang++`
+> **Linux note:** If you see linker errors, ensure `lld` is installed (`sudo apt install lld`).
 
 ---
 
@@ -122,10 +122,10 @@ class MyFractalModule extends FractalModule {
 
 ## Git Workflow
 
-1. Create branch from `main` or `develop`
+1. Create branch from `main`
 2. Make changes with conventional commits
 3. Run tests before PR
-4. PR to `main` for release, `develop` for features
+4. PR to `main`
 
 ---
 
