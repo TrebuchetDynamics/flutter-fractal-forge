@@ -76,6 +76,8 @@
   "exportTransparentBgHint": "Solo disponible para PNG/WebP",
   "exportEmbedMetadata": "Incrustar metadatos",
   "exportEmbedMetadataHint": "Incluir parámetros del fractal en el archivo",
+  "exportWatermark": "Marca de agua",
+  "exportWatermarkHint": "Añade una pequeña etiqueta @FractalForge en la esquina",
   "exportScreenResolution": "Pantalla",
   "exportSummary": "Resumen",
   "exportNow": "Exportar",

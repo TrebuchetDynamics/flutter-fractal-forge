@@ -232,6 +232,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Incluir los parámetros del fractal en el archivo';
 
   @override
+  String get exportWatermark => 'Marca de agua';
+
+  @override
+  String get exportWatermarkHint =>
+      'Añade una pequeña etiqueta @FractalForge en la esquina';
+
+  @override
   String get exportScreenResolution => 'Tamaño de pantalla';
 
   @override

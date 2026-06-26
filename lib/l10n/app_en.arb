@@ -76,6 +76,8 @@
   "exportTransparentBgHint": "Only available for PNG/WebP",
   "exportEmbedMetadata": "Embed metadata",
   "exportEmbedMetadataHint": "Include fractal parameters in file",
+  "exportWatermark": "Watermark",
+  "exportWatermarkHint": "Add a small @FractalForge tag in the corner",
   "exportScreenResolution": "Screen",
   "exportSummary": "Summary",
   "exportNow": "Export",

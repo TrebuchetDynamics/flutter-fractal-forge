@@ -564,6 +564,22 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
             });
           },
         ),
+
+        // Watermark — off by default; stamps the @FractalForge handle so
+        // reshared images stay attributed to the community brand.
+        SwitchListTile(
+          title: Text(l10n.exportWatermark),
+          subtitle: Text(l10n.exportWatermarkHint),
+          value: _options.addWatermark,
+          onChanged: (value) {
+            setState(() {
+              _options = _options.copyWith(
+                addWatermark: value,
+                watermarkText: value ? '@FractalForge' : null,
+              );
+            });
+          },
+        ),
       ],
     );
   }

@@ -120,19 +120,15 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
             'looper_${controller.module.id}_${DateTime.now().millisecondsSinceEpoch}.gif',
       );
 
-      final view = controller.view;
-      final pan = view.pan;
-      final rotation = view.rotation;
       await _exportService.shareFile(
         file,
         text: ViewerShareCaption.build(
           fractalName: controller.module.displayName(l10n),
-          cameraX: pan.x,
-          cameraY: pan.y,
-          cameraZ: view.zoom,
-          rotationX: rotation.x,
-          rotationY: rotation.y,
-          rotationZ: rotation.z,
+          shareUrl: DeepLinkService.buildWebUri(
+            moduleId: controller.module.id,
+            params: controller.params,
+            view: controller.view,
+          ).toString(),
         ),
       );
 
@@ -271,19 +267,15 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         Object? shareError;
         if (shareAfterSave) {
           try {
-            final view = controller.view;
-            final pan = view.pan;
-            final rotation = view.rotation;
             await _exportService.shareFile(
               result.file,
               text: ViewerShareCaption.build(
                 fractalName: controller.module.displayName(l10n),
-                cameraX: pan.x,
-                cameraY: pan.y,
-                cameraZ: view.zoom,
-                rotationX: rotation.x,
-                rotationY: rotation.y,
-                rotationZ: rotation.z,
+                shareUrl: DeepLinkService.buildWebUri(
+                  moduleId: controller.module.id,
+                  params: controller.params,
+                  view: controller.view,
+                ).toString(),
               ),
             );
           } catch (error) {

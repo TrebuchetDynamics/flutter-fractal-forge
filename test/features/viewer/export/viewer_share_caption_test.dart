@@ -2,21 +2,31 @@ import 'package:flutter_fractals/features/viewer/export/viewer_export_session.da
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('share caption includes hashtag, fractal name, and camera coordinates',
-      () {
+  test('share caption carries brand handle, hashtag, and fractal name', () {
+    final caption = ViewerShareCaption.build(fractalName: 'Mandelbulb');
+
+    expect(caption, contains('Mandelbulb'));
+    expect(caption, contains('@FractalForge'));
+    expect(caption, contains('#fractalforge'));
+  });
+
+  test('share caption embeds the reproducible deep link when provided', () {
+    const url =
+        'https://fractal.trebuchetdynamics.com/view?type=mandelbrot&zoom=10';
     final caption = ViewerShareCaption.build(
-      fractalName: 'Mandelbulb',
-      cameraX: -0.125,
-      cameraY: 0.5,
-      cameraZ: 1200000,
-      rotationX: 0.1,
-      rotationY: -0.2,
-      rotationZ: 0,
+      fractalName: 'Mandelbrot',
+      shareUrl: url,
     );
 
-    expect(caption, contains('#fractalforge'));
-    expect(caption, contains('Mandelbulb'));
-    expect(caption, contains('Camera x=-0.125 y=0.5 z=1.2000e+6'));
-    expect(caption, contains('Rotation x=0.1 y=-0.2 z=0'));
+    expect(caption, contains(url));
+    expect(caption, contains('Open this exact view'));
+  });
+
+  test('share caption omits the link line when no url is available', () {
+    final caption = ViewerShareCaption.build(fractalName: 'Julia');
+
+    expect(caption, isNot(contains('Open this exact view')));
+    // Still discoverable: handle + hashtag are always present.
+    expect(caption, contains('@FractalForge'));
   });
 }

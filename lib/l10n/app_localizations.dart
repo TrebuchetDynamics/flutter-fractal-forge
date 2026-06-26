@@ -524,6 +524,18 @@ abstract class AppLocalizations {
   /// **'Include fractal parameters in the image file'**
   String get exportEmbedMetadataHint;
 
+  /// No description provided for @exportWatermark.
+  ///
+  /// In en, this message translates to:
+  /// **'Watermark'**
+  String get exportWatermark;
+
+  /// No description provided for @exportWatermarkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a small @FractalForge tag in the corner'**
+  String get exportWatermarkHint;
+
   /// No description provided for @exportScreenResolution.
   ///
   /// In en, this message translates to:

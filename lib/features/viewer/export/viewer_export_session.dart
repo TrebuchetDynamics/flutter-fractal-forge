@@ -5,29 +5,29 @@ enum ViewerExportPhase { idle, sheetOpen, exporting }
 class ViewerShareCaption {
   const ViewerShareCaption._();
 
+  /// Community handle every share carries so posts cluster under one
+  /// discoverable brand on social platforms.
+  static const String handle = '@FractalForge';
+
+  /// Community hashtag, matched to [handle] and to the in-app share metadata.
+  static const String hashtag = '#fractalforge';
+
+  /// Builds the social caption attached to a shared fractal.
+  ///
+  /// [shareUrl] should be a universal link (see `DeepLinkService.buildWebUri`)
+  /// that reopens this exact view. Including it turns every share into a
+  /// tappable, reproducible "coordinate drop" instead of plain text the viewer
+  /// has to re-enter by hand.
   static String build({
     required String fractalName,
-    required double cameraX,
-    required double cameraY,
-    required double cameraZ,
-    required double rotationX,
-    required double rotationY,
-    required double rotationZ,
+    String? shareUrl,
   }) {
-    return '#fractalforge $fractalName\n'
-        'Camera x=${_fmt(cameraX)} y=${_fmt(cameraY)} z=${_fmt(cameraZ)}\n'
-        'Rotation x=${_fmt(rotationX)} y=${_fmt(rotationY)} z=${_fmt(rotationZ)}';
-  }
-
-  static String _fmt(double value) {
-    final abs = value.abs();
-    if (abs != 0 && (abs < 0.001 || abs >= 1000000)) {
-      return value.toStringAsExponential(4);
+    final lines = <String>['$fractalName — made free with Fractal Forge'];
+    if (shareUrl != null && shareUrl.isNotEmpty) {
+      lines.add('Open this exact view 👉 $shareUrl');
     }
-    return value
-        .toStringAsFixed(6)
-        .replaceFirst(RegExp(r'0+$'), '')
-        .replaceFirst(RegExp(r'\.$'), '');
+    lines.add('$handle $hashtag');
+    return lines.join('\n');
   }
 }
 
