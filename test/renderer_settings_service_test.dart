@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 
 void main() {
   group('RendererSettingsService', () {

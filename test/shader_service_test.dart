@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart';
-import 'package:flutter_fractals/core/services/shader_service.dart';
+import 'package:flutter_fractals/core/services/rendering/shader_service.dart';
 import 'package:flutter_fractals/core/models/fractal_params.dart';
 
 void main() {

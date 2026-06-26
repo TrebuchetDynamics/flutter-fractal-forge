@@ -12,11 +12,11 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbrot_df2_module.dart';
 import 'package:flutter_fractals/core/modules/julia_perturb_module.dart';
 import 'package:flutter_fractals/core/modules/escape_time_perturb_module.dart';
-import 'package:flutter_fractals/core/services/crash_reporter.dart';
+import 'package:flutter_fractals/core/services/diagnostics/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
-import 'package:flutter_fractals/core/services/app_logger_service.dart';
-import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
+import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import '../../providers/fractal_provider.dart';
 import '../../cpu/cpu_fractal_renderer.dart';
 import 'input/gesture_view_bounds.dart';
@@ -134,6 +134,9 @@ class FractalRenderer extends StatefulWidget {
   /// When absent, the renderer computes the pure immediate decision itself.
   final PrecisionLadderDecision? precisionDecision;
 
+  /// Whether to show backend/high-precision badges over the rendered image.
+  final bool showRendererIndicator;
+
   /// Creates a [FractalRenderer] widget.
   const FractalRenderer({
     Key? key,
@@ -148,6 +151,7 @@ class FractalRenderer extends StatefulWidget {
     this.animationEnabled = true,
     this.overrideChild,
     this.precisionDecision,
+    this.showRendererIndicator = true,
   }) : super(key: key);
 
   @override
@@ -255,7 +259,8 @@ class _FractalRendererState extends State<FractalRenderer>
     required bool fallbackActive,
     required bool highPrecisionActive,
   }) {
-    if (!kDebugMode && !highPrecisionActive) return child;
+    if (!widget.showRendererIndicator || (!kDebugMode && !highPrecisionActive))
+      return child;
     final highPrecisionLabel = mode == 'CPU' ? 'High precision (CPU)' : mode;
 
     return Stack(

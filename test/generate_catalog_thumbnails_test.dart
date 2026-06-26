@@ -75,7 +75,8 @@ void main() {
     }
 
     // Generate thumbnails for custom modules not in escapeTimeCatalog
-    final customModules = <({String id, double cx, double cy, double zoom, int iters})>[
+    final customModules =
+        <({String id, double cx, double cy, double zoom, int iters})>[
       (id: 'julia', cx: 0.0, cy: 0.0, zoom: 1.2, iters: 150),
       (id: 'phoenix', cx: -0.5, cy: 0.0, zoom: 1.0, iters: 120),
       (id: 'nova', cx: 0.0, cy: 0.0, zoom: 1.0, iters: 100),
@@ -140,10 +141,13 @@ void main() {
     }
 
     final totalSize = files.fold<int>(0, (sum, f) => sum + f.lengthSync());
-    print('Total asset size: ${(totalSize / 1024 / 1024).toStringAsFixed(2)} MB');
+    print(
+        'Total asset size: ${(totalSize / 1024 / 1024).toStringAsFixed(2)} MB');
 
     expect(generated, greaterThanOrEqualTo(escapeTimeCatalog.length - failed));
     expect(failed, 0);
     expect(files.length, greaterThanOrEqualTo(escapeTimeCatalog.length));
-  }, skip: 'Manual utility test: generates PNGs into assets/catalog_thumbs; not meant for CI.');
+  },
+      skip:
+          'Manual utility test: generates PNGs into assets/catalog_thumbs; not meant for CI.');
 }

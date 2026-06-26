@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';

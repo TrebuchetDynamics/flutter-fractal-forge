@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
-import 'package:flutter_fractals/core/services/presets/preset_storage_slot.dart';
+import 'package:flutter_fractals/core/services/storage/preset_storage_slot.dart';
 
 class PresetStore {
   final SharedPreferences _prefs;

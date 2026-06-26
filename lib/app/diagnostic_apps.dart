@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_fractals/core/services/deep_link_service.dart';
+import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 
 // The diagnostic widgets below use hardcoded English strings intentionally.

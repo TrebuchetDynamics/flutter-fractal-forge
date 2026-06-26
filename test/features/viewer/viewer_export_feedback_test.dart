@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_fractals/core/models/export_options.dart';
-import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.dart';
 import 'package:flutter_fractals/l10n/app_localizations_en.dart';
 import 'package:flutter_test/flutter_test.dart';

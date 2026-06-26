@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fractals/core/services/export_service.dart';
-import 'package:flutter_fractals/core/services/test_logger.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
 
 /// Service for capturing screenshots during integration tests.
 ///

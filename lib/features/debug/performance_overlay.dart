@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/services/performance_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/performance_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 
 /// A real-time performance overlay displaying FPS, frame times, and metrics.

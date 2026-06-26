@@ -8,9 +8,9 @@ import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:image/image.dart' as img;
-import '../models/video_export_options.dart';
-import '../models/fractal_view_state.dart';
-import '../../shared/utils/byte_format.dart';
+import 'package:flutter_fractals/core/models/video_export_options.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/shared/utils/byte_format.dart';
 
 /// Result of a video export operation.
 class VideoExportResult {

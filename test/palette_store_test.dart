@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
-import 'package:flutter_fractals/core/services/palette_store.dart';
+import 'package:flutter_fractals/core/services/storage/palette_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

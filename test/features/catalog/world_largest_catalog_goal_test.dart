@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 bool _isDiagnosticModule(String id, String shaderAsset) {

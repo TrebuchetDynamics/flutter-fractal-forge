@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
-import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/shared/utils/slugify.dart';
 
 class BatchExportItemResult {

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/core/services/fractal_report_service.dart';
+import 'package:flutter_fractals/core/services/rendering/fractal_report_service.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_effects_controller.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/services/app_logger_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/features/debug/log_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';

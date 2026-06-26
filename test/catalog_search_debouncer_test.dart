@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/catalog/catalog_search_debouncer.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_search_debouncer.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

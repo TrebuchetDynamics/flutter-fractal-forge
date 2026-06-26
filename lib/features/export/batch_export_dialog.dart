@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
-import 'package:flutter_fractals/core/services/batch_export_service.dart';
-import 'package:flutter_fractals/core/services/preset_store.dart';
+import 'package:flutter_fractals/core/services/export/batch_export_service.dart';
+import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';

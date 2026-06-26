@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_fractals/core/services/app_logger_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 
 /// Performance metrics collected during rendering.
 ///

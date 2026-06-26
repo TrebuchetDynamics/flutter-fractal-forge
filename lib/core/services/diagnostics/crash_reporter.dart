@@ -301,7 +301,8 @@ class CrashReporter {
       );
       _diskInitialized = true;
     } catch (e) {
-      if (kDebugMode) debugPrint('[FF_CRASH][WARN] Failed to init disk persistence: $e');
+      if (kDebugMode)
+        debugPrint('[FF_CRASH][WARN] Failed to init disk persistence: $e');
     }
   }
 
@@ -468,7 +469,8 @@ class CrashEvent {
       buffer.writeln('  Context: $context');
     }
     if (tags.isNotEmpty) {
-      buffer.writeln('  Tags: ${tags.entries.map((e) => '${e.key}=${e.value}').join(', ')}');
+      buffer.writeln(
+          '  Tags: ${tags.entries.map((e) => '${e.key}=${e.value}').join(', ')}');
     }
     if (stack != null && stack!.isNotEmpty) {
       buffer.writeln('  Stack:\n${_indentStack(stack!)}');
@@ -502,7 +504,8 @@ final class _CrashEventTags {
 extension CrashReporterExtension on Future {
   /// Wraps this future with crash reporting on error.
   Future<T> withCrashReporting<T>(String source) {
-    return then<T>((value) => value as T).catchError((Object error, StackTrace stack) {
+    return then<T>((value) => value as T)
+        .catchError((Object error, StackTrace stack) {
       CrashReporter.instance.record(
         error,
         stack,

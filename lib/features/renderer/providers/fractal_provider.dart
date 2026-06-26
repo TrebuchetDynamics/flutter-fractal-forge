@@ -8,14 +8,14 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/core/services/test_logger.dart';
+import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_controller_snapshots.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_kaleidoscope_state.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_param_randomizer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
-import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Manages the state of fractal rendering and user interactions.

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 
 const bool kForceCpuFallback =
     bool.fromEnvironment('FORCE_CPU_FALLBACK', defaultValue: false);

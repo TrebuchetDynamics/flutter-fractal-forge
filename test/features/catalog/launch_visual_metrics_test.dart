@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/catalog/launch_visual_metrics.dart';
+import 'package:flutter_fractals/features/catalog/data/launch_visual_metrics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 

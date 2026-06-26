@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
-import 'package:flutter_fractals/features/catalog/catalog_filter.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_filter.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 

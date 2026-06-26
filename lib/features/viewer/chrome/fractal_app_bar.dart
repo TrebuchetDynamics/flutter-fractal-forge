@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/services/haptic_service.dart';
+import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';

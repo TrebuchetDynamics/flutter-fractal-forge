@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/services/animation_controller_service.dart';
+import 'package:flutter_fractals/core/services/rendering/animation_controller_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/services/crash_reporter.dart';
+import 'package:flutter_fractals/core/services/diagnostics/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 
 /// Callback type for error events within an [ErrorBoundary].

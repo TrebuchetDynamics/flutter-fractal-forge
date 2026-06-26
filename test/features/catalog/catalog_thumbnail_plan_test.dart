@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/catalog/catalog_thumbnail_plan.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_plan.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

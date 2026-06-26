@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/services/palette_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
 
 /// Wraps the Julia module with perturbation-theory GPU shader at deep zoom.
 FractalModule buildJuliaPerturbModule(FractalModule standardModule) {

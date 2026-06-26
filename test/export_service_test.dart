@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:flutter_fractals/core/services/export_service.dart';
-import 'package:flutter_fractals/core/services/share_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
+import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 
 /// Minimal fake that satisfies PathProviderPlatform for unit tests.
@@ -85,8 +85,8 @@ void main() {
 
   group('ExportService.capturePng', () {
     test('does not call release-unsafe debug paint getters', () {
-      final source =
-          File('lib/core/services/export_service.dart').readAsStringSync();
+      final source = File('lib/core/services/export/export_service.dart')
+          .readAsStringSync();
 
       expect(source, isNot(contains('.debugNeedsPaint')));
     });

@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
-import 'package:flutter_fractals/core/services/share_service.dart';
+import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/shared/utils/byte_format.dart';
 import 'package:flutter_fractals/shared/utils/slugify.dart';
 

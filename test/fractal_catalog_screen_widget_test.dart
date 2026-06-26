@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/core/services/preset_store.dart';
-import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/storage/preset_store.dart';
+import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -78,6 +78,7 @@ void main() {
       // through thousands of generated entries to a specific module.
       expect(visibleModuleCards(), findsWidgets);
       expect(find.byKey(const Key('catalogViewToggleButton')), findsOneWidget);
+      expect(find.byKey(const Key('catalogPinnedFilterBar')), findsOneWidget);
     });
 
     testWidgets('defaults to Escape-Time category', (tester) async {
@@ -110,6 +111,18 @@ void main() {
 
       expect(find.text('Burning Ship'), findsOneWidget);
       expect(find.text('Mandelbrot'), findsNothing);
+      expect(find.byKey(const Key('catalogActiveSearchChip')), findsOneWidget);
+    });
+
+    testWidgets('shows removable active category chip', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('catalogCategoryChip_all')));
+      await tester.pumpAndSettle();
+
+      expect(
+          find.byKey(const Key('catalogActiveCategoryChip')), findsOneWidget);
     });
 
     testWidgets('omits dimension filter chips', (tester) async {
@@ -211,6 +224,7 @@ void main() {
       expect(find.byIcon(Icons.grid_view_rounded), findsOneWidget);
       // And the opposite icon should not be the active toggle icon.
       expect(find.byIcon(Icons.view_list_rounded), findsNothing);
+      expect(find.textContaining(RegExp(r'\d+ params:')), findsWidgets);
     });
 
     testWidgets('view toggle switches to list mode and persists preference',

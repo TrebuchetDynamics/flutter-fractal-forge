@@ -39,11 +39,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/core/services/onboarding_service.dart';
-import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
-import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
-import 'package:flutter_fractals/features/catalog/featured_launch_set.dart';
-import 'package:flutter_fractals/features/catalog/launch_visual_metrics.dart';
+import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
+import 'package:flutter_fractals/features/catalog/data/featured_launch_set.dart';
+import 'package:flutter_fractals/features/catalog/data/launch_visual_metrics.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -110,13 +110,15 @@ void main() {
         'reason': 'Screenshot plugin unavailable',
         'error': error.toString(),
       });
-      final outDir = _outputDirectory(updateAssets: updateAssets, launchMedia: launchMedia);
+      final outDir = _outputDirectory(
+          updateAssets: updateAssets, launchMedia: launchMedia);
       _writeReport(outDir, report);
       debugPrint('Screenshot plugin unavailable; wrote thumbnail report only.');
       return;
     }
 
-    final outDir = _outputDirectory(updateAssets: updateAssets, launchMedia: launchMedia);
+    final outDir =
+        _outputDirectory(updateAssets: updateAssets, launchMedia: launchMedia);
     outDir.createSync(recursive: true);
 
     for (var index = 0; index < entries.length; index++) {

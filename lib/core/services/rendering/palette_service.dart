@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
-import 'package:flutter_fractals/core/services/palette_store.dart';
+import 'package:flutter_fractals/core/services/storage/palette_store.dart';
 
 const List<FractalColorStop> _fallbackPaletteStops =
     fallbackFractalPaletteStops;

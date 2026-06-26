@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_fractals/app/flutter_fractals_app.dart';
-import 'package:flutter_fractals/core/services/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/deep_link_service.dart';
-import 'package:flutter_fractals/core/services/history_store.dart';
-import 'package:flutter_fractals/core/services/onboarding_service.dart';
-import 'package:flutter_fractals/core/services/palette_service.dart';
-import 'package:flutter_fractals/core/services/preset_store.dart';
-import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
+import 'package:flutter_fractals/core/services/storage/history_store.dart';
+import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
+import 'package:flutter_fractals/core/services/storage/preset_store.dart';
+import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 
 /// Deep links are enabled by default so shared web URLs can open the app.

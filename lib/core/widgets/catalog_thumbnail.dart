@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 
 Future<Set<String>>? _thumbnailAssetIdsFuture;

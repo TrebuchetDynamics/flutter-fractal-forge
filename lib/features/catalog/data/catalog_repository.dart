@@ -3,7 +3,7 @@ import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart'
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 
 /// Catalog data source for the Explore screen.
 ///

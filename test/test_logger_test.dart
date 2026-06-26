@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_fractals/core/services/test_logger.dart';
+import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -20,8 +20,8 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
-import 'package:flutter_fractals/core/services/batch_export_service.dart';
-import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/export/batch_export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:image/image.dart' as img;
 import 'package:vector_math/vector_math.dart';
 

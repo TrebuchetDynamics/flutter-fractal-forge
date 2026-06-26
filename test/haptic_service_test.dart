@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractals/core/services/haptic_service.dart';
+import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

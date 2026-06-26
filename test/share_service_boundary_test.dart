@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/services/share_service.dart';
+import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,7 +12,8 @@ void main() {
         .listSync(recursive: true)
         .whereType<File>()
         .where((file) => file.path.endsWith('.dart'))
-        .where((file) => file.path != 'lib/core/services/share_service.dart')
+        .where((file) =>
+            file.path != 'lib/core/services/export/share_service.dart')
         .where((file) => file.readAsStringSync().contains('package:share_plus'))
         .map((file) => file.path)
         .toList()

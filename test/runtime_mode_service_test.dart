@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 
 void main() {
   // Initialize the Flutter test binding so that _bindingLooksLikeTest() can

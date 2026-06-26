@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/exploration_stats.dart';
-import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
+import 'package:flutter_fractals/core/services/storage/exploration_stats_service.dart';
 
 void main() {
   group('ExplorationStats model', () {

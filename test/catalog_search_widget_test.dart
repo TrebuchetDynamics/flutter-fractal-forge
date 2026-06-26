@@ -49,23 +49,8 @@ void main() {
     expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
   }
 
-  int allCategoryCount(WidgetTester tester) {
-    final countTexts = tester
-        .widgetList<Text>(
-          find.descendant(
-            of: find.byKey(const Key('catalogCategoryChip_all')),
-            matching: find.byType(Text),
-          ),
-        )
-        .map((text) => text.data)
-        .whereType<String>()
-        .toList();
-    return int.parse(countTexts.last);
-  }
-
   testWidgets('Catalog search filters fractal modules', (tester) async {
     await pumpCatalog(tester);
-    final initialCount = allCategoryCount(tester);
     await showSearch(tester);
 
     await tester.enterText(
@@ -75,7 +60,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Julia'), findsWidgets);
-    expect(allCategoryCount(tester), lessThan(initialCount));
+    expect(find.text('Mandelbrot'), findsNothing);
 
     await tester.pump(const Duration(seconds: 3));
   });
@@ -106,14 +91,12 @@ void main() {
     );
     expect(searchField.focusNode?.hasFocus, isTrue);
 
-    final container = tester.widget<AnimatedContainer>(
-      find.byKey(const Key('catalogSearchContainer')),
-    );
-    final decoration = container.decoration! as BoxDecoration;
-    final border = decoration.border! as Border;
+    final decoration = searchField.decoration!;
+    final focusedBorder = decoration.focusedBorder! as OutlineInputBorder;
 
-    expect(border.top.color, AppColors.primary.withValues(alpha: 0.6));
-    expect(border.top.width, 1.5);
+    expect(focusedBorder.borderSide.color,
+        AppColors.primary.withValues(alpha: 0.6));
+    expect(focusedBorder.borderSide.width, 1.5);
 
     await tester.pump(const Duration(seconds: 3));
   });
@@ -123,20 +106,19 @@ void main() {
     await pumpCatalog(tester);
     await showSearch(tester);
 
-    final initialCount = allCategoryCount(tester);
     final searchField = find.byKey(const Key('catalogSearchField'));
     await tester.enterText(searchField, 'J');
     await tester.pump(const Duration(milliseconds: 150));
     await tester.enterText(searchField, 'Julia');
 
     // More than 300ms after the first edit, but less than 300ms after the
-    // latest edit. Search results should still show the unfiltered catalog.
+    // latest edit. The applied search chip should wait for the latest edit.
     await tester.pump(const Duration(milliseconds: 200));
-    expect(allCategoryCount(tester), initialCount);
+    expect(find.byKey(const Key('catalogActiveSearchChip')), findsNothing);
 
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.text('Julia'), findsWidgets);
-    expect(allCategoryCount(tester), lessThan(initialCount));
+    expect(find.byKey(const Key('catalogActiveSearchChip')), findsOneWidget);
 
     await tester.pump(const Duration(seconds: 3));
   });
@@ -146,17 +128,20 @@ void main() {
     await pumpCatalog(tester);
     await showSearch(tester);
 
-    final initialCount = allCategoryCount(tester);
     final searchField = find.byKey(const Key('catalogSearchField'));
 
     await tester.enterText(searchField, 'Julia');
     await tester.pump(const Duration(milliseconds: 300));
-    expect(allCategoryCount(tester), lessThan(initialCount));
+    expect(find.byKey(const Key('catalogActiveSearchChip')), findsOneWidget);
 
     await tester.tap(find.byKey(const ValueKey('clear')));
     await tester.pump();
 
-    expect(allCategoryCount(tester), initialCount);
+    expect(find.byKey(const Key('catalogActiveSearchChip')), findsNothing);
+    expect(
+      tester.widget<TextField>(searchField).controller?.text,
+      isEmpty,
+    );
 
     await tester.pump(const Duration(seconds: 3));
   });

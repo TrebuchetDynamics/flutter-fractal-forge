@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_fractals/core/services/app_logger_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final class _OpaqueLogValue {

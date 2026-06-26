@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fractals/core/services/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/onboarding_service.dart';
-import 'package:flutter_fractals/core/services/preset_store.dart';
-import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
+import 'package:flutter_fractals/core/services/storage/preset_store.dart';
+import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';

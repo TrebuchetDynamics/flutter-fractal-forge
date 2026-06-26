@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

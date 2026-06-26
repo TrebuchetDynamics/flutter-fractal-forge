@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:flutter_fractals/core/services/app_logger_service.dart';
-import 'package:flutter_fractals/core/services/export_service.dart';
-import 'package:flutter_fractals/core/services/share_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
+import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 

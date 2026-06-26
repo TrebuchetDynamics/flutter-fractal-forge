@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
-import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/features/export/custom_export_dimensions.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/features/export/export_resolution_summary.dart';

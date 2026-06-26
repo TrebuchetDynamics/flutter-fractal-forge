@@ -1,6 +1,6 @@
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -22,7 +22,8 @@ void main() {
       expect(repo.allIds().length, repo.entries.length);
     });
 
-    test('keeps intended 3D runtime modules for implemented 3D catalog ids', () {
+    test('keeps intended 3D runtime modules for implemented 3D catalog ids',
+        () {
       final registry = ModuleRegistry();
       final repo = CatalogRepository.fromRegistry(registry);
 

@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/catalog/catalog_thumbnail_plan.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_plan.dart';
 
 /// Canonical launch-critical modules used for first-impression visual audits.
 ///

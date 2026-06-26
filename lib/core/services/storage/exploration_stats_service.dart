@@ -2,7 +2,7 @@ import 'dart:async' show unawaited;
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/exploration_stats.dart';
+import 'package:flutter_fractals/core/models/exploration_stats.dart';
 
 /// Achievement definitions.
 enum Achievement {

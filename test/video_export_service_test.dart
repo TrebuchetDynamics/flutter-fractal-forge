@@ -7,7 +7,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/video_export_options.dart';
-import 'package:flutter_fractals/core/services/video_export_service.dart';
+import 'package:flutter_fractals/core/services/export/video_export_service.dart';
 
 class _FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin

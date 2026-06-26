@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/export_options.dart';
-import 'package:flutter_fractals/core/services/export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Immutable contract for what the viewer should tell the user after export.

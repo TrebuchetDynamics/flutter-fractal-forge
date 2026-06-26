@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../models/fractal_params.dart';
+import 'package:flutter_fractals/core/models/fractal_params.dart';
 
 class ShaderService {
   bool _initialized = false;
@@ -21,6 +21,6 @@ class ShaderService {
   void dispose() {
     _initialized = false;
   }
-  
+
   bool get initialized => _initialized;
 }

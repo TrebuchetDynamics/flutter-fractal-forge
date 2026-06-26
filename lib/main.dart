@@ -23,8 +23,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_fractals/app/diagnostic_apps.dart';
 import 'package:flutter_fractals/app/startup.dart';
-import 'package:flutter_fractals/core/services/crash_reporter.dart';
-import 'package:flutter_fractals/core/services/deep_link_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/crash_reporter.dart';
+import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 
 export 'package:flutter_fractals/app/flutter_fractals_app.dart';
 

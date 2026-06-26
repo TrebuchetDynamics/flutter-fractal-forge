@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/catalog/catalog_entry.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Replayable catalog search query used by the catalog screen.
@@ -36,6 +36,16 @@ final class CatalogSearchQuery {
     yield* entry.aliases;
     yield entry.catalogId;
     yield entry.category;
+    yield entry.module.dimension == FractalDimension.threeD
+        ? l10n.dimension3d
+        : l10n.dimension2d;
+    for (final parameter in entry.module.parameters) {
+      yield parameter.id;
+      yield parameter.label(l10n);
+      for (final option in parameter.options) {
+        yield option.label(l10n);
+      }
+    }
   }
 }
 

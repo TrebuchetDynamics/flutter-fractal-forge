@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractals/core/services/performance_service.dart';
+import 'package:flutter_fractals/core/services/diagnostics/performance_service.dart';
 
 void main() {
   group('PerformanceMetrics', () {
