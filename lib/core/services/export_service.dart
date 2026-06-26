@@ -445,7 +445,9 @@ class ExportService {
               cropped,
               width: targetW,
               height: targetH,
-              interpolation: img.Interpolation.cubic,
+              // Avoid cubic on mobile: Play Console ANRs showed
+              // Image.getPixelCubic.cubic blocking input dispatch.
+              interpolation: img.Interpolation.average,
             );
     } else {
       processedImage = decodedImage;

@@ -49,12 +49,17 @@ void main() {
       expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
     });
 
-    testWidgets('has top app bar (smoke)', (tester) async {
+    testWidgets('has no bottom tabs; settings opens from gear', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // The home screen may render different app bar implementations depending on platform.
-      expect(find.byType(Scaffold), findsWidgets);
+      expect(find.byType(NavigationBar), findsNothing);
+      expect(find.byKey(const Key('homeSettingsButton')), findsOneWidget);
+
+      await tester.tap(find.byKey(const Key('homeSettingsButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Settings'), findsOneWidget);
     });
 
     testWidgets('renders without error', (tester) async {

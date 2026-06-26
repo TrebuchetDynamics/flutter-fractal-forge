@@ -7,8 +7,6 @@ import 'package:flutter_fractals/core/services/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
-import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
-import 'package:flutter_fractals/features/library/fractal_library_screen.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/features/settings/settings_screen.dart';
@@ -25,11 +23,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = 0;
-
   late final ModuleRegistry _registry;
   late final FractalController _exploreController;
-  late final CatalogRepository _catalog;
 
   StreamSubscription<DeepLinkData>? _deepLinkSubscription;
   bool _handledInitialLink = false;
@@ -40,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
     _registry = context.read<ModuleRegistry>();
     _exploreController = FractalController(_registry);
-    _catalog = CatalogRepository.fromRegistry(_registry);
 
     // Set up deep link handling (skip in SAFE_MODE)
     if (kSafeMode == 0) {
@@ -170,86 +164,43 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Build tab content
     final smokeModuleId = RuntimeModeService.playwrightCatalogSmoke
         ? Uri.base.queryParameters['smokeModule']
         : null;
-    final exploreTab = ChangeNotifierProvider.value(
-      key: const ValueKey('explore'),
-      value: _exploreController,
-      child: smokeModuleId != null
-          ? const SizedBox.expand()
-          : Column(
-              children: [
-                if (kSafeMode >= 1)
-                  MaterialBanner(
-                    backgroundColor: AppColors.warning.withValues(alpha: 0.15),
-                    content: Text(
-                      'SAFE MODE: Shader rendering disabled for device crash triage.',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: AppColors.warning),
-                    ),
-                    actions: const [],
-                  ),
-                const Expanded(child: FractalCatalogScreen()),
-              ],
-            ),
-    );
-
-    final libraryTab = ChangeNotifierProvider.value(
-      key: const ValueKey('library'),
-      value: _exploreController,
-      child: FractalLibraryScreen(
-        catalog: _catalog,
-        onEntryTap: (entry) {
-          _exploreController.selectModule(entry.module, resetView: true);
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => MultiProvider(
-                providers: [
-                  ChangeNotifierProvider.value(value: _exploreController),
-                ],
-                child: const FractalViewerScreen(),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-
-    final settingsTab = const SettingsScreen();
 
     return Scaffold(
       extendBody: true,
-      appBar: _PremiumAppBar(title: l10n.catalogTitle),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: [exploreTab, libraryTab, settingsTab],
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() => _selectedIndex = index);
+      appBar: _PremiumAppBar(
+        title: l10n.appTitle,
+        onSettingsTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const SettingsScreen()),
+          );
         },
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.explore_outlined),
-            selectedIcon: const Icon(Icons.explore),
-            label: l10n.tabExplore,
-          ),
-          const NavigationDestination(
-            icon: Icon(Icons.library_books_outlined),
-            selectedIcon: Icon(Icons.library_books),
-            label: 'Library',
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.settings_outlined),
-            selectedIcon: const Icon(Icons.settings),
-            label: l10n.tabSettings,
-          ),
-        ],
+      ),
+      body: ChangeNotifierProvider.value(
+        key: const ValueKey('explore'),
+        value: _exploreController,
+        child: smokeModuleId != null
+            ? const SizedBox.expand()
+            : Column(
+                children: [
+                  if (kSafeMode >= 1)
+                    MaterialBanner(
+                      backgroundColor:
+                          AppColors.warning.withValues(alpha: 0.15),
+                      content: Text(
+                        'SAFE MODE: Shader rendering disabled for device crash triage.',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppColors.warning),
+                      ),
+                      actions: const [],
+                    ),
+                  const Expanded(child: FractalCatalogScreen()),
+                ],
+              ),
       ),
     );
   }
@@ -257,8 +208,12 @@ class _HomeScreenState extends State<HomeScreen>
 
 class _PremiumAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
+  final VoidCallback onSettingsTap;
 
-  const _PremiumAppBar({required this.title});
+  const _PremiumAppBar({
+    required this.title,
+    required this.onSettingsTap,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -373,7 +328,7 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
                         ),
                         const SizedBox(width: AppSpacing.sm),
                         Text(
-                          'Fractal Forge',
+                          widget.title,
                           style: AppTypography.titleLarge.copyWith(
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.5,
@@ -382,31 +337,41 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
                       ],
                     ),
                   ),
-                  // "350+ fractals" badge — right-aligned
                   Positioned(
-                    right: AppSpacing.lg,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: AppColors.primary.withValues(alpha: 0.28),
-                          width: 1,
+                    right: AppSpacing.sm,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.sm,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.28),
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context)!.homeFractalCountBadge,
+                            style: AppTypography.labelSmall.copyWith(
+                              color: AppColors.primaryLight,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 10,
+                              letterSpacing: 0.2,
+                            ),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        AppLocalizations.of(context)!.homeFractalCountBadge,
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.primaryLight,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10,
-                          letterSpacing: 0.2,
+                        IconButton(
+                          key: const ValueKey('homeSettingsButton'),
+                          tooltip: AppLocalizations.of(context)!.tabSettings,
+                          icon: const Icon(Icons.settings_rounded, size: 20),
+                          onPressed: widget.onSettingsTap,
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ],

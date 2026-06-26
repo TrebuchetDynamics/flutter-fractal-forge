@@ -96,8 +96,12 @@ class LooperController extends ChangeNotifier {
   Duration _duration = const Duration(seconds: 6);
   Timer? _timer;
   DateTime? _startedAt;
+  late String _moduleId;
 
-  LooperController({required this.controller});
+  LooperController({required this.controller}) {
+    _moduleId = controller.module.id;
+    controller.addListener(_resetIfModuleChanged);
+  }
 
   LooperPose? get a => _a;
   LooperPose? get b => _b;
@@ -143,6 +147,18 @@ class LooperController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void _resetIfModuleChanged() {
+    final moduleId = controller.module.id;
+    if (_moduleId == moduleId) return;
+    _moduleId = moduleId;
+    _a = null;
+    _b = null;
+    _timer?.cancel();
+    _timer = null;
+    _startedAt = null;
+    notifyListeners();
+  }
+
   void _tick() {
     final plan = this.plan;
     final startedAt = _startedAt;
@@ -157,6 +173,7 @@ class LooperController extends ChangeNotifier {
 
   @override
   void dispose() {
+    controller.removeListener(_resetIfModuleChanged);
     stop();
     super.dispose();
   }

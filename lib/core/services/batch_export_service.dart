@@ -355,7 +355,9 @@ class BatchExportService {
       thumbs.add(img.copyResize(decoded,
           width: tileSize,
           height: tileSize,
-          interpolation: img.Interpolation.cubic));
+          // Avoid cubic on mobile: Play Console ANRs showed
+          // Image.getPixelCubic.cubic blocking input dispatch.
+          interpolation: img.Interpolation.average));
     }
     if (thumbs.isEmpty) throw StateError('No images');
 

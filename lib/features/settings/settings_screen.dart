@@ -15,6 +15,7 @@ class SettingsScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
+      appBar: AppBar(title: Text(l10n.tabSettings)),
       body: CustomScrollView(
         slivers: [
           const SliverToBoxAdapter(

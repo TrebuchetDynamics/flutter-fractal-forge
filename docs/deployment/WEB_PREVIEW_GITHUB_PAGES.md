@@ -1,6 +1,6 @@
 # Web Preview GitHub Pages Deployment
 
-> Status: prepared, not deployed.
+> Current public URL: https://fractal.trebuchetdynamics.com/
 >
 > This page documents how to publish the Fractal Forge browser preview after an owner explicitly approves deployment.
 
@@ -14,21 +14,15 @@
 
 The workflow has **no push trigger**. It only runs from GitHub Actions `workflow_dispatch` and requires typing `deploy-web-preview` in the confirmation input.
 
-## Expected public URL
+## Public URL
 
-If the repository is published with GitHub Pages at the owner/user site default, the canonical public preview URL is the landing page:
-
-```text
-https://xelhaku.github.io/flutter-fractal-forge/landing.html
-```
-
-The Flutter app itself should be one click away from the landing page via:
+Canonical public preview URL:
 
 ```text
-https://xelhaku.github.io/flutter-fractal-forge/index.html
+https://fractal.trebuchetdynamics.com/
 ```
 
-For the first soft launch, keep `/landing.html` as the shared URL and leave `index.html` as the generated Flutter app entrypoint. Do not move the app to `/app/` or make the repository root serve the landing page until after the first feedback loop.
+The generated Flutter app entrypoint remains `index.html` in the deployed web build.
 
 Do not share the app URL as the primary first-time visitor link until the browser build has stronger parity proof.
 

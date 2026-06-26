@@ -86,9 +86,9 @@ Preferred extra evidence:
 
 ### Website preview ship gate
 
-Local wrapper artifact: `web/landing.html` is the canonical public landing page for first-time visitors during the first soft launch. It links to the Flutter app at `index.html` and is copied into `build/web/landing.html` by `flutter build web --release`. Do not restructure the root/app URLs until after the first feedback loop. Manual GitHub Pages deployment is prepared in `docs/deployment/WEB_PREVIEW_GITHUB_PAGES.md` and `.github/workflows/web-preview-pages.yml`, but has not been run.
+Local wrapper artifact: `web/landing.html` is the landing page for first-time visitors during the first soft launch. The current public URL is `https://fractal.trebuchetdynamics.com/`.
 
-- [ ] Public landing URL exists; expected GitHub Pages URL is `https://xelhaku.github.io/flutter-fractal-forge/landing.html` after explicit deploy approval.
+- [x] Public landing URL exists: `https://fractal.trebuchetdynamics.com/`.
 - [ ] `flutter build web --release` passes.
 - [ ] Automated browser smoke: onboarding -> catalog -> viewer.
 - [ ] Pre-deploy hardware browser smoke on a normal desktop/laptop: landing -> Try web preview -> skip onboarding -> catalog visible -> open one 2D fractal -> open one 3D fractal -> no obvious console network/render errors.

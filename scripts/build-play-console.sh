@@ -200,9 +200,13 @@ LAST_BUILD_MARKER="$OUTPUT_DIR/LAST_BUILD_NUMBER.txt"
 REGISTRANT_FILE="$PROJECT_ROOT/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java"
 REGISTRANT_BACKUP=""
 RESTORE_REGISTRANT=0
+PLUGIN_DEPS_FILE="$PROJECT_ROOT/.flutter-plugins-dependencies"
+PLUGIN_DEPS_BACKUP=""
+RESTORE_PLUGIN_DEPS=0
 
 command -v flutter >/dev/null 2>&1 || die "flutter not found in PATH"
 command -v find >/dev/null 2>&1 || die "find not found in PATH"
+command -v python3 >/dev/null 2>&1 || die "python3 not found in PATH"
 command -v keytool >/dev/null 2>&1 || die "keytool not found in PATH (install JDK)"
 
 KEY_PROPS="$PROJECT_ROOT/android/key.properties"
@@ -252,8 +256,46 @@ cleanup() {
     cp "$REGISTRANT_BACKUP" "$REGISTRANT_FILE" >/dev/null 2>&1 || true
     rm -f "$REGISTRANT_BACKUP" >/dev/null 2>&1 || true
   fi
+  if [[ "$RESTORE_PLUGIN_DEPS" -eq 1 && -n "$PLUGIN_DEPS_BACKUP" && -f "$PLUGIN_DEPS_BACKUP" ]]; then
+    cp "$PLUGIN_DEPS_BACKUP" "$PLUGIN_DEPS_FILE" >/dev/null 2>&1 || true
+    rm -f "$PLUGIN_DEPS_BACKUP" >/dev/null 2>&1 || true
+  fi
 }
 trap cleanup EXIT
+
+sanitize_release_plugin_deps() {
+  if [[ ! -f "$PLUGIN_DEPS_FILE" ]]; then
+    return 0
+  fi
+
+  if ! grep -q '"name"[[:space:]]*:[[:space:]]*"integration_test"' "$PLUGIN_DEPS_FILE"; then
+    return 0
+  fi
+
+  PLUGIN_DEPS_BACKUP="$(mktemp)"
+  cp "$PLUGIN_DEPS_FILE" "$PLUGIN_DEPS_BACKUP"
+  RESTORE_PLUGIN_DEPS=1
+  python3 - "$PLUGIN_DEPS_FILE" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+data = json.loads(path.read_text())
+for plugins in data.get("plugins", {}).values():
+    plugins[:] = [p for p in plugins if p.get("name") != "integration_test"]
+for node in data.get("dependencyGraph", []):
+    node["dependencies"] = [d for d in node.get("dependencies", []) if d != "integration_test"]
+data["dependencyGraph"] = [n for n in data.get("dependencyGraph", []) if n.get("name") != "integration_test"]
+path.write_text(json.dumps(data, separators=(",", ":")) + "\n")
+PY
+
+  if grep -q '"name"[[:space:]]*:[[:space:]]*"integration_test"' "$PLUGIN_DEPS_FILE"; then
+    die "Failed to sanitize .flutter-plugins-dependencies for release build"
+  fi
+
+  log "Temporarily removed integration_test from release plugin metadata"
+}
 
 sanitize_release_registrant() {
   if [[ ! -f "$REGISTRANT_FILE" ]]; then
@@ -267,7 +309,24 @@ sanitize_release_registrant() {
   REGISTRANT_BACKUP="$(mktemp)"
   cp "$REGISTRANT_FILE" "$REGISTRANT_BACKUP"
   RESTORE_REGISTRANT=1
-  sed -i '/dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin()/d' "$REGISTRANT_FILE"
+  python3 - "$REGISTRANT_FILE" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text()
+text = re.sub(
+    r'    try \{\n'
+    r'      flutterEngine\.getPlugins\(\)\.add\(new dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin\(\)\);\n'
+    r'    \} catch \(Exception e\) \{\n'
+    r'      Log\.e\(TAG, "Error registering plugin integration_test, dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin", e\);\n'
+    r'    \}\n',
+    '',
+    text,
+)
+path.write_text(text)
+PY
 
   if grep -q 'dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin()' "$REGISTRANT_FILE"; then
     die "Failed to sanitize GeneratedPluginRegistrant.java for release build"
@@ -294,6 +353,7 @@ for arg in "${FORWARDED_ARGS[@]}"; do
 done
 FORWARDED_ARGS=("${SANITIZED_ARGS[@]}" "--no-pub")
 
+sanitize_release_plugin_deps
 sanitize_release_registrant
 
 PUBSPEC_VERSION_FULL="$(awk '/^version:[[:space:]]*/ { print $2; exit }' "$PROJECT_ROOT/pubspec.yaml")"

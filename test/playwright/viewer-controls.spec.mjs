@@ -7,13 +7,26 @@ import { test } from 'playwright/test';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../..');
 
-const defaultModules = ['mandelbrot', 'julia', 'mandelbulb'];
+const randomModulePool = [
+  'mandelbrot',
+  'julia',
+  'burning_ship',
+  'tricorn',
+  'phoenix',
+  'mandelbulb',
+];
 
 function selectedModules() {
-  return (process.env.VIEWER_CONTROL_FRACTALS || defaultModules.join(','))
-    .split(',')
-    .map((value) => value.trim())
-    .filter(Boolean);
+  if (process.env.VIEWER_CONTROL_FRACTALS) {
+    return process.env.VIEWER_CONTROL_FRACTALS
+      .split(',')
+      .map((value) => value.trim())
+      .filter(Boolean);
+  }
+  const count = Number(process.env.VIEWER_CONTROL_FRACTAL_COUNT || 3);
+  return [...randomModulePool]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, Math.max(1, Math.min(count, randomModulePool.length)));
 }
 
 function safeFileName(id) {
@@ -178,24 +191,43 @@ function meanPixelDiff(aBuffer, bBuffer, step = 6) {
 
 function fabPoint(page, name) {
   const viewport = page.viewportSize() || { width: 1280, height: 900 };
-  // Current viewer action stack, bottom to top: wallpaper, export, random,
-  // controls, auto-explore, fullscreen, back.
+  // Current viewer FAB column, bottom to top: export, looper, random,
+  // randomize, kaleidoscope, color, iterations, reset, presets, controls, fullscreen.
   const fromBottom = {
-    wallpaper: 50,
-    export: 118,
-    random: 186,
-    controls: 254,
-    auto: 322,
-    fullscreen: 390,
-    back: 458,
+    export: 50,
+    looper: 106,
+    random: 162,
+    randomize: 218,
+    kaleidoscope: 274,
+    color: 330,
+    iterations: 386,
+    reset: 442,
+    presets: 498,
+    controls: 554,
+    fullscreen: 610,
   }[name];
   if (fromBottom == null) throw new Error(`Unknown FAB ${name}`);
-  return { x: viewport.width - 50, y: viewport.height - fromBottom };
+  return { x: viewport.width - 40, y: viewport.height - fromBottom };
 }
 
 async function clickFab(page, name) {
   const point = fabPoint(page, name);
   await page.mouse.click(point.x, point.y);
+}
+
+async function longPressFab(page, name) {
+  const point = fabPoint(page, name);
+  await page.mouse.move(point.x, point.y);
+  await page.mouse.down();
+  await page.waitForTimeout(850);
+  await page.mouse.up();
+}
+
+async function clickExportMenuItem(page, item) {
+  const viewport = page.viewportSize() || { width: 1280, height: 900 };
+  const yFromBottomByItem = { export: 140, share: 100, wallpaper: 60 }[item];
+  if (yFromBottomByItem == null) throw new Error(`Unknown export menu item ${item}`);
+  await page.mouse.click(viewport.width - 140, viewport.height - yFromBottomByItem);
 }
 
 function yFromBottom(page, distance) {
@@ -323,7 +355,7 @@ async function runControlJourney(page, baseURL, id, browserName, testInfo) {
     await page.waitForTimeout(500);
     const fullscreen = await saveScreenshot(page, dir, 5, 'fullscreen-unobtrusive');
     result.screenshots.push(fullscreen.relPath);
-    await requireChanged(result, reset, fullscreen, 'fullscreen/unobtrusive toggle', 0.35);
+    await requireChanged(result, reset, fullscreen, 'fullscreen FAB hides chrome', 0.35);
 
     // Restore UI button lives in the upper-right after fullscreen/unobtrusive mode.
     await page.mouse.click(viewport.width - 48, 42);
@@ -334,98 +366,128 @@ async function runControlJourney(page, baseURL, id, browserName, testInfo) {
 
     await clickFab(page, 'controls');
     await page.waitForTimeout(600);
-    const controls = await saveScreenshot(page, dir, 7, 'controls-sheet');
+    const controls = await saveScreenshot(page, dir, 7, 'controls-hud');
     result.screenshots.push(controls.relPath);
-    await requireChanged(result, restored, controls, 'open controls sheet', 1.2);
-
-    // Representative parameter interactions inside variable-height/scrollable sheets.
-    await performAndRecordOptionalMarker(
-      result,
-      page,
-      'slider/color parameter controls',
-      (marker) => marker.category === 'paramUpdate',
-      async () => {
-        for (const distance of [437, 473, 379]) {
-          await page.mouse.move(520, yFromBottom(page, distance));
-          await page.mouse.down();
-          await page.mouse.move(760, yFromBottom(page, distance), { steps: 8 });
-          await page.mouse.up();
-        }
-        for (const distance of [304, 229]) {
-          await page.mouse.click(480, yFromBottom(page, distance));
-        }
-      },
-    );
+    await requireChanged(result, restored, controls, 'controls FAB opens HUD', 1.2);
+    await page.mouse.click(viewport.width - 44, viewport.height - viewport.height * 0.42 + 28);
     await page.waitForTimeout(500);
-    const paramsChanged = await saveScreenshot(page, dir, 8, 'controls-param-change');
-    result.screenshots.push(paramsChanged.relPath);
-    await requireChanged(result, controls, paramsChanged, 'slider/color param controls visual delta', 0);
+    const afterControls = await saveScreenshot(page, dir, 8, 'controls-closed');
+    result.screenshots.push(afterControls.relPath);
+    await requireChanged(result, controls, afterControls, 'controls HUD close', 0.5);
 
-    await page.mouse.move(640, yFromBottom(page, 300));
-    await page.mouse.wheel(0, 900);
-    await page.waitForTimeout(300);
-    const controlsScrolled = await saveScreenshot(page, dir, 9, 'controls-scrolled-actions');
-    result.screenshots.push(controlsScrolled.relPath);
+    await clickFab(page, 'presets');
+    await page.waitForTimeout(700);
+    const presets = await saveScreenshot(page, dir, 9, 'presets-sheet');
+    result.screenshots.push(presets.relPath);
+    await requireChanged(result, afterControls, presets, 'presets FAB opens sheet', 0.5);
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(500);
 
-    await performAndRecordOptionalMarker(
+    await performAndRequireMarker(
       result,
       page,
-      'controls randomize',
+      'reset view FAB',
+      (marker) => marker.category === 'reset' && /Reset view/i.test(marker.message || ''),
+      async () => { await clickFab(page, 'reset'); },
+    );
+
+    await performAndRequireMarker(
+      result,
+      page,
+      'reset params long-press FAB',
+      (marker) => marker.category === 'reset' && /Reset params/i.test(marker.message || ''),
+      async () => { await longPressFab(page, 'reset'); },
+    );
+
+    await performAndRequireMarker(
+      result,
+      page,
+      'iterations increase FAB',
+      (marker) => marker.category === 'paramUpdate' && /iterations/i.test(marker.message || ''),
+      async () => { await clickFab(page, 'iterations'); },
+    );
+
+    await performAndRequireMarker(
+      result,
+      page,
+      'iterations decrease long-press FAB',
+      (marker) => marker.category === 'paramUpdate' && /iterations/i.test(marker.message || ''),
+      async () => { await longPressFab(page, 'iterations'); },
+    );
+
+    await performAndRequireMarker(
+      result,
+      page,
+      'color cycle FAB',
+      (marker) => marker.category === 'paramUpdate' && /colorScheme/i.test(marker.message || ''),
+      async () => { await clickFab(page, 'color'); },
+    );
+
+    await longPressFab(page, 'color');
+    await page.waitForTimeout(700);
+    const palette = await saveScreenshot(page, dir, 10, 'palette-picker');
+    result.screenshots.push(palette.relPath);
+    await requireChanged(result, afterControls, palette, 'color long-press opens palette picker', 0.2);
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(500);
+
+    await performAndRequireMarker(
+      result,
+      page,
+      'kaleidoscope FAB',
+      (marker) => marker.category === 'kaleidoscopeEnabled',
+      async () => { await clickFab(page, 'kaleidoscope'); },
+    );
+
+    await performAndRequireMarker(
+      result,
+      page,
+      'randomize FAB',
       (marker) => marker.category === 'randomize',
-      async () => { await page.mouse.click(640, yFromBottom(page, 48)); },
+      async () => { await clickFab(page, 'randomize'); },
     );
     await page.waitForTimeout(600);
-    const randomized = await saveScreenshot(page, dir, 10, 'controls-randomize');
+    const randomized = await saveScreenshot(page, dir, 11, 'randomize-fab');
     result.screenshots.push(randomized.relPath);
-    await requireChanged(result, controlsScrolled, randomized, 'controls randomize visual delta', 0);
 
-    await performAndRecordOptionalMarker(
-      result,
-      page,
-      'kaleidoscope toggle',
-      (marker) => marker.category === 'kaleidoscopeEnabled',
-      async () => { await page.mouse.click(640, yFromBottom(page, 198)); },
-    );
-    await page.waitForTimeout(500);
-    const kaleidoscope = await saveScreenshot(page, dir, 11, 'controls-kaleidoscope-toggle');
-    result.screenshots.push(kaleidoscope.relPath);
-
-    await performAndRecordOptionalMarker(
-      result,
-      page,
-      'controls reset params',
-      (marker) => marker.category === 'reset' && /Reset params/i.test(marker.message || ''),
-      async () => { await page.mouse.click(800, yFromBottom(page, 104)); },
-    );
-    await page.waitForTimeout(500);
-    const resetParams = await saveScreenshot(page, dir, 12, 'controls-reset-params');
-    result.screenshots.push(resetParams.relPath);
-
+    await clickFab(page, 'looper');
+    await page.waitForTimeout(700);
+    const looper = await saveScreenshot(page, dir, 12, 'looper-sheet');
+    result.screenshots.push(looper.relPath);
+    await requireChanged(result, randomized, looper, 'looper FAB opens sheet', 0.2);
     await page.keyboard.press('Escape');
     await page.waitForTimeout(500);
-    const afterControls = await saveScreenshot(page, dir, 13, 'controls-closed');
-    result.screenshots.push(afterControls.relPath);
-    await requireChanged(result, resetParams, afterControls, 'close controls sheet', 0);
 
     await clickFab(page, 'export');
-    await page.waitForTimeout(700);
+    await page.waitForTimeout(500);
+    const exportMenu = await saveScreenshot(page, dir, 13, 'export-menu');
+    result.screenshots.push(exportMenu.relPath);
+    await requireChanged(result, randomized, exportMenu, 'export FAB opens menu', 0.2);
+
+    await clickExportMenuItem(page, 'export');
+    await page.waitForTimeout(900);
     const exportSheet = await saveScreenshot(page, dir, 14, 'export-sheet');
     result.screenshots.push(exportSheet.relPath);
-    await requireChanged(result, afterControls, exportSheet, 'open export sheet', 0);
-
-    await page.mouse.click(535, 312); // high quality quick preset
-    await page.mouse.click(870, 214); // customize/details affordance
-    await page.waitForTimeout(500);
-    const exportCustomized = await saveScreenshot(page, dir, 15, 'export-customize');
-    result.screenshots.push(exportCustomized.relPath);
-
+    await requireChanged(result, exportMenu, exportSheet, 'export menu opens export sheet', 0.2);
     await page.keyboard.press('Escape');
     await page.waitForTimeout(500);
 
-    await clickFab(page, 'auto');
-    await page.waitForTimeout(700);
-    const autoSheet = await saveScreenshot(page, dir, 16, 'auto-explore-settings');
-    result.screenshots.push(autoSheet.relPath);
+    await clickFab(page, 'export');
+    await page.waitForTimeout(500);
+    await clickExportMenuItem(page, 'wallpaper');
+    await page.waitForTimeout(900);
+    const wallpaperSheet = await saveScreenshot(page, dir, 15, 'wallpaper-sheet');
+    result.screenshots.push(wallpaperSheet.relPath);
+    await requireChanged(result, randomized, wallpaperSheet, 'export menu opens wallpaper sheet', 0.2);
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(500);
+
+    await clickFab(page, 'export');
+    await page.waitForTimeout(500);
+    await clickExportMenuItem(page, 'share');
+    await page.waitForTimeout(900);
+    const shareAttempt = await saveScreenshot(page, dir, 16, 'share-menu-item');
+    result.screenshots.push(shareAttempt.relPath);
     await page.keyboard.press('Escape');
     await page.waitForTimeout(500);
 
@@ -440,12 +502,7 @@ async function runControlJourney(page, baseURL, id, browserName, testInfo) {
     await page.waitForTimeout(800);
     const randomFab = await saveScreenshot(page, dir, 17, 'random-fractal-fab');
     result.screenshots.push(randomFab.relPath);
-    await requireChanged(result, afterControls, randomFab, 'random fractal FAB visual delta', 0);
-
-    await clickFab(page, 'back');
-    await page.waitForTimeout(600);
-    const back = await saveScreenshot(page, dir, 18, 'back-action');
-    result.screenshots.push(back.relPath);
+    await requireChanged(result, shareAttempt, randomFab, 'random fractal FAB visual delta', 0);
 
     if (consoleErrors.length > 0) {
       result.errors.push({ kind: 'console.error', text: consoleErrors.join(' | ').slice(0, 800) });
@@ -465,7 +522,7 @@ async function runControlJourney(page, baseURL, id, browserName, testInfo) {
   return result;
 }
 
-test('representative viewer controls are operable and screenshot-covered', async ({ context, baseURL, browserName }, testInfo) => {
+test('all viewer FAB icons and actions are operable and screenshot-covered', async ({ context, baseURL, browserName }, testInfo) => {
   const modules = selectedModules();
   testInfo.setTimeout(Math.max(testInfo.timeout, modules.length * 90_000));
   const results = [];
