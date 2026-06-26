@@ -16,7 +16,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 /// - Custom hand-built modules                :   7
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital)
-/// - Total ModuleRegistry modules (non-debug) : 470
+/// - Total ModuleRegistry modules (non-debug) : 936
 ///
 /// The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
@@ -31,8 +31,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 457', () {
-      expect(catalog.length, 457,
+    test('total entry count is 458', () {
+      expect(catalog.length, 458,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
@@ -116,10 +116,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 1057 (non-debug)', () {
+    test('total module count is 937 (non-debug)', () {
       // Debug-only diagnostic modules are excluded in release/test builds
       // because kDebugMode is false in test environments.
-      expect(registry.modules.length, 1057,
+      expect(registry.modules.length, 937,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });
@@ -160,6 +160,18 @@ void main() {
     test('byId lookup succeeds for mandelbrot', () {
       expect(() => registry.byId('mandelbrot'), returnsNormally);
       expect(registry.byId('mandelbrot').id, 'mandelbrot');
+    });
+
+    test('keeps one configurable elementary CA instead of promoted rule spam',
+        () {
+      final elementaryRules = registry.modules
+          .where((m) => m.id.contains('elementary_ca_rule'))
+          .map((m) => m.id)
+          .toList();
+
+      expect(elementaryRules, isEmpty);
+      expect(
+          registry.byId('wolfram_rule30').defaultPreset.params['rule'], 30.0);
     });
 
     test('byId lookup succeeds for all custom hand-built modules', () {

@@ -1,0 +1,20 @@
+10.1063/5.0092933	Templex: a bridge between homologies and templates for chaotic attractors
+	A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+10.1143/jpsj.70.349	Heteroclinic Chaos, Chaotic Itinerancy and Neutral Attractors in Symmetrical Replicator Equations with Mutations
+10.1103/physrevlett.92.234101	Escaping from nonhyperbolic chaotic attractors
+10.1063/1.4731263	Lag synchronization and scaling of chaotic attractor in coupled system
+	Multiple Chaotic Attractors in Coupled Lorenz Systems
+10.1109/icccnt.2012.6396002	Optimum PID Control of Multi-wing Attractors in A Family of Lorenz-like Chaotic Systems
+10.1103/physreve.84.066204	Coexistence of exponentially many chaotic spin-glass attractors
+	Bistable analytic-phase synchronization in strongly-competing chaotic lasing modes
+	The topology of a chaotic attractor in the Kuramoto-Sivashinsky equation
+	Stability enhanced by transient attractors in a memristive chaotic map
+10.1063/1.5007925	Approximating hidden chaotic attractors via parameter switching
+10.1063/1.2126806	Chaotic and pseudochaotic attractors of perturbed fractional oscillator
+10.1088/1751-8113/42/28/285101	Flow curvature manifolds for shaping chaotic attractors: Rossler-like systems
+10.1007/978-3-030-04414-5_8	Visualizing the Template of a Chaotic Attractor
+10.1016/j.matcom.2014.03.002	Simulation studies on the design of optimum PID controllers to suppress chaotic oscillations in a family of Lorenz-like multi-wing attractors
+10.1016/s1007-5704(03)00038-8	Chaotic Jets
+	Chaotic mechanism description by an elementary mixer for the template of an attractor
+10.1103/physrevlett.81.4349	Systematic Computation of the Least Unstable Periodic Orbits in Chaotic Attractors
+10.1007/s11071-016-2962-3	Hidden transient chaotic attractors of Rabinovich-Fabrikant system

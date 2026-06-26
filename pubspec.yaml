@@ -274,6 +274,7 @@ flutter:
     - shaders/ifs_and_geometric/fractal_canopy_gpu.frag
     - shaders/escape_time_family/polynomial_maps/benesi_gpu.frag
     - shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag
+    - shaders/ifs_and_geometric/schottky_limit_set_gpu.frag
     - shaders/ifs_and_geometric/hat_monotile_gpu.frag
     - shaders/ifs_and_geometric/spectre_monotile_gpu.frag
     - shaders/ifs_and_geometric/sphinx_tiling_gpu.frag

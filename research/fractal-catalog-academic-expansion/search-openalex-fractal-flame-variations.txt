@@ -1,0 +1,20 @@
+10.1016/j.jaerosci.2004.05.002	The effective density and fractal dimension of soot particles from premixed flames and motor vehicle exhaust
+10.1080/00102209008951626	Morphological Description of Flame-Generated Materials
+10.1016/s0082-0784(00)80233-7	Flame instability effects on the smallest wrinkling scale and burning velocity of high-pressure turbulent premixed flames
+10.1016/j.ijhydene.2019.01.193	Burning velocity and flame structure of CH4/NH3/air turbulent premixed flames at high pressure
+10.1002/(sici)1097-0312(199811/12)51:11/12<1337::aid-cpa4>3.0.co;2-b	Flame fronts in a turbulent combustion model with fractal velocity fields
+10.1016/j.proci.2012.06.143	Scalar dissipation rate modelling for Large Eddy Simulation of turbulent premixed flames
+10.1016/s1540-7489(02)80217-6	Relationship between the smallest scale of flame wrinkles and turbulence characteristics of high-pressure, high-temperature turbulent premixed flames
+10.1016/j.powtec.2007.03.037	Numerical simulation of nanoparticle synthesis in diffusion flame reactor
+10.1080/00102200108907859	MEASUREMENT OF FRACTAL PROPERTIES OF SOOT AGGLOMERATES IN LAMINAR COFLOW DIFFUSION FLAMES USING THERMOPHORETIC SAMPLING IN CONJUNCTION WITH TRANSMISSION ELECTRON MICROSCOPY AND IMAGE PROCESSING
+10.1016/j.combustflame.2015.06.004	The structure of turbulent flames in fractal- and regular-grid-generated turbulence
+10.1007/s00340-011-4448-9	Spectrally resolved light absorption properties of cooled soot from a methane flame
+10.1017/jfm.2017.53	Direct numerical simulations of a high Karlovitz number laboratory premixed jet flame – an analysis of flame stretch and flame thickening
+10.1080/027868290519111	Size and Morphology of Soot Particulates Sampled from a Turbulent Nonpremixed Acetylene Flame
+10.1080/00102209308907644	Lewis Number Effects on Turbulent Premixed Flame Structure
+10.1016/j.cpc.2016.06.016	CoFlame: A refined and validated numerical algorithm for modeling sooting laminar coflow diffusion flames
+10.1016/0010-2180(92)90053-r	Flame surface properties of premixed flames in isotropic turbulence: Measurements and numerical simulations
+10.1029/2009jd013601	Biomass burning smoke aerosol properties measured during Fire Laboratory at Missoula Experiments (FLAME)
+10.1021/es500661w	Influence of Fuel Injection Timing and Pressure on In-Flame Soot Particles in an Automotive-Size Diesel Engine
+10.3390/en12050910	Sensitivity Analysis of Key Parameters for Population Balance Based Soot Model for Low-Speed Diffusion Flames
+10.1029/2006jd008296	Fractal parameters of individual soot particles determined using electron tomography: Implications for optical properties

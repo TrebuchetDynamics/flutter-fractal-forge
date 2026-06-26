@@ -1,0 +1,20 @@
+10.1090/s1088-4173-09-00198-2	Wild knots in higher dimensions as limit sets of Kleinian groups
+10.1080/17513470701503632	Visualizing curvature on the Lorenz manifold
+10.3390/axioms13120850	Fractals as Julia Sets for a New Complex Function via a Viscosity Approximation Type Iterative Methods
+10.1080/10586458.2021.1994059	Cohomology fractals, Cannon–Thurston maps, and the geodesic flow
+10.4153/cjm-2011-006-7	The Ample Cone for a K3 Surface
+10.19139/soic-2310-5070-2089	Fractal as Julia sets of complex functions via a new generalized viscosity approximation type iterative method
+10.1038/s41598-025-04700-2	Secure data transmission through fractal-based cryptosystem: a Noor iteration approach
+10.1007/s13373-017-0099-4	Mathematical study of scattering resonances
+10.4236/ns.2015.76032	A Casimir-Dark Energy Nano Reactor Design—Phase One
+10.4310/atmp.2018.v22.n1.a4	Tensor networks, $p$-adic fields, and algebraic curves: arithmetic and the $\mathrm{AdS}_3 / \mathrm{CFT}_2$ correspondence
+10.4236/wjnse.2015.51004	The Casimir Topological Effect and a Proposal for a Casimir-Dark Energy Nano Reactor
+10.3390/sym17071028	Generation of Julia and Mandelbrot Sets for a Complex Function via Jungck–Noor Iterative Method with s-Convexity
+10.48550/arxiv.2202.10530	A geometric study of circle packings and ideal class groups
+10.5186/aasfm.2015.4046	From Apollonian packings to homogeneous sets
+10.4236/ns.2015.74024	Kerr Black Hole Geometry Leading to Dark Matter and Dark Energy via E-Infinity Theory and the Possibility of a Nano Spacetime Singularities Reactor
+10.1090/s1088-4173-06-00134-2	The core chain of circles of Maskit’s embedding for once-punctured torus groups
+10.31979/etd.5wg7-2cd6	Visions of Kleinian Groups
+10.4236/apm.2023.139038	The Golden Ratio Theorem: A Framework for Interchangeability and Self-Similarity in Complex Systems
+10.17169/refubium-5349	Ball Packings and Lorentzian Discrete Geometry
+10.1090/s0273-0979-1990-15895-1	Book Review: Kleinian groups

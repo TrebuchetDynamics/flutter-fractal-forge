@@ -1,0 +1,20 @@
+10.1016/s0960-0779(02)00630-6	Complex vacuum fluctuation as a chaotic “limit” set of any Kleinian group transformation and the mass spectrum of high energy particle physics via spontaneous self-organization
+10.1007/978-1-4757-4017-2_18	Self-inverse fractals osculated by sigma-discs: the limit sets of (“Kleinian”) inversion groups
+10.1007/bf02392194	The Hausdorff dimension of the limit set of a geometrically finite Kleinian group
+10.1007/978-1-4612-5796-7_35	Remarks on the Limit Point Set of a Finitely Generated Kleinian Group
+10.1016/s0960-0779(02)00155-8	The Ω-limit set and the limit set of subsets☆
+10.1515/9781400822492-004	Remarks on the Limit Point Set of a Finitely Generated Kleinian Group
+10.1007/978-94-011-2436-2_6	Finely Open Sets in the Limit Set of a Finitely Generated Kleinian Group
+10.1017/cbo9780511542817.007	Quasi-arcs in the limit set of a singly degenerate group with bounded geometry
+10.1007/978-1-4757-4017-2_15	Introduction to papers on Kleinian groups, their fractal limit sets, and IFS: history, recollections, and acknowledgments
+10.1016/j.top.2003.10.004	Complex hyperbolic Kleinian groups with limit set a wild knot
+10.4310/mrl.1996.v3.n5.a9	The limit set intersection theorem for finitely generated Kleinian groups
+10.4171/jfg/93	On horospheric limit sets of Kleinian groups
+10.1007/978-3-0348-0481-3_6	The Limit Set in Dimension 2
+10.1090/ecgd/279	The critical exponent, the Hausdorff dimension of the limit set and the convex core entropy of a Kleinian group
+10.1142/s0129167x93000091	THE DISCONTINUITY SET FOR A KLEINIAN GROUP AND TOPOLOGY OF ITS KLEINIAN MANIFOLD
+10.1007/bf01418926	Group completions and limit sets of Kleinian groups
+10.2748/tmj/1178242856	Ahlfors's conjecture on the singular set of some Kleinian group
+10.1142/s0218216507005610	A WILD KNOT 𝕊<sup>2</sup>↪ 𝕊<sup>4</sup>AS LIMIT SET OF A KLEINIAN GROUP: INDRA'S PEARLS IN FOUR DIMENSIONS
+10.1016/s0960-0779(04)00474-6	Structurally stable but chaotic limit set of E-infinity Cantorian space–time
+10.1142/s0218348x08003752	VISUALIZATION OF CHAOTIC DYNAMICAL SYSTEMS BASED ON MANDELBROT SET METHODOLOGY

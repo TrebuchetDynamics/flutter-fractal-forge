@@ -1,0 +1,20 @@
+10.1016/j.combustflame.2010.09.002	The Interaction of High-Speed Turbulence with Flames: Turbulent Flame Speed
+10.1016/j.combustflame.2009.11.018	The Interaction of High-Speed Turbulence with Flames: Global Properties and Internal Flame Structure
+	Fractal dimension of premixed flames in multifractal turbulence
+10.1016/j.combustflame.2022.111984	Precise surface temperature measurements at kHz-rates using phosphor thermometry to study flame-wall interactions in narrow passages
+10.1016/j.combustflame.2022.112583	Deep learning-based denoising for fast time-resolved flame emission spectroscopy in high-pressure combustion environment
+10.1016/j.combustflame.2025.114320	Flame-wall interaction of thermodiffusively unstable hydrogen/air flames -- Part I: Characterization of governing physical phenomena
+10.1016/j.combustflame.2025.114319	Flame-wall interaction of thermodiffusively unstable hydrogen/air flames -- Part II: Parametric variations of equivalence ratio, temperature, and pressure
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	A multidimensional combustion model for oblique, wrinkled premixed flames
+	Quantitative 3D Morphology of Cellular H2/O2/N2 Flames on a Porous-Plug Burner: Spatially Resolved Measurements of Temperature and OH Radical
+	Theory of DDT in Unconfined Flames
+	Thermoacoustic Instability Suppression and Heat-Release Forcing of a Laminar Flame Using Ionic Wind
+10.1016/j.combustflame.2019.11.020	Flame interactions in a stratified swirl burner: flame stabilization, combustion instabilities and beating oscillations
+	Physics-Aware Neural Network Flame Closure for Combustion Instability Modeling in a Single-Injector Engine
+10.1016/j.combustflame.2019.11.031	DNS Study of the Global Heat Release Rate During Early Flame Kernel Development under Engine Conditions
+	Ignition of Deflagration and Detonation Ahead of the Flame due to Radiative Preheating of Suspended Micro Particles
+10.1016/j.combustflame.2024.113903	How "mixing" affects propagation and structure of intensely turbulent, lean, hydrogen-air premixed flames
+	Experimental study of the structure of a lean premixed indane/CH4/O2/Ar flame
+10.1016/j.combustflame.2020.06.002	The Role of Differential Diffusion during Early Flame Kernel Development under Engine Conditions -- Part II: Effect of Flame Structure and Geometry
+	Thermodiffusively unstable laminar hydrogen flame in a sufficiently large 3D computational domain -- Part I: Characteristic patterns

@@ -1031,6 +1031,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 220,
     defaultBailout: 10.0,
   ),
+  EscapeTimeConfig(
+    id: 'schottky_limit_set',
+    name: 'Schottky Limit Set',
+    shaderAsset: 'shaders/ifs_and_geometric/schottky_limit_set_gpu.frag',
+    defaultIterations: 120,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 0.85,
+    defaultBailout: 4.0,
+    maxIterations: 160,
+  ),
 
   // ── X. 2D Maps / Attractors ─────────────────────────────
   EscapeTimeConfig(

@@ -7,7 +7,6 @@ import 'package:flutter_fractals/core/modules/builders/shared_clifford_catalog.d
 import 'package:flutter_fractals/core/modules/builders/shared_de_jong_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_direct_3d_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_direct_transcendental_catalog.dart';
-import 'package:flutter_fractals/core/modules/builders/shared_elementary_ca_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_escape_expression_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_escape_power_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_exact_attractor_catalog.dart';
@@ -181,7 +180,6 @@ class ModuleRegistry {
     result.addAll(buildSharedKifsMengerCatalogModules());
     result.addAll(buildSharedNumberTheoryCatalogModules());
     result.addAll(buildSharedResidualCaCatalogModules());
-    result.addAll(buildSharedElementaryCaCatalogModules());
     result.addAll(buildSharedLifeLikeCatalogModules());
     result.addAll(buildSharedMultibrotCatalogModules());
     result.addAll(buildSharedEscapePowerCatalogModules());

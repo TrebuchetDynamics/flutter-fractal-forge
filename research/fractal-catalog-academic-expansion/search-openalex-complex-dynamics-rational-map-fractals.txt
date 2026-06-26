@@ -1,0 +1,20 @@
+10.1016/s0378-4371(02)01648-5	Nonlinear dynamics in the Cournot duopoly game with heterogeneous players
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.1007/bf00049580	An introduction to chaotic dynamical systems
+10.24033/asens.1491	On the dynamics of polynomial-like mappings
+10.1017/s0143385700009603	Repellers for real analytic maps
+10.1007/s000140050140	Hausdorff dimension and conformal dynamics II: Geometrically finite rational maps
+10.1016/s0301-4215(98)00067-6	Dynamics of energy technologies and global change
+10.1090/s0002-9947-07-04150-5	Spectral zeta functions of fractals and the complex dynamics of polynomials
+10.3389/fphys.2010.00015	Fractals in the nervous system: conceptual implications for theoretical neuroscience
+10.1103/revmodphys.88.035006	Control principles of complex systems
+10.1090/s0002-9947-1993-1107025-2	Ergodic theory for Markov fibred systems and parabolic rational maps
+10.1142/s0218127419300313	Global Dynamics and Synchronization in a Duopoly Game with Bounded Rationality and Consumer Surplus
+10.1090/s0273-0979-06-01108-6	Nonlinear dynamics of networks: the groupoid formalism
+10.1103/physreve.62.1706	Conformal dynamics of fractal growth patterns without randomness
+10.1080/10586458.2000.10504657	On Rational Maps with Two Critical Points
+10.2174/1874192400903010110	Deterministic Chaos and Fractal Complexity in the Dynamics of Cardiovascular Behavior: Perspectives on a New Frontier
+10.1007/s10522-015-9584-x	Complex systems dynamics in aging: new evidence, continuing questions
+10.1017/s014338570000225x	Dynamics of exp (<i>z</i>)
+10.24033/asens.1575	Dynamics of meromorphic maps : maps with polynomial schwarzian derivative
+10.1090/conm/601/11959	The Decimation Method for Laplacians on Fractals: Spectra and Complex Dynamics

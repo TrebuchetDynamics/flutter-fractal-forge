@@ -1,0 +1,20 @@
+	A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+10.1063/5.0092933	Templex: a bridge between homologies and templates for chaotic attractors
+	A New Hyperchaotic Attractor with Complex Patterns
+	Potential Function in a Continuous Dissipative Chaotic System: Decomposition Scheme and Role of Strange Attractor
+	Strange Non-Chaotic Attractors with Unpredictable Trajectories
+	Generalized Attracting Horseshoes and Chaotic Strange Attractors
+10.1088/0951-7715/19/9/001	How chaotic are strange nonchaotic attractors
+10.1088/1475-7516/2021/12/008	BICEP/Keck and Cosmological Attractors
+10.1112/blms.12037	Existence and smoothness of the stable foliation for sectional hyperbolic attractors
+10.1103/physreve.56.7294	Synchronization of Strange Nonchaotic Attractors
+10.1016/j.crvi.2014.10.002	Therapeutic target discovery using Boolean network attractors: avoiding pathological phenotypes
+	Multiple Chaotic Attractors in Coupled Lorenz Systems
+10.1016/j.physletb.2020.135481	Hydrodynamic attractors for Gubser flow
+	A model for dynamical systems with strange attractors
+10.1103/physrevlett.92.074102	Strange nonchaotic attractors in noise driven systems
+10.1063/1.5007925	Approximating hidden chaotic attractors via parameter switching
+	Stability enhanced by transient attractors in a memristive chaotic map
+10.3938/jkps.69.1631	An Analytical Study on the Synchronization of Strange Non-Chaotic Attractors
+	Strange non-chaotic attractors in quasiperiodically forced circle maps
+	The creation of strange non-chaotic attractors in non-smooth saddle-node bifurcations

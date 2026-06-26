@@ -1,0 +1,20 @@
+10.1016/b978-044450002-1/50059-x	Some nonlinear iterated function systems
+10.1016/b978-044450002-1/50063-1	Modeling and rendering of nonlinear iterated function systems
+10.1016/b978-044450002-1/50058-8	Iterated Function Systems
+10.1016/j.chaos.2026.117996	Fractal attractors in random nonlinear iterated function systems: Existence, stability, and dimensional properties
+10.1016/b978-0-12-079061-6.50015-2	Recurrent Iterated Function Systems
+10.2139/ssrn.4654053	A Friendly Approach to Iterated Function Systems and Fractals
+10.1016/b978-044450002-1/50062-x	Automatic generation of iterated function systems
+10.1142/s0218348x00000299	ADMISSIBLE STRINGS AND ITERATED FUNCTION SYSTEMS
+10.4171/jfg/150	On nonlinear iterated function systems with overlaps
+10.1007/1-84628-686-7_1	Image Models for Fractals
+10.1142/s0218348x97000681	Zooming Using Iterated Function Systems
+10.1142/s0218348x08003946	FRACTAL VIDEOFEEDBACK AS ANALOG ITERATED FUNCTION SYSTEMS
+10.1016/j.chaos.2015.09.015	Homoclinic attractors in discontinuos iterated function systems
+10.1142/s0218348x1250017x	ITERATED FUNCTION SYSTEMS WITH A GIVEN CONTINUOUS STATIONARY DISTRIBUTION
+10.1016/s0960-0779(97)00073-8	From quantum entropy to iterated function systems
+10.1142/s0218348x26501173	Anisotropic Metric Deformations of Iterated Function Systems: A One-Parameter Family of Self-Affine Fractals with Riemannian--Lorentzian Transition
+10.1201/9781439803356-11	Fractals from Iterated Function Systems
+10.1142/s0218348x1550019x	A GLUING LEMMA FOR ITERATED FUNCTION SYSTEMS
+10.1016/j.chaos.2023.113337	Revisiting fractal through nonconventional iterated function systems
+10.1016/0960-0779(95)00055-0	Patterns of bifurcation in iterated function systems

@@ -1,0 +1,15 @@
+10.21608/idj.2016.90727	Furniture design inspired from fractals
+10.2991/mecae-18.2018.107	A Synthesis Method of Nonlinear Transformation and Affine Transformation for Constructing NIFS
+10.1007/s12346-024-01160-3	Application of CR Iteration Scheme in the Generation of Mandelbrot Sets of $$z^p + \log c^t$$ Function
+	3D Fractal Flame Wisps
+10.14718/revarq.2016.18.1.8	Exploraciones morfológicas en texturas modulares. Aproximaciones desde el objet trouvé al diseño paramétrico
+10.29394/scientific.issn.2542-2987.2018.3.9.9.174-189	Ensamble Organum: Experiencia Docente en Arquitectura basada en Modelaciones Morfológicas según Criterios Algorítmico-Procedimentales
+10.37256/cm.6620258340	Generalized CR-Iteration Scheme with Application in Textile Designing
+10.17163/soph.n29.2020.01	Morfogénesis y pensamiento complejo
+10.48550/arxiv.2411.17584	Pre-training for Action Recognition with Automatically Generated Fractal Datasets
+	Composable function systems as a general-purpose rendering framework
+10.5402/2012/825782	GPU-Accelerated Rendering of Unbounded Nonlinear Iterated Function System Fixed Points
+10.18861/ania.2014.4.0.2655	Aproximaciones Morfológicas en la Modelación Digital en Arquitectura. Sistematización de Experiencias con Relación al Estudio de Crecimientos y Fragmentación de Tramas Vectoriales
+	Deterministic and Heuristic Analysis of Two-Dimensional Iterated Function Systems
+10.48550/arxiv.2306.04955	Degraded Polygons Raise Fundamental Questions of Neural Network Perception
+10.18861/ania.2023.13.1.3396	Minimalismo modular generativo

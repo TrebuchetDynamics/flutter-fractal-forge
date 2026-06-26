@@ -1,0 +1,20 @@
+10.1007/978-3-642-97149-5	Nonlinear Differential Equations and Dynamical Systems
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1239/jap/1082999076	Limit theorems for iterated random functions
+10.3390/systems4040037	Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.3389/fncel.2013.00003	Quantitating the subtleties of microglial morphology with fractal analysis
+10.1016/0362-546x(87)90077-0	Coupled fixed points of nonlinear operators with applications
+10.1090/psapm/039	Chaos and Fractals: The Mathematics Behind the Computer Graphics
+10.3389/fphys.2010.00015	Fractals in the nervous system: conceptual implications for theoretical neuroscience
+10.1023/a:1008384928636	Bifurcations in Nonlinear Discontinuous Systems
+10.3389/fphys.2013.00001	A fractal approach to dynamic inference and distribution analysis
+10.1063/1.4917289	Nonlinear time-series analysis revisited
+10.4171/rmi/452	Wavelets on Fractals
+10.1007/s00009-016-0720-x	Fractional Calculus on Fractal Interpolation for a Sequence of Data with Countable Iterated Function System
+10.22190/fume220118004h	FORCED NONLINEAR OSCILLATOR IN A FRACTAL SPACE
+10.1103/physrevb.88.125122	Exotic topological order in fractal spin liquids
+10.3390/e18030084	Entropy and Fractal Antennas
+10.1016/j.ymssp.2008.04.002	Nonlinear normal modes, Part I: A useful framework for the structural dynamicist
+10.3390/e18020001	New Derivatives on the Fractal Subset of Real-Line
+10.1090/s0025-5718-06-01861-8	Iterated function systems, Ruelle operators, and invariant projective measures

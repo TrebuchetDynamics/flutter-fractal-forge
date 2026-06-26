@@ -1,0 +1,20 @@
+10.1016/j.chaos.2007.06.051	Complex dynamics in a two-dimensional noninvertible map
+10.1016/j.chaos.2011.12.020	Switching induced complex dynamics in an extended logistic map
+10.1016/j.chaos.2009.01.011	Generation of fractals from complex logistic map
+10.1017/9781316285572.015	Elementary Complex Dynamics
+10.1016/j.chaos.2021.111760	Dynamics of deformed Hénon-like map
+10.1016/0960-0779(91)90034-7	Symbolic dynamics for the Lozi map
+10.1016/j.chaos.2025.116480	Chaotic dynamics of discrete memristor-coupled Sinh map
+10.1016/j.chaos.2023.113647	Chaotic Complex Hashing: A simple chaotic keyed hash function based on complex quadratic map
+10.1017/9781316285572.024	The Complex Numbers
+10.36227/techrxiv.174952616.65147326/v1	Chaos and Fractals in Neural Networks: Exploring Complex Dynamics
+10.1016/0960-0779(95)00083-6	Dynamics of the kicked logistic map
+10.1142/s0218348x98000031	Iteration Logistic Map Dynamics in the Polar Coordinates
+10.1016/b978-0-12-802031-9.00012-7	Fractals
+10.1016/0960-0779(93)e0056-h	Generic excitable dynamics on a two-dimensional map
+10.1007/978-1-4757-4017-2_5	The complex quadratic map and its ℳ-set
+10.1016/j.chaos.2006.04.060	Complex tunneling dynamics
+10.1142/s0218348x21400326	CHAOTIC DYNAMICS OF A NOVEL 2D DISCRETE FRACTIONAL ORDER USHIKI MAP
+10.1016/j.chaos.2025.116718	Intra- and inter-layer dynamics of a two-layer Izhikevich neuron map
+10.1016/j.chaos.2022.112215	FPGA realization of fractals based on a new generalized complex logistic map
+10.1016/j.chaos.2009.03.077	Adaptive learning and complex dynamics

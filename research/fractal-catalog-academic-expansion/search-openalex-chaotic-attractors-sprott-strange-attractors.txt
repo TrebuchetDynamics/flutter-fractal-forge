@@ -1,0 +1,20 @@
+10.1016/j.chaos.2017.12.023	Coexisting attractors and circuit implementation of a new 4D chaotic system with two equilibria
+10.1016/j.chaos.2017.11.027	A plethora of coexisting strange attractors in a simple jerk system with hyperbolic tangent nonlinearity
+10.1140/epjst/e2015-02470-3	Homoclinic orbits, and self-excited and hidden attractors in a Lorenz-like system describing convective fluid motion
+10.3390/e20010012	A New Chaotic System with Multiple Attractors: Dynamic Analysis, Circuit Realization and S-Box Design
+10.1109/access.2019.2900367	Constructing Chaotic System With Multiple Coexisting Attractors
+10.1016/j.cnsns.2010.10.020	Modeling of chaotic motion of gyrostats in resistant environment on the base of dynamical systems with strange attractors
+10.1140/epjst/e2017-70037-1	Megastability: Coexistence of a countable infinity of nested attractors in a periodically-forced oscillator with spatially-periodic damping
+10.1007/s11071-015-2056-7	New class of chaotic systems with circular equilibrium
+10.3390/e20080564	A New Fractional-Order Chaotic System with Different Families of Hidden and Self-Excited Attractors
+10.1109/access.2021.3058506	Imperfections in Integrated Devices Allow the Emergence of Unexpected Strange Attractors in Electronic Circuits
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.3390/e20020086	A New Chaotic System with a Self-Excited Attractor: Entropy Measurement, Signal Encryption, and Parameter Estimation
+10.3906/elk-0906-67	A new chaotic attractor from general Lorenz system family and its electronic experimental implementation
+10.1109/access.2020.2966085	A Conditional Symmetric Memristive System With Infinitely Many Chaotic Attractors
+10.3906/mat-1305-64	Degenerate Hopf bifurcations, hidden attractors, and control in the extended Sprott E system with only one stable equilibrium
+10.1016/j.chaos.2006.05.069	Chaos control and synchronization of the Newton–Leipnik chaotic system
+10.25103/jestr.082.26	A Memristor - Based Hyperchaotic System with Hidden Attractors : Dynamics , Synchronization and Circuital Emulating
+10.1142/s0217984918502603	Dynamical analysis and passive control of a new 4D chaotic system with multiple attractors
+10.1137/10s01079x	Attractors: Nonstrange to Chaotic
+10.3390/math9060652	Hidden Strange Nonchaotic Attractors

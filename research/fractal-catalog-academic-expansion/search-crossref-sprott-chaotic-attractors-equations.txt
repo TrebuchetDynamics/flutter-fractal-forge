@@ -1,0 +1,20 @@
+10.1007/978-3-030-75821-9_25	Globally Attracting Hidden Attractors
+10.1007/978-3-030-75821-9_16	Multi-Stability Detection in Chaotic Systems
+10.1007/978-3-030-75821-9_7	Chaotic Systems with Any Number and Various Types of Equilibria
+10.1007/978-3-030-75821-9_12	Multi-Stability in Symmetric Systems
+10.1007/978-3-030-75821-9_13	Multi-Stability in Asymmetric Systems
+10.1007/978-3-030-75821-9_14	Multi-Stability in Conditional Symmetric Systems
+10.1007/978-3-030-75821-9_15	Multi-Stability in Self-Reproducing Systems
+10.1142/s0218127416501777	Generating Multiple Chaotic Attractors from Sprott B System
+10.1093/acprof:oso/9780199566433.003.0032	Chaotic Differential Equations and Strange Attractors
+10.1007/s11071-016-3277-0	On the formation of hidden chaotic attractors and nested invariant tori in the Sprott A system
+10.1093/oso/9780198508397.003.0006	Strange attractors
+10.1088/1742-6596/22/1/016	Chaotic behavior in piecewise linear Linz–Sprott equations
+10.1016/0167-2789(92)90113-2	Extraction of dynamical equations from chaotic data
+10.1016/b978-044450002-1/50012-6	Automatic generation of strange attractors
+10.1142/s0218127413501204	SIMPLEST 3D CONTINUOUS-TIME QUADRATIC SYSTEMS AS CANDIDATES FOR GENERATING MULTISCROLL CHAOTIC ATTRACTORS
+10.1007/978-0-387-21830-4_9	Strange attractors and chaotic motions of dynamical systems
+10.1007/978-0-387-21830-4_11	The Dimension of Chaotic Attractors
+10.1364/oam.1985.fw5	Chaotic attractors of the delay-differential ring-cavity equations
+10.1007/978-3-032-09854-2_8	Generating Multifold Torus Chaotic Attractors
+10.1080/09720502.2021.1970948	Multistability and hidden attractors in a novel simple 5D chaotic Sprott E system without equilibrium points

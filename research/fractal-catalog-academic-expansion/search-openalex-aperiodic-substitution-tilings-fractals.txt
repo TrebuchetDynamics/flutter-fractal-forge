@@ -1,0 +1,20 @@
+10.2140/pjm.2002.206.465	Self-affine tiling via substitution dynamical systems and Rauzy fractals
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.1107/s2052520614014917	Aperiodic crystals and superspace concepts
+10.1016/j.tcs.2012.12.019	Tilings induced by a class of cubic Rauzy fractals
+10.4153/cjm-1998-036-5	Fractals in the Large
+10.1007/s13373-013-0041-3	Developments in fractal geometry
+10.5802/jtnb.556	Unimodular Pisot substitutions and their associated tiles
+10.1007/s00454-014-9589-2	Fractal Tilings from Iterated Function Systems
+10.4171/jfg/37	Fractal dual substitution tilings
+10.24033/msmf.430	Topological properties of Rauzy fractals
+10.1007/bf02183349	Partition function zeros for aperiodic systems
+10.1090/s0002-9947-01-02797-0	Geometric representation of substitutions of Pisot type
+10.4171/dm/799	Fourier Transform of Rauzy Fractals and Point Spectrum of 1D Pisot Inflation Tilings
+10.1007/s00454-002-2820-6	Substitution Delone Sets
+10.1023/a:1024943106163	Coding and geometrical shapes in nanostructures: A fractal DNA-assembly
+10.3934/dcds.2013.33.579	Pure discrete spectrum in substitution tiling spaces
+10.1007/s00454-012-9418-4	A Note on Aperiodic Ammann Tiles
+10.46298/dmtcs.353	Connectedness of number theoretical tilings
+10.1007/s00454-009-9199-6	On the Characterization of Expansion Maps for Self-Affine Tilings
+10.1007/s00454-003-0781-z	Consequences of Pure Point Diffraction Spectra for Multiset Substitution Systems

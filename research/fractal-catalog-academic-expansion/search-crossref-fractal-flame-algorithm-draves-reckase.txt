@@ -1,0 +1,20 @@
+10.1145/1852645.1852650	The flame algorithm and its open source culture
+10.1037/e400682008-001	Aesthetics and Fractal Dimension of Electric Sheep
+10.3390/fractalfract8050251	A Novel Application of Fractional Order Derivative Moth Flame Optimization Algorithm for Solving the Problem of Optimal Coordination of Directional Overcurrent Relays
+10.3390/fractalfract8020087	Otsu Image Segmentation Based on a Fractional Order Moth–Flame Optimization Algorithm
+10.1016/0010-2180(90)90085-6	Fractal behavior of a wrinkled annular diffusion flame
+10.1016/j.combustflame.2024.113926	Flame-turbulence interactions in lean hydrogen flames: Implications for turbulent flame speed and fractal modelling
+10.1142/s0218127408020975	THE AESTHETICS AND FRACTAL DIMENSION OF ELECTRIC SHEEP
+10.3390/fractalfract9120762	Elementary Fractal Geometry 7: An Algorithm Visualizing the Magnification Flow
+10.1007/978-981-16-9716-6_3	Fractal Algorithm of Recognization and Reconstruction of Pore Structure Using AI Technology
+10.1016/0010-2180(89)90132-6	Chemical closure model for fractal flamelets
+10.1142/9789812777720_0021	FLAME FRONT INSTABILITIES AND DEVELOPMENT OF FRACTAL FLAMES
+10.1007/978-981-16-9716-6_1	Fractal Algorithm of an Area Covering Method for Describing the Self-Similarity of Spatial Curve
+10.1016/j.combustflame.2013.05.017	Fractal structures of hydrodynamically unstable and diffusive-thermally unstable flames
+10.1016/j.combustflame.2016.02.022	Enhancement of turbulent flame speed of V-shaped flames in fractal-grid-generated turbulence
+10.1037/e511412006-001	Introducing: Sharon Draves
+10.1016/j.combustflame.2014.03.010	Lean premixed opposed jet flames in fractal grid generated multiscale turbulence
+10.1016/b0-12-369398-5/00457-6	Multidimensional Item Response Models
+10.3390/fractalfract5030100	Orthonormal Ultraspherical Operational Matrix Algorithm for Fractal–Fractional Riccati Equation with Generalized Caputo Derivative
+10.1007/978-981-16-9716-6_2	Fractal Algorithm of a Volume Covering Method for Describing the Self-Similarity of Curved and Rough Surface
+10.1016/0010-2180(91)90029-b	Agglomerate parameters and fractal dimension of soot using light scattering—effects on surface growth

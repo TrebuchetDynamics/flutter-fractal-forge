@@ -1,0 +1,20 @@
+10.1007/s11071-015-2364-y	Dynamical analysis of a simple autonomous jerk system with multiple attractors
+10.1142/s0218127416500814	Coexistence of Multiple Attractors and Crisis Route to Chaos in a Novel Chaotic Jerk Circuit
+10.1007/s11071-015-2056-7	New class of chaotic systems with circular equilibrium
+10.1088/0960-1317/13/3/316	Efficient spatial-temporal chaotic mixing in microchannels
+10.1140/epjst/e2015-02470-3	Homoclinic orbits, and self-excited and hidden attractors in a Lorenz-like system describing convective fluid motion
+10.1109/access.2019.2900367	Constructing Chaotic System With Multiple Coexisting Attractors
+10.3390/e20010012	A New Chaotic System with Multiple Attractors: Dynamic Analysis, Circuit Realization and S-Box Design
+10.1007/s11071-013-0866-z	Amplitude control approach for chaotic signals
+10.3390/e20080564	A New Fractional-Order Chaotic System with Different Families of Hidden and Self-Excited Attractors
+10.3906/mat-1305-64	Degenerate Hopf bifurcations, hidden attractors, and control in the extended Sprott E system with only one stable equilibrium
+10.3390/math11061369	A Review of Chaotic Systems Based on Memristive Hopfield Neural Networks
+10.1016/j.cnsns.2008.09.019	Synchronization in complex networks with distinct chaotic nodes
+10.3390/e20020086	A New Chaotic System with a Self-Excited Attractor: Entropy Measurement, Signal Encryption, and Parameter Estimation
+10.1109/tie.2020.3047012	An Extremely Simple Multiwing Chaotic System: Dynamics Analysis, Encryption Application, and Hardware Implementation
+10.3906/elk-0906-67	A new chaotic attractor from general Lorenz system family and its electronic experimental implementation
+10.1109/access.2020.2966085	A Conditional Symmetric Memristive System With Infinitely Many Chaotic Attractors
+10.1007/s40745-021-00364-7	A Review on Applications of Chaotic Maps in Pseudo-Random Number Generators and Encryption
+10.53391/mmnsa.2021.01.002	Numerical Solutions and Synchronization of a Variable-Order Fractional Chaotic System
+10.3390/e21020156	Entropy Analysis and Neural Network-Based Adaptive Control of a Non-Equilibrium Four-Dimensional Chaotic System with Hidden Attractors
+10.1109/access.2019.2933456	A New Double-Wing Chaotic System With Coexisting Attractors and Line Equilibrium: Bifurcation Analysis and Electronic Circuit Simulation
