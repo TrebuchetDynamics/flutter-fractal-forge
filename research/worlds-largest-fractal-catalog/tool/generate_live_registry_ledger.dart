@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/features/catalog/catalog_repository.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 
 const outputPath =
     'research/worlds-largest-fractal-catalog/curated-entry-ledger.live-registry.json';
@@ -14,15 +14,18 @@ const categoryToTargetFamily = {
   'Escape-Time (Complex Plane)': 'escape_time_polynomial_complex',
   'Convergent/Root-Finding': 'root_finding_polynomiography',
   'Convergent & Root-Finding': 'root_finding_polynomiography',
+  'Root-Finding': 'root_finding_polynomiography',
   'Strange Attractors': 'strange_attractors_maps',
   'IFS & Geometric Construction': 'ifs_geometric',
   'IFS / Geometric Fractals': 'ifs_geometric',
+  'Self-Affine IFS': 'ifs_geometric',
   'Kaleidoscopes': 'ifs_geometric',
   'L-Systems & Space-Filling Curves': 'l_systems_plants_curves',
   '3D Raymarching & Hypercomplex': 'distance_estimated_3d_raymarch',
   '3D Fractals': 'distance_estimated_3d_raymarch',
   'Trigonometric & Transcendental': 'rational_transcendental_maps',
   'Advanced Rational & Polynomial': 'rational_transcendental_maps',
+  'Spectral Fractals': 'rational_transcendental_maps',
   'Lyapunov & Stability': 'number_theory_special_functions',
   'Deep Chaos & Flows': 'strange_attractors_maps',
   'High-Dimensional Algebra': 'number_theory_special_functions',
@@ -31,6 +34,7 @@ const categoryToTargetFamily = {
   'Cellular & Stochastic': 'cellular_automata',
   'Cellular & Stochastic Growth': 'cellular_automata',
   'Cellular Automata': 'cellular_automata',
+  'Spatiotemporal Chaos': 'cellular_automata',
   'Reaction-Diffusion': 'cellular_automata',
   'Complex Dynamics': 'rational_transcendental_maps',
   'Number-Theory Fractals': 'number_theory_special_functions',
@@ -40,6 +44,7 @@ const categoryToTargetFamily = {
 const categoryToIdentityType = {
   'IFS & Geometric Construction': 'transform_system',
   'IFS / Geometric Fractals': 'transform_system',
+  'Self-Affine IFS': 'transform_system',
   'Kaleidoscopes': 'transform_system',
   'L-Systems & Space-Filling Curves': 'grammar',
   'Tiling & Graph Fractals': 'rule',
@@ -48,7 +53,10 @@ const categoryToIdentityType = {
   'Cellular & Stochastic Growth': 'rule',
   'Cellular Automata': 'rule',
   'Reaction-Diffusion': 'rule',
+  'Spatiotemporal Chaos': 'rule',
   'Complex Dynamics': 'map',
+  'Spectral Fractals': 'map',
+  'Root-Finding': 'map',
   'Strange Attractors': 'map',
   'Deep Chaos & Flows': 'map',
   'Lyapunov & Stability': 'map',
@@ -155,9 +163,13 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
   };
 }
 
-void writeLiveRegistryLedger(Map<String, Object> ledger) {
+void writeLiveRegistryLedger(
+  Map<String, Object> ledger, {
+  String ledgerPath = outputPath,
+  String worklistPath = thumbnailWorklistPath,
+}) {
   const encoder = JsonEncoder.withIndent('  ');
-  File(outputPath).writeAsStringSync('${encoder.convert(ledger)}\n');
+  File(ledgerPath).writeAsStringSync('${encoder.convert(ledger)}\n');
   final worklist = {
     'generated_at': ledger['generated_at'],
     'purpose':
@@ -167,8 +179,7 @@ void writeLiveRegistryLedger(Map<String, Object> ledger) {
     'batches': const <Map<String, Object>>[],
     'missingThumbnails': const <Map<String, Object>>[],
   };
-  File(thumbnailWorklistPath)
-      .writeAsStringSync('${encoder.convert(worklist)}\n');
+  File(worklistPath).writeAsStringSync('${encoder.convert(worklist)}\n');
 }
 
 void main() {

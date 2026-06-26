@@ -9,7 +9,15 @@ void main() {
     final ledger = buildLiveRegistryLedger(
       generatedAt: DateTime.utc(2026, 6, 26),
     );
-    writeLiveRegistryLedger(ledger);
+    final dir = Directory.systemTemp.createTempSync('live_registry_ledger_');
+    addTearDown(() => dir.deleteSync(recursive: true));
+    final ledgerPath = '${dir.path}/ledger.json';
+    final worklistPath = '${dir.path}/worklist.json';
+    writeLiveRegistryLedger(
+      ledger,
+      ledgerPath: ledgerPath,
+      worklistPath: worklistPath,
+    );
 
     final entries = ledger['entries']! as List<Object?>;
     final skipped = ledger['skipped']! as Map<String, Object>;
@@ -17,11 +25,11 @@ void main() {
     expect(entries.length, greaterThanOrEqualTo(890));
     expect(skipped['missingThumbnail'], 0);
     expect(skipped['unknownFamily'], 0);
-    expect(File(outputPath).existsSync(), isTrue);
-    expect(File(thumbnailWorklistPath).existsSync(), isTrue);
+    expect(File(ledgerPath).existsSync(), isTrue);
+    expect(File(worklistPath).existsSync(), isTrue);
 
     final decoded =
-        jsonDecode(File(outputPath).readAsStringSync()) as Map<String, Object?>;
+        jsonDecode(File(ledgerPath).readAsStringSync()) as Map<String, Object?>;
     expect(decoded['entries'], hasLength(entries.length));
     final decodedEntries =
         (decoded['entries']! as List).cast<Map<String, Object?>>();
@@ -30,7 +38,7 @@ void main() {
     );
     expect(lifeLike['family'], 'cellular_automata');
 
-    final worklist = jsonDecode(File(thumbnailWorklistPath).readAsStringSync())
+    final worklist = jsonDecode(File(worklistPath).readAsStringSync())
         as Map<String, Object?>;
     expect(worklist['missingCount'], 0);
     expect(worklist['batches'], isEmpty);

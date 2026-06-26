@@ -128,6 +128,8 @@ flutter:
     - shaders/escape_time_family/transcendental_maps/taylor_gpu.frag
     - shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag
     - shaders/escape_time_family/transcendental_maps/lattes_map_julia_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/complex_henon_julia_slice_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/matrix_logistic_spectrum_gpu.frag
     - shaders/ifs_and_geometric/barnsley_j2_gpu.frag
     - shaders/ifs_and_geometric/barnsley_j3_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag
@@ -192,6 +194,8 @@ flutter:
     - shaders/ifs_and_geometric/rauzy_gpu.frag
     - shaders/ifs_and_geometric/arnoux_rauzy_fractal_gpu.frag
     - shaders/ifs_and_geometric/dual_substitution_tiling_gpu.frag
+    - shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag
+    - shaders/ifs_and_geometric/self_affine_finite_type_gpu.frag
     - shaders/ifs_and_geometric/pinwheel_gpu.frag
     - shaders/ifs_and_geometric/chair_tiling_gpu.frag
     - shaders/ifs_and_geometric/z_order_curve_gpu.frag
@@ -259,7 +263,12 @@ flutter:
     - shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag
     - shaders/cellular_and_stochastic/cyclic_cellular_automaton_gpu.frag
     - shaders/cellular_and_stochastic/greenberg_hastings_ca_gpu.frag
+    - shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag
     - shaders/cellular_and_stochastic/klausmeier_vegetation_gpu.frag
+    - shaders/cellular_and_stochastic/mimura_murray_predator_prey_gpu.frag
+    - shaders/cellular_and_stochastic/stable_square_turing_model_gpu.frag
+    - shaders/cellular_and_stochastic/flow_lenia_gpu.frag
+    - shaders/cellular_and_stochastic/coupled_logistic_map_lattice_gpu.frag
     - shaders/cellular_and_stochastic/langton_ant_gpu.frag
     - shaders/cellular_and_stochastic/sandpile_gpu.frag
     - shaders/cellular_and_stochastic/dla_gpu.frag
@@ -449,6 +458,7 @@ flutter:
     - shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag
+    - shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag
@@ -522,6 +532,7 @@ flutter:
     - shaders/strange_attractors/sprott_s_gpu.frag
     - shaders/root_finding/steffensen_gpu.frag
     - shaders/root_finding/steffensen_order8_gpu.frag
+    - shaders/root_finding/higher_order_root_basin_family_gpu.frag
     - shaders/trigonometric_and_transcendental/exponential_iteration/superexponential_gpu.frag
     - shaders/root_finding/super_halley_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/symmetric_icon_gpu.frag

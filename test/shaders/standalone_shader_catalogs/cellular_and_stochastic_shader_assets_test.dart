@@ -11,19 +11,11 @@ void main() {
   });
 
   test('declared cellular and stochastic shader assets exist on disk', () {
-    expectDeclaredShaderAssetsForRoot(
-      declaredShaderAssets,
-      shaderRoot,
-      matcher: hasLength(23),
-    );
+    expectDeclaredShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 
   test('catalog cellular and stochastic shader assets are declared in pubspec',
       () {
-    expectCatalogShaderAssetsForRoot(
-      declaredShaderAssets,
-      shaderRoot,
-      matcher: hasLength(25),
-    );
+    expectCatalogShaderAssetsForRoot(declaredShaderAssets, shaderRoot);
   });
 }

@@ -19,6 +19,8 @@ void main() {
         'Bad initial params',
         'Removal Candidate',
         'Bad Thumbnail',
+        'Is does not look the correct fractal',
+        'NO shader',
       ]),
     );
   });

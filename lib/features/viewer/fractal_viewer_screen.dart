@@ -589,14 +589,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   ) =>
       _viewerBuildViewerTitleChip(context, controller);
 
-  String _formatZoomLabel(double zoom) => _viewerFormatZoomLabel(zoom);
-
-  Widget _buildViewerStatusChip(
-    BuildContext context,
-    FractalController controller,
-  ) =>
-      _viewerBuildViewerStatusChip(this, context, controller);
-
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
@@ -708,8 +700,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildViewerTitleChip(context, controller),
-                          const SizedBox(height: 6),
-                          _buildViewerStatusChip(context, controller),
                         ],
                       ),
                     ),

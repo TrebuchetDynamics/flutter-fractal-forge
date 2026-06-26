@@ -1,0 +1,7 @@
+#include <flutter/runtime_effect.glsl>
+precision highp float;
+uniform float uTime; uniform vec2 uResolution; uniform vec2 uCenter; uniform float uZoom; uniform float uIterations; uniform float uBailout; uniform float uColorScheme; uniform float uTransparentBg; uniform float uAlpha;
+out vec4 fragColor;
+vec3 linearToSRGB(vec3 x){x=clamp(x,0.0,1.0);bvec3 c=lessThan(x,vec3(0.0031308));return mix(1.055*pow(max(x,vec3(0.0031308)),vec3(1.0/2.4))-0.055,x*12.92,vec3(c));}
+vec2 cmul(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);} vec2 cdiv(vec2 a,vec2 b){float d=max(dot(b,b),1e-20);return vec2(a.x*b.x+a.y*b.y,a.y*b.x-a.x*b.y)/d;}
+void main(){vec2 fc=FlutterFragCoord().xy;float sc=min(uResolution.x,uResolution.y);vec2 uv=(fc-.5*uResolution)/max(1.0,sc);vec2 z=uv/max(uZoom,1e-6)+uCenter;int target=int(clamp(uIterations,1.0,200.0));int it=target;for(int i=0;i<200;i++){if(i>=target)break;vec2 z2=cmul(z,z),z3=cmul(z2,z);vec2 f=z3-vec2(1,0);vec2 fp=3.0*z2;vec2 fpp=6.0*z;vec2 n=cdiv(f,fp);vec2 corr=vec2(1,0)+uAlpha*0.5*cmul(cdiv(f,fpp+vec2(1e-4,0)),vec2(1,0));z-=cmul(n,corr);if(dot(f,f)<1e-10){it=i;break;}}vec2 r0=vec2(1,0),r1=vec2(-.5,.8660254),r2=vec2(-.5,-.8660254);float d0=dot(z-r0,z-r0),d1=dot(z-r1,z-r1),d2=dot(z-r2,z-r2);float phase=d1<d0&&d1<d2?.33:(d2<d0&&d2<d1?.67:0.0);vec3 col=.5+.5*cos(6.28318*(phase+float(it)/float(target)+vec3(0,.33,.67)));fragColor=vec4(linearToSRGB(col),1.0);}

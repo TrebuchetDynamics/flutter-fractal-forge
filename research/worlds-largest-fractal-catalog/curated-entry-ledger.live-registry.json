@@ -1922,6 +1922,76 @@
       "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
     },
     {
+      "stable_id": "bedford_mcmullen_carpet",
+      "display_name": "bedford mcmullen carpet",
+      "family": "ifs_geometric",
+      "mathematical_identity_type": "transform_system",
+      "formula_or_rule": "Live app FractalModule identity: bedford_mcmullen_carpet; catalog category: Self-Affine IFS; shader asset: shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "depth": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "bedford mcmullen carpet fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "self_affine_finite_type",
+      "display_name": "self affine finite type",
+      "family": "ifs_geometric",
+      "mathematical_identity_type": "transform_system",
+      "formula_or_rule": "Live app FractalModule identity: self_affine_finite_type; catalog category: Self-Affine IFS; shader asset: shaders/ifs_and_geometric/self_affine_finite_type_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/ifs_and_geometric/self_affine_finite_type_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "depth": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "self affine finite type fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
       "stable_id": "pinwheel_tiling",
       "display_name": "pinwheel tiling",
       "family": "escape_time_polynomial_complex",
@@ -5000,6 +5070,78 @@
       "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
     },
     {
+      "stable_id": "complex_henon_julia_slice",
+      "display_name": "complex henon julia slice",
+      "family": "rational_transcendental_maps",
+      "mathematical_identity_type": "map",
+      "formula_or_rule": "Live app FractalModule identity: complex_henon_julia_slice; catalog category: Complex Dynamics; shader asset: shaders/escape_time_family/transcendental_maps/complex_henon_julia_slice_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/escape_time_family/transcendental_maps/complex_henon_julia_slice_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "a": "float",
+        "cReal": "float",
+        "cImag": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "complex henon julia slice fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "matrix_logistic_spectrum",
+      "display_name": "matrix logistic spectrum",
+      "family": "rational_transcendental_maps",
+      "mathematical_identity_type": "map",
+      "formula_or_rule": "Live app FractalModule identity: matrix_logistic_spectrum; catalog category: Spectral Fractals; shader asset: shaders/escape_time_family/transcendental_maps/matrix_logistic_spectrum_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/escape_time_family/transcendental_maps/matrix_logistic_spectrum_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "r": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "matrix logistic spectrum fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
       "stable_id": "barnsley_j2",
       "display_name": "barnsley j2",
       "family": "escape_time_polynomial_complex",
@@ -6135,6 +6277,193 @@
         ]
       },
       "accessibility_label": "klausmeier vegetation fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "gerhardt_schuster_tyson_ca",
+      "display_name": "gerhardt schuster tyson ca",
+      "family": "cellular_automata",
+      "mathematical_identity_type": "rule",
+      "formula_or_rule": "Live app FractalModule identity: gerhardt_schuster_tyson_ca; catalog category: Cellular Automata; shader asset: shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "threshold": "float",
+        "refractoryPeriod": "float",
+        "curvatureWeight": "float",
+        "dispersion": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "gerhardt schuster tyson ca fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "mimura_murray_predator_prey",
+      "display_name": "mimura murray predator prey",
+      "family": "cellular_automata",
+      "mathematical_identity_type": "rule",
+      "formula_or_rule": "Live app FractalModule identity: mimura_murray_predator_prey; catalog category: Reaction-Diffusion; shader asset: shaders/cellular_and_stochastic/mimura_murray_predator_prey_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/cellular_and_stochastic/mimura_murray_predator_prey_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "preyGrowth": "float",
+        "predation": "float",
+        "predatorDeath": "float",
+        "preyDiffusion": "float",
+        "predatorDiffusion": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "mimura murray predator prey fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "stable_square_turing_model",
+      "display_name": "stable square turing model",
+      "family": "cellular_automata",
+      "mathematical_identity_type": "rule",
+      "formula_or_rule": "Live app FractalModule identity: stable_square_turing_model; catalog category: Reaction-Diffusion; shader asset: shaders/cellular_and_stochastic/stable_square_turing_model_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/cellular_and_stochastic/stable_square_turing_model_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "diffusionU": "float",
+        "diffusionV": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "stable square turing model fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "flow_lenia",
+      "display_name": "flow lenia",
+      "family": "cellular_automata",
+      "mathematical_identity_type": "rule",
+      "formula_or_rule": "Live app FractalModule identity: flow_lenia; catalog category: Cellular Automata; shader asset: shaders/cellular_and_stochastic/flow_lenia_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/cellular_and_stochastic/flow_lenia_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "kernelRadius": "float",
+        "growthCenter": "float",
+        "growthWidth": "float",
+        "dt": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "flow lenia fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "coupled_logistic_map_lattice",
+      "display_name": "coupled logistic map lattice",
+      "family": "cellular_automata",
+      "mathematical_identity_type": "rule",
+      "formula_or_rule": "Live app FractalModule identity: coupled_logistic_map_lattice; catalog category: Spatiotemporal Chaos; shader asset: shaders/cellular_and_stochastic/coupled_logistic_map_lattice_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/cellular_and_stochastic/coupled_logistic_map_lattice_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "r": "float",
+        "coupling": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "coupled logistic map lattice fractal",
       "counted_entry": true,
       "ingest_status": "promoted",
       "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
@@ -13684,6 +14013,41 @@
       "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
     },
     {
+      "stable_id": "implicit_affine_fractal_surface",
+      "display_name": "implicit affine fractal surface",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: implicit_affine_fractal_surface; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "epsilon": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "implicit affine fractal surface fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
       "stable_id": "hofstadter_butterfly",
       "display_name": "hofstadter butterfly",
       "family": "escape_time_polynomial_complex",
@@ -15345,6 +15709,41 @@
         ]
       },
       "accessibility_label": "steffensen order8 fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "higher_order_root_basin_family",
+      "display_name": "higher order root basin family",
+      "family": "root_finding_polynomiography",
+      "mathematical_identity_type": "map",
+      "formula_or_rule": "Live app FractalModule identity: higher_order_root_basin_family; catalog category: Root-Finding; shader asset: shaders/root_finding/higher_order_root_basin_family_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/root_finding/higher_order_root_basin_family_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "alpha": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "higher order root basin family fractal",
       "counted_entry": true,
       "ingest_status": "promoted",
       "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."

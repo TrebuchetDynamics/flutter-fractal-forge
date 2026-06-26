@@ -68,16 +68,12 @@ void main() {
       expect(find.text('Mandelbrot'), findsOneWidget);
     });
 
-    testWidgets('shows render status chip for clarity', (tester) async {
+    testWidgets('does not show renderer status chip', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
-      final statusText = tester.widget<Text>(
-        find.byKey(const Key('viewerStatusChipText')),
-      );
-      expect(statusText.data, contains('z='));
-      expect(statusText.data, contains('it='));
+      expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
+      expect(find.byKey(const Key('viewerStatusChipText')), findsNothing);
     });
 
     testWidgets('back FAB is not shown', (tester) async {
@@ -174,7 +170,7 @@ void main() {
       expect(find.byTooltip('Fullscreen view'), findsOneWidget);
       expect(find.byTooltip('Back'), findsNothing);
       expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
-      expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
+      expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
 
       await tester.tap(find.byTooltip('Fullscreen view'));
       await tester.pumpAndSettle();
@@ -189,7 +185,7 @@ void main() {
 
       expect(find.byTooltip('Back'), findsNothing);
       expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
-      expect(find.byKey(const Key('viewerStatusChip')), findsOneWidget);
+      expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
     });
 
     testWidgets('export FAB is shown', (tester) async {

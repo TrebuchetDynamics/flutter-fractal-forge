@@ -5,6 +5,24 @@ import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart'
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:vector_math/vector_math.dart';
 
+FractalParameter _floatParam({
+  required String id,
+  required String label,
+  required double min,
+  required double max,
+  required double step,
+  required double defaultValue,
+}) =>
+    FractalParameter(
+      id: id,
+      label: (_) => label,
+      type: FractalParamType.float,
+      min: min,
+      max: max,
+      step: step,
+      defaultValue: defaultValue,
+    );
+
 /// All standard 2D escape-time fractals defined declaratively.
 ///
 /// To add a new escape-time fractal:
@@ -153,10 +171,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultCenterX: -0.5,
     defaultZoom: 0.35,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'power',
-        label: (_) => 'Power',
-        type: FractalParamType.float,
+        label: 'Power',
         min: 1.0,
         max: 16.0,
         step: 0.1,
@@ -272,10 +289,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 150,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'power',
-        label: (_) => 'Power',
-        type: FractalParamType.float,
+        label: 'Power',
         min: 1.0,
         max: 16.0,
         step: 0.1,
@@ -360,10 +376,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
         'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 150,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'power',
-        label: (_) => 'Power',
-        type: FractalParamType.float,
+        label: 'Power',
         min: -8,
         max: 24,
         step: 0.1,
@@ -930,10 +945,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     category: 'Aperiodic Tiling',
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'depth',
-        label: (_) => 'Depth',
-        type: FractalParamType.float,
+        label: 'Depth',
         min: 3,
         max: 18,
         step: 1,
@@ -949,14 +963,49 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     category: 'Aperiodic Tiling',
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'depth',
-        label: (_) => 'Depth',
-        type: FractalParamType.float,
+        label: 'Depth',
         min: 3,
         max: 14,
         step: 1,
         defaultValue: 8.0,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'bedford_mcmullen_carpet',
+    name: 'Bedford-McMullen Carpet',
+    shaderAsset: 'shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag',
+    defaultIterations: 10,
+    defaultBailout: 4.0,
+    category: 'Self-Affine IFS',
+    extraParams: [
+      _floatParam(
+        id: 'depth',
+        label: 'Depth',
+        min: 1,
+        max: 14,
+        step: 1,
+        defaultValue: 10.0,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'self_affine_finite_type',
+    name: 'Self-Affine Finite-Type Fractal',
+    shaderAsset: 'shaders/ifs_and_geometric/self_affine_finite_type_gpu.frag',
+    defaultIterations: 12,
+    defaultBailout: 4.0,
+    category: 'Self-Affine IFS',
+    extraParams: [
+      _floatParam(
+        id: 'depth',
+        label: 'Depth',
+        min: 2,
+        max: 16,
+        step: 1,
+        defaultValue: 12.0,
       ),
     ],
   ),
@@ -1096,10 +1145,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 32.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'a',
-        label: (_) => 'a',
-        type: FractalParamType.float,
+        label: 'a',
         min: -2,
         max: 2,
         step: 0.01,
@@ -1121,19 +1169,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 24.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'a',
-        label: (_) => 'a',
-        type: FractalParamType.float,
+        label: 'a',
         min: -4,
         max: 4,
         step: 0.01,
         defaultValue: 1.7,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'b',
-        label: (_) => 'b',
-        type: FractalParamType.float,
+        label: 'b',
         min: -2,
         max: 2,
         step: 0.01,
@@ -1162,37 +1208,33 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 220,
     defaultBailout: 16.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'a',
-        label: (_) => 'a',
-        type: FractalParamType.float,
+        label: 'a',
         min: -3,
         max: 3,
         step: 0.01,
         defaultValue: -1.4,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'b',
-        label: (_) => 'b',
-        type: FractalParamType.float,
+        label: 'b',
         min: -3,
         max: 3,
         step: 0.01,
         defaultValue: 1.6,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'c',
-        label: (_) => 'c',
-        type: FractalParamType.float,
+        label: 'c',
         min: -3,
         max: 3,
         step: 0.01,
         defaultValue: 1.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'd',
-        label: (_) => 'd',
-        type: FractalParamType.float,
+        label: 'd',
         min: -3,
         max: 3,
         step: 0.01,
@@ -1207,37 +1249,33 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 220,
     defaultBailout: 16.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'a',
-        label: (_) => 'a',
-        type: FractalParamType.float,
+        label: 'a',
         min: -8,
         max: 8,
         step: 0.01,
         defaultValue: 1.4,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'b',
-        label: (_) => 'b',
-        type: FractalParamType.float,
+        label: 'b',
         min: -8,
         max: 8,
         step: 0.01,
         defaultValue: -2.3,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'c',
-        label: (_) => 'c',
-        type: FractalParamType.float,
+        label: 'c',
         min: -8,
         max: 8,
         step: 0.01,
         defaultValue: 2.4,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'd',
-        label: (_) => 'd',
-        type: FractalParamType.float,
+        label: 'd',
         min: -8,
         max: 8,
         step: 0.01,
@@ -1252,37 +1290,33 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 220,
     defaultBailout: 24.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'a',
-        label: (_) => 'a',
-        type: FractalParamType.float,
+        label: 'a',
         min: -8,
         max: 8,
         step: 0.01,
         defaultValue: 1.5,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'b',
-        label: (_) => 'b',
-        type: FractalParamType.float,
+        label: 'b',
         min: -8,
         max: 8,
         step: 0.01,
         defaultValue: -1.8,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'c',
-        label: (_) => 'c',
-        type: FractalParamType.float,
+        label: 'c',
         min: -8,
         max: 8,
         step: 0.01,
         defaultValue: 1.6,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'd',
-        label: (_) => 'd',
-        type: FractalParamType.float,
+        label: 'd',
         min: -8,
         max: 8,
         step: 0.01,
@@ -1297,19 +1331,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 240,
     defaultBailout: 48.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'mu',
-        label: (_) => 'mu',
-        type: FractalParamType.float,
+        label: 'mu',
         min: -2,
         max: 2,
         step: 0.001,
         defaultValue: 0.008,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'yScale',
-        label: (_) => 'y scale',
-        type: FractalParamType.float,
+        label: 'y scale',
         min: 0,
         max: 1,
         step: 0.001,
@@ -1331,10 +1363,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 220,
     defaultBailout: 12.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'k',
-        label: (_) => 'K',
-        type: FractalParamType.float,
+        label: 'K',
         min: 0,
         max: 8,
         step: 0.01,
@@ -1992,6 +2023,60 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     category: 'Complex Dynamics',
   ),
   EscapeTimeConfig(
+    id: 'complex_henon_julia_slice',
+    name: 'Complex Hénon Julia Slice',
+    shaderAsset:
+        'shaders/escape_time_family/transcendental_maps/complex_henon_julia_slice_gpu.frag',
+    defaultIterations: 160,
+    defaultBailout: 16.0,
+    category: 'Complex Dynamics',
+    extraParams: [
+      _floatParam(
+        id: 'a',
+        label: 'A',
+        min: 0,
+        max: 1,
+        step: 0.05,
+        defaultValue: 0.3,
+      ),
+      _floatParam(
+        id: 'cReal',
+        label: 'C Real',
+        min: -2,
+        max: 2,
+        step: 0.05,
+        defaultValue: -0.65,
+      ),
+      _floatParam(
+        id: 'cImag',
+        label: 'C Imag',
+        min: -2,
+        max: 2,
+        step: 0.05,
+        defaultValue: 0.35,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'matrix_logistic_spectrum',
+    name: 'Matrix Logistic Spectrum',
+    shaderAsset:
+        'shaders/escape_time_family/transcendental_maps/matrix_logistic_spectrum_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 16.0,
+    category: 'Spectral Fractals',
+    extraParams: [
+      _floatParam(
+        id: 'r',
+        label: 'R',
+        min: 0,
+        max: 4,
+        step: 0.05,
+        defaultValue: 3.8,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
     id: 'barnsley_j2',
     name: 'Barnsley J2',
     shaderAsset: 'shaders/ifs_and_geometric/barnsley_j2_gpu.frag',
@@ -2305,28 +2390,25 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 180,
     defaultBailout: 32.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'a',
-        label: (_) => 'a',
-        type: FractalParamType.float,
+        label: 'a',
         min: -250,
         max: 250,
         step: 0.01,
         defaultValue: 2.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'b',
-        label: (_) => 'b',
-        type: FractalParamType.float,
+        label: 'b',
         min: -20,
         max: 20,
         step: 0.01,
         defaultValue: 1.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'c',
-        label: (_) => 'c',
-        type: FractalParamType.float,
+        label: 'c',
         min: -100,
         max: 100,
         step: 0.01,
@@ -2398,10 +2480,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 240,
     defaultBailout: 4.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'rule',
-        label: (_) => 'Rule',
-        type: FractalParamType.float,
+        label: 'Rule',
         min: 0,
         max: 255,
         step: 1,
@@ -2417,10 +2498,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     category: 'Cellular Automata',
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'rule',
-        label: (_) => 'Rule',
-        type: FractalParamType.float,
+        label: 'Rule',
         min: 0,
         max: 255,
         step: 1,
@@ -2436,10 +2516,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     category: 'Cellular Automata',
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'rule',
-        label: (_) => 'Rule',
-        type: FractalParamType.float,
+        label: 'Rule',
         min: 0,
         max: 255,
         step: 1,
@@ -2456,19 +2535,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     category: 'Cellular Automata',
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'states',
-        label: (_) => 'States',
-        type: FractalParamType.float,
+        label: 'States',
         min: 3,
         max: 16,
         step: 1,
         defaultValue: 8.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'threshold',
-        label: (_) => 'Threshold',
-        type: FractalParamType.float,
+        label: 'Threshold',
         min: 1,
         max: 8,
         step: 1,
@@ -2485,19 +2562,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     category: 'Cellular Automata',
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'threshold',
-        label: (_) => 'Threshold',
-        type: FractalParamType.float,
+        label: 'Threshold',
         min: 1,
         max: 8,
         step: 1,
         defaultValue: 1.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'refractoryPeriod',
-        label: (_) => 'Refractory Period',
-        type: FractalParamType.float,
+        label: 'Refractory Period',
         min: 2,
         max: 16,
         step: 1,
@@ -2514,50 +2589,235 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     category: 'Reaction-Diffusion',
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'rainfall',
-        label: (_) => 'Rainfall',
-        type: FractalParamType.float,
+        label: 'Rainfall',
         min: 0.1,
         max: 5,
         step: 0.1,
         defaultValue: 2.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'mortality',
-        label: (_) => 'Mortality',
-        type: FractalParamType.float,
+        label: 'Mortality',
         min: 0.05,
         max: 2,
         step: 0.05,
         defaultValue: 0.45,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'waterDiffusion',
-        label: (_) => 'Water Diffusion',
-        type: FractalParamType.float,
+        label: 'Water Diffusion',
         min: 0,
         max: 20,
         step: 0.5,
         defaultValue: 10.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'plantDiffusion',
-        label: (_) => 'Plant Diffusion',
-        type: FractalParamType.float,
+        label: 'Plant Diffusion',
         min: 0,
         max: 5,
         step: 0.1,
         defaultValue: 1.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'advection',
-        label: (_) => 'Advection',
-        type: FractalParamType.float,
+        label: 'Advection',
         min: 0,
         max: 2,
         step: 0.05,
         defaultValue: 0.2,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'gerhardt_schuster_tyson_ca',
+    name: 'Gerhardt-Schuster-Tyson CA',
+    shaderAsset:
+        'shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag',
+    defaultIterations: 64,
+    defaultBailout: 4.0,
+    category: 'Cellular Automata',
+    extraParams: [
+      _floatParam(
+        id: 'threshold',
+        label: 'Threshold',
+        min: 1,
+        max: 8,
+        step: 1,
+        defaultValue: 1.0,
+      ),
+      _floatParam(
+        id: 'refractoryPeriod',
+        label: 'Refractory Period',
+        min: 2,
+        max: 16,
+        step: 1,
+        defaultValue: 8.0,
+      ),
+      _floatParam(
+        id: 'curvatureWeight',
+        label: 'Curvature',
+        min: 0,
+        max: 1,
+        step: 0.05,
+        defaultValue: 0.3,
+      ),
+      _floatParam(
+        id: 'dispersion',
+        label: 'Dispersion',
+        min: 0,
+        max: 2,
+        step: 0.05,
+        defaultValue: 0.2,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'mimura_murray_predator_prey',
+    name: 'Mimura-Murray Predator-Prey',
+    shaderAsset:
+        'shaders/cellular_and_stochastic/mimura_murray_predator_prey_gpu.frag',
+    defaultIterations: 64,
+    defaultBailout: 4.0,
+    category: 'Reaction-Diffusion',
+    extraParams: [
+      _floatParam(
+        id: 'preyGrowth',
+        label: 'Prey Growth',
+        min: 0,
+        max: 3,
+        step: 0.05,
+        defaultValue: 1.0,
+      ),
+      _floatParam(
+        id: 'predation',
+        label: 'Predation',
+        min: 0,
+        max: 3,
+        step: 0.05,
+        defaultValue: 1.0,
+      ),
+      _floatParam(
+        id: 'predatorDeath',
+        label: 'Predator Death',
+        min: 0,
+        max: 2,
+        step: 0.05,
+        defaultValue: 0.5,
+      ),
+      _floatParam(
+        id: 'preyDiffusion',
+        label: 'Prey Diffusion',
+        min: 0,
+        max: 2,
+        step: 0.05,
+        defaultValue: 0.05,
+      ),
+      _floatParam(
+        id: 'predatorDiffusion',
+        label: 'Predator Diffusion',
+        min: 0,
+        max: 3,
+        step: 0.05,
+        defaultValue: 1.0,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'stable_square_turing_model',
+    name: 'Stable-Square Turing Model',
+    shaderAsset:
+        'shaders/cellular_and_stochastic/stable_square_turing_model_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 4.0,
+    category: 'Reaction-Diffusion',
+    extraParams: [
+      _floatParam(
+        id: 'diffusionU',
+        label: 'Diffusion U',
+        min: 0,
+        max: 2,
+        step: 0.05,
+        defaultValue: 0.08,
+      ),
+      _floatParam(
+        id: 'diffusionV',
+        label: 'Diffusion V',
+        min: 0,
+        max: 3,
+        step: 0.05,
+        defaultValue: 1.0,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'flow_lenia',
+    name: 'Flow-Lenia',
+    shaderAsset: 'shaders/cellular_and_stochastic/flow_lenia_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 4.0,
+    category: 'Cellular Automata',
+    extraParams: [
+      _floatParam(
+        id: 'kernelRadius',
+        label: 'Kernel Radius',
+        min: 1,
+        max: 32,
+        step: 1,
+        defaultValue: 13.0,
+      ),
+      _floatParam(
+        id: 'growthCenter',
+        label: 'Growth Center',
+        min: 0,
+        max: 1,
+        step: 0.01,
+        defaultValue: 0.15,
+      ),
+      _floatParam(
+        id: 'growthWidth',
+        label: 'Growth Width',
+        min: 0.001,
+        max: 0.2,
+        step: 0.001,
+        defaultValue: 0.015,
+      ),
+      _floatParam(
+        id: 'dt',
+        label: 'Dt',
+        min: 0.01,
+        max: 1,
+        step: 0.01,
+        defaultValue: 0.1,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
+    id: 'coupled_logistic_map_lattice',
+    name: 'Coupled Logistic Map Lattice',
+    shaderAsset:
+        'shaders/cellular_and_stochastic/coupled_logistic_map_lattice_gpu.frag',
+    defaultIterations: 120,
+    defaultBailout: 4.0,
+    category: 'Spatiotemporal Chaos',
+    extraParams: [
+      _floatParam(
+        id: 'r',
+        label: 'R',
+        min: 0,
+        max: 4,
+        step: 0.05,
+        defaultValue: 3.9,
+      ),
+      _floatParam(
+        id: 'coupling',
+        label: 'Coupling',
+        min: 0,
+        max: 1,
+        step: 0.01,
+        defaultValue: 0.18,
       ),
     ],
   ),
@@ -2645,19 +2905,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 260,
     defaultBailout: 4.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'birthMask',
-        label: (_) => 'Birth mask',
-        type: FractalParamType.float,
+        label: 'Birth mask',
         min: 0,
         max: 511,
         step: 1,
         defaultValue: 8.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'survivalMask',
-        label: (_) => 'Survival mask',
-        type: FractalParamType.float,
+        label: 'Survival mask',
         min: 0,
         max: 511,
         step: 1,
@@ -2672,10 +2930,9 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 260,
     defaultBailout: 4.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'states',
-        label: (_) => 'States',
-        type: FractalParamType.float,
+        label: 'States',
         min: 2,
         max: 32,
         step: 1,
@@ -2690,19 +2947,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultIterations: 260,
     defaultBailout: 4.0,
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'birthMask',
-        label: (_) => 'Birth mask',
-        type: FractalParamType.float,
+        label: 'Birth mask',
         min: 0,
         max: 511,
         step: 1,
         defaultValue: 170.0,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'survivalMask',
-        label: (_) => 'Survival mask',
-        type: FractalParamType.float,
+        label: 'Survival mask',
         min: 0,
         max: 511,
         step: 1,
@@ -5817,6 +6072,25 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(
+    id: 'implicit_affine_fractal_surface',
+    name: 'Implicit Affine Fractal Surface',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag',
+    defaultIterations: 12,
+    defaultBailout: 4.0,
+    category: '3D Fractals',
+    extraParams: [
+      _floatParam(
+        id: 'epsilon',
+        label: 'Epsilon',
+        min: 0.0005,
+        max: 0.02,
+        step: 0.0005,
+        defaultValue: 0.002,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
     id: 'hofstadter_butterfly',
     name: 'Hofstadter Butterfly',
     shaderAsset:
@@ -6238,6 +6512,24 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(
+    id: 'higher_order_root_basin_family',
+    name: 'Higher-Order Root Basin Family',
+    shaderAsset: 'shaders/root_finding/higher_order_root_basin_family_gpu.frag',
+    defaultIterations: 80,
+    defaultBailout: 64.0,
+    category: 'Root-Finding',
+    extraParams: [
+      _floatParam(
+        id: 'alpha',
+        label: 'Alpha',
+        min: 0,
+        max: 2,
+        step: 0.05,
+        defaultValue: 0.5,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
     id: 'superexponential',
     name: 'Superexponential',
     shaderAsset:
@@ -6298,19 +6590,17 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     defaultBailout: 4.0,
     category: 'Escape-Time',
     extraParams: [
-      FractalParameter(
+      _floatParam(
         id: 'a',
-        label: (_) => 'a',
-        type: FractalParamType.float,
+        label: 'a',
         min: 0.01,
         max: 0.99,
         step: 0.01,
         defaultValue: 0.5,
       ),
-      FractalParameter(
+      _floatParam(
         id: 'b',
-        label: (_) => 'b',
-        type: FractalParamType.float,
+        label: 'b',
         min: 2,
         max: 15,
         step: 1,
