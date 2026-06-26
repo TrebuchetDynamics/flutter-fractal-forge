@@ -26,7 +26,6 @@ import 'package:flutter_fractals/core/services/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
-import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
@@ -77,8 +76,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _DebugReportMixin,
         _ExportActionsMixin,
         _ViewerDialogsMixin {
-  bool get _isTest => RuntimeModeService.isAutomatedTest;
-
   @override
   final GlobalKey _fractalKeyA = GlobalKey();
   final GlobalKey _fractalKeyB = GlobalKey();
@@ -97,7 +94,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   late AnimationController _fabController;
 
   // Visual simplification state
-  bool _showMiniMap = false;
+  // Minimap overlay is intentionally hidden by default; there is currently no
+  // UI toggle wired to it (see the minimap overlay block in build()).
+  final bool _showMiniMap = false;
   bool _fullscreenUnobtrusive = false;
   bool _showControlsHud = false;
 
@@ -290,18 +289,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           : (l10n?.announceExitedFullscreen ?? 'Exited fullscreen view'),
     );
     HapticService.light();
-  }
-
-  void _toggleMiniMapVisibility() {
-    setState(() {
-      _showMiniMap = !_showMiniMap;
-    });
-    final l10n = AppLocalizations.of(context);
-    AccessibilityService.announce(
-      _showMiniMap
-          ? (l10n?.announceMinimapShown ?? 'Minimap shown')
-          : (l10n?.announceMinimapHidden ?? 'Minimap hidden'),
-    );
   }
 
   @override

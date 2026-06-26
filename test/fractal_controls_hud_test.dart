@@ -70,7 +70,6 @@ void main() {
       expect(initialValue, greaterThan(0));
 
       // Drag slider right to increase
-      final sliderCenter = tester.getCenter(slider);
       await tester.timedDrag(
         slider,
         const Offset(100, 0), // drag right

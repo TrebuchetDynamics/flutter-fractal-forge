@@ -18,18 +18,6 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
     );
   }
 
-  void _openControls(BuildContext context) {
-    _log.info('action', 'Open controls');
-    final controller = _activeController(context);
-    _showViewerBottomSheet<void>(
-      context,
-      builder: (_) => ChangeNotifierProvider.value(
-        value: controller,
-        child: const FractalControlsSheet(),
-      ),
-    );
-  }
-
   void _openLooper(BuildContext context) {
     _log.info('action', 'Open looper');
     final looper = _looperController;
