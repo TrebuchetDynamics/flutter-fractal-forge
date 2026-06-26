@@ -14,6 +14,13 @@
 ///   CATALOG_THUMB_ONLY=mandelbrot,julia,core.phoenix
 ///   UPDATE_CATALOG_THUMBS=true
 ///   STRICT_CATALOG_THUMBS=true
+///
+/// Marketing capture (high-res stills of the featured launch set):
+///   LAUNCH_MEDIA_SIZE=1080 flutter test \
+///     integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux
+///   # Renders kFeaturedLaunchSetModuleIds at 1080x1080 into
+///   # build/test_output/launch_media/. Combine with CATALOG_THUMB_ONLY to
+///   # capture a specific module, or CATALOG_THUMB_SEED to vary color schemes.
 library;
 
 import 'dart:convert';
@@ -61,8 +68,13 @@ void main() {
     final updateAssets = _envBool(env, 'UPDATE_CATALOG_THUMBS');
     final strict = _envBool(env, 'STRICT_CATALOG_THUMBS');
     final seed = env['CATALOG_THUMB_SEED'] ?? 'catalog-thumbnails-v1';
-    final thumbSize =
-        updateAssets ? _catalogAssetThumbSize : _stagedSmokeThumbSize;
+    // LAUNCH_MEDIA_SIZE=<px> switches this run into marketing mode: render the
+    // curated featured launch set at a high (square) resolution into a separate
+    // launch_media output directory, instead of catalog thumbnails.
+    final launchMediaSize = _envInt(env, 'LAUNCH_MEDIA_SIZE');
+    final launchMedia = launchMediaSize != null;
+    final thumbSize = launchMediaSize ??
+        (updateAssets ? _catalogAssetThumbSize : _stagedSmokeThumbSize);
     final registry = ModuleRegistry();
     final entries = _selectEntries(
       CatalogRepository.fromRegistry(registry)
@@ -70,6 +82,7 @@ void main() {
           .where((entry) => !_isDiagnosticModule(entry.module))
           .toList(growable: false),
       env,
+      defaultToFeatured: launchMedia,
     );
 
     final report = <String, Object>{
@@ -77,7 +90,9 @@ void main() {
       'updateAssets': updateAssets,
       'strict': strict,
       'thumbnailSize': thumbSize,
-      'thumbnailStandard': updateAssets ? 'catalog-assets' : 'staged-smoke',
+      'thumbnailStandard': launchMedia
+          ? 'launch-media'
+          : (updateAssets ? 'catalog-assets' : 'staged-smoke'),
       'selectedCount': entries.length,
       'generated': <Map<String, Object>>[],
       'failed': <Map<String, Object>>[],
@@ -95,13 +110,13 @@ void main() {
         'reason': 'Screenshot plugin unavailable',
         'error': error.toString(),
       });
-      final outDir = _outputDirectory(updateAssets: updateAssets);
+      final outDir = _outputDirectory(updateAssets: updateAssets, launchMedia: launchMedia);
       _writeReport(outDir, report);
       debugPrint('Screenshot plugin unavailable; wrote thumbnail report only.');
       return;
     }
 
-    final outDir = _outputDirectory(updateAssets: updateAssets);
+    final outDir = _outputDirectory(updateAssets: updateAssets, launchMedia: launchMedia);
     outDir.createSync(recursive: true);
 
     for (var index = 0; index < entries.length; index++) {
@@ -235,7 +250,16 @@ void main() {
   });
 }
 
-Directory _outputDirectory({required bool updateAssets}) {
+Directory _outputDirectory({
+  required bool updateAssets,
+  bool launchMedia = false,
+}) {
+  if (launchMedia) {
+    if (Platform.isAndroid) {
+      return Directory('/sdcard/Download/launch_media');
+    }
+    return Directory('build/test_output/launch_media');
+  }
   if (updateAssets) {
     return Directory('assets/catalog_thumbs');
   }
@@ -246,20 +270,30 @@ Directory _outputDirectory({required bool updateAssets}) {
 }
 
 List<CatalogEntry> _selectEntries(
-    List<CatalogEntry> entries, Map<String, String> env) {
-  final only = env['CATALOG_THUMB_ONLY']
+  List<CatalogEntry> entries,
+  Map<String, String> env, {
+  bool defaultToFeatured = false,
+}) {
+  var only = env['CATALOG_THUMB_ONLY']
       ?.split(',')
       .map((id) => id.trim())
       .where((id) => id.isNotEmpty)
       .map((id) => id.startsWith('core.') ? id.substring(5) : id)
       .toSet();
 
+  // Launch-media runs with no explicit CATALOG_THUMB_ONLY default to the
+  // curated featured set so marketing captures are deterministic.
+  if ((only == null || only.isEmpty) && defaultToFeatured) {
+    only = kFeaturedLaunchSetModuleIds.toSet();
+  }
+
   var selected = entries;
-  if (only != null && only.isNotEmpty) {
+  final ids = only;
+  if (ids != null && ids.isNotEmpty) {
     selected = selected
         .where(
           (entry) =>
-              only.contains(entry.module.id) || only.contains(entry.catalogId),
+              ids.contains(entry.module.id) || ids.contains(entry.catalogId),
         )
         .toList(growable: false);
   }
