@@ -1,7 +1,7 @@
 {
   "checklist": [
     {
-      "evidence": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/research/worlds-largest-fractal-catalog/catalog-targets.json: target_min=5150, target_max=8850",
+      "evidence": "research/worlds-largest-fractal-catalog/catalog-targets.json: target_min=5150, target_max=8850",
       "gap": "Target totals must be in objective range.",
       "passed": true,
       "requirement": "Target ledger defines a 5,000-10,000 counted-entry range"
@@ -13,7 +13,7 @@
       "requirement": "Active counted ledger validates structurally"
     },
     {
-      "evidence": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/research/worlds-largest-fractal-catalog/curated-entry-ledger.live-registry.json: counted_total=5202",
+      "evidence": "research/worlds-largest-fractal-catalog/curated-entry-ledger.live-registry.json: counted_total=5202",
       "gap": "Need more promoted renderable formula/rule entries.",
       "passed": true,
       "requirement": "Actual counted entries are between 5,000 and 10,000"
@@ -63,9 +63,9 @@
   ],
   "complete": true,
   "counted_total": 5202,
-  "entries": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/research/worlds-largest-fractal-catalog/curated-entry-ledger.live-registry.json",
+  "entries": "research/worlds-largest-fractal-catalog/curated-entry-ledger.live-registry.json",
   "objective": "target 5,000-10,000 curated renderable entries; count formulas/rules, not random presets",
   "target_max": 8850,
   "target_min": 5150,
-  "targets": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/research/worlds-largest-fractal-catalog/catalog-targets.json"
+  "targets": "research/worlds-largest-fractal-catalog/catalog-targets.json"
 }

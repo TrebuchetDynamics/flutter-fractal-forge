@@ -47,6 +47,7 @@ ios/Pods/
 *.log
 *.bak
 *.legacy
+research/worlds-largest-fractal-catalog/thumbnail-batch-receipts.jsonl
 *.pyc
 __pycache__/
 **/__pycache__/

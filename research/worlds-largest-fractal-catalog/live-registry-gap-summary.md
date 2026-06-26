@@ -16,7 +16,7 @@ A temporary Flutter test probe and the committed guardrail test inspect:
 Committed guardrail:
 
 ```sh
-/home/xel/flutter/bin/flutter test test/features/catalog/world_largest_catalog_goal_test.dart
+flutter test test/features/catalog/world_largest_catalog_goal_test.dart
 ```
 
 ## Current live registry numbers
@@ -132,7 +132,7 @@ So 243 new clean thumbnails were promoted to bundled assets, and all 5202 thumbn
 Validation:
 
 ```sh
-/home/xel/flutter/bin/flutter test test/features/catalog/generate_live_registry_ledger_test.dart
+flutter test test/features/catalog/generate_live_registry_ledger_test.dart
 python3 research/worlds-largest-fractal-catalog/validate_catalog_goal.py --entries research/worlds-largest-fractal-catalog/curated-entry-ledger.live-registry.json
 ```
 

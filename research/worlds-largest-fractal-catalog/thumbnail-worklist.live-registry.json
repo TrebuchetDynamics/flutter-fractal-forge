@@ -35,7 +35,7 @@
         "noor_newton",
         "shape_modulus_julia"
       ],
-      "command": "CATALOG_THUMB_ONLY=sprott_c,newton_z4,newton_z6,tangent_julia,newton_z5,celtic_power5,celtic_power5_julia,magnet2_julia,multijulia9,tricorn_power7_julia,lichtenberg_growth,bedhead,bogdanov_map,buddhabrot_full,fractal_dream,jason_rampe_1,jason_rampe_2,kleinian_limit_set,laguerre_fractal,magnetic_pendulum,mandelbrot_df2,mandelbrot_simple,mandelbrot_tex,noor_newton,shape_modulus_julia /home/xel/flutter/bin/flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
+      "command": "CATALOG_THUMB_ONLY=sprott_c,newton_z4,newton_z6,tangent_julia,newton_z5,celtic_power5,celtic_power5_julia,magnet2_julia,multijulia9,tricorn_power7_julia,lichtenberg_growth,bedhead,bogdanov_map,buddhabrot_full,fractal_dream,jason_rampe_1,jason_rampe_2,kleinian_limit_set,laguerre_fractal,magnetic_pendulum,mandelbrot_df2,mandelbrot_simple,mandelbrot_tex,noor_newton,shape_modulus_julia flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
     },
     {
       "offset": 25,
@@ -47,7 +47,7 @@
         "mandelbox_shape_inversion",
         "amazing_box"
       ],
-      "command": "CATALOG_THUMB_ONLY=symmetric_icon,weierstrass_elliptic,mandelbox,mandelbox_shape_inversion,amazing_box /home/xel/flutter/bin/flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
+      "command": "CATALOG_THUMB_ONLY=symmetric_icon,weierstrass_elliptic,mandelbox,mandelbox_shape_inversion,amazing_box flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux"
     }
   ],
   "missingThumbnails": [

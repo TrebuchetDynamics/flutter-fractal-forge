@@ -43,7 +43,7 @@ def command_for(batch: dict, update_assets: bool, strict: bool) -> tuple[dict[st
     if strict:
         env["STRICT_CATALOG_THUMBS"] = "true"
     command = [
-        "/home/xel/flutter/bin/flutter",
+        "flutter",
         "test",
         "integration_test/catalog/generate_gpu_thumbnails_test.dart",
         "-d",

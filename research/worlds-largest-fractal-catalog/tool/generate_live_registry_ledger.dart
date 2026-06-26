@@ -175,7 +175,7 @@ List<Map<String, Object>> thumbnailBatches(List<Map<String, Object>> missing) {
       'limit': chunk.length,
       'moduleIds': ids,
       'command':
-          'CATALOG_THUMB_ONLY=${ids.join(',')} /home/xel/flutter/bin/flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux',
+          'CATALOG_THUMB_ONLY=${ids.join(',')} flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux',
     });
   }
   return batches;
