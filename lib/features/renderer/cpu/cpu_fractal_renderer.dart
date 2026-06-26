@@ -746,7 +746,6 @@ class CpuRenderFrame {
 
   Future<ui.Image> toImage() async {
     final c = Completer<ui.Image>();
-    // ignore: deprecated_member_use
     ui.decodeImageFromPixels(
       rgba,
       width,

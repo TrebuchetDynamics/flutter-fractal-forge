@@ -147,9 +147,17 @@ class AccessibilityService extends ChangeNotifier {
     String message, {
     Assertiveness politeness = Assertiveness.polite,
   }) {
-    // ignore: deprecated_member_use
-    SemanticsService.announce(message, TextDirection.ltr,
-        assertiveness: politeness);
+    // sendAnnouncement requires an explicit FlutterView. This app is
+    // single-window, so the implicit view is the correct target; bail out if
+    // there is no view to announce into.
+    final view = WidgetsBinding.instance.platformDispatcher.implicitView;
+    if (view == null) return;
+    SemanticsService.sendAnnouncement(
+      view,
+      message,
+      TextDirection.ltr,
+      assertiveness: politeness,
+    );
   }
 
   /// Checks if the system has accessibility features enabled.
