@@ -22,7 +22,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-export PATH="$HOME/.local/bin:/home/xel/flutter/bin:$PATH"
+export PATH="$HOME/.local/bin${FLUTTER_HOME:+:$FLUTTER_HOME/bin}:$PATH"
 
 OUTPUT_DIR="play-console-upload"
 RUN_PUB_GET=1
