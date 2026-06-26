@@ -1,0 +1,61 @@
+name: Feature request
+description: Suggest an improvement to the app, catalog, or rendering engine.
+title: "[Feature] "
+labels: [enhancement]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check [existing issues](https://github.com/XelHaku/flutter-fractal-forge/issues) before submitting to avoid duplicates.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - New fractal type (use the "New fractal" template instead)
+        - Rendering / shaders
+        - Deep zoom / precision
+        - Catalog / browser
+        - Parameter controls
+        - Colour schemes / palettes
+        - Export / share
+        - Auto-explore
+        - Accessibility
+        - Localization
+        - Performance
+        - Developer / build tooling
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation
+      description: What are you trying to do that isn't possible or easy today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe what you'd like to see. Mockups or examples are welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you thought about?
+
+  - type: checkboxes
+    id: ready
+    attributes:
+      label: Would you be willing to implement this?
+      options:
+        - label: Yes, I'd like to open a PR.
+        - label: I can help test it, but not implement it.

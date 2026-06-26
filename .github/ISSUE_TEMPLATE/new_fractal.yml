@@ -1,0 +1,75 @@
+name: New fractal
+description: Propose or submit a new fractal type for the catalog.
+title: "[Fractal] "
+labels: [new-fractal]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fractal Forge is catalog-first — adding new mathematical systems is one of the most valuable contributions you can make.
+        Fill in what you know; it is okay to leave technical fields blank if you are proposing rather than implementing.
+
+  - type: input
+    id: name
+    attributes:
+      label: Fractal name
+      placeholder: "e.g. Burning Ship (cubic), Newton (z^4 - 1), Mandelbar"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Escape-time (Mandelbrot / Julia family)
+        - Strange attractor
+        - Cellular automaton
+        - Space-filling curve
+        - IFS (iterated function system)
+        - Aperiodic tiling
+        - Root-finding / Newton basin
+        - 3D ray-marched
+        - Other / unsure
+    validations:
+      required: true
+
+  - type: textarea
+    id: formula
+    attributes:
+      label: Mathematical formula or algorithm
+      description: Paste the iteration rule or pseudocode. LaTeX is fine. Links to papers or Wikipedia welcome.
+      placeholder: |
+        z_{n+1} = (|Re(z)| + i·|Im(z)|)^2 + c   (Burning Ship)
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference
+    attributes:
+      label: References
+      description: Link to papers, Wikipedia, Shadertoy, or other implementations.
+
+  - type: dropdown
+    id: implementation
+    attributes:
+      label: Are you submitting a PR with a GLSL shader?
+      options:
+        - "Yes — I have a working shader ready"
+        - "No — this is a proposal for someone else to implement"
+        - "Not yet — I plan to write one"
+    validations:
+      required: true
+
+  - type: textarea
+    id: shader_notes
+    attributes:
+      label: Shader / implementation notes
+      description: Anything relevant about precision, parameter ranges, or known edge cases.
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Example renders
+      description: Drag and drop any example images or links to renders you have found.

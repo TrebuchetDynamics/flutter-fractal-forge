@@ -1,0 +1,86 @@
+name: Bug report
+description: Something is broken or rendering incorrectly.
+title: "[Bug] "
+labels: [bug]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please fill in as much as you can — GPU/rendering issues are hard to reproduce without device and shader details.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you get instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the app
+        2. Select "Burning Ship"
+        3. Pinch to zoom in
+        4. Renderer freezes
+    validations:
+      required: true
+
+  - type: input
+    id: fractal
+    attributes:
+      label: Fractal / module name
+      description: Leave blank if the issue is not specific to one fractal.
+      placeholder: "e.g. Mandelbulb, Julia, Lorenz"
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Android (installable app)
+        - iOS (installable app)
+        - Web (browser preview)
+        - Linux desktop
+        - macOS desktop
+        - Windows desktop
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device / OS version
+      placeholder: "e.g. Pixel 8 Pro, Android 14 / iPhone 15, iOS 17 / Chrome 127 on Windows 11"
+    validations:
+      required: true
+
+  - type: input
+    id: flutter_version
+    attributes:
+      label: Flutter version
+      description: Run `flutter --version` and paste the first line.
+      placeholder: "e.g. Flutter 3.22.2"
+
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU (if known)
+      placeholder: "e.g. Adreno 740, Mali-G715, Apple M2, Intel Iris Xe"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / error output
+      description: Paste any crash logs, flutter output, or browser console errors.
+      render: text
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or screen recording
+      description: Drag and drop images or a video clip here.
