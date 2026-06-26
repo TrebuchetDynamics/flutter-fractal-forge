@@ -35,7 +35,6 @@ import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
 import 'package:flutter_fractals/features/looper/looper_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
-import 'package:flutter_fractals/features/minimap/fractal_minimap.dart';
 import 'package:flutter_fractals/features/renderer/backend_policy.dart';
 import 'package:flutter_fractals/core/services/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
@@ -94,9 +93,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   late AnimationController _fabController;
 
   // Visual simplification state
-  // Minimap overlay is intentionally hidden by default; there is currently no
-  // UI toggle wired to it (see the minimap overlay block in build()).
-  final bool _showMiniMap = false;
   bool _fullscreenUnobtrusive = false;
   bool _showControlsHud = false;
 
@@ -462,8 +458,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           extendBody: true,
           body: LayoutBuilder(
             builder: (context, constraints) {
-              final viewportSize =
-                  Size(constraints.maxWidth, constraints.maxHeight);
               final activeController = _activeController(context);
               final topInset = MediaQuery.of(context).padding.top;
               final overlayTop = topInset + 56;
@@ -632,18 +626,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       service: _autoExploreService,
                     ),
                   ),
-
-                  // Minimap overlay (optional, hidden by default to reduce clutter)
-                  if (!_fullscreenUnobtrusive && _showMiniMap)
-                    Positioned(
-                      left: AppSpacing.lg,
-                      bottom:
-                          MediaQuery.of(context).padding.bottom + AppSpacing.xl,
-                      child: ChangeNotifierProvider.value(
-                        value: _activeController(context),
-                        child: FractalMiniMap(viewportSize: viewportSize),
-                      ),
-                    ),
 
                   // Floating action buttons.
                   // Bound the region vertically (top + bottom) so the inner

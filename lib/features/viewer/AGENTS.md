@@ -4,20 +4,20 @@
 # viewer
 
 ## Purpose
-Full fractal viewer screen - the main interactive experience. Integrates the renderer, controls panel, presets, export options, minimap, and auto-explore into a cohesive viewing experience.
+Full fractal viewer screen - the main interactive experience. Integrates the renderer, controls panel, presets, export options, and auto-explore into a cohesive viewing experience.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
-| `fractal_viewer_screen.dart` | `FractalViewerScreen` - full-screen fractal viewer with bottom sheet controls, toolbar buttons (presets, export), and overlay widgets (minimap, debug, auto-explore) |
+| `fractal_viewer_screen.dart` | `FractalViewerScreen` - full-screen fractal viewer with bottom sheet controls, toolbar buttons (presets, export), and overlay widgets (debug, auto-explore) |
 
 ## For AI Agents
 
 ### Working In This Directory
 - Requires FractalController provided via Provider ancestor
 - Known issue: `ProviderNotFoundException` if provider not wrapped around viewer route
-- Assembles multiple feature widgets: renderer, controls, presets, export, minimap
+- Assembles multiple feature widgets: renderer, controls, presets, export
 - Toolbar provides access to presets sheet, export sheet
 
 ### Testing Requirements
@@ -30,7 +30,6 @@ Full fractal viewer screen - the main interactive experience. Integrates the ren
 - `controls/` - Parameter controls
 - `presets/` - Preset panel
 - `export/` - Export dialogs
-- `minimap/` - Overview widget
 - `auto_explore/` - Auto-exploration
 - `debug/` - Debug overlays
 

@@ -379,6 +379,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipWallpaper => 'Set as Wallpaper';
 
   @override
+  String get tooltipResetViewWithParams =>
+      'Reset View. Long press for Reset Params';
+
+  @override
+  String get tooltipIncreaseIterationsWithDecrease =>
+      'Iterations +. Long press for −';
+
+  @override
+  String get tooltipColorSchemeWithPalette =>
+      'Color Scheme. Long press for palette';
+
+  @override
+  String get tooltipKaleidoscopeOn => 'Kaleidoscope on';
+
+  @override
+  String get tooltipKaleidoscopeOff => 'Kaleidoscope off';
+
+  @override
+  String get tooltipCameraLooper => 'Camera looper';
+
+  @override
+  String get shareToSocialTargets => 'Share to X / Reddit';
+
+  @override
   String get wallpaperTitle => 'Wallpaper';
 
   @override
@@ -756,12 +780,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get announceExitedFullscreen => 'Exited fullscreen view';
-
-  @override
-  String get announceMinimapShown => 'Minimap shown';
-
-  @override
-  String get announceMinimapHidden => 'Minimap hidden';
 
   @override
   String get shareTitle => 'Share Fractal';

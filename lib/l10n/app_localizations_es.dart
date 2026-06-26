@@ -381,6 +381,30 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipWallpaper => 'Establecer como Fondo';
 
   @override
+  String get tooltipResetViewWithParams =>
+      'Restablecer vista. Mantén presionado para restablecer parámetros';
+
+  @override
+  String get tooltipIncreaseIterationsWithDecrease =>
+      'Iteraciones +. Mantén presionado para −';
+
+  @override
+  String get tooltipColorSchemeWithPalette =>
+      'Esquema de color. Mantén presionado para paleta';
+
+  @override
+  String get tooltipKaleidoscopeOn => 'Kaleidoscopio activado';
+
+  @override
+  String get tooltipKaleidoscopeOff => 'Kaleidoscopio desactivado';
+
+  @override
+  String get tooltipCameraLooper => 'Bucle de cámara';
+
+  @override
+  String get shareToSocialTargets => 'Compartir en X / Reddit';
+
+  @override
   String get wallpaperTitle => 'Fondo de pantalla';
 
   @override
@@ -770,12 +794,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get announceExitedFullscreen => 'Pantalla completa desactivada';
-
-  @override
-  String get announceMinimapShown => 'Minimapa mostrado';
-
-  @override
-  String get announceMinimapHidden => 'Minimapa oculto';
 
   @override
   String get shareTitle => 'Compartir Fractal';

@@ -818,6 +818,48 @@ abstract class AppLocalizations {
   /// **'Set as Wallpaper'**
   String get tooltipWallpaper;
 
+  /// No description provided for @tooltipResetViewWithParams.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset View. Long press for Reset Params'**
+  String get tooltipResetViewWithParams;
+
+  /// No description provided for @tooltipIncreaseIterationsWithDecrease.
+  ///
+  /// In en, this message translates to:
+  /// **'Iterations +. Long press for −'**
+  String get tooltipIncreaseIterationsWithDecrease;
+
+  /// No description provided for @tooltipColorSchemeWithPalette.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Scheme. Long press for palette'**
+  String get tooltipColorSchemeWithPalette;
+
+  /// No description provided for @tooltipKaleidoscopeOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope on'**
+  String get tooltipKaleidoscopeOn;
+
+  /// No description provided for @tooltipKaleidoscopeOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope off'**
+  String get tooltipKaleidoscopeOff;
+
+  /// No description provided for @tooltipCameraLooper.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera looper'**
+  String get tooltipCameraLooper;
+
+  /// No description provided for @shareToSocialTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Share to X / Reddit'**
+  String get shareToSocialTargets;
+
   /// No description provided for @wallpaperTitle.
   ///
   /// In en, this message translates to:
@@ -1489,18 +1531,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exited fullscreen view'**
   String get announceExitedFullscreen;
-
-  /// No description provided for @announceMinimapShown.
-  ///
-  /// In en, this message translates to:
-  /// **'Minimap shown'**
-  String get announceMinimapShown;
-
-  /// No description provided for @announceMinimapHidden.
-  ///
-  /// In en, this message translates to:
-  /// **'Minimap hidden'**
-  String get announceMinimapHidden;
 
   /// No description provided for @shareTitle.
   ///

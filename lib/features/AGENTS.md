@@ -17,7 +17,6 @@ Feature-level screens and UI components, organized by domain. Each subdirectory 
 | `export/` | Image/video export dialogs and options (see `export/AGENTS.md`) |
 | `history/` | Exploration history tracking and browsing (see `history/AGENTS.md`) |
 | `home/` | Main home screen with tab navigation (see `home/AGENTS.md`) |
-| `minimap/` | Fractal minimap overview widget (see `minimap/AGENTS.md`) |
 | `onboarding/` | First-launch onboarding flow (see `onboarding/AGENTS.md`) |
 | `presets/` | Preset selection and management panel (see `presets/AGENTS.md`) |
 | `renderer/` | Core fractal rendering engine with GPU/CPU backends (see `renderer/AGENTS.md`) |
