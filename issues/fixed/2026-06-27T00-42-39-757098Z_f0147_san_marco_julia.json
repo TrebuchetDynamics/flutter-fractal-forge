@@ -1,0 +1,42 @@
+{
+  "createdAt": "2026-06-27T00:42:39.757098Z",
+  "moduleId": "f0147_san_marco_julia",
+  "moduleName": "San Marco Julia",
+  "tags": [
+    "NO shader"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f0147_san_marco_julia&iterations=280&bailout=4&colorScheme=0&juliaX=-0.75&juliaY=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoyODAsImp1bGlhQ0ltYWciOjAuMCwianVsaWFDUmVhbCI6LTAuNzV9",
+  "params": {
+    "iterations": 280,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "juliaCReal": -0.75,
+    "juliaCImag": 0.0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:27:00Z",
+    "note": "Pointed the F0147 generated module at the bundled shared Julia shader and added regression coverage for the declared San Marco Julia shader asset."
+  }
+}
