@@ -97,8 +97,8 @@ void main() {
 
       logger.logNavigation('Navigated to viewer');
 
-      // Go back to catalog (custom back button in app bar)
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      // Go back to catalog through the route stack.
+      Navigator.of(tester.element(find.byType(FractalRenderer))).pop();
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
 
@@ -152,12 +152,12 @@ void main() {
         await tester.pump(const Duration(seconds: 2));
         drainKnownShaderExceptions(tester);
 
-        // Verify viewer screen loaded (back arrow always present).
-        expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
+        // Verify viewer screen loaded.
+        expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
         logger.logNavigation('Viewed module $i');
 
-        // Go back (custom back button in app bar)
-        await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+        // Go back through the route stack.
+        Navigator.of(tester.element(find.byType(FractalRenderer))).pop();
         await tester.pump();
         await tester.pump(const Duration(seconds: 1));
       }

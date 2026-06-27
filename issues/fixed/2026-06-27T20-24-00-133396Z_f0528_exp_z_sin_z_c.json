@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-27T20:24:00.133396Z",
+  "moduleId": "f0528_exp_z_sin_z_c",
+  "moduleName": "exp(z)sin(z)+c",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f0528_exp_z_sin_z_c&zoom=191664.16905325867&x=0.17563903331756592&y=-0.11797788739204407&iterations=500&bailout=8&colorScheme=0&p=eyJiYWlsb3V0Ijo4LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MDAsInZhcmlhbnQiOjh9",
+  "params": {
+    "iterations": 500,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "variant": 8
+  },
+  "view": {
+    "zoom": 191664.16905325867,
+    "x": 0.17563903331756592,
+    "y": -0.11797788739204407,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added variant-specific interior orbit-trap coloring for exp(z)sin(z)+c so deep non-escaped views are not flat black.",
+    "research": "research/issue-fixes/2026-06-27T20-24-00-133396Z_f0528_exp_z_sin_z_c/research-not-needed.md",
+    "validation": [
+      "python3 shader variant-8 interior assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

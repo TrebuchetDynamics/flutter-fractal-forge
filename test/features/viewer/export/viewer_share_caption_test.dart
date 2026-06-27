@@ -10,22 +10,22 @@ void main() {
     expect(caption, contains('#fractalforge'));
   });
 
-  test('share caption embeds the reproducible deep link when provided', () {
+  test('share caption embeds a direct fractal URL when provided', () {
     const url =
-        'https://fractal.trebuchetdynamics.com/view?type=mandelbrot&zoom=10';
+        'https://fractal.trebuchetdynamics.com/?type=mandelbrot&zoom=10';
     final caption = ViewerShareCaption.build(
       fractalName: 'Mandelbrot',
       shareUrl: url,
     );
 
-    expect(caption, contains(url));
-    expect(caption, contains('Open this exact view'));
+    expect(caption.split('\n'), contains(url));
+    expect(caption, contains('Explore this Mandelbrot'));
   });
 
   test('share caption omits the link line when no url is available', () {
     final caption = ViewerShareCaption.build(fractalName: 'Julia');
 
-    expect(caption, isNot(contains('Open this exact view')));
+    expect(caption, isNot(contains('https://')));
     // Still discoverable: handle + hashtag are always present.
     expect(caption, contains('@FractalForge'));
   });

@@ -82,6 +82,7 @@ enum ViewerRandomFractalCandidateReason {
   eligible,
   currentModule,
   diagnosticModule,
+  performanceFractal,
 }
 
 /// Replayable candidate decision for the random-fractal navigation action.
@@ -102,11 +103,18 @@ final class ViewerRandomFractalCandidate {
   factory ViewerRandomFractalCandidate.fromModule(
     FractalModule module, {
     required String currentModuleId,
+    CatalogFamily family = CatalogFamily.core,
   }) {
     if (module.id == currentModuleId) {
       return ViewerRandomFractalCandidate._(
         moduleId: module.id,
         reason: ViewerRandomFractalCandidateReason.currentModule,
+      );
+    }
+    if (family == CatalogFamily.performance) {
+      return ViewerRandomFractalCandidate._(
+        moduleId: module.id,
+        reason: ViewerRandomFractalCandidateReason.performanceFractal,
       );
     }
     if (_isDiagnosticModule(module)) {

@@ -42,6 +42,7 @@ import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
@@ -71,8 +72,17 @@ class FractalViewerScreen extends StatefulWidget {
   /// Playwright capture route — never from normal navigation.
   final bool captureMode;
 
-  const FractalViewerScreen({Key? key, this.captureMode = false})
-      : super(key: key);
+  /// Catalog family that opened this viewer.
+  ///
+  /// Core fractals keep the existing viewer chrome. Performance Fractals use
+  /// this seam to avoid retrofitting instrument controls onto classic modules.
+  final CatalogFamily catalogFamily;
+
+  const FractalViewerScreen({
+    Key? key,
+    this.captureMode = false,
+    this.catalogFamily = CatalogFamily.core,
+  }) : super(key: key);
 
   @override
   State<FractalViewerScreen> createState() => _FractalViewerScreenState();
@@ -128,6 +138,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   bool _appVisible = true;
 
   bool get _liveRenderingEnabled => _appVisible && !_freezeFrameForExport;
+
+  bool get _usesCoreViewerChrome => widget.catalogFamily == CatalogFamily.core;
+
+  bool get _showCoreViewerChrome =>
+      _usesCoreViewerChrome && !_fullscreenUnobtrusive;
 
   @override
   final AppLogger _log = AppLogger.instance;
@@ -645,9 +660,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         : (_backendDecision.backend == RendererBackend.cpu
                             ? FractalRenderer(
                                 animationEnabled: _liveRenderingEnabled,
-                                onOpenControls: () => _toggleControlsHud(),
-                                onOpenPresets: () => _openPresets(context),
-                                onOpenExport: () => _openExport(context),
+                                onOpenControls: _usesCoreViewerChrome
+                                    ? () => _toggleControlsHud()
+                                    : null,
+                                onOpenPresets: _usesCoreViewerChrome
+                                    ? () => _openPresets(context)
+                                    : null,
+                                onOpenExport: _usesCoreViewerChrome
+                                    ? () => _openExport(context)
+                                    : null,
                                 onUserInteraction: _onAutoExploreUserCorrection,
                                 onUserInteractionStart:
                                     _onAutoExploreUserInteractionStart,
@@ -670,9 +691,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                 precisionDecision:
                                     _currentPrecisionDecision(controller),
                                 animationEnabled: _liveRenderingEnabled,
-                                onOpenControls: () => _toggleControlsHud(),
-                                onOpenPresets: () => _openPresets(context),
-                                onOpenExport: () => _openExport(context),
+                                onOpenControls: _usesCoreViewerChrome
+                                    ? () => _toggleControlsHud()
+                                    : null,
+                                onOpenPresets: _usesCoreViewerChrome
+                                    ? () => _openPresets(context)
+                                    : null,
+                                onOpenExport: _usesCoreViewerChrome
+                                    ? () => _openExport(context)
+                                    : null,
                                 onUserInteraction: _onAutoExploreUserCorrection,
                                 onUserInteractionStart:
                                     _onAutoExploreUserInteractionStart,
@@ -693,7 +720,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                     ),
 
-                  if (!_fullscreenUnobtrusive)
+                  if (_showCoreViewerChrome)
                     Positioned(
                       top: overlayTop,
                       left: 12,
@@ -705,7 +732,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                     ),
 
-                  if (!_fullscreenUnobtrusive &&
+                  if (_showCoreViewerChrome &&
                       _backendDecision.backend == RendererBackend.cpu)
                     Positioned(
                       top: overlayTop,
@@ -729,7 +756,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     ),
 
                   // Deep-zoom precision indicator
-                  if (!_fullscreenUnobtrusive &&
+                  if (_showCoreViewerChrome &&
                       _deepZoomPrecisionActive &&
                       _backendDecision.backend != RendererBackend.cpu)
                     Positioned(
@@ -787,7 +814,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   // unbounded height and overflowed off the top of short
                   // viewports (landscape phones / small web windows), pushing
                   // the upper buttons off-screen and over the status chips.
-                  if (!_fullscreenUnobtrusive)
+                  if (_showCoreViewerChrome)
                     Positioned(
                       top: overlayTop,
                       left: AppSpacing.lg,
@@ -827,7 +854,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     ),
 
                   // Controls HUD overlay (replaces bottom sheet modal)
-                  if (_showControlsHud)
+                  if (_usesCoreViewerChrome && _showControlsHud)
                     Positioned(
                       left: 0,
                       right: 0,

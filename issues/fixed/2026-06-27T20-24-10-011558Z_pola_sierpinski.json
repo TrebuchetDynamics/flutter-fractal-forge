@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-06-27T20:24:10.011558Z",
+  "moduleId": "pola_sierpinski",
+  "moduleName": "Pola-Sierpinski Hybrid",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=pola_sierpinski&zoom=578.2463563937251&x=0.6810488700866699&y=0.04871692880988121&iterations=500&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MDB9",
+  "params": {
+    "iterations": 500,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 578.2463563937251,
+    "x": 0.6810488700866699,
+    "y": 0.04871692880988121,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added nearest-boundary contour coloring for Pola-Sierpinski non-hit pixels so deep zooms retain visible structure.",
+    "research": "research/issue-fixes/2026-06-27T20-24-10-011558Z_pola_sierpinski/research-not-needed.md",
+    "validation": [
+      "python3 shader contour assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

@@ -20,11 +20,13 @@ typedef ShareFileCallback = Future<void> Function(
 class AppShareService {
   const AppShareService();
 
-  Future<void> shareFile(File file, {String? text}) {
-    return Share.shareXFiles([XFile(file.path)], text: text);
+  Future<void> shareFile(File file, {String? text}) async {
+    await SharePlus.instance.share(
+      ShareParams(files: [XFile(file.path)], text: text),
+    );
   }
 
-  Future<void> shareText(String text, {String? subject}) {
-    return Share.share(text, subject: subject);
+  Future<void> shareText(String text, {String? subject}) async {
+    await SharePlus.instance.share(ShareParams(text: text, subject: subject));
   }
 }

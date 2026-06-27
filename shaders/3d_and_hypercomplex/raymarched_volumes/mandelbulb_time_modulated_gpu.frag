@@ -158,18 +158,25 @@ vec4 rayMarch(vec3 origin, vec3 direction) {
     float totalDist = 0.0;
     int maxSteps = int(clamp(uSteps, 10.0, 200.0));
     float minDist = 0.001 / max(uZoom, 0.1);
+    float closest = 1.0e9;
+    vec3 closestPos = origin;
 
     for (int i = 0; i < 200; i++) {
         if (i >= maxSteps) break;
         vec3 pos = origin + totalDist * direction;
         float dist = timeMandelbulbDE(pos);
+        float ad = abs(dist);
+        if (ad < closest) {
+            closest = ad;
+            closestPos = pos;
+        }
         if (dist < minDist) {
             return vec4(pos, float(i));
         }
         totalDist += dist * 0.9;
         if (totalDist > 20.0) break;
     }
-    return vec4(0.0, 0.0, 0.0, -1.0);
+    return vec4(closestPos, -closest);
 }
 
 void main() {
@@ -200,7 +207,9 @@ void main() {
     } else {
         vec3 bgTop = vec3(0.05, 0.05, 0.12);
         vec3 bgBot = vec3(0.02, 0.02, 0.04);
+        float glow = exp(-12.0 * max(0.0, -hit.w));
         color = mix(bgBot, bgTop, uv.y * 0.5 + 0.5);
+        color += palette(0.15 * length(hit.xyz) + uTime * 0.00005, uColorScheme) * (0.35 * glow);
         alpha = mix(1.0, 0.0, step(0.5, uTransparentBg));
     }
 

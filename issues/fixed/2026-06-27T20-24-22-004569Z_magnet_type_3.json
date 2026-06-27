@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-06-27T20:24:22.004569Z",
+  "moduleId": "magnet_type_3",
+  "moduleName": "Magnet Fractal (Type III)",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=magnet_type_3&zoom=53717.81629215571&x=0.7902876138687134&y=0.16037189960479736&iterations=500&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MDB9",
+  "params": {
+    "iterations": 500,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 53717.81629215571,
+    "x": 0.7902876138687134,
+    "y": 0.16037189960479736,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added interior orbit/rational-denominator trap coloring for Magnet Type III deep non-escaped views.",
+    "research": "research/issue-fixes/2026-06-27T20-24-22-004569Z_magnet_type_3/research-not-needed.md",
+    "validation": [
+      "python3 shader interior trap assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

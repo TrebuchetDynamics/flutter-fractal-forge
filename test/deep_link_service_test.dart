@@ -143,7 +143,7 @@ void main() {
 
       test('parses https://fractal.trebuchetdynamics.com universal link', () {
         final uri = Uri.parse(
-            'https://fractal.trebuchetdynamics.com/view?type=mandelbrot&zoom=5');
+            'https://fractal.trebuchetdynamics.com/?type=mandelbrot&zoom=5');
         final data = DeepLinkService.parseUri(uri);
 
         expect(data, isNotNull);
@@ -157,10 +157,13 @@ void main() {
           'fractalforge://view/?type=mandelbrot',
           'fractalforge:/view?type=mandelbrot',
           'fractalforge:view?type=mandelbrot',
+          'https://fractal.trebuchetdynamics.com/?type=mandelbrot',
           'https://fractal.trebuchetdynamics.com/view?type=mandelbrot',
           'https://fractal.trebuchetdynamics.com/view/?type=mandelbrot',
+          'https://fractalforge.app/?type=mandelbrot',
           'https://fractalforge.app/view?type=mandelbrot',
           'https://fractalforge.app/view/?type=mandelbrot',
+          'https://www.fractalforge.app/?type=mandelbrot',
           'https://www.fractalforge.app/view?type=mandelbrot',
           'https://www.fractalforge.app/view/?type=mandelbrot',
         ];
@@ -592,7 +595,7 @@ void main() {
 
         expect(uri.scheme, 'https');
         expect(uri.host, 'fractal.trebuchetdynamics.com');
-        expect(uri.path, '/view');
+        expect(uri.path, '/');
         expect(uri.queryParameters['type'], 'mandelbrot');
         expect(uri.queryParameters['iterations'], '100');
       });

@@ -10,7 +10,6 @@ Application services providing business logic, persistence, and platform integra
 
 | File | Description |
 |------|-------------|
-| `shader_service.dart` | Loads and caches GLSL fragment shaders from assets |
 | `preset_store.dart` | Persists user presets to SharedPreferences |
 | `palette_store.dart` | Stores custom color palettes |
 | `palette_service.dart` | Palette management and selection logic |

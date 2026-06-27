@@ -10,6 +10,7 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_filter.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_search_debouncer.dart';
@@ -614,8 +615,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
               child: RepaintBoundary(
                 child: _ModuleCard(
                   entry: entry,
-                  onTap: () => _openViewer(context, entry.module,
-                      heroTag: entry.catalogId),
+                  onTap: () => _openViewer(
+                    context,
+                    entry.module,
+                    heroTag: entry.catalogId,
+                    catalogFamily: entry.family,
+                  ),
                   l10n: l10n,
                   shimmerController: _shimmerController,
                 ),
@@ -668,8 +673,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                     entry: entry,
                     l10n: l10n,
                     shimmerController: _shimmerController,
-                    onTap: () => _openViewer(context, entry.module,
-                        heroTag: entry.catalogId),
+                    onTap: () => _openViewer(
+                      context,
+                      entry.module,
+                      heroTag: entry.catalogId,
+                      catalogFamily: entry.family,
+                    ),
                   ),
                 );
               },
@@ -701,8 +710,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     return SliverMainAxisGroup(slivers: children);
   }
 
-  void _openViewer(BuildContext context, FractalModule module,
-      {String? heroTag}) {
+  void _openViewer(
+    BuildContext context,
+    FractalModule module, {
+    String? heroTag,
+    CatalogFamily catalogFamily = CatalogFamily.core,
+  }) {
     final controller = context.read<FractalController>();
     controller.selectModule(module, resetView: true);
     Navigator.of(context).push(
@@ -711,7 +724,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           providers: [
             ChangeNotifierProvider.value(value: controller),
           ],
-          child: const FractalViewerScreen(),
+          child: FractalViewerScreen(catalogFamily: catalogFamily),
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           final curvedAnimation = CurvedAnimation(

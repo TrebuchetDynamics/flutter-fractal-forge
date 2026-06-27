@@ -1,21 +1,21 @@
 import 'dart:io';
 
-import 'package:flutter_fractals/core/modules/escape_time_complex_plane/f1175_orbit_trap_square_lattice/f1175_orbit_trap_square_lattice_module.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('F1175 Square Lattice uses the bundled shared orbit-trap shader', () {
-    final module = F1175OrbitTrapSquareLattice();
+    final module = ModuleRegistry().byId('f1175_orbit_trap_square_lattice');
 
     expect(
-      module.shader,
+      module.shaderAsset,
       'shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag',
     );
-    expect(File(module.shader).existsSync(), isTrue);
+    expect(File(module.shaderAsset).existsSync(), isTrue);
     expect(
       File('pubspec.yaml').readAsStringSync(),
-      contains('    - ${module.shader}'),
+      contains('    - ${module.shaderAsset}'),
     );
-    expect(File(module.shader).readAsStringSync(), contains('mode == 20'));
+    expect(File(module.shaderAsset).readAsStringSync(), contains('mode == 20'));
   });
 }

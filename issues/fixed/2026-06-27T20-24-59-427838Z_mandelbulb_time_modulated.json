@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-27T20:24:59.427838Z",
+  "moduleId": "mandelbulb_time_modulated",
+  "moduleName": "Time-Modulated Mandelbulb",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=mandelbulb_time_modulated&zoom=1.7445558569150539&x=0.05537381023168564&y=0.013609180226922035&iterations=50&bailout=2&colorScheme=0&power=8&p=eyJiYWlsb3V0IjoyLjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MCwicG93ZXIiOjguMCwic3RlcHMiOjEyMH0",
+  "params": {
+    "power": 8.0,
+    "iterations": 50,
+    "steps": 120,
+    "bailout": 2.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 1.7445558569150539,
+    "x": 0.05537381023168564,
+    "y": 0.013609180226922035,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added closest-distance miss glow to the time-modulated Mandelbulb raymarcher so near misses/deep views are not flat background.",
+    "research": "research/issue-fixes/2026-06-27T20-24-59-427838Z_mandelbulb_time_modulated/research-not-needed.md",
+    "validation": [
+      "python3 shader miss-glow assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/core/modules/builders/shared_number_theory_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_number_theory_catalog.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
 

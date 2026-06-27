@@ -241,7 +241,8 @@ class _DeepLinkRoute {
   }
 
   static bool _isWebViewRoute(Uri uri) {
-    return _DeepLinkViewRoutePath.isAbsoluteViewPath(uri.path);
+    return _DeepLinkViewRoutePath.isAuthorityRoot(uri.path) ||
+        _DeepLinkViewRoutePath.isAbsoluteViewPath(uri.path);
   }
 }
 
@@ -884,7 +885,7 @@ class DeepLinkService {
     return Uri(
       scheme: 'https',
       host: 'fractal.trebuchetdynamics.com',
-      path: '/view',
+      path: '/',
       queryParameters: customUri.queryParameters,
     );
   }

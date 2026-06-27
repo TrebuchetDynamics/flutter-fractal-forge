@@ -11,7 +11,6 @@ Unit tests and widget tests for the Flutter Fractal Forge application. Tests cov
 | File | Description |
 |------|-------------|
 | `widget_test.dart` | Basic app widget smoke test |
-| `fractal_params_test.dart` | FractalParams model serialization and validation |
 | `fractal_preset_json_test.dart` | Preset JSON round-trip serialization |
 | `fractal_controller_behavior_test.dart` | FractalController state management behavior |
 | `fractal_controller_clamp_test.dart` | Parameter clamping and validation |

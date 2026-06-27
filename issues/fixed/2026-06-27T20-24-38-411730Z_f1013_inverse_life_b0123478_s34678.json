@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-27T20:24:38.411730Z",
+  "moduleId": "f1013_inverse_life_b0123478_s34678",
+  "moduleName": "Inverse Life B0123478/S34678",
+  "tags": [
+    "Bad initial params"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f1013_inverse_life_b0123478_s34678&zoom=0.14837684372696625&x=-0.20930801331996918&y=0.9592238068580627&iterations=436&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImJpcnRoTWFzayI6NDE1LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo0MzYsInN1cnZpdmFsTWFzayI6NDcyLjB9",
+  "params": {
+    "iterations": 436,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "birthMask": 415.0,
+    "survivalMask": 472.0
+  },
+  "view": {
+    "zoom": 0.14837684372696625,
+    "x": -0.20930801331996918,
+    "y": 0.9592238068580627,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Set the Inverse Life catalog default iterations to the reported viable 436 while preserving the reviewed B/S masks.",
+    "research": "research/issue-fixes/2026-06-27T20-24-38-411730Z_f1013_inverse_life_b0123478_s34678/research-not-needed.md",
+    "validation": [
+      "python3 catalog default assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

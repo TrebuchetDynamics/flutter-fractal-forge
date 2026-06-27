@@ -53,7 +53,6 @@ Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU
 
 ### Internal
 - `core/modules/fractal_module.dart` - Module definitions
-- `core/services/shader_service.dart` - Shader loading
 - `core/widgets/error_boundary.dart` - Error handling
 - `core/widgets/animation_effects.dart` - Morph transitions
 

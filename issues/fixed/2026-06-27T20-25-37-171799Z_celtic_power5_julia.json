@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-27T20:25:37.171799Z",
+  "moduleId": "celtic_power5_julia",
+  "moduleName": "Celtic\u2075 Julia",
+  "tags": [
+    "Bad initial coordinates",
+    "Bad initial params"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=celtic_power5_julia&zoom=8630.00186341158&x=0.8723129034042358&y=0.4527876079082489&iterations=500&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MDB9",
+  "params": {
+    "iterations": 500,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 8630.00186341158,
+    "x": 0.8723129034042358,
+    "y": 0.4527876079082489,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added interior orbit/trap coloring so bad/random Celtic Power5 Julia start states are not flat black.",
+    "research": "research/issue-fixes/2026-06-27T20-25-37-171799Z_celtic_power5_julia/research-not-needed.md",
+    "validation": [
+      "python3 shader interior detail assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

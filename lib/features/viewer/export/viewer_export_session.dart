@@ -22,9 +22,9 @@ class ViewerShareCaption {
     required String fractalName,
     String? shareUrl,
   }) {
-    final lines = <String>['$fractalName — made free with Fractal Forge'];
+    final lines = <String>['Explore this $fractalName in Fractal Forge.'];
     if (shareUrl != null && shareUrl.isNotEmpty) {
-      lines.add('Open this exact view 👉 $shareUrl');
+      lines.add(shareUrl);
     }
     lines.add('$handle $hashtag');
     return lines.join('\n');

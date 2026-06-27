@@ -59,6 +59,8 @@ void main() {
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float trap = 1.0e6;
+  float orbit = 0.0;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
@@ -69,12 +71,18 @@ void main() {
     der = 5.0 * cmul(z4, der);
     // Celtic power-5 fold: |Re(z⁵)| + Im(z⁵)
     z = vec2(abs(z5.x), z5.y) + c;
-    if (dot(z,z) > bailoutSq) { it = j; break; }
+    float mag2 = dot(z, z);
+    trap = min(trap, min(abs(z5.x), length(z)));
+    orbit += exp(-mag2);
+    if (mag2 > bailoutSq) { it = j; break; }
     it = j + 1;
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
+    float ridge = exp(-12.0 * trap);
+    float t = fract(0.45 * ridge + orbit / max(1.0, float(target)) + 0.08 * atan(z.y, z.x) + uTime*0.00005);
+    vec3 col = palette(t, schemeInt) * (0.55 + 0.45 * ridge);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.85 : 1.0);
     return;
   }
 

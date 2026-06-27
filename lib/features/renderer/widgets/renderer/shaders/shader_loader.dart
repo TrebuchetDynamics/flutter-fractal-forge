@@ -7,6 +7,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
   static const int _maxProgramCacheEntries = 24;
   static final LinkedHashMap<String, ui.FragmentProgram> _programCache =
       LinkedHashMap<String, ui.FragmentProgram>();
+  static final Map<String, Future<ui.FragmentProgram>> _programLoads = {};
 
   /// Maximum number of shader load retries before showing error.
   static const int _maxShaderRetries = 3;
@@ -65,6 +66,16 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     _loading = false;
   }
 
+  Future<ui.FragmentProgram> _loadProgramFromAsset(String asset) {
+    return _programLoads.putIfAbsent(asset, () async {
+      try {
+        return await ui.FragmentProgram.fromAsset(asset);
+      } finally {
+        _programLoads.remove(asset);
+      }
+    });
+  }
+
   /// Loads a shader with retry logic and error reporting.
   ///
   /// Attempts to load the shader up to [_maxShaderRetries] times before
@@ -116,7 +127,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
 
     for (var attempt = 1; attempt <= _maxShaderRetries; attempt++) {
       try {
-        final program = await ui.FragmentProgram.fromAsset(asset);
+        final program = await _loadProgramFromAsset(asset);
         _storeProgramInCache(asset, program);
         if (mounted) {
           setState(() => _setLoadedProgram(asset, program));

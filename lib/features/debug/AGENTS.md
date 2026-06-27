@@ -29,7 +29,6 @@ Debug and diagnostic overlays for development. Provides real-time performance me
 
 ### Internal
 - `core/services/performance_service.dart` - Performance metrics
-- `core/services/shader_service.dart` - Shader compilation info
 
 <!-- MANUAL: -->
 

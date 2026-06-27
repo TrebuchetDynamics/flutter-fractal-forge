@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
@@ -43,7 +44,9 @@ void main() {
       rendererSettings.dispose();
     });
 
-    Widget buildTestWidget() {
+    Widget buildTestWidget({
+      CatalogFamily catalogFamily = CatalogFamily.core,
+    }) {
       return MultiProvider(
         providers: [
           Provider.value(value: registry),
@@ -56,7 +59,7 @@ void main() {
           locale: const Locale('en'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const FractalViewerScreen(),
+          home: FractalViewerScreen(catalogFamily: catalogFamily),
         ),
       );
     }
@@ -193,6 +196,27 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
+    });
+
+    testWidgets('performance family route hides core viewer chrome',
+        (tester) async {
+      await tester.pumpWidget(
+        buildTestWidget(catalogFamily: CatalogFamily.performance),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('fractalTestSurface')), findsOneWidget);
+      expect(find.byKey(const ValueKey('viewerRandomButton')), findsNothing);
+      expect(
+          find.byKey(const ValueKey('viewerRandomParamsButton')), findsNothing);
+      expect(
+          find.byKey(const ValueKey('viewerFractalMusicButton')), findsNothing);
+      expect(find.byTooltip('Controls'), findsNothing);
+      expect(find.text('Mandelbrot'), findsNothing);
+
+      historyProvider.cancelPendingRecord();
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump(const Duration(milliseconds: 50));
     });
 
     testWidgets('displays fractal renderer surface', (tester) async {

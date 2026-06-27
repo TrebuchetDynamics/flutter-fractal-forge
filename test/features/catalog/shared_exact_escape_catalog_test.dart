@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_fractals/core/modules/builders/shared_exact_escape_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_exact_escape_catalog.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
 

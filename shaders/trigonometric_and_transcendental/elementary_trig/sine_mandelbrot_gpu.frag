@@ -113,6 +113,8 @@ void main() {
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float trap = 1e6;
+  float orbit = 0.0;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
@@ -125,11 +127,19 @@ void main() {
     z = f0;
 
     float mag2 = dot(z, z);
+    trap = min(trap, min(abs(z.x), abs(z.y)));
+    orbit += exp(-2.0 * mag2);
     if (mag2 > bailoutSq || mag2 != mag2) { it = j; break; }
     it = j + 1;
   }
 
   if (it >= target) {
+    if (variant == 8) {
+      float t = fract(6.0 * trap + orbit / max(1.0, float(target)) + 0.07 * atan(z.y, z.x) + uTime * 0.00005);
+      vec3 col = palette(t, schemeInt) * (0.65 + 0.35 * exp(-12.0 * trap));
+      fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.85 : 1.0);
+      return;
+    }
     fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
     return;
   }

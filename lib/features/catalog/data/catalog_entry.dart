@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 
 /// Stable catalog entry used by the redesigned browser.
 ///
@@ -19,6 +20,9 @@ class CatalogEntry {
   /// Display category used to group entries in the catalog UI.
   final String category;
 
+  /// Product family used to keep isolated entry types out of core flows.
+  final CatalogFamily family;
+
   /// Optional search aliases used by catalog filtering.
   final List<String> aliases;
 
@@ -26,6 +30,7 @@ class CatalogEntry {
     required this.catalogId,
     required this.module,
     required this.category,
+    this.family = CatalogFamily.core,
     this.aliases = const [],
   });
 }

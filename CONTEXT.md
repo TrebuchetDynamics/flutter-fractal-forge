@@ -32,6 +32,10 @@ _Avoid_: True random thumbnail colors, one-off palette shuffle, unreviewable vis
 A viewer audio mode that turns the current fractal state into explainable sonification, starting with constrained polar/spiral-scan motifs. It is not a generic background soundtrack, AI song generator, or MIDI export promise.
 _Avoid_: AI song, opaque music generator, soundtrack mode
 
+**Performance Fractals**:
+A separate catalog family for reactive, instrument-like fractal visuals whose parameters may be driven by time, gestures, or modulation. They do not change the behavior, controls, presets, or render contracts of existing mathematical fractal modules.
+_Avoid_: Global perform mode, retrofitted modulator, all-fractal audio mode
+
 **Launch Thumbnail Standard**:
 The thumbnail contract for bundled catalog assets used in launch-critical browsing and screenshots: 320×320 PNGs. Smaller staged smoke outputs are allowed only as generation-test artifacts, not as bundled catalog assets.
 _Avoid_: Smoke thumbnail size, arbitrary thumbnail size, per-run asset size
@@ -89,6 +93,9 @@ Domain expert: “No. First create a Provenance Record with source, license cont
 
 Developer: “Can Fractal Music just play a nice backing track?”
 Domain expert: “No. Fractal Music should stay tied to the current fractal state through explainable sonification; a generic soundtrack is a different feature.”
+
+Developer: “Can we add LFO/audio-reactive controls to every current fractal?”
+Domain expert: “No. Put reactive instrument visuals in Performance Fractals so the existing catalog keeps its current module contracts.”
 
 Developer: “Does the new Mandelbrot reference orbit mean CPU Precision is implemented?”
 Domain expert: “No. It is a Reference Orbit Fixture until orbit generation uses the exact-intended deep-zoom path.”

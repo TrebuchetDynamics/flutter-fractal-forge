@@ -1,6 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -49,6 +50,19 @@ void main() {
 
       expect(decision.reason, ViewerRandomFractalCandidateReason.eligible);
       expect(decision.isEligible, isTrue);
+    });
+
+    test('excludes performance fractals from core random navigation', () {
+      final decision = ViewerRandomFractalCandidate.fromModule(
+        _module(id: 'pulse_feedback'),
+        currentModuleId: 'mandelbrot',
+        family: CatalogFamily.performance,
+      );
+
+      expect(decision.moduleId, 'pulse_feedback');
+      expect(decision.reason,
+          ViewerRandomFractalCandidateReason.performanceFractal);
+      expect(decision.isEligible, isFalse);
     });
 
     test('excludes debug diagnostic modules from random navigation', () {

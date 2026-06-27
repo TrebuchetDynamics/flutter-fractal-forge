@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-06-27T20:23:40.253304Z",
+  "moduleId": "arneodo",
+  "moduleName": "Arneodo Attractor",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=arneodo&zoom=0.38519714916775527&x=-0.46203500032424927&y=-0.2087172269821167&iterations=240&bailout=8&colorScheme=0&p=eyJiYWlsb3V0Ijo4LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoyNDB9",
+  "params": {
+    "iterations": 240,
+    "bailout": 8.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 0.38519714916775527,
+    "x": -0.46203500032424927,
+    "y": -0.2087172269821167,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added orbit-trap ridge and flow-speed color variation to the Arneodo shader to increase visible detail in the reported view.",
+    "research": "research/issue-fixes/2026-06-27T20-23-40-253304Z_arneodo/research-not-needed.md",
+    "validation": [
+      "python3 shader detail-term assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

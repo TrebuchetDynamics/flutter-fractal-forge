@@ -9,18 +9,19 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  testWidgets('PresetSheet shows empty state and disables Save when name is empty', (tester) async {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    SharedPreferences.setMockInitialValues({});
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    final presetStore = await PresetStore.create();
+  testWidgets('PresetSheet renders empty state and accepts a name',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({});
     final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
 
     await tester.pumpWidget(
       MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: controller),
-          Provider.value(value: presetStore),
+          Provider.value(value: await PresetStore.create()),
         ],
         child: MaterialApp(
           locale: const Locale('en'),
@@ -30,15 +31,15 @@ void main() {
         ),
       ),
     );
-
     await tester.pumpAndSettle();
 
-    // No saved presets yet.
+    expect(find.text('Presets'), findsOneWidget);
     expect(find.text('No saved presets yet.'), findsOneWidget);
-
-    // Save button should be disabled when the name is empty.
-    // (Implementation detail: the exact button widget type can vary by Flutter version.)
     expect(find.text('Save Preset'), findsWidgets);
 
+    await tester.enterText(find.byType(TextField), 'My Preset');
+    await tester.pump();
+
+    expect(find.text('My Preset'), findsOneWidget);
   });
 }

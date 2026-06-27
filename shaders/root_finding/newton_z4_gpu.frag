@@ -57,6 +57,8 @@ void main() {
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float travel = 0.0;
+  float minStep = 1e6;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
@@ -66,6 +68,9 @@ void main() {
     vec2 fz  = z4 - vec2(1.0, 0.0);       // z^4 - 1
     vec2 fpz = 4.0 * z3;                   // 4z^3
     vec2 step = cdiv(fz, fpz);
+    float stepLen = length(step);
+    travel += log(1.0 + stepLen);
+    minStep = min(minStep, stepLen);
     z = z - uRelaxation * step;
     if (dot(step,step) < 1e-12)        { it = j; break; }
     if (dot(z,z) > max(uBailout*uBailout, 64.0)) { it = j; break; }
@@ -89,6 +94,7 @@ void main() {
   else if (d2 < d0 && d2 < d1 && d2 < d3) rootPhase = 0.50;
   else if (d3 < d0 && d3 < d1 && d3 < d2) rootPhase = 0.75;
 
-  float t = fract(float(it)/max(1.0,uIterations) + rootPhase + uTime*0.0001);
+  float basinShade = 0.09 * travel - 0.03 * log(minStep + 1e-12);
+  float t = fract(float(it)/max(1.0,uIterations) + rootPhase + basinShade + uTime*0.0001);
   fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
 }

@@ -66,6 +66,8 @@ void main() {
 
   int it = target;
   float density = 0.0;
+  float trap = 1e6;
+  float speedSum = 0.0;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
@@ -73,12 +75,15 @@ void main() {
     float dx = y;
     float dy = z;
     float dz = -a * x - b * y - z + c * x * x * x;
+    float speed = length(vec3(dx, dy, dz));
 
     x += dt * dx;
     y += dt * dy;
     z += dt * dz;
 
     float r2 = x * x + y * y + 0.25 * z * z;
+    trap = min(trap, abs(z) + 0.25 * abs(x * x - y));
+    speedSum += speed;
     density += exp(-0.20 * (x * x + y * y)) + 0.12 * exp(-0.7 * abs(z));
     if (r2 > bailoutSq) {
       it = i + 1;
@@ -87,8 +92,10 @@ void main() {
   }
 
   if (it >= target) {
-    float t = fract((density / float(target)) * 2.0 + 0.07 * atan(y, x) + uTime * 0.00005);
-    vec3 col = getPaletteColor(t, int(uColorScheme));
+    float ridge = exp(-18.0 * trap);
+    float flow = log(1.0 + speedSum / float(target));
+    float t = fract((density / float(target)) * 2.8 + 0.35 * ridge + 0.18 * flow + 0.12 * atan(y, x) + uTime * 0.00005);
+    vec3 col = getPaletteColor(t, int(uColorScheme)) * (0.75 + 0.25 * ridge);
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }

@@ -124,7 +124,7 @@ void main() {
       'lib/core/modules/gpu_sampler_diag_module.dart',
       'lib/core/modules/julia_perturb_module.dart',
       'lib/core/modules/escape_time_perturb_module.dart',
-      'lib/core/modules/builders/escape_time_builder.dart',
+      'lib/core/modules/builders/escape_time/builder.dart',
       'lib/core/services/rendering/palette_service.dart',
     ];
 

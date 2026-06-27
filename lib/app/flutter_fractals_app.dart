@@ -12,7 +12,8 @@ import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dar
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/home/home_screen.dart';
-import 'package:flutter_fractals/features/onboarding/onboarding_screen.dart';
+import 'package:flutter_fractals/features/onboarding/onboarding_screen.dart'
+    show FractalSplashScreen;
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// The root widget for Flutter Fractal Forge.
@@ -184,7 +185,7 @@ class _AppShell extends StatelessWidget {
   }
 }
 
-/// Handles splash -> onboarding -> home startup flow.
+/// Handles splash -> home startup flow.
 class _AppBootstrap extends StatefulWidget {
   final OnboardingService? onboardingService;
   final bool skipSplash;
@@ -200,16 +201,6 @@ class _AppBootstrapState extends State<_AppBootstrap> {
   late bool _showSplash = !RuntimeModeService.isAutomatedTest &&
       !RuntimeModeService.playwrightCatalogSmoke &&
       !widget.skipSplash;
-  bool _showOnboarding = false;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.onboardingService != null) {
-      _showOnboarding = !RuntimeModeService.playwrightCatalogSmoke &&
-          !widget.onboardingService!.isOnboardingComplete;
-    }
-  }
 
   void _onSplashFinished() {
     if (!mounted) return;
@@ -218,24 +209,10 @@ class _AppBootstrapState extends State<_AppBootstrap> {
     });
   }
 
-  void _onOnboardingComplete() {
-    if (!mounted) return;
-    setState(() {
-      _showOnboarding = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_showSplash) {
       return FractalSplashScreen(onFinished: _onSplashFinished);
-    }
-
-    if (_showOnboarding && widget.onboardingService != null) {
-      return OnboardingScreen(
-        onboardingService: widget.onboardingService!,
-        onComplete: _onOnboardingComplete,
-      );
     }
 
     return const HomeScreen();

@@ -1,8 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Animated splash screen for Fractal Forge.
@@ -23,6 +28,8 @@ class FractalSplashScreen extends StatefulWidget {
 class _FractalSplashScreenState extends State<FractalSplashScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
+  FractalController? _fractalController;
+  bool _didPickSplashFractal = false;
 
   @override
   void initState() {
@@ -43,8 +50,34 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didPickSplashFractal) return;
+    _didPickSplashFractal = true;
+
+    try {
+      final registry = context.read<ModuleRegistry>();
+      final controller = FractalController(registry);
+      final modules = registry.modules
+          .where((module) => module.dimension == FractalDimension.twoD)
+          .toList(growable: false);
+      if (modules.isNotEmpty) {
+        controller.selectModule(
+          modules[math.Random().nextInt(modules.length)],
+          animate: false,
+        );
+        controller.randomizeParams();
+      }
+      _fractalController = controller;
+    } catch (_) {
+      // Standalone splash previews/tests can render the lightweight fallback.
+    }
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
+    _fractalController?.dispose();
     super.dispose();
   }
 
@@ -56,72 +89,70 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
       body: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: SweepGradient(
-                center: Alignment.center,
-                startAngle: _controller.value * math.pi,
-                endAngle: _controller.value * math.pi + (math.pi * 2),
-                colors: [
-                  const Color(0xFF090A17),
-                  AppColors.primary.withValues(alpha: 0.45),
-                  const Color(0xFF0C2233),
-                  AppColors.secondary.withValues(alpha: 0.30),
-                  const Color(0xFF090A17),
-                ],
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned.fill(
+          final controller = _fractalController;
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              if (controller == null)
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: SweepGradient(
+                      center: Alignment.center,
+                      startAngle: _controller.value * math.pi,
+                      endAngle: _controller.value * math.pi + (math.pi * 2),
+                      colors: [
+                        const Color(0xFF090A17),
+                        AppColors.primary.withValues(alpha: 0.45),
+                        const Color(0xFF0C2233),
+                        AppColors.secondary.withValues(alpha: 0.30),
+                        const Color(0xFF090A17),
+                      ],
+                    ),
+                  ),
                   child: CustomPaint(
                     painter: _SplashFractalPainter(progress: _controller.value),
                   ),
+                )
+              else
+                ChangeNotifierProvider.value(
+                  value: controller,
+                  child: const FractalRenderer(
+                    gesturesEnabled: false,
+                    showRendererIndicator: false,
+                  ),
                 ),
-                Center(
-                  child: Semantics(
-                    header: true,
-                    label: l10n.semanticSplashScreen,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          l10n.appTitle,
-                          textAlign: TextAlign.center,
-                          style: AppTypography.displayLarge.copyWith(
-                            fontSize: 44,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.2,
-                            foreground: Paint()
-                              ..shader = const LinearGradient(
-                                colors: [
-                                  Color(0xFFF2EEFF),
-                                  Color(0xFFC9B2FF),
-                                  Color(0xFFA6F5FF),
-                                ],
-                              ).createShader(
-                                  const Rect.fromLTWH(0, 0, 300, 60)),
-                            shadows: [
-                              Shadow(
-                                color: AppColors.primary.withValues(alpha: 0.5),
-                                blurRadius: 24,
-                              ),
-                            ],
-                          ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.28),
+                ),
+              ),
+              Center(
+                child: Semantics(
+                  header: true,
+                  label: l10n.semanticSplashScreen,
+                  child: Text(
+                    'FRACTAL FORGE',
+                    textAlign: TextAlign.center,
+                    style: AppTypography.displayLarge.copyWith(
+                      fontSize: 44,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 2.4,
+                      color: const Color(0xFFF2EEFF),
+                      shadows: [
+                        Shadow(
+                          color: AppColors.primary.withValues(alpha: 0.65),
+                          blurRadius: 28,
                         ),
-                        const SizedBox(height: AppSpacing.md),
-                        Text(
-                          l10n.splashTagline,
-                          style: AppTypography.bodyLarge.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
+                        const Shadow(
+                          color: Colors.black,
+                          blurRadius: 8,
                         ),
                       ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),
@@ -481,7 +512,8 @@ class _OnboardingPage extends StatelessWidget {
             padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
               color: AppColors.surface,
-              border: Border.all(color: AppColors.border.withValues(alpha: 0.7)),
+              border:
+                  Border.all(color: AppColors.border.withValues(alpha: 0.7)),
               borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
             ),
             child: Row(

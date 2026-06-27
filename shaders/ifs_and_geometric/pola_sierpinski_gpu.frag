@@ -74,12 +74,14 @@ void main() {
 
   float hit = 0.0;
   float level = 0.0;
+  float nearest = 1e6;
   vec2 q = p;
   for (int i = 0; i < 11; i++) {
     if (i >= depth) break;
     q = abs(q);
     if (q.x < q.y) q = q.yx;
     q = q * 2.0 - vec2(1.0, 0.0);
+    nearest = min(nearest, abs(q.x + q.y - 0.05));
     if (q.x + q.y < 0.05) {
       hit = 1.0;
       level = float(i + 1) / float(depth);
@@ -88,7 +90,10 @@ void main() {
   }
 
   if (hit < 0.5) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float stripe = 0.5 + 0.5 * cos(24.0 * log(nearest + 1e-5));
+    float t = fract(0.35 - 1.7 * log(nearest + 1e-5) + 0.2 * r + uTime * 0.0001);
+    vec3 col = palette(t, int(uColorScheme)) * (0.25 + 0.55 * stripe);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.75 : 1.0);
     return;
   }
   float t = fract(level + 0.2 * r + uTime * 0.0001);

@@ -72,11 +72,12 @@ void main() {
 
       for (int n = 0; n <= 48; n++) {
         if (n > q) break;
-        for (int np = 0; np <= 48; np++) {
-          if (np > qp) break;
-
-          int det = np * q - n * qp;
-          if (det != 1 && det != -1) continue;
+        for (int sign = -1; sign <= 1; sign += 2) {
+          int numerator = n * qp + sign;
+          if (numerator < 0) continue;
+          if (numerator - (numerator / q) * q != 0) continue;
+          int np = numerator / q;
+          if (np > qp) continue;
 
           float x0 = float(n) / float(q);
           float x1 = float(np) / float(qp);

@@ -4,6 +4,8 @@ import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dar
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
+import 'package:flutter_fractals/features/catalog/data/performance_fractal_catalog.dart';
 
 /// Catalog data source for the Explore screen.
 ///
@@ -15,22 +17,54 @@ class CatalogRepository {
   const CatalogRepository({required this.entries});
 
   factory CatalogRepository.fromRegistry(ModuleRegistry registry) {
+    return CatalogRepository.fromFamilies(
+      coreModules: registry.modules,
+      performanceModules: PerformanceFractalCatalog.buildModules(),
+    );
+  }
+
+  factory CatalogRepository.fromFamilies({
+    required Iterable<FractalModule> coreModules,
+    Iterable<FractalModule> performanceModules = const [],
+  }) {
     final categoriesById = {
       for (final config in escapeTimeCatalog) config.id: config.category,
       for (final config in raymarched3DCatalog) config.id: config.category,
     };
+    final performanceIds =
+        performanceModules.map((module) => module.id).toSet();
+    final entries = <CatalogEntry>[
+      for (final module in coreModules)
+        if (!performanceIds.contains(module.id))
+          _entryForModule(
+            module,
+            family: CatalogFamily.core,
+            categoriesById: categoriesById,
+          ),
+      for (final module in performanceModules)
+        _entryForModule(
+          module,
+          family: CatalogFamily.performance,
+          categoriesById: categoriesById,
+        ),
+    ];
 
-    return CatalogRepository(
-      entries: registry.modules
-          .map(
-            (module) => CatalogEntry(
-              // Stable prefix to decouple future module refactors from IDs.
-              catalogId: 'core.${module.id}',
-              module: module,
-              category: categoriesById[module.id] ?? _categoryForModule(module),
-            ),
-          )
-          .toList(growable: false),
+    return CatalogRepository(entries: List.unmodifiable(entries));
+  }
+
+  static CatalogEntry _entryForModule(
+    FractalModule module, {
+    required CatalogFamily family,
+    required Map<String, String> categoriesById,
+  }) {
+    return CatalogEntry(
+      // Stable prefix to decouple future module refactors from IDs.
+      catalogId: family.catalogIdFor(module),
+      module: module,
+      category: family.forcedCategory ??
+          categoriesById[module.id] ??
+          _categoryForModule(module),
+      family: family,
     );
   }
 

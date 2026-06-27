@@ -11,7 +11,6 @@ Immutable data classes representing the application's domain model. These define
 | File | Description |
 |------|-------------|
 | `fractal_parameter.dart` | `FractalParameter` - defines a single configurable parameter (type, range, step, default) with `FractalParamType` enum |
-| `fractal_params.dart` | `FractalParams` - collection of parameter values as a typed map |
 | `fractal_preset.dart` | `FractalPreset` - named snapshot of parameters + view state + palette for save/restore |
 | `fractal_view_state.dart` | `FractalViewState` - pan offset, zoom level, rotation angles for the viewport |
 | `fractal_palette.dart` | `FractalPalette` - color palette definition for fractal coloring |

@@ -14,10 +14,10 @@ dependencies:
   cupertino_icons: ^1.0.8
   equatable: ^2.0.5
   intl: ^0.20.2
-  shared_preferences: ^2.2.0
+  shared_preferences: ^2.5.5
   file_selector: 1.0.3
   path_provider: ^2.1.0
-  share_plus: ^7.0.0
+  share_plus: ^13.2.0
   image: ^4.0.0
   google_fonts: ^6.2.1
   m3_carousel: ^2.1.0

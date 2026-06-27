@@ -1,0 +1,49 @@
+{
+  "createdAt": "2026-06-27T20:25:22.142899Z",
+  "moduleId": "mcmullen_map",
+  "moduleName": "McMullen Map",
+  "tags": [
+    "Low Detail",
+    "Low deep zoom",
+    "Randomize bad results"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=mcmullen_map&zoom=109864.16301521222&x=0.5976716876029968&y=0.15158048272132874&iterations=500&bailout=6&colorScheme=0&power=3&p=eyJhSW1hZyI6MC4wLCJhUmVhbCI6LTAuMSwiYmFpbG91dCI6Ni4wLCJjb2xvclNjaGVtZSI6MCwiaXRlcmF0aW9ucyI6NTAwLCJwb3dlciI6M30",
+  "params": {
+    "iterations": 500,
+    "bailout": 6.0,
+    "colorScheme": 0,
+    "power": 3,
+    "aReal": -0.1,
+    "aImag": 0.0
+  },
+  "view": {
+    "zoom": 109864.16301521222,
+    "x": 0.5976716876029968,
+    "y": 0.15158048272132874,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added interior orbit/trap coloring so McMullen random/deep interior views are not flat black.",
+    "research": "research/issue-fixes/2026-06-27T20-25-22-142899Z_mcmullen_map/research-not-needed.md",
+    "validation": [
+      "python3 shader interior detail assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

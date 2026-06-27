@@ -1,0 +1,18 @@
+{
+  "createdAt": null,
+  "moduleId": "farey_diagram",
+  "moduleName": "Farey Diagram",
+  "tags": [
+    "Performance"
+  ],
+  "notes": "super bad performance",
+  "resolution": {
+    "status": "fixed",
+    "summary": "Replaced the innermost Farey np scan with direct determinant candidates, removing one nested loop while preserving det=\u00b11 adjacency.",
+    "research": "research/issue-fixes/farey_diagram/research-not-needed.md",
+    "validation": [
+      "python3 shader determinant-candidate assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-27T20:24:51.227924Z",
+  "moduleId": "newton_z4_nova",
+  "moduleName": "Newton z\u2074 Nova",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=newton_z4_nova&zoom=177016.8137531369&x=0.4392474293708801&y=0.108479805290699&iterations=500&bailout=8&colorScheme=0&p=eyJiYWlsb3V0Ijo4LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MDAsInJlbGF4YXRpb24iOjEuMH0",
+  "params": {
+    "iterations": 500,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "relaxation": 1.0
+  },
+  "view": {
+    "zoom": 177016.8137531369,
+    "x": 0.4392474293708801,
+    "y": 0.108479805290699,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added Newton step travel/min-step basin shading so deep zooms inside one root basin retain variation.",
+    "research": "research/issue-fixes/2026-06-27T20-24-51-227924Z_newton_z4_nova/research-not-needed.md",
+    "validation": [
+      "python3 shader basin-shading assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}
