@@ -32,5 +32,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:30:00Z",
+    "note": "Verified the K=6 Standard Map identity uses the shared standard-map shader and focused catalog test confirms the K parameter and shader wiring."
   }
 }
