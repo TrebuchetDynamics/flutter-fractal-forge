@@ -4332,8 +4332,11 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
     name: 'Magnet Type I',
     shaderAsset:
         'shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag',
-    defaultIterations: 150,
+    defaultIterations: 158,
     defaultBailout: 8.0,
+    defaultCenterX: 0.7072526812553406,
+    defaultCenterY: -0.21410192549228668,
+    defaultZoom: 0.2039256117342137,
   ),
   EscapeTimeConfig(
     id: 'mandelbar_cubic',

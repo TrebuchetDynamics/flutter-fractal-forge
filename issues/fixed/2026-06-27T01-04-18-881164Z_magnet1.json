@@ -31,5 +31,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:33:00Z",
+    "note": "Updated magnet1 catalog defaults to the reported useful initial params/framing and added regression coverage."
   }
 }
