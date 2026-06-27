@@ -157,10 +157,14 @@ FractalModule _buildSharedEscapeExpressionModule(
         entry.family == SharedEscapeExpressionFamily.sine ? 220 : 160,
     defaultBailout:
         entry.family == SharedEscapeExpressionFamily.sine ? 10.0 : 4.0,
-    defaultCenterX:
-        entry.family == SharedEscapeExpressionFamily.cosine ? -0.4 : 0.0,
-    defaultZoom:
-        entry.family == SharedEscapeExpressionFamily.cosine ? 0.3 : 1.0,
+    defaultCenterX: entry.id == 'f0508_log_cos_z_c'
+        ? -1.0138758420944214
+        : (entry.family == SharedEscapeExpressionFamily.cosine ? -0.4 : 0.0),
+    defaultCenterY:
+        entry.id == 'f0508_log_cos_z_c' ? -0.30382946133613586 : 0.0,
+    defaultZoom: entry.id == 'f0508_log_cos_z_c'
+        ? 0.2588516917544482
+        : (entry.family == SharedEscapeExpressionFamily.cosine ? 0.3 : 1.0),
     extraParams: [
       FractalParameter(
         id: 'variant',

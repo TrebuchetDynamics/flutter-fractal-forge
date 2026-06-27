@@ -32,5 +32,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:31:00Z",
+    "note": "Set the shared log(cos(z))+c default framing to the reported useful coordinates and added catalog regression coverage."
   }
 }

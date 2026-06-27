@@ -40,4 +40,12 @@ void main() {
     expect(
         registry.byId('cosine_mandelbrot').defaultPreset.params['variant'], 0);
   });
+
+  test('keeps log-cos default framing on the reported useful region', () {
+    final view = ModuleRegistry().byId('f0508_log_cos_z_c').defaultPreset.view;
+
+    expect(view.pan.x, closeTo(-1.0138758420944214, 1e-12));
+    expect(view.pan.y, closeTo(-0.30382946133613586, 1e-12));
+    expect(view.zoom, closeTo(0.2588516917544482, 1e-12));
+  });
 }
