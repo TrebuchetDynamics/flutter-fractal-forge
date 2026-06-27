@@ -1,0 +1,35 @@
+{
+  "createdAt": "2026-06-27T01:04:10.185001Z",
+  "moduleId": "vicsek_fractal",
+  "moduleName": "Vicsek Fractal",
+  "tags": [
+    "Is does not look the correct fractal"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=vicsek_fractal&zoom=41.95090474904693&x=0.5369662046432495&y=0.007060194853693247&iterations=404&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo0MDR9",
+  "params": {
+    "iterations": 404,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 41.95090474904693,
+    "x": 0.5369662046432495,
+    "y": 0.007060194853693247,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "createdAt": "2026-06-27T01:15:07.590527Z",
+  "moduleId": "f1054_svensson_halo",
+  "moduleName": "Svensson Halo",
+  "tags": [
+    "Is does not look the correct fractal"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f1054_svensson_halo&iterations=220&bailout=8&colorScheme=0&p=eyJhIjotMi41LCJiIjo1LjAsImJhaWxvdXQiOjguMCwiYyI6LTEuOSwiY29sb3JTY2hlbWUiOjAsImQiOjEuMCwiaXRlcmF0aW9ucyI6MjIwfQ",
+  "params": {
+    "iterations": 220,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "a": -2.5,
+    "b": 5.0,
+    "c": -1.9,
+    "d": 1.0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

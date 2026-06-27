@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-06-27T01:04:00.752962Z",
+  "moduleId": "f0508_log_cos_z_c",
+  "moduleName": "log(cos(z))+c",
+  "tags": [
+    "Bad initial coordinates"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f0508_log_cos_z_c&zoom=0.2588516917544482&x=-1.0138758420944214&y=-0.30382946133613586&iterations=160&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoxNjAsInZhcmlhbnQiOjF9",
+  "params": {
+    "iterations": 160,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "variant": 1
+  },
+  "view": {
+    "zoom": 0.2588516917544482,
+    "x": -1.0138758420944214,
+    "y": -0.30382946133613586,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

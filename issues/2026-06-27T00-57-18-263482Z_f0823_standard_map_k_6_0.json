@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-06-27T00:57:18.263482Z",
+  "moduleId": "f0823_standard_map_k_6_0",
+  "moduleName": "Standard Map K=6.0",
+  "tags": [
+    "Is does not look the correct fractal"
+  ],
+  "notes": "low detail",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f0823_standard_map_k_6_0&zoom=0.20392561173421359&x=-1.306603193283081&y=0.6005951166152954&iterations=220&bailout=8&colorScheme=21&p=eyJiYWlsb3V0Ijo4LjAsImNvbG9yU2NoZW1lIjoyMSwiaXRlcmF0aW9ucyI6MjIwLCJrIjo2LjB9",
+  "params": {
+    "iterations": 220,
+    "bailout": 8.0,
+    "colorScheme": 21,
+    "k": 6.0
+  },
+  "view": {
+    "zoom": 0.20392561173421359,
+    "x": -1.306603193283081,
+    "y": 0.6005951166152954,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

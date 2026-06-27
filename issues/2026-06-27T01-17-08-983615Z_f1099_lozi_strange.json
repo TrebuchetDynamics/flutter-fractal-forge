@@ -1,0 +1,37 @@
+{
+  "createdAt": "2026-06-27T01:17:08.983615Z",
+  "moduleId": "f1099_lozi_strange",
+  "moduleName": "Lozi Strange",
+  "tags": [
+    "No image"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f1099_lozi_strange&iterations=180&bailout=8&colorScheme=0&p=eyJhIjoxLjMsImIiOjAuNywiYmFpbG91dCI6OC4wLCJjb2xvclNjaGVtZSI6MCwiaXRlcmF0aW9ucyI6MTgwfQ",
+  "params": {
+    "iterations": 180,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "a": 1.3,
+    "b": 0.7
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

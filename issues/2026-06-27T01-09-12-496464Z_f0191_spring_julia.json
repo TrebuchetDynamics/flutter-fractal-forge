@@ -1,0 +1,37 @@
+{
+  "createdAt": "2026-06-27T01:09:12.496464Z",
+  "moduleId": "f0191_spring_julia",
+  "moduleName": "Spring Julia",
+  "tags": [
+    "Other"
+  ],
+  "notes": "RANDOMIZE produce bad results",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f0191_spring_julia&iterations=4368&bailout=2.5&colorScheme=62&juliaX=0.02&juliaY=1.01&p=eyJiYWlsb3V0IjoyLjUsImNvbG9yU2NoZW1lIjo2MiwiaXRlcmF0aW9ucyI6NDM2OCwianVsaWFDSW1hZyI6MS4wMSwianVsaWFDUmVhbCI6MC4wMn0",
+  "params": {
+    "iterations": 4368,
+    "bailout": 2.5,
+    "colorScheme": 62,
+    "juliaCReal": 0.02,
+    "juliaCImag": 1.01
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

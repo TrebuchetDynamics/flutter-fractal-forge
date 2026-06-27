@@ -1,0 +1,39 @@
+{
+  "createdAt": "2026-06-27T01:14:51.683793Z",
+  "moduleId": "f1047_svensson_coral",
+  "moduleName": "Svensson Coral",
+  "tags": [
+    "Is does not look the correct fractal"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f1047_svensson_coral&zoom=0.8529963589691316&x=-0.04648786783218384&y=-0.02646966278553009&iterations=78&bailout=2.5&colorScheme=22&p=eyJhIjowLjc3LCJiIjoyLjM5LCJiYWlsb3V0IjoyLjUsImMiOjYuMzQsImNvbG9yU2NoZW1lIjoyMiwiZCI6LTYuMzYsIml0ZXJhdGlvbnMiOjc4fQ",
+  "params": {
+    "iterations": 78,
+    "bailout": 2.5,
+    "colorScheme": 22,
+    "a": 0.77,
+    "b": 2.39,
+    "c": 6.34,
+    "d": -6.36
+  },
+  "view": {
+    "zoom": 0.8529963589691316,
+    "x": -0.04648786783218384,
+    "y": -0.02646966278553009,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

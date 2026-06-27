@@ -1,0 +1,37 @@
+{
+  "createdAt": "2026-06-27T00:56:56.171733Z",
+  "moduleId": "f0561_mandelbulb_n_8",
+  "moduleName": "Mandelbulb n=8",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f0561_mandelbulb_n_8&zoom=3.295309191095809&x=-0.035068854689598083&y=-0.020306920632719994&rotX=0.0055652339942753315&rotY=-0.2337152063846588&iterations=50&bailout=4&colorScheme=3&power=8&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjozLCJpdGVyYXRpb25zIjo1MCwicG93ZXIiOjguMCwic3RlcHMiOjEyMH0",
+  "params": {
+    "power": 8.0,
+    "iterations": 50,
+    "steps": 120,
+    "bailout": 4.0,
+    "colorScheme": 3
+  },
+  "view": {
+    "zoom": 3.295309191095809,
+    "x": -0.035068854689598083,
+    "y": -0.020306920632719994,
+    "rotX": 0.0055652339942753315,
+    "rotY": -0.2337152063846588,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

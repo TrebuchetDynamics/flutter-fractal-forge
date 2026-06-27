@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-06-27T01:31:07.574775Z",
+  "moduleId": "wolfram_rule30",
+  "moduleName": "Wolfram Rule 30",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=wolfram_rule30&zoom=0.4889475768792572&x=-0.06047894060611725&y=-1.7251312732696533&iterations=240&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoyNDAsInJ1bGUiOjMwLjB9",
+  "params": {
+    "iterations": 240,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "rule": 30.0
+  },
+  "view": {
+    "zoom": 0.4889475768792572,
+    "x": -0.06047894060611725,
+    "y": -1.7251312732696533,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

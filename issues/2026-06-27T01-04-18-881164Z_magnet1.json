@@ -1,0 +1,35 @@
+{
+  "createdAt": "2026-06-27T01:04:18.881164Z",
+  "moduleId": "magnet1",
+  "moduleName": "Magnet Type I",
+  "tags": [
+    "Bad initial params"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=magnet1&zoom=0.2039256117342137&x=0.7072526812553406&y=-0.21410192549228668&iterations=158&bailout=8&colorScheme=0&p=eyJiYWlsb3V0Ijo4LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoxNTh9",
+  "params": {
+    "iterations": 158,
+    "bailout": 8.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 0.2039256117342137,
+    "x": 0.7072526812553406,
+    "y": -0.21410192549228668,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}
