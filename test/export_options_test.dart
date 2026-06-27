@@ -45,10 +45,17 @@ void main() {
     test('default options have sensible values', () {
       const options = ExportOptions();
       expect(options.format, ExportFormat.png);
-      expect(options.resolution, ExportResolution.fullHd);
+      expect(options.resolution, ExportResolution.screen);
       expect(options.quality, 95);
       expect(options.embedMetadata, isTrue);
       expect(options.transparentBackground, isFalse);
+    });
+
+    test('calculatePixelRatio returns 1.0 for screen resolution', () {
+      const options = ExportOptions();
+
+      expect(options.calculatePixelRatio(400, 800), 1.0);
+      expect(options.getTargetDimensions(400, 800), (400, 800));
     });
 
     test('calculatePixelRatio returns correct ratio for preset resolutions',

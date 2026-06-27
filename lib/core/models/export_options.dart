@@ -229,7 +229,7 @@ class ExportOptions extends Equatable {
 
   const ExportOptions({
     this.format = ExportFormat.png,
-    this.resolution = ExportResolution.fullHd,
+    this.resolution = ExportResolution.screen,
     this.customWidth,
     this.customHeight,
     this.transparentBackground = false,
@@ -309,7 +309,7 @@ class ExportOptions extends Equatable {
           .clamp(1.0, 8.0);
     }
 
-    return 2.5; // Default for screen resolution
+    return 1.0; // Screen resolution
   }
 
   /// Get the target dimensions for this export
