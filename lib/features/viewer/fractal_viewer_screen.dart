@@ -827,7 +827,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         kaleidoscopeEnabled:
                             activeController.kaleidoscopeEnabled,
                         fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
-                        showFractalReport: Platform.isLinux,
+                        showFractalReport: !kIsWeb && Platform.isLinux,
                         actions: FractalViewControlActions(
                           toggleFullscreen: _toggleFullscreenUnobtrusive,
                           openRandomFractal: () => _onRandomFractalFab(context),

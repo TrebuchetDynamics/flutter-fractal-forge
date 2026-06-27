@@ -34,8 +34,8 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
         'lastGpuHistogramSane': _lastGpuHistogramSane,
         'lastGpuSampleCount': _lastGpuSampleCount,
         'lastGpuHealthError': _lastGpuHealthError?.toString(),
-        'platform': Platform.operatingSystem,
-        'platformVersion': Platform.operatingSystemVersion,
+        'platform': kIsWeb ? 'web' : Platform.operatingSystem,
+        'platformVersion': kIsWeb ? '' : Platform.operatingSystemVersion,
       };
 
       final reportText = const JsonEncoder.withIndent('  ').convert(payload);

@@ -31,7 +31,7 @@ class FractalMusicService {
 
   Future<void> play(FractalController controller) async {
     await stop();
-    if (!Platform.isLinux) {
+    if (kIsWeb || !Platform.isLinux) {
       throw StateError('Fractal Music playback is currently Linux-only.');
     }
     if (!await _commandExists('paplay') && !await _commandExists('aplay')) {

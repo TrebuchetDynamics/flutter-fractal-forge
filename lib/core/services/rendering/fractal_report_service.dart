@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -72,8 +73,9 @@ class FractalReportService {
     final explicitDirectory = issuesDirectory;
     if (explicitDirectory != null) return Directory(explicitDirectory);
 
-    final envDirectory =
-        (environment ?? Platform.environment)[issuesDirectoryEnv]?.trim();
+    final envDirectory = (environment ??
+            (kIsWeb ? const {} : Platform.environment))[issuesDirectoryEnv]
+        ?.trim();
     if (envDirectory != null && envDirectory.isNotEmpty) {
       return Directory(envDirectory);
     }

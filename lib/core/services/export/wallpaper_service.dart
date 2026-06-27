@@ -29,7 +29,7 @@ class WallpaperService {
 
     ExportSizePolicy.validateEncodedByteLength(pngBytes.lengthInBytes);
 
-    if (Platform.isIOS) {
+    if (!kIsWeb && Platform.isIOS) {
       // iOS does not allow programmatic wallpaper setting. Save to Photos.
       return saveToPhotos(pngBytes);
     }
