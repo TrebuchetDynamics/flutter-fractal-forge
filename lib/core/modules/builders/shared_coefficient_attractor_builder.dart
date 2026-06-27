@@ -23,7 +23,7 @@ FractalModule buildSharedCoefficientAttractorModule({
     moduleId: id,
     name: name,
     params: {
-      'iterations': 220,
+      'iterations': 360,
       'bailout': bailout,
       'colorScheme': 0,
       'a': a,
@@ -44,8 +44,8 @@ FractalModule buildSharedCoefficientAttractorModule({
     dimension: FractalDimension.twoD,
     shaderAsset: shaderAsset,
     parameters: [
-      CommonFractalParams.iterations(defaultValue: 220, max: 500),
-      CommonFractalParams.bailout(defaultValue: bailout),
+      CommonFractalParams.iterations(defaultValue: 360, max: 500),
+      CommonFractalParams.bailout(defaultValue: bailout, max: bailout),
       CommonFractalParams.colorScheme64(defaultValue: 0),
       _coefficientParam('a', a, min: coefficientMin, max: coefficientMax),
       _coefficientParam('b', b, min: coefficientMin, max: coefficientMax),
@@ -61,7 +61,7 @@ FractalModule buildSharedCoefficientAttractorModule({
       shader.setFloat(3, state.view.pan.x);
       shader.setFloat(4, state.view.pan.y);
       shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, readDouble(state.params, 'iterations', 220));
+      shader.setFloat(6, readDouble(state.params, 'iterations', 360));
       shader.setFloat(7, readDouble(state.params, 'bailout', bailout));
       shader.setFloat(8, readDouble(state.params, 'colorScheme', 0));
       shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);

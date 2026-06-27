@@ -31,5 +31,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:39:00Z",
+    "note": "Increased the Bouali shader integration step so the default 360 iterations develop more visible orbit detail, with focused shader regression coverage."
   }
 }

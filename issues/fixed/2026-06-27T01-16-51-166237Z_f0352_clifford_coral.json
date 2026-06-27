@@ -35,5 +35,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:37:00Z",
+    "note": "Raised shared coefficient-attractor default iterations to improve density detail for Clifford Coral and added regression coverage."
   }
 }

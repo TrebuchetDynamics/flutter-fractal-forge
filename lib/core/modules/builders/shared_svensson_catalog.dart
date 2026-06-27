@@ -74,10 +74,10 @@ const List<SharedSvenssonCatalogEntry> sharedSvenssonCatalogEntries = [
   SharedSvenssonCatalogEntry(
     id: 'f1047_svensson_coral',
     name: 'Svensson Coral',
-    a: -1.97,
-    b: 1.81,
-    c: 0.82,
-    d: -1.13,
+    a: 0.77,
+    b: 2.39,
+    c: 6.34,
+    d: -6.36,
   ),
   SharedSvenssonCatalogEntry(
     id: 'f1048_svensson_eye',

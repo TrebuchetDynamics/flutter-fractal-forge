@@ -32,5 +32,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:40:00Z",
+    "note": "Changed the Rule 30 shader to wrap vertical panning into visible generations instead of clamping off-band views to generation 0, with focused shader regression coverage."
   }
 }

@@ -33,5 +33,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:34:00Z",
+    "note": "Capped shared Julia randomizable iterations at 500 so randomize cannot produce the reported 4368-iteration bad state, with catalog regression coverage."
   }
 }

@@ -268,7 +268,7 @@ List<FractalModule> buildSharedJuliaCatalogModules() =>
 
 FractalModule _buildSharedJuliaModule(SharedJuliaCatalogEntry entry) {
   final parameters = [
-    CommonFractalParams.iterations(defaultValue: 280),
+    CommonFractalParams.iterations(defaultValue: 280, max: 500),
     CommonFractalParams.bailout(defaultValue: 4.0),
     CommonFractalParams.colorScheme64(defaultValue: 0),
     FractalParameter(

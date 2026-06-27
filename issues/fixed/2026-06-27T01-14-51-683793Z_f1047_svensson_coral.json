@@ -35,5 +35,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:35:00Z",
+    "note": "Updated Svensson Coral catalog coefficients to the reported working parameter set and added regression coverage."
   }
 }

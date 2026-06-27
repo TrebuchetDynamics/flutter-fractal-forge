@@ -97,7 +97,8 @@ void main() {
   vec2 p = uv / max(0.000001, uZoom) + uCenter;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int gen = int(floor((p.y + 0.5) * float(target)));
+  float row = fract(p.y + 0.5);
+  int gen = int(floor(row * float(target)));
   gen = int(clamp(float(gen), 0.0, float(target - 1)));
   int cell = int(floor((p.x + 0.5) * float(target)));
 

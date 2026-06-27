@@ -35,5 +35,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:36:00Z",
+    "note": "Fixed coefficient-attractor bailout schema so Svensson Halo can keep its intended 24.0 bailout instead of being capped to the reported 8.0 state, with regression coverage."
   }
 }

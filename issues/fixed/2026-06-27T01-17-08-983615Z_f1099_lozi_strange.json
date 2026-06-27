@@ -33,5 +33,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:38:00Z",
+    "note": "Changed the Lozi shader bounded-orbit branch to render density color instead of black, with focused shader regression coverage."
   }
 }

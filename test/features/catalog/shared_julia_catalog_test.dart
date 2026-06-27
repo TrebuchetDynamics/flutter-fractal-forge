@@ -22,4 +22,13 @@ void main() {
       expect(module.defaultPreset.params['juliaCImag'], entry.cImag);
     }
   });
+
+  test('caps shared Julia randomizable iterations for GPU stability', () {
+    final iterations = ModuleRegistry()
+        .byId('f0191_spring_julia')
+        .parameters
+        .singleWhere((param) => param.id == 'iterations');
+
+    expect(iterations.max, 500.0);
+  });
 }

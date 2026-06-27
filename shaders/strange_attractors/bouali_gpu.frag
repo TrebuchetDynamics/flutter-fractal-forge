@@ -60,7 +60,7 @@ void main() {
   const float b = 1.0;
   const float c = 0.3;
   const float d = 1.0;
-  const float dt = 0.006;
+  const float dt = 0.01;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
   float bailoutSq = max(16.0, uBailout * uBailout);

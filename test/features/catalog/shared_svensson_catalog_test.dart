@@ -21,4 +21,22 @@ void main() {
     expect(module.defaultPreset.params['c'], 1.6);
     expect(module.defaultPreset.params['d'], 0.9);
   });
+
+  test('uses reported Svensson Coral coefficients', () {
+    final params =
+        ModuleRegistry().byId('f1047_svensson_coral').defaultPreset.params;
+
+    expect(params['a'], 0.77);
+    expect(params['b'], 2.39);
+    expect(params['c'], 6.34);
+    expect(params['d'], -6.36);
+  });
+
+  test('allows Svensson Halo to keep its high bailout default', () {
+    final module = ModuleRegistry().byId('f1054_svensson_halo');
+    final bailout = module.parameters.singleWhere((p) => p.id == 'bailout');
+
+    expect(module.defaultPreset.params['bailout'], 24.0);
+    expect(bailout.max, 24.0);
+  });
 }

@@ -21,4 +21,15 @@ void main() {
     expect(module.defaultPreset.params['c'], 1.0);
     expect(module.defaultPreset.params['d'], 0.7);
   });
+
+  test('starts Clifford Coral with higher density detail', () {
+    final params =
+        ModuleRegistry().byId('f0352_clifford_coral').defaultPreset.params;
+
+    expect(params['iterations'], 360);
+    expect(params['a'], -1.7);
+    expect(params['b'], 1.8);
+    expect(params['c'], -1.9);
+    expect(params['d'], -0.4);
+  });
 }

@@ -20,7 +20,8 @@ void main() {
       final idMatch = RegExp(r"id: '([^']+)'").firstMatch(moduleSource);
       final classMatch =
           RegExp(r'class\s+(\w+)\s+extends').firstMatch(moduleSource);
-      final shaderMatch = RegExp(r"shader: '([^']+)'").firstMatch(moduleSource);
+      final shaderMatch =
+          RegExp(r"shader:\s*'([^']+)'").firstMatch(moduleSource);
 
       if (idMatch == null) {
         failures.add('${moduleFile.path}: missing id literal');

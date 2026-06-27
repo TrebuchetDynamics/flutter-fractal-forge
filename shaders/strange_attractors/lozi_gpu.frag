@@ -60,6 +60,7 @@ void main() {
   float bailoutSq = uBailout * uBailout;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = target;
+  float density = 0.0;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
@@ -70,11 +71,13 @@ void main() {
     y = ny;
 
     float r2 = x * x + y * y;
+    density += exp(-0.35 * r2);
     if (r2 > bailoutSq) { it = j + 1; break; }
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float t = fract((density / max(float(target), 1.0)) * 1.8 + uTime * 0.00005);
+    fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 
