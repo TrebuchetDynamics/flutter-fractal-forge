@@ -1,0 +1,35 @@
+{
+  "createdAt": "2026-06-27T21:31:34.071881Z",
+  "moduleId": "feather_julia",
+  "moduleName": "Feather Julia",
+  "tags": [
+    "Other"
+  ],
+  "notes": "zoom dont work",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=feather_julia&zoom=0.3285717657253854&x=1.067598581314087&y=0.38393446803092957&iterations=272&bailout=8&colorScheme=0&p=eyJiYWlsb3V0Ijo4LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoyNzJ9",
+  "params": {
+    "iterations": 272,
+    "bailout": 8.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 0.3285717657253854,
+    "x": 1.067598581314087,
+    "y": 0.38393446803092957,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

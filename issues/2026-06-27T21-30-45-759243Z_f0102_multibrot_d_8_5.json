@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-06-27T21:30:45.759243Z",
+  "moduleId": "f0102_multibrot_d_8_5",
+  "moduleName": "Multibrot d=8.5",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=f0102_multibrot_d_8_5&zoom=28438.524459674136&x=0.9075077772140503&y=0.2844517230987549&iterations=940&bailout=4&colorScheme=0&power=8.5&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo5NDAsInBvd2VyIjo4LjV9",
+  "params": {
+    "iterations": 940,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "power": 8.5
+  },
+  "view": {
+    "zoom": 28438.524459674136,
+    "x": 0.9075077772140503,
+    "y": 0.2844517230987549,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}
