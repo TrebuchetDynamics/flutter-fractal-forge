@@ -64,6 +64,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     if (!await _exportService.chooseLinuxExportDirectory()) return;
     if (!mounted) return;
     final originalView = controller.view;
+    final originalParams = controller.params;
+    final originalTransparency = controller.transparentBackground;
     final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
     looper.stop();
 
@@ -78,7 +80,12 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       img.Image? animation;
 
       for (var i = 0; i < plan.frameCount; i++) {
-        controller.updateView(plan.poseAtFrame(i).toView());
+        final point = plan.stateAtFrame(i);
+        controller.loadState(
+          params: point.params,
+          view: point.view,
+          transparentBackground: controller.transparentBackground,
+        );
         await WidgetsBinding.instance.endOfFrame;
 
         final pngBytes = await _exportService.capturePng(
@@ -159,7 +166,11 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         );
       }
     } finally {
-      controller.updateView(originalView);
+      controller.loadState(
+        params: originalParams,
+        view: originalView,
+        transparentBackground: originalTransparency,
+      );
       if (mounted) {
         setState(() {
           _finishExportFlow();

@@ -56,7 +56,7 @@ class LooperSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
-                  'Save two camera positions, then preview or export a looping GIF. Max 15s.',
+                  'Save camera + parameter keyframes, then preview or export a looping GIF. Max 15s.',
                   style: AppTypography.bodySmall.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -78,13 +78,38 @@ class LooperSheet extends StatelessWidget {
                     Expanded(
                       child: OutlinedButton.icon(
                         key: const ValueKey('looperSetBButton'),
-                        onPressed: controller.setBFromCurrent,
+                        onPressed: controller.a == null
+                            ? null
+                            : controller.setBFromCurrent,
                         icon: Icon(controller.b == null
                             ? Icons.looks_two_outlined
                             : Icons.check_circle_rounded),
                         label: const Text('Set B'),
                       ),
                     ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                Wrap(
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  children: [
+                    for (var i = 2; i < controller.points.length; i++)
+                      InputChip(
+                        label:
+                            Text('Update ${LooperController.labelForIndex(i)}'),
+                        onPressed: () => controller.setPointFromCurrent(i),
+                        onDeleted: () => controller.removePoint(i),
+                      ),
+                    if (controller.points.length >= 2)
+                      ActionChip(
+                        key: const ValueKey('looperAddPointButton'),
+                        avatar: const Icon(Icons.add_rounded),
+                        label: Text(
+                          'Add ${LooperController.labelForIndex(controller.points.length)}',
+                        ),
+                        onPressed: controller.addPointFromCurrent,
+                      ),
                   ],
                 ),
                 const SizedBox(height: AppSpacing.lg),

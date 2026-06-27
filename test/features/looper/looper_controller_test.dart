@@ -1,7 +1,9 @@
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:vector_math/vector_math.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -23,14 +25,14 @@ void main() {
   );
 
   test('duration is capped to 15 seconds', () {
-    final plan = LooperPlan(a: a, b: b, duration: const Duration(seconds: 99));
+    final plan = _plan(a, b, const Duration(seconds: 99));
 
     expect(plan.duration, const Duration(seconds: 15));
     expect(plan.frameCount, 120);
   });
 
   test('poses move A to B and back', () {
-    final plan = LooperPlan(a: a, b: b, duration: const Duration(seconds: 2));
+    final plan = _plan(a, b, const Duration(seconds: 2));
 
     expect(plan.poseAtFrame(0).x, 0);
     expect(plan.poseAtFrame(plan.frameCount ~/ 2).x, closeTo(2, 0.3));
@@ -60,3 +62,21 @@ void main() {
     expect(looper.isPlaying, isFalse);
   });
 }
+
+LooperPlan _plan(LooperPose a, LooperPose b, Duration duration) {
+  final module = ModuleRegistry().modules.first;
+  return LooperPlan(
+    module: module,
+    points: [_point(a), _point(b)],
+    duration: duration,
+  );
+}
+
+LooperPoint _point(LooperPose pose) => LooperPoint(
+      view: FractalViewState(
+        pan: Vector2(pose.x, pose.y),
+        zoom: pose.z,
+        rotation: Vector3(pose.rotationX, pose.rotationY, pose.rotationZ),
+      ),
+      params: const {},
+    );
