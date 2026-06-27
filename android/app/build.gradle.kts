@@ -90,8 +90,8 @@ flutter {
 }
 
 dependencies {
-    // Android 15 edge-to-edge compatibility helper used by MainActivity.
-    implementation("androidx.activity:activity:1.12.4")
+    // Android 15 edge-to-edge compatibility helpers used by MainActivity.
+    implementation("androidx.core:core:1.16.0")
 
     // Play Core modular library for SDK 34+ compatibility
     // Replaces deprecated com.google.android.play:core:1.10.3

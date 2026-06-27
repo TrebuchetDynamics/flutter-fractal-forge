@@ -10,8 +10,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.activity.SystemBarStyle
-import androidx.activity.enableEdgeToEdge
+import android.view.Window
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.plugin.common.MethodChannel
@@ -32,12 +33,37 @@ class MainActivity : FlutterFragmentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
-        )
+        enableEdgeToEdgeCompat()
         super.onCreate(savedInstanceState)
         initialLink = intent?.dataString
+    }
+
+    private fun enableEdgeToEdgeCompat() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (Build.VERSION.SDK_INT < 35) {
+            setWindowColorCompat("setStatusBarColor", Color.TRANSPARENT)
+            setWindowColorCompat("setNavigationBarColor", Color.TRANSPARENT)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val attributes = window.attributes
+            // ponytail: raw values avoid Android 15's deprecated cutout constants; 3=ALWAYS, 1=SHORT_EDGES pre-R.
+            attributes.layoutInDisplayCutoutMode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) 3 else 1
+            window.attributes = attributes
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isStatusBarContrastEnforced = false
+            window.isNavigationBarContrastEnforced = false
+        }
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
+    }
+
+    private fun setWindowColorCompat(methodName: String, color: Int) {
+        runCatching {
+            Window::class.java.getMethod(methodName, Int::class.javaPrimitiveType).invoke(window, color)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

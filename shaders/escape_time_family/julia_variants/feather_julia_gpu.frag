@@ -52,7 +52,8 @@ void main() {
   vec2 uv = (fragCoord - 0.5*uResolution) / max(1.0, scale);
 
   int schemeInt = int(uColorScheme);
-  vec2 z   = uv / max(0.000001, uZoom) + uCenter;
+  vec2 z0  = uv / max(0.000001, uZoom) + uCenter;
+  vec2 z   = z0;
   vec2 c   = vec2(0.35, -0.05);   // fixed Julia parameter
   vec2 der = vec2(1.0, 0.0);
 
@@ -74,9 +75,9 @@ void main() {
   }
 
   if (it >= target) {
-    float phase = atan(uv.y + uCenter.y, uv.x + uCenter.x) / 6.28318530718 + 0.5;
-    float plumes = smoothstep(0.26, 0.52, abs(sin(18.0 * phase + 10.0 * length(z) + 8.0 * (uv.x + uCenter.x))));
-    float barbs = smoothstep(0.30, 0.56, abs(sin(12.0 * (uv.x + uCenter.x) - 16.0 * (uv.y + uCenter.y))));
+    float phase = atan(z0.y, z0.x) / 6.28318530718 + 0.5;
+    float plumes = smoothstep(0.26, 0.52, abs(sin(18.0 * phase + 10.0 * length(z) + 8.0 * z0.x)));
+    float barbs = smoothstep(0.30, 0.56, abs(sin(12.0 * z0.x - 16.0 * z0.y)));
     float tBound = fract(phase + 0.22 * plumes + 0.12 * barbs + uTime * 0.0001);
     vec3 col = palette(tBound, schemeInt) * (0.48 + 0.52 * max(plumes, barbs));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);

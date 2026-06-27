@@ -69,9 +69,11 @@ void main() {
   vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
-  const int MAX_ITERS = 500;
+  const int MAX_ITERS = 2000;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float trap = 1e9;
+  float orbitGlow = 0.0;
 
   // Early-out: for z0=0 in z -> z^d + c, first iterate is z1=c.
   // If |c| already exceeds bailout, we can skip the loop safely.
@@ -88,13 +90,22 @@ void main() {
       der = cmul(derivFactor, der) + vec2(1.0, 0.0);
       z = cpowReal(z, power) + c;
 
-      if (dot(z, z) > bailoutSq) { it = j; break; }
+      float r2 = dot(z, z);
+      trap = min(trap, abs(length(z) - 0.75));
+      orbitGlow += exp(-4.0 * r2);
+      if (r2 > bailoutSq) { it = j; break; }
       it = j + 1;
     }
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
+    if (uTransparentBg > 0.5) {
+      fragColor = vec4(0.0);
+      return;
+    }
+    float interiorT = fract(-log(max(1e-8, trap)) * 0.18 + orbitGlow * 0.07 + abs(power) * 0.013);
+    vec3 interior = palette(interiorT, schemeInt) * (0.35 + 0.45 * interiorT);
+    fragColor = vec4(linearToSRGB(interior), 1.0);
     return;
   }
 

@@ -16,14 +16,12 @@ void main() {
       final buildGradle =
           File('android/app/build.gradle.kts').readAsStringSync();
 
-      expect(
-          mainActivity, contains('import androidx.activity.enableEdgeToEdge'));
-      expect(mainActivity, contains('enableEdgeToEdge('));
-      expect(
-        mainActivity,
-        contains('SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)'),
-      );
-      expect(mainActivity, isNot(contains('SystemBarStyle.dark(Color.argb')));
+      expect(mainActivity, contains('WindowCompat.setDecorFitsSystemWindows'));
+      expect(mainActivity, contains('WindowInsetsControllerCompat'));
+      expect(mainActivity, isNot(contains('androidx.activity.enableEdgeToEdge')));
+      expect(mainActivity, isNot(contains('.setStatusBarColor(')));
+      expect(mainActivity, isNot(contains('.setNavigationBarColor(')));
+      expect(mainActivity, isNot(contains('LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES')));
       expect(
         android15Styles,
         isNot(contains('windowOptOutEdgeToEdgeEnforcement')),
@@ -33,6 +31,7 @@ void main() {
         contains('android:windowLayoutInDisplayCutoutMode">always'),
       );
       expect(buildGradle, contains('targetSdk = 36'));
+      expect(buildGradle, isNot(contains('androidx.activity:activity')));
       expect(dartMain, isNot(contains('SystemChrome.setSystemUIOverlayStyle')));
     },
   );

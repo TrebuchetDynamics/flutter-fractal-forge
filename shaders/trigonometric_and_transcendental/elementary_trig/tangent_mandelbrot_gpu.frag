@@ -28,7 +28,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 2000;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -101,6 +101,8 @@ void main() {
   float bailoutSq = max(4.0, uBailout * uBailout);
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = target;
+  float trap = 1e9;
+  float orbitGlow = 0.0;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
@@ -111,11 +113,20 @@ void main() {
                  evalVariant(z - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
     der = cmul(dFdz, der) + vec2(1.0, 0.0);
     z = f0;
-    if (dot(z, z) > bailoutSq) { it = j; break; }
+    float r2 = dot(z, z);
+    trap = min(trap, min(abs(z.x), abs(z.y)));
+    orbitGlow += exp(-3.0 * r2);
+    if (r2 > bailoutSq) { it = j; break; }
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    if (uTransparentBg > 0.5) {
+      fragColor = vec4(0.0);
+      return;
+    }
+    float interiorT = fract(-log(max(1e-8, trap)) * 0.14 + orbitGlow * 0.05 + float(int(uVariant)) * 0.17);
+    vec3 interior = getPaletteColor(interiorT, schemeInt) * (0.35 + 0.45 * interiorT);
+    fragColor = vec4(linearToSRGB(interior), 1.0);
     return;
   }
 
