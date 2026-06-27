@@ -1,0 +1,42 @@
+{
+  "createdAt": "2026-06-27T00:41:35.096606Z",
+  "moduleId": "f1131_fractal_flame_v30_perspective",
+  "moduleName": "Fractal Flame V30 Perspective",
+  "tags": [
+    "NO shader"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f1131_fractal_flame_v30_perspective&iterations=140&bailout=8&colorScheme=0&p=eyJiYWlsb3V0Ijo4LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoxNDAsInN5bW1ldHJ5IjowLCJ2YXJpYXRpb24iOjMwfQ",
+  "params": {
+    "iterations": 140,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "variation": 30,
+    "symmetry": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T00:47:52Z",
+    "note": "Pointed the F1131 generated module at the bundled shared fractal-flame shader and added regression coverage for the declared Perspective variation shader asset."
+  }
+}

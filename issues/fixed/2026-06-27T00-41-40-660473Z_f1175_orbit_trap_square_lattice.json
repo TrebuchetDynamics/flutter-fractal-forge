@@ -1,0 +1,41 @@
+{
+  "createdAt": "2026-06-27T00:41:40.660473Z",
+  "moduleId": "f1175_orbit_trap_square_lattice",
+  "moduleName": "Orbit Trap: Square Lattice",
+  "tags": [
+    "NO shader"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=f1175_orbit_trap_square_lattice&iterations=300&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjozMDAsInRyYXBNb2RlIjoyMH0",
+  "params": {
+    "iterations": 300,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "trapMode": 20
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:12:55Z",
+    "note": "Pointed the F1175 generated module at the bundled shared orbit-trap shader and added regression coverage for Square Lattice trap mode 20."
+  }
+}

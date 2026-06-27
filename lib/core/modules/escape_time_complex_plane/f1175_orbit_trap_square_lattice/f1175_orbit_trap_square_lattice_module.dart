@@ -13,17 +13,21 @@ class F1175OrbitTrapSquareLattice extends EscapeTimeModule {
   F1175OrbitTrapSquareLattice()
       : super(
           id: 'f1175_orbit_trap_square_lattice',
-          shader: 'shaders/f1175_orbit_trap_square_lattice_gpu.frag',
+          shader:
+              'shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag',
         );
 
   @override
-  F1175OrbitTrapSquareLatticeMetadata get metadata => F1175OrbitTrapSquareLatticeMetadata.instance;
+  F1175OrbitTrapSquareLatticeMetadata get metadata =>
+      F1175OrbitTrapSquareLatticeMetadata.instance;
 
   @override
-  List<F1175OrbitTrapSquareLatticePreset> get presets => F1175OrbitTrapSquareLatticePresets.all;
+  List<F1175OrbitTrapSquareLatticePreset> get presets =>
+      F1175OrbitTrapSquareLatticePresets.all;
 
   @override
-  List<F1175OrbitTrapSquareLatticeVariant> get variants => F1175OrbitTrapSquareLatticeVariants.all;
+  List<F1175OrbitTrapSquareLatticeVariant> get variants =>
+      F1175OrbitTrapSquareLatticeVariants.all;
 
   @override
   double get defaultPower => 2.0;
@@ -32,15 +36,16 @@ class F1175OrbitTrapSquareLattice extends EscapeTimeModule {
   double get defaultBailout => 4.0;
 
   @override
-  int get defaultIterations => 1024;
+  int get defaultIterations => 300;
 
   @override
-  DeepZoomStrategy get deepZoom => DeepZoomStrategy.perturbation;
+  DeepZoomStrategy get deepZoom => DeepZoomStrategy.none;
 
   @override
   void configureShader(ShaderParams p) {
     p.setFloat('power', defaultPower);
     p.setFloat('bailout', defaultBailout);
     p.setInt('iterations', defaultIterations);
+    p.setInt('trapMode', 20);
   }
 }

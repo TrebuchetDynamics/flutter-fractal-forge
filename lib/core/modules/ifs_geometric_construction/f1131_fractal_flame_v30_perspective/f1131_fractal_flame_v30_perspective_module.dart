@@ -13,23 +13,29 @@ class F1131FractalFlameV30Perspective extends IFSModule {
   F1131FractalFlameV30Perspective()
       : super(
           id: 'f1131_fractal_flame_v30_perspective',
-          shader: 'shaders/f1131_fractal_flame_v30_perspective_gpu.frag',
+          shader:
+              'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag',
         );
 
   @override
-  F1131FractalFlameV30PerspectiveMetadata get metadata => F1131FractalFlameV30PerspectiveMetadata.instance;
+  F1131FractalFlameV30PerspectiveMetadata get metadata =>
+      F1131FractalFlameV30PerspectiveMetadata.instance;
 
   @override
-  List<F1131FractalFlameV30PerspectivePreset> get presets => F1131FractalFlameV30PerspectivePresets.all;
+  List<F1131FractalFlameV30PerspectivePreset> get presets =>
+      F1131FractalFlameV30PerspectivePresets.all;
 
   @override
-  List<F1131FractalFlameV30PerspectiveVariant> get variants => F1131FractalFlameV30PerspectiveVariants.all;
+  List<F1131FractalFlameV30PerspectiveVariant> get variants =>
+      F1131FractalFlameV30PerspectiveVariants.all;
 
   @override
-  int get defaultIterations => 250000;
+  int get defaultIterations => 140;
 
   @override
   void configureShader(ShaderParams p) {
     p.setInt('iterations', defaultIterations);
+    p.setInt('variation', 30);
+    p.setInt('symmetry', 0);
   }
 }
