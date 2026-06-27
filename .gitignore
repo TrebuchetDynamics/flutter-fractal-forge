@@ -96,3 +96,4 @@ reports/**
 # But keep canonical and seeds checked in
 !research/canonical/
 !research/seeds/
+docs/store_listing/
