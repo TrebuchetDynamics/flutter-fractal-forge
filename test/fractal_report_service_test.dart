@@ -14,9 +14,11 @@ void main() {
       containsAll(const [
         'Low performance',
         'Low deep zoom',
+        'Low Detail',
         'No image',
         'Bad initial coordinates',
         'Bad initial params',
+        'Randomize bad results',
         'Removal Candidate',
         'Bad Thumbnail',
         'Is does not look the correct fractal',
