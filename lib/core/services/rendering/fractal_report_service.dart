@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 class FractalReportService {
   static const defaultIssuesSubdirectory = 'fractal-reports';
+  static const issuesDirectoryEnv = 'FRACTAL_FORGE_ISSUES_DIR';
 
   static const defaultTags = [
     'Low performance',
@@ -20,9 +21,10 @@ class FractalReportService {
     'Other',
   ];
 
-  const FractalReportService({this.issuesDirectory});
+  const FractalReportService({this.issuesDirectory, this.environment});
 
   final String? issuesDirectory;
+  final Map<String, String>? environment;
 
   Future<File> save({
     required String moduleId,
@@ -67,6 +69,12 @@ class FractalReportService {
   Future<Directory> _resolveIssuesDirectory() async {
     final explicitDirectory = issuesDirectory;
     if (explicitDirectory != null) return Directory(explicitDirectory);
+
+    final envDirectory =
+        (environment ?? Platform.environment)[issuesDirectoryEnv]?.trim();
+    if (envDirectory != null && envDirectory.isNotEmpty) {
+      return Directory(envDirectory);
+    }
 
     try {
       final supportDir = await getApplicationSupportDirectory();

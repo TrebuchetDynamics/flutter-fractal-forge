@@ -33,6 +33,7 @@ case "$MODE" in
     cd "$ROOT_DIR"
     DISPLAY="$DISPLAY_VALUE" \
     FRACTAL_FORGE_MOBILE_SCREENSHOT=1 \
+    FRACTAL_FORGE_ISSUES_DIR="$ROOT_DIR/issues" \
     PATH="/home/xel/.local/bin:$PATH" \
       nohup "$FLUTTER_BIN" run -d linux >"$LOG_REAL" 2>&1 &
     echo $! > "$PID_FILE"

@@ -10,9 +10,6 @@ class FractalViewControlActions {
   final VoidCallback toggleFullscreen;
   final VoidCallback openRandomFractal;
   final VoidCallback openControls;
-  final VoidCallback openPresets;
-  final VoidCallback resetView;
-  final VoidCallback resetParams;
   final VoidCallback randomizeParams;
   final VoidCallback cycleColorScheme;
   final VoidCallback openPalettePicker;
@@ -29,9 +26,6 @@ class FractalViewControlActions {
     required this.toggleFullscreen,
     required this.openRandomFractal,
     required this.openControls,
-    required this.openPresets,
-    required this.resetView,
-    required this.resetParams,
     required this.randomizeParams,
     required this.cycleColorScheme,
     required this.openPalettePicker,
@@ -67,51 +61,39 @@ class FractalViewControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final mediaQuery = MediaQuery.of(context);
+    final maxFabColumnHeight = (mediaQuery.size.height -
+            mediaQuery.padding.top -
+            mediaQuery.padding.bottom -
+            AppSpacing.xxl)
+        .clamp(0.0, double.infinity);
 
     final actionButtons = <Widget>[
+      if (showFractalReport)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerReportFractalButton'),
+          icon: Icons.report_problem_rounded,
+          tooltip: 'Report fractal',
+          onPressed: isExporting ? null : actions.reportFractal,
+          isCompact: true,
+          delay: const Duration(milliseconds: 60),
+        ),
       FloatingActionButtonWidget(
-        key: const ValueKey('viewerFullscreenButton'),
-        icon: Icons.fullscreen_rounded,
-        tooltip: l10n.tooltipFullscreen,
-        onPressed: isExporting ? null : actions.toggleFullscreen,
-        isCompact: true,
-        delay: const Duration(milliseconds: 60),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerFractalMusicButton'),
-        icon: Icons.music_note,
-        tooltip: fractalMusicEnabled
-            ? l10n.tooltipFractalMusicOn
-            : l10n.tooltipFractalMusicOff,
-        onPressed: isExporting ? null : actions.toggleFractalMusic,
+        key: const ValueKey('viewerRandomButton'),
+        icon: Icons.shuffle_rounded,
+        tooltip: l10n.tooltipRandomFractal,
+        onPressed: isExporting ? null : actions.openRandomFractal,
         isPrimary: true,
         isCompact: true,
         delay: const Duration(milliseconds: 80),
       ),
       FloatingActionButtonWidget(
-        key: const ValueKey('viewerControlsButton'),
-        icon: Icons.tune_rounded,
-        tooltip: l10n.tooltipOpenControls,
-        onPressed: isExporting ? null : actions.openControls,
+        key: const ValueKey('viewerRandomParamsButton'),
+        icon: Icons.casino_rounded,
+        tooltip: l10n.randomize,
+        onPressed: isExporting ? null : actions.randomizeParams,
         isCompact: true,
         delay: const Duration(milliseconds: 100),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerPresetsButton'),
-        icon: Icons.bookmarks_rounded,
-        tooltip: l10n.tooltipOpenPresets,
-        onPressed: isExporting ? null : actions.openPresets,
-        isCompact: true,
-        delay: const Duration(milliseconds: 100),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerResetButton'),
-        icon: Icons.center_focus_strong_rounded,
-        tooltip: l10n.tooltipResetViewWithParams,
-        onPressed: isExporting ? null : actions.resetView,
-        onLongPress: isExporting ? null : actions.resetParams,
-        isCompact: true,
-        delay: const Duration(milliseconds: 120),
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerColorCycleButton'),
@@ -120,7 +102,31 @@ class FractalViewControls extends StatelessWidget {
         onPressed: isExporting ? null : actions.cycleColorScheme,
         onLongPress: isExporting ? null : actions.openPalettePicker,
         isCompact: true,
+        delay: const Duration(milliseconds: 120),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerControlsButton'),
+        icon: Icons.tune_rounded,
+        tooltip: l10n.tooltipOpenControls,
+        onPressed: isExporting ? null : actions.openControls,
+        isCompact: true,
         delay: const Duration(milliseconds: 160),
+      ),
+      _ExportWallpaperFab(
+        isExporting: isExporting,
+        l10n: l10n,
+        onOpenExport: actions.openExport,
+        onShareLink: actions.shareLink,
+        onShareImage: actions.shareImage,
+        onOpenWallpaper: actions.openWallpaper,
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerLooperButton'),
+        icon: Icons.loop_rounded,
+        tooltip: l10n.tooltipCameraLooper,
+        onPressed: isExporting ? null : actions.openLooper,
+        isCompact: true,
+        delay: const Duration(milliseconds: 180),
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerKaleidoscopeButton'),
@@ -131,49 +137,26 @@ class FractalViewControls extends StatelessWidget {
         onPressed: isExporting ? null : actions.toggleKaleidoscope,
         isPrimary: kaleidoscopeEnabled,
         isCompact: true,
-        delay: const Duration(milliseconds: 180),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerRandomParamsButton'),
-        icon: Icons.casino_rounded,
-        tooltip: l10n.randomize,
-        onPressed: isExporting ? null : actions.randomizeParams,
-        isCompact: true,
         delay: const Duration(milliseconds: 200),
       ),
       FloatingActionButtonWidget(
-        key: const ValueKey('viewerRandomButton'),
-        icon: Icons.shuffle_rounded,
-        tooltip: l10n.tooltipRandomFractal,
-        onPressed: isExporting ? null : actions.openRandomFractal,
+        key: const ValueKey('viewerFractalMusicButton'),
+        icon: Icons.music_note,
+        tooltip: fractalMusicEnabled
+            ? l10n.tooltipFractalMusicOn
+            : l10n.tooltipFractalMusicOff,
+        onPressed: isExporting ? null : actions.toggleFractalMusic,
         isPrimary: true,
         isCompact: true,
         delay: const Duration(milliseconds: 220),
       ),
       FloatingActionButtonWidget(
-        key: const ValueKey('viewerLooperButton'),
-        icon: Icons.loop_rounded,
-        tooltip: l10n.tooltipCameraLooper,
-        onPressed: isExporting ? null : actions.openLooper,
+        key: const ValueKey('viewerFullscreenButton'),
+        icon: Icons.fullscreen_rounded,
+        tooltip: l10n.tooltipFullscreen,
+        onPressed: isExporting ? null : actions.toggleFullscreen,
         isCompact: true,
         delay: const Duration(milliseconds: 240),
-      ),
-      if (showFractalReport)
-        FloatingActionButtonWidget(
-          key: const ValueKey('viewerReportFractalButton'),
-          icon: Icons.report_problem_rounded,
-          tooltip: 'Report fractal',
-          onPressed: isExporting ? null : actions.reportFractal,
-          isCompact: true,
-          delay: const Duration(milliseconds: 280),
-        ),
-      _ExportWallpaperFab(
-        isExporting: isExporting,
-        l10n: l10n,
-        onOpenExport: actions.openExport,
-        onShareLink: actions.shareLink,
-        onShareImage: actions.shareImage,
-        onOpenWallpaper: actions.openWallpaper,
       ),
     ];
 
@@ -189,16 +172,19 @@ class FractalViewControls extends StatelessWidget {
         )),
         child: Align(
           alignment: Alignment.bottomRight,
-          child: SingleChildScrollView(
+          child: ConstrainedBox(
             key: const ValueKey('viewerFabColumn'),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (final action in actionButtons) ...[
-                  action,
-                  const SizedBox(height: AppSpacing.sm),
-                ],
-              ],
+            constraints: BoxConstraints(
+              maxHeight: maxFabColumnHeight,
+              maxWidth: 112,
+            ),
+            child: Wrap(
+              direction: Axis.vertical,
+              alignment: WrapAlignment.end,
+              runAlignment: WrapAlignment.end,
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.sm,
+              children: actionButtons,
             ),
           ),
         ),

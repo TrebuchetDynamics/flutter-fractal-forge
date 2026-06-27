@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
@@ -456,6 +457,7 @@ void main() {
     late Directory tmpDir;
 
     setUp(() async {
+      SharedPreferences.setMockInitialValues({});
       tmpDir = await Directory.systemTemp.createTemp('export_test_');
       PathProviderPlatform.instance = _FakePathProviderPlatform(tmpDir.path);
     });
@@ -472,6 +474,34 @@ void main() {
     test('returned directory path is non-empty', () async {
       final dir = await service.getExportDirectory();
       expect(dir.path, isNotEmpty);
+    });
+
+    test('uses saved Linux export directory preference', () async {
+      final chosen = Directory('${tmpDir.path}/chosen');
+      await service.setPreferredExportDirectory(chosen);
+
+      final dir = await service.getExportDirectory();
+
+      expect(dir.path, chosen.path);
+      expect(await dir.exists(), isTrue);
+    });
+
+    test('Linux directory picker saves preference', () async {
+      final chosen = Directory('${tmpDir.path}/picked');
+      String? seenInitialDirectory;
+      final pickingService = ExportService(
+        pickDirectory: ({confirmButtonText, initialDirectory}) async {
+          seenInitialDirectory = initialDirectory;
+          return chosen.path;
+        },
+      );
+
+      final ok = await pickingService.chooseLinuxExportDirectory();
+      final dir = await pickingService.getExportDirectory();
+
+      expect(ok, isTrue);
+      expect(seenInitialDirectory, '${tmpDir.path}/exports');
+      expect(dir.path, chosen.path);
     });
   });
 

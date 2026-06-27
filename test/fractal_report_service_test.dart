@@ -25,6 +25,28 @@ void main() {
     );
   });
 
+  test('uses issue directory from environment when provided', () async {
+    final dir = Directory.systemTemp.createTempSync('fractal_issues_env_');
+    addTearDown(() => dir.deleteSync(recursive: true));
+
+    final file = await FractalReportService(
+      environment: {FractalReportService.issuesDirectoryEnv: dir.path},
+    ).save(
+      moduleId: 'mandelbrot',
+      moduleName: 'Mandelbrot',
+      tags: const ['No image'],
+      params: const {},
+      view: FractalViewState(
+        pan: Vector2.zero(),
+        zoom: 1,
+        rotation: Vector3.zero(),
+      ),
+      shareUrl: 'https://example.com',
+    );
+
+    expect(file.path, startsWith(dir.path));
+  });
+
   test('saves tagged fractal report JSON', () async {
     final dir = Directory.systemTemp.createTempSync('fractal_issues_');
     addTearDown(() => dir.deleteSync(recursive: true));

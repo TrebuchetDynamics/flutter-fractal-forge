@@ -139,6 +139,8 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
   Future<void> _shareText(String content, String filename) async {
     try {
       const exportService = ExportService();
+      if (!await exportService.chooseLinuxExportDirectory()) return;
+      if (!mounted) return;
       final file = await exportService.saveBytes(
         Uint8List.fromList(content.codeUnits),
         filename: filename,

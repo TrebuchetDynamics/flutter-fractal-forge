@@ -41,7 +41,6 @@ Future<bool> _pumpControls(
   VoidCallback? onToggleFractalMusic,
   VoidCallback? onOpenPalettePicker,
   VoidCallback? onOpenRandomFractal,
-  VoidCallback? onResetParams,
   bool kaleidoscopeEnabled = false,
   bool fractalMusicEnabled = false,
   bool showFractalReport = false,
@@ -66,9 +65,6 @@ Future<bool> _pumpControls(
               toggleFullscreen: () {},
               openRandomFractal: onOpenRandomFractal ?? () {},
               openControls: () {},
-              openPresets: () {},
-              resetView: () {},
-              resetParams: onResetParams ?? () {},
               randomizeParams: () {},
               cycleColorScheme: () {},
               openPalettePicker: onOpenPalettePicker ?? () {},
@@ -149,8 +145,8 @@ void main() {
 
     expect(
         find.byKey(const ValueKey('viewerFullscreenButton')), findsOneWidget);
-    expect(find.byKey(const ValueKey('viewerPresetsButton')), findsOneWidget);
-    expect(find.byKey(const ValueKey('viewerResetButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerPresetsButton')), findsNothing);
+    expect(find.byKey(const ValueKey('viewerResetButton')), findsNothing);
     expect(find.byKey(const ValueKey('viewerResetParamsButton')), findsNothing);
     expect(find.byKey(const ValueKey('viewerIterationsButton')), findsNothing);
     expect(
@@ -191,8 +187,6 @@ void main() {
     const fabKeys = [
       ValueKey('viewerFullscreenButton'),
       ValueKey('viewerControlsButton'),
-      ValueKey('viewerPresetsButton'),
-      ValueKey('viewerResetButton'),
       ValueKey('viewerColorCycleButton'),
       ValueKey('viewerKaleidoscopeButton'),
       ValueKey('viewerRandomParamsButton'),
@@ -217,8 +211,6 @@ void main() {
     for (final label in const [
       'Fullscreen view',
       'Controls',
-      'Presets',
-      'Reset View. Long press for Reset Params',
       'Color Scheme. Long press for palette',
       'Kaleidoscope off',
       'Randomize',
@@ -244,7 +236,6 @@ void main() {
     );
 
     for (final label in const [
-      'Restablecer vista. Mantén presionado para restablecer parámetros',
       'Esquema de color. Mantén presionado para paleta',
       'Kaleidoscopio desactivado',
       'Bucle de cámara',
@@ -255,20 +246,6 @@ void main() {
     }
 
     semantics.dispose();
-  });
-
-  testWidgets('reset FAB exposes long-press secondary action', (tester) async {
-    var resetParams = false;
-    await _pumpControls(
-      tester,
-      isExporting: false,
-      onResetParams: () => resetParams = true,
-      onOpenWallpaper: () {},
-    );
-
-    await tester.longPress(find.byKey(const ValueKey('viewerResetButton')));
-    await tester.pump();
-    expect(resetParams, isTrue);
   });
 
   testWidgets('random fractal and looper are direct FAB actions',

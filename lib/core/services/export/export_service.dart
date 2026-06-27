@@ -4,8 +4,10 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:file_selector/file_selector.dart' as file_selector;
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/shared/utils/byte_format.dart';
@@ -207,15 +209,36 @@ Future<void> _shareFileWithPlatform(File file, {String? text}) {
   return const AppShareService().shareFile(file, text: text);
 }
 
+typedef DirectoryPickerCallback = Future<String?> Function({
+  String? initialDirectory,
+  String? confirmButtonText,
+});
+
+Future<String?> _pickDirectoryWithPlatform({
+  String? initialDirectory,
+  String? confirmButtonText,
+}) {
+  return file_selector.getDirectoryPath(
+    initialDirectory: initialDirectory,
+    confirmButtonText: confirmButtonText,
+  );
+}
+
 class ExportService {
   static const MethodChannel _mediaStoreChannel =
       MethodChannel('fractalforge/media_store');
 
+  static const String _linuxExportDirectoryPreferenceKey =
+      'linux_export_directory';
+
   final ShareFileCallback shareFileAdapter;
+  final DirectoryPickerCallback directoryPicker;
 
   const ExportService({
     ShareFileCallback shareFile = _shareFileWithPlatform,
-  }) : shareFileAdapter = shareFile;
+    DirectoryPickerCallback pickDirectory = _pickDirectoryWithPlatform,
+  })  : shareFileAdapter = shareFile,
+        directoryPicker = pickDirectory;
 
   /// Returns the actual format we can encode today.
   ///
@@ -306,6 +329,35 @@ class ExportService {
     return (value * (255 - alpha) / 255).round();
   }
 
+  Future<String?> getPreferredExportDirectoryPath() async {
+    if (kIsWeb || !Platform.isLinux) return null;
+    final prefs = await SharedPreferences.getInstance();
+    final path = prefs.getString(_linuxExportDirectoryPreferenceKey)?.trim();
+    return path == null || path.isEmpty ? null : path;
+  }
+
+  Future<void> setPreferredExportDirectory(Directory directory) async {
+    if (kIsWeb || !Platform.isLinux) return;
+    if (!await directory.exists()) {
+      await directory.create(recursive: true);
+    }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_linuxExportDirectoryPreferenceKey, directory.path);
+  }
+
+  Future<bool> chooseLinuxExportDirectory() async {
+    if (kIsWeb || !Platform.isLinux) return true;
+    final initial = await getPreferredExportDirectoryPath() ??
+        (await getExportDirectory()).path;
+    final selected = await directoryPicker(
+      initialDirectory: initial,
+      confirmButtonText: 'Save Here',
+    );
+    if (selected == null || selected.trim().isEmpty) return false;
+    await setPreferredExportDirectory(Directory(selected));
+    return true;
+  }
+
   Future<Directory> getExportDirectory() async {
     if (!kIsWeb && Platform.isAndroid) {
       // Avoid runtime storage permission prompts. Use app-scoped external
@@ -321,6 +373,14 @@ class ExportService {
         }
         return exportDir;
       }
+    }
+    final preferredLinuxDir = await getPreferredExportDirectoryPath();
+    if (preferredLinuxDir != null) {
+      final dir = Directory(preferredLinuxDir);
+      if (!await dir.exists()) {
+        await dir.create(recursive: true);
+      }
+      return dir;
     }
     final dir = await getApplicationDocumentsDirectory();
     final exportDir = Directory('${dir.path}/exports');

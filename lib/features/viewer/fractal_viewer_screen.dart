@@ -683,8 +683,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
                   if (_fullscreenUnobtrusive && !widget.captureMode)
                     Positioned(
-                      top: topInset + 8,
-                      right: AppSpacing.md,
+                      right: AppSpacing.lg,
+                      bottom:
+                          MediaQuery.of(context).padding.bottom + AppSpacing.xl,
                       child: _buildTopFab(
                         icon: Icons.fullscreen_exit_rounded,
                         tooltip: l10n.tooltipExitFullscreen,
@@ -804,11 +805,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           toggleFullscreen: _toggleFullscreenUnobtrusive,
                           openRandomFractal: () => _onRandomFractalFab(context),
                           openControls: () => _toggleControlsHud(),
-                          openPresets: () => _openPresets(context),
-                          resetView: () =>
-                              _activeController(context).resetView(),
-                          resetParams: () =>
-                              _activeController(context).resetParams(),
                           randomizeParams: () {
                             HapticFeedback.mediumImpact();
                             final activeController = _activeController(context);

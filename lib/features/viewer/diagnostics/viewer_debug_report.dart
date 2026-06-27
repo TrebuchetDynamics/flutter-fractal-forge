@@ -9,6 +9,9 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
   GlobalKey _activeBoundaryKey();
 
   Future<void> _shareGpuDebugReport(BuildContext context) async {
+    if (!await _exportService.chooseLinuxExportDirectory()) return;
+    if (!context.mounted) return;
+
     final controller = context.read<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 

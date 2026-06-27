@@ -61,6 +61,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final controller = _activeController(context);
     final boundaryKey = _activeBoundaryKey();
     final l10n = AppLocalizations.of(context)!;
+    if (!await _exportService.chooseLinuxExportDirectory()) return;
+    if (!mounted) return;
     final originalView = controller.view;
     final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
     looper.stop();
@@ -224,6 +226,14 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final l10n = AppLocalizations.of(context)!;
     final size = MediaQuery.of(context).size;
     final previousTransparency = controller.transparentBackground;
+
+    if (!await _exportService.chooseLinuxExportDirectory()) {
+      if (!mounted) return;
+      setState(() {
+        _finishExportFlow();
+      });
+      return;
+    }
 
     setState(() {
       _exportSession = _exportSession.startExport();
@@ -399,6 +409,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final boundaryKey = _activeBoundaryKey();
     final l10n = AppLocalizations.of(context)!;
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+    final saveCopy =
+        options.saveCopy && await _exportService.chooseLinuxExportDirectory();
+    if (!mounted) return;
 
     try {
       // Capture the current frame at the device's native resolution (capped),
@@ -415,7 +428,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       final ok = await const WallpaperService()
           .setWallpaper(styled, target: options.target);
 
-      if (options.saveCopy) {
+      if (saveCopy) {
         final filename = _exportService.generateFilename(
           format: ExportFormat.png,
           fractalType: controller.module.id,
