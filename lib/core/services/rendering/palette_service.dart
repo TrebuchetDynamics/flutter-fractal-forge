@@ -52,6 +52,11 @@ class PaletteService extends ChangeNotifier {
 
   late final List<FractalPalette> _builtIn;
   List<FractalPalette> _user = const [];
+  bool _disposed = false;
+
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
 
   PaletteService._(this._store) {
     _builtIn = _createBuiltIns();
@@ -61,8 +66,22 @@ class PaletteService extends ChangeNotifier {
     final s = store ?? await PaletteStore.create();
     final service = PaletteService._(s);
     await service._load();
+    final previous = _instance;
+    if (previous != null && !identical(previous, service)) {
+      previous.dispose();
+    }
     _instance = service;
     return service;
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    invalidatePaletteTextures();
+    if (identical(_instance, this)) {
+      _instance = null;
+    }
+    super.dispose();
   }
 
   List<FractalPalette> get builtInPalettes => List.unmodifiable(_builtIn);
@@ -156,10 +175,14 @@ class PaletteService extends ChangeNotifier {
         gradStops,
       );
     canvas.drawRect(Rect.fromLTWH(0, 0, _texWidth.toDouble(), 1), paint);
-    final pic = rec.endRecording();
-    final img = pic.toImageSync(_texWidth, 1);
-    _paletteTexCache[palette.id] = img;
-    return img;
+    final picture = rec.endRecording();
+    try {
+      final img = picture.toImageSync(_texWidth, 1);
+      _paletteTexCache[palette.id] = img;
+      return img;
+    } finally {
+      picture.dispose();
+    }
   }
 
   /// Clears cached palette textures (call if palettes change).
@@ -209,7 +232,7 @@ class PaletteService extends ChangeNotifier {
     _user = palettes;
     invalidatePaletteTextures();
     await _store.savePalettes(_user);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   Future<void> _load() async {

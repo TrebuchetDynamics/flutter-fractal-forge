@@ -67,6 +67,11 @@ class AccessibilityService extends ChangeNotifier {
   bool _reducedMotionEnabled;
   bool _largeTargetsEnabled;
   AppThemeMode _themeMode;
+  bool _disposed = false;
+
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
 
   /// Creates an [AccessibilityService] with the given [SharedPreferences].
   AccessibilityService(this._prefs)
@@ -108,7 +113,7 @@ class AccessibilityService extends ChangeNotifier {
     if (_highContrastEnabled == enabled) return;
     _highContrastEnabled = enabled;
     await _prefs.setBool(_keyHighContrast, enabled);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Enables or disables reduced motion mode.
@@ -116,7 +121,7 @@ class AccessibilityService extends ChangeNotifier {
     if (_reducedMotionEnabled == enabled) return;
     _reducedMotionEnabled = enabled;
     await _prefs.setBool(_keyReducedMotion, enabled);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Enables or disables large touch targets.
@@ -124,7 +129,7 @@ class AccessibilityService extends ChangeNotifier {
     if (_largeTargetsEnabled == enabled) return;
     _largeTargetsEnabled = enabled;
     await _prefs.setBool(_keyLargeTargets, enabled);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Sets the app theme mode.
@@ -132,7 +137,13 @@ class AccessibilityService extends ChangeNotifier {
     if (_themeMode == mode) return;
     _themeMode = mode;
     await _prefs.setInt(_keyThemeMode, mode.index);
-    notifyListeners();
+    _notifyIfAlive();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 
   /// Announces a message to screen readers.

@@ -267,6 +267,7 @@ class AnimatedFractalController extends ChangeNotifier {
 
   bool _isCelebrating = false;
   bool _isTransitioning = false;
+  bool _disposed = false;
 
   // Interesting spot detection
   int _interestingSpotCount = 0;
@@ -278,6 +279,10 @@ class AnimatedFractalController extends ChangeNotifier {
     this.morphDuration = const Duration(milliseconds: 600),
     this.curve = Curves.easeOutCubic,
   });
+
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
 
   /// Stream that emits when an interesting spot is found.
   Stream<void> get onInterestingSpot => _interestingSpotController.stream;
@@ -299,11 +304,12 @@ class AnimatedFractalController extends ChangeNotifier {
 
   /// Start a parameter transition.
   void animateParameter(String id, Object from, Object to) {
+    if (_disposed) return;
     final plan = AnimatedParameterTransitionPlan.fromValues(from, to);
     if (!plan.startsTransition) return;
 
     _isTransitioning = true;
-    notifyListeners();
+    _notifyIfAlive();
 
     _animatedParams[id] = _AnimatedValue<double>(
       from: plan.fromValue!,
@@ -316,11 +322,12 @@ class AnimatedFractalController extends ChangeNotifier {
       },
     );
 
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Animate zoom level transition.
   void animateZoom(double from, double to) {
+    if (_disposed) return;
     final scalarEndpoints = AnimatedScalarTransitionEndpoints.tryFromValues(
       from,
       to,
@@ -341,11 +348,12 @@ class AnimatedFractalController extends ChangeNotifier {
         _checkTransitionComplete();
       },
     );
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Animate pan transition.
   void animatePan(Vector2 from, Vector2 to) {
+    if (_disposed) return;
     final vectorEndpoints = AnimatedVector2TransitionEndpoints.tryFromValues(
       from,
       to,
@@ -363,11 +371,12 @@ class AnimatedFractalController extends ChangeNotifier {
         _checkTransitionComplete();
       },
     );
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Animate rotation transition.
   void animateRotation(Vector3 from, Vector3 to) {
+    if (_disposed) return;
     final vectorEndpoints = AnimatedVector3TransitionEndpoints.tryFromValues(
       from,
       to,
@@ -385,12 +394,12 @@ class AnimatedFractalController extends ChangeNotifier {
         _checkTransitionComplete();
       },
     );
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Start a module morph transition.
   void startMorph(String fromModuleId, String toModuleId) {
-    if (fromModuleId == toModuleId) return;
+    if (_disposed || fromModuleId == toModuleId) return;
 
     _previousModuleId = fromModuleId;
     _currentModuleId = toModuleId;
@@ -402,7 +411,7 @@ class AnimatedFractalController extends ChangeNotifier {
     final timeline = AnimatedTimelinePlan.forDuration(morphDuration);
     if (timeline.isImmediate) {
       _finishMorphTransition();
-      notifyListeners();
+      _notifyIfAlive();
       return;
     }
 
@@ -413,17 +422,17 @@ class AnimatedFractalController extends ChangeNotifier {
       (timer) {
         step++;
         _morphProgress = curve.transform(timeline.progressForFrame(step));
-        notifyListeners();
+        _notifyIfAlive();
 
         if (timeline.isCompleteFrame(step)) {
           timer.cancel();
           _finishMorphTransition();
-          notifyListeners();
+          _notifyIfAlive();
         }
       },
     );
 
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Get the interpolated value for a parameter.
@@ -451,6 +460,7 @@ class AnimatedFractalController extends ChangeNotifier {
   /// Triggers celebration effects when multiple interesting spots
   /// are found in quick succession.
   void recordInterestingSpot() {
+    if (_disposed) return;
     final now = DateTime.now();
 
     if (_lastInterestingSpotTime != null) {
@@ -475,8 +485,9 @@ class AnimatedFractalController extends ChangeNotifier {
   }
 
   void _triggerCelebration() {
+    if (_disposed) return;
     _isCelebrating = true;
-    notifyListeners();
+    _notifyIfAlive();
 
     // Reset celebration after animation. Keep the timer cancellable so a
     // disposed controller cannot receive a delayed notifyListeners callback.
@@ -484,7 +495,7 @@ class AnimatedFractalController extends ChangeNotifier {
     _celebrationTimer = Timer(const Duration(milliseconds: 2500), () {
       _celebrationTimer = null;
       _isCelebrating = false;
-      notifyListeners();
+      _notifyIfAlive();
     });
   }
 
@@ -506,12 +517,13 @@ class AnimatedFractalController extends ChangeNotifier {
         _animatedRotation == null &&
         _morphProgress >= 1.0) {
       _isTransitioning = false;
-      notifyListeners();
+      _notifyIfAlive();
     }
   }
 
   /// Update all animations for the current frame.
   void tick() {
+    if (_disposed) return;
     var needsUpdate = false;
 
     if (_tickAnimatedParameters()) needsUpdate = true;
@@ -521,7 +533,7 @@ class AnimatedFractalController extends ChangeNotifier {
     if (_animatedRotation?.tick() == true) needsUpdate = true;
 
     if (needsUpdate) {
-      notifyListeners();
+      _notifyIfAlive();
     }
   }
 
@@ -542,6 +554,7 @@ class AnimatedFractalController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     _morphTimer?.cancel();
     _celebrationTimer?.cancel();
 

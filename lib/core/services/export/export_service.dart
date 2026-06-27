@@ -547,12 +547,16 @@ class ExportService {
     final fontSize = (image.width / 40).round().clamp(12, 48);
     final padding = fontSize;
 
+    final x = (image.width - (text.length * fontSize ~/ 2) - padding)
+        .clamp(0, image.width - 1);
+    final y = (image.height - fontSize - padding).clamp(0, image.height - 1);
+
     img.drawString(
       image,
       text,
       font: img.arial14,
-      x: image.width - (text.length * fontSize ~/ 2) - padding,
-      y: image.height - fontSize - padding,
+      x: x,
+      y: y,
       color: img.ColorRgba8(255, 255, 255, 128),
     );
 

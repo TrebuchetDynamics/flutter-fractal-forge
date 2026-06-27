@@ -354,12 +354,16 @@ class VideoExportService {
     }
 
     final image = await boundary.toImage(pixelRatio: pixelRatio);
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    if (byteData == null) {
-      throw Exception('Could not capture image');
-    }
+    try {
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      if (byteData == null) {
+        throw Exception('Could not capture image');
+      }
 
-    return byteData.buffer.asUint8List();
+      return byteData.buffer.asUint8List();
+    } finally {
+      image.dispose();
+    }
   }
 
   /// Export video with the given options.

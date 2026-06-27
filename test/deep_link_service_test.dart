@@ -1,10 +1,53 @@
+import 'dart:async';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:vector_math/vector_math.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('DeepLinkService', () {
+    group('lifecycle', () {
+      const channel = MethodChannel('com.fractalforge/deeplink');
+
+      tearDown(() async {
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(channel, null);
+      });
+
+      test('dispose ignores late platform deep links', () async {
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(channel, (call) async => null);
+        final service = DeepLinkService();
+        final events = <DeepLinkData>[];
+        final sub = service.linkStream.listen(events.add);
+
+        await service.initialize();
+        service.dispose();
+        await sub.cancel();
+
+        final encoded = const StandardMethodCodec().encodeMethodCall(
+          const MethodCall(
+            'onDeepLink',
+            'fractalforge://view?type=mandelbrot',
+          ),
+        );
+        final completer = Completer<ByteData?>();
+        await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .handlePlatformMessage(
+          'com.fractalforge/deeplink',
+          encoded,
+          completer.complete,
+        );
+        await completer.future;
+
+        expect(events, isEmpty);
+      });
+    });
+
     group('parseIncomingLink', () {
       test('parses string payloads from platform channels', () {
         final data = DeepLinkService.parseIncomingLink(

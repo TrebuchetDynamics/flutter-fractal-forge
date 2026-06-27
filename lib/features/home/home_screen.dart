@@ -66,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     // Handle the initial link if the app was launched via deep link
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       if (!_handledInitialLink && deepLinkService?.initialLink != null) {
         _handledInitialLink = true;
         _handleDeepLink(deepLinkService!.initialLink!);
@@ -408,6 +409,8 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
                             borderRadius: BorderRadius.circular(8),
                             child: Image.asset(
                               'assets/icon/fractal-forge-icon.png',
+                              cacheWidth: 64,
+                              cacheHeight: 64,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(

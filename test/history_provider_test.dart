@@ -93,6 +93,17 @@ void main() {
       expect(provider.currentEntry, same(restored));
     });
 
+    testWidgets('disposed provider ignores async completion notifications',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+
+      provider.dispose();
+
+      await expectLater(provider.clearHistory(), completes);
+      await expectLater(provider.clearFavorites(), completes);
+    });
+
     testWidgets('history navigation cancels pending pre-navigation records',
         (tester) async {
       final store = await HistoryStore.create();

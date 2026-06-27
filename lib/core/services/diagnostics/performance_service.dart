@@ -313,6 +313,7 @@ class PerformanceService extends ChangeNotifier {
   Stopwatch? _sessionStopwatch;
 
   bool _isRunning = false;
+  bool _disposed = false;
   int _shaderCompilations = 0;
   int _totalSamplesRecorded = 0;
   double _peakMemoryMb = 0;
@@ -327,11 +328,15 @@ class PerformanceService extends ChangeNotifier {
   /// Most recent frame samples for graphing.
   List<FrameSample> get samples => _samples.toList();
 
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
+
   /// Starts performance tracking.
   ///
   /// Attaches to the scheduler's ticker to measure frame times.
   void start(TickerProvider vsync) {
-    if (_isRunning) return;
+    if (_disposed || _isRunning) return;
 
     _isRunning = true;
     _samples.clear();
@@ -344,25 +349,24 @@ class PerformanceService extends ChangeNotifier {
     _ticker = vsync.createTicker(_onTick);
     _ticker!.start();
 
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Stops performance tracking.
   void stop() {
-    if (!_isRunning) return;
+    if (_disposed || !_isRunning) return;
 
-    _ticker?.stop();
-    _ticker?.dispose();
-    _ticker = null;
+    _disposeTicker();
     _sessionStopwatch?.stop();
     _isRunning = false;
 
     _updateMetrics();
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Resets all collected metrics.
   void reset() {
+    if (_disposed) return;
     _samples.clear();
     _shaderCompilations = 0;
     _totalSamplesRecorded = 0;
@@ -372,10 +376,11 @@ class PerformanceService extends ChangeNotifier {
     if (_isRunning) {
       _sessionStopwatch?.start();
     }
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   void _onTick(Duration elapsed) {
+    if (_disposed) return;
     if (_lastFrameTime == Duration.zero) {
       _lastFrameTime = elapsed;
       return;
@@ -416,7 +421,7 @@ class PerformanceService extends ChangeNotifier {
     // Update metrics every ~0.5 seconds (30 frames)
     if (cadence.shouldUpdateMetrics) {
       _updateMetrics();
-      notifyListeners();
+      _notifyIfAlive();
     }
 
     // Log performance snapshot every ~1 second (60 frames) — sampled to avoid noise
@@ -487,9 +492,18 @@ class PerformanceService extends ChangeNotifier {
     return 'Poor';
   }
 
+  void _disposeTicker() {
+    _ticker?.stop();
+    _ticker?.dispose();
+    _ticker = null;
+  }
+
   @override
   void dispose() {
-    stop();
+    _disposed = true;
+    _disposeTicker();
+    _sessionStopwatch?.stop();
+    _isRunning = false;
     super.dispose();
   }
 }

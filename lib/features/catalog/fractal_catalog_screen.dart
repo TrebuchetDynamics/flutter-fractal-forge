@@ -168,6 +168,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       } else {
         // Auto focus the search field
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
           _focusNode.requestFocus();
         });
       }

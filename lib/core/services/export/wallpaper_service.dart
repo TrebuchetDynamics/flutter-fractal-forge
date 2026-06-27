@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/wallpaper/wallpaper_target.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 
 export 'package:flutter_fractals/core/models/wallpaper/wallpaper_target.dart';
 
@@ -26,6 +27,8 @@ class WallpaperService {
       throw UnsupportedError('Wallpaper setting is not supported on web.');
     }
 
+    ExportSizePolicy.validateEncodedByteLength(pngBytes.lengthInBytes);
+
     if (Platform.isIOS) {
       // iOS does not allow programmatic wallpaper setting. Save to Photos.
       return saveToPhotos(pngBytes);
@@ -43,6 +46,8 @@ class WallpaperService {
     if (kIsWeb) {
       throw UnsupportedError('Saving to Photos is not supported on web.');
     }
+
+    ExportSizePolicy.validateEncodedByteLength(pngBytes.lengthInBytes);
 
     final ok = await _channel.invokeMethod<bool>('saveToPhotos', {
       'bytes': pngBytes,

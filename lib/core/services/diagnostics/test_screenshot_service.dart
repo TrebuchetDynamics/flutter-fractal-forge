@@ -36,6 +36,8 @@ class TestScreenshotService {
         await dir.create(recursive: true);
       }
 
+      final filename = _screenshotFilename(name);
+
       // Capture PNG bytes
       final bytes = await _exportService.capturePng(
         boundaryKey,
@@ -43,7 +45,7 @@ class TestScreenshotService {
       );
 
       // Save to file
-      final file = File('$_outputDir/$name.png');
+      final file = File('$_outputDir/$filename');
       await file.writeAsBytes(bytes);
 
       // Log success
@@ -61,5 +63,14 @@ class TestScreenshotService {
       _logger.logAction('screenshot', 'Failed to capture $name: $e');
       return null;
     }
+  }
+
+  String _screenshotFilename(String name) {
+    if (name.trim().isEmpty) {
+      throw StateError('Screenshot name must not be empty.');
+    }
+    final filename = '$name.png';
+    ExportSizePolicy.validateExportFilename(filename);
+    return filename;
   }
 }

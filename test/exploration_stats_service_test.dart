@@ -47,6 +47,20 @@ void main() {
       await service.init();
     });
 
+    test('disposed service ignores stale record calls', () {
+      service.dispose();
+
+      expect(() => service.recordScreenshot(), returnsNormally);
+      expect(() => service.recordTime(60), returnsNormally);
+      expect(() => service.recordZoom(1.0, 2.0), returnsNormally);
+      expect(
+          () => service.recordFractalExplored('mandelbrot'), returnsNormally);
+      expect(service.stats.screenshotsTaken, 0);
+      expect(service.stats.totalTimeSeconds, 0);
+      expect(service.stats.totalZoomDistance, 0.0);
+      expect(service.stats.uniqueFractalsExplored, isEmpty);
+    });
+
     test('starts with empty stats', () {
       expect(service.stats.totalZoomDistance, 0.0);
       expect(service.stats.totalTimeSeconds, 0);

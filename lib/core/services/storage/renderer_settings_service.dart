@@ -18,6 +18,11 @@ class RendererSettingsService extends ChangeNotifier {
   final SharedPreferences _prefs;
 
   RendererBackendMode _backendMode;
+  bool _disposed = false;
+
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
 
   RendererSettingsService(this._prefs)
       : _backendMode = _decode(_prefs.getString(_keyBackendMode));
@@ -33,7 +38,13 @@ class RendererSettingsService extends ChangeNotifier {
     if (_backendMode == mode) return;
     _backendMode = mode;
     await _prefs.setString(_keyBackendMode, mode.name);
-    notifyListeners();
+    _notifyIfAlive();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 
   static RendererBackendMode _decode(String? raw) {

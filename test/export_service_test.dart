@@ -155,6 +155,18 @@ void main() {
     });
   });
 
+  group('ExportService watermark', () {
+    test('clamps watermark coordinates inside image bounds', () {
+      final source = File('lib/core/services/export/export_service.dart')
+          .readAsStringSync();
+      final method =
+          source.substring(source.indexOf('img.Image _addWatermark'));
+
+      expect(method, contains('.clamp(0, image.width - 1)'));
+      expect(method, contains('.clamp(0, image.height - 1)'));
+    });
+  });
+
   group('ExportService.resolveEffectiveFormat', () {
     test('keeps PNG and JPG unchanged', () {
       expect(

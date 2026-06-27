@@ -105,7 +105,12 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
           const ui.Rect.fromLTWH(0, 0, 1, 1),
           ui.Paint()..color = const ui.Color(0xFF000000),
         );
-        paletteTex = rec.endRecording().toImageSync(1, 1);
+        final picture = rec.endRecording();
+        try {
+          paletteTex = picture.toImageSync(1, 1);
+        } finally {
+          picture.dispose();
+        }
       }
       final orbitTex = _EscapeTimePerturbOrbitCache.instance.orbitTexture(
         moduleId: id,
@@ -188,7 +193,13 @@ class _EscapeTimePerturbOrbitCache {
       );
       canvas.drawRect(ui.Rect.fromLTWH(x.toDouble(), 0, 1, 1), paint);
     }
-    final image = recorder.endRecording().toImageSync(totalPx, 1);
+    final picture = recorder.endRecording();
+    ui.Image image;
+    try {
+      image = picture.toImageSync(totalPx, 1);
+    } finally {
+      picture.dispose();
+    }
     _lastImage?.dispose();
     _lastImage = image;
     _lastKey = key;

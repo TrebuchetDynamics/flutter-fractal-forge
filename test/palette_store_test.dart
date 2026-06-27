@@ -93,6 +93,26 @@ void main() {
       expect(palettes.single.id, 'ok');
     });
 
+    test('loadPalettes skips corrupted legacy array entries', () async {
+      SharedPreferences.setMockInitialValues({
+        'user_palettes_v1': jsonEncode([
+          {'bad': 'entry'},
+          FractalPalette(
+            id: 'legacy-ok',
+            name: 'Legacy OK',
+            stops: [FractalColorStop(position: 0.0, colorArgb: 0xFFFFFFFF)],
+          ).toJson(),
+          42,
+        ]),
+      });
+
+      final store = await PaletteStore.create();
+      final palettes = store.loadPalettes();
+
+      expect(palettes, hasLength(1));
+      expect(palettes.single.id, 'legacy-ok');
+    });
+
     test('loadPalettes loads legacy JSON array payloads', () async {
       SharedPreferences.setMockInitialValues({
         'user_palettes_v1': jsonEncode([

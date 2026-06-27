@@ -39,7 +39,8 @@ class _ShaderLabScreenState extends State<ShaderLabScreen> {
     scheduleMicrotask(() async {
       await Future<void>.delayed(const Duration(milliseconds: 400));
       try {
-        final p = await ui.FragmentProgram.fromAsset('shaders/diagnostic/diag_min.frag');
+        final p = await ui.FragmentProgram.fromAsset(
+            'shaders/diagnostic/diag_min.frag');
         if (!mounted) return;
         setState(() {
           _program = p;
@@ -60,22 +61,26 @@ class _ShaderLabScreenState extends State<ShaderLabScreen> {
     if (ro is! RenderRepaintBoundary) return null;
 
     final img = await ro.toImage(pixelRatio: 0.05);
-    final data = await img.toByteData(format: ui.ImageByteFormat.rawRgba);
-    if (data == null) return null;
+    try {
+      final data = await img.toByteData(format: ui.ImageByteFormat.rawRgba);
+      if (data == null) return null;
 
-    final bytes = data.buffer.asUint8List();
-    int count = 0;
-    int dark = 0;
-    for (int i = 0; i + 3 < bytes.length; i += 4 * 40) {
-      final r = bytes[i];
-      final g = bytes[i + 1];
-      final b = bytes[i + 2];
-      final lum = (0.2126 * r + 0.7152 * g + 0.0722 * b);
-      if (lum < 8) dark++;
-      count++;
+      final bytes = data.buffer.asUint8List();
+      int count = 0;
+      int dark = 0;
+      for (int i = 0; i + 3 < bytes.length; i += 4 * 40) {
+        final r = bytes[i];
+        final g = bytes[i + 1];
+        final b = bytes[i + 2];
+        final lum = (0.2126 * r + 0.7152 * g + 0.0722 * b);
+        if (lum < 8) dark++;
+        count++;
+      }
+      if (count == 0) return null;
+      return dark / count;
+    } finally {
+      img.dispose();
     }
-    if (count == 0) return null;
-    return dark / count;
   }
 
   Future<void> _run() async {
@@ -123,7 +128,8 @@ class _ShaderLabScreenState extends State<ShaderLabScreen> {
                 borderRadius: BorderRadius.circular(12),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.amber.withValues(alpha: 0.6)),
+                    border:
+                        Border.all(color: Colors.amber.withValues(alpha: 0.6)),
                     color: Colors.black,
                   ),
                   child: child,
@@ -140,7 +146,9 @@ class _ShaderLabScreenState extends State<ShaderLabScreen> {
   Widget build(BuildContext context) {
     final shaderStatus = _loadError != null
         ? 'FragmentProgram load error: $_loadError'
-        : (_program == null ? 'FragmentProgram: loading…' : 'FragmentProgram: loaded');
+        : (_program == null
+            ? 'FragmentProgram: loading…'
+            : 'FragmentProgram: loaded');
 
     return Scaffold(
       backgroundColor: Colors.black,

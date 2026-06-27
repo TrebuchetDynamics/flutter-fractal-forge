@@ -28,6 +28,25 @@ void main() {
       controller.dispose();
     });
 
+    test('disposed controller ignores stale public calls', () {
+      final controller = AnimatedFractalController();
+      controller.dispose();
+
+      expect(() => controller.animateParameter('speed', 0.0, 1.0),
+          returnsNormally);
+      expect(() => controller.animateZoom(1.0, 2.0), returnsNormally);
+      expect(() => controller.animatePan(Vector2.zero(), Vector2.all(1)),
+          returnsNormally);
+      expect(() => controller.animateRotation(Vector3.zero(), Vector3.all(1)),
+          returnsNormally);
+      expect(() => controller.startMorph('a', 'b'), returnsNormally);
+      expect(() => controller.recordInterestingSpot(), returnsNormally);
+      expect(() => controller.celebrate(), returnsNormally);
+      expect(() => controller.tick(), returnsNormally);
+      expect(controller.isTransitioning, isFalse);
+      expect(controller.isCelebrating, isFalse);
+    });
+
     test('creates with custom durations and curve', () {
       final controller = AnimatedFractalController(
         parameterDuration: const Duration(milliseconds: 100),

@@ -58,6 +58,12 @@ class HistoryProvider extends ChangeNotifier {
   /// Last recorded state to detect meaningful changes.
   HistoryEntry? _lastRecorded;
 
+  bool _disposed = false;
+
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
+
   /// Creates a new [HistoryProvider].
   HistoryProvider({required HistoryStore store}) : _store = store {
     _loadFromStorage();
@@ -153,7 +159,7 @@ class HistoryProvider extends ChangeNotifier {
     _lastRecorded = entry;
 
     unawaited(_store.saveHistory(_history));
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Navigates back to the previous location in history.
@@ -176,7 +182,7 @@ class HistoryProvider extends ChangeNotifier {
   HistoryEntry? jumpToIndex(int index) {
     if (index < 0 || index >= _history.length) return null;
     _selectHistoryIndex(index);
-    notifyListeners();
+    _notifyIfAlive();
     return _history[_currentIndex];
   }
 
@@ -215,7 +221,7 @@ class HistoryProvider extends ChangeNotifier {
       maxFavorites: HistoryStore.maxFavoriteEntries,
     );
     await _store.saveFavorites(_favorites);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Saves a specific entry as a favorite.
@@ -232,14 +238,14 @@ class HistoryProvider extends ChangeNotifier {
       maxFavorites: HistoryStore.maxFavoriteEntries,
     );
     await _store.saveFavorites(_favorites);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Removes a favorite by ID.
   Future<void> removeFavorite(String favoriteId) async {
     _favorites.removeWhere((f) => f.id == favoriteId);
     await _store.saveFavorites(_favorites);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Renames a favorite.
@@ -249,7 +255,7 @@ class HistoryProvider extends ChangeNotifier {
 
     _favorites[index] = _favorites[index].copyWith(name: newName);
     await _store.saveFavorites(_favorites);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Checks if the current location is saved as a favorite.
@@ -269,14 +275,14 @@ class HistoryProvider extends ChangeNotifier {
   Future<void> clearHistory() async {
     _clearInMemoryHistory();
     await _store.clearHistory();
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Clears all favorites.
   Future<void> clearFavorites() async {
     _favorites.clear();
     await _store.clearFavorites();
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Applies a history entry to a controller-like object.
@@ -296,6 +302,7 @@ class HistoryProvider extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     cancelPendingRecord();
     super.dispose();
   }

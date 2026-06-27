@@ -58,11 +58,21 @@ class PaletteStore {
     if (payload == null || payload.trim().isEmpty) return const [];
 
     try {
-      final decodedArr = (jsonDecode(payload) as List).cast<Map>();
-      return decodedArr
-          .map((m) => FractalPalette.fromJson(m.cast<String, Object?>()))
-          .where((p) => p.id.isNotEmpty)
-          .toList();
+      final decodedArr = jsonDecode(payload);
+      if (decodedArr is! List) return const [];
+      final palettes = <FractalPalette>[];
+      for (final entry in decodedArr) {
+        try {
+          if (entry is! Map) continue;
+          final palette = FractalPalette.fromJson(
+            entry.cast<String, Object?>(),
+          );
+          if (palette.id.isNotEmpty) palettes.add(palette);
+        } catch (e) {
+          if (kDebugMode) debugPrint('[FF] skipping legacy palette entry: $e');
+        }
+      }
+      return palettes;
     } catch (e) {
       if (kDebugMode) debugPrint('[FF] silent catch: $e');
       return const [];

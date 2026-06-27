@@ -1,3 +1,4 @@
+import 'dart:async' show unawaited;
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
@@ -195,6 +196,11 @@ class AppLogger extends ChangeNotifier {
   File? _logFile;
   IOSink? _sink;
   bool _persistenceReady = false;
+  bool _disposed = false;
+
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
 
   /// Read-only view of all entries (oldest first).
   List<LogEntry> get entries => _entries.toList(growable: false);
@@ -206,13 +212,15 @@ class AppLogger extends ChangeNotifier {
   /// Initialise persistent storage. Safe to call multiple times; subsequent
   /// calls are no-ops. Skipped automatically on web (no filesystem).
   Future<void> init() async {
-    if (_persistenceReady) return;
+    if (_disposed || _persistenceReady) return;
     if (kIsWeb) return;
 
     try {
       final cacheDir = await getApplicationCacheDirectory();
+      if (_disposed) return;
       _logFile = File('${cacheDir.path}/fractal_forge_logs.jsonl');
       await _loadFromDisk();
+      if (_disposed) return;
       _sink = _logFile!.openWrite(mode: FileMode.append);
       _persistenceReady = true;
     } catch (e) {
@@ -229,7 +237,7 @@ class AppLogger extends ChangeNotifier {
 
   Future<void> _loadFromDisk() async {
     final file = _logFile;
-    if (file == null || !file.existsSync()) return;
+    if (_disposed || file == null || !file.existsSync()) return;
 
     try {
       final lines = await file.readAsLines();
@@ -249,6 +257,7 @@ class AppLogger extends ChangeNotifier {
 
       // Parse and load into ring buffer (in-memory max still applies).
       for (final line in rotation.keptLines) {
+        if (_disposed) return;
         try {
           final json = jsonDecode(line) as Map<String, dynamic>;
           final entry = LogEntry.fromDiskJson(json);
@@ -269,7 +278,7 @@ class AppLogger extends ChangeNotifier {
 
   void _appendToDisk(LogEntry entry) {
     final sink = _sink;
-    if (sink == null) return;
+    if (_disposed || sink == null) return;
 
     try {
       sink.writeln(jsonEncode(entry.toDiskJson()));
@@ -284,6 +293,8 @@ class AppLogger extends ChangeNotifier {
 
   void log(String category, String message,
       {LogLevel level = LogLevel.info, Map<String, Object?>? data}) {
+    if (_disposed) return;
+
     final entry = LogEntry(
       timestamp: DateTime.now(),
       level: level,
@@ -299,7 +310,7 @@ class AppLogger extends ChangeNotifier {
       debugPrint(entry.toLogLine());
     }
     _appendToDisk(entry);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Convenience: log with structured data.
@@ -345,28 +356,32 @@ class AppLogger extends ChangeNotifier {
 
   /// Clear all entries from memory and truncate the on-disk file.
   Future<void> clearLog() async {
+    if (_disposed) return;
     _entries.clear();
     await _truncateDisk();
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Synchronous clear (in-memory only; schedules disk truncation).
   void clear() {
+    if (_disposed) return;
     _entries.clear();
     _truncateDisk(); // fire-and-forget
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   Future<void> _truncateDisk() async {
     final file = _logFile;
-    if (file == null || !_persistenceReady) return;
+    if (_disposed || file == null || !_persistenceReady) return;
 
     try {
       // Close the current sink, truncate the file, reopen for append.
       await _sink?.flush();
       await _sink?.close();
       _sink = null;
+      if (_disposed) return;
       await file.writeAsString('');
+      if (_disposed) return;
       _sink = file.openWrite(mode: FileMode.append);
     } catch (e) {
       if (kDebugMode) {
@@ -378,12 +393,20 @@ class AppLogger extends ChangeNotifier {
   // ── Dispose ──────────────────────────────────────────────────────────
 
   @override
-  Future<void> dispose() async {
-    try {
-      await _sink?.flush();
-      await _sink?.close();
-    } catch (_) {}
+  void dispose() {
+    _disposed = true;
+    final sink = _sink;
     _sink = null;
+    if (sink != null) {
+      unawaited(_closeSink(sink));
+    }
     super.dispose();
+  }
+
+  Future<void> _closeSink(IOSink sink) async {
+    try {
+      await sink.flush();
+      await sink.close();
+    } catch (_) {}
   }
 }

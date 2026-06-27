@@ -60,6 +60,7 @@ class CrashReporter {
   late final DateTime _sessionStart;
   File? _logFile;
   bool _diskInitialized = false;
+  bool _disposed = false;
   final StreamController<CrashEvent> _eventController =
       StreamController<CrashEvent>.broadcast();
 
@@ -94,11 +95,15 @@ class CrashReporter {
     int maxEvents = 100,
     bool persistToDisk = false,
   }) {
-    // Make install idempotent.
-    _instance ??= CrashReporter._(
-      maxEvents: maxEvents,
-      persistToDisk: persistToDisk,
-    );
+    // Make install idempotent, but allow tests/app shutdown to dispose and
+    // recreate the local reporter without leaving global handlers pointed at a
+    // closed stream.
+    if (_instance == null || _instance!._disposed) {
+      _instance = CrashReporter._(
+        maxEvents: maxEvents,
+        persistToDisk: persistToDisk,
+      );
+    }
 
     FlutterError.onError = (FlutterErrorDetails details) {
       // Keep Flutter's default formatting/behavior in debug.
@@ -169,6 +174,8 @@ class CrashReporter {
     String? context,
     Map<String, String>? tags,
   }) {
+    if (_disposed) return;
+
     final event = CrashEvent(
       timestamp: DateTime.now().toUtc(),
       sessionId: _sessionId,
@@ -190,7 +197,9 @@ class CrashReporter {
     _errorCounts[source] = (_errorCounts[source] ?? 0) + 1;
 
     // Broadcast to listeners
-    _eventController.add(event);
+    if (!_eventController.isClosed) {
+      _eventController.add(event);
+    }
 
     // Log to console
     _printEvent(event);
@@ -266,11 +275,14 @@ class CrashReporter {
 
   /// Disposes resources.
   void dispose() {
-    _eventController.close();
+    _disposed = true;
+    if (!_eventController.isClosed) {
+      _eventController.close();
+    }
   }
 
   Future<void> _initDiskPersistence() async {
-    if (kIsWeb) return;
+    if (_disposed || kIsWeb) return;
     try {
       final dir = await getApplicationDocumentsDirectory();
       final logsDir = Directory('${dir.path}/crash_logs');
@@ -294,11 +306,13 @@ class CrashReporter {
           .toIso8601String()
           .replaceAll(':', '-')
           .substring(0, 19);
+      if (_disposed) return;
       _logFile = File('${logsDir.path}/crash_$timestamp.log');
       await _logFile!.writeAsString(
         '=== Session: $_sessionId ===\n',
         mode: FileMode.write,
       );
+      if (_disposed) return;
       _diskInitialized = true;
     } catch (e) {
       if (kDebugMode)
@@ -307,6 +321,7 @@ class CrashReporter {
   }
 
   Future<void> _persistEvent(CrashEvent event) async {
+    if (_disposed) return;
     try {
       await _logFile?.writeAsString(
         '${event.toMultilineString()}\n',

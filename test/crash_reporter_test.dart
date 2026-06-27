@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/services/diagnostics/crash_reporter.dart';
 
@@ -28,8 +27,10 @@ void main() {
       final now = DateTime.now().toUtc();
       final sessionStart = CrashReporter.instance.sessionStart;
 
-      expect(sessionStart.isBefore(now.add(const Duration(seconds: 1))), isTrue);
-      expect(sessionStart.isAfter(now.subtract(const Duration(hours: 1))), isTrue);
+      expect(
+          sessionStart.isBefore(now.add(const Duration(seconds: 1))), isTrue);
+      expect(
+          sessionStart.isAfter(now.subtract(const Duration(hours: 1))), isTrue);
     });
 
     test('records error events', () {
@@ -143,6 +144,36 @@ void main() {
 
       // Should be capped at 50 (the maxEvents we set in setUpAll)
       expect(CrashReporter.instance.errorCount, equals(50));
+    });
+
+    test('dispose ignores late records and install recreates reporter', () {
+      addTearDown(() {
+        CrashReporter.install(maxEvents: 50, persistToDisk: false);
+        CrashReporter.instance.clear();
+      });
+      final reporter = CrashReporter.instance;
+
+      reporter.dispose();
+
+      expect(
+        () => reporter.record(
+          Exception('late'),
+          null,
+          source: 'test',
+          fatal: false,
+        ),
+        returnsNormally,
+      );
+      expect(reporter.errorCount, 0);
+
+      CrashReporter.install(maxEvents: 50, persistToDisk: false);
+      CrashReporter.instance.record(
+        Exception('after reinstall'),
+        null,
+        source: 'test',
+        fatal: false,
+      );
+      expect(CrashReporter.instance.errorCount, 1);
     });
 
     test('clears events', () {

@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
@@ -61,6 +63,11 @@ class DebugRunnerService extends ChangeNotifier {
   int _totalSteps = 0;
   String _statusMessage = '';
   String? _errorMessage;
+  bool _disposed = false;
+
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
 
   DebugRunnerService({
     required this.controller,
@@ -87,6 +94,8 @@ class DebugRunnerService extends ChangeNotifier {
       // Initialize logger
       await _logger.init();
 
+      if (_disposed) return;
+
       // Set up screenshot dir.
       final docDir = await getApplicationDocumentsDirectory();
       final outputPlan = DebugRunnerOutputPlan.fromDocumentsDirectory(
@@ -101,9 +110,11 @@ class DebugRunnerService extends ChangeNotifier {
       final stepPlan = DebugRunnerStepPlan(moduleCount: modules.length);
       _totalSteps = stepPlan.totalSteps;
       _currentStep = 0;
+      if (_disposed) return;
+
       _state = DebugRunState.running;
       _errorMessage = null;
-      notifyListeners();
+      _notifyIfAlive();
 
       _logger.logAction(
         'debugRunner',
@@ -116,6 +127,7 @@ class DebugRunnerService extends ChangeNotifier {
         _updateStatus('Selecting ${module.id}...');
         controller.selectModule(module);
         await _settle();
+        if (_disposed) return;
         _advanceStep();
 
         // Step 2: Screenshot default state
@@ -125,12 +137,14 @@ class DebugRunnerService extends ChangeNotifier {
           '${module.id}_default',
         );
         await _settle();
+        if (_disposed) return;
         _advanceStep();
 
         // Step 3: Randomize params
         _updateStatus('Randomizing ${module.id}...');
         controller.randomizeParams();
         await _settle();
+        if (_disposed) return;
         _advanceStep();
 
         // Step 4: Screenshot randomized state
@@ -140,37 +154,48 @@ class DebugRunnerService extends ChangeNotifier {
           '${module.id}_randomized',
         );
         await _settle();
+        if (_disposed) return;
         _advanceStep();
 
         // Step 5: Reset
         _updateStatus('Resetting ${module.id}...');
         controller.resetSession();
         await _settle();
+        if (_disposed) return;
         _advanceStep();
       }
 
       _state = DebugRunState.completed;
       _statusMessage = 'Completed! ${modules.length} modules tested.';
       _logger.logAction('debugRunner', 'Debug run completed');
-      notifyListeners();
+      _notifyIfAlive();
     } catch (e) {
       _state = DebugRunState.error;
       _errorMessage = e.toString();
       _statusMessage = 'Error: $e';
       _logger.logAction('debugRunner', 'Debug run failed: $e');
-      notifyListeners();
+      _notifyIfAlive();
     }
   }
 
   void _updateStatus(String message) {
+    if (_disposed) return;
     _statusMessage = message;
     _logger.logAction('debugRunner', message);
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   void _advanceStep() {
+    if (_disposed) return;
     _currentStep++;
-    notifyListeners();
+    _notifyIfAlive();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    unawaited(_logger.dispose());
+    super.dispose();
   }
 
   /// 500ms settle delay for shader render time

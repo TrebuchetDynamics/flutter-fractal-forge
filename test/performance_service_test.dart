@@ -278,6 +278,16 @@ void main() {
       // Should not throw
       expect(() => service.dispose(), returnsNormally);
     });
+
+    test('disposed service ignores stale control calls', () {
+      final service = PerformanceService();
+      service.dispose();
+
+      expect(() => service.reset(), returnsNormally);
+      expect(() => service.stop(), returnsNormally);
+      expect(() => service.start(TestVSync()), returnsNormally);
+      expect(service.isRunning, isFalse);
+    });
   });
 
   group('DoubleExtension', () {

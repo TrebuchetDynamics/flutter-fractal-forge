@@ -39,6 +39,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
       setState(() {});
       if (_autoScroll) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
           if (_scroll.hasClients) {
             _scroll.jumpTo(_scroll.position.maxScrollExtent);
           }

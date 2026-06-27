@@ -165,8 +165,12 @@ ui.Image _paletteSamplerTexture(int colorScheme) {
       const ui.Rect.fromLTWH(0, 0, 1, 1),
       ui.Paint()..color = const ui.Color(0xFF000000),
     );
-    return _fallbackPaletteSamplerTexture =
-        recorder.endRecording().toImageSync(1, 1);
+    final picture = recorder.endRecording();
+    try {
+      return _fallbackPaletteSamplerTexture = picture.toImageSync(1, 1);
+    } finally {
+      picture.dispose();
+    }
   }
 }
 

@@ -628,6 +628,20 @@ void main() {
     });
   });
 
+  group('BatchExportService contact sheet memory', () {
+    test('builder streams thumbnails instead of retaining all', () {
+      final source = File('lib/core/services/export/batch_export_service.dart')
+          .readAsStringSync();
+      final method = source.substring(
+        source.indexOf('Future<Uint8List> _buildContactSheet'),
+      );
+
+      expect(method, isNot(contains('final thumbs = <img.Image>[]')));
+      expect(method, contains('var imageIndex = 0;'));
+      expect(method, contains('img.compositeImage(sheet, thumb'));
+    });
+  });
+
   // ---------------------------------------------------------------------------
   // ExportOptions model — pure synchronous unit tests
   // ---------------------------------------------------------------------------

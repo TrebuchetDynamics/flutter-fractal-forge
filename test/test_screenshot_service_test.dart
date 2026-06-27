@@ -37,6 +37,19 @@ void main() {
       expect(future, isA<Future<File?>>());
     });
 
+    test('capture rejects path-like screenshot names before capture', () async {
+      final dir = Directory.systemTemp.createTempSync('screenshot_svc_name_');
+      addTearDown(() => dir.deleteSync(recursive: true));
+
+      final key = GlobalKey();
+      final svc = TestScreenshotService(outputDir: dir.path);
+
+      final result = await svc.capture(key, '../escape');
+
+      expect(result, isNull);
+      expect(File('${dir.parent.path}/escape.png').existsSync(), isFalse);
+    });
+
     test('capture creates output directory when it does not exist', () async {
       final base = Directory.systemTemp.createTempSync('screenshot_svc_dir_');
       addTearDown(() => base.deleteSync(recursive: true));

@@ -34,8 +34,7 @@ FractalModule buildJuliaPerturbModule(FractalModule standardModule) {
 
       ui.Image paletteTex;
       try {
-        final palette =
-            PaletteService.instance.paletteAtIndex(colorScheme);
+        final palette = PaletteService.instance.paletteAtIndex(colorScheme);
         paletteTex = PaletteService.instance.paletteTexture(palette);
       } catch (_) {
         // PaletteService unavailable; use a 1×1 black fallback texture.
@@ -45,7 +44,12 @@ FractalModule buildJuliaPerturbModule(FractalModule standardModule) {
           const ui.Rect.fromLTWH(0, 0, 1, 1),
           ui.Paint()..color = const ui.Color(0xFF000000),
         );
-        paletteTex = rec.endRecording().toImageSync(1, 1);
+        final picture = rec.endRecording();
+        try {
+          paletteTex = picture.toImageSync(1, 1);
+        } finally {
+          picture.dispose();
+        }
       }
       final orbitTex = _OrbitTextureCache.instance.juliaOrbitTexture(
         centerX: state.view.pan.x,
@@ -66,9 +70,9 @@ FractalModule buildJuliaPerturbModule(FractalModule standardModule) {
       shader.setFloat(8, state.transparentBackground ? 1.0 : 0.0);
       shader.setFloat(9, 1.0); // uFormula = Julia
       final colorSpeed = readDouble(state.params, 'colorCycleSpeed', 0.0);
-      shader.setFloat(10, 0.0);        // uExtra0
+      shader.setFloat(10, 0.0); // uExtra0
       shader.setFloat(11, colorSpeed); // uExtra1 = color cycle speed (G15)
-      shader.setFloat(12, 0.0);        // uExtra2
+      shader.setFloat(12, 0.0); // uExtra2
 
       shader.setImageSampler(0, paletteTex);
       shader.setImageSampler(1, orbitTex);
@@ -131,7 +135,13 @@ class _OrbitTextureCache {
       canvas.drawRect(ui.Rect.fromLTWH(x.toDouble(), 0, 1, 1), paint);
     }
 
-    final image = recorder.endRecording().toImageSync(totalPx, 1);
+    final picture = recorder.endRecording();
+    ui.Image image;
+    try {
+      image = picture.toImageSync(totalPx, 1);
+    } finally {
+      picture.dispose();
+    }
     _lastImage?.dispose();
     _lastImage = image;
     _lastKey = key;

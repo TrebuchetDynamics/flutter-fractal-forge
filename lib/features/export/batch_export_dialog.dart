@@ -40,7 +40,10 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _run());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _run();
+    });
   }
 
   Future<void> _run() async {
@@ -78,6 +81,7 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
     try {
       final builtIn = controller.module.builtInPresets;
       final user = await presetStore.loadUserPresets(controller.module.id);
+      if (!mounted) return;
       final presets = <FractalPreset>[...builtIn, ...user];
 
       if (presets.isEmpty) {
@@ -336,7 +340,12 @@ class _ExportThumbTile extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.file(file, fit: BoxFit.cover),
+            Image.file(
+              file,
+              fit: BoxFit.cover,
+              cacheWidth: 256,
+              cacheHeight: 256,
+            ),
             Positioned(
               left: 0,
               right: 0,

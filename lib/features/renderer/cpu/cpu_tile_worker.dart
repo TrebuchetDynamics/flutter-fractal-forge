@@ -8,10 +8,11 @@ import 'cpu_render_isolate.dart';
 /// Spawning an isolate per tile (Isolate.run) is far too slow on mobile.
 /// This worker keeps one isolate alive and processes tile jobs sequentially.
 class CpuTileWorker {
-  CpuTileWorker._(this._isolate, this._sendPort, this._sub);
+  CpuTileWorker._(this._isolate, this._sendPort, this._receivePort, this._sub);
 
   final Isolate _isolate;
   final SendPort _sendPort;
+  final ReceivePort _receivePort;
   final StreamSubscription _sub;
   final Set<ReceivePort> _pendingReplies = <ReceivePort>{};
   bool _disposed = false;
@@ -26,10 +27,16 @@ class CpuTileWorker {
       }
     });
 
-    final isolate = await Isolate.spawn(_entry, receive.sendPort);
-    final sendPort = await handshake.future;
+    try {
+      final isolate = await Isolate.spawn(_entry, receive.sendPort);
+      final sendPort = await handshake.future;
 
-    return CpuTileWorker._(isolate, sendPort, sub);
+      return CpuTileWorker._(isolate, sendPort, receive, sub);
+    } catch (_) {
+      await sub.cancel();
+      receive.close();
+      rethrow;
+    }
   }
 
   Future<CpuTileRenderResponse> renderTile(CpuTileRenderRequest req) async {
@@ -59,7 +66,8 @@ class CpuTileWorker {
       replyPort.close();
     }
     _pendingReplies.clear();
-    _sub.cancel();
+    unawaited(_sub.cancel());
+    _receivePort.close();
     _isolate.kill(priority: Isolate.immediate);
   }
 

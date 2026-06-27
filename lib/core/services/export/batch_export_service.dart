@@ -347,35 +347,36 @@ class BatchExportService {
     required int tileSize,
     required int padding,
   }) async {
-    final thumbs = <img.Image>[];
-    for (final f in files) {
-      final bytes = await f.readAsBytes();
-      final decoded = img.decodeImage(bytes);
-      if (decoded == null) continue;
-      thumbs.add(img.copyResize(decoded,
-          width: tileSize,
-          height: tileSize,
-          // Avoid cubic on mobile: Play Console ANRs showed
-          // Image.getPixelCubic.cubic blocking input dispatch.
-          interpolation: img.Interpolation.average));
-    }
-    if (thumbs.isEmpty) throw StateError('No images');
-
-    final cols = columns.clamp(1, 12);
-    final rows = ((thumbs.length + cols - 1) / cols).floor();
+    final cols = columns.clamp(1, 12).toInt();
+    final rows = ((files.length + cols - 1) / cols).floor().clamp(1, 1 << 20);
     final width = padding + cols * (tileSize + padding);
     final height = padding + rows * (tileSize + padding);
 
     final sheet = img.Image(width: width, height: height, numChannels: 4);
     img.fill(sheet, color: img.ColorRgba8(12, 12, 12, 255));
 
-    for (var i = 0; i < thumbs.length; i++) {
-      final r = i ~/ cols;
-      final c = i % cols;
+    var imageIndex = 0;
+    for (final f in files) {
+      final bytes = await f.readAsBytes();
+      final decoded = img.decodeImage(bytes);
+      if (decoded == null) continue;
+
+      final thumb = img.copyResize(
+        decoded,
+        width: tileSize,
+        height: tileSize,
+        // Avoid cubic on mobile: Play Console ANRs showed
+        // Image.getPixelCubic.cubic blocking input dispatch.
+        interpolation: img.Interpolation.average,
+      );
+      final r = imageIndex ~/ cols;
+      final c = imageIndex % cols;
       final x = padding + c * (tileSize + padding);
       final y = padding + r * (tileSize + padding);
-      img.compositeImage(sheet, thumbs[i], dstX: x, dstY: y);
+      img.compositeImage(sheet, thumb, dstX: x, dstY: y);
+      imageIndex++;
     }
+    if (imageIndex == 0) throw StateError('No images');
 
     return Uint8List.fromList(img.encodePng(sheet, level: 6));
   }

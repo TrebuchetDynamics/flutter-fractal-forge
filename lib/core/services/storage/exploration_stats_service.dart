@@ -56,12 +56,19 @@ class ExplorationStatsService extends ChangeNotifier {
   ExplorationStats _stats = ExplorationStats();
   Set<Achievement> _unlockedAchievements = {};
   SharedPreferences? _prefs;
+  bool _disposed = false;
+
+  void _notifyIfAlive() {
+    if (!_disposed) notifyListeners();
+  }
 
   ExplorationStats get stats => _stats;
   Set<Achievement> get unlockedAchievements => _unlockedAchievements;
 
   Future<void> init() async {
+    if (_disposed) return;
     _prefs = await SharedPreferences.getInstance();
+    if (_disposed) return;
     _load();
   }
 
@@ -92,6 +99,7 @@ class ExplorationStatsService extends ChangeNotifier {
 
   /// Record zoom distance traveled (pass absolute log ratio).
   void recordZoom(double oldZoom, double newZoom) {
+    if (_disposed) return;
     final distance = ExplorationStatsTelemetry.zoomDistance(oldZoom, newZoom);
     if (distance == null) return;
     _recordZoomDistance(distance);
@@ -99,6 +107,7 @@ class ExplorationStatsService extends ChangeNotifier {
 
   /// Record time spent exploring.
   void recordTime(int seconds) {
+    if (_disposed) return;
     final safeSeconds = ExplorationStatsTelemetry.exploredSeconds(seconds);
     if (safeSeconds == null) return;
 
@@ -107,7 +116,7 @@ class ExplorationStatsService extends ChangeNotifier {
     );
     _checkAchievements();
     unawaited(_save());
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Alias for recordTime for compatibility (accepts Duration).
@@ -115,6 +124,7 @@ class ExplorationStatsService extends ChangeNotifier {
 
   /// Alias for recordZoom that takes a distance directly.
   void addZoomDistance(double distance) {
+    if (_disposed) return;
     final safeDistance = ExplorationStatsTelemetry.directZoomDistance(distance);
     if (safeDistance == null) return;
     _recordZoomDistance(safeDistance);
@@ -127,21 +137,23 @@ class ExplorationStatsService extends ChangeNotifier {
     );
     _checkAchievements();
     unawaited(_save());
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Record a screenshot/export.
   void recordScreenshot() {
+    if (_disposed) return;
     _stats = _stats.copyWith(
       screenshotsTaken: _stats.screenshotsTaken + 1,
     );
     _checkAchievements();
     unawaited(_save());
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   /// Record exploring a fractal module.
   void recordFractalExplored(String moduleId) {
+    if (_disposed) return;
     final updated = Set<String>.from(_stats.uniqueFractalsExplored)
       ..add(moduleId);
     _stats = _stats.copyWith(
@@ -150,7 +162,7 @@ class ExplorationStatsService extends ChangeNotifier {
     );
     _checkAchievements();
     unawaited(_save());
-    notifyListeners();
+    _notifyIfAlive();
   }
 
   void _checkAchievements() {
@@ -185,6 +197,12 @@ class ExplorationStatsService extends ChangeNotifier {
     if (newlyUnlocked.isNotEmpty) {
       _unlockedAchievements = {..._unlockedAchievements, ...newlyUnlocked};
     }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 
   /// Get progress toward an achievement (0.0 to 1.0).

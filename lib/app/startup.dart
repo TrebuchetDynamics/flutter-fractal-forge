@@ -31,6 +31,7 @@ class DeferredStartupApp extends StatefulWidget {
 class DeferredStartupAppState extends State<DeferredStartupApp> {
   Widget? _fullApp;
   Object? _startupError;
+  _StartupServices? _startupServices;
 
   @override
   void initState() {
@@ -39,33 +40,10 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
   }
 
   Future<Widget> _createFullApp() async {
-    final results = await Future.wait([
-      PresetStore.create(),
-      HistoryStore.create(),
-      AccessibilityService.create(),
-      RendererSettingsService.create(),
-      PaletteService.create(),
-    ]);
-    final presetStore = results[0] as PresetStore;
-    final historyStore = results[1] as HistoryStore;
-    final accessibilityService = results[2] as AccessibilityService;
-    final rendererSettingsService = results[3] as RendererSettingsService;
-    final onboardingService = await OnboardingService.create();
-    DeepLinkService? deepLinkService;
-    if (kEnableDeepLinks == 1) {
-      deepLinkService = DeepLinkService();
-      await deepLinkService.initialize();
-    }
-
-    return FlutterFractalsApp(
-      presetStore: presetStore,
-      historyStore: historyStore,
-      accessibilityService: accessibilityService,
-      rendererSettingsService: rendererSettingsService,
-      onboardingService: onboardingService,
-      deepLinkService: deepLinkService,
-      skipSplash: true, // Deferred startup already showed loading UI.
-    );
+    _disposeStartupServices();
+    final services = await _StartupServices.create();
+    _startupServices = services;
+    return services.buildApp();
   }
 
   Future<void> _initServices() async {
@@ -76,7 +54,10 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
     try {
       final loader = widget.fullAppLoader ?? _createFullApp;
       final fullApp = await loader().timeout(widget.startupTimeout);
-      if (!mounted) return;
+      if (!mounted) {
+        _disposeStartupServices();
+        return;
+      }
       setState(() {
         _fullApp = fullApp;
       });
@@ -92,6 +73,17 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
         _startupError = error;
       });
     }
+  }
+
+  void _disposeStartupServices() {
+    _startupServices?.dispose();
+    _startupServices = null;
+  }
+
+  @override
+  void dispose() {
+    _disposeStartupServices();
+    super.dispose();
   }
 
   @override
@@ -159,5 +151,69 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
         ),
       ),
     );
+  }
+}
+
+class _StartupServices {
+  final PresetStore presetStore;
+  final HistoryStore historyStore;
+  final AccessibilityService accessibilityService;
+  final RendererSettingsService rendererSettingsService;
+  final PaletteService paletteService;
+  final OnboardingService onboardingService;
+  final DeepLinkService? deepLinkService;
+
+  const _StartupServices({
+    required this.presetStore,
+    required this.historyStore,
+    required this.accessibilityService,
+    required this.rendererSettingsService,
+    required this.paletteService,
+    required this.onboardingService,
+    required this.deepLinkService,
+  });
+
+  static Future<_StartupServices> create() async {
+    final results = await Future.wait([
+      PresetStore.create(),
+      HistoryStore.create(),
+      AccessibilityService.create(),
+      RendererSettingsService.create(),
+      PaletteService.create(),
+    ]);
+    DeepLinkService? deepLinkService;
+    if (kEnableDeepLinks == 1) {
+      deepLinkService = DeepLinkService();
+      await deepLinkService.initialize();
+    }
+
+    return _StartupServices(
+      presetStore: results[0] as PresetStore,
+      historyStore: results[1] as HistoryStore,
+      accessibilityService: results[2] as AccessibilityService,
+      rendererSettingsService: results[3] as RendererSettingsService,
+      paletteService: results[4] as PaletteService,
+      onboardingService: await OnboardingService.create(),
+      deepLinkService: deepLinkService,
+    );
+  }
+
+  Widget buildApp() {
+    return FlutterFractalsApp(
+      presetStore: presetStore,
+      historyStore: historyStore,
+      accessibilityService: accessibilityService,
+      rendererSettingsService: rendererSettingsService,
+      onboardingService: onboardingService,
+      deepLinkService: deepLinkService,
+      skipSplash: true, // Deferred startup already showed loading UI.
+    );
+  }
+
+  void dispose() {
+    deepLinkService?.dispose();
+    paletteService.dispose();
+    rendererSettingsService.dispose();
+    accessibilityService.dispose();
   }
 }

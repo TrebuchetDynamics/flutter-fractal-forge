@@ -1001,6 +1001,8 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
                   thumbnail.assetPath,
                   width: 256,
                   height: 256,
+                  cacheWidth: 256,
+                  cacheHeight: 256,
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.medium,
                   gaplessPlayback: true,

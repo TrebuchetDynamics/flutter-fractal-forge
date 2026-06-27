@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
 
 void main() {
@@ -133,6 +134,27 @@ void main() {
       final result = await service.saveToPhotos(Uint8List.fromList([0]));
 
       expect(result, isFalse);
+    });
+
+    test('setWallpaper rejects oversized payload before channel call',
+        () async {
+      const service = WallpaperService();
+      final bytes = Uint8List(ExportSizePolicy.maxEncodedImageBytes + 1);
+
+      expect(
+        () => service.setWallpaper(bytes, target: WallpaperTarget.home),
+        throwsStateError,
+      );
+      expect(log, isEmpty);
+    });
+
+    test('saveToPhotos rejects oversized payload before channel call',
+        () async {
+      const service = WallpaperService();
+      final bytes = Uint8List(ExportSizePolicy.maxEncodedImageBytes + 1);
+
+      expect(() => service.saveToPhotos(bytes), throwsStateError);
+      expect(log, isEmpty);
     });
   });
 

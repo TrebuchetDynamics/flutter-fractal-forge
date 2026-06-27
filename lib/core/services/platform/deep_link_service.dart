@@ -553,6 +553,7 @@ class DeepLinkService {
   // Method channel for receiving deep links from native code
   static const MethodChannel _channel =
       MethodChannel('com.fractalforge/deeplink');
+  static DeepLinkService? _handlerOwner;
 
   final StreamController<DeepLinkData> _linkController =
       StreamController<DeepLinkData>.broadcast();
@@ -561,6 +562,7 @@ class DeepLinkService {
   Stream<DeepLinkData> get linkStream => _linkController.stream;
 
   DeepLinkData? _initialLink;
+  bool _disposed = false;
 
   /// The initial deep link that launched the app (if any).
   DeepLinkData? get initialLink => _initialLink;
@@ -571,11 +573,12 @@ class DeepLinkService {
   Future<void> initialize() async {
     const bool kEnableDeepLinks =
         bool.fromEnvironment('ENABLE_DEEP_LINKS', defaultValue: true);
-    if (!kEnableDeepLinks) {
+    if (_disposed || !kEnableDeepLinks) {
       return;
     }
 
     // Set up method channel handler for incoming links
+    _handlerOwner = this;
     _channel.setMethodCallHandler(_handleMethodCall);
 
     // Try to get the initial link that launched the app
@@ -591,11 +594,10 @@ class DeepLinkService {
   }
 
   Future<dynamic> _handleMethodCall(MethodCall call) async {
-    if (call.method == 'onDeepLink') {
-      final data = parseIncomingLink(call.arguments);
-      if (data != null) {
-        _linkController.add(data);
-      }
+    if (_disposed || call.method != 'onDeepLink') return;
+    final data = parseIncomingLink(call.arguments);
+    if (data != null && !_linkController.isClosed) {
+      _linkController.add(data);
     }
   }
 
@@ -1074,6 +1076,13 @@ class DeepLinkService {
 
   /// Disposes of the service and closes the stream.
   void dispose() {
-    _linkController.close();
+    _disposed = true;
+    if (identical(_handlerOwner, this)) {
+      _handlerOwner = null;
+      _channel.setMethodCallHandler(null);
+    }
+    if (!_linkController.isClosed) {
+      _linkController.close();
+    }
   }
 }
