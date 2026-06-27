@@ -14,18 +14,31 @@ struct _MyApplication {
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
-static gboolean mobile_screenshot_mode() {
-  const gchar* value = g_getenv("FRACTAL_FORGE_MOBILE_SCREENSHOT");
+static gboolean env_enabled(const gchar* name) {
+  const gchar* value = g_getenv(name);
   return g_strcmp0(value, "1") == 0;
+}
+
+static gint env_int(const gchar* name, gint fallback) {
+  const gchar* value = g_getenv(name);
+  if (value == nullptr || *value == '\0') return fallback;
+  gchar* end = nullptr;
+  gint parsed = static_cast<gint>(g_ascii_strtoll(value, &end, 10));
+  return end != value && parsed > 0 ? parsed : fallback;
 }
 
 // Called when first Flutter frame received.
 static void first_frame_cb(MyApplication* self, FlView* view) {
   GtkWidget* toplevel = gtk_widget_get_toplevel(GTK_WIDGET(view));
-  if (mobile_screenshot_mode()) {
-    GtkWindow* window = GTK_WINDOW(toplevel);
+  GtkWindow* window = GTK_WINDOW(toplevel);
+  if (env_enabled("FRACTAL_FORGE_FULLSCREEN")) {
+    gtk_window_fullscreen(window);
+  } else if (g_getenv("FRACTAL_FORGE_WINDOW_WIDTH") != nullptr) {
     gtk_window_unmaximize(window);
-    gtk_window_resize(window, 720, 1280);
+    gtk_window_resize(
+        window,
+        env_int("FRACTAL_FORGE_WINDOW_WIDTH", 720),
+        env_int("FRACTAL_FORGE_WINDOW_HEIGHT", 1280));
     gtk_window_move(window, 100, 80);
   }
   gtk_widget_show(toplevel);
@@ -64,11 +77,16 @@ static void my_application_activate(GApplication* application) {
     gtk_window_set_title(window, "flutter_fractals");
   }
 
-  if (mobile_screenshot_mode()) {
-    gtk_window_set_default_size(window, 720, 1280);
-    gtk_window_set_resizable(window, FALSE);
-  } else {
+  if (env_enabled("FRACTAL_FORGE_FULLSCREEN")) {
     gtk_window_set_default_size(window, 1280, 720);
+  } else {
+    gtk_window_set_default_size(
+        window,
+        env_int("FRACTAL_FORGE_WINDOW_WIDTH", 1280),
+        env_int("FRACTAL_FORGE_WINDOW_HEIGHT", 720));
+    if (g_getenv("FRACTAL_FORGE_WINDOW_WIDTH") != nullptr) {
+      gtk_window_set_resizable(window, FALSE);
+    }
   }
 
   g_autofree gchar* executable_path = g_file_read_link("/proc/self/exe", nullptr);
