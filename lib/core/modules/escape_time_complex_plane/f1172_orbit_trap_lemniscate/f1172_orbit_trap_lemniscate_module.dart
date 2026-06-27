@@ -13,17 +13,21 @@ class F1172OrbitTrapLemniscate extends EscapeTimeModule {
   F1172OrbitTrapLemniscate()
       : super(
           id: 'f1172_orbit_trap_lemniscate',
-          shader: 'shaders/f1172_orbit_trap_lemniscate_gpu.frag',
+          shader:
+              'shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag',
         );
 
   @override
-  F1172OrbitTrapLemniscateMetadata get metadata => F1172OrbitTrapLemniscateMetadata.instance;
+  F1172OrbitTrapLemniscateMetadata get metadata =>
+      F1172OrbitTrapLemniscateMetadata.instance;
 
   @override
-  List<F1172OrbitTrapLemniscatePreset> get presets => F1172OrbitTrapLemniscatePresets.all;
+  List<F1172OrbitTrapLemniscatePreset> get presets =>
+      F1172OrbitTrapLemniscatePresets.all;
 
   @override
-  List<F1172OrbitTrapLemniscateVariant> get variants => F1172OrbitTrapLemniscateVariants.all;
+  List<F1172OrbitTrapLemniscateVariant> get variants =>
+      F1172OrbitTrapLemniscateVariants.all;
 
   @override
   double get defaultPower => 2.0;
@@ -32,15 +36,16 @@ class F1172OrbitTrapLemniscate extends EscapeTimeModule {
   double get defaultBailout => 4.0;
 
   @override
-  int get defaultIterations => 1024;
+  int get defaultIterations => 300;
 
   @override
-  DeepZoomStrategy get deepZoom => DeepZoomStrategy.perturbation;
+  DeepZoomStrategy get deepZoom => DeepZoomStrategy.none;
 
   @override
   void configureShader(ShaderParams p) {
     p.setFloat('power', defaultPower);
     p.setFloat('bailout', defaultBailout);
     p.setInt('iterations', defaultIterations);
+    p.setInt('trapMode', 17);
   }
 }
