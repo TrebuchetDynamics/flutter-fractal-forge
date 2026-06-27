@@ -1,7 +1,7 @@
 // GENERATED — reviewed Peter de Jong coefficient-map promotions.
 // Source: existing-app de Jong metadata aliases with explicit a,b,c,d values.
 
-import 'package:flutter_fractals/core/modules/builders/shared_coefficient_attractor_builder.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_coefficient_attractor_builder.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 
 class SharedDeJongCatalogEntry {

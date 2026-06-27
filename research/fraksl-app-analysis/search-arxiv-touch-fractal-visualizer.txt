@@ -1,0 +1,20 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Generating Visual Scenes from Touch
+	Naturalistic stimuli in touch research
+	2DR: Towards Fine-Grained 2-D RFID Touch Sensing
+	Understanding Embodied Reference with Touch-Line Transformer
+	A novel processing pipeline for optical multi-touch surfaces
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+10.1142/s0218348x21500249	Fractal Interpretation of Bacterial Light Harvesters
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	Variable Topology on Fractal Manifold
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+10.2139/ssrn.1264684	Inventions on GUI for Touch Sensitive Screens
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+	Fractal Properties of the Cosmic Web
+10.1063/5.0257273	A fractal geometry immersed in a hierarchical magnetic flux distribution
+	A generalized model for Yang-Fourier transforms in fractal space
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+	Theory of Carry Value Transformation (CVT) and its Application in Fractal formation
+	Fractal formation and ordering in Random Sequential Adsorption
+	Fractal dimension of discrete sets and percolation

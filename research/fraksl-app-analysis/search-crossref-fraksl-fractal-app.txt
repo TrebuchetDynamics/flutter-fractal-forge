@@ -1,0 +1,20 @@
+10.1002/9781119831754.app	Data of Figures
+10.18100/ijamec.31655	Fractal diffusion retrospective problems
+10.54361/ajmas.2584109	Spectral Analysis of Multidimensional Fractal Spaces Utilizing the Theory of Broken Laplacians
+10.1002/mma.1621	Thin fractal fibers
+10.46912/napas.50	Fractal Characterization of Earthquake occurrences in Nigeria
+10.1002/mma.70672	Sampling Theory Associated With Fractal Sturm–Liouville Equations
+10.1002/mma.11049	Fractal Self‐Adjoint Higher Order Boundary‐Value Problems
+10.1002/mma.70416	Fractal Construction Using Interpolative Kannan‐Type Operators in Controlled Settings
+10.1002/app.29334	The fractal analysis of copolymerization processes
+10.37473/dac/10.1515/jaa-2021-2076	Solving fractal differential equations via fractal Laplace transforms
+10.1002/mma.7428	A study of the fractal foam drainage model in a microgravity space
+10.1042/ba19990092	An evaluation of hybridization kinetics in biosensors using a single‐fractal analysis
+10.1002/app.27718	Fractal analysis of polypropylene composite filled with nano‐calcium carbonate
+10.1002/mma.6432	New chaotic attractors: Application of fractal‐fractional differentiation and integration
+10.1002/mma.6726	Variational principle for nonlinear oscillator arising in a fractal nano/microelectromechanical system
+10.1002/mma.8692	Asymptotic analysis of spectral problems in thick junctions with the branched fractal structure
+10.2139/ssrn.2242943	The Fractal Computing Strategy -- Including Fractal Micro-Applications, Fractal Interfaces, Fractal Human Capability Module Libraries, and Fractal Program Construction Events
+10.1002/app.20715	The fractal and scaling analysis of chemical reactions
+10.1002/mma.1046	Local well‐posedness and ill‐posedness for the fractal Burgers equation in homogeneous Sobolev spaces
+10.1002/app.20222	The fractal analysis of curing processes of epoxy resins

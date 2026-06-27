@@ -1,0 +1,20 @@
+10.1093/imamat/hxv012	A finite element approach to modelling fractal ultrasonic transducers
+10.1186/s12938-015-0056-y	The electronic stethoscope
+10.2516/ogst/2009022	Relation between Nanoscale Structure of Asphaltene Aggregates and their Macroscopic Solution Properties
+10.1111/cgf.14424	EHR STAR: The State‐Of‐the‐Art in Interactive EHR Visualization
+10.1117/1.3652896	Tissue polarimetry: concepts, challenges, applications, and outlook
+10.1021/acsnano.2c12606	Technology Roadmap for Flexible Sensors
+10.46300/9109.2021.15.13	Python Computational Web Apps for STEM Engineering Education
+10.1371/journal.pcbi.1003171	Task-Based Core-Periphery Organization of Human Brain Dynamics
+10.3390/pharmaceutics11030140	Mathematical Modeling of Release Kinetics from Supramolecular Drug Delivery Systems
+10.1109/access.2020.2982988	Optimal Reactive Power Dispatch Using Chaotic Bat Algorithm
+10.1002/adhm.201700889	Nanomaterial‐Enabled Wearable Sensors for Healthcare
+10.3389/fnsys.2014.00057	The evolutionary neuroscience of musical beat perception: the Action Simulation for Auditory Prediction (ASAP) hypothesis
+10.1523/jneurosci.20-16-06193.2000	Impact of Correlated Synaptic Input on Output Firing Rate and Variability in Simple Neuronal Models
+10.3389/fnagi.2015.00124	Microglial cell dysregulation in brain aging and neurodegeneration
+10.1109/access.2020.2988579	Blockchain for Industry 4.0: A Comprehensive Review
+10.5209/rev_tekn.2016.v13.n2.52847	An introduction to generative justice
+10.31223/x5nw6j	Interactive Hydrological Modelling and Simulation on Client-Side Web Systems: An Educational Case Study
+10.1109/tmc.2023.3240821	Distributed Traffic Synthesis and Classification in Edge Networks: A Federated Self-Supervised Learning Approach
+	Lava flow dynamics : clues from fractal analysis
+10.4324/9780203093085	The Emergence of the Digital Humanities

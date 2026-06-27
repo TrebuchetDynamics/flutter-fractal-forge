@@ -1,0 +1,20 @@
+10.1109/cgiv.2013.27	Multi-touch Multi-user Interactive Control System Using Mobile Devices
+10.1201/b16229-15	Sound and Touch
+10.1201/b16229-13	Thematic Visualization
+10.1145/3132787.3139197	Duopography
+10.1145/1936652.1936748	Multi-touch table user interfaces for co-located collaborative software visualization
+10.3403/30352585u	Touch and interactive displays
+10.3403/30352585	Touch and interactive displays
+10.1109/imet54801.2022.9929934	The Virtual Touch Toolkit: An Interactive Media Mobile Application for Promoting Well-Being through Affective and Social Touch
+10.3403/30312549u	Touch and interactive displays
+10.3403/30488107	Touch and interactive displays
+10.3403/30447572	Touch and interactive displays
+10.1145/2669062.2669081	AdaptControl
+10.1007/978-3-642-10263-9_12	A Generic Framework for Using Interactive Visualization on Mobile Devices
+10.4271/arp60494	Touch Interactive Display Systems: Human Factors Considerations, System Design and Performance Guidelines
+10.3403/30432249	Touch and interactive displays
+10.3403/bsiec62908-42	Touch and interactive displays
+10.3403/bsiec62908-12	Touch and interactive displays
+10.3403/bsiec62908-13	Touch and interactive displays
+10.1145/3256039	Session details: Mobile Interaction: Type Touch and Bend
+10.3403/pdiectr62908-1	Touch and interactive displays

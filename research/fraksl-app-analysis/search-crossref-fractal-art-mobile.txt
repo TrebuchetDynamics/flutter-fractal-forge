@@ -1,0 +1,20 @@
+10.1007/978-1-4842-6333-4_6	Mobile app
+10.1007/978-1-4842-0214-2_10	The Art of Xamarin App Development
+10.14236/ewic/eva2014.43	Tulsa’s Art Deco Cross-Platform Mobile Tour App
+10.1109/icmnwc63764.2024.10871979	A Method for Generating Fractal Art Patterns Based on Genetic Algorithm
+10.5617/nm.8443	One mobile app – seven art museums. A case study of Kunstporten
+10.5121/csit.2025.151604	EMOTION-DRIVEN DIGITAL ART THERAPY: A MOBILE APP FOR AI-GENERATED MENTAL HEALTH SUPPORT
+10.1007/978-1-4842-6333-4_4	Assembling pieces of our app
+10.1515/9781400839056-012	CHAPTER 9. Fractal Dimension
+10.14257/ajmahs.2017.08.73	Mobile app interface design analysis -Focusing on senior portal 50+ Seoul app
+10.46916/07052026-1-978-5-00276-075-6	DEVELOPMENT OF THE PERSONAL FINANCIAL MANAGER MOBILE APP
+10.1016/j.aip.2015.02.005	Usability assessment of a mobile app for art therapy
+10.55277/researchhub.riu1n793	Crypto.com App Support: Troubleshooting Common Mobile App Issues
+10.2307/j.ctvcm4hhg.22	Fractal Dimension
+10.33140/amlai.06.02.01	Mobile App Development for Monitoring Goat Activities
+10.1201/9780429197123-9	Fractal Tiles and Fractal Tilings
+10.1145/2493190.2493219	Oh app, where art thou?
+10.1007/978-1-4842-6333-4_2	Let’s build our back-end web app
+10.1515/9781400839056-011	CHAPTER 8. Introduction to Fractal Geometry
+10.1016/b978-0-12-409514-4.00008-8	Mobile App or Mobile Web
+10.1007/978-1-4842-3775-5_4	Basic App Structure

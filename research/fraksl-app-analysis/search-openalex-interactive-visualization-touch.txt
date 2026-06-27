@@ -1,0 +1,20 @@
+10.1186/1471-2105-14-128	Enrichr: interactive and collaborative HTML5 gene list enrichment analysis tool
+10.1093/nar/gkad326	Proksee: in-depth characterization and visualization of bacterial genomes
+10.1109/comst.2021.3061981	A Survey on Mobile Augmented Reality With 5G Mobile Edge Computing: Architectures, Applications, and Technical Aspects
+10.1016/j.cose.2016.03.003	A survey on touch dynamics authentication in mobile devices
+10.1186/2194-0827-1-1	Usability of mobile applications: literature review and rationale for a new usability model
+10.1007/s10639-022-11177-3	Interacting with educational chatbots: A systematic review
+10.1145/2984511.2984565	Interacting with Soli
+10.1007/s11042-016-3355-9	Touch and hand gesture-based interactions for directly manipulating 3D virtual objects in mobile augmented reality
+10.1109/tvcg.2017.2745941	The Hologram in My Hand: How Effective is Interactive Exploration of 3D Visualizations in Immersive Tangible Augmented Reality?
+10.1155/2013/902316	A Review of Mobile Robotic Telepresence
+10.1038/s41467-018-06759-0	Skin-touch-actuated textile-based triboelectric nanogenerator with black phosphorus for durable biomechanical energy harvesting
+10.25300/misq/2015/39.2.08	Mobile Application Usability: Conceptualization and Instrument Development1
+10.1177/1473871611412817	Collaborative visualization: Definition, challenges, and research agenda
+10.1080/23729333.2017.1288534	User studies in cartography: opportunities for empirical research on interactive maps and visualizations
+10.1016/j.jretconser.2015.12.001	Towards the identification of customer experience touch point elements
+10.1109/tvcg.2018.2855154	HapTable: An Interactive Tabletop Providing Online Haptic Feedback for Touch Gestures
+10.1109/tvcg.2020.3030460	Personal Augmented Reality for Information Visualization on Large Interactive Displays
+10.1016/j.future.2013.01.010	Internet of Things (IoT): A vision, architectural elements, and future directions
+10.1016/j.compedu.2017.02.009	Mixed-reality learning environments: Integrating mobile interfaces with laboratory test-beds
+10.1515/rns.2011.047	Cognition in action: imaging brain/body dynamics in mobile humans

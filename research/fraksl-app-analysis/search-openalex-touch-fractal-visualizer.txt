@@ -1,0 +1,20 @@
+10.1007/s10577-010-9177-0	The fractal globule as a model of chromatin architecture in the cell
+10.1371/journal.pbio.1001406	OneZoom: A Fractal Explorer for the Tree of Life
+10.1109/tvcg.2012.272	The DeepTree Exhibit: Visualizing the Tree of Life to Facilitate Informal Learning
+10.1145/965145.801263	Generation and display of geometric fractals in 3-D
+10.3390/su13020823	The Potential of Biophilic Fractal Designs to Promote Health and Performance: A Review of Experiments and Applications
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.3389/fphys.2012.00382	Recurrence Quantification of Fractal Structures
+10.2478/s11534-011-0096-2	Gwyddion: an open-source software for SPM data analysis
+10.4064/bc84-0-9	Self-affine fractals of finite type
+10.1177/1532708616634733	The New Empiricism of the Fractal Fold
+10.1122/1.4997889	Fractal approaches to characterize the structure of capillary suspensions using rheology and confocal microscopy
+10.3390/fractalfract4020011	Fractal, Scale Free Electromagnetic Resonance of a Single Brain Extracted Microtubule Nanowire, a Single Tubulin Protein and a Single Neuron
+10.1137/0905021	A Method for Constructing Local Monotone Piecewise Cubic Interpolants
+10.1109/tnb.2015.2395539	A Touch-Communication Framework for Drug Delivery Based on a Transient Microbot System
+10.1155/2010/974917	Exploring the Fractal Parameters of Urban Growth and Form with Wave‐Spectrum Analysis
+10.1007/s41109-021-00410-6	Comparative analysis of box-covering algorithms for fractal networks
+10.1103/physrevlett.131.177001	Graded Quasiperiodic Metamaterials Perform Fractal Rainbow Trapping
+10.3389/fpsyg.2020.01457	Finding Structure in Time: Visualizing and Analyzing Behavioral Time Series
+10.1002/tea.21318	Visualizing biological data in museums: Visitor learning with an interactive tree of life exhibit
+10.3390/info11050238	A Self-Operating Time Crystal Model of the Human Brain: Can We Replace Entire Brain Hardware with a 3D Fractal Architecture of Clocks Alone?

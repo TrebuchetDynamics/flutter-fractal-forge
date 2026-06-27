@@ -1,0 +1,20 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	ARMrayan Multimedia Mobile CMS: a Simplified Approach towards Content-Oriented Mobile Application Designing
+10.1109/tmc.2022.3207745	LEAP: TrustZone Based Developer-Friendly TEE for Intelligent Mobile Apps
+10.1145/3704413.3765308	Modeling Object Attention in Mobile AR for Intrinsic Cognitive Security
+10.5121/ijwmn.2011.3516	A Low-Energy Fast Cyber Foraging Mechanism for Mobile Devices
+	A Mobile Application for Smart House Remote Control System
+10.1109/tmc.2023.3265111	PICO: Pipeline Inference Framework for Versatile CNNs on Diverse Mobile Devices
+10.22667/jowua.2018.12.31.041	Security of 5G-Mobile Backhaul Networks: A Survey
+10.1007/978-3-030-23367-9_8	Cognitively-inspired Agent-based Service Composition for Mobile & Pervasive Computing
+10.1109/tmc.2024.3381952	FrankenSplit: Efficient Neural Feature Compression with Shallow Variational Bottleneck Injection for Mobile Edge Computing
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+10.1142/s0218348x21500249	Fractal Interpretation of Bacterial Light Harvesters
+	Variable Topology on Fractal Manifold
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+10.1007/978-3-030-69893-5_10	Mobility driven Cloud-Fog-Edge Framework for Location-aware Services: A Comprehensive Review
+	Fractal Properties of the Cosmic Web
+	Mobile-MMLU: A Mobile Intelligence Language Understanding Benchmark
+10.1063/5.0257273	A fractal geometry immersed in a hierarchical magnetic flux distribution

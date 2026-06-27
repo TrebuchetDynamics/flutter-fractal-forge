@@ -1,0 +1,20 @@
+10.3390/joitmc7010019	Fintech Frontiers in Quantum Computing, Fractals, and Blockchain Distributed Ledger: Paradigm Shifts and Open Innovation
+10.3390/app10144966	Hybrid Malware Classification Method Using Segmentation-Based Fractal Texture Analysis and Deep Convolution Neural Network Features
+10.2174/1874378101105010026	Watershed Modeling and its Applications: A State-of-the-Art Review
+10.1109/tnsre.2015.2457511	A Mobile Kalman-Filter Based Solution for the Real-Time Estimation of Spatio-Temporal Gait Parameters
+10.1007/s13755-021-00147-7	Contact tracing apps for the COVID-19 pandemic: a systematic literature review of challenges and future directions for neo-liberal societies
+10.1186/s41235-018-0091-x	Temporal fractals in movies and mind
+10.1371/journal.pone.0075196	Hierarchical, Multi-Sensor Based Classification of Daily Life Activities: Comparison with State-of-the-Art Algorithms Using a Benchmark Dataset
+10.3390/s22052017	A Systematic Review on Machine Learning and Deep Learning Models for Electronic Information Security in Mobile Networks
+10.3390/s22062268	Artificial Intelligence Algorithms for Malware Detection in Android-Operated Mobile Devices
+10.3390/s20072055	Game Theory in Mobile CrowdSensing: A Comprehensive Survey
+10.2196/rehab.7259	Mobile App to Streamline the Development of Wearable Sensor-Based Exercise Biofeedback Systems: System Development and Evaluation
+10.1109/jsen.2021.3061178	Face Mask Assistant: Detection of Face Mask Service Stage Based on Mobile Phone
+10.1186/s12938-015-0056-y	The electronic stethoscope
+10.1016/j.jbi.2018.09.002	Examining sensor-based physical activity recognition and monitoring for healthcare using Internet of Things: A systematic review
+10.1109/access.2021.3050524	Remote Assessment of Parkinson’s Disease Symptom Severity Using the Simulated Cellular Mobile Telephone Network
+10.1109/access.2020.3034033	Efficient and Automated Herbs Classification Approach Based on Shape and Texture Features using Deep Learning
+10.1371/journal.pcbi.1005993	Automated plant species identification—Trends and future directions
+10.1007/s10462-022-10185-6	Developments in the detection of diabetic retinopathy: a state-of-the-art review of computer-aided diagnosis and machine learning methods
+10.3390/s20113236	A Mobile Application for Smart Computer-Aided Self-Administered Testing of Cognition, Speech, and Motor Impairment
+10.3389/fdgth.2021.724370	A State-of-Art Review of Digital Technologies for the Next Generation of Tinnitus Therapeutics

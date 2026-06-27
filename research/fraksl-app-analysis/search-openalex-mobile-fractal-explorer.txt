@@ -1,0 +1,20 @@
+10.1007/bf00133310	Foraging in a fractal environment: Spatial patterns in a marine predator-prey system
+10.1038/srep05276	From mobile phone data to the spatial structure of cities
+10.1016/j.compedu.2019.103732	Investigating the Acceptance of Mobile Library Applications with an Extended Technology Acceptance Model (TAM)
+10.1016/j.patcog.2017.03.018	Fractals based multi-oriented text detection system for recognition in mobile video images
+10.3390/en14196204	A Novel Approach of Design and Analysis of a Hexagonal Fractal Antenna Array (HFAA) for Next-Generation Wireless Communication
+10.3390/fractalfract4010003	Fractal Antennas: An Historical Perspective
+10.1155/2018/2016976	Parallel Fractal Compression Method for Big Video Data
+10.1038/ncomms9150	Fractal dendrite-based electrically conductive composites for laser-scribed flexible circuits
+10.1016/j.eswa.2017.09.062	Evolutionary computation algorithms for feature selection of EEG-based emotion recognition using mobile sensors
+10.1038/s41467-020-16112-z	Encoding quantized fluorescence states with fractal DNA frameworks
+10.1038/s41586-024-07287-2	Emergence of fractal geometries in the evolution of a metabolic enzyme
+10.1186/1742-4682-8-4	The self-organizing fractal theory as a universal discovery method: the phenomenon of life
+10.1140/epjst/e2012-01703-3	Smart cities of the future
+10.5772/intechopen.68188	Fractals in Antennas and Metamaterials Applications
+10.1186/s41235-018-0091-x	Temporal fractals in movies and mind
+10.1049/iet-map.2014.0596	Design and testing of a compact circularly polarised microstrip antenna with fractal defected ground structure for L‐band applications
+10.1038/nature12385	Van der Waals heterostructures
+10.1029/2010wr009429	Persistence in intra‐annual snow depth distribution: 2. Fractal analysis of snow depth development
+10.13140/rg.2.1.2761.1046	A Printed Fractal Based Slot Antenna for Multi-Band Wireless Communication Applications
+10.1371/journal.pone.0007361	Revisiting the Myths of Protein Interior: Studying Proteins with Mass-Fractal Hydrophobicity-Fractal and Polarizability-Fractal Dimensions

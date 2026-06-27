@@ -1,0 +1,20 @@
+10.1109/tvcg.2020.2970512	Touch? Speech? or Touch and Speech? Investigating Multimodal Interaction for Visual Network Exploration and Analysis
+	NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Beyond English: Centering Multilingualism in Data Visualization
+	Naturalistic stimuli in touch research
+	Generating Visual Scenes from Touch
+	2DR: Towards Fine-Grained 2-D RFID Touch Sensing
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+	ARMrayan Multimedia Mobile CMS: a Simplified Approach towards Content-Oriented Mobile Application Designing
+10.1109/tmc.2022.3207745	LEAP: TrustZone Based Developer-Friendly TEE for Intelligent Mobile Apps
+10.1109/tvcg.2025.3633884	MisVisFix: An Interactive Dashboard for Detecting, Explaining, and Correcting Misleading Visualizations using Large Language Models
+	A Mobile Application for Smart House Remote Control System
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	Understanding Embodied Reference with Touch-Line Transformer
+10.1109/tvcg.2020.3030408	Visual Analytics for Temporal Hypergraph Model Exploration
+	Computer Aided Investigation: Visualization and Analysis of data from Mobile communication devices using Formal Concept Analysis
+10.5121/ijwmn.2011.3516	A Low-Energy Fast Cyber Foraging Mechanism for Mobile Devices
+10.1145/3704413.3765308	Modeling Object Attention in Mobile AR for Intrinsic Cognitive Security
+10.1109/tvcg.2023.3326576	Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges
+10.1109/tvcg.2024.3456305	Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots

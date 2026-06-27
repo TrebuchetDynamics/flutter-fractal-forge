@@ -1,0 +1,20 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	SO{U}RCERER: Developer-Driven Security Testing Framework for Android Apps
+	A generalized model for Yang-Fourier transforms in fractal space
+	Do Android App Developers Accurately Report Collection of Privacy-Related Data?
+10.1142/s0218348x21500249	Fractal Interpretation of Bacterial Light Harvesters
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	Variable Topology on Fractal Manifold
+	GUIOdyssey: A Comprehensive Dataset for Cross-App GUI Navigation on Mobile Devices
+10.4171/jfg/155	Tube Formulae for Generalized von Koch Fractals through Scaling Functional Equations
+	A Study on the Vulnerabilities of Mobile Apps associated with Software Modules
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+	Fractal Properties of the Cosmic Web
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+10.1007/978-3-030-33894-7_24	Towards Intelligent Interactive Theatre: Drama Management as a way of Handling Performance
+10.1063/5.0257273	A fractal geometry immersed in a hierarchical magnetic flux distribution
+10.1145/3643834.3661568	Expanding the Design Space of Computer Vision-based Interactive Systems for Group Dance Practice
+	Fractal dimension of discrete sets and percolation
+	Theory of Carry Value Transformation (CVT) and its Application in Fractal formation

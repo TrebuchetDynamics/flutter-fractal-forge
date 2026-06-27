@@ -1,0 +1,20 @@
+	Perceptual and physiological responses to the visual complexity of fractal patterns.
+10.3389/fnhum.2011.00060	Perceptual and Physiological Responses to Jackson Pollock's Fractals
+10.3389/fpsyg.2021.699962	Aesthetics and Psychological Effects of Fractal Based Design
+10.1109/mcg.2008.34	Informational Aesthetics Measures
+10.3389/fncom.2017.00102	Computational and Experimental Approaches to Visual Aesthetics
+10.3389/fnhum.2016.00210	Aesthetic Responses to Exact Fractals Driven by Physical Complexity
+10.3389/fnhum.2015.00514	Beauty and the beholder: the role of visual sensitivity in visual preference
+	Transmedia storytelling : business, aesthetics and production at the Jim Henson Company
+10.1002/adma.202107902	Flexible Electronics and Devices as Human–Machine Interfaces for Medical Robotics
+10.3390/su13020823	The Potential of Biophilic Fractal Designs to Promote Health and Performance: A Review of Experiments and Applications
+10.3389/fnhum.2016.00350	Taxonomy of Individual Variations in Aesthetic Responses to Fractal Patterns
+10.3758/bf03212416	Visual perception of markings
+10.1186/s42492-018-0006-1	Computational aesthetics and applications
+10.1016/j.cognition.2020.104446	Timing is everything: Dance aesthetics depend on the complexity of movement kinematics
+10.3390/land11040475	An Overview of Fractal Geometry Applied to Urban Planning
+10.1007/s00004-007-0045-y	Fractal Architecture Could Be Good for You
+10.3390/sym3010037	The First Appearance of Symmetry in the Human Lineage: Where Perception Meets Art
+10.3389/fnhum.2016.00213	A Complex Story: Universal Preference vs. Individual Differences Shaping Aesthetic Response to Fractals Patterns
+10.1186/s41235-018-0091-x	Temporal fractals in movies and mind
+10.1068/b33081	Fractal Analysis of Street Vistas: A Potential Tool for Assessing Levels of Visual Variety in Everyday Street Scenes

@@ -1,0 +1,20 @@
+	Needs-aware Artificial Intelligence: AI that 'serves [human] needs'
+	How Does Embodiment Affect the Human Perception of Computational Creativity? An Experimental Study Framework
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Advanced Data Protection Control (ADPC): An Interdisciplinary Overview
+	Meta Audiobox Aesthetics: Unified Automatic Quality Assessment for Speech, Music, and Sound
+	Can You Explain That? Lucid Explanations Help Human-AI Collaborative Image Retrieval
+	Enhanced Human-Machine Interaction by Combining Proximity Sensing with Global Perception
+	Designing AI Systems that Augment Human Performed vs. Demonstrated Critical Thinking
+	Human-Centered Evaluation of an LLM-Based Process Modeling Copilot: A Mixed-Methods Study with Domain Experts
+	Understanding Human Perception of Music Plagiarism Through a Computational Approach
+	Towards Considerate Human-Robot Coexistence: A Dual-Space Framework of Robot Design and Human Perception in Healthcare
+	Adaptive Multimodal and Multisensory Empathic Technologies for Enhanced Human Communication
+10.1007/978-3-032-05005-2_20	Can GPT-4o Evaluate Usability Like Human Experts? A Comparative Study on Issue Identification in Heuristic Evaluation
+	AesExpert: Towards Multi-modality Foundation Model for Image Aesthetics Perception
+	DeBiasMe: De-biasing Human-AI Interactions with Metacognitive AIED (AI in Education) Interventions
+	Human-Robot collaboration in surgery: Advances and challenges towards autonomous surgical assistants
+	How Can I Assist You Today?: A Comparative Analysis of a Humanoid Robot and a Virtual Human Avatar in Human Perception
+10.2139/ssrn.1264690	Inventions on GUI Aesthetics
+	Enabling Intuitive Human-Robot Teaming Using Augmented Reality and Gesture Control
+	AesBench: An Expert Benchmark for Multimodal Large Language Models on Image Aesthetics Perception

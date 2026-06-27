@@ -1,0 +1,20 @@
+10.1109/tmc.2022.3207745	LEAP: TrustZone Based Developer-Friendly TEE for Intelligent Mobile Apps
+	A Study on the Vulnerabilities of Mobile Apps associated with Software Modules
+	SO{U}RCERER: Developer-Driven Security Testing Framework for Android Apps
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	GUIOdyssey: A Comprehensive Dataset for Cross-App GUI Navigation on Mobile Devices
+	Code Injection Attacks on HTML5-based Mobile Apps
+	Sentiment Analysis of Mobile Legends App Reviews Using Machine Learning and LSTM-Based Deep Learning Models
+	ARMrayan Multimedia Mobile CMS: a Simplified Approach towards Content-Oriented Mobile Application Designing
+10.1016/j.procs.2018.07.139	Context Data Categories and Privacy Model for Mobile Data Collection Apps
+10.5121/ijwmn.2011.3516	A Low-Energy Fast Cyber Foraging Mechanism for Mobile Devices
+10.1145/3704413.3765308	Modeling Object Attention in Mobile AR for Intrinsic Cognitive Security
+	A Mobile Application for Smart House Remote Control System
+	Energy-Saving Strategies for Mobile Web Apps and their Measurement: Results from a Decade of Research
+10.1109/tmc.2023.3265111	PICO: Pipeline Inference Framework for Versatile CNNs on Diverse Mobile Devices
+10.1007/978-3-030-23367-9_8	Cognitively-inspired Agent-based Service Composition for Mobile & Pervasive Computing
+	Do Android App Developers Accurately Report Collection of Privacy-Related Data?
+	The GangaWatch Mobile App to Enable Usage of Water Data in Every Day Decisions Integrating Historical and Real-time Sensing Data
+10.22667/jowua.2018.12.31.041	Security of 5G-Mobile Backhaul Networks: A Survey
+10.1109/tmc.2024.3381952	FrankenSplit: Efficient Neural Feature Compression with Shallow Variational Bottleneck Injection for Mobile Edge Computing
+10.1145/3572864.3581586	Poster: Sponge ML Model Attacks of Mobile Apps

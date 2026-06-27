@@ -1,0 +1,20 @@
+10.5220/0002845703700377	REAL-TIME INTERACTIVE L-SYSTEM - A Virtual Plant and Fractal Generator
+10.1007/978-1-4842-9236-5_6	Finishing the app
+10.1007/978-1-4842-9236-5_5	Start setting up the main app screen
+10.1007/978-1-4842-9236-5	Create MEME Generator App in Xcode
+10.1007/978-1-4842-9223-5_3	Start coding the main app screen
+10.1007/978-1-4842-9223-5	Create MEME Generator App in Android Studio
+10.1007/978-1-4842-9236-5_4	Creating the design of the main app screen
+10.1007/978-1-4842-9223-5_2	Creating the design of the main app screen
+10.1007/978-1-4842-9236-5_3	Finishing the gallery
+10.1007/978-1-4842-9223-5_5	Sharing an image
+10.1007/978-1-4842-9236-5_2	Setting up the gallery
+10.1007/978-1-4842-9223-5_8	Finishing the project
+10.1007/978-1-4842-9236-5_1	Start the gallery creation
+10.1007/978-1-4842-9223-5_7	Creating a gallery adapter
+10.1007/978-1-4842-9223-5_6	Start creating the gallery
+10.1007/978-1-4842-9223-5_1	Initial setup of the project
+10.1007/978-1-4842-9223-5_4	Creating a screenshot and saving it
+10.1109/iwcfta.2010.31	The Design of a Fractal-based Number Generator
+10.17816/snv201764311.f43141	Figure 1 - Initiator and generator of building fractal models: a - Koch curve; b - tree bush; c - Gosper curve
+10.1111/2041-210x.13611/v1/review1	Review for "The Flora Incognita app – interactive plant species identification"

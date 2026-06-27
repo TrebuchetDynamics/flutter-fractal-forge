@@ -1,0 +1,20 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+10.1109/sbgames56371.2022.9961078	Line Art Colorization of Fakemon using Generative Adversarial Neural Networks
+	SO{U}RCERER: Developer-Driven Security Testing Framework for Android Apps
+	Do Android App Developers Accurately Report Collection of Privacy-Related Data?
+	Procedural Pretraining: Warming Up Language Models with Abstract Data
+	GUIOdyssey: A Comprehensive Dataset for Cross-App GUI Navigation on Mobile Devices
+10.1145/3472538.3472600	Ensemble Learning For Mega Man Level Generation
+10.1145/3472538.3472602	Generating Lode Runner Levels by Learning Player Paths with LSTMs
+	A Study on the Vulnerabilities of Mobile Apps associated with Software Modules
+10.1145/3472538.3472601	Toward Co-creative Dungeon Generation via Transfer Learning
+	Camera Obscurer: Generative Art for Design Inspiration
+10.1162/leon_a_01930	Visual Indeterminacy in GAN Art
+	Case Study of GAI for Generating Novel Images for Real-World Embroidery
+	Autonomy, Authenticity, Authorship and Intention in computer generated art
+	ART: Articulated Reconstruction Transformer
+	Reasoning Core: A Scalable Procedural Data Generation Suite for Symbolic Pre-training and Post-Training
+	ART: Anonymous Region Transformer for Variable Multi-Layer Transparent Image Generation
+10.1007/978-3-030-91390-8_4	Quaternion Generative Adversarial Networks
+	The Art of Planetary Science: Art as a Tool for Scientific Inquiry and Public Discourse around Space Exploration
+	Collaborative Interactive Evolution of Art in the Latent Space of Deep Generative Models

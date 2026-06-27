@@ -374,8 +374,10 @@ List<FractalModule> buildSharedResidualCaCatalogModules() =>
         .toList(growable: false);
 
 FractalModule _buildSharedResidualCaModule(SharedResidualCaCatalogEntry entry) {
+  final defaultIterations =
+      entry.id == 'f1013_inverse_life_b0123478_s34678' ? 436 : 260;
   final params = <String, Object>{
-    'iterations': 260,
+    'iterations': defaultIterations,
     'bailout': 4.0,
     'colorScheme': 0,
     if (entry.kind == SharedResidualCaKind.cyclicStates)
@@ -403,7 +405,7 @@ FractalModule _buildSharedResidualCaModule(SharedResidualCaCatalogEntry entry) {
     dimension: FractalDimension.twoD,
     shaderAsset: entry.shaderAsset,
     parameters: [
-      CommonFractalParams.iterations(defaultValue: 260),
+      CommonFractalParams.iterations(defaultValue: defaultIterations),
       CommonFractalParams.bailout(defaultValue: 4.0),
       CommonFractalParams.colorScheme64(defaultValue: 0),
       if (entry.kind == SharedResidualCaKind.cyclicStates)
@@ -446,7 +448,10 @@ FractalModule _buildSharedResidualCaModule(SharedResidualCaCatalogEntry entry) {
       shader.setFloat(3, state.view.pan.x);
       shader.setFloat(4, state.view.pan.y);
       shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, readDouble(state.params, 'iterations', 260));
+      shader.setFloat(
+        6,
+        readDouble(state.params, 'iterations', defaultIterations.toDouble()),
+      );
       shader.setFloat(7, readDouble(state.params, 'bailout', 4.0));
       shader.setFloat(8, readDouble(state.params, 'colorScheme', 0));
       shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);

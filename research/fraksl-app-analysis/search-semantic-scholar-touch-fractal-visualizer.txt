@@ -1,0 +1,20 @@
+10.1007/978-3-031-47606-8_45	Fractal Fluency: Processing of Fractal Stimuli Across Sight, Sound, and Touch.
+10.1101/2019.12.15.876961	Global broadcasting of local fractal fluctuations in a bodywide distributed system supports perception via effortful touch
+10.1016/j.humov.2019.102543	Bodywide fluctuations support manual exploration: Fractal fluctuations in posture predict perception of heaviness and length via effortful touch by the hand.
+10.1007/s00221-019-05505-2	Fractal fluctuations in muscular activity contribute to judgments of length but not heaviness via dynamic touch
+10.1007/s10516-019-09444-z	Fractal-Scaling Properties as Aesthetic Primitives in Vision and Touch
+10.1371/journal.pone.0217200	Fractal fluctuations in exploratory movements predict differences in dynamic touch capabilities between children with Attention-Deficit Hyperactivity Disorder and typical development
+10.1038/s41586-024-08550-2	Spectroscopy of the fractal Hofstadter energy spectrum
+10.1088/2051-672x/acbe53	Fractal and statistical characterization of brushstroke on paintings
+10.1063/5.0239840	A novel micromixer based on coastal fractal for manufacturing controllable size liposome
+10.1097/js9.0000000000002547	Fractal analysis based on Gd-EOB-DTPA-enhanced MRI for prediction of vessels that encapsulate tumor clusters in patients with hepatocellular carcinoma.
+10.1007/s00603-024-03825-6	Multi-Scale Research on Blasting Damage of Rock Based on Fractal Theory
+10.1145/3663548.3675611	ChartA11y: Designing Accessible Touch Experiences of Visualizations with Blind Smartphone Users
+10.3390/fractalfract9020093	Fractal Characterization and Pore Evolution in Coal Under Tri-Axial Cyclic Loading–Unloading: Insights from Low-Field NMR Imaging and Analysis
+10.3390/fractalfract9090575	Analysis of Fast Convergent Iterative Scheme with Fractal Generation
+10.29020/nybg.ejpam.v18i4.6896	Mathematical Visualization of Fractal-Based Batik Designs
+10.3390/fractalfract9020100	The Relationship Between the Fractal Dimension and the Evolution of Rock-Forming Minerals Crystallization on the Example of the Northwestern Part of the Lovozero Intrusion
+10.1038/s41598-024-54545-4	Fractal analysis of extracellular matrix for observer-independent quantification of intestinal fibrosis in Crohn’s disease
+10.3390/fractalfract8030159	A Fractal-Based Quantitative Method for the Study of Fracture Evolution of Coal under Different Confining Pressures
+10.1109/tvcg.2024.3456358	When Refreshable Tactile Displays Meet Conversational Agents: Investigating Accessible Data Presentation and Analysis with Touch and Speech
+10.1038/s41598-024-70596-z	Mathematical modeling of allelopathic stimulatory phytoplankton species using fractal–fractional derivatives

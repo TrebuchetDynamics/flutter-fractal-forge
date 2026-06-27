@@ -1,0 +1,87 @@
+[
+  {
+    "doi": "10.3389/fnhum.2011.00060",
+    "title": "Perceptual and Physiological Responses to Jackson Pollock's Fractals",
+    "container_title": "Frontiers in Human Neuroscience",
+    "publisher": "Frontiers Media SA",
+    "published": {
+      "date-parts": [
+        [
+          2011
+        ]
+      ]
+    },
+    "type": "journal-article",
+    "url": "https://doi.org/10.3389/fnhum.2011.00060"
+  },
+  {
+    "doi": "10.3389/fpsyg.2021.699962",
+    "title": "Aesthetics and Psychological Effects of Fractal Based Design",
+    "container_title": "Frontiers in Psychology",
+    "publisher": "Frontiers Media SA",
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          8,
+          17
+        ]
+      ]
+    },
+    "type": "journal-article",
+    "url": "https://doi.org/10.3389/fpsyg.2021.699962"
+  },
+  {
+    "doi": "10.1186/2194-0827-1-1",
+    "title": "Usability of mobile applications: literature review and rationale for a new usability model",
+    "container_title": "Journal of Interaction Science",
+    "publisher": "Springer Science and Business Media LLC",
+    "published": {
+      "date-parts": [
+        [
+          2013
+        ]
+      ]
+    },
+    "type": "journal-article",
+    "url": "https://doi.org/10.1186/2194-0827-1-1"
+  },
+  {
+    "doi": "10.4230/dfu.vol6.12191.61",
+    "error": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+    "doi": "10.25300/misq/2015/39.2.08",
+    "title": "Mobile Application Usability: Conceptualization and Instrument Development1",
+    "container_title": "MIS Quarterly",
+    "publisher": "MIS Quarterly",
+    "published": {
+      "date-parts": [
+        [
+          2015,
+          6,
+          1
+        ]
+      ]
+    },
+    "type": "journal-article",
+    "url": "https://doi.org/10.25300/misq/2015/39.2.08"
+  },
+  {
+    "doi": "10.3390/arts7020018",
+    "title": "Can Computers Create Art?",
+    "container_title": "Arts",
+    "publisher": "MDPI AG",
+    "published": {
+      "date-parts": [
+        [
+          2018,
+          5,
+          10
+        ]
+      ]
+    },
+    "type": "journal-article",
+    "url": "https://doi.org/10.3390/arts7020018"
+  }
+]
