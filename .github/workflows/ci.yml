@@ -40,6 +40,7 @@ jobs:
           test/catalog_id_integrity_test.dart
           test/catalog_search_widget_test.dart
           test/features/catalog/generate_live_registry_ledger_test.dart
+          test/modules/generated_module_contract_test.dart
           test/modules/escape_time_shader_manifest_test.dart
           test/modules/escape_time_uniform_contract_test.dart
           test/shaders/standalone_shader_catalogs/cellular_and_stochastic_shader_assets_test.dart

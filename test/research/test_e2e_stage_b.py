@@ -71,9 +71,10 @@ def test_e2e_full_admission_pipeline(tmp_path, tmp_registry):
     for suffix in ("_presets.dart", "_variants.dart", "_metadata.dart"):
         assert (base / f"{new_id}{suffix}").exists()
 
-    # 4. Test scaffold
+    # 4. Per-module test scaffolds are intentionally not emitted; the app repo
+    # uses a consolidated generated module contract test instead.
     test_files = list((repo / "test" / "modules").rglob(f"{new_id}_module_test.dart"))
-    assert len(test_files) == 1
+    assert test_files == []
 
     # 5. Thumbnail
     thumb = repo / "assets" / "catalog_thumbs" / f"{new_id}.png"

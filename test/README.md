@@ -18,13 +18,15 @@ flutter test \
   test/viewer_export_session_test.dart \
   test/features/viewer/viewer_export_feedback_test.dart \
   test/catalog_id_integrity_test.dart \
+  test/modules/generated_module_contract_test.dart \
   test/modules/escape_time_uniform_contract_test.dart \
+  test/modules/escape_time_shader_manifest_test.dart \
   test/shader_web_compat_test.dart
 ```
 
 ## Full local test suite
 
-Run the full suite before release candidates or broad renderer/catalog changes. It includes many generated module tests and can take significantly longer than the fast lane.
+Run the full suite before release candidates or broad renderer/catalog changes. Generated module smoke coverage is consolidated in one contract test to keep startup overhead down.
 
 ```bash
 flutter test

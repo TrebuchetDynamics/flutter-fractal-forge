@@ -59,11 +59,11 @@ _CASES = [
 
 
 @pytest.mark.parametrize("fixture,iter_type", _CASES)
-def test_emit_produces_5_files_per_candidate(tmp_path, fixture, iter_type):
+def test_emit_produces_4_files_per_candidate(tmp_path, fixture, iter_type):
     cand = _load_candidate(fixture)
     reg = _registry_entry_for(cand)
     files = emit(cand, reg, iter_type, tmp_path)
-    assert len(files) == 5
+    assert len(files) == 4
     for f in files:
         assert f.exists(), f"{f} not written"
         assert f.stat().st_size > 0, f"{f} is empty"
@@ -80,7 +80,6 @@ def test_emit_files_have_expected_names(tmp_path, fixture, iter_type):
     assert f"{id_}_presets.dart" in names
     assert f"{id_}_variants.dart" in names
     assert f"{id_}_metadata.dart" in names
-    assert f"{id_}_module_test.dart" in names
 
 
 def test_emit_module_dart_contains_class_name(tmp_path):
@@ -173,10 +172,4 @@ def test_output_directory_layout(tmp_path):
         "strange_attractor",
         "f004_lorenz",
     )
-    test_file = next(f for f in files if f.name.endswith("_module_test.dart"))
-    assert test_file.parts[-4:] == (
-        "test",
-        "modules",
-        "f004_lorenz",
-        "f004_lorenz_module_test.dart",
-    )
+    assert not any(f.name.endswith("_module_test.dart") for f in files)

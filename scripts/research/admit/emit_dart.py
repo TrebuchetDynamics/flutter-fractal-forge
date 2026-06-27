@@ -1,13 +1,12 @@
 """Emit rich Dart code per §14 from a candidate + registry entry.
 
-Renders 5 files per admitted fractal:
+Renders 4 files per admitted fractal:
   - lib/core/modules/<category_slug>/<id>/<id>_module.dart
   - lib/core/modules/<category_slug>/<id>/<id>_presets.dart
   - lib/core/modules/<category_slug>/<id>/<id>_variants.dart
   - lib/core/modules/<category_slug>/<id>/<id>_metadata.dart
-  - test/modules/<id>/<id>_module_test.dart
 
-Dispatch to a per-iteration_type module template; presets/variants/metadata/test
+Dispatch to a per-iteration_type module template; presets/variants/metadata
 templates are shared.
 """
 from __future__ import annotations
@@ -208,7 +207,7 @@ def emit(
 ) -> list[Path]:
     """Render all Dart files for one admitted fractal.
 
-    Returns the list of file paths written: 4 lib files + 1 test file.
+    Returns the list of file paths written.
     """
     if iteration_type not in _ITERATION_TYPE_TO_MODULE_TEMPLATE:
         raise ValueError(
@@ -239,11 +238,5 @@ def emit(
         content = env.get_template(template).render(**ctx)
         path.write_text(content)
         written.append(path)
-
-    test_dir = Path(output_root) / "test" / "modules" / id_
-    test_dir.mkdir(parents=True, exist_ok=True)
-    test_path = test_dir / f"{id_}_module_test.dart"
-    test_path.write_text(env.get_template("module_test.j2").render(**ctx))
-    written.append(test_path)
 
     return written
