@@ -41,8 +41,8 @@ class MainActivity : FlutterFragmentActivity() {
     private fun enableEdgeToEdgeCompat() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         if (Build.VERSION.SDK_INT < 35) {
-            setWindowColorCompat("setStatusBarColor", Color.TRANSPARENT)
-            setWindowColorCompat("setNavigationBarColor", Color.TRANSPARENT)
+            setWindowColorCompat("Status", Color.TRANSPARENT)
+            setWindowColorCompat("Navigation", Color.TRANSPARENT)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val attributes = window.attributes
@@ -60,9 +60,9 @@ class MainActivity : FlutterFragmentActivity() {
         }
     }
 
-    private fun setWindowColorCompat(methodName: String, color: Int) {
+    private fun setWindowColorCompat(barName: String, color: Int) {
         runCatching {
-            Window::class.java.getMethod(methodName, Int::class.javaPrimitiveType).invoke(window, color)
+            Window::class.java.getMethod("set${barName}BarColor", Int::class.javaPrimitiveType).invoke(window, color)
         }
     }
 

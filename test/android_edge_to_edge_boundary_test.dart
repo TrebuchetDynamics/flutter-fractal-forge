@@ -15,13 +15,17 @@ void main() {
       ).readAsStringSync();
       final buildGradle =
           File('android/app/build.gradle.kts').readAsStringSync();
+      final proguardRules =
+          File('android/app/proguard-rules.pro').readAsStringSync();
 
       expect(mainActivity, contains('WindowCompat.setDecorFitsSystemWindows'));
       expect(mainActivity, contains('WindowInsetsControllerCompat'));
-      expect(mainActivity, isNot(contains('androidx.activity.enableEdgeToEdge')));
+      expect(
+          mainActivity, isNot(contains('androidx.activity.enableEdgeToEdge')));
       expect(mainActivity, isNot(contains('.setStatusBarColor(')));
       expect(mainActivity, isNot(contains('.setNavigationBarColor(')));
-      expect(mainActivity, isNot(contains('LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES')));
+      expect(mainActivity,
+          isNot(contains('LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES')));
       expect(
         android15Styles,
         isNot(contains('windowOptOutEdgeToEdgeEnforcement')),
@@ -33,6 +37,8 @@ void main() {
       expect(buildGradle, contains('targetSdk = 36'));
       expect(buildGradle, isNot(contains('androidx.activity:activity')));
       expect(dartMain, isNot(contains('SystemChrome.setSystemUIOverlayStyle')));
+      expect(proguardRules, contains('setStatusBarColor'));
+      expect(proguardRules, contains('setNavigationBarColor'));
     },
   );
 }

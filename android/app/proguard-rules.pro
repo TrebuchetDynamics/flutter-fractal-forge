@@ -21,6 +21,13 @@
     <methods>;
 }
 
+# Android 15 edge-to-edge: this app does not use Flutter system bar colors; strip
+# deprecated color setters that Flutter/AndroidX keep for older compatibility paths.
+-assumenosideeffects class android.view.Window {
+    public void setStatusBarColor(int);
+    public void setNavigationBarColor(int);
+}
+
 # Play Core compatibility for SDK 34+
 # Allow missing Play Core Task classes (app doesn't use deferred components)
 -dontwarn com.google.android.play.core.tasks.**
