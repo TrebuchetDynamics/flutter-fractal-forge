@@ -1,0 +1,40 @@
+{
+  "createdAt": "2026-06-27T00:42:29.317321Z",
+  "moduleId": "lightningbrot",
+  "moduleName": "LightningBrot",
+  "tags": [
+    "NO shader"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=lightningbrot&iterations=260&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoyNjB9",
+  "params": {
+    "iterations": 260,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:25:00Z",
+    "note": "Verified LightningBrot is registered with an existing shader declared in pubspec; focused Mandelbrot variant shader asset test passes."
+  }
+}

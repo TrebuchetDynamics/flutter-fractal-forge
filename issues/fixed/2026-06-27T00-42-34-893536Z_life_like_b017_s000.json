@@ -1,0 +1,42 @@
+{
+  "createdAt": "2026-06-27T00:42:34.893536Z",
+  "moduleId": "life_like_b017_s000",
+  "moduleName": "Life-like B17/S0",
+  "tags": [
+    "NO shader"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/view?type=life_like_b017_s000&iterations=240&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImJpcnRoTWFzayI6MTcsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjoyNDAsInN1cnZpdmFsTWFzayI6MH0",
+  "params": {
+    "iterations": 240,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "birthMask": 17,
+    "survivalMask": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:26:00Z",
+    "note": "Verified Life-like B17/S0 is registered with the bundled maze CA shader and focused shared Life-like catalog test passes."
+  }
+}
