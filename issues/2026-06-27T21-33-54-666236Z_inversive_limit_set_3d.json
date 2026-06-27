@@ -1,0 +1,38 @@
+{
+  "createdAt": "2026-06-27T21:33:54.666236Z",
+  "moduleId": "inversive_limit_set_3d",
+  "moduleName": "Inversive Limit Set 3D",
+  "tags": [
+    "Is does not look the correct fractal",
+    "Randomize bad results"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=inversive_limit_set_3d&zoom=5.309512377192894&x=0.03170570731163025&y=0.01642528735101223&rotX=-0.550356924533844&rotY=0.06523927301168442&iterations=27&bailout=5.3&colorScheme=3&power=1.6&p=eyJiYWlsb3V0Ijo1LjMwMDAwMDAwMDAwMDAwMSwiY29sb3JTY2hlbWUiOjMsIml0ZXJhdGlvbnMiOjI3LCJwb3dlciI6MS42LCJzdGVwcyI6MjAwfQ",
+  "params": {
+    "power": 1.6,
+    "iterations": 27,
+    "steps": 200,
+    "bailout": 5.300000000000001,
+    "colorScheme": 3
+  },
+  "view": {
+    "zoom": 5.309512377192894,
+    "x": 0.03170570731163025,
+    "y": 0.01642528735101223,
+    "rotX": -0.550356924533844,
+    "rotY": 0.06523927301168442,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}
