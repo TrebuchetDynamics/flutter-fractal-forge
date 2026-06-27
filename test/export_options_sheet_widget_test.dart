@@ -75,6 +75,17 @@ void main() {
     );
   });
 
+  testWidgets('quick presets show export specs before selection',
+      (tester) async {
+    await pumpSheet(tester);
+
+    expect(find.text('JPG • Instagram (1080×1080)'), findsOneWidget);
+    expect(find.text('PNG • 4K (3840×2160)'), findsOneWidget);
+    expect(
+        find.text('PNG (PNG fallback) • Full HD (1920×1080)'), findsOneWidget);
+    expect(find.text('PNG • Full HD (1920×1080)'), findsOneWidget);
+  });
+
   testWidgets('WebP preset summary advertises PNG fallback truthfully',
       (tester) async {
     await pumpSheet(

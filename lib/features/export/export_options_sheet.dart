@@ -273,46 +273,65 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           style: sheetSectionLabelStyle(theme),
         ),
         const SizedBox(height: 12),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              _QuickPresetChip(
-                icon: Icons.share,
-                label: l10n.exportPresetSocial,
-                isSelected: _options == ExportPresets.socialShare,
-                onTap: () =>
-                    setState(() => _options = ExportPresets.socialShare),
-              ),
-              const SizedBox(width: 8),
-              _QuickPresetChip(
-                icon: Icons.high_quality,
-                label: l10n.exportPresetHighQuality,
-                isSelected: _options == ExportPresets.highQualityPng,
-                onTap: () =>
-                    setState(() => _options = ExportPresets.highQualityPng),
-              ),
-              const SizedBox(width: 8),
-              _QuickPresetChip(
-                icon: Icons.web,
-                label: l10n.exportPresetWeb,
-                isSelected: _options == ExportPresets.webOptimized,
-                onTap: () =>
-                    setState(() => _options = ExportPresets.webOptimized),
-              ),
-              const SizedBox(width: 8),
-              _QuickPresetChip(
-                icon: Icons.layers,
-                label: l10n.exportPresetTransparent,
-                isSelected: _options == ExportPresets.transparentOverlay,
-                onTap: () =>
-                    setState(() => _options = ExportPresets.transparentOverlay),
-              ),
-            ],
-          ),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final spacing = 8.0;
+            final cardWidth = constraints.maxWidth >= 560
+                ? (constraints.maxWidth - spacing) / 2
+                : constraints.maxWidth;
+            return Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
+              children: [
+                _QuickPresetCard(
+                  icon: Icons.share,
+                  label: l10n.exportPresetSocial,
+                  details: _presetDetails(ExportPresets.socialShare, l10n),
+                  width: cardWidth,
+                  isSelected: _options == ExportPresets.socialShare,
+                  onTap: () =>
+                      setState(() => _options = ExportPresets.socialShare),
+                ),
+                _QuickPresetCard(
+                  icon: Icons.high_quality,
+                  label: l10n.exportPresetHighQuality,
+                  details: _presetDetails(ExportPresets.highQualityPng, l10n),
+                  width: cardWidth,
+                  isSelected: _options == ExportPresets.highQualityPng,
+                  onTap: () =>
+                      setState(() => _options = ExportPresets.highQualityPng),
+                ),
+                _QuickPresetCard(
+                  icon: Icons.web,
+                  label: l10n.exportPresetWeb,
+                  details: _presetDetails(ExportPresets.webOptimized, l10n),
+                  width: cardWidth,
+                  isSelected: _options == ExportPresets.webOptimized,
+                  onTap: () =>
+                      setState(() => _options = ExportPresets.webOptimized),
+                ),
+                _QuickPresetCard(
+                  icon: Icons.layers,
+                  label: l10n.exportPresetTransparent,
+                  details:
+                      _presetDetails(ExportPresets.transparentOverlay, l10n),
+                  width: cardWidth,
+                  isSelected: _options == ExportPresets.transparentOverlay,
+                  onTap: () => setState(
+                    () => _options = ExportPresets.transparentOverlay,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ],
     );
+  }
+
+  String _presetDetails(ExportOptions options, AppLocalizations l10n) {
+    final format = _formatSummaryValue(options, l10n);
+    return '$format • ${options.resolution.displayName}';
   }
 
   Widget _buildFormatSection(BuildContext context, AppLocalizations l10n) {
@@ -699,7 +718,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 button: true,
                 label: l10n.exportActionSaveImage,
                 hint: l10n.exportSaveLocationHint,
-                child: OutlinedButton.icon(
+                child: FilledButton.icon(
                   key: const ValueKey('exportSaveButton'),
                   onPressed: () {
                     Navigator.of(context).pop(
@@ -711,7 +730,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                   },
                   icon: const Icon(Icons.save_alt_rounded),
                   label: Text(l10n.exportActionSaveImage),
-                  style: OutlinedButton.styleFrom(
+                  style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                 ),
@@ -724,7 +743,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 enabled: canSaveAndShare,
                 label: l10n.exportActionSaveAndShare,
                 hint: l10n.exportSaveLocationHint,
-                child: FilledButton.icon(
+                child: OutlinedButton.icon(
                   key: const ValueKey('exportShareButton'),
                   onPressed: canSaveAndShare
                       ? () {
@@ -738,7 +757,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                       : null,
                   icon: const Icon(Icons.share_rounded),
                   label: Text(l10n.exportActionSaveAndShare),
-                  style: FilledButton.styleFrom(
+                  style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                 ),
@@ -751,15 +770,19 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   }
 }
 
-class _QuickPresetChip extends StatelessWidget {
+class _QuickPresetCard extends StatelessWidget {
   final IconData icon;
   final String label;
+  final String details;
+  final double width;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _QuickPresetChip({
+  const _QuickPresetCard({
     required this.icon,
     required this.label,
+    required this.details,
+    required this.width,
     required this.isSelected,
     required this.onTap,
   });
@@ -767,48 +790,68 @@ class _QuickPresetChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final selectedColor = theme.colorScheme.primary;
+    final foreground = isSelected
+        ? selectedColor
+        : theme.colorScheme.onSurface.withValues(alpha: 0.78);
 
     return Semantics(
       button: true,
       selected: isSelected,
       label: isSelected
-          ? '$label export preset, selected'
-          : '$label export preset',
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 48),
+          ? '$label export preset, $details, selected'
+          : '$label export preset, $details',
+      child: SizedBox(
+        width: width,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(14),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            constraints: const BoxConstraints(minHeight: 72),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: isSelected
                   ? theme.colorScheme.primaryContainer
-                  : theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(12),
-              border: isSelected
-                  ? Border.all(color: theme.colorScheme.primary, width: 2)
-                  : null,
+                  : theme.colorScheme.surfaceContainerHighest
+                      .withValues(alpha: 0.65),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: isSelected
+                    ? selectedColor
+                    : theme.colorScheme.outline.withValues(alpha: 0.18),
+                width: isSelected ? 2 : 1,
+              ),
             ),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  icon,
-                  size: 18,
-                  color: isSelected
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  label,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: isSelected
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
+                Icon(icon, size: 22, color: foreground),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: foreground,
+                          fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        details,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurface
+                              .withValues(alpha: 0.62),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

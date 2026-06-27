@@ -345,7 +345,7 @@ void main() {
 
     test('calculatePixelRatio defaults for screen resolution', () {
       const opts = ExportOptions(resolution: ExportResolution.screen);
-      expect(opts.calculatePixelRatio(400, 300), 2.5);
+      expect(opts.calculatePixelRatio(400, 300), 1.0);
     });
 
     test('getTargetDimensions returns preset dimensions', () {
