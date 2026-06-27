@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-27T21:31:15.503061Z",
+  "moduleId": "f0510_tan_z_c",
+  "moduleName": "tan(z\u00b2)+c",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=f0510_tan_z_c&zoom=224695.17840016322&x=0.478941410779953&y=-0.03105228953063488&iterations=500&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MDAsInZhcmlhbnQiOjF9",
+  "params": {
+    "iterations": 500,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "variant": 1
+  },
+  "view": {
+    "zoom": 224695.17840016322,
+    "x": 0.478941410779953,
+    "y": -0.03105228953063488,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Raised the tangent Mandelbrot shader iteration cap and added interior orbit-trap coloring so the reported tan(z\u00b2)+c deep zoom is not under-iterated or flat black.",
+    "research": "research/issue-fixes/2026-06-27T21-31-15-503061Z_f0510_tan_z_c/research-not-needed.md",
+    "validation": [
+      "python3 tan(z\u00b2)+c shader cap/interior assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

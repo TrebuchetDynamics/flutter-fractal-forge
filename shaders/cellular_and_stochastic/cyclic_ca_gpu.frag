@@ -56,7 +56,9 @@ void main() {
   float scale = min(float(uResolution.x), float(uResolution.y));
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(scale, 1.0);
   vec2 p = uv / max(uZoom, 0.000001) + uCenter;
-  vec2 g = floor(p * 70.0);
+  float gridScale = 70.0 * max(1.0, sqrt(max(uZoom, 1.0)));
+  vec2 grid = p * gridScale;
+  vec2 g = floor(grid);
   float steps = clamp(uIterations, 1.0, 500.0);
 
   float states = clamp(floor(uStates + 0.5), 2.0, 32.0);
@@ -75,6 +77,7 @@ void main() {
 
   if (alive < 0.05 && uTransparentBg > 0.5) { fragColor = vec4(0.0); return; }
   vec3 col = getPaletteColor(state + 0.08 * spiral, int(uColorScheme));
-  col *= 0.45 + 0.55 * alive;
+  float cellMask = smoothCell(grid, 1.0);
+  col *= (0.45 + 0.55 * alive) * (0.65 + 0.35 * cellMask);
   fragColor = vec4(linearToSRGB(col), 1.0);
 }

@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-27T21:34:47.392805Z",
+  "moduleId": "f0100_multibrot_d_6_5",
+  "moduleName": "Multibrot d=6.5",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=f0100_multibrot_d_6_5&zoom=79937.47135670409&x=0.7565178871154785&y=0.10505408048629761&iterations=964&bailout=4&colorScheme=0&power=6.5&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo5NjQsInBvd2VyIjo2LjV9",
+  "params": {
+    "iterations": 964,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "power": 6.5
+  },
+  "view": {
+    "zoom": 79937.47135670409,
+    "x": 0.7565178871154785,
+    "y": 0.10505408048629761,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "The shared parameterized Multibrot shader now honors the reported d=6.5 iteration budget and colors bounded deep-zoom interiors instead of flattening them to black.",
+    "research": "research/issue-fixes/2026-06-27T21-34-47-392805Z_f0100_multibrot_d_6_5/research-not-needed.md",
+    "validation": [
+      "python3 multibrot d=6.5 shader cap/interior assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

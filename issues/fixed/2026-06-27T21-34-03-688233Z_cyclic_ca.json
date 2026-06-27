@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-27T21:34:03.688233Z",
+  "moduleId": "cyclic_ca",
+  "moduleName": "Cyclic CA",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=cyclic_ca&zoom=53.25011690573554&x=0.16581924259662628&y=0.05448886379599571&iterations=500&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MDAsInN0YXRlcyI6OC4wfQ",
+  "params": {
+    "iterations": 500,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "states": 8.0
+  },
+  "view": {
+    "zoom": 53.25011690573554,
+    "x": 0.16581924259662628,
+    "y": 0.05448886379599571,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Made the Cyclic CA grid scale mildly zoom-aware and applied the existing cell mask so the reported zoom shows multiple visible cells instead of one broad block.",
+    "research": "research/issue-fixes/2026-06-27T21-34-03-688233Z_cyclic_ca/research-not-needed.md",
+    "validation": [
+      "python3 cyclic CA visible-cell assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

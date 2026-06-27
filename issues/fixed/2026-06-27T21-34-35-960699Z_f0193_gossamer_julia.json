@@ -1,0 +1,49 @@
+{
+  "createdAt": "2026-06-27T21:34:35.960699Z",
+  "moduleId": "f0193_gossamer_julia",
+  "moduleName": "Gossamer Julia",
+  "tags": [
+    "Low Detail",
+    "Low deep zoom",
+    "Randomize bad results"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=f0193_gossamer_julia&zoom=4946.818887571907&x=0.0024462416768074036&y=-0.02449032850563526&iterations=362&bailout=4.7&colorScheme=7&juliaX=-1.92&juliaY=0.34&p=eyJiYWlsb3V0Ijo0LjcsImNvbG9yU2NoZW1lIjo3LCJpdGVyYXRpb25zIjozNjIsImp1bGlhQ0ltYWciOjAuMzQsImp1bGlhQ1JlYWwiOi0xLjkyfQ",
+  "params": {
+    "iterations": 362,
+    "bailout": 4.7,
+    "colorScheme": 7,
+    "juliaCReal": -1.92,
+    "juliaCImag": 0.34
+  },
+  "view": {
+    "zoom": 4946.818887571907,
+    "x": 0.0024462416768074036,
+    "y": -0.02449032850563526,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Constrained Julia seed randomization to jitter around each curated default, avoiding the reported off-seed Gossamer value that escaped uniformly with no detail.",
+    "research": "research/issue-fixes/2026-06-27T21-34-35-960699Z_f0193_gossamer_julia/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test test/features/renderer/providers/fractal_param_randomizer_test.dart: pass",
+      "python3 reported Gossamer uniform-escape assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

@@ -34,5 +34,14 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Raised Inversive Limit Set 3D shader iteration and ray-step caps to match the module controls, so reported/randomized high-detail settings are honored.",
+    "research": "research/issue-fixes/2026-06-27T21-33-54-666236Z_inversive_limit_set_3d/research-not-needed.md",
+    "validation": [
+      "python3 inversive shader public-cap assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
   }
 }

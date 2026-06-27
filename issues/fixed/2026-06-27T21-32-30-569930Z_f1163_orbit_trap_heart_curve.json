@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-27T21:32:30.569930Z",
+  "moduleId": "f1163_orbit_trap_heart_curve",
+  "moduleName": "Orbit Trap: Heart Curve",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=f1163_orbit_trap_heart_curve&zoom=118954.93465613978&x=-0.7454442381858826&y=-0.08694087713956833&iterations=500&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjo1MDAsInRyYXBNb2RlIjo4fQ",
+  "params": {
+    "iterations": 500,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "trapMode": 8
+  },
+  "view": {
+    "zoom": 118954.93465613978,
+    "x": -0.7454442381858826,
+    "y": -0.08694087713956833,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Raised the shared orbit-trap shader iteration cap so the reported heart-curve deep zoom can use the renderer-scaled iteration budget.",
+    "research": "research/issue-fixes/2026-06-27T21-32-30-569930Z_f1163_orbit_trap_heart_curve/research-not-needed.md",
+    "validation": [
+      "python3 orbit-trap heart shader cap assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

@@ -140,5 +140,38 @@ void main() {
         closeTo(6.0, 1e-12),
       );
     });
+
+    test('keeps Julia seed randomization near the curated default', () {
+      final schema = FractalParameter(
+        id: 'juliaCReal',
+        label: _label,
+        type: FractalParamType.float,
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: -0.162,
+      );
+
+      expect(
+        randomFractalParamValue(
+          schema,
+          _FixedRandom(
+            nextIntValue: (_) => 0,
+            nextDoubleValue: 0.0,
+          ),
+        ),
+        -0.51,
+      );
+      expect(
+        randomFractalParamValue(
+          schema,
+          _FixedRandom(
+            nextIntValue: (_) => 0,
+            nextDoubleValue: 1.0,
+          ),
+        ),
+        0.19,
+      );
+    });
   });
 }

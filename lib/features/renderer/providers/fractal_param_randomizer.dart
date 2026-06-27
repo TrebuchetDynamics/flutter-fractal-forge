@@ -12,7 +12,9 @@ import 'package:flutter_fractals/features/renderer/providers/fractal_param_value
 Object randomFractalParamValue(FractalParameter param, Random random) {
   switch (param.type) {
     case FractalParamType.float:
-      final raw = param.min + random.nextDouble() * (param.max - param.min);
+      final raw = _isJuliaSeedParam(param.id)
+          ? _randomNearDefault(param, random, radius: 0.35)
+          : param.min + random.nextDouble() * (param.max - param.min);
       return normalizeFractalParamValue(
         param,
         roundFractalParamValueToStep(raw, param.step),
@@ -41,6 +43,22 @@ Object randomFractalParamValue(FractalParameter param, Random random) {
     case FractalParamType.boolean:
       return random.nextBool();
   }
+}
+
+bool _isJuliaSeedParam(String id) => id == 'juliaCReal' || id == 'juliaCImag';
+
+double _randomNearDefault(
+  FractalParameter param,
+  Random random, {
+  required double radius,
+}) {
+  final defaultValue = param.defaultValue;
+  final center = defaultValue is num
+      ? defaultValue.toDouble()
+      : (param.min + param.max) * 0.5;
+  return (center + (random.nextDouble() * 2.0 - 1.0) * radius)
+      .clamp(param.min, param.max)
+      .toDouble();
 }
 
 /// Replayable decision for snapping a randomized float to slider precision.

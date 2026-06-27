@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-06-27T21:34:20.333099Z",
+  "moduleId": "3d_fractal",
+  "moduleName": "3D Fractal",
+  "tags": [
+    "Is does not look the correct fractal"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?type=3d_fractal&zoom=4.528994725647075&x=0.28687840700149536&y=0.08077336847782135&iterations=372&bailout=4&colorScheme=0&p=eyJiYWlsb3V0Ijo0LjAsImNvbG9yU2NoZW1lIjowLCJpdGVyYXRpb25zIjozNzJ9",
+  "params": {
+    "iterations": 372,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 4.528994725647075,
+    "x": 0.28687840700149536,
+    "y": 0.08077336847782135,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added interior orbit-trap coloring to the pseudo-3D |z|\u00b2\u00b7z+c shader so the reported mostly bounded view no longer renders as missing/flat black.",
+    "research": "research/issue-fixes/2026-06-27T21-34-20-333099Z_3d_fractal/research-not-needed.md",
+    "validation": [
+      "python3 3d_fractal bounded-interior assertion: pass",
+      "git diff --check (touched files): pass"
+    ]
+  }
+}

@@ -127,7 +127,7 @@ bool invertThroughSphere(inout vec3 p, inout float scale, vec4 s) {
 // Iteratively inverts through 4 spheres; the scale accumulation
 // gives the derivative for the DE formula.
 float inversiveDE(vec3 p) {
-    int maxIter = int(clamp(uIterations, 1.0, 30.0));
+    int maxIter = int(clamp(uIterations, 1.0, 50.0));
     float radius = clamp(uPower, 0.5, 3.0);
     int arrangement = int(mod(uFractalType, 4.0));
 
@@ -137,7 +137,7 @@ float inversiveDE(vec3 p) {
     float scale = 1.0;
     float lastSphere = 0.0;
 
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 50; i++) {
         if (i >= maxIter) break;
         bool inverted = false;
         if (invertThroughSphere(p, scale, s1)) { inverted = true; lastSphere = 0.0; }
@@ -153,7 +153,7 @@ float inversiveDE(vec3 p) {
 
 // Store last-sphere info for coloring: use a separate pass.
 float inversiveColor(vec3 p) {
-    int maxIter = int(clamp(uIterations, 1.0, 30.0));
+    int maxIter = int(clamp(uIterations, 1.0, 50.0));
     float radius = clamp(uPower, 0.5, 3.0);
     int arrangement = int(mod(uFractalType, 4.0));
 
@@ -164,7 +164,7 @@ float inversiveColor(vec3 p) {
     float colorAccum = 0.0;
     float weight = 1.0;
 
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 50; i++) {
         if (i >= maxIter) break;
         bool inverted = false;
         if (invertThroughSphere(p, scale, s1)) { colorAccum += weight * 0.0;  inverted = true; }
@@ -204,10 +204,10 @@ vec3 calculateLighting(vec3 position, vec3 normal, vec3 baseColor, vec3 cameraPo
 
 vec4 rayMarch(vec3 origin, vec3 direction) {
     float totalDist = 0.0;
-    int maxSteps = int(clamp(uSteps, 10.0, 150.0));
+    int maxSteps = int(clamp(uSteps, 10.0, 200.0));
     float minDist = 0.001 / max(uZoom, 0.1);
 
-    for (int i = 0; i < 150; i++) {
+    for (int i = 0; i < 200; i++) {
         if (i >= maxSteps) break;
         vec3 pos = origin + totalDist * direction;
         float dist = inversiveDE(pos);
