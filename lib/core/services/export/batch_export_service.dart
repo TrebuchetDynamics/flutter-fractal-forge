@@ -296,7 +296,7 @@ class BatchExportService {
       } else {
         onProgress?.call(0.95, 'Building contact sheet…');
         try {
-          final pngBytes = await _buildContactSheet(
+          final pngBytes = await const BatchExportContactSheetBuilder().build(
             results.map((e) => e.file).toList(),
             columns: 4,
             tileSize: 512,
@@ -340,8 +340,12 @@ class BatchExportService {
       return dir;
     }
   }
+}
 
-  Future<Uint8List> _buildContactSheet(
+class BatchExportContactSheetBuilder {
+  const BatchExportContactSheetBuilder();
+
+  Future<Uint8List> build(
     List<File> files, {
     required int columns,
     required int tileSize,
@@ -357,8 +361,14 @@ class BatchExportService {
 
     var imageIndex = 0;
     for (final f in files) {
-      final bytes = await f.readAsBytes();
-      final decoded = img.decodeImage(bytes);
+      final img.Image? decoded;
+      try {
+        final bytes = await f.readAsBytes();
+        decoded = img.decodeImage(bytes);
+      } catch (e) {
+        if (kDebugMode) debugPrint('[FF] skipping contact sheet image: $e');
+        continue;
+      }
       if (decoded == null) continue;
 
       final thumb = img.copyResize(

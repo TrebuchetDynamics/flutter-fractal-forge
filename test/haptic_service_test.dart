@@ -11,6 +11,7 @@ void main() {
     final List<MethodCall> log = [];
 
     setUp(() {
+      HapticService.resetThrottleForTesting();
       log.clear();
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
@@ -98,6 +99,7 @@ void main() {
       log.clear();
       await HapticService.lightThrottled(throttle: const Duration(seconds: 10));
       final countAfterFirst = log.length;
+      expect(countAfterFirst, 1);
 
       // Second call immediately — throttle window not expired.
       await HapticService.lightThrottled(throttle: const Duration(seconds: 10));

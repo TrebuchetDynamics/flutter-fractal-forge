@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Haptic feedback service providing tactile feedback for UI interactions.
@@ -11,6 +12,12 @@ class HapticService {
 
   /// Light haptic with throttling for continuous interactions
   static DateTime? _lastLight;
+
+  @visibleForTesting
+  static void resetThrottleForTesting() {
+    _lastLight = null;
+  }
+
   static Future<void> lightThrottled(
       {Duration throttle = const Duration(milliseconds: 50)}) async {
     final now = DateTime.now();

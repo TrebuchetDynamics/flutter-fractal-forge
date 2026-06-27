@@ -628,17 +628,30 @@ void main() {
     });
   });
 
-  group('BatchExportService contact sheet memory', () {
-    test('builder streams thumbnails instead of retaining all', () {
-      final source = File('lib/core/services/export/batch_export_service.dart')
-          .readAsStringSync();
-      final method = source.substring(
-        source.indexOf('Future<Uint8List> _buildContactSheet'),
+  group('BatchExportContactSheetBuilder', () {
+    test('builds a PNG sheet from valid image files and skips bad inputs',
+        () async {
+      final dir = await Directory.systemTemp.createTemp('contact_sheet_');
+      addTearDown(() => dir.deleteSync(recursive: true));
+
+      final red = img.Image(width: 2, height: 2);
+      img.fill(red, color: img.ColorRgb8(255, 0, 0));
+      final redFile = File('${dir.path}/red.png')
+        ..writeAsBytesSync(img.encodePng(red));
+      final badFile = File('${dir.path}/bad.txt')..writeAsStringSync('nope');
+
+      final bytes = await const BatchExportContactSheetBuilder().build(
+        [badFile, redFile],
+        columns: 1,
+        tileSize: 2,
+        padding: 1,
       );
 
-      expect(method, isNot(contains('final thumbs = <img.Image>[]')));
-      expect(method, contains('var imageIndex = 0;'));
-      expect(method, contains('img.compositeImage(sheet, thumb'));
+      final sheet = img.decodePng(bytes);
+      expect(sheet, isNotNull);
+      expect(sheet!.width, 4);
+      expect(sheet.height, 7);
+      expect(sheet.getPixel(1, 1).r, 255);
     });
   });
 
