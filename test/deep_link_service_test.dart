@@ -398,6 +398,45 @@ void main() {
         expect(parsed.kaleidoscopeMirrorMode, 2);
       });
 
+      test('can include default camera and visual state for exact shared links',
+          () {
+        final uri = DeepLinkService.buildWebUri(
+          moduleId: 'talis',
+          params: const {
+            'iterations': 500,
+            'bailout': 4.0,
+            'colorScheme': 14,
+          },
+          view: FractalViewState.initial(),
+          includeDefaults: true,
+        );
+
+        expect(uri.queryParameters['zoom'], '1');
+        expect(uri.queryParameters['x'], '0');
+        expect(uri.queryParameters['y'], '0');
+        expect(uri.queryParameters['rotX'], '0');
+        expect(uri.queryParameters['rotY'], '0');
+        expect(uri.queryParameters['rotZ'], '0');
+        expect(uri.queryParameters['transparent'], 'false');
+        expect(uri.queryParameters['rotationLocked'], 'false');
+        expect(uri.queryParameters['glowEnabled'], 'false');
+        expect(uri.queryParameters['glowSigma'], '1');
+        expect(uri.queryParameters['glowIntensity'], '0.35');
+        expect(uri.queryParameters['kaleidoscopeEnabled'], 'false');
+        expect(uri.queryParameters['kaleidoscopeSectors'], '8');
+        expect(uri.queryParameters['kaleidoscopeMirror'], 'true');
+        expect(uri.queryParameters['kaleidoscopeRotation'], '0');
+        expect(uri.queryParameters['kaleidoscopeMirrorMode'], '0');
+
+        final parsed = DeepLinkService.parseUri(uri)!;
+        expect(parsed.toParams()['iterations'], 500);
+        expect(parsed.toParams()['bailout'], 4.0);
+        expect(parsed.toParams()['colorScheme'], 14);
+        expect(parsed.toViewState().zoom, 1.0);
+        expect(parsed.transparentBackground, isFalse);
+        expect(parsed.kaleidoscopeMirror, isTrue);
+      });
+
       test('uses runtime Julia parameter names when building URL aliases', () {
         final uri = DeepLinkService.buildUri(
           moduleId: 'julia',

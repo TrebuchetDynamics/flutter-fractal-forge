@@ -379,6 +379,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       kaleidoscopeMirror: controller.kaleidoscopeMirror,
       kaleidoscopeRotation: controller.kaleidoscopeRotation,
       kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+      includeDefaults: true,
     );
   }
 

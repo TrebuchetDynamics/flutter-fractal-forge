@@ -706,12 +706,17 @@ class DeepLinkService {
     bool kaleidoscopeMirror = true,
     double kaleidoscopeRotation = 0.0,
     int kaleidoscopeMirrorMode = 0,
+    bool includeDefaults = false,
   }) {
     final queryParams = <String, String>{
       'type': _DeepLinkModuleId.requireSafeForBuild(moduleId),
     };
 
-    _addViewStateQueryParams(queryParams, view);
+    _addViewStateQueryParams(
+      queryParams,
+      view,
+      includeDefaults: includeDefaults,
+    );
 
     // Add fractal parameters. Unsupported values are omitted rather than
     // converted to sentinel values that parse back as valid-but-wrong params.
@@ -737,57 +742,80 @@ class DeepLinkService {
       preservePrecision: true,
     );
     _addParamsPayload(queryParams, params);
-    _addNonDefaultBoolQueryParam(
-      queryParams,
-      _transparentParam,
-      transparentBackground,
-    );
-    _addNonDefaultBoolQueryParam(
-      queryParams,
-      _rotationLockedParam,
-      rotationLocked,
-    );
-    _addNonDefaultBoolQueryParam(queryParams, _glowEnabledParam, glowEnabled);
-    _addNonDefaultBoundedDoubleQueryParam(
-      queryParams,
-      _glowSigmaParam,
-      glowSigma,
-      defaultValue: 1.0,
-    );
-    _addNonDefaultBoundedDoubleQueryParam(
-      queryParams,
-      _glowIntensityParam,
-      glowIntensity,
-      defaultValue: 0.35,
-    );
-    _addNonDefaultBoolQueryParam(
-      queryParams,
-      _kaleidoscopeEnabledParam,
-      kaleidoscopeEnabled,
-    );
-    _addNonDefaultBoundedIntQueryParam(
-      queryParams,
-      _kaleidoscopeSectorsParam,
-      kaleidoscopeSectors,
-      defaultValue: 8,
-    );
-    _addNonDefaultBoolQueryParam(
-      queryParams,
-      _kaleidoscopeMirrorParam,
-      kaleidoscopeMirror,
-      defaultValue: true,
-    );
-    _addNonDefaultBoundedDoubleQueryParam(
-      queryParams,
-      _kaleidoscopeRotationParam,
-      kaleidoscopeRotation,
-      preservePrecision: true,
-    );
-    _addNonDefaultBoundedIntQueryParam(
-      queryParams,
-      _kaleidoscopeMirrorModeParam,
-      kaleidoscopeMirrorMode,
-    );
+    if (includeDefaults) {
+      _addBoolQueryParam(queryParams, _transparentParam, transparentBackground);
+      _addBoolQueryParam(queryParams, _rotationLockedParam, rotationLocked);
+      _addBoolQueryParam(queryParams, _glowEnabledParam, glowEnabled);
+      _addBoundedDoubleQueryParam(queryParams, _glowSigmaParam, glowSigma);
+      _addBoundedDoubleQueryParam(
+          queryParams, _glowIntensityParam, glowIntensity);
+      _addBoolQueryParam(
+          queryParams, _kaleidoscopeEnabledParam, kaleidoscopeEnabled);
+      _addBoundedIntQueryParam(
+          queryParams, _kaleidoscopeSectorsParam, kaleidoscopeSectors);
+      _addBoolQueryParam(
+          queryParams, _kaleidoscopeMirrorParam, kaleidoscopeMirror);
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _kaleidoscopeRotationParam,
+        kaleidoscopeRotation,
+        preservePrecision: true,
+      );
+      _addBoundedIntQueryParam(
+          queryParams, _kaleidoscopeMirrorModeParam, kaleidoscopeMirrorMode);
+    } else {
+      _addNonDefaultBoolQueryParam(
+        queryParams,
+        _transparentParam,
+        transparentBackground,
+      );
+      _addNonDefaultBoolQueryParam(
+        queryParams,
+        _rotationLockedParam,
+        rotationLocked,
+      );
+      _addNonDefaultBoolQueryParam(queryParams, _glowEnabledParam, glowEnabled);
+      _addNonDefaultBoundedDoubleQueryParam(
+        queryParams,
+        _glowSigmaParam,
+        glowSigma,
+        defaultValue: 1.0,
+      );
+      _addNonDefaultBoundedDoubleQueryParam(
+        queryParams,
+        _glowIntensityParam,
+        glowIntensity,
+        defaultValue: 0.35,
+      );
+      _addNonDefaultBoolQueryParam(
+        queryParams,
+        _kaleidoscopeEnabledParam,
+        kaleidoscopeEnabled,
+      );
+      _addNonDefaultBoundedIntQueryParam(
+        queryParams,
+        _kaleidoscopeSectorsParam,
+        kaleidoscopeSectors,
+        defaultValue: 8,
+      );
+      _addNonDefaultBoolQueryParam(
+        queryParams,
+        _kaleidoscopeMirrorParam,
+        kaleidoscopeMirror,
+        defaultValue: true,
+      );
+      _addNonDefaultBoundedDoubleQueryParam(
+        queryParams,
+        _kaleidoscopeRotationParam,
+        kaleidoscopeRotation,
+        preservePrecision: true,
+      );
+      _addNonDefaultBoundedIntQueryParam(
+        queryParams,
+        _kaleidoscopeMirrorModeParam,
+        kaleidoscopeMirrorMode,
+      );
+    }
 
     return Uri(
       scheme: scheme,
@@ -803,10 +831,54 @@ class DeepLinkService {
   /// instead of a rounded approximation.
   static void _addViewStateQueryParams(
     Map<String, String> queryParams,
-    FractalViewState view,
-  ) {
+    FractalViewState view, {
+    bool includeDefaults = false,
+  }) {
     // Use the same bounded contracts as parsing so generated links do not
     // round-trip through clamped or invalid camera values.
+    if (includeDefaults) {
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _zoomParam,
+        view.zoom,
+        preservePrecision: true,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _xParam,
+        view.pan.x,
+        preservePrecision: true,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _yParam,
+        view.pan.y,
+        preservePrecision: true,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _rotXParam,
+        view.rotation.x,
+        preservePrecision: true,
+        compactTolerance: _rotationCompactTolerance,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _rotYParam,
+        view.rotation.y,
+        preservePrecision: true,
+        compactTolerance: _rotationCompactTolerance,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _rotZParam,
+        view.rotation.z,
+        preservePrecision: true,
+        compactTolerance: _rotationCompactTolerance,
+      );
+      return;
+    }
+
     _addNonDefaultBoundedDoubleQueryParam(
       queryParams,
       _zoomParam,
@@ -866,6 +938,7 @@ class DeepLinkService {
     bool kaleidoscopeMirror = true,
     double kaleidoscopeRotation = 0.0,
     int kaleidoscopeMirrorMode = 0,
+    bool includeDefaults = false,
   }) {
     final customUri = buildUri(
       moduleId: moduleId,
@@ -881,6 +954,7 @@ class DeepLinkService {
       kaleidoscopeMirror: kaleidoscopeMirror,
       kaleidoscopeRotation: kaleidoscopeRotation,
       kaleidoscopeMirrorMode: kaleidoscopeMirrorMode,
+      includeDefaults: includeDefaults,
     );
     return Uri(
       scheme: 'https',
@@ -1047,6 +1121,17 @@ class DeepLinkService {
     final parsed = _DeepLinkIntegerValue.tryParseObject(value);
     if (parsed == null || parsed == defaultValue) return;
     _addBoundedIntQueryParam(queryParams, param, parsed);
+  }
+
+  static void _addBoolQueryParam(
+    Map<String, String> queryParams,
+    _BoolQueryParam param,
+    bool value,
+  ) {
+    final formatted = param.format(value);
+    if (formatted != null) {
+      queryParams[param.name] = formatted;
+    }
   }
 
   static void _addNonDefaultBoolQueryParam(
