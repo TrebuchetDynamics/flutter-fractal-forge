@@ -33,5 +33,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:29:00Z",
+    "note": "Raised the shared Mandelbulb shader internal iteration and ray-step caps so reported deep-zoom detail settings are honored, with a focused shader regression test."
   }
 }

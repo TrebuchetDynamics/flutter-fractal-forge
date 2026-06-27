@@ -79,7 +79,7 @@ vec3 palette(float t, float scheme) {
 // uFractalType selects modulation style:
 //   0 = smooth sine, 1 = double-frequency, 2 = asymmetric, 3 = chaotic.
 float timeMandelbulbDE(vec3 pos) {
-    int maxIter = int(clamp(uIterations, 1.0, 20.0));
+    int maxIter = int(clamp(uIterations, 1.0, 64.0));
     int modStyle = int(mod(uFractalType, 4.0));
 
     // Time modulation of power.
@@ -106,7 +106,7 @@ float timeMandelbulbDE(vec3 pos) {
     float dr = 1.0;
     float r = 0.0;
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 64; i++) {
         if (i >= maxIter) break;
         r = length(z);
         if (r > uBailout) break;
@@ -156,10 +156,10 @@ vec3 calculateLighting(vec3 position, vec3 normal, vec3 baseColor, vec3 cameraPo
 
 vec4 rayMarch(vec3 origin, vec3 direction) {
     float totalDist = 0.0;
-    int maxSteps = int(clamp(uSteps, 10.0, 150.0));
+    int maxSteps = int(clamp(uSteps, 10.0, 200.0));
     float minDist = 0.001 / max(uZoom, 0.1);
 
-    for (int i = 0; i < 150; i++) {
+    for (int i = 0; i < 200; i++) {
         if (i >= maxSteps) break;
         vec3 pos = origin + totalDist * direction;
         float dist = timeMandelbulbDE(pos);
