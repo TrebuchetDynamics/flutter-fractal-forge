@@ -31,5 +31,10 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-27T01:32:00Z",
+    "note": "Raised the Vicsek shader recursive depth cap so high-iteration zooms can add structure, with a focused shader regression test."
   }
 }

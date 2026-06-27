@@ -55,14 +55,14 @@ void main() {
   p *= 1.8;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = int(clamp(float(target / 20 + 1), 1.0, 12.0));
+  int depth = int(clamp(float(target / 20 + 1), 1.0, 20.0));
 
   vec2 q = p;
   float kept = 1.0;
   float level = float(depth);
   float edgeTrap = 1e9;
 
-  for (int i = 0; i < 12; i++) {
+  for (int i = 0; i < 20; i++) {
     if (i >= depth) break;
 
     vec2 cell = fract(q + 0.5) - 0.5;
