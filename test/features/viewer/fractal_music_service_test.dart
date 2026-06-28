@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
@@ -30,6 +32,8 @@ class _FakeProcess implements Process {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   test('buildFractalMusicWav writes deterministic wav audio', () {
     final a = buildFractalMusicWav(
       moduleId: 'mandelbrot',
@@ -113,6 +117,66 @@ void main() {
 
     expect(createdDir, isNotNull);
     expect(createdDir!.existsSync(), isFalse);
+  });
+
+  test('web play sends generated wav bytes to browser audio player', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final calls = <String>[];
+    Uint8List? playedBytes;
+    final service = FractalMusicService(
+      isWeb: true,
+      isAndroid: false,
+      isLinux: false,
+      webPlay: (bytes) async {
+        calls.add('play');
+        playedBytes = bytes;
+        return true;
+      },
+      webStop: () async => calls.add('stop'),
+    );
+    addTearDown(service.dispose);
+
+    await service.play(controller);
+    await service.stop();
+
+    expect(calls, ['stop', 'play', 'stop']);
+    expect(String.fromCharCodes(playedBytes!.take(4)), 'RIFF');
+  });
+
+  test('Android play sends generated wav bytes to the native audio channel',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    const channel = MethodChannel('test/fractal_music');
+    final calls = <String>[];
+    Uint8List? playedBytes;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (call) async {
+      calls.add(call.method);
+      if (call.method == 'play') {
+        playedBytes = (call.arguments as Map)['bytes'] as Uint8List;
+        return true;
+      }
+      return null;
+    });
+    addTearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, null);
+    });
+
+    final service = FractalMusicService(
+      androidChannel: channel,
+      isAndroid: true,
+      isLinux: false,
+    );
+    addTearDown(service.dispose);
+
+    await service.play(controller);
+    await service.stop();
+
+    expect(calls, ['stop', 'play', 'stop']);
+    expect(String.fromCharCodes(playedBytes!.take(4)), 'RIFF');
   });
 
   test('play creates unique temp directories for separate sessions', () async {

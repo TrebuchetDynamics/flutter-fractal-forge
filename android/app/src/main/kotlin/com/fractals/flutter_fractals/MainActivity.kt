@@ -5,6 +5,9 @@ import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.media.AudioFormat
+import android.media.AudioManager
+import android.media.AudioTrack
 import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Bundle
@@ -23,12 +26,14 @@ import java.io.IOException
 class MainActivity : FlutterFragmentActivity() {
     private var deepLinkChannel: MethodChannel? = null
     private var initialLink: String? = null
+    private var fractalMusicTrack: AudioTrack? = null
 
     companion object {
         private const val DEVICE_CHANNEL = "fractalforge/device"
         private const val DEEPLINK_CHANNEL = "com.fractalforge/deeplink"
         private const val MEDIA_STORE_CHANNEL = "fractalforge/media_store"
         private const val WALLPAPER_CHANNEL = "com.fractalforge/wallpaper"
+        private const val FRACTAL_MUSIC_CHANNEL = "com.fractalforge/fractal_music"
         private const val MEDIA_STORE_SUBDIR = "FractalForge"
     }
 
@@ -147,6 +152,82 @@ class MainActivity : FlutterFragmentActivity() {
                     else -> result.notImplemented()
                 }
             }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, FRACTAL_MUSIC_CHANNEL)
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "play" -> {
+                        val bytes = call.argument<ByteArray>("bytes")
+                        if (bytes == null) {
+                            result.error("invalid_args", "bytes are required", null)
+                            return@setMethodCallHandler
+                        }
+                        playFractalMusic(bytes, result)
+                    }
+                    "stop" -> {
+                        stopFractalMusic()
+                        result.success(null)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+    }
+
+    private fun playFractalMusic(bytes: ByteArray, result: MethodChannel.Result) {
+        try {
+            if (bytes.size <= 44 || String(bytes.copyOfRange(0, 4)) != "RIFF") {
+                result.error("invalid_audio", "Expected WAV bytes", null)
+                return
+            }
+            val sampleRate = readLeInt(bytes, 24).coerceIn(8000, 48000)
+            val pcm = bytes.copyOfRange(44, bytes.size)
+            val frameCount = pcm.size / 2
+            if (frameCount <= 0) {
+                result.error("invalid_audio", "Empty WAV payload", null)
+                return
+            }
+
+            stopFractalMusic()
+            val track = AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                sampleRate,
+                AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT,
+                pcm.size,
+                AudioTrack.MODE_STATIC,
+            )
+            val written = track.write(pcm, 0, pcm.size)
+            if (written <= 0) {
+                track.release()
+                result.error("audio_write_failed", "Failed to write audio buffer", null)
+                return
+            }
+            track.setLoopPoints(0, frameCount, -1)
+            track.play()
+            fractalMusicTrack = track
+            result.success(true)
+        } catch (t: Throwable) {
+            stopFractalMusic()
+            result.error("audio_play_failed", t.message ?: "Failed to play fractal music", null)
+        }
+    }
+
+    private fun stopFractalMusic() {
+        val track = fractalMusicTrack ?: return
+        fractalMusicTrack = null
+        runCatching { track.stop() }
+        track.release()
+    }
+
+    private fun readLeInt(bytes: ByteArray, offset: Int): Int =
+        (bytes[offset].toInt() and 0xff) or
+            ((bytes[offset + 1].toInt() and 0xff) shl 8) or
+            ((bytes[offset + 2].toInt() and 0xff) shl 16) or
+            ((bytes[offset + 3].toInt() and 0xff) shl 24)
+
+    override fun onDestroy() {
+        stopFractalMusic()
+        super.onDestroy()
     }
 
     private fun setDeviceWallpaper(

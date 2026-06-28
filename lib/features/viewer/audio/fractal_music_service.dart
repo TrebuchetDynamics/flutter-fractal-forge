@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'fractal_music_web_player_stub.dart'
+    if (dart.library.html) 'fractal_music_web_player_html.dart';
 
 typedef FractalMusicProcessStart = Future<Process> Function(
   String executable,
@@ -11,33 +15,55 @@ typedef FractalMusicProcessStart = Future<Process> Function(
 );
 
 typedef FractalMusicTempDirFactory = Future<Directory> Function(String prefix);
+typedef FractalMusicWebPlay = Future<bool> Function(Uint8List bytes);
+typedef FractalMusicWebStop = Future<void> Function();
 
 class FractalMusicService {
+  static const MethodChannel _defaultAndroidChannel =
+      MethodChannel('com.fractalforge/fractal_music');
+
   final Future<bool> Function(String command)? _commandExistsOverride;
   final FractalMusicProcessStart _startProcess;
   final FractalMusicTempDirFactory _createTempDir;
+  final MethodChannel _androidChannel;
+  final FractalMusicWebPlay _webPlay;
+  final FractalMusicWebStop _webStop;
+  final bool? _isWebOverride;
+  final bool? _isAndroidOverride;
+  final bool? _isLinuxOverride;
   Process? _player;
   File? _wavFile;
+  bool _webPlaying = false;
+  bool _androidPlaying = false;
 
   FractalMusicService({
     Future<bool> Function(String command)? commandExists,
     FractalMusicProcessStart? startProcess,
     FractalMusicTempDirFactory? createTempDir,
+    MethodChannel? androidChannel,
+    FractalMusicWebPlay? webPlay,
+    FractalMusicWebStop? webStop,
+    bool? isWeb,
+    bool? isAndroid,
+    bool? isLinux,
   })  : _commandExistsOverride = commandExists,
         _startProcess = startProcess ??
             ((executable, arguments) => Process.start(executable, arguments)),
         _createTempDir = createTempDir ??
-            ((prefix) => Directory.systemTemp.createTemp(prefix));
+            ((prefix) => Directory.systemTemp.createTemp(prefix)),
+        _androidChannel = androidChannel ?? _defaultAndroidChannel,
+        _webPlay = webPlay ?? playFractalMusicWeb,
+        _webStop = webStop ?? stopFractalMusicWeb,
+        _isWebOverride = isWeb,
+        _isAndroidOverride = isAndroid,
+        _isLinuxOverride = isLinux;
+
+  bool get _isWeb => _isWebOverride ?? kIsWeb;
+  bool get _isAndroid => !_isWeb && (_isAndroidOverride ?? Platform.isAndroid);
+  bool get _isLinux => !_isWeb && (_isLinuxOverride ?? Platform.isLinux);
 
   Future<void> play(FractalController controller) async {
     await stop();
-    if (kIsWeb || !Platform.isLinux) {
-      throw StateError('Fractal Music playback is currently Linux-only.');
-    }
-    if (!await _commandExists('paplay') && !await _commandExists('aplay')) {
-      throw StateError('No Linux audio player found (paplay or aplay).');
-    }
-
     final bytes = buildFractalMusicWav(
       moduleId: controller.module.id,
       params: controller.params,
@@ -45,6 +71,35 @@ class FractalMusicService {
       panY: controller.view.pan.y,
       zoom: controller.view.zoom,
     );
+    if (_isWeb) {
+      final ok = await _webPlay(bytes);
+      if (!ok) {
+        throw StateError(
+            'Web audio playback failed; tap the music button again.');
+      }
+      _webPlaying = true;
+      return;
+    }
+
+    if (_isAndroid) {
+      final ok = await _androidChannel.invokeMethod<bool>('play', {
+        'bytes': bytes,
+      });
+      if (ok != true) {
+        throw StateError('Android audio playback failed; check audio device.');
+      }
+      _androidPlaying = true;
+      return;
+    }
+
+    if (!_isLinux) {
+      throw StateError(
+          'Fractal Music playback is supported on Web, Android, and Linux.');
+    }
+    if (!await _commandExists('paplay') && !await _commandExists('aplay')) {
+      throw StateError('No Linux audio player found (paplay or aplay).');
+    }
+
     final dir = await _createTempDir('fractal_music_');
     final file = File('${dir.path}/loop.wav');
     await file.writeAsBytes(bytes, flush: true);
@@ -71,12 +126,28 @@ class FractalMusicService {
   }
 
   Future<void> stop() async {
+    if (_webPlaying || _isWeb) {
+      await _webStop();
+      _webPlaying = false;
+    }
+    if (_androidPlaying || _isAndroid) {
+      await _androidChannel.invokeMethod<void>('stop');
+      _androidPlaying = false;
+    }
     _player?.kill();
     _player = null;
     await _deleteTempAudio();
   }
 
   void dispose() {
+    if (_webPlaying || _isWeb) {
+      unawaited(_webStop());
+      _webPlaying = false;
+    }
+    if (_androidPlaying || _isAndroid) {
+      unawaited(_androidChannel.invokeMethod<void>('stop'));
+      _androidPlaying = false;
+    }
     _player?.kill();
     _player = null;
     try {
