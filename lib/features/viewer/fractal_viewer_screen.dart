@@ -10,7 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_fractals/features/viewer/actions/text_overlay_controller.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
@@ -122,8 +122,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   // Visual simplification state
   bool _fullscreenUnobtrusive = false;
   bool _showControlsHud = false;
-  bool _textOverlayEnabled = false;
-  String _textOverlayText = '';
+  final TextOverlayController _textOverlay = TextOverlayController();
 
   // History tracking
   FractalController? _lastController;
@@ -312,18 +311,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   Future<void> _loadTextOverlay() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (!mounted) return;
-    setState(() {
-      _textOverlayEnabled = prefs.getBool('text_overlay_enabled') ?? false;
-      _textOverlayText = prefs.getString('text_overlay_text') ?? '';
-    });
-  }
-
-  Future<void> _saveTextOverlay() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('text_overlay_enabled', _textOverlayEnabled);
-    await prefs.setString('text_overlay_text', _textOverlayText);
+    await _textOverlay.load();
+    if (mounted) setState(() {});
   }
 
   void _toggleControlsHud() {
@@ -336,17 +325,17 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   Future<void> _toggleTextOverlay() async {
-    if (_textOverlayText.trim().isEmpty) {
+    if (_textOverlay.needsEditBeforeToggle) {
       await _editTextOverlay();
       return;
     }
-    setState(() => _textOverlayEnabled = !_textOverlayEnabled);
-    await _saveTextOverlay();
+    setState(() => _textOverlay.toggle());
+    await _textOverlay.save();
   }
 
   Future<void> _editTextOverlay() async {
     final l10n = AppLocalizations.of(context)!;
-    final controller = TextEditingController(text: _textOverlayText);
+    final controller = TextEditingController(text: _textOverlay.text);
     final text = await showDialog<String>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -375,18 +364,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     controller.dispose();
     if (text == null) return;
 
-    setState(() {
-      _textOverlayText = text.trim();
-      _textOverlayEnabled = _textOverlayText.isNotEmpty;
-    });
-    await _saveTextOverlay();
+    setState(() => _textOverlay.applyEdit(text));
+    await _textOverlay.save();
   }
 
   @override
-  String? get _activeQuoteText =>
-      _textOverlayEnabled && _textOverlayText.trim().isNotEmpty
-          ? _textOverlayText.trim()
-          : null;
+  String? get _activeQuoteText => _textOverlay.activeQuoteText;
 
   Future<void> _toggleFractalMusic() async {
     final controller = _activeController(context);
@@ -1016,7 +999,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             activeController.kaleidoscopeSectors,
                         kaleidoscopeMirror: activeController.kaleidoscopeMirror,
                         fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
-                        textOverlayEnabled: _textOverlayEnabled,
+                        textOverlayEnabled: _textOverlay.enabled,
                         showFractalReport: !kIsWeb && Platform.isLinux,
                         actions: FractalViewControlActions(
                           toggleFullscreen: _toggleFullscreenUnobtrusive,
