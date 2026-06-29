@@ -1,0 +1,20 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.21785/icad2019.018	Three Orthogonal Dimensions for Psychoacoustic Sonification
+	Reef Elegy: An Auditory Display of Hawaii's 2019 Coral Bleaching Data
+	Sonification Abstraite/Sonification Concrète: An 'Aesthetic Perspective Space' for Classifying Auditory Displays in the Ars Musica Domain
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Evaluation of short range depth sonifications for visual-to-auditory sensory substitution
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+10.1142/s0219477510000320	Noise and Bell's inequality
+10.1142/s0219477516020016	Quantum and Classical Frontiers of Noise
+10.21785/icad2022.039	Tokyo Kion-On: Query-Based Generative Sonification of Atmospheric Data
+	Ways of Listening and Modes of Being: Electroacoustic Auditory Display
+	C Implementation & comparison of companding & silence audio compression techniques
+	Noise based logic: why noise? A comparative study of the necessity of randomness out of orthogonality
+	Fuzzy C-Means Clustering and Sonification of HRV Features
+10.1142/s0219477516400034	Decoherence and noise in open quantum system dynamics
+10.1142/s0219477510000253	Instantaneous noise-based logic
+10.1109/icnf57520.2023.10472766	Noise Dynamics in the Quantum Regime
+10.1145/3772318.3791557	Exploring the Impacts of Background Noise on Auditory Stimuli of Audio-Visual eHMIs for Hearing, Deaf, and Hard-of-Hearing People
+10.1142/s0219477524500597	Simple Cracking of (Noise-Based) Dynamic Watermarking in Smart Grids

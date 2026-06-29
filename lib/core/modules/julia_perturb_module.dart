@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
 
 /// Wraps the Julia module with perturbation-theory GPU shader at deep zoom.
 FractalModule buildJuliaPerturbModule(FractalModule standardModule) {
@@ -28,29 +28,13 @@ FractalModule buildJuliaPerturbModule(FractalModule standardModule) {
           .clamp(4.0, 2000.0)
           .toInt();
       final bailout = readDouble(state.params, 'bailout', 4.0);
-      final colorScheme = readDouble(state.params, 'colorScheme', 0.0).round();
+      final colorScheme = readDouble(state.params, 'colorScheme', 0.0);
       final cReal = readDouble(state.params, 'juliaCReal', -0.8);
       final cImag = readDouble(state.params, 'juliaCImag', 0.156);
 
-      ui.Image paletteTex;
-      try {
-        final palette = PaletteService.instance.paletteAtIndex(colorScheme);
-        paletteTex = PaletteService.instance.paletteTexture(palette);
-      } catch (_) {
-        // PaletteService unavailable; use a 1×1 black fallback texture.
-        final rec = ui.PictureRecorder();
-        final canvas = ui.Canvas(rec);
-        canvas.drawRect(
-          const ui.Rect.fromLTWH(0, 0, 1, 1),
-          ui.Paint()..color = const ui.Color(0xFF000000),
-        );
-        final picture = rec.endRecording();
-        try {
-          paletteTex = picture.toImageSync(1, 1);
-        } finally {
-          picture.dispose();
-        }
-      }
+      final paletteTex = PaletteShaderAdapter.instance.samplerPaletteTexture(
+        colorScheme,
+      );
       final orbitTex = _OrbitTextureCache.instance.juliaOrbitTexture(
         centerX: state.view.pan.x,
         centerY: state.view.pan.y,

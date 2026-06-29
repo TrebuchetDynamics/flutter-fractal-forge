@@ -1,30 +1,44 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/rendering/fractal_report_service.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_effects_controller.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _FakeMusicService extends FractalMusicService {
-  _FakeMusicService({this.failPlay = false});
+  _FakeMusicService({
+    this.failPlay = false,
+    this.playGate,
+  });
 
-  final bool failPlay;
+  bool failPlay;
+  bool failStop = false;
+  Object? playError;
+  final Future<void>? playGate;
   int playCount = 0;
   int stopCount = 0;
   bool disposed = false;
 
   @override
-  Future<void> play(FractalController controller) async {
+  Future<void> play(
+    FractalController controller, {
+    FractalMusicScanFrame? scanFrame,
+  }) async {
     playCount++;
+    final error = playError;
+    if (error != null) throw error;
     if (failPlay) throw StateError('no audio');
+    await playGate;
   }
 
   @override
   Future<void> stop() async {
     stopCount++;
+    if (failStop) throw StateError('cannot stop audio');
   }
 
   @override
@@ -50,6 +64,86 @@ void main() {
     final disabled = await effects.toggleFractalMusic(controller);
     expect(disabled.enabled, isFalse);
     expect(effects.fractalMusicEnabled, isFalse);
+    expect(music.stopCount, 1);
+  });
+
+  test('concurrent Fractal Music toggles are serialized', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final gate = Completer<void>();
+    final music = _FakeMusicService(playGate: gate.future);
+    final effects = ViewerEffectsController(musicService: music);
+    addTearDown(effects.dispose);
+
+    final first = effects.toggleFractalMusic(controller);
+    await Future<void>.delayed(Duration.zero);
+    final second = effects.toggleFractalMusic(controller);
+    gate.complete();
+
+    final firstResult = await first;
+    final secondResult = await second;
+
+    expect(firstResult.enabled, isTrue);
+    expect(secondResult.enabled, isFalse);
+    expect(effects.fractalMusicEnabled, isFalse);
+    expect(music.playCount, 1);
+    expect(music.stopCount, 1);
+  });
+
+  test('Fractal Music restart error keeps existing state enabled', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final music = _FakeMusicService();
+    final effects = ViewerEffectsController(musicService: music);
+    addTearDown(effects.dispose);
+
+    final enabled = await effects.toggleFractalMusic(controller);
+    expect(enabled.enabled, isTrue);
+    music.playError = FractalMusicStopFailure(StateError('cannot stop'));
+
+    final restarted = await effects.restartFractalMusic(controller);
+
+    expect(restarted.failed, isTrue);
+    expect(restarted.enabled, isTrue);
+    expect(effects.fractalMusicEnabled, isTrue);
+  });
+
+  test('Fractal Music stop error keeps state enabled', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final music = _FakeMusicService();
+    final effects = ViewerEffectsController(musicService: music);
+    addTearDown(effects.dispose);
+
+    final enabled = await effects.toggleFractalMusic(controller);
+    expect(enabled.enabled, isTrue);
+    music.failStop = true;
+
+    final disabled = await effects.toggleFractalMusic(controller);
+
+    expect(disabled.failed, isTrue);
+    expect(disabled.enabled, isTrue);
+    expect(effects.fractalMusicEnabled, isTrue);
+  });
+
+  test('dispose during pending Fractal Music enable leaves music disabled',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final gate = Completer<void>();
+    final music = _FakeMusicService(playGate: gate.future);
+    final effects = ViewerEffectsController(musicService: music);
+
+    final pending = effects.toggleFractalMusic(controller);
+    await Future<void>.delayed(Duration.zero);
+    effects.dispose();
+    gate.complete();
+
+    final result = await pending;
+
+    expect(result.enabled, isFalse);
+    expect(effects.fractalMusicEnabled, isFalse);
+    expect(music.disposed, isTrue);
     expect(music.stopCount, 1);
   });
 

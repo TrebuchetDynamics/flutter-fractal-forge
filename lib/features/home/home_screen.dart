@@ -7,7 +7,7 @@ import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/features/settings/settings_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -408,7 +408,7 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.asset(
-                              'assets/icon/fractal-forge-icon.png',
+                              'assets/icon/logo_64.png',
                               cacheWidth: 64,
                               cacheHeight: 64,
                               fit: BoxFit.cover,

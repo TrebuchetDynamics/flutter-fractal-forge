@@ -6,7 +6,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 

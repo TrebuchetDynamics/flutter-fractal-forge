@@ -10,7 +10,7 @@ import 'package:flutter_fractals/core/services/export/batch_export_service.dart'
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 class BatchExportDialog extends StatefulWidget {

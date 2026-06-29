@@ -1,0 +1,20 @@
+10.1016/j.clinph.2007.01.025	Event-based sonification of EEG rhythms in real time
+10.1111/nyas.14252	Musical sonification improves motor control in Parkinson's disease: a proof of concept with handwriting
+10.3389/fnins.2017.00357	Spatial Cues Provided by Sound Improve Postural Stabilization: Evidence of a Spatial Auditory Map?
+10.21785/icad2018.000	Proceedings of the 24th International Conference on Auditory Display - ICAD 2018
+10.1038/s41598-018-37873-0	Auditory Accommodation to Poorly Matched Non-Individual Spectral Localization Cues Through Active Learning
+10.1007/s00779-020-01394-3	Auditory augmented process monitoring for cyber physical production systems
+10.3389/fpsyg.2022.806861	An Embodied Sonification Model for Sit-to-Stand Transfers
+10.1029/2018sw001988	First Results From Sonification and Exploratory Citizen Science of Magnetospheric ULF Waves: Long‐Lasting Decreasing‐Frequency Poloidal Field Line Resonances Following Geomagnetic Storms
+10.3390/s21217351	Colorophone 2.0: A Wearable Color Sonification Device Generating Live Stereo-Soundscapes—Design, Implementation, and Usability Audit
+10.3390/s23083964	Designing Ecological Auditory Feedback on Lower Limb Kinematics for Hemiparetic Gait Training
+10.1155/2013/879047	Increased Signal Complexity Improves the Breadth of Generalization in Auditory Perceptual Learning
+10.48550/arxiv.cs/0007007	Data sonification and sound visualization
+10.4108/eai.13-7-2018.163994	A design-driven sonification process for supporting expert users in real-time anomaly detection: Towards applied guidelines
+	INTERACTIVE SONIFICATION TO SUPPORT JOINT ATTENTION IN AUGMENTED REALITY-BASED COOPERATION
+10.34961/3417	Investigation of multiple visualisation techniques and dynamic queries in conjunction with direct sonification to support the browsing of audio resources
+10.21785/icad2019.070	Design And Evaluation of a New Auditory Display for the Pulse Oximeter
+10.3390/s25144373	ST Elevation Sonification of a 12-Lead ECG for the Assessment, Diagnosis, and Monitoring of ST Elevation Myocardial Infarction
+10.5281/zenodo.7243532	Proceedings of the 2nd Conference on the Sonification of Health and Environmental Data (SoniHED 2022)
+10.4233/uuid:51dbba63-ba7c-4958-ab7d-d6dc182ec5b5	Auditory feedback for automated driving
+10.3390/mti4020016	The Design of Musical Instruments for Grey Parrots: An Artistic Contribution toward Auditory Enrichment in the Context of ACI

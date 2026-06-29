@@ -30,7 +30,7 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
   bool _gpuProbeActive = false;
   int _gpuProbeBackendSwitches = 0;
   int _gpuHealthFailureStreak = 0;
-  final RendererBackendPolicy _backendPolicy = const RendererBackendPolicy();
+  final RendererPlanPolicy _renderPlanPolicy = const RendererPlanPolicy();
   BackendDecision _backendDecision = const BackendDecision(
     backend: RendererBackend.gpu,
     reasonCode: FallbackReasonCode.none,
@@ -76,6 +76,12 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
     _deepZoomPrecisionActive = decision.showPrecisionIndicator;
   }
 
+  RendererPlan _currentRendererPlan(FractalController controller) =>
+      RendererPlan(
+        precision: _currentPrecisionDecision(controller),
+        backend: _backendDecision,
+      );
+
   Future<void> _detectEmulatorProfile() async {
     final isEmulator = await detectAndroidEmulator();
     if (!mounted) return;
@@ -98,17 +104,16 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
 
     final precisionDecision = _currentPrecisionDecision(controller);
 
-    final newDecision = _backendPolicy.decide(
-      BackendPolicyInput(
-        isAndroid: !kIsWeb && Platform.isAndroid,
-        isWeb: kIsWeb,
-        isEmulator: _isAndroidEmulator,
-        userMode: mode,
-        gpuHealthFailed: _gpuHealthFailed,
-        deepZoomNeedsCpu: precisionDecision.usesCpuRenderer,
-        dimension: controller.module.dimension,
-      ),
-    );
+    final newDecision = _renderPlanPolicy
+        .decide(
+          precision: precisionDecision,
+          userMode: mode,
+          gpuHealthFailed: _gpuHealthFailed,
+          isAndroid: !kIsWeb && Platform.isAndroid,
+          isWeb: kIsWeb,
+          isEmulator: _isAndroidEmulator,
+        )
+        .backend;
 
     if (newDecision.backend == oldBackend) {
       // Same backend: refresh reason/detail immediately. No switch side-effects.

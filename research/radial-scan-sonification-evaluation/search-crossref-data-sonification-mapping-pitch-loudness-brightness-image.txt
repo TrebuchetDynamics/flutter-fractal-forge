@@ -1,0 +1,20 @@
+10.32614/cran.package.musicxml	musicXML: Data Sonification using 'musicXML'
+10.2307/1421609	Correction: On Associations of Light and Sound: The Mediation of Brightness, Pitch, and Loudness
+10.1007/978-3-030-01497-1_8	Parameter-Mapping Sonification of Tick-Data
+10.2307/1422011	On Associations of Light and Sound: The Mediation of Brightness, Pitch, and Loudness
+10.1068/ic764	Effect of Size Change and Brightness Change of Visual Stimuli on Loudness Perception and Pitch Perception of Auditory Stimuli
+10.1109/cisp.2014.7003913	Effect of different pitch and loudness on subjective duration
+10.1111/j.1365-2966.2011.18845.x	The connection between radio loudness and central surface brightness profiles in optically selected low-luminosity active galaxies
+10.1037/0096-1523.15.3.586	On cross-modal similarity: The perceptual structure of pitch, loudness, and brightness.
+10.4324/9781410602886-12	Pitch and Loudness Codes
+10.31234/osf.io/74qj3_v1	On cross-modal commutativity in magnitude production for loudness and brightness
+10.31234/osf.io/74qj3_v2	On cross-modal commutativity in magnitude production for loudness and brightness
+10.1016/b978-0-08-025957-4.50009-7	The Measurement of Loudness and Pitch
+10.21236/ada394982	Data Sonification Project
+10.1017/cbo9781139166621.017	The prosodic organization of speech: pitch and loudness
+10.7717/peerj-cs.432/fig-2	Figure 2: Data augmentation of rice leaf disease images: (A) original image (B) image rotated by 180 degree (C) high brightness (D) Gaussian noise (E) horizontal flip (F) low brightness (G) vertical flip.
+10.1037/e668292012-019	Are loudness and brightness judgments based on estimates of physical scales?
+10.5194/tc-2020-30-rc1	Review of Mapping Greenland&amp;amp;#8217;s perennial firn aquifers using enhanced resolution L-band brightness temperature image time series
+10.1162/leon_a_02568	The Sound of Data: Designing a Framework for Parameter Mapping Sonification
+10.1163/9789004501935_015	Loudness and Pitch
+10.1163/9789004501966_015	Loudness and Pitch

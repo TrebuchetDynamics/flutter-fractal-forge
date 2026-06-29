@@ -38,7 +38,6 @@ Unit tests and widget tests for the Flutter Fractal Forge application. Tests cov
 
 | Directory | Purpose |
 |-----------|---------|
-| `core/shaders/` | Shader uniform schema tests |
 | `helpers/` | Test utilities and helpers (accessibility_test_helper) |
 
 ## For AI Agents

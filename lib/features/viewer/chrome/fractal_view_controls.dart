@@ -14,9 +14,13 @@ class FractalViewControlActions {
   final VoidCallback cycleColorScheme;
   final VoidCallback openPalettePicker;
   final VoidCallback toggleKaleidoscope;
+  final ValueChanged<int> setKaleidoscopeSectors;
+  final ValueChanged<bool> setKaleidoscopeMirror;
   final VoidCallback openExport;
   final VoidCallback shareLink;
   final VoidCallback shareImage;
+  final VoidCallback toggleTextOverlay;
+  final VoidCallback editTextOverlay;
   final VoidCallback openLooper;
   final VoidCallback toggleFractalMusic;
   final VoidCallback reportFractal;
@@ -30,9 +34,13 @@ class FractalViewControlActions {
     required this.cycleColorScheme,
     required this.openPalettePicker,
     required this.toggleKaleidoscope,
+    required this.setKaleidoscopeSectors,
+    required this.setKaleidoscopeMirror,
     required this.openExport,
     required this.shareLink,
     required this.shareImage,
+    required this.toggleTextOverlay,
+    required this.editTextOverlay,
     required this.openLooper,
     required this.toggleFractalMusic,
     required this.reportFractal,
@@ -44,7 +52,10 @@ class FractalViewControls extends StatelessWidget {
   final AnimationController fabController;
   final bool isExporting;
   final bool kaleidoscopeEnabled;
+  final int kaleidoscopeSectors;
+  final bool kaleidoscopeMirror;
   final bool fractalMusicEnabled;
+  final bool textOverlayEnabled;
   final bool showFractalReport;
   final FractalViewControlActions actions;
 
@@ -53,7 +64,10 @@ class FractalViewControls extends StatelessWidget {
     required this.fabController,
     required this.isExporting,
     required this.kaleidoscopeEnabled,
+    required this.kaleidoscopeSectors,
+    required this.kaleidoscopeMirror,
     required this.fractalMusicEnabled,
+    required this.textOverlayEnabled,
     this.showFractalReport = false,
     required this.actions,
   });
@@ -75,6 +89,19 @@ class FractalViewControls extends StatelessWidget {
           icon: Icons.report_problem_rounded,
           tooltip: 'Report fractal',
           onPressed: isExporting ? null : actions.reportFractal,
+          onLongPress: isExporting
+              ? null
+              : () => _showActionModal(
+                    context,
+                    title: 'Report fractal',
+                    children: [
+                      _ActionTile(
+                        icon: Icons.report_problem_rounded,
+                        label: 'Open report form',
+                        onTap: actions.reportFractal,
+                      ),
+                    ],
+                  ),
           isCompact: true,
           delay: const Duration(milliseconds: 60),
         ),
@@ -83,6 +110,24 @@ class FractalViewControls extends StatelessWidget {
         icon: Icons.shuffle_rounded,
         tooltip: l10n.tooltipRandomFractal,
         onPressed: isExporting ? null : actions.openRandomFractal,
+        onLongPress: isExporting
+            ? null
+            : () => _showActionModal(
+                  context,
+                  title: 'Random options',
+                  children: [
+                    _ActionTile(
+                      icon: Icons.shuffle_rounded,
+                      label: l10n.tooltipRandomFractal,
+                      onTap: actions.openRandomFractal,
+                    ),
+                    _ActionTile(
+                      icon: Icons.casino_rounded,
+                      label: l10n.randomize,
+                      onTap: actions.randomizeParams,
+                    ),
+                  ],
+                ),
         isPrimary: true,
         isCompact: true,
         delay: const Duration(milliseconds: 80),
@@ -92,6 +137,24 @@ class FractalViewControls extends StatelessWidget {
         icon: Icons.casino_rounded,
         tooltip: l10n.randomize,
         onPressed: isExporting ? null : actions.randomizeParams,
+        onLongPress: isExporting
+            ? null
+            : () => _showActionModal(
+                  context,
+                  title: l10n.randomize,
+                  children: [
+                    _ActionTile(
+                      icon: Icons.casino_rounded,
+                      label: l10n.randomize,
+                      onTap: actions.randomizeParams,
+                    ),
+                    _ActionTile(
+                      icon: Icons.tune_rounded,
+                      label: l10n.tooltipOpenControls,
+                      onTap: actions.openControls,
+                    ),
+                  ],
+                ),
         isCompact: true,
         delay: const Duration(milliseconds: 100),
       ),
@@ -109,6 +172,24 @@ class FractalViewControls extends StatelessWidget {
         icon: Icons.tune_rounded,
         tooltip: l10n.tooltipOpenControls,
         onPressed: isExporting ? null : actions.openControls,
+        onLongPress: isExporting
+            ? null
+            : () => _showActionModal(
+                  context,
+                  title: l10n.tooltipOpenControls,
+                  children: [
+                    _ActionTile(
+                      icon: Icons.tune_rounded,
+                      label: l10n.tooltipOpenControls,
+                      onTap: actions.openControls,
+                    ),
+                    _ActionTile(
+                      icon: Icons.casino_rounded,
+                      label: l10n.randomize,
+                      onTap: actions.randomizeParams,
+                    ),
+                  ],
+                ),
         isCompact: true,
         delay: const Duration(milliseconds: 160),
       ),
@@ -119,12 +200,38 @@ class FractalViewControls extends StatelessWidget {
         onShareLink: actions.shareLink,
         onShareImage: actions.shareImage,
         onOpenWallpaper: actions.openWallpaper,
+        onLongPress: () => _showExportModal(context, l10n),
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerTextOverlayButton'),
+        icon: Icons.format_quote_rounded,
+        tooltip: textOverlayEnabled
+            ? l10n.tooltipTextOverlayOn
+            : l10n.tooltipTextOverlayOff,
+        onPressed: isExporting ? null : actions.toggleTextOverlay,
+        onLongPress: isExporting ? null : actions.editTextOverlay,
+        isPrimary: textOverlayEnabled,
+        isCompact: true,
+        delay: const Duration(milliseconds: 170),
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerLooperButton'),
         icon: Icons.loop_rounded,
         tooltip: l10n.tooltipCameraLooper,
         onPressed: isExporting ? null : actions.openLooper,
+        onLongPress: isExporting
+            ? null
+            : () => _showActionModal(
+                  context,
+                  title: l10n.tooltipCameraLooper,
+                  children: [
+                    _ActionTile(
+                      icon: Icons.loop_rounded,
+                      label: l10n.tooltipCameraLooper,
+                      onTap: actions.openLooper,
+                    ),
+                  ],
+                ),
         isCompact: true,
         delay: const Duration(milliseconds: 180),
       ),
@@ -135,6 +242,7 @@ class FractalViewControls extends StatelessWidget {
             ? l10n.tooltipKaleidoscopeOn
             : l10n.tooltipKaleidoscopeOff,
         onPressed: isExporting ? null : actions.toggleKaleidoscope,
+        onLongPress: isExporting ? null : () => _showKaleidoscopeModal(context),
         isPrimary: kaleidoscopeEnabled,
         isCompact: true,
         delay: const Duration(milliseconds: 200),
@@ -146,6 +254,21 @@ class FractalViewControls extends StatelessWidget {
             ? l10n.tooltipFractalMusicOn
             : l10n.tooltipFractalMusicOff,
         onPressed: isExporting ? null : actions.toggleFractalMusic,
+        onLongPress: isExporting
+            ? null
+            : () => _showActionModal(
+                  context,
+                  title: l10n.tooltipFractalMusicOff,
+                  children: [
+                    _ActionTile(
+                      icon: Icons.music_note,
+                      label: fractalMusicEnabled
+                          ? l10n.tooltipFractalMusicOn
+                          : l10n.tooltipFractalMusicOff,
+                      onTap: actions.toggleFractalMusic,
+                    ),
+                  ],
+                ),
         isPrimary: true,
         isCompact: true,
         delay: const Duration(milliseconds: 220),
@@ -155,6 +278,19 @@ class FractalViewControls extends StatelessWidget {
         icon: Icons.fullscreen_rounded,
         tooltip: l10n.tooltipFullscreen,
         onPressed: isExporting ? null : actions.toggleFullscreen,
+        onLongPress: isExporting
+            ? null
+            : () => _showActionModal(
+                  context,
+                  title: l10n.tooltipFullscreen,
+                  children: [
+                    _ActionTile(
+                      icon: Icons.fullscreen_rounded,
+                      label: l10n.tooltipFullscreen,
+                      onTap: actions.toggleFullscreen,
+                    ),
+                  ],
+                ),
         isCompact: true,
         delay: const Duration(milliseconds: 240),
       ),
@@ -191,6 +327,155 @@ class FractalViewControls extends StatelessWidget {
       ),
     );
   }
+
+  void _showExportModal(BuildContext context, AppLocalizations l10n) {
+    _showActionModal(
+      context,
+      title: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
+      children: [
+        _ActionTile(
+          icon: Icons.download_rounded,
+          label: l10n.tooltipExport,
+          onTap: actions.openExport,
+        ),
+        _ActionTile(
+          icon: Icons.link_rounded,
+          label: l10n.tooltipShare,
+          onTap: actions.shareLink,
+        ),
+        _ActionTile(
+          icon: Icons.share_rounded,
+          label: l10n.shareToSocialTargets,
+          onTap: actions.shareImage,
+        ),
+        _ActionTile(
+          icon: Icons.wallpaper_rounded,
+          label: l10n.wallpaperTitle,
+          onTap: actions.openWallpaper,
+        ),
+      ],
+    );
+  }
+
+  void _showKaleidoscopeModal(BuildContext context) {
+    var selectedSectors = kaleidoscopeSectors;
+    var mirrorEnabled = kaleidoscopeMirror;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (context, setSheetState) => _FabOptionsSheet(
+          title: 'Kaleidoscope sections',
+          children: [
+            Wrap(
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.sm,
+              children: [
+                for (final sectors in const [4, 6, 8, 10, 12, 16])
+                  ChoiceChip(
+                    label: Text('$sectors'),
+                    selected: selectedSectors == sectors,
+                    onSelected: (_) {
+                      selectedSectors = sectors;
+                      actions.setKaleidoscopeSectors(sectors);
+                      setSheetState(() {});
+                    },
+                  ),
+              ],
+            ),
+            SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Mirror wedges'),
+              value: mirrorEnabled,
+              onChanged: (value) {
+                mirrorEnabled = value;
+                actions.setKaleidoscopeMirror(value);
+                setSheetState(() {});
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showActionModal(
+    BuildContext context, {
+    required String title,
+    required List<Widget> children,
+  }) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _FabOptionsSheet(title: title, children: children),
+    );
+  }
+}
+
+class _FabOptionsSheet extends StatelessWidget {
+  final String title;
+  final List<Widget> children;
+
+  const _FabOptionsSheet({required this.title, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceElevated.withValues(alpha: 0.96),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.glassBorder),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Material(
+          color: Colors.transparent,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: AppTypography.titleMedium.copyWith(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              ...children,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ActionTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _ActionTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: Icon(icon, color: AppColors.textSecondary),
+      title: Text(label, style: AppTypography.bodyMedium),
+      onTap: () {
+        Navigator.of(context).pop();
+        onTap();
+      },
+    );
+  }
 }
 
 class _ExportWallpaperFab extends StatelessWidget {
@@ -200,6 +485,7 @@ class _ExportWallpaperFab extends StatelessWidget {
   final VoidCallback onShareLink;
   final VoidCallback onShareImage;
   final VoidCallback onOpenWallpaper;
+  final VoidCallback onLongPress;
 
   const _ExportWallpaperFab({
     required this.isExporting,
@@ -208,6 +494,7 @@ class _ExportWallpaperFab extends StatelessWidget {
     required this.onShareLink,
     required this.onShareImage,
     required this.onOpenWallpaper,
+    required this.onLongPress,
   });
 
   @override
@@ -258,15 +545,20 @@ class _ExportWallpaperFab extends StatelessWidget {
               icon: Icons.wallpaper_rounded, label: l10n.wallpaperTitle),
         ),
       ],
-      child: Semantics(
-        label: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
-        button: true,
-        enabled: !isExporting,
-        child: Tooltip(
-          message: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
-          child: _FabMenuShell(
-            icon: Icons.ios_share_rounded,
-            enabled: !isExporting,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onLongPress: isExporting ? null : onLongPress,
+        child: Semantics(
+          label: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
+          button: true,
+          enabled: !isExporting,
+          child: Tooltip(
+            message: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
+            child: _FabMenuShell(
+              icon: Icons.ios_share_rounded,
+              enabled: !isExporting,
+              hasLongPress: !isExporting,
+            ),
           ),
         ),
       ),
@@ -302,8 +594,13 @@ class _MenuRow extends StatelessWidget {
 class _FabMenuShell extends StatelessWidget {
   final IconData icon;
   final bool enabled;
+  final bool hasLongPress;
 
-  const _FabMenuShell({required this.icon, required this.enabled});
+  const _FabMenuShell({
+    required this.icon,
+    required this.enabled,
+    this.hasLongPress = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -324,10 +621,29 @@ class _FabMenuShell extends StatelessWidget {
           ),
         ],
       ),
-      child: Icon(
-        icon,
-        size: 22,
-        color: enabled ? AppColors.textSecondary : AppColors.textMuted,
+      child: Stack(
+        children: [
+          Center(
+            child: Icon(
+              icon,
+              size: 22,
+              color: enabled ? AppColors.textSecondary : AppColors.textMuted,
+            ),
+          ),
+          if (hasLongPress)
+            Positioned(
+              top: 5,
+              right: 5,
+              child: Container(
+                width: 5,
+                height: 5,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.primary.withValues(alpha: 0.85),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -387,6 +703,8 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     // Check for reduced motion preference
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
+    final effectiveLongPress = widget.onLongPress ??
+        (widget.onPressed == null ? null : () => _showDefaultLongPressModal());
 
     return FadeIn(
       delay: reduceMotion ? Duration.zero : widget.delay,
@@ -418,7 +736,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
                   }
                 : null,
             onTap: widget.onPressed,
-            onLongPress: widget.onLongPress,
+            onLongPress: effectiveLongPress,
             child: SizedBox.square(
               dimension:
                   widget.isCompact ? AccessibleSizing.minTouchTarget : 52,
@@ -475,7 +793,8 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     // Buttons with a long-press secondary action are otherwise invisible. Mark
     // them with a small corner dot so the hidden affordance is discoverable.
     // The action itself stays in the semantics label ("Long press for ...").
-    if (widget.onLongPress == null) return container;
+    if (widget.onLongPress == null && widget.onPressed == null)
+      return container;
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -497,6 +816,25 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
           ),
         ),
       ],
+    );
+  }
+
+  void _showDefaultLongPressModal() {
+    final onPressed = widget.onPressed;
+    if (onPressed == null) return;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _FabOptionsSheet(
+        title: widget.tooltip,
+        children: [
+          _ActionTile(
+            icon: widget.icon,
+            label: widget.tooltip,
+            onTap: onPressed,
+          ),
+        ],
+      ),
     );
   }
 }

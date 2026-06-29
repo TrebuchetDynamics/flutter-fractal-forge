@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
+import 'package:flutter_fractals/core/services/rendering/palette_texture_cache.dart';
 import 'package:flutter_fractals/core/services/storage/palette_store.dart';
 
 const List<FractalColorStop> _fallbackPaletteStops =
@@ -43,12 +44,9 @@ class PaletteService extends ChangeNotifier {
   }
 
   static const int maxStops = maxFractalPaletteStops;
-  static const int _texWidth = 256;
 
   final PaletteStore _store;
-
-  /// Cache of palette textures keyed by palette id.
-  final Map<String, ui.Image> _paletteTexCache = {};
+  final PaletteTextureCache _paletteTextures = PaletteTextureCache();
 
   late final List<FractalPalette> _builtIn;
   List<FractalPalette> _user = const [];
@@ -158,74 +156,17 @@ class PaletteService extends ChangeNotifier {
   /// The image is cached per palette id and reused across frames.
   /// Use with `shader.setImageSampler(0, image)` to pass palette as texture.
   ui.Image paletteTexture(FractalPalette palette) {
-    final cached = _paletteTexCache[palette.id];
-    if (cached != null) return cached;
+    return _paletteTextures.paletteTexture(palette);
+  }
 
-    final stops = normalizePaletteStops(palette.stops);
-
-    final rec = ui.PictureRecorder();
-    final canvas = Canvas(rec, Rect.fromLTWH(0, 0, _texWidth.toDouble(), 1));
-    final gradColors = stops.map((s) => Color(s.colorArgb)).toList();
-    final gradStops = stops.map((s) => s.position.clamp(0.0, 1.0)).toList();
-    final paint = Paint()
-      ..shader = ui.Gradient.linear(
-        Offset.zero,
-        Offset(_texWidth.toDouble(), 0),
-        gradColors,
-        gradStops,
-      );
-    canvas.drawRect(Rect.fromLTWH(0, 0, _texWidth.toDouble(), 1), paint);
-    final picture = rec.endRecording();
-    try {
-      final img = picture.toImageSync(_texWidth, 1);
-      _paletteTexCache[palette.id] = img;
-      return img;
-    } finally {
-      picture.dispose();
-    }
+  /// Returns a palette texture blended from index N into N+1 by fractional part.
+  ui.Image paletteTextureForIndex(double index) {
+    return _paletteTextures.paletteTextureForIndex(index, paletteAtIndex);
   }
 
   /// Clears cached palette textures (call if palettes change).
   void invalidatePaletteTextures() {
-    for (final img in _paletteTexCache.values) {
-      img.dispose();
-    }
-    _paletteTexCache.clear();
-  }
-
-  /// Writes custom palette uniforms expected by the shaders.
-  ///
-  /// Layout:
-  /// - [baseIndex + 0] = stopCount
-  /// - then 8 vec4 stops, each: r, g, b, position
-  void setCustomPaletteUniforms(
-    ui.FragmentShader shader,
-    int baseIndex,
-    FractalPalette palette,
-  ) {
-    // NOTE: This API is legacy. Prefer setting palette uniforms via a
-    // UniformSchema/UniformWriter to avoid hard-coded float indices.
-
-    final stops = normalizePaletteStops(palette.stops);
-    final count = stops.length.clamp(0, maxStops);
-    shader.setFloat(baseIndex, count.toDouble());
-
-    // Fill remaining with last stop to avoid NaNs in shader.
-    final padded = [...stops];
-    while (padded.length < maxStops) {
-      padded.add(padded.last);
-    }
-
-    for (var i = 0; i < maxStops; i++) {
-      final s = padded[i];
-      final c = Color(s.colorArgb);
-      final idx = baseIndex + 1 + i * 4;
-      // Flutter 3.19 Color channels are 0-255 ints; normalize to 0.0-1.0.
-      shader.setFloat(idx + 0, (c.r * 255.0).round().clamp(0, 255) / 255.0);
-      shader.setFloat(idx + 1, (c.g * 255.0).round().clamp(0, 255) / 255.0);
-      shader.setFloat(idx + 2, (c.b * 255.0).round().clamp(0, 255) / 255.0);
-      shader.setFloat(idx + 3, s.position.clamp(0.0, 1.0));
-    }
+    _paletteTextures.clear();
   }
 
   Future<void> _commitUserPalettes(List<FractalPalette> palettes) async {

@@ -1,0 +1,20 @@
+10.20944/preprints202512.2310.v1	Vibrational Sonification and Visual Sigil of Zwitterionic Glycine as a Prototype Audio-Visual Stimulus for Human Sleep Thermoregulation
+10.1109/have.2009.5356116	Geo-sonf: Spatial sonification of contour maps
+10.14264/ea96968	Object-centric audio-visual alignment for sounding source segmentation
+10.5594/smpte.eg24.1995	Video and Audio Alignment Tapes and Procedures for 1-in Type C Helical-Scan Television Analog Recorders
+10.17743/jaes.2014.0009	Scenes and Images into Sounds: A Taxonomy of Image Sonification Methods for Mobility Applications
+10.2139/ssrn.6127027	Fusion-regularized Alignment Modality-adaptive Audio-Visual Network for Audio-Visual Zero-Shot Learning
+10.1109/icip42928.2021.9506044	Perceptually-Weighted Cnn For 360-Degree Image Quality Assessment Using Visual Scan-Path And Jnd
+10.5594/s9781614820185	EG 24:1995 : Video and Audio Alignment Tapes and Procedures for 1-in Type C Helical-Scan Television Analog Recorders
+10.2139/ssrn.6314976	Spatial Alignment of Audio–Haptic Directional Feedback Shapes Non-Visual Hand Guidance
+10.3390/drones6050107	Visual Navigation and Path Tracking Using Street Geometry Information for Image Alignment and Servoing
+10.1109/have.2008.4685316	Evaluating geometrical properties of virtual shapes using interactive sonification
+10.1016/j.imavis.2026.106072	HCATRE-AVAD: Hierarchical cross-alignment and temporal relational encoding for weakly supervised audio-visual anomaly detection
+10.5040/9781350931947	Audio 1: Dynamic Alignment
+10.17743/jaes.2022.0167	Re(de)fining Sonification: Project Classification Strategies in the Data Sonification Archive
+10.1109/vrw70859.2026.00163	Audio-Visual Augmented Reality: Enhancing Visual Art Experiences Through Sonification and Visualization
+10.2352/issn.2694-118x.2021.lim-21	Visual Scan-Path based Data-Augmentation for CNN-based 360-degree Image Quality Assessment
+10.70675/fd4e460ez362ez4802z9a59zc7b87efb5f70	Text-Image Alignment of Visual Generative Models
+10.5040/9781501361333.0007	Audio-visual explanations of Franz Liszt and his music
+10.1109/cvpr52734.2025.02693	Robust Audio-Visual Segmentation via Audio-Guided Visual Convergent Alignment
+10.17743/jaes.2022.0133	Sound Terminology in Sonification

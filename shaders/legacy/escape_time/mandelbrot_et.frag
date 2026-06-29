@@ -2,7 +2,7 @@
 
 precision highp float;
 
-// IMPORTANT: Uniform layout must match Dart UniformSchema exactly.
+// IMPORTANT: Uniform layout must match Dart escape-time uniform slots exactly.
 uniform float uTime;           // 0
 uniform vec2  uResolution;     // 1-2
 uniform vec2  uCenter;         // 3-4

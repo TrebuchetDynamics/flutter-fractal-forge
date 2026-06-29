@@ -1,0 +1,20 @@
+10.4324/9780080498195-7	Spatial audio psychoacoustics
+10.4324/9780429491214-5	Psychoacoustics of height perception in 3D audio
+10.1002/9781119825449.ch8	The Approach and Methodology of Psychoacoustics
+10.1002/9781119825449.ch18	Other Audio Applications
+10.1017/cbo9781316084205.007	Psychoacoustics
+10.4324/9781003477495-9	Audio Formats: Part Two????????? Multichannel Audio
+10.1016/b978-0-240-52175-6.00017-x	Track Listing for the Audio Compact Disc
+10.1002/9781119825449.ch4	Electroacoustics and Responses of Audio Systems
+10.1002/9781119825449.ch15	Time–Frequency‐domain Processing and Coding of Audio
+10.1002/9781119825449.fmatter	Front Matter
+10.1002/9781119825449.ch5	Human Voice
+10.1121/1.404069	Shaping of automatic audio crossfade
+10.4324/9781315686424-15	Multichannel Audio
+10.4324/9781315696331-2	Sound and Psychoacoustics
+10.1002/9781119825449.ch14	Sound Reproduction
+10.1002/9781119825449.index	Index
+10.1002/9781119825449.ch0	Introduction
+10.1002/9781119825449.ch13	Auditory Modelling
+10.1002/0470858710.ch5	High‐Frequency Bandwidth Extension for Audio
+10.1002/9781119825449.ch12	Spatial Hearing

@@ -3,7 +3,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_runtime_state.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_zoom_planner.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 
 export 'auto_explore_zoom_planner.dart'
     show AutoExploreConfig, AutoExploreSpeed;

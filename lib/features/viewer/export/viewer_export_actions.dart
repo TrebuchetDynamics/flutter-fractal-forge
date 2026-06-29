@@ -14,6 +14,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
 
   ViewerExportSession _exportSession = const ViewerExportSession();
 
+  String? get _activeQuoteText;
   bool get _exporting => _exportSession.isExporting;
   bool get _freezeFrameForExport => _exportSession.freezeFrame;
   double? get _exportProgress => _exportSession.progress;
@@ -190,7 +191,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
 
     await _performExport(
       context,
-      const ExportOptions(resolution: ExportResolution.twitter),
+      const ExportOptions(resolution: ExportResolution.twitter).copyWith(
+        quoteText: _activeQuoteText,
+      ),
       shareAfterSave: true,
     );
   }
@@ -207,7 +210,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
 
     final submission = await ExportOptionsSheet.show(
       context,
-      initialOptions: const ExportOptions(),
+      initialOptions: const ExportOptions().copyWith(
+        quoteText: _activeQuoteText,
+      ),
       fractalType: controller.module.id,
     );
 
@@ -298,8 +303,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         Object? shareError;
         if (shareAfterSave) {
           try {
-            await _exportService.shareFile(
-              result.file,
+            await _exportService.shareExportResult(
+              result,
               text: ViewerShareCaption.build(
                 fractalName: controller.module.displayName(l10n),
                 shareUrl: DeepLinkService.buildWebUri(
@@ -327,6 +332,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
               data: {'error': error.toString()},
             );
           }
+        } else {
+          await _exportService.saveExportResult(result);
         }
 
         if (!mounted) return;
@@ -485,10 +492,20 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
   }) async {
     final pixelRatio =
         options.calculatePixelRatio(screenWidth, screenHeight).clamp(1.0, 8.0);
-    final bytes = await _exportService.capturePng(
+    var bytes = await _exportService.capturePng(
       boundaryKey,
       pixelRatio: pixelRatio,
     );
+    final quoteText = options.quoteText?.trim();
+    if (quoteText != null && quoteText.isNotEmpty) {
+      final decoded = img.decodePng(bytes);
+      if (decoded != null) {
+        bytes = Uint8List.fromList(
+          img.encodePng(
+              _exportService.applyInvertedTextOverlay(decoded, quoteText)),
+        );
+      }
+    }
 
     final codec = await ui.instantiateImageCodec(bytes);
     late final int width;
@@ -506,14 +523,12 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       format: ExportFormat.png,
       fractalType: fractalType,
     );
-    final file = await _exportService.saveBytes(bytes, filename: filename);
-
-    return ExportResult(
-      file: file,
+    return _exportService.saveExportBytes(
+      bytes,
+      filename: filename,
       format: ExportFormat.png,
       width: width,
       height: height,
-      fileSize: bytes.length,
     );
   }
 }

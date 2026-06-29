@@ -9,6 +9,7 @@ import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/core/services/export/export_download.dart';
 import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/shared/utils/byte_format.dart';
 import 'package:flutter_fractals/shared/utils/slugify.dart';
@@ -514,6 +515,11 @@ class ExportService {
     }
     onProgress?.call(0.6);
 
+    final quoteText = options.quoteText?.trim();
+    if (quoteText != null && quoteText.isNotEmpty) {
+      processedImage = applyInvertedTextOverlay(processedImage, quoteText);
+    }
+
     // Add watermark if requested
     if (options.addWatermark && options.watermarkText != null) {
       processedImage = _addWatermark(processedImage, options.watermarkText!);
@@ -533,6 +539,83 @@ class ExportService {
     onProgress?.call(1.0);
 
     return Uint8List.fromList(encoded);
+  }
+
+  img.Image applyInvertedTextOverlay(img.Image image, String text) {
+    final font = image.width >= 900
+        ? img.arial48
+        : image.width >= 480
+            ? img.arial24
+            : img.arial14;
+    final maxWidth = (image.width * 0.84).round();
+    final lines = _wrapText(text, font, maxWidth);
+    if (lines.isEmpty) return image;
+
+    final out = img.Image.from(image);
+    final mask =
+        img.Image(width: image.width, height: image.height, numChannels: 4);
+    img.fill(mask, color: img.ColorRgba8(0, 0, 0, 0));
+
+    final lineHeight = font.lineHeight;
+    final totalHeight = lineHeight * lines.length;
+    var y =
+        ((image.height - totalHeight) / 2).round().clamp(0, image.height - 1);
+    for (final line in lines) {
+      final x = ((image.width - _textWidth(line, font)) / 2)
+          .round()
+          .clamp(0, image.width - 1);
+      img.drawString(
+        mask,
+        line,
+        font: font,
+        x: x,
+        y: y,
+        color: img.ColorRgba8(255, 255, 255, 255),
+      );
+      y += lineHeight;
+    }
+
+    for (var y = 0; y < out.height; y++) {
+      for (var x = 0; x < out.width; x++) {
+        if (mask.getPixel(x, y).a == 0) continue;
+        final p = out.getPixel(x, y);
+        out.setPixelRgba(
+          x,
+          y,
+          255 - p.r.toInt(),
+          255 - p.g.toInt(),
+          255 - p.b.toInt(),
+          p.a.toInt(),
+        );
+      }
+    }
+
+    return out;
+  }
+
+  List<String> _wrapText(String text, img.BitmapFont font, int maxWidth) {
+    final words = text.replaceAll(RegExp(r'\s+'), ' ').trim().split(' ');
+    final lines = <String>[];
+    var line = '';
+    for (final word in words) {
+      final next = line.isEmpty ? word : '$line $word';
+      if (line.isNotEmpty && _textWidth(next, font) > maxWidth) {
+        lines.add(line);
+        line = word;
+      } else {
+        line = next;
+      }
+    }
+    if (line.isNotEmpty) lines.add(line);
+    return lines;
+  }
+
+  int _textWidth(String text, img.BitmapFont font) {
+    var width = 0;
+    for (final codeUnit in text.codeUnits) {
+      width += font.characterXAdvance(String.fromCharCode(codeUnit));
+    }
+    return width;
   }
 
   img.Image _addWatermark(img.Image image, String text) {
@@ -643,8 +726,66 @@ class ExportService {
     return written;
   }
 
+  Future<ExportResult> saveExportBytes(
+    Uint8List bytes, {
+    required String filename,
+    required ExportFormat format,
+    required int width,
+    required int height,
+  }) async {
+    ExportSizePolicy.validateEncodedByteLength(bytes.lengthInBytes);
+    if (kIsWeb) {
+      return ExportResult(
+        file: null,
+        bytes: bytes,
+        filename: filename,
+        format: format,
+        width: width,
+        height: height,
+        fileSize: bytes.length,
+      );
+    }
+
+    final file = await saveBytes(bytes, filename: filename);
+    return ExportResult(
+      file: file,
+      filename: filename,
+      format: format,
+      width: width,
+      height: height,
+      fileSize: bytes.length,
+    );
+  }
+
+  Future<void> saveExportResult(ExportResult result) async {
+    if (result.file != null) return;
+    final bytes = result.bytes;
+    if (bytes == null) throw StateError('No export bytes available.');
+    downloadExportBytes(
+      bytes,
+      filename: result.filename,
+      mimeType: result.format.mimeType,
+    );
+  }
+
   Future<void> shareFile(File file, {String? text}) async {
     await shareFileAdapter(file, text: text);
+  }
+
+  Future<void> shareExportResult(ExportResult result, {String? text}) async {
+    final file = result.file;
+    if (file != null) {
+      await shareFile(file, text: text);
+      return;
+    }
+    final bytes = result.bytes;
+    if (bytes == null) throw StateError('No export bytes available.');
+    await const AppShareService().shareBytes(
+      bytes,
+      filename: result.filename,
+      mimeType: result.format.mimeType,
+      text: text,
+    );
   }
 
   bool _isImageFilename(String filename) {
@@ -730,23 +871,24 @@ class ExportService {
       fractalType: fractalType,
     );
 
-    final file = await saveBytes(bytes, filename: filename);
     final targetDims =
         finalOptions.getTargetDimensions(screenWidth, screenHeight);
 
-    return ExportResult(
-      file: file,
+    return saveExportBytes(
+      bytes,
+      filename: filename,
       format: effectiveFormat,
       width: targetDims.$1,
       height: targetDims.$2,
-      fileSize: bytes.length,
     );
   }
 }
 
 /// Result of an export operation
 class ExportResult {
-  final File file;
+  final File? file;
+  final Uint8List? bytes;
+  final String filename;
   final ExportFormat format;
   final int width;
   final int height;
@@ -754,11 +896,13 @@ class ExportResult {
 
   const ExportResult({
     required this.file,
+    this.bytes,
+    String? filename,
     required this.format,
     required this.width,
     required this.height,
     required this.fileSize,
-  });
+  }) : filename = filename ?? '';
 
   String get formattedSize => formatByteSize(fileSize);
 

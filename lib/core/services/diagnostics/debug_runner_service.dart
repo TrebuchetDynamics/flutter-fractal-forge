@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_screenshot_service.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:path_provider/path_provider.dart';
 
 enum DebugRunState { idle, running, completed, error }

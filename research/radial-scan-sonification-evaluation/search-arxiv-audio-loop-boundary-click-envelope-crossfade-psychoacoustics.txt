@@ -1,0 +1,20 @@
+10.1109/taslpro.2025.3622985	dCoNNear: An Artifact-Free Neural Network Architecture for Closed-loop Audio Signal Processing
+10.17743/jaes.2022.0129	Diffusion-Based Audio Inpainting
+10.1109/taslp.2020.3000593	Audio-visual Speech Enhancement Using Conditional Variational Auto-Encoders
+10.1109/taslp.2024.3477291	Towards Improved Objective Perceptual Audio Quality Assessment -- Part 1: A Novel Data-Driven Cognitive Model
+10.1109/taslpro.2025.3626233	From Alignment to Advancement: Bootstrapping Audio-Language Alignment with Synthetic Data
+	VQCPC-GAN: Variable-Length Adversarial Audio Synthesis Using Vector-Quantized Contrastive Predictive Coding
+10.1109/taslpro.2025.3648794	Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio
+	Zero-shot audio captioning with audio-language model guidance and audio context keywords
+10.1109/taslp.2021.3120633	PSLA: Improving Audio Tagging with Pretraining, Sampling, Labeling, and Aggregation
+	A general-purpose deep learning approach to model time-varying audio effects
+10.1109/lsp.2020.3039765	Psychoacoustic Calibration of Loss Functions for Efficient End-to-End Neural Audio Coding
+	Qwen-Audio: Advancing Universal Audio Understanding via Unified Large-Scale Audio-Language Models
+	Audio Content Analysis
+10.1109/tasl.2007.912362	A quick search method for audio signals based on a piecewise linear representation of feature trajectories
+10.1109/waspaa52581.2021.9632668	Point Cloud Audio Processing
+	Make-An-Audio: Text-To-Audio Generation with Prompt-Enhanced Diffusion Models
+	WavJourney: Compositional Audio Creation with Large Language Models
+	Zero-Shot Audio Classification via Semantic Embeddings
+	Audio Watermarking with Error Correction
+	Qwen2-Audio Technical Report

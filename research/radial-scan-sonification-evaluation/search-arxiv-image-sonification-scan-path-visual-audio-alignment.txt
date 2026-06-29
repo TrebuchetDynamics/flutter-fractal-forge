@@ -1,0 +1,20 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.1109/taslpro.2025.3626233	From Alignment to Advancement: Bootstrapping Audio-Language Alignment with Synthetic Data
+10.1109/taslp.2020.3000593	Audio-visual Speech Enhancement Using Conditional Variational Auto-Encoders
+	Semantic Audio-Visual Navigation
+	Learning Audio-Visual Dereverberation
+	Sound Adversarial Audio-Visual Navigation
+10.17743/jaes.2022.0129	Diffusion-Based Audio Inpainting
+	Past and Future Motion Guided Network for Audio Visual Event Localization
+	Learning in Audio-visual Context: A Review, Analysis, and New Perspective
+10.1109/taslpro.2025.3648794	Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	3D Audio-Visual Segmentation
+10.1109/taslp.2024.3477291	Towards Improved Objective Perceptual Audio Quality Assessment -- Part 1: A Novel Data-Driven Cognitive Model
+	End-to-End Audio Visual Scene-Aware Dialog using Multimodal Attention-Based Video Features
+10.1109/tip.2022.3203562	FlexHDR: Modelling Alignment and Exposure Uncertainties for Flexible HDR Imaging
+	VQCPC-GAN: Variable-Length Adversarial Audio Synthesis Using Vector-Quantized Contrastive Predictive Coding
+	MAGNET: A Multi-agent Framework for Finding Audio-Visual Needles by Reasoning over Multi-Video Haystacks
+	Incorporating Ultrasound Tongue Images for Audio-Visual Speech Enhancement
+10.1145/3771594.3771611	Beyond Universality: Cultural Diversity in Music and Its Implications for Sound Design and Sonification
+	Kinetic surface friction rendering for interactive sonification: an initial exploration

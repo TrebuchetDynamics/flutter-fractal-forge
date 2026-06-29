@@ -47,6 +47,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewerTitle => 'Fractal Viewer';
 
   @override
+  String get semanticFractalCanvas => 'Interactive fractal canvas';
+
+  @override
   String get controlsTitle => 'Controls';
 
   @override
@@ -84,6 +87,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionClose => 'Close';
+
+  @override
+  String get actionCancel => 'Cancel';
+
+  @override
+  String get actionApply => 'Apply';
 
   @override
   String get builtInPresets => 'Built-in';
@@ -235,6 +244,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get exportWatermarkHint =>
       'Add a small @FractalForge tag in the corner';
+
+  @override
+  String get exportQuoteOverlay => 'Quote overlay';
+
+  @override
+  String get exportQuoteOverlayHint =>
+      'Text exports with each glyph pixel inverted against the fractal.';
+
+  @override
+  String get exportQuoteOverlayPlaceholder =>
+      'Type a quote to place in the center';
+
+  @override
+  String get textOverlayTitle => 'Text overlay';
+
+  @override
+  String get tooltipTextOverlayOn => 'Text overlay on. Long press to edit.';
+
+  @override
+  String get tooltipTextOverlayOff => 'Text overlay off. Tap to add text.';
 
   @override
   String get exportScreenResolution => 'Screen size';

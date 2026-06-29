@@ -78,8 +78,11 @@ class ModuleRegistry {
   static List<FractalModule> _buildAll() {
     // IDs already in the escape-time catalog (built declaratively).
     // Defensive de-duplication keeps registry stable even if the catalog
-    // accidentally contains repeated ids.
-    final catalogModules = _dedupeById(buildEscapeTimeCatalogModules());
+    // accidentally contains repeated ids. Phoenix is purpose-built below; do
+    // not keep the generic catalog module around just to override it later.
+    final catalogModules = _dedupeById(buildEscapeTimeCatalogModules())
+        .where((m) => m.id != 'phoenix')
+        .toList(growable: false);
     final catalogIds = catalogModules.map((m) => m.id).toSet();
 
     // Custom modules with special params/uniforms
@@ -153,10 +156,6 @@ class ModuleRegistry {
         result.add(m);
       }
     }
-
-    // Keep the custom Phoenix module after the declarative catalog duplicate so
-    // final preferLast de-duplication selects the custom uniform layout.
-    result.add(buildPhoenixModule());
 
     // Shared renderer promotion batches: stable formula identities that reuse
     // reviewed shared shaders with fixed mathematical parameters.

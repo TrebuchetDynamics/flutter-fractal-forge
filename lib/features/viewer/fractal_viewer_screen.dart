@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
@@ -26,6 +27,7 @@ import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/services/storage/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
+import 'package:flutter_fractals/features/renderer/render_plan.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
@@ -43,7 +45,7 @@ import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
@@ -52,6 +54,8 @@ import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.da
 import 'package:flutter_fractals/features/viewer/rendering/compare_renderer.dart';
 import 'package:flutter_fractals/features/viewer/rendering/cpu_fallback_pane.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_effects_controller.dart';
+import 'package:flutter_fractals/features/viewer/audio/fractal_music_scan_overlay.dart';
+import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 
@@ -113,10 +117,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   FractalController? _compareController;
   DebugRunnerService? _debugRunner;
   late AnimationController _fabController;
+  late AnimationController _musicScanController;
+  Timer? _musicRescanDebounceTimer;
 
   // Visual simplification state
   bool _fullscreenUnobtrusive = false;
   bool _showControlsHud = false;
+  bool _textOverlayEnabled = false;
+  String _textOverlayText = '';
 
   // History tracking
   FractalController? _lastController;
@@ -161,6 +169,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       duration: AppAnimations.normal,
       vsync: this,
     )..forward();
+    _musicScanController = AnimationController(
+      duration: const Duration(seconds: 4),
+      vsync: this,
+    );
+    _loadTextOverlay();
     _log.info('lifecycle', 'FractalViewerScreen initState');
   }
 
@@ -246,6 +259,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     // Record view/config changes into history
     _recordHistory(context);
+    _scheduleFractalMusicRescan();
 
     // Best-effort stats tracking (local-only)
 
@@ -278,6 +292,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     WidgetsBinding.instance.removeObserver(this);
     _gpuHealthTimer?.cancel();
     _backendDebounceTimer?.cancel();
+    _musicRescanDebounceTimer?.cancel();
     _lastController?.removeListener(_onControllerChanged);
 
     final start = _sessionStart;
@@ -288,6 +303,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     _lastGpuSnapshot?.dispose();
     _fabController.dispose();
+    _musicScanController.dispose();
     _debugRunner?.dispose();
     _autoExploreService?.dispose();
     _looperController?.dispose();
@@ -295,6 +311,21 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _viewerEffects.dispose();
     _keyboardFocusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadTextOverlay() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _textOverlayEnabled = prefs.getBool('text_overlay_enabled') ?? false;
+      _textOverlayText = prefs.getString('text_overlay_text') ?? '';
+    });
+  }
+
+  Future<void> _saveTextOverlay() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('text_overlay_enabled', _textOverlayEnabled);
+    await prefs.setString('text_overlay_text', _textOverlayText);
   }
 
   void _toggleControlsHud() {
@@ -306,13 +337,71 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
   }
 
+  Future<void> _toggleTextOverlay() async {
+    if (_textOverlayText.trim().isEmpty) {
+      await _editTextOverlay();
+      return;
+    }
+    setState(() => _textOverlayEnabled = !_textOverlayEnabled);
+    await _saveTextOverlay();
+  }
+
+  Future<void> _editTextOverlay() async {
+    final l10n = AppLocalizations.of(context)!;
+    final controller = TextEditingController(text: _textOverlayText);
+    final text = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.textOverlayTitle),
+        content: TextField(
+          key: const ValueKey('viewerTextOverlayField'),
+          controller: controller,
+          autofocus: true,
+          minLines: 1,
+          maxLines: 3,
+          decoration:
+              InputDecoration(hintText: l10n.exportQuoteOverlayPlaceholder),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.actionCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(controller.text),
+            child: Text(l10n.actionApply),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (text == null) return;
+
+    setState(() {
+      _textOverlayText = text.trim();
+      _textOverlayEnabled = _textOverlayText.isNotEmpty;
+    });
+    await _saveTextOverlay();
+  }
+
+  @override
+  String? get _activeQuoteText =>
+      _textOverlayEnabled && _textOverlayText.trim().isNotEmpty
+          ? _textOverlayText.trim()
+          : null;
+
   Future<void> _toggleFractalMusic() async {
+    final controller = _activeController(context);
+    final enabling = !_viewerEffects.fractalMusicEnabled;
+    final scanFrame = enabling ? await _captureFractalMusicScanFrame() : null;
     final result = await _viewerEffects.toggleFractalMusic(
-      _activeController(context),
+      controller,
+      scanFrame: scanFrame,
     );
     if (!mounted) return;
 
     setState(() {});
+    _syncFractalMusicScanAnimation(result.enabled);
     final l10n = AppLocalizations.of(context);
     if (result.failed) {
       final message = l10n?.fractalMusicUnavailable ??
@@ -330,6 +419,73 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           : (l10n?.tooltipFractalMusicOff ?? 'Fractal Music off'),
     );
     HapticService.light();
+  }
+
+  void _syncFractalMusicScanAnimation(bool enabled) {
+    if (enabled) {
+      if (!_musicScanController.isAnimating) {
+        _musicScanController.repeat();
+      }
+    } else {
+      _musicRescanDebounceTimer?.cancel();
+      _musicScanController.stop();
+      _musicScanController.value = 0;
+    }
+  }
+
+  void _scheduleFractalMusicRescan() {
+    if (!_viewerEffects.fractalMusicEnabled) return;
+    _musicRescanDebounceTimer?.cancel();
+    _musicRescanDebounceTimer = Timer(
+      const Duration(milliseconds: 250),
+      _restartFractalMusicFromSnapshot,
+    );
+  }
+
+  Future<void> _restartFractalMusicFromSnapshot() async {
+    if (!mounted || !_viewerEffects.fractalMusicEnabled) return;
+    final scanFrame = await _captureFractalMusicScanFrame();
+    if (!mounted || !_viewerEffects.fractalMusicEnabled) return;
+    final result = await _viewerEffects.restartFractalMusic(
+      _activeController(context),
+      scanFrame: scanFrame,
+    );
+    if (!mounted) return;
+    if (result.failed || !result.enabled) {
+      setState(() {});
+      _syncFractalMusicScanAnimation(false);
+      return;
+    }
+    _musicScanController.value = 0;
+    _syncFractalMusicScanAnimation(true);
+  }
+
+  Future<FractalMusicScanFrame?> _captureFractalMusicScanFrame() async {
+    try {
+      final renderObject = _fractalKeyA.currentContext?.findRenderObject();
+      if (renderObject is! RenderRepaintBoundary) return null;
+      await WidgetsBinding.instance.endOfFrame;
+      if (!mounted || !renderObject.attached || !renderObject.hasSize) {
+        return null;
+      }
+      final image = await renderObject.toImage(pixelRatio: 0.25);
+      try {
+        final bytes =
+            await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+        if (bytes == null) return null;
+        return FractalMusicScanFrame(
+          rgba: Uint8List.fromList(
+            bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes),
+          ),
+          width: image.width,
+          height: image.height,
+        );
+      } finally {
+        image.dispose();
+      }
+    } catch (_) {
+      return null;
+    }
   }
 
   void _toggleFullscreenUnobtrusive() {
@@ -660,6 +816,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           )
                         : (_backendDecision.backend == RendererBackend.cpu
                             ? FractalRenderer(
+                                renderPlan: _currentRendererPlan(controller),
                                 animationEnabled: _liveRenderingEnabled,
                                 onOpenControls: _usesCoreViewerChrome
                                     ? () => _toggleControlsHud()
@@ -689,8 +846,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                               )
                             : FractalRenderer(
                                 boundaryKey: _fractalKeyA,
-                                precisionDecision:
-                                    _currentPrecisionDecision(controller),
+                                renderPlan: _currentRendererPlan(controller),
                                 animationEnabled: _liveRenderingEnabled,
                                 onOpenControls: _usesCoreViewerChrome
                                     ? () => _toggleControlsHud()
@@ -708,6 +864,37 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                     _onAutoExploreUserInteractionEnd,
                               )),
                   ),
+
+                  if (_viewerEffects.fractalMusicEnabled)
+                    Positioned.fill(
+                      child: FractalMusicScanOverlay(
+                        animation: _musicScanController,
+                      ),
+                    ),
+
+                  if (_activeQuoteText != null)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(AppSpacing.xxl),
+                            child: Text(
+                              _activeQuoteText!,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: (constraints.maxWidth / 12)
+                                    .clamp(28.0, 72.0),
+                                fontWeight: FontWeight.w800,
+                                height: 1.08,
+                                foreground: Paint()
+                                  ..blendMode = BlendMode.difference
+                                  ..color = Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
 
                   if (_fullscreenUnobtrusive && !widget.captureMode)
                     Positioned(
@@ -827,7 +1014,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         isExporting: _exporting,
                         kaleidoscopeEnabled:
                             activeController.kaleidoscopeEnabled,
+                        kaleidoscopeSectors:
+                            activeController.kaleidoscopeSectors,
+                        kaleidoscopeMirror: activeController.kaleidoscopeMirror,
                         fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
+                        textOverlayEnabled: _textOverlayEnabled,
                         showFractalReport: !kIsWeb && Platform.isLinux,
                         actions: FractalViewControlActions(
                           toggleFullscreen: _toggleFullscreenUnobtrusive,
@@ -843,9 +1034,21 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           openPalettePicker: () => _openPalettePicker(context),
                           toggleKaleidoscope: () =>
                               _toggleKaleidoscope(context),
+                          setKaleidoscopeSectors: (sectors) {
+                            final activeController = _activeController(context);
+                            activeController.setKaleidoscopeEnabled(true);
+                            activeController.setKaleidoscopeSectors(sectors);
+                          },
+                          setKaleidoscopeMirror: (value) {
+                            final activeController = _activeController(context);
+                            activeController.setKaleidoscopeEnabled(true);
+                            activeController.setKaleidoscopeMirror(value);
+                          },
                           openExport: () => _openExport(context),
                           shareLink: () => _openShareLink(context),
                           shareImage: () => _shareCurrentImage(context),
+                          toggleTextOverlay: _toggleTextOverlay,
+                          editTextOverlay: _editTextOverlay,
                           openLooper: () => _openLooper(context),
                           toggleFractalMusic: _toggleFractalMusic,
                           reportFractal: () => _reportFractal(context),

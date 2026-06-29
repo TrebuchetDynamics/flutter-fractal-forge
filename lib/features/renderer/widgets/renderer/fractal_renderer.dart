@@ -9,9 +9,6 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/core/modules/mandelbrot_df2_module.dart';
-import 'package:flutter_fractals/core/modules/julia_perturb_module.dart';
-import 'package:flutter_fractals/core/modules/escape_time_perturb_module.dart';
 import 'package:flutter_fractals/core/services/diagnostics/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
@@ -22,7 +19,9 @@ import '../../cpu/cpu_fractal_renderer.dart';
 import 'input/gesture_view_bounds.dart';
 import 'input/gesture_tap_classification.dart';
 import '../../policy/deep_zoom_precision_policy.dart';
+import '../../palette_transition.dart';
 import '../../policy/precision_ladder_policy.dart';
+import '../../policy/render_plan.dart';
 import '../canvas/fractal_canvas.dart';
 import 'shaders/shader_error_policy.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -129,10 +128,10 @@ class FractalRenderer extends StatefulWidget {
   /// replacing the visual renderer content.
   final Widget? overrideChild;
 
-  /// Optional precision decision supplied by the viewer.
+  /// Optional render plan supplied by the viewer.
   ///
   /// When absent, the renderer computes the pure immediate decision itself.
-  final PrecisionLadderDecision? precisionDecision;
+  final RendererPlan? renderPlan;
 
   /// Whether to show backend/high-precision badges over the rendered image.
   final bool showRendererIndicator;
@@ -150,7 +149,7 @@ class FractalRenderer extends StatefulWidget {
     this.onUserInteractionEnd,
     this.animationEnabled = true,
     this.overrideChild,
-    this.precisionDecision,
+    this.renderPlan,
     this.showRendererIndicator = true,
   }) : super(key: key);
 
@@ -174,16 +173,15 @@ class _FractalRendererState extends State<FractalRenderer>
       RuntimeModeService.useRendererPlaceholderSurface;
 
   late AnimationController _animationController;
-  FractalModule? _df2Module;
-  FractalModule? _juliaPerturbModule;
-  FractalModule? _escapeTimePerturbModule;
-  String _escapeTimePerturbModuleId = '';
+  final RendererPlanModuleResolver _moduleResolver =
+      RendererPlanModuleResolver();
 
   // Frame metrics for sampled performance logging.
   int _gpuFrameCount = 0;
   DateTime? _gpuLastFrameAt;
   FractalController? _gestureController;
   String? _lastGestureModuleId;
+  final PaletteTransition _paletteTransition = PaletteTransition();
 
   @override
   void initState() {
@@ -234,21 +232,26 @@ class _FractalRendererState extends State<FractalRenderer>
   /// for module-specific tap handling (e.g. julia_dual).
   Widget _wrapWithGestures(Widget content, {GestureTapUpCallback? onTapUp}) {
     if (!widget.gesturesEnabled) return content;
-    return Listener(
-      onPointerDown: _onPointerDown,
-      onPointerMove: _onPointerMove,
-      onPointerUp: _onPointerUp,
-      onPointerCancel: _onPointerUp,
-      onPointerSignal: _onPointerSignal,
-      child: GestureDetector(
-        onScaleStart: _onScaleStart,
-        onScaleUpdate: _onScaleUpdate,
-        onScaleEnd: _onScaleEnd,
-        onDoubleTapDown: _onDoubleTapDown,
-        onDoubleTap: _onDoubleTapGesture,
-        onLongPressStart: _onLongPress,
-        onTapUp: onTapUp,
-        child: content,
+    final l10n = AppLocalizations.of(context);
+    return Semantics(
+      label: l10n?.semanticFractalCanvas ?? 'Interactive fractal canvas',
+      image: true,
+      child: Listener(
+        onPointerDown: _onPointerDown,
+        onPointerMove: _onPointerMove,
+        onPointerUp: _onPointerUp,
+        onPointerCancel: _onPointerUp,
+        onPointerSignal: _onPointerSignal,
+        child: GestureDetector(
+          onScaleStart: _onScaleStart,
+          onScaleUpdate: _onScaleUpdate,
+          onScaleEnd: _onScaleEnd,
+          onDoubleTapDown: _onDoubleTapDown,
+          onDoubleTap: _onDoubleTapGesture,
+          onLongPressStart: _onLongPress,
+          onTapUp: onTapUp,
+          child: content,
+        ),
       ),
     );
   }
@@ -363,12 +366,15 @@ class _FractalRendererState extends State<FractalRenderer>
       return _wrapWithGestures(widget.overrideChild!);
     }
 
-    final precisionDecision = widget.precisionDecision ??
-        _precisionLadderPolicy.decide(
-          moduleId: module.id,
-          dimension: module.dimension,
-          zoom: controller.view.zoom,
+    final renderPlan = widget.renderPlan ??
+        RendererPlan.gpu(
+          _precisionLadderPolicy.decide(
+            moduleId: module.id,
+            dimension: module.dimension,
+            zoom: controller.view.zoom,
+          ),
         );
+    final precisionDecision = renderPlan.precision;
 
     if (precisionDecision.usesCpuRenderer &&
         module.dimension == FractalDimension.twoD) {
@@ -407,28 +413,10 @@ class _FractalRendererState extends State<FractalRenderer>
       return _wrapWithGestures(cpuContent);
     }
 
-    // Select df2 shader for deep-zoom Mandelbrot.
-    final usesDf2 = precisionDecision.usesDoubleFloatGpu;
-    final usesPerturb = precisionDecision.usesPerturbationGpu;
-    // Cache the df2 wrapper; rebuild only when the standard module changes.
-    if (usesDf2 && (module.id == 'mandelbrot')) {
-      _df2Module ??= buildMandelbrotDf2Module(module);
-    }
-    // Cache the escape-time perturb wrapper; invalidate if module id changes.
-    if (usesPerturb &&
-        module.id != 'julia' &&
-        _escapeTimePerturbModuleId != module.id) {
-      _escapeTimePerturbModule = buildEscapeTimePerturbModule(module);
-      _escapeTimePerturbModuleId = module.id;
-    }
-    final effectiveModule = usesPerturb
-        ? (module.id == 'julia'
-            ? (_juliaPerturbModule ??= buildJuliaPerturbModule(module))
-            : (_escapeTimePerturbModule ??=
-                buildEscapeTimePerturbModule(module)))
-        : ((usesDf2 && module.id == 'mandelbrot')
-            ? (_df2Module ??= buildMandelbrotDf2Module(module))
-            : module);
+    final effectiveModule = _moduleResolver.resolve(
+      plan: renderPlan,
+      module: module,
+    );
 
     // Check if we need to load a new shader
     if (_shaderAsset != effectiveModule.shaderAsset && !_loading) {
@@ -478,25 +466,39 @@ class _FractalRendererState extends State<FractalRenderer>
     );
     final gpuParams = Map<String, Object>.from(controllerParams)
       ..['iterations'] = effectiveIterations;
-    final renderState = FractalRenderState(
-      params: gpuParams,
-      view: controllerView,
-      transparentBackground: controller.transparentBackground,
-    );
+    var hasColorParam = false;
+    var colorMin = 0.0;
+    var colorMax = 0.0;
+    for (final param in module.parameters) {
+      if (param.id == 'colorScheme') {
+        hasColorParam = true;
+        colorMin = param.min;
+        colorMax = param.max;
+        break;
+      }
+    }
 
-    // Create the base fractal content. Keep render-state allocation outside the
-    // animation tick closure; most frames only change shader time.
+    final staticRenderState = hasColorParam
+        ? null
+        : FractalRenderState(
+            params: gpuParams,
+            view: controllerView,
+            transparentBackground: controller.transparentBackground,
+          );
+
+    // Create the base fractal content. Keep stable controller-derived values
+    // outside the animation tick closure; render-only palette lerp is per frame.
     Widget fractalContent = SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: AnimatedBuilder(
         animation: _animationController,
         builder: (context, child) {
+          final now = DateTime.now();
           if (!_firstFrameLogged) {
             _firstFrameLogged = true;
-            final dt = DateTime.now()
-                .difference(_shaderLoadStartedAt ?? DateTime.now())
-                .inMilliseconds;
+            final dt =
+                now.difference(_shaderLoadStartedAt ?? now).inMilliseconds;
             if (kDebugMode)
               debugPrint(
                   '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
@@ -508,7 +510,6 @@ class _FractalRendererState extends State<FractalRenderer>
 
           // Sampled frame-time logging: measure and log every 10th GPU frame.
           _gpuFrameCount++;
-          final now = DateTime.now();
           final prev = _gpuLastFrameAt;
           _gpuLastFrameAt = now;
           if (kDebugMode && _gpuFrameCount % 60 == 0 && prev != null) {
@@ -519,6 +520,20 @@ class _FractalRendererState extends State<FractalRenderer>
               'module': controller.module.id,
             });
           }
+
+          final renderState = staticRenderState ??
+              FractalRenderState(
+                params: Map<String, Object>.from(gpuParams)
+                  ..['colorScheme'] = _paletteTransition.valueFor(
+                    target: controllerParams['colorScheme'],
+                    now: now,
+                    min: colorMin,
+                    max: colorMax,
+                    animate: widget.animationEnabled && !_isAutomatedTest,
+                  ),
+                view: controllerView,
+                transparentBackground: controller.transparentBackground,
+              );
 
           return CustomPaint(
             painter: FractalCanvas(

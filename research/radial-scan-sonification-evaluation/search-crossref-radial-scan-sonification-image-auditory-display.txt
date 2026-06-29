@@ -1,0 +1,20 @@
+10.21785/icad2023.2324	Three-Dimensional Sonification for Image-Guided Surgery
+10.21785/icad2025.074	Pixasonics: An Image Sonification Toolbox for Python
+10.21785/icad2021.026	The CURAT Sonification Game: Gamification for Remote Sonification Evaluation
+10.2307/3680606	Auditory Display: Sonification, Audification, and Auditory Interfaces
+10.21785/icad2023.4233	Facial Behavior Sonification With the Interactive Sonification Framework Panson
+10.21785/icad2021.009	Sonification for Everyone Everywhere - Evaluating the WebAudioXML Sonification Toolkit for Browsers
+10.21785/icad2021.004	Feeling Loki's Pain: Designing and Evaluating a DIY 3D Auditory Display for Geodata Sonification
+10.21785/icad2018.019	Sonification: A Prehistory
+10.21785/icad2021.031	Sonification First: The Role of ICAD in the Advancement of Sonification-Related Research
+10.2307/40285703	Review: <i>Auditory Display: Sonification, Audification, and Auditory Interfaces</i>, by Gregory Kramer
+10.21785/icad2018.026	Wave Space Sonification
+10.21785/icad2019.056	Sonification Workstation
+10.21785/icad2024.007	Results from the Curat Sonification Game
+10.21785/icad2018.008	Planethesizer: Approaching Exoplanet Sonification
+10.21785/icad2019.003	Sonification of the Riemann Zeta Function
+10.21785/icad2019.069	Is Sonification Doomed to Fail?
+10.1007/978-1-4613-8380-2_15	Audio Display from the Simple Beep to Sonification and Virtual Auditory Environments
+10.21785/icad2023.5580	Sonecules: A Python Sonification Architecture
+10.21785/icad2021.005	Highcharts Sonification Studio: An Online, Open-Source, Extensible, and Accessible Data Sonification Tool
+10.21785/icad2019.074	Preliminary Guidelines on the Sonification of Visual Artworks: Linking Music, Sonification &amp; Visual Arts

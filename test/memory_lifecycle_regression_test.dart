@@ -132,7 +132,9 @@ void main() {
       final source = File(path).readAsStringSync();
       expect(source, isNot(contains('endRecording().toImageSync')),
           reason: path);
-      expect(source, contains('picture.dispose();'), reason: path);
+      if (source.contains('PictureRecorder')) {
+        expect(source, contains('picture.dispose();'), reason: path);
+      }
     }
   });
 

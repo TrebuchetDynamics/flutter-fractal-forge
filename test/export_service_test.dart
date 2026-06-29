@@ -167,6 +167,32 @@ void main() {
     });
   });
 
+  group('ExportService quote overlay', () {
+    test('inverts only glyph pixels over the fractal image', () {
+      final image = img.Image(width: 300, height: 120);
+      img.fill(image, color: img.ColorRgb8(10, 20, 30));
+
+      final result = service.applyInvertedTextOverlay(image, 'Hi');
+
+      var inverted = 0;
+      var untouched = 0;
+      for (var y = 0; y < result.height; y++) {
+        for (var x = 0; x < result.width; x++) {
+          final p = result.getPixel(x, y);
+          if (p.r == 245 && p.g == 235 && p.b == 225) {
+            inverted++;
+          }
+          if (p.r == 10 && p.g == 20 && p.b == 30) {
+            untouched++;
+          }
+        }
+      }
+
+      expect(inverted, greaterThan(0));
+      expect(untouched, greaterThan(0));
+    });
+  });
+
   group('ExportService.resolveEffectiveFormat', () {
     test('keeps PNG and JPG unchanged', () {
       expect(

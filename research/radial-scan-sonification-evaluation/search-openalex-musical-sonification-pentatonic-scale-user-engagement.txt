@@ -1,0 +1,20 @@
+10.1186/s12859-021-04362-7	Using sound to understand protein sequence data: new sonification algorithms for protein sequences and multiple sequence alignments
+10.1145/3643834.3660757	Open Sonifications: A Manifesto for Many Ecologies of Data and Sound
+10.5281/zenodo.7243532	Proceedings of the 2nd Conference on the Sonification of Health and Environmental Data (SoniHED 2022)
+10.1080/14613808.2017.1312323	Dalcroze meets technology: integrating music, movement and visuals with the Music Paint Machine
+10.7488/ds/3023	Additional files for 'Using sound to understand protein sequence data: new sonification algorithms for protein sequences and multiple sequence alignments'
+10.21785/icad2022.020	Investigating Real-Time Feedback of Energy Consumption and Emission Data Through Sonic Interaction Design
+10.1038/s41598-022-15548-1	Virtual reality for the observation of oncology models (VROOM): immersive analytics for oncology patient cohorts
+10.1007/s00146-023-01667-4	Art, technology and the Internet of Living Things
+10.3390/info14070358	Measurement of Music Aesthetics Using Deep Neural Networks and Dissonances
+	Preliminary sonification of ENSO using traditional Javanese gamelan scales
+10.63562/2577-8439.1130	Preliminary sonification of ENSO using traditional Javanese gamelan scales
+10.35699/2317-6377.2020.26078	Looking for a place for Sonification
+	Sonification as a means to generative music
+	Anthropogenic Moods: American Functional Music and Environmental Imaginaries
+10.3998/mpub.11969438	Improvising Across Abilities
+10.82308/14835	A software system for laptop performance and improvisation
+10.18293/jvlc2022-n1-015	An Innovative Methodology of the Algorithmic Composition Knowledge Base for the Chinese Calligraphy Painting Interaction: from Sonification to Musification
+	Fields of interaction: From shadow play theatre to media performance
+10.22215/etd/2016-11627	Designing Responsive Music Making Devices: Creating Positive Exercise Experiences for Seniors
+	Sound design guidance as a contribution towards the empowerment of indie game developers

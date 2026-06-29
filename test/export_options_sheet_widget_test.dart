@@ -120,6 +120,24 @@ void main() {
     expect(submission?.action, ExportAction.saveAndShare);
   });
 
+  testWidgets('quote overlay text is included in submitted options',
+      (tester) async {
+    final harness = await pumpSheet(tester);
+
+    await tester.tap(find.text('Customize').last);
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const ValueKey('exportQuoteTextField')),
+      'Dream in gradients',
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+    await tester.pumpAndSettle();
+
+    expect(harness.submission?.options.quoteText, 'Dream in gradients');
+  });
+
   testWidgets('custom resolution export includes default dimensions',
       (tester) async {
     final submission = await pumpSheetAndSubmit(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,6 +42,10 @@ void main() {
     }
 
     Future<void> prepareScreenshotSurfaceIfAvailable() async {
+      // `convertFlutterSurfaceToImage` is required for Android screenshots, but
+      // on Linux desktop it can leave the engine surface in a bad state for the
+      // next integration-test process in a multi-file run.
+      if (!Platform.isAndroid) return;
       try {
         await binding.convertFlutterSurfaceToImage();
       } on MissingPluginException {

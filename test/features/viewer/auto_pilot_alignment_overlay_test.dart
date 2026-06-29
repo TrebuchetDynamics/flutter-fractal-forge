@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 import 'package:flutter_test/flutter_test.dart';
 

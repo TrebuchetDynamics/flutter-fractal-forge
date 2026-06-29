@@ -23,7 +23,8 @@ void main() {
             body: Builder(
               builder: (context) {
                 final l10n = AppLocalizations.of(context)!;
-                return SingleChildScrollView(child: Column(
+                return SingleChildScrollView(
+                    child: Column(
                   children: registry.modules.map((module) {
                     return Text(module.displayName(l10n));
                   }).toList(),
@@ -80,7 +81,8 @@ void main() {
             body: Builder(
               builder: (context) {
                 final l10n = AppLocalizations.of(context)!;
-                return SingleChildScrollView(child: Column(
+                return SingleChildScrollView(
+                    child: Column(
                   children: registry.modules.map((module) {
                     final dimLabel = module.dimension == FractalDimension.twoD
                         ? l10n.dimension2d
@@ -253,6 +255,15 @@ void main() {
     testWidgets('each module has unique id', (tester) async {
       final ids = registry.modules.map((m) => m.id).toSet();
       expect(ids.length, registry.modules.length);
+    });
+
+    test('Phoenix uses the custom module shape once', () {
+      final phoenixModules = registry.modules.where((m) => m.id == 'phoenix');
+      expect(phoenixModules, hasLength(1));
+
+      final parameterIds = phoenixModules.single.parameters.map((p) => p.id);
+      expect(parameterIds,
+          containsAll(['phoenixCReal', 'phoenixCImag', 'phoenixP']));
     });
 
     testWidgets('each module has valid shader asset', (tester) async {

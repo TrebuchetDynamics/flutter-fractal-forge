@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_param_value_normalizer.dart';
+import 'package:flutter_fractals/core/controllers/fractal_param_value_normalizer.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 String _label(_) => 'Parameter';

@@ -44,6 +44,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   late ExportOptions _options;
   late TextEditingController _customWidthController;
   late TextEditingController _customHeightController;
+  late TextEditingController _quoteController;
   bool _showAdvanced = false;
   bool _showCustomization = false;
 
@@ -59,6 +60,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
       text: _options.customHeight?.toString() ??
           defaultCustomExportHeight.toString(),
     );
+    _quoteController = TextEditingController(text: _options.quoteText ?? '');
 
     // Keep custom fields and option values in sync so summary/export payloads
     // match what the user sees, even before they edit the text fields.
@@ -71,6 +73,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   void dispose() {
     _customWidthController.dispose();
     _customHeightController.dispose();
+    _quoteController.dispose();
     super.dispose();
   }
 
@@ -83,11 +86,17 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   }
 
   ExportOptions _effectiveOptionsForExport() {
-    if (_options.resolution != ExportResolution.custom) {
-      return _options;
+    final quote = _quoteController.text.trim();
+    final options = _options.copyWith(quoteText: quote.isEmpty ? null : quote);
+    if (options.resolution != ExportResolution.custom) {
+      return options;
     }
 
-    return _optionsWithCustomFields();
+    return withResolvedCustomExportDimensions(
+      options: options,
+      widthText: _customWidthController.text,
+      heightText: _customHeightController.text,
+    );
   }
 
   ExportFormat _effectiveFormatForExport(ExportOptions options) {
@@ -174,6 +183,10 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                     _buildQuickPresets(context, l10n),
 
                     if (_showCustomization) ...[
+                      const SizedBox(height: 16),
+
+                      _buildQuoteSection(context, l10n),
+
                       const SizedBox(height: 16),
 
                       // Format selection
@@ -332,6 +345,23 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   String _presetDetails(ExportOptions options, AppLocalizations l10n) {
     final format = _formatSummaryValue(options, l10n);
     return '$format • ${options.resolution.displayName}';
+  }
+
+  Widget _buildQuoteSection(BuildContext context, AppLocalizations l10n) {
+    return TextField(
+      key: const ValueKey('exportQuoteTextField'),
+      controller: _quoteController,
+      minLines: 1,
+      maxLines: 3,
+      decoration: InputDecoration(
+        labelText: l10n.exportQuoteOverlay,
+        hintText: l10n.exportQuoteOverlayPlaceholder,
+        helperText: l10n.exportQuoteOverlayHint,
+        border: const OutlineInputBorder(),
+      ),
+      textInputAction: TextInputAction.newline,
+      onChanged: (_) => setState(() {}),
+    );
   }
 
   Widget _buildFormatSection(BuildContext context, AppLocalizations l10n) {
@@ -684,6 +714,14 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
             _SummaryRow(
               icon: Icons.info_outline,
               label: l10n.exportEmbedMetadata,
+              value: '✓',
+            ),
+          ],
+          if (effectiveOptions.quoteText?.isNotEmpty == true) ...[
+            const SizedBox(height: 8),
+            _SummaryRow(
+              icon: Icons.format_quote,
+              label: l10n.exportQuoteOverlay,
               value: '✓',
             ),
           ],

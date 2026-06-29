@@ -226,6 +226,7 @@ class ExportOptions extends Equatable {
   final ExportMetadata? metadata;
   final bool addWatermark;
   final String? watermarkText;
+  final String? quoteText;
 
   const ExportOptions({
     this.format = ExportFormat.png,
@@ -238,6 +239,7 @@ class ExportOptions extends Equatable {
     this.metadata,
     this.addWatermark = false,
     this.watermarkText,
+    this.quoteText,
   });
 
   static T? _nullableCopyWithValue<T>({
@@ -344,6 +346,7 @@ class ExportOptions extends Equatable {
     Object? metadata = _unset,
     bool? addWatermark,
     Object? watermarkText = _unset,
+    Object? quoteText = _unset,
   }) {
     assert(
       identical(metadata, _unset) ||
@@ -356,6 +359,10 @@ class ExportOptions extends Equatable {
           watermarkText == null ||
           watermarkText is String,
       'watermarkText must be a String? value',
+    );
+    assert(
+      identical(quoteText, _unset) || quoteText == null || quoteText is String,
+      'quoteText must be a String? value',
     );
 
     return ExportOptions(
@@ -386,6 +393,11 @@ class ExportOptions extends Equatable {
         currentValue: this.watermarkText,
         fieldName: 'watermarkText',
       ),
+      quoteText: _nullableCopyWithValue<String>(
+        candidate: quoteText,
+        currentValue: this.quoteText,
+        fieldName: 'quoteText',
+      ),
     );
   }
 
@@ -401,6 +413,7 @@ class ExportOptions extends Equatable {
         metadata,
         addWatermark,
         watermarkText,
+        quoteText,
       ];
 }
 

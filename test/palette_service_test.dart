@@ -268,6 +268,19 @@ void main() {
       expect(normalized.last.colorArgb, 0xFFFFFFFF);
     });
 
+    test('fractional palette indexes use a cached blended texture', () async {
+      final service = await PaletteService.create();
+
+      final first = service.paletteTextureForIndex(0);
+      final blend = service.paletteTextureForIndex(0.5);
+      final sameBlendBucket = service.paletteTextureForIndex(0.501);
+
+      expect(first.width, 256);
+      expect(blend.height, 1);
+      expect(identical(first, blend), isFalse);
+      expect(identical(blend, sameBlendBucket), isTrue);
+    });
+
     test('updatePalette invalidates cached textures for the same palette id',
         () async {
       final service = await PaletteService.create();

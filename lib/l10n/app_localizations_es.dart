@@ -48,6 +48,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get viewerTitle => 'Visor de fractales';
 
   @override
+  String get semanticFractalCanvas => 'Lienzo fractal interactivo';
+
+  @override
   String get controlsTitle => 'Controles';
 
   @override
@@ -85,6 +88,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get actionClose => 'Cerrar';
+
+  @override
+  String get actionCancel => 'Cancelar';
+
+  @override
+  String get actionApply => 'Aplicar';
 
   @override
   String get builtInPresets => 'Incluidos';
@@ -237,6 +246,27 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get exportWatermarkHint =>
       'Añade una pequeña etiqueta @FractalForge en la esquina';
+
+  @override
+  String get exportQuoteOverlay => 'Texto superpuesto';
+
+  @override
+  String get exportQuoteOverlayHint =>
+      'El texto se exporta invirtiendo cada píxel del glifo sobre el fractal.';
+
+  @override
+  String get exportQuoteOverlayPlaceholder => 'Escribe una cita para centrarla';
+
+  @override
+  String get textOverlayTitle => 'Texto superpuesto';
+
+  @override
+  String get tooltipTextOverlayOn =>
+      'Texto superpuesto activado. Mantén presionado para editar.';
+
+  @override
+  String get tooltipTextOverlayOff =>
+      'Texto superpuesto desactivado. Toca para añadir texto.';
 
   @override
   String get exportScreenResolution => 'Tamaño de pantalla';

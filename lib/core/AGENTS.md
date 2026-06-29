@@ -13,7 +13,7 @@ Foundation layer of the application. Contains data models, fractal module defini
 | `models/` | Data classes: FractalPreset, FractalViewState, ExportOptions, etc. (see `models/AGENTS.md`) |
 | `modules/` | Fractal module system: FractalModule, ModuleRegistry, escape-time catalog, custom builders (see `modules/AGENTS.md`) |
 | `services/` | Application services: export, presets, history, accessibility, rendering support, etc. (see `services/AGENTS.md`) |
-| `shaders/` | Shader utility code: uniform schema definitions (see `shaders/AGENTS.md`) |
+| `shaders/` | Reserved for Dart-side shader helpers; active uniform slot contracts live under `modules/builders/` (see `shaders/AGENTS.md`) |
 | `theme/` | App theme: colors, text styles, dark/high-contrast themes (see `theme/AGENTS.md`) |
 | `widgets/` | Shared widgets: accessibility, animations, error boundary (see `widgets/AGENTS.md`) |
 

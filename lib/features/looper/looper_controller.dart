@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_param_value_normalizer.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_param_value_normalizer.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:vector_math/vector_math.dart';
 
 @immutable

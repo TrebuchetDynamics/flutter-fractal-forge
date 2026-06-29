@@ -49,6 +49,7 @@ void main() {
       expect(options.quality, 95);
       expect(options.embedMetadata, isTrue);
       expect(options.transparentBackground, isFalse);
+      expect(options.quoteText, isNull);
     });
 
     test('calculatePixelRatio returns 1.0 for screen resolution', () {
@@ -163,10 +164,12 @@ void main() {
       final updated = original.copyWith(
         format: ExportFormat.jpg,
         quality: 80,
+        quoteText: 'Stay curious',
       );
 
       expect(updated.format, ExportFormat.jpg);
       expect(updated.quality, 80);
+      expect(updated.quoteText, 'Stay curious');
       expect(updated.resolution, original.resolution); // Unchanged
     });
 
@@ -198,15 +201,18 @@ void main() {
       final original = ExportOptions(
         metadata: metadata,
         watermarkText: 'Flutter Fractals',
+        quoteText: 'Stay curious',
       );
 
       final updated = original.copyWith(
         metadata: null,
         watermarkText: null,
+        quoteText: null,
       );
 
       expect(updated.metadata, isNull);
       expect(updated.watermarkText, isNull);
+      expect(updated.quoteText, isNull);
     });
 
     test('copyWith omits nullable provenance fields without clearing them', () {

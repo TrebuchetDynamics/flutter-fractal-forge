@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:share_plus/share_plus.dart';
 
@@ -23,6 +24,28 @@ class AppShareService {
   Future<void> shareFile(File file, {String? text}) async {
     await SharePlus.instance.share(
       ShareParams(files: [XFile(file.path)], text: text),
+    );
+  }
+
+  Future<void> shareBytes(
+    Uint8List bytes, {
+    required String filename,
+    required String mimeType,
+    String? text,
+  }) async {
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [
+          XFile.fromData(
+            bytes,
+            name: filename,
+            mimeType: mimeType,
+            length: bytes.lengthInBytes,
+          ),
+        ],
+        fileNameOverrides: [filename],
+        text: text,
+      ),
     );
   }
 

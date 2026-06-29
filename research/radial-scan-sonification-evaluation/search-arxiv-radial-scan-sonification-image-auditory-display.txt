@@ -1,0 +1,20 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.21785/icad2019.018	Three Orthogonal Dimensions for Psychoacoustic Sonification
+	Reef Elegy: An Auditory Display of Hawaii's 2019 Coral Bleaching Data
+	Sonification Abstraite/Sonification Concrète: An 'Aesthetic Perspective Space' for Classifying Auditory Displays in the Ars Musica Domain
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+10.1109/ipta.2015.7367207	Embedded Line Scan Image Sensors: The Low Cost Alternative for High Speed Imaging
+	MIPI 2022 Challenge on Under-Display Camera Image Restoration: Methods and Results
+10.1051/epjconf/20101102001	Radial velocity follow-up of CoRoT transiting exoplanets
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression
+	Evaluation of short range depth sonifications for visual-to-auditory sensory substitution
+10.21256/zhaw-23318	PrepNet: A Convolutional Auto-Encoder to Homogenize CT Scans for Cross-Dataset Medical Image Analysis
+10.1007/978-3-031-16446-0_13	Privacy Preserving Image Registration
+10.1007/978-3-030-27202-9_11	Locally Linear Image Structural Embedding for Image Structure Manifold Learning
+10.1016/j.media.2023.102945	A Generic Fundus Image Enhancement Network Boosted by Frequency Self-supervised Representation Learning
+10.21785/icad2022.039	Tokyo Kion-On: Query-Based Generative Sonification of Atmospheric Data
+10.1109/tip.2022.3203562	FlexHDR: Modelling Alignment and Exposure Uncertainties for Flexible HDR Imaging
+10.1016/j.media.2026.103943	Fréchet Radiomic Distance (FRD): A Versatile Metric for Comparing Medical Imaging Datasets
+10.1016/j.media.2022.102704	Data synthesis and adversarial networks: A review and meta-analysis in cancer imaging

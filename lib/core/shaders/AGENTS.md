@@ -4,25 +4,22 @@
 # shaders
 
 ## Purpose
-Dart-side shader utility code. Contains uniform schema definitions that describe the contract between Dart code and GLSL shaders.
+Reserved for Dart-side shader helper code. There are currently no active Dart helpers in this directory; uniform slot contracts live under `lib/core/modules/builders/` next to the module builders that use them.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
-| `uniform_schema.dart` | Defines uniform schema types and validation for shader uniform layouts |
+None currently.
 
 ## For AI Agents
 
 ### Working In This Directory
 - This is NOT where GLSL shader files live (those are in project-root `shaders/`)
-- This contains Dart code that describes how to talk to the shaders
-- Tested in `test/core/shaders/uniform_schema_test.dart`
+- Prefer keeping uniform layout contracts near their module builders unless multiple live callers need a shared helper.
 
 ## Dependencies
 
 ### Internal
-- Used by `modules/builders/escape_time/builder.dart` for uniform layout
+- Active uniform slot constants live in `modules/builders/uniform_layout.dart`.
 
 <!-- MANUAL: -->
 

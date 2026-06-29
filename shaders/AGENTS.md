@@ -70,8 +70,7 @@ uniform float uTime;       // Animation time
 ## Dependencies
 
 ### Internal
-- `lib/core/modules/builders/escape_time_builder.dart` - Defines the uniform layout contract
-- `lib/core/shaders/uniform_schema.dart` - Uniform schema definitions
+- `lib/core/modules/builders/escape_time_builder.dart` and `lib/core/modules/builders/uniform_layout.dart` - Define the uniform layout contract
 - `pubspec.yaml` - Shader asset registration
 
 <!-- MANUAL: -->

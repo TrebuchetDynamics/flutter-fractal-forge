@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
+import 'package:flutter_fractals/core/controllers/fractal_view_input_bounds.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart';
 

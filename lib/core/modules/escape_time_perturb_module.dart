@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
 
 /// Formula IDs matching `uFormula` in escape_time_perturb_gpu.frag
 const _kFormulaMandelbrot = 0;
@@ -84,7 +84,7 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
           .clamp(4.0, 2000.0)
           .toInt();
       final bailout = readDouble(state.params, 'bailout', 4.0);
-      final colorScheme = readDouble(state.params, 'colorScheme', 0.0).round();
+      final colorScheme = readDouble(state.params, 'colorScheme', 0.0);
 
       // Phoenix extra param: p (memory term)
       final phoenixP =
@@ -93,25 +93,9 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       // G15 color cycling speed (cycles per second via uExtra1).
       final colorSpeed = readDouble(state.params, 'colorCycleSpeed', 0.0);
 
-      ui.Image paletteTex;
-      try {
-        final palette = PaletteService.instance.paletteAtIndex(colorScheme);
-        paletteTex = PaletteService.instance.paletteTexture(palette);
-      } catch (_) {
-        // PaletteService unavailable; use a 1×1 black fallback texture.
-        final rec = ui.PictureRecorder();
-        final canvas = ui.Canvas(rec);
-        canvas.drawRect(
-          const ui.Rect.fromLTWH(0, 0, 1, 1),
-          ui.Paint()..color = const ui.Color(0xFF000000),
-        );
-        final picture = rec.endRecording();
-        try {
-          paletteTex = picture.toImageSync(1, 1);
-        } finally {
-          picture.dispose();
-        }
-      }
+      final paletteTex = PaletteShaderAdapter.instance.samplerPaletteTexture(
+        colorScheme,
+      );
       final orbitTex = _EscapeTimePerturbOrbitCache.instance.orbitTexture(
         moduleId: id,
         centerX: state.view.pan.x,

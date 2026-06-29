@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -26,7 +26,8 @@ void main() {
     expect(controller.view.rotation, viewBeforeReset.rotation);
   });
 
-  test('FractalController.resetSession resets params + view + transparency', () {
+  test('FractalController.resetSession resets params + view + transparency',
+      () {
     final controller = FractalController(ModuleRegistry());
     final initialIterations = controller.params['iterations'];
 

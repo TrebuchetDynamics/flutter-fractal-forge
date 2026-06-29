@@ -14,7 +14,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Overflow detection tests.

@@ -32,6 +32,10 @@ _Avoid_: True random thumbnail colors, one-off palette shuffle, unreviewable vis
 A viewer audio mode that turns the current fractal state into explainable sonification, starting with constrained polar/spiral-scan motifs. It is not a generic background soundtrack, AI song generator, or MIDI export promise.
 _Avoid_: AI song, opaque music generator, soundtrack mode
 
+**Radial Scan Sonification**:
+The first Fractal Music scan mode: a visible rotating center-out radar beam samples the current fractal view and maps those samples to bounded musical pitch, loudness, rhythm, or pan. It is the canonical launch path for Fractal Music, not a promise that every shader exposes exact internal iteration data.
+_Avoid_: Pixel-to-song, hidden soundtrack, exact shader readback
+
 **Performance Fractals**:
 A separate catalog family for reactive, instrument-like fractal visuals whose parameters may be driven by time, gestures, or modulation. They do not change the behavior, controls, presets, or render contracts of existing mathematical fractal modules.
 _Avoid_: Global perform mode, retrofitted modulator, all-fractal audio mode
@@ -93,6 +97,9 @@ Domain expert: “No. First create a Provenance Record with source, license cont
 
 Developer: “Can Fractal Music just play a nice backing track?”
 Domain expert: “No. Fractal Music should stay tied to the current fractal state through explainable sonification; a generic soundtrack is a different feature.”
+
+Developer: “Should the music button draw a line from the center like a radar scan?”
+Domain expert: “Yes. That is Radial Scan Sonification: the visible beam is the listening path, and the sound should explain what that beam is sampling.”
 
 Developer: “Can we add LFO/audio-reactive controls to every current fractal?”
 Domain expert: “No. Put reactive instrument visuals in Performance Fractals so the existing catalog keeps its current module contracts.”

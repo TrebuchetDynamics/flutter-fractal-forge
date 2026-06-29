@@ -1,0 +1,20 @@
+10.2307/965031	Pentatonic Sullivan
+10.21785/icad2018.006	Sonification with Musical Characteristics: A Path Guided by User-Engagement
+10.1007/s12193-018-0280-4	Musical Vision: an interactive bio-inspired sonification tool to convert images into music
+10.1007/s12193-019-00294-y	Personalised interactive sonification of musical performance data
+10.1007/s12193-018-0279-x	The SoundBike: musical sonification strategies to enhance cyclists’ spontaneous synchronization to external music
+10.1093/oso/9780197618356.003.0001	Sonification
+10.7146/se.v10i1.124202	Designing the user experience of musical sonification in public and semi-public spaces
+10.1093/oso/9780197618356.003.0003	Musical Selves
+10.21428/92fbeb44.0533b69a	Sonification of Ecological Environment through Electronic Musical Instruments
+10.1093/oso/9780197618356.003.0007	Conclusion
+10.1007/s12193-020-00322-2	Movement sonification expectancy model: leveraging musical expectancy theory to create movement-altering sonifications
+10.1093/oso/9780197618356.003.0006	The “Musical We”
+10.31390/gradschool_theses.4102	On the Use and Development of the Pentatonic Scale Through the Works of Anton�n Dvor�k
+10.1093/gmo/9781561592630.article.21263	Pentatonic
+10.2139/ssrn.3996057	Data-to-Music Sonification and User Engagement
+10.1037/t53530-000	User Engagement Scale
+10.1093/oso/9780197618356.003.0002	A Brief Taxonomy of Musical Others
+10.1037/e521582014-056	The Assessment of User Engagement with eHealth Content: The eHealth Engagement Scale
+10.1093/oso/9780197618356.003.0004	The Epistemic Force of Musical Encounters
+10.1093/oso/9780197618356.001.0001	Shared Musical Lives

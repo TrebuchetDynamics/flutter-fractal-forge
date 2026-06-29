@@ -1,0 +1,20 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.1007/s12193-018-0281-3	Interactive sonification of U-depth images in a navigation aid for the visually impaired
+10.1080/07370024.2015.1085310	<i>Go-with-the-Flow</i>: Tracking, Analysis and Sonification of Movement and Breathing to Build Confidence in Activity Despite Chronic Pain
+10.1109/rbme.2022.3187840	A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation
+10.3389/fneur.2016.00106	Sonification of Arm Movements in Stroke Rehabilitation – A Novel Approach in Neurologic Music Therapy
+	MULTI-CHANNEL SONIFICATION OF HUMAN EEG
+10.26481/dis.20120606as	Lobbying for the ear : the public fascination with and academic legitimacy of the sonification of scientific data
+	The Discipline of Interactive Sonification
+10.3390/s20113222	A Comparative Study in Real-Time Scene Sonification for Visually Impaired People
+10.21785/icad2019.018	Psychoacoustical Signal Processing for Three-dimensional Sonification
+	Using psychoacoustical models for information sonification
+10.1007/s00221-017-5047-8	Advantages of melodic over rhythmic movement sonification in bimanual motor skill learning
+	Sonification of markov chain monte carlo simulations
+10.1007/s12193-019-00311-0	Sonification supports perception of brightness contrast
+10.1186/s12859-021-04362-7	Using sound to understand protein sequence data: new sonification algorithms for protein sequences and multiple sequence alignments
+10.1108/sasbe-11-2021-0189	Measurement and sonification of construction site noise and particle pollution data
+	A Formalised Approach to Designing Sonification Systems for Network−Security Monitoring
+10.3847/1538-3881/ad2943	Evaluation of the Effectiveness of Sonification for Time-series Data Exploration
+10.1111/cgf.15114	Open Your Ears and Take a Look: A State‐of‐the‐Art Report on the Integration of Sonification and Visualization
+10.5772/15311	Sonification of 3D Scenes in an Electronic Travel Aid for the Blind

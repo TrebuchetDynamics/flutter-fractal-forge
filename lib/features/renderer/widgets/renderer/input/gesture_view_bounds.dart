@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/renderer/providers/fractal_view_input_bounds.dart';
+import 'package:flutter_fractals/core/controllers/fractal_view_input_bounds.dart';
 
 /// Shared gesture viewport bounds for the renderer input layer.
 ///

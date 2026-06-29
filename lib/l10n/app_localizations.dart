@@ -170,6 +170,12 @@ abstract class AppLocalizations {
   /// **'Fractal Viewer'**
   String get viewerTitle;
 
+  /// No description provided for @semanticFractalCanvas.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive fractal canvas'**
+  String get semanticFractalCanvas;
+
   /// No description provided for @controlsTitle.
   ///
   /// In en, this message translates to:
@@ -247,6 +253,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get actionClose;
+
+  /// No description provided for @actionCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get actionCancel;
+
+  /// No description provided for @actionApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get actionApply;
 
   /// No description provided for @builtInPresets.
   ///
@@ -535,6 +553,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add a small @FractalForge tag in the corner'**
   String get exportWatermarkHint;
+
+  /// No description provided for @exportQuoteOverlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote overlay'**
+  String get exportQuoteOverlay;
+
+  /// No description provided for @exportQuoteOverlayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Text exports with each glyph pixel inverted against the fractal.'**
+  String get exportQuoteOverlayHint;
+
+  /// No description provided for @exportQuoteOverlayPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a quote to place in the center'**
+  String get exportQuoteOverlayPlaceholder;
+
+  /// No description provided for @textOverlayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Text overlay'**
+  String get textOverlayTitle;
+
+  /// No description provided for @tooltipTextOverlayOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Text overlay on. Long press to edit.'**
+  String get tooltipTextOverlayOn;
+
+  /// No description provided for @tooltipTextOverlayOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Text overlay off. Tap to add text.'**
+  String get tooltipTextOverlayOff;
 
   /// No description provided for @exportScreenResolution.
   ///

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -122,10 +123,63 @@ void main() {
       }
     }
 
+    Future<void> showAllCatalogCategories(WidgetTester tester) async {
+      final allChip = find.byKey(const Key('catalogCategoryChip_all'));
+      if (allChip.evaluate().isNotEmpty) {
+        await tester.ensureVisible(allChip);
+        await tester.tap(allChip);
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+      }
+    }
+
+    Finder firstSafelyVisibleCard(WidgetTester tester, Finder cards) {
+      for (final element in cards.evaluate()) {
+        final key = element.widget.key;
+        if (key == null) continue;
+        final candidate = find.byKey(key);
+        final rect = tester.getRect(candidate);
+        if (rect.top >= 140 && rect.bottom <= 1850) {
+          return candidate;
+        }
+      }
+      return cards.first;
+    }
+
+    Future<void> tapCard(
+      WidgetTester tester,
+      Finder card,
+    ) async {
+      final context = tester.element(card);
+      await Scrollable.ensureVisible(
+        context,
+        alignment: 0.35,
+        duration: Duration.zero,
+      );
+      await tester.pump();
+      final rect = tester.getRect(card);
+      final y = math.min(
+        rect.bottom - 8,
+        math.max(rect.center.dy, 160.0),
+      );
+      await tester.tapAt(Offset(rect.center.dx, y));
+      await tester.pump();
+    }
+
     Future<void> tapModuleBySearch(
       WidgetTester tester, {
       required String query,
+      String? catalogId,
     }) async {
+      await showAllCatalogCategories(tester);
+
+      final directCard =
+          catalogId == null ? null : catalogModuleCard(catalogId);
+      if (directCard != null && directCard.evaluate().isNotEmpty) {
+        await tapCard(tester, directCard);
+        return;
+      }
+
       await enterCatalogSearch(
         tester,
         query,
@@ -134,8 +188,7 @@ void main() {
 
       final cards = catalogModuleCards();
       expect(cards, findsWidgets);
-      await tester.tap(cards.first);
-      await tester.pump();
+      await tapCard(tester, firstSafelyVisibleCard(tester, cards));
     }
 
     void expectViewerOpened() {
@@ -144,9 +197,9 @@ void main() {
 
     testWidgets('01_catalog', (tester) async {
       await pumpApp(tester);
-      // Verify we have module cards by finding dimension labels
-      expect(find.text('3D'), findsWidgets);
-      expect(find.text('2D'), findsWidgets);
+      // Verify the catalog rendered module cards. Dimension chips are not
+      // guaranteed to be visible in every catalog density/layout.
+      expect(catalogModuleCards(), findsWidgets);
       await snap(tester, '01_catalog');
     });
 
@@ -159,6 +212,7 @@ void main() {
       await tapModuleBySearch(
         tester,
         query: 'Mandelbulb',
+        catalogId: 'performance.mandelbulb',
       );
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened();
@@ -170,6 +224,7 @@ void main() {
       await tapModuleBySearch(
         tester,
         query: 'Mandelbrot',
+        catalogId: 'core.mandelbrot',
       );
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened();
@@ -178,7 +233,11 @@ void main() {
 
     testWidgets('04_viewer_julia', (tester) async {
       await pumpApp(tester);
-      await tapModuleBySearch(tester, query: 'Julia');
+      await tapModuleBySearch(
+        tester,
+        query: 'Julia',
+        catalogId: 'core.julia',
+      );
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened();
       await snap(tester, '04_viewer_julia');
@@ -189,6 +248,7 @@ void main() {
       await tapModuleBySearch(
         tester,
         query: 'Burning',
+        catalogId: 'core.burning_ship',
       );
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened();
@@ -197,7 +257,11 @@ void main() {
 
     testWidgets('06_viewer_phoenix', (tester) async {
       await pumpApp(tester);
-      await tapModuleBySearch(tester, query: 'Phoenix');
+      await tapModuleBySearch(
+        tester,
+        query: 'Phoenix',
+        catalogId: 'core.phoenix',
+      );
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened();
       await snap(tester, '06_viewer_phoenix');
@@ -209,6 +273,7 @@ void main() {
       await tapModuleBySearch(
         tester,
         query: 'Mandelbrot',
+        catalogId: 'core.mandelbrot',
       );
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened();
@@ -225,7 +290,11 @@ void main() {
     testWidgets('08_presets_panel', (tester) async {
       await pumpApp(tester);
       // Open Julia set (has nice presets)
-      await tapModuleBySearch(tester, query: 'Julia');
+      await tapModuleBySearch(
+        tester,
+        query: 'Julia',
+        catalogId: 'core.julia',
+      );
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened();
 

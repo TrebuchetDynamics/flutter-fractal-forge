@@ -165,7 +165,7 @@ The `fract(... / 64.0)` creates a cycling palette. Replace `64.0` with a `uColor
 Psychtoolbox-3 `MandelbrotShader.frag.txt`.
 
 **Files**: `mandel_step_smooth.frag`, `mandelbrot_et.frag` (already partially correct; tighten).
-**Dart-side change**: Add `colorCycles` float to `UniformSchema` for shaders that expose it.
+**Dart-side change**: Add a `colorCycles` float slot to the affected module's uniform layout/setter.
 **Priority**: High.
 
 ---
@@ -544,7 +544,7 @@ cursor during zoom. **Search**: `GestureDetector` → `onScaleUpdate` in `fracta
 
 Current standard layout (from `mandelbrot_et.frag`): slots 0–42 (uTime through uCustomStop7).
 
-New slots needed for enhancements (add to `UniformSchema` builder in each affected shader's
+New slots needed for enhancements (add to the uniform layout/setter in each affected shader's
 Dart module):
 
 | Uniform | Type | Slot (after stop7) | Purpose |
@@ -556,8 +556,8 @@ Dart module):
 | `uJuliaCx` | float | 47 | Julia c.x |
 | `uJuliaCy` | float | 48 | Julia c.y |
 
-Only add slots used by a given shader. `UniformSchema.build()` tracks the cursor; adding a
-new `float()` call automatically assigns the next index.
+Only add slots used by a given shader. Keep each Dart slot constant aligned with the shader's
+uniform declaration order.
 
 ### 6.3 Palette System — Retain Current Inline Approach
 

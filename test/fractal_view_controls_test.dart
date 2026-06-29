@@ -42,7 +42,10 @@ Future<bool> _pumpControls(
   VoidCallback? onOpenPalettePicker,
   VoidCallback? onOpenRandomFractal,
   bool kaleidoscopeEnabled = false,
+  int kaleidoscopeSectors = 8,
+  bool kaleidoscopeMirror = true,
   bool fractalMusicEnabled = false,
+  bool textOverlayEnabled = false,
   bool showFractalReport = false,
   VoidCallback? onToggleKaleidoscope,
   VoidCallback? onReportFractal,
@@ -59,7 +62,10 @@ Future<bool> _pumpControls(
             fabController: controller,
             isExporting: isExporting,
             kaleidoscopeEnabled: kaleidoscopeEnabled,
+            kaleidoscopeSectors: kaleidoscopeSectors,
+            kaleidoscopeMirror: kaleidoscopeMirror,
             fractalMusicEnabled: fractalMusicEnabled,
+            textOverlayEnabled: textOverlayEnabled,
             showFractalReport: showFractalReport,
             actions: FractalViewControlActions(
               toggleFullscreen: () {},
@@ -69,9 +75,13 @@ Future<bool> _pumpControls(
               cycleColorScheme: () {},
               openPalettePicker: onOpenPalettePicker ?? () {},
               toggleKaleidoscope: onToggleKaleidoscope ?? () {},
+              setKaleidoscopeSectors: (_) {},
+              setKaleidoscopeMirror: (_) {},
               openExport: onOpenExport ?? () {},
               shareLink: onShareLink ?? () {},
               shareImage: onShareImage ?? () {},
+              toggleTextOverlay: () {},
+              editTextOverlay: () {},
               openLooper: onOpenLooper ?? () {},
               toggleFractalMusic: onToggleFractalMusic ?? () {},
               reportFractal: onReportFractal ?? () {},
@@ -158,6 +168,8 @@ void main() {
     expect(find.byKey(const ValueKey('viewerRandomButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('viewerLooperButton')), findsOneWidget);
     expect(
+        find.byKey(const ValueKey('viewerTextOverlayButton')), findsOneWidget);
+    expect(
         find.byKey(const ValueKey('viewerFractalMusicButton')), findsOneWidget);
     expect(
         find.byKey(const ValueKey('viewerReportFractalButton')), findsNothing);
@@ -192,6 +204,7 @@ void main() {
       ValueKey('viewerRandomParamsButton'),
       ValueKey('viewerRandomButton'),
       ValueKey('viewerLooperButton'),
+      ValueKey('viewerTextOverlayButton'),
       ValueKey('viewerFractalMusicButton'),
       ValueKey('viewerExportButton'),
     ];
@@ -216,6 +229,7 @@ void main() {
       'Randomize',
       'Random Fractal',
       'Camera looper',
+      'Text overlay off. Tap to add text.',
       'Fractal Music off',
       'Export / Wallpaper',
     ]) {

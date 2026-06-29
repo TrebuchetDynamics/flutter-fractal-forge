@@ -1,0 +1,20 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.5281/zenodo.3672917	Vrengt: A Shared Body-Machine Instrument for Music-Dance Performance
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	The Sounds of Music : Science of Musical Scales I -- Human Perception of Sound
+10.28945/4338	Systematic improvement of user engagement with academic titles using computational linguistics
+	Musical Smart City: Perspectives on Ubiquitous Sonification
+	The Sounds of Music : Science of Musical Scales III -- Indian Classical
+	The Sounds of Music : Science of Musical Scales II -- Western Classical
+	Music and musical sonification for the rehabilitation of Parkinsonian dysgraphia: Conceptual framework
+	A case study of translating sonifications across musical cultures for an educational application
+	A Music-generating System Inspired by the Science of Complex Adaptive Systems
+	Musical elements in the discrete-time representation of sound
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+10.5281/zenodo.1176749	Sonification of Facial Actions for Musical Expression
+	Data Melodification FM: Where Musical Rhetoric Meets Sonification
+	Reaching Diverse Groups in Long-Term Astronomy Public Engagement Efforts
+	Caring Trouble and Musical AI: Considerations towards a Feminist Musical AI
+	Quantum Concept Music Score from Quantum Picturalism: Musical Incarnation of a Bell-Pair under Measurements
+	Mechatronics-Driven Musical Expressivity for Robotic Percussionists
+10.5281/zenodo.1176372	The MATRIX: A Novel Controller for Musical Expression

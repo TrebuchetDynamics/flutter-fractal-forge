@@ -19,6 +19,7 @@ dependencies:
   path_provider: ^2.1.0
   share_plus: ^13.2.0
   image: ^4.0.0
+  web: ^1.1.1
   google_fonts: ^6.2.1
   m3_carousel: ^2.1.0
   meta: ^1.16.0

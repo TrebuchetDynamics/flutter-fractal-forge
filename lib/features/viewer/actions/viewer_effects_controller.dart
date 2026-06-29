@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/rendering/fractal_report_service.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
 
 class ViewerMusicToggleResult {
@@ -13,8 +13,10 @@ class ViewerMusicToggleResult {
 
   const ViewerMusicToggleResult.enabled() : this._(enabled: true);
   const ViewerMusicToggleResult.disabled() : this._(enabled: false);
-  const ViewerMusicToggleResult.failed(Object error)
-      : this._(enabled: false, error: error);
+  const ViewerMusicToggleResult.failed(
+    Object error, {
+    bool enabled = false,
+  }) : this._(enabled: enabled, error: error);
 
   bool get failed => error != null;
 }
@@ -27,6 +29,8 @@ class ViewerEffectsController {
   final AppLogger _log;
 
   bool fractalMusicEnabled = false;
+  bool _disposed = false;
+  Future<void> _musicQueue = Future.value();
 
   ViewerEffectsController({
     FractalMusicService? musicService,
@@ -37,24 +41,97 @@ class ViewerEffectsController {
         _log = log ?? AppLogger.instance;
 
   Future<ViewerMusicToggleResult> toggleFractalMusic(
-    FractalController controller,
-  ) async {
+    FractalController controller, {
+    FractalMusicScanFrame? scanFrame,
+  }) {
+    return _enqueueMusicOperation(
+      () => _toggleFractalMusicNow(controller, scanFrame: scanFrame),
+    );
+  }
+
+  Future<ViewerMusicToggleResult> _toggleFractalMusicNow(
+    FractalController controller, {
+    FractalMusicScanFrame? scanFrame,
+  }) async {
     final next = !fractalMusicEnabled;
     try {
       if (next) {
-        await _musicService.play(controller);
+        await _musicService.play(controller, scanFrame: scanFrame);
       } else {
         await _musicService.stop();
+      }
+      if (_disposed) {
+        fractalMusicEnabled = false;
+        if (next) await _stopAfterDisposedPlay();
+        return const ViewerMusicToggleResult.disabled();
       }
       fractalMusicEnabled = next;
       return next
           ? const ViewerMusicToggleResult.enabled()
           : const ViewerMusicToggleResult.disabled();
     } catch (error) {
-      fractalMusicEnabled = false;
+      fractalMusicEnabled = !next;
       _log.warn('audio', 'Fractal Music unavailable',
           data: {'error': '$error'});
-      return ViewerMusicToggleResult.failed(error);
+      return ViewerMusicToggleResult.failed(
+        error,
+        enabled: fractalMusicEnabled,
+      );
+    }
+  }
+
+  Future<ViewerMusicToggleResult> restartFractalMusic(
+    FractalController controller, {
+    FractalMusicScanFrame? scanFrame,
+  }) {
+    return _enqueueMusicOperation(
+      () => _restartFractalMusicNow(controller, scanFrame: scanFrame),
+    );
+  }
+
+  Future<ViewerMusicToggleResult> _restartFractalMusicNow(
+    FractalController controller, {
+    FractalMusicScanFrame? scanFrame,
+  }) async {
+    if (_disposed || !fractalMusicEnabled) {
+      return const ViewerMusicToggleResult.disabled();
+    }
+    try {
+      await _musicService.play(controller, scanFrame: scanFrame);
+      if (_disposed) {
+        fractalMusicEnabled = false;
+        await _stopAfterDisposedPlay();
+        return const ViewerMusicToggleResult.disabled();
+      }
+      return const ViewerMusicToggleResult.enabled();
+    } catch (error) {
+      fractalMusicEnabled = error is FractalMusicStopFailure;
+      _log.warn('audio', 'Fractal Music restart failed',
+          data: {'error': '$error'});
+      return ViewerMusicToggleResult.failed(
+        error,
+        enabled: fractalMusicEnabled,
+      );
+    }
+  }
+
+  Future<ViewerMusicToggleResult> _enqueueMusicOperation(
+    Future<ViewerMusicToggleResult> Function() operation,
+  ) {
+    final result = _musicQueue.then((_) async {
+      if (_disposed) return const ViewerMusicToggleResult.disabled();
+      return operation();
+    });
+    _musicQueue = result.then<void>((_) {}, onError: (_) {});
+    return result;
+  }
+
+  Future<void> _stopAfterDisposedPlay() async {
+    try {
+      await _musicService.stop();
+    } catch (error) {
+      _log.warn('audio', 'Fractal Music dispose cleanup failed',
+          data: {'error': '$error'});
     }
   }
 
@@ -89,6 +166,8 @@ class ViewerEffectsController {
   }
 
   void dispose() {
+    _disposed = true;
+    fractalMusicEnabled = false;
     _musicService.dispose();
   }
 }

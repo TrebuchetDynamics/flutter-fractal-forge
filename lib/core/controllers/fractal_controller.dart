@@ -1,0 +1,832 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_fractals/core/models/fractal_parameter.dart';
+import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller_snapshots.dart';
+import 'package:flutter_fractals/core/controllers/fractal_effect_input_bounds.dart';
+import 'package:flutter_fractals/core/controllers/fractal_kaleidoscope_state.dart';
+import 'package:flutter_fractals/core/controllers/fractal_param_randomizer.dart';
+import 'package:flutter_fractals/core/controllers/fractal_param_value_normalizer.dart';
+import 'package:flutter_fractals/core/controllers/fractal_view_input_bounds.dart';
+import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
+import 'package:vector_math/vector_math.dart';
+
+/// Manages the state of fractal rendering and user interactions.
+///
+/// [FractalController] is the central state manager for the fractal viewer.
+/// It handles:
+/// - **Module selection**: Switching between fractal types
+/// - **Parameter updates**: Modifying fractal settings with validation
+/// - **View transformations**: Pan, zoom, and rotation
+/// - **Preset management**: Applying and randomizing configurations
+///
+/// This controller uses [ChangeNotifier] for reactive updates and is
+/// typically provided via the Provider package.
+///
+/// {@category State Management}
+///
+/// Example usage:
+/// ```dart
+/// final controller = FractalController(registry);
+///
+/// // Switch fractal type
+/// controller.selectModule(registry.byId('julia'));
+///
+/// // Update a parameter
+/// controller.updateParam('iterations', 150);
+///
+/// // Apply a preset
+/// controller.applyPreset(myPreset);
+///
+/// // Reset to defaults
+/// controller.resetSession();
+/// ```
+class FractalController extends ChangeNotifier {
+  static const bool _adaptiveIterationsEnabled = bool.fromEnvironment(
+    'ADAPTIVE_ITERATIONS',
+    defaultValue: true,
+  );
+  static const int _adaptiveIterationsMinStep = 8;
+  static const double _adaptiveZoomEpsilon = 1.01;
+
+  // Test mode detection - skip timer-based animations in automated tests.
+  bool get _isTest => RuntimeModeService.isAutomatedTest;
+
+  /// The module registry containing all available fractal types.
+  final ModuleRegistry registry;
+
+  final TestLogger? _logger;
+  late FractalModule _module;
+  Map<String, Object> _params = {};
+  FractalViewState _view = FractalViewState.initial();
+  bool _transparentBackground = false;
+  bool _rotationLocked = false;
+  bool _glowEnabled = false;
+  double _glowSigma = 1.0; // blur radius multiplier: 1.0 = standard
+  double _glowIntensity = 0.35; // opacity of glow layer
+
+  // Animation state
+  bool _isMorphing = false;
+  double _morphProgress = 1.0;
+  String? _previousModuleId;
+  Timer? _morphTimer;
+  bool _isCelebrating = false;
+  Timer? _celebrationTimer;
+
+  // Interesting spot tracking for celebrations
+  int _consecutiveInterestingSpots = 0;
+  DateTime? _lastInterestingSpotTime;
+  final _celebrationController = StreamController<void>.broadcast();
+  double _lastAdaptiveZoom = 1.0;
+
+  /// Creates a new [FractalController] with the given [registry].
+  ///
+  /// Optionally accepts a [logger] for test instrumentation.
+  /// Initializes with the first module in the registry.
+  FractalController(this.registry, {TestLogger? logger}) : _logger = logger {
+    _module = registry.modules.first;
+    _applyPreset(_module.defaultPreset);
+    _applyKaleidoscopeModulePolicy(_module.id);
+    _lastAdaptiveZoom = _view.zoom;
+  }
+
+  /// Whether a module morph transition is in progress.
+  bool get isMorphing => _isMorphing;
+
+  /// Progress of the current morph transition (0.0 to 1.0).
+  double get morphProgress => _morphProgress;
+
+  /// The previous module ID during a morph transition.
+  String? get previousModuleId => _previousModuleId;
+
+  /// Whether a celebration effect should be shown.
+  bool get isCelebrating => _isCelebrating;
+
+  /// Stream that emits when a celebration should be triggered.
+  Stream<void> get onCelebration => _celebrationController.stream;
+
+  /// The currently selected fractal module.
+  ///
+  /// Determines which fractal type is being rendered and
+  /// what parameters are available.
+  FractalModule get module => _module;
+
+  /// Current parameter values keyed by parameter ID.
+  ///
+  /// These are passed to the shader each frame via [FractalRenderState].
+  /// Public reads receive a read-only snapshot; use [updateParam] to mutate.
+  Map<String, Object> get params => snapshotFractalControllerParams(_params);
+
+  /// Current view state (pan, zoom, rotation).
+  ///
+  /// Updated by gesture handlers and preset application.
+  /// Public reads receive cloned vectors; use view update methods to mutate.
+  FractalViewState get view => snapshotFractalControllerView(_view);
+
+  /// Whether the fractal should render with a transparent background.
+  ///
+  /// Used for transparent PNG export.
+  bool get transparentBackground => _transparentBackground;
+
+  /// Whether gesture-based rotation is locked.
+  bool get rotationLocked => _rotationLocked;
+
+  bool get glowEnabled => _glowEnabled;
+  double get glowSigma => _glowSigma;
+  double get glowIntensity => _glowIntensity;
+
+  // Kaleidoscope state
+  bool _kaleidoscopeEnabled = false;
+  int _kaleidoscopeSectors = 8;
+  bool _kaleidoscopeMirror = true;
+  double _kaleidoscopeRotation = 0.0;
+  int _kaleidoscopeMirrorMode =
+      0; // 0=alternado, 1=doble, 2=triple, 3=sin espejo
+  FractalKaleidoscopeState? _kaleidoscopeRestoreAfterForcedModule;
+
+  bool get kaleidoscopeEnabled => _kaleidoscopeEnabled;
+  int get kaleidoscopeSectors => _kaleidoscopeSectors;
+  bool get kaleidoscopeMirror => _kaleidoscopeMirror;
+  double get kaleidoscopeRotation => _kaleidoscopeRotation;
+  int get kaleidoscopeMirrorMode => _kaleidoscopeMirrorMode;
+
+  void setKaleidoscopeEnabled(bool enabled) {
+    // Force enabled for kaleidoscope modules.
+    if (FractalKaleidoscopeModulePolicy.isForcedModuleId(_module.id)) {
+      enabled = true;
+    }
+    if (_kaleidoscopeEnabled != enabled) {
+      _kaleidoscopeEnabled = enabled;
+      notifyListeners();
+      _logChange('stateChange', 'kaleidoscopeEnabled',
+          enabled ? 'Kaleidoscope enabled' : 'Kaleidoscope disabled',
+          metadata: {'enabled': enabled});
+    }
+  }
+
+  void setKaleidoscopeSectors(int sectors) {
+    // Sectors must be even: the reflective mirror modes flip every other wedge
+    // to the opposite side of the circle, which only tiles the plane without
+    // gaps/overlaps when the sector count is even. Snap odd inputs down.
+    final clamped = sectors.clamp(4, 16);
+    final even = clamped - (clamped % 2);
+    if (_kaleidoscopeSectors != even) {
+      _kaleidoscopeSectors = even;
+      notifyListeners();
+      _logChange(
+          'stateChange', 'kaleidoscopeSectors', 'Kaleidoscope sectors updated',
+          metadata: {'sectors': even});
+    }
+  }
+
+  void setKaleidoscopeMirror(bool mirror) {
+    if (_kaleidoscopeMirror != mirror) {
+      _kaleidoscopeMirror = mirror;
+      notifyListeners();
+      _logChange(
+          'stateChange', 'kaleidoscopeMirror', 'Kaleidoscope mirror updated',
+          metadata: {'mirror': mirror});
+    }
+  }
+
+  void setKaleidoscopeMirrorMode(int mode) {
+    final clamped = mode.clamp(0, 3);
+    if (_kaleidoscopeMirrorMode != clamped) {
+      _kaleidoscopeMirrorMode = clamped;
+      notifyListeners();
+      _logChange('stateChange', 'kaleidoscopeMirrorMode',
+          'Kaleidoscope mirror mode updated',
+          metadata: {'mode': clamped});
+    }
+  }
+
+  void setKaleidoscopeRotation(double rotation) {
+    final normalized = FractalEffectInputBounds.normalizeKaleidoscopeRotation(
+      candidate: rotation,
+      current: _kaleidoscopeRotation,
+    );
+    if (_kaleidoscopeRotation != normalized) {
+      _kaleidoscopeRotation = normalized;
+      notifyListeners();
+      _logChange('stateChange', 'kaleidoscopeRotation',
+          'Kaleidoscope rotation updated',
+          metadata: {'rotation': normalized});
+    }
+  }
+
+  FractalKaleidoscopeState get _kaleidoscopeState => FractalKaleidoscopeState(
+        enabled: _kaleidoscopeEnabled,
+        sectors: _kaleidoscopeSectors,
+        mirror: _kaleidoscopeMirror,
+        rotation: _kaleidoscopeRotation,
+        mirrorMode: _kaleidoscopeMirrorMode,
+      );
+
+  void _setKaleidoscopeState(FractalKaleidoscopeState state) {
+    _kaleidoscopeEnabled = state.enabled;
+    _kaleidoscopeSectors = state.sectors;
+    _kaleidoscopeMirror = state.mirror;
+    _kaleidoscopeRotation = state.rotation;
+    _kaleidoscopeMirrorMode = state.mirrorMode;
+  }
+
+  void _applyKaleidoscopeModulePolicy(String moduleId) {
+    final transition = FractalKaleidoscopeModulePolicy.transitionForModule(
+      moduleId: moduleId,
+      current: _kaleidoscopeState,
+      restoreAfterForcedModule: _kaleidoscopeRestoreAfterForcedModule,
+    );
+    _setKaleidoscopeState(transition.effective);
+    _kaleidoscopeRestoreAfterForcedModule = transition.restoreAfterForcedModule;
+  }
+
+  /// Switches to a different fractal module.
+  ///
+  /// The [module] must be a valid module from the registry.
+  /// Applies the module's default preset after switching.
+  /// Triggers a smooth morph transition animation.
+  ///
+  /// No-op if [module] is already the current module, unless [resetView] is true.
+  void selectModule(
+    FractalModule module, {
+    bool animate = true,
+    bool resetView = false,
+  }) {
+    if (_module.id == module.id) {
+      if (resetView) {
+        this.resetView();
+      }
+      return;
+    }
+
+    final previousId = _module.id;
+    _module = module;
+    _applyPreset(module.defaultPreset);
+    if (resetView) {
+      _resetViewState();
+    }
+
+    if (animate) {
+      _startMorphTransition(previousId);
+    }
+
+    _applyKaleidoscopeModulePolicy(module.id);
+
+    notifyListeners();
+    _logChange('stateChange', 'moduleSwitch', 'Switched to ${module.id}');
+  }
+
+  /// Starts a morph transition animation between fractal types.
+  void _startMorphTransition(String fromModuleId) {
+    // Skip timer-based animations in test mode
+    if (_isTest) {
+      _morphProgress = 1.0;
+      _isMorphing = false;
+      return;
+    }
+
+    _previousModuleId = fromModuleId;
+    _isMorphing = true;
+    _morphProgress = 0.0;
+
+    HapticFeedback.lightImpact();
+
+    _morphTimer?.cancel();
+
+    const duration = Duration(milliseconds: 600);
+    const fps = 60;
+    final steps = (duration.inMilliseconds / (1000 / fps)).round();
+    var step = 0;
+
+    _morphTimer = Timer.periodic(
+      Duration(milliseconds: 1000 ~/ fps),
+      (timer) {
+        step++;
+        // Use ease-out cubic curve
+        final t = step / steps;
+        _morphProgress = 1.0 - pow(1.0 - t, 3);
+        notifyListeners();
+
+        if (step >= steps) {
+          timer.cancel();
+          _morphProgress = 1.0;
+          _isMorphing = false;
+          _previousModuleId = null;
+          notifyListeners();
+        }
+      },
+    );
+  }
+
+  /// Updates a single fractal parameter.
+  ///
+  /// The [id] must match a parameter defined in the current module.
+  /// The [value] is automatically clamped to the parameter's valid range.
+  ///
+  /// Example:
+  /// ```dart
+  /// controller.updateParam('iterations', 200);
+  /// controller.updateParam('colorScheme', 2);
+  /// ```
+  void updateParam(String id, Object value) {
+    final schema = _findParam(id);
+    if (schema == null) return;
+    _params = Map<String, Object>.from(_params);
+    _params[id] = normalizeFractalParamValue(schema, value);
+    notifyListeners();
+    _logChange('stateChange', 'paramUpdate', 'Updated $id',
+        metadata: {'value': value.toString()});
+  }
+
+  /// Applies a preset, setting all parameters and view state.
+  ///
+  /// The [preset] should match the current module (by moduleId).
+  /// Missing parameters are filled with module defaults.
+  void applyPreset(FractalPreset preset) {
+    _applyPreset(preset);
+    notifyListeners();
+    _logChange('stateChange', 'presetApply', 'Applied preset ${preset.name}');
+  }
+
+  /// Resets all parameters to the module's default values.
+  ///
+  /// Does not affect the view state (pan, zoom, rotation).
+  void resetParams() {
+    _params = _normalizedParamsForPreset(_module.defaultPreset);
+    notifyListeners();
+    _logChange('stateChange', 'reset', 'Reset params to default');
+  }
+
+  /// Resets the view state to initial values.
+  ///
+  /// Sets zoom to 1.0, pan to center, and rotation to zero.
+  /// Does not affect fractal parameters.
+  void resetView() {
+    _resetViewState();
+    notifyListeners();
+    _logChange('stateChange', 'reset', 'Reset view');
+  }
+
+  void _resetViewState() {
+    _view = FractalViewState.initial();
+    _lastAdaptiveZoom = _view.zoom;
+  }
+
+  /// Resets the entire session state.
+  ///
+  /// Restores parameters to defaults, resets view state,
+  /// and disables transparent background. The selected module
+  /// remains unchanged.
+  void resetSession() {
+    // Reset params to module defaults, but reset the view to the true "initial" view.
+    // (Module default presets may intentionally start at a non-zero pan like -0.5,0.0 for Mandelbrot.)
+    _applyPreset(_module.defaultPreset);
+    _resetViewState();
+    _transparentBackground = false;
+    _rotationLocked = false;
+    notifyListeners();
+    _logChange('stateChange', 'reset', 'Reset session');
+  }
+
+  /// Randomizes all parameters within their valid ranges.
+  ///
+  /// Creates interesting, unpredictable fractal configurations.
+  /// Useful for exploration and discovery.
+  void randomizeParams() {
+    final random = Random();
+    _params = {
+      for (final param in _module.parameters)
+        param.id: randomFractalParamValue(param, random),
+    };
+    notifyListeners();
+    _logChange(
+        'stateChange', 'randomize', 'Randomized params for ${_module.id}');
+  }
+
+  /// Updates pan, zoom, and rotation as one camera move.
+  ///
+  /// Used by animation/export paths so camera interpolation does not fire three
+  /// notifications per frame or accidentally tune fractal params.
+  void updateView(FractalViewState view) {
+    final pan = view.pan;
+    _view = FractalViewState(
+      pan: Vector2(
+        FractalViewInputBounds.normalizePanComponent(
+          candidate: pan.x,
+          current: _view.pan.x,
+        ),
+        FractalViewInputBounds.normalizePanComponent(
+          candidate: pan.y,
+          current: _view.pan.y,
+        ),
+      ),
+      zoom: FractalViewInputBounds.normalizeZoom(
+        candidate: view.zoom,
+        currentZoom: _view.zoom,
+        moduleId: _module.id,
+      ),
+      rotation: FractalViewInputBounds.normalizeRotation(
+        candidate: view.rotation,
+        current: _view.rotation,
+      ),
+    );
+    _lastAdaptiveZoom = _view.zoom;
+    notifyListeners();
+  }
+
+  /// Updates the zoom level.
+  ///
+  /// The [zoom] value is clamped to range [moduleMinZoom, 1e12] to support
+  /// deep-zoom exploration before precision fallback kicks in.
+  void updateZoom(double zoom) {
+    final clampedZoom = FractalViewInputBounds.normalizeZoom(
+      candidate: zoom,
+      currentZoom: _view.zoom,
+      moduleId: _module.id,
+    );
+    final zoomingIn = clampedZoom > (_lastAdaptiveZoom * _adaptiveZoomEpsilon);
+    _view = _view.copyWith(zoom: clampedZoom);
+    _lastAdaptiveZoom = clampedZoom;
+
+    final autoIterations = _applyAdaptiveIterationsForZoom(
+      zoom: clampedZoom,
+      zoomingIn: zoomingIn,
+    );
+
+    notifyListeners();
+    _logChange('userAction', 'zoom', 'Zoom updated', metadata: {
+      'zoom': clampedZoom,
+      if (autoIterations != null) 'autoIterations': autoIterations,
+    });
+  }
+
+  /// Updates the 2D pan offset.
+  ///
+  /// Each component of [pan] is clamped to range [-3.0, 3.0].
+  /// Used for 2D fractals to navigate the complex plane.
+  void updatePan(Vector2 pan) {
+    _view = _view.copyWith(
+      pan: Vector2(
+        FractalViewInputBounds.normalizePanComponent(
+          candidate: pan.x,
+          current: _view.pan.x,
+        ),
+        FractalViewInputBounds.normalizePanComponent(
+          candidate: pan.y,
+          current: _view.pan.y,
+        ),
+      ),
+    );
+    notifyListeners();
+    _logChange('userAction', 'pan', 'Pan updated',
+        metadata: {'x': pan.x, 'y': pan.y});
+  }
+
+  /// Updates the 3D rotation angles.
+  ///
+  /// Used for 3D fractals like Mandelbulb to control camera orientation.
+  void updateRotation(Vector3 rotation) {
+    _view = _view.copyWith(
+      rotation: FractalViewInputBounds.normalizeRotation(
+        candidate: rotation,
+        current: _view.rotation,
+      ),
+    );
+    notifyListeners();
+  }
+
+  /// Locks or unlocks gesture-based rotation.
+  void setRotationLocked(bool value) {
+    if (_rotationLocked == value) return;
+    _rotationLocked = value;
+    notifyListeners();
+    _logChange(
+      'stateChange',
+      'rotationLock',
+      value ? 'Rotation locked' : 'Rotation unlocked',
+    );
+  }
+
+  /// Toggles gesture-based rotation lock.
+  void toggleRotationLock() {
+    setRotationLocked(!_rotationLocked);
+  }
+
+  void setGlowEnabled(bool value) {
+    if (_glowEnabled == value) return;
+    _glowEnabled = value;
+    notifyListeners();
+  }
+
+  void setGlowSigma(double value) {
+    final normalized = FractalEffectInputBounds.normalizeGlowSigma(
+      candidate: value,
+      current: _glowSigma,
+    );
+    if (_glowSigma == normalized) return;
+    _glowSigma = normalized;
+    notifyListeners();
+  }
+
+  void setGlowIntensity(double value) {
+    final normalized = FractalEffectInputBounds.normalizeGlowIntensity(
+      candidate: value,
+      current: _glowIntensity,
+    );
+    if (_glowIntensity == normalized) return;
+    _glowIntensity = normalized;
+    notifyListeners();
+  }
+
+  /// Sets whether the background should be transparent.
+  ///
+  /// When [value] is true, the shader renders background pixels
+  /// with alpha=0, suitable for transparent PNG export.
+  void setTransparentBackground(bool value) {
+    if (_transparentBackground == value) return;
+    _transparentBackground = value;
+    notifyListeners();
+  }
+
+  void _logChange(String type, String category, String message,
+      {Map<String, dynamic>? metadata}) {
+    _logger?.log(LogEvent(
+      timestamp: DateTime.now(),
+      type: type,
+      category: category,
+      message: message,
+      metadata: metadata,
+    ));
+
+    if (RuntimeModeService.playwrightCatalogSmoke) {
+      print('PLAYWRIGHT_FRACTAL_CONTROLLER:${jsonEncode({
+            'type': type,
+            'category': category,
+            'moduleId': _module.id,
+            'message': message,
+            if (metadata != null) 'metadata': metadata,
+          })}');
+    }
+  }
+
+  /// Records finding an interesting spot in the fractal.
+  ///
+  /// When multiple interesting spots are found in quick succession,
+  /// triggers a celebration effect.
+  void recordInterestingSpot() {
+    final now = DateTime.now();
+
+    if (_lastInterestingSpotTime != null) {
+      final elapsed = now.difference(_lastInterestingSpotTime!);
+      if (elapsed.inSeconds < 30) {
+        _consecutiveInterestingSpots++;
+
+        // Trigger celebration after finding 3 interesting spots quickly
+        if (_consecutiveInterestingSpots >= 3) {
+          celebrate();
+          _consecutiveInterestingSpots = 0;
+        }
+      } else {
+        _consecutiveInterestingSpots = 1;
+      }
+    } else {
+      _consecutiveInterestingSpots = 1;
+    }
+
+    _lastInterestingSpotTime = now;
+    _logChange('userAction', 'discovery', 'Found interesting spot');
+  }
+
+  /// Manually triggers a celebration effect.
+  void celebrate() {
+    if (_isCelebrating) return;
+
+    _isCelebrating = true;
+    if (!_isTest) {
+      HapticFeedback.mediumImpact();
+    }
+    _celebrationController.add(null);
+    notifyListeners();
+
+    // Skip timer in test mode
+    if (_isTest) {
+      _isCelebrating = false;
+      return;
+    }
+
+    _celebrationTimer?.cancel();
+    _celebrationTimer = Timer(const Duration(milliseconds: 2500), () {
+      _isCelebrating = false;
+      notifyListeners();
+    });
+
+    _logChange('event', 'celebration', 'Celebration triggered');
+  }
+
+  @override
+  void dispose() {
+    _morphTimer?.cancel();
+    _celebrationTimer?.cancel();
+    _celebrationController.close();
+    super.dispose();
+  }
+
+  void _applyPreset(FractalPreset preset) {
+    _params = _normalizedParamsForPreset(preset);
+    _applyPresetView(preset.view);
+  }
+
+  Map<String, Object> _normalizedParamsForPreset(FractalPreset preset) {
+    final defaults = <String, Object>{
+      for (final param in _module.parameters) param.id: param.defaultValue,
+    };
+
+    final merged = {
+      ...defaults,
+      ...preset.params,
+    };
+
+    final clamped = <String, Object>{};
+    for (final param in _module.parameters) {
+      clamped[param.id] = normalizeFractalParamValue(
+        param,
+        merged[param.id] ?? param.defaultValue,
+      );
+    }
+    return clamped;
+  }
+
+  void _applyPresetView(FractalViewState view) {
+    _view = FractalViewInputBounds.normalizeView(
+      candidate: view,
+      current: _view,
+      moduleId: _module.id,
+    );
+    _lastAdaptiveZoom = _view.zoom;
+  }
+
+  int? _applyAdaptiveIterationsForZoom({
+    required double zoom,
+    required bool zoomingIn,
+  }) {
+    if (!_adaptiveIterationsEnabled || !zoomingIn) {
+      return null;
+    }
+    if (_module.dimension != FractalDimension.twoD) {
+      return null;
+    }
+
+    final iterationsSchema = _findParam('iterations');
+    if (iterationsSchema == null ||
+        iterationsSchema.type != FractalParamType.integer) {
+      return null;
+    }
+
+    final minIterations = iterationsSchema.min.round();
+    final maxIterations = iterationsSchema.max.round();
+    final currentValue = _params['iterations'];
+    final currentIterations = currentValue is num
+        ? currentValue.round()
+        : (iterationsSchema.defaultValue as num).round();
+    final baseIterations = (iterationsSchema.defaultValue as num).round();
+
+    final targetIterations = _suggestIterationsForZoom(
+      zoom: zoom,
+      baseIterations: baseIterations,
+      minIterations: minIterations,
+      maxIterations: maxIterations,
+    );
+    if (targetIterations <= currentIterations) {
+      return null;
+    }
+
+    final delta = targetIterations - currentIterations;
+    final step = delta >= 256
+        ? 64
+        : delta >= 96
+            ? 32
+            : delta >= 32
+                ? 16
+                : _adaptiveIterationsMinStep;
+    final nextIterations =
+        (currentIterations + step).clamp(minIterations, maxIterations);
+    if (nextIterations <= currentIterations) {
+      return null;
+    }
+
+    _params = Map<String, Object>.from(_params);
+    _params['iterations'] = nextIterations;
+    _logChange(
+      'stateChange',
+      'adaptiveIterations',
+      'Adaptive iterations increased',
+      metadata: {
+        'module': _module.id,
+        'zoom': zoom,
+        'from': currentIterations,
+        'to': nextIterations,
+        'target': targetIterations,
+      },
+    );
+    return nextIterations;
+  }
+
+  int _suggestIterationsForZoom({
+    required double zoom,
+    required int baseIterations,
+    required int minIterations,
+    required int maxIterations,
+  }) {
+    final safeZoom = max(1.0, zoom);
+    final zoomOctaves = log(safeZoom) / ln2;
+    final extra = max(0, (zoomOctaves * 48.0).round());
+    final raw = baseIterations + extra;
+    // Snap to a small step to avoid jittery one-by-one jumps.
+    final snapped = ((raw + 3) ~/ 4) * 4;
+    return snapped.clamp(minIterations, maxIterations);
+  }
+
+  FractalParameter? _findParam(String id) {
+    for (final param in _module.parameters) {
+      if (param.id == id) {
+        return param;
+      }
+    }
+    return null;
+  }
+
+  /// Alias for [view] for backward compatibility.
+  FractalViewState get viewState => view;
+
+  /// The currently selected fractal module (alias for [module]).
+  FractalModule get currentModule => _module;
+
+  /// Loads a complete state from another controller or snapshot.
+  ///
+  /// This initializes the controller from a full state including
+  /// module, parameters, view state, and transparency setting.
+  /// Parameters are clamped to the target module's schema.
+  ///
+  /// Can accept either a [module] object directly or a [moduleId] string.
+  void loadState({
+    FractalModule? module,
+    String? moduleId,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    bool transparentBackground = false,
+    bool animateModule = false,
+  }) {
+    // Find the module by ID or use provided module
+    final FractalModule targetModule;
+    if (module != null) {
+      targetModule = module;
+    } else if (moduleId != null) {
+      targetModule = registry.modules.firstWhere(
+        (m) => m.id == moduleId,
+        orElse: () => _module,
+      );
+    } else {
+      targetModule = _module;
+    }
+
+    // Switch to the target module
+    if (targetModule.id != _module.id) {
+      if (animateModule) {
+        selectModule(targetModule, animate: true);
+      } else {
+        _module = targetModule;
+      }
+    }
+
+    _applyKaleidoscopeModulePolicy(_module.id);
+
+    // Apply parameters with clamping
+    final clamped = <String, Object>{};
+    for (final param in _module.parameters) {
+      final value = params[param.id] ?? param.defaultValue;
+      clamped[param.id] = normalizeFractalParamValue(param, value);
+    }
+    _params = clamped;
+
+    // Set view state
+    _view = FractalViewInputBounds.normalizeView(
+      candidate: view,
+      current: _view,
+      moduleId: _module.id,
+    );
+    _lastAdaptiveZoom = _view.zoom;
+
+    // Set transparency
+    _transparentBackground = transparentBackground;
+
+    notifyListeners();
+    _logChange('stateChange', 'loadState', 'Loaded state for ${_module.id}');
+  }
+}

@@ -5,7 +5,7 @@ import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
 import 'package:vector_math/vector_math.dart';
 
 FractalModule buildMandelbulbModule() {
@@ -285,13 +285,7 @@ FractalModule buildMandelbulbModule() {
       shader.setFloat(Raymarched3DUniformSlots.transparentBackground,
           state.transparentBackground ? 1.0 : 0.0);
 
-      try {
-        final palette =
-            PaletteService.instance.paletteAtIndex(colorScheme.round());
-        PaletteService.instance.setCustomPaletteUniforms(shader, 16, palette);
-      } catch (_) {
-        // PaletteService unavailable; shader built-in color schemes apply.
-      }
+      PaletteShaderAdapter.instance.bindUniformPalette(shader, 16, colorScheme);
     },
   );
 }

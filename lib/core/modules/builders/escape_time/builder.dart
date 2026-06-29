@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
@@ -8,7 +6,7 @@ import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Declarative config for a standard 2D escape-time fractal.
@@ -138,7 +136,8 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       shader.setFloat(EscapeTimeUniformSlots.transparentBackground,
           state.transparentBackground ? 1.0 : 0.0);
       if (config.usesPaletteSampler) {
-        shader.setImageSampler(0, _paletteSamplerTexture(colorScheme.round()));
+        PaletteShaderAdapter.instance
+            .bindSamplerPalette(shader, 0, colorScheme);
       }
       for (int i = 0; i < config.extraParams.length; i++) {
         final p = config.extraParams[i];
@@ -147,31 +146,6 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       }
     },
   );
-}
-
-ui.Image? _fallbackPaletteSamplerTexture;
-
-ui.Image _paletteSamplerTexture(int colorScheme) {
-  try {
-    final palette = PaletteService.instance.paletteAtIndex(colorScheme);
-    return PaletteService.instance.paletteTexture(palette);
-  } catch (_) {
-    final cached = _fallbackPaletteSamplerTexture;
-    if (cached != null) return cached;
-
-    final recorder = ui.PictureRecorder();
-    final canvas = ui.Canvas(recorder);
-    canvas.drawRect(
-      const ui.Rect.fromLTWH(0, 0, 1, 1),
-      ui.Paint()..color = const ui.Color(0xFF000000),
-    );
-    final picture = recorder.endRecording();
-    try {
-      return _fallbackPaletteSamplerTexture = picture.toImageSync(1, 1);
-    } finally {
-      picture.dispose();
-    }
-  }
 }
 
 class _EscapeTimeDefaults {

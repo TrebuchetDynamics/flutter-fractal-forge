@@ -3,13 +3,15 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/features/renderer/providers/fractal_provider.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('FractalController falls back to boolean schema default for non-bool values', () {
+  test(
+      'FractalController falls back to boolean schema default for non-bool values',
+      () {
     final boolModule = FractalModule(
       id: 'bool-module',
       displayName: (_) => 'Bool',
