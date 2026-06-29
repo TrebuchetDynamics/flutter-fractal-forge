@@ -174,45 +174,47 @@ class MainActivity : FlutterFragmentActivity() {
     }
 
     private fun playFractalMusic(bytes: ByteArray, result: MethodChannel.Result) {
-        try {
-            if (bytes.size <= 44 || String(bytes.copyOfRange(0, 4)) != "RIFF") {
-                result.error("invalid_audio", "Expected WAV bytes", null)
-                return
-            }
-            val sampleRate = readLeInt(bytes, 24).coerceIn(8000, 48000)
-            val pcm = bytes.copyOfRange(44, bytes.size)
-            val frameCount = pcm.size / 2
-            if (frameCount <= 0) {
-                result.error("invalid_audio", "Empty WAV payload", null)
-                return
-            }
+        Thread {
+            try {
+                if (bytes.size <= 44 || String(bytes.copyOfRange(0, 4)) != "RIFF") {
+                    runOnUiThread { result.error("invalid_audio", "Expected WAV bytes", null) }
+                    return@Thread
+                }
+                val sampleRate = readLeInt(bytes, 24).coerceIn(8000, 48000)
+                val pcm = bytes.copyOfRange(44, bytes.size)
+                val frameCount = pcm.size / 2
+                if (frameCount <= 0) {
+                    runOnUiThread { result.error("invalid_audio", "Empty WAV payload", null) }
+                    return@Thread
+                }
 
-            stopFractalMusic()
-            val track = AudioTrack(
-                AudioManager.STREAM_MUSIC,
-                sampleRate,
-                AudioFormat.CHANNEL_OUT_MONO,
-                AudioFormat.ENCODING_PCM_16BIT,
-                pcm.size,
-                AudioTrack.MODE_STATIC,
-            )
-            val written = track.write(pcm, 0, pcm.size)
-            if (written <= 0) {
-                track.release()
-                result.error("audio_write_failed", "Failed to write audio buffer", null)
-                return
+                stopFractalMusic()
+                val track = AudioTrack(
+                    AudioManager.STREAM_MUSIC,
+                    sampleRate,
+                    AudioFormat.CHANNEL_OUT_MONO,
+                    AudioFormat.ENCODING_PCM_16BIT,
+                    pcm.size,
+                    AudioTrack.MODE_STATIC,
+                )
+                val written = track.write(pcm, 0, pcm.size)
+                if (written <= 0) {
+                    track.release()
+                    runOnUiThread { result.error("audio_write_failed", "Failed to write audio buffer", null) }
+                    return@Thread
+                }
+                track.setLoopPoints(0, frameCount, -1)
+                track.play()
+                synchronized(this) { fractalMusicTrack = track }
+                runOnUiThread { result.success(true) }
+            } catch (t: Throwable) {
+                stopFractalMusic()
+                runOnUiThread { result.error("audio_play_failed", t.message ?: "Failed to play fractal music", null) }
             }
-            track.setLoopPoints(0, frameCount, -1)
-            track.play()
-            fractalMusicTrack = track
-            result.success(true)
-        } catch (t: Throwable) {
-            stopFractalMusic()
-            result.error("audio_play_failed", t.message ?: "Failed to play fractal music", null)
-        }
+        }.start()
     }
 
-    private fun stopFractalMusic() {
+    @Synchronized private fun stopFractalMusic() {
         val track = fractalMusicTrack ?: return
         fractalMusicTrack = null
         runCatching { track.stop() }
