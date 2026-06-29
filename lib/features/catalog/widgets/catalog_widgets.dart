@@ -873,6 +873,8 @@ class _PreviewThumbnail extends StatefulWidget {
     'RUNTIME_CATALOG_THUMBNAILS',
     defaultValue: true,
   );
+  static const int _webImmediateRuntimeThumbnailSlots = 16;
+  static int _webRuntimeThumbnailSlotsUsed = 0;
 
   final String catalogId;
   final FractalModule module;
@@ -895,8 +897,10 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   late final AnimationController _localShimmerController;
   late final Future<Set<String>> _thumbnailAssetIds;
   Timer? _fallbackTimer;
+  Timer? _runtimePreviewTimer;
   bool _imageLoaded = false;
   bool _imageError = false;
+  bool _runtimePreviewEnabled = false;
 
   @override
   void initState() {
@@ -924,11 +928,13 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
         }
       });
     }
+    _scheduleRuntimePreview();
   }
 
   @override
   void dispose() {
     _fallbackTimer?.cancel();
+    _runtimePreviewTimer?.cancel();
     // Only dispose local controller, not the global one
     if (widget.shimmerController == null) {
       _localShimmerController.dispose();
@@ -942,7 +948,35 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
     if (oldWidget.catalogId != widget.catalogId) {
       _imageLoaded = false;
       _imageError = false;
+      _scheduleRuntimePreview();
     }
+  }
+
+  void _scheduleRuntimePreview() {
+    _runtimePreviewTimer?.cancel();
+    if (!_PreviewThumbnail._useRuntimeThumbnails ||
+        RuntimeModeService.isAutomatedTest) {
+      _runtimePreviewEnabled = false;
+      return;
+    }
+    if (!kIsWeb) {
+      _runtimePreviewEnabled = true;
+      return;
+    }
+
+    // Web: show the visible row quickly, then stagger the rest to avoid the
+    // original 25-shader startup burst.
+    if (_PreviewThumbnail._webRuntimeThumbnailSlotsUsed <
+        _PreviewThumbnail._webImmediateRuntimeThumbnailSlots) {
+      _PreviewThumbnail._webRuntimeThumbnailSlotsUsed++;
+      _runtimePreviewEnabled = true;
+      return;
+    }
+    _runtimePreviewEnabled = false;
+    final staggerMs = widget.catalogId.hashCode.abs() % 2500;
+    _runtimePreviewTimer = Timer(Duration(milliseconds: 1500 + staggerMs), () {
+      if (mounted) setState(() => _runtimePreviewEnabled = true);
+    });
   }
 
   void _markImageLoaded() {
@@ -970,9 +1004,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
           imageError: _imageError,
         );
         final isApproximate = thumbnail.isApproximatePreview;
-        if (_PreviewThumbnail._useRuntimeThumbnails &&
-            !RuntimeModeService.isAutomatedTest &&
-            thumbnail.showsFallbackPreview) {
+        if (_runtimePreviewEnabled && thumbnail.showsFallbackPreview) {
           return _RuntimePreviewThumbnail(
             catalogId: widget.catalogId,
             module: widget.module,
@@ -1104,11 +1136,12 @@ class _RuntimePreviewThumbnail extends StatelessWidget {
   ) {
     final controller = FractalController(context.read<ModuleRegistry>());
     controller.selectModule(module, animate: false);
+    final maxIterations = kIsWeb ? 32 : 96;
     final iterations = controller.params['iterations'];
-    if (iterations is int && iterations > 96) {
-      controller.updateParam('iterations', 96);
-    } else if (iterations is double && iterations > 96) {
-      controller.updateParam('iterations', 96.0);
+    if (iterations is int && iterations > maxIterations) {
+      controller.updateParam('iterations', maxIterations);
+    } else if (iterations is double && iterations > maxIterations) {
+      controller.updateParam('iterations', maxIterations.toDouble());
     }
     return controller;
   }
