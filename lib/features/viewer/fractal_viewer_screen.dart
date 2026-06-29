@@ -26,7 +26,6 @@ import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/services/storage/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
 import 'package:flutter_fractals/features/renderer/render_plan.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
@@ -41,7 +40,6 @@ import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/renderer/backend_policy.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
-import 'package:flutter_fractals/features/renderer/render_validation.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
@@ -58,6 +56,7 @@ import 'package:flutter_fractals/features/viewer/audio/fractal_music_scan_overla
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
+import 'package:flutter_fractals/features/viewer/diagnostics/gpu_health_probe.dart';
 
 part 'diagnostics/viewer_gpu_health.dart';
 part 'diagnostics/viewer_debug_report.dart';
@@ -216,7 +215,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       // Record initial state
       _recordHistory(context);
 
-      _gpuHealthFailed = false;
+      _gpuProbe.resetHealth();
       _refreshPrecisionDecision(controller);
       _refreshBackendDecision();
       _scheduleGpuHealthCheck();
@@ -247,8 +246,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     final controller = _lastController!;
     if (_lastModuleId != null && _lastModuleId != controller.module.id) {
-      _gpuHealthFailed = false;
-      _gpuHealthFailureStreak = 0;
+      _gpuProbe.resetHealth();
       _scheduleGpuHealthCheck();
     }
 
@@ -934,7 +932,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                 .read<RendererSettingsService>()
                                 .setBackendMode(RendererBackendMode.auto);
                             setState(() {
-                              _gpuHealthFailed = false;
+                              _gpuProbe.resetHealth();
                               _refreshBackendDecision();
                             });
                           },
