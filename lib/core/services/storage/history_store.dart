@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_fractals/features/history/history_entry.dart';
+import 'package:flutter_fractals/core/models/history_entry.dart';
 
 /// Persists exploration history and favorites to local storage.
 ///
