@@ -368,6 +368,40 @@ void main() {
         expect(parsed.toParams()['colorScheme'], 2);
       });
 
+      test('web share URL keeps params only in compact payload', () {
+        final uri = DeepLinkService.buildWebUri(
+          moduleId: 'f0100_multibrot_d_6_5',
+          params: const {
+            'iterations': 180,
+            'bailout': 4.0,
+            'colorScheme': 0,
+            'power': 6.5,
+          },
+          view: FractalViewState(
+            pan: Vector2(0.01360885426402092, -0.11394243687391281),
+            zoom: 0.47309564631537143,
+            rotation: Vector3.zero(),
+          ),
+        );
+
+        expect(uri.queryParameters['t'], 'f0100_multibrot_d_6_5');
+        expect(uri.queryParameters['z'], '0.47309564631537143');
+        expect(uri.queryParameters['type'], isNull);
+        expect(uri.queryParameters['zoom'], isNull);
+        expect(uri.queryParameters['p'], isNotEmpty);
+        expect(uri.queryParameters['p']!.length, lessThan(70));
+        expect(uri.queryParameters, isNot(contains('iterations')));
+        expect(uri.queryParameters, isNot(contains('bailout')));
+        expect(uri.queryParameters, isNot(contains('colorScheme')));
+        expect(uri.queryParameters, isNot(contains('power')));
+
+        final parsed = DeepLinkService.parseUri(uri)!;
+        expect(parsed.toParams()['iterations'], 180);
+        expect(parsed.toParams()['bailout'], 4.0);
+        expect(parsed.toParams()['colorScheme'], 0);
+        expect(parsed.toParams()['power'], 6.5);
+      });
+
       test('includes controller-only visual state', () {
         final uri = DeepLinkService.buildUri(
           moduleId: 'mandelbrot',
@@ -411,12 +445,12 @@ void main() {
           includeDefaults: true,
         );
 
-        expect(uri.queryParameters['zoom'], '1');
+        expect(uri.queryParameters['z'], '1');
         expect(uri.queryParameters['x'], '0');
         expect(uri.queryParameters['y'], '0');
-        expect(uri.queryParameters['rotX'], '0');
-        expect(uri.queryParameters['rotY'], '0');
-        expect(uri.queryParameters['rotZ'], '0');
+        expect(uri.queryParameters['rx'], '0');
+        expect(uri.queryParameters['ry'], '0');
+        expect(uri.queryParameters['rz'], '0');
         expect(uri.queryParameters['transparent'], 'false');
         expect(uri.queryParameters['rotationLocked'], 'false');
         expect(uri.queryParameters['glowEnabled'], 'false');
@@ -635,8 +669,10 @@ void main() {
         expect(uri.scheme, 'https');
         expect(uri.host, 'fractal.trebuchetdynamics.com');
         expect(uri.path, '/');
-        expect(uri.queryParameters['type'], 'mandelbrot');
-        expect(uri.queryParameters['iterations'], '100');
+        expect(uri.queryParameters['t'], 'mandelbrot');
+        expect(uri.queryParameters['type'], isNull);
+        expect(uri.queryParameters['iterations'], isNull);
+        expect(DeepLinkService.parseUri(uri)!.toParams()['iterations'], 100);
       });
     });
 

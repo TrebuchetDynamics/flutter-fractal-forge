@@ -117,6 +117,7 @@ if [[ "${skip_build}" != "1" ]]; then
   [[ -n "${flutter_bin}" ]] || die "flutter not found; set FLUTTER_BIN"
 
   echo "Building Flutter web release with base href '${base_href}' into '${build_dir}'..."
+  rm -rf "${build_dir}"
   flutter_build_cmd=(
     "${flutter_bin}" build web
     --release
@@ -127,6 +128,29 @@ if [[ "${skip_build}" != "1" ]]; then
     flutter_build_cmd+=(--output "${build_dir}")
   fi
   "${flutter_build_cmd[@]}"
+
+  asset_version="$(git rev-parse --short HEAD 2>/dev/null || date +%s)-$(date +%s)"
+  ASSET_VERSION="${asset_version}" BUILD_DIR="${build_dir}" python3 - <<'PY'
+import os
+from pathlib import Path
+
+version = os.environ['ASSET_VERSION']
+build_dir = Path(os.environ['BUILD_DIR'])
+index = build_dir / 'index.html'
+bootstrap = build_dir / 'flutter_bootstrap.js'
+
+if index.exists():
+    text = index.read_text()
+    text = text.replace('src="flutter_bootstrap.js"', f'src="flutter_bootstrap.js?v={version}"')
+    index.write_text(text)
+
+if bootstrap.exists():
+    text = bootstrap.read_text()
+    text = text.replace('"mainJsPath":"main.dart.js"', f'"mainJsPath":"main.dart.js?v={version}"')
+    bootstrap.write_text(text)
+
+print('web_asset_version', {'version': version})
+PY
 else
   echo "Skipping Flutter build; deploying existing '${build_dir}'."
 fi

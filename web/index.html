@@ -46,6 +46,28 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <script>
+    // Clear old Flutter service-worker caches; stale workers can keep serving
+    // older bundles where web thumbnails never render.
+    (async () => {
+      if (!('serviceWorker' in navigator)) return;
+      const hadController = Boolean(navigator.serviceWorker.controller);
+      try {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map((registration) => registration.unregister()));
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((key) => caches.delete(key)));
+        }
+      } catch (_) {
+        return;
+      }
+      if (hadController && sessionStorage.getItem('ff_sw_cleared') !== '1') {
+        sessionStorage.setItem('ff_sw_cleared', '1');
+        location.reload();
+      }
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

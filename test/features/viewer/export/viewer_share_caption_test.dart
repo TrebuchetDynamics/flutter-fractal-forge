@@ -6,8 +6,8 @@ void main() {
     final caption = ViewerShareCaption.build(fractalName: 'Mandelbulb');
 
     expect(caption, contains('Mandelbulb'));
-    expect(caption, contains('@FractalForge'));
-    expect(caption, contains('#fractalforge'));
+    expect(caption, contains('@FractalForgeApp'));
+    expect(caption, contains('#fractal'));
   });
 
   test('share caption embeds a direct fractal URL when provided', () {
@@ -19,7 +19,7 @@ void main() {
     );
 
     expect(caption.split('\n'), contains(url));
-    expect(caption, contains('Explore this Mandelbrot'));
+    expect(caption, startsWith('Mandelbrot in Fractal Forge.'));
   });
 
   test('share caption omits the link line when no url is available', () {
@@ -27,6 +27,6 @@ void main() {
 
     expect(caption, isNot(contains('https://')));
     // Still discoverable: handle + hashtag are always present.
-    expect(caption, contains('@FractalForge'));
+    expect(caption, contains('@FractalForgeApp'));
   });
 }

@@ -266,10 +266,19 @@ class _DeepLinkModuleId {
 }
 
 class _DeepLinkQuery {
+  static const aliases = {
+    't': 'type',
+    'z': 'zoom',
+    'rx': 'rotX',
+    'ry': 'rotY',
+    'rz': 'rotZ',
+  };
+
   static final recognizedNames = {
     'type',
     DeepLinkService._paramsPayloadName,
     for (final param in DeepLinkService._allQueryParams) param.name,
+    ...aliases.keys,
   };
 
   final Map<String, String> _params;
@@ -287,7 +296,19 @@ class _DeepLinkQuery {
       );
     }
 
-    return _DeepLinkQuery._(uri.queryParameters);
+    final params = Map<String, String>.of(uri.queryParameters);
+    for (final entry in aliases.entries) {
+      final aliasValue = params.remove(entry.key);
+      if (aliasValue == null) continue;
+      if (params.containsKey(entry.value)) {
+        throw FormatException(
+          'Duplicate deep-link query parameter: ${entry.value}',
+        );
+      }
+      params[entry.value] = aliasValue;
+    }
+
+    return _DeepLinkQuery._(params);
   }
 
   String? operator [](String name) => _params[name];
@@ -707,6 +728,7 @@ class DeepLinkService {
     double kaleidoscopeRotation = 0.0,
     int kaleidoscopeMirrorMode = 0,
     bool includeDefaults = false,
+    bool includeReadableParams = true,
   }) {
     final queryParams = <String, String>{
       'type': _DeepLinkModuleId.requireSafeForBuild(moduleId),
@@ -718,29 +740,33 @@ class DeepLinkService {
       includeDefaults: includeDefaults,
     );
 
-    // Add fractal parameters. Unsupported values are omitted rather than
-    // converted to sentinel values that parse back as valid-but-wrong params.
-    _addBoundedIntQueryParam(
-        queryParams, _iterationsParam, params['iterations']);
-    _addBoundedDoubleQueryParam(queryParams, _bailoutParam, params['bailout']);
-    _addBoundedIntQueryParam(
-      queryParams,
-      _colorSchemeParam,
-      params['colorScheme'],
-    );
-    _addBoundedDoubleQueryParam(queryParams, _powerParam, params['power']);
-    _addBoundedDoubleQueryParam(
-      queryParams,
-      _juliaXParam,
-      _DeepLinkJuliaConstantParams.realValueForBuild(params),
-      preservePrecision: true,
-    );
-    _addBoundedDoubleQueryParam(
-      queryParams,
-      _juliaYParam,
-      _DeepLinkJuliaConstantParams.imaginaryValueForBuild(params),
-      preservePrecision: true,
-    );
+    // Add readable aliases for common params unless the caller wants the
+    // shortest replay URL. The compact `p` payload below already contains all
+    // runtime params.
+    if (includeReadableParams) {
+      _addBoundedIntQueryParam(
+          queryParams, _iterationsParam, params['iterations']);
+      _addBoundedDoubleQueryParam(
+          queryParams, _bailoutParam, params['bailout']);
+      _addBoundedIntQueryParam(
+        queryParams,
+        _colorSchemeParam,
+        params['colorScheme'],
+      );
+      _addBoundedDoubleQueryParam(queryParams, _powerParam, params['power']);
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _juliaXParam,
+        _DeepLinkJuliaConstantParams.realValueForBuild(params),
+        preservePrecision: true,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _juliaYParam,
+        _DeepLinkJuliaConstantParams.imaginaryValueForBuild(params),
+        preservePrecision: true,
+      );
+    }
     _addParamsPayload(queryParams, params);
     if (includeDefaults) {
       _addBoolQueryParam(queryParams, _transparentParam, transparentBackground);
@@ -955,13 +981,30 @@ class DeepLinkService {
       kaleidoscopeRotation: kaleidoscopeRotation,
       kaleidoscopeMirrorMode: kaleidoscopeMirrorMode,
       includeDefaults: includeDefaults,
+      includeReadableParams: false,
     );
     return Uri(
       scheme: 'https',
       host: 'fractal.trebuchetdynamics.com',
       path: '/',
-      queryParameters: customUri.queryParameters,
+      queryParameters: _compactWebQueryParameters(customUri.queryParameters),
     );
+  }
+
+  static Map<String, String> _compactWebQueryParameters(
+    Map<String, String> queryParameters,
+  ) {
+    const aliases = {
+      'type': 't',
+      'zoom': 'z',
+      'rotX': 'rx',
+      'rotY': 'ry',
+      'rotZ': 'rz',
+    };
+    return {
+      for (final entry in queryParameters.entries)
+        aliases[entry.key] ?? entry.key: entry.value,
+    };
   }
 
   static void _addParamsPayload(
@@ -972,16 +1015,30 @@ class DeepLinkService {
     for (final entry in params.entries.toList()
       ..sort((a, b) => a.key.compareTo(b.key))) {
       final value = entry.value;
+      final key = _payloadKeyAliases[entry.key] ?? entry.key;
       if (value is bool || value is int || value is String) {
-        payload[entry.key] = value;
+        payload[key] = value;
       } else if (value is double && value.isFinite) {
-        payload[entry.key] = value;
+        payload[key] = value;
       }
     }
     if (payload.isEmpty) return;
     queryParams[_paramsPayloadName] =
         base64Url.encode(utf8.encode(jsonEncode(payload))).replaceAll('=', '');
   }
+
+  static const Map<String, String> _payloadKeyAliases = {
+    'iterations': '~i',
+    'bailout': '~b',
+    'colorScheme': '~c',
+    'power': '~d',
+    'juliaCReal': '~r',
+    'juliaCImag': '~m',
+  };
+
+  static final Map<String, String> _payloadKeyAliasesReversed = {
+    for (final entry in _payloadKeyAliases.entries) entry.value: entry.key,
+  };
 
   static Map<String, Object> _decodeParamsPayload(String? value) {
     if (value == null || value.isEmpty) return const {};
@@ -993,11 +1050,13 @@ class DeepLinkService {
       final params = <String, Object>{};
       for (final entry in decoded.entries) {
         if (entry.key is! String) continue;
+        final key =
+            _payloadKeyAliasesReversed[entry.key] ?? entry.key as String;
         final paramValue = entry.value;
         if (paramValue is bool || paramValue is int || paramValue is String) {
-          params[entry.key as String] = paramValue;
+          params[key] = paramValue;
         } else if (paramValue is double && paramValue.isFinite) {
-          params[entry.key as String] = paramValue;
+          params[key] = paramValue;
         }
       }
       return params;

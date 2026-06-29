@@ -7,10 +7,10 @@ class ViewerShareCaption {
 
   /// Community handle every share carries so posts cluster under one
   /// discoverable brand on social platforms.
-  static const String handle = '@FractalForge';
+  static const String handle = '@FractalForgeApp';
 
-  /// Community hashtag, matched to [handle] and to the in-app share metadata.
-  static const String hashtag = '#fractalforge';
+  /// Broad hashtag: shorter and more likely to be searched than an app tag.
+  static const String hashtag = '#fractal';
 
   /// Builds the social caption attached to a shared fractal.
   ///
@@ -22,7 +22,7 @@ class ViewerShareCaption {
     required String fractalName,
     String? shareUrl,
   }) {
-    final lines = <String>['Explore this $fractalName in Fractal Forge.'];
+    final lines = <String>['$fractalName in Fractal Forge.'];
     if (shareUrl != null && shareUrl.isNotEmpty) {
       lines.add(shareUrl);
     }
