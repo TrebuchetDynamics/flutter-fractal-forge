@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/features/viewer/actions/text_overlay_controller.dart';
+import 'package:flutter_fractals/features/viewer/actions/viewer_music_coordinator.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
@@ -26,7 +27,7 @@ import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/services/storage/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/features/renderer/render_plan.dart';
+import 'package:flutter_fractals/features/renderer/policy/render_plan.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/debug/shader_lab_screen.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
@@ -37,9 +38,9 @@ import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
 import 'package:flutter_fractals/features/looper/looper_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
-import 'package:flutter_fractals/features/renderer/backend_policy.dart';
+import 'package:flutter_fractals/features/renderer/policy/backend_policy.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
@@ -117,7 +118,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   DebugRunnerService? _debugRunner;
   late AnimationController _fabController;
   late AnimationController _musicScanController;
-  Timer? _musicRescanDebounceTimer;
+  late ViewerMusicCoordinator _musicCoordinator;
 
   // Visual simplification state
   bool _fullscreenUnobtrusive = false;
@@ -170,6 +171,18 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _musicScanController = AnimationController(
       duration: const Duration(seconds: 4),
       vsync: this,
+    );
+    _musicCoordinator = ViewerMusicCoordinator(
+      effects: _viewerEffects,
+      captureFrame: _captureFractalMusicScanFrame,
+      syncAnimation: (enabled) {
+        if (!mounted) return;
+        _syncFractalMusicScanAnimation(enabled);
+      },
+      notifyState: () {
+        if (!mounted) return;
+        setState(() {});
+      },
     );
     _loadTextOverlay();
     _log.info('lifecycle', 'FractalViewerScreen initState');
@@ -256,7 +269,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     // Record view/config changes into history
     _recordHistory(context);
-    _scheduleFractalMusicRescan();
+    _musicCoordinator.scheduleRescan(controller);
 
     // Best-effort stats tracking (local-only)
 
@@ -289,7 +302,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     WidgetsBinding.instance.removeObserver(this);
     _gpuHealthTimer?.cancel();
     _backendDebounceTimer?.cancel();
-    _musicRescanDebounceTimer?.cancel();
+    _musicCoordinator.dispose();
     _lastController?.removeListener(_onControllerChanged);
 
     final start = _sessionStart;
@@ -408,37 +421,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _musicScanController.repeat();
       }
     } else {
-      _musicRescanDebounceTimer?.cancel();
+      _musicCoordinator.cancelRescan();
       _musicScanController.stop();
       _musicScanController.value = 0;
     }
-  }
-
-  void _scheduleFractalMusicRescan() {
-    if (!_viewerEffects.fractalMusicEnabled) return;
-    _musicRescanDebounceTimer?.cancel();
-    _musicRescanDebounceTimer = Timer(
-      const Duration(milliseconds: 250),
-      _restartFractalMusicFromSnapshot,
-    );
-  }
-
-  Future<void> _restartFractalMusicFromSnapshot() async {
-    if (!mounted || !_viewerEffects.fractalMusicEnabled) return;
-    final scanFrame = await _captureFractalMusicScanFrame();
-    if (!mounted || !_viewerEffects.fractalMusicEnabled) return;
-    final result = await _viewerEffects.restartFractalMusic(
-      _activeController(context),
-      scanFrame: scanFrame,
-    );
-    if (!mounted) return;
-    if (result.failed || !result.enabled) {
-      setState(() {});
-      _syncFractalMusicScanAnimation(false);
-      return;
-    }
-    _musicScanController.value = 0;
-    _syncFractalMusicScanAnimation(true);
   }
 
   Future<FractalMusicScanFrame?> _captureFractalMusicScanFrame() async {
