@@ -36,6 +36,7 @@ android/**/key.properties
 *.pem
 google-services.json
 GoogleService-Info.plist
+play-service-account.json
 .env
 .env.*
 .mcp.json
