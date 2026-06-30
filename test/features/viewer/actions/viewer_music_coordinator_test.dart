@@ -38,7 +38,7 @@ void main() {
     controller.dispose();
   });
 
-  ViewerMusicCoordinator _makeCoordinator({
+  ViewerMusicCoordinator makeCoordinator({
     required ViewerEffectsController effects,
     List<bool>? syncCalls,
     List<Object>? stateCalls,
@@ -66,7 +66,7 @@ void main() {
       final effects = ViewerEffectsController(musicService: music);
       // fractalMusicEnabled starts false
       final syncs = <bool>[];
-      final coord = _makeCoordinator(effects: effects, syncCalls: syncs);
+      final coord = makeCoordinator(effects: effects, syncCalls: syncs);
 
       coord.scheduleRescan(controller);
       await Future<void>.delayed(const Duration(milliseconds: 10));
@@ -81,7 +81,7 @@ void main() {
       final effects = ViewerEffectsController(musicService: music);
       effects.fractalMusicEnabled = true;
       final syncs = <bool>[];
-      final coord = _makeCoordinator(effects: effects, syncCalls: syncs);
+      final coord = makeCoordinator(effects: effects, syncCalls: syncs);
 
       coord.scheduleRescan(controller);
       await Future<void>.delayed(const Duration(milliseconds: 20));
@@ -96,7 +96,7 @@ void main() {
       final effects = ViewerEffectsController(musicService: music);
       effects.fractalMusicEnabled = true;
       final syncs = <bool>[];
-      final coord = _makeCoordinator(effects: effects, syncCalls: syncs);
+      final coord = makeCoordinator(effects: effects, syncCalls: syncs);
 
       coord.scheduleRescan(controller);
       coord.scheduleRescan(controller);
@@ -116,7 +116,7 @@ void main() {
       effects.fractalMusicEnabled = true;
       final syncs = <bool>[];
       final states = <Object>[];
-      final coord = _makeCoordinator(
+      final coord = makeCoordinator(
           effects: effects, syncCalls: syncs, stateCalls: states);
 
       coord.scheduleRescan(controller);
@@ -133,7 +133,7 @@ void main() {
       effects.fractalMusicEnabled = true;
       final syncs = <bool>[];
       final states = <Object>[];
-      final coord = _makeCoordinator(
+      final coord = makeCoordinator(
           effects: effects, syncCalls: syncs, stateCalls: states);
 
       coord.scheduleRescan(controller);
@@ -151,7 +151,7 @@ void main() {
       final effects = ViewerEffectsController(musicService: music);
       effects.fractalMusicEnabled = true;
       final syncs = <bool>[];
-      final coord = _makeCoordinator(effects: effects, syncCalls: syncs);
+      final coord = makeCoordinator(effects: effects, syncCalls: syncs);
 
       coord.scheduleRescan(controller);
       coord.cancelRescan();
@@ -169,7 +169,7 @@ void main() {
       final effects = ViewerEffectsController(musicService: music);
       effects.fractalMusicEnabled = true;
       final syncs = <bool>[];
-      final coord = _makeCoordinator(effects: effects, syncCalls: syncs);
+      final coord = makeCoordinator(effects: effects, syncCalls: syncs);
 
       coord.scheduleRescan(controller);
       coord.dispose();
