@@ -153,7 +153,7 @@
         {
           "id": "component.viewer.renderer",
           "type": "FractalRenderer",
-          "file": "lib/features/renderer/fractal_renderer.dart",
+          "file": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
           "notes": "CustomPaint with shader-driven FractalCanvas; GestureDetector updates zoom/pan/rotation via FractalController."
         },
         {
@@ -196,7 +196,7 @@
             "view": "controller.view",
             "transparentBackground": "controller.transparentBackground"
           },
-          "file": "lib/features/renderer/fractal_renderer.dart"
+          "file": "lib/features/renderer/widgets/renderer/fractal_renderer.dart"
         },
         {
           "id": "flow.viewer.gestures",
@@ -209,7 +209,7 @@
             "FractalController.updateZoom()",
             "FractalController.updatePan() or updateRotation()"
           ],
-          "file": "lib/features/renderer/fractal_renderer.dart"
+          "file": "lib/features/renderer/widgets/renderer/fractal_renderer.dart"
         },
         {
           "id": "flow.viewer.exportPng",
@@ -585,9 +585,9 @@
       "PresetSheet": "lib/features/presets/preset_sheet.dart"
     },
     "rendering": {
-      "FractalRenderer": "lib/features/renderer/fractal_renderer.dart",
+      "FractalRenderer": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
       "FractalCanvas": "lib/features/renderer/fractal_canvas.dart",
-      "FractalController": "lib/features/renderer/providers/fractal_provider.dart"
+      "FractalController": "lib/core/controllers/fractal_controller.dart"
     },
     "services": {
       "ExportService": "lib/core/services/export_service.dart",

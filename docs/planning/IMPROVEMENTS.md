@@ -119,7 +119,7 @@ Added GPU snapshot crossfade + slow-mode progressive renderer in commit `6315d0e
 #### N5 · Animated zoom-to-point (GO button / deep-link)
 **Problem:** Jumping to a saved coordinate is instantaneous (jarring).  
 **Fix:** Implement a smooth animated flight path: interpolate zoom logarithmically, pan linearly, over a configurable duration (1–3s). Use `AnimationController` with `CurvedAnimation(curve: Curves.easeInOutCubic)`.  
-**Files:** `lib/features/renderer/fractal_renderer.dart` (extend `_animateZoomTo`)
+**Files:** `lib/features/renderer/widgets/renderer/fractal_renderer.dart` (extend `_animateZoomTo`)
 
 #### N6 · Coordinate HUD / coordinate input
 **Problem:** No way to know or enter exact coordinates.  
@@ -129,12 +129,12 @@ Added GPU snapshot crossfade + slow-mode progressive renderer in commit `6315d0e
 #### N7 · Rotation lock toggle
 **Problem:** Two-finger rotation is easy to trigger accidentally when zooming.  
 **Fix:** Add a "Lock Rotation" toggle (icon button in viewer toolbar). When locked, `_rotationGestureActive` never becomes true and rotation stays at 0.  
-**Files:** `lib/features/renderer/fractal_renderer.dart`, `lib/features/viewer/fractal_viewer_screen.dart`
+**Files:** `lib/features/renderer/widgets/renderer/fractal_renderer.dart`, `lib/features/viewer/fractal_viewer_screen.dart`
 
 #### N8 · Smooth deceleration on zoom fling (fix over-shoot)
 **Problem:** Zoom fling (`_applyZoomMomentum`) uses a fixed 0.92 friction coefficient. At high zoom velocities this causes overshooting past min/max bounds.  
 **Fix:** Apply rubber-band to zoom momentum the same way pan does — detect when zoom hits boundary and halve velocity rather than clamping hard.  
-**Files:** `lib/features/renderer/fractal_renderer.dart`, `_applyZoomMomentum()`
+**Files:** `lib/features/renderer/widgets/renderer/fractal_renderer.dart`, `_applyZoomMomentum()`
 
 #### N9 · History navigation (back/forward)
 **Problem:** No way to undo a navigation. Users lose interesting views by accident.  
@@ -169,7 +169,7 @@ A subtle vertical bar on the right edge showing current zoom level on a log scal
 
 #### N15 · Pinch-to-rotate snap-to-axis
 When rotation gets within 3° of 0°, 90°, 180°, 270° — snap with haptic. Similar to how Maps snaps to North.  
-**Files:** `lib/features/renderer/fractal_renderer.dart`, `_onScaleUpdate()`
+**Files:** `lib/features/renderer/widgets/renderer/fractal_renderer.dart`, `_onScaleUpdate()`
 
 ---
 
@@ -202,7 +202,7 @@ When rotation gets within 3° of 0°, 90°, 180°, 270° — snap with haptic. S
 #### P1 · Shader warm-up on app start
 **Problem:** First time a fractal loads its shader, there's a visible compile stall (200–800ms).  
 **Fix:** Pre-warm the 10 most popular shaders at app start (background isolate after first frame). Track popularity via usage counter in SharedPreferences.  
-**Files:** `lib/features/renderer/fractal_renderer.dart` (`_programCache`), new warm-up service
+**Files:** `lib/features/renderer/widgets/renderer/fractal_renderer.dart` (`_programCache`), new warm-up service
 
 #### P2 · Reduce render resolution during fast gesture
 **Problem:** Full-res GPU render during fast pinch causes frame drops.  
