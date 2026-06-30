@@ -290,14 +290,16 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byTooltip('Controls'), findsOneWidget);
+      expect(find.byKey(const ValueKey('viewerRandomParamsButton')),
+          findsOneWidget);
     });
 
     testWidgets('controls FAB opens controls sheet', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Controls'));
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
       await tester.pumpAndSettle();
 
       expect(find.text('Controls'), findsOneWidget);
