@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
@@ -686,11 +687,18 @@ class FloatingActionButtonWidget extends StatefulWidget {
       _FloatingActionButtonWidgetState();
 }
 
+/// Keyboard-only alternate activation for a [FloatingActionButtonWidget]'s
+/// long-press secondary action (mirrors Shift+Click conventions).
+class _LongPressActivateIntent extends Intent {
+  const _LongPressActivateIntent();
+}
+
 class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   bool _isPressed = false;
+  bool _isFocused = false;
 
   @override
   void initState() {
@@ -724,40 +732,81 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
         label: widget.tooltip,
         button: true,
         enabled: widget.onPressed != null,
+        onLongPress: effectiveLongPress,
         child: Tooltip(
           message: widget.tooltip,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTapDown: (widget.onPressed != null && !reduceMotion)
-                ? (_) {
-                    setState(() => _isPressed = true);
-                    _controller.forward();
-                    HapticService.medium();
-                  }
-                : null,
-            onTapUp: (widget.onPressed != null && !reduceMotion)
-                ? (_) {
-                    setState(() => _isPressed = false);
-                    _controller.reverse();
-                  }
-                : null,
-            onTapCancel: (widget.onPressed != null && !reduceMotion)
-                ? () {
-                    setState(() => _isPressed = false);
-                    _controller.reverse();
-                  }
-                : null,
-            onTap: widget.onPressed,
-            onLongPress: effectiveLongPress,
-            child: SizedBox.square(
-              dimension: _fabTouchSize,
-              child: Center(
-                child: reduceMotion
-                    ? _buildButtonContent()
-                    : ScaleTransition(
-                        scale: _scaleAnimation,
-                        child: _buildButtonContent(),
+          child: FocusableActionDetector(
+            enabled: widget.onPressed != null || effectiveLongPress != null,
+            onShowFocusHighlight: (focused) {
+              if (_isFocused == focused) return;
+              setState(() => _isFocused = focused);
+            },
+            shortcuts: const {
+              SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
+              SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+              SingleActivator(LogicalKeyboardKey.enter, shift: true):
+                  _LongPressActivateIntent(),
+            },
+            actions: {
+              ActivateIntent: CallbackAction<ActivateIntent>(
+                onInvoke: (_) {
+                  widget.onPressed?.call();
+                  return null;
+                },
+              ),
+              _LongPressActivateIntent:
+                  CallbackAction<_LongPressActivateIntent>(
+                onInvoke: (_) {
+                  effectiveLongPress?.call();
+                  return null;
+                },
+              ),
+            },
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTapDown: (widget.onPressed != null && !reduceMotion)
+                  ? (_) {
+                      setState(() => _isPressed = true);
+                      _controller.forward();
+                      HapticService.medium();
+                    }
+                  : null,
+              onTapUp: (widget.onPressed != null && !reduceMotion)
+                  ? (_) {
+                      setState(() => _isPressed = false);
+                      _controller.reverse();
+                    }
+                  : null,
+              onTapCancel: (widget.onPressed != null && !reduceMotion)
+                  ? () {
+                      setState(() => _isPressed = false);
+                      _controller.reverse();
+                    }
+                  : null,
+              onTap: widget.onPressed,
+              onLongPress: effectiveLongPress,
+              child: SizedBox.square(
+                dimension: _fabTouchSize,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(
+                        color: _isFocused
+                            ? HighContrastColors.focusIndicator
+                            : Colors.transparent,
+                        width: AccessibleSizing.focusIndicatorWidth,
                       ),
+                    ),
+                    child: reduceMotion
+                        ? _buildButtonContent()
+                        : ScaleTransition(
+                            scale: _scaleAnimation,
+                            child: _buildButtonContent(),
+                          ),
+                  ),
+                ),
               ),
             ),
           ),

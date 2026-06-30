@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +43,7 @@ Future<bool> _pumpControls(
   VoidCallback? onOpenPalettePicker,
   VoidCallback? onOpenRandomFractal,
   VoidCallback? onOpenControls,
+  VoidCallback? onRandomizeParams,
   bool kaleidoscopeEnabled = false,
   int kaleidoscopeSectors = 8,
   bool kaleidoscopeMirror = true,
@@ -72,7 +74,7 @@ Future<bool> _pumpControls(
               toggleFullscreen: () {},
               openRandomFractal: onOpenRandomFractal ?? () {},
               openControls: onOpenControls ?? () {},
-              randomizeParams: () {},
+              randomizeParams: onRandomizeParams ?? () {},
               cycleColorScheme: () {},
               openPalettePicker: onOpenPalettePicker ?? () {},
               toggleKaleidoscope: onToggleKaleidoscope ?? () {},
@@ -326,6 +328,61 @@ void main() {
 
     await tester
         .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
+    await tester.pump();
+    expect(opened, isTrue);
+  });
+
+  testWidgets('randomize FAB activates on Enter key when focused',
+      (tester) async {
+    var randomized = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onRandomizeParams: () => randomized = true,
+      onOpenWallpaper: () {},
+    );
+
+    final fabKey = const ValueKey('viewerRandomParamsButton');
+    Focus.of(
+      tester.element(
+        find.descendant(
+          of: find.byKey(fabKey),
+          matching: find.byType(GestureDetector),
+        ),
+      ),
+    ).requestFocus();
+    await tester.pump();
+
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pump();
+    expect(randomized, isTrue);
+  });
+
+  testWidgets(
+      'randomize FAB opens controls on Shift+Enter when focused (keyboard '
+      'equivalent of long press)', (tester) async {
+    var opened = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onOpenControls: () => opened = true,
+      onOpenWallpaper: () {},
+    );
+
+    final fabKey = const ValueKey('viewerRandomParamsButton');
+    Focus.of(
+      tester.element(
+        find.descendant(
+          of: find.byKey(fabKey),
+          matching: find.byType(GestureDetector),
+        ),
+      ),
+    ).requestFocus();
+    await tester.pump();
+
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
     await tester.pump();
     expect(opened, isTrue);
   });
