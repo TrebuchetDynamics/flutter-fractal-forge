@@ -120,7 +120,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     if (hitZoomBoundary) {
       _zoomVelocity *= 0.5;
     }
-    controller.updateZoom(boundedZoom);
+    controller.updateView(
+      view.copyWith(zoom: boundedZoom),
+      adaptIterationsForZoom: true,
+    );
   }
 
   void _applyPanMomentum() {
@@ -142,10 +145,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     }
 
     if (module.dimension == FractalDimension.threeD) {
-      controller.updateRotation(
-        _bounded3DRotation(
-          view.rotation +
-              Vector3(_panVelocity.dy * 0.0008, _panVelocity.dx * 0.0008, 0),
+      controller.updateView(
+        view.copyWith(
+          rotation: _bounded3DRotation(
+            view.rotation +
+                Vector3(_panVelocity.dy * 0.0008, _panVelocity.dx * 0.0008, 0),
+          ),
         ),
       );
     } else {
@@ -176,7 +181,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       if (boundedPan.x != nextPan.x || boundedPan.y != nextPan.y) {
         _panVelocity *= 0.5;
       }
-      controller.updatePan(boundedPan);
+      controller.updateView(view.copyWith(pan: boundedPan));
     }
   }
 
@@ -284,6 +289,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     final size = renderBox?.size;
     final zoom = _rubberBand(targetZoom, _kMinZoom, _kMaxZoom);
 
+    var nextPan = view.pan;
     if (size != null) {
       final scalePx = math.max(1.0, math.min(size.width, size.height));
       final n = _normalizedPoint(focalPoint, size, scalePx);
@@ -292,13 +298,16 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       final newWorldDelta = _rotateInv2d(n, rotationZ) / zoom;
       final worldX = view.pan.x + oldWorldDelta.x;
       final worldY = view.pan.y + oldWorldDelta.y;
-      controller.updatePan(Vector2(
+      nextPan = Vector2(
         _rubberBand(worldX - newWorldDelta.x, _kPanMin, _kPanMax),
         _rubberBand(worldY - newWorldDelta.y, _kPanMin, _kPanMax),
-      ));
+      );
     }
 
-    controller.updateZoom(zoom);
+    controller.updateView(
+      view.copyWith(pan: nextPan, zoom: zoom),
+      adaptIterationsForZoom: true,
+    );
   }
 
   void _onScaleUpdate(ScaleUpdateDetails details) {
@@ -325,9 +334,11 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         if (!rotationLocked) {
           // Use incremental deltas to avoid jumps when pointer count changes.
           final d = details.focalPointDelta;
-          controller.updateRotation(
-            _bounded3DRotation(
-              view.rotation + Vector3(d.dy * 0.0009, d.dx * 0.0009, 0),
+          controller.updateView(
+            view.copyWith(
+              rotation: _bounded3DRotation(
+                view.rotation + Vector3(d.dy * 0.0009, d.dx * 0.0009, 0),
+              ),
             ),
           );
         }
@@ -339,10 +350,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
           rotationZ: view.rotation.z,
           zoom: view.zoom,
         );
-        controller.updatePan(
-          Vector2(
-            _rubberBand(view.pan.x - worldDelta.x, _kPanMin, _kPanMax),
-            _rubberBand(view.pan.y - worldDelta.y, _kPanMin, _kPanMax),
+        controller.updateView(
+          view.copyWith(
+            pan: Vector2(
+              _rubberBand(view.pan.x - worldDelta.x, _kPanMin, _kPanMax),
+              _rubberBand(view.pan.y - worldDelta.y, _kPanMin, _kPanMax),
+            ),
           ),
         );
       }
@@ -358,6 +371,9 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     // --- 2+ fingers: pinch zoom + rotate + tilt ---
     final newZoom =
         _rubberBand(_startZoom * details.scale, _kMinZoom, _kMaxZoom);
+
+    var nextPan = view.pan;
+    var nextRotation = view.rotation;
 
     if (size != null && details.pointerCount >= 2) {
       final verticalDelta = localFocal.dy - _startFocalPoint.dy;
@@ -375,8 +391,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       if (_isTilting) {
         final tilt =
             (_startTiltX + (verticalDelta * 0.01)).clamp(0.0, _kTiltMaxRadians);
-        controller
-            .updateRotation(Vector3(tilt, view.rotation.y, view.rotation.z));
+        nextRotation = Vector3(tilt, nextRotation.y, nextRotation.z);
       }
     }
 
@@ -399,22 +414,23 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       final newCenter =
           worldAtStart - (_rotateInv2d(curN, newRotationZ) / newZoom);
 
-      controller.updatePan(Vector2(
+      nextPan = Vector2(
         _rubberBand(newCenter.x, _kPanMin, _kPanMax),
         _rubberBand(newCenter.y, _kPanMin, _kPanMax),
-      ));
-
-      controller.updateRotation(
-          Vector3(view.rotation.x, view.rotation.y, newRotationZ));
+      );
+      nextRotation = Vector3(nextRotation.x, nextRotation.y, newRotationZ);
     } else if (!rotationLocked &&
         module.dimension == FractalDimension.threeD &&
         details.rotation != 0.0) {
       final rotationDelta = details.rotation - _lastRotation;
-      controller.updateRotation(view.rotation + Vector3(0, 0, rotationDelta));
+      nextRotation = nextRotation + Vector3(0, 0, rotationDelta);
       _lastRotation = details.rotation;
     }
 
-    controller.updateZoom(newZoom);
+    controller.updateView(
+      view.copyWith(pan: nextPan, zoom: newZoom, rotation: nextRotation),
+      adaptIterationsForZoom: true,
+    );
 
     // Track zoom velocity in zoom levels per ms (logarithmic)
     final scaleChange = details.scale / _lastScale;
@@ -723,7 +739,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _zoomAnimation!.addListener(() {
       final zoom = tween.transform(curve.value);
       if (focalPoint == null) {
-        controller.updateZoom(zoom);
+        controller.updateView(
+          controller.view.copyWith(zoom: zoom),
+          adaptIterationsForZoom: true,
+        );
       } else {
         _applyZoomAroundFocal(
           controller: controller,
@@ -765,11 +784,16 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         CurvedAnimation(parent: _zoomAnimation!, curve: Curves.easeOutCubic);
     _zoomAnimation!.addListener(() {
       final t = curve.value;
-      controller.updateZoom(fromZoom + (toZoom - fromZoom) * t);
-      controller.updatePan(Vector2(
-        startPan.x + (targetPan.x - startPan.x) * t,
-        startPan.y + (targetPan.y - startPan.y) * t,
-      ));
+      controller.updateView(
+        controller.view.copyWith(
+          pan: Vector2(
+            startPan.x + (targetPan.x - startPan.x) * t,
+            startPan.y + (targetPan.y - startPan.y) * t,
+          ),
+          zoom: fromZoom + (toZoom - fromZoom) * t,
+        ),
+        adaptIterationsForZoom: true,
+      );
     });
     if (onCompleted != null) {
       _zoomAnimation!.addStatusListener((status) {

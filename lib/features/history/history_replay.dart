@@ -61,9 +61,13 @@ final class HistoryControllerReplayPlan {
       }
     }
 
-    target.updateZoom(view.zoom);
-    target.updatePan(view.pan);
-    target.updateRotation(view.rotation);
+    try {
+      target.updateView(view);
+    } on NoSuchMethodError {
+      target.updateZoom(view.zoom);
+      target.updatePan(view.pan);
+      target.updateRotation(view.rotation);
+    }
   }
 }
 

@@ -315,7 +315,10 @@ class AutoExploreService extends ChangeNotifier {
       final progress = plan.progressForFrame(step);
       final eased = _cinematicCurve.transform(progress.raw);
 
-      controller.updateZoom(plan.interpolate(eased));
+      controller.updateView(
+        controller.view.copyWith(zoom: plan.interpolate(eased)),
+        adaptIterationsForZoom: true,
+      );
       _lastCorrectionZoom = _clampZoom(controller.view.zoom);
 
       if (progress.reachedEnd) {

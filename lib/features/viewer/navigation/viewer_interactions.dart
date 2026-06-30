@@ -13,38 +13,50 @@ KeyEventResult _viewerOnKeyEvent(
   const panStep = 0.08;
 
   if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-    final pan = controller.view.pan;
-    controller.updatePan(Vector2(pan.x - panStep, pan.y));
+    final view = controller.view;
+    controller.updateView(
+        view.copyWith(pan: Vector2(view.pan.x - panStep, view.pan.y)));
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-    final pan = controller.view.pan;
-    controller.updatePan(Vector2(pan.x + panStep, pan.y));
+    final view = controller.view;
+    controller.updateView(
+        view.copyWith(pan: Vector2(view.pan.x + panStep, view.pan.y)));
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-    final pan = controller.view.pan;
-    controller.updatePan(Vector2(pan.x, pan.y - panStep));
+    final view = controller.view;
+    controller.updateView(
+        view.copyWith(pan: Vector2(view.pan.x, view.pan.y - panStep)));
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-    final pan = controller.view.pan;
-    controller.updatePan(Vector2(pan.x, pan.y + panStep));
+    final view = controller.view;
+    controller.updateView(
+        view.copyWith(pan: Vector2(view.pan.x, view.pan.y + panStep)));
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.minus ||
       event.logicalKey == LogicalKeyboardKey.numpadSubtract) {
-    controller.updateZoom(controller.view.zoom / 1.2);
+    final view = controller.view;
+    controller.updateView(
+      view.copyWith(zoom: view.zoom / 1.2),
+      adaptIterationsForZoom: true,
+    );
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.equal ||
       event.logicalKey == LogicalKeyboardKey.numpadAdd) {
-    controller.updateZoom(controller.view.zoom * 1.2);
+    final view = controller.view;
+    controller.updateView(
+      view.copyWith(zoom: view.zoom * 1.2),
+      adaptIterationsForZoom: true,
+    );
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
@@ -71,9 +83,7 @@ void _viewerEnsureCompareController(
   for (final entry in a.params.entries) {
     state._compareController!.updateParam(entry.key, entry.value);
   }
-  state._compareController!.updatePan(a.view.pan);
-  state._compareController!.updateZoom(a.view.zoom);
-  state._compareController!.updateRotation(a.view.rotation);
+  state._compareController!.updateView(a.view);
   state._compareController!.setTransparentBackground(a.transparentBackground);
 }
 

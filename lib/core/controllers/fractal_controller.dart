@@ -413,10 +413,14 @@ class FractalController extends ChangeNotifier {
   /// Updates pan, zoom, and rotation as one camera move.
   ///
   /// Used by animation/export paths so camera interpolation does not fire three
-  /// notifications per frame or accidentally tune fractal params.
-  void updateView(FractalViewState view) {
+  /// notifications per frame. Gesture callers can opt into adaptive iteration
+  /// tuning for zoom-in moves.
+  void updateView(
+    FractalViewState view, {
+    bool adaptIterationsForZoom = false,
+  }) {
     final pan = view.pan;
-    _view = FractalViewState(
+    final normalized = FractalViewState(
       pan: Vector2(
         FractalViewInputBounds.normalizePanComponent(
           candidate: pan.x,
@@ -437,7 +441,16 @@ class FractalController extends ChangeNotifier {
         current: _view.rotation,
       ),
     );
+    final zoomingIn =
+        normalized.zoom > (_lastAdaptiveZoom * _adaptiveZoomEpsilon);
+    _view = normalized;
     _lastAdaptiveZoom = _view.zoom;
+    if (adaptIterationsForZoom) {
+      _applyAdaptiveIterationsForZoom(
+        zoom: _view.zoom,
+        zoomingIn: zoomingIn,
+      );
+    }
     notifyListeners();
   }
 
