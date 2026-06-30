@@ -63,7 +63,7 @@ Key implementation details in this repo's CPU path:
 
 **Repo implementation**
 - Shader painter: `lib/features/renderer/fractal_canvas.dart`
-- Main renderer widget: `lib/features/renderer/fractal_renderer.dart`
+- Main renderer widget: `lib/features/renderer/widgets/renderer/fractal_renderer.dart`
 - Shader assets: `shaders/*.frag` (declared in `pubspec.yaml`)
 
 Key shader conventions used here:
@@ -81,7 +81,7 @@ For a fractal exploration app with real-time interaction and lots of fractal mod
 This repo already follows that strategy:
 - Backend selection logic: `lib/features/renderer/backend_policy.dart`
 - Viewer wiring (manual toggle, GPU health probe, emulator guard, deep zoom): `lib/features/viewer/fractal_viewer_screen.dart`
-- Deep-zoom thresholding: `lib/features/renderer/deep_zoom_precision_policy.dart`
+- Deep-zoom thresholding: `lib/features/renderer/policy/precision_ladder_policy.dart`
 - Capability notes: `renderer_backend_matrix.md`
 
 CPU fallback is used when any of these are true:
@@ -179,7 +179,7 @@ Fragment shaders run in float32 on most targets. Even with `highp`, you only get
 - incorrect boundary detail
 - banding/quantization artifacts in the geometry itself (not just color)
 
-This repo's `DeepZoomPrecisionPolicy` (`lib/features/renderer/deep_zoom_precision_policy.dart`) flips to CPU at conservative per-fractal thresholds, because CPU can use `double` and stay stable longer.
+This repo's `PrecisionLadderPolicy` (`lib/features/renderer/policy/precision_ladder_policy.dart`) flips to CPU at conservative per-fractal thresholds, because CPU can use `double` and stay stable longer.
 
 If you later want GPU deep zoom beyond float32, look into perturbation/series approximation techniques (often implemented as a hybrid: CPU computes a reference orbit, GPU shades deltas).
 

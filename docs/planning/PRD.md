@@ -222,7 +222,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 - **Risk:** Tilt feels "slippery" on real devices if the 0.0009 rad/px multiplier is too high or too low. No human has tested this since the perturbation refactor.
 
 ### 5.4 Deep Zoom Behavior
-- **Policy:** `DeepZoomPrecisionPolicy`
+- **Policy:** `PrecisionLadderPolicy`
   - Mandelbrot: GPU handles up to 1e14, then CPU
   - Perturbation-enabled (julia, burning_ship, celtic, buffalo, tricorn, phoenix): GPU handles up to 1e30
   - Unknown/default: GPU up to 1e8

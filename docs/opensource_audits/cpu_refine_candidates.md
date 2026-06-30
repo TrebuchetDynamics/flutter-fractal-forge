@@ -34,8 +34,8 @@ Scope: audit `/opensource` for CPU-side refinement opportunities, then map to cu
   - `lib/features/renderer/cpu_fractal_renderer.dart`
   - `lib/features/renderer/cpu_render_isolate.dart`
 - Renderer policy:
-  - `lib/features/renderer/deep_zoom_precision_policy.dart`
-  - `lib/features/renderer/fractal_renderer.dart`
+  - `lib/features/renderer/policy/precision_ladder_policy.dart`
+  - `lib/features/renderer/widgets/renderer/fractal_renderer.dart`
 - Module plumbing:
   - `lib/core/modules/module_registry.dart`
   - `lib/core/modules/phoenix_module.dart`

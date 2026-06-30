@@ -18,7 +18,6 @@ import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dar
 import '../../cpu/cpu_fractal_renderer.dart';
 import 'input/gesture_view_bounds.dart';
 import 'input/gesture_tap_classification.dart';
-import '../../policy/deep_zoom_precision_policy.dart';
 import '../../palette_transition.dart';
 import '../../policy/precision_ladder_policy.dart';
 import '../../policy/render_plan.dart';
@@ -162,8 +161,6 @@ class _FractalRendererState extends State<FractalRenderer>
         TickerProviderStateMixin<FractalRenderer>,
         _GestureHandlerMixin,
         _ShaderLoaderMixin {
-  static const DeepZoomPrecisionPolicy _precisionPolicy =
-      DeepZoomPrecisionPolicy();
   static const PrecisionLadderPolicy _precisionLadderPolicy =
       PrecisionLadderPolicy();
 
@@ -452,7 +449,7 @@ class _FractalRendererState extends State<FractalRenderer>
     final controllerView = controller.view;
     final baseIterations =
         (controllerParams['iterations'] as num?)?.toInt() ?? 160;
-    final scaledIterations = _precisionPolicy.scaledGpuIterations(
+    final scaledIterations = _precisionLadderPolicy.scaledGpuIterations(
       baseIterations: baseIterations,
       zoom: controllerView.zoom,
     );

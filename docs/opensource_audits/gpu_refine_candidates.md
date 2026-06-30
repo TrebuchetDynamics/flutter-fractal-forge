@@ -35,8 +35,8 @@ Scope requested: audit `/opensource` (especially `shader-fractals`, `FractalShar
   - `lib/core/modules/builders/escape_time_builder.dart`
   - `lib/core/modules/escape_time_perturb_module.dart`
   - `lib/core/modules/julia_perturb_module.dart`
-  - `lib/features/renderer/deep_zoom_precision_policy.dart`
-  - `lib/features/renderer/fractal_renderer.dart`
+  - `lib/features/renderer/policy/precision_ladder_policy.dart`
+  - `lib/features/renderer/widgets/renderer/fractal_renderer.dart`
 
 ---
 
@@ -64,8 +64,8 @@ Scope requested: audit `/opensource` (especially `shader-fractals`, `FractalShar
 **Why:** Prevents wasted parameter scaling and avoids user-facing “iterations > actual GPU loop bound” mismatch.
 
 **Current files:**
-- `lib/features/renderer/deep_zoom_precision_policy.dart`
-- `lib/features/renderer/fractal_renderer.dart`
+- `lib/features/renderer/policy/precision_ladder_policy.dart`
+- `lib/features/renderer/widgets/renderer/fractal_renderer.dart`
 - `lib/core/modules/builders/escape_time_builder.dart`
 
 **Patch idea:**

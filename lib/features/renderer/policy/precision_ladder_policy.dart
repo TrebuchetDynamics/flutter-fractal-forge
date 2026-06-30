@@ -1,11 +1,14 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/escape_time_perturb_module.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 
-import 'deep_zoom_precision_policy.dart';
-
 const double _extendedGpuLowerZoom = 5e6;
 const double _perturbationUpperZoom = 1e30;
+const double _mandelbrotDf2UpperThreshold = 1e12;
+const double _escapeTimeCpuFallbackThreshold = 1e9;
+const double _defaultCpuFallbackThreshold = 1e7;
 
 /// Renderer path selected by the deep-zoom precision ladder.
 enum PrecisionLadderRenderPath {
@@ -91,6 +94,107 @@ class PrecisionLadderDecision {
   }
 }
 
+@immutable
+class _PrecisionThresholds {
+  final double cpuFallbackZoom;
+  final double? doubleFloatLowerZoom;
+  final double? doubleFloatUpperZoom;
+
+  const _PrecisionThresholds({
+    required this.cpuFallbackZoom,
+    this.doubleFloatLowerZoom,
+    this.doubleFloatUpperZoom,
+  });
+
+  bool shouldUseCpuFallback(double zoom) => zoom >= cpuFallbackZoom;
+
+  bool shouldUseDoubleFloat(double zoom) {
+    final lower = doubleFloatLowerZoom;
+    final upper = doubleFloatUpperZoom;
+    if (lower == null || upper == null) return false;
+    return zoom >= lower && zoom < upper;
+  }
+}
+
+class _PrecisionThresholdPolicy {
+  static const int _gpuMaxIterations = 2000;
+  static const int hysteresisFrames = 2;
+  static const _mandelbrotDf2LowerThreshold = 5e6;
+
+  static const _moduleThresholds = <String, _PrecisionThresholds>{
+    'mandelbrot': _PrecisionThresholds(
+      cpuFallbackZoom: _mandelbrotDf2UpperThreshold,
+      doubleFloatLowerZoom: _mandelbrotDf2LowerThreshold,
+      doubleFloatUpperZoom: _mandelbrotDf2UpperThreshold,
+    ),
+    'julia': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'celtic': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'buffalo': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'burning_ship': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'tricorn': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'multibrot3': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'multibrot4': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'multibrot5': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'phoenix': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
+    'weierstrass_p': _PrecisionThresholds(cpuFallbackZoom: 1e5),
+  };
+
+  static const _defaultThresholds = _PrecisionThresholds(
+    cpuFallbackZoom: _defaultCpuFallbackThreshold,
+  );
+
+  const _PrecisionThresholdPolicy();
+
+  _PrecisionThresholds thresholdsFor(String moduleId) =>
+      _moduleThresholds[moduleId] ?? _defaultThresholds;
+
+  bool shouldUseCpuFallback({
+    required String moduleId,
+    required double zoom,
+  }) =>
+      thresholdsFor(moduleId).shouldUseCpuFallback(zoom);
+
+  bool shouldUseDoubleFloat({
+    required String moduleId,
+    required double zoom,
+  }) =>
+      thresholdsFor(moduleId).shouldUseDoubleFloat(zoom);
+
+  double thresholdFor(String moduleId) =>
+      thresholdsFor(moduleId).cpuFallbackZoom;
+
+  int scaledGpuIterations({
+    required int baseIterations,
+    required double zoom,
+  }) {
+    final safeBase = baseIterations.clamp(4, _gpuMaxIterations);
+    final depth = _zoomDepthLog10(zoom);
+    if (depth == 0.0) return safeBase;
+
+    final factor = 1.0 + 0.35 * depth;
+    final scaled = (safeBase * factor).round();
+    return scaled.clamp(4, _gpuMaxIterations);
+  }
+}
+
 /// Pure precision-ladder decision Module.
 ///
 /// This Module owns the current first-slice routing decision: standard GPU,
@@ -98,11 +202,9 @@ class PrecisionLadderDecision {
 /// schedule two-phase refine work; callers can still use the decision to keep
 /// preview/refine UI copy honest while that pipeline is deferred.
 class PrecisionLadderPolicy {
-  final DeepZoomPrecisionPolicy deepZoomPolicy;
+  static const _thresholdPolicy = _PrecisionThresholdPolicy();
 
-  const PrecisionLadderPolicy({
-    this.deepZoomPolicy = const DeepZoomPrecisionPolicy(),
-  });
+  const PrecisionLadderPolicy();
 
   PrecisionLadderDecision decide({
     required String moduleId,
@@ -132,7 +234,7 @@ class PrecisionLadderPolicy {
       );
     }
 
-    if (deepZoomPolicy.shouldUseDoubleFloat(
+    if (_thresholdPolicy.shouldUseDoubleFloat(
       moduleId: moduleId,
       zoom: zoom,
     )) {
@@ -146,7 +248,7 @@ class PrecisionLadderPolicy {
       );
     }
 
-    final needsCpu = deepZoomPolicy.shouldUseCpuFallback(
+    final needsCpu = _thresholdPolicy.shouldUseCpuFallback(
       moduleId: moduleId,
       zoom: zoom,
     );
@@ -194,7 +296,71 @@ class PrecisionLadderPolicy {
     if (_supportsPerturbationGpu(moduleId)) return _perturbationUpperZoom;
     // mandelbrot's df2 shader already raises its CPU-fallback threshold; other
     // float32-only modules keep theirs.
-    return deepZoomPolicy.thresholdFor(moduleId);
+    return _thresholdPolicy.thresholdFor(moduleId);
+  }
+
+  /// Scales realtime GPU iteration count for the active zoom depth.
+  ///
+  /// Renderer callers use this seam instead of reaching into deep-zoom
+  /// thresholds directly; threshold policy stays an implementation detail of
+  /// the Precision Ladder module.
+  int scaledGpuIterations({
+    required int baseIterations,
+    required double zoom,
+  }) {
+    return _thresholdPolicy.scaledGpuIterations(
+      baseIterations: baseIterations,
+      zoom: zoom,
+    );
+  }
+}
+
+/// Replayable state for one Precision Ladder CPU activation streak.
+///
+/// Keeping the transition pure makes the hidden state/order dependence visible:
+/// streaks are scoped to one module, below-threshold samples reset immediately,
+/// and CPU Precision activates only after enough consecutive CPU candidates for
+/// the same module.
+@immutable
+class PrecisionLadderHysteresisState {
+  final String? moduleId;
+  final int aboveThresholdCount;
+  final bool cpuActive;
+
+  const PrecisionLadderHysteresisState({
+    required this.moduleId,
+    required this.aboveThresholdCount,
+    required this.cpuActive,
+  });
+
+  const PrecisionLadderHysteresisState.initial()
+      : moduleId = null,
+        aboveThresholdCount = 0,
+        cpuActive = false;
+
+  PrecisionLadderHysteresisState next({
+    required String nextModuleId,
+    required bool overThreshold,
+    required int activationFrames,
+  }) {
+    assert(activationFrames > 0, 'activationFrames must be positive');
+    final sameModule = moduleId == nextModuleId;
+    final currentCount = sameModule ? aboveThresholdCount : 0;
+
+    if (!overThreshold) {
+      return PrecisionLadderHysteresisState(
+        moduleId: nextModuleId,
+        aboveThresholdCount: 0,
+        cpuActive: false,
+      );
+    }
+
+    final nextCount = currentCount + 1;
+    return PrecisionLadderHysteresisState(
+      moduleId: nextModuleId,
+      aboveThresholdCount: nextCount,
+      cpuActive: nextCount >= activationFrames,
+    );
   }
 }
 
@@ -204,13 +370,14 @@ class PrecisionLadderPolicy {
 /// class only delays committing to the CPU path for consecutive CPU candidates.
 class PrecisionLadderHysteresis {
   final PrecisionLadderPolicy policy;
-  DeepZoomHysteresisState _state = const DeepZoomHysteresisState.initial();
+  PrecisionLadderHysteresisState _state =
+      const PrecisionLadderHysteresisState.initial();
 
   PrecisionLadderHysteresis({
     this.policy = const PrecisionLadderPolicy(),
   });
 
-  DeepZoomHysteresisState get state => _state;
+  PrecisionLadderHysteresisState get state => _state;
 
   PrecisionLadderDecision update({
     required String moduleId,
@@ -226,7 +393,7 @@ class PrecisionLadderHysteresis {
     _state = _state.next(
       nextModuleId: moduleId,
       overThreshold: candidate.usesCpuRenderer,
-      activationFrames: policy.deepZoomPolicy.hysteresisFrames,
+      activationFrames: _PrecisionThresholdPolicy.hysteresisFrames,
     );
 
     return policy.decide(
@@ -238,6 +405,12 @@ class PrecisionLadderHysteresis {
   }
 
   void reset() {
-    _state = const DeepZoomHysteresisState.initial();
+    _state = const PrecisionLadderHysteresisState.initial();
   }
+}
+
+double _zoomDepthLog10(double zoom) {
+  if (zoom.isNaN || zoom <= 1.0) return 0.0;
+  if (zoom.isInfinite) return 30.0;
+  return (math.log(zoom) / math.ln10).clamp(0.0, 30.0);
 }

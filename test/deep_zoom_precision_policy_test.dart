@@ -1,58 +1,55 @@
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractals/features/renderer/policy/deep_zoom_precision_policy.dart';
 
 void main() {
-  const policy = DeepZoomPrecisionPolicy();
+  const policy = PrecisionLadderPolicy();
 
-  group('DeepZoomPrecisionPolicy.thresholdsFor', () {
-    test('exposes contiguous Mandelbrot df2 to CPU fallback boundaries', () {
-      final thresholds = policy.thresholdsFor('mandelbrot');
+  group('PrecisionLadderPolicy deep-zoom routing', () {
+    test('routes Mandelbrot through contiguous df2 then CPU fallback', () {
+      final df2 = policy.decide(
+        moduleId: 'mandelbrot',
+        dimension: FractalDimension.twoD,
+        zoom: 1e11,
+      );
+      final cpu = policy.decide(
+        moduleId: 'mandelbrot',
+        dimension: FractalDimension.twoD,
+        zoom: 1e12,
+      );
 
-      expect(thresholds.supportsDoubleFloat, isTrue);
-      expect(thresholds.doubleFloatLowerZoom, 5e6);
-      expect(thresholds.doubleFloatUpperZoom, thresholds.cpuFallbackZoom);
-      expect(thresholds.shouldUseDoubleFloat(1e11), isTrue);
-      expect(
-        thresholds.shouldUseDoubleFloat(thresholds.cpuFallbackZoom),
-        isFalse,
-      );
-      expect(
-        thresholds.shouldUseCpuFallback(thresholds.cpuFallbackZoom),
-        isTrue,
-      );
+      expect(df2.renderPath, PrecisionLadderRenderPath.gpuDoubleFloat);
+      expect(df2.usesCpuRenderer, isFalse);
+      expect(cpu.renderPath, PrecisionLadderRenderPath.cpu);
+      expect(policy.gpuRenderableCeilingZoom('mandelbrot'), 1e12);
     });
 
-    test('exposes default thresholds without a double-float range', () {
-      final thresholds = policy.thresholdsFor('unknown_fractal');
+    test('routes default deep zoom to CPU without exposing thresholds', () {
+      final below = policy.decide(
+        moduleId: 'unknown_fractal',
+        dimension: FractalDimension.twoD,
+        zoom: 9.9e6,
+      );
+      final cpu = policy.decide(
+        moduleId: 'unknown_fractal',
+        dimension: FractalDimension.twoD,
+        zoom: 1e7,
+      );
 
-      expect(thresholds.cpuFallbackZoom, 1e7);
-      expect(thresholds.supportsDoubleFloat, isFalse);
-      expect(thresholds.shouldUseDoubleFloat(1e10), isFalse);
-    });
-  });
-
-  group('DeepZoomPrecisionPolicy.decisionFor', () {
-    test('exposes CPU and double-float routing from one threshold snapshot',
-        () {
-      final decision = policy.decisionFor(moduleId: 'mandelbrot', zoom: 1e10);
-
-      expect(decision.moduleId, 'mandelbrot');
-      expect(decision.zoom, 1e10);
-      expect(decision.cpuFallbackZoom, 1e12);
-      expect(decision.shouldUseDoubleFloat, isTrue);
-      expect(decision.shouldUseCpuFallback, isFalse);
-      expect(decision.thresholds, same(policy.thresholdsFor('mandelbrot')));
+      expect(below.renderPath, PrecisionLadderRenderPath.gpuFloat);
+      expect(cpu.renderPath, PrecisionLadderRenderPath.cpu);
+      expect(policy.gpuRenderableCeilingZoom('unknown_fractal'), 1e7);
     });
 
     test('keeps invalid zoom samples below precision routing thresholds', () {
       for (final zoom in [double.nan, double.negativeInfinity]) {
-        final decision = policy.decisionFor(
+        final decision = policy.decide(
           moduleId: 'mandelbrot',
+          dimension: FractalDimension.twoD,
           zoom: zoom,
         );
 
-        expect(decision.shouldUseDoubleFloat, isFalse, reason: '$zoom');
-        expect(decision.shouldUseCpuFallback, isFalse, reason: '$zoom');
+        expect(decision.renderPath, PrecisionLadderRenderPath.gpuFloat);
       }
     });
   });
