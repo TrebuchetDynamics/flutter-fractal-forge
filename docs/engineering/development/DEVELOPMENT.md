@@ -370,11 +370,6 @@ adb shell run-as com.trebuchetdynamics.fractal.forge \
   cat app_flutter/debug_logs/session_*.log
 ```
 
-**Helper scripts:**
-
-- `scripts/emu-status.sh`: screenshot + logcat + UI dump snapshot
-- `scripts/emu-tap.sh <x> <y>`: coordinate tap helper
-
 ### 5. GPU/Shader Diagnostics and Fallbacks
 
 **Scan logcat with explicit patterns:**

@@ -4,18 +4,14 @@
 # scripts
 
 ## Purpose
-Shell scripts for development automation, testing, and screenshot generation. Used for emulator control, overnight test runs, and store listing screenshots.
+Shell scripts for development automation, testing, and screenshot generation.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
 | `desktop-screenshots.sh` | Captures desktop app screenshots for store listing |
-| `emu-status.sh` | Check Android emulator status |
-| `emu-tap.sh` | Send tap events to emulator |
 | `headless-emulator-test.sh` | Start/reuse a headless emulator and run integration tests, capturing artifacts |
-| `overnight-emulator-loop.sh` | Long-running emulator test loop |
-| `overnight-ui-monkey.sh` | Random UI interaction stress testing |
 
 ## For AI Agents
 
