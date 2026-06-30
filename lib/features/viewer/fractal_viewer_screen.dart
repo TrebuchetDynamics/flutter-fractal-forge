@@ -12,6 +12,7 @@ import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/features/viewer/actions/text_overlay_controller.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_music_coordinator.dart';
+import 'package:flutter_fractals/features/viewer/actions/viewer_session_tracker.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
@@ -128,11 +129,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   // History tracking
   FractalController? _lastController;
 
-  // Exploration stats tracking
-  ExplorationStatsService? _statsService;
-  DateTime? _sessionStart;
-  double? _lastZoom;
-  String? _lastModuleId;
+  ViewerSessionTracker? _sessionTracker;
 
   // Auto-explore service
   @override
@@ -207,11 +204,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       );
     }
 
-    // Grab stats service (optional in tests)
-    _statsService ??= context.read<ExplorationStatsService?>();
-
-    // Start session timer once.
-    _sessionStart ??= DateTime.now();
+    _sessionTracker ??= ViewerSessionTracker(
+      statsService: context.read<ExplorationStatsService?>(),
+    );
 
     // Set up history + stats tracking
     final controller = context.read<FractalController>();
@@ -219,9 +214,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _lastController?.removeListener(_onControllerChanged);
       _lastController = controller;
 
-      _lastZoom = controller.view.zoom;
-      _lastModuleId = controller.module.id;
-      _statsService?.recordFractalExplored(controller.module.id);
+      _sessionTracker!.attach(controller);
 
       controller.addListener(_onControllerChanged);
       // Record initial state
@@ -257,7 +250,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     if (!mounted) return;
 
     final controller = _lastController!;
-    if (_lastModuleId != null && _lastModuleId != controller.module.id) {
+    final prevModuleId = _sessionTracker?.lastModuleId;
+    final moduleChanged =
+        prevModuleId != null && prevModuleId != controller.module.id;
+
+    if (moduleChanged) {
       _gpuProbe.resetHealth();
       _scheduleGpuHealthCheck();
     }
@@ -271,30 +268,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _recordHistory(context);
     _musicCoordinator.scheduleRescan(controller);
 
-    // Best-effort stats tracking (local-only)
-
-    // Zoom distance: sum abs(log(new/old))
-    final prevZoom = _lastZoom;
-    final currentZoom = controller.view.zoom;
-    if (prevZoom != null &&
-        prevZoom > 0 &&
-        currentZoom > 0 &&
-        prevZoom != currentZoom) {
-      final delta = (math.log(currentZoom / prevZoom)).abs();
-      _statsService?.addZoomDistance(delta);
-      _lastZoom = currentZoom;
-    }
-
-    // Unique fractals explored
-    final currentId = controller.module.id;
-    if (_lastModuleId != currentId) {
+    if (moduleChanged) {
       _log.logState('action', 'Module changed', {
-        'from': _lastModuleId,
-        'to': currentId,
+        'from': prevModuleId,
+        'to': controller.module.id,
       });
-      _lastModuleId = currentId;
-      _statsService?.recordFractalExplored(currentId);
     }
+
+    _sessionTracker?.onControllerChanged(controller);
   }
 
   @override
@@ -304,12 +285,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     _backendDebounceTimer?.cancel();
     _musicCoordinator.dispose();
     _lastController?.removeListener(_onControllerChanged);
-
-    final start = _sessionStart;
-    if (start != null) {
-      final elapsed = DateTime.now().difference(start);
-      _statsService?.addExploreTime(elapsed);
-    }
+    _sessionTracker?.end();
 
     _lastGpuSnapshot?.dispose();
     _fabController.dispose();
