@@ -139,6 +139,7 @@
   "tooltipResetViewWithParams": "Restablecer vista. Mantén presionado para restablecer parámetros",
   "tooltipIncreaseIterationsWithDecrease": "Iteraciones +. Mantén presionado para −",
   "tooltipColorSchemeWithPalette": "Esquema de color. Mantén presionado para paleta",
+  "tooltipRandomizeWithControls": "Aleatorizar. Mantén presionado para Controles",
   "tooltipKaleidoscopeOn": "Kaleidoscopio activado",
   "tooltipKaleidoscopeOff": "Kaleidoscopio desactivado",
   "tooltipCameraLooper": "Bucle de cámara",

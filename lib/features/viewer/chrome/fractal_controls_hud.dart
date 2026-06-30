@@ -156,7 +156,6 @@ class FractalControlsHud extends StatelessWidget {
                     onRandomize: () {
                       HapticFeedback.mediumImpact();
                       controller.randomizeParams();
-                      controller.recordInterestingSpot();
                     },
                   ),
                 ],

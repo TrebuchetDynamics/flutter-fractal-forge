@@ -430,6 +430,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Esquema de color. Mantén presionado para paleta';
 
   @override
+  String get tooltipRandomizeWithControls =>
+      'Aleatorizar. Mantén presionado para Controles';
+
+  @override
   String get tooltipKaleidoscopeOn => 'Kaleidoscopio activado';
 
   @override

@@ -427,6 +427,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Color Scheme. Long press for palette';
 
   @override
+  String get tooltipRandomizeWithControls =>
+      'Randomize. Long press for Controls';
+
+  @override
   String get tooltipKaleidoscopeOn => 'Kaleidoscope on';
 
   @override

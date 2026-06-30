@@ -150,7 +150,30 @@ class ViewerEffectsController {
       view: controller.view,
       shareUrl: shareUrl,
       notes: notes,
-      visualState: {
+      visualState: _reportVisualState(controller),
+    );
+  }
+
+  String buildFractalReportJson({
+    required FractalController controller,
+    required String moduleName,
+    required String shareUrl,
+    required List<String> tags,
+    String notes = '',
+  }) {
+    return _reportService.buildJson(
+      moduleId: controller.module.id,
+      moduleName: moduleName,
+      tags: List<String>.from(tags)..sort(),
+      params: controller.params,
+      view: controller.view,
+      shareUrl: shareUrl,
+      notes: notes,
+      visualState: _reportVisualState(controller),
+    );
+  }
+
+  Map<String, Object?> _reportVisualState(FractalController controller) => {
         'transparentBackground': controller.transparentBackground,
         'rotationLocked': controller.rotationLocked,
         'glowEnabled': controller.glowEnabled,
@@ -161,9 +184,7 @@ class ViewerEffectsController {
         'kaleidoscopeMirror': controller.kaleidoscopeMirror,
         'kaleidoscopeRotation': controller.kaleidoscopeRotation,
         'kaleidoscopeMirrorMode': controller.kaleidoscopeMirrorMode,
-      },
-    );
-  }
+      };
 
   void dispose() {
     _disposed = true;

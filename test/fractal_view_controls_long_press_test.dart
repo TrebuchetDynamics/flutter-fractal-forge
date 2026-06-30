@@ -4,34 +4,82 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('long-pressing random FAB opens polished action sheet',
+      (tester) async {
+    await _pumpHarness(tester);
+
+    await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Random options'), findsOneWidget);
+    expect(
+      find.text(
+          'Jump to a new fractal or keep this one and reshape its parameters.'),
+      findsOneWidget,
+    );
+    expect(find.text('Switch to another catalog entry.'), findsOneWidget);
+    expect(find.byTooltip('Close'), findsOneWidget);
+  });
+
+  testWidgets('long-pressing export FAB opens polished export sheet',
+      (tester) async {
+    await _pumpHarness(tester);
+
+    await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Export / Wallpaper'), findsOneWidget);
+    expect(
+      find.text('Save, share, or fit the current render to your device.'),
+      findsOneWidget,
+    );
+    expect(
+        find.text('Preview crops for phone wallpaper sizes.'), findsOneWidget);
+  });
+
   testWidgets('long-pressing kaleidoscope FAB opens section picker',
       (tester) async {
     int? selectedSectors;
 
-    await tester.pumpWidget(
-      MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: _Harness(
-            onSetSectors: (value) => selectedSectors = value,
-          ),
-        ),
-      ),
+    await _pumpHarness(
+      tester,
+      onSetSectors: (value) => selectedSectors = value,
     );
-    await tester.pump();
 
     await tester
         .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
     await tester.pumpAndSettle();
 
     expect(find.text('Kaleidoscope sections'), findsOneWidget);
+    expect(find.text('Wedge count'), findsOneWidget);
+    expect(
+      find.text('Reflect each wedge for sharper radial symmetry.'),
+      findsOneWidget,
+    );
 
     await tester.tap(find.text('12'));
     await tester.pump();
 
     expect(selectedSectors, 12);
   });
+}
+
+Future<void> _pumpHarness(
+  WidgetTester tester, {
+  ValueChanged<int>? onSetSectors,
+}) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Scaffold(
+        body: _Harness(
+          onSetSectors: onSetSectors ?? (_) {},
+        ),
+      ),
+    ),
+  );
+  await tester.pump();
 }
 
 class _Harness extends StatefulWidget {

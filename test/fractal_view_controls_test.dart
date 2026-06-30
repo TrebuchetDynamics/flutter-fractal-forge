@@ -41,6 +41,7 @@ Future<bool> _pumpControls(
   VoidCallback? onToggleFractalMusic,
   VoidCallback? onOpenPalettePicker,
   VoidCallback? onOpenRandomFractal,
+  VoidCallback? onOpenControls,
   bool kaleidoscopeEnabled = false,
   int kaleidoscopeSectors = 8,
   bool kaleidoscopeMirror = true,
@@ -70,7 +71,7 @@ Future<bool> _pumpControls(
             actions: FractalViewControlActions(
               toggleFullscreen: () {},
               openRandomFractal: onOpenRandomFractal ?? () {},
-              openControls: () {},
+              openControls: onOpenControls ?? () {},
               randomizeParams: () {},
               cycleColorScheme: () {},
               openPalettePicker: onOpenPalettePicker ?? () {},
@@ -97,18 +98,13 @@ Future<bool> _pumpControls(
 }
 
 void main() {
-  testWidgets('export FAB opens export/wallpaper actions', (tester) async {
+  testWidgets('export FAB opens export directly', (tester) async {
     var exported = false;
-    var sharedLink = false;
-    var shared = false;
-    var wallpaper = false;
     await _pumpControls(
       tester,
       isExporting: false,
       onOpenExport: () => exported = true,
-      onShareLink: () => sharedLink = true,
-      onShareImage: () => shared = true,
-      onOpenWallpaper: () => wallpaper = true,
+      onOpenWallpaper: () {},
     );
 
     final fab = find.byKey(const ValueKey('viewerExportButton'));
@@ -119,35 +115,8 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(fab);
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const ValueKey('viewerExportMenuItem')));
-    await tester.pumpAndSettle();
     expect(exported, isTrue);
-
-    await tester.ensureVisible(fab);
-    await tester.pumpAndSettle();
-    await tester.tap(fab);
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const ValueKey('viewerShareLinkMenuItem')));
-    await tester.pumpAndSettle();
-    expect(sharedLink, isTrue);
-
-    await tester.ensureVisible(fab);
-    await tester.pumpAndSettle();
-    await tester.tap(fab);
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const ValueKey('viewerShareMenuItem')));
-    await tester.pumpAndSettle();
-    expect(shared, isTrue);
-
-    expect(find.byKey(const ValueKey('viewerLooperMenuItem')), findsNothing);
-
-    await tester.ensureVisible(fab);
-    await tester.pumpAndSettle();
-    await tester.tap(fab);
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const ValueKey('viewerWallpaperMenuItem')));
-    await tester.pumpAndSettle();
-    expect(wallpaper, isTrue);
+    expect(find.byKey(const ValueKey('viewerExportMenuItem')), findsNothing);
   });
 
   testWidgets('quick control FABs are present', (tester) async {
@@ -166,6 +135,7 @@ void main() {
     expect(
         find.byKey(const ValueKey('viewerRandomParamsButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('viewerRandomButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerControlsButton')), findsNothing);
     expect(find.byKey(const ValueKey('viewerLooperButton')), findsOneWidget);
     expect(
         find.byKey(const ValueKey('viewerTextOverlayButton')), findsOneWidget);
@@ -198,7 +168,6 @@ void main() {
 
     const fabKeys = [
       ValueKey('viewerFullscreenButton'),
-      ValueKey('viewerControlsButton'),
       ValueKey('viewerColorCycleButton'),
       ValueKey('viewerKaleidoscopeButton'),
       ValueKey('viewerRandomParamsButton'),
@@ -211,9 +180,45 @@ void main() {
 
     for (final key in fabKeys) {
       final size = tester.getSize(find.byKey(key));
-      expect(size.width, greaterThanOrEqualTo(48.0), reason: '$key width');
-      expect(size.height, greaterThanOrEqualTo(48.0), reason: '$key height');
+      expect(size.width, 48.0, reason: '$key width');
+      expect(size.height, 48.0, reason: '$key height');
     }
+  });
+
+  testWidgets('toggle FABs change color only when on', (tester) async {
+    BoxDecoration decorationFor(ValueKey<String> key) {
+      final animated = find.descendant(
+        of: find.byKey(key),
+        matching: find.byType(AnimatedContainer),
+      );
+      return tester.widget<AnimatedContainer>(animated).decoration!
+          as BoxDecoration;
+    }
+
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+    expect(decorationFor(const ValueKey('viewerTextOverlayButton')).gradient,
+        isNull);
+    expect(decorationFor(const ValueKey('viewerKaleidoscopeButton')).gradient,
+        isNull);
+    expect(decorationFor(const ValueKey('viewerFractalMusicButton')).gradient,
+        isNull);
+    expect(
+        decorationFor(const ValueKey('viewerRandomButton')).gradient, isNull);
+
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      textOverlayEnabled: true,
+      kaleidoscopeEnabled: true,
+      fractalMusicEnabled: true,
+      onOpenWallpaper: () {},
+    );
+    expect(decorationFor(const ValueKey('viewerTextOverlayButton')).gradient,
+        isNotNull);
+    expect(decorationFor(const ValueKey('viewerKaleidoscopeButton')).gradient,
+        isNotNull);
+    expect(decorationFor(const ValueKey('viewerFractalMusicButton')).gradient,
+        isNotNull);
   });
 
   testWidgets('quick control FABs expose screen-reader labels', (tester) async {
@@ -223,10 +228,9 @@ void main() {
 
     for (final label in const [
       'Fullscreen view',
-      'Controls',
       'Color Scheme. Long press for palette',
       'Kaleidoscope off',
-      'Randomize',
+      'Randomize. Long press for Controls',
       'Random Fractal',
       'Camera looper',
       'Text overlay off. Tap to add text.',
@@ -311,6 +315,21 @@ void main() {
     expect(toggled, isTrue);
   });
 
+  testWidgets('randomize FAB long press opens controls', (tester) async {
+    var opened = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onOpenControls: () => opened = true,
+      onOpenWallpaper: () {},
+    );
+
+    await tester
+        .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
+    await tester.pump();
+    expect(opened, isTrue);
+  });
+
   testWidgets('palette FAB long press opens palette picker', (tester) async {
     var opened = false;
     await _pumpControls(
@@ -337,6 +356,6 @@ void main() {
     );
     await tester.pump();
     expect(tapped, isFalse);
-    expect(find.byKey(const ValueKey('viewerWallpaperMenuItem')), findsNothing);
+    expect(find.text('Export / Wallpaper'), findsNothing);
   });
 }

@@ -139,6 +139,7 @@
   "tooltipResetViewWithParams": "Reset View. Long press for Reset Params",
   "tooltipIncreaseIterationsWithDecrease": "Iterations +. Long press for −",
   "tooltipColorSchemeWithPalette": "Color Scheme. Long press for palette",
+  "tooltipRandomizeWithControls": "Randomize. Long press for Controls",
   "tooltipKaleidoscopeOn": "Kaleidoscope on",
   "tooltipKaleidoscopeOff": "Kaleidoscope off",
   "tooltipCameraLooper": "Camera looper",

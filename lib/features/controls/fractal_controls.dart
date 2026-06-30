@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
-import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -103,9 +102,6 @@ class FractalControlsSheet extends StatelessWidget {
                           onPressed: () {
                             HapticFeedback.mediumImpact();
                             controller.randomizeParams();
-                            // Trigger a small celebration for discovering new
-                            // fractals.
-                            controller.recordInterestingSpot();
                           },
                         ),
                       ),
@@ -697,7 +693,7 @@ class _PremiumSwitch extends StatelessWidget {
   }
 }
 
-/// Animated randomize button with sparkle effects.
+/// Animated randomize button.
 class _AnimatedRandomizeButton extends StatefulWidget {
   final String label;
   final VoidCallback onPressed;
@@ -721,7 +717,6 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
   late Animation<double> _shakeAnimation;
   late Animation<double> _glowAnimation;
   bool _isPressed = false;
-  bool _showSparkle = false;
 
   @override
   void initState() {
@@ -775,16 +770,8 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
   void _handleTap() {
     widget.onPressed();
 
-    // Trigger animations
     _shakeController.forward(from: 0);
     _glowController.forward(from: 0);
-
-    setState(() => _showSparkle = true);
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      if (mounted) {
-        setState(() => _showSparkle = false);
-      }
-    });
   }
 
   @override
@@ -793,104 +780,100 @@ class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
     return Semantics(
       button: true,
       label: l10n.semanticRandomizeButton,
-      child: SparkleEffect(
-        isActive: _showSparkle,
-        sparkleCount: 8,
-        child: GestureDetector(
-          onTapDown: (_) {
-            setState(() => _isPressed = true);
-            _scaleController.forward();
-          },
-          onTapUp: (_) {
-            setState(() => _isPressed = false);
-            _scaleController.reverse();
-          },
-          onTapCancel: () {
-            setState(() => _isPressed = false);
-            _scaleController.reverse();
-          },
-          onTap: _handleTap,
-          child: AnimatedBuilder(
-            animation: Listenable.merge(
-                [_scaleAnimation, _shakeAnimation, _glowAnimation]),
-            builder: (context, child) {
-              return Transform.scale(
-                scale: _scaleAnimation.value,
-                child: Transform.rotate(
-                  angle: _shakeAnimation.value,
-                  child: Stack(
-                    children: [
-                      // Glow effect
-                      if (_glowAnimation.value > 0)
-                        Positioned.fill(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  AppSpacing.buttonRadius),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(
-                                      alpha: _glowAnimation.value * 0.5),
-                                  blurRadius: 20,
-                                  spreadRadius: 2,
-                                ),
-                                BoxShadow(
-                                  color: AppColors.secondary.withValues(
-                                      alpha: _glowAnimation.value * 0.3),
-                                  blurRadius: 30,
-                                  spreadRadius: 5,
-                                ),
-                              ],
-                            ),
+      child: GestureDetector(
+        onTapDown: (_) {
+          setState(() => _isPressed = true);
+          _scaleController.forward();
+        },
+        onTapUp: (_) {
+          setState(() => _isPressed = false);
+          _scaleController.reverse();
+        },
+        onTapCancel: () {
+          setState(() => _isPressed = false);
+          _scaleController.reverse();
+        },
+        onTap: _handleTap,
+        child: AnimatedBuilder(
+          animation: Listenable.merge(
+              [_scaleAnimation, _shakeAnimation, _glowAnimation]),
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _scaleAnimation.value,
+              child: Transform.rotate(
+                angle: _shakeAnimation.value,
+                child: Stack(
+                  children: [
+                    // Glow effect
+                    if (_glowAnimation.value > 0)
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(AppSpacing.buttonRadius),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(
+                                    alpha: _glowAnimation.value * 0.5),
+                                blurRadius: 20,
+                                spreadRadius: 2,
+                              ),
+                              BoxShadow(
+                                color: AppColors.secondary.withValues(
+                                    alpha: _glowAnimation.value * 0.3),
+                                blurRadius: 30,
+                                spreadRadius: 5,
+                              ),
+                            ],
                           ),
                         ),
-                      // Button
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.xxl,
-                          vertical: AppSpacing.md + 2,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: AppColors.primaryGradient,
-                          borderRadius:
-                              BorderRadius.circular(AppSpacing.buttonRadius),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary
-                                  .withValues(alpha: _isPressed ? 0.5 : 0.3),
-                              blurRadius: _isPressed ? 16 : 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AnimatedRotation(
-                              turns: _shakeController.isAnimating ? 0.5 : 0,
-                              duration: const Duration(milliseconds: 300),
-                              child: const Icon(
-                                Icons.shuffle_rounded,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(width: AppSpacing.sm),
-                            Text(
-                              widget.label,
-                              style: AppTypography.labelLarge.copyWith(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
-                    ],
-                  ),
+                    // Button
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.xxl,
+                        vertical: AppSpacing.md + 2,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: AppColors.primaryGradient,
+                        borderRadius:
+                            BorderRadius.circular(AppSpacing.buttonRadius),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary
+                                .withValues(alpha: _isPressed ? 0.5 : 0.3),
+                            blurRadius: _isPressed ? 16 : 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedRotation(
+                            turns: _shakeController.isAnimating ? 0.5 : 0,
+                            duration: const Duration(milliseconds: 300),
+                            child: const Icon(
+                              Icons.shuffle_rounded,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Text(
+                            widget.label,
+                            style: AppTypography.labelLarge.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

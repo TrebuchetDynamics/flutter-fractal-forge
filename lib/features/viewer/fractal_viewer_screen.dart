@@ -59,6 +59,7 @@ import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dar
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 import 'package:flutter_fractals/features/viewer/diagnostics/gpu_health_probe.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 part 'diagnostics/viewer_gpu_health.dart';
 part 'diagnostics/viewer_debug_report.dart';
@@ -325,29 +326,70 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Future<void> _editTextOverlay() async {
     final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController(text: _textOverlay.text);
-    final text = await showDialog<String>(
+    final text = await showModalBottomSheet<String>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.textOverlayTitle),
-        content: TextField(
-          key: const ValueKey('viewerTextOverlayField'),
-          controller: controller,
-          autofocus: true,
-          minLines: 1,
-          maxLines: 3,
-          decoration:
-              InputDecoration(hintText: l10n.exportQuoteOverlayPlaceholder),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(l10n.actionCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(dialogContext).pop(controller.text),
-            child: Text(l10n.actionApply),
-          ),
-        ],
+        child: AppBottomSheet(
+          maxHeightFactor: 0.52,
+          children: [
+            AppBottomSheetHeader(
+              icon: Icons.format_quote_rounded,
+              title: l10n.textOverlayTitle,
+              subtitle: 'Add a short caption over the rendered image.',
+              onClose: () => Navigator.of(sheetContext).pop(),
+            ),
+            const Divider(height: 1, color: AppColors.divider),
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: TextField(
+                key: const ValueKey('viewerTextOverlayField'),
+                controller: controller,
+                autofocus: true,
+                minLines: 1,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: l10n.exportQuoteOverlayPlaceholder,
+                  filled: true,
+                  fillColor: AppColors.surfaceVariant,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                0,
+                AppSpacing.md,
+                AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(sheetContext).pop(),
+                      child: Text(l10n.actionCancel),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () =>
+                          Navigator.of(sheetContext).pop(controller.text),
+                      child: Text(l10n.actionApply),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
     controller.dispose();
@@ -502,60 +544,113 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final selected = <String>{};
     final notes = TextEditingController();
 
-    final saved = await showDialog<bool>(
+    final saved = await showModalBottomSheet<bool>(
       context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Report fractal'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(controller.module.displayName(l10n)),
-                const SizedBox(height: AppSpacing.md),
-                Wrap(
-                  spacing: 8,
-                  children: [
-                    for (final tag in tags)
-                      FilterChip(
-                        label: Text(tag),
-                        selected: selected.contains(tag),
-                        onSelected: (value) => setDialogState(() {
-                          if (value) {
-                            selected.add(tag);
-                          } else {
-                            selected.remove(tag);
-                          }
-                        }),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (context, setSheetState) => Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
+          ),
+          child: AppBottomSheet(
+            maxHeightFactor: 0.72,
+            children: [
+              AppBottomSheetHeader(
+                icon: Icons.report_problem_rounded,
+                title: 'Report fractal',
+                subtitle: controller.module.displayName(l10n),
+                onClose: () => Navigator.of(sheetContext).pop(false),
+              ),
+              const Divider(height: 1, color: AppColors.divider),
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'What looks wrong?',
+                        style: AppTypography.labelLarge.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
                       ),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.md),
-                TextField(
-                  controller: notes,
-                  minLines: 2,
-                  maxLines: 4,
-                  decoration: const InputDecoration(
-                    labelText: 'Notes (optional)',
-                    border: OutlineInputBorder(),
+                      const SizedBox(height: AppSpacing.sm),
+                      Wrap(
+                        spacing: AppSpacing.sm,
+                        runSpacing: AppSpacing.sm,
+                        children: [
+                          for (final tag in tags)
+                            FilterChip(
+                              label: Text(tag),
+                              selected: selected.contains(tag),
+                              showCheckmark: false,
+                              selectedColor:
+                                  AppColors.primary.withValues(alpha: 0.28),
+                              backgroundColor: AppColors.surfaceVariant
+                                  .withValues(alpha: 0.9),
+                              side: BorderSide(
+                                color: selected.contains(tag)
+                                    ? AppColors.primaryLight
+                                    : AppColors.glassBorder,
+                              ),
+                              onSelected: (value) => setSheetState(() {
+                                if (value) {
+                                  selected.add(tag);
+                                } else {
+                                  selected.remove(tag);
+                                }
+                              }),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      TextField(
+                        controller: notes,
+                        minLines: 2,
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                          labelText: 'Notes (optional)',
+                          filled: true,
+                          fillColor: AppColors.surfaceVariant,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.md,
+                  0,
+                  AppSpacing.md,
+                  AppSpacing.md,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.of(sheetContext).pop(false),
+                        child: const Text('Cancel'),
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: FilledButton(
+                        onPressed: selected.isEmpty
+                            ? null
+                            : () => Navigator.of(sheetContext).pop(true),
+                        child: const Text('Save'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: selected.isEmpty
-                  ? null
-                  : () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Save'),
-            ),
-          ],
         ),
       ),
     );
@@ -566,11 +661,54 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
 
     try {
+      final reportTags = selected.toList();
+      final moduleName = controller.module.displayName(l10n);
+      final shareUrl = _shareUriFor(controller).toString();
+      if (!kIsWeb && Platform.isAndroid) {
+        final json = _viewerEffects.buildFractalReportJson(
+          controller: controller,
+          moduleName: moduleName,
+          tags: reportTags,
+          shareUrl: shareUrl,
+          notes: notes.text,
+        );
+        if (!mounted) return;
+        await showDialog<void>(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            title: const Text('Copy report JSON'),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: SingleChildScrollView(child: SelectableText(json)),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(),
+                child: const Text('Close'),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: json));
+                  if (dialogContext.mounted) Navigator.of(dialogContext).pop();
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Report JSON copied')),
+                    );
+                  }
+                },
+                child: const Text('Copy'),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
       final file = await _viewerEffects.saveFractalReport(
         controller: controller,
-        moduleName: controller.module.displayName(l10n),
-        tags: selected.toList(),
-        shareUrl: _shareUriFor(controller).toString(),
+        moduleName: moduleName,
+        tags: reportTags,
+        shareUrl: shareUrl,
         notes: notes.text,
       );
       if (!mounted) return;
@@ -622,40 +760,55 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => StatefulBuilder(
         builder: (context, setSheetState) {
           final current = controller.params['colorScheme'];
-          return Container(
-            margin: const EdgeInsets.all(AppSpacing.lg),
-            padding: const EdgeInsets.all(AppSpacing.md),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceElevated.withValues(alpha: 0.96),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: AppColors.glassBorder),
-            ),
-            child: SafeArea(
-              top: false,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.paramColorScheme,
-                    style: AppTypography.titleMedium.copyWith(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w700,
-                    ),
+          return AppBottomSheet(
+            maxHeightFactor: 0.62,
+            children: [
+              AppBottomSheetHeader(
+                icon: Icons.palette_rounded,
+                title: l10n.paramColorScheme,
+                subtitle: 'Choose the color treatment for this render.',
+                onClose: () => Navigator.of(context).pop(),
+              ),
+              const Divider(height: 1, color: AppColors.divider),
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.md,
+                    AppSpacing.md,
+                    AppSpacing.md,
+                    AppSpacing.lg,
                   ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Wrap(
-                    spacing: AppSpacing.xs,
-                    runSpacing: AppSpacing.xs,
+                  child: Wrap(
+                    spacing: AppSpacing.sm,
+                    runSpacing: AppSpacing.sm,
                     children: [
                       for (final option in options)
                         ChoiceChip(
                           label: Text(option.label(l10n)),
                           selected: option.value == current,
+                          showCheckmark: false,
+                          selectedColor:
+                              AppColors.primary.withValues(alpha: 0.28),
+                          backgroundColor:
+                              AppColors.surfaceVariant.withValues(alpha: 0.9),
+                          side: BorderSide(
+                            color: option.value == current
+                                ? AppColors.primaryLight
+                                : AppColors.glassBorder,
+                          ),
+                          labelStyle: AppTypography.labelMedium.copyWith(
+                            color: option.value == current
+                                ? AppColors.textPrimary
+                                : AppColors.textSecondary,
+                            fontWeight: option.value == current
+                                ? FontWeight.w700
+                                : FontWeight.w500,
+                          ),
                           onSelected: (_) {
                             controller.updateParam('colorScheme', option.value);
                             setSheetState(() {});
@@ -663,9 +816,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           );
         },
       ),
@@ -962,7 +1115,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         kaleidoscopeMirror: activeController.kaleidoscopeMirror,
                         fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
                         textOverlayEnabled: _textOverlay.enabled,
-                        showFractalReport: !kIsWeb && Platform.isLinux,
+                        showFractalReport:
+                            !kIsWeb && (Platform.isLinux || Platform.isAndroid),
                         actions: FractalViewControlActions(
                           toggleFullscreen: _toggleFullscreenUnobtrusive,
                           openRandomFractal: () => _onRandomFractalFab(context),
@@ -971,7 +1125,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             HapticFeedback.mediumImpact();
                             final activeController = _activeController(context);
                             activeController.randomizeParams();
-                            activeController.recordInterestingSpot();
                           },
                           cycleColorScheme: () => _cycleColorScheme(context),
                           openPalettePicker: () => _openPalettePicker(context),

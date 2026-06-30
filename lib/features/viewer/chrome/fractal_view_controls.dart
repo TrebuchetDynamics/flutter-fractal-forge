@@ -5,6 +5,11 @@ import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
+
+const double _fabTouchSize = AccessibleSizing.minTouchTarget;
+const double _fabVisualSize = 42;
+const double _fabIconSize = 19;
 
 class FractalViewControlActions {
   final VoidCallback toggleFullscreen;
@@ -93,11 +98,16 @@ class FractalViewControls extends StatelessWidget {
               ? null
               : () => _showActionModal(
                     context,
+                    icon: Icons.report_problem_rounded,
                     title: 'Report fractal',
+                    subtitle:
+                        'Flag rendering, thumbnail, or preset problems with context.',
                     children: [
                       _ActionTile(
                         icon: Icons.report_problem_rounded,
                         label: 'Open report form',
+                        description:
+                            'Add tags and notes for this exact fractal state.',
                         onTap: actions.reportFractal,
                       ),
                     ],
@@ -114,47 +124,35 @@ class FractalViewControls extends StatelessWidget {
             ? null
             : () => _showActionModal(
                   context,
+                  icon: Icons.shuffle_rounded,
                   title: 'Random options',
+                  subtitle:
+                      'Jump to a new fractal or keep this one and reshape its parameters.',
                   children: [
                     _ActionTile(
                       icon: Icons.shuffle_rounded,
                       label: l10n.tooltipRandomFractal,
+                      description: 'Switch to another catalog entry.',
                       onTap: actions.openRandomFractal,
                     ),
                     _ActionTile(
-                      icon: Icons.casino_rounded,
+                      icon: Icons.tune_rounded,
                       label: l10n.randomize,
+                      description:
+                          'Stay on this fractal and randomize its controls.',
                       onTap: actions.randomizeParams,
                     ),
                   ],
                 ),
-        isPrimary: true,
         isCompact: true,
         delay: const Duration(milliseconds: 80),
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerRandomParamsButton'),
-        icon: Icons.casino_rounded,
-        tooltip: l10n.randomize,
+        icon: Icons.tune_rounded,
+        tooltip: l10n.tooltipRandomizeWithControls,
         onPressed: isExporting ? null : actions.randomizeParams,
-        onLongPress: isExporting
-            ? null
-            : () => _showActionModal(
-                  context,
-                  title: l10n.randomize,
-                  children: [
-                    _ActionTile(
-                      icon: Icons.casino_rounded,
-                      label: l10n.randomize,
-                      onTap: actions.randomizeParams,
-                    ),
-                    _ActionTile(
-                      icon: Icons.tune_rounded,
-                      label: l10n.tooltipOpenControls,
-                      onTap: actions.openControls,
-                    ),
-                  ],
-                ),
+        onLongPress: isExporting ? null : actions.openControls,
         isCompact: true,
         delay: const Duration(milliseconds: 100),
       ),
@@ -167,39 +165,10 @@ class FractalViewControls extends StatelessWidget {
         isCompact: true,
         delay: const Duration(milliseconds: 120),
       ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerControlsButton'),
-        icon: Icons.tune_rounded,
-        tooltip: l10n.tooltipOpenControls,
-        onPressed: isExporting ? null : actions.openControls,
-        onLongPress: isExporting
-            ? null
-            : () => _showActionModal(
-                  context,
-                  title: l10n.tooltipOpenControls,
-                  children: [
-                    _ActionTile(
-                      icon: Icons.tune_rounded,
-                      label: l10n.tooltipOpenControls,
-                      onTap: actions.openControls,
-                    ),
-                    _ActionTile(
-                      icon: Icons.casino_rounded,
-                      label: l10n.randomize,
-                      onTap: actions.randomizeParams,
-                    ),
-                  ],
-                ),
-        isCompact: true,
-        delay: const Duration(milliseconds: 160),
-      ),
       _ExportWallpaperFab(
         isExporting: isExporting,
         l10n: l10n,
         onOpenExport: actions.openExport,
-        onShareLink: actions.shareLink,
-        onShareImage: actions.shareImage,
-        onOpenWallpaper: actions.openWallpaper,
         onLongPress: () => _showExportModal(context, l10n),
       ),
       FloatingActionButtonWidget(
@@ -223,11 +192,14 @@ class FractalViewControls extends StatelessWidget {
             ? null
             : () => _showActionModal(
                   context,
+                  icon: Icons.loop_rounded,
                   title: l10n.tooltipCameraLooper,
+                  subtitle: 'Record repeatable camera motion for exports.',
                   children: [
                     _ActionTile(
                       icon: Icons.loop_rounded,
                       label: l10n.tooltipCameraLooper,
+                      description: 'Open the looper timeline and GIF controls.',
                       onTap: actions.openLooper,
                     ),
                   ],
@@ -258,18 +230,23 @@ class FractalViewControls extends StatelessWidget {
             ? null
             : () => _showActionModal(
                   context,
+                  icon: Icons.music_note,
                   title: l10n.tooltipFractalMusicOff,
+                  subtitle:
+                      'Turn the current image into a visible scan and sound.',
                   children: [
                     _ActionTile(
                       icon: Icons.music_note,
                       label: fractalMusicEnabled
                           ? l10n.tooltipFractalMusicOn
                           : l10n.tooltipFractalMusicOff,
+                      description:
+                          'Toggle radial scan sonification for this view.',
                       onTap: actions.toggleFractalMusic,
                     ),
                   ],
                 ),
-        isPrimary: true,
+        isPrimary: fractalMusicEnabled,
         isCompact: true,
         delay: const Duration(milliseconds: 220),
       ),
@@ -282,11 +259,14 @@ class FractalViewControls extends StatelessWidget {
             ? null
             : () => _showActionModal(
                   context,
+                  icon: Icons.fullscreen_rounded,
                   title: l10n.tooltipFullscreen,
+                  subtitle: 'Hide controls for a cleaner viewing surface.',
                   children: [
                     _ActionTile(
                       icon: Icons.fullscreen_rounded,
                       label: l10n.tooltipFullscreen,
+                      description: 'Enter the unobtrusive viewer mode.',
                       onTap: actions.toggleFullscreen,
                     ),
                   ],
@@ -331,26 +311,32 @@ class FractalViewControls extends StatelessWidget {
   void _showExportModal(BuildContext context, AppLocalizations l10n) {
     _showActionModal(
       context,
+      icon: Icons.ios_share_rounded,
       title: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
+      subtitle: 'Save, share, or fit the current render to your device.',
       children: [
         _ActionTile(
           icon: Icons.download_rounded,
           label: l10n.tooltipExport,
+          description: 'Choose resolution and transparent-background options.',
           onTap: actions.openExport,
         ),
         _ActionTile(
           icon: Icons.link_rounded,
           label: l10n.tooltipShare,
+          description: 'Copy a replayable link to this exact view.',
           onTap: actions.shareLink,
         ),
         _ActionTile(
           icon: Icons.share_rounded,
           label: l10n.shareToSocialTargets,
+          description: 'Render an image and send it to installed apps.',
           onTap: actions.shareImage,
         ),
         _ActionTile(
           icon: Icons.wallpaper_rounded,
           label: l10n.wallpaperTitle,
+          description: 'Preview crops for phone wallpaper sizes.',
           onTap: actions.openWallpaper,
         ),
       ],
@@ -362,11 +348,21 @@ class FractalViewControls extends StatelessWidget {
     var mirrorEnabled = kaleidoscopeMirror;
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => StatefulBuilder(
         builder: (context, setSheetState) => _FabOptionsSheet(
+          icon: Icons.filter_vintage_rounded,
           title: 'Kaleidoscope sections',
+          subtitle: 'Pick a symmetry count and mirror behavior for this view.',
           children: [
+            Text(
+              'Wedge count',
+              style: AppTypography.labelLarge.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
             Wrap(
               spacing: AppSpacing.sm,
               runSpacing: AppSpacing.sm,
@@ -375,6 +371,23 @@ class FractalViewControls extends StatelessWidget {
                   ChoiceChip(
                     label: Text('$sectors'),
                     selected: selectedSectors == sectors,
+                    showCheckmark: false,
+                    selectedColor: AppColors.primary.withValues(alpha: 0.28),
+                    backgroundColor:
+                        AppColors.surfaceVariant.withValues(alpha: 0.9),
+                    side: BorderSide(
+                      color: selectedSectors == sectors
+                          ? AppColors.primaryLight
+                          : AppColors.glassBorder,
+                    ),
+                    labelStyle: AppTypography.labelMedium.copyWith(
+                      color: selectedSectors == sectors
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
+                      fontWeight: selectedSectors == sectors
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                    ),
                     onSelected: (_) {
                       selectedSectors = sectors;
                       actions.setKaleidoscopeSectors(sectors);
@@ -383,9 +396,11 @@ class FractalViewControls extends StatelessWidget {
                   ),
               ],
             ),
-            SwitchListTile.adaptive(
-              contentPadding: EdgeInsets.zero,
-              title: const Text('Mirror wedges'),
+            const SizedBox(height: AppSpacing.md),
+            _SwitchActionTile(
+              icon: Icons.flip_rounded,
+              label: 'Mirror wedges',
+              description: 'Reflect each wedge for sharper radial symmetry.',
               value: mirrorEnabled,
               onChanged: (value) {
                 mirrorEnabled = value;
@@ -401,54 +416,66 @@ class FractalViewControls extends StatelessWidget {
 
   void _showActionModal(
     BuildContext context, {
+    required IconData icon,
     required String title,
+    String? subtitle,
     required List<Widget> children,
   }) {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _FabOptionsSheet(title: title, children: children),
+      builder: (_) => _FabOptionsSheet(
+        icon: icon,
+        title: title,
+        subtitle: subtitle,
+        children: children,
+      ),
     );
   }
 }
 
 class _FabOptionsSheet extends StatelessWidget {
+  final IconData icon;
   final String title;
+  final String? subtitle;
   final List<Widget> children;
 
-  const _FabOptionsSheet({required this.title, required this.children});
+  const _FabOptionsSheet({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    required this.children,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(AppSpacing.lg),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceElevated.withValues(alpha: 0.96),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.glassBorder),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Material(
-          color: Colors.transparent,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTypography.titleMedium.copyWith(
-                  color: AppColors.textPrimary,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              ...children,
-            ],
+    return AppBottomSheet(
+      maxHeightFactor: 0.62,
+      children: [
+        AppBottomSheetHeader(
+          icon: icon,
+          title: title,
+          subtitle: subtitle,
+          onClose: () => Navigator.of(context).pop(),
+        ),
+        const Divider(height: 1, color: AppColors.divider),
+        Flexible(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              AppSpacing.md,
+              AppSpacing.md,
+              AppSpacing.lg,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: children,
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -456,24 +483,153 @@ class _FabOptionsSheet extends StatelessWidget {
 class _ActionTile extends StatelessWidget {
   final IconData icon;
   final String label;
+  final String? description;
   final VoidCallback onTap;
 
   const _ActionTile({
     required this.icon,
     required this.label,
+    this.description,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: Icon(icon, color: AppColors.textSecondary),
-      title: Text(label, style: AppTypography.bodyMedium),
-      onTap: () {
-        Navigator.of(context).pop();
-        onTap();
-      },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: Material(
+        color: AppColors.surfaceVariant.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(18),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(18),
+          onTap: () {
+            Navigator.of(context).pop();
+            onTap();
+          },
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 64),
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Row(
+                children: [
+                  _ModalIconBadge(icon: icon),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label,
+                          style: AppTypography.bodyMedium.copyWith(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        if (description != null) ...[
+                          const SizedBox(height: 2),
+                          Text(
+                            description!,
+                            style: AppTypography.bodySmall.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.textMuted,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SwitchActionTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String description;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  const _SwitchActionTile({
+    required this.icon,
+    required this.label,
+    required this.description,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceVariant.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          _ModalIconBadge(icon: icon),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: AppTypography.bodyMedium.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  description,
+                  style: AppTypography.bodySmall.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Switch.adaptive(value: value, onChanged: onChanged),
+        ],
+      ),
+    );
+  }
+}
+
+class _ModalIconBadge extends StatelessWidget {
+  final IconData icon;
+
+  const _ModalIconBadge({required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 42,
+      height: 42,
+      decoration: BoxDecoration(
+        gradient: AppColors.primaryGradient,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.22),
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Icon(icon, color: Colors.white, size: 22),
     );
   }
 }
@@ -482,169 +638,25 @@ class _ExportWallpaperFab extends StatelessWidget {
   final bool isExporting;
   final AppLocalizations l10n;
   final VoidCallback onOpenExport;
-  final VoidCallback onShareLink;
-  final VoidCallback onShareImage;
-  final VoidCallback onOpenWallpaper;
   final VoidCallback onLongPress;
 
   const _ExportWallpaperFab({
     required this.isExporting,
     required this.l10n,
     required this.onOpenExport,
-    required this.onShareLink,
-    required this.onShareImage,
-    required this.onOpenWallpaper,
     required this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
+    return FloatingActionButtonWidget(
       key: const ValueKey('viewerExportButton'),
-      enabled: !isExporting,
+      icon: Icons.ios_share_rounded,
       tooltip: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
-      color: AppColors.surfaceElevated,
-      onSelected: (value) {
-        if (value == 'wallpaper') {
-          onOpenWallpaper();
-        } else if (value == 'shareLink') {
-          onShareLink();
-        } else if (value == 'shareImage') {
-          onShareImage();
-        } else {
-          onOpenExport();
-        }
-      },
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          key: const ValueKey('viewerExportMenuItem'),
-          value: 'export',
-          child:
-              _MenuRow(icon: Icons.download_rounded, label: l10n.tooltipExport),
-        ),
-        PopupMenuItem(
-          key: const ValueKey('viewerShareLinkMenuItem'),
-          value: 'shareLink',
-          child: _MenuRow(
-            icon: Icons.link_rounded,
-            label: l10n.tooltipShare,
-          ),
-        ),
-        PopupMenuItem(
-          key: const ValueKey('viewerShareMenuItem'),
-          value: 'shareImage',
-          child: _MenuRow(
-            icon: Icons.share_rounded,
-            label: l10n.shareToSocialTargets,
-          ),
-        ),
-        PopupMenuItem(
-          key: const ValueKey('viewerWallpaperMenuItem'),
-          value: 'wallpaper',
-          child: _MenuRow(
-              icon: Icons.wallpaper_rounded, label: l10n.wallpaperTitle),
-        ),
-      ],
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onLongPress: isExporting ? null : onLongPress,
-        child: Semantics(
-          label: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
-          button: true,
-          enabled: !isExporting,
-          child: Tooltip(
-            message: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
-            child: _FabMenuShell(
-              icon: Icons.ios_share_rounded,
-              enabled: !isExporting,
-              hasLongPress: !isExporting,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _MenuRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const _MenuRow({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: AppColors.textSecondary, size: 20),
-        const SizedBox(width: 10),
-        Flexible(
-          child: Text(
-            label,
-            style: AppTypography.bodyMedium,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _FabMenuShell extends StatelessWidget {
-  final IconData icon;
-  final bool enabled;
-  final bool hasLongPress;
-
-  const _FabMenuShell({
-    required this.icon,
-    required this.enabled,
-    this.hasLongPress = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 52,
-      height: 52,
-      decoration: BoxDecoration(
-        color: enabled
-            ? AppColors.surface
-            : AppColors.surface.withValues(alpha: 0.45),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          Center(
-            child: Icon(
-              icon,
-              size: 22,
-              color: enabled ? AppColors.textSecondary : AppColors.textMuted,
-            ),
-          ),
-          if (hasLongPress)
-            Positioned(
-              top: 5,
-              right: 5,
-              child: Container(
-                width: 5,
-                height: 5,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary.withValues(alpha: 0.85),
-                ),
-              ),
-            ),
-        ],
-      ),
+      onPressed: isExporting ? null : onOpenExport,
+      onLongPress: isExporting ? null : onLongPress,
+      isCompact: true,
+      delay: const Duration(milliseconds: 150),
     );
   }
 }
@@ -738,8 +750,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
             onTap: widget.onPressed,
             onLongPress: effectiveLongPress,
             child: SizedBox.square(
-              dimension:
-                  widget.isCompact ? AccessibleSizing.minTouchTarget : 52,
+              dimension: _fabTouchSize,
               child: Center(
                 child: reduceMotion
                     ? _buildButtonContent()
@@ -758,8 +769,8 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
   Widget _buildButtonContent() {
     final container = AnimatedContainer(
       duration: AppAnimations.fast,
-      width: widget.isCompact ? 42 : 52,
-      height: widget.isCompact ? 42 : 52,
+      width: _fabVisualSize,
+      height: _fabVisualSize,
       decoration: BoxDecoration(
         gradient: widget.isPrimary ? AppColors.primaryGradient : null,
         color: widget.isPrimary ? null : AppColors.surface,
@@ -783,7 +794,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
       ),
       child: Icon(
         widget.icon,
-        size: widget.isCompact ? 19 : 22,
+        size: _fabIconSize,
         color: widget.isPrimary
             ? Colors.white
             : (_isPressed ? AppColors.primary : AppColors.textSecondary),
@@ -824,13 +835,17 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     if (onPressed == null) return;
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => _FabOptionsSheet(
+        icon: widget.icon,
         title: widget.tooltip,
+        subtitle: 'Available action for this viewer control.',
         children: [
           _ActionTile(
             icon: widget.icon,
             label: widget.tooltip,
+            description: 'Run this action and return to the viewer.',
             onTap: onPressed,
           ),
         ],

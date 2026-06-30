@@ -902,6 +902,12 @@ abstract class AppLocalizations {
   /// **'Color Scheme. Long press for palette'**
   String get tooltipColorSchemeWithPalette;
 
+  /// No description provided for @tooltipRandomizeWithControls.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize. Long press for Controls'**
+  String get tooltipRandomizeWithControls;
+
   /// No description provided for @tooltipKaleidoscopeOn.
   ///
   /// In en, this message translates to:
