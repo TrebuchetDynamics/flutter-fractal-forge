@@ -4,7 +4,7 @@
 # renderer
 
 ## Purpose
-Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU fallback renderer, gesture handling, render validation, and the FractalController state manager.
+Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU fallback renderer, gesture handling, and render validation. It consumes FractalController from `core/controllers/`.
 
 ## Key Files
 
@@ -14,7 +14,7 @@ Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU
 | `widgets/fractal_canvas.dart` | `FractalCanvas` - CustomPainter that draws the fractal using FragmentShader |
 | `cpu/cpu_fractal_renderer.dart` | `CpuFractalRenderer` - software fallback when GPU shaders unavailable |
 | `policy/backend_policy.dart` | `BackendPolicy` - decides GPU vs CPU rendering based on device capabilities |
-| `policy/deep_zoom_precision_policy.dart` | `DeepZoomPrecisionPolicy` - manages precision for extreme zoom levels |
+| `policy/precision_ladder_policy.dart` | `PrecisionLadderPolicy` - manages precision ladder routing, extended GPU preview, and CPU Precision decisions |
 | `validation/render_validation.dart` | `RenderValidation` - validates render output correctness |
 
 ## Subdirectories
@@ -25,7 +25,6 @@ Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU
 | `cpu/` | CPU fallback formulas, iterators, isolates, tile workers, and viewport mapping |
 | `policy/` | Renderer backend and deep-zoom precision decisions |
 | `validation/` | Render output validation and convergence detection |
-| `providers/` | FractalController state management (see `providers/AGENTS.md`) |
 
 ## For AI Agents
 

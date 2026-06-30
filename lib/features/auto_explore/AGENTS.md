@@ -24,7 +24,7 @@ Autonomous fractal exploration feature. Automatically pans, zooms, and adjusts p
 ## Dependencies
 
 ### Internal
-- `renderer/providers/fractal_provider.dart` - FractalController manipulation
+- `core/controllers/fractal_controller.dart` - FractalController manipulation
 - `core/models/fractal_view_state.dart` - View state updates
 
 <!-- MANUAL: -->

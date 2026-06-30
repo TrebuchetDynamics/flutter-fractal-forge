@@ -29,7 +29,7 @@ Preset selection and management panel. Displays built-in and user-created preset
 ### Internal
 - `core/services/preset_store.dart` - User preset persistence
 - `core/models/fractal_preset.dart` - Preset data model
-- `renderer/providers/fractal_provider.dart` - Apply preset to controller
+- `core/controllers/fractal_controller.dart` - Apply preset to controller
 
 <!-- MANUAL: -->
 

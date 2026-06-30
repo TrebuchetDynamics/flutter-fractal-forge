@@ -31,7 +31,7 @@ Main home screen - the primary entry point after splash/onboarding. Creates a Fr
 - `core/services/deep_link_service.dart` - Deep link handling
 - `catalog/` - Catalog screen
 - `viewer/` - Viewer screen
-- `renderer/providers/fractal_provider.dart` - FractalController
+- `core/controllers/fractal_controller.dart` - FractalController
 
 <!-- MANUAL: -->
 

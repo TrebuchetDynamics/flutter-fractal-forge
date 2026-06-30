@@ -28,7 +28,7 @@ Parameter control panel for adjusting fractal parameters in real-time. Generates
 
 ### Internal
 - `core/models/fractal_parameter.dart` - Parameter schema definitions
-- `renderer/providers/fractal_provider.dart` - FractalController for state updates
+- `core/controllers/fractal_controller.dart` - FractalController for state updates
 
 <!-- MANUAL: -->
 
