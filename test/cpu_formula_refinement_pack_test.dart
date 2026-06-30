@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 
-import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
-import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
 
 void main() {
   group('CPU refinement patch pack', () {

@@ -44,7 +44,7 @@ import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/featured_launch_set.dart';
 import 'package:flutter_fractals/features/catalog/data/launch_visual_metrics.dart';
-import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 

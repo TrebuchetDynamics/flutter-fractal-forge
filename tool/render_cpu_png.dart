@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:image/image.dart' as img;
 import 'package:vector_math/vector_math.dart' show Vector2;
 
-import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
 
 /// Usage:
 ///   dart run tool/render_cpu_png.dart --out /tmp/mandelbrot.png

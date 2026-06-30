@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const _expectedModules = <String, String>{

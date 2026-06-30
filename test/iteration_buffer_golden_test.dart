@@ -8,7 +8,7 @@ import 'package:crypto/crypto.dart' show sha256;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 
-import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
 
 /// Golden test for palette-independent iteration buffers.
 ///

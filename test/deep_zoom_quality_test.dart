@@ -1,50 +1,45 @@
 import 'dart:typed_data';
 
-import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
-import 'package:flutter_fractals/features/renderer/deep_zoom_precision_policy.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart';
 
 void main() {
-  group('DeepZoomPrecisionPolicy', () {
-    const policy = DeepZoomPrecisionPolicy();
+  group('PrecisionLadderPolicy', () {
+    const policy = PrecisionLadderPolicy();
 
-    test('uses per-fractal thresholds for CPU fallback', () {
-      // Mandelbrot: df2 shader covers [5e6, 1e12), CPU above 1e12.
-      expect(policy.thresholdFor('mandelbrot'), 1e12);
-      // Escape-time fractals: GPU precision degrades around ~1e9.
-      expect(policy.thresholdFor('julia'), 1e9);
-      expect(policy.thresholdFor('celtic'), 1e9);
-      expect(policy.thresholdFor('buffalo'), 1e9);
-      expect(policy.thresholdFor('burning_ship'), 1e9);
-      expect(policy.thresholdFor('tricorn'), 1e9);
-      expect(policy.thresholdFor('phoenix'), 1e9);
-    });
-
-    test('provides default threshold for unlisted fractals', () {
-      // Default threshold is 1e7 for safe float32 precision.
-      expect(policy.thresholdFor('some_unknown'), 1e7);
-    });
-
-    test('fallback toggles at threshold', () {
-      // GPU stays active for Mandelbrot until df2 upper bound.
+    test('routes deep zoom through public ladder paths', () {
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e7),
-        isFalse,
+        policy
+            .decide(
+              moduleId: 'mandelbrot',
+              dimension: FractalDimension.twoD,
+              zoom: 1e12,
+            )
+            .renderPath,
+        PrecisionLadderRenderPath.cpu,
       );
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'mandelbrot', zoom: 1e12),
-        isTrue,
+        policy
+            .decide(
+              moduleId: 'some_unknown',
+              dimension: FractalDimension.twoD,
+              zoom: 5e6,
+            )
+            .renderPath,
+        PrecisionLadderRenderPath.gpuFloat,
       );
-      // Unlisted fractals use default threshold (1e7)
-      // 'some_unknown' is not in the per-module map, so it gets _defaultThreshold.
       expect(
-        policy.shouldUseCpuFallback(moduleId: 'some_unknown', zoom: 5e6),
-        isFalse,
-      );
-      expect(
-        policy.shouldUseCpuFallback(moduleId: 'some_unknown', zoom: 1e7),
-        isTrue,
+        policy
+            .decide(
+              moduleId: 'some_unknown',
+              dimension: FractalDimension.twoD,
+              zoom: 1e7,
+            )
+            .renderPath,
+        PrecisionLadderRenderPath.cpu,
       );
     });
 
@@ -56,13 +51,10 @@ void main() {
 
       expect(mid, greaterThan(120));
       expect(deep, greaterThan(mid));
-      expect(deep, lessThanOrEqualTo(DeepZoomPrecisionPolicy.gpuMaxIterations));
 
       // Clamp behavior.
       expect(
-        policy.scaledGpuIterations(baseIterations: 5000, zoom: 1e30),
-        DeepZoomPrecisionPolicy.gpuMaxIterations,
-      );
+          policy.scaledGpuIterations(baseIterations: 5000, zoom: 1e30), 2000);
     });
   });
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 
 Finder catalogSearchField() => find.byKey(const Key('catalogSearchField'));
 Finder catalogModuleCard(String catalogId) =>

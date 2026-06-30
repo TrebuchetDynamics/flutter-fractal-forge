@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
+import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
 
 /// Auto-zoom configuration.
 class AutoExploreConfig {

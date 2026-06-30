@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/renderer/backend_policy.dart';
-import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
-import 'package:flutter_fractals/features/renderer/render_plan.dart';
-import 'package:flutter_fractals/features/renderer/render_validation.dart';
+import 'package:flutter_fractals/features/renderer/policy/backend_policy.dart';
+import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
+import 'package:flutter_fractals/features/renderer/policy/render_plan.dart';
+import 'package:flutter_fractals/features/renderer/validation/render_validation.dart';
 
 /// Result of a single GPU health frame evaluation.
 @immutable

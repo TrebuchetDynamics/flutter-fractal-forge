@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 
-import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
-import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
 
 void main() {
   group('CPU render viewport mapping', () {

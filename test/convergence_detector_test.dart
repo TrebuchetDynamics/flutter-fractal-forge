@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractals/features/renderer/convergence_detector.dart';
+import 'package:flutter_fractals/features/renderer/validation/convergence_detector.dart';
 
 void main() {
   group('ConvergenceResult', () {

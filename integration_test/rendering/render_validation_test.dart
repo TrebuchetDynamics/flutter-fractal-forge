@@ -9,8 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:vector_math/vector_math.dart' show Vector2;
 
-import 'package:flutter_fractals/features/renderer/cpu_fractal_renderer.dart';
-import 'package:flutter_fractals/features/renderer/render_validation.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/validation/render_validation.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

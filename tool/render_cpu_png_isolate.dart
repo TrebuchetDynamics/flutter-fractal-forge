@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 import 'package:image/image.dart' as img;
 
-import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
 
 /// Pure-Dart CPU renderer dump (no Flutter engine required).
 ///

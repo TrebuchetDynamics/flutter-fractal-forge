@@ -17,7 +17,7 @@ import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_search_debouncer.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_plan.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
-import 'package:flutter_fractals/features/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';

@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/renderer/backend_policy.dart';
-import 'package:flutter_fractals/features/renderer/render_validation.dart';
+import 'package:flutter_fractals/features/renderer/policy/backend_policy.dart';
+import 'package:flutter_fractals/features/renderer/validation/render_validation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

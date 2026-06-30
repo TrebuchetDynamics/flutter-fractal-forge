@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/renderer/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/policy/deep_zoom_precision_policy.dart';
 import 'package:flutter_test/flutter_test.dart';
 

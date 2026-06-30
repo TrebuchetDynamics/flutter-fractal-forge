@@ -1,9 +1,9 @@
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/renderer/backend_policy.dart';
-import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
-import 'package:flutter_fractals/features/renderer/render_plan.dart';
+import 'package:flutter_fractals/features/renderer/policy/backend_policy.dart';
+import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
+import 'package:flutter_fractals/features/renderer/policy/render_plan.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/renderer/cpu_iteration_budget.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_iteration_budget.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

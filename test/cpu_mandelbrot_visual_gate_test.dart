@@ -5,7 +5,7 @@ import 'dart:math' as math;
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_fractals/features/renderer/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
 
 void main() {
   test('CPU Mandelbrot canonical render is stable + non-blocky', () {

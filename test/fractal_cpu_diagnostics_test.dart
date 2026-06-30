@@ -13,7 +13,7 @@ import 'dart:math' as math;
 import 'package:flutter_test/flutter_test.dart';
 
 // ─── Inline CPU escape-time engine ──────────────────────────────────────────
-// Replicated from lib/features/renderer/cpu_formulas.dart to avoid import
+// Replicated from lib/features/renderer/cpu/cpu_formulas.dart to avoid import
 // side-effects in test. Matches _escapeTime + smooth coloring exactly.
 
 const int _kIter = 160;

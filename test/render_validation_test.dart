@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:flutter_fractals/features/renderer/render_validation.dart';
+import 'package:flutter_fractals/features/renderer/validation/render_validation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Builds a Uint8List RGBA frame of [w]x[h] pixels, all zeroed (black).

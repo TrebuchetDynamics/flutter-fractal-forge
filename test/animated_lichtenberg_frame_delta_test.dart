@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:flutter_fractals/features/renderer/render_validation.dart';
+import 'package:flutter_fractals/features/renderer/validation/render_validation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'helpers/render_test_shader.dart';

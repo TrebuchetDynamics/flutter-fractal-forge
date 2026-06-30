@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/renderer/precision_ladder_policy.dart';
+import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -22,6 +22,40 @@ void main() {
     });
   });
 
+  group('PrecisionLadderPolicy.scaledGpuIterations', () {
+    test('exposes realtime GPU iteration scaling through the ladder seam', () {
+      expect(policy.scaledGpuIterations(baseIterations: 256, zoom: 1), 256);
+      expect(policy.scaledGpuIterations(baseIterations: 256, zoom: 0.5), 256);
+      expect(
+        policy.scaledGpuIterations(baseIterations: 256, zoom: 1e6),
+        greaterThan(256),
+      );
+      expect(policy.scaledGpuIterations(baseIterations: 1, zoom: 1), 4);
+      expect(
+        policy.scaledGpuIterations(baseIterations: 5000, zoom: 1e30),
+        2000,
+      );
+      expect(
+        policy.scaledGpuIterations(baseIterations: 256, zoom: double.nan),
+        256,
+      );
+      expect(
+        policy.scaledGpuIterations(
+          baseIterations: 256,
+          zoom: double.infinity,
+        ),
+        2000,
+      );
+      expect(
+        policy.scaledGpuIterations(
+          baseIterations: 256,
+          zoom: double.negativeInfinity,
+        ),
+        256,
+      );
+    });
+  });
+
   group('PrecisionLadderPolicy', () {
     test('keeps ordinary 2D zoom on realtime GPU', () {
       final decision = policy.decide(
@@ -37,17 +71,29 @@ void main() {
     });
 
     test('routes Mandelbrot through double-float GPU before CPU', () {
-      final decision = policy.decide(
+      final low = policy.decide(
+        moduleId: 'mandelbrot',
+        dimension: FractalDimension.twoD,
+        zoom: 4.9e6,
+      );
+      final df2 = policy.decide(
         moduleId: 'mandelbrot',
         dimension: FractalDimension.twoD,
         zoom: 1e10,
       );
+      final cpu = policy.decide(
+        moduleId: 'mandelbrot',
+        dimension: FractalDimension.twoD,
+        zoom: 1e12,
+      );
 
-      expect(decision.renderPath, PrecisionLadderRenderPath.gpuDoubleFloat);
-      expect(decision.tier, PrecisionLadderTier.extendedGpu);
-      expect(decision.exactness, PrecisionLadderExactness.extendedGpuPreview);
-      expect(decision.statusLabel, 'Deep GPU preview');
-      expect(decision.debugRendererLabel, 'GPU-DF2');
+      expect(low.renderPath, PrecisionLadderRenderPath.gpuFloat);
+      expect(df2.renderPath, PrecisionLadderRenderPath.gpuDoubleFloat);
+      expect(df2.tier, PrecisionLadderTier.extendedGpu);
+      expect(df2.exactness, PrecisionLadderExactness.extendedGpuPreview);
+      expect(df2.statusLabel, 'Deep GPU preview');
+      expect(df2.debugRendererLabel, 'GPU-DF2');
+      expect(cpu.renderPath, PrecisionLadderRenderPath.cpu);
     });
 
     test('routes perturbation-capable modules through extended GPU preview',
@@ -97,16 +143,66 @@ void main() {
     });
 
     test('commits non-extended deep zoom to CPU when fallback is active', () {
+      final below = policy.decide(
+        moduleId: 'unknown_fractal',
+        dimension: FractalDimension.twoD,
+        zoom: 9.9e6,
+      );
       final decision = policy.decide(
         moduleId: 'unknown_fractal',
         dimension: FractalDimension.twoD,
         zoom: 1e9,
       );
+      final weierstrass = policy.decide(
+        moduleId: 'weierstrass_p',
+        dimension: FractalDimension.twoD,
+        zoom: 413329,
+      );
 
+      expect(below.renderPath, PrecisionLadderRenderPath.gpuFloat);
       expect(decision.renderPath, PrecisionLadderRenderPath.cpu);
       expect(decision.tier, PrecisionLadderTier.precisionRefine);
       expect(decision.exactness, PrecisionLadderExactness.cpuPrecision);
       expect(decision.statusLabel, 'CPU Precision');
+      expect(weierstrass.renderPath, PrecisionLadderRenderPath.cpu);
+    });
+  });
+
+  group('PrecisionLadderHysteresisState', () {
+    test('exposes replayable streak transitions', () {
+      const initial = PrecisionLadderHysteresisState.initial();
+
+      final first = initial.next(
+        nextModuleId: 'julia',
+        overThreshold: true,
+        activationFrames: 2,
+      );
+      final second = first.next(
+        nextModuleId: 'julia',
+        overThreshold: true,
+        activationFrames: 2,
+      );
+      final resetByZoomOut = second.next(
+        nextModuleId: 'julia',
+        overThreshold: false,
+        activationFrames: 2,
+      );
+      final resetByModule = first.next(
+        nextModuleId: 'mandelbrot',
+        overThreshold: true,
+        activationFrames: 2,
+      );
+
+      expect(first.moduleId, 'julia');
+      expect(first.aboveThresholdCount, 1);
+      expect(first.cpuActive, isFalse);
+      expect(second.aboveThresholdCount, 2);
+      expect(second.cpuActive, isTrue);
+      expect(resetByZoomOut.aboveThresholdCount, 0);
+      expect(resetByZoomOut.cpuActive, isFalse);
+      expect(resetByModule.moduleId, 'mandelbrot');
+      expect(resetByModule.aboveThresholdCount, 1);
+      expect(resetByModule.cpuActive, isFalse);
     });
   });
 
@@ -162,6 +258,53 @@ void main() {
       expect(changed.renderPath, PrecisionLadderRenderPath.gpuFloat);
       expect(changed.cpuFallbackPending, isTrue);
       expect(hysteresis.state.aboveThresholdCount, 1);
+    });
+
+    test('drops CPU activation below threshold and after reset', () {
+      final hysteresis = PrecisionLadderHysteresis(policy: policy);
+
+      hysteresis.update(
+        moduleId: 'unknown_fractal',
+        dimension: FractalDimension.twoD,
+        zoom: 1e9,
+      );
+      expect(
+        hysteresis
+            .update(
+              moduleId: 'unknown_fractal',
+              dimension: FractalDimension.twoD,
+              zoom: 1e9,
+            )
+            .renderPath,
+        PrecisionLadderRenderPath.cpu,
+      );
+      expect(
+        hysteresis
+            .update(
+              moduleId: 'unknown_fractal',
+              dimension: FractalDimension.twoD,
+              zoom: 1,
+            )
+            .renderPath,
+        PrecisionLadderRenderPath.gpuFloat,
+      );
+
+      hysteresis.update(
+        moduleId: 'unknown_fractal',
+        dimension: FractalDimension.twoD,
+        zoom: 1e9,
+      );
+      hysteresis.reset();
+      expect(
+        hysteresis
+            .update(
+              moduleId: 'unknown_fractal',
+              dimension: FractalDimension.twoD,
+              zoom: 1e9,
+            )
+            .renderPath,
+        PrecisionLadderRenderPath.gpuFloat,
+      );
     });
   });
 }
