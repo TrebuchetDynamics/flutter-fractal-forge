@@ -157,6 +157,12 @@ stage_linux() {
   local version archive
   version="$(release_version)"
   archive="$ARTIFACT_DIR/fractal-forge-linux-x64-v${version//+/-}.tar.gz"
+
+  # The version is embedded in the filename, so without this, tarballs from
+  # earlier releases (any version) pile up in ARTIFACT_DIR and the github
+  # stage attaches all of them -- stale and current -- to the new release.
+  rm -f "$ARTIFACT_DIR"/fractal-forge-linux-x64-v*.tar.gz*
+
   tar -czf "$archive" -C "$(dirname "$bundle_dir")" "$(basename "$bundle_dir")"
   sha256sum "$archive" | tee "$archive.sha256"
   log "linux stage complete: $archive"
