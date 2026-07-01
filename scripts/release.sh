@@ -19,8 +19,9 @@ set -euo pipefail
 #   github     Tag the release and create a GitHub Release, attaching
 #              whatever build artifacts are already staged in
 #              release-artifacts/ (run android/linux/windows first)
-#   website    Trigger .github/workflows/web-preview-pages.yml
-#              (GitHub Pages deploy of the web build)
+#   website    Build the Flutter web app and deploy it to the
+#              flutter-fractal-forge Cloudflare Pages project
+#              (fractal.trebuchetdynamics.com) via `wrangler pages deploy`
 #   fdroid     Not implemented -- see TODO below. Exits 0 without doing
 #              anything so `all` isn't blocked by it.
 #   all        android, linux, windows, github, website in that order
@@ -40,6 +41,12 @@ set -euo pipefail
 #                          (default: /home/xel/flutter/bin/flutter)
 #   RELEASE_ARTIFACT_DIR   Where built artifacts are staged
 #                          (default: release-artifacts)
+#   CLOUDFLARE_PAGES_PROJECT  Wrangler --project-name for the website stage
+#                          (default: flutter-fractal-forge)
+#   CLOUDFLARE_API_TOKEN   Wrangler auth. If unset, the website stage falls
+#                          back to CLOUDFLARE_API_KEY sourced from .env in
+#                          the project root (legacy Cloudflare Global API
+#                          Key, which this project's .env already has).
 #
 # TODO(fdroid): F-Droid has no "upload your APK" API. The official F-Droid
 # catalog builds and signs from source on F-Droid's own servers after a
@@ -54,6 +61,7 @@ cd "$PROJECT_ROOT"
 
 FLUTTER_BIN="${FLUTTER_BIN:-/home/xel/flutter/bin/flutter}"
 ARTIFACT_DIR="${RELEASE_ARTIFACT_DIR:-release-artifacts}"
+CLOUDFLARE_PAGES_PROJECT="${CLOUDFLARE_PAGES_PROJECT:-flutter-fractal-forge}"
 CONFIRMED=0
 STAGES=()
 
@@ -225,13 +233,38 @@ stage_github() {
 }
 
 stage_website() {
-  log "=== website: deploy GitHub Pages preview ==="
-  need gh
-  if ! guarded "dispatch .github/workflows/web-preview-pages.yml (deploys the live GitHub Pages site)"; then
+  log "=== website: build + deploy to Cloudflare Pages ($CLOUDFLARE_PAGES_PROJECT) ==="
+  need wrangler
+  if ! guarded "build the web app and run wrangler pages deploy build/web --project-name=$CLOUDFLARE_PAGES_PROJECT (deploys the live site at fractal.trebuchetdynamics.com)"; then
     return 0
   fi
-  gh workflow run web-preview-pages.yml -f confirm_preview_deploy=deploy-web-preview
-  log "website deploy dispatched -- watch it with: gh run watch \$(gh run list --workflow=web-preview-pages.yml --limit 1 --json databaseId -q '.[0].databaseId')"
+
+  # Root-domain deploy, not the GitHub Pages "/flutter-fractal-forge/" subpath.
+  "$SCRIPT_DIR/build-web-preview.sh" /
+
+  local token="${CLOUDFLARE_API_TOKEN:-}"
+  if [[ -z "$token" && -f "$PROJECT_ROOT/.env" ]]; then
+    token="$(
+      set -a
+      # shellcheck disable=SC1091
+      source "$PROJECT_ROOT/.env"
+      set +a
+      echo "${CLOUDFLARE_API_TOKEN:-$CLOUDFLARE_API_KEY}"
+    )"
+  fi
+  [[ -n "$token" ]] || die "No CLOUDFLARE_API_TOKEN/CLOUDFLARE_API_KEY available (set one, or add it to .env)"
+
+  local commit_hash commit_message
+  commit_hash="$(git rev-parse HEAD)"
+  commit_message="$(git log -1 --pretty=%s)"
+
+  CLOUDFLARE_API_TOKEN="$token" wrangler pages deploy build/web \
+    --project-name="$CLOUDFLARE_PAGES_PROJECT" \
+    --branch=main \
+    --commit-hash="$commit_hash" \
+    --commit-message="$commit_message"
+
+  log "website stage complete: https://fractal.trebuchetdynamics.com"
 }
 
 stage_fdroid() {
