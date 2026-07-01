@@ -815,6 +815,17 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _showContextMenu(details.globalPosition);
   }
 
+  /// Desktop mouse equivalent of [_onLongPress]: right-click opens the same
+  /// context menu, matching the conventional desktop affordance instead of
+  /// requiring a click-and-hold.
+  void _onSecondaryTap(TapUpDetails details) {
+    AppLogger.instance.debug('gesture', 'secondary_tap', data: {
+      'x': details.localPosition.dx.toStringAsFixed(1),
+      'y': details.localPosition.dy.toStringAsFixed(1),
+    });
+    _showContextMenu(details.globalPosition);
+  }
+
   /// Called when user taps the left (Mandelbrot) panel of the julia_dual module.
   /// Converts screen position to Mandelbrot complex coords and updates Julia seed.
   void _onJuliaDualTap(Offset localPos, FractalController controller) {

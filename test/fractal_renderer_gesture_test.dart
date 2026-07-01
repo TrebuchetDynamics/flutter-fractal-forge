@@ -195,6 +195,32 @@ void main() {
     expect(find.text('Export'), findsOneWidget);
   });
 
+  testWidgets('Right-click (secondary tap) shows context menu',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    // Desktop mouse users right-click instead of holding a long-press.
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final gesture = await tester.startGesture(
+      center,
+      kind: PointerDeviceKind.mouse,
+      buttons: kSecondaryMouseButton,
+    );
+    await gesture.up();
+    await tester.pumpAndSettle();
+
+    expect(find.text('Reset View'), findsOneWidget);
+    expect(find.text('Open Controls'), findsOneWidget);
+    expect(find.text('Open Presets'), findsOneWidget);
+    expect(find.text('Randomize'), findsOneWidget);
+    expect(find.text('Export'), findsOneWidget);
+  });
+
   testWidgets('Context menu reset option resets view', (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 

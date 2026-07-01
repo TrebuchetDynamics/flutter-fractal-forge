@@ -246,6 +246,7 @@ class _FractalRendererState extends State<FractalRenderer>
           onDoubleTapDown: _onDoubleTapDown,
           onDoubleTap: _onDoubleTapGesture,
           onLongPressStart: _onLongPress,
+          onSecondaryTapUp: _onSecondaryTap,
           onTapUp: onTapUp,
           child: content,
         ),
