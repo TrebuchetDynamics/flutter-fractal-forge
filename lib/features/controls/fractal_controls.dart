@@ -498,6 +498,14 @@ class _SliderRow extends StatelessWidget {
     required this.onChanged,
   });
 
+  /// Formats [value] for screen readers using the same precision implied by
+  /// the slider's step size (whole numbers for integer-like sliders such as
+  /// sector counts, two decimals otherwise).
+  String get _valueLabel {
+    final step = divisions > 0 ? (max - min) / divisions : 0.0;
+    return step >= 1 ? value.round().toString() : value.toStringAsFixed(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -514,12 +522,18 @@ class _SliderRow extends StatelessWidget {
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
           ),
-          child: Slider(
-            value: value,
-            min: min,
-            max: max,
-            divisions: divisions,
-            onChanged: onChanged,
+          child: Semantics(
+            label: label,
+            value: _valueLabel,
+            hint: AppLocalizations.of(context)!.semanticSliderAdjust(min, max),
+            slider: true,
+            child: Slider(
+              value: value,
+              min: min,
+              max: max,
+              divisions: divisions,
+              onChanged: onChanged,
+            ),
           ),
         ),
       ],

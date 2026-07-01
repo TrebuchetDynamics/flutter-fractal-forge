@@ -92,7 +92,7 @@ void main() {
       final initialIterations = controller.params['iterations'] as int;
 
       // Call controller method directly (more reliable than tapping in scroll views).
-      controller.randomizeParams();
+      controller.randomizeParams(animate: false);
       await tester.pumpAndSettle();
 
       expect(controller.params['iterations'], isNot(initialIterations));
@@ -221,6 +221,30 @@ void main() {
 
       // Glow card now exposes softness + strength sliders.
       expect(find.byType(Slider), findsNWidgets(4));
+    });
+
+    testWidgets('Glow sliders expose current value to screen readers',
+        (tester) async {
+      final semantics = tester.ensureSemantics();
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      controller.setGlowEnabled(true);
+      await tester.pumpAndSettle();
+
+      final sliders = find.byType(Slider);
+      expect(sliders, findsNWidgets(4));
+
+      // Order: iterations, bailout, then glow's softness + strength.
+      final softness = tester.getSemantics(sliders.at(2));
+      expect(softness.label, 'Softness');
+      expect(softness.value, '1.00');
+
+      final strength = tester.getSemantics(sliders.at(3));
+      expect(strength.label, 'Strength');
+      expect(strength.value, '0.35');
+
+      semantics.dispose();
     });
   });
 }

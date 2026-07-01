@@ -8,6 +8,12 @@ import 'package:flutter_fractals/features/auto_explore/auto_explore_control_stat
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+/// Keyboard-only alternate activation for [AutoExploreButton]'s long-press
+/// secondary action (mirrors Shift+Click conventions).
+class _LongPressActivateIntent extends Intent {
+  const _LongPressActivateIntent();
+}
+
 /// Compact play/pause button shown in the viewer FAB stack.
 class AutoExploreButton extends StatefulWidget {
   final VoidCallback? onLongPress;
@@ -26,6 +32,7 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
     vsync: this,
     duration: const Duration(milliseconds: 1400),
   );
+  bool _isFocused = false;
 
   @override
   void dispose() {
@@ -76,46 +83,90 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              GestureDetector(
-                onTap: activate,
-                onLongPress: widget.onLongPress,
-                child: AnimatedBuilder(
-                  animation: _pulse,
-                  builder: (context, child) {
-                    final scale = active ? (1.0 + _pulse.value * 0.12) : 1.0;
-                    return Transform.scale(
-                      scale: scale,
-                      child: Container(
-                        width: 52,
-                        height: 52,
-                        decoration: BoxDecoration(
-                          gradient: active ? AppColors.primaryGradient : null,
-                          color: active ? null : AppColors.surface,
-                          borderRadius: BorderRadius.circular(16),
-                          border: active
-                              ? null
-                              : Border.all(
-                                  color:
-                                      AppColors.border.withValues(alpha: 0.5)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: active
-                                  ? AppColors.primary.withValues(alpha: 0.35)
-                                  : Colors.black.withValues(alpha: 0.18),
-                              blurRadius: active ? 16 : 12,
-                              offset: const Offset(0, 4),
+              FocusableActionDetector(
+                onShowFocusHighlight: (focused) {
+                  if (_isFocused == focused) return;
+                  setState(() => _isFocused = focused);
+                },
+                shortcuts: const {
+                  SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
+                  SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+                  SingleActivator(LogicalKeyboardKey.enter, shift: true):
+                      _LongPressActivateIntent(),
+                },
+                actions: {
+                  ActivateIntent: CallbackAction<ActivateIntent>(
+                    onInvoke: (_) {
+                      activate();
+                      return null;
+                    },
+                  ),
+                  _LongPressActivateIntent:
+                      CallbackAction<_LongPressActivateIntent>(
+                    onInvoke: (_) {
+                      widget.onLongPress?.call();
+                      return null;
+                    },
+                  ),
+                },
+                child: GestureDetector(
+                  onTap: activate,
+                  onLongPress: widget.onLongPress,
+                  child: AnimatedBuilder(
+                    animation: _pulse,
+                    builder: (context, child) {
+                      final scale = active ? (1.0 + _pulse.value * 0.12) : 1.0;
+                      return Transform.scale(
+                        scale: scale,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: _isFocused
+                                  ? HighContrastColors.focusIndicator
+                                  : Colors.transparent,
+                              width: AccessibleSizing.focusIndicatorWidth,
                             ),
-                          ],
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Container(
+                            width: 52,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              gradient:
+                                  active ? AppColors.primaryGradient : null,
+                              color: active ? null : AppColors.surface,
+                              borderRadius: BorderRadius.circular(16),
+                              border: active
+                                  ? null
+                                  : Border.all(
+                                      color: AppColors.border
+                                          .withValues(alpha: 0.5)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: active
+                                      ? AppColors.primary
+                                          .withValues(alpha: 0.35)
+                                      : Colors.black.withValues(alpha: 0.18),
+                                  blurRadius: active ? 16 : 12,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              active
+                                  ? Icons.pause_rounded
+                                  : Icons.explore_rounded,
+                              color: active
+                                  ? Colors.white
+                                  : AppColors.textSecondary,
+                              size: 24,
+                            ),
+                          ),
                         ),
-                        child: Icon(
-                          active ? Icons.pause_rounded : Icons.explore_rounded,
-                          color:
-                              active ? Colors.white : AppColors.textSecondary,
-                          size: 24,
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
               if (status.showsYieldBadge)

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_controls.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
@@ -130,6 +131,45 @@ void main() {
       expect(service.isExploring, isTrue);
       expect(service.isPaused, isFalse);
       expect(service.pausedByUserCorrection, isFalse);
+
+      service.stop();
+      await tester.pump();
+    });
+
+    testWidgets('activates via keyboard Enter when focused', (tester) async {
+      final controller = FractalController(ModuleRegistry());
+      final service = AutoExploreService(controller: controller);
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: ChangeNotifierProvider<AutoExploreService?>.value(
+            value: service,
+            child: const Scaffold(
+              body: AutoExploreButton(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(service.isExploring, isFalse);
+
+      Focus.of(
+        tester.element(
+          find.descendant(
+            of: find.byType(AutoExploreButton),
+            matching: find.byType(GestureDetector),
+          ),
+        ),
+      ).requestFocus();
+      await tester.pump();
+
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pump();
+
+      expect(service.isExploring, isTrue);
 
       service.stop();
       await tester.pump();
