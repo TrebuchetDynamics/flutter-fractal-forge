@@ -92,7 +92,7 @@ void main() {
       final initialIterations = controller.params['iterations'] as int;
 
       // Call controller method directly (more reliable than tapping in scroll views).
-      controller.randomizeParams(animate: false);
+      controller.randomizeParams();
       await tester.pumpAndSettle();
 
       expect(controller.params['iterations'], isNot(initialIterations));
