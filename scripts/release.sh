@@ -118,7 +118,7 @@ release_version() {
     name="$(awk -F= '$1=="versionName" {print $2}' "$info")"
     build="$(awk -F= '$1=="buildNumber" {print $2}' "$info")"
     if [[ -n "$name" && -n "$build" ]]; then
-      echo "${name}+${build}"
+      echo "$name"
       return
     fi
   fi
