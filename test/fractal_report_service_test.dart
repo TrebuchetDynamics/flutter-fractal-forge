@@ -49,6 +49,26 @@ void main() {
     expect(file.path, startsWith(dir.path));
   });
 
+  test('builds copyable fractal report JSON', () {
+    final json = FractalReportService().buildJson(
+      moduleId: 'mandelbrot',
+      moduleName: 'Mandelbrot',
+      tags: const ['No image'],
+      params: const {'iterations': 200},
+      view: FractalViewState(
+        pan: Vector2(-0.75, 0.1),
+        zoom: 42,
+        rotation: Vector3.zero(),
+      ),
+      shareUrl: 'https://example.com',
+      now: DateTime.utc(2026, 6, 26, 12, 0),
+    );
+
+    final decoded = jsonDecode(json) as Map<String, Object?>;
+    expect(decoded['moduleId'], 'mandelbrot');
+    expect((decoded['view']! as Map)['zoom'], 42);
+  });
+
   test('saves tagged fractal report JSON', () async {
     final dir = Directory.systemTemp.createTempSync('fractal_issues_');
     addTearDown(() => dir.deleteSync(recursive: true));

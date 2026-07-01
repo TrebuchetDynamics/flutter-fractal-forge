@@ -46,6 +46,32 @@ class FractalReportService {
 
     final file =
         File('${dir.path}/${_stamp(createdAt)}_${_safe(moduleId)}.json');
+    await file.writeAsString(buildJson(
+      moduleId: moduleId,
+      moduleName: moduleName,
+      tags: tags,
+      params: params,
+      view: view,
+      shareUrl: shareUrl,
+      notes: notes,
+      visualState: visualState,
+      now: createdAt,
+    ));
+    return file;
+  }
+
+  String buildJson({
+    required String moduleId,
+    required String moduleName,
+    required List<String> tags,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    required String shareUrl,
+    String notes = '',
+    Map<String, Object?> visualState = const {},
+    DateTime? now,
+  }) {
+    final createdAt = (now ?? DateTime.now()).toUtc();
     final payload = {
       'createdAt': createdAt.toIso8601String(),
       'moduleId': moduleId,
@@ -64,9 +90,7 @@ class FractalReportService {
       },
       'visualState': visualState,
     };
-    await file.writeAsString(
-        '${const JsonEncoder.withIndent('  ').convert(payload)}\n');
-    return file;
+    return '${const JsonEncoder.withIndent('  ').convert(payload)}\n';
   }
 
   Future<Directory> _resolveIssuesDirectory() async {
