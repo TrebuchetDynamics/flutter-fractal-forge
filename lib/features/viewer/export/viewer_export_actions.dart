@@ -191,7 +191,11 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
 
     await _performExport(
       context,
-      const ExportOptions(resolution: ExportResolution.twitter).copyWith(
+      const ExportOptions(
+        format: ExportFormat.jpg,
+        resolution: ExportResolution.twitter,
+        quality: 90,
+      ).copyWith(
         quoteText: _activeQuoteText,
       ),
       shareAfterSave: true,

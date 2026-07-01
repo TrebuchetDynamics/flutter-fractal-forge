@@ -95,7 +95,7 @@ extension ExportResolutionExtension on ExportResolution {
       case ExportResolution.instagramStory:
         return 'Instagram Story (1080×1920)';
       case ExportResolution.twitter:
-        return 'Twitter (1200×675)';
+        return 'Twitter (2400×1350)';
       case ExportResolution.custom:
         return 'Custom';
     }
@@ -120,7 +120,7 @@ extension ExportResolutionExtension on ExportResolution {
       case ExportResolution.instagramStory:
         return (1080, 1920);
       case ExportResolution.twitter:
-        return (1200, 675);
+        return (2400, 1350);
       case ExportResolution.custom:
         return null;
     }
@@ -266,8 +266,15 @@ class ExportOptions extends Equatable {
     return targetDimension / safeScreenDimension;
   }
 
+  /// Instagram's post and story formats are platform-mandated canvas shapes
+  /// (square / fixed 9:16) that must stay fixed regardless of how the device
+  /// is held. Twitter/X has no such hard requirement, so its preset instead
+  /// adapts to the screen's orientation like the generic presets below — a
+  /// portrait capture is shared as a portrait image, not squeezed into a
+  /// fixed landscape frame.
   bool _preservesPresetOrientation() {
-    return resolution.isSocialPreset;
+    return resolution == ExportResolution.instagram ||
+        resolution == ExportResolution.instagramStory;
   }
 
   (int, int)? _orientedPresetDimensions(

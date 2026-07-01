@@ -24,7 +24,7 @@ void main() {
       expect(ExportResolution.uhd4k.dimensions, (3840, 2160));
       expect(ExportResolution.instagram.dimensions, (1080, 1080));
       expect(ExportResolution.instagramStory.dimensions, (1080, 1920));
-      expect(ExportResolution.twitter.dimensions, (1200, 675));
+      expect(ExportResolution.twitter.dimensions, (2400, 1350));
     });
 
     test('screen and custom resolutions return null dimensions', () {
@@ -95,18 +95,29 @@ void main() {
       expect(dims, (1080, 1920));
     });
 
-    test('social preset dimensions preserve platform crop contracts', () {
+    test('Instagram presets preserve their fixed platform crop contract', () {
       const instagramStory = ExportOptions(
         resolution: ExportResolution.instagramStory,
       );
-      const twitter = ExportOptions(resolution: ExportResolution.twitter);
 
+      // Instagram's post/story canvases are platform-mandated shapes, so
+      // they stay fixed regardless of the device's current orientation.
       expect(instagramStory.getTargetDimensions(1200, 800), (1080, 1920));
-      expect(twitter.getTargetDimensions(400, 800), (1200, 675));
       expect(
         instagramStory.calculatePixelRatio(1200, 800),
         closeTo(2.4, 0.01),
       );
+    });
+
+    test('Twitter preset adapts to the screen orientation (portrait capture '
+        'shares as portrait)', () {
+      const twitter = ExportOptions(resolution: ExportResolution.twitter);
+
+      // Landscape screen keeps the preset's native 16:9 landscape shape.
+      expect(twitter.getTargetDimensions(800, 400), (2400, 1350));
+      // Portrait screen: the long/short edges swap, so a portrait capture is
+      // shared as a portrait image instead of being squeezed into landscape.
+      expect(twitter.getTargetDimensions(400, 800), (1350, 2400));
     });
 
     test('custom resolution uses customWidth and customHeight', () {
