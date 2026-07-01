@@ -185,6 +185,7 @@ stage_windows() {
   log "Watching run $run_id (this builds Flutter for Windows, expect several minutes)..."
   gh run watch "$run_id" --exit-status
 
+  rm -f "$ARTIFACT_DIR/fractal-forge-windows-x64.zip"
   gh run download "$run_id" -n windows-build -D "$ARTIFACT_DIR"
   log "windows stage complete: $ARTIFACT_DIR/fractal-forge-windows-x64.zip"
 }
