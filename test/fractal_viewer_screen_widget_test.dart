@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
@@ -14,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'a11y/shared/permission_test_harness.dart';
-import 'package:vector_math/vector_math.dart' show Vector2;
+import 'package:vector_math/vector_math.dart' show Vector2, Vector3;
 
 void main() {
   group('FractalViewerScreen', () {
@@ -352,6 +354,29 @@ void main() {
       expect(controller.view.zoom, equals(1.0));
       expect(controller.view.pan.x, equals(0.0));
       expect(controller.view.pan.y, equals(0.0));
+    });
+
+    testWidgets(
+        'keyboard arrow keys pan in screen-relative direction on a rotated '
+        'view', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // A 90-degree view rotation swaps which world axis "screen-right"
+      // maps to. Pressing the right arrow must still pan the *screen*
+      // rightward, i.e. follow the rotation, not silently move along the
+      // unrotated world x-axis (regression: pans in the wrong direction
+      // once the view is rotated).
+      controller.updateRotation(Vector3(0, 0, math.pi / 2));
+      final initialPan = controller.view.pan;
+      await tester.pump();
+
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.arrowRight);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+
+      expect(controller.view.pan.x, closeTo(initialPan.x, 1e-9));
+      expect(controller.view.pan.y, lessThan(initialPan.y));
     });
 
     testWidgets('works with all modules', (tester) async {

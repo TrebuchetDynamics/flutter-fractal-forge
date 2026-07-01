@@ -1,5 +1,15 @@
 part of '../fractal_viewer_screen.dart';
 
+/// Rotates a screen-relative pan step (e.g. "left" = (-step, 0)) into world
+/// space, matching the rotation convention used by drag/fling panning in
+/// [_GestureHandlerMixin._screenDeltaToWorldDelta]. For an unrotated view
+/// this is the identity, so the common case is unchanged.
+Vector2 _rotatedKeyboardPanStep(double dx, double dy, double rotationZ) {
+  final cosR = math.cos(rotationZ);
+  final sinR = math.sin(rotationZ);
+  return Vector2(dx * cosR + dy * sinR, -dx * sinR + dy * cosR);
+}
+
 KeyEventResult _viewerOnKeyEvent(
   _FractalViewerScreenState state,
   BuildContext context,
@@ -14,29 +24,29 @@ KeyEventResult _viewerOnKeyEvent(
 
   if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
     final view = controller.view;
-    controller.updateView(
-        view.copyWith(pan: Vector2(view.pan.x - panStep, view.pan.y)));
+    final step = _rotatedKeyboardPanStep(-panStep, 0, view.rotation.z);
+    controller.updateView(view.copyWith(pan: view.pan + step));
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
     final view = controller.view;
-    controller.updateView(
-        view.copyWith(pan: Vector2(view.pan.x + panStep, view.pan.y)));
+    final step = _rotatedKeyboardPanStep(panStep, 0, view.rotation.z);
+    controller.updateView(view.copyWith(pan: view.pan + step));
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
     final view = controller.view;
-    controller.updateView(
-        view.copyWith(pan: Vector2(view.pan.x, view.pan.y - panStep)));
+    final step = _rotatedKeyboardPanStep(0, -panStep, view.rotation.z);
+    controller.updateView(view.copyWith(pan: view.pan + step));
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
     final view = controller.view;
-    controller.updateView(
-        view.copyWith(pan: Vector2(view.pan.x, view.pan.y + panStep)));
+    final step = _rotatedKeyboardPanStep(0, panStep, view.rotation.z);
+    controller.updateView(view.copyWith(pan: view.pan + step));
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }

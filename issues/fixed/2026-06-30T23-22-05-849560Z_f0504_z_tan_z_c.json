@@ -1,0 +1,49 @@
+{
+  "createdAt": "2026-06-30T23:22:05.849560Z",
+  "moduleId": "f0504_z_tan_z_c",
+  "moduleName": "z·tan(z)+c",
+  "tags": [
+    "Low performance",
+    "Other"
+  ],
+  "notes": "pans in the wrong direction",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f0504_z_tan_z_c&z=0.2645197753789915&x=-0.6648255586624146&y=-0.19004705548286438&rx=0.38593748211860657&ry=0&rz=-1.2425537109375&p=eyJ-YiI6OC4wLCJ-YyI6MCwifmkiOjIyMCwidmFyaWFudCI6MTN9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 220,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "variant": 13
+  },
+  "view": {
+    "zoom": 0.2645197753789915,
+    "x": -0.6648255586624146,
+    "y": -0.19004705548286438,
+    "rotX": 0.38593748211860657,
+    "rotY": 0.0,
+    "rotZ": -1.2425537109375
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Keyboard arrow-key panning ignored view rotation.z, moving along the unrotated world axes instead of the screen-relative direction once the view was rotated. Routed it through the same rotation-matrix convention drag/fling panning already use.",
+    "research": "research/issue-fixes/2026-06-30T23-22-05-849560Z_f0504_z_tan_z_c/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter analyze",
+      "/home/xel/flutter/bin/flutter test test/fractal_viewer_screen_widget_test.dart",
+      "/home/xel/flutter/bin/flutter test test/",
+      "git diff --check"
+    ],
+    "notes": "Generic gesture bug, not specific to f0504_z_tan_z_c's formula; reproduces on any module when the view is rotated (rz != 0) and arrow keys are used to pan. Confirmed red→green by reverting the fix and re-running the new regression test before restoring it."
+  }
+}
