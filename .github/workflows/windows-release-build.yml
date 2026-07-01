@@ -1,0 +1,44 @@
+name: Windows release build
+
+# Flutter's Windows target cannot be cross-compiled from Linux, so
+# scripts/release.sh dispatches this workflow to build on a real windows
+# runner and downloads the resulting artifact via `gh run download`.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_windows_build:
+        description: "Type build-windows-release to build a release Windows bundle"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.event.inputs.confirm_windows_build == 'build-windows-release'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: flutter pub get
+        run: flutter pub get
+      - name: Build Windows release bundle
+        run: flutter build windows --release
+      - name: Package bundle as zip
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle_dir="$(find build/windows -type d -path '*/runner/Release' | head -n1)"
+          [[ -n "$bundle_dir" ]] || { echo "Release bundle directory not found" >&2; exit 1; }
+          mkdir -p release-artifacts
+          (cd "$bundle_dir/.." && 7z a -tzip "$OLDPWD/release-artifacts/fractal-forge-windows-x64.zip" "Release")
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: release-artifacts/fractal-forge-windows-x64.zip
+          retention-days: 14

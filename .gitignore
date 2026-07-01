@@ -58,6 +58,12 @@ test/results/
 **/test/results/
 screenshots/
 maestro_reports/
+play-console-upload/*.aab
+play-console-upload/*.aab.sha256
+play-console-upload/LATEST_AAB.txt
+play-console-upload/LATEST_BUILD_INFO.txt
+play-console-upload/LAST_BUILD_NUMBER.txt
+release-artifacts/
 flutter_*.log
 .flutter-plugins
 .flutter-plugins-dependencies
