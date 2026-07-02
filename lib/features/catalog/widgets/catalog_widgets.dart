@@ -255,6 +255,42 @@ class _SimpleIconButton extends StatelessWidget {
   }
 }
 
+class _CategoryStepButton extends StatelessWidget {
+  final Key buttonKey;
+  final IconData icon;
+  final String semanticLabel;
+  final bool enabled;
+  final VoidCallback onTap;
+
+  const _CategoryStepButton({
+    required this.buttonKey,
+    required this.icon,
+    required this.semanticLabel,
+    required this.enabled,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: semanticLabel,
+      child: IconButton(
+        key: buttonKey,
+        tooltip: semanticLabel,
+        onPressed: enabled ? onTap : null,
+        constraints: const BoxConstraints.tightFor(width: 40, height: 40),
+        padding: EdgeInsets.zero,
+        icon: Icon(
+          icon,
+          color: enabled ? AppColors.textSecondary : AppColors.textMuted,
+        ),
+      ),
+    );
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Dimension filter chip - pill style
 // ---------------------------------------------------------------------------
@@ -324,12 +360,25 @@ class _DimChip extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  label,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: selected ? Colors.white : AppColors.textSecondary,
-                    fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                    letterSpacing: 0.3,
+                if (selected) ...[
+                  const Icon(
+                    Icons.check_rounded,
+                    size: 14,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 4),
+                ],
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 150),
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.labelSmall.copyWith(
+                      color: selected ? Colors.white : AppColors.textSecondary,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                      letterSpacing: 0.3,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 6),

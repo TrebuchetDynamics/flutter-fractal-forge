@@ -69,6 +69,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     with TickerProviderStateMixin {
   static const _viewPrefKey = 'catalog_view_grid';
   static const _defaultCategory = 'Escape-Time';
+  static const _categorySwipeVelocity = 350.0;
 
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
@@ -224,42 +225,104 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final query = filterCriteria.searchQuery.value;
     final filteredEntries = filterResult.filteredEntries;
     final groupedEntries = _groupAndSort(filteredEntries, l10n);
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: _buildCatalogHeader(
-            l10n,
-            resultCount: filteredEntries.length,
-          ),
-        ),
-        SliverPersistentHeader(
-          key: const Key('catalogPinnedFilterBar'),
-          pinned: true,
-          delegate: _PinnedHeaderDelegate(
-            height: _hasActiveRefinements ? 112 : 80,
-            child: _buildPinnedTopBar(
-              context,
+    return GestureDetector(
+      key: const Key('catalogCategorySwipeArea'),
+      behavior: HitTestBehavior.opaque,
+      onHorizontalDragEnd: (details) => _handleCategorySwipe(
+        details,
+        filterResult,
+      ),
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: _buildCatalogHeader(
               l10n,
-              filterResult,
-              filteredEntries.length,
+              resultCount: filteredEntries.length,
             ),
           ),
-        ),
-        if (filteredEntries.isEmpty)
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: _EmptyState(
-              query: query,
-              l10n: l10n,
-              onClear: _clearCatalogRefinements,
+          SliverPersistentHeader(
+            key: const Key('catalogPinnedFilterBar'),
+            pinned: true,
+            delegate: _PinnedHeaderDelegate(
+              height: _hasActiveRefinements ? 112 : 80,
+              child: _buildPinnedTopBar(
+                context,
+                l10n,
+                filterResult,
+                filteredEntries.length,
+              ),
             ),
-          )
-        else if (_viewMode == CatalogViewMode.grid)
-          _buildGridContentSliver(groupedEntries, l10n)
-        else
-          _buildListContentSliver(groupedEntries, l10n),
-      ],
+          ),
+          if (filteredEntries.isEmpty)
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: _EmptyState(
+                query: query,
+                l10n: l10n,
+                onClear: _clearCatalogRefinements,
+              ),
+            )
+          else if (_viewMode == CatalogViewMode.grid)
+            _buildGridContentSliver(groupedEntries, l10n)
+          else
+            _buildListContentSliver(groupedEntries, l10n),
+        ],
+      ),
     );
+  }
+
+  void _handleCategorySwipe(
+    DragEndDetails details,
+    CatalogFilterResult filterResult,
+  ) {
+    if (_isSearchVisible) return;
+    final velocity = details.primaryVelocity ?? 0;
+    if (velocity.abs() < _categorySwipeVelocity) return;
+    _selectRelativeCategory(filterResult, velocity < 0 ? 1 : -1);
+  }
+
+  void _selectRelativeCategory(CatalogFilterResult filterResult, int offset) {
+    final choices = _categoryChoices(filterResult);
+    if (choices.length < 2) return;
+    final currentIndex = choices.indexOf(_selectedCategory);
+    final index = currentIndex < 0 ? 0 : currentIndex;
+    final nextIndex = math.max(0, math.min(choices.length - 1, index + offset));
+    final nextCategory = choices[nextIndex];
+    if (nextCategory == _selectedCategory) return;
+    setState(() => _selectedCategory = nextCategory);
+    AccessibilityService.announce(nextCategory ?? _allCategoriesLabel(context));
+  }
+
+  bool _hasRelativeCategory(CatalogFilterResult filterResult, int offset) {
+    final choices = _categoryChoices(filterResult);
+    if (choices.length < 2) return false;
+    final currentIndex = choices.indexOf(_selectedCategory);
+    final index = currentIndex < 0 ? 0 : currentIndex;
+    final nextIndex = math.max(0, math.min(choices.length - 1, index + offset));
+    return choices[nextIndex] != _selectedCategory;
+  }
+
+  List<String?> _categoryChoices(CatalogFilterResult filterResult) {
+    final counts = filterResult.categoryCounts;
+    final categories = counts.keys.toList()
+      ..sort((a, b) {
+        final countCompare = (counts[b] ?? 0).compareTo(counts[a] ?? 0);
+        if (countCompare != 0) return countCompare;
+        return a.compareTo(b);
+      });
+    return [null, ...categories];
+  }
+
+  String _previousCategoryLabel(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'es'
+        ? 'Categoría anterior'
+        : 'Previous category';
+  }
+
+  String _nextCategoryLabel(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'es'
+        ? 'Categoría siguiente'
+        : 'Next category';
   }
 
   Widget _buildCatalogHeader(
@@ -401,18 +464,41 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             Expanded(
               child: _isSearchVisible
                   ? _buildCompactSearchField(context, l10n)
-                  : _CategoryFilterRail(
-                      allCategoriesLabel: allCategoriesLabel,
-                      totalCategoryCount: totalCategoryCount,
-                      categories: categories,
-                      categoryCounts: categoryCounts,
-                      selectedCategory: _selectedCategory,
-                      onSelect: (category) {
-                        setState(() {
-                          _selectedCategory =
-                              category == _selectedCategory ? null : category;
-                        });
-                      },
+                  : Row(
+                      children: [
+                        _CategoryStepButton(
+                          buttonKey: const Key('catalogPreviousCategoryButton'),
+                          icon: Icons.chevron_left_rounded,
+                          semanticLabel: _previousCategoryLabel(context),
+                          enabled: _hasRelativeCategory(filterResult, -1),
+                          onTap: () => _selectRelativeCategory(filterResult, -1),
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        Expanded(
+                          child: _CategoryFilterRail(
+                            allCategoriesLabel: allCategoriesLabel,
+                            totalCategoryCount: totalCategoryCount,
+                            categories: categories,
+                            categoryCounts: categoryCounts,
+                            selectedCategory: _selectedCategory,
+                            onSelect: (category) {
+                              setState(() {
+                                _selectedCategory = category == _selectedCategory
+                                    ? null
+                                    : category;
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        _CategoryStepButton(
+                          buttonKey: const Key('catalogNextCategoryButton'),
+                          icon: Icons.chevron_right_rounded,
+                          semanticLabel: _nextCategoryLabel(context),
+                          enabled: _hasRelativeCategory(filterResult, 1),
+                          onTap: () => _selectRelativeCategory(filterResult, 1),
+                        ),
+                      ],
                     ),
             ),
             const SizedBox(width: AppSpacing.xs),

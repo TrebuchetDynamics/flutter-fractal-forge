@@ -125,6 +125,61 @@ void main() {
           find.byKey(const Key('catalogActiveCategoryChip')), findsOneWidget);
     });
 
+    testWidgets('horizontal swipe changes category selection', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('catalogCategoryChip_all')));
+      await tester.pumpAndSettle();
+      expect(
+        find.bySemanticsLabel(RegExp(r'All categories filter, selected')),
+        findsOneWidget,
+      );
+
+      await tester.fling(
+        find.byKey(const Key('catalogCategorySwipeArea')),
+        const Offset(-500, 0),
+        1000,
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.bySemanticsLabel(RegExp(r'All categories filter, selected')),
+        findsNothing,
+      );
+
+      await tester.fling(
+        find.byKey(const Key('catalogCategorySwipeArea')),
+        const Offset(500, 0),
+        1000,
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.bySemanticsLabel(RegExp(r'All categories filter, selected')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('category arrow buttons step through chips', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('catalogCategoryChip_all')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('catalogNextCategoryButton')));
+      await tester.pumpAndSettle();
+      expect(
+        find.bySemanticsLabel(RegExp(r'All categories filter, selected')),
+        findsNothing,
+      );
+
+      await tester.tap(find.byKey(const Key('catalogPreviousCategoryButton')));
+      await tester.pumpAndSettle();
+      expect(
+        find.bySemanticsLabel(RegExp(r'All categories filter, selected')),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('omits dimension filter chips', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
