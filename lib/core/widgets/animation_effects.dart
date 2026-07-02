@@ -504,11 +504,10 @@ class _FractalMorphTransitionState extends State<FractalMorphTransition>
 
         return Stack(
           children: [
-            // Apply morph effect
+            // Apply morph effect without scaling the canvas; route/module
+            // transitions must not look like an unintended camera zoom.
             Transform.scale(
-              // Keep a subtle cinematic pulse while avoiding the end-of-transition
-              // shrink (<1.0) that looks like a tiny unintended zoom-out.
-              scale: 1.02 - morphValue * 0.02,
+              scale: 1.0,
               child: Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()
