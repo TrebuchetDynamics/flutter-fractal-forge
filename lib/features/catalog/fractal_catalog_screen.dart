@@ -471,7 +471,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                           icon: Icons.chevron_left_rounded,
                           semanticLabel: _previousCategoryLabel(context),
                           enabled: _hasRelativeCategory(filterResult, -1),
-                          onTap: () => _selectRelativeCategory(filterResult, -1),
+                          onTap: () =>
+                              _selectRelativeCategory(filterResult, -1),
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         Expanded(
@@ -483,9 +484,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                             selectedCategory: _selectedCategory,
                             onSelect: (category) {
                               setState(() {
-                                _selectedCategory = category == _selectedCategory
-                                    ? null
-                                    : category;
+                                _selectedCategory =
+                                    category == _selectedCategory
+                                        ? null
+                                        : category;
                               });
                             },
                           ),
