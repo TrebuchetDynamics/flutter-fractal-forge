@@ -159,25 +159,14 @@ void main() {
       );
     });
 
-    testWidgets('category arrow buttons step through chips', (tester) async {
+    testWidgets('category rail omits cramped step buttons', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('catalogCategoryChip_all')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('catalogNextCategoryButton')));
-      await tester.pumpAndSettle();
       expect(
-        find.bySemanticsLabel(RegExp(r'All categories filter, selected')),
-        findsNothing,
-      );
-
-      await tester.tap(find.byKey(const Key('catalogPreviousCategoryButton')));
-      await tester.pumpAndSettle();
-      expect(
-        find.bySemanticsLabel(RegExp(r'All categories filter, selected')),
-        findsOneWidget,
-      );
+          find.byKey(const Key('catalogPreviousCategoryButton')), findsNothing);
+      expect(find.byKey(const Key('catalogNextCategoryButton')), findsNothing);
+      expect(find.byKey(const Key('catalogCategoryChip_all')), findsOneWidget);
     });
 
     testWidgets('omits dimension filter chips', (tester) async {

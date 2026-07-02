@@ -255,42 +255,6 @@ class _SimpleIconButton extends StatelessWidget {
   }
 }
 
-class _CategoryStepButton extends StatelessWidget {
-  final Key buttonKey;
-  final IconData icon;
-  final String semanticLabel;
-  final bool enabled;
-  final VoidCallback onTap;
-
-  const _CategoryStepButton({
-    required this.buttonKey,
-    required this.icon,
-    required this.semanticLabel,
-    required this.enabled,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      enabled: enabled,
-      label: semanticLabel,
-      child: IconButton(
-        key: buttonKey,
-        tooltip: semanticLabel,
-        onPressed: enabled ? onTap : null,
-        constraints: const BoxConstraints.tightFor(width: 40, height: 40),
-        padding: EdgeInsets.zero,
-        icon: Icon(
-          icon,
-          color: enabled ? AppColors.textSecondary : AppColors.textMuted,
-        ),
-      ),
-    );
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Dimension filter chip - pill style
 // ---------------------------------------------------------------------------
@@ -381,28 +345,7 @@ class _DimChip extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? Colors.white.withValues(alpha: 0.2)
-                        : AppColors.textMuted.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    '$count',
-                    style: TextStyle(
-                      color: selected
-                          ? Colors.white.withValues(alpha: 0.9)
-                          : AppColors.textMuted,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 10,
-                    ),
-                  ),
-                ),
+
               ],
             ),
           ),

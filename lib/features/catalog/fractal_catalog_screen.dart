@@ -234,12 +234,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       ),
       child: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: _buildCatalogHeader(
-              l10n,
-              resultCount: filteredEntries.length,
-            ),
-          ),
           SliverPersistentHeader(
             key: const Key('catalogPinnedFilterBar'),
             pinned: true,
@@ -293,15 +287,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     AccessibilityService.announce(nextCategory ?? _allCategoriesLabel(context));
   }
 
-  bool _hasRelativeCategory(CatalogFilterResult filterResult, int offset) {
-    final choices = _categoryChoices(filterResult);
-    if (choices.length < 2) return false;
-    final currentIndex = choices.indexOf(_selectedCategory);
-    final index = currentIndex < 0 ? 0 : currentIndex;
-    final nextIndex = math.max(0, math.min(choices.length - 1, index + offset));
-    return choices[nextIndex] != _selectedCategory;
-  }
-
   List<String?> _categoryChoices(CatalogFilterResult filterResult) {
     final counts = filterResult.categoryCounts;
     final categories = counts.keys.toList()
@@ -311,111 +296,6 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         return a.compareTo(b);
       });
     return [null, ...categories];
-  }
-
-  String _previousCategoryLabel(BuildContext context) {
-    return Localizations.localeOf(context).languageCode == 'es'
-        ? 'Categoría anterior'
-        : 'Previous category';
-  }
-
-  String _nextCategoryLabel(BuildContext context) {
-    return Localizations.localeOf(context).languageCode == 'es'
-        ? 'Categoría siguiente'
-        : 'Next category';
-  }
-
-  Widget _buildCatalogHeader(
-    AppLocalizations l10n, {
-    required int resultCount,
-  }) {
-    final title = _selectedCategory ?? l10n.catalogAllFractals;
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.lg,
-        AppSpacing.sm,
-        AppSpacing.lg,
-        AppSpacing.xs,
-      ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              AppColors.primary.withValues(alpha: 0.22),
-              AppColors.surfaceElevated.withValues(alpha: 0.92),
-              AppColors.secondary.withValues(alpha: 0.08),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(28),
-          border: Border.all(color: AppColors.glassBorder),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.08),
-              blurRadius: 18,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.catalogTitle.toUpperCase(),
-                    style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.secondaryLight,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.titleLarge.copyWith(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    l10n.catalogResultsCount(resultCount),
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ExcludeSemantics(
-              child: Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.08),
-                  border: Border.all(color: AppColors.glassBorder),
-                ),
-                child: const Icon(
-                  Icons.auto_awesome_rounded,
-                  color: AppColors.secondaryLight,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _buildPinnedTopBar(
@@ -464,43 +344,18 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             Expanded(
               child: _isSearchVisible
                   ? _buildCompactSearchField(context, l10n)
-                  : Row(
-                      children: [
-                        _CategoryStepButton(
-                          buttonKey: const Key('catalogPreviousCategoryButton'),
-                          icon: Icons.chevron_left_rounded,
-                          semanticLabel: _previousCategoryLabel(context),
-                          enabled: _hasRelativeCategory(filterResult, -1),
-                          onTap: () =>
-                              _selectRelativeCategory(filterResult, -1),
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Expanded(
-                          child: _CategoryFilterRail(
-                            allCategoriesLabel: allCategoriesLabel,
-                            totalCategoryCount: totalCategoryCount,
-                            categories: categories,
-                            categoryCounts: categoryCounts,
-                            selectedCategory: _selectedCategory,
-                            onSelect: (category) {
-                              setState(() {
-                                _selectedCategory =
-                                    category == _selectedCategory
-                                        ? null
-                                        : category;
-                              });
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        _CategoryStepButton(
-                          buttonKey: const Key('catalogNextCategoryButton'),
-                          icon: Icons.chevron_right_rounded,
-                          semanticLabel: _nextCategoryLabel(context),
-                          enabled: _hasRelativeCategory(filterResult, 1),
-                          onTap: () => _selectRelativeCategory(filterResult, 1),
-                        ),
-                      ],
+                  : _CategoryFilterRail(
+                      allCategoriesLabel: allCategoriesLabel,
+                      totalCategoryCount: totalCategoryCount,
+                      categories: categories,
+                      categoryCounts: categoryCounts,
+                      selectedCategory: _selectedCategory,
+                      onSelect: (category) {
+                        setState(() {
+                          _selectedCategory =
+                              category == _selectedCategory ? null : category;
+                        });
+                      },
                     ),
             ),
             const SizedBox(width: AppSpacing.xs),
