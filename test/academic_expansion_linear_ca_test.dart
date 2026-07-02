@@ -56,7 +56,11 @@ void main() {
     );
     expect(File(arnoux.shaderAsset).existsSync(), isTrue);
     expect(File(dual.shaderAsset).existsSync(), isTrue);
+    expect(arnoux.defaultPreset.params['iterations'], 160.0);
     expect(arnoux.defaultPreset.params['depth'], 12.0);
+    expect(arnoux.defaultPreset.view.pan.x, 0.0);
+    expect(arnoux.defaultPreset.view.pan.y, 0.0);
+    expect(arnoux.defaultPreset.view.zoom, 1.0);
     expect(dual.defaultPreset.params['depth'], 8.0);
     expect(hasNativeCpuFormula('arnoux_rauzy_fractal'), isTrue);
     expect(hasNativeCpuFormula('dual_substitution_tiling'), isTrue);

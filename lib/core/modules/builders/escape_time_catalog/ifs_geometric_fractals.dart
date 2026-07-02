@@ -177,7 +177,7 @@ final List<EscapeTimeConfig> _ifsGeometricFractalsCatalog = [
     id: 'arnoux_rauzy_fractal',
     name: 'Arnoux-Rauzy Fractal',
     shaderAsset: 'shaders/ifs_and_geometric/arnoux_rauzy_fractal_gpu.frag',
-    defaultIterations: 12,
+    defaultIterations: 160,
     defaultBailout: 4.0,
     category: 'Aperiodic Tiling',
     extraParams: [
@@ -188,6 +188,21 @@ final List<EscapeTimeConfig> _ifsGeometricFractalsCatalog = [
         max: 18,
         step: 1,
         defaultValue: 12.0,
+      ),
+    ],
+    extraPresets: [
+      catalogPreset(
+        id: 'arnoux-rauzy-window',
+        moduleId: 'arnoux_rauzy_fractal',
+        name: 'Rauzy Window',
+        params: {
+          'iterations': 160,
+          'bailout': 4.0,
+          'colorScheme': 0,
+          'depth': 12.0,
+        },
+        view: FractalViewState(
+            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
       ),
     ],
   ),
