@@ -19,6 +19,7 @@ build/
 /debug/
 /profile/
 /release/
+.gradle/
 # Local release evidence/staging directories.
 /docs/release/
 /scripts/release/
