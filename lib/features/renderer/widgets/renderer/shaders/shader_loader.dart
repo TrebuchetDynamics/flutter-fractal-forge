@@ -4,7 +4,7 @@ part of '../fractal_renderer.dart';
 ///
 /// Apply to `State<FractalRenderer>`.
 mixin _ShaderLoaderMixin on State<FractalRenderer> {
-  static const int _maxProgramCacheEntries = 24;
+  static const int _maxProgramCacheEntries = 256;
   static final LinkedHashMap<String, ui.FragmentProgram> _programCache =
       LinkedHashMap<String, ui.FragmentProgram>();
   static final Map<String, Future<ui.FragmentProgram>> _programLoads = {};
@@ -81,35 +81,20 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
   /// Attempts to load the shader up to [_maxShaderRetries] times before
   /// giving up. Reports all failures to [CrashReporter].
   Future<void> _loadShader(String asset) async {
+    if (_shaderAsset == asset && _program != null && _shaderError == null) {
+      return;
+    }
     if (_loading) {
       return;
     }
-    _loading = true;
     _shaderLoadStartedAt = DateTime.now();
-    if (kDebugMode) debugPrint('[renderer] shader_load_start asset=$asset');
-    void clearStaleShader() {
-      _program = null;
-      _shaderForCachedFragment = null;
-      _cachedFragmentShader = null;
-      _shaderAsset = asset;
-      _shaderError = null;
-      _shaderErrorDetails = null;
-      _firstFrameLogged = false;
-    }
-
-    if (mounted) {
-      setState(clearStaleShader);
-    } else {
-      clearStaleShader();
-    }
 
     final cached = _takeProgramFromCache(asset);
     if (cached != null) {
-      if (mounted) {
-        setState(() => _setLoadedProgram(asset, cached));
-      } else {
-        _setLoadedProgram(asset, cached);
-      }
+      _setLoadedProgram(asset, cached);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() {});
+      });
       final dt = DateTime.now()
           .difference(_shaderLoadStartedAt ?? DateTime.now())
           .inMilliseconds;
@@ -121,9 +106,18 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
         'compileMs': dt,
         'fromCache': true,
       });
-      _loading = false;
       return;
     }
+
+    _loading = true;
+    if (kDebugMode) debugPrint('[renderer] shader_load_start asset=$asset');
+    _program = null;
+    _shaderForCachedFragment = null;
+    _cachedFragmentShader = null;
+    _shaderAsset = asset;
+    _shaderError = null;
+    _shaderErrorDetails = null;
+    _firstFrameLogged = false;
 
     for (var attempt = 1; attempt <= _maxShaderRetries; attempt++) {
       try {

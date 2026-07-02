@@ -437,6 +437,7 @@ class _FractalRendererState extends State<FractalRenderer>
     // Wait for shader to load before rendering
     // This prevents race condition where shader is used before it's ready
     if (_program == null || _loading) {
+      if (!widget.showRendererIndicator) return const SizedBox.expand();
       final l10n = AppLocalizations.of(context);
       return Center(
         child: FractalLoadingIndicator(
