@@ -1,10 +1,6 @@
 # Flutter Fractal Forge
 
 <p align="center">
-  <img src="assets/feature-graphic.png" alt="Flutter Fractal Forge" width="720"/>
-</p>
-
-<p align="center">
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter" alt="Flutter 3.x"/></a>
   <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart" alt="Dart 3.x"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 license"/></a>
@@ -32,12 +28,7 @@ You do not need to know fractal math to use the app.
 4. Change the color scheme or iteration count to see how the image responds.
 5. Export or share a render when you find a view you like.
 
-If you are new to Flutter development, the easiest local run target is usually Chrome:
-
-```bash
-flutter pub get
-flutter run -d chrome
-```
+If you want to run the app from source instead, the easiest target is usually Chrome — see [Start the app](#start-the-app) below for the full clone-and-run steps.
 
 ## What you can do
 
