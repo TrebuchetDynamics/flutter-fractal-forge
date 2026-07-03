@@ -41,7 +41,7 @@
     "summary": "Constrained Julia seed randomization to jitter around each curated default, avoiding the reported off-seed Gossamer value that escaped uniformly with no detail.",
     "research": "research/issue-fixes/2026-06-27T21-34-35-960699Z_f0193_gossamer_julia/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/features/renderer/providers/fractal_param_randomizer_test.dart: pass",
+      "flutter test test/features/renderer/providers/fractal_param_randomizer_test.dart: pass",
       "python3 reported Gossamer uniform-escape assertion: pass",
       "git diff --check (touched files): pass"
     ]

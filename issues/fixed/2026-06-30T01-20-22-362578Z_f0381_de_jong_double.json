@@ -42,7 +42,7 @@
     "summary": "Increased de Jong Double thumbnail/detail contrast with an orbit-trap detail term and added native CPU render coverage for the reported view.",
     "research": "research/issue-fixes/2026-06-30T01-20-22-362578Z_f0381_de_jong_double/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/features/catalog/shared_de_jong_catalog_test.dart",
+      "flutter test test/features/catalog/shared_de_jong_catalog_test.dart",
       "impellerc compile shaders/strange_attractors/peter_de_jong_gpu.frag",
       "git diff --check"
     ]

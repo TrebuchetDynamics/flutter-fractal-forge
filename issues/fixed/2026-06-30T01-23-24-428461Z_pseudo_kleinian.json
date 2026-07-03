@@ -38,7 +38,7 @@
     "summary": "Added fold-trap linework to the Pseudo-Kleinian shader so the default issue view renders visible structure, and verified shader compilation.",
     "research": "research/issue-fixes/2026-06-30T01-23-24-428461Z_pseudo_kleinian/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/pseudo_kleinian_visibility_test.dart",
+      "flutter test --reporter expanded test/modules/pseudo_kleinian_visibility_test.dart",
       "git diff --check"
     ]
   }

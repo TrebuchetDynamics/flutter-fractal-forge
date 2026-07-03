@@ -8,7 +8,7 @@ This report analyzes four mature open-source fractal projects to extract concret
 
 ## Project 1: DeepDrill
 
-**Repository**: `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill`
+**Repository**: `flutter-fractal-forge/opensource/repos/renderers/DeepDrill`
 **Author**: Dirk W. Hoffmann
 **License**: GNU GPLv3
 **Primary Language**: C++
@@ -261,7 +261,7 @@ class DrillMap {
 
 ## Project 2: FractalExplorer (C++ / Raylib)
 
-**Repository**: `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractalExplorer`
+**Repository**: `flutter-fractal-forge/opensource/repos/renderers/FractalExplorer`
 **Author**: Kiara (GitHub: kiara-tv)
 **License**: Unknown (appears open source)
 **Primary Language**: C++ with GLSL shaders
@@ -450,7 +450,7 @@ From shader code, multiple coloring modes are available:
 
 ## Project 3: Fractals-Explorer (C++ / OpenGL / OpenCL)
 
-**Repository**: `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractals-Explorer`
+**Repository**: `flutter-fractal-forge/opensource/repos/renderers/Fractals-Explorer`
 **Author**: Greece4ever
 **License**: Unknown (open source)
 **Primary Language**: C++ with GLSL and OpenCL compute shaders
@@ -666,7 +666,7 @@ This template approach allows compiling different Newton variants without duplic
 
 ## Project 4: fractals-generator (C++ / SFML / ImGui)
 
-**Repository**: `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator`
+**Repository**: `flutter-fractal-forge/opensource/repos/renderers/fractals-generator`
 **Author**: Various
 **License**: Unknown
 **Primary Language**: C++ with SFML and Dear ImGui

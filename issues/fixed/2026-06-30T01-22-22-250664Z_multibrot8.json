@@ -38,9 +38,9 @@
     "summary": "Changed the initial Multibrot\u2078 view to a wider octic-boundary preset and added CPU render validation.",
     "research": "research/issue-fixes/2026-06-30T01-22-22-250664Z_multibrot8/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/modules/multibrot8_initial_view_test.dart --reporter expanded",
-      "/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag --input-type=frag --sl=/tmp/multibrot8.sksl --spirv=/tmp/multibrot8.spv --include=/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
-      "/home/xel/flutter/bin/flutter analyze"
+      "flutter test test/modules/multibrot8_initial_view_test.dart --reporter expanded",
+      "$FLUTTER_ROOT/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag --input-type=frag --sl=/tmp/multibrot8.sksl --spirv=/tmp/multibrot8.spv --include=$FLUTTER_ROOT/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
+      "flutter analyze"
     ]
   }
 }

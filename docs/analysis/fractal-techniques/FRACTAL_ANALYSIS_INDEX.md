@@ -183,7 +183,7 @@ Complete technical analysis of 4 open-source fractal projects extracted for Flut
 ## File Locations
 
 ```
-/home/xel/git/flutter-fractal-forge/
+flutter-fractal-forge/
 │
 ├── FRACTAL_../opensource/ANALYSIS_INDEX.md              ← You are here
 ├── ../opensource/ANALYSIS_SUMMARY.md                    ← Start here (overview)

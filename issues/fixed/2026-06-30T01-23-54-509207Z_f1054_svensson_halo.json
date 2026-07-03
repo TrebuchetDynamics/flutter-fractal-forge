@@ -42,7 +42,7 @@
     "summary": "Raised the shared Svensson shader iteration cap to match catalog settings so the 360-iteration Halo issue view is not truncated, and verified shader compilation.",
     "research": "research/issue-fixes/2026-06-30T01-23-54-509207Z_f1054_svensson_halo/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/svensson_iteration_cap_test.dart",
+      "flutter test --reporter expanded test/modules/svensson_iteration_cap_test.dart",
       "git diff --check"
     ]
   }

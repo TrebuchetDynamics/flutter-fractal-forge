@@ -38,9 +38,9 @@
     "summary": "Replaced the finite seed-dot approximation with a golden logarithmic spiral in GPU and CPU render paths, keeping the spiral visible at the reported deep zoom.",
     "research": "research/issue-fixes/2026-06-30T01-22-09-508697Z_fibonacci_spiral/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/modules/fibonacci_spiral_visual_contract_test.dart --reporter expanded",
-      "/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag --input-type=frag --sl=/tmp/fibonacci_spiral.sksl --spirv=/tmp/fibonacci_spiral.spv --include=/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
-      "/home/xel/flutter/bin/flutter analyze"
+      "flutter test test/modules/fibonacci_spiral_visual_contract_test.dart --reporter expanded",
+      "$FLUTTER_ROOT/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag --input-type=frag --sl=/tmp/fibonacci_spiral.sksl --spirv=/tmp/fibonacci_spiral.spv --include=$FLUTTER_ROOT/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
+      "flutter analyze"
     ]
   }
 }

@@ -43,7 +43,7 @@
     "research": "research/issue-fixes/2026-06-30T01-25-51-998005Z_f0360_clifford_whirl/research-not-needed.md",
     "validation": [
       "find shaders -type d -exec mkdir -p build/unit_test_assets/{} \\;",
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/clifford_iteration_cap_test.dart",
+      "flutter test --reporter expanded test/modules/clifford_iteration_cap_test.dart",
       "git diff --check"
     ]
   }

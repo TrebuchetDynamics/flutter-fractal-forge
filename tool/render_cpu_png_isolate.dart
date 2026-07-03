@@ -8,7 +8,7 @@ import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
 /// Pure-Dart CPU renderer dump (no Flutter engine required).
 ///
 /// Usage:
-///   /home/xel/flutter/bin/cache/dart-sdk/bin/dart run tool/render_cpu_png_isolate.dart --out /tmp/cpu.png
+///   dart run tool/render_cpu_png_isolate.dart --out /tmp/cpu.png
 void main(List<String> args) {
   String moduleId = 'mandelbrot';
   int w = 512;

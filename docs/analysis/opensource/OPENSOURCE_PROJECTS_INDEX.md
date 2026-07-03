@@ -30,7 +30,7 @@ This analysis consists of two comprehensive documents:
 ## Four Projects Analyzed
 
 ### Project 1: DeepDrill
-**Location**: `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill`
+**Location**: `flutter-fractal-forge/opensource/repos/renderers/DeepDrill`
 
 **Specialization**: Extreme-depth Mandelbrot rendering via perturbation theory
 - Author: Dirk W. Hoffmann
@@ -65,7 +65,7 @@ Result: 50-95% fewer iterations per pixel at extreme zoom
 ---
 
 ### Project 2: FractalExplorer
-**Location**: `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractalExplorer`
+**Location**: `flutter-fractal-forge/opensource/repos/renderers/FractalExplorer`
 
 **Specialization**: GPU-accelerated multi-fractal explorer
 - Author: Kiara
@@ -100,7 +100,7 @@ Result: 50-95% fewer iterations per pixel at extreme zoom
 ---
 
 ### Project 3: Fractals-Explorer
-**Location**: `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractals-Explorer`
+**Location**: `flutter-fractal-forge/opensource/repos/renderers/Fractals-Explorer`
 
 **Specialization**: Multi-backend fractal rendering with algorithmic variety
 - Author: Greece4ever
@@ -138,7 +138,7 @@ Result: 50-95% fewer iterations per pixel at extreme zoom
 ---
 
 ### Project 4: fractals-generator
-**Location**: `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator`
+**Location**: `flutter-fractal-forge/opensource/repos/renderers/fractals-generator`
 
 **Specialization**: Precision arithmetic and multi-tier rendering
 - Author: Various
@@ -447,7 +447,7 @@ float smooth = iter + 1.0 - log(|z_n|) / log(2.0);
 ## Version History
 
 - **v1.0** (2026-02-17): Initial comprehensive analysis of all four projects
-- Location: `/home/xel/git/flutter-fractal-forge/`
+- Location: `flutter-fractal-forge/`
 
 ---
 

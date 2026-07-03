@@ -41,7 +41,7 @@
     "summary": "Added nearest-orbit ridge coloring to the Bifurcation Diagram shader to improve low-detail/deep-zoom visibility for the issue view.",
     "research": "research/issue-fixes/2026-06-30T20-03-10-546423Z_bifurcation_diagram_explorer/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/bifurcation_diagram_detail_test.dart",
+      "flutter test --reporter expanded test/modules/bifurcation_diagram_detail_test.dart",
       "git diff --check"
     ]
   }

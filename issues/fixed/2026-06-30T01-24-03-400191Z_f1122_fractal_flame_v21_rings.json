@@ -39,7 +39,7 @@
     "summary": "Raised the shared Fractal Flame shader iteration cap to the catalog max so V21 Rings honors its 140-iteration issue view, and verified shader compilation.",
     "research": "research/issue-fixes/2026-06-30T01-24-03-400191Z_f1122_fractal_flame_v21_rings/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/fractal_flame_iteration_cap_test.dart",
+      "flutter test --reporter expanded test/modules/fractal_flame_iteration_cap_test.dart",
       "git diff --check"
     ]
   }

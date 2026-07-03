@@ -39,7 +39,7 @@
     "summary": "Added deterministic excitable wavefronts to the Greenberg-Hastings shader so the default view reads as wave propagation instead of random refractory noise.",
     "research": "research/issue-fixes/2026-06-30T20-02-42-861875Z_greenberg_hastings_ca/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/greenberg_hastings_wavefront_test.dart",
+      "flutter test --reporter expanded test/modules/greenberg_hastings_wavefront_test.dart",
       "git diff --check"
     ]
   }

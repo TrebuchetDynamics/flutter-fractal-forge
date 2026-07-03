@@ -39,7 +39,7 @@
     "summary": "Wired shared Mandelbulb pan into the shader target so the panned deep-zoom issue view renders the intended region, and verified shader compilation.",
     "research": "research/issue-fixes/2026-06-30T01-23-48-867761Z_f0566_mandelbulb_n_14/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/mandelbulb_shared_pan_target_test.dart",
+      "flutter test --reporter expanded test/modules/mandelbulb_shared_pan_target_test.dart",
       "git diff --check"
     ]
   }

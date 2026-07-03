@@ -38,7 +38,7 @@
     "summary": "Added the missing Jacobi modulus uniform parameter and CPU render coverage for the reported view.",
     "research": "research/issue-fixes/2026-06-30T01-21-43-555338Z_jacobi_sn/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/modules/escape_time_uniform_contract_test.dart test/modules/jacobi_sn_uniform_and_render_test.dart",
+      "flutter test test/modules/escape_time_uniform_contract_test.dart test/modules/jacobi_sn_uniform_and_render_test.dart",
       "impellerc compile shaders/trigonometric_and_transcendental/special_functions/jacobi_sn_gpu.frag",
       "git diff --check"
     ]

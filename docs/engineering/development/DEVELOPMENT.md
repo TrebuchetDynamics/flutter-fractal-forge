@@ -237,7 +237,7 @@ Artifacts are written under `agent_test_logs/headless/` by default.
 ### Prerequisites
 
 - Linux host with KVM acceleration (`qemu-kvm` installed)
-- Flutter SDK available (`$HOME/flutter/bin` or `/home/xel/flutter/bin`)
+- Flutter SDK available on `PATH`
 - Android SDK at `/usr/lib/android-sdk`
 - `ANDROID_SDK_ROOT=/usr/lib/android-sdk`
 - `adb`, `flutter`, emulator binary, and `sdkmanager` available

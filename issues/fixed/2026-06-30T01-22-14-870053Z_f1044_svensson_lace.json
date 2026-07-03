@@ -42,10 +42,10 @@
     "summary": "Added lace/thread detail to the shared Svensson shader and native CPU rendering for the reported Svensson Lace coefficients, with a detail metric regression test at the reported view.",
     "research": "research/issue-fixes/2026-06-30T01-22-14-870053Z_f1044_svensson_lace/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/modules/svensson_lace_detail_test.dart --reporter expanded",
-      "/home/xel/flutter/bin/flutter test test/features/catalog/shared_svensson_catalog_test.dart --reporter expanded",
-      "/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/strange_attractors/svensson_gpu.frag --input-type=frag --sl=/tmp/svensson.sksl --spirv=/tmp/svensson.spv --include=/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
-      "/home/xel/flutter/bin/flutter analyze"
+      "flutter test test/modules/svensson_lace_detail_test.dart --reporter expanded",
+      "flutter test test/features/catalog/shared_svensson_catalog_test.dart --reporter expanded",
+      "$FLUTTER_ROOT/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/strange_attractors/svensson_gpu.frag --input-type=frag --sl=/tmp/svensson.sksl --spirv=/tmp/svensson.spv --include=$FLUTTER_ROOT/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
+      "flutter analyze"
     ]
   }
 }

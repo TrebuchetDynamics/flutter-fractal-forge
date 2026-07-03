@@ -38,7 +38,7 @@
     "summary": "Raised the shared sine escape-expression shader cap to 500 and replaced flat black bounded fills with singularity-trap coloring for deep zoom detail.",
     "research": "research/issue-fixes/2026-06-30T01-25-12-789504Z_f0502_sin_1_z_c/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/sine_escape_deep_zoom_test.dart",
+      "flutter test --reporter expanded test/modules/sine_escape_deep_zoom_test.dart",
       "git diff --check"
     ],
     "notes": "A shader-asset compile check was attempted but Flutter crashed while writing unrelated bundled shader outputs under build/unit_test_assets."

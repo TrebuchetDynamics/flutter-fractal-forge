@@ -39,9 +39,9 @@
     "summary": "Keyboard arrow-key panning ignored view rotation.z, moving along the unrotated world axes instead of the screen-relative direction once the view was rotated. Routed it through the same rotation-matrix convention drag/fling panning already use.",
     "research": "research/issue-fixes/2026-06-30T23-22-05-849560Z_f0504_z_tan_z_c/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter analyze",
-      "/home/xel/flutter/bin/flutter test test/fractal_viewer_screen_widget_test.dart",
-      "/home/xel/flutter/bin/flutter test test/",
+      "flutter analyze",
+      "flutter test test/fractal_viewer_screen_widget_test.dart",
+      "flutter test test/",
       "git diff --check"
     ],
     "notes": "Generic gesture bug, not specific to f0504_z_tan_z_c's formula; reproduces on any module when the view is rotated (rz != 0) and arrow keys are used to pan. Confirmed red→green by reverting the fix and re-running the new regression test before restoring it."

@@ -39,7 +39,7 @@
     "summary": "Adjusted the Life-like CA shader so small masks 0..8 are interpreted as named neighbor counts, making B0/S0 render instead of the empty bitmask rule.",
     "research": "research/issue-fixes/2026-06-30T19-48-15-385764Z_life_like_b000_s000/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/life_like_b0_s0_visibility_test.dart",
+      "flutter test --reporter expanded test/modules/life_like_b0_s0_visibility_test.dart",
       "git diff --check"
     ],
     "notes": "An earlier identical test attempt hit Flutter shader-bundle write crash; rerun passed."

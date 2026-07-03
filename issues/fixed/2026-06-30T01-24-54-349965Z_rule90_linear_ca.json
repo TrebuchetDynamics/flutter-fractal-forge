@@ -38,7 +38,7 @@
     "summary": "Added per-cell edge/detail shading to the shared Wolfram CA shader so Rule 90 at 256 rows remains legible, and verified the CA formula/test path.",
     "research": "research/issue-fixes/2026-06-30T01-24-54-349965Z_rule90_linear_ca/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/rule90_detail_test.dart test/academic_expansion_linear_ca_test.dart",
+      "flutter test --reporter expanded test/modules/rule90_detail_test.dart test/academic_expansion_linear_ca_test.dart",
       "git diff --check"
     ]
   }

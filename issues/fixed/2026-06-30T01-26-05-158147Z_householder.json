@@ -38,7 +38,7 @@
     "research": "research/issue-fixes/2026-06-30T01-26-05-158147Z_householder/research-not-needed.md",
     "validation": [
       "find shaders -type d -exec mkdir -p build/unit_test_assets/{} \\;",
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/householder_detail_test.dart",
+      "flutter test --reporter expanded test/modules/householder_detail_test.dart",
       "git diff --check"
     ]
   }

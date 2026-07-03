@@ -1,11 +1,11 @@
 # Open-Source Fractal Projects: Deep-Dive Index
 
-**Primary Document:** `/home/xel/git/flutter-fractal-forge/OPENSOURCE_DEEPDIVE.md` (1,480 lines)
+**Primary Document:** `flutter-fractal-forge/OPENSOURCE_DEEPDIVE.md` (1,480 lines)
 
 ## Quick Reference by Project
 
 ### 1. DeepDrill (C++/SFML) — Perturbation Theory + Series Approximation
-- **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/`
+- **Root:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/`
 - **Key Files:**
   - Config & Version: `src/config.h` (MAP_FORMAT=320, v3.2.0)
   - Location Format: `src/shared/Options.h` (GMP arbitrary precision)
@@ -37,7 +37,7 @@
 ---
 
 ### 2. FractaVista (C++/OpenGL) — Compute Shader Architecture
-- **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/`
+- **Root:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/`
 - **Key Files:**
   - Type System: `src/fractal/FractalTypes.hpp` (6 fractal types)
   - Shader Registry: `src/fractal/FractalDefinition.hpp` (shader #define mapping)
@@ -70,7 +70,7 @@
 ---
 
 ### 3. Fractl (Rust) — GPU/CPU with WASM
-- **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/`
+- **Root:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/`
 - **Key Files:**
   - Workspace: `Cargo.toml` (members: fractl_lib, fractl_gui)
   - Feature System: `fractl_lib/src/lib.rs` (f32/f64 + CPU/GPU selection)
@@ -114,7 +114,7 @@
 ---
 
 ### 4. fractals-generator (C++) — Multi-Precision Rendering
-- **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator/`
+- **Root:** `flutter-fractal-forge/opensource/repos/renderers/fractals-generator/`
 - **Key Files:**
   - Main: `src/main.cpp` (precision selection + shader switching)
   - Examples: `examples/arbitrary-fixed-glsl/` (arbitrary-precision GLSL)

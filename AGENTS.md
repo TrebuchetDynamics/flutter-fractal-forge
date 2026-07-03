@@ -47,9 +47,9 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 ```
 
 ### Working In This Directory
-- Build with: `PATH="/home/xel/.local/bin:$PATH" /home/xel/flutter/bin/flutter run -d linux`
+- Build with: `flutter run -d linux`
 - Dart SDK 3.10.7, Flutter desktop (Linux primary)
-- `lld` linker workaround: shell script at `~/.local/bin/clang++`
+- If local linker tooling is needed, keep it outside the repo and on `PATH`.
 - Provider is used for DI; FractalController is the primary state holder
 - Most fractals use the escape-time builder pattern (declarative config + shader)
 
@@ -60,8 +60,8 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 - **Safe/boot modes**: `SAFE_MODE` and `BOOT_STEP` environment vars for incremental debugging
 
 ### Testing Requirements
-- Run unit tests: `/home/xel/flutter/bin/flutter test`
-- Run integration tests: `/home/xel/flutter/bin/flutter test integration_test/`
+- Run unit tests: `flutter test`
+- Run integration tests: `flutter test integration_test/`
 - Widget tests use `pumpWidget` with mock stores/services
 
 ### Common Gotchas

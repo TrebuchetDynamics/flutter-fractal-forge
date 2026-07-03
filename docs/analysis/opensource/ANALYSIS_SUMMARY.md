@@ -250,7 +250,7 @@ Lighting: Ambient occlusion, distance falloff
 ## Files Location
 
 ```
-/home/xel/git/flutter-fractal-forge/
+flutter-fractal-forge/
 ├── ../fractal-techniques/FRACTAL_SHADER_TECHNIQUES_CATALOG.md     (29 KB, full reference)
 ├── ../fractal-techniques/FRACTAL_TECHNIQUES_QUICK_INDEX.md        (6.2 KB, quick lookup)
 ├── ANALYSIS_SUMMARY.md                       (this file)

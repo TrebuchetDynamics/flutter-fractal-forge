@@ -40,7 +40,7 @@
     "summary": "Added an orbit-trap strand detail signal to the Hopalong shader and verified the shader compiles.",
     "research": "research/issue-fixes/2026-06-30T01-24-23-788894Z_hopalong/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/hopalong_detail_test.dart",
+      "flutter test --reporter expanded test/modules/hopalong_detail_test.dart",
       "git diff --check"
     ]
   }

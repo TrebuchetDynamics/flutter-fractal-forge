@@ -7,8 +7,8 @@
       "opensource/repos/formula-catalogs/glChAoS.P",
       "opensource/repos/renderers/FractalExplorer"
     ],
-    "catalog_file": "/home/xel/git/flutter-fractal-forge/lib/core/modules/builders/escape_time_catalog.dart",
-    "module_registry_file": "/home/xel/git/flutter-fractal-forge/lib/core/modules/module_registry.dart"
+    "catalog_file": "flutter-fractal-forge/lib/core/modules/builders/escape_time_catalog.dart",
+    "module_registry_file": "flutter-fractal-forge/lib/core/modules/module_registry.dart"
   },
   "current_coverage": {
     "escape_time_catalog_ids": 332,

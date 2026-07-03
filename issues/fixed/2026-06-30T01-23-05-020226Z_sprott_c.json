@@ -37,7 +37,7 @@
     "summary": "Added an orbit-trap strand detail signal to the Sprott C shader and verified the shader compiles.",
     "research": "research/issue-fixes/2026-06-30T01-23-05-020226Z_sprott_c/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/sprott_c_detail_test.dart",
+      "flutter test --reporter expanded test/modules/sprott_c_detail_test.dart",
       "git diff --check"
     ]
   }

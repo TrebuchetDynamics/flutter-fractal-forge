@@ -37,7 +37,7 @@
     "summary": "Added orbit/trap coloring for bounded Buddhabrot deep-zoom points so interior regions no longer render as flat black.",
     "research": "research/issue-fixes/2026-06-30T20-02-31-488456Z_f1142_buddhabrot/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/buddhabrot_deep_zoom_test.dart",
+      "flutter test --reporter expanded test/modules/buddhabrot_deep_zoom_test.dart",
       "git diff --check"
     ],
     "notes": "An earlier identical test attempt hit Flutter shader-bundle write crash; rerun passed."

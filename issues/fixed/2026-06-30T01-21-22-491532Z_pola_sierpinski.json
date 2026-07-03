@@ -38,7 +38,7 @@
     "summary": "Fixed deep-zoom collapse by lowering the polar log radius floor and adding CPU fallback coverage for the reported view.",
     "research": "research/issue-fixes/2026-06-30T01-21-22-491532Z_pola_sierpinski/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/modules/pola_sierpinski_deep_zoom_test.dart",
+      "flutter test test/modules/pola_sierpinski_deep_zoom_test.dart",
       "impellerc compile shaders/ifs_and_geometric/pola_sierpinski_gpu.frag",
       "git diff --check"
     ]

@@ -59,6 +59,7 @@ test/results/
 **/test/results/
 screenshots/
 maestro_reports/
+agent_test_logs/
 play-console-upload/*.aab
 play-console-upload/*.aab.sha256
 play-console-upload/LATEST_AAB.txt
@@ -107,3 +108,4 @@ reports/**
 !research/canonical/
 !research/seeds/
 docs/store_listing/
+research/fraksl-app-analysis/*play-store-page.html

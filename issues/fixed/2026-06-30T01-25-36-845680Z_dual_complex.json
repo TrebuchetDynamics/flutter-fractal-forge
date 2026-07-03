@@ -37,7 +37,7 @@
     "summary": "Added orbit/trap coloring for bounded Dual-Complex points so deep-zoom regions no longer render as flat black.",
     "research": "research/issue-fixes/2026-06-30T01-25-36-845680Z_dual_complex/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/dual_complex_deep_zoom_test.dart",
+      "flutter test --reporter expanded test/modules/dual_complex_deep_zoom_test.dart",
       "git diff --check"
     ]
   }

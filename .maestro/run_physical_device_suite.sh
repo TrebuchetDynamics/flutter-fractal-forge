@@ -4,8 +4,8 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DEVICE_SERIAL="${DEVICE_SERIAL:-${1:-}}"
 APP_ID="com.trebuchetdynamics.fractal.forge"
-FLUTTER_BIN="/home/xel/flutter/bin/flutter"
-MAESTRO_BIN="$HOME/.maestro/bin/maestro"
+FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
+MAESTRO_BIN="${MAESTRO_BIN:-$HOME/.maestro/bin/maestro}"
 REPORT_ROOT="${REPORT_ROOT:-$ROOT_DIR/maestro_reports/physical_$(date +%Y%m%d_%H%M%S)}"
 FEATURE_FLOWS=(
   ".maestro/01_app_launch.yaml"
@@ -96,7 +96,7 @@ ensure_flutter_run_session() {
   echo "Starting flutter run for $DEVICE_SERIAL..."
   (
     cd "$ROOT_DIR"
-    PATH="/home/xel/.local/bin:$PATH" "$FLUTTER_BIN" run -d "$DEVICE_SERIAL"
+    "$FLUTTER_BIN" run -d "$DEVICE_SERIAL"
   ) >"$REPORT_ROOT/flutter_run.log" 2>&1 &
   FLUTTER_RUN_PID=$!
   export FLUTTER_RUN_PID

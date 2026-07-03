@@ -37,7 +37,7 @@
     "summary": "Added orbit/trap coloring for bounded Magnet Type II basins so deep-zoom regions no longer render as flat black.",
     "research": "research/issue-fixes/2026-06-30T19-54-14-817894Z_magnet_type_2/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/magnet_type_2_deep_zoom_test.dart",
+      "flutter test --reporter expanded test/modules/magnet_type_2_deep_zoom_test.dart",
       "git diff --check"
     ]
   }

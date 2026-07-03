@@ -37,7 +37,7 @@
     "summary": "Added a derivative-based strand detail signal to the Dadras shader and verified the shader compiles.",
     "research": "research/issue-fixes/2026-06-30T01-24-39-293453Z_dadras/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/dadras_detail_test.dart",
+      "flutter test --reporter expanded test/modules/dadras_detail_test.dart",
       "git diff --check"
     ]
   }

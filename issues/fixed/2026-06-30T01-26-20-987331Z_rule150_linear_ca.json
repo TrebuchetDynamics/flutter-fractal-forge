@@ -39,7 +39,7 @@
     "research": "research/issue-fixes/2026-06-30T01-26-20-987331Z_rule150_linear_ca/research-not-needed.md",
     "validation": [
       "find shaders -type d -exec mkdir -p build/unit_test_assets/{} \\;",
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/rule150_shader_contract_test.dart test/modules/rule90_detail_test.dart test/academic_expansion_linear_ca_test.dart",
+      "flutter test --reporter expanded test/modules/rule150_shader_contract_test.dart test/modules/rule90_detail_test.dart test/academic_expansion_linear_ca_test.dart",
       "git diff --check"
     ]
   }

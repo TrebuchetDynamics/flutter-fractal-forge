@@ -38,7 +38,7 @@
     "summary": "Changed the initial Multibrot\u00b9\u2070 view to a wider boundary preset and added CPU render validation.",
     "research": "research/issue-fixes/2026-06-30T01-21-55-255039Z_multibrot10/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/modules/multibrot10_initial_view_test.dart",
+      "flutter test test/modules/multibrot10_initial_view_test.dart",
       "impellerc compile shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag",
       "git diff --check"
     ]

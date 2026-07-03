@@ -13,9 +13,9 @@
 ## PROJECT 1: DeepDrill (C++/SFML)
 
 ### File Locations
-- **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/`
-- **Source:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/`
-- **Shaders:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/shaders/`
+- **Root:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/`
+- **Source:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/`
+- **Shaders:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/shaders/`
 
 ### Architecture Overview
 
@@ -62,7 +62,7 @@ src/
 ### Key Data Structures
 
 #### 1. Location Specification
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/shared/Options.h` (lines 70-85)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/shared/Options.h` (lines 70-85)
 
 ```cpp
 struct Location {
@@ -77,7 +77,7 @@ struct Location {
 **Format:** GMP-based arbitrary precision. Used for location files (likely JSON or text).
 
 #### 2. DrillMap Structure
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/shared/DrillMap.h` (lines 80-130)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/shared/DrillMap.h` (lines 80-130)
 
 ```cpp
 class DrillMap {
@@ -109,7 +109,7 @@ public:
 **Channels:** 7 independent result channels enable post-processing colorization via shaders.
 
 #### 3. Drill Results Enum
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/shared/DrillMap.h` (lines 25-35)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/shared/DrillMap.h` (lines 25-35)
 
 ```cpp
 enum DrillResult : i8 {
@@ -125,7 +125,7 @@ enum DrillResult : i8 {
 ```
 
 #### 4. Options Configuration
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/shared/Options.h` (full structure)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/shared/Options.h` (full structure)
 
 ```cpp
 struct Options {
@@ -174,7 +174,7 @@ struct Options {
 
 ### Perturbation Algorithm
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/ddrill/Driller.h`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/ddrill/Driller.h`
 
 ```cpp
 class Driller {
@@ -209,7 +209,7 @@ private:
 **Three-Tier Architecture:**
 
 #### Tier 1: StandardComplex (double precision)
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/math/StandardComplex.h`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/math/StandardComplex.h`
 
 ```cpp
 struct StandardComplex {
@@ -219,7 +219,7 @@ struct StandardComplex {
 ```
 
 #### Tier 2: ExtendedDouble (mantissa + exponent)
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/math/ExtendedDouble.h`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/math/ExtendedDouble.h`
 
 ```cpp
 struct ExtendedDouble {
@@ -236,7 +236,7 @@ struct ExtendedDouble {
 ```
 
 #### Tier 3: ExtendedComplex (paired double-double)
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/math/ExtendedComplex.h`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/math/ExtendedComplex.h`
 
 ```cpp
 struct ExtendedComplex {
@@ -251,10 +251,10 @@ Uses `mpf_class` from GMP for reference point computation.
 
 ### GPU Colorization Pipeline
 
-**Shaders Directory:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/shaders/`
+**Shaders Directory:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/shaders/`
 
 #### Main Colorizer
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/shaders/colorizers/gradient.glsl`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/shaders/colorizers/gradient.glsl`
 
 ```glsl
 // Inputs: Multi-channel textures from drill map
@@ -317,8 +317,8 @@ float decode_float(vec4 v) {
 ### Video Export Pipeline (DeepMake + FFmpeg)
 
 **Files:**
-- `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/dmake/DeepMake.h`
-- `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/dzoom/FFmpeg.h`
+- `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/dmake/DeepMake.h`
+- `flutter-fractal-forge/opensource/repos/renderers/DeepDrill/src/dzoom/FFmpeg.h`
 
 **DeepMake INI Format → Directory of frames:**
 ```cpp
@@ -361,8 +361,8 @@ public:
 ## PROJECT 2: FractaVista (C++/OpenGL)
 
 ### File Locations
-- **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/`
-- **Source:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/`
+- **Root:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/`
+- **Source:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/`
 
 ### Architecture Overview
 
@@ -396,7 +396,7 @@ src/
 ```
 
 ### Fractal Type Definitions
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/fractal/FractalTypes.hpp`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/fractal/FractalTypes.hpp`
 
 ```cpp
 enum class FractalType {
@@ -425,7 +425,7 @@ struct ColoringParams {
 ```
 
 **Fractal Registry:**
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/fractal/FractalDefinition.hpp`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/fractal/FractalDefinition.hpp`
 
 ```cpp
 struct FractalDefinition {
@@ -447,7 +447,7 @@ static const std::map<FractalType, FractalDefinition> FractalDefinitions = {
 
 ### Compute Shader Architecture
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/fractal/FractalComputer.cpp`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/fractal/FractalComputer.cpp`
 
 #### UBO Data Layout (std140)
 ```cpp
@@ -498,7 +498,7 @@ void FractalComputer::generate(const FractalState& state) {
 ```
 
 #### 8× SSAA Export
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/fractal/FractalComputer.cpp` (lines 126-224)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/fractal/FractalComputer.cpp` (lines 126-224)
 
 ```cpp
 void FractalComputer::saveScreenshot(const ScreenshotRequest& request, const FractalState& state) {
@@ -561,7 +561,7 @@ void FractalComputer::saveScreenshot(const ScreenshotRequest& request, const Fra
 - SDL_image exports to PNG/JPG
 
 ### Shader Compilation
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/gfx/Shader.cpp` (lines 39-77)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/gfx/Shader.cpp` (lines 39-77)
 
 ```cpp
 void Shader::compileFromPath(const std::filesystem::path& computePath,
@@ -606,7 +606,7 @@ shader->bindUBO("Palette", 0);
 ```
 
 ### Preset Format (JSON)
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/app/Application.cpp` (lines 35-60)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/FractaVista/src/app/Application.cpp` (lines 35-60)
 
 ```cpp
 // Save preset
@@ -666,13 +666,13 @@ m_uiManager->onLoadPreset = [this]() {
 ## PROJECT 3: Fractl (Rust)
 
 ### File Locations
-- **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/`
-- **Library:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/`
-- **Workspace:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/Cargo.toml`
+- **Root:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/`
+- **Library:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/`
+- **Workspace:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/Cargo.toml`
 
 ### Feature Flag System
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/lib.rs` (lines 1-48)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/lib.rs` (lines 1-48)
 
 ```rust
 #[cfg(feature = "gpu")]
@@ -731,7 +731,7 @@ pub fn float(n: u32) -> Float {
 
 ### GPU Compute Backend (wgpu)
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/gpu.rs` (lines 1-110)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/gpu.rs` (lines 1-110)
 
 #### Compute Uniform Structure
 ```rust
@@ -840,7 +840,7 @@ async fn gpu_compute_async(&self, local_buffer: &mut [u32]) {
 
 ### Compute Shader (WGSL)
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/shader.wgsl` (lines 1-100)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/shader.wgsl` (lines 1-100)
 
 ```wgsl
 struct Args {
@@ -929,7 +929,7 @@ fn color_histogram(escape_time: u32) -> u32 {
 ```
 
 ### Fractal Type Enumeration
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/math.rs` (lines 8-62)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/fractl_lib/src/math.rs` (lines 8-62)
 
 ```rust
 #[non_exhaustive]
@@ -1032,7 +1032,7 @@ pub fn escape_time(&self, world_pos: Vector2<Float>, max_iterations: NonZeroU32)
 
 ### Cargo Workspace Configuration
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/Fractl/Cargo.toml`
+**File:** `flutter-fractal-forge/opensource/repos/renderers/Fractl/Cargo.toml`
 
 ```toml
 [workspace]
@@ -1072,13 +1072,13 @@ panic = "abort"
 ## PROJECT 4: fractals-generator (C++)
 
 ### File Locations
-- **Root:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator/`
-- **Source:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator/src/main.cpp`
-- **Examples:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator/examples/`
+- **Root:** `flutter-fractal-forge/opensource/repos/renderers/fractals-generator/`
+- **Source:** `flutter-fractal-forge/opensource/repos/renderers/fractals-generator/src/main.cpp`
+- **Examples:** `flutter-fractal-forge/opensource/repos/renderers/fractals-generator/examples/`
 
 ### Multi-Precision Rendering Architecture
 
-**File:** `/home/xel/git/flutter-fractal-forge/opensource/repos/renderers/fractals-generator/src/main.cpp` (lines 1-120)
+**File:** `flutter-fractal-forge/opensource/repos/renderers/fractals-generator/src/main.cpp` (lines 1-120)
 
 ```cpp
 #include <quadmath.h>              // GCC __float128

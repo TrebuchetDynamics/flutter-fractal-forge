@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export PATH=/home/xel/flutter/bin:/usr/lib/android-sdk/emulator:/usr/lib/android-sdk/platform-tools:$PATH
-export ANDROID_SDK_ROOT=/usr/lib/android-sdk
-export JAVA_HOME=/home/xel/.sdkman/candidates/java/17.0.11-tem
+ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT:-/usr/lib/android-sdk}"
+export ANDROID_SDK_ROOT
+export PATH="${FLUTTER_HOME:+$FLUTTER_HOME/bin:}$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$PATH"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"

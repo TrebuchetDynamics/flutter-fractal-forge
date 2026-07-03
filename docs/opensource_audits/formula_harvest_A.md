@@ -3,7 +3,7 @@
 ## Scope
 
 - Sources scanned: `par-fractal`, `shader-fractals`, `glChAoS.P`, `FractalExplorer`
-- Compared against current IDs in `/home/xel/git/flutter-fractal-forge/lib/core/modules/builders/escape_time_catalog.dart` + module-registry custom IDs
+- Compared against current IDs in `flutter-fractal-forge/lib/core/modules/builders/escape_time_catalog.dart` + module-registry custom IDs
 - Current unique compared IDs: **338**
 - Net candidate formulas in this harvest: **25**
 
@@ -66,5 +66,5 @@
 
 ## Output artifacts
 
-- JSON: `/home/xel/git/flutter-fractal-forge/docs/opensource_audits/formula_harvest_A.json`
-- Markdown: `/home/xel/git/flutter-fractal-forge/docs/opensource_audits/formula_harvest_A.md`
+- JSON: `flutter-fractal-forge/docs/opensource_audits/formula_harvest_A.json`
+- Markdown: `flutter-fractal-forge/docs/opensource_audits/formula_harvest_A.md`

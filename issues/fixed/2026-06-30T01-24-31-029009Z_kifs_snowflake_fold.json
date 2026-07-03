@@ -39,7 +39,7 @@
     "summary": "Restored the default raymarch step budget and added closest-surface glow for KIFS Snowflake miss views, then verified shader compilation.",
     "research": "research/issue-fixes/2026-06-30T01-24-31-029009Z_kifs_snowflake_fold/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/kifs_snowflake_visibility_test.dart",
+      "flutter test --reporter expanded test/modules/kifs_snowflake_visibility_test.dart",
       "git diff --check"
     ]
   }

@@ -38,7 +38,7 @@
     "summary": "Made 3d_fractal default thumbnails use the existing normal-map relief color scheme and added native CPU recurrence coverage for render/thumbnail fallback validation.",
     "research": "research/issue-fixes/2026-06-30T01-20-12-555095Z_3d_fractal/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/modules/three_d_fractal_thumbnail_test.dart",
+      "flutter test test/modules/three_d_fractal_thumbnail_test.dart",
       "impellerc compile shaders/3d_and_hypercomplex/raymarched_volumes/3d_fractal_gpu.frag",
       "git diff --check"
     ]

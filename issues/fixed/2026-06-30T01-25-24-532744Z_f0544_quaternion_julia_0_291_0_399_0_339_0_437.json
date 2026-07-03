@@ -43,7 +43,7 @@
     "summary": "Constrained and clamped shared Quaternion Julia c0-c3 randomize/share values to stable bounds to avoid bad randomized renders.",
     "research": "research/issue-fixes/2026-06-30T01-25-24-532744Z_f0544_quaternion_julia_0_291_0_399_0_339_0_437/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/features/catalog/shared_quaternion_julia_catalog_test.dart test/features/catalog/shared_quaternion_julia_randomize_bounds_test.dart",
+      "flutter test --reporter expanded test/features/catalog/shared_quaternion_julia_catalog_test.dart test/features/catalog/shared_quaternion_julia_randomize_bounds_test.dart",
       "git diff --check"
     ]
   }

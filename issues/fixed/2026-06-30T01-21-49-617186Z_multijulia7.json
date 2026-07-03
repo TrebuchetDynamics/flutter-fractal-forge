@@ -38,7 +38,7 @@
     "summary": "Replaced the black default Julia seed with a visible degree-7 seed and added CPU render validation.",
     "research": "research/issue-fixes/2026-06-30T01-21-49-617186Z_multijulia7/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test test/modules/multijulia7_initial_params_test.dart",
+      "flutter test test/modules/multijulia7_initial_params_test.dart",
       "impellerc compile shaders/escape_time_family/families/multijulia/multijulia7_gpu.frag",
       "git diff --check"
     ]

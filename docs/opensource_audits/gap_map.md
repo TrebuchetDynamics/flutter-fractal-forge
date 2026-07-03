@@ -40,27 +40,27 @@ Interpretation: 2D escape-time coverage is already broad. Main opportunity gaps 
 ## Exact grep/find commands used
 
 ```bash
-cd /home/xel/git/flutter-fractal-forge
+cd flutter-fractal-forge
 find lib -maxdepth 4 -type f | grep -E '(registry|catalog|module|fractal)' | head -n 200
 
 grep -Rho "id: '[^']*'" lib/core/modules/builders/escape_time_catalog.dart | sed "s/id: '//;s/'//" | sort -u > /tmp/app_escape_ids.txt
 
-cd /home/xel/git/flutter-fractal-forge/opensource
+cd flutter-fractal-forge/opensource
 grep -n "Fractal Types\|Fractal types\|built-in formulas\|formulas\|Variations\|variation" CATALOG.md | head -n 200
 
-cd /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractaVista
+cd flutter-fractal-forge/opensource/repos/renderers/FractaVista
 grep -RIn "Mandelbrot\|Julia\|Tricorn\|BurningShip\|Newton\|Cubic\|Feather\|FractalType\|enum" src assets/shaders README.md | head -n 200
 
-cd /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/FractalExplorer
+cd flutter-fractal-forge/opensource/repos/renderers/FractalExplorer
 find . -maxdepth 4 -type f | head -n 80
 
-cd /home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2
+cd flutter-fractal-forge/opensource/repos/formula-catalogs/mandelbulber2/mandelbulber2
 find formula -maxdepth 2 -type f | head -n 120
 
-cd /home/xel/git/flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P
+cd flutter-fractal-forge/opensource/repos/formula-catalogs/glChAoS.P
 grep -RIn --exclude-dir=.git -E "enum|Attractor|Aizawa|Lorenz|Rossler|Thomas|Rucklidge|Chua|Coullet|Sprott|Halvorsen|Rabinovich|Dequan|TSUCS|Globo|Rikitake" . | head -n 260
 
-cd /home/xel/git/flutter-fractal-forge/opensource/repos/renderers/GAPFixFractal
+cd flutter-fractal-forge/opensource/repos/renderers/GAPFixFractal
 find . -maxdepth 4 -type f | head -n 120
 ```
 

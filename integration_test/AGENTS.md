@@ -36,7 +36,7 @@ Integration tests that run on real devices/emulators. Cover end-to-end user flow
 ## For AI Agents
 
 ### Working In This Directory
-- Run: `/home/xel/flutter/bin/flutter test integration_test/`
+- Run: `flutter test integration_test/`
 - Requires a running device or emulator (Linux desktop or Android)
 - Some tests generate files to `assets/catalog_thumbs/`
 - GPU thumbnail tests need a GPU-capable environment

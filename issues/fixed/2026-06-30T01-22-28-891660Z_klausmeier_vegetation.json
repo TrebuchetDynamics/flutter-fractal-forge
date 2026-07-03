@@ -42,7 +42,7 @@
     "summary": "Added multi-scale terrain banding and stronger ridge contrast for the Klausmeier Vegetation issue view, with a CPU visual-detail regression test.",
     "research": "research/issue-fixes/2026-06-30T01-22-28-891660Z_klausmeier_vegetation/research-not-needed.md",
     "validation": [
-      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/klausmeier_vegetation_detail_test.dart",
+      "flutter test --reporter expanded test/modules/klausmeier_vegetation_detail_test.dart",
       "git diff --check"
     ]
   }

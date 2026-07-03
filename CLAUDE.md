@@ -1,6 +1,6 @@
 # CLAUDE.md - flutter-fractal-forge
 
-This file applies to `/home/xel/git/sages-openclaw/workspace-sidon/trebuchet-dynamics/flutter-fractal-forge`. Read local project docs and manifests before making changes.
+This file applies to the repository root. Read local project docs and manifests before making changes.
 
 If a sibling `AGENTS.md` exists, keep behavior consistent between the two instruction files.
 
