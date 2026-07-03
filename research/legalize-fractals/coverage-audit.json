@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-07-03T01:13:07+00:00",
+  "objective": "add Legalize/XMission fractals from FOTD and main fractals pages as renderable catalog formula/type/name/image identities, excluding duplicate camera/palette/image-only presets when they map to a parameter file",
+  "sources": {
+    "fotd": {
+      "url": "https://user.xmission.com/~legalize/fractals/fotd/",
+      "parameter_files": 5098,
+      "parsed_entries": 5098,
+      "errors": 0,
+      "unique_formula_names": 384,
+      "non_formula_types": 79,
+      "missing_parameter_entries": []
+    },
+    "main": {
+      "url": "https://user.xmission.com/~legalize/fractals/",
+      "pages": 18,
+      "parameter_files": 205,
+      "parsed_entries": 205,
+      "errors": 0,
+      "image_links": 215,
+      "unmatched_image_links": 10,
+      "missing_parameter_entries": [],
+      "missing_unmatched_images": []
+    }
+  },
+  "catalog": {
+    "entries": 611,
+    "unique_ids": 611,
+    "represented_source_names": 611,
+    "required_source_names": 611,
+    "missing_source_names": []
+  },
+  "checks": {
+    "fotd_all_parameter_files_parsed": true,
+    "main_all_parameter_files_parsed": true,
+    "all_parameter_files_have_represented_identity": true,
+    "all_unmatched_main_images_have_represented_identity": true,
+    "all_unique_formula_type_fallback_and_image_names_represented": true,
+    "all_catalog_ids_unique": true,
+    "shader_asset_exists": true,
+    "shader_declared_in_pubspec": true,
+    "registry_wires_catalog": true
+  },
+  "known_limits": [
+    "The implementation treats each unique formula/type/name identity as a catalog fractal. Individual .par files are source presets/leads and are not counted separately when they only vary camera, palette, or parameters."
+  ]
+}

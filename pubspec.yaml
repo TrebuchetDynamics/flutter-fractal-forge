@@ -492,6 +492,7 @@ flutter:
     - shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/iterative_maps/exp_additive_mandelbrot_gpu.frag
     - shaders/escape_time_family/experimental_named/discrete_attractors/fractal_dream_gpu.frag
+    - shaders/escape_time_family/experimental_named/legalize_fotd_muth_gpu.frag
     - shaders/cellular_and_stochastic/gray_scott_rd_gpu.frag
     - shaders/escape_time_family/geometry_and_ifs/hofstadter_butterfly_gpu.frag
     - shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag

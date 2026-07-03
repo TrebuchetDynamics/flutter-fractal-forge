@@ -1,0 +1,1402 @@
+{
+  "source": "https://user.xmission.com/~legalize/fractals/",
+  "parameter_file_count": 205,
+  "parsed_entry_count": 205,
+  "entries": [
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/03/2010.03.30-fract001_gif.par",
+      "name": "fract001.gif",
+      "type": "formula",
+      "formulaname": "ComplexNewton_01"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/03/2010.03.31-Fractal_Cat.par",
+      "name": "Fractal_Cat",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.01-fract011_gif.par",
+      "name": "fract011.gif",
+      "type": "mandellambda",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.01-fract013_gif.par",
+      "name": "fract011.gif",
+      "type": "mandellambda",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.02-fract155.par",
+      "name": "fract155",
+      "type": "formula",
+      "formulaname": "Pc10-27"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.02-fract273.par",
+      "name": "fract155",
+      "type": "formula",
+      "formulaname": "Pc10-27"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.05-fracblu1_gif.par",
+      "name": "fracblu1.gif",
+      "type": "formula",
+      "formulaname": "field2_man"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.05-spiral01_gif.par",
+      "name": "spiral01.gif",
+      "type": "julia",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.06-fract018_gif.par",
+      "name": "fract018.gif",
+      "type": "formula",
+      "formulaname": "pixelpower"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.07-fract006_gif.par",
+      "name": "fract006.gif",
+      "type": "formula",
+      "formulaname": "spiralweb2_j"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.08-fract020_gif.par",
+      "name": "fract020.gif",
+      "type": "mandel",
+      "formulaname": "H05-17"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.08-fract279_gif.par",
+      "name": "fract020.gif",
+      "type": "mandel",
+      "formulaname": "H05-17"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.09-fract044_gif.par",
+      "name": "fract044.gif",
+      "type": "formula",
+      "formulaname": "quartet_rjr"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.10-04101001_gif.par",
+      "name": "04101001.gif",
+      "type": "hypercomplex",
+      "formulaname": "contest4"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.10-04101002_gif.par",
+      "name": "04101001.gif",
+      "type": "hypercomplex",
+      "formulaname": "contest4"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.11-fract010_gif.par",
+      "name": "fract010.gif",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.11-fract012_gif.par",
+      "name": "fract010.gif",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.13-fract014_gif.par",
+      "name": "fract014.gif",
+      "type": "formula",
+      "formulaname": "EpsilonCrossJ"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.13-fract015_gif.par",
+      "name": "fract014.gif",
+      "type": "formula",
+      "formulaname": "EpsilonCrossJ"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.14-fract018_gif.par",
+      "name": "fract018.gif",
+      "type": "formula",
+      "formulaname": "magnet_spirals1"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.14-fract019_gif.par",
+      "name": "fract018.gif",
+      "type": "formula",
+      "formulaname": "magnet_spirals1"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.15-fract024_gif.par",
+      "name": "fract024.gif",
+      "type": "manfn+zsqrd",
+      "formulaname": "ObliqueManPlus"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.15-fract026_gif.par",
+      "name": "fract024.gif",
+      "type": "manfn+zsqrd",
+      "formulaname": "ObliqueManPlus"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.15-fract143_gif.par",
+      "name": "fract143.gif",
+      "type": "formula",
+      "formulaname": "pixey02"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.15-fract150_gif.par",
+      "name": "fract143.gif",
+      "type": "formula",
+      "formulaname": "pixey02"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.16-fract027_gif.par",
+      "name": "fract027.gif",
+      "type": "formula",
+      "formulaname": "kg2204"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.20-____fract042_gif.par",
+      "name": "____fract042.gif",
+      "type": "formula",
+      "formulaname": "tangent_rjr"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.21-fract045_gif.par",
+      "name": "fract045.gif",
+      "type": "formula",
+      "formulaname": "Diamont"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.22-__apr_21_gif.par",
+      "name": "__apr_21.gif",
+      "type": "formula",
+      "formulaname": "Olio_Magnet"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.23-fract056_gif.par",
+      "name": "fract056.gif",
+      "type": "formula",
+      "formulaname": "kfact2_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.24-fract069_gif.par",
+      "name": "fract069.gif",
+      "type": "formula",
+      "formulaname": "GenInvMand_rjr"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.26-apr25_10_gif.par",
+      "name": "apr25_10.gif",
+      "type": "formula",
+      "formulaname": "gallet-6-04"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.26-fract095_gif.par",
+      "name": "fract095.gif",
+      "type": "formula",
+      "formulaname": "Cubic"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.28-fract089_gif.par",
+      "name": "fract089.gif",
+      "type": "formula",
+      "formulaname": "La03-03"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.28-fract110_gif.par",
+      "name": "fract110.gif",
+      "type": "formula",
+      "formulaname": "quadrosinq"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/04/2010.04.29-fract112_gif.par",
+      "name": "fract112.gif",
+      "type": "formula",
+      "formulaname": "mand2_step"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.01-fract122_gif.par",
+      "name": "fract122.gif",
+      "type": "formula",
+      "formulaname": "Mandel3"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.01-fract128_gif.par",
+      "name": "fract128.gif",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.02-fract142_gif.par",
+      "name": "fract142.gif",
+      "type": "formula",
+      "formulaname": "quadrosinq"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.03-fract141_gif.par",
+      "name": "fract141.gif",
+      "type": "formula",
+      "formulaname": "bail_out05"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.04-fract150_gif.par",
+      "name": "fract150.gif",
+      "type": "formula",
+      "formulaname": "other_Muth"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.05-fract162_gif.par",
+      "name": "fract162.gif",
+      "type": "formula",
+      "formulaname": "mask1"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.07-fract168_gif.par",
+      "name": "fract168.gif",
+      "type": "formula",
+      "formulaname": "zapfl4p12"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.08-fract149_gif.par",
+      "name": "fract149.gif",
+      "type": "formula",
+      "formulaname": "m2v_nicespirals"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.09-fract182_gif.par",
+      "name": "fract182.gif",
+      "type": "mandel(fn||fn)",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.10-fract172_gif.par",
+      "name": "fract172.gif",
+      "type": "formula",
+      "formulaname": "MandelbrotMix4"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.11-fract187_gif.par",
+      "name": "fract187.gif",
+      "type": "formula",
+      "formulaname": "f'liar1"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.12-fract159_gif.par",
+      "name": "fract159.gif",
+      "type": "formula",
+      "formulaname": "C09-12"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.14-fract194_gif.par",
+      "name": "fract194.gif",
+      "type": "formula",
+      "formulaname": "ex1csecdav"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.15-fract193_gif.par",
+      "name": "fract193.gif",
+      "type": "formula",
+      "formulaname": "okJ_05"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.16-fract197_gif.par",
+      "name": "fract197.gif",
+      "type": "formula",
+      "formulaname": "Quotient"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.17-fract204_gif.par",
+      "name": "fract204.gif",
+      "type": "formula",
+      "formulaname": "MandMix-x"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.18-fract212_gif.par",
+      "name": "fract212.gif",
+      "type": "formula",
+      "formulaname": "TileMandel"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.19-ract213_gif.par",
+      "name": "ract213.gif",
+      "type": "formula",
+      "formulaname": "Nwtfn12rot"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.20-may_20_10_gif.par",
+      "name": "may_20_10.gif",
+      "type": "formula",
+      "formulaname": "EqTrngl"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.21-fract220_gif.par",
+      "name": "fract220.gif",
+      "type": "formula",
+      "formulaname": "Nova4M"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.23-fract224_gif.par",
+      "name": "fract224.gif",
+      "type": "formula",
+      "formulaname": "BJ-SG-MaNewt-001"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.23-fract225_gif.par",
+      "name": "fract225.gif",
+      "type": "formula",
+      "formulaname": "january_gen"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.25-fract219_gif.par",
+      "name": "fract219.gif",
+      "type": "mandellambda",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.25-fract228_gif.par",
+      "name": "fract228.gif",
+      "type": "newton",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.26-fract227_gif.par",
+      "name": "fract227.gif",
+      "type": "formula",
+      "formulaname": "hsqr"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.28-fract229_gif.par",
+      "name": "fract229.gif",
+      "type": "formula",
+      "formulaname": "D3_Jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.28-fract232_gif.par",
+      "name": "fract232.gif",
+      "type": "formula",
+      "formulaname": "JSomethingelse"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.30-fract233_gif.par",
+      "name": "fract233.gif",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/05/2010.05.31-fract238_gif.par",
+      "name": "fract238.gif",
+      "type": "mandellambda",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.01-fract234_gif.par",
+      "name": "fract234.gif",
+      "type": "formula",
+      "formulaname": "cenx=ceny_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.02-fract071_gif.par",
+      "name": "fract071.gif",
+      "type": "spider",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.04-fract226_gif.par",
+      "name": "fract226.gif",
+      "type": "formula",
+      "formulaname": "Moe"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.05-fract240_gif.par",
+      "name": "fract339.gif",
+      "type": "spider",
+      "formulaname": "SJSPIDER01JULIA"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.05-fract339_gif.par",
+      "name": "fract339.gif",
+      "type": "spider",
+      "formulaname": "SJSPIDER01JULIA"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.06-fract132_gif.par",
+      "name": "fract132.gif",
+      "type": "formula",
+      "formulaname": "Extend"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.07-fract230_gif.par",
+      "name": "fract230.gif",
+      "type": "formula",
+      "formulaname": "distortpendulumMG"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.08-fract242_gif.par",
+      "name": "fract242.gif",
+      "type": "magnet1m",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.10-fract248_gif.par",
+      "name": "fract248.gif",
+      "type": "formula",
+      "formulaname": "newtonmand1"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.11-fract251_gif.par",
+      "name": "fract251.gif",
+      "type": "formula",
+      "formulaname": "Phoenix2-1_rjr_c"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.12-___fract253_gif.par",
+      "name": "___fract253.gif",
+      "type": "formula",
+      "formulaname": "Mandel_alt"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.13-frac254_gif.par",
+      "name": "frac254.gif",
+      "type": "formula",
+      "formulaname": "Carr2075"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.14-fract257_gif.par",
+      "name": "fract257.gif",
+      "type": "formula",
+      "formulaname": "contest4a"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.15-fract256_gif.par",
+      "name": "fract256.gif",
+      "type": "formula",
+      "formulaname": "mand2_zdif"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.16-fract255_gif.par",
+      "name": "fract255.gif",
+      "type": "formula",
+      "formulaname": "tsept_rjr_3"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.18-fract258_gif.par",
+      "name": "fract258.gif",
+      "type": "formula",
+      "formulaname": "fatlog"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.20-fract263_gif.par",
+      "name": "fract263.gif",
+      "type": "formula",
+      "formulaname": "Zf_Ang"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.20-fract264_gif.par",
+      "name": "fract263.gif",
+      "type": "formula",
+      "formulaname": "Zf_Ang"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.21-fract265_gif.par",
+      "name": "fract265.gif",
+      "type": "formula",
+      "formulaname": "tri-julia-2"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.21-fract267_gif.par",
+      "name": "fract267.gif",
+      "type": "formula",
+      "formulaname": "Zf_Ang"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.23-fract271_gif.par",
+      "name": "fract271.gif",
+      "type": "formula",
+      "formulaname": "conic-near_jul16"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.24-fract273_gif.par",
+      "name": "fract273.gif",
+      "type": "formula",
+      "formulaname": "gallet-10-02"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.25-fract274_gif.par",
+      "name": "fract274.gif",
+      "type": "formula",
+      "formulaname": "conic-near_man"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.27-fract276_gif.par",
+      "name": "fract276.gif",
+      "type": "formula",
+      "formulaname": "Zf_Ang_rjr3"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.28-fract279_gif.par",
+      "name": "fract279.gif",
+      "type": "formula",
+      "formulaname": "F'ULI_8"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.29-Primate_Skull.par",
+      "name": "Primate_Skull",
+      "type": "formula",
+      "formulaname": "ok-20"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/06/2010.06.30-fract281_gif.par",
+      "name": "fract281.gif",
+      "type": "formula",
+      "formulaname": "field4_man"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.01-fract284_gif.par",
+      "name": "fract284.gif",
+      "type": "formula",
+      "formulaname": "hermanm_man-cart"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.02-fract288_gif.par",
+      "name": "fract288.gif",
+      "type": "formula",
+      "formulaname": "star_dup_rjr"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.03-fract291_gif.par",
+      "name": "fract291.gif",
+      "type": "formula",
+      "formulaname": "tri-fn+fn"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.04-fract292_gif.par",
+      "name": "fract292.gif",
+      "type": "formula",
+      "formulaname": "mask"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.05-fract293_gif.par",
+      "name": "fract293.gif",
+      "type": "formula",
+      "formulaname": "BEES"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.06-fract295_gif.par",
+      "name": "fract295.gif",
+      "type": "formula",
+      "formulaname": "Nuclear_M_k_0"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.08-fract297_gif.par",
+      "name": "fract297.gif",
+      "type": "magnet2m",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.09-fract298_gif.par",
+      "name": "fract298.gif",
+      "type": "formula",
+      "formulaname": "Waves"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.10-fract299_gif.par",
+      "name": "fract299.gif",
+      "type": "formula",
+      "formulaname": "D-ROCK"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.12-fract310_gif.par",
+      "name": "fract310.gif",
+      "type": "formula",
+      "formulaname": "F'Liar1"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.13-fract307_gif.par",
+      "name": "fract307.gif",
+      "type": "formula",
+      "formulaname": "km_10"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.15-fract313_gif.par",
+      "name": "fract313.gif",
+      "type": "formula",
+      "formulaname": "RSQ-TT-MJ"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.17-fract313_gif.par",
+      "name": "fract313.gif",
+      "type": "formula",
+      "formulaname": "starnear_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.17-fract317_gif.par",
+      "name": "fract317.gif",
+      "type": "formula",
+      "formulaname": "km_12"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.18-fract318_gif.par",
+      "name": "fract318.gif",
+      "type": "formula",
+      "formulaname": "FrRbtGenM"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.19-fract320_gif.par",
+      "name": "fract320.gif",
+      "type": "formula",
+      "formulaname": "Tchebychev-c6"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.21-fract324_gif.par",
+      "name": "fract324.gif",
+      "type": "magnet1m",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.22-fract325_gif.par",
+      "name": "fract325.gif",
+      "type": "magnet1m",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.23-fract327_gif.par",
+      "name": "fract327.gif",
+      "type": "magnet1m",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.24-fract328_gif.par",
+      "name": "fract328.gif",
+      "type": "formula",
+      "formulaname": "Zf_Ang_rjr3"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.25-fract331_gif.par",
+      "name": "fract331.gif",
+      "type": "formula",
+      "formulaname": "Sc02-04"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.26-fract333_gif.par",
+      "name": "fract333.gif",
+      "type": "formula",
+      "formulaname": "kpassion_balls"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.27-fract334_gif.par",
+      "name": "fract334.gif",
+      "type": "fn+fn",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.28-fract335_gif.par",
+      "name": "fract335.gif",
+      "type": "formula",
+      "formulaname": "hermanm_man-cart"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.30-fract336_gif.par",
+      "name": "fract336.gif",
+      "type": "formula",
+      "formulaname": "bof60_man"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/07/2010.07.30-fract337_gif.par",
+      "name": "fract337.gif",
+      "type": "formula",
+      "formulaname": "Tc03-12"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.01-fract341_gif.par",
+      "name": "fract341.gif",
+      "type": "formula",
+      "formulaname": "magnet_cplxspirals"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.01-fract343_gif.par",
+      "name": "fract343.gif",
+      "type": "formula",
+      "formulaname": "magnet_spirals2"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.04-fract345_gif.par",
+      "name": "fract345.gif",
+      "type": "formula",
+      "formulaname": "ducks"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.04-fract346_gif.par",
+      "name": "fract346.gif",
+      "type": "formula",
+      "formulaname": "C"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.05-fract347_gif.par",
+      "name": "fract347.gif",
+      "type": "formula",
+      "formulaname": "C_plus"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.08-fract355_gif.par",
+      "name": "fract355.gif",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.08-fract356_gif.par",
+      "name": "fract355.gif",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.09-fract357_gif.par",
+      "name": "fract357.gif",
+      "type": "formula",
+      "formulaname": "Zing_rjr"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.11-fract358_gif.par",
+      "name": "fract358.gif",
+      "type": "formula",
+      "formulaname": "magnet_minimand"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.13-fract361_gif.par",
+      "name": "fract361.gif",
+      "type": "formula",
+      "formulaname": "quadros_rjr_j"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.15-fract364_gif.par",
+      "name": "fract364.gif",
+      "type": "formula",
+      "formulaname": "BirdOfPrey+"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.16-08_16_10.par",
+      "name": "08_16_10",
+      "type": "magnet1m",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.16-fract367_gif.par",
+      "name": "fract367.gif",
+      "type": "formula",
+      "formulaname": "MandelHypCosine"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.19-fract369_gif.par",
+      "name": "fract369.gif",
+      "type": "formula",
+      "formulaname": "Newton5fn"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.19-fract373_gif.par",
+      "name": "fract373.gif",
+      "type": "formula",
+      "formulaname": "quadros_rjr_b"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.21-fract375_gif.par",
+      "name": "fract375.gif",
+      "type": "formula",
+      "formulaname": "IkenagaPwrJul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.23-fract376_gif.par",
+      "name": "fract376.gif",
+      "type": "formula",
+      "formulaname": "j_cplxspirals2"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.24-fract378_gif.par",
+      "name": "fract378.gif",
+      "type": "formula",
+      "formulaname": "astrd-nr_jul_rjr3"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.26-fract382_gif.par",
+      "name": "fract382.gif",
+      "type": "formula",
+      "formulaname": "M_TchebycnewU7"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.26-fract384_gif.par",
+      "name": "fract384.gif",
+      "type": "formula",
+      "formulaname": "mandel4+n*mandel"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.27-fract386_gif.par",
+      "name": "fract386.gif",
+      "type": "formula",
+      "formulaname": "AbsArcTangentbrot2"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.28-fract391_gif.par",
+      "name": "fract391.gif",
+      "type": "formula",
+      "formulaname": "aaaa_rjr"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.30-fract392_gif.par",
+      "name": "fract392.gif",
+      "type": "formula",
+      "formulaname": "Zf_Ang"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/08/2010.08.30-fract393_gif.par",
+      "name": "fract393.gif",
+      "type": "formula",
+      "formulaname": "Zf_Ang"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.01-fract394_gif.par",
+      "name": "fract394.gif",
+      "type": "formula",
+      "formulaname": "F'M-SetInNewtonC"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.02-fract396_gif.par",
+      "name": "fract396.gif",
+      "type": "formula",
+      "formulaname": "Alpha03-28"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.02-fract398_gif.par",
+      "name": "fract398.gif",
+      "type": "formula",
+      "formulaname": "andy34"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.03-fract399_gif.par",
+      "name": "fract399.gif",
+      "type": "formula",
+      "formulaname": "quadros_rjr_e"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.04-fract400_gif.par",
+      "name": "fract400.gif",
+      "type": "lambdafn",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.05-fract402_gif.par",
+      "name": "fract402.gif",
+      "type": "fn(z)+fn(pix)",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.06-fract405_gif.par",
+      "name": "fract405.gif",
+      "type": "formula",
+      "formulaname": "Nova5M"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.08-fract408_gif.par",
+      "name": "fract408.gif",
+      "type": "formula",
+      "formulaname": "mandel-newton_j7c3"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.09-fract407_gif.par",
+      "name": "fract407.gif",
+      "type": "mandphoenixclx",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.10-fract409_gif.par",
+      "name": "fract409.gif",
+      "type": "formula",
+      "formulaname": "cdp_jul_mand"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.11-fract380_gif.par",
+      "name": "fract380.gif",
+      "type": "formula",
+      "formulaname": "Mandel_Rings"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.12-fract415_gif.par",
+      "name": "fract415.gif",
+      "type": "formula",
+      "formulaname": "Mandel_Rings"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.14-fract419_gif.par",
+      "name": "fract419.gif",
+      "type": "formula",
+      "formulaname": "BESSEL-1"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.15-fract417_gif.par",
+      "name": "fract417.gif",
+      "type": "formula",
+      "formulaname": "Eqn_5"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.17-fract420_gif.par",
+      "name": "fract420.gif",
+      "type": "formula",
+      "formulaname": "bubbleboth_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.18-fract425_gif.par",
+      "name": "fract425.gif",
+      "type": "formula",
+      "formulaname": "field4_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.19-fract424_gif.par",
+      "name": "fract424.gif",
+      "type": "formula",
+      "formulaname": "field3_man"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.21-fract429_gif.par",
+      "name": "fract429.gif",
+      "type": "formula",
+      "formulaname": "d-rock"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.22-fract432_gif.par",
+      "name": "fract432.gif",
+      "type": "formula",
+      "formulaname": "F'Cetmfnc"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.24-fract430_gif.par",
+      "name": "fract430.gif",
+      "type": "formula",
+      "formulaname": "New_Moonworld_G"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.25-fract435_gif.par",
+      "name": "fract435.gif",
+      "type": "formula",
+      "formulaname": "F'M-SetInNewtonB"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.26-fract437_gif.par",
+      "name": "fract437.gif",
+      "type": "formula",
+      "formulaname": "SuperNuker"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.27-fract436_gif.par",
+      "name": "fract436.gif",
+      "type": "formula",
+      "formulaname": "quadros_rjr_b"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.28-fract443_gif.par",
+      "name": "fract443.gif",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.30-fract446_gif.par",
+      "name": "fract446.gif",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/09/2010.09.30-fract450_gif.par",
+      "name": "fract450.gif",
+      "type": "formula",
+      "formulaname": "bail_out03"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.01-fract452_gif.par",
+      "name": "fract452.gif",
+      "type": "formula",
+      "formulaname": "tsept_rjr_3"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.02-fract453.par",
+      "name": "fract453",
+      "type": "formula",
+      "formulaname": "devil"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.04-fract457_gif.par",
+      "name": "fract457.gif",
+      "type": "formula",
+      "formulaname": "RCL_1"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.05-fract454_gif.par",
+      "name": "fract454.gif",
+      "type": "formula",
+      "formulaname": "julia_holes"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.06-fract461_gif.par",
+      "name": "fract461.gif",
+      "type": "formula",
+      "formulaname": "Astroid_Mset"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.07-fract462_gif.par",
+      "name": "fract462.gif",
+      "type": "formula",
+      "formulaname": "mand2_zexp_cp_exp"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.09-fract133_gif.par",
+      "name": "fract133.gif",
+      "type": "formula",
+      "formulaname": "general_jul-c&l"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.10-Lacey_Blue.par",
+      "name": "Lacey_Blue",
+      "type": "formula",
+      "formulaname": "j_cspiralbullet"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.12-Blue_Shells.par",
+      "name": "Blue_Shells",
+      "type": "formula",
+      "formulaname": "NovenaM2"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.13-Circles_and_Curls.par",
+      "name": "Circles_and_Curls",
+      "type": "formula",
+      "formulaname": "cenx=ceny_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.14-Green_Filaments.par",
+      "name": "Green_Filaments",
+      "type": "formula",
+      "formulaname": "field3_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.15-fract473_gif.par",
+      "name": "fract473.gif",
+      "type": "formula",
+      "formulaname": "ave8triangcount_m"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.16-Benoit_Mandelbrot.par",
+      "name": "Benoit_Mandelbrot",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.18-Moody_Blue.par",
+      "name": "Moody_Blue",
+      "type": "formula",
+      "formulaname": "gaussinttot_man"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.19-Fractint_20_04_Patch_10.par",
+      "name": "Fractint_20.04_Patch_10",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.21-Fmod_Minibrot.par",
+      "name": "Fmod_Minibrot",
+      "type": "formula",
+      "formulaname": "hermanm_man-cart"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.23-Algae.par",
+      "name": "Algae",
+      "type": "formula",
+      "formulaname": "conic-near_man"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.24-Twilight_Minibrot.par",
+      "name": "Twilight_Minibrot",
+      "type": "formula",
+      "formulaname": "hermanm_man-polar"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.27-Twilight_Remix.par",
+      "name": "Twilight_Remix",
+      "type": "formula",
+      "formulaname": "hermanm_man-polar"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.28-Cyan_Spheres.par",
+      "name": "Cyan_Spheres",
+      "type": "fn(z*z)",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.29-Swirly_Wallpaper.par",
+      "name": "Swirly_Wallpaper",
+      "type": "formula",
+      "formulaname": "LKM-quiltm2"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.30-Green_Scales.par",
+      "name": "Green_Scales",
+      "type": "formula",
+      "formulaname": "LKM-quiltm2"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.31-Halloween_Colors.par",
+      "name": "Halloween_Colors",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/10/2010.10.31-Halloween_Devil.par",
+      "name": "Halloween_Devil",
+      "type": "formula",
+      "formulaname": "devil"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.02-Spirals_of_Threads.par",
+      "name": "Spirals_of_Threads",
+      "type": "formula",
+      "formulaname": "km_10"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.03-Yesterday_s_Post.par",
+      "name": "Yesterday's_Post",
+      "type": "formula",
+      "formulaname": "km_10"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.04-Threaded_Julia.par",
+      "name": "Threaded_Julia",
+      "type": "formula",
+      "formulaname": "km_08"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.07-Yet_Another_Spiral.par",
+      "name": "Yet_Another_Spiral",
+      "type": "formula",
+      "formulaname": "km_04"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.09-Field_Line_Variations.par",
+      "name": "Field_Line_Variations",
+      "type": "formula",
+      "formulaname": "field4_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.10-Steel_Blue_Curves.par",
+      "name": "Steel_Blue_Curves",
+      "type": "formula",
+      "formulaname": "km_12"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.11-Blue_Swirls.par",
+      "name": "Blue_Swirls",
+      "type": "formula",
+      "formulaname": "km_08"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.12-Thermal_Emission.par",
+      "name": "Thermal_Emission",
+      "type": "formula",
+      "formulaname": "range-y-3_jul"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.13-Newtonish_Mandelbrot.par",
+      "name": "Newtonish_Mandelbrot",
+      "type": "formula",
+      "formulaname": "man-newt-man"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.15-fractt517_gif.par",
+      "name": "fractt517.gif",
+      "type": "formula",
+      "formulaname": "mandel-newton-2"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/maxiter/2010/11/2010.11.17-Mandelbrot_Newton.par",
+      "name": "Mandelbrot_Newton",
+      "type": "formula",
+      "formulaname": "MandelbrotInNewton"
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/par/field-lines.par",
+      "name": "Field",
+      "type": "mandel",
+      "formulaname": ""
+    },
+    {
+      "url": "https://user.xmission.com/~legalize/fractals/par/ornament.par",
+      "name": "ornament",
+      "type": "mandelfn",
+      "formulaname": ""
+    }
+  ],
+  "type_counts": {
+    "formula": 164,
+    "mandel": 15,
+    "magnet1m": 5,
+    "mandellambda": 4,
+    "spider": 3,
+    "hypercomplex": 2,
+    "manfn+zsqrd": 2,
+    "fn(z)+fn(pix)": 1,
+    "fn(z*z)": 1,
+    "fn+fn": 1,
+    "julia": 1,
+    "lambdafn": 1,
+    "magnet2m": 1,
+    "mandel(fn||fn)": 1,
+    "mandelfn": 1,
+    "mandphoenixclx": 1,
+    "newton": 1
+  },
+  "formula_counts": {
+    "Zf_Ang": 5,
+    "hermanm_man-cart": 3,
+    "km_10": 3,
+    "EpsilonCrossJ": 2,
+    "H05-17": 2,
+    "LKM-quiltm2": 2,
+    "Mandel_Rings": 2,
+    "ObliqueManPlus": 2,
+    "Pc10-27": 2,
+    "SJSPIDER01JULIA": 2,
+    "Zf_Ang_rjr3": 2,
+    "cenx=ceny_jul": 2,
+    "conic-near_man": 2,
+    "contest4": 2,
+    "devil": 2,
+    "field4_jul": 2,
+    "hermanm_man-polar": 2,
+    "km_08": 2,
+    "km_12": 2,
+    "magnet_spirals1": 2,
+    "pixey02": 2,
+    "quadros_rjr_b": 2,
+    "quadrosinq": 2,
+    "tsept_rjr_3": 2,
+    "AbsArcTangentbrot2": 1,
+    "Alpha03-28": 1,
+    "Astroid_Mset": 1,
+    "BEES": 1,
+    "BESSEL-1": 1,
+    "BJ-SG-MaNewt-001": 1,
+    "BirdOfPrey+": 1,
+    "C": 1,
+    "C09-12": 1,
+    "C_plus": 1,
+    "Carr2075": 1,
+    "ComplexNewton_01": 1,
+    "Cubic": 1,
+    "D-ROCK": 1,
+    "D3_Jul": 1,
+    "Diamont": 1,
+    "EqTrngl": 1,
+    "Eqn_5": 1,
+    "Extend": 1,
+    "F'Cetmfnc": 1,
+    "F'Liar1": 1,
+    "F'M-SetInNewtonB": 1,
+    "F'M-SetInNewtonC": 1,
+    "F'ULI_8": 1,
+    "FrRbtGenM": 1,
+    "GenInvMand_rjr": 1,
+    "IkenagaPwrJul": 1,
+    "JSomethingelse": 1,
+    "La03-03": 1,
+    "M_TchebycnewU7": 1,
+    "MandMix-x": 1,
+    "Mandel3": 1,
+    "MandelHypCosine": 1,
+    "Mandel_alt": 1,
+    "MandelbrotInNewton": 1,
+    "MandelbrotMix4": 1,
+    "Moe": 1,
+    "New_Moonworld_G": 1,
+    "Newton5fn": 1,
+    "Nova4M": 1,
+    "Nova5M": 1,
+    "NovenaM2": 1,
+    "Nuclear_M_k_0": 1,
+    "Nwtfn12rot": 1,
+    "Olio_Magnet": 1,
+    "Phoenix2-1_rjr_c": 1,
+    "Quotient": 1,
+    "RCL_1": 1,
+    "RSQ-TT-MJ": 1,
+    "Sc02-04": 1,
+    "SuperNuker": 1,
+    "Tc03-12": 1,
+    "Tchebychev-c6": 1,
+    "TileMandel": 1,
+    "Waves": 1,
+    "Zing_rjr": 1,
+    "aaaa_rjr": 1,
+    "andy34": 1,
+    "astrd-nr_jul_rjr3": 1,
+    "ave8triangcount_m": 1,
+    "bail_out03": 1,
+    "bail_out05": 1,
+    "bof60_man": 1,
+    "bubbleboth_jul": 1,
+    "cdp_jul_mand": 1,
+    "conic-near_jul16": 1,
+    "contest4a": 1,
+    "d-rock": 1,
+    "distortpendulumMG": 1,
+    "ducks": 1,
+    "ex1csecdav": 1,
+    "f'liar1": 1,
+    "fatlog": 1,
+    "field2_man": 1,
+    "field3_jul": 1,
+    "field3_man": 1,
+    "field4_man": 1,
+    "gallet-10-02": 1,
+    "gallet-6-04": 1,
+    "gaussinttot_man": 1,
+    "general_jul-c&l": 1,
+    "hsqr": 1,
+    "j_cplxspirals2": 1,
+    "j_cspiralbullet": 1,
+    "january_gen": 1,
+    "julia_holes": 1,
+    "kfact2_jul": 1,
+    "kg2204": 1,
+    "km_04": 1,
+    "kpassion_balls": 1,
+    "m2v_nicespirals": 1,
+    "magnet_cplxspirals": 1,
+    "magnet_minimand": 1,
+    "magnet_spirals2": 1,
+    "man-newt-man": 1,
+    "mand2_step": 1,
+    "mand2_zdif": 1,
+    "mand2_zexp_cp_exp": 1,
+    "mandel-newton-2": 1,
+    "mandel-newton_j7c3": 1,
+    "mandel4+n*mandel": 1,
+    "mask": 1,
+    "mask1": 1,
+    "newtonmand1": 1,
+    "ok-20": 1,
+    "okJ_05": 1,
+    "other_Muth": 1,
+    "pixelpower": 1,
+    "quadros_rjr_e": 1,
+    "quadros_rjr_j": 1,
+    "quartet_rjr": 1,
+    "range-y-3_jul": 1,
+    "spiralweb2_j": 1,
+    "star_dup_rjr": 1,
+    "starnear_jul": 1,
+    "tangent_rjr": 1,
+    "tri-fn+fn": 1,
+    "tri-julia-2": 1,
+    "zapfl4p12": 1
+  },
+  "errors": []
+}

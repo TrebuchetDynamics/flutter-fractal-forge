@@ -27,6 +27,7 @@ import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_ju
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_life_like_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_kifs_menger_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_legalize_fotd_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_multibrot_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_number_theory_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_orbit_trap_catalog.dart';
@@ -180,6 +181,7 @@ class ModuleRegistry {
     result.addAll(buildSharedNumberTheoryCatalogModules());
     result.addAll(buildSharedResidualCaCatalogModules());
     result.addAll(buildSharedLifeLikeCatalogModules());
+    result.addAll(buildSharedLegalizeFotdCatalogModules());
     result.addAll(buildSharedMultibrotCatalogModules());
     result.addAll(buildSharedEscapePowerCatalogModules());
     result.addAll(buildSharedEscapeExpressionCatalogModules());
