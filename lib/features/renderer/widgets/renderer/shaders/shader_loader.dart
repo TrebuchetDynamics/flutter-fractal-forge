@@ -66,6 +66,12 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     _loading = false;
   }
 
+  void clearStaleShader() {
+    _program = null;
+    _shaderForCachedFragment = null;
+    _cachedFragmentShader = null;
+  }
+
   Future<ui.FragmentProgram> _loadProgramFromAsset(String asset) {
     return _programLoads.putIfAbsent(asset, () async {
       try {
@@ -111,9 +117,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
 
     _loading = true;
     if (kDebugMode) debugPrint('[renderer] shader_load_start asset=$asset');
-    _program = null;
-    _shaderForCachedFragment = null;
-    _cachedFragmentShader = null;
+    clearStaleShader();
     _shaderAsset = asset;
     _shaderError = null;
     _shaderErrorDetails = null;

@@ -38,6 +38,37 @@ void main() {
     fractal.dispose();
   });
 
+  test('looper hits B exactly on the middle frame at deep zoom', () {
+    final registry = ModuleRegistry();
+    final fractal = FractalController(registry);
+    fractal.selectModule(registry.byId('mandelbrot_tia'), animate: false);
+    final looper = LooperController(controller: fractal);
+
+    fractal.updateView(_view(
+      x: -0.9548019170761108,
+      y: 0.28065797686576843,
+      zoom: 30252.334908611236,
+    ));
+    looper.setAFromCurrent();
+
+    final bView = _view(
+      x: -0.9548019170761108 + 1 / 30252.334908611236,
+      y: 0.28065797686576843 - 1 / 30252.334908611236,
+      zoom: 60504.66981722247,
+    );
+    fractal.updateView(bView);
+    looper.setBFromCurrent();
+
+    final middle = looper.plan!.stateAtFrame(looper.plan!.frameCount ~/ 2);
+
+    expect(middle.view.pan.x, bView.pan.x);
+    expect(middle.view.pan.y, bView.pan.y);
+    expect(middle.view.zoom, closeTo(bView.zoom, 1e-9));
+
+    looper.dispose();
+    fractal.dispose();
+  });
+
   test('looper supports more than A and B keyframes', () {
     final fractal = FractalController(ModuleRegistry());
     final looper = LooperController(controller: fractal);

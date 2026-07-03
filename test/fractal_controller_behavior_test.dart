@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,7 +24,8 @@ void main() {
     test('randomizeParams keeps values within schema bounds/options', () {
       final controller = FractalController(ModuleRegistry());
       // default module is registry.modules.first == mandelbrot.
-      controller.randomizeParams();
+      controller.updateParam('colorScheme', 1);
+      controller.randomizeParams(animate: false);
 
       final iterations = controller.params['iterations'];
       final bailout = controller.params['bailout'];
@@ -45,8 +48,37 @@ void main() {
       final snapped = ((bailout * 10).round() / 10);
       expect(bailout, closeTo(snapped, 1e-9));
 
-      expect(colorScheme, isA<int>());
-      expect(colorScheme as int, inInclusiveRange(0, 63));
+      expect(colorScheme, 1);
+    });
+
+    test('randomizeParams randomizes color count', () {
+      final registry = ModuleRegistry();
+      final controller = FractalController(registry);
+      controller.selectModule(registry.byId('mandelbrot_tex'), animate: false);
+      controller.updateParam('colorCount', 64);
+
+      controller.randomizeParams(animate: false, random: Random(1));
+
+      expect(controller.params['colorCount'], isA<int>());
+      expect(controller.params['colorCount'], inInclusiveRange(2, 64));
+      expect(controller.params['colorCount'], isNot(64));
+    });
+
+    test('randomizeParams lerps numeric params before final target', () async {
+      final controller = FractalController(ModuleRegistry());
+      addTearDown(controller.dispose);
+      controller.updateParam('iterations', 20);
+      final start = controller.params['iterations'];
+
+      controller.randomizeParams(random: Random(1));
+      await Future<void>.delayed(const Duration(milliseconds: 180));
+      final mid = controller.params['iterations'];
+      await Future<void>.delayed(const Duration(milliseconds: 650));
+      final end = controller.params['iterations'];
+
+      expect(mid, isNot(start));
+      expect(end, isNot(start));
+      expect(mid, isNot(end));
     });
 
     test('selectModule can reset view atomically without zoom-out flash', () {

@@ -2,7 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 
 class PaletteShaderAdapter {
   PaletteShaderAdapter._();
@@ -14,14 +14,21 @@ class PaletteShaderAdapter {
   void bindSamplerPalette(
     ui.FragmentShader shader,
     int samplerIndex,
-    double colorScheme,
-  ) {
-    shader.setImageSampler(samplerIndex, samplerPaletteTexture(colorScheme));
+    double colorScheme, {
+    int colorCount = 64,
+  }) {
+    shader.setImageSampler(
+      samplerIndex,
+      samplerPaletteTexture(colorScheme, colorCount: colorCount),
+    );
   }
 
-  ui.Image samplerPaletteTexture(double colorScheme) {
+  ui.Image samplerPaletteTexture(double colorScheme, {int colorCount = 64}) {
     try {
-      return PaletteService.instance.paletteTextureForIndex(colorScheme);
+      return PaletteService.instance.paletteTextureForIndex(
+        colorScheme,
+        colorCount: colorCount,
+      );
     } catch (_) {
       return _fallbackSamplerTexture ??= _createFallbackSamplerTexture();
     }

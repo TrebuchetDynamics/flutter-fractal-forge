@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_texture_cache.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_texture_cache.dart';
 import 'package:flutter_fractals/core/services/storage/palette_store.dart';
 
 const List<FractalColorStop> _fallbackPaletteStops =
@@ -160,8 +160,12 @@ class PaletteService extends ChangeNotifier {
   }
 
   /// Returns a palette texture blended from index N into N+1 by fractional part.
-  ui.Image paletteTextureForIndex(double index) {
-    return _paletteTextures.paletteTextureForIndex(index, paletteAtIndex);
+  ui.Image paletteTextureForIndex(double index, {int colorCount = 64}) {
+    return _paletteTextures.paletteTextureForIndex(
+      index,
+      paletteAtIndex,
+      colorCount: colorCount,
+    );
   }
 
   /// Clears cached palette textures (call if palettes change).
@@ -252,6 +256,208 @@ class PaletteService extends ChangeNotifier {
           FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
         ],
       ),
+      FractalPalette(
+        id: 'builtin_phoenix',
+        name: 'Phoenix',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF120812),
+          FractalColorStop(position: 0.28, colorArgb: 0xFF5B1237),
+          FractalColorStop(position: 0.58, colorArgb: 0xFFE85D04),
+          FractalColorStop(position: 0.82, colorArgb: 0xFFFFBA08),
+          FractalColorStop(position: 1.0, colorArgb: 0xFFFFF3B0),
+        ],
+      ),
+      FractalPalette(
+        id: 'builtin_viridis_depth',
+        name: 'Viridis Depth',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF440154),
+          FractalColorStop(position: 0.25, colorArgb: 0xFF3B528B),
+          FractalColorStop(position: 0.5, colorArgb: 0xFF21918C),
+          FractalColorStop(position: 0.75, colorArgb: 0xFF5EC962),
+          FractalColorStop(position: 1.0, colorArgb: 0xFFFDE725),
+        ],
+      ),
+      FractalPalette(
+        id: 'builtin_magma_core',
+        name: 'Magma Core',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF000004),
+          FractalColorStop(position: 0.2, colorArgb: 0xFF3B0F70),
+          FractalColorStop(position: 0.4, colorArgb: 0xFF8C2981),
+          FractalColorStop(position: 0.62, colorArgb: 0xFFDE4968),
+          FractalColorStop(position: 0.82, colorArgb: 0xFFFE9F6D),
+          FractalColorStop(position: 1.0, colorArgb: 0xFFFCFDBF),
+        ],
+      ),
+      FractalPalette(
+        id: 'builtin_cividis_safe',
+        name: 'Cividis Safe',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF00204C),
+          FractalColorStop(position: 0.22, colorArgb: 0xFF31446B),
+          FractalColorStop(position: 0.45, colorArgb: 0xFF666870),
+          FractalColorStop(position: 0.68, colorArgb: 0xFF958F78),
+          FractalColorStop(position: 0.85, colorArgb: 0xFFC7B37B),
+          FractalColorStop(position: 1.0, colorArgb: 0xFFFFE945),
+        ],
+      ),
+      FractalPalette(
+        id: 'builtin_perceptual_rainbow',
+        name: 'Perceptual Rainbow',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF1B1B6F),
+          FractalColorStop(position: 0.17, colorArgb: 0xFF4B3F9F),
+          FractalColorStop(position: 0.34, colorArgb: 0xFFB23A8B),
+          FractalColorStop(position: 0.51, colorArgb: 0xFFE05A47),
+          FractalColorStop(position: 0.68, colorArgb: 0xFFE7A43B),
+          FractalColorStop(position: 0.84, colorArgb: 0xFF78B94A),
+          FractalColorStop(position: 1.0, colorArgb: 0xFF1FA7A8),
+        ],
+      ),
+      FractalPalette(
+        id: 'builtin_warm_cool_relief',
+        name: 'Warm Cool Relief',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF172554),
+          FractalColorStop(position: 0.25, colorArgb: 0xFF0EA5E9),
+          FractalColorStop(position: 0.5, colorArgb: 0xFFF8FAFC),
+          FractalColorStop(position: 0.75, colorArgb: 0xFFF97316),
+          FractalColorStop(position: 1.0, colorArgb: 0xFF7F1D1D),
+        ],
+      ),
+      FractalPalette(
+        id: 'builtin_blue_yellow_opponent',
+        name: 'Blue Yellow Opponent',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF081D58),
+          FractalColorStop(position: 0.35, colorArgb: 0xFF2B8CBE),
+          FractalColorStop(position: 0.5, colorArgb: 0xFFF7F7F7),
+          FractalColorStop(position: 0.7, colorArgb: 0xFFFEE391),
+          FractalColorStop(position: 1.0, colorArgb: 0xFFB15928),
+        ],
+      ),
+      FractalPalette(
+        id: 'builtin_high_contrast_mono',
+        name: 'High Contrast Mono',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
+          FractalColorStop(position: 0.18, colorArgb: 0xFF151515),
+          FractalColorStop(position: 0.38, colorArgb: 0xFF3E3E3E),
+          FractalColorStop(position: 0.65, colorArgb: 0xFF8A8A8A),
+          FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
+        ],
+      ),
+      FractalPalette(
+        id: 'builtin_colorblind_safe_fire',
+        name: 'Colorblind Safe Fire',
+        isBuiltIn: true,
+        stops: [
+          FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
+          FractalColorStop(position: 0.2, colorArgb: 0xFF0072B2),
+          FractalColorStop(position: 0.42, colorArgb: 0xFFD55E00),
+          FractalColorStop(position: 0.65, colorArgb: 0xFFE69F00),
+          FractalColorStop(position: 0.82, colorArgb: 0xFFF0E442),
+          FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
+        ],
+      ),
+      for (var i = 13; i < 64; i++) _generatedPalette(i),
     ];
+  }
+
+  static const List<String> _proceduralPaletteNames = [
+    'Viridis Depth',
+    'Magma Core',
+    'Cividis Safe',
+    'Perceptual Rainbow',
+    'Warm Cool Relief',
+    'Blue Yellow Opponent',
+    'High Contrast Mono',
+    'Colorblind Safe Fire',
+    'Glacier Mint',
+    'Solar Flare',
+    'Ultraviolet',
+    'Cyan Furnace',
+    'Amber Circuit',
+    'Plasma Wave',
+    'Forest Lumen',
+    'Ruby Ice',
+    'Electric Dusk',
+    'Golden Orbit',
+    'Teal Comet',
+    'Crimson Tide',
+    'Lime Halo',
+    'Indigo Ember',
+    'Tangerine Sky',
+    'Arctic Fire',
+    'Magenta Bloom',
+    'Blue Steel',
+    'Opal Pulse',
+    'Saffron Smoke',
+    'Jade Signal',
+    'Coral Eclipse',
+    'Sonic Violet',
+    'Bronze Aurora',
+    'Cerulean Ash',
+    'Pink Lightning',
+    'Green Inferno',
+    'Royal Plasma',
+    'Desert Neon',
+    'Ice Sapphire',
+    'Infrared Moss',
+    'Pearl Shadow',
+    'Signal Orange',
+    'Deep Orchid',
+    'Aqua Gold',
+    'Volcanic Glass',
+    'Starlight Candy',
+  ];
+
+  static const List<String> _reliefBasePaletteNames = [
+    'Fire',
+    'Ocean',
+    'Psychedelic',
+    'Grayscale',
+  ];
+
+  static FractalPalette _generatedPalette(int index) {
+    final name = _generatedPaletteName(index);
+    final hue = ((index * 47) % 360).toDouble();
+    final id =
+        'builtin_${name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '_').replaceAll(RegExp(r'_$'), '')}';
+    return FractalPalette(
+      id: id,
+      name: name,
+      isBuiltIn: true,
+      stops: [
+        FractalColorStop(position: 0.0, colorArgb: _hsv(hue + 25, 0.85, 0.08)),
+        FractalColorStop(position: 0.28, colorArgb: _hsv(hue, 0.82, 0.35)),
+        FractalColorStop(position: 0.58, colorArgb: _hsv(hue + 35, 0.78, 0.72)),
+        FractalColorStop(position: 1.0, colorArgb: _hsv(hue + 70, 0.55, 1.0)),
+      ],
+    );
+  }
+
+  static String _generatedPaletteName(int index) {
+    if (index >= 5 && index < 50) {
+      return _proceduralPaletteNames[index - 5];
+    }
+    final angle = (((index - 50) * 180) / 13).round();
+    final baseName = _reliefBasePaletteNames[(index - 50) % 4];
+    return 'Relief $angle° $baseName';
+  }
+
+  static int _hsv(double hue, double saturation, double value) {
+    return HSVColor.fromAHSV(1, hue % 360, saturation, value)
+        .toColor()
+        .toARGB32();
   }
 }

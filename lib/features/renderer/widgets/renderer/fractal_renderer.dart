@@ -22,6 +22,7 @@ import '../../palette_transition.dart';
 import '../../policy/precision_ladder_policy.dart';
 import '../../policy/render_plan.dart';
 import '../canvas/fractal_canvas.dart';
+import '../effects/fluid_warp_effect.dart';
 import 'shaders/shader_error_policy.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
@@ -257,71 +258,36 @@ class _FractalRendererState extends State<FractalRenderer>
   Widget _withRendererIndicator({
     required Widget child,
     required String mode,
-    required bool fallbackActive,
     required bool highPrecisionActive,
   }) {
-    if (!widget.showRendererIndicator || (!kDebugMode && !highPrecisionActive))
-      return child;
+    if (!widget.showRendererIndicator || !highPrecisionActive) return child;
     final highPrecisionLabel = mode == 'CPU' ? 'High precision (CPU)' : mode;
 
     return Stack(
       children: [
         Positioned.fill(child: child),
-
-        // Ship-visible indicator: CPU == high precision path.
-        if (highPrecisionActive)
-          Positioned(
-            left: 12,
-            top: 12,
-            child: IgnorePointer(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.65),
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: Colors.white24),
-                ),
-                child: Text(
-                  highPrecisionLabel,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
+        Positioned(
+          left: 12,
+          top: 12,
+          child: IgnorePointer(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.65),
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: Colors.white24),
+              ),
+              child: Text(
+                highPrecisionLabel,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
           ),
-
-        // Debug-only details. Keep this compact so it does not look like a
-        // bottom band in debug builds.
-        if (kDebugMode)
-          Positioned(
-            left: 12,
-            bottom: 18,
-            child: IgnorePointer(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.72),
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: Colors.white24),
-                ),
-                child: Text(
-                  fallbackActive
-                      ? 'Renderer: $mode (fallback)'
-                      : 'Renderer: $mode',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          ),
+        ),
       ],
     );
   }
@@ -378,7 +344,6 @@ class _FractalRendererState extends State<FractalRenderer>
         module.dimension == FractalDimension.twoD) {
       final cpuContent = _withRendererIndicator(
         mode: 'CPU',
-        fallbackActive: true,
         highPrecisionActive: true,
         child: RepaintBoundary(
           key: widget.boundaryKey,
@@ -534,7 +499,7 @@ class _FractalRendererState extends State<FractalRenderer>
                 transparentBackground: controller.transparentBackground,
               );
 
-          return CustomPaint(
+          final paint = CustomPaint(
             painter: FractalCanvas(
               module: effectiveModule,
               state: renderState,
@@ -550,6 +515,14 @@ class _FractalRendererState extends State<FractalRenderer>
               kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
             ),
             child: const SizedBox.shrink(),
+          );
+
+          return FluidWarpEffect(
+            enabled: controller.fluidModeEnabled,
+            time: _animationController.value * 1000.0,
+            touchPosition: _fluidPointerLocal,
+            touchActive: _fluidPointerActive,
+            child: paint,
           );
         },
       ),
@@ -571,7 +544,6 @@ class _FractalRendererState extends State<FractalRenderer>
 
     final content = _withRendererIndicator(
       mode: precisionDecision.statusLabel,
-      fallbackActive: false,
       highPrecisionActive: precisionDecision.usesExtendedGpu,
       child: RepaintBoundary(
         key: widget.boundaryKey,

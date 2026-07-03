@@ -17,7 +17,8 @@ void main() {
     test('uses the df2 / float32 threshold for non-perturbable modules', () {
       // mandelbrot keeps its df2-extended CPU-fallback threshold (1e12).
       expect(policy.gpuRenderableCeilingZoom('mandelbrot'), 1e12);
-      // Unlisted modules fall back to the conservative default (1e7).
+      // Unlisted modules keep the conservative GPU exploration cap (1e7), but
+      // are not labeled CPU Precision without a native CPU formula.
       expect(policy.gpuRenderableCeilingZoom('some_unknown_module'), 1e7);
     });
   });
@@ -130,9 +131,9 @@ void main() {
 
     test('can expose CPU fallback pending before hysteresis activates', () {
       final decision = policy.decide(
-        moduleId: 'unknown_fractal',
+        moduleId: 'weierstrass_p',
         dimension: FractalDimension.twoD,
-        zoom: 1e9,
+        zoom: 1e6,
         cpuFallbackActive: false,
       );
 
@@ -142,21 +143,30 @@ void main() {
       expect(decision.showPrecisionIndicator, isTrue);
     });
 
-    test('commits non-extended deep zoom to CPU when fallback is active', () {
-      final below = policy.decide(
-        moduleId: 'unknown_fractal',
-        dimension: FractalDimension.twoD,
-        zoom: 9.9e6,
-      );
+    test('does not label synthetic CPU fallback as CPU Precision', () {
       final decision = policy.decide(
         moduleId: 'unknown_fractal',
         dimension: FractalDimension.twoD,
         zoom: 1e9,
       );
-      final weierstrass = policy.decide(
+
+      expect(decision.renderPath, PrecisionLadderRenderPath.gpuFloat);
+      expect(decision.exactness, PrecisionLadderExactness.approximate);
+      expect(decision.statusLabel, 'GPU');
+      expect(decision.showPrecisionIndicator, isFalse);
+    });
+
+    test('commits native non-extended deep zoom to CPU when fallback is active',
+        () {
+      final below = policy.decide(
         moduleId: 'weierstrass_p',
         dimension: FractalDimension.twoD,
-        zoom: 413329,
+        zoom: 9.9e4,
+      );
+      final decision = policy.decide(
+        moduleId: 'weierstrass_p',
+        dimension: FractalDimension.twoD,
+        zoom: 1e6,
       );
 
       expect(below.renderPath, PrecisionLadderRenderPath.gpuFloat);
@@ -164,7 +174,6 @@ void main() {
       expect(decision.tier, PrecisionLadderTier.precisionRefine);
       expect(decision.exactness, PrecisionLadderExactness.cpuPrecision);
       expect(decision.statusLabel, 'CPU Precision');
-      expect(weierstrass.renderPath, PrecisionLadderRenderPath.cpu);
     });
   });
 
@@ -220,14 +229,14 @@ void main() {
       expect(hysteresis.state.aboveThresholdCount, 0);
 
       final firstCpu = hysteresis.update(
-        moduleId: 'unknown_fractal',
+        moduleId: 'weierstrass_p',
         dimension: FractalDimension.twoD,
-        zoom: 1e9,
+        zoom: 1e6,
       );
       final secondCpu = hysteresis.update(
-        moduleId: 'unknown_fractal',
+        moduleId: 'weierstrass_p',
         dimension: FractalDimension.twoD,
-        zoom: 1e9,
+        zoom: 1e6,
       );
 
       expect(firstCpu.renderPath, PrecisionLadderRenderPath.gpuFloat);
@@ -239,18 +248,18 @@ void main() {
       final hysteresis = PrecisionLadderHysteresis(policy: policy);
 
       hysteresis.update(
-        moduleId: 'unknown_fractal',
+        moduleId: 'weierstrass_p',
         dimension: FractalDimension.twoD,
-        zoom: 1e9,
+        zoom: 1e6,
       );
       hysteresis.update(
-        moduleId: 'unknown_fractal',
+        moduleId: 'weierstrass_p',
         dimension: FractalDimension.twoD,
-        zoom: 1e9,
+        zoom: 1e6,
       );
 
       final changed = hysteresis.update(
-        moduleId: 'another_unknown',
+        moduleId: 'householder',
         dimension: FractalDimension.twoD,
         zoom: 1e9,
       );
@@ -264,16 +273,16 @@ void main() {
       final hysteresis = PrecisionLadderHysteresis(policy: policy);
 
       hysteresis.update(
-        moduleId: 'unknown_fractal',
+        moduleId: 'weierstrass_p',
         dimension: FractalDimension.twoD,
-        zoom: 1e9,
+        zoom: 1e6,
       );
       expect(
         hysteresis
             .update(
-              moduleId: 'unknown_fractal',
+              moduleId: 'weierstrass_p',
               dimension: FractalDimension.twoD,
-              zoom: 1e9,
+              zoom: 1e6,
             )
             .renderPath,
         PrecisionLadderRenderPath.cpu,
@@ -281,7 +290,7 @@ void main() {
       expect(
         hysteresis
             .update(
-              moduleId: 'unknown_fractal',
+              moduleId: 'weierstrass_p',
               dimension: FractalDimension.twoD,
               zoom: 1,
             )
@@ -290,17 +299,17 @@ void main() {
       );
 
       hysteresis.update(
-        moduleId: 'unknown_fractal',
+        moduleId: 'weierstrass_p',
         dimension: FractalDimension.twoD,
-        zoom: 1e9,
+        zoom: 1e6,
       );
       hysteresis.reset();
       expect(
         hysteresis
             .update(
-              moduleId: 'unknown_fractal',
+              moduleId: 'weierstrass_p',
               dimension: FractalDimension.twoD,
-              zoom: 1e9,
+              zoom: 1e6,
             )
             .renderPath,
         PrecisionLadderRenderPath.gpuFloat,

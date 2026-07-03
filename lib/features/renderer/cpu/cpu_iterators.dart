@@ -51,6 +51,7 @@ final Map<String, CpuIterator> cpuIteratorsByModuleId = <String, CpuIterator>{
   'julia': _iterJulia,
   'multibrot4': _iterMultibrot4,
   'multibrot5': _iterMultibrot5,
+  '3d_fractal': _iter3dFractal,
   'phoenix': _iterPhoenix,
 
   // Start with the 30 modules that were GRADIENT_ONLY in the audit.
@@ -295,6 +296,33 @@ CpuIteratorResult _iterMultibrot5(
     final z5y = z4x * zy + z4y * zx;
     zx = z5x + x;
     zy = z5y + y;
+    it++;
+  }
+
+  return CpuIteratorResult(
+      it: iterations, smoothIt: iterations.toDouble(), escaped: false);
+}
+
+CpuIteratorResult _iter3dFractal(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  double zx = 0.0;
+  double zy = 0.0;
+  final bailout2 = bailout * bailout;
+  int it = 0;
+
+  while (it < iterations) {
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bailout2) {
+      final smooth = _smoothEscape(it: it, mag2: mag2, bailout: bailout);
+      return CpuIteratorResult(it: it, smoothIt: smooth, escaped: true);
+    }
+    zx = mag2 * zx + x;
+    zy = mag2 * zy + y;
     it++;
   }
 

@@ -11,14 +11,16 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog raw unique IDs       : 477
+/// - Escape-time catalog raw unique IDs       : 501
 /// - Raymarched-3D catalog unique IDs         :  10
 /// - Custom hand-built modules                :   7
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital)
-/// - Total ModuleRegistry modules (non-debug) : 956
+/// - Total ModuleRegistry modules (debug/test) : 981
+/// - Production fractals excluding diagnostics     : 974
 ///
-/// The "196 GPU shaders" figure in TODO.md refers to fragment shader
+/// The debug/test registry includes 7 diagnostic shader modules; public copy
+/// should use 974 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
 void main() {
   // ---------------------------------------------------------------------------
@@ -31,8 +33,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 477', () {
-      expect(catalog.length, 477,
+    test('total entry count is 501', () {
+      expect(catalog.length, 501,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
@@ -107,7 +109,7 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
-  // 2. ModuleRegistry — built registry (release mode, no debug modules)
+  // 2. ModuleRegistry — built registry (debug/test includes diagnostics)
   // ---------------------------------------------------------------------------
   group('ModuleRegistry integrity', () {
     late final ModuleRegistry registry;
@@ -116,10 +118,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 956 (non-debug)', () {
-      // Debug-only diagnostic modules are excluded in release/test builds
-      // because kDebugMode is false in test environments.
-      expect(registry.modules.length, 956,
+    test('total module count is 981 in debug/test', () {
+      // Debug/test builds include 7 diagnostic modules. Public docs count
+      // production fractals as 974 after excluding those diagnostics.
+      expect(registry.modules.length, 981,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });

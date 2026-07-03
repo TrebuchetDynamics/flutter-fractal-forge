@@ -27,4 +27,17 @@ void main() {
 
     expect(ids, contains('f1141_fractal_flame_v40_rectangles'));
   });
+
+  test('locks Fan variation and symmetry to reviewed defaults', () {
+    final module = ModuleRegistry().byId('f1123_fractal_flame_v22_fan');
+    final paramsById = {for (final param in module.parameters) param.id: param};
+
+    expect(module.defaultPreset.params['iterations'], 164);
+    expect(module.defaultPreset.params['bailout'], 2.6);
+    expect(module.defaultPreset.params['variation'], 22);
+    expect(paramsById['variation']!.min, 22);
+    expect(paramsById['variation']!.max, 22);
+    expect(paramsById['symmetry']!.min, 0);
+    expect(paramsById['symmetry']!.max, 0);
+  });
 }

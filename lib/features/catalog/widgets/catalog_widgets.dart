@@ -7,62 +7,90 @@ part of '../fractal_catalog_screen.dart';
 class _SectionHeader extends StatelessWidget {
   final String title;
   final int count;
+  final bool collapsed;
+  final VoidCallback? onToggle;
 
-  const _SectionHeader({required this.title, required this.count});
+  const _SectionHeader({
+    required this.title,
+    required this.count,
+    this.collapsed = false,
+    this.onToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Semantics(
       header: true,
+      button: onToggle != null,
+      expanded: onToggle == null ? null : !collapsed,
       label: l10n.semanticSectionHeader(title, count),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: AppSpacing.md,
-          bottom: AppSpacing.sm,
-        ),
-        child: Row(
-          children: [
-            // Colored left accent border
-            ExcludeSemantics(
-              child: Container(
-                width: 3,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+      child: InkWell(
+        key: Key('catalogSectionHeader_${slugify(title)}'),
+        borderRadius: BorderRadius.circular(8),
+        onTap: onToggle,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: AppSpacing.md,
+              bottom: AppSpacing.sm,
             ),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Text(
-                title,
-                style: AppTypography.bodyMedium.copyWith(
-                  color: AppColors.textPrimary,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.2,
-                ),
-              ),
-            ),
-            // Count badge (decorative — count is already in the Semantics label)
-            ExcludeSemantics(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  '$count',
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w600,
+            child: Row(
+              children: [
+                // Colored left accent border
+                ExcludeSemantics(
+                  child: Container(
+                    width: 3,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppTypography.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+                ),
+                ExcludeSemantics(
+                  child: Icon(
+                    collapsed
+                        ? Icons.keyboard_arrow_right_rounded
+                        : Icons.keyboard_arrow_down_rounded,
+                    size: 18,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                // Count badge (decorative; count is already in the Semantics label)
+                ExcludeSemantics(
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      '$count',
+                      style: AppTypography.labelSmall.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -345,7 +373,6 @@ class _DimChip extends StatelessWidget {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
@@ -363,12 +390,14 @@ class _ModuleGridTile extends StatefulWidget {
   final CatalogEntry entry;
   final AppLocalizations l10n;
   final VoidCallback onTap;
+  final bool miniatures;
   final _GlobalShimmerController? shimmerController;
 
   const _ModuleGridTile({
     required this.entry,
     required this.l10n,
     required this.onTap,
+    this.miniatures = false,
     this.shimmerController,
   });
 
@@ -486,8 +515,9 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                               right: 0,
                               bottom: 0,
                               child: Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 26, 10, 10),
+                                padding: widget.miniatures
+                                    ? const EdgeInsets.fromLTRB(6, 14, 6, 6)
+                                    : const EdgeInsets.fromLTRB(10, 26, 10, 10),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.topCenter,
@@ -499,23 +529,41 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                                     ],
                                   ),
                                 ),
-                                child: Text(
-                                  name,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppTypography.labelSmall.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    height: 1.15,
-                                    fontWeight: FontWeight.w700,
-                                    shadows: const [
-                                      Shadow(
-                                        color: Colors.black87,
-                                        blurRadius: 5,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      name,
+                                      maxLines: widget.miniatures ? 1 : 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: AppTypography.labelSmall.copyWith(
+                                        color: Colors.white,
+                                        fontSize: widget.miniatures ? 9 : 12,
+                                        height: widget.miniatures ? 1.0 : 1.15,
+                                        fontWeight: FontWeight.w700,
+                                        shadows: const [
+                                          Shadow(
+                                            color: Colors.black87,
+                                            blurRadius: 5,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    if (!widget.miniatures) ...[
+                                      const SizedBox(height: 6),
+                                      Wrap(
+                                        spacing: 6,
+                                        runSpacing: 4,
+                                        children: [
+                                          _TileMetaPill(label: dimensionLabel),
+                                          _TileMetaPill(
+                                              label: '$presetCount presets'),
+                                        ],
                                       ),
                                     ],
-                                  ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -557,6 +605,35 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
               },
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TileMetaPill extends StatelessWidget {
+  final String label;
+
+  const _TileMetaPill({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.42),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
+      ),
+      child: Text(
+        label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: AppTypography.labelSmall.copyWith(
+          color: Colors.white.withValues(alpha: 0.86),
+          fontSize: 9,
+          letterSpacing: 0.1,
+          height: 1,
         ),
       ),
     );
@@ -860,13 +937,37 @@ Color _categoryAccentColor(String category) {
 // Preview thumbnail with shimmer, improved badge, and category accent bar
 // ---------------------------------------------------------------------------
 
+@visibleForTesting
+class CatalogRuntimeThumbnailCache {
+  static final Set<String> _readyCatalogIds = <String>{};
+
+  const CatalogRuntimeThumbnailCache._();
+
+  static bool isReady(String catalogId) => _readyCatalogIds.contains(catalogId);
+
+  static void markReady(String catalogId) => _readyCatalogIds.add(catalogId);
+
+  static int get readyCountForTesting => _readyCatalogIds.length;
+
+  static void clearForTesting() => _readyCatalogIds.clear();
+}
+
 class _PreviewThumbnail extends StatefulWidget {
   static const bool _useRuntimeThumbnails = bool.fromEnvironment(
     'RUNTIME_CATALOG_THUMBNAILS',
     defaultValue: true,
   );
-  static const int _webImmediateRuntimeThumbnailSlots = 16;
-  static int _webRuntimeThumbnailSlotsUsed = 0;
+  static const bool _forceRuntimeThumbnailsInTests = bool.fromEnvironment(
+    'FORCE_RUNTIME_CATALOG_THUMBNAILS',
+    defaultValue: false,
+  );
+  static const int _immediateRuntimeThumbnailSlots = int.fromEnvironment(
+    'RUNTIME_CATALOG_THUMBNAIL_IMMEDIATE_SLOTS',
+    defaultValue: 4,
+  );
+  static final Future<Set<String>> _thumbnailAssetIds =
+      loadCatalogThumbnailAssetIds();
+  static int _runtimeThumbnailSlotsUsed = 0;
 
   final String catalogId;
   final FractalModule module;
@@ -887,7 +988,6 @@ class _PreviewThumbnail extends StatefulWidget {
 class _PreviewThumbnailState extends State<_PreviewThumbnail>
     with SingleTickerProviderStateMixin {
   late final AnimationController _localShimmerController;
-  late final Future<Set<String>> _thumbnailAssetIds;
   Timer? _fallbackTimer;
   Timer? _runtimePreviewTimer;
   bool _imageLoaded = false;
@@ -897,8 +997,6 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   @override
   void initState() {
     super.initState();
-    _thumbnailAssetIds = loadCatalogThumbnailAssetIds();
-
     // Use global controller if available, otherwise local fallback
     if (widget.shimmerController != null) {
       _localShimmerController = widget.shimmerController!.controller;
@@ -940,6 +1038,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
     if (oldWidget.catalogId != widget.catalogId) {
       _imageLoaded = false;
       _imageError = false;
+      _runtimePreviewEnabled = false;
       _scheduleRuntimePreview();
     }
   }
@@ -947,28 +1046,43 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   void _scheduleRuntimePreview() {
     _runtimePreviewTimer?.cancel();
     if (!_PreviewThumbnail._useRuntimeThumbnails ||
-        RuntimeModeService.isAutomatedTest) {
+        (RuntimeModeService.isAutomatedTest &&
+            !_PreviewThumbnail._forceRuntimeThumbnailsInTests)) {
       _runtimePreviewEnabled = false;
       return;
     }
-    if (!kIsWeb) {
+    if (CatalogRuntimeThumbnailCache.isReady(widget.catalogId)) {
       _runtimePreviewEnabled = true;
       return;
     }
 
-    // Web: show the visible row quickly, then stagger the rest to avoid the
-    // original 25-shader startup burst.
-    if (_PreviewThumbnail._webRuntimeThumbnailSlotsUsed <
-        _PreviewThumbnail._webImmediateRuntimeThumbnailSlots) {
-      _PreviewThumbnail._webRuntimeThumbnailSlotsUsed++;
-      _runtimePreviewEnabled = true;
+    // Only start a few shader thumbnails immediately. The rest keep the cheap
+    // gradient preview briefly so first catalog paint does not compile/render a
+    // grid of shaders at once.
+    if (_PreviewThumbnail._runtimeThumbnailSlotsUsed <
+        _PreviewThumbnail._immediateRuntimeThumbnailSlots) {
+      _PreviewThumbnail._runtimeThumbnailSlotsUsed++;
+      _enableRuntimePreview(notify: false);
       return;
     }
     _runtimePreviewEnabled = false;
-    final staggerMs = widget.catalogId.hashCode.abs() % 2500;
-    _runtimePreviewTimer = Timer(Duration(milliseconds: 1500 + staggerMs), () {
-      if (mounted) setState(() => _runtimePreviewEnabled = true);
+    final hash = _stableCatalogHash(widget.catalogId);
+    final baseMs = kIsWeb ? 1200 : 450;
+    final staggerMs = hash % (kIsWeb ? 2200 : 900);
+    _runtimePreviewTimer =
+        Timer(Duration(milliseconds: baseMs + staggerMs), () {
+      _enableRuntimePreview();
     });
+  }
+
+  void _enableRuntimePreview({bool notify = true}) {
+    CatalogRuntimeThumbnailCache.markReady(widget.catalogId);
+    if (_runtimePreviewEnabled) return;
+    if (notify && mounted) {
+      setState(() => _runtimePreviewEnabled = true);
+    } else {
+      _runtimePreviewEnabled = true;
+    }
   }
 
   void _markImageLoaded() {
@@ -986,7 +1100,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Set<String>>(
-      future: _thumbnailAssetIds,
+      future: _PreviewThumbnail._thumbnailAssetIds,
       builder: (context, snapshot) {
         final thumbnail = CatalogThumbnailAvailability.fromCatalogId(
           catalogId: widget.catalogId,
@@ -1099,6 +1213,7 @@ class _RuntimePreviewThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
+      key: Key('catalogRuntimeThumbnail_$catalogId'),
       borderRadius: BorderRadius.circular(12),
       child: Stack(
         fit: StackFit.expand,
@@ -1106,7 +1221,8 @@ class _RuntimePreviewThumbnail extends StatelessWidget {
           _GradientFallback(catalogId: catalogId, category: category),
           ChangeNotifierProvider<FractalController>(
             key: ValueKey('runtimeThumb_$catalogId'),
-            create: (context) => _thumbnailController(context, module),
+            create: (context) =>
+                _thumbnailController(context, catalogId, module),
             child: const IgnorePointer(
               child: RepaintBoundary(
                 child: FractalRenderer(
@@ -1124,19 +1240,52 @@ class _RuntimePreviewThumbnail extends StatelessWidget {
 
   static FractalController _thumbnailController(
     BuildContext context,
+    String catalogId,
     FractalModule module,
   ) {
     final controller = FractalController(context.read<ModuleRegistry>());
     controller.selectModule(module, animate: false);
-    final maxIterations = kIsWeb ? 32 : 96;
+    final maxIterations = kIsWeb ? 18 : 32;
     final iterations = controller.params['iterations'];
     if (iterations is int && iterations > maxIterations) {
       controller.updateParam('iterations', maxIterations);
     } else if (iterations is double && iterations > maxIterations) {
       controller.updateParam('iterations', maxIterations.toDouble());
     }
+
+    final colorCount = controller.params['colorCount'];
+    if (colorCount is int && colorCount > 16) {
+      controller.updateParam('colorCount', 16);
+    } else if (colorCount is double && colorCount > 16) {
+      controller.updateParam('colorCount', 16.0);
+    }
+
+    final paletteIndex = _thumbnailPaletteIndex(catalogId, module);
+    if (paletteIndex != null) {
+      controller.updateParam('colorScheme', paletteIndex);
+    }
     return controller;
   }
+
+  static int? _thumbnailPaletteIndex(String catalogId, FractalModule module) {
+    for (final param in module.parameters) {
+      if (param.id != 'colorScheme') continue;
+      final min = param.min.ceil();
+      final max = param.max.floor();
+      final range = (max - min + 1).clamp(1, CommonFractalParams.paletteCount);
+      return min + (_stableCatalogHash(catalogId) % range);
+    }
+    return null;
+  }
+}
+
+int _stableCatalogHash(String value) {
+  var hash = 0x811C9DC5;
+  for (final unit in value.codeUnits) {
+    hash ^= unit;
+    hash = (hash * 0x01000193) & 0x7FFFFFFF;
+  }
+  return hash;
 }
 
 // ---------------------------------------------------------------------------

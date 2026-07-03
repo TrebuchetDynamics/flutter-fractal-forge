@@ -46,6 +46,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   Offset? _lastRawTapPos;
   DateTime? _lastDoubleTapTriggeredAt;
   bool _deferUserInteractionEndToAnimation = false;
+  Offset _fluidPointerLocal = Offset.zero;
+  bool _fluidPointerActive = false;
 
   // Velocity history for Google Maps-style fling
   static const int _velHistorySize = 5;
@@ -155,10 +157,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       );
     } else {
       // Map pixel velocity to world coordinates through the SAME transform the
-      // interactive drag uses (_screenDeltaToWorldDelta), so a fling on a
-      // rotated 2D view continues in the direction the finger released. This
-      // previously ignored rotation.z, sending flings the wrong way on rotated
-      // views; for an unrotated view the result is identical.
+      // interactive drag uses (_screenDeltaToWorldDelta), so fling momentum
+      // continues in the direction the finger released.
       final renderBox = context.findRenderObject() as RenderBox?;
       final size = renderBox?.size;
       final scalePx = (size == null)
@@ -167,7 +167,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       final worldDelta = _screenDeltaToWorldDelta(
         deltaPx: _panVelocity,
         scalePx: scalePx,
-        rotationZ: view.rotation.z,
+        rotationZ: _screenMappingRotationZFor2d(view.rotation.z),
         zoom: view.zoom,
       );
       final nextPan = Vector2(
@@ -261,6 +261,13 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     );
   }
 
+  double _screenMappingRotationZFor2d(double _) {
+    // 2D FragmentShaders currently sample FlutterFragCoord directly; view.rotZ
+    // is stored for deep links/UI, but it does not rotate the rendered image.
+    // Keep pan math aligned with what users see on screen.
+    return 0.0;
+  }
+
   Vector2 _screenDeltaToWorldDelta({
     required Offset deltaPx,
     required double scalePx,
@@ -293,7 +300,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     if (size != null) {
       final scalePx = math.max(1.0, math.min(size.width, size.height));
       final n = _normalizedPoint(focalPoint, size, scalePx);
-      final rotationZ = explicitRotationZ ?? view.rotation.z;
+      final rawRotationZ = explicitRotationZ ?? view.rotation.z;
+      final rotationZ = controller.module.dimension == FractalDimension.threeD
+          ? rawRotationZ
+          : _screenMappingRotationZFor2d(rawRotationZ);
       final oldWorldDelta = _rotateInv2d(n, rotationZ) / view.zoom;
       final newWorldDelta = _rotateInv2d(n, rotationZ) / zoom;
       final worldX = view.pan.x + oldWorldDelta.x;
@@ -347,7 +357,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         final worldDelta = _screenDeltaToWorldDelta(
           deltaPx: details.focalPointDelta,
           scalePx: scalePx,
-          rotationZ: view.rotation.z,
+          rotationZ: _screenMappingRotationZFor2d(view.rotation.z),
           zoom: view.zoom,
         );
         controller.updateView(
@@ -409,10 +419,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       final startN = _normalizedPoint(_startFocalPoint, size, scalePx);
       final curN = _normalizedPoint(localFocal, size, scalePx);
 
+      final startRotationZ = _screenMappingRotationZFor2d(_startRotationZ);
+      final currentRotationZ = _screenMappingRotationZFor2d(newRotationZ);
       final worldAtStart =
-          _rotateInv2d(startN, _startRotationZ) / _startZoom + _startPan;
+          _rotateInv2d(startN, startRotationZ) / _startZoom + _startPan;
       final newCenter =
-          worldAtStart - (_rotateInv2d(curN, newRotationZ) / newZoom);
+          worldAtStart - (_rotateInv2d(curN, currentRotationZ) / newZoom);
 
       nextPan = Vector2(
         _rubberBand(newCenter.x, _kPanMin, _kPanMax),
@@ -524,7 +536,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       if (size != null) {
         final scalePx = math.max(1.0, math.min(size.width, size.height));
         final n = _normalizedPoint(tapPosition, size, scalePx);
-        final rotated = _rotateInv2d(n, view.rotation.z);
+        final rotationZ = controller.module.dimension == FractalDimension.threeD
+            ? view.rotation.z
+            : _screenMappingRotationZFor2d(view.rotation.z);
+        final rotated = _rotateInv2d(n, rotationZ);
         targetPan = Vector2(
           _rubberBand(
               view.pan.x + rotated.x / currentZoom - rotated.x / targetZoom,
@@ -605,6 +620,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
   void _onPointerDown(PointerDownEvent event) {
     _activePointers[event.pointer] = event.localPosition;
+    _fluidPointerLocal = event.localPosition;
+    _fluidPointerActive = true;
 
     if (_activePointers.length > 1) {
       _lastRawTapAt = null;
@@ -624,6 +641,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
   void _onPointerMove(PointerMoveEvent event) {
     _activePointers[event.pointer] = event.localPosition;
+    _fluidPointerLocal = event.localPosition;
+    _fluidPointerActive = true;
     if (!_twoFingerTapCandidate) return;
 
     final origin = _twoFingerTapDownPositions[event.pointer];
@@ -633,6 +652,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   }
 
   void _onPointerUp(PointerEvent event) {
+    _fluidPointerLocal = event.localPosition;
+    _fluidPointerActive = _activePointers.length > 1;
     // Check two-finger tap FIRST (before removing pointer)
     // This prevents single-finger logic from running when second finger lifts
     final twoFingerTap = RendererTwoFingerTapDecision.evaluate(

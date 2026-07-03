@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_texture_cache.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_texture_cache.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -28,12 +28,18 @@ void main() {
     ];
 
     final first = cache.paletteTextureForIndex(0, (i) => palettes[i]);
+    final twoColor = cache.paletteTextureForIndex(
+      0,
+      (i) => palettes[i],
+      colorCount: 2,
+    );
     final blend = cache.paletteTextureForIndex(0.5, (i) => palettes[i]);
     final sameBlendBucket =
         cache.paletteTextureForIndex(0.501, (i) => palettes[i]);
 
     expect(first.width, PaletteTextureCache.textureWidth);
     expect(blend.height, 1);
+    expect(identical(first, twoColor), isFalse);
     expect(identical(first, blend), isFalse);
     expect(identical(blend, sameBlendBucket), isTrue);
   });

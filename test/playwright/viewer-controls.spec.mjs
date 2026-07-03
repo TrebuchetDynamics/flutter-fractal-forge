@@ -192,7 +192,7 @@ function meanPixelDiff(aBuffer, bBuffer, step = 6) {
 function fabPoint(page, name) {
   const viewport = page.viewportSize() || { width: 1280, height: 900 };
   // Current viewer FAB column, bottom to top: export, looper, random,
-  // randomize, kaleidoscope, color, iterations, reset, presets, controls, fullscreen.
+  // randomize, kaleidoscope, color, iterations, reset, presets, fullscreen.
   const fromBottom = {
     export: 50,
     looper: 106,
@@ -203,8 +203,7 @@ function fabPoint(page, name) {
     iterations: 386,
     reset: 442,
     presets: 498,
-    controls: 554,
-    fullscreen: 610,
+    fullscreen: 554,
   }[name];
   if (fromBottom == null) throw new Error(`Unknown FAB ${name}`);
   return { x: viewport.width - 40, y: viewport.height - fromBottom };
@@ -364,11 +363,11 @@ async function runControlJourney(page, baseURL, id, browserName, testInfo) {
     result.screenshots.push(restored.relPath);
     await requireChanged(result, fullscreen, restored, 'restore UI', 0.05);
 
-    await clickFab(page, 'controls');
+    await longPressFab(page, 'randomize');
     await page.waitForTimeout(600);
     const controls = await saveScreenshot(page, dir, 7, 'controls-hud');
     result.screenshots.push(controls.relPath);
-    await requireChanged(result, restored, controls, 'controls FAB opens HUD', 1.2);
+    await requireChanged(result, restored, controls, 'randomize long-press opens controls HUD', 1.2);
     await page.mouse.click(viewport.width - 44, viewport.height - viewport.height * 0.42 + 28);
     await page.waitForTimeout(500);
     const afterControls = await saveScreenshot(page, dir, 8, 'controls-closed');

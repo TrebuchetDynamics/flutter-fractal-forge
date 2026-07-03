@@ -10,7 +10,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   const shader =
-      'shaders/escape_time_family/experimental_named/legalize_fotd_muth_gpu.frag';
+      'shaders/escape_time_family/experimental_named/polynomial_variants/legalize_fotd_muth_gpu.frag';
 
   test('Legalize/XMission shared formulas are registered', () {
     final registry = ModuleRegistry();

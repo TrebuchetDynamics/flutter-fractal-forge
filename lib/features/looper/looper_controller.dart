@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/core/controllers/fractal_param_value_normalizer.dart';
+import 'package:flutter_fractals/core/controllers/params/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -175,7 +175,11 @@ class LooperPlan {
 
   LooperPoint stateAtFrame(int frameIndex) {
     final count = frameCount;
-    final phase = count <= 1 ? 0.0 : frameIndex / (count - 1);
+    if (count <= 1 || frameIndex >= count - 1) return points.first;
+    // Use frameCount as the period denominator so evenly spaced keyframes land
+    // exactly on frames (A at 0, B at count/2 for two-point loops). The final
+    // frame closes the loop at A separately to avoid an export seam.
+    final phase = frameIndex / count;
     return stateAtPhase(phase);
   }
 

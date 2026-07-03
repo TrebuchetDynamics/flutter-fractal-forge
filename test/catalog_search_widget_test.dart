@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -81,6 +83,47 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
   });
 
+  test('runtime thumbnail previews keep ready state for scroll reuse', () {
+    CatalogRuntimeThumbnailCache.clearForTesting();
+    expect(CatalogRuntimeThumbnailCache.isReady('core.mandelbrot'), isFalse);
+
+    CatalogRuntimeThumbnailCache.markReady('core.mandelbrot');
+
+    expect(CatalogRuntimeThumbnailCache.isReady('core.mandelbrot'), isTrue);
+    expect(CatalogRuntimeThumbnailCache.isReady('core.julia'), isFalse);
+
+    final source = File('lib/features/catalog/widgets/catalog_widgets.dart')
+        .readAsStringSync();
+    expect(source,
+        contains('static final Future<Set<String>> _thumbnailAssetIds'));
+  });
+
+  testWidgets(
+    'runtime thumbnails stay ready after scroll recycling',
+    (tester) async {
+      CatalogRuntimeThumbnailCache.clearForTesting();
+      await pumpCatalog(tester);
+      await tester.pump(const Duration(seconds: 3));
+
+      final readyBeforeScroll =
+          CatalogRuntimeThumbnailCache.readyCountForTesting;
+      expect(readyBeforeScroll, greaterThan(0));
+
+      await tester.fling(
+          find.byType(Scrollable).first, const Offset(0, -1200), 1000);
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.fling(
+          find.byType(Scrollable).first, const Offset(0, 1200), 1000);
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(
+        CatalogRuntimeThumbnailCache.readyCountForTesting,
+        greaterThanOrEqualTo(readyBeforeScroll),
+      );
+    },
+    skip: !const bool.fromEnvironment('FORCE_RUNTIME_CATALOG_THUMBNAILS'),
+  );
+
   testWidgets('Catalog search field uses the focused visual state',
       (tester) async {
     await pumpCatalog(tester);
@@ -112,13 +155,13 @@ void main() {
     await tester.enterText(searchField, 'Julia');
 
     // More than 300ms after the first edit, but less than 300ms after the
-    // latest edit. The applied search chip should wait for the latest edit.
+    // latest edit. The filtered result should wait for the latest edit.
     await tester.pump(const Duration(milliseconds: 200));
     expect(find.byKey(const Key('catalogActiveSearchChip')), findsNothing);
 
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.text('Julia'), findsWidgets);
-    expect(find.byKey(const Key('catalogActiveSearchChip')), findsOneWidget);
+    expect(find.byKey(const Key('catalogActiveSearchChip')), findsNothing);
 
     await tester.pump(const Duration(seconds: 3));
   });
@@ -132,7 +175,8 @@ void main() {
 
     await tester.enterText(searchField, 'Julia');
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.byKey(const Key('catalogActiveSearchChip')), findsOneWidget);
+    expect(find.text('Julia'), findsWidgets);
+    expect(find.byKey(const Key('catalogActiveSearchChip')), findsNothing);
 
     await tester.tap(find.byKey(const ValueKey('clear')));
     await tester.pump();

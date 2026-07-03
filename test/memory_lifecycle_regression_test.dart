@@ -90,7 +90,7 @@ void main() {
   });
 
   test('palette service dispose clears cached ui images', () {
-    final source = File('lib/core/services/rendering/palette_service.dart')
+    final source = File('lib/core/services/rendering/palette/palette_service.dart')
         .readAsStringSync();
     final dispose = _methodBody(source, 'void dispose()');
 
@@ -100,7 +100,7 @@ void main() {
   });
 
   test('palette service create disposes replaced singleton instance', () {
-    final source = File('lib/core/services/rendering/palette_service.dart')
+    final source = File('lib/core/services/rendering/palette/palette_service.dart')
         .readAsStringSync();
 
     expect(source, contains('final previous = _instance;'));
@@ -124,7 +124,7 @@ void main() {
       'lib/core/modules/fractals/gpu_sampler_diag_module.dart',
       'lib/core/modules/escape_time_perturb_module.dart',
       'lib/core/modules/builders/escape_time/builder.dart',
-      'lib/core/services/rendering/palette_service.dart',
+      'lib/core/services/rendering/palette/palette_service.dart',
     ];
 
     for (final path in files) {
@@ -172,7 +172,7 @@ void main() {
       'lib/core/services/storage/exploration_stats_service.dart',
       'lib/core/services/storage/renderer_settings_service.dart',
       'lib/core/services/platform/accessibility_service.dart',
-      'lib/core/services/rendering/palette_service.dart',
+      'lib/core/services/rendering/palette/palette_service.dart',
       'lib/core/services/rendering/animation_controller_service.dart',
       'lib/core/services/diagnostics/performance_service.dart',
       'lib/core/services/diagnostics/debug_runner_service.dart',

@@ -1,5 +1,5 @@
-import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_shader_adapter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

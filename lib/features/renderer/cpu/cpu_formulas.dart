@@ -40,6 +40,7 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'celtic': _cpu_celtic,
   'buffalo': _cpu_buffalo,
   'multibrot3': _cpu_multibrot3,
+  '3d_fractal': _cpu_three_d_fractal,
   'nova': _cpu_nova,
   'nova_julia': _cpu_nova_julia,
   'fatou': _cpu_fatou,
@@ -115,7 +116,9 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'ikeda': _cpu_ikeda,
   'clifford': _cpu_clifford,
   'peter_de_jong': _cpu_peter_de_jong,
+  'f0381_de_jong_double': _cpu_de_jong_double,
   'svensson': _cpu_svensson,
+  'f1044_svensson_lace': _cpu_svensson_lace,
   'gumowski_mira': _cpu_gumowski_mira,
   'arnold_cat': _cpu_arnold_cat,
   'standard_map': _cpu_standard_map,
@@ -241,6 +244,8 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'higher_order_root_basin_family': _cpu_higher_order_root_basin_family,
   'multibrot4': _cpu_multibrot4,
   'multibrot5': _cpu_multibrot5,
+  'multibrot10': _cpu_multibrot10,
+  'multijulia7': _cpu_multijulia7,
   'sierpinski_tetrahedron': _cpu_sierpinski_tetrahedron,
   'jerusalem_cube': _cpu_jerusalem_cube,
   'menger_3d_slice': _cpu_menger_3d_slice,
@@ -256,6 +261,7 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'phase_portrait': _cpu_phase_portrait,
   'sierpinski_julia_rational': _cpu_sierpinski_julia_rational,
   'weierstrass_p': _cpu_weierstrass_p,
+  'jacobi_sn': _cpu_jacobi_sn,
   // New 2D batch (CPU fallback formulas)
   'mcmullen_map': _cpu_mcmullen_map,
   'generalized_mcmullen': _cpu_generalized_mcmullen,
@@ -358,6 +364,125 @@ int _fnv1a32(String s) {
     zy = wp.$2 + y;
   }
   return kInsideColor;
+}
+
+(double r, double g, double b) _cpu_multibrot10(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  var zx = 0.0;
+  var zy = 0.0;
+  final bailout2 = bailout * bailout;
+
+  for (var it = 0; it < iterations; it++) {
+    final z2 = cmul(zx, zy, zx, zy);
+    final z4 = cmul(z2.$1, z2.$2, z2.$1, z2.$2);
+    final z8 = cmul(z4.$1, z4.$2, z4.$1, z4.$2);
+    final z10 = cmul(z8.$1, z8.$2, z2.$1, z2.$2);
+    zx = z10.$1 + x;
+    zy = z10.$2 + y;
+
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bailout2) {
+      return palette(smoothEscape(it: it, mag2: mag2, power: 10.0));
+    }
+  }
+
+  return (0.0, 0.0, 0.0);
+}
+
+(double r, double g, double b) _cpu_multijulia7(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  var zx = x;
+  var zy = y;
+  const cx = -0.40;
+  const cy = 0.60;
+  final bailout2 = bailout * bailout;
+
+  for (var it = 0; it < iterations; it++) {
+    final z2 = cmul(zx, zy, zx, zy);
+    final z3 = cmul(z2.$1, z2.$2, zx, zy);
+    final z4 = cmul(z2.$1, z2.$2, z2.$1, z2.$2);
+    final z7 = cmul(z4.$1, z4.$2, z3.$1, z3.$2);
+    zx = z7.$1 + cx;
+    zy = z7.$2 + cy;
+
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bailout2) {
+      return palette(smoothEscape(it: it, mag2: mag2, power: 7.0));
+    }
+  }
+
+  return kInsideColor;
+}
+
+(double r, double g, double b) _cpu_jacobi_sn(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  var zx = 0.0;
+  var zy = 0.0;
+  const k2 = 0.25;
+  final bailout2 = bailout * bailout;
+
+  for (var it = 0; it < iterations; it++) {
+    final sz = _csin(zx, zy);
+    final cz = _ccos(zx, zy);
+    final cz2 = cmul(cz.$1, cz.$2, cz.$1, cz.$2);
+    final zcz = cmul(zx, zy, cz.$1, cz.$2);
+    final delta = (sz.$1 - zcz.$1, sz.$2 - zcz.$2);
+    final correction = cmul(delta.$1, delta.$2, cz2.$1, cz2.$2);
+    zx = sz.$1 - k2 * correction.$1 / 6.0 + x;
+    zy = sz.$2 - k2 * correction.$2 / 6.0 + y;
+
+    final mag2 = zx * zx + zy * zy;
+    if (mag2 > bailout2) {
+      return palette(smoothEscape(it: it, mag2: mag2));
+    }
+  }
+
+  return kInsideColor;
+}
+
+(double re, double im) _csin(double x, double y) =>
+    (math.sin(x) * _cosh(y), math.cos(x) * _sinh(y));
+
+(double re, double im) _ccos(double x, double y) =>
+    (math.cos(x) * _cosh(y), -math.sin(x) * _sinh(y));
+
+double _sinh(double x) => (math.exp(x) - math.exp(-x)) * 0.5;
+
+double _cosh(double x) => (math.exp(x) + math.exp(-x)) * 0.5;
+
+(double r, double g, double b) _cpu_three_d_fractal(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) {
+  return escapeTime(
+    x,
+    y,
+    iterations,
+    bailout,
+    (zx, zy, cx, cy) {
+      final r2 = zx * zx + zy * zy;
+      return (r2 * zx + cx, r2 * zy + cy);
+    },
+    power: 3.0,
+  );
 }
 
 (double x, double y, bool pole) _weierstrassP(double zx, double zy) {
@@ -1106,7 +1231,7 @@ int _fnv1a32(String s) {
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/polynomial_maps/lattice_wrapped/eisenstein_gpu.frag
+  // Ported from shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag
   const sqrt3 = 1.7320508075688772;
   final cx = x;
   final cy = y;
@@ -1114,6 +1239,8 @@ int _fnv1a32(String s) {
   double zy = 0.0;
 
   final bailout2 = bailout * bailout;
+  double trap = double.infinity;
+  double orbit = 0.0;
   int it = 0;
 
   while (it < iterations) {
@@ -1139,11 +1266,24 @@ int _fnv1a32(String s) {
     zx = z3x - lattX;
     zy = z3y - lattY;
 
-    if (zx * zx + zy * zy > bailout2 * 0.25) break;
+    final cellMag2 = zx * zx + zy * zy;
+    trap = math.min(trap, cellMag2);
+    orbit += math.exp(-8.0 * cellMag2);
+
+    if (cellMag2 > bailout2 * 0.25) break;
     it++;
   }
 
-  if (it >= iterations) return kInsideColor;
+  if (it >= iterations) {
+    final n = iterations <= 0
+        ? 0.0
+        : math.max(0.0, math.min(1.0, orbit / iterations));
+    final t = fract(
+        0.62 - 0.18 * math.log(math.max(trap, 1e-6)) + 0.70 * n);
+    final base = palette(t);
+    final shade = 0.35 + 0.65 * n;
+    return (base.$1 * shade, base.$2 * shade, base.$3 * shade);
+  }
   final mag2 = zx * zx + zy * zy;
   final t = smoothEscape(it: it, mag2: mag2 + 1.0);
   return palette(t);
@@ -1909,9 +2049,56 @@ int _fnv1a32(String s) {
   int iterations,
   double bailout,
   Vector2 juliaC,
+) =>
+    _cpu_de_jongCoefficients(x, y, iterations, bailout, 1.4, -2.3, 2.4, -2.1);
+
+(double r, double g, double b) _cpu_de_jong_double(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) =>
+    _cpu_de_jongCoefficients(x, y, iterations, bailout, 1.4, -2.3, 2.4, 2.1);
+
+(double r, double g, double b) _cpu_de_jongCoefficients(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  double a,
+  double b,
+  double c,
+  double d,
 ) {
-  // Ported from shaders/strange_attractors/discrete_maps/peter_de_jong_gpu.frag (CPU approximation, seed=0xe4b4d9a6)
-  return _cpu_synthetic(0xe4b4d9a6, x, y, iterations, bailout);
+  final target = iterations.clamp(1, 500);
+  final bailoutSq = math.max(1.0, bailout * bailout);
+  var orbit = 0.0;
+  var trap = 1e9;
+  var it = target;
+
+  for (var i = 0; i < target; i++) {
+    final nx = math.sin(a * y) - math.cos(b * x);
+    final ny = math.sin(c * x) - math.cos(d * y);
+    x = nx;
+    y = ny;
+
+    final r2 = x * x + y * y;
+    orbit += math.exp(-0.4 * r2);
+    trap = math.min(trap,
+        math.min(math.min(x.abs(), y.abs()), (math.sqrt(r2) - 1.0).abs()));
+    if (r2 > bailoutSq) {
+      it = i + 1;
+      break;
+    }
+  }
+
+  if (it >= target) {
+    return palette(
+        fract((orbit / target) * 2.0 - math.log(math.max(1e-6, trap)) * 0.12));
+  }
+
+  return palette(smoothEscape(it: it, mag2: x * x + y * y));
 }
 
 (double r, double g, double b) _cpu_svensson(
@@ -1920,9 +2107,79 @@ int _fnv1a32(String s) {
   int iterations,
   double bailout,
   Vector2 juliaC,
+) =>
+    _cpu_svenssonCoefficients(x, y, iterations, bailout, 1.5, -1.8, 1.6, 0.9);
+
+(double r, double g, double b) _cpu_svensson_lace(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  Vector2 juliaC,
+) =>
+    _cpu_svenssonCoefficients(x, y, iterations, bailout, 1.5, -1.8, 1.6, 0.9);
+
+(double r, double g, double b) _cpu_svenssonCoefficients(
+  double x,
+  double y,
+  int iterations,
+  double bailout,
+  double a,
+  double b,
+  double c,
+  double d,
 ) {
-  // Ported from shaders/strange_attractors/discrete_maps/svensson_gpu.frag (CPU approximation, seed=0x137884d0)
-  return _cpu_synthetic(0x137884d0, x, y, iterations, bailout);
+  final target = iterations.clamp(1, 500);
+  final ox = x;
+  final oy = y;
+  final bailoutSq = math.max(1.0, bailout * bailout);
+  var density = 0.0;
+  var lace = 0.0;
+  var trap = 1e9;
+  var it = target;
+
+  for (var i = 0; i < target; i++) {
+    final nx = d * math.sin(a * x) - math.sin(b * y);
+    final ny = c * math.cos(a * x) + math.cos(b * y);
+    x = nx;
+    y = ny;
+
+    final r2 = x * x + y * y;
+    final thread = math.min(
+      math.sin(8.0 * x + 3.0 * y).abs(),
+      math.sin(3.0 * x - 7.0 * y).abs(),
+    );
+    trap = math.min(trap, thread);
+    density += math.exp(-0.3 * r2);
+    lace += math.exp(-14.0 * thread) * math.exp(-0.08 * r2);
+    if (r2 > bailoutSq) {
+      it = i + 1;
+      break;
+    }
+  }
+
+  if (it < target) {
+    return palette(smoothEscape(it: it, mag2: x * x + y * y));
+  }
+
+  final normLace = lace / target;
+  final screenThread = math.min(
+    math.sin(18.0 * ox + 7.0 * oy).abs(),
+    math.sin(7.0 * ox - 17.0 * oy).abs(),
+  );
+  final screenLace = math.exp(-10.0 * screenThread);
+  final color = palette(
+    fract((density / target) * 1.2 + normLace * 0.9 + screenLace * 0.25),
+  );
+  final detail = 0.35 +
+      0.85 * math.sqrt((normLace * 2.5).clamp(0.0, 1.0)) +
+      0.45 * math.exp(-24.0 * trap) +
+      0.65 * screenLace;
+  return (
+    (color.$1 * detail).clamp(0.0, 255.0),
+    (color.$2 * detail).clamp(0.0, 255.0),
+    (color.$3 * detail).clamp(0.0, 255.0),
+  );
 }
 
 (double r, double g, double b) _cpu_gumowski_mira(
@@ -2570,8 +2827,50 @@ int _fnv1a32(String s) {
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag (CPU approximation, seed=0x9921bde9)
-  return _cpu_synthetic(0x9921bde9, x, y, iterations, bailout);
+  // Mirrors shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag.
+  // Fixed-seed Julia mode for z -> (|Re z| + i|Im z|)^2 + c.
+  const cx = -0.52;
+  const cy = -0.42;
+  var zx = x;
+  var zy = -y;
+  final target = iterations.clamp(1, 500);
+  final bailout2 = math.max(4.0, bailout * bailout);
+  var trap = 1e9;
+  var orbit = 0.0;
+  var stripe = 0.0;
+
+  for (var it = 0; it < target; it++) {
+    final ax = zx.abs();
+    final ay = zy.abs();
+    zx = ax * ax - ay * ay + cx;
+    zy = 2.0 * ax * ay + cy;
+
+    final mag2 = zx * zx + zy * zy;
+    trap = math.min(
+      trap,
+      math.min(math.min(zx.abs(), zy.abs()), (math.sqrt(mag2) - 1.0).abs()),
+    );
+    orbit += math.exp(-1.7 * mag2);
+    stripe += 0.5 + 0.5 * math.sin(8.0 * math.atan2(zy, zx) + 0.35 * it);
+
+    if (mag2 > bailout2) {
+      final sampleCount = math.max(1.0, it.toDouble());
+      final orbitAvg = orbit / sampleCount;
+      final trapGlow = math.exp(-9.0 * trap);
+      return palette(fract(
+        smoothEscape(it: it, mag2: mag2) + 0.08 * trapGlow + 0.05 * orbitAvg,
+      ));
+    }
+  }
+
+  final sampleCount = math.max(1.0, target.toDouble());
+  final orbitAvg = orbit / sampleCount;
+  final stripeAvg = stripe / sampleCount;
+  final trapGlow = math.exp(-9.0 * trap);
+  final phase = math.atan2(zy, zx) / (2.0 * math.pi) + 0.5;
+  return palette(fract(
+    phase + 0.34 * orbitAvg + 0.24 * trapGlow + 0.12 * stripeAvg,
+  ));
 }
 
 (double r, double g, double b) _cpu_multibrot_neg2(
@@ -3200,8 +3499,46 @@ int _fnv1a32(String s) {
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_family/pola_sierpinski_gpu.frag (CPU approximation, seed=0x625d23a7)
-  return _cpu_synthetic(0x625d23a7, x, y, iterations, bailout);
+  final radius = math.sqrt(x * x + y * y);
+  final theta = math.atan2(y, x);
+  const golden = 2.39996323;
+  final logRadius = math.log(math.max(1e-30, radius));
+  var qx = logRadius * math.cos(theta + golden) * 1.4;
+  var qy = logRadius * math.sin(theta + golden) * 1.4;
+
+  final target = iterations.clamp(1, 500);
+  final depth = (target ~/ 22 + 1).clamp(1, 11);
+  var hit = false;
+  var level = 0.0;
+  var nearest = 1e6;
+
+  for (var i = 0; i < depth; i++) {
+    qx = qx.abs();
+    qy = qy.abs();
+    if (qx < qy) {
+      final t = qx;
+      qx = qy;
+      qy = t;
+    }
+    qx = qx * 2.0 - 1.0;
+    qy = qy * 2.0;
+    nearest = math.min(nearest, (qx + qy - 0.05).abs());
+    if (qx + qy < 0.05) {
+      hit = true;
+      level = (i + 1) / depth;
+      break;
+    }
+  }
+
+  if (!hit) {
+    final stripe = 0.5 + 0.5 * math.cos(24.0 * math.log(nearest + 1e-5));
+    final t = fract(0.35 - 1.7 * math.log(nearest + 1e-5) + 0.2 * radius);
+    final color = palette(t);
+    final shade = 0.25 + 0.55 * stripe;
+    return (color.$1 * shade, color.$2 * shade, color.$3 * shade);
+  }
+
+  return palette(fract(level + 0.2 * radius));
 }
 
 (double r, double g, double b) _cpu_fibonacci_spiral(
@@ -3211,8 +3548,27 @@ int _fnv1a32(String s) {
   double bailout,
   Vector2 juliaC,
 ) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/fibonacci_spiral_gpu.frag (CPU approximation, seed=0xa822262d)
-  return _cpu_synthetic(0xa822262d, x, y, iterations, bailout);
+  // Mirrors shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag.
+  const logPhi = 0.4812118251;
+  const pitch = logPhi / (0.5 * math.pi);
+  const fullTurn = pitch * 2.0 * math.pi;
+  final radius = math.sqrt(x * x + y * y) + 1e-9;
+  final theta = math.atan2(y, x);
+  final phase = (math.log(radius) - pitch * theta) / fullTurn;
+  final band = (fract(phase + 0.5) - 0.5).abs() * fullTurn;
+
+  final line = math.exp(-520.0 * band * band);
+  final halo = math.exp(-70.0 * band * band);
+  final scaleRings =
+      0.5 + 0.5 * math.cos(2.0 * math.pi * math.log(radius) / logPhi);
+  final color =
+      palette(fract(0.22 * math.log(radius) + 0.45 * theta / math.pi));
+  final intensity = 0.08 + 0.30 * scaleRings + 0.75 * halo + 1.25 * line;
+  return (
+    (color.$1 * intensity).clamp(0.0, 255.0),
+    (color.$2 * intensity).clamp(0.0, 255.0),
+    (color.$3 * intensity).clamp(0.0, 255.0),
+  );
 }
 
 (double r, double g, double b) _cpu_hat_monotile(

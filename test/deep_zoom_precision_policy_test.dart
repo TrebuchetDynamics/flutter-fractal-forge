@@ -24,20 +24,32 @@ void main() {
       expect(policy.gpuRenderableCeilingZoom('mandelbrot'), 1e12);
     });
 
-    test('routes default deep zoom to CPU without exposing thresholds', () {
+    test('routes native default deep zoom to CPU without exposing thresholds',
+        () {
       final below = policy.decide(
-        moduleId: 'unknown_fractal',
+        moduleId: 'householder',
         dimension: FractalDimension.twoD,
         zoom: 9.9e6,
       );
       final cpu = policy.decide(
-        moduleId: 'unknown_fractal',
+        moduleId: 'householder',
         dimension: FractalDimension.twoD,
         zoom: 1e7,
       );
 
       expect(below.renderPath, PrecisionLadderRenderPath.gpuFloat);
       expect(cpu.renderPath, PrecisionLadderRenderPath.cpu);
+      expect(policy.gpuRenderableCeilingZoom('householder'), 1e7);
+    });
+
+    test('keeps unknown synthetic CPU fallback off CPU Precision', () {
+      final decision = policy.decide(
+        moduleId: 'unknown_fractal',
+        dimension: FractalDimension.twoD,
+        zoom: 1e7,
+      );
+
+      expect(decision.renderPath, PrecisionLadderRenderPath.gpuFloat);
       expect(policy.gpuRenderableCeilingZoom('unknown_fractal'), 1e7);
     });
 

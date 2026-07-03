@@ -57,6 +57,20 @@ void main() {
       expect(find.text('Rotation'), findsOneWidget);
     });
 
+    testWidgets('randomize does not trigger celebration particles',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      for (var i = 0; i < 3; i++) {
+        await tester.tap(find.text('Randomize'));
+        await tester.pump();
+      }
+      await tester.pump(const Duration(milliseconds: 700));
+
+      expect(harness.controller.isCelebrating, isFalse);
+    });
+
     testWidgets('sliders update controller params', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();

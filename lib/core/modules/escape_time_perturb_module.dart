@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_shader_adapter.dart';
 import 'package:flutter_fractals/core/services/rendering/perturb_orbit_texture.dart';
 
 /// Formula IDs matching `uFormula` in escape_time_perturb_gpu.frag

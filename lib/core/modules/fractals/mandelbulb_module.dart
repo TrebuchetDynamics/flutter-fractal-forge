@@ -5,7 +5,7 @@ import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_shader_adapter.dart';
 import 'package:vector_math/vector_math.dart';
 
 FractalModule buildMandelbulbModule() {

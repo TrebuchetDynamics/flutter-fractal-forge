@@ -187,6 +187,21 @@ void main() {
     }
   });
 
+  testWidgets('quick control FABs move to bottom row in landscape',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(844, 390));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+
+    final first =
+        tester.getTopLeft(find.byKey(const ValueKey('viewerRandomButton')));
+    final last =
+        tester.getTopLeft(find.byKey(const ValueKey('viewerFullscreenButton')));
+    expect((first.dy - last.dy).abs(), lessThan(1));
+    expect(last.dx, greaterThan(first.dx));
+  });
+
   testWidgets('toggle FABs change color only when on', (tester) async {
     BoxDecoration decorationFor(ValueKey<String> key) {
       final animated = find.descendant(

@@ -39,6 +39,16 @@ void main() {
               zoom: 1e7,
             )
             .renderPath,
+        PrecisionLadderRenderPath.gpuFloat,
+      );
+      expect(
+        policy
+            .decide(
+              moduleId: 'householder',
+              dimension: FractalDimension.twoD,
+              zoom: 1e7,
+            )
+            .renderPath,
         PrecisionLadderRenderPath.cpu,
       );
     });

@@ -11,16 +11,17 @@ class FractalReportService {
 
   static const defaultTags = [
     'Low performance',
-    'Low deep zoom',
-    'Low Detail',
+    'Weak deep zoom',
+    'Low detail',
     'No image',
-    'Bad initial coordinates',
-    'Bad initial params',
-    'Randomize bad results',
-    'Removal Candidate',
-    'Bad Thumbnail',
-    'Is does not look the correct fractal',
-    'NO shader',
+    'Bad initial view',
+    'Bad default params',
+    'Needs more Control Params',
+    'Randomize breaks',
+    'Remove candidate',
+    'Bad thumbnail',
+    'Wrong fractal',
+    'Missing shader',
     'Other',
   ];
 

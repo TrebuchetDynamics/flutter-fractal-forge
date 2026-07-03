@@ -388,28 +388,42 @@ double _lattesPoleDistance(double zx, double zy) => math.min(
   double bailout,
   Vector2 juliaC,
 ) {
-  var plant = 0.2 + 0.08 * math.sin(31.0 * x + 17.0 * y);
-  var water = 2.0 + 0.15 * math.sin(9.0 * x + 5.0 * math.sin(5.0 * y));
+  double terrain(double px, double py) {
+    final bands = math.sin(9.0 * px + 2.2 * math.sin(5.0 * py));
+    final crossBands = math.sin(
+      21.0 * (px + 0.28 * py) + 1.6 * math.sin(3.0 * py),
+    );
+    return 0.5 + 0.34 * bands + 0.16 * crossBands;
+  }
+
+  final baseTerrain = terrain(x * 1.7, y * 1.7);
+  var plant = 0.18 + 0.12 * math.sin(31.0 * x + 17.0 * y) + 0.10 * baseTerrain;
+  var water = 2.0 + 0.24 * baseTerrain;
   final steps = iterations.clamp(1, 96).toInt();
   for (var i = 0; i < steps; i++) {
-    final terrain = 0.5 + 0.5 * math.sin(9.0 * x + i * 0.08);
+    final t = terrain(x + i * 0.018, y + i * 0.006);
     final next = klausmeierCellStep(
       plant: plant,
       water: water,
-      lapPlant: (terrain - 0.5) - 0.35 * plant,
-      lapWater: (0.5 - terrain) - 0.12 * water,
+      lapPlant: (t - 0.5) - 0.35 * plant,
+      lapWater: (0.5 - t) - 0.12 * water,
       rainfall: 2.0,
       mortality: 0.45,
       plantDiffusion: 1.0,
       waterDiffusion: 10.0,
       advectionGradient: 0.2 * math.cos(9.0 * x + i * 0.08),
-      dt: 0.018,
+      dt: 0.022,
     );
     plant = next.plant.clamp(0.0, 4.0).toDouble();
     water = next.water.clamp(0.0, 8.0).toDouble();
   }
   final biomass = plant.clamp(0.0, 1.0).toDouble();
-  return (40.0 + 60.0 * biomass, 45.0 + 160.0 * biomass, 24.0 + 45.0 * biomass);
+  final ridge = (terrain(x * 2.4, y * 2.4) - 0.5).abs() * 2.0;
+  return (
+    34.0 + 86.0 * biomass + 72.0 * ridge,
+    38.0 + 178.0 * biomass + 112.0 * ridge,
+    18.0 + 52.0 * biomass + 28.0 * ridge,
+  );
 }
 
 (double r, double g, double b) _cpu_mimura_murray_predator_prey(

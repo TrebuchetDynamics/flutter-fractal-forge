@@ -81,14 +81,30 @@ void main() {
       expect(find.byKey(const Key('catalogPinnedFilterBar')), findsOneWidget);
     });
 
-    testWidgets('defaults to Escape-Time category', (tester) async {
+    testWidgets('defaults to all categories', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       expect(
-        find.bySemanticsLabel(RegExp(r'Escape-Time filter, selected')),
+        find.bySemanticsLabel(RegExp(r'All categories filter, selected')),
         findsOneWidget,
       );
+    });
+
+    testWidgets('category section headers collapse their cards',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('catalogSectionGrid_escape_time_0')),
+          findsOneWidget);
+
+      await tester
+          .tap(find.byKey(const Key('catalogSectionHeader_escape_time')));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('catalogSectionGrid_escape_time_0')),
+          findsNothing);
     });
 
     testWidgets('displays search field', (tester) async {
@@ -111,18 +127,18 @@ void main() {
 
       expect(find.text('Burning Ship'), findsOneWidget);
       expect(find.text('Mandelbrot'), findsNothing);
-      expect(find.byKey(const Key('catalogActiveSearchChip')), findsOneWidget);
+      expect(find.byKey(const Key('catalogActiveSearchChip')), findsNothing);
     });
 
-    testWidgets('shows removable active category chip', (tester) async {
+    testWidgets('omits duplicate active category summary row', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(const Key('catalogCategoryChip_all')));
       await tester.pumpAndSettle();
 
-      expect(
-          find.byKey(const Key('catalogActiveCategoryChip')), findsOneWidget);
+      expect(find.byKey(const Key('catalogActiveCategoryChip')), findsNothing);
+      expect(find.byKey(const Key('catalogClearFiltersButton')), findsNothing);
     });
 
     testWidgets('horizontal swipe changes category selection', (tester) async {
@@ -221,6 +237,18 @@ void main() {
           find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
     });
 
+    testWidgets('grid cards keep a portrait layout on phone width',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(390, 844));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final box = tester.renderObject<RenderBox>(visibleModuleCards().first);
+      expect(box.size.height, greaterThan(box.size.width));
+    });
+
     testWidgets('renders list tiles for modules (smoke)', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
@@ -264,9 +292,9 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // In list mode, toggle button should show "switch to grid" icon.
-      expect(find.byIcon(Icons.grid_view_rounded), findsOneWidget);
-      // And the opposite icon should not be the active toggle icon.
+      // In list mode, toggle button should show "switch to miniatures" icon.
+      expect(find.byIcon(Icons.view_module_rounded), findsOneWidget);
+      // And the grid-to-list icon should not be the active toggle icon.
       expect(find.byIcon(Icons.view_list_rounded), findsNothing);
       expect(find.textContaining(RegExp(r'\d+ params:')), findsWidgets);
     });
@@ -282,12 +310,38 @@ void main() {
       await tester.tap(find.byKey(const Key('catalogViewToggleButton')));
       await tester.pumpAndSettle();
 
-      // After toggle, icon indicates switch back to grid.
-      expect(find.byIcon(Icons.grid_view_rounded), findsOneWidget);
+      // After toggle, icon indicates switch to miniatures.
+      expect(find.byIcon(Icons.view_module_rounded), findsOneWidget);
       expect(find.byIcon(Icons.view_list_rounded), findsNothing);
 
       final prefs = await SharedPreferences.getInstance();
       expect(prefs.getBool('catalog_view_grid'), isFalse);
+    });
+
+    testWidgets('miniatures view shows four thumbnails per row on phones',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(390, 844));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('catalogViewToggleButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('catalogViewToggleButton')));
+      await tester.pumpAndSettle();
+
+      final cards = visibleModuleCards();
+      expect(cards, findsAtLeastNWidgets(5));
+      final firstRowY = tester.getTopLeft(cards.at(0)).dy;
+      for (var i = 1; i < 4; i++) {
+        expect(tester.getTopLeft(cards.at(i)).dy, firstRowY);
+      }
+      expect(tester.getTopLeft(cards.at(4)).dy, greaterThan(firstRowY));
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(
+          prefs.getInt('catalog_view_mode'), CatalogViewMode.miniatures.index);
     });
   });
 }

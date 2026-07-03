@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:vector_math/vector_math.dart' show Vector2, Vector3;
 
 void main() {
   Widget buildTestWidget(
@@ -81,6 +82,35 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(controller.view.zoom, isNot(equals(initialZoom)));
+  });
+
+  testWidgets('Ford Circles drag follows screen axes when view has rotZ',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('ford_circles'), animate: false);
+    controller.updateView(
+      controller.view.copyWith(
+        pan: Vector2(0.18115533888339996, -0.13101544976234436),
+        zoom: 5.405464206556574,
+        rotation: Vector3(0.0, 0.0, 1.403832197189331),
+      ),
+      adaptIterationsForZoom: false,
+    );
+    final initialPan = controller.view.pan.clone();
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    await tester.drag(find.byType(FractalRenderer), const Offset(40, 0));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    final expectedDx = 20 / 300 / 5.405464206556574;
+    expect(controller.view.pan.x, closeTo(initialPan.x - expectedDx, 1e-6));
+    expect(controller.view.pan.y, closeTo(initialPan.y, 1e-6));
   });
 
   testWidgets('Double-tap zooms in by default', (tester) async {
@@ -195,8 +225,7 @@ void main() {
     expect(find.text('Export'), findsOneWidget);
   });
 
-  testWidgets('Right-click (secondary tap) shows context menu',
-      (tester) async {
+  testWidgets('Right-click (secondary tap) shows context menu', (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
     final controller = FractalController(ModuleRegistry());

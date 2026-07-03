@@ -7,26 +7,31 @@ class PaletteTextureCache {
   static const int textureWidth = 256;
   final Map<String, ui.Image> _cache = {};
 
-  ui.Image paletteTexture(FractalPalette palette) {
-    final cached = _cache[palette.id];
+  ui.Image paletteTexture(FractalPalette palette, {int colorCount = 64}) {
+    final count = colorCount.clamp(2, 64);
+    final key = 'palette:${palette.id}:$count';
+    final cached = _cache[key];
     if (cached != null) return cached;
 
-    return _cache[palette.id] = _drawPaletteTexture(
+    return _cache[key] = _drawPaletteTexture(
       normalizeFractalPaletteStops(palette.stops),
+      colorCount: count,
     );
   }
 
   ui.Image paletteTextureForIndex(
     double index,
-    FractalPalette Function(int index) paletteAtIndex,
-  ) {
+    FractalPalette Function(int index) paletteAtIndex, {
+    int colorCount = 64,
+  }) {
+    final count = colorCount.clamp(2, 64);
     final from = index.floor();
     final mix256 = ((index - from) * 256).round().clamp(0, 256);
     final a = paletteAtIndex(from);
-    if (mix256 == 0) return paletteTexture(a);
+    if (mix256 == 0) return paletteTexture(a, colorCount: count);
 
     final b = paletteAtIndex(from + 1);
-    final key = 'blend:${a.id}:${b.id}:$mix256';
+    final key = 'blend:${a.id}:${b.id}:$mix256:$count';
     final cached = _cache[key];
     if (cached != null) return cached;
 
@@ -45,7 +50,7 @@ class PaletteTextureCache {
               .toARGB32(),
         ),
     ];
-    return _cache[key] = _drawPaletteTexture(stops);
+    return _cache[key] = _drawPaletteTexture(stops, colorCount: count);
   }
 
   void clear() {
@@ -55,20 +60,24 @@ class PaletteTextureCache {
     _cache.clear();
   }
 
-  ui.Image _drawPaletteTexture(List<FractalColorStop> stops) {
+  ui.Image _drawPaletteTexture(
+    List<FractalColorStop> stops, {
+    required int colorCount,
+  }) {
     final rec = ui.PictureRecorder();
     final canvas = Canvas(
       rec,
       Rect.fromLTWH(0, 0, textureWidth.toDouble(), 1),
     );
-    final paint = Paint()
-      ..shader = ui.Gradient.linear(
-        Offset.zero,
-        Offset(textureWidth.toDouble(), 0),
-        stops.map((s) => Color(s.colorArgb)).toList(),
-        stops.map((s) => s.position.clamp(0.0, 1.0)).toList(),
-      );
-    canvas.drawRect(Rect.fromLTWH(0, 0, textureWidth.toDouble(), 1), paint);
+    final paint = Paint();
+    for (var x = 0; x < textureWidth; x++) {
+      final t = x / (textureWidth - 1);
+      final band = (t * colorCount).floor().clamp(0, colorCount - 1);
+      final sampled =
+          colorCount >= textureWidth ? t : (band + 0.5) / colorCount;
+      paint.color = _colorAt(stops, sampled.clamp(0.0, 1.0));
+      canvas.drawRect(Rect.fromLTWH(x.toDouble(), 0, 1, 1), paint);
+    }
     final picture = rec.endRecording();
     try {
       return picture.toImageSync(textureWidth, 1);

@@ -147,6 +147,13 @@ class FractalControlsHud extends StatelessWidget {
                   // Kaleidoscope toggle + controls
                   _KaleidoscopeSection(controller: controller, l10n: l10n),
 
+                  const SizedBox(height: 4),
+                  _HudToggleRow(
+                    label: 'Fluid mode',
+                    value: controller.fluidModeEnabled,
+                    onChanged: controller.setFluidModeEnabled,
+                  ),
+
                   const SizedBox(height: 8),
 
                   // Quick action buttons row
@@ -366,9 +373,9 @@ class _CompactColorSchemeRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Palette',
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white70,
             fontSize: 11,
             fontWeight: FontWeight.w500,

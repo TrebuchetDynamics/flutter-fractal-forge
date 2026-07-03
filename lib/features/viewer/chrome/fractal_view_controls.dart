@@ -9,8 +9,8 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 const double _fabTouchSize = AccessibleSizing.minTouchTarget;
-const double _fabVisualSize = 42;
-const double _fabIconSize = 19;
+const double _fabVisualSize = 44;
+const double _fabIconSize = 20;
 
 class FractalViewControlActions {
   final VoidCallback toggleFullscreen;
@@ -82,9 +82,15 @@ class FractalViewControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
     final maxFabColumnHeight = (mediaQuery.size.height -
             mediaQuery.padding.top -
             mediaQuery.padding.bottom -
+            AppSpacing.xxl)
+        .clamp(0.0, double.infinity);
+    final maxFabRowWidth = (mediaQuery.size.width -
+            mediaQuery.padding.left -
+            mediaQuery.padding.right -
             AppSpacing.xxl)
         .clamp(0.0, double.infinity);
 
@@ -95,24 +101,7 @@ class FractalViewControls extends StatelessWidget {
           icon: Icons.report_problem_rounded,
           tooltip: 'Report fractal',
           onPressed: isExporting ? null : actions.reportFractal,
-          onLongPress: isExporting
-              ? null
-              : () => _showActionModal(
-                    context,
-                    icon: Icons.report_problem_rounded,
-                    title: 'Report fractal',
-                    subtitle:
-                        'Flag rendering, thumbnail, or preset problems with context.',
-                    children: [
-                      _ActionTile(
-                        icon: Icons.report_problem_rounded,
-                        label: 'Open report form',
-                        description:
-                            'Add tags and notes for this exact fractal state.',
-                        onTap: actions.reportFractal,
-                      ),
-                    ],
-                  ),
+          onLongPress: isExporting ? null : actions.reportFractal,
           isCompact: true,
           delay: const Duration(milliseconds: 60),
         ),
@@ -288,15 +277,16 @@ class FractalViewControls extends StatelessWidget {
           curve: AppAnimations.defaultCurve,
         )),
         child: Align(
-          alignment: Alignment.bottomRight,
+          alignment:
+              isLandscape ? Alignment.bottomCenter : Alignment.bottomRight,
           child: ConstrainedBox(
             key: const ValueKey('viewerFabColumn'),
             constraints: BoxConstraints(
-              maxHeight: maxFabColumnHeight,
-              maxWidth: 112,
+              maxHeight: isLandscape ? 112 : maxFabColumnHeight,
+              maxWidth: isLandscape ? maxFabRowWidth : 112,
             ),
             child: Wrap(
-              direction: Axis.vertical,
+              direction: isLandscape ? Axis.horizontal : Axis.vertical,
               alignment: WrapAlignment.end,
               runAlignment: WrapAlignment.end,
               spacing: AppSpacing.sm,
@@ -452,7 +442,7 @@ class _FabOptionsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBottomSheet(
-      maxHeightFactor: 0.62,
+      maxHeightFactor: 0.78,
       children: [
         AppBottomSheetHeader(
           icon: icon,
@@ -464,10 +454,10 @@ class _FabOptionsSheet extends StatelessWidget {
         Flexible(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
-              AppSpacing.md,
-              AppSpacing.md,
+              AppSpacing.lg,
               AppSpacing.md,
               AppSpacing.lg,
+              AppSpacing.xxxl,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -508,9 +498,12 @@ class _ActionTile extends StatelessWidget {
             onTap();
           },
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 64),
+            constraints: const BoxConstraints(minHeight: 72),
             child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
               child: Row(
                 children: [
                   _ModalIconBadge(icon: icon),
@@ -571,39 +564,49 @@ class _SwitchActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceVariant.withValues(alpha: 0.72),
+    return Material(
+      color: AppColors.surfaceVariant.withValues(alpha: 0.72),
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
         borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          _ModalIconBadge(icon: icon),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        onTap: () => onChanged(!value),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 72),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.md,
+            ),
+            child: Row(
               children: [
-                Text(
-                  label,
-                  style: AppTypography.bodyMedium.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w700,
+                _ModalIconBadge(icon: icon),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label,
+                        style: AppTypography.bodyMedium.copyWith(
+                          color: AppColors.textPrimary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        description,
+                        style: AppTypography.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  description,
-                  style: AppTypography.bodySmall.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
+                Switch.adaptive(value: value, onChanged: onChanged),
               ],
             ),
           ),
-          Switch.adaptive(value: value, onChanged: onChanged),
-        ],
+        ),
       ),
     );
   }
@@ -816,27 +819,27 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
   }
 
   Widget _buildButtonContent() {
-    final container = AnimatedContainer(
+    return AnimatedContainer(
       duration: AppAnimations.fast,
       width: _fabVisualSize,
       height: _fabVisualSize,
       decoration: BoxDecoration(
         gradient: widget.isPrimary ? AppColors.primaryGradient : null,
-        color: widget.isPrimary ? null : AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: widget.isPrimary
+        color: widget.isPrimary
             ? null
-            : Border.all(
-                color: _isPressed
-                    ? AppColors.primary.withValues(alpha: 0.5)
-                    : AppColors.border.withValues(alpha: 0.5),
-              ),
+            : AppColors.surface.withValues(alpha: _isPressed ? 0.86 : 0.74),
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: widget.isPrimary
+              ? Colors.white.withValues(alpha: 0.22)
+              : (_isPressed
+                  ? AppColors.primaryLight.withValues(alpha: 0.62)
+                  : Colors.white.withValues(alpha: 0.14)),
+        ),
         boxShadow: [
           BoxShadow(
-            color: widget.isPrimary
-                ? AppColors.primary.withValues(alpha: _isPressed ? 0.5 : 0.3)
-                : Colors.black.withValues(alpha: 0.2),
-            blurRadius: _isPressed ? 16 : 12,
+            color: Colors.black.withValues(alpha: _isPressed ? 0.28 : 0.18),
+            blurRadius: _isPressed ? 14 : 10,
             offset: const Offset(0, 4),
           ),
         ],
@@ -846,36 +849,8 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
         size: _fabIconSize,
         color: widget.isPrimary
             ? Colors.white
-            : (_isPressed ? AppColors.primary : AppColors.textSecondary),
+            : (_isPressed ? AppColors.primaryLight : AppColors.textPrimary),
       ),
-    );
-
-    // Buttons with a long-press secondary action are otherwise invisible. Mark
-    // them with a small corner dot so the hidden affordance is discoverable.
-    // The action itself stays in the semantics label ("Long press for ...").
-    if (widget.onLongPress == null && widget.onPressed == null)
-      return container;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        container,
-        Positioned(
-          top: 5,
-          right: 5,
-          child: IgnorePointer(
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: widget.isPrimary
-                    ? Colors.white.withValues(alpha: 0.85)
-                    : AppColors.primary.withValues(alpha: 0.85),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 

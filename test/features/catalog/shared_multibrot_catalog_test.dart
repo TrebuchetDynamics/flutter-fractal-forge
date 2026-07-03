@@ -27,4 +27,18 @@ void main() {
 
     expect(module.defaultPreset.params['power'], 3.0);
   });
+
+  test('locks z^19 power and caps random iterations', () {
+    final module = ModuleRegistry().byId('f0094_multibrot_z_19');
+    final paramsById = {for (final param in module.parameters) param.id: param};
+    final view = module.defaultPreset.view;
+
+    expect(module.defaultPreset.params['iterations'], 240);
+    expect(module.defaultPreset.params['power'], 19.0);
+    expect(paramsById['iterations']!.max, 320);
+    expect(paramsById['power']!.min, 19.0);
+    expect(paramsById['power']!.max, 19.0);
+    expect(view.pan.x, closeTo(-0.0008405148983001709, 1e-12));
+    expect(view.pan.y, closeTo(-0.09912946820259094, 1e-12));
+  });
 }

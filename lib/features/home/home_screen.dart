@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late final ModuleRegistry _registry;
   late final FractalController _exploreController;
+  late final CatalogToolbarController _catalogToolbarController;
 
   StreamSubscription<DeepLinkData>? _deepLinkSubscription;
   bool _handledInitialLink = false;
@@ -35,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
     _registry = context.read<ModuleRegistry>();
     _exploreController = FractalController(_registry);
+    _catalogToolbarController = CatalogToolbarController();
 
     // Set up deep link handling (skip in SAFE_MODE)
     if (kSafeMode == 0) {
@@ -50,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     _exploreController.dispose();
+    _catalogToolbarController.dispose();
     _deepLinkSubscription?.cancel();
     super.dispose();
   }
@@ -270,6 +273,7 @@ class _HomeScreenState extends State<HomeScreen>
       extendBody: true,
       appBar: _PremiumAppBar(
         title: l10n.appTitle,
+        catalogToolbarController: _catalogToolbarController,
         onSettingsTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const SettingsScreen()),
@@ -296,7 +300,14 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       actions: const [],
                     ),
-                  const Expanded(child: FractalCatalogScreen()),
+                  Expanded(
+                    child: Semantics(
+                      label: 'Explore catalog',
+                      child: FractalCatalogScreen(
+                        toolbarController: _catalogToolbarController,
+                      ),
+                    ),
+                  ),
                 ],
               ),
       ),
@@ -306,10 +317,12 @@ class _HomeScreenState extends State<HomeScreen>
 
 class _PremiumAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
+  final CatalogToolbarController catalogToolbarController;
   final VoidCallback onSettingsTap;
 
   const _PremiumAppBar({
     required this.title,
+    required this.catalogToolbarController,
     required this.onSettingsTap,
   });
 
@@ -439,39 +452,93 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
                   ),
                   Positioned(
                     right: AppSpacing.sm,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: AppColors.primary.withValues(alpha: 0.28),
-                              width: 1,
+                    child: AnimatedBuilder(
+                      animation: widget.catalogToolbarController,
+                      builder: (context, _) {
+                        final l10n = AppLocalizations.of(context)!;
+                        final toolbar = widget.catalogToolbarController;
+                        final showBadge =
+                            MediaQuery.sizeOf(context).width >= 440;
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (showBadge)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.sm,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      AppColors.primary.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: AppColors.primary
+                                        .withValues(alpha: 0.28),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Text(
+                                  l10n.homeFractalCountBadge,
+                                  style: AppTypography.labelSmall.copyWith(
+                                    color: AppColors.primaryLight,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 10,
+                                    letterSpacing: 0.2,
+                                  ),
+                                ),
+                              ),
+                            IconButton(
+                              key: const Key('catalogSearchToggleButton'),
+                              tooltip: l10n.catalogSearchHint,
+                              style: IconButton.styleFrom(
+                                foregroundColor: toolbar.isSearchVisible
+                                    ? AppColors.primary
+                                    : AppColors.textSecondary,
+                                backgroundColor: toolbar.isSearchVisible
+                                    ? AppColors.primary.withValues(alpha: 0.16)
+                                    : Colors.transparent,
+                              ),
+                              icon: const Icon(Icons.search_rounded, size: 20),
+                              onPressed: toolbar.toggleSearch,
                             ),
-                          ),
-                          child: Text(
-                            AppLocalizations.of(context)!.homeFractalCountBadge,
-                            style: AppTypography.labelSmall.copyWith(
-                              color: AppColors.primaryLight,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 10,
-                              letterSpacing: 0.2,
+                            IconButton(
+                              key: const Key('catalogViewToggleButton'),
+                              tooltip: switch (toolbar.viewMode) {
+                                CatalogViewMode.grid =>
+                                  l10n.catalogSwitchToList,
+                                CatalogViewMode.list =>
+                                  Localizations.localeOf(context)
+                                              .languageCode ==
+                                          'es'
+                                      ? 'Cambiar a miniaturas'
+                                      : 'Switch to miniatures',
+                                CatalogViewMode.miniatures =>
+                                  l10n.catalogSwitchToGrid,
+                              },
+                              icon: Icon(
+                                switch (toolbar.viewMode) {
+                                  CatalogViewMode.grid =>
+                                    Icons.view_list_rounded,
+                                  CatalogViewMode.list =>
+                                    Icons.view_module_rounded,
+                                  CatalogViewMode.miniatures =>
+                                    Icons.grid_view_rounded,
+                                },
+                                size: 20,
+                              ),
+                              onPressed: toolbar.toggleViewMode,
                             ),
-                          ),
-                        ),
-                        IconButton(
-                          key: const ValueKey('homeSettingsButton'),
-                          tooltip: AppLocalizations.of(context)!.tabSettings,
-                          icon: const Icon(Icons.settings_rounded, size: 20),
-                          onPressed: widget.onSettingsTap,
-                        ),
-                      ],
+                            IconButton(
+                              key: const ValueKey('homeSettingsButton'),
+                              tooltip: l10n.tabSettings,
+                              icon:
+                                  const Icon(Icons.settings_rounded, size: 20),
+                              onPressed: widget.onSettingsTap,
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ],

@@ -1,6 +1,8 @@
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
+import 'package:flutter_fractals/core/modules/common_params.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/palette_store.dart';
+import 'package:flutter_fractals/l10n/app_localizations_en.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -94,12 +96,16 @@ void main() {
           equals(first.id));
     });
 
-    test('builtInPalettes returns exactly 4 built-in palettes', () async {
+    test('builtInPalettes returns one palette per colorScheme64 option',
+        () async {
       final service = await PaletteService.create();
-      expect(service.builtInPalettes.length, equals(4));
+      expect(
+        service.builtInPalettes.length,
+        equals(CommonFractalParams.paletteCount),
+      );
     });
 
-    test('builtInPalettes contains fire, ocean, psychedelic, grayscale',
+    test('builtInPalettes contains named core and perceptual palettes',
         () async {
       final service = await PaletteService.create();
       final ids = service.builtInPalettes.map((p) => p.id).toSet();
@@ -107,6 +113,22 @@ void main() {
       expect(ids, contains('builtin_ocean'));
       expect(ids, contains('builtin_psychedelic'));
       expect(ids, contains('builtin_grayscale'));
+      expect(ids, contains('builtin_phoenix'));
+      expect(ids, contains('builtin_viridis_depth'));
+      expect(ids, contains('builtin_magma_core'));
+      expect(ids, contains('builtin_cividis_safe'));
+      expect(ids, contains('builtin_colorblind_safe_fire'));
+    });
+
+    test('palette indexes match colorScheme64 labels', () async {
+      final service = await PaletteService.create();
+      final parameter = CommonFractalParams.colorScheme64();
+      final l10n = AppLocalizationsEn();
+
+      for (var i = 0; i < CommonFractalParams.paletteCount; i++) {
+        expect(
+            service.paletteAtIndex(i).name, parameter.options[i].label(l10n));
+      }
     });
 
     test('allPalettes includes built-in palettes when no user palettes exist',

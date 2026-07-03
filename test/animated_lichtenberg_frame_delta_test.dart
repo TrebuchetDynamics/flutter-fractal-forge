@@ -51,9 +51,9 @@ void main() {
         height: _height,
       );
 
-      // t=0 is allowed to be the seed state before any visible growth. Later
-      // requested frames must prove visible content and measurable progression.
-      expect(stats0.nonBlackRatio, 0.0);
+      // Static share previews should be visible at t=0; later frames still
+      // prove measurable animated growth.
+      expect(stats0.histogramSane, isTrue);
       expect(stats05.histogramSane, isTrue);
       expect(stats1.histogramSane, isTrue);
       expect(

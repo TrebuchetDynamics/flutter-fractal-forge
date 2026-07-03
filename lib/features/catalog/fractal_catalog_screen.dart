@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
@@ -25,7 +26,46 @@ import 'package:flutter_fractals/shared/utils/slugify.dart';
 
 part 'widgets/catalog_widgets.dart';
 
-enum CatalogViewMode { grid, list }
+enum CatalogViewMode { grid, list, miniatures }
+
+class CatalogToolbarController extends ChangeNotifier {
+  bool isSearchVisible = false;
+  CatalogViewMode viewMode = CatalogViewMode.grid;
+  VoidCallback? _toggleSearch;
+  VoidCallback? _toggleViewMode;
+
+  void attach({
+    required VoidCallback toggleSearch,
+    required VoidCallback toggleViewMode,
+    required bool isSearchVisible,
+    required CatalogViewMode viewMode,
+  }) {
+    _toggleSearch = toggleSearch;
+    _toggleViewMode = toggleViewMode;
+    this.isSearchVisible = isSearchVisible;
+    this.viewMode = viewMode;
+  }
+
+  void detach() {
+    _toggleSearch = null;
+    _toggleViewMode = null;
+  }
+
+  void update({
+    required bool isSearchVisible,
+    required CatalogViewMode viewMode,
+  }) {
+    if (this.isSearchVisible == isSearchVisible && this.viewMode == viewMode) {
+      return;
+    }
+    this.isSearchVisible = isSearchVisible;
+    this.viewMode = viewMode;
+    notifyListeners();
+  }
+
+  void toggleSearch() => _toggleSearch?.call();
+  void toggleViewMode() => _toggleViewMode?.call();
+}
 
 /// Global shimmer animation controller shared by all thumbnails.
 /// Single controller instead of one per thumbnail (350+ savings).
@@ -59,7 +99,10 @@ class _GlobalShimmerController {
 }
 
 class FractalCatalogScreen extends StatefulWidget {
-  const FractalCatalogScreen({Key? key}) : super(key: key);
+  final CatalogToolbarController? toolbarController;
+
+  const FractalCatalogScreen({Key? key, this.toolbarController})
+      : super(key: key);
 
   @override
   State<FractalCatalogScreen> createState() => _FractalCatalogScreenState();
@@ -68,7 +111,7 @@ class FractalCatalogScreen extends StatefulWidget {
 class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     with TickerProviderStateMixin {
   static const _viewPrefKey = 'catalog_view_grid';
-  static const _defaultCategory = 'Escape-Time';
+  static const _viewModePrefKey = 'catalog_view_mode';
   static const _categorySwipeVelocity = 350.0;
 
   final _searchController = TextEditingController();
@@ -76,7 +119,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   bool get _isSearchFocused => _focusNode.hasFocus;
   bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
-  String? _selectedCategory = _defaultCategory;
+  String? _selectedCategory;
+  final Set<String> _collapsedCategories = <String>{};
 
   // Search debounce - prevents rebuild on every keystroke
   final CatalogSearchDebouncer _searchDebouncer = CatalogSearchDebouncer();
@@ -94,7 +138,32 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     _shimmerController = _GlobalShimmerController.of(this);
     _searchController.addListener(_onSearchChanged);
     _focusNode.addListener(_onSearchFocusChanged);
+    _attachToolbarController();
     _loadViewPreference();
+  }
+
+  @override
+  void didUpdateWidget(covariant FractalCatalogScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.toolbarController == widget.toolbarController) return;
+    oldWidget.toolbarController?.detach();
+    _attachToolbarController();
+  }
+
+  void _attachToolbarController() {
+    widget.toolbarController?.attach(
+      toggleSearch: _toggleSearch,
+      toggleViewMode: _toggleViewMode,
+      isSearchVisible: _isSearchVisible,
+      viewMode: _viewMode,
+    );
+  }
+
+  void _publishToolbarState() {
+    widget.toolbarController?.update(
+      isSearchVisible: _isSearchVisible,
+      viewMode: _viewMode,
+    );
   }
 
   void _onSearchChanged() {
@@ -124,6 +193,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
   @override
   void dispose() {
+    widget.toolbarController?.detach();
     _shimmerController.dispose();
     _searchDebouncer.dispose();
     _searchController.removeListener(_onSearchChanged);
@@ -145,16 +215,22 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   Future<void> _loadViewPreference() async {
     if (!mounted) return;
     final prefs = await SharedPreferences.getInstance();
-    final isGrid = prefs.getBool(_viewPrefKey) ?? true;
+    final modeIndex = prefs.getInt(_viewModePrefKey);
+    final mode = modeIndex != null && modeIndex < CatalogViewMode.values.length
+        ? CatalogViewMode.values[modeIndex]
+        : (prefs.getBool(_viewPrefKey) ?? true
+            ? CatalogViewMode.grid
+            : CatalogViewMode.list);
     if (!mounted) return;
-    setState(() {
-      _viewMode = isGrid ? CatalogViewMode.grid : CatalogViewMode.list;
-    });
+    setState(() => _viewMode = mode);
+    _publishToolbarState();
   }
 
   Future<void> _setViewMode(CatalogViewMode mode) async {
     setState(() => _viewMode = mode);
+    _publishToolbarState();
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_viewModePrefKey, mode.index);
     await prefs.setBool(_viewPrefKey, mode == CatalogViewMode.grid);
   }
 
@@ -176,20 +252,55 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         });
       }
     });
+    _publishToolbarState();
+  }
+
+  void _toggleViewMode() => _setViewMode(_nextViewMode(_viewMode));
+
+  CatalogViewMode _nextViewMode(CatalogViewMode mode) {
+    switch (mode) {
+      case CatalogViewMode.grid:
+        return CatalogViewMode.list;
+      case CatalogViewMode.list:
+        return CatalogViewMode.miniatures;
+      case CatalogViewMode.miniatures:
+        return CatalogViewMode.grid;
+    }
+  }
+
+  IconData _viewModeIcon(CatalogViewMode mode) {
+    switch (mode) {
+      case CatalogViewMode.grid:
+        return Icons.view_list_rounded;
+      case CatalogViewMode.list:
+        return Icons.view_module_rounded;
+      case CatalogViewMode.miniatures:
+        return Icons.grid_view_rounded;
+    }
+  }
+
+  String _viewModeLabel(AppLocalizations l10n, CatalogViewMode mode) {
+    switch (mode) {
+      case CatalogViewMode.grid:
+        return l10n.catalogSwitchToList;
+      case CatalogViewMode.list:
+        return Localizations.localeOf(context).languageCode == 'es'
+            ? 'Cambiar a miniaturas'
+            : 'Switch to miniatures';
+      case CatalogViewMode.miniatures:
+        return l10n.catalogSwitchToGrid;
+    }
   }
 
   void _clearCatalogRefinements() {
     setState(() {
       _resetSearchInputState();
       _isSearchVisible = false;
-      _selectedCategory = _defaultCategory;
+      _selectedCategory = null;
+      _collapsedCategories.clear();
     });
+    _publishToolbarState();
   }
-
-  /// True when a search query or category filter is narrowing the catalog —
-  /// used to surface the result count + one-tap "clear all".
-  bool get _hasActiveRefinements =>
-      _debouncedQuery.isNotEmpty || _selectedCategory != _defaultCategory;
 
   Map<String, List<CatalogEntry>> _groupAndSort(
       List<CatalogEntry> entries, AppLocalizations l10n) {
@@ -200,6 +311,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
     final sortedEntries = grouped.entries.toList()
       ..sort((a, b) {
+        final priorityCompare = _categorySortPriority(a.key)
+            .compareTo(_categorySortPriority(b.key));
+        if (priorityCompare != 0) return priorityCompare;
         final countCompare = b.value.length.compareTo(a.value.length);
         if (countCompare != 0) return countCompare;
         return a.key.compareTo(b.key);
@@ -211,6 +325,11 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           ..sort((a, b) =>
               a.module.displayName(l10n).compareTo(b.module.displayName(l10n))),
     };
+  }
+
+  int _categorySortPriority(String category) {
+    if (category == 'Escape-Time') return 0;
+    return 1;
   }
 
   @override
@@ -232,35 +351,37 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         details,
         filterResult,
       ),
-      child: CustomScrollView(
-        slivers: [
-          SliverPersistentHeader(
-            key: const Key('catalogPinnedFilterBar'),
-            pinned: true,
-            delegate: _PinnedHeaderDelegate(
-              height: _hasActiveRefinements ? 112 : 80,
-              child: _buildPinnedTopBar(
-                context,
-                l10n,
-                filterResult,
-                filteredEntries.length,
+      child: DecoratedBox(
+        decoration: const BoxDecoration(gradient: AppColors.cosmicGradient),
+        child: CustomScrollView(
+          slivers: [
+            SliverPersistentHeader(
+              key: const Key('catalogPinnedFilterBar'),
+              pinned: true,
+              delegate: _PinnedHeaderDelegate(
+                height: 80,
+                child: _buildPinnedTopBar(context, l10n, filterResult),
               ),
             ),
-          ),
-          if (filteredEntries.isEmpty)
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: _EmptyState(
-                query: query,
-                l10n: l10n,
-                onClear: _clearCatalogRefinements,
+            if (filteredEntries.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: _EmptyState(
+                  query: query,
+                  l10n: l10n,
+                  onClear: _clearCatalogRefinements,
+                ),
+              )
+            else if (_viewMode == CatalogViewMode.list)
+              _buildListContentSliver(groupedEntries, l10n)
+            else
+              _buildGridContentSliver(
+                groupedEntries,
+                l10n,
+                miniatures: _viewMode == CatalogViewMode.miniatures,
               ),
-            )
-          else if (_viewMode == CatalogViewMode.grid)
-            _buildGridContentSliver(groupedEntries, l10n)
-          else
-            _buildListContentSliver(groupedEntries, l10n),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -287,6 +408,14 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     AccessibilityService.announce(nextCategory ?? _allCategoriesLabel(context));
   }
 
+  void _toggleCategorySection(String category) {
+    setState(() {
+      if (!_collapsedCategories.add(category)) {
+        _collapsedCategories.remove(category);
+      }
+    });
+  }
+
   List<String?> _categoryChoices(CatalogFilterResult filterResult) {
     final counts = filterResult.categoryCounts;
     final categories = counts.keys.toList()
@@ -302,16 +431,18 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     BuildContext context,
     AppLocalizations l10n,
     CatalogFilterResult filterResult,
-    int resultCount,
   ) {
-    return ColoredBox(
-      color: AppColors.background,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.background.withValues(alpha: 0.96),
+        border: Border(
+          bottom: BorderSide(color: AppColors.border.withValues(alpha: 0.6)),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildFilterAndSortBar(context, l10n, filterResult),
-          if (_hasActiveRefinements)
-            _buildActiveFilterChips(context, l10n, resultCount),
         ],
       ),
     );
@@ -326,6 +457,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final categoryCounts = filterResult.categoryCounts;
     final totalCategoryCount = filterResult.categoryBaseEntries.length;
     final allCategoriesLabel = _allCategoriesLabel(context);
+    final showLocalActions = widget.toolbarController == null;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -358,29 +490,23 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                       },
                     ),
             ),
-            const SizedBox(width: AppSpacing.xs),
-            _SimpleIconButton(
-              buttonKey: const Key('catalogSearchToggleButton'),
-              icon: Icons.search_rounded,
-              semanticLabel: l10n.catalogSearchHint,
-              isActive: _isSearchVisible,
-              onTap: _toggleSearch,
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            _SimpleIconButton(
-              buttonKey: const Key('catalogViewToggleButton'),
-              icon: _viewMode == CatalogViewMode.grid
-                  ? Icons.view_list_rounded
-                  : Icons.grid_view_rounded,
-              semanticLabel: _viewMode == CatalogViewMode.grid
-                  ? l10n.catalogSwitchToList
-                  : l10n.catalogSwitchToGrid,
-              onTap: () => _setViewMode(
-                _viewMode == CatalogViewMode.grid
-                    ? CatalogViewMode.list
-                    : CatalogViewMode.grid,
+            if (showLocalActions) ...[
+              const SizedBox(width: AppSpacing.xs),
+              _SimpleIconButton(
+                buttonKey: const Key('catalogSearchToggleButton'),
+                icon: Icons.search_rounded,
+                semanticLabel: l10n.catalogSearchHint,
+                isActive: _isSearchVisible,
+                onTap: _toggleSearch,
               ),
-            ),
+              const SizedBox(width: AppSpacing.xs),
+              _SimpleIconButton(
+                buttonKey: const Key('catalogViewToggleButton'),
+                icon: _viewModeIcon(_viewMode),
+                semanticLabel: _viewModeLabel(l10n, _viewMode),
+                onTap: _toggleViewMode,
+              ),
+            ],
           ],
         ),
       ),
@@ -448,76 +574,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     );
   }
 
-  /// Slim summary row shown only while a filter is active: result count on the
-  /// left, removable chips on the right so users can unwind one refinement.
   String _allCategoriesLabel(BuildContext context) {
     return Localizations.localeOf(context).languageCode == 'es'
         ? 'Todas las categorías'
         : 'All categories';
-  }
-
-  Widget _buildActiveFilterChips(
-    BuildContext context,
-    AppLocalizations l10n,
-    int resultCount,
-  ) {
-    final selectedCategory = _selectedCategory;
-    final chips = <Widget>[
-      Text(
-        l10n.catalogResultsCount(resultCount),
-        style: AppTypography.labelSmall.copyWith(
-          color: AppColors.textSecondary,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ];
-
-    if (_debouncedQuery.isNotEmpty) {
-      chips.add(
-        InputChip(
-          key: const Key('catalogActiveSearchChip'),
-          label: Text('Search: $_debouncedQuery'),
-          onDeleted: _clearSearchInput,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          visualDensity: VisualDensity.compact,
-        ),
-      );
-    }
-
-    if (selectedCategory != _defaultCategory) {
-      chips.add(
-        InputChip(
-          key: const Key('catalogActiveCategoryChip'),
-          label: Text(selectedCategory ?? _allCategoriesLabel(context)),
-          onDeleted: () => setState(() => _selectedCategory = _defaultCategory),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          visualDensity: VisualDensity.compact,
-        ),
-      );
-    }
-
-    chips.add(
-      ActionChip(
-        key: const Key('catalogClearFiltersButton'),
-        avatar: const Icon(Icons.clear_all_rounded, size: 16),
-        label: Text(l10n.catalogClearFilters),
-        onPressed: _clearCatalogRefinements,
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        visualDensity: VisualDensity.compact,
-      ),
-    );
-
-    return SizedBox(
-      height: 40,
-      child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(AppSpacing.lg, 0, AppSpacing.lg, 4),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => Center(child: chips[index]),
-        separatorBuilder: (context, index) =>
-            const SizedBox(width: AppSpacing.xs),
-        itemCount: chips.length,
-      ),
-    );
   }
 
   Widget _buildListContentSliver(
@@ -528,9 +588,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     // a section header, a card, or spacing.
     final flatItems = <_ListItem>[];
     for (final section in groupedEntries.entries) {
+      final collapsed = _collapsedCategories.contains(section.key);
       flatItems.add(_ListItem.header(section.key, section.value.length));
-      for (final entry in section.value) {
-        flatItems.add(_ListItem.card(entry));
+      if (!collapsed) {
+        for (final entry in section.value) {
+          flatItems.add(_ListItem.card(entry));
+        }
       }
       flatItems.add(_ListItem.spacing());
     }
@@ -548,7 +611,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                 right: AppSpacing.lg,
                 top: AppSpacing.md,
               ),
-              child: _SectionHeader(title: item.title!, count: item.count!),
+              child: _SectionHeader(
+                title: item.title!,
+                count: item.count!,
+                collapsed: _collapsedCategories.contains(item.title!),
+                onToggle: () => _toggleCategorySection(item.title!),
+              ),
             );
           } else if (item.isSpacing) {
             return const SizedBox(height: AppSpacing.lg);
@@ -579,19 +647,28 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
   Widget _buildGridContentSliver(
     Map<String, List<CatalogEntry>> groupedEntries,
-    AppLocalizations l10n,
-  ) {
+    AppLocalizations l10n, {
+    bool miniatures = false,
+  }) {
     final width = MediaQuery.of(context).size.width;
-    final crossAxisCount = width >= 1024
-        ? 5
-        : width >= 840
-            ? 4
-            : width >= 600
-                ? 3
-                : 2;
+    final crossAxisCount = miniatures
+        ? 4
+        : width >= 1024
+            ? 5
+            : width >= 840
+                ? 4
+                : width >= 600
+                    ? 3
+                    : 2;
+    final childAspectRatio = miniatures ? 1.0 : (width >= 1024 ? 0.95 : 0.82);
+    final spacing = miniatures ? AppSpacing.xs : AppSpacing.md;
     final children = <Widget>[];
+    var sectionIndex = 0;
 
     for (final section in groupedEntries.entries) {
+      final sectionSlug = slugify(section.key);
+      final sectionKey = '${sectionSlug}_$sectionIndex';
+      sectionIndex += 1;
       children.add(
         SliverToBoxAdapter(
           child: Padding(
@@ -600,13 +677,26 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
               right: AppSpacing.lg,
               top: AppSpacing.md,
             ),
-            child:
-                _SectionHeader(title: section.key, count: section.value.length),
+            child: _SectionHeader(
+              title: section.key,
+              count: section.value.length,
+              collapsed: _collapsedCategories.contains(section.key),
+              onToggle: () => _toggleCategorySection(section.key),
+            ),
           ),
         ),
       );
+      if (_collapsedCategories.contains(section.key)) {
+        children.add(
+          const SliverToBoxAdapter(
+            child: SizedBox(height: AppSpacing.sm),
+          ),
+        );
+        continue;
+      }
       children.add(
         SliverPadding(
+          key: Key('catalogSectionGrid_$sectionKey'),
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           sliver: SliverGrid(
             delegate: SliverChildBuilderDelegate(
@@ -616,6 +706,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                   child: _ModuleGridTile(
                     entry: entry,
                     l10n: l10n,
+                    miniatures: miniatures,
                     shimmerController: _shimmerController,
                     onTap: () => _openViewer(
                       context,
@@ -630,9 +721,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
-              mainAxisSpacing: AppSpacing.md,
-              crossAxisSpacing: AppSpacing.md,
-              childAspectRatio: 1 / 0.82,
+              mainAxisSpacing: spacing,
+              crossAxisSpacing: spacing,
+              childAspectRatio: childAspectRatio,
             ),
           ),
         ),

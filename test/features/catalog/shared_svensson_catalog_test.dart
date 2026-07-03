@@ -32,6 +32,19 @@ void main() {
     expect(params['d'], -6.36);
   });
 
+  test('bounds reported Svensson Petals bad random coefficients', () {
+    final module = ModuleRegistry().byId('f1051_svensson_petals');
+    final paramsById = {for (final param in module.parameters) param.id: param};
+
+    expect(paramsById['a']!.min, closeTo(-3.3, 1e-9));
+    expect(paramsById['a']!.max, closeTo(-2.1, 1e-9));
+    expect(2.17, greaterThan(paramsById['a']!.max));
+    expect(paramsById['b']!.min, closeTo(4.4, 1e-9));
+    expect(-0.15, lessThan(paramsById['b']!.min));
+    expect(paramsById['d']!.min, closeTo(0.4, 1e-9));
+    expect(-6.66, lessThan(paramsById['d']!.min));
+  });
+
   test('allows Svensson Halo to keep its high bailout default', () {
     final module = ModuleRegistry().byId('f1054_svensson_halo');
     final bailout = module.parameters.singleWhere((p) => p.id == 'bailout');

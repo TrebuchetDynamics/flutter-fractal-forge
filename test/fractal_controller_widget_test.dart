@@ -177,7 +177,7 @@ void main() {
 
       // Randomize several times to ensure a change
       for (int i = 0; i < 20; i++) {
-        controller.randomizeParams();
+        controller.randomizeParams(animate: false);
         await tester.pumpAndSettle();
         if (controller.params['iterations'] != initialValue) {
           break;
