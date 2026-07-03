@@ -51,10 +51,6 @@ vec2 deltaMandelbrot(vec2 Zn, vec2 dz, vec2 dc) {
   return 2.0 * cmul(Zn, dz) + cmul(dz, dz) + dc;
 }
 
-vec2 deltaJulia(vec2 Zn, vec2 dz) {
-  return 2.0 * cmul(Zn, dz) + cmul(dz, dz);
-}
-
 vec2 deltaBurningShip(vec2 Zn, vec2 dz, vec2 dc) {
   vec2 Wn = vec2(abs(Zn.x), abs(Zn.y));
   vec2 dw = vec2(sign(Zn.x) * dz.x, sign(Zn.y) * dz.y);
@@ -123,8 +119,15 @@ void main() {
   float bailoutSq = uBailout * uBailout;
   int maxIter = int(clamp(uIterations, 4.0, 2000.0));
 
+  // Julia mode (uExtra2 > 0.5): c is constant, so the dc source term is
+  // zero and the pixel offset enters through the initial delta instead
+  // (z0 = center + offset vs reference z0 = center => dz0 = offset).
   vec2 dc = uv / max(1e-9, uZoom);
   vec2 dz = vec2(0.0);
+  if (uExtra2 > 0.5) {
+    dz = dc;
+    dc = vec2(0.0);
+  }
   vec2 dzPrev = vec2(0.0);
   int it = 0;
   float finalMag2 = 0.0;
@@ -143,7 +146,9 @@ void main() {
     if (formula == 0) {
       dzNew = deltaMandelbrot(Zn, dz, dc);
     } else if (formula == 1) {
-      dzNew = deltaJulia(Zn, dz);
+      // Legacy julia formula id: identical to Mandelbrot's delta; julia
+      // behavior comes from the uExtra2 mode (dc = 0, dz0 = offset).
+      dzNew = deltaMandelbrot(Zn, dz, dc);
     } else if (formula == 2) {
       dzNew = deltaBurningShip(Zn, dz, dc);
     } else if (formula == 3) {
