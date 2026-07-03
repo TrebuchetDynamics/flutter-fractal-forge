@@ -16,7 +16,7 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 ## Code of Conduct
 
-Follow [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). Be respectful and inclusive. We welcome contributors of all experience levels and backgrounds.
+Be respectful and inclusive. We welcome contributors of all experience levels and backgrounds.
 
 ## Getting Started
 
