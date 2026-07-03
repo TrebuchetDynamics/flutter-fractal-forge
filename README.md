@@ -1,156 +1,153 @@
-# Flutter Fractal Forge 🌀
+# Flutter Fractal Forge
 
 <p align="center">
-  <img src="assets/feature-graphic.png" alt="Flutter Fractal Forge" width="600"/>
+  <img src="assets/feature-graphic.png" alt="Flutter Fractal Forge" width="720"/>
 </p>
 
+<p align="center">
+  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter" alt="Flutter 3.x"/></a>
+  <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart" alt="Dart 3.x"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 license"/></a>
+</p>
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?logo=flutter)](https://flutter.dev)
-[![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart)](https://dart.dev)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-
-**Fractal Forge** is an open-source Flutter fractal explorer focused on GPU-first shader rendering, deep zoom, and a broad catalog of mathematical systems.
+**Fractal Forge** is an open-source Flutter fractal explorer with GPU-first shader rendering, deep zoom, and a broad catalog of mathematical systems.
 
 ## Try it
 
-- **Web:** [fractal.trebuchetdynamics.com](https://fractal.trebuchetdynamics.com)
-- **Android:** [Google Play Store](https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge)
-
-> The installable app is the primary experience. The browser build targets WebGL 2.0; WebAssembly is not currently supported. See [`docs/planning/LAUNCH_LADDER.md`](docs/planning/LAUNCH_LADDER.md) and [`docs/engineering/rendering/renderer_backend_matrix.md`](docs/engineering/rendering/renderer_backend_matrix.md).
-
----
-
-## ✨ Features
-
-### 🔢 350+ Fractal Types Across 15+ Categories
-
-**Escape-time fractals**
-Mandelbrot, Julia sets, Burning Ship, Tricorn, Celtic, Buffalo, Newton basins, Nova, Phoenix, Lyapunov, Buddhabrot variants, and dozens more.
-
-**Strange attractors**
-Clifford, Peter de Jong, Lorenz, Rossler, and related continuous/discrete attractor families.
-
-**Cellular automata**
-Wolfram Rule 30, Langton's Ant, Game of Life variants, and related 2D rule systems.
-
-**Space-filling curves**
-Hilbert, Peano, Gosper, Moore, and related recursive curve families.
-
-**IFS fractals**
-Sierpinski triangle and carpet, Koch snowflake, Barnsley Fern, and other iterated function systems.
-
-**Aperiodic tilings**
-Penrose (P2/P3), Hat monotile, Ammann-Beenker, and related non-periodic plane tilings.
-
-**Root-finding fractals**
-Newton, Halley, Householder, Schroeder, and other numerical method basins of attraction.
-
-**3D ray-marched fractals**
-Mandelbulb, Mandelbox, pseudo-Kleinian, and other distance-estimated 3D structures — rendered in real time by GLSL fragment shaders on the GPU.
-
-Fractal Forge is GPU-first: the interactive catalog uses GLSL fragment shaders where the platform supports them, with documented CPU Precision paths for deep-zoom cases that need stable refinement.
-
-
-
-### 🔬 Deep Zoom — Precision Ladder
-
-A three-tier precision ladder routes supported modules through the most honest available render path:
-
-| Tier | Method | Intended use |
+| Platform | Link | Notes |
 | :--- | :--- | :--- |
-| 1 | float32 GPU | Standard interactive zoom |
-| 2 | Extended GPU preview | Double-float or perturbation preview for deeper interactive zoom |
-| 3 | CPU Precision | Stable refinement path for supported deep-zoom 2D modules |
+| Web preview | [fractal.trebuchetdynamics.com](https://fractal.trebuchetdynamics.com) | WebGL 2.0 target. WebAssembly is not currently supported. |
+| Android | [Google Play Store](https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge) | Primary installable experience. |
+| Source | This repository | Build locally for desktop, Android, iOS, or web. |
 
-The installable app is the primary experience. Browser support is a WebGL 2.0 preview; export/share, CPU precision fallback, and deep-zoom browser behavior are tracked in the renderer backend matrix.
+The installable app is the most complete experience. Browser export, sharing, CPU precision fallback, and deep-zoom behavior are tracked in the [renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md) and [launch ladder](docs/planning/LAUNCH_LADDER.md).
 
-### 🎨 60+ Colour Schemes with sRGB-Correct Rendering
+## New here? Start here
 
-Rendering techniques available across fractal types:
-- Smooth colouring (continuous iteration count)
-- Orbit traps
-- Distance estimation
-- Stripe averaging
-- Triangle inequality averaging
-- Curvature averaging
-- Normal-map bas-relief shading
+You do not need to know fractal math to use the app.
 
-All colour output is sRGB-correct with proper gamma for accurate reproduction on modern displays.
+1. Open the [web preview](https://fractal.trebuchetdynamics.com) or install the Android app.
+2. Pick a fractal from the catalog.
+3. Drag to move, pinch or scroll to zoom, and try a preset when you want a good starting view.
+4. Change the color scheme or iteration count to see how the image responds.
+5. Export or share a render when you find a view you like.
 
-### 🪞 Dual Mandelbrot / Julia Viewer
+If you are new to Flutter development, the easiest local run target is usually Chrome:
 
-See the Mandelbrot set and its corresponding Julia set side by side. Tap any point in the Mandelbrot half to instantly update the Julia seed parameter.
+```bash
+flutter pub get
+flutter run -d chrome
+```
 
-### 🤖 Auto-Explore Mode
+## What you can do
 
-Let the app discover interesting regions automatically. The intelligent zoom navigation finds mathematically rich structures in any fractal without manual input.
+- **1,585 production fractals** across escape-time systems, Newton basins, strange attractors, IFS, cellular automata, tilings, space-filling curves, and 3D ray-marched forms.
+- **GPU-first rendering** through Flutter fragment shaders, with documented CPU Precision paths for supported deep-zoom cases.
+- **60+ color schemes** with smooth coloring, orbit traps, distance estimation, stripe averaging, curvature averaging, and normal-map relief.
+- **Exploration tools** including presets, randomizer, looper, auto-explore, dual Mandelbrot / Julia viewing, export, wallpaper, and Fractal Music experiments.
+- **Private by design**: no ads, no tracking, no account requirement, and no data collection.
+- **Accessibility basics**: high contrast, reduced motion support, screen reader labels, and configurable touch targets.
 
-### 💾 50+ Built-in Presets
-
-Jump straight to famous regions — Seahorse Valley, Elephant Valley, deep spiral arms, Julia islands, and more — with a single tap.
-
-### ♿ WCAG AAA Accessibility
-
-- High-contrast theme
-- Reduced-motion support
-- Screen reader labels on all interactive elements
-- Configurable touch targets
-
-### 📤 Export
-
-Save fractals as high-resolution PNGs with optional transparency and share directly from the installable app. Browser export/share behavior is preview-grade until validated in the web launch checklist.
-
-### 🔒 No Ads. No Tracking. No Data Collection.
-
-
----
-
-## 📸 Screenshots
-
-Representative catalog and viewer captures:
+## Preview
 
 | Catalog exploration | GPU viewer |
 | :---: | :---: |
-| <img src="docs/assets/launch/web_catalog_smoke.png" alt="Fractal Forge catalog showing hundreds of fractal modules" width="420"/> | <img src="docs/assets/launch/web_viewer_smoke.png" alt="Fractal Forge GPU viewer rendering a 3D fractal" width="420"/> |
+| <img src="docs/assets/launch/web_catalog_smoke.png" alt="Fractal Forge catalog showing many fractal modules" width="420"/> | <img src="docs/assets/launch/web_viewer_smoke.png" alt="Fractal Forge GPU viewer rendering a 3D fractal" width="420"/> |
 
----
+<p align="center">
+  <img src="docs/assets/launch/web_preview_loop.gif" alt="Fractal Forge web preview moving from landing page to catalog to viewer" width="760"/>
+</p>
 
-## 🚀 Getting Started
+These are current web smoke assets, not final marketing captures. See [`docs/assets/launch/README.md`](docs/assets/launch/README.md).
+
+## Feature map
+
+### Fractal families
+
+- **Escape-time:** Mandelbrot, Julia, Burning Ship, Tricorn, Celtic, Buffalo, Nova, Phoenix, Lyapunov, Buddhabrot variants, and more.
+- **Root finding:** Newton, Halley, Householder, Schroeder, Traub-Ostrowski, Noor Newton, Wada-style basins, and related methods.
+- **Strange attractors:** Clifford, Peter de Jong, Lorenz, Rossler, Aizawa, Dadras, Hopalong, Sprott, Svensson, Thomas, Zaslavsky, and more.
+- **IFS and geometry:** Sierpinski, Koch, Barnsley Fern, Hilbert, Peano, Gosper, Moore, circle inversion, packing, quasicrystal, and L-system families.
+- **Cellular and stochastic:** Wolfram rules, Game of Life variants, Langton-style systems, Wireworld, reaction-diffusion-like fields, and growth models.
+- **Tilings and number theory:** Penrose, Hat monotile, Ammann-Beenker, Farey, Hofstadter, Ulam, and related visual systems.
+- **3D and hypercomplex:** Mandelbulb, Mandelbox, pseudo-Kleinian, quaternion Julia, dual quaternion Julia, KIFS, and other ray-marched structures.
+
+### Deep zoom precision ladder
+
+| Tier | Method | Intended use |
+| :--- | :--- | :--- |
+| 1 | float32 GPU | Standard interactive zoom. |
+| 2 | Extended GPU preview | Double-float or perturbation preview for deeper interactive zoom. |
+| 3 | CPU Precision | Stable refinement path for supported deep-zoom 2D modules. |
+
+### Controls
+
+| Gesture | 2D fractals | 3D fractals |
+| :--- | :--- | :--- |
+| Drag | Pan view | Rotate view |
+| Pinch | Zoom in or out | Zoom in or out |
+| Double tap | Reset view | Reset view |
+| Long press | Set Julia seed in the dual viewer | Not used |
+
+Common parameters include iterations, bailout, power, color scheme, rendering technique, Julia seed, orbit traps, and family-specific controls.
+
+## Platform support
+
+| Platform | Status | Notes |
+| :--- | :--- | :--- |
+| Android | Primary | Google Play build path is maintained. |
+| Web | Preview | WebGL 2.0 target. WebAssembly is blocked by current dependency imports. |
+| Linux, macOS, Windows | Supported for development and local builds | Shader support depends on GPU driver behavior. |
+| iOS | Build target | Requires Apple signing and Metal-backed Flutter rendering. |
+
+## Run locally
 
 ### Prerequisites
 
-- **Flutter SDK** >= 3.0.0
-- **Dart SDK** >= 3.0.0
-- A device/emulator with OpenGL ES 3.0+ support (required for GPU shaders)
+- Flutter SDK 3.x. Start with the official [Flutter install guide](https://docs.flutter.dev/get-started/install) if this is your first Flutter project.
+- Dart SDK 3.x, included with Flutter.
+- A GPU or emulator with shader support. OpenGL ES 3.0+ is recommended for GPU paths.
 
-### Installation
+Check your setup first:
 
-1. **Clone the repository:**
+```bash
+flutter doctor
+```
 
-   ```bash
-   git clone https://github.com/XelHaku/flutter-fractal-forge.git
-   cd flutter-fractal-forge
-   ```
+### Start the app
 
-2. **Install dependencies:**
+```bash
+git clone https://github.com/XelHaku/flutter-fractal-forge.git
+cd flutter-fractal-forge
+flutter pub get
+flutter run -d chrome
+```
 
-   ```bash
-   flutter pub get
-   ```
+To pick another device:
 
-3. **Run the app:**
+```bash
+flutter devices
+flutter run -d linux
+flutter run -d android
+```
 
-   ```bash
-   flutter run
-   ```
+If a device-specific shader path fails, try Chrome or Android first. Those are the most useful beginner targets.
 
-### Platform-Specific Build
+## Beginner glossary
 
-#### Android
+- **Fractal:** a pattern with structure that repeats or changes as you zoom.
+- **Shader:** a small GPU program that draws each pixel quickly.
+- **Preset:** a saved camera position and parameter set for an interesting region.
+- **Iteration count:** how long the formula runs per pixel. Higher values can add detail but may slow rendering.
+- **Bailout:** the threshold used by many fractals to decide when a point has escaped.
+- **CPU Precision:** a slower fallback path used when very deep zoom needs more numerical stability than the GPU preview can provide.
+
+## Build release artifacts
+
+### Android
 
 ```bash
 flutter build apk --release
-# or for a local app bundle
 flutter build appbundle --release
 ```
 
@@ -159,133 +156,103 @@ Release signing files are intentionally not tracked. For Google Play upload buil
 1. Copy `android/key.properties.example` to `android/key.properties`.
 2. Point `storeFile` to your private upload keystore, preferably outside the repo.
 3. Never commit `android/key.properties`, `*.jks`, `*.keystore`, `*.p12`, `*.pfx`, or `*.pem` files.
-4. Build the Play Console artifact with:
+4. Build the Play Console artifact:
 
    ```bash
    scripts/build-play-console.sh
    ```
 
-#### iOS
+### Web
 
 ```bash
-flutter build ios --release
+flutter build web --release
 ```
 
-#### Linux / macOS / Windows
+The public web preview is JavaScript/WebGL 2.0. Do not advertise WebAssembly until `flutter build web --wasm` is green.
+
+### Desktop and iOS
 
 ```bash
 flutter build linux --release
 flutter build macos --release
 flutter build windows --release
+flutter build ios --release
 ```
 
 Linux notes:
+
 - Fractal Music uses `paplay` or `aplay` when available.
 - Mobile-aspect screenshot runs can set `FRACTAL_FORGE_MOBILE_SCREENSHOT=1`.
 
-> **Note:** Desktop platforms may have limited shader support depending on GPU drivers.
-
----
-
-## 🏗️ Architecture
+## Architecture
 
 ```text
 lib/
-├── core/                               # Core business logic
-│   ├── models/                         # Data models
-│   │   ├── fractal_params.dart         # Legacy parameter model
-│   │   ├── fractal_parameter.dart      # Parameter schema definition
-│   │   ├── fractal_preset.dart         # Preset storage model
-│   │   ├── fractal_view_state.dart     # Camera/view state
-│   │   └── export_options.dart         # Export configuration
-│   ├── modules/                        # Fractal module definitions
-│   │   ├── fractal_module.dart         # Base module interface
-│   │   ├── module_registry.dart        # Central module registry
-│   │   └── [350+ module files]         # One file per fractal type
-│   ├── services/                       # App-wide services
-│   │   ├── accessibility_service.dart  # WCAG AAA helpers
-│   │   └── palette_service.dart        # 60+ colour scheme management
-│   └── theme/                          # Theming system
-│       └── app_theme.dart
-├── features/                           # Feature modules
-│   ├── auto_explore/                   # Intelligent auto-zoom
-│   ├── catalog/                        # Fractal catalog browser
-│   ├── controls/                       # Parameter controls UI
-│   ├── debug/                          # Debug overlay (dev only)
-│   ├── export/                         # PNG export & batch export
-│   ├── history/                        # Navigation history
-│   ├── home/                           # Home screen
-│   ├── onboarding/                     # First-run onboarding
-│   ├── presets/                        # Preset management
-│   ├── renderer/                       # Shader rendering engine
-│   │   ├── fractal_renderer.dart       # Main renderer widget
-│   │   ├── fractal_painter.dart        # CustomPainter for shaders
-│   │   └── cpu_fractal_renderer.dart   # CPU double-precision fallback
-│   ├── settings/                       # Accessibility settings
-│   ├── viewer/                         # Full-screen fractal viewer
-│   │   ├── fractal_viewer_screen.dart  # Main viewer screen
-│   │   └── components/                 # Viewer sub-components
-│   └── wallpaper/                      # Wallpaper export
-├── l10n/                               # Localisation (en, es)
-└── main.dart                           # App entry point
+├── app/                     # App shell and top-level composition
+├── core/
+│   ├── controllers/         # Primary state and input controllers
+│   ├── models/              # View state, params, presets, history, palette, export, wallpaper
+│   ├── modules/             # FractalModule definitions, registry, builders, shared catalogs
+│   ├── services/            # Rendering, storage, export, platform, diagnostics, accessibility
+│   ├── shaders/             # Shader utility definitions
+│   ├── theme/               # Material theme setup
+│   └── widgets/             # Core reusable widgets
+├── features/
+│   ├── auto_explore/        # Automatic region discovery
+│   ├── catalog/             # Catalog browser and thumbnails
+│   ├── controls/            # Parameter controls UI
+│   ├── export/              # PNG and batch export UI
+│   ├── looper/              # Animated parameter loops
+│   ├── renderer/            # GPU, CPU, policy, and validation renderer layers
+│   ├── viewer/              # Full-screen viewer, overlays, audio, navigation, actions
+│   └── wallpaper/           # Wallpaper save/apply flow
+├── l10n/                    # English and Spanish ARB files
+├── shared/                  # Shared widgets and utilities
+└── main.dart                # Entry point
 ```
 
-### Key Components
+Key runtime path:
 
-**FractalModule** — Defines a fractal type with its GLSL shader, parameter schema, and built-in presets. Each module is self-contained and declarative. The `ModuleRegistry` holds all 350+ modules.
+1. `main.dart` initializes services and Provider wiring.
+2. `ModuleRegistry` builds the fractal catalog from declarative configs, shared catalogs, custom builders, and debug-only diagnostics.
+3. Catalog and viewer screens select a `FractalModule`.
+4. Renderer widgets load the module shader, map Dart parameters to GLSL uniforms, and route to GPU or CPU precision paths as needed.
+5. Export, wallpaper, looper, audio, and history features consume the same view state instead of forking renderer logic.
 
-**FractalRenderer** — Stateful widget that loads the appropriate GLSL fragment shader, handles gesture input (pan, pinch, double-tap), and renders at up to 60 FPS using `CustomPainter`.
+Public copy should say **1,585 production fractals** for the current registry. Debug and test builds include 7 diagnostic modules in addition to production modules.
 
-**Multi-precision zoom engine** — Automatically selects float32 GPU, double-float GPU emulation, or CPU double fallback based on the current zoom depth.
-
-**PaletteService** — Manages the 60+ colour schemes and applies sRGB-correct gamma to all output.
-
-**AccessibilityService** — Enforces WCAG AAA contrast ratios, respects `prefers-reduced-motion`, and surfaces screen reader semantics throughout the widget tree.
-
----
-
-## 🎮 Controls
-
-### Gesture Controls
-
-| Gesture | 2D Fractals | 3D Fractals |
-| :--- | :--- | :--- |
-| **Drag** | Pan view | Rotate view |
-| **Pinch** | Zoom in/out | Zoom in/out |
-| **Double Tap** | Reset view | Reset view |
-| **Long Press** | Set Julia seed (dual viewer) | — |
-
-### Parameter Controls
-
-- **Iterations** — Detail level (higher = more detail, slower render)
-- **Bailout** — Escape threshold for calculations
-- **Power** — Mathematical power exponent (3D fractals)
-- **Colour Scheme** — Select from 60+ palettes
-- **Rendering technique** — Orbit trap, distance estimation, stripe averaging, etc.
-
----
-
-## 🧪 Testing
+## Testing
 
 ```bash
 # Unit and widget tests
 flutter test
 
-# Integration tests (requires device/emulator)
+# Integration tests, requires a device or emulator
 flutter test integration_test
 
-# With coverage
+# Coverage
 flutter test --coverage
 ```
 
----
+Useful targeted checks:
 
-## 🔧 Shader Development
+```bash
+flutter test test/features/renderer/
+flutter test integration_test/flows/critical_journey_test.dart
+```
 
-Shaders are located in `/shaders/` and use GLSL fragment shader syntax compatible with Flutter's `FragmentProgram` API:
+## Shader development
+
+Shaders live in [`shaders/`](shaders/) and are declared under `flutter.shaders` in [`pubspec.yaml`](pubspec.yaml). Most modules use this pattern:
+
+1. Add or update the GLSL fragment shader.
+2. Register the shader asset in `pubspec.yaml`.
+3. Add or update the module config or builder.
+4. Add a small module or renderer test when behavior changes.
+
+Minimal shader shape:
 
 ```glsl
-// Example: shaders/mandelbrot.frag
 #version 320 es
 precision highp float;
 
@@ -293,65 +260,40 @@ uniform float uTime;
 uniform vec2 uResolution;
 uniform vec2 uCenter;
 uniform float uZoom;
-// ... more uniforms
 
 out vec4 fragColor;
 
 void main() {
-    // Escape-time calculation with smooth colouring
+  vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution) / uResolution.y;
+  fragColor = vec4(uv * 0.5 + 0.5, 0.2, 1.0);
 }
 ```
 
----
+## More docs
 
-## 📋 Requirements
+- [Performance notes](docs/engineering/performance/PERFORMANCE.md)
+- [Shader optimizations](docs/engineering/performance/SHADER_OPTIMIZATIONS.md)
+- [Renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md)
+- [Formula coverage limitation](docs/engineering/rendering/formula_coverage_limitation.md)
+- [Launch ladder](docs/planning/LAUNCH_LADDER.md)
+- [Play Store listing assets](docs/store_listing/)
 
-| Platform | Minimum | Notes |
-| :------- | :------ | :---- |
-| iOS      | 10.0 | Metal-backed shaders |
-| Web      | Chrome 70+ | WebGL 2.0 required |
-| Desktop  | Varies | GPU driver dependent |
+## Contributing
 
----
+Contributions are welcome. Good first areas include thumbnail quality, presets, shader polish, web preview QA, accessibility checks, and documentation cleanup.
 
-## 📊 Performance
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
-- **Target:** 60 FPS on mid-range devices
-- **Adaptive quality:** Reduces iteration count on lower-end GPUs
-- **GPU acceleration:** All rendering via GLSL fragment shaders
-- **Memory efficient:** No large texture allocations
-- **Precision tiers:** Automatic fallback preserves correctness at extreme zoom
-- **Renderer docs:** `docs/engineering/rendering/cpu_vs_gpu_rendering.md`, `docs/engineering/rendering/renderer_backend_matrix.md`, `docs/engineering/rendering/formula_coverage_limitation.md`
+## License
 
----
+Apache License 2.0. See [LICENSE](LICENSE).
 
-## 🌐 Localisation
+## Acknowledgments
 
-English and Spanish language support via Flutter's `gen-l10n` pipeline. All strings are in `lib/l10n/app_en.arb` and `lib/l10n/app_es.arb`.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome. Please read the [Contributing Guide](CONTRIBUTING.md) for details on code style, pull request process, and issue reporting.
-
----
-
-## 📄 License
-
-Apache License 2.0 — see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- [Flutter Team](https://flutter.dev) — Cross-platform framework
-- [Inigo Quilez](https://iquilezles.org/) — Shader techniques, distance estimation, and raymarching methods
-- The fractal mathematics community for algorithmic foundations
-- Shader art communities for visual inspiration
-
----
+- [Flutter Team](https://flutter.dev) for the cross-platform framework.
+- [Inigo Quilez](https://iquilezles.org/) for shader techniques, distance estimation, and raymarching methods.
+- The fractal mathematics, shader art, and creative coding communities for algorithms and visual inspiration.
 
 <p align="center">
-  Made with ❤️ and Flutter
+  Made with Flutter.
 </p>
