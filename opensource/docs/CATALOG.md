@@ -940,5 +940,4 @@ shaders/ (modify existing)
 
 *Generated: 2026-02-17 | Sources: 19 open-source fractal projects*
 *Companion docs: `opensource-tools-fractals.md` (deep code) · `refactor-plan.md` (action plan)*
-*Agent analyses: `GIULIA_TECHNICAL_ANALYSIS.md` · `TECHNICAL_ANALYSIS_GPU_RENDERING.md`*
-*Agent analyses: `OPENSOURCE_TECHNICAL_ANALYSIS.md` · `FRACTAL_SHADER_TECHNIQUES_CATALOG.md`*
+*Agent analyses: `TECHNICAL_ANALYSIS_GPU_RENDERING.md` · `OPENSOURCE_TECHNICAL_ANALYSIS.md` · `FRACTAL_SHADER_TECHNIQUES_CATALOG.md`*
