@@ -226,35 +226,45 @@ const List<SharedFractalFlameCatalogEntry> sharedFractalFlameCatalogEntries = [
 ];
 
 List<FractalModule> buildSharedFractalFlameCatalogModules() =>
-    sharedFractalFlameCatalogEntries
-        .map((entry) => buildEscapeTimeModule(EscapeTimeConfig(
-              id: entry.id,
-              name: entry.name,
-              shaderAsset:
-                  'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag',
-              category: 'IFS / Geometric Fractals',
-              defaultIterations: 140,
-              defaultBailout: 8,
-              maxIterations: 200,
-              extraParams: [
-                FractalParameter(
-                  id: 'variation',
-                  label: (_) => 'Variation',
-                  type: FractalParamType.integer,
-                  min: 0,
-                  max: 40,
-                  step: 1,
-                  defaultValue: entry.variation,
-                ),
-                FractalParameter(
-                  id: 'symmetry',
-                  label: (_) => 'Symmetry',
-                  type: FractalParamType.integer,
-                  min: 0,
-                  max: 3,
-                  step: 1,
-                  defaultValue: 0,
-                ),
-              ],
-            )))
-        .toList(growable: false);
+    sharedFractalFlameCatalogEntries.map(_buildSharedFractalFlameModule).toList(
+          growable: false,
+        );
+
+FractalModule _buildSharedFractalFlameModule(
+  SharedFractalFlameCatalogEntry entry,
+) {
+  final isFan = entry.id == 'f1123_fractal_flame_v22_fan';
+  return buildEscapeTimeModule(EscapeTimeConfig(
+    id: entry.id,
+    name: entry.name,
+    shaderAsset:
+        'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag',
+    category: 'IFS / Geometric Fractals',
+    defaultIterations: isFan ? 164 : 140,
+    defaultBailout: isFan ? 2.6 : 8,
+    defaultCenterX: isFan ? 0.1826980859041214 : 0.0,
+    defaultCenterY: isFan ? 0.01687529683113098 : 0.0,
+    defaultZoom: isFan ? 0.26439852198152913 : 1.0,
+    maxIterations: 200,
+    extraParams: [
+      FractalParameter(
+        id: 'variation',
+        label: (_) => 'Variation',
+        type: FractalParamType.integer,
+        min: entry.variation,
+        max: entry.variation,
+        step: 1,
+        defaultValue: entry.variation,
+      ),
+      FractalParameter(
+        id: 'symmetry',
+        label: (_) => 'Symmetry',
+        type: FractalParamType.integer,
+        min: 0,
+        max: 0,
+        step: 1,
+        defaultValue: 0,
+      ),
+    ],
+  ));
+}

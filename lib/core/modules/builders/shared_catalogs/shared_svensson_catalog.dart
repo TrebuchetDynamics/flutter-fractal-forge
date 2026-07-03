@@ -202,5 +202,6 @@ FractalModule _buildSharedSvenssonModule(SharedSvenssonCatalogEntry entry) {
     bailout: 24.0,
     coefficientMin: -8.0,
     coefficientMax: 8.0,
+    coefficientRadius: 0.6,
   );
 }

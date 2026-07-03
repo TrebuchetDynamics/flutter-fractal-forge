@@ -43,7 +43,8 @@ final List<EscapeTimeConfig> _ifsGeometricFractalsCatalog = [
     name: 'Pythagorean Tree',
     shaderAsset: 'shaders/ifs_and_geometric/pythagorean_tree_gpu.frag',
     defaultIterations: 120,
-    defaultCenterY: -0.15,
+    defaultCenterY: 0.0,
+    defaultZoom: 0.4,
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(

@@ -7261,7 +7261,7 @@ FractalModule _buildLegalizeFotdModule(SharedLegalizeFotdEntry entry) {
       id: entry.id,
       name: entry.name,
       shaderAsset:
-          'shaders/escape_time_family/experimental_named/legalize_fotd_muth_gpu.frag',
+          'shaders/escape_time_family/experimental_named/polynomial_variants/legalize_fotd_muth_gpu.frag',
       category: 'Escape-Time',
       defaultIterations: entry.iterations,
       defaultBailout: entry.bailout,

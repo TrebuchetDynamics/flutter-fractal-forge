@@ -79,7 +79,10 @@ final List<EscapeTimeConfig> _rationalPolynomialCatalog = [
     name: 'Taylor Series Fractal',
     shaderAsset:
         'shaders/escape_time_family/transcendental_maps/taylor_gpu.frag',
-    defaultIterations: 120,
+    defaultIterations: 181,
+    defaultCenterX: -1.9122413396835327,
+    defaultCenterY: -0.37471362948417664,
+    defaultZoom: 0.2,
   ),
   EscapeTimeConfig(
     id: 'rational_map',

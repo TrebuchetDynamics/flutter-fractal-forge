@@ -7,6 +7,61 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 class CommonFractalParams {
   static const int paletteCount = 64;
 
+  static const List<String> _proceduralPaletteNames = [
+    'Viridis Depth',
+    'Magma Core',
+    'Cividis Safe',
+    'Perceptual Rainbow',
+    'Warm Cool Relief',
+    'Blue Yellow Opponent',
+    'High Contrast Mono',
+    'Colorblind Safe Fire',
+    'Glacier Mint',
+    'Solar Flare',
+    'Ultraviolet',
+    'Cyan Furnace',
+    'Amber Circuit',
+    'Plasma Wave',
+    'Forest Lumen',
+    'Ruby Ice',
+    'Electric Dusk',
+    'Golden Orbit',
+    'Teal Comet',
+    'Crimson Tide',
+    'Lime Halo',
+    'Indigo Ember',
+    'Tangerine Sky',
+    'Arctic Fire',
+    'Magenta Bloom',
+    'Blue Steel',
+    'Opal Pulse',
+    'Saffron Smoke',
+    'Jade Signal',
+    'Coral Eclipse',
+    'Sonic Violet',
+    'Bronze Aurora',
+    'Cerulean Ash',
+    'Pink Lightning',
+    'Green Inferno',
+    'Royal Plasma',
+    'Desert Neon',
+    'Ice Sapphire',
+    'Infrared Moss',
+    'Pearl Shadow',
+    'Signal Orange',
+    'Deep Orchid',
+    'Aqua Gold',
+    'Volcanic Glass',
+    'Starlight Candy',
+  ];
+
+  static const List<String> _reliefBasePaletteNames = [
+    'Fire',
+    'Ocean',
+    'Psychedelic',
+    'Grayscale',
+  ];
+
   static FractalParameter iterations({
     required num defaultValue,
     num min = 20,
@@ -57,6 +112,18 @@ class CommonFractalParams {
     );
   }
 
+  static FractalParameter colorCount({int defaultValue = 64}) {
+    return FractalParameter(
+      id: 'colorCount',
+      label: (l10n) => 'Color count',
+      type: FractalParamType.integer,
+      min: 2,
+      max: 64,
+      step: 1,
+      defaultValue: defaultValue,
+    );
+  }
+
   /// Color cycle speed for palette-texture shaders (G15).
   ///
   /// A value of 0.0 = static (no cycling); 0.1 = ~1 full cycle every 10 s.
@@ -82,13 +149,11 @@ class CommonFractalParams {
       FractalParamOption(value: 1, label: (l10n) => l10n.colorOcean),
       FractalParamOption(value: 2, label: (l10n) => l10n.colorPsychedelic),
       FractalParamOption(value: 3, label: (l10n) => l10n.colorGrayscale),
-      // Remaining palettes are numbered. Keep labels simple for screen readers.
-      // Palette 5 reserved for legacy Phoenix palette name.
       FractalParamOption(value: 4, label: (l10n) => l10n.colorPhoenix),
       for (int i = 5; i < paletteCount; i++)
         FractalParamOption(
           value: i,
-          label: (AppLocalizations l10n) => 'Palette ${i + 1}',
+          label: (AppLocalizations l10n) => _paletteName(i),
         ),
     ];
 
@@ -102,5 +167,17 @@ class CommonFractalParams {
       defaultValue: defaultValue,
       options: options,
     );
+  }
+
+  static String _paletteName(int index) {
+    if (index >= 5 && index < 50) {
+      return _proceduralPaletteNames[index - 5];
+    }
+    if (index >= 50 && index < paletteCount) {
+      final angle = (((index - 50) * 180) / 13).round();
+      final baseName = _reliefBasePaletteNames[(index - 50) % 4];
+      return 'Relief $angle° $baseName';
+    }
+    return 'Palette ${index + 1}';
   }
 }

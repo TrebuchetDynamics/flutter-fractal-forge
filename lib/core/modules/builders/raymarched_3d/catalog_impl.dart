@@ -215,6 +215,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     maxIterations: 40,
     defaultSteps: 100,
     defaultBailout: 8.0,
+    defaultZoom: 0.3,
     defaultFractalType: 0,
     maxFractalType: 3,
     fractalTypeOptions: [
@@ -240,6 +241,52 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
           pan: Vector2.zero(),
           zoom: 1.3,
           rotation: Vector3(0.5, 0.3, 0.0),
+        ),
+      ),
+    ],
+  ),
+
+  Raymarched3DConfig(
+    id: 'apollonian_sphere_packing_3d',
+    name: '3D Apollonian Sphere Packing',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/apollonian_sphere_packing_gpu.frag',
+    category: '3D Fractals',
+    defaultPower: 1.85,
+    minPower: 1.35,
+    maxPower: 2.85,
+    powerLabel: 'Packing Scale',
+    defaultIterations: 18,
+    maxIterations: 32,
+    defaultSteps: 130,
+    defaultBailout: 4.0,
+    defaultColorScheme: 0,
+    defaultZoom: 0.55,
+    defaultFractalType: 0,
+    maxFractalType: 3,
+    fractalTypeOptions: [
+      FractalParamOption(value: 0, label: (_) => 'Classic Bubbles'),
+      FractalParamOption(value: 1, label: (_) => 'Tetrahedral'),
+      FractalParamOption(value: 2, label: (_) => 'Cubic Voids'),
+      FractalParamOption(value: 3, label: (_) => 'Pearl Drift'),
+    ],
+    extraPresets: [
+      catalogPreset(
+        id: 'apollonian_sphere_packing_3d-golden_bubbles',
+        moduleId: 'apollonian_sphere_packing_3d',
+        name: 'Golden Bubbles',
+        params: const {
+          'power': 1.85,
+          'iterations': 20,
+          'steps': 150,
+          'bailout': 4.0,
+          'colorScheme': 0,
+          'fractalType': 0,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.35,
+          rotation: Vector3(0.42, -0.38, 0.08),
         ),
       ),
     ],
@@ -329,6 +376,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     maxIterations: 32,
     defaultSteps: 120,
     defaultBailout: 6.0,
+    defaultZoom: 0.55,
     extraPresets: [
       catalogPreset(
         id: 'amazing_box-compact',
@@ -391,13 +439,13 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     shaderAsset:
         'shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag',
     category: '3D Fractals',
-    defaultPower: 2.2,
+    defaultPower: 2.0,
     minPower: 1.4,
-    maxPower: 3.6,
+    maxPower: 3.2,
     powerLabel: 'Wire Scale',
-    defaultIterations: 18,
-    maxIterations: 40,
-    defaultSteps: 120,
+    defaultIterations: 14,
+    maxIterations: 32,
+    defaultSteps: 90,
     defaultBailout: 5.0,
   ),
 

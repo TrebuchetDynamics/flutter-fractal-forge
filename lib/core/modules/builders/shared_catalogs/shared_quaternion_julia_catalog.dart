@@ -137,20 +137,22 @@ FractalModule _buildSharedQuaternionJuliaModule(
       shader.setFloat(13, readDouble(state.params, 'colorScheme', 0));
       shader.setFloat(14, -1.0);
       shader.setFloat(15, state.transparentBackground ? 1.0 : 0.0);
-      shader.setFloat(16, readDouble(state.params, 'c0', entry.c0));
-      shader.setFloat(17, readDouble(state.params, 'c1', entry.c1));
-      shader.setFloat(18, readDouble(state.params, 'c2', entry.c2));
-      shader.setFloat(19, readDouble(state.params, 'c3', entry.c3));
+      shader.setFloat(16, _safeC(readDouble(state.params, 'c0', entry.c0)));
+      shader.setFloat(17, _safeC(readDouble(state.params, 'c1', entry.c1)));
+      shader.setFloat(18, _safeC(readDouble(state.params, 'c2', entry.c2)));
+      shader.setFloat(19, _safeC(readDouble(state.params, 'c3', entry.c3)));
     },
   );
 }
+
+double _safeC(double value) => value.clamp(-0.95, 0.95).toDouble();
 
 FractalParameter _cParam(String id, double defaultValue) => FractalParameter(
       id: id,
       label: (_) => id,
       type: FractalParamType.float,
-      min: -1.5,
-      max: 1.5,
+      min: -0.95,
+      max: 0.95,
       step: 0.001,
       defaultValue: defaultValue,
     );

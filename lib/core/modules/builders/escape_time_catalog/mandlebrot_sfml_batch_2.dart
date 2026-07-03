@@ -343,6 +343,7 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch2Catalog = [
         'shaders/3d_and_hypercomplex/raymarched_volumes/3d_fractal_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    defaultColorScheme: 59,
     defaultCenterX: -0.5,
     extraPresets: [
       catalogPreset(

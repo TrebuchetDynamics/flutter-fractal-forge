@@ -77,18 +77,23 @@ List<FractalModule> buildSharedMultibrotCatalogModules() =>
         .toList(growable: false);
 
 FractalModule _buildSharedMultibrotModule(SharedMultibrotCatalogEntry entry) {
+  final isZ19 = entry.id == 'f0094_multibrot_z_19';
   final defaultPreset = catalogPreset(
       id: '${entry.id}-default',
       moduleId: entry.id,
       name: 'Default',
       params: {
-        'iterations': 180,
+        'iterations': isZ19 ? 240 : 180,
         'bailout': 4.0,
         'colorScheme': 0,
         'power': entry.power
       },
       view: FractalViewState(
-          pan: Vector2.zero(), zoom: 1.0, rotation: Vector3.zero()));
+          pan: isZ19
+              ? Vector2(-0.0008405148983001709, -0.09912946820259094)
+              : Vector2.zero(),
+          zoom: isZ19 ? 0.46999487672785484 : 1.0,
+          rotation: Vector3.zero()));
 
   return FractalModule(
       id: entry.id,
@@ -97,15 +102,16 @@ FractalModule _buildSharedMultibrotModule(SharedMultibrotCatalogEntry entry) {
       shaderAsset:
           'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
       parameters: [
-        CommonFractalParams.iterations(defaultValue: 180),
+        CommonFractalParams.iterations(
+            defaultValue: isZ19 ? 240 : 180, max: 320),
         CommonFractalParams.bailout(defaultValue: 4.0),
         CommonFractalParams.colorScheme64(defaultValue: 0),
         FractalParameter(
             id: 'power',
             label: (_) => 'Power',
             type: FractalParamType.float,
-            min: -8,
-            max: 24,
+            min: entry.power,
+            max: entry.power,
             step: 0.1,
             defaultValue: entry.power)
       ],
@@ -118,10 +124,15 @@ FractalModule _buildSharedMultibrotModule(SharedMultibrotCatalogEntry entry) {
         shader.setFloat(3, state.view.pan.x);
         shader.setFloat(4, state.view.pan.y);
         shader.setFloat(5, state.view.zoom);
-        shader.setFloat(6, readDouble(state.params, 'iterations', 180));
+        shader.setFloat(
+            6, readDouble(state.params, 'iterations', 180).clamp(20.0, 320.0));
         shader.setFloat(7, readDouble(state.params, 'bailout', 4.0));
         shader.setFloat(8, readDouble(state.params, 'colorScheme', 0));
         shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
-        shader.setFloat(10, readDouble(state.params, 'power', entry.power));
+        shader.setFloat(
+            10,
+            readDouble(state.params, 'power', entry.power)
+                .clamp(entry.power, entry.power)
+                .toDouble());
       });
 }

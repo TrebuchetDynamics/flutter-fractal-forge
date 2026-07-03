@@ -14,15 +14,15 @@ import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_ex
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_fractal_flame_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_gumowski_mira_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_hopalong_catalog.dart';
-import 'package:flutter_fractals/core/modules/gpu_gradient_module.dart';
-import 'package:flutter_fractals/core/modules/gpu_sampler_diag_module.dart';
-import 'package:flutter_fractals/core/modules/hydrogen_orbital_module.dart';
-import 'package:flutter_fractals/core/modules/julia_dual_module.dart';
-import 'package:flutter_fractals/core/modules/julia_module.dart';
-import 'package:flutter_fractals/core/modules/mandelbox_module.dart';
-import 'package:flutter_fractals/core/modules/mandelbulb_module.dart';
-import 'package:flutter_fractals/core/modules/nova_module.dart';
-import 'package:flutter_fractals/core/modules/phoenix_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/gpu_gradient_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/gpu_sampler_diag_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/hydrogen_orbital_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/julia_dual_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/julia_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/mandelbox_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/mandelbulb_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/nova_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/phoenix_module.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_julia_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_life_like_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart';
@@ -38,7 +38,7 @@ import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_sp
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_standard_map_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_svensson_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_tinkerbell_catalog.dart';
-import 'package:flutter_fractals/core/modules/test_shaders_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/test_shaders_module.dart';
 
 /// Registry of all available fractal modules.
 ///

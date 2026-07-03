@@ -298,5 +298,6 @@ FractalModule _buildSharedCliffordModule(SharedCliffordCatalogEntry entry) {
     bailout: 16.0,
     coefficientMin: -3.0,
     coefficientMax: 3.0,
+    coefficientRadius: 0.3,
   );
 }

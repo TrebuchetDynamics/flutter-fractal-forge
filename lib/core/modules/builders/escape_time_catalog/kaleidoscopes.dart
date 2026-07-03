@@ -245,9 +245,27 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     name: 'Buddhabrot Full',
     shaderAsset:
         'shaders/escape_time_family/families/buddhabrot/buddhabrot_full_gpu.frag',
-    defaultIterations: 120,
+    defaultIterations: 160,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'samples',
+        label: 'Samples',
+        min: 4.0,
+        max: 32.0,
+        step: 1.0,
+        defaultValue: 18.0,
+      ),
+      _floatParam(
+        id: 'minIter',
+        label: 'Min escape iterations',
+        min: 1.0,
+        max: 80.0,
+        step: 1.0,
+        defaultValue: 10.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'buffalo2',
@@ -444,6 +462,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'k',
+        label: 'Modulus k',
+        min: 0.0,
+        max: 1.0,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'jarratt',
@@ -803,8 +831,11 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     id: 'sprott_n',
     name: 'Sprott N',
     shaderAsset: 'shaders/strange_attractors/sprott_n_gpu.frag',
-    defaultIterations: 120,
-    defaultBailout: 4.0,
+    defaultIterations: 133,
+    defaultBailout: 4.9,
+    defaultCenterX: -0.11033250391483307,
+    defaultCenterY: -1.1267447471618652,
+    defaultZoom: 0.2,
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(
@@ -907,6 +938,9 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
         'shaders/trigonometric_and_transcendental/special_functions/weierstrass_elliptic_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
+    defaultCenterX: -0.311764705882353,
+    defaultCenterY: 0.0039215686274509665,
+    defaultZoom: 1.0876470588235294,
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(

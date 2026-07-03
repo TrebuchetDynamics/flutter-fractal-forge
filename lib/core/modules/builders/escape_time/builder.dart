@@ -80,6 +80,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
     ),
     CommonFractalParams.bailout(defaultValue: config.defaultBailout),
     CommonFractalParams.colorScheme64(defaultValue: config.defaultColorScheme),
+    if (config.usesPaletteSampler) CommonFractalParams.colorCount(),
     ...config.extraParams,
   ];
 
@@ -87,6 +88,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
     'iterations': defaults.iterations,
     'bailout': config.defaultBailout,
     'colorScheme': config.defaultColorScheme,
+    if (config.usesPaletteSampler) 'colorCount': 64,
   };
   for (final p in config.extraParams) {
     defaultParams[p.id] = p.defaultValue;
@@ -136,13 +138,24 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       shader.setFloat(EscapeTimeUniformSlots.transparentBackground,
           state.transparentBackground ? 1.0 : 0.0);
       if (config.usesPaletteSampler) {
-        PaletteShaderAdapter.instance
-            .bindSamplerPalette(shader, 0, colorScheme);
+        PaletteShaderAdapter.instance.bindSamplerPalette(
+          shader,
+          0,
+          colorScheme,
+          colorCount: readDouble(state.params, 'colorCount', 64).round(),
+        );
       }
       for (int i = 0; i < config.extraParams.length; i++) {
         final p = config.extraParams[i];
-        shader.setFloat(EscapeTimeUniformSlots.extraStart + i,
-            readDouble(state.params, p.id, (p.defaultValue as num).toDouble()));
+        final raw = readDouble(
+          state.params,
+          p.id,
+          (p.defaultValue as num).toDouble(),
+        );
+        shader.setFloat(
+          EscapeTimeUniformSlots.extraStart + i,
+          raw.clamp(p.min, p.max).toDouble(),
+        );
       }
     },
   );

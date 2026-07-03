@@ -60,7 +60,7 @@ FractalModule buildMandelboxModule() {
     },
     view: FractalViewState(
       pan: Vector2.zero(),
-      zoom: 1.0,
+      zoom: 0.55,
       rotation: Vector3(0.3, -0.4, 0.0),
     ),
   );

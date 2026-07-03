@@ -22,6 +22,11 @@ part 'escape_time_catalog/batch_14_extensions.dart';
 part 'escape_time_catalog/batch_16_novel_dynamics.dart';
 part 'escape_time_catalog/batch_17_weierstrass_steffensen.dart';
 part 'escape_time_catalog/batch_18_web_researched.dart';
+part 'escape_time_catalog/batch_19_researched_additions.dart';
+part 'escape_time_catalog/batch_20_next_wave_research.dart';
+part 'escape_time_catalog/batch_21_third_wave_research.dart';
+part 'escape_time_catalog/batch_22_fourth_wave_research.dart';
+part 'escape_time_catalog/batch_23_fifth_wave_research.dart';
 part 'escape_time_catalog/kaleidoscopes.dart';
 
 FractalParameter _floatParam({
@@ -72,6 +77,11 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   ..._batch16NovelDynamicsCatalog,
   ..._batch17WeierstrassSteffensenCatalog,
   ..._batch18WebResearchedCatalog,
+  ..._batch19ResearchedAdditionsCatalog,
+  ..._batch20NextWaveResearchCatalog,
+  ..._batch21ThirdWaveResearchCatalog,
+  ..._batch22FourthWaveResearchCatalog,
+  ..._batch23FifthWaveResearchCatalog,
   ..._kaleidoscopesCatalog,
 ];
 

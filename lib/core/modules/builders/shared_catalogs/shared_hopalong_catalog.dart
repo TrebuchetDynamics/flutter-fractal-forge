@@ -125,13 +125,14 @@ List<FractalModule> buildSharedHopalongCatalogModules() =>
         .toList(growable: false);
 
 FractalModule _buildSharedHopalongModule(SharedHopalongCatalogEntry entry) {
+  final defaultBailout = _defaultBailout(entry);
   final defaultPreset = catalogPreset(
     id: '${entry.id}-default',
     moduleId: entry.id,
     name: 'Default',
     params: {
       'iterations': 180,
-      'bailout': 32.0,
+      'bailout': defaultBailout,
       'colorScheme': 0,
       'a': entry.a,
       'b': entry.b,
@@ -151,11 +152,14 @@ FractalModule _buildSharedHopalongModule(SharedHopalongCatalogEntry entry) {
     shaderAsset: 'shaders/strange_attractors/hopalong_gpu.frag',
     parameters: [
       CommonFractalParams.iterations(defaultValue: 180, max: 500),
-      CommonFractalParams.bailout(defaultValue: 32.0),
+      CommonFractalParams.bailout(
+        defaultValue: defaultBailout,
+        max: defaultBailout * 2.0,
+      ),
       CommonFractalParams.colorScheme64(defaultValue: 0),
-      _coefficientParam('a', entry.a, -250, 250),
-      _coefficientParam('b', entry.b, -20, 20),
-      _coefficientParam('c', entry.c, -100, 100),
+      _coefficientParam('a', entry.a, _rangeAround(entry.a, 25.0)),
+      _coefficientParam('b', entry.b, _rangeAround(entry.b, 5.0)),
+      _coefficientParam('c', entry.c, _rangeAround(entry.c, 20.0)),
     ],
     defaultPreset: defaultPreset,
     builtInPresets: [defaultPreset],
@@ -167,28 +171,47 @@ FractalModule _buildSharedHopalongModule(SharedHopalongCatalogEntry entry) {
       shader.setFloat(4, state.view.pan.y);
       shader.setFloat(5, state.view.zoom);
       shader.setFloat(6, readDouble(state.params, 'iterations', 180));
-      shader.setFloat(7, readDouble(state.params, 'bailout', 32.0));
+      shader.setFloat(7, readDouble(state.params, 'bailout', defaultBailout));
       shader.setFloat(8, readDouble(state.params, 'colorScheme', 0));
       shader.setFloat(9, state.transparentBackground ? 1.0 : 0.0);
-      shader.setFloat(10, readDouble(state.params, 'a', entry.a));
-      shader.setFloat(11, readDouble(state.params, 'b', entry.b));
-      shader.setFloat(12, readDouble(state.params, 'c', entry.c));
+      shader.setFloat(
+        10,
+        _safeCoefficient(readDouble(state.params, 'a', entry.a), entry.a, 25.0),
+      );
+      shader.setFloat(
+        11,
+        _safeCoefficient(readDouble(state.params, 'b', entry.b), entry.b, 5.0),
+      );
+      shader.setFloat(
+        12,
+        _safeCoefficient(readDouble(state.params, 'c', entry.c), entry.c, 20.0),
+      );
     },
   );
 }
 
+double _defaultBailout(SharedHopalongCatalogEntry entry) =>
+    (entry.a.abs() + entry.c.abs() + 32.0).clamp(32.0, 360.0).toDouble();
+
+({double min, double max}) _rangeAround(double value, double radius) => (
+      min: value - radius,
+      max: value + radius,
+    );
+
+double _safeCoefficient(double value, double center, double radius) =>
+    value.clamp(center - radius, center + radius).toDouble();
+
 FractalParameter _coefficientParam(
   String id,
   double defaultValue,
-  double min,
-  double max,
+  ({double min, double max}) range,
 ) =>
     FractalParameter(
       id: id,
       label: (_) => id,
       type: FractalParamType.float,
-      min: min,
-      max: max,
+      min: range.min,
+      max: range.max,
       step: 0.01,
       defaultValue: defaultValue,
     );

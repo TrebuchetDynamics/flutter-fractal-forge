@@ -267,6 +267,19 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
         'shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraPresets: [
+      catalogPreset(
+        id: 'multibrot8-wide',
+        moduleId: 'multibrot8',
+        name: 'Octic Boundary',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 0},
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 0.5,
+          rotation: Vector3.zero(),
+        ),
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multijulia7',
@@ -351,7 +364,8 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     name: 'Tricorn⁴ Julia',
     shaderAsset:
         'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag',
-    defaultIterations: 200,
+    defaultIterations: 160,
+    maxIterations: 200,
     defaultBailout: 4.0,
   ),
   EscapeTimeConfig(
@@ -463,6 +477,7 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     name: 'Schröder z³−1',
     shaderAsset: 'shaders/root_finding/schroeder_z3_gpu.frag',
     defaultIterations: 80,
+    maxIterations: 120,
     defaultBailout: 8.0,
   ),
   EscapeTimeConfig(
@@ -535,6 +550,19 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
         'shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraPresets: [
+      catalogPreset(
+        id: 'multibrot10-wide',
+        moduleId: 'multibrot10',
+        name: 'Decagonal Boundary',
+        params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 0},
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 0.5,
+          rotation: Vector3.zero(),
+        ),
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multijulia10',

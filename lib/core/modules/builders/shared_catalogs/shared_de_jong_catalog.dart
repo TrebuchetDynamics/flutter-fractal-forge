@@ -218,5 +218,6 @@ FractalModule _buildSharedDeJongModule(SharedDeJongCatalogEntry entry) {
     bailout: 16.0,
     coefficientMin: -8.0,
     coefficientMax: 8.0,
+    coefficientRadius: 0.6,
   );
 }

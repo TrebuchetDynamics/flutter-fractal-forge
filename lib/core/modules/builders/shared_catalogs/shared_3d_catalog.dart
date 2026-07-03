@@ -211,8 +211,8 @@ FractalModule _buildStandard3DModule(Shared3DCatalogEntry entry) {
         shader.setFloat(0, time);
         shader.setFloat(1, size.width);
         shader.setFloat(2, size.height);
-        shader.setFloat(3, 0.0);
-        shader.setFloat(4, 0.0);
+        shader.setFloat(3, state.view.pan.x);
+        shader.setFloat(4, state.view.pan.y);
         shader.setFloat(5, state.view.zoom);
         shader.setFloat(6, state.view.rotation.x);
         shader.setFloat(7, state.view.rotation.y);
@@ -239,7 +239,7 @@ FractalModule _buildMandelboxScaleModule(Shared3DCatalogEntry entry) {
         'colorScheme': 0
       },
       view: FractalViewState(
-          pan: Vector2.zero(), zoom: 1.0, rotation: Vector3(0.3, -0.4, 0.0)));
+          pan: Vector2.zero(), zoom: 0.55, rotation: Vector3(0.3, -0.4, 0.0)));
   return FractalModule(
       id: entry.id,
       displayName: (_) => entry.name,

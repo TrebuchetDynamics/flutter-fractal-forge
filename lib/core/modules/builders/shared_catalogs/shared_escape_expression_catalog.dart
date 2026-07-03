@@ -149,6 +149,9 @@ List<FractalModule> buildSharedEscapeExpressionCatalogModules() =>
 FractalModule _buildSharedEscapeExpressionModule(
   SharedEscapeExpressionCatalogEntry entry,
 ) {
+  final isCosZ = entry.id == 'f0499_cos_z_c';
+  final isLogCos = entry.id == 'f0508_log_cos_z_c';
+
   return buildEscapeTimeModule(EscapeTimeConfig(
     id: entry.id,
     name: entry.name,
@@ -157,14 +160,22 @@ FractalModule _buildSharedEscapeExpressionModule(
         entry.family == SharedEscapeExpressionFamily.sine ? 220 : 160,
     defaultBailout:
         entry.family == SharedEscapeExpressionFamily.sine ? 10.0 : 4.0,
-    defaultCenterX: entry.id == 'f0508_log_cos_z_c'
-        ? -1.0138758420944214
-        : (entry.family == SharedEscapeExpressionFamily.cosine ? -0.4 : 0.0),
+    defaultCenterX: isCosZ
+        ? 0.14142544567584991
+        : (isLogCos
+            ? -1.0138758420944214
+            : (entry.family == SharedEscapeExpressionFamily.cosine
+                ? -0.4
+                : 0.0)),
     defaultCenterY:
-        entry.id == 'f0508_log_cos_z_c' ? -0.30382946133613586 : 0.0,
-    defaultZoom: entry.id == 'f0508_log_cos_z_c'
-        ? 0.2588516917544482
-        : (entry.family == SharedEscapeExpressionFamily.cosine ? 0.3 : 1.0),
+        isCosZ ? -0.3412726819515228 : (isLogCos ? -0.30382946133613586 : 0.0),
+    defaultZoom: isCosZ
+        ? 0.2
+        : (isLogCos
+            ? 0.2588516917544482
+            : (entry.family == SharedEscapeExpressionFamily.cosine
+                ? 0.3
+                : 1.0)),
     extraParams: [
       FractalParameter(
         id: 'variant',

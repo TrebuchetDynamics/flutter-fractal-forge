@@ -46,6 +46,7 @@ class Raymarched3DConfig {
   final int maxColorScheme;
   final int defaultFractalType;
   final int maxFractalType;
+  final double defaultZoom;
   final List<FractalParamOption> fractalTypeOptions;
   final List<FractalPreset> extraPresets;
 
@@ -67,6 +68,7 @@ class Raymarched3DConfig {
     this.maxColorScheme = 3,
     this.defaultFractalType = 0,
     this.maxFractalType = 0,
+    this.defaultZoom = 1.0,
     this.fractalTypeOptions = const [],
     this.extraPresets = const [],
   });
@@ -136,7 +138,7 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
     params: defaultParams,
     view: FractalViewState(
       pan: Vector2.zero(),
-      zoom: 1.0,
+      zoom: config.defaultZoom,
       rotation: Vector3(0.3, -0.4, 0.0),
     ),
   );
@@ -157,8 +159,8 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       shader.setFloat(Raymarched3DUniformSlots.time, time);
       shader.setFloat(Raymarched3DUniformSlots.resolutionX, size.width);
       shader.setFloat(Raymarched3DUniformSlots.resolutionY, size.height);
-      shader.setFloat(Raymarched3DUniformSlots.mouseX, 0.0); // unused
-      shader.setFloat(Raymarched3DUniformSlots.mouseY, 0.0); // unused
+      shader.setFloat(Raymarched3DUniformSlots.mouseX, state.view.pan.x);
+      shader.setFloat(Raymarched3DUniformSlots.mouseY, state.view.pan.y);
       shader.setFloat(Raymarched3DUniformSlots.zoom, state.view.zoom);
       shader.setFloat(
           Raymarched3DUniformSlots.rotationX, state.view.rotation.x);
