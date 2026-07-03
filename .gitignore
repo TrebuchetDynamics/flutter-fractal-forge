@@ -107,5 +107,6 @@ reports/**
 # But keep canonical and seeds checked in
 !research/canonical/
 !research/seeds/
-docs/store_listing/
+# Generated store listing screenshot output; curated listing docs stay tracked
+docs/store_listing/screenshots/
 research/fraksl-app-analysis/*play-store-page.html
