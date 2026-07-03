@@ -13,34 +13,10 @@ uniform float uTransparentBg;
 
 out vec4 fragColor;
 
-// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
-vec3 linearToSRGB(vec3 lin) {
-  lin = clamp(lin, 0.0, 1.0);
-  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
-  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
-  vec3 lo = lin * 12.92;
-  return mix(hi, lo, vec3(cutoff));
-}
+// Shared: linearToSRGB, iqPalette, getPaletteColorAlt
+#include "../../shared/color.glsl"
 
 const int MAX_ITERS = 500;
-
-vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
-  return a + b * cos(6.28318 * (c * t + d));
-}
-
-vec3 getPaletteColor(float t, int scheme) {
-  t = fract(t);
-  if (scheme == 0) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.0,0.33,0.67));
-  if (scheme == 1) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.0,0.10,0.20));
-  if (scheme == 2) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0,0.7,0.4), vec3(0.0,0.15,0.20));
-  if (scheme == 3) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.0));
-  float s = float(scheme);
-  vec3 a = vec3(0.5 + 0.2*sin(s*1.1), 0.5 + 0.2*sin(s*1.3), 0.5 + 0.2*sin(s*1.7));
-  vec3 b = vec3(0.5 + 0.3*cos(s*0.7), 0.5 + 0.3*cos(s*1.1), 0.5 + 0.3*cos(s*0.3));
-  vec3 c = vec3(1.0 + sin(s*0.5), 1.0 + sin(s*0.9), 1.0 + sin(s*1.3));
-  vec3 d = vec3(fract(s*0.13), fract(s*0.17), fract(s*0.23));
-  return clamp(iqPalette(t, a, b, c, d), 0.0, 1.0);
-}
 
 vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
 vec2 cadd(vec2 a, vec2 b) { return a + b; }
@@ -86,6 +62,8 @@ void main() {
   float bailoutSq = max(4.0, uBailout * uBailout);
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = target;
+  float orbit = 0.0;
+  float trap = 1e9;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
@@ -100,15 +78,21 @@ void main() {
       sum += term / fact;
     }
     z = sum + c;
-    if (dot(z, z) > bailoutSq) { it = j; break; }
+    float r2 = dot(z, z);
+    orbit += exp(-0.45 * r2);
+    trap = min(trap, min(abs(z.x), abs(z.y)));
+    if (r2 > bailoutSq) { it = j; break; }
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float n = clamp(orbit / max(1.0, float(target)), 0.0, 1.0);
+    float tBound = fract(0.65 * n - 0.10 * log(max(trap, 1e-6)) + uTime * 0.0001);
+    vec3 col = getPaletteColorAlt(tBound, int(uColorScheme)) * (0.35 + 0.65 * n);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 
   float smoothVal = float(it) - log2(log2(max(1.000001, dot(z,z))));
   float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
+  fragColor = vec4(linearToSRGB(getPaletteColorAlt(t, int(uColorScheme))), 1.0);
 }
