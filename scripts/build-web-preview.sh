@@ -8,7 +8,7 @@ if [[ "${BASE_HREF}" != "/" && ! "${BASE_HREF}" =~ ^/.*/$ ]]; then
   exit 2
 fi
 
-FLUTTER_BIN="${FLUTTER_BIN:-/home/xel/flutter/bin/flutter}"
+FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 if [[ ! -x "${FLUTTER_BIN}" ]]; then
   FLUTTER_BIN="flutter"
 fi
@@ -63,7 +63,7 @@ for href in parser.links:
 assert 'index.html' in parser.links, 'Try web preview link missing'
 assert '#download' in parser.links, 'Download anchor missing'
 assert 'landing-assets/web_preview_loop.gif' in parser.links, 'Preview GIF link missing'
-assert any('github.com/XelHaku/flutter-fractal-forge' in href for href in parser.links), 'GitHub link missing'
+assert any('github.com/TrebuchetDynamics/flutter-fractal-forge' in href for href in parser.links), 'GitHub link missing'
 
 base_href = os.environ['BASE_HREF']
 index_text = index.read_text()
