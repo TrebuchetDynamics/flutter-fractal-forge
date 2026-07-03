@@ -1,0 +1,48 @@
+{
+  "createdAt": "2026-06-30T20:03:10.546423Z",
+  "moduleId": "bifurcation_diagram_explorer",
+  "moduleName": "Bifurcation Diagram Explorer",
+  "tags": [
+    "Low Detail",
+    "Low deep zoom",
+    "Randomize bad results"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=bifurcation_diagram_explorer&z=0.8529963589691323&x=0.1547171175479889&y=-0.005992509424686432&rx=0&ry=0&rz=0&p=eyJ-YiI6NS43LCJ-YyI6MiwifmkiOjEyNCwibWFwVmFyaWFudCI6Mi4wLCJzZXR0bGUiOjkzLjB9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 124,
+    "bailout": 5.7,
+    "colorScheme": 2,
+    "mapVariant": 2.0,
+    "settle": 93.0
+  },
+  "view": {
+    "zoom": 0.8529963589691323,
+    "x": 0.1547171175479889,
+    "y": -0.005992509424686432,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added nearest-orbit ridge coloring to the Bifurcation Diagram shader to improve low-detail/deep-zoom visibility for the issue view.",
+    "research": "research/issue-fixes/2026-06-30T20-03-10-546423Z_bifurcation_diagram_explorer/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/bifurcation_diagram_detail_test.dart",
+      "git diff --check"
+    ]
+  }
+}

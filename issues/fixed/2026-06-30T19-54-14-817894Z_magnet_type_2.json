@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-06-30T19:54:14.817894Z",
+  "moduleId": "magnet_type_2",
+  "moduleName": "Magnet Fractal (Type II)",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=magnet_type_2&z=22404.116650544503&x=0.1270347386598587&y=0.02031184732913971&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjUwMH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=12&kaleidoscopeMirror=false&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 500,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 22404.116650544503,
+    "x": 0.1270347386598587,
+    "y": 0.02031184732913971,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 12,
+    "kaleidoscopeMirror": false,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added orbit/trap coloring for bounded Magnet Type II basins so deep-zoom regions no longer render as flat black.",
+    "research": "research/issue-fixes/2026-06-30T19-54-14-817894Z_magnet_type_2/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/magnet_type_2_deep_zoom_test.dart",
+      "git diff --check"
+    ]
+  }
+}

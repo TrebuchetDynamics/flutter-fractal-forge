@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-06-30T01:24:39.293453Z",
+  "moduleId": "dadras",
+  "moduleName": "Dadras Attractor",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=dadras&z=0.09970893372106396&x=-0.6639590263366699&y=-0.5456546545028687&rx=0&ry=0&rz=0&p=eyJ-YiI6My43LCJ-YyI6MzQsIn5pIjoxNTR9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 154,
+    "bailout": 3.7,
+    "colorScheme": 34
+  },
+  "view": {
+    "zoom": 0.09970893372106396,
+    "x": -0.6639590263366699,
+    "y": -0.5456546545028687,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added a derivative-based strand detail signal to the Dadras shader and verified the shader compiles.",
+    "research": "research/issue-fixes/2026-06-30T01-24-39-293453Z_dadras/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/dadras_detail_test.dart",
+      "git diff --check"
+    ]
+  }
+}

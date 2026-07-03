@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-30T01:24:54.349965Z",
+  "moduleId": "rule90_linear_ca",
+  "moduleName": "Rule 90 Linear CA",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=rule90_linear_ca&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjI1NiwicnVsZSI6OTAuMH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 256,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "rule": 90.0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added per-cell edge/detail shading to the shared Wolfram CA shader so Rule 90 at 256 rows remains legible, and verified the CA formula/test path.",
+    "research": "research/issue-fixes/2026-06-30T01-24-54-349965Z_rule90_linear_ca/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/rule90_detail_test.dart test/academic_expansion_linear_ca_test.dart",
+      "git diff --check"
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "createdAt": "2026-06-30T01:24:23.788894Z",
+  "moduleId": "hopalong",
+  "moduleName": "Hopalong Attractor",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=hopalong&z=0.7276027884145957&x=0.0563872829079628&y=-0.33470144867897034&rx=0&ry=0&rz=0&p=eyJhIjoyLjAsImIiOjEuMCwifmIiOjguMCwiYyI6Ny41LCJ-YyI6MCwifmkiOjE4MH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 180,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "a": 2.0,
+    "b": 1.0,
+    "c": 7.5
+  },
+  "view": {
+    "zoom": 0.7276027884145957,
+    "x": 0.0563872829079628,
+    "y": -0.33470144867897034,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added an orbit-trap strand detail signal to the Hopalong shader and verified the shader compiles.",
+    "research": "research/issue-fixes/2026-06-30T01-24-23-788894Z_hopalong/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/hopalong_detail_test.dart",
+      "git diff --check"
+    ]
+  }
+}

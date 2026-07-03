@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:22:22.250664Z",
+  "moduleId": "multibrot8",
+  "moduleName": "Multibrot \u2078",
+  "tags": [
+    "Bad initial params"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=multibrot8&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjIwMH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 200,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-30T15:32:40Z",
+    "summary": "Changed the initial Multibrot\u2078 view to a wider octic-boundary preset and added CPU render validation.",
+    "research": "research/issue-fixes/2026-06-30T01-22-22-250664Z_multibrot8/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test test/modules/multibrot8_initial_view_test.dart --reporter expanded",
+      "/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag --input-type=frag --sl=/tmp/multibrot8.sksl --spirv=/tmp/multibrot8.spv --include=/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
+      "/home/xel/flutter/bin/flutter analyze"
+    ]
+  }
+}

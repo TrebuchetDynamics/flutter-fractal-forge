@@ -1,0 +1,49 @@
+{
+  "createdAt": "2026-06-30T01:23:54.509207Z",
+  "moduleId": "f1054_svensson_halo",
+  "moduleName": "Svensson Halo",
+  "tags": [
+    "Low Detail",
+    "No image"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f1054_svensson_halo&z=0.12656490745443377&x=-1.1332486867904663&y=-0.12774798274040222&rx=0&ry=0&rz=0&p=eyJhIjotMi41LCJiIjo1LjAsIn5iIjoyNC4wLCJjIjotMS45LCJ-YyI6MCwiZCI6MS4wLCJ-aSI6MzYwfQ&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 360,
+    "bailout": 24.0,
+    "colorScheme": 0,
+    "a": -2.5,
+    "b": 5.0,
+    "c": -1.9,
+    "d": 1.0
+  },
+  "view": {
+    "zoom": 0.12656490745443377,
+    "x": -1.1332486867904663,
+    "y": -0.12774798274040222,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Raised the shared Svensson shader iteration cap to match catalog settings so the 360-iteration Halo issue view is not truncated, and verified shader compilation.",
+    "research": "research/issue-fixes/2026-06-30T01-23-54-509207Z_f1054_svensson_halo/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/svensson_iteration_cap_test.dart",
+      "git diff --check"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:24:31.029009Z",
+  "moduleId": "kifs_snowflake_fold",
+  "moduleName": "KIFS Snowflake 3D",
+  "tags": [
+    "No image"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=kifs_snowflake_fold&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjgsIn5kIjozLjAsInN0ZXBzIjoxMjB9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "power": 3.0,
+    "iterations": 8,
+    "steps": 120,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Restored the default raymarch step budget and added closest-surface glow for KIFS Snowflake miss views, then verified shader compilation.",
+    "research": "research/issue-fixes/2026-06-30T01-24-31-029009Z_kifs_snowflake_fold/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/kifs_snowflake_visibility_test.dart",
+      "git diff --check"
+    ]
+  }
+}

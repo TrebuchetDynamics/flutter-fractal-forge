@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:26:20.987331Z",
+  "moduleId": "rule150_linear_ca",
+  "moduleName": "Rule 150 Linear CA",
+  "tags": [
+    "Is does not look the correct fractal"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=rule150_linear_ca&z=1&x=-0.0037877559661865234&y=0.0008686631917953491&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjI1NiwicnVsZSI6MTUwLjB9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 256,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "rule": 150.0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": -0.0037877559661865234,
+    "y": 0.0008686631917953491,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Replaced the incorrect neighboring-Rule-90 Rule 150 shader shortcut with a trinomial-parity evaluator for the 256-row issue view, and verified the CA shader/test path.",
+    "research": "research/issue-fixes/2026-06-30T01-26-20-987331Z_rule150_linear_ca/research-not-needed.md",
+    "validation": [
+      "find shaders -type d -exec mkdir -p build/unit_test_assets/{} \\;",
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/rule150_shader_contract_test.dart test/modules/rule90_detail_test.dart test/academic_expansion_linear_ca_test.dart",
+      "git diff --check"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:23:48.867761Z",
+  "moduleId": "f0566_mandelbulb_n_14",
+  "moduleName": "Mandelbulb n=14",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f0566_mandelbulb_n_14&z=1.4880997939668144&x=-0.044138286262750626&y=0.000004320056177675724&rx=-0.008434426039457321&ry=0.4724844992160797&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjUwLCJ-ZCI6MTQuMCwic3RlcHMiOjEyMH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "power": 14.0,
+    "iterations": 50,
+    "steps": 120,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 1.4880997939668144,
+    "x": -0.044138286262750626,
+    "y": 4.320056177675724e-06,
+    "rotX": -0.008434426039457321,
+    "rotY": 0.4724844992160797,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Wired shared Mandelbulb pan into the shader target so the panned deep-zoom issue view renders the intended region, and verified shader compilation.",
+    "research": "research/issue-fixes/2026-06-30T01-23-48-867761Z_f0566_mandelbulb_n_14/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/mandelbulb_shared_pan_target_test.dart",
+      "git diff --check"
+    ]
+  }
+}

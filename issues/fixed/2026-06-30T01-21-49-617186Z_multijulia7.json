@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:21:49.617186Z",
+  "moduleId": "multijulia7",
+  "moduleName": "Multijulia \u2077",
+  "tags": [
+    "Bad initial params"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=multijulia7&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjIwMH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 200,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-30T02:24:00Z",
+    "summary": "Replaced the black default Julia seed with a visible degree-7 seed and added CPU render validation.",
+    "research": "research/issue-fixes/2026-06-30T01-21-49-617186Z_multijulia7/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test test/modules/multijulia7_initial_params_test.dart",
+      "impellerc compile shaders/escape_time_family/families/multijulia/multijulia7_gpu.frag",
+      "git diff --check"
+    ]
+  }
+}

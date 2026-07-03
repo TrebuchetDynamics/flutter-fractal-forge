@@ -1,0 +1,47 @@
+{
+  "createdAt": "2026-06-30T19:48:15.385764Z",
+  "moduleId": "life_like_b000_s000",
+  "moduleName": "Life-like B0/S0",
+  "tags": [
+    "No image"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=life_like_b000_s000&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJiaXJ0aE1hc2siOjAsIn5jIjowLCJ-aSI6MjQwLCJzdXJ2aXZhbE1hc2siOjB9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=12&kaleidoscopeMirror=false&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 240,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "birthMask": 0,
+    "survivalMask": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 12,
+    "kaleidoscopeMirror": false,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Adjusted the Life-like CA shader so small masks 0..8 are interpreted as named neighbor counts, making B0/S0 render instead of the empty bitmask rule.",
+    "research": "research/issue-fixes/2026-06-30T19-48-15-385764Z_life_like_b000_s000/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/life_like_b0_s0_visibility_test.dart",
+      "git diff --check"
+    ],
+    "notes": "An earlier identical test attempt hit Flutter shader-bundle write crash; rerun passed."
+  }
+}

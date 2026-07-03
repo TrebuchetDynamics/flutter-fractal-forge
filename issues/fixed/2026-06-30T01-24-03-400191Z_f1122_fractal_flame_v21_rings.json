@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:24:03.400191Z",
+  "moduleId": "f1122_fractal_flame_v21_rings",
+  "moduleName": "Fractal Flame V21 Rings",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f1122_fractal_flame_v21_rings&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6OC4wLCJ-YyI6MCwifmkiOjE0MCwic3ltbWV0cnkiOjAsInZhcmlhdGlvbiI6MjF9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 140,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "variation": 21,
+    "symmetry": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Raised the shared Fractal Flame shader iteration cap to the catalog max so V21 Rings honors its 140-iteration issue view, and verified shader compilation.",
+    "research": "research/issue-fixes/2026-06-30T01-24-03-400191Z_f1122_fractal_flame_v21_rings/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/fractal_flame_iteration_cap_test.dart",
+      "git diff --check"
+    ]
+  }
+}

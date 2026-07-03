@@ -1,0 +1,50 @@
+{
+  "createdAt": "2026-06-30T01:20:22.362578Z",
+  "moduleId": "f0381_de_jong_double",
+  "moduleName": "de Jong Double",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f0381_de_jong_double&z=0.1883412127063718&x=0.001297623268328607&y=-0.12550707161426544&rx=0&ry=0&rz=0&p=eyJhIjoxLjQsImIiOi0yLjMsIn5iIjoxNi4wLCJjIjoyLjQsIn5jIjowLCJkIjoyLjEsIn5pIjozNjB9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 360,
+    "bailout": 16.0,
+    "colorScheme": 0,
+    "a": 1.4,
+    "b": -2.3,
+    "c": 2.4,
+    "d": 2.1
+  },
+  "view": {
+    "zoom": 0.1883412127063718,
+    "x": 0.001297623268328607,
+    "y": -0.12550707161426544,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-30T02:03:00Z",
+    "summary": "Increased de Jong Double thumbnail/detail contrast with an orbit-trap detail term and added native CPU render coverage for the reported view.",
+    "research": "research/issue-fixes/2026-06-30T01-20-22-362578Z_f0381_de_jong_double/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test test/features/catalog/shared_de_jong_catalog_test.dart",
+      "impellerc compile shaders/strange_attractors/peter_de_jong_gpu.frag",
+      "git diff --check"
+    ]
+  }
+}

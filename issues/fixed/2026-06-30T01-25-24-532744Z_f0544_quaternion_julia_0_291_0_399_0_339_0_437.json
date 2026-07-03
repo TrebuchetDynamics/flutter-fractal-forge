@@ -1,0 +1,50 @@
+{
+  "createdAt": "2026-06-30T01:25:24.532744Z",
+  "moduleId": "f0544_quaternion_julia_0_291_0_399_0_339_0_437",
+  "moduleName": "Quaternion Julia c=(0.291, 0.399, 0.339, 0.437)",
+  "tags": [
+    "Randomize bad results"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f0544_quaternion_julia_0_291_0_399_0_339_0_437&z=1&x=0&y=0&rx=0.019789453595876694&ry=-0.7967320680618286&rz=0&p=eyJ-YiI6Ny40LCJjMCI6LTEuMjI1LCJjMSI6LTEuMDQ3LCJjMiI6MC43OCwiYzMiOjAuNzc4LCJ-YyI6MywifmkiOjE3LCJ-ZCI6MS4zLCJzdGVwcyI6NTF9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "power": 1.3,
+    "iterations": 17,
+    "steps": 51,
+    "bailout": 7.4,
+    "colorScheme": 3,
+    "c0": -1.225,
+    "c1": -1.047,
+    "c2": 0.78,
+    "c3": 0.778
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.019789453595876694,
+    "rotY": -0.7967320680618286,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Constrained and clamped shared Quaternion Julia c0-c3 randomize/share values to stable bounds to avoid bad randomized renders.",
+    "research": "research/issue-fixes/2026-06-30T01-25-24-532744Z_f0544_quaternion_julia_0_291_0_399_0_339_0_437/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/features/catalog/shared_quaternion_julia_catalog_test.dart test/features/catalog/shared_quaternion_julia_randomize_bounds_test.dart",
+      "git diff --check"
+    ]
+  }
+}

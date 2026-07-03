@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-30T01:26:05.158147Z",
+  "moduleId": "householder",
+  "moduleName": "Householder Fractal",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=householder&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjgwfQ&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 80,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added basin-boundary color and brightness detail to the Householder shader default view.",
+    "research": "research/issue-fixes/2026-06-30T01-26-05-158147Z_householder/research-not-needed.md",
+    "validation": [
+      "find shaders -type d -exec mkdir -p build/unit_test_assets/{} \\;",
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/householder_detail_test.dart",
+      "git diff --check"
+    ]
+  }
+}

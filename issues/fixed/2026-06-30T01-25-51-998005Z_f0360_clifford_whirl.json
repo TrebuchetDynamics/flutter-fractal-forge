@@ -1,0 +1,50 @@
+{
+  "createdAt": "2026-06-30T01:25:51.998005Z",
+  "moduleId": "f0360_clifford_whirl",
+  "moduleName": "Clifford Whirl",
+  "tags": [
+    "Low Detail",
+    "No image"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f0360_clifford_whirl&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJhIjotMS42LCJiIjoxLjgsIn5iIjoxNi4wLCJjIjowLjgsIn5jIjowLCJkIjoxLjQsIn5pIjozNjB9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 360,
+    "bailout": 16.0,
+    "colorScheme": 0,
+    "a": -1.6,
+    "b": 1.8,
+    "c": 0.8,
+    "d": 1.4
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Raised the shared Clifford shader iteration cap to match catalog settings so Clifford Whirl honors its 360-iteration issue view.",
+    "research": "research/issue-fixes/2026-06-30T01-25-51-998005Z_f0360_clifford_whirl/research-not-needed.md",
+    "validation": [
+      "find shaders -type d -exec mkdir -p build/unit_test_assets/{} \\;",
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/clifford_iteration_cap_test.dart",
+      "git diff --check"
+    ]
+  }
+}

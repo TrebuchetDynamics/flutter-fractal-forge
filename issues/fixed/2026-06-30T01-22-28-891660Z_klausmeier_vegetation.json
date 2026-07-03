@@ -1,0 +1,49 @@
+{
+  "createdAt": "2026-06-30T01:22:28.891660Z",
+  "moduleId": "klausmeier_vegetation",
+  "moduleName": "Klausmeier Vegetation",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=klausmeier_vegetation&z=0.018779301494684427&x=-3&y=-1.8033372163772583&rx=0&ry=0&rz=0&p=eyJhZHZlY3Rpb24iOjAuMiwifmIiOjQuMCwifmMiOjAsIn5pIjo2NCwibW9ydGFsaXR5IjowLjQ1LCJwbGFudERpZmZ1c2lvbiI6MS4wLCJyYWluZmFsbCI6Mi4wLCJ3YXRlckRpZmZ1c2lvbiI6MTAuMH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 64,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "rainfall": 2.0,
+    "mortality": 0.45,
+    "waterDiffusion": 10.0,
+    "plantDiffusion": 1.0,
+    "advection": 0.2
+  },
+  "view": {
+    "zoom": 0.018779301494684427,
+    "x": -3.0,
+    "y": -1.8033372163772583,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added multi-scale terrain banding and stronger ridge contrast for the Klausmeier Vegetation issue view, with a CPU visual-detail regression test.",
+    "research": "research/issue-fixes/2026-06-30T01-22-28-891660Z_klausmeier_vegetation/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/klausmeier_vegetation_detail_test.dart",
+      "git diff --check"
+    ]
+  }
+}

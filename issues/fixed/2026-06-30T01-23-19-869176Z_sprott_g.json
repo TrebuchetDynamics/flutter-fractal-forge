@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-06-30T01:23:19.869176Z",
+  "moduleId": "sprott_g",
+  "moduleName": "Sprott G",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=sprott_g&z=0.13703759153854253&x=-0.8482490181922913&y=-0.2995625436306&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4yLCJ-YyI6NTEsIn5pIjoyMTR9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 214,
+    "bailout": 4.2,
+    "colorScheme": 51
+  },
+  "view": {
+    "zoom": 0.13703759153854253,
+    "x": -0.8482490181922913,
+    "y": -0.2995625436306,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added a derivative-based strand detail signal to the Sprott G shader and verified the shader compiles.",
+    "research": "research/issue-fixes/2026-06-30T01-23-19-869176Z_sprott_g/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/sprott_g_detail_test.dart",
+      "git diff --check"
+    ]
+  }
+}

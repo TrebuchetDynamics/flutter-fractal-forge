@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:21:43.555338Z",
+  "moduleId": "jacobi_sn",
+  "moduleName": "Jacobi Sn",
+  "tags": [
+    "Bad initial coordinates"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=jacobi_sn&z=0.48894757687925744&x=0.005574219860136509&y=-0.13645222783088684&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjIxM30&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 213,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 0.48894757687925744,
+    "x": 0.005574219860136509,
+    "y": -0.13645222783088684,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-30T02:17:00Z",
+    "summary": "Added the missing Jacobi modulus uniform parameter and CPU render coverage for the reported view.",
+    "research": "research/issue-fixes/2026-06-30T01-21-43-555338Z_jacobi_sn/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test test/modules/escape_time_uniform_contract_test.dart test/modules/jacobi_sn_uniform_and_render_test.dart",
+      "impellerc compile shaders/trigonometric_and_transcendental/special_functions/jacobi_sn_gpu.frag",
+      "git diff --check"
+    ]
+  }
+}

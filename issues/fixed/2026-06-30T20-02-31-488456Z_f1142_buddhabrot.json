@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-30T20:02:31.488456Z",
+  "moduleId": "f1142_buddhabrot",
+  "moduleName": "Buddhabrot",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f1142_buddhabrot&z=224695.17840016322&x=0.3658316433429718&y=0.136534184217453&rx=0&ry=0&rz=0&p=eyJ-YiI6Ny4wLCJ-YyI6MCwifmkiOjQ5MH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 490,
+    "bailout": 7.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 224695.17840016322,
+    "x": 0.3658316433429718,
+    "y": 0.136534184217453,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added orbit/trap coloring for bounded Buddhabrot deep-zoom points so interior regions no longer render as flat black.",
+    "research": "research/issue-fixes/2026-06-30T20-02-31-488456Z_f1142_buddhabrot/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/buddhabrot_deep_zoom_test.dart",
+      "git diff --check"
+    ],
+    "notes": "An earlier identical test attempt hit Flutter shader-bundle write crash; rerun passed."
+  }
+}

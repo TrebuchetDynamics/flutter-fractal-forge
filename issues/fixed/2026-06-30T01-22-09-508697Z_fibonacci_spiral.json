@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:22:09.508697Z",
+  "moduleId": "fibonacci_spiral",
+  "moduleName": "Fibonacci Spiral Fractal",
+  "tags": [
+    "Is does not look the correct fractal"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=fibonacci_spiral&z=358.884281186916&x=0.00023851940932217985&y=0.00033027754398062825&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjUwMH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 500,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 358.884281186916,
+    "x": 0.00023851940932217985,
+    "y": 0.00033027754398062825,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-30T15:39:38Z",
+    "summary": "Replaced the finite seed-dot approximation with a golden logarithmic spiral in GPU and CPU render paths, keeping the spiral visible at the reported deep zoom.",
+    "research": "research/issue-fixes/2026-06-30T01-22-09-508697Z_fibonacci_spiral/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test test/modules/fibonacci_spiral_visual_contract_test.dart --reporter expanded",
+      "/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag --input-type=frag --sl=/tmp/fibonacci_spiral.sksl --spirv=/tmp/fibonacci_spiral.spv --include=/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
+      "/home/xel/flutter/bin/flutter analyze"
+    ]
+  }
+}

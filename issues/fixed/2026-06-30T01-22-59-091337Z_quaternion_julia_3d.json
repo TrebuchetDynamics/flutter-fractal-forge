@@ -1,0 +1,48 @@
+{
+  "createdAt": "2026-06-30T01:22:59.091337Z",
+  "moduleId": "quaternion_julia_3d",
+  "moduleName": "Quaternion Julia 3D",
+  "tags": [
+    "Other"
+  ],
+  "notes": "3d rotation doesnt follow input at all",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=quaternion_julia_3d&z=1&x=0&y=0&rx=-1.1780972480773926&ry=1.9141173362731934&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwiZnJhY3RhbFR5cGUiOjAsIn5pIjoyMCwifmQiOjIuMCwic3RlcHMiOjEyMH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "power": 2.0,
+    "iterations": 20,
+    "steps": 120,
+    "bailout": 4.0,
+    "colorScheme": 0,
+    "fractalType": 0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": -1.1780972480773926,
+    "rotY": 1.9141173362731934,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Changed the Quaternion Julia 3D shader to rotate the camera ray basis directly from uRotation so 3D input affects the view, and added a shader-basis regression test.",
+    "research": "research/issue-fixes/2026-06-30T01-22-59-091337Z_quaternion_julia_3d/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/quaternion_julia_3d_rotation_test.dart",
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/shader_3d_diagnostic_test.dart --plain-name 'loads shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag'",
+      "git diff --check"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-30T01:25:12.789504Z",
+  "moduleId": "f0502_sin_1_z_c",
+  "moduleName": "sin(1/z)+c",
+  "tags": [
+    "Low deep zoom"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f0502_sin_1_z_c&z=459548.60812338255&x=0.08090584725141525&y=-0.005759678315371275&rx=0&ry=0&rz=0&p=eyJ-YiI6OC4wLCJ-YyI6MCwifmkiOjUwMCwidmFyaWFudCI6MX0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 500,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "variant": 1
+  },
+  "view": {
+    "zoom": 459548.60812338255,
+    "x": 0.08090584725141525,
+    "y": -0.005759678315371275,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Raised the shared sine escape-expression shader cap to 500 and replaced flat black bounded fills with singularity-trap coloring for deep zoom detail.",
+    "research": "research/issue-fixes/2026-06-30T01-25-12-789504Z_f0502_sin_1_z_c/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/sine_escape_deep_zoom_test.dart",
+      "git diff --check"
+    ],
+    "notes": "A shader-asset compile check was attempted but Flutter crashed while writing unrelated bundled shader outputs under build/unit_test_assets."
+  }
+}

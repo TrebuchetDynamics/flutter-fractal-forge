@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-06-30T20:02:39.118794Z",
+  "moduleId": "tangent",
+  "moduleName": "Tangent Fractal",
+  "tags": [
+    "Is does not look the correct fractal"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=tangent&z=0.3851971491677556&x=3&y=0.005287230014801025&rx=0&ry=0&rz=0&p=eyJ-YiI6NC4wLCJ-YyI6MCwifmkiOjE1OH0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 158,
+    "bailout": 4.0,
+    "colorScheme": 0
+  },
+  "view": {
+    "zoom": 0.3851971491677556,
+    "x": 3.0,
+    "y": 0.005287230014801025,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "summary": "Added tangent pole-distance coloring so the Tangent shader exposes the expected pole bands/tendrils near the issue view.",
+    "research": "research/issue-fixes/2026-06-30T20-02-39-118794Z_tangent/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test --reporter expanded test/modules/tangent_pole_detail_test.dart",
+      "git diff --check"
+    ],
+    "notes": "An earlier identical test attempt hit Flutter shader-bundle write crash; rerun passed."
+  }
+}

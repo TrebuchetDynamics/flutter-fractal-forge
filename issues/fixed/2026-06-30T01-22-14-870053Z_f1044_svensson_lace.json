@@ -1,0 +1,51 @@
+{
+  "createdAt": "2026-06-30T01:22:14.870053Z",
+  "moduleId": "f1044_svensson_lace",
+  "moduleName": "Svensson Lace",
+  "tags": [
+    "Low Detail"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=f1044_svensson_lace&z=0.5732117983131407&x=-0.09854253381490707&y=-0.04662623628973961&rx=0&ry=0&rz=0&p=eyJhIjoxLjUsImIiOi0xLjgsIn5iIjoyNC4wLCJjIjoxLjYsIn5jIjowLCJkIjowLjksIn5pIjozNjB9&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 360,
+    "bailout": 24.0,
+    "colorScheme": 0,
+    "a": 1.5,
+    "b": -1.8,
+    "c": 1.6,
+    "d": 0.9
+  },
+  "view": {
+    "zoom": 0.5732117983131407,
+    "x": -0.09854253381490707,
+    "y": -0.04662623628973961,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-06-30T16:41:56Z",
+    "summary": "Added lace/thread detail to the shared Svensson shader and native CPU rendering for the reported Svensson Lace coefficients, with a detail metric regression test at the reported view.",
+    "research": "research/issue-fixes/2026-06-30T01-22-14-870053Z_f1044_svensson_lace/research-not-needed.md",
+    "validation": [
+      "/home/xel/flutter/bin/flutter test test/modules/svensson_lace_detail_test.dart --reporter expanded",
+      "/home/xel/flutter/bin/flutter test test/features/catalog/shared_svensson_catalog_test.dart --reporter expanded",
+      "/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/impellerc --sksl --input=shaders/strange_attractors/svensson_gpu.frag --input-type=frag --sl=/tmp/svensson.sksl --spirv=/tmp/svensson.spv --include=/home/xel/flutter/bin/cache/artifacts/engine/linux-x64/shader_lib --verbose",
+      "/home/xel/flutter/bin/flutter analyze"
+    ]
+  }
+}
