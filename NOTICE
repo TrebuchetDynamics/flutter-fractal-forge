@@ -3,3 +3,40 @@ Copyright 2026 Trebuchet Dynamics
 
 This product includes software developed by the Flutter Fractal Forge contributors.
 It is licensed under the Apache License, Version 2.0; see LICENSE.
+
+Third-party notices
+-------------------
+
+Flutter, Dart, and pub packages
+
+This project uses Flutter, Dart, and the open-source packages declared in
+pubspec.yaml and pubspec.lock. Those components remain under their own licenses.
+
+Reference corpus and clean-room formula work
+
+Fractal formulas, rendering techniques, and implementation plans were informed
+by public mathematical references and open-source projects documented under
+`docs/analysis/`, `docs/opensource_audits/`, and `research/`. Source code from
+copyleft or unclear-license projects is treated as reference material only unless
+a file carries an explicit compatible attribution.
+
+Known reference projects include:
+
+- par-fractal — MIT License
+- shader-fractals — MIT License
+- glChAoS.P — BSD 2-Clause License
+- JWildfire — LGPL-2.1-or-later; reference/clean-room use
+- FractalShark — GPL-3.0; reference/clean-room use
+- kf2 — AGPL-3.0; reference/clean-room use
+- Fractl — GPL-3.0; reference/clean-room use
+- Giulia — license not clearly declared at scan time; reference/clean-room use
+
+Agent guidance
+
+Some repository agent-guidance text is adapted from the Karpathy-inspired agent
+guardrails by Forrest Chang / andrej-karpathy-skills, as noted in AGENTS.md and
+related AGENTS files.
+
+If a future file imports third-party code, shader text, images, or data directly,
+add the upstream copyright/license notice here and keep the license-compatible
+source pointer next to the imported file.
