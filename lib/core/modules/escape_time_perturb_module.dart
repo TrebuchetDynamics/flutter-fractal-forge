@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
+import 'package:flutter_fractals/core/services/rendering/perturb_orbit_texture.dart';
 
 /// Formula IDs matching `uFormula` in escape_time_perturb_gpu.frag
 const _kFormulaMandelbrot = 0;
@@ -152,104 +153,153 @@ class _EscapeTimePerturbOrbitCache {
       return cached;
     }
 
-    final bytes = _computeOrbit(
+    final bytes = computeEscapeTimePerturbOrbitBytes(
       moduleId: moduleId,
       centerX: centerX,
       centerY: centerY,
       iterations: iterations,
       phoenixP: phoenixP,
-    );
+    ).bytes;
 
-    final totalPx = iterations * 2;
-    final recorder = ui.PictureRecorder();
-    final canvas = ui.Canvas(
-      recorder,
-      ui.Rect.fromLTWH(0, 0, totalPx.toDouble(), 1),
-    );
-    final paint = ui.Paint();
-    for (int x = 0; x < totalPx; x++) {
-      final i = x * 4;
-      paint.color = ui.Color.fromARGB(
-        bytes[i + 3],
-        bytes[i + 0],
-        bytes[i + 1],
-        bytes[i + 2],
-      );
-      canvas.drawRect(ui.Rect.fromLTWH(x.toDouble(), 0, 1, 1), paint);
-    }
-    final picture = recorder.endRecording();
-    ui.Image image;
-    try {
-      image = picture.toImageSync(totalPx, 1);
-    } finally {
-      picture.dispose();
-    }
+    final image = rasterizePerturbOrbitBytes(bytes, iterations * 2);
     _lastImage?.dispose();
     _lastImage = image;
     _lastKey = key;
     return image;
   }
 
-  /// Compute the reference orbit (from the exact center point) for the
-  /// requested fractal formula and encode each z component into RGB bytes.
-  ///
-  /// Layout: pixel[2n] = Re(Zn) encoded, pixel[2n+1] = Im(Zn) encoded.
-  Uint8List _computeOrbit({
-    required String moduleId,
-    required double centerX,
-    required double centerY,
-    required int iterations,
-    double phoenixP = 0.0,
-  }) {
-    final totalPx = iterations * 2;
-    final bytes = Uint8List(totalPx * 4);
+}
 
-    double zr = 0.0;
-    double zi = 0.0;
-    double prevZr = 0.0;
-    double prevZi = 0.0;
+/// Encode a double value in [-4, 4) into three uint8 channels (RGB).
+void _encodeToRgb(double value, Uint8List out, int offset) {
+  final (high, mid, low) = packPerturbOrbitComponent(value);
+  out[offset + 0] = high;
+  out[offset + 1] = mid;
+  out[offset + 2] = low;
+  out[offset + 3] = 255;
+}
 
-    for (int n = 0; n < iterations; n++) {
-      // Store current Z before iterating
-      _encodeToRgb(zr, bytes, n * 8);
-      _encodeToRgb(zi, bytes, n * 8 + 4);
+/// Result of a reference-orbit computation.
+///
+/// [computedIterations] is how many orbit entries were produced by actual
+/// formula iteration; when [detectedPeriod] > 0 the remaining entries were
+/// filled by repeating the detected cycle instead of iterating.
+typedef PerturbOrbitResult = ({
+  Uint8List bytes,
+  int computedIterations,
+  int detectedPeriod,
+});
 
-      // Compute Z(n+1) = f(Z(n), c)
-      final nextZ = _iterate(
-        moduleId: moduleId,
-        zr: zr,
-        zi: zi,
-        prevZr: prevZr,
-        prevZi: prevZi,
-        cx: centerX,
-        cy: centerY,
-        phoenixP: phoenixP,
-      );
+/// Two orbit points closer than this are treated as the same cycle point.
+/// Well below the 24-bit texture quantum (~4.8e-7), so cycle-filled entries
+/// differ from fully-iterated ones by at most one blue-channel LSB.
+const double _kPeriodEpsilon = 1e-9;
 
-      prevZr = zr;
-      prevZi = zi;
-      zr = nextZ.$1;
-      zi = nextZ.$2;
+/// Longest cycle the detector searches for. Reference orbits at deep zoom
+/// attract to short cycles (TODO P1-1c: common periods 1, 2, 3, 5, 6, 7...).
+const int _kMaxDetectablePeriod = 64;
 
-      // Early exit if escaped (shouldn't happen at deep zoom center, but safe)
-      if (zr * zr + zi * zi > 1e6) break;
+/// Compute the reference orbit (from the exact center point) for the
+/// requested fractal formula and encode each z component into RGB bytes.
+///
+/// Layout: pixel[2n] = Re(Zn) encoded, pixel[2n+1] = Im(Zn) encoded.
+///
+/// Period detection (TODO P1-1c): once the orbit revisits a point it can
+/// never leave the cycle, so iteration stops and the remaining texture
+/// entries repeat the cycle. Detection requires two consecutive orbit points
+/// to match the cycle, which also validates Phoenix's (z, z_prev) state.
+/// Pure (no dart:ui) so it is testable without a GPU.
+PerturbOrbitResult computeEscapeTimePerturbOrbitBytes({
+  required String moduleId,
+  required double centerX,
+  required double centerY,
+  required int iterations,
+  double phoenixP = 0.0,
+}) {
+  final totalPx = iterations * 2;
+  final bytes = Uint8List(totalPx * 4);
+  // Raw orbit history for cycle comparison (bytes are too coarse for it).
+  final orbit = Float64List(iterations * 2);
+
+  double zr = 0.0;
+  double zi = 0.0;
+  double prevZr = 0.0;
+  double prevZi = 0.0;
+  int computed = 0;
+  int period = 0;
+
+  for (int n = 0; n < iterations; n++) {
+    // Store current Z before iterating
+    orbit[n * 2] = zr;
+    orbit[n * 2 + 1] = zi;
+    _encodeToRgb(zr, bytes, n * 8);
+    _encodeToRgb(zi, bytes, n * 8 + 4);
+    computed = n + 1;
+
+    // Detect an (approximate) cycle: Z(n) ≈ Z(n-p) and Z(n-1) ≈ Z(n-p-1).
+    if (n >= 2) {
+      final maxP = n - 1 < _kMaxDetectablePeriod ? n - 1 : _kMaxDetectablePeriod;
+      for (int p = 1; p <= maxP; p++) {
+        final base = (n - p) * 2;
+        if ((zr - orbit[base]).abs() < _kPeriodEpsilon &&
+            (zi - orbit[base + 1]).abs() < _kPeriodEpsilon &&
+            (orbit[(n - 1) * 2] - orbit[base - 2]).abs() < _kPeriodEpsilon &&
+            (orbit[(n - 1) * 2 + 1] - orbit[base - 1]).abs() <
+                _kPeriodEpsilon) {
+          period = p;
+          break;
+        }
+      }
+    }
+    if (period > 0) {
+      // Fill the tail by repeating the cycle's already-encoded bytes.
+      final stride = period * 8;
+      for (int i = (n + 1) * 8; i < iterations * 8; i++) {
+        bytes[i] = bytes[i - stride];
+      }
+      break;
     }
 
-    return bytes;
+    // Compute Z(n+1) = f(Z(n), c)
+    final nextZ = _iterateEscapeTime(
+      moduleId: moduleId,
+      zr: zr,
+      zi: zi,
+      prevZr: prevZr,
+      prevZi: prevZi,
+      cx: centerX,
+      cy: centerY,
+      phoenixP: phoenixP,
+    );
+
+    prevZr = zr;
+    prevZi = zi;
+    zr = nextZ.$1;
+    zi = nextZ.$2;
+
+    // Early exit if escaped (shouldn't happen at deep zoom center, but safe)
+    if (zr * zr + zi * zi > 1e6) break;
   }
 
-  /// One iteration of the escape-time formula at the reference center.
-  (double, double) _iterate({
-    required String moduleId,
-    required double zr,
-    required double zi,
-    required double prevZr,
-    required double prevZi,
-    required double cx,
-    required double cy,
-    double phoenixP = 0.0,
-  }) {
-    switch (moduleId) {
+  return (
+    bytes: bytes,
+    computedIterations: computed,
+    detectedPeriod: period,
+  );
+}
+
+/// One iteration of the escape-time formula at the reference center.
+(double, double) _iterateEscapeTime({
+  required String moduleId,
+  required double zr,
+  required double zi,
+  required double prevZr,
+  required double prevZi,
+  required double cx,
+  required double cy,
+  double phoenixP = 0.0,
+}) {
+  switch (moduleId) {
       case 'burning_ship':
         // Z(n+1) = (|Re(z)| + i|Im(z)|)^2 + c
         final wr = zr.abs();
@@ -305,16 +355,6 @@ class _EscapeTimePerturbOrbitCache {
       default:
         // Fallback: standard Mandelbrot
         return (zr * zr - zi * zi + cx, 2.0 * zr * zi + cy);
-    }
-  }
-
-  /// Encode a double value in [-4, 4) into three uint8 channels (RGB).
-  void _encodeToRgb(double value, Uint8List out, int offset) {
-    final (high, mid, low) = packPerturbOrbitComponent(value);
-    out[offset + 0] = high;
-    out[offset + 1] = mid;
-    out[offset + 2] = low;
-    out[offset + 3] = 255;
   }
 }
 

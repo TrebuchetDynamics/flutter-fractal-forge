@@ -2,9 +2,12 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter_fractals/core/modules/common_params.dart';
+import 'package:flutter_fractals/core/modules/escape_time_perturb_module.dart'
+    show packPerturbOrbitComponent;
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:flutter_fractals/core/services/rendering/palette_shader_adapter.dart';
+import 'package:flutter_fractals/core/services/rendering/perturb_orbit_texture.dart';
 
 /// Wraps the Julia module with perturbation-theory GPU shader at deep zoom.
 FractalModule buildJuliaPerturbModule(FractalModule standardModule) {
@@ -86,61 +89,66 @@ class _OrbitTextureCache {
       return cached;
     }
 
-    final totalPx = iterations * 2;
-    final bytes = Uint8List(totalPx * 4);
-
-    double zr = centerX;
-    double zi = centerY;
-
-    for (int i = 0; i < iterations; i++) {
-      final zr2 = zr * zr - zi * zi + cReal;
-      final zi2 = 2.0 * zr * zi + cImag;
-      zr = zr2;
-      zi = zi2;
-
-      _encodeToRg(zr, bytes, i * 8);
-      _encodeToRg(zi, bytes, i * 8 + 4);
-    }
-
-    final recorder = ui.PictureRecorder();
-    final canvas = ui.Canvas(
-      recorder,
-      ui.Rect.fromLTWH(0, 0, totalPx.toDouble(), 1),
+    final bytes = computeJuliaPerturbOrbitBytes(
+      centerX: centerX,
+      centerY: centerY,
+      cReal: cReal,
+      cImag: cImag,
+      iterations: iterations,
     );
-    final paint = ui.Paint();
-    for (int x = 0; x < totalPx; x++) {
-      final i = x * 4;
-      paint.color = ui.Color.fromARGB(
-        bytes[i + 3],
-        bytes[i + 0],
-        bytes[i + 1],
-        bytes[i + 2],
-      );
-      canvas.drawRect(ui.Rect.fromLTWH(x.toDouble(), 0, 1, 1), paint);
-    }
 
-    final picture = recorder.endRecording();
-    ui.Image image;
-    try {
-      image = picture.toImageSync(totalPx, 1);
-    } finally {
-      picture.dispose();
-    }
+    final image = rasterizePerturbOrbitBytes(bytes, iterations * 2);
     _lastImage?.dispose();
     _lastImage = image;
     _lastKey = key;
     return image;
   }
 
-  void _encodeToRg(double value, Uint8List out, int offset) {
-    final clamped = value.clamp(-4.0, 3.999999).toDouble();
-    final normalized = ((clamped + 4.0) / 8.0).clamp(0.0, 1.0);
-    final scaled = (normalized * 65535.0).round().clamp(0, 65535);
-    final r = (scaled >> 8) & 0xFF;
-    final g = scaled & 0xFF;
-    out[offset + 0] = r;
-    out[offset + 1] = g;
-    out[offset + 2] = 0;
-    out[offset + 3] = 255;
+}
+
+/// Computes the Julia reference orbit and encodes each z component into RGBA
+/// bytes for the perturbation shader's orbit texture.
+///
+/// Layout matches `fetchOrbit` in escape_time_perturb_gpu.frag:
+/// pixel[2n] = Re(Z(n+1)) encoded, pixel[2n+1] = Im(Z(n+1)) encoded.
+/// Pure (no dart:ui) so the encode contract is testable without a GPU.
+Uint8List computeJuliaPerturbOrbitBytes({
+  required double centerX,
+  required double centerY,
+  required double cReal,
+  required double cImag,
+  required int iterations,
+}) {
+  final totalPx = iterations * 2;
+  final bytes = Uint8List(totalPx * 4);
+
+  double zr = centerX;
+  double zi = centerY;
+
+  for (int i = 0; i < iterations; i++) {
+    final zr2 = zr * zr - zi * zi + cReal;
+    final zi2 = 2.0 * zr * zi + cImag;
+    zr = zr2;
+    zi = zi2;
+
+    _encodeToRgb(zr, bytes, i * 8);
+    _encodeToRgb(zi, bytes, i * 8 + 4);
   }
+
+  return bytes;
+}
+
+/// Encode one orbit component with the shared 24-bit packing that matches the
+/// shader decode (`r + g/256 + b/65536`).
+///
+/// History: this module previously used a 16-bit integer packing
+/// (`scaled >> 8` / `scaled & 0xFF`) that did NOT match the shader decode and
+/// degraded the Julia reference orbit to ~8 effective bits (decode error
+/// ~1.7e-2 vs the intended ~4.8e-7) — see julia_perturb_orbit_encoding_test.
+void _encodeToRgb(double value, Uint8List out, int offset) {
+  final (high, mid, low) = packPerturbOrbitComponent(value);
+  out[offset + 0] = high;
+  out[offset + 1] = mid;
+  out[offset + 2] = low;
+  out[offset + 3] = 255;
 }
