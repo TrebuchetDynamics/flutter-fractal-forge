@@ -31,6 +31,57 @@ const Set<String> kPerturbableEscapeTimeIds = {
   'multibrot5',
 };
 
+/// Deep-zoom perturbation spec for a Julia-variant catalog ID.
+///
+/// [baseId] selects the delta formula family (see [formulaForId]).
+/// [cReal]/[cImag] are the fixed Julia constant; when null the wrapper reads
+/// the module's 'juliaCReal'/'juliaCImag' params instead (f-series presets
+/// and core julia expose them).
+class JuliaVariantSpec {
+  final String baseId;
+  final double? cReal;
+  final double? cImag;
+  const JuliaVariantSpec(this.baseId, [this.cReal, this.cImag]);
+}
+
+/// Catalog IDs routed to GPU perturbation in julia mode. Constants are the
+/// cSeed values hardcoded in each variant's standalone shader (locked for
+/// burning_ship_julia by burning_ship_julia_visual_contract_test).
+const Map<String, JuliaVariantSpec> kJuliaVariantSpecs = {
+  'julia': JuliaVariantSpec('mandelbrot'),
+  'celtic_julia': JuliaVariantSpec('celtic', -0.70176, -0.3842),
+  'buffalo_julia': JuliaVariantSpec('buffalo', -0.45, 0.1428),
+  'burning_ship_julia': JuliaVariantSpec('burning_ship', -0.52, -0.42),
+  'tricorn_julia': JuliaVariantSpec('tricorn', -0.12, 0.74),
+  // Preset-c z^2 julias (c comes from juliaCReal/juliaCImag params).
+  'f0143_dendrite_julia': JuliaVariantSpec('mandelbrot'),
+  'f0144_airplane_julia': JuliaVariantSpec('mandelbrot'),
+  'f0145_seahorse_valley_julia': JuliaVariantSpec('mandelbrot'),
+  'f0146_basilica_julia': JuliaVariantSpec('mandelbrot'),
+  'f0147_san_marco_julia': JuliaVariantSpec('mandelbrot'),
+  'f0148_kaleidoscope_julia': JuliaVariantSpec('mandelbrot'),
+  'f0149_cactus_julia': JuliaVariantSpec('mandelbrot'),
+  'f0150_fatou_dust_julia': JuliaVariantSpec('mandelbrot'),
+  'f0151_siegel_disk_julia': JuliaVariantSpec('mandelbrot'),
+  'f0152_galaxy_julia': JuliaVariantSpec('mandelbrot'),
+  'f0153_dragon_julia': JuliaVariantSpec('mandelbrot'),
+  'f0154_period_3_julia': JuliaVariantSpec('mandelbrot'),
+  'f0155_period_4_julia': JuliaVariantSpec('mandelbrot'),
+  'f0156_period_5_julia': JuliaVariantSpec('mandelbrot'),
+  'f0157_period_6_julia': JuliaVariantSpec('mandelbrot'),
+  'f0158_period_7_julia': JuliaVariantSpec('mandelbrot'),
+  'f0161_swirl_julia': JuliaVariantSpec('mandelbrot'),
+  'f0162_lightning_julia': JuliaVariantSpec('mandelbrot'),
+  'f0163_filigree_julia': JuliaVariantSpec('mandelbrot'),
+  'f0164_spiral_julia': JuliaVariantSpec('mandelbrot'),
+  'f0166_chebyshev_julia': JuliaVariantSpec('mandelbrot'),
+  'f0167_cauliflower_bulb_julia': JuliaVariantSpec('mandelbrot'),
+  'f0173_mini_brot_julia': JuliaVariantSpec('mandelbrot'),
+  'f0174_elephant_valley_julia': JuliaVariantSpec('mandelbrot'),
+  'f0175_near_elephant_julia': JuliaVariantSpec('mandelbrot'),
+  'f0176_dendritic_tree_julia': JuliaVariantSpec('mandelbrot'),
+};
+
 /// Maps a fractal module ID to its perturbation formula integer.
 int formulaForId(String id) {
   switch (id) {
@@ -63,7 +114,8 @@ int formulaForId(String id) {
 /// [standardModule] must have an id present in [kPerturbableEscapeTimeIds].
 FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
   final id = standardModule.id;
-  final formula = formulaForId(id);
+  final variant = kJuliaVariantSpecs[id];
+  final formula = formulaForId(variant?.baseId ?? id);
 
   final baseParams = standardModule.parameters;
   final hasColorCountParam = baseParams.any((p) => p.id == 'colorCount');
@@ -97,16 +149,27 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       // G15 color cycling speed (cycles per second via uExtra1).
       final colorSpeed = readDouble(state.params, 'colorCycleSpeed', 0.0);
 
+      double? juliaCReal;
+      double? juliaCImag;
+      if (variant != null) {
+        juliaCReal =
+            variant.cReal ?? readDouble(state.params, 'juliaCReal', -0.8);
+        juliaCImag =
+            variant.cImag ?? readDouble(state.params, 'juliaCImag', 0.156);
+      }
+
       final paletteTex = PaletteShaderAdapter.instance.samplerPaletteTexture(
         colorScheme,
         colorCount: colorCount,
       );
       final orbitTex = _EscapeTimePerturbOrbitCache.instance.orbitTexture(
-        moduleId: id,
+        moduleId: variant?.baseId ?? id,
         centerX: state.view.pan.x,
         centerY: state.view.pan.y,
         iterations: iterations,
         phoenixP: phoenixP,
+        juliaCReal: juliaCReal,
+        juliaCImag: juliaCImag,
       );
 
       shader.setFloat(0, time);
@@ -121,7 +184,7 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
       shader.setFloat(9, formula.toDouble());
       shader.setFloat(10, phoenixP); // uExtra0
       shader.setFloat(11, colorSpeed); // uExtra1 = color cycle speed (G15)
-      shader.setFloat(12, 0.0); // uExtra2
+      shader.setFloat(12, variant != null ? 1.0 : 0.0); // uExtra2 = julia mode
 
       shader.setImageSampler(0, paletteTex);
       shader.setImageSampler(1, orbitTex);
@@ -147,25 +210,30 @@ class _EscapeTimePerturbOrbitCache {
     required double centerY,
     required int iterations,
     double phoenixP = 0.0,
+    double? juliaCReal,
+    double? juliaCImag,
   }) {
     final key =
         '$moduleId|${centerX.toStringAsFixed(12)}|${centerY.toStringAsFixed(12)}'
-        '|$iterations|${phoenixP.toStringAsFixed(8)}';
+        '|$iterations|${phoenixP.toStringAsFixed(8)}'
+        '|${juliaCReal?.toStringAsFixed(12)}|${juliaCImag?.toStringAsFixed(12)}';
 
     final cached = _lastImage;
     if (key == _lastKey && cached != null) {
       return cached;
     }
 
-    final bytes = computeEscapeTimePerturbOrbitBytes(
+    final result = computeEscapeTimePerturbOrbitBytes(
       moduleId: moduleId,
       centerX: centerX,
       centerY: centerY,
       iterations: iterations,
       phoenixP: phoenixP,
-    ).bytes;
+      juliaCReal: juliaCReal,
+      juliaCImag: juliaCImag,
+    );
 
-    final image = rasterizePerturbOrbitBytes(bytes, iterations * 2);
+    final image = rasterizePerturbOrbitBytes(result.bytes, iterations * 2);
     _lastImage?.dispose();
     _lastImage = image;
     _lastKey = key;
