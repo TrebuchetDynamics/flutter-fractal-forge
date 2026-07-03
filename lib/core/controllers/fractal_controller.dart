@@ -9,12 +9,12 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
-import 'package:flutter_fractals/core/controllers/fractal_controller_snapshots.dart';
-import 'package:flutter_fractals/core/controllers/fractal_effect_input_bounds.dart';
-import 'package:flutter_fractals/core/controllers/fractal_kaleidoscope_state.dart';
-import 'package:flutter_fractals/core/controllers/fractal_param_randomizer.dart';
-import 'package:flutter_fractals/core/controllers/fractal_param_value_normalizer.dart';
-import 'package:flutter_fractals/core/controllers/fractal_view_input_bounds.dart';
+import 'package:flutter_fractals/core/controllers/state/fractal_controller_snapshots.dart';
+import 'package:flutter_fractals/core/controllers/input/fractal_effect_input_bounds.dart';
+import 'package:flutter_fractals/core/controllers/state/fractal_kaleidoscope_state.dart';
+import 'package:flutter_fractals/core/controllers/params/fractal_param_randomizer.dart';
+import 'package:flutter_fractals/core/controllers/params/fractal_param_value_normalizer.dart';
+import 'package:flutter_fractals/core/controllers/input/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -71,12 +71,14 @@ class FractalController extends ChangeNotifier {
   bool _glowEnabled = false;
   double _glowSigma = 1.0; // blur radius multiplier: 1.0 = standard
   double _glowIntensity = 0.35; // opacity of glow layer
+  bool _fluidModeEnabled = false;
 
   // Animation state
   bool _isMorphing = false;
   double _morphProgress = 1.0;
   String? _previousModuleId;
   Timer? _morphTimer;
+  Timer? _paramLerpTimer;
   bool _isCelebrating = false;
   Timer? _celebrationTimer;
 
@@ -141,6 +143,7 @@ class FractalController extends ChangeNotifier {
   bool get glowEnabled => _glowEnabled;
   double get glowSigma => _glowSigma;
   double get glowIntensity => _glowIntensity;
+  bool get fluidModeEnabled => _fluidModeEnabled;
 
   // Kaleidoscope state
   bool _kaleidoscopeEnabled = false;
@@ -266,6 +269,7 @@ class FractalController extends ChangeNotifier {
       return;
     }
 
+    _paramLerpTimer?.cancel();
     final previousId = _module.id;
     _module = module;
     _applyPreset(module.defaultPreset);
@@ -338,6 +342,7 @@ class FractalController extends ChangeNotifier {
   void updateParam(String id, Object value) {
     final schema = _findParam(id);
     if (schema == null) return;
+    _paramLerpTimer?.cancel();
     _params = Map<String, Object>.from(_params);
     _params[id] = normalizeFractalParamValue(schema, value);
     notifyListeners();
@@ -350,6 +355,7 @@ class FractalController extends ChangeNotifier {
   /// The [preset] should match the current module (by moduleId).
   /// Missing parameters are filled with module defaults.
   void applyPreset(FractalPreset preset) {
+    _paramLerpTimer?.cancel();
     _applyPreset(preset);
     notifyListeners();
     _logChange('stateChange', 'presetApply', 'Applied preset ${preset.name}');
@@ -359,6 +365,7 @@ class FractalController extends ChangeNotifier {
   ///
   /// Does not affect the view state (pan, zoom, rotation).
   void resetParams() {
+    _paramLerpTimer?.cancel();
     _params = _normalizedParamsForPreset(_module.defaultPreset);
     notifyListeners();
     _logChange('stateChange', 'reset', 'Reset params to default');
@@ -387,6 +394,7 @@ class FractalController extends ChangeNotifier {
   void resetSession() {
     // Reset params to module defaults, but reset the view to the true "initial" view.
     // (Module default presets may intentionally start at a non-zero pan like -0.5,0.0 for Mandelbrot.)
+    _paramLerpTimer?.cancel();
     _applyPreset(_module.defaultPreset);
     _resetViewState();
     _transparentBackground = false;
@@ -395,19 +403,93 @@ class FractalController extends ChangeNotifier {
     _logChange('stateChange', 'reset', 'Reset session');
   }
 
-  /// Randomizes all parameters within their valid ranges.
+  /// Randomizes non-palette parameters within their valid ranges.
   ///
   /// Creates interesting, unpredictable fractal configurations.
   /// Useful for exploration and discovery.
-  void randomizeParams() {
-    final random = Random();
-    _params = {
+  void randomizeParams({bool animate = true, Random? random}) {
+    final source = random ?? Random();
+    final target = {
       for (final param in _module.parameters)
-        param.id: randomFractalParamValue(param, random),
+        param.id: _preserveOnRandomize(param.id)
+            ? (_params[param.id] ?? param.defaultValue)
+            : randomFractalParamValue(param, source),
     };
-    notifyListeners();
+    if (!animate) {
+      _paramLerpTimer?.cancel();
+      _params = target;
+      notifyListeners();
+    } else {
+      _startParamLerp(target);
+    }
     _logChange(
         'stateChange', 'randomize', 'Randomized params for ${_module.id}');
+  }
+
+  bool _preserveOnRandomize(String id) =>
+      id == 'colorScheme' || id == 'colorCycleSpeed';
+
+  void _startParamLerp(Map<String, Object> target) {
+    final from = Map<String, Object>.from(_params);
+    _paramLerpTimer?.cancel();
+
+    const duration = Duration(milliseconds: 600);
+    const fps = 60;
+    final steps = (duration.inMilliseconds / (1000 / fps)).round();
+    var step = 0;
+
+    _paramLerpTimer = Timer.periodic(
+      Duration(milliseconds: 1000 ~/ fps),
+      (timer) {
+        step++;
+        final t = (step / steps).clamp(0.0, 1.0);
+        if (t >= 1.0) {
+          timer.cancel();
+          _params = target;
+        } else {
+          final eased = 1.0 - pow(1.0 - t, 3);
+          _params = _lerpParams(from, target, eased);
+        }
+        notifyListeners();
+      },
+    );
+  }
+
+  Map<String, Object> _lerpParams(
+    Map<String, Object> from,
+    Map<String, Object> target,
+    double t,
+  ) {
+    return {
+      for (final param in _module.parameters)
+        param.id: _lerpParamValue(
+          param,
+          from[param.id] ?? param.defaultValue,
+          target[param.id] ?? param.defaultValue,
+          t,
+        ),
+    };
+  }
+
+  Object _lerpParamValue(
+    FractalParameter param,
+    Object from,
+    Object target,
+    double t,
+  ) {
+    if (_preserveOnRandomize(param.id)) return from;
+    if (param.type == FractalParamType.boolean ||
+        param.type == FractalParamType.enumeration) {
+      return from;
+    }
+    if (from is num && target is num) {
+      final value = from + (target - from) * t;
+      return normalizeFractalParamValue(
+        param,
+        param.type == FractalParamType.integer ? value.round() : value,
+      );
+    }
+    return from;
   }
 
   /// Updates pan, zoom, and rotation as one camera move.
@@ -558,6 +640,12 @@ class FractalController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setFluidModeEnabled(bool value) {
+    if (_fluidModeEnabled == value) return;
+    _fluidModeEnabled = value;
+    notifyListeners();
+  }
+
   /// Sets whether the background should be transparent.
   ///
   /// When [value] is true, the shader renders background pixels
@@ -646,6 +734,7 @@ class FractalController extends ChangeNotifier {
   @override
   void dispose() {
     _morphTimer?.cancel();
+    _paramLerpTimer?.cancel();
     _celebrationTimer?.cancel();
     _celebrationController.close();
     super.dispose();

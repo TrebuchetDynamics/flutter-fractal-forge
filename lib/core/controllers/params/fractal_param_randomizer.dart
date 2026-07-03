@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/controllers/fractal_param_value_normalizer.dart';
+import 'package:flutter_fractals/core/controllers/params/fractal_param_value_normalizer.dart';
 
 /// Generates one randomized value for a fractal parameter schema.
 ///

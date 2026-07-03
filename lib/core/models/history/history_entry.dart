@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
-import 'package:flutter_fractals/core/models/history_location.dart';
+import 'package:flutter_fractals/core/models/history/history_location.dart';
 
 /// Represents a visited location in fractal exploration history.
 ///

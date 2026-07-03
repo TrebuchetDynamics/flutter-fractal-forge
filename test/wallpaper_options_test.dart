@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/core/models/wallpaper_options.dart';
+import 'package:flutter_fractals/core/models/wallpaper/wallpaper_options.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

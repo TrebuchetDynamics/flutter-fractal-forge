@@ -1,1 +1,1 @@
-export 'package:flutter_fractals/core/models/history_location.dart';
+export 'package:flutter_fractals/core/models/history/history_location.dart';

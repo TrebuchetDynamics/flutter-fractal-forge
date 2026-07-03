@@ -16,7 +16,7 @@ import 'package:flutter_fractals/features/viewer/actions/viewer_session_tracker.
 import 'package:vector_math/vector_math.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/models/wallpaper_options.dart';
+import 'package:flutter_fractals/core/models/wallpaper/wallpaper_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
@@ -25,6 +25,7 @@ import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
+import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
 import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/services/storage/exploration_stats_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -167,7 +168,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       vsync: this,
     )..forward();
     _musicScanController = AnimationController(
-      duration: const Duration(seconds: 4),
+      duration: fractalMusicLoopDuration,
       vsync: this,
     );
     _musicCoordinator = ViewerMusicCoordinator(
@@ -414,6 +415,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     setState(() {});
     _syncFractalMusicScanAnimation(result.enabled);
+    if (result.enabled) {
+      _musicCoordinator.startLoopRefresh(controller, scanFrame: scanFrame);
+    }
     final l10n = AppLocalizations.of(context);
     if (result.failed) {
       final message = l10n?.fractalMusicUnavailable ??
@@ -435,9 +439,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   void _syncFractalMusicScanAnimation(bool enabled) {
     if (enabled) {
-      if (!_musicScanController.isAnimating) {
-        _musicScanController.repeat();
-      }
+      // Music playback restarts from the beginning whenever the visual scan is
+      // rebuilt, so reset the visible beam too. Otherwise the sonification can
+      // be correct but feel detached from the scanner overlay.
+      _musicScanController.stop();
+      _musicScanController.value = 0;
+      _musicScanController.repeat();
     } else {
       _musicCoordinator.cancelRescan();
       _musicScanController.stop();
@@ -447,7 +454,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   Future<FractalMusicScanFrame?> _captureFractalMusicScanFrame() async {
     try {
-      final renderObject = _fractalKeyA.currentContext?.findRenderObject();
+      final renderObject =
+          _activeBoundaryKey().currentContext?.findRenderObject();
       if (renderObject is! RenderRepaintBoundary) return null;
       await WidgetsBinding.instance.endOfFrame;
       if (!mounted || !renderObject.attached || !renderObject.hasSize) {
@@ -554,67 +562,95 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
           ),
           child: AppBottomSheet(
-            maxHeightFactor: 0.72,
+            maxHeightFactor: 0.66,
             children: [
               AppBottomSheetHeader(
                 icon: Icons.report_problem_rounded,
-                title: 'Report fractal',
+                iconGradient: const LinearGradient(
+                  colors: [AppColors.warning, Color(0xFFFF7A45)],
+                ),
+                title: 'Report rendering issue',
                 subtitle: controller.module.displayName(l10n),
                 onClose: () => Navigator.of(sheetContext).pop(false),
               ),
               const Divider(height: 1, color: AppColors.divider),
               Flexible(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(AppSpacing.md),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.md,
+                    AppSpacing.md,
+                    AppSpacing.md,
+                    AppSpacing.lg,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'What looks wrong?',
+                        'Pick every symptom you see',
                         style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.textSecondary,
+                          color: AppColors.textPrimary,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.sm),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        'This saves the current view, params, and tags.',
+                        style: AppTypography.bodySmall.copyWith(
+                          color: AppColors.textMuted,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
                       Wrap(
                         spacing: AppSpacing.sm,
                         runSpacing: AppSpacing.sm,
                         children: [
                           for (final tag in tags)
-                            FilterChip(
-                              label: Text(tag),
+                            _ReportTagChip(
+                              label: tag,
                               selected: selected.contains(tag),
-                              showCheckmark: false,
-                              selectedColor:
-                                  AppColors.primary.withValues(alpha: 0.28),
-                              backgroundColor: AppColors.surfaceVariant
-                                  .withValues(alpha: 0.9),
-                              side: BorderSide(
-                                color: selected.contains(tag)
-                                    ? AppColors.primaryLight
-                                    : AppColors.glassBorder,
-                              ),
-                              onSelected: (value) => setSheetState(() {
-                                if (value) {
-                                  selected.add(tag);
-                                } else {
-                                  selected.remove(tag);
-                                }
+                              onTap: () => setSheetState(() {
+                                if (!selected.remove(tag)) selected.add(tag);
                               }),
                             ),
                         ],
                       ),
-                      const SizedBox(height: AppSpacing.md),
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(
+                        'Notes',
+                        style: AppTypography.labelMedium.copyWith(
+                          color: AppColors.textSecondary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
                       TextField(
                         controller: notes,
-                        minLines: 2,
+                        minLines: 3,
                         maxLines: 4,
+                        style: AppTypography.bodyMedium.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
                         decoration: InputDecoration(
-                          labelText: 'Notes (optional)',
+                          hintText: 'Optional details for the fix pass',
+                          hintStyle: AppTypography.bodyMedium.copyWith(
+                            color: AppColors.textMuted,
+                          ),
                           filled: true,
-                          fillColor: AppColors.surfaceVariant,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
+                          fillColor:
+                              AppColors.surfaceVariant.withValues(alpha: 0.72),
+                          contentPadding: const EdgeInsets.all(AppSpacing.md),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: BorderSide(
+                              color: AppColors.border.withValues(alpha: 0.7),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: const BorderSide(
+                              color: AppColors.primaryLight,
+                              width: 1.4,
+                            ),
                           ),
                         ),
                       ),
@@ -625,7 +661,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               Padding(
                 padding: const EdgeInsets.fromLTRB(
                   AppSpacing.md,
-                  0,
+                  AppSpacing.xs,
                   AppSpacing.md,
                   AppSpacing.md,
                 ),
@@ -633,6 +669,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   children: [
                     Expanded(
                       child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppColors.textPrimary,
+                          side: BorderSide(
+                            color: AppColors.borderLight.withValues(alpha: 0.7),
+                          ),
+                        ),
                         onPressed: () => Navigator.of(sheetContext).pop(false),
                         child: const Text('Cancel'),
                       ),
@@ -643,7 +685,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         onPressed: selected.isEmpty
                             ? null
                             : () => Navigator.of(sheetContext).pop(true),
-                        child: const Text('Save'),
+                        child: const Text('Save report'),
                       ),
                     ),
                   ],
@@ -766,56 +808,42 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         builder: (context, setSheetState) {
           final current = controller.params['colorScheme'];
           return AppBottomSheet(
-            maxHeightFactor: 0.62,
+            maxHeightFactor: 0.68,
             children: [
               AppBottomSheetHeader(
                 icon: Icons.palette_rounded,
                 title: l10n.paramColorScheme,
-                subtitle: 'Choose the color treatment for this render.',
+                subtitle: 'Choose a palette for this render.',
                 onClose: () => Navigator.of(context).pop(),
               ),
-              const Divider(height: 1, color: AppColors.divider),
               Flexible(
-                child: SingleChildScrollView(
+                child: GridView.builder(
                   padding: const EdgeInsets.fromLTRB(
                     AppSpacing.md,
-                    AppSpacing.md,
+                    AppSpacing.sm,
                     AppSpacing.md,
                     AppSpacing.lg,
                   ),
-                  child: Wrap(
-                    spacing: AppSpacing.sm,
-                    runSpacing: AppSpacing.sm,
-                    children: [
-                      for (final option in options)
-                        ChoiceChip(
-                          label: Text(option.label(l10n)),
-                          selected: option.value == current,
-                          showCheckmark: false,
-                          selectedColor:
-                              AppColors.primary.withValues(alpha: 0.28),
-                          backgroundColor:
-                              AppColors.surfaceVariant.withValues(alpha: 0.9),
-                          side: BorderSide(
-                            color: option.value == current
-                                ? AppColors.primaryLight
-                                : AppColors.glassBorder,
-                          ),
-                          labelStyle: AppTypography.labelMedium.copyWith(
-                            color: option.value == current
-                                ? AppColors.textPrimary
-                                : AppColors.textSecondary,
-                            fontWeight: option.value == current
-                                ? FontWeight.w700
-                                : FontWeight.w500,
-                          ),
-                          onSelected: (_) {
-                            controller.updateParam('colorScheme', option.value);
-                            setSheetState(() {});
-                          },
-                        ),
-                    ],
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: AppSpacing.sm,
+                    crossAxisSpacing: AppSpacing.sm,
+                    childAspectRatio: 0.86,
                   ),
+                  itemCount: options.length,
+                  itemBuilder: (context, index) {
+                    final option = options[index];
+                    final selected = option.value == current;
+                    return _PaletteChoiceTile(
+                      label: option.label(l10n),
+                      value: option.value,
+                      selected: selected,
+                      onTap: () {
+                        controller.updateParam('colorScheme', option.value);
+                        setSheetState(() {});
+                      },
+                    );
+                  },
                 ),
               ),
             ],
@@ -1181,5 +1209,201 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             },
           ),
         ));
+  }
+}
+
+class _PaletteChoiceTile extends StatelessWidget {
+  final String label;
+  final Object value;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _PaletteChoiceTile({
+    required this.label,
+    required this.value,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: AnimatedContainer(
+          duration: AppAnimations.fast,
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: selected
+                ? AppColors.primary.withValues(alpha: 0.18)
+                : AppColors.surfaceVariant.withValues(alpha: 0.62),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: selected ? AppColors.primaryLight : AppColors.glassBorder,
+              width: selected ? 1.4 : 1,
+            ),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: _paletteGradient(value),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.white24),
+                        ),
+                      ),
+                    ),
+                    if (selected)
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: Icon(
+                          Icons.check_circle_rounded,
+                          size: 17,
+                          color: AppColors.primaryLight,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTypography.labelSmall.copyWith(
+                  color: selected
+                      ? AppColors.textPrimary
+                      : AppColors.textSecondary,
+                  fontSize: 10,
+                  height: 1.05,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  LinearGradient _paletteGradient(Object value) {
+    if (value is num) {
+      try {
+        final stops = PaletteService.instance
+            .paletteAtIndex(value.round())
+            .stops
+            .map((stop) => Color(stop.colorArgb))
+            .toList();
+        if (stops.length >= 2) {
+          return LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: stops,
+          );
+        }
+      } catch (_) {
+        // PaletteService is unavailable only in narrow widget harnesses.
+      }
+    }
+    return const LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Color(0xFF2B0B0B), Color(0xFFFF5E3A), Color(0xFFFFC857)],
+    );
+  }
+}
+
+class _ReportTagChip extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _ReportTagChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return _SheetChoicePill(
+      label: label,
+      selected: selected,
+      onTap: onTap,
+    );
+  }
+}
+
+class _SheetChoicePill extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _SheetChoicePill({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: AppAnimations.fast,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: selected
+                ? AppColors.primary.withValues(alpha: 0.22)
+                : AppColors.surfaceVariant.withValues(alpha: 0.62),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: selected
+                  ? AppColors.primaryLight
+                  : AppColors.borderLight.withValues(alpha: 0.62),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (selected) ...[
+                const Icon(
+                  Icons.check_rounded,
+                  size: 15,
+                  color: AppColors.primaryLight,
+                ),
+                const SizedBox(width: 5),
+              ],
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.labelMedium.copyWith(
+                    color: selected
+                        ? AppColors.textPrimary
+                        : AppColors.textSecondary,
+                    fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
