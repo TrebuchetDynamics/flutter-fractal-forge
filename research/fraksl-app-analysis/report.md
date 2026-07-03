@@ -4,9 +4,9 @@
 
 Sources retrieved:
 
-- Google Play listing for Fraksl (`com.workSPACE.Fraksl`), saved as `play-store-page.html` on 2026-06-27.
-- Google Play listing for Fractal Forge (`com.trebuchetdynamics.fractal.forge`), saved as `our-play-store-page.html` for comparison.
-- Public Fraksl Play screenshots, first 8 saved under `screenshots/`.
+- Google Play listing for Fraksl (`com.workSPACE.Fraksl`), reviewed on 2026-06-27 (saved copies removed before publication).
+- Google Play listing for Fractal Forge (`com.trebuchetdynamics.fractal.forge`), reviewed for comparison (saved copy removed before publication).
+- Public Fraksl Play screenshots, first 8 reviewed (saved copies removed before publication; third-party copyright).
 - rforge search sweep across OpenAlex, Crossref, Semantic Scholar, and arXiv for 8 queries around Fraksl, fractal apps, fractal aesthetics, mobile touch visualization, and generative art.
 - Citation expansion for four background papers.
 

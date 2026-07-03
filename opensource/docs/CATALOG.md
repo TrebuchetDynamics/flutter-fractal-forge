@@ -205,7 +205,7 @@ Reference orbit computed once at high precision; all pixels iterate as small flo
 ---
 
 ### 7. giulia
-**Repo**: `opensource/repos/renderers/giulia` · **Docs**: `GIULIA_TECHNICAL_ANALYSIS.md`, `GIULIA_SHADER_FORMULAS.md`
+**Repo**: `opensource/repos/renderers/giulia` (no declared license — do not copy code verbatim; local analysis docs removed before publication)
 
 **Unique**: Clean dual-mode Mandelbrot/Julia in a single shader. The simplest correct reference implementation.
 
