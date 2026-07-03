@@ -1,10 +1,11 @@
-# Flutter Fractal Forge
+# Fractal Forge
 
 <p align="center">
   <img src="docs/assets/fractal_showcase_640w_3s.gif" alt="Animated Fractal Forge showcase" width="640"/>
 </p>
 
 <p align="center">
+  <a href="https://github.com/TrebuchetDynamics/flutter-fractal-forge/actions/workflows/ci.yml"><img src="https://github.com/TrebuchetDynamics/flutter-fractal-forge/actions/workflows/ci.yml/badge.svg" alt="CI status"/></a>
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter" alt="Flutter 3.x"/></a>
   <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart" alt="Dart 3.x"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 license"/></a>
@@ -16,7 +17,7 @@
 
 | Platform | Link | Notes |
 | :--- | :--- | :--- |
-| Web preview | [fractal.trebuchetdynamics.com](https://fractal.trebuchetdynamics.com) | WebGL 2.0 target. WebAssembly is not currently supported. |
+| Web preview | [fractal.trebuchetdynamics.com](https://fractal.trebuchetdynamics.com) | Runs in modern browsers with WebGL 2.0. |
 | Android | [Google Play Store](https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge) | Primary installable experience. |
 | Source | This repository | Build locally for desktop, Android, iOS, or web. |
 
@@ -163,7 +164,7 @@ Release signing files are intentionally not tracked. For Google Play upload buil
 flutter build web --release
 ```
 
-The web build targets JavaScript/WebGL 2.0. `flutter build web --wasm` is not yet supported because of current dependency imports.
+The web build targets JavaScript/WebGL 2.0 (see [Platform support](#platform-support) for WebAssembly status).
 
 ### Desktop and iOS
 

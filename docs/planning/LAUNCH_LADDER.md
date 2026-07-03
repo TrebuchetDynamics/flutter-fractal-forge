@@ -32,7 +32,7 @@ Use **browser web preview** instead of **full web app** until the web gaps below
 | Weakness | Why it matters | Launch impact | Minimum fix |
 |---|---|---:|---|
 | Catalog entries without exact thumbnails | Fallback thumbnails are acceptable for preview but weaker than curated visual assets | Medium | Generate or curate exact thumbnails for the first featured/top catalog entries. |
-| README screenshots are weak/incomplete | GitHub is a primary landing page for open source | High | Replace placeholder screenshot table with real images/GIF. |
+| README screenshots are weak/incomplete | GitHub is a primary landing page for open source | High | Replace placeholder screenshot table with real images/GIF and remove the README "not final marketing captures" disclaimer. |
 | No public web URL yet | Users need a low-friction try-before-install path | High | Deploy web JS preview with clear caveats. |
 | Web parity is unproven | Reddit/social users will test edge cases fast | High | Hide/label unsupported web flows; verify export/share/deep zoom separately. |
 | Too many fractals without curation | New users need instant wow, not a wall of options | Medium | Lead with a Featured Launch Set of 10-20 beautiful, browser-reliable fractals, then mention the broader catalog as depth. |
