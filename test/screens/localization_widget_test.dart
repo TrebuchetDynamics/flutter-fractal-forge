@@ -9,8 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'a11y/shared/permission_test_harness.dart';
-import 'helpers/localized_material_app.dart';
+import '../a11y/shared/permission_test_harness.dart';
+import '../helpers/localized_material_app.dart';
 
 void main() {
   group('Localization', () {

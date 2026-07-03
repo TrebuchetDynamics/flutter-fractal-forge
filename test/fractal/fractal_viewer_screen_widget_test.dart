@@ -15,7 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'a11y/shared/permission_test_harness.dart';
+import '../a11y/shared/permission_test_harness.dart';
 import 'package:vector_math/vector_math.dart' show Vector2, Vector3;
 
 void main() {

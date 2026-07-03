@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter_fractals/features/renderer/validation/render_validation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'helpers/render_test_shader.dart';
+import '../helpers/render_test_shader.dart';
 
 const _shaderAsset = 'shaders/cellular_and_stochastic/gray_scott_rd_gpu.frag';
 const _width = 128;

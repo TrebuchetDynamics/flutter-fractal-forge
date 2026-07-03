@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 
-import 'helpers/fractal_controller_widget_harness.dart';
+import '../helpers/fractal_controller_widget_harness.dart';
 
 void main() {
   group('FractalControlsHud', () {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'a11y/shared/main_app_a11y_harness.dart';
+import '../a11y/shared/main_app_a11y_harness.dart';
 
 void main() {
   group('HomeScreen via FlutterFractalsApp', () {
