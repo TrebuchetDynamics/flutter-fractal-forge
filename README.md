@@ -117,7 +117,7 @@ flutter doctor
 ### Start the app
 
 ```bash
-git clone https://github.com/XelHaku/flutter-fractal-forge.git
+git clone https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
 cd flutter-fractal-forge
 flutter pub get
 flutter run -d chrome
@@ -168,7 +168,7 @@ Release signing files are intentionally not tracked. For Google Play upload buil
 flutter build web --release
 ```
 
-The public web preview is JavaScript/WebGL 2.0. Do not advertise WebAssembly until `flutter build web --wasm` is green.
+The web build targets JavaScript/WebGL 2.0. `flutter build web --wasm` is not yet supported because of current dependency imports.
 
 ### Desktop and iOS
 
@@ -219,7 +219,7 @@ Key runtime path:
 4. Renderer widgets load the module shader, map Dart parameters to GLSL uniforms, and route to GPU or CPU precision paths as needed.
 5. Export, wallpaper, looper, audio, and history features consume the same view state instead of forking renderer logic.
 
-Public copy should say **1,585 production fractals** for the current registry. Debug and test builds include 7 diagnostic modules in addition to production modules.
+The current registry contains **1,585 production fractals**. Debug and test builds include 7 diagnostic modules in addition to the production modules.
 
 ## Testing
 
@@ -253,7 +253,8 @@ Shaders live in [`shaders/`](shaders/) and are declared under `flutter.shaders` 
 Minimal shader shape:
 
 ```glsl
-#version 320 es
+#include <flutter/runtime_effect.glsl>
+
 precision highp float;
 
 uniform float uTime;
@@ -264,7 +265,8 @@ uniform float uZoom;
 out vec4 fragColor;
 
 void main() {
-  vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution) / uResolution.y;
+  vec2 fragCoord = FlutterFragCoord().xy;
+  vec2 uv = (fragCoord - 0.5 * uResolution) / uResolution.y;
   fragColor = vec4(uv * 0.5 + 0.5, 0.2, 1.0);
 }
 ```

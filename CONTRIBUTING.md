@@ -28,7 +28,7 @@ Be respectful and inclusive. We welcome contributors of all experience levels an
    ```
 3. **Add upstream remote:**
    ```bash
-   git remote add upstream https://github.com/XelHaku/flutter-fractal-forge.git
+   git remote add upstream https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
    ```
 4. **Install dependencies:**
    ```bash

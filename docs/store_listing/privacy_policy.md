@@ -35,4 +35,4 @@ If data handling changes in future releases, this policy will be updated before 
 
 ## Contact
 Project contact for policy questions:
-- Repository: https://github.com/XelHaku/flutter-fractal-forge
+- Repository: https://github.com/TrebuchetDynamics/flutter-fractal-forge
