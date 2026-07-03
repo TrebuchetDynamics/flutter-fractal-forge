@@ -65,12 +65,14 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
   final id = standardModule.id;
   final formula = formulaForId(id);
 
-  // Inject the color-cycle-speed slider (G15) if not already present.
   final baseParams = standardModule.parameters;
+  final hasColorCountParam = baseParams.any((p) => p.id == 'colorCount');
   final hasCycleParam = baseParams.any((p) => p.id == 'colorCycleSpeed');
-  final parameters = hasCycleParam
-      ? baseParams
-      : [...baseParams, CommonFractalParams.colorCycleSpeed()];
+  final parameters = [
+    ...baseParams,
+    if (!hasColorCountParam) CommonFractalParams.colorCount(),
+    if (!hasCycleParam) CommonFractalParams.colorCycleSpeed(),
+  ];
 
   return FractalModule(
     id: standardModule.id,
@@ -86,6 +88,7 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
           .toInt();
       final bailout = readDouble(state.params, 'bailout', 4.0);
       final colorScheme = readDouble(state.params, 'colorScheme', 0.0);
+      final colorCount = readDouble(state.params, 'colorCount', 64).round();
 
       // Phoenix extra param: p (memory term)
       final phoenixP =
@@ -96,6 +99,7 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
 
       final paletteTex = PaletteShaderAdapter.instance.samplerPaletteTexture(
         colorScheme,
+        colorCount: colorCount,
       );
       final orbitTex = _EscapeTimePerturbOrbitCache.instance.orbitTexture(
         moduleId: id,
@@ -209,20 +213,30 @@ const int _kMaxDetectablePeriod = 64;
 /// entries repeat the cycle. Detection requires two consecutive orbit points
 /// to match the cycle, which also validates Phoenix's (z, z_prev) state.
 /// Pure (no dart:ui) so it is testable without a GPU.
+/// When [juliaCReal] is non-null the orbit is a Julia reference orbit:
+/// z0 = (centerX, centerY) and the iteration constant is the fixed
+/// (juliaCReal, juliaCImag) instead of the center (Mandelbrot form).
 PerturbOrbitResult computeEscapeTimePerturbOrbitBytes({
   required String moduleId,
   required double centerX,
   required double centerY,
   required int iterations,
   double phoenixP = 0.0,
+  double? juliaCReal,
+  double? juliaCImag,
 }) {
   final totalPx = iterations * 2;
   final bytes = Uint8List(totalPx * 4);
   // Raw orbit history for cycle comparison (bytes are too coarse for it).
   final orbit = Float64List(iterations * 2);
 
-  double zr = 0.0;
-  double zi = 0.0;
+  // Note: `juliaCReal ?? centerX` (not a ternary on the nullable) so the
+  // result type is non-nullable double.
+  final juliaMode = juliaCReal != null;
+  final cx = juliaCReal ?? centerX;
+  final cy = juliaMode ? (juliaCImag ?? 0.0) : centerY;
+  double zr = juliaMode ? centerX : 0.0;
+  double zi = juliaMode ? centerY : 0.0;
   double prevZr = 0.0;
   double prevZi = 0.0;
   int computed = 0;
@@ -267,8 +281,8 @@ PerturbOrbitResult computeEscapeTimePerturbOrbitBytes({
       zi: zi,
       prevZr: prevZr,
       prevZi: prevZi,
-      cx: centerX,
-      cy: centerY,
+      cx: cx,
+      cy: cy,
       phoenixP: phoenixP,
     );
 
