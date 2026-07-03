@@ -1,6 +1,10 @@
 # Flutter Fractal Forge
 
 <p align="center">
+  <img src="docs/assets/fractal_showcase_640w_3s.gif" alt="Animated Fractal Forge showcase" width="640"/>
+</p>
+
+<p align="center">
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter" alt="Flutter 3.x"/></a>
   <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart" alt="Dart 3.x"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 license"/></a>
