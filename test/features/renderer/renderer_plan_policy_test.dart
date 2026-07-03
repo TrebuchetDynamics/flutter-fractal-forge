@@ -13,7 +13,7 @@ void main() {
   test('routes CPU precision decisions to CPU backend in auto mode', () {
     final plan = planPolicy.decide(
       precision: precisionPolicy.decide(
-        moduleId: 'unknown_fractal',
+        moduleId: 'householder',
         dimension: FractalDimension.twoD,
         zoom: 1e9,
       ),
@@ -92,5 +92,28 @@ void main() {
       module: julia,
     );
     expect(identical(ordinary, julia), isTrue);
+  });
+
+  test('routes julia variants to the perturbation wrapper at deep zoom', () {
+    final registry = ModuleRegistry();
+    final resolver = RendererPlanModuleResolver();
+    for (final id in ['julia', 'celtic_julia', 'f0146_basilica_julia']) {
+      final module = registry.byId(id);
+      final resolved = resolver.resolve(
+        plan: RendererPlan.gpu(
+          precisionPolicy.decide(
+            moduleId: id,
+            dimension: FractalDimension.twoD,
+            zoom: 1e10,
+          ),
+        ),
+        module: module,
+      );
+      expect(
+        resolved.shaderAsset,
+        'shaders/escape_time_family/core/escape_time_perturb_gpu.frag',
+        reason: id,
+      );
+    }
   });
 }

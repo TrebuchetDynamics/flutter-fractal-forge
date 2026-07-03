@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/escape_time_perturb_module.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
 
 const double _extendedGpuLowerZoom = 5e6;
 const double _perturbationUpperZoom = 1e30;
@@ -139,6 +140,9 @@ class _PrecisionThresholdPolicy {
     'burning_ship': _PrecisionThresholds(
       cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
     ),
+    'burning_ship_julia': _PrecisionThresholds(
+      cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
+    ),
     'tricorn': _PrecisionThresholds(
       cpuFallbackZoom: _escapeTimeCpuFallbackThreshold,
     ),
@@ -248,10 +252,13 @@ class PrecisionLadderPolicy {
       );
     }
 
-    final needsCpu = _thresholdPolicy.shouldUseCpuFallback(
+    final overCpuThreshold = _thresholdPolicy.shouldUseCpuFallback(
       moduleId: moduleId,
       zoom: zoom,
     );
+    // CPU Precision is exact-intended; unknown modules would use the synthetic
+    // CPU preview fallback, so keep them on GPU instead of mislabeling them.
+    final needsCpu = overCpuThreshold && hasNativeCpuFormula(moduleId);
     if (needsCpu && cpuFallbackActive) {
       return PrecisionLadderDecision(
         moduleId: moduleId,
@@ -283,7 +290,8 @@ class PrecisionLadderPolicy {
   }
 
   bool _supportsPerturbationGpu(String moduleId) =>
-      moduleId == 'julia' || kPerturbableEscapeTimeIds.contains(moduleId);
+      kJuliaVariantSpecs.containsKey(moduleId) ||
+      kPerturbableEscapeTimeIds.contains(moduleId);
 
   /// Deepest zoom [moduleId] can still render on the GPU — via float32, the
   /// double-float shader, or perturbation — before CPU fallback is required.
@@ -295,7 +303,8 @@ class PrecisionLadderPolicy {
   double gpuRenderableCeilingZoom(String moduleId) {
     if (_supportsPerturbationGpu(moduleId)) return _perturbationUpperZoom;
     // mandelbrot's df2 shader already raises its CPU-fallback threshold; other
-    // float32-only modules keep theirs.
+    // float32-only modules keep theirs as GPU exploration caps even when CPU
+    // Precision is unavailable.
     return _thresholdPolicy.thresholdFor(moduleId);
   }
 

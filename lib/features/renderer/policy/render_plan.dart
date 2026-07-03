@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/escape_time_perturb_module.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/core/modules/julia_perturb_module.dart';
 import 'package:flutter_fractals/core/modules/mandelbrot_df2_module.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/policy/backend_policy.dart';
@@ -31,7 +30,6 @@ class RendererPlan {
 
 class RendererPlanModuleResolver {
   FractalModule? _df2Module;
-  FractalModule? _juliaPerturbModule;
   FractalModule? _escapeTimePerturbModule;
   String _escapeTimePerturbModuleId = '';
 
@@ -44,9 +42,6 @@ class RendererPlanModuleResolver {
       return _df2Module ??= buildMandelbrotDf2Module(module);
     }
     if (!precision.usesPerturbationGpu) return module;
-    if (module.id == 'julia') {
-      return _juliaPerturbModule ??= buildJuliaPerturbModule(module);
-    }
     if (_escapeTimePerturbModuleId != module.id) {
       _escapeTimePerturbModule = buildEscapeTimePerturbModule(module);
       _escapeTimePerturbModuleId = module.id;
