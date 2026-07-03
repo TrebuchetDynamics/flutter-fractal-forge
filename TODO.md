@@ -143,21 +143,27 @@ Older 370-count planning rows are retired.
 #### P1-1b: Extend Perturbation to Julia Variants
 
 **Target Fractals (Priority Order):**
-1. [x] `julia` — Core Julia set (`julia_perturb_module.dart`)
-2. [ ] `celtic_julia`, `buffalo_julia`, `burning_ship_julia`
-3. [ ] `tricorn_julia`, `perpendicular_julia`
-4. [ ] `multibrot3_julia` through `multibrot12_julia`
-5. [ ] `phoenix_julia`
+- [x] `julia` - core Julia (2026-07-02: flat-render bug fixed; unified into
+  escape-time wrapper via julia mode, `julia_perturb_module.dart` deleted)
+- [x] `celtic_julia`, `buffalo_julia`, `burning_ship_julia`, `tricorn_julia`
+  (2026-07-02: julia-mode flag reusing base deltas)
+- [x] 26 preset-c julias (`f0143`-`f0176` series) routed as z²+c julia mode
+- [ ] `phoenix_julia`, cubic/power/trig/perpendicular variants — need new
+  shader deltas; deferred (see spec Out of scope)
 
 **Implementation:**
-- Julia uses `deltaJulia()` formula (already in shader, no dc term)
-- Core `julia` is routed separately by `RendererPlanModuleResolver`
-- Variant support still needs catalog IDs mapped to perturbation formula handling
+- Julia variants use `uExtra2` shader flag: `dz0 = pixel offset`, `dc = 0`
+- Each variant reuses its base formula's existing delta function (no new deltas)
+- All julia variants now routed through unified `escape_time_perturb_module`
+- `kJuliaVariantSpecs` table maps catalog IDs to (base formula, fixed c)
+- F-series preset julias read `juliaCReal`/`juliaCImag` from module params
 
-**Files to Modify:**
-- `lib/core/modules/julia_perturb_module.dart`
-- `lib/core/modules/escape_time_perturb_module.dart`
-- `lib/core/modules/builders/escape_time_catalog.dart` (add perturbation configs)
+**Files:**
+- `lib/core/modules/escape_time_perturb_module.dart` (unified wrapper + variant table)
+- `shaders/escape_time_family/core/escape_time_perturb_gpu.frag` (julia mode flag)
+- `lib/features/renderer/policy/precision_ladder_policy.dart` (routing gate)
+- `lib/features/renderer/policy/render_plan.dart` (resolver simplification)
+- Deleted: `lib/core/modules/julia_perturb_module.dart`
 
 #### P1-1c: Add Period Detection for Reference Orbit (COMPLETED 2026-07-02)
 
