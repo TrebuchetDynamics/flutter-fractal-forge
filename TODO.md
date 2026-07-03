@@ -1,14 +1,17 @@
 # Flutter Fractal Forge — Execution TODO
 
-> **Last comprehensive update:** Incorporates deep zoom research findings, perturbation theory analysis, and realistic capability assessment.
+> **Last comprehensive update:** 2026-07-02 catalog/status refresh from live tests and source.
+>
+> **Source anchors for this refresh:** `test/catalog_id_integrity_test.dart` (501 escape-time entries, 974 production fractals / 981 debug-test registry modules including 7 diagnostics), `lib/features/viewer/fractal_viewer_screen.dart` (controls HUD), `lib/core/services/rendering/palette_service.dart` + `palette_shader_adapter.dart` (palette textures).
 
 ---
 
 ## Architecture Direction (decided 2026-02-15, reaffirmed 2026-04-05)
 
 **GPU-primary, CPU safety net.**
-- GPU is the default renderer (196 pre-compiled fragment shaders, one per fractal)
-- CPU fallback auto-activates via 2s health check when GPU output is invalid
+- GPU is the default renderer; many catalog modules share reviewed shader families rather than one shader per fractal
+- Live registry lock: 501 escape-time catalog entries, 10 raymarched-3D entries, 7 custom hand-built modules, 974 production fractals (981 debug/test `ModuleRegistry` modules including 7 diagnostics)
+- CPU fallback auto-activates via renderer health/precision policy when GPU output or precision is invalid
 - CPU path is maintenance-only (no further performance investment)
 - GPU investment: coloring quality, smooth iteration, deep zoom, new formulas
 
@@ -24,12 +27,13 @@ These fractals use differentiable formulas where `dz_next = f(z+dz, c+dc) - f(z,
 
 | Category | Fractals | Count | Status |
 |----------|----------|-------|--------|
-| Core Mandelbrot family | mandelbrot, multibrot variants | ~20 | ✅ Implemented (8/20) |
-| Julia variants | julia, celtic_julia, buffalo_julia, etc. | ~30 | 🔶 Partial |
-| Burning Ship variants | burning_ship, burning_ship_cubic, etc. | ~10 | ✅ Implemented |
-| Phoenix variants | phoenix, phoenix_julia | ~4 | ✅ Implemented |
-| Buffalo/Tricorn/Celtic | buffalo, tricorn, celtic | ~6 | ✅ Implemented |
+| Core Mandelbrot family | mandelbrot, multibrot variants | ~20 | 🔶 Mandelbrot uses DF2 path; multibrot3/4/5 perturbation implemented |
+| Julia variants | julia, celtic_julia, buffalo_julia, etc. | ~30 | 🔶 Core `julia` perturbation implemented; variants remain open |
+| Burning Ship variants | burning_ship, burning_ship_cubic, etc. | ~10 | 🔶 `burning_ship` implemented; variants remain open |
+| Phoenix variants | phoenix, phoenix_julia | ~4 | 🔶 `phoenix` implemented; variants remain open |
+| Buffalo/Tricorn/Celtic | buffalo, tricorn, celtic | ~6 | ✅ Implemented for core IDs |
 
+**Current shipped GPU perturbation path:** `julia`, `burning_ship`, `buffalo`, `tricorn`, `celtic`, `phoenix`, `multibrot3`, `multibrot4`, `multibrot5`.
 **Total achievable with perturbation: ~70-80 fractals**
 
 ### ❌ Perturbation Theory DOES NOT Work For
@@ -43,25 +47,21 @@ These fractals use differentiable formulas where `dz_next = f(z+dz, c+dc) - f(z,
 | Stochastic | Random sampling, not deterministic | Buddhabrot, DLA |
 | Tilings | Substitution rules, not iteration | Penrose, Ammann-Beenker |
 
-**Total NOT suitable for perturbation: ~290-300 fractals**
+**Most of the 974-production-fractal catalog is still NOT suitable for perturbation; exact category counts need a fresh catalog audit.**
 
-### 📊 Module Registry Breakdown (370 total)
+### 📊 Module Registry Breakdown (974 production fractals; 981 debug/test modules)
 
 ```
-Perturbation-Capable (Polynomial Escape-Time): ~80
-├── Currently implemented: 8 (mandelbrot, burning_ship, buffalo, tricorn, celtic, phoenix, multibrot3/4/5)
-├── Julia variants: ~30 (can reuse delta formulas)
-└── Other polynomial: ~40
+Live locks from test/catalog_id_integrity_test.dart:
+├── Escape-time catalog raw unique IDs: 501
+├── Raymarched-3D catalog unique IDs: 10
+├── Custom hand-built modules: 7
+├── Production fractals excluding diagnostics: 974
+└── Debug/test ModuleRegistry modules including diagnostics: 981
 
-NOT Perturbation-Capable: ~290
-├── IFS/Geometric: ~40
-├── Attractors: ~30
-├── Cellular: ~20
-├── Newton/Root-finding: ~20
-├── Hypercomplex: ~25
-├── Lyapunov: ~15
-├── Trigonometric/Transcendental: ~30
-└── Other: ~110
+Perturbation-capable target remains ~70-80 polynomial escape-time fractals.
+Currently routed to GPU perturbation: 9 IDs (julia + 8 generic escape-time IDs).
+Older 370-count planning rows are retired.
 ```
 
 ---
@@ -135,68 +135,49 @@ NOT Perturbation-Capable: ~290
   - **Verified:** `buffalo_gpu.frag` now compiles on GPU (previously failed)
   - **Impact:** All escape-time fractals now render correctly on GPU instead of falling back to CPU
 
-#### P1-1a: Fix Perturbation Artifact Bug (P0-Critical)
+#### P1-1a: Fix Perturbation Artifact Bug (COMPLETED 2026-04-05)
 
-**Files to Modify:**
-- `shaders/escape_time_perturb_gpu.frag`
-- `lib/core/modules/escape_time_perturb_module.dart`
-
-**Implementation:**
-```glsl
-// Current problematic code at line 165:
-if (dot(dzNew, dzNew) > dot(Zn, Zn) * 1e6) {
-    dzNew = Zn + dzNew;  // Causes discontinuity
-}
-
-// Improved approach:
-// 1. Use logarithmic overflow check
-// 2. Add period detection
-// 3. Smooth fallback transition
-if (dot(dzNew, dzNew) > dot(Zn, Zn) * 1e8) {
-    // Use reference orbit directly for this iteration
-    dzNew = fetchOrbit(n) - Zn + dc;  // Better fallback
-}
-```
+- [x] Raised perturbation overflow threshold from `1e6` to `1e12` in `shaders/escape_time_family/core/escape_time_perturb_gpu.frag`
+- [ ] Follow-up only if artifacts recur: replace discontinuous fallback with smoother reference-orbit transition
 
 #### P1-1b: Extend Perturbation to Julia Variants
 
 **Target Fractals (Priority Order):**
-1. `julia` — Core Julia set (most commonly zoomed)
-2. `celtic_julia`, `buffalo_julia`, `burning_ship_julia`
-3. `tricorn_julia`, `perpendicular_julia`
-4. `multibrot3_julia` through `multibrot12_julia`
-5. `phoenix_julia`
+1. [x] `julia` — Core Julia set (`julia_perturb_module.dart`)
+2. [ ] `celtic_julia`, `buffalo_julia`, `burning_ship_julia`
+3. [ ] `tricorn_julia`, `perpendicular_julia`
+4. [ ] `multibrot3_julia` through `multibrot12_julia`
+5. [ ] `phoenix_julia`
 
 **Implementation:**
 - Julia uses `deltaJulia()` formula (already in shader, no dc term)
-- Add Julia to `kPerturbableEscapeTimeIds` set
-- Update `formulaForId()` switch statement
+- Core `julia` is routed separately by `RendererPlanModuleResolver`
+- Variant support still needs catalog IDs mapped to perturbation formula handling
 
 **Files to Modify:**
+- `lib/core/modules/julia_perturb_module.dart`
 - `lib/core/modules/escape_time_perturb_module.dart`
-- `lib/core/modules/escape_time_catalog.dart` (add perturbation configs)
+- `lib/core/modules/builders/escape_time_catalog.dart` (add perturbation configs)
 
-#### P1-1c: Add Period Detection for Reference Orbit
+#### P1-1c: Add Period Detection for Reference Orbit (COMPLETED 2026-07-02)
 
-**Why Needed:**
-- At deep zoom, reference orbit may enter attracting cycle
-- Period detection shortens orbit computation
-- Enables smooth coloring for non-escaping points
+- [x] **Period detection shipped** in `computeEscapeTimePerturbOrbitBytes`
+  (`lib/core/modules/escape_time_perturb_module.dart`)
+  - Detects approximate cycles (eps 1e-9, max period 64) with a
+    consecutive-pair confirmation so Phoenix's `(z, z_prev)` state is safe
+  - On detection, stops iterating and fills the orbit texture tail by
+    repeating the cycle bytes (byte-identical for exact cycles, ≤1 LSB for
+    attracting cycles)
+  - Orbit computation extracted to a pure, GPU-free testable function
+  - **Verified:** `test/perturb_orbit_period_test.dart` (exact 1- and
+    2-cycles byte-identical vs full iteration; chaotic center has no false
+    positives; escaping center unchanged)
 
-**Implementation:**
-```dart
-// In _EscapeTimePerturbOrbitCache._computeOrbit():
-// Detect when |Z_n - Z_m| < epsilon for period m
-// Common periods in Mandelbrot: 1, 2, 3, 5, 6, 7, 9, 10, 12...
-
-int detectPeriod(double zr, double zi, int maxPeriod) {
-    // Compare current Z with previous Z values
-    // If |Z_n - Z_m| < epsilon for m < n, period = n - m
-}
-```
-
-**Files to Modify:**
-- `lib/core/modules/escape_time_perturb_module.dart`
+- [x] **Julia orbit encoding bug fixed 2026-07-02** — `julia_perturb_module.dart`
+  still used the old 16-bit packing that mismatched the shader's 24-bit decode,
+  degrading the Julia reference orbit to ~8 effective bits (decode error
+  ~1.7e-2 vs intended ~4.8e-7). Now delegates to `packPerturbOrbitComponent`.
+  **Verified:** `test/julia_perturb_orbit_encoding_test.dart`
 
 ### P1-2: Series Approximation (Deep Zoom Speedup)
 
@@ -305,14 +286,14 @@ float t = fract(smoothVal / 64.0);
 ### P2-1: GPU Visual Quality
 
 - [ ] **Smooth coloring** in all escape-time shaders (see P1-3)
-- [ ] **Palette texture system** — Pass palette as texture uniform
-- [ ] **Color cycling animation** — Time-based palette shift
-- [ ] **User palette selection** — Select from viewer controls
+- [x] **Palette texture system** — Pass palette as texture uniform
+- [ ] **Color cycling animation** — Perturbation shader supports time shift; roll out beyond perturbation path
+- [x] **User palette selection** — Select from viewer controls
 - [ ] **Regression test** — Assert no banding artifacts
 
 ### P2-2: UI/UX Improvements
 
-- [ ] **Controls redesign** — Smaller, less cluttered
+- [x] **Controls redesign** — HUD overlay shipped (`FractalControlsHud`)
 - [ ] **Controls snap/collapse** — More aggressive
 - [ ] **Overflow menu** — Move non-critical actions
 - [ ] **Auto-pilot improvements** — Smooth path, dwell behavior
@@ -321,19 +302,19 @@ float t = fract(smoothVal / 64.0);
 ### P2-3: Preset & Export
 
 - [ ] **Preset thumbnails** — Auto-generate on save
-- [ ] **Custom palettes** — Save/load gradients
+- [x] **Custom palettes** — Save/load gradients
 - [ ] **Bookmarks** — Save coordinates + formula + palette
 - [ ] **Share presets** — One-tap Instagram/X/WhatsApp
 - [ ] **Frame lock** — Exact viewer-to-export fidelity
 
 ### P2-4: Catalog Hardening
 
-- [x] Registry covers 350 escape-time + 9 raymarched 3D + 6 custom = 370 non-debug
+- [x] Registry covers 501 escape-time entries + 10 raymarched 3D + shared/custom promotions = 974 production fractals (981 debug/test modules including diagnostics)
 - [ ] **PRD manifest loader** — `assets/catalog/prd_catalog.json`
 - [x] ID lock/integrity tests
 - [x] Filter/sort + list/grid toggle
 - [x] Persist catalog view mode
-- [ ] **Add 4+ new formulas** — Beyond current 370
+- [x] **Add 4+ new formulas** — Catalog has grown beyond the old 370 baseline
 
 ### P2-5: Export Hardening
 
@@ -365,9 +346,9 @@ float t = fract(smoothVal / 64.0);
 **Target:** ~80 fractals total with perturbation support.
 
 **Progress:**
-- Currently implemented: 8
-- Julia variants: ~30 (can reuse delta formulas)
-- Other polynomial: ~40
+- Currently routed: 9 IDs (`julia` + 8 generic escape-time IDs)
+- Julia variants: ~30 candidates (core `julia` done; variants still open)
+- Other polynomial: ~40 candidates
 
 **To Implement:**
 1. Add delta formulas for all unique polynomial patterns
@@ -397,26 +378,20 @@ class ChunkedRenderer {
 
 ### P4-1: New Escape-Time Fractals
 
-**Target:** 4+ new formulas beyond current 370.
-
-**Research needed:**
-- Look for unique polynomial escape-time patterns
-- Implement as `EscapeTimeConfig` + shader
+- [x] **Target met:** Catalog grew beyond the old 370 baseline to 974 production fractals.
+- [ ] Next formula work should be quality-gated: only add researched formulas with tests, stable IDs, and shader assets.
 
 ### P4-2: New 3D Fractals
 
-**Target:** Working 3D raymarching beyond Mandelbulb.
-
-**Issues to fix first (P0-2):**
-- KIFS Menger Sponge loading
-- All 3D shader compatibility
+- [x] 3D shader compatibility blockers fixed.
+- [ ] Next 3D work should prioritize visual QA and thumbnails over raw count.
 
 ---
 
 ## COMPLETED ITEMS
 
 ### Deep Zoom
-- [x] Perturbation theory shader (8 fractals)
+- [x] Perturbation theory shader (9 routed IDs: Julia + 8 generic escape-time IDs)
 - [x] Double-float shader (`mandelbrot_df2.frag`) for 5e6-1e12
 - [x] Reference orbit cache (LRU singleton)
 - [x] Deep zoom precision policy with hysteresis
@@ -426,7 +401,15 @@ class ChunkedRenderer {
 - [x] GPU-primary with CPU fallback
 - [x] Tile-based CPU renderer (96px, spiral, cancel-on-gesture)
 - [x] Smooth coloring in perturbation shader
-- [x] Palette texture support
+- [x] Palette texture support + cached sampler adapter
+- [x] **Batched orbit-texture rasterization** (2026-07-02) — shared
+  `rasterizePerturbOrbitBytes` (one `drawVertices` call) replaces the
+  per-pixel `drawRect` loops duplicated in both perturbation modules
+  (~4,000 draw ops per navigation step → 1; measured 3.33ms → 1.38ms per
+  build at max iterations). Byte-exactness locked by
+  `test/perturb_orbit_texture_test.dart` (software rasterizer) and
+  `integration_test/rendering/perturb_orbit_texture_gpu_test.dart`
+  (real GL pipeline; run with `-d linux`, needs `xvfb-run` when headless)
 
 ### Quality
 - [x] 64 palette support + selector
@@ -435,7 +418,7 @@ class ChunkedRenderer {
 - [x] Catalog integrity tests
 
 ### Testing
-- [x] 865 unit/widget tests
+- [x] Focused TODO refresh checks passed: catalog integrity, controls HUD, palette texture/cache tests
 - [x] 19 integration test files
 - [x] Golden tests (phone/tablet × dark/highContrast)
 - [x] Semantic audit
@@ -474,8 +457,9 @@ class ChunkedRenderer {
 
 | File | Change | Priority |
 |------|--------|----------|
-| `shaders/escape_time_perturb_gpu.frag` | Fix artifact bug, add series approx | P0/P1 |
-| `lib/core/modules/escape_time_perturb_module.dart` | Period detection, Julia support | P0/P1 |
+| `shaders/escape_time_family/core/escape_time_perturb_gpu.frag` | Add smoother fallback / series approx if needed | P1 |
+| `lib/core/modules/escape_time_perturb_module.dart` | Period detection, more polynomial IDs | P1 |
+| `lib/core/modules/julia_perturb_module.dart` | Maintain core Julia perturbation path | P1 |
 | `lib/core/modules/builders/escape_time_catalog.dart` | Add perturbation configs | P1 |
 | `lib/features/renderer/deep_zoom_precision_policy.dart` | Threshold tuning | P2 |
 | `lib/features/renderer/cpu_fractal_renderer.dart` | BigDecimal support | P3 |
