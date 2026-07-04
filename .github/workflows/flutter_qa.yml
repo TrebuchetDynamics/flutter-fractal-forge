@@ -76,4 +76,8 @@ jobs:
           target: google_apis
           disable-animations: true
           emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
-          script: flutter test integration_test/
+          # Per-push CI runs the core flows only: each integration file re-runs
+          # a ~140s Gradle assemble, so the full directory cannot fit the job
+          # budget. The full suite runs on physical devices via
+          # .maestro/run_physical_device_suite.sh (see docs/planning/LAUNCH_LADDER.md).
+          script: flutter test integration_test/flows/app_test.dart integration_test/flows/critical_journey_test.dart
