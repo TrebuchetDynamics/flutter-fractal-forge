@@ -67,24 +67,13 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-      - name: Start emulator
-        run: |
-          echo "y" | sdkmanager "system-images;android-34;google_apis;x86_64"
-          echo "no" | avdmanager create avd -n test_device -k "system-images;android-34;google_apis;x86_64" --force
-          emulator -avd test_device -no-window -no-audio -no-boot-anim &
-          adb wait-for-device
-          boot_deadline=$((SECONDS + 180))
-          until [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ]; do
-            if [ "$SECONDS" -gt "$boot_deadline" ]; then
-              echo "Timed out waiting for emulator boot_completed" >&2
-              adb shell getprop >&2 || true
-              exit 1
-            fi
-            sleep 5
-          done
-          adb shell settings put global window_animation_scale 0
-          adb shell settings put global transition_animation_scale 0
-          adb shell settings put global animator_duration_scale 0
-          adb shell pm list packages >/dev/null
       - run: flutter pub get
-      - run: flutter test integration_test/
+      - name: Run integration tests on emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          script: flutter test integration_test/
