@@ -121,7 +121,7 @@ void main() {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
+      expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded));
@@ -135,7 +135,7 @@ void main() {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      await tester.tap(find.byIcon(Icons.tune_rounded));
+      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
       await safeSettle(tester);
 
       expect(find.byType(FractalControlsSheet), findsOneWidget);
@@ -191,7 +191,7 @@ void main() {
         displayName: 'Burning Ship',
       );
 
-      await tester.tap(find.byIcon(Icons.tune_rounded));
+      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
       await safeSettle(tester);
       expect(find.byType(FractalControlsSheet), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);

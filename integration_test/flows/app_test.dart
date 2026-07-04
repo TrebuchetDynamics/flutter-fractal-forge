@@ -91,7 +91,7 @@ void main() {
       drainKnownShaderExceptions(tester);
 
       // Should be on viewer screen with the compact action set.
-      expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
+      expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerRandomButton')), findsOneWidget);
 
@@ -153,7 +153,8 @@ void main() {
         drainKnownShaderExceptions(tester);
 
         // Verify viewer screen loaded.
-        expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
+        expect(
+            find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
         logger.logNavigation('Viewed module $i');
 
         // Go back through the route stack.
@@ -212,7 +213,7 @@ void main() {
 
       // Verify viewer loaded with visible renderer + core actions.
       expect(find.byType(FractalRenderer), findsOneWidget);
-      expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
+      expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
 
       logger.logNavigation('Search->open Burning Ship viewer');

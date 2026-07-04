@@ -278,9 +278,9 @@ void main() {
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened();
 
-      // Open controls panel (Icons.tune_rounded)
-      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
-      await tester.tap(find.byIcon(Icons.tune_rounded));
+      // Open controls panel from the randomize params FAB long-press.
+      expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
+      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 800));
 

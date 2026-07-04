@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
-import 'package:flutter_fractals/core/services/rendering/palette_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/export/export_options_sheet.dart';
@@ -123,11 +123,11 @@ void main() {
         // ------------------------------------------------------------------
         // Step 5: Verify viewer controls are present
         // ------------------------------------------------------------------
-        // Controls button (tune icon)
+        // Randomize params button (long-press opens controls)
         expect(
-          find.byKey(const Key('viewerControlsButton')),
+          find.byKey(const Key('viewerRandomParamsButton')),
           findsOneWidget,
-          reason: 'Viewer controls button (tune) must be present',
+          reason: 'Viewer randomize params button must be present',
         );
 
         // Export button (download icon)

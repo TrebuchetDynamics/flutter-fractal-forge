@@ -34,15 +34,23 @@ class AppBottomSheet extends StatelessWidget {
     // The surface still extends to the screen edge — only the content is
     // padded — and the extra inset is added to the height budget so the
     // visible content area is unchanged.
-    final bottomInset = mq.viewPadding.bottom;
+    final bottomInset =
+        math.max(mq.viewPadding.bottom, AppSpacing.xl) + mq.viewInsets.bottom;
     return Container(
       constraints: BoxConstraints(
         maxHeight:
             math.max(mq.size.height * effectiveFactor, 280) + bottomInset,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.35),
+            blurRadius: 24,
+            offset: const Offset(0, -8),
+          ),
+        ],
       ),
       child: Padding(
         padding: EdgeInsets.only(bottom: bottomInset),

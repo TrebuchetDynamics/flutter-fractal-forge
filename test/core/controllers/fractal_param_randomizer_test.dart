@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
-import 'package:flutter_fractals/core/controllers/fractal_param_randomizer.dart';
+import 'package:flutter_fractals/core/controllers/params/fractal_param_randomizer.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 String _label(_) => 'Parameter';

@@ -100,10 +100,10 @@ void main() {
 
         await takeScreenshotIfAvailable('02_viewer');
 
-        // Open tune panel if available.
-        final tune = find.byIcon(Icons.tune_rounded);
-        if (tune.evaluate().isNotEmpty) {
-          await tester.tap(tune);
+        // Open controls panel if available.
+        final randomize = find.byKey(const Key('viewerRandomParamsButton'));
+        if (randomize.evaluate().isNotEmpty) {
+          await tester.longPress(randomize);
           await tester.pump();
           await tester.pump(const Duration(milliseconds: 800));
           await takeScreenshotIfAvailable('03_tune_panel');

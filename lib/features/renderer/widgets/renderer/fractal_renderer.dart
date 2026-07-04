@@ -237,6 +237,7 @@ class _FractalRendererState extends State<FractalRenderer>
       child: Listener(
         onPointerDown: _onPointerDown,
         onPointerMove: _onPointerMove,
+        onPointerHover: _onPointerHover,
         onPointerUp: _onPointerUp,
         onPointerCancel: _onPointerUp,
         onPointerSignal: _onPointerSignal,

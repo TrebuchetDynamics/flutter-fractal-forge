@@ -43,8 +43,8 @@ Unit tests and widget tests for the Flutter Fractal Forge application. Tests cov
 ## For AI Agents
 
 ### Working In This Directory
-- Run all tests: `/home/xel/flutter/bin/flutter test`
-- Run single test: `/home/xel/flutter/bin/flutter test test/<filename>.dart`
+- Run all tests: `flutter test`
+- Run single test: `flutter test test/<filename>.dart`
 - Tests use mock stores created inline (no shared mock files)
 - Widget tests wrap in `MaterialApp` + required providers
 

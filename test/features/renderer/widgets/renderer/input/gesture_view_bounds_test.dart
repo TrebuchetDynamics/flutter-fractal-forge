@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/core/controllers/fractal_view_input_bounds.dart';
+import 'package:flutter_fractals/core/controllers/input/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/input/gesture_view_bounds.dart';
 import 'package:flutter_test/flutter_test.dart';
 

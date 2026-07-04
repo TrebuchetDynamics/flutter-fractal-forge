@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_fractals/core/modules/nova_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/nova_module.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../support/shader_asset_expectations.dart';

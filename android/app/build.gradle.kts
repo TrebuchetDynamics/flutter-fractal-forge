@@ -85,6 +85,26 @@ gradle.taskGraph.whenReady {
     }
 }
 
+fun stripReleaseIntegrationTestRegistrant() {
+    val registrant = file("src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java")
+    if (!registrant.exists()) return
+
+    val original = registrant.readText()
+    val patched = Regex(
+        """(?s)\n    try \{\s+flutterEngine\.getPlugins\(\)\.add\(new dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin\(\)\);\s+\} catch \(Exception e\) \{\s+Log\.e\(TAG, "Error registering plugin integration_test, dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin", e\);\s+\}""",
+    ).replace(original, "")
+    if (patched != original) {
+        registrant.writeText(patched)
+        logger.lifecycle("release-patch: stripped integration_test registrant")
+    }
+}
+
+tasks.withType<org.gradle.api.tasks.compile.JavaCompile>().configureEach {
+    if (name == "compileReleaseJavaWithJavac") {
+        doFirst { stripReleaseIntegrationTestRegistrant() }
+    }
+}
+
 flutter {
     source = "../.."
 }

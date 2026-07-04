@@ -52,13 +52,11 @@ void main() {
     drainKnownShaderExceptions(tester);
 
     // 3. Verify Viewer matches
-    expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
+    expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
     debugPrint('Viewer loaded successfully');
 
-    // 4. Open Controls (tune icon)
-    final tuneIcon = find.byIcon(Icons.tune_rounded);
-    expect(tuneIcon, findsOneWidget);
-    await tester.tap(tuneIcon.first);
+    // 4. Open Controls (randomize params long-press)
+    await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
 
     await pumpForUiTransition(
       tester,

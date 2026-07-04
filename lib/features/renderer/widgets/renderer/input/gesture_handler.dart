@@ -651,6 +651,11 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     }
   }
 
+  void _onPointerHover(PointerHoverEvent event) {
+    _fluidPointerLocal = event.localPosition;
+    _fluidPointerActive = true;
+  }
+
   void _onPointerUp(PointerEvent event) {
     _fluidPointerLocal = event.localPosition;
     _fluidPointerActive = _activePointers.length > 1;

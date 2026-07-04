@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/core/controllers/fractal_effect_input_bounds.dart';
+import 'package:flutter_fractals/core/controllers/input/fractal_effect_input_bounds.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

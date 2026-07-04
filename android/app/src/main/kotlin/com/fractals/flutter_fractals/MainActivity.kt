@@ -181,29 +181,46 @@ class MainActivity : FlutterFragmentActivity() {
                     return@Thread
                 }
                 val sampleRate = readLeInt(bytes, 24).coerceIn(8000, 48000)
-                val pcm = bytes.copyOfRange(44, bytes.size)
-                val frameCount = pcm.size / 2
-                if (frameCount <= 0) {
-                    runOnUiThread { result.error("invalid_audio", "Empty WAV payload", null) }
+                val channelCount = readLeShort(bytes, 22).coerceIn(1, 2)
+                val bitsPerSample = readLeShort(bytes, 34)
+                if (bitsPerSample != 16) {
+                    runOnUiThread { result.error("invalid_audio", "Expected 16-bit PCM WAV", null) }
                     return@Thread
+                }
+                val pcm = bytes.copyOfRange(44, bytes.size)
+                val frameSize = channelCount * 2
+                val frameCount = pcm.size / frameSize
+                if (frameCount <= 0 || pcm.size % frameSize != 0) {
+                    runOnUiThread { result.error("invalid_audio", "Invalid WAV payload", null) }
+                    return@Thread
+                }
+                val channelConfig = if (channelCount == 2) {
+                    AudioFormat.CHANNEL_OUT_STEREO
+                } else {
+                    AudioFormat.CHANNEL_OUT_MONO
                 }
 
                 stopFractalMusic()
                 val track = AudioTrack(
                     AudioManager.STREAM_MUSIC,
                     sampleRate,
-                    AudioFormat.CHANNEL_OUT_MONO,
+                    channelConfig,
                     AudioFormat.ENCODING_PCM_16BIT,
                     pcm.size,
                     AudioTrack.MODE_STATIC,
                 )
                 val written = track.write(pcm, 0, pcm.size)
-                if (written <= 0) {
+                if (written != pcm.size) {
                     track.release()
-                    runOnUiThread { result.error("audio_write_failed", "Failed to write audio buffer", null) }
+                    runOnUiThread { result.error("audio_write_failed", "Failed to write complete audio buffer", null) }
                     return@Thread
                 }
-                track.setLoopPoints(0, frameCount, -1)
+                if (track.setLoopPoints(0, frameCount, -1) != AudioTrack.SUCCESS) {
+                    track.release()
+                    runOnUiThread { result.error("audio_loop_failed", "Failed to loop generated audio", null) }
+                    return@Thread
+                }
+                track.playbackHeadPosition = 0
                 track.play()
                 synchronized(this) { fractalMusicTrack = track }
                 runOnUiThread { result.success(true) }
@@ -226,6 +243,10 @@ class MainActivity : FlutterFragmentActivity() {
             ((bytes[offset + 1].toInt() and 0xff) shl 8) or
             ((bytes[offset + 2].toInt() and 0xff) shl 16) or
             ((bytes[offset + 3].toInt() and 0xff) shl 24)
+
+    private fun readLeShort(bytes: ByteArray, offset: Int): Int =
+        (bytes[offset].toInt() and 0xff) or
+            ((bytes[offset + 1].toInt() and 0xff) shl 8)
 
     override fun onDestroy() {
         stopFractalMusic()

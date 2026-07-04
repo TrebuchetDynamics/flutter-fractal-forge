@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/core/controllers/fractal_kaleidoscope_state.dart';
+import 'package:flutter_fractals/core/controllers/state/fractal_kaleidoscope_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -17,7 +17,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y bats
       - name: Script tests
-        run: bats test/scripts/build_play_console.bats
+        run: bats test/scripts/*.bats
       - uses: subosito/flutter-action@v2
         with:
           channel: stable

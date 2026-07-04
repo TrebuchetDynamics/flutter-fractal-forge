@@ -39,6 +39,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
@@ -63,6 +64,7 @@ void main() {
       'onboarding_complete': true,
       'onboarding_version': OnboardingService.currentVersion,
     });
+    await PaletteService.create();
 
     final env = Platform.environment;
     final updateAssets = _envBool(env, 'UPDATE_CATALOG_THUMBS');
@@ -93,11 +95,18 @@ void main() {
       'thumbnailStandard': launchMedia
           ? 'launch-media'
           : (updateAssets ? 'catalog-assets' : 'staged-smoke'),
+      'performanceNotes': <String>[
+        'shaderLoadMs measures ui.FragmentProgram.fromAsset in this process; repeated shader assets may benefit from Flutter asset/shader cache.',
+        'renderWarmupMs measures widget build plus three 500ms pumps before capture.',
+        'captureMs measures PNG capture from the rendered RepaintBoundary/screenshot surface.',
+      ],
       'selectedCount': entries.length,
       'generated': <Map<String, Object>>[],
       'failed': <Map<String, Object>>[],
       'skipped': <Map<String, Object>>[],
       'qualityWarnings': <Map<String, Object>>[],
+      'performance': <Map<String, Object>>[],
+      'flutterErrors': <Map<String, Object>>[],
       'launchVisualMetrics': <Map<String, Object>>[],
     };
 
@@ -127,39 +136,61 @@ void main() {
       final repaintKey = GlobalKey();
       FractalController? controller;
       try {
+        final totalStopwatch = Stopwatch()..start();
+        final shaderLoadStopwatch = Stopwatch()..start();
+        await ui.FragmentProgram.fromAsset(module.shaderAsset);
+        shaderLoadStopwatch.stop();
+
+        final selectStopwatch = Stopwatch()..start();
         controller = FractalController(registry);
         controller.selectModule(module, animate: false);
         _applySeededColorScheme(controller, module, seed);
+        selectStopwatch.stop();
 
-        await tester.pumpWidget(
-          MaterialApp(
-            locale: const Locale('en'),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: ChangeNotifierProvider.value(
-              value: controller,
-              child: SizedBox(
-                width: thumbSize.toDouble(),
-                height: thumbSize.toDouble(),
-                child: FractalRenderer(
-                  boundaryKey: repaintKey,
-                  gesturesEnabled: false,
+        final frameTimings = <ui.FrameTiming>[];
+        void timingsCallback(List<ui.FrameTiming> timings) {
+          frameTimings.addAll(timings);
+        }
+
+        WidgetsBinding.instance.addTimingsCallback(timingsCallback);
+        final renderWarmupStopwatch = Stopwatch()..start();
+        try {
+          await tester.pumpWidget(
+            MaterialApp(
+              locale: const Locale('en'),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: ChangeNotifierProvider.value(
+                value: controller,
+                child: SizedBox(
+                  width: thumbSize.toDouble(),
+                  height: thumbSize.toDouble(),
+                  child: FractalRenderer(
+                    boundaryKey: repaintKey,
+                    gesturesEnabled: false,
+                  ),
                 ),
               ),
             ),
-          ),
-        );
+          );
 
-        // Let shader compile and render a stable frame.
-        await tester.pump(const Duration(milliseconds: 500));
-        await tester.pump(const Duration(milliseconds: 500));
-        await tester.pump(const Duration(milliseconds: 500));
+          // Let shader compile and render a stable frame.
+          await tester.pump(const Duration(milliseconds: 500));
+          await tester.pump(const Duration(milliseconds: 500));
+          await tester.pump(const Duration(milliseconds: 500));
+          await tester.pump(const Duration(milliseconds: 100));
+        } finally {
+          WidgetsBinding.instance.removeTimingsCallback(timingsCallback);
+        }
+        renderWarmupStopwatch.stop();
 
+        final captureStopwatch = Stopwatch()..start();
         final bytes = await _captureThumbnailBytes(
           binding,
           repaintKey,
           'thumb_${module.id}',
         );
+        captureStopwatch.stop();
         final screenshot = img.decodeImage(Uint8List.fromList(bytes));
         if (screenshot == null) {
           throw StateError('decode failed');
@@ -172,7 +203,9 @@ void main() {
         final pngBytes = img.encodePng(thumb, level: 6);
         final outFile = File('${outDir.path}/${module.id}.png');
         outFile.writeAsBytesSync(pngBytes);
+        totalStopwatch.stop();
 
+        final flutterErrors = _takeFlutterExceptions(tester);
         final quality = _qualityWarnings(
           thumb,
           pngBytes.length,
@@ -180,12 +213,37 @@ void main() {
         );
         final generated = report['generated']! as List<Map<String, Object>>;
         final launchMetrics = _launchMetricsFor(entry, thumb);
+        final performance = <String, Object>{
+          'catalogId': entry.catalogId,
+          'moduleId': module.id,
+          'shaderAsset': module.shaderAsset,
+          'shaderLoadMs': _elapsedMs(shaderLoadStopwatch),
+          'moduleSelectMs': _elapsedMs(selectStopwatch),
+          'renderWarmupMs': _elapsedMs(renderWarmupStopwatch),
+          'frameTimings': _frameTimingStats(frameTimings),
+          'captureMs': _elapsedMs(captureStopwatch),
+          'totalMs': _elapsedMs(totalStopwatch),
+          'imagePath': outFile.path,
+          'imageWidth': thumb.width,
+          'imageHeight': thumb.height,
+          'pngBytes': pngBytes.length,
+        };
+        (report['performance']! as List<Map<String, Object>>).add(performance);
+        if (flutterErrors.isNotEmpty) {
+          (report['flutterErrors']! as List<Map<String, Object>>).add({
+            'catalogId': entry.catalogId,
+            'moduleId': module.id,
+            'errors': flutterErrors,
+          });
+        }
         generated.add({
           'catalogId': entry.catalogId,
           'moduleId': module.id,
           'path': outFile.path,
           'bytes': pngBytes.length,
           'warnings': quality,
+          'performance': performance,
+          if (flutterErrors.isNotEmpty) 'flutterErrors': flutterErrors,
           if (launchMetrics != null) 'launchVisualMetrics': launchMetrics,
         });
         if (launchMetrics != null) {
@@ -224,6 +282,17 @@ void main() {
           'stack': stackTrace.toString(),
         });
       } finally {
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump();
+        final teardownErrors = _takeFlutterExceptions(tester);
+        if (teardownErrors.isNotEmpty) {
+          (report['flutterErrors']! as List<Map<String, Object>>).add({
+            'catalogId': entry.catalogId,
+            'moduleId': module.id,
+            'phase': 'teardown',
+            'errors': teardownErrors,
+          });
+        }
         controller?.dispose();
       }
     }
@@ -320,14 +389,9 @@ Future<List<int>> _captureThumbnailBytes(
   GlobalKey repaintKey,
   String name,
 ) async {
-  try {
-    return await binding.takeScreenshot(name);
-  } on MissingPluginException {
-    final context = repaintKey.currentContext;
-    final boundary = context?.findRenderObject() as RenderRepaintBoundary?;
-    if (boundary == null) {
-      rethrow;
-    }
+  final context = repaintKey.currentContext;
+  final boundary = context?.findRenderObject() as RenderRepaintBoundary?;
+  if (boundary != null) {
     final image = await boundary.toImage(pixelRatio: 1.0);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     if (byteData == null) {
@@ -335,6 +399,8 @@ Future<List<int>> _captureThumbnailBytes(
     }
     return byteData.buffer.asUint8List();
   }
+
+  return binding.takeScreenshot(name);
 }
 
 bool _isDiagnosticModule(FractalModule module) {
@@ -433,6 +499,44 @@ List<String> _qualityWarnings(
   }
 
   return warnings;
+}
+
+double _elapsedMs(Stopwatch stopwatch) =>
+    stopwatch.elapsedMicroseconds / Duration.microsecondsPerMillisecond;
+
+double _durationMs(Duration duration) =>
+    duration.inMicroseconds / Duration.microsecondsPerMillisecond;
+
+Map<String, Object> _frameTimingStats(List<ui.FrameTiming> timings) {
+  if (timings.isEmpty) {
+    return {'count': 0};
+  }
+  double average(Iterable<double> values) {
+    final list = values.toList(growable: false);
+    return list.reduce((a, b) => a + b) / list.length;
+  }
+
+  final buildMs = timings.map((t) => _durationMs(t.buildDuration));
+  final rasterMs = timings.map((t) => _durationMs(t.rasterDuration));
+  final totalMs = timings.map((t) => _durationMs(t.totalSpan));
+  return {
+    'count': timings.length,
+    'avgBuildMs': average(buildMs),
+    'maxBuildMs': buildMs.reduce(max),
+    'avgRasterMs': average(rasterMs),
+    'maxRasterMs': rasterMs.reduce(max),
+    'avgTotalSpanMs': average(totalMs),
+    'maxTotalSpanMs': totalMs.reduce(max),
+  };
+}
+
+List<String> _takeFlutterExceptions(WidgetTester tester) {
+  final errors = <String>[];
+  Object? exception;
+  while ((exception = tester.takeException()) != null) {
+    errors.add(exception.toString());
+  }
+  return errors;
 }
 
 void _writeReport(Directory outDir, Map<String, Object> report) {
