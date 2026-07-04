@@ -62,10 +62,15 @@ jobs:
           cache: true
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
       - name: Start emulator
         run: |
           echo "y" | sdkmanager "system-images;android-34;google_apis;x86_64"
-          avdmanager create avd -n test_device -k "system-images;android-34;google_apis;x86_64" --force
+          echo "no" | avdmanager create avd -n test_device -k "system-images;android-34;google_apis;x86_64" --force
           emulator -avd test_device -no-window -no-audio -no-boot-anim &
           adb wait-for-device
           boot_deadline=$((SECONDS + 180))

@@ -89,13 +89,15 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      final initialIterations = controller.params['iterations'] as int;
+      final initialParams = Map<String, dynamic>.of(controller.params);
 
       // Call controller method directly (more reliable than tapping in scroll views).
       controller.randomizeParams();
       await tester.pumpAndSettle();
 
-      expect(controller.params['iterations'], isNot(initialIterations));
+      // Compare the whole map: any single parameter (e.g. iterations) can
+      // legitimately re-roll its previous value, which made this test flaky.
+      expect(controller.params, isNot(equals(initialParams)));
     });
 
     testWidgets('displays sliders for numeric parameters', (tester) async {
