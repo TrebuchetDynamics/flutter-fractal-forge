@@ -85,8 +85,8 @@ Test assertions:
 Validation:
 
 ```bash
-/home/xel/flutter/bin/flutter test test/features/catalog/featured_launch_set_visual_audit_test.dart
-/home/xel/flutter/bin/flutter analyze test/features/catalog/featured_launch_set_visual_audit_test.dart
+flutter test test/features/catalog/featured_launch_set_visual_audit_test.dart
+flutter analyze test/features/catalog/featured_launch_set_visual_audit_test.dart
 ```
 
 Expected result: no production behavior change. If the test fails, the failure becomes the first concrete fix list.
@@ -104,8 +104,8 @@ Work:
 Validation:
 
 ```bash
-/home/xel/flutter/bin/flutter test test/features/catalog/catalog_thumbnail_plan_test.dart
-/home/xel/flutter/bin/flutter test test/features/catalog/featured_launch_set_visual_audit_test.dart
+flutter test test/features/catalog/catalog_thumbnail_plan_test.dart
+flutter test test/features/catalog/featured_launch_set_visual_audit_test.dart
 ```
 
 Manual/browser validation:
@@ -133,9 +133,9 @@ Do not:
 Validation per shader:
 
 ```bash
-/home/xel/flutter/bin/flutter test <targeted module/catalog tests>
-/home/xel/flutter/bin/flutter analyze <changed Dart test/module files>
-/home/xel/flutter/bin/flutter build web --release
+flutter test <targeted module/catalog tests>
+flutter analyze <changed Dart test/module files>
+flutter build web --release
 ```
 
 Plus one measurable visual signal:

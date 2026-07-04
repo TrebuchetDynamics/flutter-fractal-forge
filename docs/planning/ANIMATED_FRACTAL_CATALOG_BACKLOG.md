@@ -273,7 +273,7 @@ Implemented `test/animated_lichtenberg_frame_delta_test.dart`, which renders the
 Validation receipt:
 
 ```text
-/home/xel/flutter/bin/flutter test test/animated_lichtenberg_frame_delta_test.dart
+flutter test test/animated_lichtenberg_frame_delta_test.dart
 [animated-lichtenberg] nonBlack=t0:0.0000 t05:0.5720 t1:1.0000 delta0_05:0.5735 delta05_1:1.0000
 All tests passed
 ```
@@ -299,7 +299,7 @@ Implemented `test/animated_gray_scott_frame_delta_test.dart`, which renders the 
 Validation receipt:
 
 ```text
-/home/xel/flutter/bin/flutter test test/animated_gray_scott_frame_delta_test.dart
+flutter test test/animated_gray_scott_frame_delta_test.dart
 [animated-gray-scott] nonBlack=t0:1.0000 t10:1.0000 t50:1.0000 delta0_10:0.2428 delta10_50:0.4458
 All tests passed
 ```
@@ -320,7 +320,7 @@ Implemented `test/animated_fractal_flame_frame_delta_test.dart`, which renders t
 Validation receipt:
 
 ```text
-/home/xel/flutter/bin/flutter test test/animated_fractal_flame_frame_delta_test.dart
+flutter test test/animated_fractal_flame_frame_delta_test.dart
 [animated-fractal-flame] nonBlack=t0:1.0000 t1:1.0000 t10:1.0000 delta0_1:0.9498 delta1_10:0.9498
 All tests passed
 ```

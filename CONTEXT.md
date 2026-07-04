@@ -57,8 +57,8 @@ A GPU render path that extends useful deep zoom beyond ordinary float32, current
 _Avoid_: Exact GPU, CPU fallback
 
 **CPU Precision**:
-The stable renderer path used when the precision ladder decides the GPU preview paths are insufficient or unavailable. It is slower, but it is the current exact-intended deep-zoom path.
-_Avoid_: Slow mode, fallback-only mode
+The stable renderer path used when the precision ladder decides the GPU preview paths are insufficient or unavailable and a native CPU formula exists for that module. It is slower, but it is the current exact-intended deep-zoom path. Deterministic synthetic CPU previews are not CPU Precision.
+_Avoid_: Slow mode, fallback-only mode, synthetic CPU preview
 
 **Reference Corpus**:
 The local collection of upstream fractal projects used as research input for algorithms, patterns, parameter ranges, and validation ideas. It is not app source; production changes should come from tracked distillation with provenance and license review.
@@ -90,7 +90,7 @@ Developer: “At 1e10 zoom, should Julia jump to CPU?”
 Domain expert: “No. Julia has Extended GPU Preview, so the Precision Ladder should keep interaction on GPU and describe it as Deep GPU.”
 
 Developer: “When an unknown 2D module crosses its threshold?”
-Domain expert: “The Precision Ladder should move to CPU Precision after hysteresis, because no extended preview path is known.”
+Domain expert: “Do not call the synthetic CPU fallback CPU Precision. Keep it on GPU/preview unless a native CPU formula exists, then move to CPU Precision after hysteresis.”
 
 Developer: “Can I paste this upstream GLSL function from the Reference Corpus into our shader?”
 Domain expert: “No. First create a Provenance Record with source, license context, target, and validation signal, then implement our own version or explicitly record why direct reuse is license-compatible.”

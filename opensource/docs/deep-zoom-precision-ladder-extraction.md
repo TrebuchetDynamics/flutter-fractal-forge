@@ -102,8 +102,8 @@ Implemented a CPU-only Mandelbrot `Reference Orbit Fixture` in `lib/features/ren
 
 Validation receipts:
 
-- `/home/xel/flutter/bin/flutter test test/reference_orbit_test.dart test/deep_zoom_precision_policy_test.dart`
-- `/home/xel/flutter/bin/flutter analyze lib/features/renderer/cpu/reference_orbit.dart test/reference_orbit_test.dart`
+- `flutter test test/reference_orbit_test.dart test/deep_zoom_precision_policy_test.dart`
+- `flutter analyze lib/features/renderer/cpu/reference_orbit.dart test/reference_orbit_test.dart`
 
 ## Next exactness prototype decision
 
@@ -115,8 +115,8 @@ Implemented `MandelbrotFixedPointReferenceOrbit.generate(...)` with `BigInt` fix
 
 Validation receipts:
 
-- `/home/xel/flutter/bin/flutter test test/reference_orbit_test.dart test/deep_zoom_precision_policy_test.dart`
-- `/home/xel/flutter/bin/flutter analyze lib/features/renderer/cpu/reference_orbit.dart test/reference_orbit_test.dart`
+- `flutter test test/reference_orbit_test.dart test/deep_zoom_precision_policy_test.dart`
+- `flutter analyze lib/features/renderer/cpu/reference_orbit.dart test/reference_orbit_test.dart`
 
 ## Decimal coordinate input result
 
@@ -124,8 +124,8 @@ Implemented `MandelbrotFixedPointReferenceOrbit.generateFromDecimalStrings(...)`
 
 Validation receipts:
 
-- `/home/xel/flutter/bin/flutter test test/reference_orbit_test.dart test/deep_zoom_precision_policy_test.dart`
-- `/home/xel/flutter/bin/flutter analyze lib/features/renderer/cpu/reference_orbit.dart test/reference_orbit_test.dart`
+- `flutter test test/reference_orbit_test.dart test/deep_zoom_precision_policy_test.dart`
+- `flutter analyze lib/features/renderer/cpu/reference_orbit.dart test/reference_orbit_test.dart`
 
 ## Double-collapse fixture result
 
@@ -133,8 +133,8 @@ Added a regression fixture proving two decimal centers that collapse to the same
 
 Validation receipts:
 
-- `/home/xel/flutter/bin/flutter test test/reference_orbit_test.dart test/deep_zoom_precision_policy_test.dart`
-- `/home/xel/flutter/bin/flutter analyze lib/features/renderer/cpu/reference_orbit.dart test/reference_orbit_test.dart`
+- `flutter test test/reference_orbit_test.dart test/deep_zoom_precision_policy_test.dart`
+- `flutter analyze lib/features/renderer/cpu/reference_orbit.dart test/reference_orbit_test.dart`
 
 ## Not selected for first slice
 

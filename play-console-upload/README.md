@@ -11,13 +11,14 @@ scripts/build-play-console.sh
 The script copies the newest signed `.aab` into this folder and writes a
 matching `.sha256` checksum file.
 
-Build number is auto-managed by the script (unless you pass `--build-number`)
-using:
+Version is auto-managed by the script:
 
-- `pubspec.yaml` (`version: x.y.z+N`)
-- `play-console-upload/LAST_BUILD_NUMBER.txt`
+- build number is auto-managed from `pubspec.yaml` `+N` and `play-console-upload/LAST_BUILD_NUMBER.txt`
+- version name defaults to `<pubspec major>.<pubspec minor>.<build number>`, e.g. `1.1.0+38` with build `58` builds as `1.1.58`
+- pass `--build-name x.y.z` to override
+- run `scripts/build-play-console.sh --print-version --skip-pub-get` to preview the computed values without building
 
-Behavior:
+Build number behavior:
 
 - First build uses `pubspec.yaml` `+N` exactly.
 - Later builds increment from `LAST_BUILD_NUMBER.txt`.

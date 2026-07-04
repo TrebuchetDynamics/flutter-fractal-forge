@@ -3,7 +3,7 @@
 Generated while implementing the technical-audit quick wins. Evidence command:
 
 ```bash
-/home/xel/flutter/bin/flutter pub outdated --json
+flutter pub outdated --json
 ```
 
 ## Current priority
@@ -34,8 +34,8 @@ When upgrading `share_plus`, keep the API change local to the wrapper and preser
 Minimum gate after any dependency slice:
 
 ```bash
-/home/xel/flutter/bin/flutter analyze
-/home/xel/flutter/bin/flutter test \
+flutter analyze
+flutter test \
   test/export_service_test.dart \
   test/export_options_sheet_widget_test.dart \
   test/share_service_boundary_test.dart \

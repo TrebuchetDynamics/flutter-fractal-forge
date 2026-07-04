@@ -35,8 +35,8 @@ Policy output is exposed in:
 Verdict: the Flutter web port is viable for the JavaScript browser target as an interactive rendering smoke, but not yet viable as a fully shippable web port.
 
 Validated:
-- `/home/xel/flutter/bin/flutter build web --release` -> `✓ Built build/web`.
-- `/home/xel/flutter/bin/flutter test -d chrome test/precision_ladder_policy_test.dart test/fractal_renderer_widget_test.dart test/fractal_renderer_gesture_test.dart test/fractal_viewer_screen_widget_test.dart` -> `All tests passed!`.
+- `flutter build web --release` -> `✓ Built build/web`.
+- `flutter test -d chrome test/precision_ladder_policy_test.dart test/fractal_renderer_widget_test.dart test/fractal_renderer_gesture_test.dart test/fractal_viewer_screen_widget_test.dart` -> `All tests passed!`.
 - Headless Chromium served from `build/web`:
   - onboarding rendered;
   - `Skip` reached catalog with `464` modules visible;
@@ -44,8 +44,8 @@ Validated:
   - catalog-to-viewer screenshot changed-pixel ratio was `0.9959`, with the viewer screenshot `bright_ratio=0.7075`.
 
 Follow-up validation after manifest-gated thumbnail loading:
-- `/home/xel/flutter/bin/flutter analyze` -> `No issues found!`.
-- `/home/xel/flutter/bin/flutter build web --release` -> `✓ Built build/web`.
+- `flutter analyze` -> `No issues found!`.
+- `flutter build web --release` -> `✓ Built build/web`.
 - Fresh-profile headless Chromium served from `build/web` -> `thumbnail404Count: 0`, `networkErrorCount: 0` while still reaching catalog and viewer.
 
 Known gaps from the same run:

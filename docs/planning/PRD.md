@@ -1,6 +1,6 @@
 # PRD.md — Flutter Fractal Forge Production Readiness Document
 *Authored: 2026-02-17 by Sidon (fractal domain lead)*  
-*All gates verified live on this date. No assumptions.*
+*Historical readiness snapshot. Selected coverage/policy rows were refreshed on 2026-06-30 from live files and tests; older validation counts remain dated evidence, not current gate claims.*
 
 ---
 
@@ -35,7 +35,7 @@ AVD: fractal_test | API: 34 (Android 14) | GPU: swiftshader_indirect
 Result: 7 PASSED, 0 FAILED
 Final line: "02:00 +7: All tests passed!"
 Tests passed:
-  ✓ Catalog displays fractal modules (196 modules)
+  ✓ Catalog displays fractal modules (196 modules in this 2026-02 validation; current live catalog is 974 production fractals / 981 debug-test registry modules as of 2026-07-02)
   ✓ Navigate to fractal viewer and back
   ✓ Navigate to each fractal module viewer (8 sampled)
   ✓ Search filters catalog
@@ -54,25 +54,25 @@ Size: 55.7 MB
 
 ---
 
-### 1.2 Module Audit (17 Modules in lib/features/)
+### 1.2 Feature-area coverage snapshot
 
-| Module | Dart Files | Unit/Widget Tests | Integration Tests | Status |
+| Feature area | Dart Files | Unit/Widget Tests | Integration Tests | Status |
 |---|---|---|---|---|
 | catalog | 3 | 6 test files | user_flows, app_test | ✅ Covered |
 | renderer | 15 | fractal_renderer_widget_test, gpu_health_probe_side_effects | emulator_gpu_proof, render_validation | ✅ Covered |
 | viewer | 10 | fractal_viewer_screen_widget_test (24 tests) | user_flows, viewer_navigation, viewer_hold | ✅ Covered |
 | gestures (gesture_handler.dart) | 1 | fractal_renderer_gesture_test (16 tests) | cpu_fallback_gestures, double_tap_anchor | ✅ Covered |
 | controls | 1 | fractal_controls_widget_test (2 files) | user_flows (controls section) | ✅ Covered |
-| formulas | 4 | frm_parser_test | — | ⚠️ Partial — FRM parser tested; formula registry not |
-| history | 4 | — | — | ❌ No test coverage |
+| formulas | 4 | frm_parser_test, cpu_formula_coverage_test | — | ✅ Covered |
+| history | 4 | history_entry_test, history_provider_test, history_store_test | — | ✅ Covered |
 | presets | 1 | preset_sheet_widget_test, preset_sheet_comprehensive_test | user_flows (save/apply) | ✅ Covered |
-| minimap | 1 | — | — | ❌ No test coverage |
+| minimap | 0 | — | — | ❌ Not present in current tree |
 | onboarding | 1 | onboarding_test | — | ✅ Covered |
-| export | 3 | export_service_test, export_options_sheet_widget_test | user_flows (export sheet opens) | ⚠️ Partial — file write to MediaStore not tested |
-| wallpaper | 1 | — | — | ❌ No test coverage |
-| settings | 1 | — | — | ❌ No test coverage |
+| export | 3 | export_service_test, export_options_sheet_widget_test, custom_export_dimensions_test | user_flows (export sheet opens) | ⚠️ Partial — Android MediaStore path still needs device coverage |
+| wallpaper | 1 | wallpaper_options_test, wallpaper_service_test | — | ✅ Covered |
+| settings | 1 | accessibility_settings_screen_test, renderer_settings_service_test | — | ✅ Covered |
 | debug | 5 | crash_reporter_test (12 tests) | — | ✅ Covered |
-| auto_explore | 3 | — | — | ❌ No test coverage |
+| auto_explore | 3 | auto_explore_control_status_test, auto_explore_controls_test, auto_explore_runtime_state_test, auto_explore_service_test, auto_explore_zoom_planner_test | — | ✅ Covered |
 | home | 1 | home_screen_widget_test (6 tests) | — | ✅ Covered |
 
 
@@ -85,7 +85,7 @@ Size: 55.7 MB
 | Catalog grid/list view | ✅ Shipped | 209 modules, search, category headers, preference persisted | P0 |
 | Catalog thumbnails | ⚠️ Audit aligned | Launch Thumbnail Standard: 320×320 bundled PNGs; staged smoke output may use 256×256 | P0 |
 | GPU renderer (escape-time) | ✅ Shipped | 196 shaders pass audit (196/196 PASS, edge 0.01–0.99) | P0 |
-| CPU fallback auto-switch | ✅ Shipped | Health probe triggers after 6 failing frames (DeepZoomHysteresis) | P0 |
+| CPU fallback auto-switch | ✅ Shipped | GPU health fallback triggers after 2 invalid frames; deep-zoom CPU Precision is routed by `PrecisionLadderPolicy` | P0 |
 | Smooth escape-time coloring | ✅ Shipped | `float(it) - log2(log2(...))` on 10 core shaders | P0 |
 | Perturbation theory (Mandelbrot) | ✅ Shipped | double-double CPU ref orbit + delta GPU shader, ~1e30 range | P1 |
 | Perturbation (all escape-time) | ⚠️ Planned | Julia, Burning Ship, Celtic, Buffalo, Tricorn, Phoenix, Multibrot 3/4/5 | P1 |
@@ -102,13 +102,13 @@ Size: 55.7 MB
 | Export to MediaStore (gallery) | ⚠️ Untested | Needs real-device test — MediaStore write not in emulator suite | P0 |
 | Wallpaper set | ⚠️ Partial | WallpaperManager code exists; no integration test | P1 |
 | Onboarding | ✅ Shipped | 3-step walkthrough; skippable; version-gated | P0 |
-| Minimap | ⚠️ Partial | Widget exists; 0 test coverage; visually unpolished | P2 |
+| Minimap | ❌ Not present | No active `lib/features/minimap` module found in the current tree | P2 |
 | Settings (renderer backend) | ✅ Shipped | Auto/CPU/GPU modes; persisted in SharedPreferences | P1 |
 | Settings (accessibility) | ✅ Shipped | High contrast + reduced motion | P1 |
 | Localization EN | ✅ Shipped | Complete | P0 |
-| Localization ES | ⚠️ Partial | 7 untranslated strings | P2 |
+| Localization ES | ✅ Covered | `app_es.arb` has parity with `app_en.arb` (431 keys each) | P2 |
 | In-app diagnostic logger | ✅ Shipped | Export as text/JSON from debug screen | P2 |
-| Auto-explore | ⚠️ Partial | Code exists; 0 test coverage; unknown UX state | P2 |
+| Auto-explore | ✅ Covered | Service, controls, runtime state, and zoom planner have focused tests | P2 |
 | FRM formula editor UI | ❌ Not shipped | Code exists; no production-accessible UI surface | P3 |
 | Accessibility (TalkBack) | ✅ Shipped | 221 catalog items have semantic labels (accessibility_test) | P0 |
 | Touch targets 48×48 dp | ✅ Shipped | accessibility_test passes | P0 |
@@ -124,9 +124,9 @@ Size: 55.7 MB
 | `flutter analyze`: No issues found | ✅ PASS | "No issues found! (ran in 2.9s)" (2026-02-17 21:22) |
 | `headless-emulator-test.sh`: all pass | ✅ PASS | 7/7 passed on API 34 emulator (2026-02-17 21:17) |
 | `flutter build appbundle --release`: size reported | ✅ PASS | 55.7 MB (2026-02-17 21:20) |
-| Cold start on API 34: no crash in 2 min | ✅ PASS | Integration test ran 120 s; 0 FATAL EXCEPTION, 0 ANR; catalog showed 196 modules |
+| Cold start on API 34: no crash in 2 min | ✅ PASS | Integration test ran 120 s; 0 FATAL EXCEPTION, 0 ANR; catalog showed 196 modules at 2026-02 validation; current live count is 974 production fractals |
 | All 5 gesture types respond: no freeze | ✅ PASS | Gesture test 16/16; integration test "drag+pinch changed pan/zoom" ✓; tilt test ✓ |
-| Catalog loads: no blank state | ✅ PASS | Integration: "Catalog shows 196 modules" |
+| Catalog loads: no blank state | ✅ PASS | Integration: "Catalog shows 196 modules" at 2026-02 validation; current live count is 974 production fractals |
 | Viewer loads within 3 s: no black screen | ✅ PASS | first_frame_ms=89 (Mandelbrot GPU, first compile); first_frame_ms=1 (cache hit) |
 | Export flow: file created, no crash | ⚠️ PARTIAL | Export sheet opens + format options visible ✓; actual MediaStore write not tested on emulator |
 | AndroidManifest: 0 uses-permission (main) | ✅ PASS | `android/app/src/main/AndroidManifest.xml` has 0 `<uses-permission>` tags; INTERNET in debug/profile only |
@@ -164,11 +164,10 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 
 ---
 
-### P2-001: 7 untranslated Spanish strings
+### P2-001: Spanish localization parity — resolved in current tree
 **File:** `lib/l10n/app_es.arb`  
-**Symptom:** `flutter build` warns "es: 7 untranslated message(s)." every build.  
-**Impact:** Spanish users see English fallback strings for 7 UI labels.  
-**Fix needed:** Translate missing keys; audit with `flutter gen-l10n --untranslated-messages-file=missing_es.txt`.
+**Evidence:** `app_en.arb` and `app_es.arb` each define 431 message keys; no key gap found.  
+**Remaining risk:** Translation quality still needs human language review before release.
 
 ---
 
@@ -180,24 +179,23 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 
 ---
 
-### P2-003: History module has zero test coverage
-**Files:** `lib/features/history/*.dart` (4 files)  
-**Symptom:** No unit or integration tests exist for the history feature.  
-**Impact:** History persistence, ordering, and back-navigation could regress silently.
+### P2-003: History module test coverage gap — resolved in current tree
+**Files:** `lib/features/history/*.dart`  
+**Evidence:** `history_entry_test.dart`, `history_provider_test.dart`, and `history_store_test.dart` cover identity, navigation, persistence, corruption handling, and caps.  
+**Remaining risk:** Integration coverage for full viewer history flows can still deepen later.
 
 ---
 
-### P2-004: Minimap has zero test coverage + visual polish gap
-**File:** `lib/features/minimap/minimap_widget.dart`  
-**Symptom:** No test. Widget visible in viewer but no border, backdrop, or opacity consistency.  
-**Impact:** Minimap taps may not register correctly on all screen densities.
+### P2-004: Minimap gap — feature not present in current tree
+**File:** `lib/features/minimap/minimap_widget.dart` is not present.  
+**Impact:** Do not spend test/polish work here unless the minimap feature is restored.
 
 ---
 
 ## 5. Render Quality Audit
 
 *Source: integration_test/app_test.dart run on emulator-5554, API 34, SwiftShader indirect, 2026-02-17 21:17–21:19 CST.*  
-*Source: fractal_render_audit_test.dart (CPU renderer), 196/196 modules pass variance check.*
+*Source: fractal_render_audit_test.dart (CPU renderer), 196/196 modules passed the 2026-02 variance check. Current live catalog count is 974 production fractals (981 debug/test registry modules including 7 diagnostics).*
 
 ### 5.1 Mandelbrot Coloring
 - **Backend:** GPU (`shaders/mandel_step_smooth.frag`)
@@ -223,11 +221,11 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 
 ### 5.4 Deep Zoom Behavior
 - **Policy:** `PrecisionLadderPolicy`
-  - Mandelbrot: GPU handles up to 1e14, then CPU
-  - Perturbation-enabled (julia, burning_ship, celtic, buffalo, tricorn, phoenix): GPU handles up to 1e30
-  - Unknown/default: GPU up to 1e8
-  - Hysteresis: 6 consecutive frames before backend switch
-- **Test coverage:** `deep_zoom_quality_test.dart` passes all 8 threshold assertions
+  - Mandelbrot: double-float GPU preview handles up to 1e12, then CPU Precision when native CPU support is available
+  - Perturbation-enabled (julia, burning_ship, celtic, buffalo, tricorn, phoenix): GPU preview handles up to 1e30
+  - Unknown/default: GPU stays approximate; synthetic CPU previews are not labeled CPU Precision
+  - Hysteresis: 2 consecutive CPU-eligible samples before CPU Precision activation
+- **Test coverage:** `precision_ladder_policy_test.dart`, `deep_zoom_precision_policy_test.dart`, and `deep_zoom_quality_test.dart` cover threshold/status routing
 - **Emulator observation:** At zoom=5.0 (test default for thumbnail generation), all 196 escape-time shaders produce non-gradient output (render audit: 196/196 PASS, edge 0.01–0.99)
 - **Actual deep zoom test:** Not feasible on SwiftShader at 1e14+; at those zoom levels SwiftShader is too slow to render in test timeouts. Real-device deep zoom untested this cycle.
 - **Note on deltoid/eisenstein:** These two modules have very low edge entropy (deltoid: 0.07, eisenstein: 0.01) at the default viewport. This is likely correct — both are highly structured tiling fractals that appear nearly blank at default zoom. Audit passes them but they deserve visual QA on real device.
@@ -254,10 +252,10 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 |---|---|---|---|
 | MediaStore export fails on Android 10+ (scoped storage) | High | P0 — users cannot save images | Real-device export test before release; verify `MediaStore.Images.Media.insertImage()` path |
 | GPU health probe timeout on slow real devices | Low | P2 — noisy logs, delayed health confirmation | Increase timeout; detect GPU tier at startup |
-| Mandelbulb/Mandelbox CPU render freeze (> 5 s) | Medium | P1 — ANR if called on main thread | These modules use CPU path; verify they use isolate renderer and are time-bounded |
+| Mandelbulb/Mandelbox CPU render freeze | Low | P1 — ANR if 3D ever routes to CPU | Backend policy keeps 3D on GPU even in CPU-only mode; keep regression coverage |
 | Perturbation theory for all escape-time fractals not shipped | Certain | P2 — deep zoom breaks for 9 non-Mandelbrot escape-time fractals | Prioritize; shared `escape_time_perturb_gpu.frag` with uFormula selector already planned |
-| 7 missing Spanish translations | Certain | P2 — bad UX for ES users | Translate before 1.0; file: `lib/l10n/app_es.arb` |
-| History module regression (0 test coverage) | Medium | P2 — silent breakage | Add tests before 1.0 |
+| Spanish translation quality | Medium | P2 — awkward localized UX | Key parity exists; schedule human language review before release |
+| History module regression | Low | P2 — navigation/persistence regressions | Unit coverage exists; add end-to-end viewer-history coverage if this becomes launch-critical |
 | `full_screenshots_test.dart` Julia finder bug | Certain | P1 — CI test fails | Fix scrollUntilVisible; low effort |
 | Emulator probe timeout noise | Certain (emulator only) | P3 — confusing logs | Add EMU_PROBE_TIMEOUT_MS dart define |
 
@@ -280,22 +278,22 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 - [ ] Fix `full_screenshots_test.dart` Julia finder (P1-001) — `scrollUntilVisible` fix
 - [ ] Real-device export to MediaStore — test and confirm file creation + gallery write
 - [ ] Fix `gpu_health_probe` timeout on emulator (P1-002) — configurable timeout dart-define
-- [ ] Translate 7 missing ES strings (P2-001)
-- [ ] Add test coverage for history module
+- [x] Resolve Spanish localization key parity (P2-001)
+- [x] Add test coverage for history module
 
 ### M2: Feature Completion (Target: 2 weeks)
 - [ ] Perturbation theory for all escape-time fractals (Julia, Burning Ship, Celtic, Buffalo, Tricorn, Multibrot 3/4/5, Phoenix) — shared `escape_time_perturb_gpu.frag`
-- [ ] Auto-scale iterations by zoom (G3)
+- [x] Auto-scale iterations by zoom (G3)
 - [ ] Color cycling (G15) — palette texture already in place
 - [ ] Bookmark locations (N4) — integrate into history
 - [ ] Factory preset expansion (5+ categories)
-- [ ] Minimap polish + test coverage
+- [ ] Re-scope minimap only if the feature is restored
 
 ### M3: Quality Bar (Target: 3 weeks)
 - [ ] Real-device tilt feel tuning (test on Pixel 6a and Samsung A54)
 - [ ] Real-device deep zoom test (Mandelbrot to 1e20; Julia to 1e30 with perturbation)
 - [ ] Wallpaper integration test on real device (WallpaperManager API 27+)
-- [ ] Add test coverage for settings and auto_explore
+- [x] Add test coverage for settings and auto_explore
 - [ ] deltoid/eisenstein visual QA — confirm blank at default zoom is expected
 
 ### M4: Release Gate (Target: 4 weeks)

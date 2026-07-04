@@ -19,7 +19,7 @@ Use **browser web preview** instead of **full web app** until the web gaps below
 - Real product traction: 500+ downloads reported by project owner.
 - Open-source basics exist: `LICENSE`, `CONTRIBUTING.md`, README, Play Store listing assets, privacy policy, and screenshots.
 - Web JavaScript target is runtime-viable as a preview:
-  - `/home/xel/flutter/bin/flutter build web --release` succeeded.
+  - `flutter build web --release` succeeded.
   - Chrome widget/render tests passed.
   - Served `build/web` reached onboarding, catalog, and a GPU-labelled viewer.
   - Follow-up smoke after manifest-gated thumbnails reported `thumbnail404Count: 0` and `networkErrorCount: 0`.
@@ -53,7 +53,7 @@ Objective: make a visitor able to understand, trust, and try Fractal Forge in un
    - Tertiary CTA: **View on GitHub**
 2. Proof strip
    - **500+ downloads**
-   - **400+ fractal modules** (or keep `350+` if store copy stays unchanged)
+   - **1,585 production fractals** (1,592 debug/test registry modules including 7 diagnostics)
    - **MIT licensed**
    - **No ads / no tracking**
 3. Visual gallery

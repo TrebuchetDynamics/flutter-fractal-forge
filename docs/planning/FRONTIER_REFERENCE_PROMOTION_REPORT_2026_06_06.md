@@ -43,7 +43,7 @@ Validation receipts:
 ```text
 source url check: OK urls=23
 frontier promotion consistency: OK registry=1610 promoted=15 top25=25
-/home/xel/flutter/bin/flutter test test/catalog_id_integrity_test.dart
+flutter test test/catalog_id_integrity_test.dart
 All tests passed
 ```
 

@@ -40,7 +40,7 @@ In-app mechanics supporting this (live as of this change):
 - **Handle:** `@FractalForge` (grab `@fractalforge` and any close variants to protect the brand).
 - **Display name:** `Fractal Forge`
 - **Bio (pick one):**
-  - `Free, open-source GPU fractal explorer. 400+ fractals on your phone, desktop & browser. No ads, no tracking. Made by @TrebuchetDyn. Share yours with #fractalforge ↓`
+  - `Free, open-source GPU fractal explorer. 974 fractals on your phone, desktop & browser. No ads, no tracking. Made by @TrebuchetDyn. Share yours with #fractalforge ↓`
   - `Explore hundreds of GPU-rendered fractals — free & open source. Drop a coordinate, find a new world. #fractalforge`
 - **Link:** web preview / Play Store landing (whichever is the primary CTA from `LAUNCH_LADDER.md`).
 - **Pinned post:** the launch thread below.
