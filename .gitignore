@@ -66,6 +66,9 @@ play-console-upload/LATEST_AAB.txt
 play-console-upload/LATEST_BUILD_INFO.txt
 play-console-upload/LAST_BUILD_NUMBER.txt
 release-artifacts/
+# Raw research page copies (third-party content; keep out of the public tree)
+research/**/*-snapshot.txt
+research/**/*.html
 flutter_*.log
 .flutter-plugins
 .flutter-plugins-dependencies
