@@ -51,42 +51,18 @@ float hash21(vec2 p) {
   return fract(p.x * p.y);
 }
 
-int seededState(ivec2 c) {
-  // 0 empty, 1 electron head, 2 electron tail, 3 conductor
+int wireState(ivec2 c, int steps) {
+  // 0 empty, 1 electron head, 2 electron tail, 3 conductor.
+  // ponytail: direct phase proxy replaces O(steps * neighbours) evolution per pixel.
   float h = hash21(vec2(c));
   float line = abs(fract(float(c.x) * 0.17 + float(c.y) * 0.11) - 0.5);
   bool conductor = (h > 0.38) || (line < 0.08);
   if (!conductor) return 0;
-  if (h > 0.94) return 1;
-  if (h > 0.88) return 2;
+
+  float phase = mod(floor(h * 23.0) + float(steps) + float(c.x + c.y) * 0.07, 24.0);
+  if (phase < 1.0) return 1;
+  if (phase < 2.0) return 2;
   return 3;
-}
-
-int evolveCell(ivec2 c, int steps) {
-  int state = seededState(c);
-
-  for (int i = 0; i < MAX_ITERS; i++) {
-    if (i >= steps) break;
-
-    if (state == 1) {
-      state = 2;
-    } else if (state == 2) {
-      state = 3;
-    } else if (state == 3) {
-      int heads = 0;
-      for (int oy = -1; oy <= 1; oy++) {
-        for (int ox = -1; ox <= 1; ox++) {
-          if (ox == 0 && oy == 0) continue;
-          int n = seededState(c + ivec2(ox, oy));
-          if (n == 1) heads++;
-        }
-      }
-      if (heads == 1 || heads == 2) state = 1;
-      else state = 3;
-    }
-  }
-
-  return state;
 }
 
 void main() {
@@ -99,12 +75,12 @@ void main() {
   int steps = int(clamp(float(target / 6), 1.0, 80.0));
   ivec2 cell = ivec2(floor(p * 96.0));
 
-  int state = evolveCell(cell, steps);
+  int state = wireState(cell, steps);
 
   float glow = 0.0;
   for (int oy = -1; oy <= 1; oy++) {
     for (int ox = -1; ox <= 1; ox++) {
-      int s = evolveCell(cell + ivec2(ox, oy), steps);
+      int s = wireState(cell + ivec2(ox, oy), steps);
       if (s == 1) glow += 0.3;
       if (s == 2) glow += 0.15;
     }
@@ -118,7 +94,8 @@ void main() {
   } else if (state == 2) {
     color = vec3(0.95, 0.35, 0.12);
   } else {
-    color = vec3(0.85, 0.72, 0.18) * (0.75 + 0.25 * smoothstep(0.0, 1.0, glow));
+    float grain = 0.85 + 0.15 * hash21(vec2(cell));
+    color = vec3(0.85, 0.72, 0.18) * (0.75 + 0.25 * smoothstep(0.0, 1.0, glow)) * grain;
   }
 
   if (state == 0 && uTransparentBg > 0.5) {

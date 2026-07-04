@@ -138,8 +138,10 @@ vec3 calculateLighting(vec3 position, vec3 normal, vec3 color, vec3 cameraPos) {
 vec4 rayMarch(vec3 origin, vec3 direction, int maxIter) {
     float totalDistance = 0.0;
     int iterations = 0;
+    float closest = 1.0e9;
+    vec3 closestPos = origin;
 
-    float lodFactor = clamp(uZoom * 0.5, 0.5, 1.0);
+    float lodFactor = clamp(uZoom, 0.8, 1.0);
     int maxSteps = int(max(uSteps * lodFactor, 10.0));
     float minDist = 0.001 / max(uZoom, 0.1);
 
@@ -149,6 +151,10 @@ vec4 rayMarch(vec3 origin, vec3 direction, int maxIter) {
         iterations = i;
         vec3 pos = origin + totalDistance * direction;
         float distance = snowflakeDE(pos, maxIter);
+        if (distance < closest) {
+            closest = distance;
+            closestPos = pos;
+        }
 
         if (distance < minDist) {
             return vec4(pos, float(iterations));
@@ -158,7 +164,7 @@ vec4 rayMarch(vec3 origin, vec3 direction, int maxIter) {
 
         if (totalDistance > 20.0) break;
     }
-    return vec4(0.0, 0.0, 0.0, -1.0);
+    return vec4(closestPos, -closest);
 }
 
 void main() {
@@ -196,8 +202,9 @@ void main() {
     } else {
         // Background gradient or transparent
         vec3 bgColor = mix(vec3(0.02), vec3(0.05, 0.05, 0.1), uv.y * 0.5 + 0.5);
+        float glow = exp(-10.0 * max(0.0, -hit.w));
         alpha = mix(1.0, 0.0, step(0.5, uTransparentBg));
-        color = bgColor;
+        color = bgColor + getColor(0.12 * length(hit.xyz), int(uColorScheme)) * (0.35 * glow);
     }
 
     fragColor = vec4(linearToSRGB(color), alpha);

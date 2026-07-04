@@ -49,8 +49,8 @@ vec3 palette(float t, int scheme) {
   return clamp(a + b * cos(6.28318 * (c4 * t + d)), 0.0, 1.0);
 }
 
-float cx_cosh(float x) { return (exp(x)+exp(-x))*0.5; }
-float cx_sinh(float x) { return (exp(x)-exp(-x))*0.5; }
+float cx_cosh(float x) { x = clamp(x, -12.0, 12.0); return (exp(x)+exp(-x))*0.5; }
+float cx_sinh(float x) { x = clamp(x, -12.0, 12.0); return (exp(x)-exp(-x))*0.5; }
 vec2 cx_sin(vec2 z) { return vec2(sin(z.x)*cx_cosh(z.y), cos(z.x)*cx_sinh(z.y)); }
 vec2 cx_cos(vec2 z) { return vec2(cos(z.x)*cx_cosh(z.y), -sin(z.x)*cx_sinh(z.y)); }
 vec2 cx_mul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
@@ -67,14 +67,15 @@ void main() {
   vec2 der = vec2(1.0, 0.0);
   float bailoutSq = uBailout * uBailout;
 
-  const int MAX_ITERS = 500;
+  // ponytail: complex sin/cosh each step is expensive; cap and skip derivative unless used.
+  const int MAX_ITERS = 160;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
     // d(sin(z)+c)/dz = cos(z) * der (chain rule, Mandelbrot style approx)
-    der = cx_mul(cx_cos(z), der) + vec2(1.0, 0.0);
+    if (schemeInt >= 50) der = cx_mul(cx_cos(z), der) + vec2(1.0, 0.0);
     z = cx_sin(z) + c;
     if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;

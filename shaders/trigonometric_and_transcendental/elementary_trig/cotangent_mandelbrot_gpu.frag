@@ -51,8 +51,8 @@ vec3 palette(float t, int scheme) {
 
 vec2 cx_mul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
 vec2 cx_div(vec2 a, vec2 b) { float d = max(1e-20, dot(b,b)); return vec2(dot(a,b), a.y*b.x - a.x*b.y) / d; }
-float cx_cosh(float x) { return (exp(x)+exp(-x))*0.5; }
-float cx_sinh(float x) { return (exp(x)-exp(-x))*0.5; }
+float cx_cosh(float x) { x = clamp(x, -12.0, 12.0); return (exp(x)+exp(-x))*0.5; }
+float cx_sinh(float x) { x = clamp(x, -12.0, 12.0); return (exp(x)-exp(-x))*0.5; }
 vec2 cx_sin(vec2 z) { return vec2(sin(z.x)*cx_cosh(z.y), cos(z.x)*cx_sinh(z.y)); }
 vec2 cx_cos(vec2 z) { return vec2(cos(z.x)*cx_cosh(z.y), -sin(z.x)*cx_sinh(z.y)); }
 
@@ -66,7 +66,8 @@ void main() {
   vec2 z = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
 
-  const int MAX_ITERS = 500;
+  // ponytail: cot/cosh is expensive; cap iterations for live catalog rendering.
+  const int MAX_ITERS = 120;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 

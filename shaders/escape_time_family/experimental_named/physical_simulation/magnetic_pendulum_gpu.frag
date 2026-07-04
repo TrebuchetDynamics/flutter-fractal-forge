@@ -76,12 +76,13 @@ void main() {
   float gravity = 0.5;
   float magnetStrength = 1.0;
 
-  int maxSteps = int(clamp(uIterations * 10.0, 100.0, 5000.0));
+  // ponytail: 5000 integration steps per pixel is overkill for catalog rendering.
+  int maxSteps = int(clamp(uIterations * 3.0, 80.0, 700.0));
   int capturedBy = -1;
   float settleTime = float(maxSteps);
   float captureThreshold = 0.05;
 
-  for (int i = 0; i < 5000; i++) {
+  for (int i = 0; i < 700; i++) {
     if (i >= maxSteps) break;
 
     // Force from each magnet: F_i = strength * (m_i - pos) / |m_i - pos|^3
@@ -152,6 +153,7 @@ void main() {
   float hueOffset = float(capturedBy) * 0.333;
   float t = fract(hueOffset + timeNorm * 0.5 + uTime * 0.0001);
   vec3 col = palette(t, schemeInt) * brightness;
+  col *= 0.85 + 0.15 * sin(18.0 * length(startPos) + settleTime * 0.03);
 
   fragColor = vec4(linearToSRGB(col), 1.0);
 }

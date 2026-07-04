@@ -124,7 +124,7 @@ void main() {
   int scheme = int(uColorScheme);
 
   // Driver-friendly fixed loop + orbit trap accumulators.
-  const int MAX_ITERS = 500;
+  const int MAX_ITERS = 320;
   int it = 0;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   float minDistSq  = 1e9; // scheme 10: point trap at origin
@@ -132,23 +132,25 @@ void main() {
 
   // Cardioid/bulb early-out: orbit trap modes (10-11) must still iterate
   // to accumulate minDist/crossDist; all other schemes can skip immediately.
-  if (scheme < 10 && inMainBulb(c)) {
+  bool skipIter = scheme < 10 && inMainBulb(c);
+  if (skipIter) {
     it = target; // treat as inside-set
   }
 
-  for (int j = 0; j < MAX_ITERS; j++) {
-    if (j >= target) { it = target; break; }
+  if (!skipIter) {
+    for (int j = 0; j < MAX_ITERS; j++) {
+      if (j >= target) { it = target; break; }
 
-    // z = z^2 + c
-    z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
+      // z = z^2 + c
+      z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
 
-    // Orbit trap accumulators (always updated, cheap).
-    float dSq = dot(z, z);
-    minDistSq = min(minDistSq, dSq);
-    crossDist = min(crossDist, min(abs(z.x), abs(z.y)));
+      float dSq = dot(z, z);
+      if (scheme == 10) minDistSq = min(minDistSq, dSq);
+      if (scheme == 11) crossDist = min(crossDist, min(abs(z.x), abs(z.y)));
 
-    if (dSq > bailoutSq) { it = j; break; }
-    it = j + 1;
+      if (dSq > bailoutSq) { it = j; break; }
+      it = j + 1;
+    }
   }
 
   // Orbit trap coloring (schemes 10-11): colour all points, ignore set membership.

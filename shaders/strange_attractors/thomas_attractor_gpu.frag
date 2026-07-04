@@ -22,7 +22,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 220;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -77,7 +77,9 @@ void main() {
     z += dt * dz;
 
     float r2 = x * x + y * y + 0.3 * z * z;
-    orbit += exp(-0.30 * (x * x + y * y)) + 0.08 * exp(-1.1 * abs(z));
+    float xy2 = x * x + y * y;
+    // ponytail: hot-loop exp proxies keep basin texture without the SFU cost.
+    orbit += 1.0 / (1.0 + 0.30 * xy2 + 0.04 * xy2 * xy2) + 0.08 / (1.0 + 1.1 * abs(z));
     if (r2 > bailoutSq) {
       it = i + 1;
       break;

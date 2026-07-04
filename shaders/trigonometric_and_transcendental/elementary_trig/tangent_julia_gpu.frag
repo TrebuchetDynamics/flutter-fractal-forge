@@ -61,6 +61,7 @@ void main() {
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float poleTrap = 1e9;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
@@ -69,6 +70,7 @@ void main() {
     vec2 cz_cos = vec2(cos(z.x)*cosh(z.y), -sin(z.x)*sinh(z.y));
     // tan(z) = sin(z)/cos(z); sec²(z) = 1/cos²(z)
     vec2 cz_tan  = cdiv(cz_sin, cz_cos);
+    poleTrap = min(poleTrap, length(cz_cos));
     vec2 cz_cos2 = cmul(cz_cos, cz_cos);
     vec2 cz_sec2 = cdiv(vec2(1.0, 0.0), cz_cos2);
     // Derivative: d[c·tan(z)]/dz₀ = c·sec²(z)·der
@@ -79,7 +81,12 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
+    float phase = atan(z.y, z.x) / 6.28318530718 + 0.5;
+    float bands = smoothstep(0.34, 0.50, abs(sin(12.0 * z.x + 9.0 * z.y + 18.0 * uv.x)));
+    float poleGlow = exp(-6.0 * poleTrap);
+    float tBound = fract(phase + 0.20 * bands + 0.24 * poleGlow + 0.08 * length(z) + uTime * 0.0001);
+    vec3 col = palette(tBound, schemeInt) * (0.55 + 0.35 * bands + 0.40 * poleGlow);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

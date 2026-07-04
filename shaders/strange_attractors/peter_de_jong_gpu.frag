@@ -26,7 +26,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 220;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -69,6 +69,7 @@ void main() {
 
   int it = target;
   float orbit = 0.0;
+  float trap = 1e9;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
@@ -79,7 +80,9 @@ void main() {
     y = ny;
 
     float r2 = x * x + y * y;
-    orbit += exp(-0.4 * r2);
+    // ponytail: avoid hot-loop exp/sqrt; keeps trap bands with cheaper proxies.
+    orbit += 1.0 / (1.0 + 0.4 * r2 + 0.05 * r2 * r2);
+    trap = min(trap, min(min(abs(x), abs(y)), abs(r2 - 1.0) * 0.5));
     if (r2 > bailoutSq) {
       it = i + 1;
       break;
@@ -87,7 +90,7 @@ void main() {
   }
 
   if (it >= target) {
-    float t = fract((orbit / float(target)) * 2.0 + uTime * 0.00005);
+    float t = fract((orbit / float(target)) * 2.0 - log(max(1e-6, trap)) * 0.12 + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;

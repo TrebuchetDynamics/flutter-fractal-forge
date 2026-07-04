@@ -50,11 +50,14 @@ void main() {
   float bailout = max(4.0, uBailout);
   int it = target;
   float de = 0.0;
+  float trap = 1e9;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
 
-    z = clamp(z, -1.2, 1.2) * 2.0 - z;
+    vec3 folded = clamp(z, -1.2, 1.2) * 2.0 - z;
+    trap = min(trap, length(abs(folded.xy) - vec2(0.72)) + 0.18 * abs(folded.z));
+    z = folded;
 
     float r2 = dot(z, z);
     float minR2 = 0.25;
@@ -77,13 +80,18 @@ void main() {
   }
 
   float distEst = length(z) / max(abs(de), 1e-4);
+  float linework = exp(-7.0 * max(0.0, trap));
   if (it >= target) {
-    float t = fract(0.8 / (1.0 + 35.0 * distEst) + 0.1 * atan(z.y, z.x));
-    fragColor = vec4(linearToSRGB(getPaletteColor(t + uTime * 0.00004, int(uColorScheme))), uTransparentBg > 0.5 ? 0.92 : 1.0);
+    float t = fract(0.8 / (1.0 + 35.0 * distEst) + 0.22 * linework + 0.1 * atan(z.y, z.x));
+    vec3 color = getPaletteColor(t + uTime * 0.00004, int(uColorScheme));
+    color = mix(color * 0.62, color + vec3(0.22, 0.18, 0.08), smoothstep(0.05, 0.70, linework));
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.92 : 1.0);
     return;
   }
 
   float smoothVal = float(it) - log2(log2(dot(z, z) + 1.0));
-  float t = fract(smoothVal / 64.0 + 0.5 / (1.0 + 20.0 * distEst));
-  fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
+  float t = fract(smoothVal / 64.0 + 0.5 / (1.0 + 20.0 * distEst) + 0.18 * linework);
+  vec3 color = getPaletteColor(t, int(uColorScheme));
+  color = mix(color * 0.70, color + vec3(0.20, 0.16, 0.06), smoothstep(0.05, 0.75, linework));
+  fragColor = vec4(linearToSRGB(color), 1.0);
 }

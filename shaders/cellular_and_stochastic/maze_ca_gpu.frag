@@ -51,7 +51,9 @@ float smoothCell(vec2 p, float v) {
 }
 
 float maskHas(float mask, float n) {
-  float bit = pow(2.0, clamp(floor(n + 0.5), 0.0, 8.0));
+  float count = floor(n + 0.5);
+  if (mask < 9.0) return 1.0 - step(0.5, abs(count - floor(mask + 0.5)));
+  float bit = pow(2.0, clamp(count, 0.0, 8.0));
   return step(bit, mod(floor(mask / bit), 2.0) * bit);
 }
 

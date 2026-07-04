@@ -123,6 +123,11 @@ float sdSegment(vec2 p, vec2 a, vec2 b) {
   return length(pa - ba * h);
 }
 
+float lichtenbergGrowthRadius(float growthSpeed, float time, int iters) {
+  float staticRadius = mix(0.22, 1.05, clamp(float(iters) / 50.0, 0.0, 1.0));
+  return min(1.25, staticRadius * (0.65 + 0.35 * growthSpeed) + time * growthSpeed * 0.04);
+}
+
 // Lichtenberg growth field computation
 // Returns vec3(distance, generation, radialDist)
 vec3 lichtenbergField(vec2 p, float growthSpeed, float branchAngle, int complexity, float time, int iters) {
@@ -130,8 +135,9 @@ vec3 lichtenbergField(vec2 p, float growthSpeed, float branchAngle, int complexi
   float bestGen = 0.0;
   float bestRadial = 0.0;
 
-  // Growth front radius
-  float growthRadius = time * growthSpeed * 0.05;
+  // Growth front radius. Include iteration-driven visible growth so static
+  // share previews don't open on a blank seed frame.
+  float growthRadius = lichtenbergGrowthRadius(growthSpeed, time, iters);
 
   // Number of primary arms
   int numArms = 5 + int(float(complexity) * 0.5);
@@ -256,7 +262,7 @@ void main() {
   float time = uTime;
 
   // Growth radius for growth-front visualization
-  float growthRadius = time * growthSpeed * 0.05;
+  float growthRadius = lichtenbergGrowthRadius(growthSpeed, time, iters);
 
   vec3 field = lichtenbergField(p, growthSpeed, branchAngle, complexity, time, iters);
   float dist = field.x;

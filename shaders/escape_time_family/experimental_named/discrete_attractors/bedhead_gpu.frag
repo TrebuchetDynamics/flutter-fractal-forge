@@ -54,8 +54,8 @@ void main() {
   float x = p.x;
   float y = p.y;
 
-  float a = uParamA;
-  float b = uParamB;
+  float a = abs(uParamA) < 1e-6 ? -0.81 : uParamA;
+  float b = abs(uParamB) < 1e-6 ? -0.92 : uParamB;
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
   float bailoutSq = max(4.0, uBailout * uBailout);
@@ -77,7 +77,9 @@ void main() {
   }
 
   if (it >= target) {
-    float t = fract((density / float(target)) * 1.5 + uTime * 0.00005);
+    float contour = 0.18 * sin(9.0 * p.x + 5.0 * p.y) +
+        0.12 * cos(17.0 * length(p));
+    float t = fract((density / float(target)) * 1.5 + contour + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
@@ -85,6 +87,8 @@ void main() {
 
   float r2 = max(1e-12, x * x + y * y);
   float smoothVal = float(it) - log2(log2(r2));
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
+  float contour = 0.18 * sin(9.0 * p.x + 5.0 * p.y) +
+      0.12 * cos(17.0 * length(p));
+  float t = fract(smoothVal / 64.0 + contour + uTime * 0.0001);
   fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
 }

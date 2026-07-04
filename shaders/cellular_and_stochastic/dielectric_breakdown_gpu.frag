@@ -124,12 +124,13 @@ vec2 lightningField(vec2 p, float density, float eta, float seed, float time, in
   float bestGen = 0.0;
 
   // Number of primary branches
-  int numBranches = int(3.0 + density * 9.0); // 3 to 12
+  // ponytail: nested branch tracing is the perf ceiling; cap branch fanout for catalog renders.
+  int numBranches = int(3.0 + density * 5.0); // 3 to 8
 
   // Growth radius animated by time
   float maxRadius = 0.5 + time * 0.03;
 
-  for (int branch = 0; branch < 12; branch++) {
+  for (int branch = 0; branch < 8; branch++) {
     if (branch >= numBranches) break;
 
     float fb = float(branch);
@@ -143,7 +144,7 @@ vec2 lightningField(vec2 p, float density, float eta, float seed, float time, in
     float segLen = 0.08 + 0.04 * hash11(fb + seed);
     float gen = 0.0;
 
-    for (int seg = 0; seg < 40; seg++) {
+    for (int seg = 0; seg < 24; seg++) {
       if (seg >= iters) break;
 
       float fs = float(seg);
@@ -171,7 +172,7 @@ vec2 lightningField(vec2 p, float density, float eta, float seed, float time, in
         vec2 subPos = nextPos;
         float subLen = segLen * 0.6;
 
-        for (int ss = 0; ss < 15; ss++) {
+        for (int ss = 0; ss < 8; ss++) {
           float fss = float(ss);
           float subNoise = fbm(vec2(fb * 5.0 + fs * 2.0 + fss * 1.3, seed * 2.0), 3);
           subAngle += subNoise * 0.9 * pow(eta, 0.5);
@@ -189,7 +190,7 @@ vec2 lightningField(vec2 p, float density, float eta, float seed, float time, in
             float tAngle = subAngle + (hash11(fb + fss * 5.1 + seed * 3.0) - 0.5) * 2.5;
             vec2 tPos = subNext;
             float tLen = subLen * 0.5;
-            for (int ts = 0; ts < 8; ts++) {
+            for (int ts = 0; ts < 4; ts++) {
               float fts = float(ts);
               tAngle += fbm(vec2(fb + fss + fts, seed * 3.0), 2) * 1.0 * pow(eta, 0.5);
               vec2 tNext = tPos + tLen * vec2(cos(tAngle), sin(tAngle));
@@ -226,7 +227,7 @@ void main() {
   float density = clamp(uBranchDensity, 0.1, 1.0);
   float eta = clamp(uEta, 0.5, 3.0);
   float seed = uSeed;
-  int iters = int(clamp(uIterations, 1.0, 40.0));
+  int iters = int(clamp(uIterations, 1.0, 24.0));
   int schemeInt = int(uColorScheme);
   float time = uTime;
 

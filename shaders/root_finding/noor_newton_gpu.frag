@@ -76,7 +76,8 @@ void main() {
   float pb = uParamB;
   float pc = uParamC;
 
-  const int MAX_ITERS = 500;
+  // ponytail: three Newton maps converge quickly; 500 root iterations only hurts catalog render time.
+  const int MAX_ITERS = 80;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
@@ -120,7 +121,7 @@ void main() {
   if (d1 < d0 && d1 < d2) rootPhase = 0.3333333;
   else if (d2 < d0 && d2 < d1) rootPhase = 0.6666667;
 
-  float t = fract(float(it) / max(1.0, uIterations) + rootPhase + uTime * 0.0001);
+  float t = fract(float(it) / max(1.0, float(target)) + rootPhase + 0.05 * sin(29.0 * z.x + 31.0 * z.y) + uTime * 0.0001);
   vec3 color = palette(t, int(uColorScheme));
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

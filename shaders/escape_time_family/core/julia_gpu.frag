@@ -78,7 +78,7 @@ void main() {
   float bailoutSq = uBailout * uBailout;
   int scheme = int(uColorScheme);
 
-  const int MAX_ITERS = 500;
+  const int MAX_ITERS = 320;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
   float minDistSq = 1e9; // scheme 10: point trap at origin
@@ -87,7 +87,7 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
     // d(z²+c)/dz₀ = 2z·der  (c is constant, dc/dz₀=0)
-    der = 2.0 * cmul(z, der);
+    if (scheme >= 50) der = 2.0 * cmul(z, der);
     z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
     float dSq = dot(z, z);
     minDistSq = min(minDistSq, dSq);
@@ -110,9 +110,10 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5)
-      ? vec4(0.0)
-      : vec4(0.0, 0.0, 0.0, 1.0);
+    float trapGlow = exp(-8.0 * sqrt(minDistSq)) + exp(-10.0 * crossDist);
+    float t = fract(0.20 * trapGlow + 0.05 * atan(z.y, z.x) + uTime * 0.0001);
+    vec3 color = palette(t, scheme) * (0.45 + 0.35 * clamp(trapGlow, 0.0, 1.0));
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.85 : 1.0);
     return;
   }
 

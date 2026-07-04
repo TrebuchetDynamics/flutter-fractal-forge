@@ -56,7 +56,7 @@ void main() {
   vec2 der = vec2(1.0, 0.0);
 
   float bailoutSq = uBailout * uBailout;
-  const int MAX_ITERS = 500;
+  const int MAX_ITERS = 200;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 

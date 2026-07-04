@@ -49,7 +49,7 @@ vec3 palette(float t, int scheme) {
 }
 
 vec2 cx_mul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
-vec2 cx_exp(vec2 z) { float e = exp(z.x); return vec2(e*cos(z.y), e*sin(z.y)); }
+vec2 cx_exp(vec2 z) { float e = exp(clamp(z.x, -12.0, 12.0)); return vec2(e*cos(z.y), e*sin(z.y)); }
 
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
@@ -61,7 +61,8 @@ void main() {
   vec2 z = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
 
-  const int MAX_ITERS = 500;
+  // ponytail: complex exp per iteration is expensive; cap for live catalog rendering.
+  const int MAX_ITERS = 140;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 

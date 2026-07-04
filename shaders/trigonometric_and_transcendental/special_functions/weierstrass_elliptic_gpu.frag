@@ -61,7 +61,7 @@ void main() {
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
 
   int schemeInt = int(uColorScheme);
-  float g2 = uG2;
+  float g2 = abs(uG2) < 1e-6 ? 4.0 : uG2;
   // g3 derived as g2/3 for interesting structure
   float g3 = g2 / 3.0;
   vec2 z = vec2(0.1, 0.1); // avoid z=0 singularity
@@ -84,7 +84,14 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    if (uTransparentBg > 0.5) {
+      fragColor = vec4(0.0);
+      return;
+    }
+    float contour = 0.18 * sin(9.0 * c.x + 5.0 * c.y) +
+        0.12 * cos(17.0 * length(c));
+    vec3 interior = palette(fract(contour + 0.07 * atan(z.y, z.x) + uTime * 0.0001), schemeInt);
+    fragColor = vec4(linearToSRGB(interior * 0.75), 1.0);
     return;
   }
 
@@ -104,6 +111,8 @@ void main() {
     return;
   }
 
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
+  float contour = 0.18 * sin(9.0 * c.x + 5.0 * c.y) +
+      0.12 * cos(17.0 * length(c));
+  float t = fract(smoothVal / 64.0 + contour + uTime * 0.0001);
   fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
 }

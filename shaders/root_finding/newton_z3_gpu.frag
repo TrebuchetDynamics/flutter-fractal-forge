@@ -77,6 +77,7 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   vec2 z = uv / max(0.000001, uZoom) + uCenter;
+  vec2 z0 = z;
   float escapeSq = uBailout * uBailout;
 
   const int MAX_ITERS = 500;
@@ -120,7 +121,11 @@ void main() {
     rootPhase = 0.6666667;
   }
 
-  float t = fract(float(it) / max(1.0, uIterations) + rootPhase + uTime * 0.0001);
+  float boundary = exp(-18.0 * sqrt(max(0.0, min(d0, min(d1, d2)))));
+  float contour = 0.10 * sin(18.0 * z0.x + 11.0 * z0.y) +
+      0.06 * sin(31.0 * length(z0));
+  float t = fract(float(it) / max(1.0, uIterations) + rootPhase +
+      0.12 * boundary + contour + uTime * 0.0001);
   vec3 color = palette(t, int(uColorScheme));
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

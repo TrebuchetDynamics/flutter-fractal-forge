@@ -46,6 +46,7 @@ vec3 palette(float t, int scheme) {
 }
 
 vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
+vec2 cdiv(vec2 a, vec2 b) { return vec2(a.x*b.x + a.y*b.y, a.y*b.x - a.x*b.y) / max(dot(b,b), 1e-12); }
 
 vec2 cpowReal(vec2 z, float power) {
   float r = max(length(z), 1e-8);
@@ -61,15 +62,19 @@ void main() {
 
   int schemeInt = int(uColorScheme);
   vec2 c   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z   = vec2(0.0);
   float power = clamp(uPower, -8.0, 24.0);
   if (abs(power) < 0.001) power = 3.0;
+  // Negative-power inverse Multibrots are singular at z=0; seed from c so
+  // z^-d + c produces spatial structure instead of a uniform first escape.
+  vec2 z   = (power < 0.0) ? c : vec2(0.0);
   // Complex derivative dz/dc for normal-map shading.
   // d(z^p)/dc = p*z^(p-1) * der  →  der_next = p*z^(p-1)*der + 1
   vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
-  const int MAX_ITERS = 2000;
+  // ponytail: this shader is used by live shared catalog variants; high powers
+  // converge fast, and 320 bounds z^20 randomize/pan cost.
+  const int MAX_ITERS = 320;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
   float trap = 1e9;
@@ -77,18 +82,22 @@ void main() {
 
   // Early-out: for z0=0 in z -> z^d + c, first iterate is z1=c.
   // If |c| already exceeds bailout, we can skip the loop safely.
-  if (dot(c, c) > bailoutSq) {
-    z = c;
-    der = vec2(1.0, 0.0);
-    it = 0;
+  if (power >= 0.0 && dot(c, c) > bailoutSq) {
+    if (dot(c, c) > bailoutSq) {
+      z = c;
+      der = vec2(1.0, 0.0);
+      it = 0;
+    }
   } else {
     for (int j = 0; j < MAX_ITERS; j++) {
       if (j >= target) { it = target; break; }
 
-      // z^p + c  (parameterized Multibrot)
-      vec2 derivFactor = power * cpowReal(z, power - 1.0);
+      // z^p + c  (parameterized Multibrot). Compute z^p once; derivative uses
+      // p*z^(p-1) == p*z^p/z, avoiding a second polar pow/cos/sin per pixel step.
+      vec2 zPow = cpowReal(z, power);
+      vec2 derivFactor = (dot(z, z) < 1e-12) ? vec2(0.0) : power * cdiv(zPow, z);
       der = cmul(derivFactor, der) + vec2(1.0, 0.0);
-      z = cpowReal(z, power) + c;
+      z = zPow + c;
 
       float r2 = dot(z, z);
       trap = min(trap, abs(length(z) - 0.75));

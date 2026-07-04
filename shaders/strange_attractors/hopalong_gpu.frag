@@ -69,12 +69,14 @@ void main() {
   float bailoutSq = uBailout * uBailout;
 
   int it = target;
+  float trap = 1e9;
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
 
     float xNext = p.y - sgn(p.x) * sqrt(abs(b * p.x - c));
     float yNext = a - p.x;
     p = vec2(xNext, yNext);
+    trap = min(trap, abs(sin(0.55 * p.x) + cos(0.45 * p.y)) + 0.08 * abs(p.x - p.y));
 
     if (dot(p, p) > bailoutSq) {
       it = i;
@@ -85,14 +87,16 @@ void main() {
   if (it >= target) {
     float phase = atan(p.y, p.x) / 6.28318530718 + 0.5;
     float weave = smoothstep(0.30, 0.50, abs(sin(0.9 * p.x + 1.2 * p.y + 18.0 * uv.x - 9.0 * uv.y)));
-    float tBound = fract(phase + 0.25 * weave + 0.04 * length(p) + uTime * 0.0001);
-    vec3 color = getPaletteColor(tBound, int(uColorScheme)) * (0.56 + 0.44 * weave);
+    float strands = exp(-3.5 * trap);
+    float tBound = fract(phase + 0.25 * weave + 0.20 * strands + 0.04 * length(p) + uTime * 0.0001);
+    vec3 color = getPaletteColor(tBound, int(uColorScheme)) * (0.50 + 0.40 * weave + 0.45 * strands);
     fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 
+  float strands = exp(-3.5 * trap);
   float t = float(it) / max(1.0, float(target));
-  t = fract(t + uTime * 0.0001);
-  vec3 color = getPaletteColor(t, int(uColorScheme));
+  t = fract(t + 0.20 * strands + uTime * 0.0001);
+  vec3 color = getPaletteColor(t, int(uColorScheme)) * (0.70 + 0.45 * strands);
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

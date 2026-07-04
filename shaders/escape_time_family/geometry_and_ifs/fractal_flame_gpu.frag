@@ -130,9 +130,9 @@ vec2 applyVariation(vec2 p, int var_id) {
   if (var_id == 14) return vec2(p.x >= 0.0 ? p.x : 2.0 * p.x, p.y >= 0.0 ? p.y : 0.5 * p.y); // bent
   if (var_id == 15) return vec2(p.x + 0.35 * sin(p.y / 0.55), p.y + 0.55 * sin(p.x / 0.35)); // waves
   if (var_id == 16) return (2.0 / (r + 1.0)) * p; // fisheye
-  if (var_id == 17) return vec2(p.x + 0.05 * sin(tan(3.0 * p.y)), p.y + 0.05 * sin(tan(3.0 * p.x))); // popcorn
+  if (var_id == 17) return vec2(p.x + 0.05 * sin(3.0 * p.y), p.y + 0.05 * sin(3.0 * p.x)); // popcorn
   if (var_id == 18) return exp(p.x - 1.0) * vec2(cos(3.14159265 * p.y), sin(3.14159265 * p.y)); // exponential
-  if (var_id == 19) return pow(r, sin(theta)) * vec2(cos(theta), sin(theta)); // power
+  if (var_id == 19) return mix(p, normalize(p) * sqrt(r), 0.65); // power proxy
   if (var_id == 20) return vec2(cos(3.14159265 * p.x) * cosh(p.y), -sin(3.14159265 * p.x) * sinh(p.y)); // cosine
   if (var_id == 21) return mod(r + 0.35, 0.7) - 0.35 + r * vec2(cos(theta), sin(theta)); // rings
   if (var_id == 22) {
@@ -220,6 +220,7 @@ float flameDensity(vec2 p, int target, int var_id, int sym, float time) {
   float density = 0.0;
   vec2 z = p;
 
+  // ponytail: flame variants share this shader; cap orbit length at the catalog max.
   for (int i = 0; i < 200; i++) {
     if (i >= target) break;
 

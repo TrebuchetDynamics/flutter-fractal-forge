@@ -80,12 +80,20 @@ void main() {
   }
 
   float edge = exp(-42.0 * trap);
-  float t = fract(turns / float(target) + 0.4 * edge + uTime * 0.0001);
+  float contour = 0.18 * sin(13.0 * p.x + 7.0 * p.y) +
+      0.12 * cos(19.0 * length(p));
+  float t = fract(turns / float(target) + 0.4 * edge + contour + uTime * 0.0001);
   vec3 color = getPaletteColor(t, int(uColorScheme));
-  color *= 0.45 + 1.0 * edge;
+  color *= 0.45 + 1.0 * edge + 0.25 * abs(contour);
 
   if (edge < 0.03) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    if (uTransparentBg > 0.5) {
+      fragColor = vec4(0.0);
+    } else {
+      float bgT = fract(0.18 * sin(17.0 * p.x + 11.0 * p.y) + 0.16 * length(p));
+      vec3 bg = getPaletteColor(bgT, int(uColorScheme)) * 0.24;
+      fragColor = vec4(linearToSRGB(bg), 1.0);
+    }
     return;
   }
 

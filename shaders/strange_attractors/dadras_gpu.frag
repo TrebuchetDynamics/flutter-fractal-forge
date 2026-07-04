@@ -68,6 +68,7 @@ void main() {
 
   int it = target;
   float orbit = 0.0;
+  float trap = 1e9;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
@@ -81,6 +82,7 @@ void main() {
     z += dt * dz;
 
     float r2 = x * x + y * y + 0.1 * z * z;
+    trap = min(trap, abs(d * x * y - e * z) + 0.12 * abs(y - a * x));
     orbit += exp(-0.15 * (x * x + y * y)) + 0.08 * exp(-0.6 * abs(z));
     if (r2 > bailoutSq) {
       it = i + 1;
@@ -88,15 +90,22 @@ void main() {
     }
   }
 
+  float contour = 0.18 * sin(9.0 * p.x + 5.0 * p.y) +
+      0.12 * cos(17.0 * length(p));
+
   if (it >= target) {
-    float t = fract((orbit / float(target)) * 2.0 + 0.06 * atan(y, x) + uTime * 0.00005);
-    vec3 col = getPaletteColor(t, int(uColorScheme));
+    float strands = exp(-3.0 * trap);
+    float t = fract((orbit / float(target)) * 2.2 + 0.20 * strands +
+        0.06 * atan(y, x) + contour + uTime * 0.00005);
+    vec3 col = getPaletteColor(t, int(uColorScheme)) * (0.68 + 0.45 * strands + 0.35 * abs(contour));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 
   float r2 = max(1e-10, x * x + y * y + z * z);
   float smoothVal = float(it) - log2(log2(r2 + 1.0));
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
+  float strands = exp(-3.0 * trap);
+  float t = fract(smoothVal / 64.0 + 0.20 * strands + contour + uTime * 0.0001);
+  fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme)) *
+      (0.68 + 0.45 * strands + 0.35 * abs(contour))), 1.0);
 }

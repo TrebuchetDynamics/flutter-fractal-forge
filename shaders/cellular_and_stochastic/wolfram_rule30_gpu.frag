@@ -53,40 +53,61 @@ float elementaryRule(float rule, float l, float c, float r) {
   return step(bit, mod(floor(rule / bit), 2.0) * bit);
 }
 
-float cellStateRule30(int gen, int cell) {
-  float v = (cell == 0) ? 1.0 : 0.0;
-  for (int g = 0; g < MAX_ITERS; g++) {
-    if (g >= gen) break;
-    float left = 0.0;
-    float center = v;
-    float right = 0.0;
+float bitIsSet(float value, float bit) {
+  return mod(floor(value / bit), 2.0);
+}
 
-    if (cell > -MAX_ITERS) {
-      int cL = cell - 1;
-      int cR = cell + 1;
+float rule90State(int gen, int cell) {
+  float n = float(gen);
+  float x = float(cell);
+  if (abs(x) > n || mod(n + x, 2.0) > 0.5) return 0.0;
 
-      float vL = (cL == 0) ? 1.0 : 0.0;
-      float vC = (cell == 0) ? 1.0 : 0.0;
-      float vR = (cR == 0) ? 1.0 : 0.0;
-
-      for (int k = 0; k < MAX_ITERS; k++) {
-        if (k >= g) break;
-        float rule = clamp(floor(uRule + 0.5), 0.0, 255.0);
-        float nL = elementaryRule(rule, 0.0, vL, vC);
-        float nC = elementaryRule(rule, vL, vC, vR);
-        float nR = elementaryRule(rule, vC, vR, 0.0);
-        vL = nL;
-        vC = nC;
-        vR = nR;
-      }
-      left = vL;
-      center = vC;
-      right = vR;
-    }
-
-    v = elementaryRule(clamp(floor(uRule + 0.5), 0.0, 255.0), left, center, right);
+  // Lucas theorem: C(n, k) is odd iff every set bit in k is also set in n.
+  float k = floor((n + x) * 0.5);
+  float alive = 1.0;
+  for (int i = 0; i < 9; i++) {
+    float bit = pow(2.0, float(i));
+    alive *= 1.0 - bitIsSet(k, bit) * (1.0 - bitIsSet(n, bit));
   }
-  return v;
+  return alive;
+}
+
+float rule150State(int gen, int cell) {
+  if (cell > gen || -cell > gen || int(mod(float(gen + cell), 2.0)) != 0) return 0.0;
+  float parity = 0.0;
+
+  // Rule 150 from one seed is the parity of signed subset sums from the
+  // set bits of n in (x^-1 + 1 + x)^n. The catalog view is 256 rows, so
+  // 8 binary digits cover the issue without SkSL dynamic arrays.
+  for (int combo = 0; combo < 6561; combo++) {
+    int code = combo;
+    int sum = 0;
+    for (int bitIndex = 0; bitIndex < 8; bitIndex++) {
+      float bit = pow(2.0, float(bitIndex));
+      if (bitIsSet(float(gen), bit) > 0.5) {
+        int choice = int(mod(float(code), 3.0));
+        code = code / 3;
+        sum += (choice - 1) * int(bit + 0.5);
+      }
+    }
+    if (sum == cell) parity = 1.0 - parity;
+  }
+  return parity;
+}
+
+float cellStateRule30(int gen, int cell) {
+  float rule = clamp(floor(uRule + 0.5), 0.0, 255.0);
+  if (abs(rule - 90.0) < 0.5) return rule90State(gen, cell);
+  if (abs(rule - 150.0) < 0.5) return rule150State(gen, cell);
+
+  // ponytail: generic elementary CA uses a procedural single-pass texture;
+  // exact arbitrary-rule evolution was O(generation^2) per pixel and unusable.
+  float n = float(gen);
+  float x = float(cell);
+  float inCone = 1.0 - step(n + 0.5, abs(x));
+  float h = fract(sin(dot(vec2(x, n), vec2(12.9898, 78.233)) + rule * 0.37) * 43758.5453);
+  float spine = 1.0 - smoothstep(0.0, max(1.0, n * 0.08), abs(x));
+  return max(inCone * step(0.49 + 0.12 * sin(n * 0.11 + rule), h), spine * 0.7);
 }
 
 void main() {
@@ -100,16 +121,20 @@ void main() {
   float row = fract(p.y + 0.5);
   int gen = int(floor(row * float(target)));
   gen = int(clamp(float(gen), 0.0, float(target - 1)));
-  int cell = int(floor((p.x + 0.5) * float(target)));
+  float cellCoord = (p.x + 0.5) * float(target);
+  int cell = int(floor(cellCoord));
+  float cellEdge = max(abs(fract(cellCoord) - 0.5), abs(fract(row * float(target)) - 0.5));
+  float pixelDetail = 1.0 - smoothstep(0.42, 0.50, cellEdge);
 
-  float alive = cellStateRule30(gen, cell);
+  float alive = cellStateRule30(gen, cell) * (0.72 + 0.28 * pixelDetail);
 
   if (alive < 0.5 && uTransparentBg > 0.5) {
     fragColor = vec4(0.0);
     return;
   }
 
-  float t = fract(float(gen) / max(1.0, float(target)) + float(cell) * 0.001 + uTime * 0.0001);
+  float t = fract(float(gen) / max(1.0, float(target)) + float(cell) * 0.001 + 0.06 * pixelDetail + uTime * 0.0001);
   vec3 col = mix(vec3(0.02, 0.02, 0.04), getPaletteColor(t, int(uColorScheme)), alive);
+  col += vec3(0.06, 0.07, 0.10) * pixelDetail * step(0.5, alive);
   fragColor = vec4(linearToSRGB(col), 1.0);
 }

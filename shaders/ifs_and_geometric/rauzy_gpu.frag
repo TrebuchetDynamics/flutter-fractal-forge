@@ -80,13 +80,21 @@ void main() {
 
   float member = smoothstep(0.85, 0.05, trap);
   if (member < 0.05) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    if (uTransparentBg > 0.5) {
+      fragColor = vec4(0.0);
+    } else {
+      float bgT = fract(0.18 * sin(17.0 * p.x + 11.0 * p.y) + 0.16 * length(p));
+      vec3 bg = getPaletteColor(bgT, int(uColorScheme)) * 0.24;
+      fragColor = vec4(linearToSRGB(bg), 1.0);
+    }
     return;
   }
 
-  float t = fract(0.07 * code / float(depth) + 0.8 * member + uTime * 0.0001);
+  float contour = 0.20 * sin(11.0 * p.x + 6.0 * p.y) +
+      0.14 * cos(17.0 * length(p));
+  float t = fract(0.07 * code / float(depth) + 0.8 * member + contour + uTime * 0.0001);
   vec3 color = getPaletteColor(t, int(uColorScheme));
-  color *= 0.45 + 0.85 * member;
+  color *= 0.40 + 0.85 * member + 0.30 * abs(contour);
 
   fragColor = vec4(linearToSRGB(color), 1.0);
 }

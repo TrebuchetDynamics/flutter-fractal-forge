@@ -2,10 +2,9 @@
 
 precision highp float;
 
-// Tangent Julia: z_{n+1} = c · tan(z), c = (−0.12, 0.74)  (Julia-style, z₀ = pixel)
-// Hardcoded seed produces a classic fractal with spiral tendrils and peacock-fan
-// boundaries radiating from the tan poles at z = (n+½)π.
-// Derivative (dz/dz₀): der = c·sec²(z)·der = c·(1+tan²(z))·der, der₀ = 1.
+// Tangent Mandelbrot: z_{n+1} = tan(z) + c, z₀ = 0.
+// Poles at z = (n+½)π create cactus-spine and fan basin detail.
+// Derivative (dz/dc): der = sec²(z)·der + 1 = (1+tan²(z))·der + 1.
 // Supports normal-map shading (colorScheme 50-63).
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
@@ -90,22 +89,23 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   int schemeInt = int(uColorScheme);
-  vec2 z   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 c_k = vec2(-0.12, 0.74);  // hardcoded Julia seed
-  // Julia-style derivative dz/dz₀: der₀ = 1
-  vec2 der = vec2(1.0, 0.0);
+  vec2 c = uv / max(0.000001, uZoom) + uCenter;
+  vec2 z = vec2(0.0);
+  vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float poleTrap = 1e9;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
-    // d(c·tan(z))/dz₀ = c · (1 + tan²(z)) · der
+    // d(tan(z)+c)/dc = (1 + tan²(z)) · der + 1
     vec2 tan_z = ctan(z);
-    der = cmul(c_k, cmul(vec2(1.0, 0.0) + cmul(tan_z, tan_z), der));
-    z   = cmul(c_k, tan_z);
+    poleTrap = min(poleTrap, length(ccos(z)));
+    der = cmul(vec2(1.0, 0.0) + cmul(tan_z, tan_z), der) + vec2(1.0, 0.0);
+    z = tan_z + c;
     if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;
   }
@@ -113,8 +113,9 @@ void main() {
   if (it >= target) {
     float phase = atan(z.y, z.x) / 6.28318530718 + 0.5;
     float bands = smoothstep(0.34, 0.50, abs(sin(12.0 * z.x + 9.0 * z.y + 18.0 * uv.x)));
-    float tBound = fract(phase + 0.20 * bands + 0.08 * length(z) + uTime * 0.0001);
-    vec3 col = palette(tBound, schemeInt) * (0.60 + 0.40 * bands);
+    float poleGlow = exp(-6.0 * poleTrap);
+    float tBound = fract(phase + 0.20 * bands + 0.24 * poleGlow + 0.08 * length(z) + uTime * 0.0001);
+    vec3 col = palette(tBound, schemeInt) * (0.55 + 0.35 * bands + 0.40 * poleGlow);
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
@@ -143,6 +144,7 @@ void main() {
     return;
   }
 
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, schemeInt)), 1.0);
+  float poleGlow = exp(-6.0 * poleTrap);
+  float t = fract(smoothVal / 64.0 + 0.24 * poleGlow + uTime * 0.0001);
+  fragColor = vec4(linearToSRGB(palette(t, schemeInt) * (0.65 + 0.40 * poleGlow)), 1.0);
 }

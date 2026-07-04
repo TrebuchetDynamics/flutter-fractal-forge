@@ -58,6 +58,8 @@ void main() {
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float trap = 1e9;
+  float orbit = 0.0;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) { it = target; break; }
@@ -75,13 +77,18 @@ void main() {
     b = nextB;
 
     float magSq = dot(a, a) + 0.35 * dot(b, b);
+    trap = min(trap, min(length(a), length(b)));
+    orbit += exp(-2.0 * magSq);
     if (magSq > bailoutSq) { it = i; break; }
     if (dot(stepA, stepA) + dot(stepB, stepB) < 1e-12) { it = i; break; }
     it = i + 1;
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float dualGlow = exp(-8.0 * trap);
+    float t = fract(orbit / max(1.0, float(target)) + 0.18 * dualGlow + 0.15 * atan(b.y, b.x) + uTime * 0.0001);
+    vec3 color = palette(t, int(uColorScheme)) * (0.50 + 0.50 * dualGlow);
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.85 : 1.0);
     return;
   }
 

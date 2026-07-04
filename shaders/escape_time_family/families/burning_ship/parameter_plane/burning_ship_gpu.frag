@@ -76,8 +76,10 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
-  // Flip Y for standard Burning Ship orientation (ship appears upright).
-  vec2 c = vec2(uv.x, -uv.y) / max(0.000001, uZoom) + uCenter;
+  // Flip Y for upright ship orientation, but apply center in screen-pan space
+  // so vertical drags follow the shared 2D gesture convention.
+  vec2 c = vec2(uv.x, -uv.y) / max(0.000001, uZoom) +
+           vec2(uCenter.x, -uCenter.y);
 
   int schemeInt = int(uColorScheme);
 
@@ -92,9 +94,11 @@ void main() {
   vec2 der = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
 
-  const int MAX_ITERS = 500;
+  const int MAX_ITERS = 320;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  bool needsDerivative = schemeInt >= 50;
+  float power = max(abs(uPower), 0.5);
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
@@ -103,13 +107,14 @@ void main() {
     vec2 sz = sign(z);
     vec2 w  = abs(z);
 
-    // Derivative update:
-    //  Step 1 — abs gate: dw/dc = (sign(z.x)*der.x, sign(z.y)*der.y) [element-wise]
-    vec2 der_w = vec2(sz.x * der.x, sz.y * der.y);
     // Burning Ship family: z = (abs(Re(z)) + i*abs(Im(z)))^p + c
-    float power = max(abs(uPower), 0.5);
-    vec2 wPowMinusOne = cpowReal(w, power - 1.0);
-    der = power * cmul(wPowMinusOne, der_w) + vec2(1.0, 0.0);
+    if (needsDerivative) {
+      // Derivative update:
+      //  Step 1 — abs gate: dw/dc = (sign(z.x)*der.x, sign(z.y)*der.y) [element-wise]
+      vec2 der_w = vec2(sz.x * der.x, sz.y * der.y);
+      vec2 wPowMinusOne = cpowReal(w, power - 1.0);
+      der = power * cmul(wPowMinusOne, der_w) + vec2(1.0, 0.0);
+    }
     z = cpowReal(w, power) + c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }

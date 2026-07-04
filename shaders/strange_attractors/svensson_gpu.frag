@@ -69,6 +69,8 @@ void main() {
 
   int it = target;
   float density = 0.0;
+  float lace = 0.0;
+  float trap = 1e9;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
@@ -79,7 +81,10 @@ void main() {
     y = ny;
 
     float r2 = x * x + y * y;
-    density += exp(-0.3 * r2);
+    float thread = min(abs(sin(8.0 * x + 3.0 * y)), abs(sin(3.0 * x - 7.0 * y)));
+    trap = min(trap, thread);
+    density += 1.0 / (1.0 + 0.3 * r2);
+    lace += 1.0 / ((1.0 + 14.0 * thread) * (1.0 + 0.08 * r2));
     if (r2 > bailoutSq) {
       it = i + 1;
       break;
@@ -87,9 +92,13 @@ void main() {
   }
 
   if (it >= target) {
-    float t = fract((density / float(target)) * 1.8 + uTime * 0.00005);
+    float normLace = lace / float(target);
+    float screenThread = min(abs(sin(18.0 * p.x + 7.0 * p.y)), abs(sin(7.0 * p.x - 17.0 * p.y)));
+    float screenLace = exp(-10.0 * screenThread);
+    float t = fract((density / float(target)) * 1.2 + normLace * 0.7 + screenLace * 0.25 + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
-    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
+    float detail = 0.35 + 0.7 * sqrt(clamp(normLace * 2.0, 0.0, 1.0)) + 0.35 / (1.0 + 24.0 * trap) + 0.55 * screenLace;
+    fragColor = vec4(linearToSRGB(col * detail), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

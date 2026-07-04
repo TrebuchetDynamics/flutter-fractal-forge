@@ -12,7 +12,7 @@ precision highp float;
 
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
-uniform vec2  uMousePos;      // 3-4
+uniform vec2  uMousePos;      // 3-4, pan target
 uniform float uZoom;          // 5
 uniform vec3  uRotation;      // 6-8
 uniform float uPower;         // 9
@@ -170,11 +170,9 @@ void main() {
     vec2 uv = (fragCoord - 0.5 * uResolution) * 2.0 / uResolution.y;
 
     mat3 rot = rotationMatrix(uRotation);
-    vec3 camPos = rot * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
-    vec3 forward = normalize(-camPos);
-    vec3 right = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
-    vec3 up = cross(forward, right);
-    vec3 rayDir = normalize(forward + uv.x * right + uv.y * up);
+    vec3 target = vec3(uMousePos, 0.0);
+    vec3 camPos = target + rot * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
+    vec3 rayDir = normalize(rot * vec3(uv.x, uv.y, -1.5));
 
     vec4 hit = rayMarch(camPos, rayDir);
 

@@ -59,45 +59,23 @@ void main() {
   p = vec2(p.x * 2.2 + 0.5, p.y * 2.2 + 0.03);
 
   int target = int(clamp(uIterations, 24.0, float(MAX_ITERS)));
-  int qMax = int(clamp(6.0 + float(target) * 0.18, 6.0, 48.0));
+  int qMax = int(clamp(6.0 + float(target) * 0.08, 6.0, 24.0));
 
   float best = 1e9;
   float bestQ = 1.0;
-  float edgeHit = 0.0;
 
-  for (int q = 1; q <= 48; q++) {
+  // ponytail: Ford-circle Farey proxy; the exact adjacent-fraction search was cubic per pixel.
+  for (int q = 1; q <= 24; q++) {
     if (q > qMax) break;
-    for (int qp = 1; qp <= 48; qp++) {
-      if (qp > qMax) break;
-
-      for (int n = 0; n <= 48; n++) {
-        if (n > q) break;
-        for (int sign = -1; sign <= 1; sign += 2) {
-          int numerator = n * qp + sign;
-          if (numerator < 0) continue;
-          if (numerator - (numerator / q) * q != 0) continue;
-          int np = numerator / q;
-          if (np > qp) continue;
-
-          float x0 = float(n) / float(q);
-          float x1 = float(np) / float(qp);
-          if (x1 <= x0) continue;
-
-          float mid = 0.5 * (x0 + x1);
-          float r = 0.5 * (x1 - x0);
-          if (r < 0.003) continue;
-
-          float d = sdArc(p, vec2(mid, r), r);
-          if (p.y < -0.01) {
-            d = min(d, abs(p.y));
-          }
-
-          if (d < best) {
-            best = d;
-            bestQ = max(float(q), float(qp));
-            edgeHit = 1.0;
-          }
-        }
+    for (int n = 0; n <= 24; n++) {
+      if (n > q) break;
+      float fq = float(q);
+      float x = float(n) / fq;
+      float r = 0.42 / (fq * fq);
+      float d = sdArc(p, vec2(x, r), r);
+      if (d < best) {
+        best = d;
+        bestQ = fq;
       }
     }
   }

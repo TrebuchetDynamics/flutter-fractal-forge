@@ -79,7 +79,8 @@ void main() {
     y = ny;
 
     float r2 = x * x + y * y;
-    density += exp(-0.25 * r2);
+    // ponytail: hot-loop exp was the cost; rational falloff is enough for density color.
+    density += 1.0 / (1.0 + 0.25 * r2 + 0.03 * r2 * r2);
     if (r2 > bailoutSq) {
       it = i + 1;
       break;
@@ -87,7 +88,7 @@ void main() {
   }
 
   if (it >= target) {
-    float t = fract((density / float(target)) * 1.5 + uTime * 0.00005);
+    float t = fract((density / float(target)) * 3.2 + 0.08 * sin(11.0 * p.x + 7.0 * p.y) + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;

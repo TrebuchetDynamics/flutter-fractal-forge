@@ -70,6 +70,15 @@ vec2 hash22(vec2 p) {
   return vec2(hash21(p), hash21(p + vec2(37.17, 53.91)));
 }
 
+vec2 buddhabrotSeed(float index) {
+  float a = index + 1.0;
+  float angle = a * 2.39996322973;
+  float radius = mix(0.22, 1.75, fract(a * 0.61803398875));
+  vec2 c = vec2(-0.55, 0.0) + radius * vec2(cos(angle), 0.75 * sin(angle));
+  c += (vec2(fract(a * 0.754877666), fract(a * 0.569840296)) - 0.5) * 0.18;
+  return clamp(c, vec2(-2.0, -1.5), vec2(1.0, 1.5));
+}
+
 const int MAX_ITERS = 300;
 const int MAX_SAMPLES = 32;
 
@@ -118,44 +127,22 @@ void main() {
   vec2 pixel = uv / max(0.000001, uZoom) + uCenter;
 
   int maxIter = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int numSamples = int(clamp(uSamples, 4.0, float(MAX_SAMPLES)));
-  int minIter = int(clamp(uMinIter, 1.0, float(maxIter)));
+  int numSamples = int(clamp(max(uSamples, 18.0), 4.0, float(MAX_SAMPLES)));
+  int minIter = int(clamp(max(uMinIter, 10.0), 1.0, float(maxIter)));
   float bailoutSq = uBailout * uBailout;
   int schemeInt = int(uColorScheme);
 
-  // Pixel radius in world space (for hit detection)
-  float pixelRadius = 1.5 / (max(0.000001, uZoom) * scale);
+  // Pixel radius in world space (for hit detection). A few screen pixels are
+  // intentional: this single-pass preview has no persistent histogram buffer.
+  float pixelRadius = 4.0 / (max(0.000001, uZoom) * scale);
 
-  // Sample starting points: distributed across the interesting Mandelbrot region
-  // centered around the boundary (roughly radius 2 from origin)
+  // Use the same deterministic escaping orbits for every fragment. Per-pixel
+  // random seeds make uncorrelated speckle, not a Buddhabrot histogram.
   float totalDensity = 0.0;
 
   for (int s = 0; s < MAX_SAMPLES; s++) {
     if (s >= numSamples) break;
-
-    // Generate pseudo-random c in the Mandelbrot region [-2,1] x [-1.5,1.5]
-    vec2 rng = hash22(fragCoord * 0.01 + vec2(float(s) * 7.31, float(s) * 3.17) + uTime * 0.001);
-    vec2 c = vec2(rng.x * 3.0 - 2.0, rng.y * 3.0 - 1.5);
-
-    // Quick cardioid/bulb rejection to focus on boundary orbits
-    vec2 q = c - vec2(0.25, 0.0);
-    float qr2 = dot(q, q);
-    float qr = sqrt(qr2);
-    // Skip main cardioid interior
-    if (qr < 0.5 * (1.0 - q.x / max(1e-6, qr))) continue;
-    // Skip period-2 bulb
-    if ((c.x + 1.0) * (c.x + 1.0) + c.y * c.y < 0.0625) continue;
-
-    totalDensity += buddhabrotDensity(pixel, c, maxIter, minIter, bailoutSq, pixelRadius);
-  }
-
-  // Also sample starting points near the pixel itself (local exploration)
-  for (int s = 0; s < MAX_SAMPLES; s++) {
-    if (s >= numSamples / 2) break;
-
-    vec2 rng = hash22(fragCoord * 0.017 + vec2(float(s) * 13.37, float(s) * 5.43) + uTime * 0.002);
-    vec2 c = pixel + (rng - 0.5) * 0.5;
-
+    vec2 c = buddhabrotSeed(float(s));
     totalDensity += buddhabrotDensity(pixel, c, maxIter, minIter, bailoutSq, pixelRadius);
   }
 
@@ -174,8 +161,7 @@ void main() {
     // Simplified: use fewer samples for normal-map neighbours
     for (int s = 0; s < MAX_SAMPLES; s++) {
       if (s >= numSamples / 2) break;
-      vec2 rng = hash22(fragCoord * 0.01 + vec2(float(s) * 7.31, float(s) * 3.17) + uTime * 0.001);
-      vec2 c = vec2(rng.x * 3.0 - 2.0, rng.y * 3.0 - 1.5);
+      vec2 c = buddhabrotSeed(float(s));
       densR += buddhabrotDensity(pixR, c, maxIter, minIter, bailoutSq, pixelRadius);
       densU += buddhabrotDensity(pixU, c, maxIter, minIter, bailoutSq, pixelRadius);
     }
@@ -209,9 +195,10 @@ void main() {
   float t = fract(logDens * 2.0 + uTime * 0.0001);
   vec3 col = palette(t, schemeInt);
 
-  // Brightness modulation
-  float brightness = smoothstep(0.0, 0.4, logDens);
-  col *= mix(0.1, 1.3, brightness);
+  // Brightness modulation: no density should be black, as in a Buddhabrot
+  // histogram, not a colored Mandelbrot-style exterior fill.
+  float brightness = smoothstep(0.0, 0.35, logDens);
+  col *= 1.4 * brightness;
   col = clamp(col, 0.0, 1.0);
 
   float alpha = (uTransparentBg > 0.5) ? smoothstep(0.0, 0.02, logDens) : 1.0;

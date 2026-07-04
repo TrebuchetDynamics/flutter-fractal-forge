@@ -56,6 +56,8 @@ void main() {
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float orbit = 0.0;
+  float trap = 1e9;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
@@ -66,12 +68,18 @@ void main() {
     // Derivative approximation: 4·za³·der
     der = 4.0 * cmul(za3, der);
     z = za4 + c;
-    if (dot(z,z) > bailoutSq) { it = j; break; }
+    float r2 = dot(z, z);
+    orbit += exp(-0.8 * r2);
+    trap = min(trap, min(abs(z.x), abs(z.y)));
+    if (r2 > bailoutSq) { it = j; break; }
     it = j + 1;
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
+    float n = clamp(orbit / max(1.0, float(target)), 0.0, 1.0);
+    float tBound = fract(0.65 * n - 0.12 * log(max(trap, 1e-6)) + uTime * 0.0001);
+    vec3 col = palette(tBound, schemeInt) * (0.40 + 0.70 * n);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

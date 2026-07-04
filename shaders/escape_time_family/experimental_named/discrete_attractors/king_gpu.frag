@@ -65,7 +65,8 @@ void main() {
   vec2 z = uv / max(0.000001, uZoom) + uCenter;
   float beta = uBeta;
 
-  const int MAX_ITERS = 500;
+  // ponytail: King's method converges fast; 500 root iterations only hurts catalog render time.
+  const int MAX_ITERS = 80;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 

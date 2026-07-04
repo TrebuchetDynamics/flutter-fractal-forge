@@ -3,7 +3,7 @@
 precision highp float;
 
 // Dirichlet Eta Fractal: z_{n+1} = eta(z) + c
-// eta(z) = sum_{k=1}^{N} (-1)^(k-1) / k^z, N=20 terms
+// eta(z) = sum (-1)^(k-1) / k^z; catalog shader uses a short series for speed.
 // The Dirichlet eta function (alternating zeta function).
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
@@ -50,7 +50,7 @@ vec3 palette(float t, int scheme) {
 }
 
 vec2 cx_mul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
-vec2 cx_exp(vec2 z) { float e = exp(z.x); return vec2(e*cos(z.y), e*sin(z.y)); }
+vec2 cx_exp(vec2 z) { float e = exp(clamp(z.x, -12.0, 12.0)); return vec2(e*cos(z.y), e*sin(z.y)); }
 
 // k^(-z) = exp(-z * ln(k))
 vec2 cx_kpow_neg(float k, vec2 z) {
@@ -58,11 +58,11 @@ vec2 cx_kpow_neg(float k, vec2 z) {
   return cx_exp(vec2(-z.x * lnk, -z.y * lnk));
 }
 
-// Compute eta(z) = sum_{k=1}^{20} (-1)^(k-1) / k^z
 vec2 eta(vec2 z) {
   vec2 result = vec2(0.0);
   float sign = 1.0;
-  for (int k = 1; k <= 20; k++) {
+  // ponytail: short eta series avoids 20 complex exponentials per iteration.
+  for (int k = 1; k <= 8; k++) {
     result += sign * cx_kpow_neg(float(k), z);
     sign = -sign;
   }
@@ -79,7 +79,7 @@ void main() {
   vec2 z = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
 
-  const int MAX_ITERS = 500;
+  const int MAX_ITERS = 90;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 

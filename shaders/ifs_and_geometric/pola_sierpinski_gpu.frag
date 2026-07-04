@@ -65,7 +65,8 @@ void main() {
   float r = length(p);
   float th = atan(p.y, p.x);
   float golden = 2.39996323;
-  p = vec2(log(max(1e-6, r)) * cos(th + golden), log(max(1e-6, r)) * sin(th + golden));
+  float logR = log(max(1e-30, r));
+  p = vec2(logR * cos(th + golden), logR * sin(th + golden));
   p *= 1.4;
 
   const int MAX_ITERS = 500;

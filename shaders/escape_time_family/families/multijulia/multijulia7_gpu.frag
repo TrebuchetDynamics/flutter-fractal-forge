@@ -2,11 +2,11 @@
 
 precision highp float;
 
-// Multijulia⁷ set: z_{n+1} = z^7 + c, c = (−0.20, 0.70).
+// Multijulia⁷ set: z_{n+1} = z^7 + c, c = (−0.40, 0.60).
 // Julia set of the degree-7 Multibrot map — pixel = z₀, c fixed.
 // The degree-7 Julia set has seven-fold base symmetry producing seven primary
 // arms with a chiral twist (odd degree has no bilateral reflection symmetry).
-// At c = (−0.20, 0.70) the Julia set is connected with visible heptagonal
+// At c = (−0.40, 0.60) the default viewport has visible heptagonal escape
 // structure. Each arm branches recursively following septic self-similarity.
 // z^7 computed as z⁴·z³ = z⁴·(z²·z). Smooth coloring: log₂(7).
 // Supports normal-map shading (colorScheme 50-63).
@@ -51,7 +51,7 @@ void main() {
 
   int schemeInt = int(uColorScheme);
   vec2 z   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 c   = vec2(-0.20, 0.70);  // fixed Julia parameter
+  vec2 c   = vec2(-0.40, 0.60);  // fixed Julia parameter
   vec2 der = vec2(1.0, 0.0);
 
   float bailoutSq = uBailout * uBailout;

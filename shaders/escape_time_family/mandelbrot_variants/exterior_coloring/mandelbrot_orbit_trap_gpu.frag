@@ -113,7 +113,8 @@ void main() {
   vec2 z   = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
-  const int MAX_ITERS = 2000;
+  // ponytail: orbit-trap geometry is per-iteration SDF; cap for live catalog rendering.
+  const int MAX_ITERS = 160;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 

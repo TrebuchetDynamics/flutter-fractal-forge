@@ -81,12 +81,18 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   int schemeInt = int(uColorScheme);
-  vec2 c = uv / max(uZoom, 1e-6) + uCenter;
-  vec2 z = uv / max(uZoom, 1e-6) + uCenter;
+  // Keep the standard Burning Ship upright orientation while preserving the
+  // shared screen-pan convention: display y is flipped before the recurrence,
+  // and the center is flipped by the same transform.
+  vec2 z = vec2(uv.x, -uv.y) / max(uZoom, 1e-6) +
+           vec2(uCenter.x, -uCenter.y);
   vec2 cSeed = vec2(-0.52, -0.42);
   // dz/dz0 derivative. Burning Ship Julia: z = abs(z)^2 + cSeed.
   // dw/dz0 = (sign(z.x)*der.x, sign(z.y)*der.y); der = 2*cmul(abs(z), dw)
   vec2 der = vec2(1.0, 0.0);
+  float trap = 1e9;
+  float orbit = 0.0;
+  float stripe = 0.0;
 
   float bailoutSq = max(4.0, uBailout * uBailout);
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
@@ -99,14 +105,24 @@ void main() {
     vec2 derw = vec2(sign(z.x) * der.x, sign(z.y) * der.y);
     der = 2.0 * cmul(za, derw);
     z = cpow2(za) + cSeed;
-    if (dot(z, z) > bailoutSq) { it = j; break; }
+
+    float mag2 = dot(z, z);
+    trap = min(trap, min(min(abs(z.x), abs(z.y)), abs(sqrt(mag2) - 1.0)));
+    orbit += exp(-1.7 * mag2);
+    stripe += 0.5 + 0.5 * sin(8.0 * atan(z.y, z.x) + 0.35 * float(j));
+    if (mag2 > bailoutSq) { it = j; break; }
   }
+
+  float sampleCount = max(1.0, float(it));
+  float orbitAvg = orbit / sampleCount;
+  float stripeAvg = stripe / sampleCount;
+  float trapGlow = exp(-9.0 * trap);
 
   if (it >= target) {
     float phase = atan(z.y, z.x) / 6.28318530718 + 0.5;
-    float folds = smoothstep(0.34, 0.50, abs(sin(10.0 * z.x - 12.0 * z.y + 18.0 * uv.x + 7.0 * uv.y)));
-    float tBound = fract(phase + 0.20 * folds + 0.08 * length(z) + uTime * 0.0001);
-    vec3 col = getPaletteColor(tBound, schemeInt) * (0.60 + 0.40 * folds);
+    float tBound = fract(phase + 0.34 * orbitAvg + 0.24 * trapGlow + 0.12 * stripeAvg + uTime * 0.0001);
+    vec3 col = getPaletteColor(tBound, schemeInt) * (0.46 + 0.34 * orbitAvg + 0.20 * trapGlow);
+    col += 0.16 * vec3(trapGlow, orbitAvg, stripeAvg);
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
@@ -131,6 +147,8 @@ void main() {
     return;
   }
 
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(getPaletteColor(t, schemeInt)), 1.0);
+  float folds = smoothstep(0.26, 0.54, abs(sin(11.0 * z.x - 13.0 * z.y + 17.0 * uv.x + 5.0 * uv.y)));
+  float t = fract(smoothVal / 56.0 + 0.10 * folds + 0.08 * trapGlow + 0.05 * orbitAvg + uTime * 0.0001);
+  vec3 col = getPaletteColor(t, schemeInt) * (0.56 + 0.26 * folds + 0.18 * trapGlow);
+  fragColor = vec4(linearToSRGB(col), 1.0);
 }

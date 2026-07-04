@@ -87,6 +87,8 @@ void main() {
   int steps = int(clamp(uIterations + uTime * 0.015, 1.0, 96.0));
   vec2 cell = floor(p * 70.0);
   float state = greenbergHastingsState(cell, steps, threshold, refractoryPeriod);
+  float waveFront = abs(sin(0.22 * length(cell) + 0.35 * atan(cell.y, cell.x) + float(steps) * 0.18));
+  if (state < 0.5 && waveFront < 0.055) state = 1.0;
 
   vec3 color = vec3(0.015, 0.018, 0.03);
   if (state >= 0.5 && state < 1.5) {
@@ -96,6 +98,7 @@ void main() {
     color = palette(0.55 + 0.35 * t, int(uColorScheme)) * (0.35 + 0.5 * t);
   }
 
+  color *= 0.82 + 0.35 * hash12(cell + vec2(state, waveFront));
   if (length(color) < 0.02 && uTransparentBg > 0.5) {
     fragColor = vec4(0.0);
     return;

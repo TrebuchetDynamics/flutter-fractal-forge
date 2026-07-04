@@ -85,13 +85,14 @@ void main() {
   
   float angle = 0.3 + 0.15 * sin(uTime * 0.0003);
   
-  int iters = int(clamp(uIterations, 10.0, 500.0));
+  int iters = int(clamp(uIterations, 10.0, 48.0));
   
   float density = 0.0;
   float totalWeight = 0.0;
   
-  for (int seed = 0; seed < 64; seed++) {
-    float seedF = float(seed) / 64.0;
+  // ponytail: per-pixel RK4 is the ceiling here; 6 short orbits keep the catalog renderer usable.
+  for (int seed = 0; seed < 6; seed++) {
+    float seedF = float(seed) / 6.0;
     
     float theta = hash21(vec2(seedF, 0.0)) * 2.0 * PI;
     float phi = hash21(vec2(seedF, 1.0)) * PI;
@@ -105,19 +106,19 @@ void main() {
     
     float orbitWeight = 1.0;
     
-    for (int i = 0; i < 300; i++) {
+    for (int i = 0; i < 64; i++) {
       if (i >= iters) break;
       
       p = rk4Step(p, dt, a, b, c, d, e, f);
       
       vec3 proj = project3Dto2D(p, angle);
-      vec2 screenPos = proj.xy / uZoom + uCenter;
+      vec2 screenPos = (proj.xy - uCenter) * uZoom;
       
       float dist = length(uv - screenPos);
       float influence = exp(-dist * dist * 800.0) * orbitWeight;
       
       float t = float(i) / float(iters);
-      float phase = float(seed) / 64.0 + t * 0.5 + uTime * 0.00005;
+      float phase = float(seed) / 6.0 + t * 0.5 + uTime * 0.00005;
       density += influence * getPaletteColor(phase, int(uColorScheme)).r;
       totalWeight += influence;
       
@@ -129,8 +130,8 @@ void main() {
   
   vec3 col = getPaletteColor(density * 3.0 + uTime * 0.0001, int(uColorScheme));
   
-  col = pow(col, vec3(0.9));
-  col *= 1.2;
+  col = pow(col, vec3(0.8));
+  col *= 1.25 + 0.12 * sin(19.0 * uv.x + 23.0 * uv.y);
   
   fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.95 : 1.0);
 }

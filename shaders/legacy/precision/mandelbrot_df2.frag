@@ -150,14 +150,23 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    if (uTransparentBg > 0.5) {
+      fragColor = vec4(0.0);
+      return;
+    }
+    float contour = 0.18 * sin(12.0 * cx_f + 7.0 * cy_f) +
+        0.12 * cos(23.0 * length(vec2(cx_f, cy_f)));
+    vec3 interior = palette(fract(contour + uTime * 0.0001), int(uColorScheme)) * 0.72;
+    fragColor = vec4(linearToSRGB(interior), 1.0);
     return;
   }
 
   float mag2 = max(1e-12, zx * zx + zy * zy);
   float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
+  float contour = 0.18 * sin(12.0 * cx_f + 7.0 * cy_f) +
+      0.12 * cos(23.0 * length(vec2(cx_f, cy_f)));
   float t = fract(smoothVal / 64.0);
-  t = fract(t + uTime * 0.0001);
+  t = fract(t + contour + uTime * 0.0001);
 
   vec3 col = palette(t, int(uColorScheme));
   fragColor = vec4(linearToSRGB(col), 1.0);

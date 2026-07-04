@@ -73,15 +73,20 @@ void main() {
     if (r2 > bailoutSq) { it = i + 1; break; }
   }
 
+  float contour = 0.18 * sin(9.0 * p.x + 5.0 * p.y) +
+      0.12 * cos(17.0 * length(p));
+
   if (it >= target) {
-    float t = fract((density / float(target)) * 2.0 + 0.08 * atan(y, x) + uTime * 0.00004);
-    vec3 col = getPaletteColor(t, int(uColorScheme));
+    float t = fract((density / float(target)) * 2.0 + 0.08 * atan(y, x) +
+        contour + uTime * 0.00004);
+    vec3 col = getPaletteColor(t, int(uColorScheme)) * (0.72 + 0.38 * abs(contour));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 
   float r2 = max(1e-10, x * x + y * y + z * z);
   float smoothVal = float(it) - log2(log2(r2 + 1.0));
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
+  float t = fract(smoothVal / 64.0 + contour + uTime * 0.0001);
+  fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme)) *
+      (0.72 + 0.38 * abs(contour))), 1.0);
 }

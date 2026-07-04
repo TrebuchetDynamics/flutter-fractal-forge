@@ -67,7 +67,8 @@ void main() {
   vec2 z = uv / max(0.000001, uZoom) + uCenter;
   float alpha = uAlpha;
 
-  const int MAX_ITERS = 500;
+  // ponytail: high-order root methods converge quickly; cap for catalog rendering.
+  const int MAX_ITERS = 80;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
@@ -98,7 +99,19 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    vec2 r0 = vec2(1.0, 0.0);
+    vec2 r1 = vec2(-0.5, 0.86602540378);
+    vec2 r2 = vec2(-0.5, -0.86602540378);
+    float d0 = dot(z - r0, z - r0);
+    float d1 = dot(z - r1, z - r1);
+    float d2 = dot(z - r2, z - r2);
+    float rootPhase = 0.0;
+    if (d1 < d0 && d1 < d2) rootPhase = 0.3333333;
+    else if (d2 < d0 && d2 < d1) rootPhase = 0.6666667;
+    float edge = exp(-8.0 * min(d0, min(d1, d2)));
+    float tBound = fract(rootPhase + 0.15 * edge + 0.04 * log(1.0 + dot(z, z)) + uTime * 0.0001);
+    vec3 color = palette(tBound, int(uColorScheme)) * (0.45 + 0.55 * edge);
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

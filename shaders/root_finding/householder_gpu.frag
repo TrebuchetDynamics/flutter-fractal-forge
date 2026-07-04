@@ -106,6 +106,10 @@ void main() {
   if (d1 < d0 && d1 < d2) rootPhase = 0.3333333;
   else if (d2 < d0 && d2 < d1) rootPhase = 0.6666667;
 
-  float t = fract(float(it) / max(1.0, uIterations) + rootPhase + uTime * 0.0001);
-  fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
+  float nearest = min(d0, min(d1, d2));
+  float second = max(min(d0, d1), min(max(d0, d1), d2));
+  float boundary = 1.0 - smoothstep(0.0, 0.10, (second - nearest) / max(second + nearest, 1e-9));
+  float t = fract(float(it) / max(1.0, uIterations) + rootPhase + 0.18 * boundary + uTime * 0.0001);
+  vec3 color = palette(t, int(uColorScheme)) * (0.72 + 0.45 * boundary);
+  fragColor = vec4(linearToSRGB(color), 1.0);
 }

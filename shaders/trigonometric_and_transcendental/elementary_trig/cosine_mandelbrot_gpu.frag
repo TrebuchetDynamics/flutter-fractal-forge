@@ -28,7 +28,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 220;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -58,11 +58,11 @@ vec2 cdiv(vec2 a, vec2 b) {
 vec2 clogSafe(vec2 z) { return vec2(log(max(length(z), 1e-12)), atan(z.y, z.x)); }
 
 vec2 csin(vec2 z) {
-  float y = clamp(z.y, -20.0, 20.0);
+  float y = clamp(z.y, -12.0, 12.0);
   return vec2(sin(z.x)*cosh(y), cos(z.x)*sinh(y));
 }
 vec2 ccos(vec2 z) {
-  float y = clamp(z.y, -20.0, 20.0);
+  float y = clamp(z.y, -12.0, 12.0);
   return vec2(cos(z.x)*cosh(y), -sin(z.x)*sinh(y));
 }
 
@@ -87,24 +87,34 @@ void main() {
   float bailoutSq = max(4.0, uBailout * uBailout);
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = target;
+  bool needsDerivative = schemeInt >= 50;
+  float orbit = 0.0;
+  float trap = 1e9;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
-    // Clamp before transcendental to prevent cosh overflow
-    vec2 zc = vec2(clamp(z.x, -20.0, 20.0), clamp(z.y, -20.0, 20.0));
+    // Clamp before transcendental to prevent cosh overflow.
+    vec2 zc = vec2(clamp(z.x, -12.0, 12.0), clamp(z.y, -12.0, 12.0));
     int variant = int(uVariant);
-    float eps = 1e-4;
     vec2 f0 = evalVariant(zc, c, variant);
-    vec2 dFdz = (evalVariant(zc + vec2(eps, 0.0), c, variant) -
-                 evalVariant(zc - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
-    der = cmul(dFdz, der) + vec2(1.0, 0.0);
+    if (needsDerivative) {
+      float eps = 1e-4;
+      vec2 dFdz = (evalVariant(zc + vec2(eps, 0.0), c, variant) -
+                   evalVariant(zc - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
+      der = cmul(dFdz, der) + vec2(1.0, 0.0);
+    }
     z = f0;
     float mag2 = dot(z, z);
+    orbit += exp(-0.35 * mag2);
+    trap = min(trap, min(abs(z.x), abs(z.y)));
     if (mag2 > bailoutSq || mag2 != mag2) { it = j; break; }
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float n = clamp(orbit / max(1.0, float(target)), 0.0, 1.0);
+    float tBound = fract(0.7 * n - 0.12 * log(max(trap, 1e-6)) + float(int(uVariant)) * 0.17 + uTime * 0.0001);
+    vec3 col = getPaletteColor(tBound, schemeInt) * (0.35 + 0.65 * n);
+    fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 

@@ -22,7 +22,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 220;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -79,7 +79,9 @@ void main() {
     z += dt * dz;
 
     float r2 = x * x + y * y + 0.06 * z * z;
-    density += exp(-0.08 * (x * x + y * y)) + 0.08 * exp(-0.35 * abs(z));
+    float xy2 = x * x + y * y;
+    // ponytail: hot-loop exp proxies keep density bands without SFU cost.
+    density += 1.0 / (1.0 + 0.08 * xy2 + 0.01 * xy2 * xy2) + 0.08 / (1.0 + 0.35 * abs(z));
     if (r2 > bailoutSq) {
       it = i + 1;
       break;
@@ -90,15 +92,16 @@ void main() {
     float angle = atan(y, x);
     float bands = smoothstep(0.45, 0.55, fract(7.0 * angle + 0.035 * z + 18.0 * density / float(target)));
     float ribs = smoothstep(0.38, 0.50, abs(sin(16.0 * p.x + 13.0 * p.y + 0.08 * z)));
-    float t = fract((density / float(target)) * 3.4 + 0.12 * angle + 0.18 * ribs + uTime * 0.00005);
+    float t = fract((density / float(target)) * 6.0 + 0.18 * angle + 0.24 * ribs + 0.04 * sin(37.0 * p.x + 29.0 * p.y) + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
     col *= 0.62 + 0.38 * max(bands, ribs);
+    col *= 0.9 + 0.1 * sin(37.0 * p.x + 29.0 * p.y + 0.03 * z);
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }
 
   float r2 = max(1e-10, x * x + y * y + z * z);
   float smoothVal = float(it) - log2(log2(r2 + 1.0));
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
+  float t = fract(smoothVal / 64.0 + 0.04 * sin(37.0 * p.x + 29.0 * p.y) + uTime * 0.0001);
   fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
 }

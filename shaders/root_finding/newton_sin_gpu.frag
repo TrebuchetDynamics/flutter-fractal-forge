@@ -65,6 +65,7 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   vec2 z = uv / max(0.000001, uZoom) + uCenter;
+  vec2 z0 = z;
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
   int it = 0;
@@ -88,6 +89,9 @@ void main() {
   }
 
   float phase = fract(z.x / 3.14159265);
-  float t = fract(float(it) / max(1.0, uIterations) + phase + 0.5 * exp(-40.0 * trap) + uTime * 0.0001);
+  float contour = 0.18 * sin(10.0 * z0.x) + 0.12 * cos(8.0 * z0.y) +
+      0.10 * sin(24.0 * length(z0));
+  float t = fract(float(it) / max(1.0, uIterations) + phase +
+      0.5 * exp(-40.0 * trap) + contour + uTime * 0.0001);
   fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
 }

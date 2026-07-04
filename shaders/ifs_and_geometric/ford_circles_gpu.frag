@@ -22,7 +22,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 220;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -56,18 +56,19 @@ void main() {
   p.y = p.y * 2.5 + 0.55;
 
   int target = int(clamp(uIterations, 8.0, float(MAX_ITERS)));
-  int qMax = int(clamp(float(target) * 0.35, 8.0, 64.0));
+  // ponytail: denominator scan is quadratic; 32 keeps the visible Ford structure fast.
+  int qMax = int(clamp(float(target) * 0.25, 8.0, 32.0));
 
   float best = 1e9;
   float bestQ = 1.0;
   float fill = 0.0;
 
-  for (int q = 1; q <= 64; q++) {
+  for (int q = 1; q <= 32; q++) {
     if (q > qMax) break;
     float fq = float(q);
     float r = 1.0 / (2.0 * fq * fq);
 
-    for (int pNum = 0; pNum <= 64; pNum++) {
+    for (int pNum = 0; pNum <= 32; pNum++) {
       if (pNum > q) break;
       float fp = float(pNum);
       float x = fp / fq;

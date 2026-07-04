@@ -58,7 +58,7 @@ void main() {
 
   vec2 z = uv / max(0.000001, uZoom) + uCenter;
 
-  const int MAX_ITERS = 500;
+  const int MAX_ITERS = 120;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
@@ -76,8 +76,9 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0,0.0,0.0,1.0);
-    return;
+    // Randomized high iteration counts can leave slow basin-boundary pixels
+    // unconverged; still color by nearest root instead of returning black.
+    it = target > 0 ? target - 1 : 0;
   }
 
   // 3 roots at cube roots of unity

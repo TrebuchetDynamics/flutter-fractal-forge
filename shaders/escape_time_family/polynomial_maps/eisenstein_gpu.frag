@@ -75,6 +75,8 @@ void main() {
   vec2 z = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
+  float trap = 1e9;
+  float orbit = 0.0;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
@@ -88,13 +90,19 @@ void main() {
     if (dot(raw, raw) > bailoutSq) { it = j; break; }
 
     z = eisensteinWrap(raw);
-    if (dot(z, z) > bailoutSq * 0.25) { it = j; break; }
+    float cellMag2 = dot(z, z);
+    trap = min(trap, cellMag2);
+    orbit += exp(-8.0 * cellMag2);
+    if (cellMag2 > bailoutSq * 0.25) { it = j; break; }
 
     it = j + 1;
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float n = clamp(orbit / max(1.0, float(target)), 0.0, 1.0);
+    float t = fract(0.62 - 0.18 * log(max(trap, 1e-6)) + 0.70 * n);
+    vec3 col = linearToSRGB(palette(t, int(uColorScheme)) * (0.35 + 0.65 * n));
+    fragColor = (uTransparentBg > 0.5) ? vec4(col, max(0.15, n)) : vec4(col, 1.0);
     return;
   }
 

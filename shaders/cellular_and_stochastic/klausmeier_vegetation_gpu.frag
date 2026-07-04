@@ -38,7 +38,9 @@ float hash12(vec2 p) {
 }
 
 float terrain(vec2 p) {
-  return 0.5 + 0.5 * sin(9.0 * p.x + 2.2 * sin(5.0 * p.y));
+  float bands = sin(9.0 * p.x + 2.2 * sin(5.0 * p.y));
+  float crossBands = sin(21.0 * (p.x + 0.28 * p.y) + 1.6 * sin(3.0 * p.y));
+  return 0.5 + 0.34 * bands + 0.16 * crossBands;
 }
 
 void main() {
@@ -53,9 +55,10 @@ void main() {
   float plantDiffusion = clamp(uPlantDiffusion, 0.0, 5.0);
   float advection = clamp(uAdvection, 0.0, 2.0);
 
-  float u = 0.18 + 0.08 * hash12(floor(p * 80.0));
-  float w = rainfall + 0.15 * terrain(p * 1.7);
-  float dt = 0.018;
+  float baseTerrain = terrain(p * 1.7);
+  float u = 0.12 + 0.12 * hash12(floor(p * 96.0)) + 0.10 * baseTerrain;
+  float w = rainfall + 0.24 * baseTerrain;
+  float dt = 0.022;
   int steps = int(clamp(uIterations, 1.0, 96.0));
 
   for (int i = 0; i < 96; i++) {
@@ -72,12 +75,14 @@ void main() {
     w = clamp(w, 0.0, 8.0);
   }
 
-  float biomass = smoothstep(0.05, 1.4, u);
-  vec3 dry = vec3(0.42, 0.30, 0.16);
-  vec3 grass = vec3(0.08, 0.42, 0.13);
-  vec3 lush = vec3(0.35, 0.75, 0.24);
-  vec3 color = mix(dry, mix(grass, lush, smoothstep(0.7, 1.8, u)), biomass);
-  color += 0.12 * smoothstep(0.0, rainfall, w) * vec3(0.05, 0.10, 0.18);
+  float biomass = smoothstep(0.04, 1.15, u);
+  float ridge = smoothstep(0.05, 0.50, abs(terrain(p * 2.4) - 0.5) * 2.0);
+  vec3 dry = vec3(0.38, 0.26, 0.12);
+  vec3 grass = vec3(0.06, 0.38, 0.11);
+  vec3 lush = vec3(0.42, 0.82, 0.26);
+  vec3 color = mix(dry, mix(grass, lush, smoothstep(0.45, 1.45, u)), biomass);
+  color += 0.30 * ridge * vec3(0.20, 0.32, 0.08);
+  color += 0.14 * smoothstep(0.0, rainfall, w) * vec3(0.05, 0.10, 0.18);
 
   if (biomass < 0.01 && uTransparentBg > 0.5) {
     fragColor = vec4(0.0);

@@ -28,7 +28,8 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+// ponytail: tanh variants converge quickly; cap live-randomize cost.
+const int MAX_ITERS = 240;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -86,21 +87,31 @@ void main() {
   float bailoutSq = max(4.0, uBailout * uBailout);
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = target;
+  float trap = 1e9;
+  float orbit = 0.0;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) break;
     int variant = int(uVariant);
-    float eps = 1e-4;
     vec2 f0 = evalVariant(z, c, variant);
-    vec2 dFdz = (evalVariant(z + vec2(eps, 0.0), c, variant) -
-                 evalVariant(z - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
-    der = cmul(dFdz, der) + vec2(1.0, 0.0);
+    if (schemeInt >= 50) {
+      float eps = 1e-4;
+      vec2 dFdz = (evalVariant(z + vec2(eps, 0.0), c, variant) -
+                   evalVariant(z - vec2(eps, 0.0), c, variant)) / (2.0 * eps);
+      der = cmul(dFdz, der) + vec2(1.0, 0.0);
+    }
     z = f0;
-    if (dot(z, z) > bailoutSq) { it = j; break; }
+    float mag2 = dot(z, z);
+    trap = min(trap, min(abs(z.x), abs(z.y)));
+    orbit += exp(-2.0 * mag2);
+    if (mag2 > bailoutSq) { it = j; break; }
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float sechGlow = exp(-10.0 * trap);
+    float t = fract(6.0 * trap + orbit / max(1.0, float(target)) + 0.20 * sechGlow + 0.07 * atan(z.y, z.x) + uTime * 0.0001);
+    vec3 color = getPaletteColor(t, schemeInt) * (0.52 + 0.48 * sechGlow);
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.85 : 1.0);
     return;
   }
 

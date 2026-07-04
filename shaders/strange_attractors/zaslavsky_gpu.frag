@@ -86,15 +86,19 @@ void main() {
   }
 
   int cs = int(uColorScheme);
+  float contour = 0.18 * sin(9.0 * p0.x + 5.0 * p0.y) +
+      0.12 * cos(17.0 * length(p0));
+
   if (hit < target) {
-    float t = fract(float(hit) / float(target));
+    float t = fract(float(hit) / float(target) + contour);
     vec3 col = getPaletteColor(t, cs);
     fragColor = vec4(linearToSRGB(col), 1.0);
     return;
   }
 
   float d = clamp(orbit / float(target), 0.0, 1.0);
-  vec3 col = getPaletteColor(fract(0.7 * d + 0.00008 * uTime), cs);
+  vec3 col = getPaletteColor(fract(0.7 * d + contour + 0.00008 * uTime), cs);
+  col *= 0.75 + 0.45 * abs(contour);
   float alpha = (uTransparentBg > 0.5) ? 0.92 : 1.0;
   fragColor = vec4(linearToSRGB(col), alpha);
 }

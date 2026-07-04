@@ -81,6 +81,8 @@ void main() {
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float trap = 1e9;
+  float orbit = 0.0;
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
@@ -104,12 +106,18 @@ void main() {
 
     z = cmul(q, q);
 
-    if (dot(z, z) > bailoutSq) { it = j; break; }
+    float mag2 = dot(z, z);
+    trap = min(trap, min(abs(z.x), abs(z.y)));
+    orbit += exp(-2.0 * mag2);
+    if (mag2 > bailoutSq) { it = j; break; }
     it = j + 1;
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float basinGlow = exp(-10.0 * trap);
+    float t = fract(orbit / max(1.0, float(target)) + 0.20 * basinGlow + 0.07 * atan(z.y, z.x) + uTime * 0.0001);
+    vec3 color = palette(t, schemeInt) * (0.52 + 0.48 * basinGlow);
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.85 : 1.0);
     return;
   }
 

@@ -58,10 +58,15 @@ void main() {
   float bailoutSq = uBailout * uBailout;
 
   int it = target;
+  float trap = 1e9;
+  float orbit = 0.0;
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
     z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
-    if (dot(z, z) > bailoutSq) {
+    float mag2 = dot(z, z);
+    trap = min(trap, min(abs(z.x), abs(z.y)));
+    orbit += exp(-2.0 * mag2);
+    if (mag2 > bailoutSq) {
       it = i;
       break;
     }
@@ -70,7 +75,10 @@ void main() {
   // Approximate Buddhabrot feel: escaped points colored by escape delay,
   // with inverted palette (later escape => brighter).
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float interiorGlow = exp(-10.0 * trap);
+    float t = fract(orbit / max(1.0, float(target)) + 0.18 * interiorGlow + uTime * 0.0001);
+    vec3 color = getPaletteColor(t, int(uColorScheme)) * (0.45 + 0.45 * interiorGlow);
+    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.85 : 1.0);
     return;
   }
 

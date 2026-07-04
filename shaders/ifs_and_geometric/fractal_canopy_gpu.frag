@@ -70,7 +70,8 @@ void main() {
 
   int target = int(clamp(uIterations, 8.0, float(MAX_ITERS)));
   // Hard cap recursion depth to avoid exponential explosion on device GPUs.
-  int depthMax = int(clamp(float(target) * 0.08 + 4.0, 4.0, 8.0));
+  // ponytail: one less depth halves branch SDF work with similar silhouette.
+  int depthMax = int(clamp(float(target) * 0.06 + 4.0, 4.0, 7.0));
   float branchAngle = mix(0.32, 0.78, clamp((uBailout - 2.0) / 6.0, 0.0, 1.0));
 
   float trap = 1e9;
@@ -82,7 +83,7 @@ void main() {
     branchCount *= 2;
   }
 
-  const int MAX_BRANCHES = 256;
+  const int MAX_BRANCHES = 128;
   branchCount = int(min(float(branchCount), float(MAX_BRANCHES)));
   for (int i = 0; i < MAX_BRANCHES; i++) {
     if (i >= branchCount) break;
@@ -92,7 +93,7 @@ void main() {
     float len = 0.75;
     float idx = float(i);
 
-    for (int d = 0; d < 8; d++) {
+    for (int d = 0; d < 7; d++) {
       if (d >= depthMax) break;
 
       vec2 dir = vec2(cos(ang), sin(ang));

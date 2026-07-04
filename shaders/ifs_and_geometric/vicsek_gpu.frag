@@ -84,7 +84,13 @@ void main() {
   }
 
   if (kept < 0.5) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    if (uTransparentBg > 0.5) {
+      fragColor = vec4(0.0);
+    } else {
+      float bgT = fract(0.18 * sin(17.0 * p.x + 11.0 * p.y) + 0.16 * length(p));
+      vec3 bg = getPaletteColor(bgT, int(uColorScheme)) * 0.24;
+      fragColor = vec4(linearToSRGB(bg), 1.0);
+    }
     return;
   }
 

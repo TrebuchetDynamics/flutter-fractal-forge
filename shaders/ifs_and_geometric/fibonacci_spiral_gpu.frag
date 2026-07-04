@@ -62,32 +62,23 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   vec2 p = uv / max(0.000001, uZoom) + uCenter;
-  float golden = 2.39996323;
-  float phi = 1.61803399;
+  float r = length(p) + 1e-9;
+  float theta = atan(p.y, p.x);
 
-  const int MAX_ITERS = 500;
-  int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int depth = int(clamp(float(target / 18 + 1), 1.0, 18.0));
+  // Golden logarithmic spiral: each quarter turn grows by phi.
+  const float LOG_PHI = 0.4812118251;
+  const float PI = 3.1415926536;
+  float pitch = LOG_PHI / (0.5 * PI);
+  float fullTurn = pitch * 2.0 * PI;
+  float phase = (log(r) - pitch * theta) / fullTurn;
+  float band = abs(fract(phase + 0.5) - 0.5) * fullTurn;
 
-  float trap = 1e9;
-  float level = 0.0;
-  vec2 q = p;
-
-  for (int i = 0; i < 18; i++) {
-    if (i >= depth) break;
-    float fi = float(i);
-    float radius = 0.08 * pow(phi, fi * 0.35);
-    float ang = fi * golden;
-    vec2 seed = radius * vec2(cos(ang), sin(ang));
-    trap = min(trap, length(q - seed));
-    q = (q - seed) * phi;
-    level = fi / float(depth);
-  }
-
-  float glow = exp(-24.0 * trap);
-  float spiral = smoothstep(0.20, 0.55, abs(sin(8.0 * atan(p.y, p.x) + 14.0 * log(1.0 + length(p)) + 10.0 * level)));
-  float t = fract(level + 0.6 * glow + 0.18 * spiral + uTime * 0.0001);
+  float line = exp(-520.0 * band * band);
+  float halo = exp(-70.0 * band * band);
+  float scaleRings = 0.5 + 0.5 * cos(2.0 * PI * log(r) / LOG_PHI);
+  float t = fract(0.22 * log(r) + 0.45 * theta / PI + uTime * 0.0001);
   vec3 color = palette(t, int(uColorScheme));
-  float intensity = max(0.18 * spiral, 0.45 + 1.1 * glow);
-  fragColor = vec4(linearToSRGB(color * intensity), uTransparentBg > 0.5 && glow < 0.01 ? 0.9 : 1.0);
+  float intensity = 0.08 + 0.30 * scaleRings + 0.75 * halo + 1.25 * line;
+  float alpha = uTransparentBg > 0.5 ? clamp(halo + line, 0.0, 1.0) : 1.0;
+  fragColor = vec4(linearToSRGB(color * intensity), alpha);
 }

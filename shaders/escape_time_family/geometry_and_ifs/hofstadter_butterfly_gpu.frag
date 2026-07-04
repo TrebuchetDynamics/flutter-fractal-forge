@@ -74,13 +74,14 @@ void main() {
   float alpha = p.x;
   float E = p.y;
 
-  int maxQ = int(clamp(uIterations, 10.0, 200.0));
+  // ponytail: transfer-matrix scan is O(Q^2) per pixel; cap for live catalog rendering.
+  int maxQ = int(clamp(uIterations, 10.0, 32.0));
 
   float minTrace = 1e10;
   float bestQ = 0.0;
 
   // Check multiple rational approximations
-  for (int Q = 2; Q < 200; Q++) {
+  for (int Q = 2; Q < 32; Q++) {
     if (Q > maxQ) break;
 
     // For this Q, compute P = round(alpha * Q)
@@ -96,7 +97,7 @@ void main() {
     float m00 = 1.0, m01 = 0.0;
     float m10 = 0.0, m11 = 1.0;
 
-    for (int n = 1; n <= 200; n++) {
+    for (int n = 1; n <= 32; n++) {
       if (n > Q) break;
 
       float diag = E - 2.0 * cos(6.28318 * float(n) * ratAlpha);

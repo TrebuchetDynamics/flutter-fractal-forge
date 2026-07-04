@@ -22,7 +22,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 120;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -72,12 +72,13 @@ void main() {
   vec2 query = vec2(p.x * 3.0, (p.y + 0.2) * 5.0);
 
   int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  int steps = int(clamp(float(target * 2), 24.0, 500.0));
+  // ponytail: stochastic fern density converges enough for thumbnails well below 500 samples.
+  int steps = int(clamp(float(target), 24.0, 120.0));
   float bailout = max(4.0, uBailout);
 
   vec2 z = vec2(0.0);
   float density = 0.0;
-  float trap = 1e9;
+  float trapSq = 1e9;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= steps) break;
@@ -89,13 +90,14 @@ void main() {
       z *= 0.5;
     }
 
-    float d = length(z - query);
-    trap = min(trap, d);
-    density += exp(-10.0 * d);
+    vec2 dz = z - query;
+    float d2 = dot(dz, dz);
+    trapSq = min(trapSq, d2);
+    density += 1.0 / (1.0 + 35.0 * d2);
   }
 
-  float edge = exp(-9.0 * trap);
-  float signal = density / float(steps) * 2.5 + edge;
+  float edge = exp(-9.0 * sqrt(trapSq));
+  float signal = density / float(steps) * 3.0 + edge;
 
   if (signal < 0.05) {
     fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);

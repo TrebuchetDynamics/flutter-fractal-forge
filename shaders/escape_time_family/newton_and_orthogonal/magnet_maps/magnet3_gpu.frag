@@ -32,7 +32,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 220;
 
 // colorScheme 0-49: standard palette coloring.
 // colorScheme 50-63: normal-map (bas-relief) mode — 14 light angles × 4 base palettes.
@@ -90,6 +90,7 @@ void main() {
 
   float bailoutSq = uBailout * uBailout;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
+  bool needsDerivative = schemeInt >= 50;
   int it = 0;
   float trap = 1e6;
   float orbit = 0.0;
@@ -106,22 +107,24 @@ void main() {
     vec2 q   = cdivSafe(num, den);
 
     // Quotient-rule derivative dz/dp
-    vec2 dnum = cmul(4.0 * z3 + 2.0 * cmul(kA, z), der);
-    vec2 dden = cmul(3.0 * cmul(kC, z2) + kD, der);
-    vec2 dq   = cdivSafe(cmul(dnum, den) - cmul(num, dden), cmul(den, den));
-    der = 2.0 * cmul(q, dq) + vec2(0.12, 0.0);
+    if (needsDerivative) {
+      vec2 dnum = cmul(4.0 * z3 + 2.0 * cmul(kA, z), der);
+      vec2 dden = cmul(3.0 * cmul(kC, z2) + kD, der);
+      vec2 dq   = cdivSafe(cmul(dnum, den) - cmul(num, dden), cmul(den, den));
+      der = 2.0 * cmul(q, dq) + vec2(0.12, 0.0);
+    }
 
     z = cmul(q, q) + 0.12 * p;
 
     float mag2 = dot(z, z);
-    trap = min(trap, min(length(den), length(z - p)));
-    orbit += exp(-mag2);
+    trap = min(trap, min(dot(den, den), dot(z - p, z - p)));
+    orbit += 1.0 / (1.0 + mag2 + 0.25 * mag2 * mag2);
     if (mag2 > bailoutSq) { it = j; break; }
     it = j + 1;
   }
 
   if (it >= target) {
-    float ridge = exp(-8.0 * trap);
+    float ridge = exp(-8.0 * sqrt(trap));
     float t = fract(0.45 * ridge + orbit / max(1.0, float(target)) + 0.09 * atan(z.y, z.x) + uTime * 0.00005);
     vec3 col = palette(t, schemeInt) * (0.55 + 0.45 * ridge);
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.85 : 1.0);

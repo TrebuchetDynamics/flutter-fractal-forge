@@ -50,9 +50,11 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5*uResolution) / max(1.0, scale);
 
-  // Flip Y for upright orientation (same as quadratic Burning Ship).
+  // Flip Y for upright orientation, but apply center in screen-pan space so
+  // vertical drags follow the shared 2D gesture convention.
   int schemeInt = int(uColorScheme);
-  vec2 c   = vec2(uv.x, -uv.y) / max(0.000001, uZoom) + uCenter;
+  vec2 c   = vec2(uv.x, -uv.y) / max(0.000001, uZoom) +
+             vec2(uCenter.x, -uCenter.y);
   vec2 z   = vec2(0.0);
   // Derivative dz/dc for normal-map shading.
   // w = (|z.x|, |z.y|)  →  dw/dc = (sign(z.x)*der.x, sign(z.y)*der.y)  [element-wise]

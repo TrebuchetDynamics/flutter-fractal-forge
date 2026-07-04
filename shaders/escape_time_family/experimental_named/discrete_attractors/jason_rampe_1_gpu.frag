@@ -27,7 +27,7 @@ vec3 linearToSRGB(vec3 lin) {
   return mix(hi, lo, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+const int MAX_ITERS = 220;
 
 vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
   return a + b * cos(6.28318 * (c * t + d));
@@ -75,12 +75,13 @@ void main() {
     y = ny;
 
     float r2 = x * x + y * y;
-    density += exp(-0.25 * r2);
+    // ponytail: hot-loop exp was the cost; rational falloff is enough for density color.
+    density += 1.0 / (1.0 + 0.25 * r2 + 0.03 * r2 * r2);
     if (r2 > bailoutSq) { it = i + 1; break; }
   }
 
   if (it >= target) {
-    float t = fract((density / float(target)) * 1.5 + uTime * 0.00005);
+    float t = fract((density / float(target)) * 8.0 + 0.08 * sin(31.0 * p.x + 23.0 * p.y) + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
@@ -88,6 +89,6 @@ void main() {
 
   float r2 = max(1e-12, x * x + y * y);
   float smoothVal = float(it) - log2(log2(r2));
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
+  float t = fract(smoothVal / 64.0 + 0.08 * sin(31.0 * p.x + 23.0 * p.y) + uTime * 0.0001);
   fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), 1.0);
 }
