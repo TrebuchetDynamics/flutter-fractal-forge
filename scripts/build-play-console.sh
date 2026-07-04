@@ -14,7 +14,10 @@ set -euo pipefail
 #                      android/play-upload-cert-sha1.txt.
 #   --no-verify-sha1   Skip upload certificate SHA1 verification.
 #   --skip-pub-get     Skip `flutter pub get` (build runs with --no-pub)
+#   --print-version    Print computed versionName/buildNumber and exit before build
 #   --help             Show help
+#
+# Default versionName is <pubspec major>.<pubspec minor>.<build-number> unless --build-name is passed.
 #
 # Any unknown argument is forwarded to:
 #   flutter build appbundle --release
@@ -27,6 +30,7 @@ export PATH="$HOME/.local/bin${FLUTTER_HOME:+:$FLUTTER_HOME/bin}:$PATH"
 OUTPUT_DIR="play-console-upload"
 RUN_PUB_GET=1
 VERIFY_SHA1=1
+PRINT_VERSION=0
 EXPECTED_SHA1="${PLAY_UPLOAD_CERT_SHA1:-}"
 FORWARDED_ARGS=()
 
@@ -46,7 +50,13 @@ Options:
   --expected-sha1 S  Expected upload certificate SHA1 fingerprint
   --no-verify-sha1   Skip upload certificate SHA1 verification
   --skip-pub-get     Skip `flutter pub get` (build runs with --no-pub)
+  --print-version    Print computed versionName/buildNumber and exit before build
   --help             Show this help
+
+Version behavior:
+  - If --build-name is provided, that value is used.
+  - Otherwise, versionName is <pubspec major>.<pubspec minor>.<build-number>.
+    Example: pubspec 1.1.0+38 and build number 58 => 1.1.58.
 
 Build number behavior:
   - If --build-number is provided, that value is used.
@@ -102,6 +112,107 @@ read_prop() {
       }
     }
   ' "$file"
+}
+
+version_name_from_build_number() {
+  local version="$1"
+  local build_number="$2"
+  if [[ "$version" =~ ^([0-9]+)\.([0-9]+)(\.[0-9]+)?$ ]]; then
+    echo "${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.$build_number"
+  else
+    echo "$version"
+  fi
+}
+
+resolve_versions() {
+  PUBSPEC_VERSION_FULL="$(awk '/^version:[[:space:]]*/ { print $2; exit }' "$PROJECT_ROOT/pubspec.yaml")"
+  PUBSPEC_VERSION_NAME="$PUBSPEC_VERSION_FULL"
+  if [[ "$PUBSPEC_VERSION_NAME" == *"+"* ]]; then
+    PUBSPEC_VERSION_NAME="${PUBSPEC_VERSION_NAME%%+*}"
+  fi
+
+  EXPLICIT_BUILD_NAME=""
+  EXPLICIT_BUILD_NUMBER=""
+  for ((i = 0; i < ${#FORWARDED_ARGS[@]}; i++)); do
+    arg="${FORWARDED_ARGS[$i]}"
+    case "$arg" in
+      --build-name)
+        if ((i + 1 >= ${#FORWARDED_ARGS[@]})); then
+          die "--build-name passed without a value"
+        fi
+        EXPLICIT_BUILD_NAME="${FORWARDED_ARGS[$((i + 1))]}"
+        ;;
+      --build-name=*)
+        EXPLICIT_BUILD_NAME="${arg#--build-name=}"
+        ;;
+      --build-number)
+        if ((i + 1 >= ${#FORWARDED_ARGS[@]})); then
+          die "--build-number passed without a value"
+        fi
+        EXPLICIT_BUILD_NUMBER="${FORWARDED_ARGS[$((i + 1))]}"
+        ;;
+      --build-number=*)
+        EXPLICIT_BUILD_NUMBER="${arg#--build-number=}"
+        ;;
+    esac
+  done
+
+  USED_BUILD_NUMBER=""
+  if [[ -n "$EXPLICIT_BUILD_NUMBER" ]]; then
+    [[ "$EXPLICIT_BUILD_NUMBER" =~ ^[0-9]+$ ]] || die "Invalid --build-number: $EXPLICIT_BUILD_NUMBER"
+    EXPLICIT_BUILD_NUMBER="$((10#$EXPLICIT_BUILD_NUMBER))"
+    if ((EXPLICIT_BUILD_NUMBER > 2100000000)); then
+      die "Build number $EXPLICIT_BUILD_NUMBER exceeds Play Console limit (2100000000)"
+    fi
+    USED_BUILD_NUMBER="$EXPLICIT_BUILD_NUMBER"
+    log "Using explicit build number: $USED_BUILD_NUMBER"
+  else
+    pubspec_build=""
+    if [[ "$PUBSPEC_VERSION_FULL" =~ \+([0-9]+)$ ]]; then
+      pubspec_build="$((10#${BASH_REMATCH[1]}))"
+    fi
+
+    last_build=""
+    if [[ -f "$LAST_BUILD_MARKER" ]]; then
+      last_build_raw="$(head -n 1 "$LAST_BUILD_MARKER" | tr -d '[:space:]')"
+      if [[ "$last_build_raw" =~ ^[0-9]+$ ]]; then
+        last_build="$((10#$last_build_raw))"
+      fi
+    fi
+
+    if [[ -n "$last_build" ]]; then
+      highest="$last_build"
+      sources=("last-script-run:$last_build")
+      if [[ -n "$pubspec_build" ]]; then
+        sources+=("pubspec:$pubspec_build")
+        if ((pubspec_build > highest)); then
+          highest="$pubspec_build"
+        fi
+      fi
+      USED_BUILD_NUMBER="$((highest + 1))"
+      log "Auto build number: $USED_BUILD_NUMBER (increment from ${sources[*]})"
+    elif [[ -n "$pubspec_build" ]]; then
+      USED_BUILD_NUMBER="$pubspec_build"
+      log "Auto build number: $USED_BUILD_NUMBER (initial from pubspec version +N)"
+    else
+      USED_BUILD_NUMBER="1"
+      log "Auto build number: $USED_BUILD_NUMBER (no pubspec +N and no previous builds)"
+    fi
+
+    if ((USED_BUILD_NUMBER > 2100000000)); then
+      die "Auto build number $USED_BUILD_NUMBER exceeds Play Console limit (2100000000)"
+    fi
+
+    FORWARDED_ARGS+=("--build-number=$USED_BUILD_NUMBER")
+  fi
+
+  USED_VERSION_NAME="${EXPLICIT_BUILD_NAME:-$(version_name_from_build_number "$PUBSPEC_VERSION_NAME" "$USED_BUILD_NUMBER")}"
+  if [[ -n "$EXPLICIT_BUILD_NAME" ]]; then
+    log "Using explicit version name: $USED_VERSION_NAME"
+  else
+    FORWARDED_ARGS+=("--build-name=$USED_VERSION_NAME")
+    log "Auto version name: $USED_VERSION_NAME (pubspec $PUBSPEC_VERSION_NAME major.minor + build $USED_BUILD_NUMBER)"
+  fi
 }
 
 resolve_store_file() {
@@ -175,6 +286,10 @@ while [[ $# -gt 0 ]]; do
       RUN_PUB_GET=0
       shift
       ;;
+    --print-version)
+      PRINT_VERSION=1
+      shift
+      ;;
     --help|-h)
       usage
       exit 0
@@ -203,6 +318,15 @@ RESTORE_REGISTRANT=0
 PLUGIN_DEPS_FILE="$PROJECT_ROOT/.flutter-plugins-dependencies"
 PLUGIN_DEPS_BACKUP=""
 RESTORE_PLUGIN_DEPS=0
+
+resolve_versions
+if [[ "$PRINT_VERSION" -eq 1 ]]; then
+  cat <<EOF
+versionName=$USED_VERSION_NAME
+buildNumber=$USED_BUILD_NUMBER
+EOF
+  exit 0
+fi
 
 command -v flutter >/dev/null 2>&1 || die "flutter not found in PATH"
 command -v find >/dev/null 2>&1 || die "find not found in PATH"
@@ -275,7 +399,7 @@ sanitize_release_plugin_deps() {
   PLUGIN_DEPS_BACKUP="$(mktemp)"
   cp "$PLUGIN_DEPS_FILE" "$PLUGIN_DEPS_BACKUP"
   RESTORE_PLUGIN_DEPS=1
-  python3 - "$PLUGIN_DEPS_FILE" <<'PY'
+  python3 - "$PLUGIN_DEPS_FILE" <<'PYJSON'
 import json
 import sys
 from pathlib import Path
@@ -288,7 +412,7 @@ for node in data.get("dependencyGraph", []):
     node["dependencies"] = [d for d in node.get("dependencies", []) if d != "integration_test"]
 data["dependencyGraph"] = [n for n in data.get("dependencyGraph", []) if n.get("name") != "integration_test"]
 path.write_text(json.dumps(data, separators=(",", ":")) + "\n")
-PY
+PYJSON
 
   if grep -q '"name"[[:space:]]*:[[:space:]]*"integration_test"' "$PLUGIN_DEPS_FILE"; then
     die "Failed to sanitize .flutter-plugins-dependencies for release build"
@@ -309,7 +433,7 @@ sanitize_release_registrant() {
   REGISTRANT_BACKUP="$(mktemp)"
   cp "$REGISTRANT_FILE" "$REGISTRANT_BACKUP"
   RESTORE_REGISTRANT=1
-  python3 - "$REGISTRANT_FILE" <<'PY'
+  python3 - "$REGISTRANT_FILE" <<'PYREG'
 import re
 import sys
 from pathlib import Path
@@ -326,7 +450,7 @@ text = re.sub(
     text,
 )
 path.write_text(text)
-PY
+PYREG
 
   if grep -q 'dev\.flutter\.plugins\.integration_test\.IntegrationTestPlugin()' "$REGISTRANT_FILE"; then
     die "Failed to sanitize GeneratedPluginRegistrant.java for release build"
@@ -356,77 +480,6 @@ FORWARDED_ARGS=("${SANITIZED_ARGS[@]}" "--no-pub")
 sanitize_release_plugin_deps
 sanitize_release_registrant
 
-PUBSPEC_VERSION_FULL="$(awk '/^version:[[:space:]]*/ { print $2; exit }' "$PROJECT_ROOT/pubspec.yaml")"
-PUBSPEC_VERSION_NAME="$PUBSPEC_VERSION_FULL"
-if [[ "$PUBSPEC_VERSION_NAME" == *"+"* ]]; then
-  PUBSPEC_VERSION_NAME="${PUBSPEC_VERSION_NAME%%+*}"
-fi
-
-EXPLICIT_BUILD_NUMBER=""
-for ((i = 0; i < ${#FORWARDED_ARGS[@]}; i++)); do
-  arg="${FORWARDED_ARGS[$i]}"
-  case "$arg" in
-    --build-number)
-      if ((i + 1 >= ${#FORWARDED_ARGS[@]})); then
-        die "--build-number passed without a value"
-      fi
-      EXPLICIT_BUILD_NUMBER="${FORWARDED_ARGS[$((i + 1))]}"
-      ;;
-    --build-number=*)
-      EXPLICIT_BUILD_NUMBER="${arg#--build-number=}"
-      ;;
-  esac
-done
-
-USED_BUILD_NUMBER=""
-if [[ -n "$EXPLICIT_BUILD_NUMBER" ]]; then
-  [[ "$EXPLICIT_BUILD_NUMBER" =~ ^[0-9]+$ ]] || die "Invalid --build-number: $EXPLICIT_BUILD_NUMBER"
-  EXPLICIT_BUILD_NUMBER="$((10#$EXPLICIT_BUILD_NUMBER))"
-  if ((EXPLICIT_BUILD_NUMBER > 2100000000)); then
-    die "Build number $EXPLICIT_BUILD_NUMBER exceeds Play Console limit (2100000000)"
-  fi
-  USED_BUILD_NUMBER="$EXPLICIT_BUILD_NUMBER"
-  log "Using explicit build number: $USED_BUILD_NUMBER"
-else
-  pubspec_build=""
-  if [[ "$PUBSPEC_VERSION_FULL" =~ \+([0-9]+)$ ]]; then
-    pubspec_build="$((10#${BASH_REMATCH[1]}))"
-  fi
-
-  last_build=""
-  if [[ -f "$LAST_BUILD_MARKER" ]]; then
-    last_build_raw="$(head -n 1 "$LAST_BUILD_MARKER" | tr -d '[:space:]')"
-    if [[ "$last_build_raw" =~ ^[0-9]+$ ]]; then
-      last_build="$((10#$last_build_raw))"
-    fi
-  fi
-
-  if [[ -n "$last_build" ]]; then
-    highest="$last_build"
-    sources=("last-script-run:$last_build")
-    if [[ -n "$pubspec_build" ]]; then
-      sources+=("pubspec:$pubspec_build")
-      if ((pubspec_build > highest)); then
-        highest="$pubspec_build"
-      fi
-    fi
-    USED_BUILD_NUMBER="$((highest + 1))"
-    log "Auto build number: $USED_BUILD_NUMBER (increment from ${sources[*]})"
-  elif [[ -n "$pubspec_build" ]]; then
-    USED_BUILD_NUMBER="$pubspec_build"
-    log "Auto build number: $USED_BUILD_NUMBER (initial from pubspec version +N)"
-  else
-    USED_BUILD_NUMBER="1"
-    log "Auto build number: $USED_BUILD_NUMBER (no pubspec +N and no previous builds)"
-  fi
-
-  if ((USED_BUILD_NUMBER > 2100000000)); then
-    die "Auto build number $USED_BUILD_NUMBER exceeds Play Console limit (2100000000)"
-  fi
-
-  FORWARDED_ARGS+=("--build-number=$USED_BUILD_NUMBER")
-fi
-
 log "Building release app bundle..."
 flutter build appbundle --release "${FORWARDED_ARGS[@]}"
 
@@ -443,7 +496,7 @@ LATEST_BUNDLE="$(
 [[ -n "$LATEST_BUNDLE" ]] || die "No .aab produced under $BUNDLE_ROOT"
 
 DATESTAMP="$(date +%Y-%m-%d)"
-VERSION_TAG="${PUBSPEC_VERSION_NAME:-unknown}"
+VERSION_TAG="${USED_VERSION_NAME:-unknown}"
 VERSION_TAG="${VERSION_TAG//[^0-9A-Za-z._-]/_}"
 ARTIFACT_NAME="fractal-forge-v${VERSION_TAG}-build${USED_BUILD_NUMBER}-${DATESTAMP}.aab"
 
@@ -457,7 +510,7 @@ fi
 printf '%s\n' "$DEST_AAB" > "$OUTPUT_DIR/LATEST_AAB.txt"
 printf '%s\n' "$USED_BUILD_NUMBER" > "$LAST_BUILD_MARKER"
 cat > "$OUTPUT_DIR/LATEST_BUILD_INFO.txt" <<EOF
-versionName=${PUBSPEC_VERSION_NAME:-unknown}
+versionName=$USED_VERSION_NAME
 buildNumber=$USED_BUILD_NUMBER
 signingSha1=$ACTUAL_SHA1_FMT
 sourceAab=$LATEST_BUNDLE

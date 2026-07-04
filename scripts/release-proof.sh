@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-FLUTTER_BIN="${FLUTTER_BIN:-/home/xel/flutter/bin/flutter}"
+FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 

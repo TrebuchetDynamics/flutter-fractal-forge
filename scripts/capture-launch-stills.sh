@@ -35,7 +35,7 @@ fi
 STILLS_GPU_ITER_CAP="${PLAYWRIGHT_CATALOG_SMOKE_MAX_GPU_ITERATIONS:-2000}"
 
 if [[ "${PLAYWRIGHT_SKIP_BUILD:-0}" != "1" ]]; then
-  FLUTTER_BIN="${FLUTTER_BIN:-/home/xel/flutter/bin/flutter}"
+  FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
   if [[ ! -x "${FLUTTER_BIN}" ]]; then
     FLUTTER_BIN="$(command -v flutter || true)"
   fi

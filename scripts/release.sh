@@ -4,8 +4,8 @@ set -euo pipefail
 # Multi-platform release orchestrator for Flutter Fractal Forge.
 #
 # Usage:
-#   scripts/release.sh <stage> [<stage> ...] [--yes]
-#   scripts/release.sh all [--yes]
+#   scripts/release.sh <stage> [<stage> ...] [--dry-run]
+#   scripts/release.sh all [--dry-run]
 #
 # Stages:
 #   android    Build + upload an AAB to Google Play via
@@ -28,17 +28,14 @@ set -euo pipefail
 #              (fdroid is intentionally excluded from `all`)
 #
 # Flags:
-#   --yes      Actually perform anything that publishes or reaches outside
-#              this machine: the Play Store upload, pushing a git tag,
-#              creating the GitHub Release, and dispatching the windows/
-#              website GitHub Actions workflows. Without --yes, every such
-#              step prints what it WOULD do and stops before doing it.
-#              Local build/package steps (flutter build linux, tarring,
-#              checksums) always run -- they're local and reversible.
+#   --dry-run  Do not publish or reach outside this machine. Prints what it
+#              WOULD do and skips Play Store upload, git tag push, GitHub
+#              Release creation, Windows workflow dispatch, and Wrangler deploy.
+#   --yes      Deprecated no-op; publishing is the default.
 #
 # Environment:
 #   FLUTTER_BIN            Path to the flutter binary
-#                          (default: /home/xel/flutter/bin/flutter)
+#                          (default: flutter)
 #   RELEASE_ARTIFACT_DIR   Where built artifacts are staged
 #                          (default: release-artifacts)
 #   CLOUDFLARE_PAGES_PROJECT  Wrangler --project-name for the website stage
@@ -59,10 +56,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-FLUTTER_BIN="${FLUTTER_BIN:-/home/xel/flutter/bin/flutter}"
+FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 ARTIFACT_DIR="${RELEASE_ARTIFACT_DIR:-release-artifacts}"
 CLOUDFLARE_PAGES_PROJECT="${CLOUDFLARE_PAGES_PROJECT:-flutter-fractal-forge}"
-CONFIRMED=0
+CONFIRMED=1
 STAGES=()
 
 log() { echo "[release] $*"; }
@@ -95,11 +92,11 @@ mkdir -p "$ARTIFACT_DIR"
 
 guarded() {
   # guarded <description...> -- prints what would happen and returns 1
-  # (caller should skip the real action) unless --yes was passed.
+  # (caller should skip the real action) when --dry-run was passed.
   if [[ "$CONFIRMED" -eq 1 ]]; then
     return 0
   fi
-  log "DRY RUN (pass --yes to actually do this): $*"
+  log "DRY RUN: $*"
   return 1
 }
 
@@ -134,6 +131,43 @@ changelog_notes() {
     found && /^## \[/ { exit }
     found { print }
   ' "$PROJECT_ROOT/CHANGELOG.md"
+}
+
+watch_github_run() {
+  local run_id="$1"
+  local label="$2"
+  local interval="${3:-10}"
+  local started next_log last_status line status conclusion url now elapsed
+  started="$(date +%s)"
+  next_log=0
+  last_status=""
+
+  while true; do
+    if ! line="$(gh run view "$run_id" --json status,conclusion,url -q '[.status, (.conclusion // ""), .url] | @tsv')"; then
+      die "Could not read GitHub Actions run $run_id"
+    fi
+    IFS=$'\t' read -r status conclusion url <<< "$line"
+    [[ -n "$status" ]] || die "GitHub Actions run $run_id returned no status"
+    now="$(date +%s)"
+    elapsed=$((now - started))
+
+    if [[ "$status" != "$last_status" || "$now" -ge "$next_log" ]]; then
+      log "$label run $run_id: $status${conclusion:+/$conclusion} (${elapsed}s elapsed) ${url:-}"
+      last_status="$status"
+      next_log=$((now + 60))
+    fi
+
+    if [[ "$status" == "completed" ]]; then
+      if [[ "$conclusion" == "success" ]]; then
+        return 0
+      fi
+      log "$label run $run_id failed; failed-step logs follow."
+      gh run view "$run_id" --log-failed || true
+      return 1
+    fi
+
+    sleep "$interval"
+  done
 }
 
 stage_android() {
@@ -189,7 +223,7 @@ stage_windows() {
   run_id="$after"
 
   log "Watching run $run_id (this builds Flutter for Windows, expect several minutes)..."
-  gh run watch "$run_id" --exit-status
+  watch_github_run "$run_id" "windows" 10
 
   rm -f "$ARTIFACT_DIR/fractal-forge-windows-x64.zip"
   gh run download "$run_id" -n windows-build -D "$ARTIFACT_DIR"

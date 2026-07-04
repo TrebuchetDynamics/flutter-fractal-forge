@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-FLUTTER_BIN="${FLUTTER_BIN:-/home/xel/flutter/bin/flutter}"
+FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 PID_FILE="${PID_FILE:-/tmp/fractal-forge-linux.pid}"
 LOG_LINK="${LOG_FILE:-/tmp/fractal-forge-linux.log}"
 DISPLAY_VALUE="${DISPLAY:-:0}"
@@ -60,7 +60,7 @@ case "$MODE" in
     env_cmd=(
       DISPLAY="$DISPLAY_VALUE"
       FRACTAL_FORGE_ISSUES_DIR="$ROOT_DIR/issues"
-      PATH="/home/xel/.local/bin:$PATH"
+      PATH="$PATH"
       FRACTAL_FORGE_FULLSCREEN="$FULLSCREEN"
     )
     if [[ -n "$WINDOW_WIDTH" ]]; then
