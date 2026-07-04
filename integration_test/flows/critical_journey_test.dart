@@ -95,6 +95,14 @@ void main() {
         );
 
         final mandelbrotCard = catalogModuleCard('core.mandelbrot');
+        // Search keeps catalog order, so with ~1.6k modules the core entry can
+        // sit below the fold of the lazy grid; scroll it into existence first.
+        await tester.scrollUntilVisible(
+          mandelbrotCard,
+          400,
+          scrollable: find.byType(Scrollable).first,
+          maxScrolls: 80,
+        );
         expect(
           mandelbrotCard,
           findsOneWidget,
@@ -112,12 +120,12 @@ void main() {
         // ------------------------------------------------------------------
         // Step 4: Verify viewer screen loaded
         // ------------------------------------------------------------------
-        // The viewer has a back arrow, tune (controls), and download (export)
-        // icons visible by default.
+        // The redesigned viewer has no top app bar; its chrome is the FAB
+        // column of control buttons. Anchor on that instead of a back arrow.
         expect(
-          find.byIcon(Icons.arrow_back_rounded),
+          find.byKey(const ValueKey('viewerFabColumn')),
           findsOneWidget,
-          reason: 'Viewer must show back button',
+          reason: 'Viewer must show its control button column',
         );
 
         // ------------------------------------------------------------------
@@ -189,7 +197,9 @@ void main() {
         // ------------------------------------------------------------------
         // Step 7: Go back to catalog
         // ------------------------------------------------------------------
-        await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+        // The redesigned viewer relies on system back (Navigator.maybePop via
+        // gesture); simulate the platform back request.
+        await tester.binding.handlePopRoute();
         await tester.pump();
         await tester.pump(const Duration(seconds: 1));
 
