@@ -1,0 +1,20 @@
+10.1007/978-3-642-95678-2	Fractal Geometry and Computer Graphics
+	Structured Chaos: Using Mata and Stata to Draw Fractals
+10.1111/1467-8659.00125	Implicit Representations of Rough Surfaces
+	Differentiable Iterated Function Systems
+10.1002/dac.4932	An extensive survey on fractal structures using iterated function system in patch antennas
+	Rendering and magnification of fractals using iterated function systems
+	SIERPINSKI JELLY - Iterated Function Systems as Elastic Bodies
+10.1016/j.cag.2006.01.002	Integration of iterated function systems and vector graphics for aesthetics
+10.1016/j.chaos.2008.06.019	Iterated function systems and well-posedness
+10.1145/1187112.1187128	GPU-accelerated iterated function systems
+	HABILITATION THESIS New results in the theory of Countable Iterated Function Systems
+10.1145/325334.325245	Construction of fractal objects with iterated function systems
+	Lecture notes for the SIGGRAPH '91 course: "Fractal Modeling in 3D Computer Graphics and Imagery"
+10.1109/38.511849	Fractal image compression and recurrent iterated function systems
+	Attractors of sequences of function systems and their relation to non-stationary subdivision
+10.1016/s0097-8493(98)00072-7	True-colour images and iterated function systems
+10.13140/rg.2.2.34414.82244	Approximation and Visualization of Sets Defined by Iterated Function Systems
+10.1090/psapm/039	Chaos and Fractals: The Mathematics Behind the Computer Graphics
+	Fractals and Computer Graphics
+10.1515/bams-2015-0030	Branched iterated function system (IFS) models with positioners for biological visualizations

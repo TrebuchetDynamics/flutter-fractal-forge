@@ -1,0 +1,10 @@
+10.21785/icad2019.003	Sonification of the Riemann Zeta Function
+10.21785/icad2019.047	Evaluating the Magnitude Estimation Approach for Designing Sonification Mapping Topologies
+10.1201/9781420064995-44	Auditory Interfaces and Sonification
+10.21785/icad2024.034	Adapting Audio Mixing Principles and Tools to Parameter Mapping Sonification Design
+10.21785/icad2021.026	The CURAT Sonification Game: Gamification for Remote Sonification Evaluation
+10.1007/0-387-28958-5_8	Pitch and Auditory Grouping
+10.1016/j.apergo.2022.103797	Novel sonification designs: Compressed, iconic, and pitch-dynamic auditory icons boost driving behavior
+10.21785/icad2023.4233	Facial Behavior Sonification With the Interactive Sonification Framework Panson
+10.21785/icad2021.009	Sonification for Everyone Everywhere - Evaluating the WebAudioXML Sonification Toolkit for Browsers
+10.2307/3680606	Auditory Display: Sonification, Audification, and Auditory Interfaces

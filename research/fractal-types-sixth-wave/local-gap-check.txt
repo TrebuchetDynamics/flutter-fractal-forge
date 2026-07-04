@@ -1,0 +1,22 @@
+# Local source gap check (lib, shaders, pubspec, fractals-library manifest)
+fractal interpolation        1
+Takagi                       6
+Weierstrass                  49
+blancmange                   4
+de Rham                      0
+Rauzy                        34
+substitution tiling          2
+fractal dual substitution    1
+Peano                        17
+Hilbert                      29
+space filling                0
+Gosper                       18
+Moore curve                  6
+Riley                        2
+Maskit                       1
+Schottky                     11
+Kleinian                     36
+Mobius                       9
+Möbius                      6
+Wada                         9
+riddled basin                1

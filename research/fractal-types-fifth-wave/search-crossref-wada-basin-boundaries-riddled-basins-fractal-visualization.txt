@@ -1,0 +1,20 @@
+10.1103/physreve.64.056228	Catastrophic bifurcation from riddled to fractal basins
+10.1088/1742-6596/246/1/012001	Extreme fractal structures in chaotic mechanical systems: riddled basins of attraction
+10.1142/9789814360258_0009	Fractal Basin Boundaries
+10.2139/ssrn.5351023	Multistability and Riddled Basins in 4d Wilson Neocortical Neuron Model
+10.1142/s021812740701986x	FRACTAL AND WADA EXIT BASIN BOUNDARIES IN TOKAMAKS
+10.1088/1674-1056/17/1/021	New bifurcations of basin boundaries involving Wada and a smooth Wada basin boundary
+10.1093/oso/9780198539902.003.0009	Chaos and fractal basin boundaries in engineenng
+10.1016/s0378-4371(01)00087-5	Fractal and riddled basins: arithmetic signatures in the parameter space of two coupled quadratic maps
+10.1007/978-1-4757-4740-9_14	Julia Sets: Fractal Basin Boundaries
+10.1007/0-387-21823-8_14	Julia Sets: Fractal Basin Boundaries
+10.1007/978-1-4419-6987-3_5	Fractal Basin Boundaries
+10.5194/egusphere-egu23-6055	Challenges of long-term AMOC prediction due to riddled basins in coupled atmosphere-ocean models
+10.1007/978-1-4612-4406-6_7	Julia Sets: Fractal Basin Boundaries
+10.1016/0167-2789(95)00249-9	Wada basin boundaries and basin cells
+10.1016/j.physleta.2013.03.027	Wada bifurcations and partially Wada basin boundaries in a two-dimensional cubic map
+10.1109/iscas.1988.15011	Truncated fractal basin boundaries in three machine power systems
+10.1109/iscas.1989.100477	Bifurcation and fractal basin boundaries of phase-locked loop circuits
+10.1016/s0375-9601(99)00572-1	Riddled basins of coupled elastic arches
+10.1103/physreve.53.1371	Characterizing riddled fractal sets
+10.1142/s0218348x17500311	CHARACTERIZING FRACTAL BASIN BOUNDARIES FOR PLANAR SWITCHED SYSTEMS

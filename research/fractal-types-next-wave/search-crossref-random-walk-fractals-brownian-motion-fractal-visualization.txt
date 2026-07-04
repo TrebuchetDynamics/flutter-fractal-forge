@@ -1,0 +1,20 @@
+10.1017/cbo9780511750489.008	Brownian motion and random walk
+10.1142/s0218348x20400204	FRACTAL DIMENSION OF FRACTIONAL BROWNIAN MOTION BASED ON RANDOM SETS
+10.1016/s0960-0779(99)00015-6	Fractional Brownian motion with complex variance via random walk in the complex plane and applications
+10.1007/978-3-030-78939-8_7	Random Walk, Brownian Motion, and the Strong Markov Property
+10.1515/9783110741278-011	11 Brownian motion as a random fractal
+10.1016/s0960-0779(98)00103-9	A New Approach to Fractional Brownian Motion of Order n Via Random Walk in the Complex Plane
+10.1093/acprof:oso/9780199556441.003.0009	RANDOM WALK
+10.1017/cbo9780511750854.004	Approximation by Brownian motion
+10.1515/9783110307306.160	11. Brownian motion as a random fractal
+10.1142/s0218348x09004041	NONSTANDARD ANALYSIS, FRACTAL PROPERTIES AND BROWNIAN MOTION
+10.1515/spark.8.16	11 Brownian motion as a random fractal
+10.1002/9783527615995.ch09	Fracture, Fragments and Fractals
+10.1002/9783527615995.ch03	What Use are Fractals?
+10.1007/978-3-030-78939-8_4	Multidimensional Random Walk
+10.1093/actrade/9780199675982.003.0005	5. Random walks and Brownian motion
+10.47749/t/unicamp.2020.1149341	Random walk and Brownian motion in the relativistic and in the quantum regime
+10.1007/978-1-4612-0459-6_3	Recurrent Random Walk and Logarithmic Potential
+10.4171/jfg/138	Spectral representation of one-dimensional Liouville Brownian motion and Liouville Brownian excursion
+10.1002/9781118618059.ch5	Brownian Motion
+10.1137/1.9780898718997.ch1	1. Random Walk and Brownian Motion

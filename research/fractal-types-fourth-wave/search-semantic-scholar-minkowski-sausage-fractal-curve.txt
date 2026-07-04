@@ -1,0 +1,20 @@
+10.3390/fractalfract9100633	Automated Box-Counting Fractal Dimension Analysis: Sliding Window Optimization and Multi-Fractal Validation
+10.1142/s0218348x96000674	THE FRACTAL DIMENSION OF A UNION OF TRINOMIAL ARCS
+10.23919/cisti54924.2022.9820022	Fractal antenna based on the Minkowski sausage for digital TV reception
+10.11591/eei.v11i1.3333	Toward an optimum design of fractal sausage Minkowski antenna for GPS applications
+10.1088/1742-6596/2096/1/012208	Research of a Fractal Microstrip Antenna Based on the Modified Minkowski Curve of the Second Iteration
+10.12720/jcm.14.1.82-87	SAR Level Reduction Based on Fractal Sausage Minkowski Square Patch Antenna
+10.3390/mi15121440	Design of a Half-Mode Substrate-Integrated Waveguide (HMSIW) Multimode Resonator Bandpass Filter Using the Minkowski Fractal for C-Band Applications
+10.1109/edaps.2018.8680863	Design of Ultra wide band Monopole Antenna with Band rejection Capability Using Minkowski Fractal Curve
+10.1007/s00339-023-06648-4	Design and development of a new metamaterial sensor-based Minkowski fractal antenna for medical imaging
+10.1088/1755-1315/126/1/012045	Minimizing yagi-uda radiosonde receiver antenna size using minkowski curve fractal model
+10.3390/nano13010191	Design and Optimization of an Ultrathin and Broadband Polarization-Insensitive Fractal FSS Using the Improved Bacteria Foraging Optimization Algorithm and Curve Fitting
+10.1002/dac.5648	π‐shaped circularly polarized high‐gain Minkowski fractal antenna for radar applications
+10.1109/eaic66483.2025.11101448	Coaxial Probe Fed Pentaband Koch-Minkowski Hybrid fractal antenna for Wireless applications
+10.18052/www.scipress.com/ilcpa.51.78	Fractal Minkowski Antenna Loaded with Hilbert Curve as Complementary Split Ring Resonator
+10.1007/s40031-022-00813-8	Design of Minkowski Curve-Based Slotted Microstrip Patch Antenna Using Artificial Neural Network
+10.7716/aem.v12i1.1982	Design of Wideband Fractal MIMO Antenna using Minkowski and Koch Hybrid Curves on Half Octagonal Radiating Patch with High Isolation and Gain for 5G Applications
+10.1080/09205071.2021.1925974	Peano–Gosper, Koch and Minkowski fractal curves-based novel hybrid antenna using modified partial ground plane for multi-standard wireless applications
+10.1007/s11277-021-09422-y	A Design of Compact Wideband Antenna Based on Hybridization of Minkowski Fractal Curves on Hexagonal Patch and Partial Ground Plane with Truncated Corners
+	A Compact Hybrid Fractal Antenna using Koch and Minkowski Curves for Wireless Applications
+10.1007/s11277-019-06622-5	Hybrid Fractal Antenna Using Meander and Minkowski Curves for Wireless Applications

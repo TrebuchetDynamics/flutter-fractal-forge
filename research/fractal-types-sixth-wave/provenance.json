@@ -1,0 +1,96 @@
+{
+  "question": "research more fractals to add",
+  "rforge_version": "rforge v0.1.14-4-g96621ca-dirty (96621ca, 2026-06-30T23:00:23Z)",
+  "timestamp": "2026-07-02T22:47:33Z",
+  "depth": "standard",
+  "queries": [
+    "fractal interpolation functions surfaces visualization rendering",
+    "Takagi Weierstrass blancmange fractal function visualization",
+    "Kleinian Schottky group limit set visualization fractal rendering",
+    "Maskit slice Riley slice Kleinian group fractal visualization",
+    "quaternionic Mobius transformations Kleinian fractals visualization",
+    "fractal basin Wada riddled basins visualization chaotic maps",
+    "fractal antenna Hilbert Peano space filling curve visualization applications",
+    "Rauzy fractal substitution tiling visualization algorithms",
+    "Minkowski question mark function fractal visualization",
+    "Levy dragon twin dragon terdragon fractal curve visualization",
+    "Minkowski sausage quadratic Koch island fractal visualization",
+    "Julia sets elliptic functions Lattes map fractal visualization",
+    "Latt\u00e8s map Julia set visualization complex dynamics",
+    "circle limit fractal Coxeter group Apollonian gasket rendering",
+    "escape time transcendental entire functions Julia set cosine tangent secant",
+    "strange attractor Tinkerbell Gumowski Mira Bedhead chaotic map visualization"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "search_stats": {
+    "first_pass": {
+      "records": 398,
+      "unique_dois": 371,
+      "openalex": 58,
+      "crossref": 160,
+      "semantic_scholar": 20,
+      "arxiv": 160
+    },
+    "gap_pass": {
+      "records": 350,
+      "unique_dois": 303,
+      "openalex": 22,
+      "crossref": 140,
+      "semantic_scholar": 28,
+      "arxiv": 160
+    }
+  },
+  "citation_expand_attempted": [
+    "10.1016/0375-9601(88)90878-x",
+    "10.24033/bsmf.2762",
+    "10.4171/JFG/37",
+    "10.1016/j.chaos.2023.113130",
+    "10.1016/j.exmath.2022.12.002",
+    "10.1016/j.jmaa.2007.01.112",
+    "10.1016/j.jnt.2007.12.010",
+    "10.3390/fractalfract5030073",
+    "10.3390/math11030727",
+    "10.11591/eei.v11i1.3333"
+  ],
+  "citation_expand_succeeded": [
+    "10.1016/0375-9601(88)90878-x",
+    "10.24033/bsmf.2762",
+    "10.4171/JFG/37",
+    "10.1016/j.chaos.2023.113130",
+    "10.1016/j.exmath.2022.12.002",
+    "10.1016/j.jmaa.2007.01.112",
+    "10.1016/j.jnt.2007.12.010",
+    "10.3390/fractalfract5030073",
+    "10.3390/math11030727",
+    "10.11591/eei.v11i1.3333"
+  ],
+  "outputs": [
+    "report.md",
+    "provenance.json",
+    "queries.txt",
+    "queries-gap.txt",
+    "coverage-stats.log",
+    "gap-pass/coverage-stats.log",
+    "app-gap-check.txt",
+    "app-gap-check-gap-pass.txt",
+    "results.jsonl",
+    "gap-pass/results.jsonl",
+    "citations/*.json",
+    "citations/*.md",
+    "coverage-stats.verify.log",
+    "gap-pass/coverage-stats.verify.log"
+  ],
+  "errors": [
+    "Semantic Scholar live search returned HTTP 429 for 12 query/source attempts; citation expansion still succeeded for selected DOI seeds.",
+    "Crossref returned \"paper title is required\" for the broad strange-attractor query.",
+    "No full text was fetched; report is based on metadata/search results and citation graph metadata."
+  ],
+  "human_gates": [
+    "No screening decisions, full-text acquisition, package export, or final scientific-claim approval was self-approved."
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-07-02T22:42:32Z",
+  "queries": [
+    "fractal interpolation functions surfaces visualization rendering",
+    "Takagi Weierstrass blancmange fractal function visualization",
+    "Kleinian Schottky group limit set visualization fractal rendering",
+    "Maskit slice Riley slice Kleinian group fractal visualization",
+    "quaternionic Mobius transformations Kleinian fractals visualization",
+    "fractal basin Wada riddled basins visualization chaotic maps",
+    "fractal antenna Hilbert Peano space filling curve visualization applications",
+    "Rauzy fractal substitution tiling visualization algorithms"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "limit": 20,
+  "results": 398,
+  "deduped": 371,
+  "failures": 7
+}

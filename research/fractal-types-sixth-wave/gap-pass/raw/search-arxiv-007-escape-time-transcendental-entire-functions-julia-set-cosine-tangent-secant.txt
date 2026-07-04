@@ -1,0 +1,20 @@
+	Dynamics on Bungee set, Escaping set and Filled Julia set of Composite Transcendental Entire Functions
+	Escaping set and Julia set of transcendental semigroups
+	Local connectivity of Julia sets of some transcendental entire functions with Siegel disks
+	Spiders' webs and locally connected Julia sets of transcendental entire functions
+10.1090/s0002-9939-09-10104-1	Hausdorff dimensions of escaping sets of transcendental entire functions
+10.1007/s11856-012-0033-0	On the packing dimension of the Julia set and the escaping set of an entire function
+10.4064/fm477-11-2017	Lebesgue measure of Julia sets and escaping sets of certain entire functions
+10.1017/s0305004115000018	Maximally and non-maximally fast escaping points of transcendental entire functions
+	On Dynamics of the Bungee set and the Filled Julia set of a Transcendental Semigroup
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	A Study of Fatou Set, Julia set and Escaping Set in Nearly Abelian Transcendental Semigroup
+	An entire function connected with the approximation of the golden ratio
+	Recurrence of entire transcendental functions with simple post singular sets
+	A Study of Fatou Set, Julia set and Escaping Set in Conjugate Transcendental Semigroup
+10.1112/jlms.70142	Entire functions with Cantor bouquet Julia sets
+	Semigroups of transcendental entire functions and their dynamics
+	The dynamics of semigroups of transcendental entire functions II
+	Non-landing hairs in Sierpinski curve Julia sets of transcendental entire maps
+10.1017/s0305004109990491	On the Hausdorff dimension of the Julia set of a regularly growing entire function
+	Julia and escaping set spiders' webs of positive area

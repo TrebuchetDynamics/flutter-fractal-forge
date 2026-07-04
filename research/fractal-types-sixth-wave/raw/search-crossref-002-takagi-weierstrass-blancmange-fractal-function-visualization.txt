@@ -1,0 +1,20 @@
+10.3390/fractalfract9030143	Progress on Fractal Dimensions of the Weierstrass Function and Weierstrass-Type Functions
+10.1016/0375-9601(88)90878-x	Fractal basin boundary in dynamical systems and the Weierstrass-Takagi functions
+10.1115/1.4045452	Exact Spectral Moments and Differentiability of the Weierstrass-Mandelbrot Fractal Function
+10.1115/1.2768617	Determination of the Fractal Scaling Parameter From Simulated Fractal-Regular Surface Profiles Based on the Weierstrass-Mandelbrot Function
+10.4028/www.scientific.net/amr.393-395.796	Generate Breath Flow Having Fractal Signal Feature Using Weierstrass Function Combination
+10.1016/0375-9601(86)90402-0	Fractal basin boundary constructed by superposition of the Weierstrass function
+10.1090/conm/797/15955	Toral band Fatou components for the Weierstrass ℘ function
+10.21136/am.1971.103355	Weierstrass $\wp$-function
+10.1088/1361-6544/aa8d7a	Fractal dimensions of graph of Weierstrass-type function and local Hölder exponent spectra
+10.1007/s00209-024-03547-z	Weierstrass fractal drums: II towards a fractal cohomology
+10.1088/1742-6596/96/1/012111	The fractal dimensions of graphs of the Weierstrass function with the Weyl-Marchaud fractional derivative
+10.1109/msmw.2004.1346253	Application of the Kravchenko-Weierstrass function in the theory of fractal antennas
+10.1098/rspa.1980.0044	On the Weierstrass-Mandelbrot fractal function
+10.1111/j.1600-0765.1997.tb00538.x	Is periodontal breakdown a fractal process? Simulations using the Weierstrass‐Mandelbrot function
+10.1115/ijtc2006-12068	Determination of the Fractal Scaling Parameter From Simulated Fractal-Regular Surface Profiles Based on the Weierstrass-Mandelbrot Function
+10.1016/j.chaos.2007.04.017	The fractal dimensions of graphs of the Weyl-Marchaud fractional derivative of the Weierstrass-type function
+10.32614/cran.package.jacobi	jacobi: Jacobi Theta Functions and Related Functions
+10.1016/0169-5983(92)90059-6	On the use of the Weierstrass-Mandelbrot function to describe the fractal component of turbulent velocity
+10.1016/j.compgeo.2022.104655	Modeling of three-dimensional single rough rock fissures: A study on flow rate and fractal parameters using the Weierstrass-Mandelbrot function
+10.1109/holm.2016.7780032	Study on contact spots of fractal rough surfaces based on three-dimensional Weierstrass-Mandelbrot function

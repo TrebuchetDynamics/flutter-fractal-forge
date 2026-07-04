@@ -1,0 +1,20 @@
+10.1155/2015/797594	Polynomiography Based on the Nonstandard Newton-Like Root Finding Methods
+10.3390/sym15020478	Fractals as Julia and Mandelbrot Sets of Complex Cosine Functions via Fixed Point Iterations
+10.1371/journal.pone.0048927	Fractal Patterns of Neural Activity Exist within the Suprachiasmatic Nucleus and Require Extrinsic Network Interactions
+10.1007/s11075-023-01625-7	A new optimal root-finding iterative algorithm: local and semilocal analysis with polynomiography
+10.1016/j.cnsns.2014.02.010	An adaptive Newton-method based on a dynamical systems approach
+10.1109/access.2022.3150775	A Novel Root-Finding Algorithm With Engineering Applications and its Dynamics via Computer Technology
+10.1109/access.2019.2951385	Fixed Point Results for Fractal Generation in Extended Jungck–SP Orbit
+10.1038/35054111	Erratum: correction: Error and attack tolerance of complex networks
+10.1007/s11071-021-06306-5	On the robust Newton’s method with the Mann iteration and the artistic patterns from its dynamics
+10.1155/2022/7656451	A Novel Multistep Iterative Technique for Models in Medical Sciences with Complex Dynamics
+10.25080/rjfg8479	Proceedings of the 8th Python in Science Conference
+10.1523/jneurosci.2005-18.2019	Fine-Grained Mapping of Cortical Somatotopies in Chronic Complex Regional Pain Syndrome
+10.4236/ijmnta.2013.22014	A Fractal Menger Sponge Space-Time Proposal to Reconcile Measurements and Theoretical Predictions of Cosmic Dark Energy
+10.1088/2051-672x/acbe53	Fractal and statistical characterization of brushstroke on paintings
+10.1007/s00454-011-9330-3	Polynomial Root-Finding Methods Whose Basins of Attraction Approximate Voronoi Diagram
+10.1007/s00500-020-04784-0	One more look on visualization of operation of a root-finding algorithm
+10.1155/2021/6369466	A New Root‐Finding Algorithm for Solving Real‐World Problems and Its Complex Dynamics via Computer Technology
+10.1155/2020/6623049	Improved Newton Iterative Algorithm for Fractal Art Graphic Design
+10.3390/sym15020330	A Novel Three-Step Numerical Solver for Physical Models under Fractal Behavior
+10.1007/s11095-017-2129-z	A Review of Disintegration Mechanisms and Measurement Techniques

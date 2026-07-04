@@ -1,0 +1,20 @@
+10.1007/bf02902528	Beyond Brownian Motion: A levy flight in magic boots
+10.1134/s1063784208100022	Visualization of wavelet spectra of fractal Brownian motion
+10.1515/9783110307306.160	11. Brownian motion as a random fractal
+10.1515/9783110741278-011	11 Brownian motion as a random fractal
+10.1002/0470013850.ch16	Brownian Motion and Brownian Surfaces
+10.58837/chula.the.1999.700	Quantum Brownian motion by path integral mothod
+10.58837/chula.the.1996.2256	Path integral approach to quactum brownian motion
+10.3840/07001375	Brownian Motion Path and Maximum Drawdown
+10.1017/cbo9780511997044.009	Path properties of Brownian motion
+10.3840/001375	Brownian Motion Path and Maximum Drawdown
+10.1515/spark.8.16	11 Brownian motion as a random fractal
+10.1201/9781003275787-3	Path Properties of Brownian Motion
+10.3390/fractalfract6020099	Asset Pricing Model Based on Fractional Brownian Motion
+10.3390/fractalfract7080591	Correlation Structure of Time-Changed Generalized Mixed Fractional Brownian Motion
+10.4171/jfg/138	Spectral representation of one-dimensional Liouville Brownian motion and Liouville Brownian excursion
+10.1016/0375-9601(94)91073-1	Fractal Brownian motion and local “fraction” metric obtained by proper coordinate transformation of ordinary Brownian motion
+10.20944/preprints202501.2068.v1	Fuzzy Fractal Brownian Motion: Extensions and Applications
+10.1016/0375-9601(94)91228-9	Fractal Brownian motion and local “fraction” metric obtained by proper coordinate transformation of ordinary Brownian motion
+10.35741/issn.0258-2724.58.2.8	EXPERIMENTAL DESIGN OF BROWNIAN MOTION USING FRACTAL GEOMETRY
+10.1109/secon.1990.117957	Fractal dimension estimation of fractional Brownian motion

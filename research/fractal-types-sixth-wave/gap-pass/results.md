@@ -1,0 +1,315 @@
+# Search batch results
+
+Deduped records: 303
+
+- Gwyddion: an open-source software for SPM data analysis — DOI: `10.2478/s11534-011-0096-2`
+- Models for Simulation of Fractal-like Particle Clusters with Prescribed Fractal Dimension — DOI: `10.3390/fractalfract7120866`
+- Fractal and statistical characterization of brushstroke on paintings — DOI: `10.1088/2051-672x/acbe53`
+- Fractal Zeta Functions in Metric Spaces
+- A cost model for query processing in high dimensional data spaces — DOI: `10.1145/357775.357776`
+- Quantification of Heterogeneity as a Biomarker in Tumor Imaging: A Systematic Review — DOI: `10.1371/journal.pone.0110300`
+- A New Phase Diagram for Fluid Invasion Patterns as a Function of Pore‐Scale Heterogeneity, Surface Roughness, and Wettability — DOI: `10.1029/2023wr036036`
+- The Cognitive-Emotional Design and Study of Architectural Space: A Scoping Review of Neuroarchitecture and Its Precursor Approaches — DOI: `10.3390/s21062193`
+- Towards a 2d QFT analog of the SYK model — DOI: `10.1007/jhep10(2017)167`
+- The Interplay Between Pore‐Scale Heterogeneity, Surface Roughness, and Wettability Controls Trapping in Two‐Phase Fluid Displacement in Porous Media — DOI: `10.1029/2023gl106197`
+- Multivariate multifractal models : estimation of parameters and applications to risk management
+- Search optimization, funnel topography, and dynamical criticality on the string landscape — DOI: `10.1088/1475-7516/2019/12/014`
+- Fabrication process independent and robust aggregation of detonation nanodiamonds in aqueous media — DOI: `10.1016/j.diamond.2023.110199`
+- The Golden Ratio Theorem: A Framework for Interchangeability and Self-Similarity in Complex Systems — DOI: `10.4236/apm.2023.139038`
+- Driving drowsiness detection using spectral signatures of EEG-based neurophysiology — DOI: `10.3389/fphys.2023.1153268`
+- The Feynman chessboard model in 3 + 1 dimensions — DOI: `10.3389/fphy.2023.1286030`
+- A Wiener‐Laguerre Model of VIV Forces Given Recent Cylinder Velocities — DOI: `10.1155/2011/414702`
+- Cosmological moduli dynamics — DOI: `10.1088/1126-6708/2007/07/060`
+- Unraveling $$\mathcal {L}_{n, k} $$ : grassmannian kinematics — DOI: `10.1007/jhep03(2010)025`
+- Library and Information Sciences — DOI: `10.1007/978-3-642-54812-3`
+- THE MOMENTS OF MINKOWSKI QUESTION MARK FUNCTION: THE DYADIC PERIOD FUNCTION — DOI: `10.1017/s0017089509990152`
+- On the Derivative of the Minkowski Question-Mark Function — DOI: `10.2478/udt-2022-0014`
+- Diophantine properties of fixed points of Minkowski question mark function — DOI: `10.4064/aa181209-18-9`
+- The Minkowski question mark function: explicit series for the dyadic period function and moments — DOI: `10.1090/s0025-5718-09-02263-7`
+- On the derivative of iterations of the Minkowski question mark function at special points — DOI: `10.7169/facm/1966`
+- Sums with Stern-Brocot sequences and the Minkowski question-mark function — DOI: `10.1007/s11139-025-01261-w`
+- Addenda and corrigenda to “The Minkowski question mark function: explicit series for the dyadic period function and moments” — DOI: `10.1090/s0025-5718-2011-02479-8`
+- Generating and zeta functions, structure, spectral and analytic properties of the moments of the Minkowski question mark function — DOI: `10.2140/involve.2009.2.121`
+- Alternating Sums of Elements of Continued Fractions and the Minkowski Question Mark Function — DOI: `10.1007/s10958-018-4030-7`
+- On the derivative of the Minkowski question mark function ?(x) — DOI: `10.1007/s10958-012-0750-2`
+- Random Walks in the Hyperbolic Plane and the Minkowski Question Mark Function — DOI: `10.1007/s10959-017-0783-z`
+- DIFFERENTIABILITY AND NON-DIFFERENTIABILITY POINTS OF THE MINKOWSKI QUESTION MARK FUNCTION — DOI: `10.4134/ckms.c150248`
+- Semi-regular continued fractions and an exact formula for the moments of the Minkowski question mark function — DOI: `10.1007/s11139-011-9307-0`
+- An asymptotic formula for the moments of the Minkowski question mark function in the interval [0, 1] — DOI: `10.1007/s10986-008-9027-3`
+- Generalizing the Minkowski question mark function to a family of multidimensional continued fractions — DOI: `10.1142/s179304211850149x`
+- Fractal analysis for sets of non-differentiability of Minkowski's question mark function — DOI: `10.1016/j.jnt.2007.12.010`
+- Generalized Minkowski content, spectrum of fractal drums, fractal strings and the Riemann zeta-function — DOI: `10.1090/memo/0608`
+- Minkowski's Question Mark Function — DOI: `10.3840/07002299`
+- Minkowski's Question Mark Function — DOI: `10.3840/002299`
+- Minkowski content and Minkowski dimension — DOI: `10.1090/gsm/247/08`
+- Sums with Stern-Brocot sequences and Minkowski question mark function
+- K-theory of Minkowski question-mark function
+- The Hausdorff dimension of the set where the Minkowski question mark function has infinite derivative
+- Differentiability of the Minkowski question mark function — DOI: `10.1016/j.jmaa.2012.12.058`
+- Integral transforms of the Minkowski question mark function
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- Differentiability of the Minkowski question mark function
+- Generalizing the Minkowski Question Mark Function to a Family of Multidimensional Continued Fractions
+- Orthogonal polynomials for Minkowski's question mark function — DOI: `10.1016/j.cam.2014.07.013`
+- An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference — DOI: `10.1177/14738716241229437`
+- Beyond English: Centering Multilingualism in Data Visualization
+- The Stern Sequence and Moments of Minkowski's Question Mark Function
+- Derivative of the iterations of Minkowski question mark function in special points
+- Fourier-Stieltjes coefficients of the Minkowski question mark function
+- On Minkowski type question mark functions associated with even or odd continued fractions — DOI: `10.1007/s00605-018-1205-8`
+- Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable — DOI: `10.1109/tvcg.2025.3633909`
+- Diophantine properties of fixed points of Minkowski question mark function
+- Fractal dragon curve microstrip antenna for Dual-Band WLAN communications — DOI: `10.24425/ijet.2024.149592`
+- Paperfolding Dragon Curve — DOI: `10.3840/07000456`
+- Paperfolding Dragon Curve — DOI: `10.3840/000456`
+- Intersecting the Twin Dragon with rational lines — DOI: `10.4171/jfg/149`
+- Dragon Curve — DOI: `10.1201/9781003734062-42`
+- The Coordinate Functions of the Heighway Dragon Curve — DOI: `10.2139/ssrn.5323852`
+- Enabling Cordial, Edge cordial and total cordial labeling of dragon curve fractal graph — DOI: `10.20454/ijas.2014.773`
+- Development Design Labako Batik with Combine Fractal Geometry Dragon Curve and Tobacco Leaf Motif — DOI: `10.19184/jid.v18i2.5650`
+- Dissecting the Dragon: GUR for Dragon Age™: Inquisition — DOI: `10.1093/oso/9780198794844.003.0023`
+- Test By Dragon — DOI: `10.31098/omksrsf.v1i1.9`
+- Figure 2: Rarefaction curve between observed ASVs and sequencing depth of bacterial communities from blue dragon sea slug samples. — DOI: `10.7717/peerj.21462/fig-2`
+- DRAGON PROJECT GRAPHITE SYMPOSIUM. Project DRAGON. — DOI: `10.2172/4107567`
+- Why Talking About Dragon ? — DOI: `10.31098/docsrsf`
+- Dragon — DOI: `10.1093/gmo/9781561592630.article.j557800`
+- Autour du dragon — DOI: `10.35562/iris.2137`
+- <scp>DRAGON</scp> and <scp>DRAGON</scp> View: Information Annotation and Visualization Tools for Large‐Scale Expression Data — DOI: `10.1002/0471250953.bi0704s02`
+- Drakōn — DOI: `10.1093/oso/9780198830184.003.0002`
+- Dragon, Carmen — DOI: `10.1093/gmo/9781561592630.article.a2092993`
+- Draco — DOI: `10.1093/oso/9780198830184.003.0003`
+- Dragon fruit in Cambodia — DOI: `10.56669/pmxq3411`
+- Envy-free division in the presence of a dragon
+- Mythical Thought in Bohr's Anti-Realist Realism (Or: Lessons on How to Capture and Defeat Smoky Dragons)
+- QA-Dragon: Query-Aware Dynamic RAG System for Knowledge-Intensive Visual Question Answering
+- Intersection the twin dragon with rational lines
+- Avoiding Intersections of Dragon Curves — DOI: `10.1142/s0218348x2650009x`
+- L-systems for the Boundaries of fractal dragon space filling folding curves
+- The aspect ratio of the Twin Dragon is $1/φ$
+- On the Boundary of the Harter-Heighway dragon curve
+- Non-self-intersective dragon curves
+- Convex Hulls of Dragon Curves
+- Dragon-Alpha&cu32: A Java-based Tensor Computing Framework With its High-Performance CUDA Library
+- Folding the Heighway dragon curve
+- Universal Scaling of Electron Transmission for Nearly Ballistic and Quantum Dragon Nanodevices — DOI: `10.1016/j.chaos.2025.116879`
+- The coordinate functions of the Heighway dragon curve
+- Shifted Lévy's Dragon Curve and Directed Graph
+- Dragon curves in Littlewood roots
+- Little Dragon Two: An efficient Multivariate Public Key Cryptosystem — DOI: `10.5121/ijnsa.2010.2201`
+- DRAGON: A Dialogue-Based Robot for Assistive Navigation with Visual Language Grounding — DOI: `10.1109/lra.2024.3362591`
+- Revolving sequences and Terdragon
+- Dragon Crypto -- An Innovative Cryptosystem — DOI: `10.5120/ijca2020920331`
+- Heat Transfer Characteristics of a Quadratic Koch Island Fractal Heat Exchanger — DOI: `10.1080/01457630500205638`
+- Fractal antenna based on the Minkowski sausage for digital TV reception — DOI: `10.23919/cisti54924.2022.9820022`
+- Toward an optimum design of fractal sausage Minkowski antenna for GPS applications — DOI: `10.11591/eei.v11i1.3333`
+- Fractal monopole antenna design Using Minkowski Island geometry — DOI: `10.1109/aps.2009.5172157`
+- Quadratic Koch Island Patch Antenna — DOI: `10.1109/aps.2005.1552396`
+- Evaluating the Fractal Pattern of the Von Koch Island Using Richardson’s Method — DOI: `10.3390/fractalfract9080483`
+- Design of fractal quadratic Koch antenna — DOI: `10.1109/ssd.2010.5585511`
+- An analysis of Koch and Minkowski fractal antennas for cognitive systems — DOI: `10.1109/icci-cc.2013.6622231`
+- Minkowski Island and Crossbar Fractal Microstrip Antennas for Broadband Applications — DOI: `10.3390/app8030334`
+- Fractal microstrip antenna with Minkowski Island split ring resonator for broadband application — DOI: `10.1109/rfm.2013.6757252`
+- Coaxial Probe Fed Pentaband Koch-Minkowski Hybrid fractal antenna for Wireless applications — DOI: `10.1109/eaic66483.2025.11101448`
+- A Miniaturized Multiband Antenna Based on Koch-Minkowski Composite Fractal Structure — DOI: `10.1109/piers62282.2024.10618345`
+- SAR Level Reduction Based on Fractal Sausage Minkowski Square Patch Antenna — DOI: `10.12720/jcm.14.1.82-87`
+- A comparison between Minkowski and Koch fractal patch antennas — DOI: `10.1109/imoc.2011.6169378`
+- A Compact Hybrid Fractal Antenna using Koch and Minkowski Curves — DOI: `10.1109/iemcon.2018.8614773`
+- Hybrid Minkowski fractal island antenna operating in two bands of GPS satellite system — DOI: `10.1109/aps.2016.7695814`
+- Stacked Koch Island fractal patch antenna — DOI: `10.1109/aps.2008.4619188`
+- Koch island fractal ultra wideband dipole antenna — DOI: `10.1109/aps.2004.1331885`
+- Integrated Artificial Magnetic Conductor Minkowski Island fractal terahertz antenna (AMC-MIFA) for future Communications — DOI: `10.1016/j.rio.2025.100921`
+- Moore, Minkowski and Koch Curves Based Hybrid Fractal Antenna for Multiband Applications — DOI: `10.1007/s11277-019-06531-7`
+- Influence of image resolution and thresholding on the apparent mass fractal characteristics of preferential flow patterns in field soils — DOI: `10.1029/98wr01209`
+- Surface fractal characteristics of preferential flow patterns in field soils: evaluation and effect of image processing — DOI: `10.1016/s0016-7061(98)00101-3`
+- Exploring the Effect of Direction on Vector-Based Fractals
+- A Fractal Comparison of Escher and Koch Tessellations
+- Tube Formulae for Generalized von Koch Fractals through Scaling Functional Equations — DOI: `10.4171/jfg/155`
+- Minkowski content and fractal Euler characteristic for conformal graph directed systems — DOI: `10.4171/jfg/19`
+- Towards a Survey on Static and Dynamic Hypergraph Visualizations — DOI: `10.1109/vis49827.2021.9623305`
+- Families of Periodic Orbits of the Koch Snowflake Fractal Billiard
+- NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+- Small-angle scattering from the Cantor surface fractal on the plane and the Koch snowflake — DOI: `10.1039/c6cp07496k`
+- Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges — DOI: `10.1109/tvcg.2023.3326576`
+- Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots — DOI: `10.1109/tvcg.2024.3456305`
+- Minkowski Measurability and Exact Fractal Tube Formulas for p-Adic Self-Similar Strings
+- LMap: Shape-Preserving Local Mappings for Biomedical Visualization — DOI: `10.1109/tvcg.2017.2772237`
+- What Would a Graph Look Like in This Layout? A Machine Learning Approach to Large Graph Visualization — DOI: `10.1109/tvcg.2017.2743858`
+- Visual Analytics for Temporal Hypergraph Model Exploration — DOI: `10.1109/tvcg.2020.3030408`
+- Strange eigenstates and anomalous transport in a Koch fractal with hierarchical interaction — DOI: `10.1016/j.physleta.2011.07.061`
+- VisRuler: Visual Analytics for Extracting Decision Rules from Bagged and Boosted Decision Trees — DOI: `10.1177/14738716221142005`
+- General volumes in the Orlicz-Brunn-Minkowski theory and a related Minkowski Problem I
+- 6 The Fatou and Julia sets — DOI: `10.1515/9783111689685-006`
+- Visualization of Mandelbrot and Julia Sets of Möbius Transformations — DOI: `10.3390/fractalfract5030073`
+- Dynamics of Entire Functions — DOI: `10.1515/9783111689685`
+- Bibliography — DOI: `10.1515/9783111689685-016`
+- Frontmatter — DOI: `10.1515/9783111689685-fm`
+- A Univalent functions in the disc — DOI: `10.1515/9783111689685-012`
+- Index — DOI: `10.1515/9783111689685-017`
+- Contents — DOI: `10.1515/9783111689685-toc`
+- Preface — DOI: `10.1515/9783111689685-201`
+- 1 Introduction — DOI: `10.1515/9783111689685-001`
+- 2 Normal families — DOI: `10.1515/9783111689685-002`
+- Iteration of Complex Functions—Julia Sets — DOI: `10.1002/0470013850.ch14`
+- 8 Singular values — DOI: `10.1515/9783111689685-008`
+- 5 Local conjugacy — DOI: `10.1515/9783111689685-005`
+- 7 Fatou components — DOI: `10.1515/9783111689685-007`
+- 4 Periodic points — DOI: `10.1515/9783111689685-004`
+- List of Special Symbols — DOI: `10.1515/9783111689685-202`
+- 3 Value distribution theory — DOI: `10.1515/9783111689685-003`
+- 10 The parameter plane — DOI: `10.1515/9783111689685-010`
+- 9 The exponential family — DOI: `10.1515/9783111689685-009`
+- Automatic Generation of 3-D Linear Fractal Shapes with Quadratic Map Basins Animation — DOI: `10.3756/artsci.2.61`
+- Dynamical System Visualization and Analysis Via Performance Maps — DOI: `10.1057/palgrave.ivs.9500082`
+- Jørgensen numbers of some Kleinian groups on the boundary of the classical Schottky space 14 : 25 – 14 : 50
+- World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+- Boundary Julia theory for slice regular functions
+- Algebraic Equations Solved with Jacobi Elliptic Functions
+- NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase — DOI: `10.1063/5.0089436`
+- Kernels, Data & Physics
+- Homeomorphism groups of basilica, rabbit and airplane Julia sets — DOI: `10.5802/jep.327`
+- Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version) — DOI: `10.1145/3485527`
+- Dual-Quaternion Julia Fractals
+- Limits of multivariate elliptic hypergeometric biorthogonal functions
+- Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon — DOI: `10.1103/physrevd.107.055015`
+- Genus $g$ Cantor sets and germane Julia sets
+- Evaluations of Series Related to Jacobi Elliptic Functions
+- Laplacians on Julia sets of rational maps
+- Optimal transport of signed measures: existence, uniqueness and fractal structure
+- The Medusa algorithm for polynomial matings — DOI: `10.1090/s1088-4173-2012-00245-7`
+- Using the Fatou Set to Study the Julia Set — DOI: `10.1007/978-3-663-08092-3_6`
+- USING THE FATOU SET TO STUDY THE JULIA SET — DOI: `10.2307/j.ctt7rnxn.11`
+- Lattès and Ritt — DOI: `10.1007/978-3-663-09197-4_10`
+- Using the Fatou Set to Study the Julia Set — DOI: `10.1515/9781400835539.174`
+- The Connectivity of the Julia Set and Fixed Points — DOI: `10.1201/b10617-9`
+- Dimensions of Mandelbrot Set Boundary and of Julia Sets — DOI: `10.1007/978-3-031-80115-0_7`
+- Synchronization between the spatial Julia sets of complex Lorenz system and complex Henon map — DOI: `10.1007/s11071-015-2061-x`
+- Visualization of controllable regions in real-time systems using a 3D-Julia set methodology — DOI: `10.1109/iv.1997.626469`
+- On the Fractional-Order Complex Cosine Map: Fractal Analysis, Julia Set Control and Synchronization — DOI: `10.3390/math11030727`
+- Peer Review Report For: Constellation Map: Downstream visualization and interpretation of gene set enrichment results [version 1; peer review: 2 approved] — DOI: `10.5256/f1000research.7138.r10711`
+- Fastest synchronized network and synchrony on the Julia set of complex-valued coupled map lattices — DOI: `10.3934/dcdsb.2016.21.173`
+- Figure 6: Docking visualization and dynamics simulations of the solasonine-ACHE complex. — DOI: `10.7717/peerj.16195/fig-6`
+- Rational map has a Cantor Circle Julia set and a Sierpinski Carpet Julia set of degree m — DOI: `10.47974/jim-1569`
+- Peer Review Report For: Constellation Map: Downstream visualization and interpretation of gene set enrichment results [version 1; peer review: 2 approved] — DOI: `10.5256/f1000research.7138.r9357`
+- Improved grid map layout by point set matching — DOI: `10.1109/pacificvis.2013.6596124`
+- Occlusion culling using minimum occluder set and opacity map — DOI: `10.1109/iv.1999.781573`
+- Connectedness of the Julia set — DOI: `10.1090/surv/219/20`
+- Complex Fractals : Julia Sets and the Mandelbrot Set — DOI: `10.1201/b11855-11`
+- The complex quadratic map and its ℳ-set — DOI: `10.1007/978-1-4757-4017-2_5`
+- On Lattès Maps — DOI: `10.4171/011-1/1`
+- NetworkDynamics.jl -- Composing and simulating complex networks in Julia — DOI: `10.1063/5.0051387`
+- Julia sets of complex Hénon maps
+- Julia sets of Zorich maps
+- A Parametric and Feasibility Study for Data Sampling of the Dynamic Mode Decomposition--Range, Resolution, and Universal Convergence States — DOI: `10.1007/s11071-021-07167-8`
+- Graphical exploration of the connectivity sets of alternated Julia sets; M, the set of disconnected alternated Julia sets — DOI: `10.1007/s11071-013-0859-y`
+- Holomorphic maps from complex discs intersecting families of hypersurfaces — DOI: `10.1080/17476933.2022.2076842`
+- Strongly automorphic mappings and Julia sets of uniformly quasiregular mappings
+- Arboreal Galois groups of rational maps with nonreal Julia sets
+- Perturbations of flexible Lattès maps
+- Lattès maps and combinatorial expansion — DOI: `10.1017/etds.2014.125`
+- Geometry and arithmetic of crystallographic sphere packings — DOI: `10.1073/pnas.1721104116`
+- Apollonian Gasket — DOI: `10.3840/07000774`
+- Apollonian Gasket — DOI: `10.3840/000774`
+- Multiband Smith-Apollonian Gasket fractal antenna for ITS, WiMAX, STM and satellite communication — DOI: `10.1109/lapc.2015.7366116`
+- Apollonian Circle Packings — DOI: `10.1007/978-3-319-18660-3_8`
+- Performance Optimisation of Modified Multiband Apollonian Gasket Fractal Antenna Using Artificial Neural Network — DOI: `10.18485/mtts_mr.2024.30.2.7`
+- The Trigonometry of Escher’s Woodcut Circle Limit III — DOI: `10.1007/3-540-28849-x_29`
+- The Non-Euclidean Symmetry of Escher's Picture 'Circle Limit III' — DOI: `10.2307/1574078`
+- Implementation of printed microstrip apollonian gasket fractal antenna for multi band wireless applications — DOI: `10.1109/spaces.2015.7058248`
+- Hemispherical Dielectric Resonator Antenna Based on Apollonian Gasket of Circles—A Fractal Approach — DOI: `10.1109/tap.2013.2287011`
+- Apollonian Circle Packings: Geometry and Group Theory I. The Apollonian Group — DOI: `10.1007/s00454-005-1196-9`
+- Apollonian Circle Packings: Geometry and Group Theory II. Super-Apollonian Group and Integral Packings — DOI: `10.1007/s00454-005-1195-x`
+- Estimate for the fractal dimension of the Apollonian gasket in<mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" display="inline"><mml:mi>d</mml:mi></mml:math>dimensions — DOI: `10.1103/physreve.81.061403`
+- The trigonometry of escher’s woodcut “circle limit III“ — DOI: `10.1007/bf03026752`
+- Definition of the Apollonian Gasket — DOI: `10.1007/978-0-8176-8382-5_5`
+- Solving the dimer problem on Apollonian gasket — DOI: `10.5592/co/ccd.2022.02`
+- A Tisket, a Tasket, an Apollonian Gasket — DOI: `10.1515/9781400839544.13`
+- A Tisket, a Tasket, an Apollonian Gasket — DOI: `10.2307/j.ctt7pgb6.6`
+- Hausdorff dimension of the Apollonian gasket — DOI: `10.1007/s00222-024-01311-y`
+- An infinite circle inversion limit set fractal — DOI: `10.1016/s0097-8493(00)00080-7`
+- PRECISE CALCULATION OF HAUSDORFF DIMENSION OF APOLLONIAN GASKET — DOI: `10.1142/s0218348x18500500`
+- Minkowski measurability of infinite conformal graph directed systems and application to Apollonian packings
+- Birational automorphism groups and the movable cone theorem for Calabi-Yau manifolds of Wehler type via universal Coxeter groups — DOI: `10.1353/ajm.2015.0023`
+- Apollonian Circle Packings: Geometry and Group Theory III. Higher Dimensions
+- Apollonian Circle Packings: Geometry and Group Theory II. Super-Apollonian Group and Integral Packings
+- Single line Apollonian gaskets: is the limit a space filling fractal curve?
+- Involution Products in Coxeter Groups
+- Zero Excess and Minimal Length in Finite Coxeter Groups
+- A Tale of Two Fractals: The Hofstadter Butterfly and The Integral Apollonian Gaskets — DOI: `10.1140/epjst/e2016-60021-3`
+- The Dynkin diagram cohomology of finite Coxeter groups — DOI: `10.1016/j.jalgebra.2009.09.023`
+- Apollonian Circle Packings: Geometry and Group Theory I. The Apollonian Group
+- Some spectral properties of pseudo-differential operators on the Sierpinski Gasket
+- On the Local-Global Conjecture for integral Apollonian gaskets
+- Hausdorff dimension of the Apollonian gasket
+- Statistical Regularity of Apollonian Gaskets
+- Imaginary cones and limit roots of infinite Coxeter groups
+- Tevatron-for-LHC Report of the QCD Working Group
+- On boundaries of parabolic subgroups of Coxeter groups
+- Homogeneity in Coxeter groups and split crystallographic groups
+- Narrow normal subgroups of Coxeter groups and of automorphism groups of Coxeter groups
+- On boundaries of Coxeter groups and topological fractal structures
+- A Special Class of Rank 10 and 11 Coxeter Groups — DOI: `10.1063/1.2982250`
+- Spatial Statistics of Apollonian Gaskets
+- ON THE RESIDUAL JULIA SET OF SEMIGROUPS GENERATED BY TRANSCENDENTAL ENTIRE FUNCTIONS — DOI: `10.46753/pjaa.2025.v012i03.001`
+- Transcendental entire functions whose Julia set is the complex plane — DOI: `10.1080/17476930701623099`
+- Dynamics of transcendental entire functions — DOI: `10.14711/thesis-b796134`
+- A property of entire transcendental functions — DOI: `10.21136/cpm.1978.117994`
+- Periodicity of transcendental entire functions sharing set with their shifts — DOI: `10.1007/s41478-026-01076-y`
+- Some results on complex dynamics of transcendental entire functions — DOI: `10.14711/thesis-b560405`
+- Transcendental entire functions whose Julia sets contain any infinite collection of quasiconformal copies of quadratic Julia sets — DOI: `10.3934/dcds.2019217`
+- Finite Type Transcendental Entire Functions Whose Buried Points Set Contains Unbounded Positive Real Interval — DOI: `10.4236/apm.2014.45027`
+- On topological properties of Fatou sets and Julia sets of transcendental entire functions — DOI: `10.1090/suga/425`
+- The Lebesgue Measure of the Julia Sets of Permutable Transcendental Entire Functions — DOI: `10.4236/apm.2022.129040`
+- On the connectivity of Julia sets of transcendental entire functions — DOI: `10.1017/s0143385798097570`
+- Julia Components of Transcendental Entire Functions with Multiply-Connected Wandering Domains — DOI: `10.1007/s40315-024-00521-y`
+- Spiders’ webs and locally connected Julia sets of transcendental entire functions — DOI: `10.1017/s0143385712000259`
+- A family of matings between transcendental entire functions and a Fuchsian group — DOI: `10.1017/cbo9780511735233.006`
+- Secant and Tangent Lines — DOI: `10.3840/07002069`
+- Dynamics, Thermodynamic formalism and Perturbations of Transcendental Entire Functions of Finite Singular Type — DOI: `10.12794/metadc4783`
+- A topological characterization of certain postsingularly finite entire functions : transcendental dynamics and Thurston theory — DOI: `10.70675/43e4141az1f90z44b7z8fa8z387c5cb11e50`
+- Secant and Tangent Lines — DOI: `10.3840/002069`
+- Transcendental Functions and Tangent Circles — DOI: `10.5951/mathteacher.112.1.0071`
+- Size of the Julia set of a structurally finite transcendental entire function — DOI: `10.1017/s0305004103006704`
+- Dynamics on Bungee set, Escaping set and Filled Julia set of Composite Transcendental Entire Functions
+- Escaping set and Julia set of transcendental semigroups
+- Local connectivity of Julia sets of some transcendental entire functions with Siegel disks
+- Spiders' webs and locally connected Julia sets of transcendental entire functions
+- Hausdorff dimensions of escaping sets of transcendental entire functions — DOI: `10.1090/s0002-9939-09-10104-1`
+- On the packing dimension of the Julia set and the escaping set of an entire function — DOI: `10.1007/s11856-012-0033-0`
+- Lebesgue measure of Julia sets and escaping sets of certain entire functions — DOI: `10.4064/fm477-11-2017`
+- Maximally and non-maximally fast escaping points of transcendental entire functions — DOI: `10.1017/s0305004115000018`
+- On Dynamics of the Bungee set and the Filled Julia set of a Transcendental Semigroup
+- A Study of Fatou Set, Julia set and Escaping Set in Nearly Abelian Transcendental Semigroup
+- An entire function connected with the approximation of the golden ratio
+- Recurrence of entire transcendental functions with simple post singular sets
+- A Study of Fatou Set, Julia set and Escaping Set in Conjugate Transcendental Semigroup
+- Entire functions with Cantor bouquet Julia sets — DOI: `10.1112/jlms.70142`
+- Semigroups of transcendental entire functions and their dynamics
+- The dynamics of semigroups of transcendental entire functions II
+- Non-landing hairs in Sierpinski curve Julia sets of transcendental entire maps
+- On the Hausdorff dimension of the Julia set of a regularly growing entire function — DOI: `10.1017/s0305004109990491`
+- Julia and escaping set spiders' webs of positive area
+- Unitary theories in the work of Mira Fernandes (beyond general relativity and differential geometry)
+- Potential Function in a Continuous Dissipative Chaotic System: Decomposition Scheme and Role of Strange Attractor
+- Intermittency and Synchronisation in Gumowski-Mira Maps
+- Visualizing the Template of a Chaotic Attractor — DOI: `10.1007/978-3-030-04414-5_8`
+- Generalized Attracting Horseshoes and Chaotic Strange Attractors
+- Strange Non-Chaotic Attractors with Unpredictable Trajectories
+- A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+- Stability enhanced by transient attractors in a memristive chaotic map
+- Templex: a bridge between homologies and templates for chaotic attractors — DOI: `10.1063/5.0092933`
+- How chaotic are strange nonchaotic attractors — DOI: `10.1088/0951-7715/19/9/001`
+- Strange non-chaotic attractors in quasiperiodically forced circle maps
+- Structure of strange baryons
+- Strange Nonchaotic Attractors in the Quasiperiodically forced Logistic Map — DOI: `10.1103/physreve.57.1576`
+- Strange nonchaotic attractors in noise driven systems — DOI: `10.1103/physrevlett.92.074102`
+- Kicked fluxonium with quantum strange attractor — DOI: `10.3390/physics8010022`
+- Chaotic dynamics of the Hunt model, an artificially constructed flow system with a hyperbolic attractor
+- MIRA: Mental Imagery for Robotic Affordances
+
+## Failures
+
+- semantic-scholar / "Levy dragon twin dragon terdragon fractal curve visualization": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Lattès map Julia set visualization complex dynamics": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "escape time transcendental entire functions Julia set cosine tangent secant": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- crossref / "strange attractor Tinkerbell Gumowski Mira Bedhead chaotic map visualization": paper title is required
+- semantic-scholar / "strange attractor Tinkerbell Gumowski Mira Bedhead chaotic map visualization": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

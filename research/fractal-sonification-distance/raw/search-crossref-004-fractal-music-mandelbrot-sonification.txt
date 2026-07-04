@@ -1,0 +1,10 @@
+10.1093/oxfordhb/9780190226992.013.9	Sonification ≠ Music
+10.4324/9781315770567-21	Sonification and Music, Music and Sonification
+10.21236/ada273271	Fractal Geometry in Physics
+10.1016/b978-0-444-86995-1.50004-4	SELF-AFFINE FRACTAL SETS, I: THE BASIC FRACTAL DIMENSIONS
+10.3390/fractalfract8010069	Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order
+10.29107/rr2025.3.13	Rhetorical twins: The fractal and organic geometries of Benoit Mandelbrot and Tadeusz Mysłowski
+10.1007/978-3-0348-7755-8_2	Measures of Fractal Lacunarity: Minkowski Content and Alternatives
+10.1142/9781786344755	CLOUDS ARE NOT SPHERES
+10.1007/978-1-84996-486-9_7	Fractal Financial Fluctuations
+10.1142/9789814366076_0007	The nature of fractal music

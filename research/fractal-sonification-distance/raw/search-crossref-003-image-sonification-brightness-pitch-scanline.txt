@@ -1,0 +1,10 @@
+10.21203/rs.3.rs-8705345/v1	Root Delta Image (RDI): A Low-Complexity Lossy Still-Image Format with Scanline Root-Delta Prediction
+10.1007/springerreference_16042	image brightness
+10.1007/s12193-019-00311-0	Sonification supports perception of brightness contrast
+10.7717/peerj-cs.1250/fig-6	Figure 6: (from left) Original image, brightness transformation using the proposed approach, brightness transformation using CLAHE, Brightness transformation using HE.
+10.1109/tvcg.2025.3633835/mm1	Perceiving Slope and Acceleration: Evidence for Variable Tempo Sampling in Pitch-Based Sonification of Functions_supp1-3633835.mp4
+10.1016/j.clinph.2023.02.053	P-36 Movement sonification by pitch feedback enhances context-dependent motor sequence learning
+10.1109/icip.2014.7025772	Revisiting guided image filter based stereo matching and scanline optimization for improved disparity estimation
+10.1016/0097-8493(93)90095-q	Image warping by scanline operations
+10.32614/cran.package.musicxml	musicXML: Data Sonification using 'musicXML'
+10.1016/j.optlaseng.2018.08.023	High-speed 3D shape measurement by one pitch phase analysis method using brightness values in small square area of single-shot image

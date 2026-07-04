@@ -1,0 +1,20 @@
+10.1007/s00208-023-02725-4	Bounded Fatou and Julia components of meromorphic functions
+	Wandering Fatou Components and Algebraic Julia Sets
+	Most Fatou and Julia components are small for polynomials
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	The leaves of the Fatou set accumulate on the leaves of the Julia set
+	Fatou Set, Julia Set and Escaping Set in Holomorphic Subsemigroup Dynamics
+	On Fatou sets containing Baker omitted value
+10.1112/s0024609304003157	An answer to a question of Herman, Baker and Rippon concerning Siegel disks
+	On Fatou and Julia sets of foliations
+	Local connectivity of Julia sets of some transcendental entire functions with Siegel disks
+10.1007/s12220-017-9764-9	The Fine Structure of Herman Rings
+	Fatou and Julia like sets II
+	Fatou and Julia like sets
+	A Study of Fatou Set, Julia set and Escaping Set in Nearly Abelian Transcendental Semigroup
+	Local connectivity of Julia sets of some rational maps with Siegel disks
+	Rational maps with smooth degenerate Herman rings
+	A Study of Fatou Set, Julia set and Escaping Set in Conjugate Transcendental Semigroup
+	Herman rings of meromorphic maps with an omitted value
+	On periods of Herman rings and relevant poles
+	Fatou Components with Punctured Limit Sets

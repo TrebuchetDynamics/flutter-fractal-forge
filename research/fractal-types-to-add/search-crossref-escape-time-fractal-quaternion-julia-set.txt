@@ -1,0 +1,20 @@
+10.3840/07001863	Quaternion Julia Set
+10.3840/001863	Quaternion Julia Set
+10.1063/1.5095111	A comparison of fractal dimension estimations for filled Julia fractal sets based on the escape time algorithm
+10.1007/978-3-642-21783-8_29	The Research on Anti-counterfeiting of Fractal Graphics in Color Printing Based on Escape Time Algorithm of Julia-set
+10.3390/fractalfract5020055	On the Connectivity Measurement of the Fractal Julia Sets Generated from Polynomial Maps: A Novel Escape-Time Algorithm
+10.33140/amlai.05.02.08	About Structure of a connected Quaternion-JUllA-Set and Symmetries of u related JULIA-Network
+10.3390/fractalfract8010069	Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order
+10.2139/ssrn.5361537	Escape from a Black Hole: An Approach using Fractal Time Dynamics
+10.1111/cgf.12705	Quaternion Julia Set Shape Optimization
+10.1142/s0218348x26501136	Comparison Analysis Of Fractal Theory; Classical And Quaternion Julia Methods In Hyperchaotic Systems
+10.1109/cec48606.2020.9185604	Clustering Julia Set Examples to Enhance Evolution of Fractal Parameters
+10.18208/ksdc.2017.23.4.743	A Study on the Generated Pattern and Form of Julia Set Based on Escape-time Fractals
+10.5120/ijca2016910653	On Generating Julia Set Fractal Shaped Images through Mobius Transformations
+10.1109/vsmm.2001.969714	Towards realistic modeling and rendering of 3-D escape-time deterministic fractal shapes
+10.12988/ams.2014.311647	Fuzzy fractal dimension based on escape time algorithm
+10.7583/jkgs.2014.14.6.109	Creation of Fractal Images with Rotational Symmetry Based on Julia Set
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals
+10.1016/j.chaos.2022.112478	Master-slave synchronization of a new fractal-fractional order quaternion-valued neural networks with time-varying delays
+10.3390/fractalfract10010069	Finite-Time Synchronization of Uncertain Fractional-Order Quaternion-Valued Neural Networks with Discontinuous Activation Function
+10.1142/s0218348x99000062	APPROXIMATION OF FRACTAL SETS BY JULIA SET ATTRACTORS OF POLYNOMIAL ITERATED FUNCTION SYSTEMS

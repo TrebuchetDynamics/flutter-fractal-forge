@@ -1,0 +1,20 @@
+	Rational maps without Herman rings
+	Rational maps with smooth degenerate Herman rings
+	The rational cohomology ring of the moduli space of abelian 3-folds
+	An Experimental View of Herman Rings for Dianalytic Maps of $\mathbb{RP}^2$
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	A decomposition theorem for Herman maps
+	Herman rings of meromorphic maps with an omitted value
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1007/s12220-017-9764-9	The Fine Structure of Herman Rings
+	Herman Rings: Structure, Dynamics, and Open Problems
+	On the formulas of meromorphic functions with periodic Herman rings
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	On periods of Herman rings and relevant poles
+	A New Class of Monotone/Convex Rational Fractal Function
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+10.1086/422420	Probing the Evolution of the Galaxy Interaction/Merger Rate Using Collisional Ring Galaxies
+	NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+10.1109/tvcg.2023.3326576	Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges

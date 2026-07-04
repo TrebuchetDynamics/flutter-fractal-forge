@@ -1,0 +1,20 @@
+10.7717/peerj-cs.2900/fig-2	Figure 2: The bifurcation diagram of the logistic map.
+10.1090/stml/052/06	The bifurcation diagram for the logistic map
+10.1515/zna-1997-6-708	The Complete Bifurcation Diagram for the Logistic Map
+10.7717/peerj-cs.2900/fig-1	Figure 1: The bifurcation diagram of the tent map.
+10.3840/001350	Orbit Diagram of the Logistic Map
+10.3840/07001350	Orbit Diagram of the Logistic Map
+10.1142/s0217979208038971	BIFURCATION AND FRACTAL OF THE COUPLED LOGISTIC MAP
+10.1016/j.cnsns.2006.08.007	Reverse bifurcation and fractal of the compound logistic map
+10.1142/s021812741102946x	POLYNOMIALS OF THE BIFURCATION POINTS OF THE LOGISTIC MAP
+10.1142/s0218127423300021	A Shifted Logistic Map
+10.1142/s0218127414500059	Cycles of the Logistic Map
+10.1142/s0218127411029422	LOGISTIC MAP WITH A FIRST ORDER FILTER
+10.1142/s0218127417501905	Bifurcation and Chaos in the Logistic Map with Memory
+10.1142/s0218127418501183	New Discrete Chaotic Multiplicative Maps Based on the Logistic Map
+10.1063/5.0144757	Bifurcation diagram for two dimensional logistic mapping
+10.3390/fractalfract7080570	Finite-Time Stabilization of Unstable Orbits in the Fractional Difference Logistic Map
+10.1142/s0218127411028052	EXTENDING THE PARAMETER INTERVAL IN THE LOGISTIC MAP WITH MEMORY
+10.1016/0375-9601(94)90273-9	On the bifurcation in a “modulated” logistic map
+10.1142/s0218127401003164	THE RESPONSE SPECTRUM MAP, A FREQUENCY DOMAIN EQUIVALENT TO THE BIFURCATION DIAGRAM
+10.1016/j.ifacol.2015.11.018	Bifurcation and Fractal of Triangle Folding Map

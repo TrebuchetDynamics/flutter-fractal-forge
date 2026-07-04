@@ -1,0 +1,20 @@
+10.1007/978-3-642-95678-2_17	Texture Analysis Using Fractal Dimensions
+10.1111/j.1467-8659.2012.03020.x	Procedural texture preview
+10.5220/0006626401330144	A Procedural Model for Snake Skin Texture Generation
+10.1111/j.1467-8659.2004.00777.x	Procedural Texture Matching and Transformation
+10.1145/48155.48159	Graphics goodies #2—a simple, versatile procedural texture
+10.1016/0734-189x(88)90133-8	Texture description and segmentation through fractal geometry
+10.1145/3208159.3208188	Constrained Texture Mapping via Approximate Voronoi Base Domain
+10.1007/1-4020-4179-9_110	LARGE TEXTURE STORAGE USING FRACTAL IMAGE COMPRESSION
+10.1016/0734-189x(89)90130-8	Texture description and segmentation through fractal geometry
+10.1111/j.1467-8659.2012.03127.x	Procedural Texture Synthesis for Zoom‐Independent Visualization of Multivariate Data
+10.1007/978-3-642-95678-2_7	Fractals and Formal Texture Specification
+10.1111/cgf.70003	Lightweight Voronoi Sponza
+10.1111/cgf.70385	ProcTex: Consistent and Interactive Text‐to‐texture Synthesis for Part‐based Procedural Models
+10.1109/iccsit.2009.5234644	Photorealistic terrain generation method based on fractal geometry theory and procedural texture
+10.1145/1921264.1921276	Real-time high-dynamic range texture compression based on local fractal transform
+10.1016/j.cag.2004.04.012	Procedural 3D texture synthesis using genetic programming
+10.1111/cgf.14061	Semi‐Procedural Textures Using Point Process Texture Basis Functions
+10.1017/cbo9780511663031.010	Fractal Computer Graphics
+10.1080/10867651.2003.10487588	A Procedural Thread Texture Model
+10.1201/9780367803735-6	Voronoi Diagrams

@@ -1,0 +1,20 @@
+	Apollonian Circle Packings: Geometry and Group Theory II. Super-Apollonian Group and Integral Packings
+	Apollonian Circle Packings: Geometry and Group Theory III. Higher Dimensions
+	Single line Apollonian gaskets: is the limit a space filling fractal curve?
+	Radial Density in Apollonian Packings
+10.1080/14786435.2013.801568	A hybrid helical structure of hard sphere packing from sequential deposition
+	The local-global principle for integral bends in orthoplicial Apollonian sphere packings
+10.1080/00268976.2011.630598	Apollonian packings as physical fractals
+	The Local-Global Principle for Integral Generalized Apollonian Sphere Packings
+	Enriques surfaces and an Apollonian packing in eight dimensions
+10.1007/s10711-024-00949-5	Regular polytopes, sphere packings and Apollonian sections
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Links in orthoplicial Apollonian packings
+	What do Bloch Electrons in a Magnetic Field have to do with Apollonian packing of Circles ?
+	Serial Symmetrical Relocation Algorithm for the Equal Sphere Packing Problem
+	Apollonian depth and the accidental fractal
+	Apollonian packings in seven and eight dimensions
+10.1039/c9sm01772k	Apollonian Packing in Polydisperse Emulsions
+	Apollonian Circle Packings: Number Theory
+	Apollonian Circle Packings: Geometry and Group Theory I. The Apollonian Group
+	The sensual Apollonian circle packing

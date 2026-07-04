@@ -1,0 +1,20 @@
+10.3390/fractalfract8010069	Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order
+10.1017/s0143385702001335	External rays and the real slice of the Mandelbrot set
+10.12988/imf.2007.07131	Extension of the Douady-Hubbard's theorem on convergence of periodic external rays of the Mandelbrot set to polynomials of type E_d
+10.3390/fractalfract5030073	Visualization of Mandelbrot and Julia Sets of Möbius Transformations
+10.1016/j.cag.2008.04.005	Drawing and computing external rays in the multiple-spiral medallions of the Mandelbrot set
+10.3840/07000706	Julia Sets and the Mandelbrot Set
+10.24033/ast.481	Rational Parameter Rays of the Mandelbrot Set
+10.1007/978-0-387-49514-9_21	Julia and Mandelbrot Sets
+10.3840/000706	Julia Sets and the Mandelbrot Set
+10.32614/cran.package.julia	Julia: Fractal Image Data Generator
+10.24033/ast.477	Periodic Orbits, Externals Rays and the Mandelbrot Set: An Expository Account
+10.2139/ssrn.5074772	Generateing Mandelbrot and Julia Set Using Pv Iterative Technique
+10.1007/bfb0104002	The Abstract Mandelbrot set
+10.1016/b978-044450002-1/50036-9	Mandelbrot, Julia and Other Complex Maps
+10.1017/cbo9780511569159.009	Convergence of rational rays in parameter spaces
+10.1119/1.5064557	Real-time Visualization of Equipotential Lines Using the IOLab
+10.1088/1402-4896/adc958/v1/review1	Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity"
+10.1088/1402-4896/adc958/v2/review2	Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity"
+10.1088/1402-4896/adc958/v3/review1	Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity"
+10.1142/9789814291293_0008	Julia sets and the Mandelbrot set

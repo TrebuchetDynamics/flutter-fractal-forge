@@ -1,0 +1,45 @@
+{
+  "question": "How should Flutter Fractal Forge produce musical signatures from fractal visuals using scanner distance and intensity, including silent black regions?",
+  "rforge_version": "rforge v0.1.14-4-g96621ca-dirty (96621ca, 2026-06-30T23:00:23Z)",
+  "timestamp": "2026-07-01T22:04:23-06:00",
+  "depth": "standard",
+  "queries": [
+    "fractal sonification distance intensity pitch mapping",
+    "Mandelbrot set sonification image brightness pitch distance",
+    "image sonification scanline brightness pitch auditory display",
+    "parameter mapping sonification brightness pitch loudness timbre",
+    "fractal music sonification self similarity auditory display",
+    "visual art sonification distance mapping pitch intensity",
+    "\"The Sonification Handbook\" parameter mapping sonification",
+    "\"Auditory Display\" sonification parameter mapping pitch loudness brightness",
+    "\"image sonification\" brightness pitch scanline",
+    "\"Fractal music\" Mandelbrot sonification",
+    "\"auditory graph\" pitch mapping function sonification",
+    "\"Timbre space\" sonification brightness texture"
+  ],
+  "sources": ["scholarly-fast", "crossref", "semantic-scholar"],
+  "search_stats": {
+    "crossref_records": 80,
+    "semantic_scholar_records": 30,
+    "total_unique_dois": 91,
+    "library_records": 70
+  },
+  "citation_expand_attempted": [],
+  "citation_expand_succeeded": [],
+  "outputs": [
+    "queries.txt",
+    "queries2.txt",
+    "coverage-stats.log",
+    "results.jsonl",
+    "failures.jsonl",
+    "report.md",
+    "provenance.json"
+  ],
+  "errors": [
+    "Initial scholarly-fast batch timed out after partial retrieval.",
+    "OpenAlex returned HTTP 503 for some queries.",
+    "arXiv returned HTTP 429 for one query.",
+    "Semantic Scholar returned HTTP 429 for several targeted queries.",
+    "No retrieved source directly validates this exact distance-bin fractal scanner mapping."
+  ]
+}

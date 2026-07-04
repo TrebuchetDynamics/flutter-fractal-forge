@@ -1,0 +1,20 @@
+10.1090/s1088-4173-08-00187-2	An extension of the Maskit slice for 4-dimensional Kleinian groups
+10.1215/s0012-7094-83-05010-x	A locally free Kleinian group
+10.1007/s10711-013-9901-y	Linear slices close to a Maskit slice
+10.1021/jacs.3c02165.s001	Slice Visualization for Imaging Nanocluster Transformations
+10.7717/peerj-cs.1133/supp-2	Supplemental Information 2: Codes of data image slice, classification, recovery and visualization
+10.2307/2374258	The Deformation Space of a Kleinian Group
+10.1007/978-3-642-61590-0	Kleinian Groups
+10.1007/bfb0065678	Good and bad kleinian groups
+10.55277/researchhub.qsrofa7f.1	Updated Slice Referral Code 2026: &amp;DORE.37299 (Claim Rs.200 Bonus)
+10.5220/0006619402810288	Slice-based Visualization of Brain Fiber Bundles - A LIC-based Approach
+10.1017/cbo9780511542817.014	On the boundary of the Earle slice for punctured torus groups
+10.1007/978-3-642-61590-0_3	Covering Spaces
+10.1007/978-3-642-61590-0_9	B-Groups
+10.55277/researchhub.gnz2qb60.1	Updated Slice Referral Code 2026 : &amp;DORE.37299
+10.17816/ptors688627-4391374	Fig. 4. Computed tomography of the pelvic bones: a, axial slice showing a comminuted fracture of the iliac wing with the wound tract visualization; b, axial slice demonstrating a metallic-density foreign body within the abdominal cavity; c, three-dimensional reconstruction of the pelvic bones with the foreign body visualization.
+10.3791/31255	Visualization and Mapping of Neuronal Pathways in an Amygdala Brain Slice
+10.1007/978-3-642-61590-0_7	Combination Theorems
+10.1007/978-3-540-49546-8_18	Visualization of Cardiac Tumors and Masses
+10.1007/bf02392267	Decomposition of certain Kleinian groups
+10.1215/s0012-7094-81-04841-9	On free Kleinian groups

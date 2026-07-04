@@ -1,0 +1,20 @@
+10.70675/9c090b81z3f62z45c7zac92z968330b34889	Synthesis of reaction-diffusion patterns with DNA : towards Turing patterns
+10.1101/370304	Reaction diffusion plus growth: A numerical model for Turing morphogenesis and Ben-Jacob patterns
+10.2139/ssrn.5069708	Oscillating Turing Patterns, Chaos and Strange Attractors in a Reaction-Diffusion System Augmented with Self- and Cross-Diffusion Terms
+10.1109/sice.2002.1195562	Analysis of Turing patterns by stochastic reaction diffusion systems
+10.30707/lib6.1mukherjee	Cross-Diffusion Induced Turing and non-Turing Patterns in Rosenzweig–MacArthur Model
+10.1063/1.2784554	Bifurcation diagrams and Turing patterns in a chemical self-replicating reaction-diffusion system with cross diffusion
+10.1063/1.4765594	Numerical approximation of oscillating Turing patterns in a reaction-diffusion model for electrochemical material growth
+10.1103/physrevlett.90.178303	Oscillatory Turing Patterns in Reaction-Diffusion Systems with Two Coupled Layers
+10.1016/j.chaos.2025.116181	Oscillating Turing patterns, chaos and strange attractors in a reaction–diffusion system augmented with self- and cross-diffusion terms
+10.1103/physreve.55.5291	Effect of randomness and anisotropy on Turing patterns in reaction-diffusion systems
+10.1103/physreve.71.066212	Out-of-phase oscillatory Turing patterns in a bistable reaction-diffusion system
+10.1016/j.chaos.2023.114152	Turing patterns in hyperbolic reaction-transport vegetation models with cross-diffusion
+10.1142/s0219199710003968	TURING PATTERNS IN GENERAL REACTION-DIFFUSION SYSTEMS OF BRUSSELATOR TYPE
+10.3934/mine.2024015	Turing patterns in a 3D morpho-chemical bulk-surface reaction-diffusion system for battery modeling
+10.5954/icarob.2025.os16-1	Modeling Yawning Contagion as a Reaction-Diffusion System: Emergence of Turing Patterns in Behavioral Contagion
+10.1103/physrevlett.92.198303	Stable Squares and Other Oscillatory Turing Patterns in a Reaction-Diffusion Model
+10.1063/1.4875262	Square Turing patterns in reaction-diffusion systems with coupled layers
+10.1088/1361-6544/ad1a48	Synchronization of Turing patterns in complex networks of reaction–diffusion systems set in distinct domains
+10.1063/1.3663483	A Turing Reaction-Diffusion Model for Human Cortical Folding Patterns and Cortical Pattern Malformations
+10.1103/5frq-hk7t	Emergence of hyperuniformity from reaction-diffusion interactions in Turing patterns

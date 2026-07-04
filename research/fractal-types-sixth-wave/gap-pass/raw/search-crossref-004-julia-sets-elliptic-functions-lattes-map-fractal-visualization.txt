@@ -1,0 +1,20 @@
+10.1515/9783111689685-006	6 The Fatou and Julia sets
+10.3390/fractalfract5030073	Visualization of Mandelbrot and Julia Sets of Möbius Transformations
+10.1515/9783111689685	Dynamics of Entire Functions
+10.1515/9783111689685-016	Bibliography
+10.1515/9783111689685-fm	Frontmatter
+10.1515/9783111689685-012	A Univalent functions in the disc
+10.1515/9783111689685-017	Index
+10.1515/9783111689685-toc	Contents
+10.1515/9783111689685-201	Preface
+10.1515/9783111689685-001	1 Introduction
+10.1515/9783111689685-002	2 Normal families
+10.1002/0470013850.ch14	Iteration of Complex Functions—Julia Sets
+10.1515/9783111689685-008	8 Singular values
+10.1515/9783111689685-005	5 Local conjugacy
+10.1515/9783111689685-007	7 Fatou components
+10.1515/9783111689685-004	4 Periodic points
+10.1515/9783111689685-202	List of Special Symbols
+10.1515/9783111689685-003	3 Value distribution theory
+10.1515/9783111689685-010	10 The parameter plane
+10.1515/9783111689685-009	9 The exponential family

@@ -1,0 +1,20 @@
+10.1080/01457630500205638	Heat Transfer Characteristics of a Quadratic Koch Island Fractal Heat Exchanger
+10.23919/cisti54924.2022.9820022	Fractal antenna based on the Minkowski sausage for digital TV reception
+10.11591/eei.v11i1.3333	Toward an optimum design of fractal sausage Minkowski antenna for GPS applications
+10.1109/aps.2009.5172157	Fractal monopole antenna design Using Minkowski Island geometry
+10.1109/aps.2005.1552396	Quadratic Koch Island Patch Antenna
+10.3390/fractalfract9080483	Evaluating the Fractal Pattern of the Von Koch Island Using Richardson’s Method
+10.1109/ssd.2010.5585511	Design of fractal quadratic Koch antenna
+10.1109/icci-cc.2013.6622231	An analysis of Koch and Minkowski fractal antennas for cognitive systems
+10.3390/app8030334	Minkowski Island and Crossbar Fractal Microstrip Antennas for Broadband Applications
+10.1109/rfm.2013.6757252	Fractal microstrip antenna with Minkowski Island split ring resonator for broadband application
+10.1109/eaic66483.2025.11101448	Coaxial Probe Fed Pentaband Koch-Minkowski Hybrid fractal antenna for Wireless applications
+10.1109/piers62282.2024.10618345	A Miniaturized Multiband Antenna Based on Koch-Minkowski Composite Fractal Structure
+10.12720/jcm.14.1.82-87	SAR Level Reduction Based on Fractal Sausage Minkowski Square Patch Antenna
+10.1109/imoc.2011.6169378	A comparison between Minkowski and Koch fractal patch antennas
+10.1109/iemcon.2018.8614773	A Compact Hybrid Fractal Antenna using Koch and Minkowski Curves
+10.1109/aps.2016.7695814	Hybrid Minkowski fractal island antenna operating in two bands of GPS satellite system
+10.1109/aps.2008.4619188	Stacked Koch Island fractal patch antenna
+10.1109/aps.2004.1331885	Koch island fractal ultra wideband dipole antenna
+10.1016/j.rio.2025.100921	Integrated Artificial Magnetic Conductor Minkowski Island fractal terahertz antenna (AMC-MIFA) for future Communications
+10.1007/s11277-019-06531-7	Moore, Minkowski and Koch Curves Based Hybrid Fractal Antenna for Multiband Applications

@@ -1,0 +1,8 @@
+fractal interpolation functions surfaces visualization rendering
+Takagi Weierstrass blancmange fractal function visualization
+Kleinian Schottky group limit set visualization fractal rendering
+Maskit slice Riley slice Kleinian group fractal visualization
+quaternionic Mobius transformations Kleinian fractals visualization
+fractal basin Wada riddled basins visualization chaotic maps
+fractal antenna Hilbert Peano space filling curve visualization applications
+Rauzy fractal substitution tiling visualization algorithms

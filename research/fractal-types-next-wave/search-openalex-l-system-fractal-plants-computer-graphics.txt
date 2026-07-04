@@ -1,0 +1,20 @@
+10.1145/127719.122752	Artificial evolution for computer graphics
+10.1007/s11831-016-9206-z	Plant Species Identification Using Computer Vision Techniques: A Systematic Literature Review
+10.1145/378456.378503	Development models of herbaceous plants for computer imagery purposes
+10.1145/237170.237279	Visual models of plants interacting with their environment
+10.1145/378456.378505	Plant models faithful to botanical structure and development
+10.1007/s11831-019-09324-0	Applications of Computer Vision in Plant Pathology: A Survey
+10.1068/a211447	Urban Growth and Form: Scaling, Fractal Geometry, and Diffusion-Limited Aggregation
+10.1051/forest:2000132	Representing and encoding plant architecture: A review
+10.1109/38.736469	Interactive modeling of plants
+10.1145/15922.15892	Real time design and animation of fractal plants and trees
+10.1109/5.949485	Interactive evolutionary computation: fusion of the capabilities of EC optimization and human evaluation
+10.1071/fp08084	OpenAlea: a visual programming and component-based software platform for plant modelling
+10.17660/actahortic.2004.630.1	ART AND SCIENCE OF LIFE: DESIGNING AND GROWING VIRTUAL PLANTS WITH L-SYSTEMS
+10.3389/fpls.2012.00076	L-Py: An L-System Simulation Framework for Modeling Plant Architecture Development Based on a Dynamic Language
+10.1371/journal.pcbi.1005993	Automated plant species identification—Trends and future directions
+10.1270/jsbbs.21074	3D modeling and reconstruction of plants and trees: A cross-cutting review across computer graphics, vision, and plant phenotyping
+10.1145/166117.166161	Animation of plant development
+10.3390/s21113647	Review of Weed Detection Methods Based on Computer Vision
+10.1186/s13640-019-0431-x	Research on garment pattern design based on fractal graphics
+10.1029/2018ms001400	Developments in the MPI‐M Earth System Model version 1.2 (MPI‐ESM1.2) and Its Response to Increasing CO<sub>2</sub>

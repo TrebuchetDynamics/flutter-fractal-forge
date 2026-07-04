@@ -1,0 +1,20 @@
+10.64898/2026.05.23.727422	A Sonification Framework for GPCR Molecular Dynamics: Auditory Signatures of β2-Adrenergic Receptor
+10.1109/vrw70859.2026.00133	Exploring Proprioception and Spatial Awareness During Auditory and Visual Feet Guidance in Bouldering
+10.1145/3678299.3678318	Micropolyphony and Stochastic Compositional Techniques as Tools for the Sonification of Magnetic Storms
+10.1145/3212721.3212881	Exploring different movement sonification strategies for rehabilitation in clinical settings
+10.7287/peerj.preprints.1376v1	Sonification of reference markers for auditory graphs: effects on non-visual point estimation tasks
+10.3390/ijgi9070453	Generating and Mapping Amazonian Urban Regions Using a Geospatial Approach
+10.1088/1741-2552/aa785e	Mapping the fine structure of cortical activity with different micro-ECoG electrode array geometries
+	SONATA FOR CASSIOPEIA: A PARAMETER MAPPING MUSIFICATION STUDY FOR PIANO AND STARS
+10.1142/s0219519426400579	Constructing a Music Therapy System by CycleGAN under Generative AI Empowerment
+10.1126/science.ade4401	A Principal Odor Map Unifies Diverse Tasks in Olfactory Perception
+10.1007/s12194-023-00773-8	The effects of mega-voltage CT scan parameters on offline adaptive radiation therapy
+	SEED, FROM DOUBLE HELIX
+10.1371/journal.pone.0005915	Scale-Free Music of the Brain
+10.1145/3535508.3545102	Trajectory-based and sound-based medical data clustering
+	LEVELS OF TEMPORAL RESOLUTION IN SONIFICATION OF NETWORK PERFORMANCE
+10.3847/1538-4357/ab15d6	Strong Scattering of ∼keV Pickup Ions in the Local Interstellar Magnetic Field Draped around Our Heliosphere: Implications for the IBEX Ribbon's Source and IMAP
+10.1177/1071181311551257	Data-To-Sound Mapping To Sonify Ongoing System Status In Continuous Manual Control Task
+	The development of head induced crown control in hard disk drive head gimbal assembly (HGA) line
+10.1007/bf00337005	Spatial cross-correlation
+10.17725/rensit.2016.08.207	FOIRIER IMAGES QUASISYMMETRY OF GENERALIZED TRIADIC KOCH PREFRACTALS

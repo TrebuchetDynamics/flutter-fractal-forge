@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-07-02T22:45:22Z",
+  "queries": [
+    "Minkowski question mark function fractal visualization",
+    "Levy dragon twin dragon terdragon fractal curve visualization",
+    "Minkowski sausage quadratic Koch island fractal visualization",
+    "Julia sets elliptic functions Lattes map fractal visualization",
+    "Lattès map Julia set visualization complex dynamics",
+    "circle limit fractal Coxeter group Apollonian gasket rendering",
+    "escape time transcendental entire functions Julia set cosine tangent secant",
+    "strange attractor Tinkerbell Gumowski Mira Bedhead chaotic map visualization"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "limit": 20,
+  "results": 350,
+  "deduped": 303,
+  "failures": 5
+}

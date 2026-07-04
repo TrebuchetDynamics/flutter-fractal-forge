@@ -1,0 +1,20 @@
+	BESSEL FUNCTIONS. Airy log gamma subroutines
+10.1145/3328732	Computing Hypergeometric Functions Rigorously
+10.1016/j.jat.2025.106178	Global rational approximations of functions with factorially divergent asymptotic series
+10.1109/tvt.2024.3442929	NOMA-Enhanced Cooperative Relaying Systems in Drone-Enabled IoV: Capacity Analysis and Height Optimization
+10.1119/1.18543	Computation of special functions
+	Rigorous analysis of large-space and long-time asymptotics for the short-pulse soliton gases
+	Two New Zeta Constants: Fractal String, Continued Fraction, and Hypergeometric Aspects of the Riemann Zeta Function
+10.1007/0-387-28815-5	The Mathematica GuideBook for Symbolics
+10.1142/p410	Asymptotic Analysis Of Differential Equations
+	A new type of factorial series expansions and applications
+10.1090/s0025-5718-68-99864-5	High accuracy gamma function values for some rational arguments
+	Advanced Calculus for Applications
+10.1088/1751-8121/ac2e29	First-order nonlinear eigenvalue problems involving functions of a general oscillatory behavior
+	An Atlas of Functions: with Equator, the Atlas Function Calculator
+	On the computation of special functions by using asymptotic expansions
+	Integral Transforms and Their Applications
+10.1007/978-94-011-4605-0	Global Analysis in Linear Differential Equations
+10.1201/b16001	CRC Standard Curves and Surfaces with Mathematica
+10.1017/s0040298222000213	Aldo Clementi
+	A Study of Polynomials and their Q-Analogues using Classical and Fractional Calculus Techniques

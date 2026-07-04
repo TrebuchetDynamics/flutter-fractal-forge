@@ -1,0 +1,23 @@
+{
+  "nodes": [
+    {
+      "id": "10.1090/ecgd/380"
+    },
+    {
+      "id": "a649c60cb824190659ea1d9eb476a0f24b6bac7a"
+    },
+    {
+      "id": "c11b1a36fd35adf67bd57b24d7df1f7f1dd748ba"
+    }
+  ],
+  "edges": [
+    {
+      "source": "a649c60cb824190659ea1d9eb476a0f24b6bac7a",
+      "target": "10.1090/ecgd/380"
+    },
+    {
+      "source": "c11b1a36fd35adf67bd57b24d7df1f7f1dd748ba",
+      "target": "10.1090/ecgd/380"
+    }
+  ]
+}

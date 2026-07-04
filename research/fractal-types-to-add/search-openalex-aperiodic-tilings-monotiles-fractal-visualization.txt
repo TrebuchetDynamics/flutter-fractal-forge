@@ -1,0 +1,6 @@
+10.48550/arxiv.2408.16476	Beating the aliasing limit with aperiodic monotile arrays
+10.3390/math13182982	Graph Theoretic Analyses of Tessellations of Five Aperiodic Polykite Unitiles
+10.1038/s41598-025-25284-x	Structural insights into a rhombic Penrose tiling variant abundant in five-petaled flower motifs
+10.1038/s41598-025-25284-x	Structural insights into a rhombic Penrose tiling variant abundant in five-petaled flower motifs
+10.48550/arxiv.2602.18246	Graph Colouring: A Visual Tour
+10.1090/noti2920	What Can We Say About “Math/Art”?

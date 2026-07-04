@@ -1,0 +1,156 @@
+{
+  "nodes": [
+    {
+      "id": "00c509f23ef87082092da65aad061105018b7536"
+    },
+    {
+      "id": "0d6faa7cb3c703248d9c0a12d85206ab0eaa01fc"
+    },
+    {
+      "id": "10.1103/physreve.54.4590"
+    },
+    {
+      "id": "115fe390b6b4eb381bff3afe1f1b37a896c27e12"
+    },
+    {
+      "id": "1beb70d6c7f1c41cee309538e339a97489bb520d"
+    },
+    {
+      "id": "22b5383f7c482d7afdfdcfc6c87188084b2828f7"
+    },
+    {
+      "id": "26af88730f330794abeb6c1849576b359d2bb957"
+    },
+    {
+      "id": "5460780ea475f2f3937a3488b47d47b3e0464cf5"
+    },
+    {
+      "id": "575dcd07ea3b0096e39ece9f811b187151101634"
+    },
+    {
+      "id": "5808b9e6dfa54dbcec8663074ea80f564b3a92dc"
+    },
+    {
+      "id": "6e2da26a97c2e274a9178fa468d530bf38c5822c"
+    },
+    {
+      "id": "7cbc5ce5fca6078986e10da715fec05af71e7660"
+    },
+    {
+      "id": "804b3658ac63ec308eed5dcbb8c3312f15755f35"
+    },
+    {
+      "id": "94ac99ab2b07fe10e5a8c2c063fdb9ccf2de895e"
+    },
+    {
+      "id": "a9333c2ee31a832a5eb274e7334b582270c084dc"
+    },
+    {
+      "id": "abde041cd445805e93dd472102e2faa21d62832d"
+    },
+    {
+      "id": "b51d3ff953c490a7ef255a1689046528fb5a8976"
+    },
+    {
+      "id": "c9103f771f668e86b3d2543684470f282f2af5d6"
+    },
+    {
+      "id": "cf59a3bfaac25723e315baf025b6d24ccc08390c"
+    },
+    {
+      "id": "de2f048e55c01ddabb638fc0d4605d78324d992e"
+    },
+    {
+      "id": "f1e425504a108605a588021b9015e51fe2233395"
+    },
+    {
+      "id": "fef2d4e16ceb8663e27ac41ca13db88b3be4ddd3"
+    }
+  ],
+  "edges": [
+    {
+      "source": "00c509f23ef87082092da65aad061105018b7536",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "0d6faa7cb3c703248d9c0a12d85206ab0eaa01fc",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "115fe390b6b4eb381bff3afe1f1b37a896c27e12",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "1beb70d6c7f1c41cee309538e339a97489bb520d",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "22b5383f7c482d7afdfdcfc6c87188084b2828f7",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "26af88730f330794abeb6c1849576b359d2bb957",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "5460780ea475f2f3937a3488b47d47b3e0464cf5",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "575dcd07ea3b0096e39ece9f811b187151101634",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "5808b9e6dfa54dbcec8663074ea80f564b3a92dc",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "6e2da26a97c2e274a9178fa468d530bf38c5822c",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "7cbc5ce5fca6078986e10da715fec05af71e7660",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "804b3658ac63ec308eed5dcbb8c3312f15755f35",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "94ac99ab2b07fe10e5a8c2c063fdb9ccf2de895e",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "a9333c2ee31a832a5eb274e7334b582270c084dc",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "abde041cd445805e93dd472102e2faa21d62832d",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "b51d3ff953c490a7ef255a1689046528fb5a8976",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "c9103f771f668e86b3d2543684470f282f2af5d6",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "cf59a3bfaac25723e315baf025b6d24ccc08390c",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "de2f048e55c01ddabb638fc0d4605d78324d992e",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "f1e425504a108605a588021b9015e51fe2233395",
+      "target": "10.1103/physreve.54.4590"
+    },
+    {
+      "source": "fef2d4e16ceb8663e27ac41ca13db88b3be4ddd3",
+      "target": "10.1103/physreve.54.4590"
+    }
+  ]
+}

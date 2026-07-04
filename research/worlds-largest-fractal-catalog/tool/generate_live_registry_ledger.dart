@@ -27,17 +27,24 @@ const categoryToTargetFamily = {
   'Advanced Rational & Polynomial': 'rational_transcendental_maps',
   'Spectral Fractals': 'rational_transcendental_maps',
   'Lyapunov & Stability': 'number_theory_special_functions',
+  'Lyapunov / Stability': 'number_theory_special_functions',
   'Deep Chaos & Flows': 'strange_attractors_maps',
   'High-Dimensional Algebra': 'number_theory_special_functions',
   'Tiling & Graph Fractals': 'tilings_substitution_graphs',
   'Aperiodic Tiling': 'tilings_substitution_graphs',
   'Cellular & Stochastic': 'cellular_automata',
   'Cellular & Stochastic Growth': 'cellular_automata',
+  'Cellular / Stochastic': 'cellular_automata',
   'Cellular Automata': 'cellular_automata',
   'Spatiotemporal Chaos': 'cellular_automata',
   'Reaction-Diffusion': 'cellular_automata',
   'Complex Dynamics': 'rational_transcendental_maps',
   'Number-Theory Fractals': 'number_theory_special_functions',
+  'Number Theory': 'number_theory_special_functions',
+  'Procedural Fractals': 'ifs_geometric',
+  'L-Systems': 'l_systems_plants_curves',
+  'Root Finding': 'root_finding_polynomiography',
+  'Orbit / Domain Coloring': 'escape_time_polynomial_complex',
   'Other': 'escape_time_polynomial_complex',
 };
 
@@ -60,6 +67,13 @@ const categoryToIdentityType = {
   'Strange Attractors': 'map',
   'Deep Chaos & Flows': 'map',
   'Lyapunov & Stability': 'map',
+  'Lyapunov / Stability': 'map',
+  'Number Theory': 'map',
+  'Procedural Fractals': 'transform_system',
+  'L-Systems': 'grammar',
+  'Cellular / Stochastic': 'rule',
+  'Root Finding': 'map',
+  'Orbit / Domain Coloring': 'map',
 };
 
 bool isDiagnosticModule(String id, String shaderAsset) {

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-07-02T23:04:26Z",
+  "queries": [
+    "Herman ring rational maps fractal visualization",
+    "Siegel disk Herman ring Fatou components Julia set rendering",
+    "Mandelbrot percolation random Sierpinski carpet fractal visualization",
+    "random iterated function systems superfractals visualization rendering",
+    "Julia sets Bessel functions complex dynamics fractal",
+    "Newton fractal Bessel Airy gamma functions",
+    "Baker domains wandering domains transcendental entire functions Julia sets visualization",
+    "Sierpinski curve Julia sets rational maps visualization"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "limit": 20,
+  "results": 456,
+  "deduped": 422,
+  "failures": 6
+}

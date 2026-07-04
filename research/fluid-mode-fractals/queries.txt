@@ -1,0 +1,3 @@
+GPU Gems 38 fast fluid dynamics simulation GPU Jos Stam stable fluids
+real-time fluid simulation GPU pressure projection vorticity confinement
+screen-space fluid simulation fragment shader advection pressure projection

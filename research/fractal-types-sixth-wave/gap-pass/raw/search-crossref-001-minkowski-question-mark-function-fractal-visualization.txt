@@ -1,0 +1,20 @@
+10.1017/s0017089509990152	THE MOMENTS OF MINKOWSKI QUESTION MARK FUNCTION: THE DYADIC PERIOD FUNCTION
+10.2478/udt-2022-0014	On the Derivative of the Minkowski Question-Mark Function
+10.4064/aa181209-18-9	Diophantine properties of fixed points of Minkowski question mark function
+10.1090/s0025-5718-09-02263-7	The Minkowski question mark function: explicit series for the dyadic period function and moments
+10.7169/facm/1966	On the derivative of iterations of the Minkowski question mark function at special points
+10.1007/s11139-025-01261-w	Sums with Stern-Brocot sequences and the Minkowski question-mark function
+10.1090/s0025-5718-2011-02479-8	Addenda and corrigenda to “The Minkowski question mark function: explicit series for the dyadic period function and moments”
+10.2140/involve.2009.2.121	Generating and zeta functions, structure, spectral and analytic properties of the moments of the Minkowski question mark function
+10.1007/s10958-018-4030-7	Alternating Sums of Elements of Continued Fractions and the Minkowski Question Mark Function
+10.1007/s10958-012-0750-2	On the derivative of the Minkowski question mark function ?(x)
+10.1007/s10959-017-0783-z	Random Walks in the Hyperbolic Plane and the Minkowski Question Mark Function
+10.4134/ckms.c150248	DIFFERENTIABILITY AND NON-DIFFERENTIABILITY POINTS OF THE MINKOWSKI QUESTION MARK FUNCTION
+10.1007/s11139-011-9307-0	Semi-regular continued fractions and an exact formula for the moments of the Minkowski question mark function
+10.1007/s10986-008-9027-3	An asymptotic formula for the moments of the Minkowski question mark function in the interval [0, 1]
+10.1142/s179304211850149x	Generalizing the Minkowski question mark function to a family of multidimensional continued fractions
+10.1016/j.jnt.2007.12.010	Fractal analysis for sets of non-differentiability of Minkowski's question mark function
+10.1090/memo/0608	Generalized Minkowski content, spectrum of fractal drums, fractal strings and the Riemann zeta-function
+10.3840/07002299	Minkowski's Question Mark Function
+10.3840/002299	Minkowski's Question Mark Function
+10.1090/gsm/247/08	Minkowski content and Minkowski dimension

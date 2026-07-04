@@ -1,0 +1,12 @@
+10.1007/s11511-015-0122-0	Constructing entire functions by quasiconformal folding
+10.1017/s0143385700003655	Dynamics of entire functions near the essential singularity
+10.48550/arxiv.2106.02832	Iteration of some topologically hyperbolic maps in the family $ λ+z+\tan z$
+10.1007/s11075-017-0270-8	An effective algorithm to compute Mandelbrot sets in parameter planes
+10.12732/ijam.v34i6.3	ON SOME ADVANCES IN DYNAMICS OF ONE VARIABLE COMPLEX FUNCTIONS
+10.48550/arxiv.2305.10291	Deformations on Entire Transcendental Functions
+10.12681/eadd/11228	Δυναμική ρητών επαναληπτικών μεθόδων και μορφοκλασματικές συναρτήσεις
+	Between Site-Specificity and Landscape in Video Art
+	'Passionately subjective': challenges to identity in the works of Amy Levy
+10.5287/ora-r8vy7r1bz	Life is in the manuscript: Virginia Woolf, historiography, and the "mythical method"
+	Authoring Death: Mourning Masculinity in American Autobiography
+	Edge effects: poetry, place, and spiritual practices

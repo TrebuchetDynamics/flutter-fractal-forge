@@ -1,0 +1,1 @@
+search: Get "https://export.arxiv.org/api/query?max_results=20&search_query=all%3ATakagi+blancmange+function+fractal+visualization+devil+staircase": context deadline exceeded (Client.Timeout exceeded while awaiting headers)

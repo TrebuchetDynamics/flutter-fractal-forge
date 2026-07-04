@@ -1,0 +1,20 @@
+	Apollonian Circle Packings: Geometry and Group Theory III. Higher Dimensions
+	Apollonian Circle Packings: Geometry and Group Theory II. Super-Apollonian Group and Integral Packings
+	Single line Apollonian gaskets: is the limit a space filling fractal curve?
+	Involution Products in Coxeter Groups
+	Zero Excess and Minimal Length in Finite Coxeter Groups
+10.1140/epjst/e2016-60021-3	A Tale of Two Fractals: The Hofstadter Butterfly and The Integral Apollonian Gaskets
+10.1016/j.jalgebra.2009.09.023	The Dynkin diagram cohomology of finite Coxeter groups
+	Apollonian Circle Packings: Geometry and Group Theory I. The Apollonian Group
+	Some spectral properties of pseudo-differential operators on the Sierpinski Gasket
+	On the Local-Global Conjecture for integral Apollonian gaskets
+	Hausdorff dimension of the Apollonian gasket
+	Statistical Regularity of Apollonian Gaskets
+	Imaginary cones and limit roots of infinite Coxeter groups
+	Tevatron-for-LHC Report of the QCD Working Group
+	On boundaries of parabolic subgroups of Coxeter groups
+	Homogeneity in Coxeter groups and split crystallographic groups
+	Narrow normal subgroups of Coxeter groups and of automorphism groups of Coxeter groups
+	On boundaries of Coxeter groups and topological fractal structures
+10.1063/1.2982250	A Special Class of Rank 10 and 11 Coxeter Groups
+	Spatial Statistics of Apollonian Gaskets

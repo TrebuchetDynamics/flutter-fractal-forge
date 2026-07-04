@@ -1,0 +1,20 @@
+10.4171/jfg/170	Metallic mean fractal systems and their tilings
+10.3389/frcrb.2024.1496179	Quasicrystalline 30° twisted bilayer graphene: fractal patterns and electronic localization properties
+10.1007/978-3-030-57666-0_4	Operators, Algebras and Their Invariants for Aperiodic Tilings
+	37B52 Tiling dynamics 42B10 Fourier and Fourier-Stieltjes transforms and other transforms of Fourier type 52C23 Quasicrystals and aperiodic tilings in discrete geometry 37F25 Renormalization of holomorphic dynamical systems
+10.1103/physrevb.111.104104	Triangular and dice quasicrystals modulated by generic one-dimensional aperiodic sequences
+	Observation of an aperiodic polariton monotile
+	Critical states and anomalous wave transport in an aperiodic polariton monotile
+10.3390/math13182982	Graph Theoretic Analyses of Tessellations of Five Aperiodic Polykite Unitiles
+	Chiral Diffraction from Aperiodic Monotile Lattice
+10.1002/anie.202314454	Understanding the Role of Trapezoids in Honeycomb Self-Assembly - Pathways between a Columnar Liquid Quasicrystal and its Liquid-Crystalline Approximants.
+	Simple and Composite Octagonal Quasicrystal Tilings
+10.48550/arxiv.2604.19586	Monotile kirigami
+10.1088/0305-4470/29/21/018	Heptagonal quasicrystal tilings
+10.1002/aidi.202500043	Automatic Determination of Quasicrystalline Patterns from Microscopy Images
+10.1088/1742-6596/1458/1/012001	Local growth of planar rhombus tilings
+10.1103/physrevb.110.035403	Wave functions in the critical phase: A planar Sierpiński fractal lattice
+10.1103/physrevresearch.4.033114	Quasicrystal kirigami
+10.1103/physrevb.99.094424	Emergent magnetic ordering and topological frustration in quasicrystal artificial spin ices
+	An aperiodic tiling of variable geometry made of two tiles, a triangle and a rhombus of any angle
+10.1007/bf02215977	Fractal Penrose tilings I. Construction and matching rules

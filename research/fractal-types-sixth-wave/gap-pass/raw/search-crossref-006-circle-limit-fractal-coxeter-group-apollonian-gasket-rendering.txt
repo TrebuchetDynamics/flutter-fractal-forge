@@ -1,0 +1,20 @@
+10.3840/07000774	Apollonian Gasket
+10.3840/000774	Apollonian Gasket
+10.1109/lapc.2015.7366116	Multiband Smith-Apollonian Gasket fractal antenna for ITS, WiMAX, STM and satellite communication
+10.1007/978-3-319-18660-3_8	Apollonian Circle Packings
+10.18485/mtts_mr.2024.30.2.7	Performance Optimisation of Modified Multiband Apollonian Gasket Fractal Antenna Using Artificial Neural Network
+10.1007/3-540-28849-x_29	The Trigonometry of Escher’s Woodcut Circle Limit III
+10.2307/1574078	The Non-Euclidean Symmetry of Escher's Picture 'Circle Limit III'
+10.1109/spaces.2015.7058248	Implementation of printed microstrip apollonian gasket fractal antenna for multi band wireless applications
+10.1109/tap.2013.2287011	Hemispherical Dielectric Resonator Antenna Based on Apollonian Gasket of Circles—A Fractal Approach
+10.1007/s00454-005-1196-9	Apollonian Circle Packings: Geometry and Group Theory I. The Apollonian Group
+10.1007/s00454-005-1195-x	Apollonian Circle Packings: Geometry and Group Theory II. Super-Apollonian Group and Integral Packings
+10.1103/physreve.81.061403	Estimate for the fractal dimension of the Apollonian gasket in<mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" display="inline"><mml:mi>d</mml:mi></mml:math>dimensions
+10.1007/bf03026752	The trigonometry of escher’s woodcut “circle limit III“
+10.1007/978-0-8176-8382-5_5	Definition of the Apollonian Gasket
+10.5592/co/ccd.2022.02	Solving the dimer problem on Apollonian gasket
+10.1515/9781400839544.13	A Tisket, a Tasket, an Apollonian Gasket
+10.2307/j.ctt7pgb6.6	A Tisket, a Tasket, an Apollonian Gasket
+10.1007/s00222-024-01311-y	Hausdorff dimension of the Apollonian gasket
+10.1016/s0097-8493(00)00080-7	An infinite circle inversion limit set fractal
+10.1142/s0218348x18500500	PRECISE CALCULATION OF HAUSDORFF DIMENSION OF APOLLONIAN GASKET

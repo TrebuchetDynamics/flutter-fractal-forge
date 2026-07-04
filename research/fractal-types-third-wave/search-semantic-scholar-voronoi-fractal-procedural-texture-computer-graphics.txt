@@ -1,0 +1,20 @@
+10.1016/j.aeue.2016.11.009	Discrimination of natural images and computer generated graphics based on multi-fractal and regression analysis
+10.1111/cgf.14775	Neurosymbolic Models for Computer Graphics
+10.1109/cw55638.2022.00015	Realtime Texture Upsampling on Graphics Hardware Using Fractal Coding
+	The Impacts of Innovation in CG Procedural Texture Technology on Artists' Knowledge Structure Demand
+10.1109/oceans.2018.8604616	SAS Simulations with Procedural Texture and the Point-based Sonar Scattering Model
+10.48175/ijarsct-18691	Modern Computer Graphics Innovation and Applications: An Extensive Overview
+	A Two-view Learning Method on Procedural Texture Classification
+10.1007/s00371-016-1295-z	Multiple-process procedural texture
+10.5220/0013191700003912	Second Order Differential Properties of Tensor Product Fractal Surfaces
+10.1007/s00371-016-1295-z	Multiple-process procedural texture
+10.55041/ijsrem60695	ARTIFICIAL EVOLUTION OF COMPUTER GRAPHICS
+10.2991/ccit-14.2014.67	Blind Identification of Photorealistic Computer Graphics Based on Fractal Dimensions
+10.1145/2897824.2925922	Procedural voronoi foams for additive manufacturing
+	Interactive Methods for Procedural Texture Generation with Noise
+10.1007/978-3-319-27122-4_15	Identification of Natural Images and Computer Generated Graphics Using Multi-fractal Differences of PRNU
+10.33243/2313-7010-26-29-35	FRACTAL GRAPHICS FOR VIRTUAL ENVIRONMENT GENERATION
+10.1109/csci.2017.210	Teaching Undergraduate Computer Graphics: Game Design and Implementation Utilizing the OpenGL Library and the Windows API
+10.1007/978-3-642-95678-2	Fractal Geometry and Computer Graphics
+10.1353/con.2021.0012	Genesis Effects: Growing Planets in 1980s Computer Graphics
+10.1109/urai.2017.7992732	Haptic texture rendering using random fractal surface

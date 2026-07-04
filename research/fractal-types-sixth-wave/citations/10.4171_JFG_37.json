@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "id": "052131e81cf68b19cfbd92c30fe409d108cbc7db"
+    },
+    {
+      "id": "06167b29574e5c03bc0e0a9454d2a79c9212e120"
+    },
+    {
+      "id": "0cf454e8285f5c387ca60985fb9fcf5c2a3613f3"
+    },
+    {
+      "id": "0e055e74163dc85a5dec5ac1406cd96404d1d85e"
+    },
+    {
+      "id": "10.4171/JFG/37"
+    },
+    {
+      "id": "163f31773552f6db51a2cb2a499b29ad4ed50cea"
+    },
+    {
+      "id": "16a07b635493bc57829626a662c8b24cb66538bc"
+    },
+    {
+      "id": "1eda95291bb7cce7abc8aac2c349ca1674da207e"
+    },
+    {
+      "id": "23fbfc9eab3854ee8333ebcbae82702795e47976"
+    },
+    {
+      "id": "287650fad5a478581f0040ad064e6856c7c13af2"
+    },
+    {
+      "id": "2938b2eedcc8eb8a4fa5405ca228c7ff49b1d6e0"
+    },
+    {
+      "id": "293b7b19be1571233a61c2ab906a90932bc5988f"
+    },
+    {
+      "id": "38983c25774fd88920cc46744962fdbf7d20cd5c"
+    },
+    {
+      "id": "6a653b9f07bbd48ee71f776df6275c73ad636ee2"
+    },
+    {
+      "id": "7a8fc199335a89c77f69fa2e6e9ecf39e1f56c9f"
+    },
+    {
+      "id": "7dbe7d99417de2e4166b380459b41d65adee2e09"
+    },
+    {
+      "id": "87c53cd55c0fce14cda4aa781ca967c5bfece709"
+    },
+    {
+      "id": "a91d391536db55a1b4ee7fa020b803234a070bbf"
+    },
+    {
+      "id": "b5afd480a5150cd94365d40b356f48c0f9f1d21e"
+    },
+    {
+      "id": "c5a054ac5df14e1a1dde818759b6b147d9eda95b"
+    },
+    {
+      "id": "cba1bf72e90a1ead0dd6a924dfed7676e0477bf0"
+    },
+    {
+      "id": "d320cada86f512b9b203b556ab7a16d22d20ec9f"
+    },
+    {
+      "id": "e310eb8bc4d6842dcf3d853a55f5511c6dbc5254"
+    },
+    {
+      "id": "ee351289654094688e3e74cf516f9427ec29be27"
+    },
+    {
+      "id": "f091800415c84f729a39cd873d37009cd01a2cc1"
+    },
+    {
+      "id": "f204d21360688a0da9f30db34592d3ed1b201892"
+    }
+  ],
+  "edges": [
+    {
+      "source": "0e055e74163dc85a5dec5ac1406cd96404d1d85e",
+      "target": "10.4171/JFG/37"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "052131e81cf68b19cfbd92c30fe409d108cbc7db"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "06167b29574e5c03bc0e0a9454d2a79c9212e120"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "0cf454e8285f5c387ca60985fb9fcf5c2a3613f3"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "163f31773552f6db51a2cb2a499b29ad4ed50cea"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "16a07b635493bc57829626a662c8b24cb66538bc"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "1eda95291bb7cce7abc8aac2c349ca1674da207e"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "23fbfc9eab3854ee8333ebcbae82702795e47976"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "287650fad5a478581f0040ad064e6856c7c13af2"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "2938b2eedcc8eb8a4fa5405ca228c7ff49b1d6e0"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "293b7b19be1571233a61c2ab906a90932bc5988f"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "38983c25774fd88920cc46744962fdbf7d20cd5c"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "6a653b9f07bbd48ee71f776df6275c73ad636ee2"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "7a8fc199335a89c77f69fa2e6e9ecf39e1f56c9f"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "7dbe7d99417de2e4166b380459b41d65adee2e09"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "a91d391536db55a1b4ee7fa020b803234a070bbf"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "b5afd480a5150cd94365d40b356f48c0f9f1d21e"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "c5a054ac5df14e1a1dde818759b6b147d9eda95b"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "cba1bf72e90a1ead0dd6a924dfed7676e0477bf0"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "d320cada86f512b9b203b556ab7a16d22d20ec9f"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "e310eb8bc4d6842dcf3d853a55f5511c6dbc5254"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "ee351289654094688e3e74cf516f9427ec29be27"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "f091800415c84f729a39cd873d37009cd01a2cc1"
+    },
+    {
+      "source": "10.4171/JFG/37",
+      "target": "f204d21360688a0da9f30db34592d3ed1b201892"
+    },
+    {
+      "source": "87c53cd55c0fce14cda4aa781ca967c5bfece709",
+      "target": "10.4171/JFG/37"
+    }
+  ]
+}

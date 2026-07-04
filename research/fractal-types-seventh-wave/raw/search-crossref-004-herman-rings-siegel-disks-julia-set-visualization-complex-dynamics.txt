@@ -1,0 +1,20 @@
+10.4171/011-1/9	Arnold Disks and the Moduli of Herman Rings of the Complex Standard Family
+10.1016/b978-044450002-1/50050-3	A tutorial on the visualization of forward orbits associated with Siegel disks in the quadratic Julia Sets
+10.1016/0097-8493(93)90081-j	A tutorial on the visualization of forward orbits associated with Siegel disks in the quadratic Julia sets
+10.1090/conm/396/07400	Siegel disks whose boundaries have only two complementary domains
+10.1007/978-3-663-08092-3_6	Using the Fatou Set to Study the Julia Set
+10.2307/j.ctt7rnxn.11	USING THE FATOU SET TO STUDY THE JULIA SET
+10.1515/9781400835539.174	Using the Fatou Set to Study the Julia Set
+10.1090/fic/053/15	Siegel disks and renormalization fixed points
+10.1007/bf02392901	Self-similarity of Siegel disks and Hausdorff dimension of Julia sets
+10.1201/b10617-9	The Connectivity of the Julia Set and Fixed Points
+10.1007/978-3-031-80115-0_7	Dimensions of Mandelbrot Set Boundary and of Julia Sets
+10.70675/d454a889z2ce7z44a9z85b4z8b520233a6a5	Multidimensional complex stationary centered Gaussian autoregressive time series machine learning in Poincaré and Siegel disks : application for audio and radar clutter classification
+10.1016/s1874-5709(02)80008-7	Siegel Disks and Geometric Function Theory in the Work of Yoccoz
+10.2307/2069804	Adolescent Subcultures and Delinquency
+10.1101/097139	Bio.Ontology - Python tools for enrichment analysis and visualization of ontologies
+10.1112/s0024609304003157	ON A QUESTION OF HERMAN, BAKER AND RIPPON CONCERNING SIEGEL DISKS
+10.2307/2578923	Adolescent Subcultures and Delinquency.
+10.1112/s0024610705007015	HERMAN RINGS AND ARNOLD DISKS
+10.1090/s0002-9947-01-02662-9	Siegel discs, Herman rings and the Arnold family
+10.1090/s1088-4173-06-00150-0	Mating a Siegel disk with the Julia set of a real quadratic polynomial

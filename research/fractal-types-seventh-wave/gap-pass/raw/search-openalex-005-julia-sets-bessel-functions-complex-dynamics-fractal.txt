@@ -1,0 +1,20 @@
+10.1140/epjs/s11734-021-00376-7	Frontiers of fractals for complex systems: recent advances and future challenges
+10.4310/atmp.2012.v16.n2.a5	Geometry of fractional spaces
+10.1007/s11785-008-0063-0	Radial Multiresolution, Cuntz Algebras Representations and an Application to Fractals
+	Wavy spirals and their fractal connection with chirps
+10.1016/j.cam.2015.05.014	Orthogonal polynomials of equilibrium measures supported on Cantor sets
+	Integral transforms of the Minkowski question mark function
+10.3390/math3020337	High-Precision Arithmetic in Mathematical Physics
+10.48550/arxiv.1503.03801	Numerical computation of the isospectral torus of finite gap sets and of IFS Cantor sets
+10.22606/jaam.2021.62001	On the Mandelbrot Set for i**2 = ±1 and Imaginary Higgs Fields
+10.3390/sci5020023	A Survey on EEG Data Analysis Software
+10.1109/access.2022.3232729	Applications of the Generalized Morse Wavelets: A Review
+10.1038/s41598-020-69949-1	Acoustic analysis of starting jets in an anechoic chamber: implications for volcano monitoring
+10.1007/s00521-025-11450-9	Physics-informed neural network with symbolic regression for deriving analytical approximate solutions to nonlinear partial differential equations
+10.1007/jhep07(2025)281	The conformal primon gas at the end of time
+10.1016/j.jcp.2016.12.009	A fast and well-conditioned spectral method for singular integral equations
+10.1103/physrevd.85.063501	Relativistic wavepackets in classically chaotic quantum cosmological billiards
+10.22331/q-2025-04-01-1682	Early Fault-Tolerant Quantum Algorithms in Practice: Application to Ground-State Energy Estimation
+10.1016/j.physletb.2023.137728	Constrained instantons and kink-antikink collisions
+10.48550/arxiv.2304.02637	GenPhys: From Physical Processes to Generative Models
+10.1007/jhep11(2025)160	Wheeler-DeWitt wavefunctions for 5d BKL dynamics, automorphic L-functions and complex primon gases

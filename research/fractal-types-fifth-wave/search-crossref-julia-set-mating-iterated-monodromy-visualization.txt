@@ -1,0 +1,20 @@
+10.70675/95c67ab5z57bbz4d30zbd77zb9f40dc415d4	Iterated monodromy groups and transcendental dynamics
+10.1112/plms.12118	Exponential growth of some iterated monodromy groups
+10.1017/cbo9780511842467.004	Iterated monodromy groups
+10.1017/cbo9780511666124.011	Monodromy of iterated integrals and non–abelian unipotent periods
+10.1090/gsm/223/04	Iterated monodromy groups
+10.30970/ms.22.2.159-175	Shreier graphs of iterated monodromy groups of sub-hyperbolic quadratic polynomials
+10.1090/surv/117/05	Iterated monodromy groups
+10.4171/ggd/777	Iterated monodromy groups of exponential maps
+10.1142/s0218348x99000062	APPROXIMATION OF FRACTAL SETS BY JULIA SET ATTRACTORS OF POLYNOMIAL ITERATED FUNCTION SYSTEMS
+10.5802/afst.1362	Introduction to Iterated Monodromy Groups
+10.1109/iv.1997.626469	Visualization of controllable regions in real-time systems using a 3D-Julia set methodology
+10.20944/preprints202509.2388.v1	Hierarchical Set Constructions via Multi-Iterated Powersets and the Signed Iterated Power Multiset
+10.1216/rmj.2022.52.365	Bounds on degrees of covers with injective monodromy in iterated Kodaira fibrations
+10.1515/zna-1988-0711	Ramanujan and the Julia Set of the Iterated Exponential Map
+10.4171/ggd/42	Iterated monodromy groups of quadratic polynomials, I
+10.1017/s0017089524000120	Maximal subgroups of a family of iterated monodromy groups
+10.4171/ggd/609	Iterated monodromy groups of Chebyshev-like maps on $\mathbb{C}^n$
+10.1090/conm/510/10013	Iterated monodromy for a two-dimensional map
+10.1090/conm/394/07434	On the growth of iterated monodromy groups
+10.1090/crmp/042/12	The spectral problem, substitutions and iterated monodromy

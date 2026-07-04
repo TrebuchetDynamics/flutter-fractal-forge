@@ -1,0 +1,20 @@
+10.1063/1.5042618	A modular-invariant modified Weierstrass sigma-function as a building block for lowest-Landau-level wavefunctions on the torus
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Minimal Non-Weierstrass Semigroups
+	Improving visual image reconstruction from human brain activity using latent diffusion models via multiple decoded inputs
+	Beyond English: Centering Multilingualism in Data Visualization
+	A subadditivity formula for multiplier ideals associated to log pairs
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+10.1109/tvcg.2023.3326576	Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges
+10.1109/tvcg.2024.3456305	Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots
+10.1016/j.jco.2022.101692	Sharp estimates for the covering numbers of the Weierstrass fractal kernel
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+10.1109/tvcg.2017.2743858	What Would a Graph Look Like in This Layout? A Machine Learning Approach to Large Graph Visualization
+10.1109/tvcg.2020.3030408	Visual Analytics for Temporal Hypergraph Model Exploration
+	Weierstrass equations for Jacobian fibrations on a certain K3 surface
+	Sharp estimates for the covering numbers of the Weierstrass fractal kernel
+	Minimal Weierstrass models and regular models of hyperelliptic curves
+10.1177/14738716221142005	VisRuler: Visual Analytics for Extracting Decision Rules from Bagged and Boosted Decision Trees

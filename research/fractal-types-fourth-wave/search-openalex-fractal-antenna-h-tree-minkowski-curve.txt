@@ -1,0 +1,20 @@
+10.3390/fractalfract4010003	Fractal Antennas: An Historical Perspective
+10.3390/en14196204	A Novel Approach of Design and Analysis of a Hexagonal Fractal Antenna Array (HFAA) for Next-Generation Wireless Communication
+10.2528/pier09110512	LOG PERIODIC FRACTAL KOCH ANTENNA FOR UHF BAND APPLICATIONS
+10.3390/app8030334	Minkowski Island and Crossbar Fractal Microstrip Antennas for Broadband Applications
+10.1109/access.2016.2611530	Fractal Dimension Estimation for Developing Pathological Brain Detection System Based on Minkowski-Bouligand Method
+10.5772/intechopen.68188	Fractals in Antennas and Metamaterials Applications
+10.2528/pier10032003	METALLIZED FOAMS FOR ANTENNA DESIGN: APPLICATION TO FRACTAL-SHAPED SIERPINSKI-CARPET MONOPOLE
+10.1002/mop.23299	The resonant behavior of the Fibonacci fractal tree antennas
+10.14738/tnc.25.566	Fractal Antennas : A Novel Miniaturization Technique for wireless Networks
+10.1155/2012/980916	Flexible Sierpinski Carpet Fractal Antenna on a Hilbert Slot Patterned Ground
+10.3390/s23094254	Ultra-Wideband Compact Fractal Antenna for WiMAX, WLAN, C and X Band Applications
+10.3390/app14072843	Fractal Metasurfaces and Antennas: An Overview for Advanced Applications in Wireless Communications
+10.1109/access.2023.3296599	Double Negative (DNG) Metamaterial-Based Koch Fractal MIMO Antenna Design for Sub-6-GHz V2X Communication
+10.2528/pier13060904	NOVEL MINIATURIZED KOCH PENTAGONAL FRACTAL ANTENNA FOR MULTIBAND WIRELESS APPLICATIONS
+10.1109/access.2019.2943655	Design Techniques of Super-Wideband Antenna–Existing and Future Prospective
+10.3390/app8081327	Signal Pattern Recognition Based on Fractal Features and Machine Learning
+10.3390/electronics12143059	Design of Flexible Multi-Band Miniature Antenna Based on Minkowski Fractal Structure and Folding Technique for Miniature Wireless Transmission System
+10.2528/pierc23110306	A Compact Dual-band Dual-polarized Antenna Based on Modified Minkowski Fractal
+10.5772/intechopen.90332	Fractal Antennas for Wireless Communications
+10.2528/pierb23052306	A Compact Off-set Edge Fed Odd-symmetric Hybrid Fractal Slotted Antenna for UWB and Space Applications

@@ -1,0 +1,20 @@
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.1186/s13640-019-0431-x	Research on garment pattern design based on fractal graphics
+10.1109/access.2019.2919520	Fractal Generation via CR Iteration Scheme With S-Convexity
+10.5815/ijcnis.2017.04.01	Symmetric Key Encryption using Iterated Fractal Functions
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.2298/fil1611033k	Fractals through modified iteration scheme
+10.1007/s11042-014-2446-8	A fractal image encoding method based on statistical loss used in agricultural image compression
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.1080/09540099408915729	Towards Automated Artificial Evolution for Computer-generated Images
+10.1109/access.2019.2904677	Fractal Generation in Modified Jungck–S Orbit
+10.3390/fractalfract8020116	Escape Criteria Using Hybrid Picard S-Iteration Leading to a Comparative Analysis of Fractal Mandelbrot Sets Generated with S-Iteration
+10.1007/s00371-020-01953-y	A survey of modeling, rendering and animation of clouds in computer graphics
+10.30538/oms2018.0017	Fixed point results for the complex fractal generation in the S -iteration orbit with s -convexity
+10.3390/jimaging4010017	Secure Image Transmission Using Fractal and 2D-Chaotic Map
+10.20380/gi1995.24	The escape buffer: Efficient computation of escape time for linear fractals
+10.21817/ijet/2017/v9i3/1709030282	Generation of New Fractals via SP Orbit with s-Convexity
+10.7765/9781526137548	More than a Game: The Computer Game as Fictional Form
+10.1007/s00010-022-00908-z	An Application of Viscosity Approximation Type Iterative Method in the Generation of Mandelbrot and Julia Fractals
+10.5120/14830-3081	A Review on Fractal Image Compression
+10.13140/rg.2.2.34414.82244	Approximation and Visualization of Sets Defined by Iterated Function Systems

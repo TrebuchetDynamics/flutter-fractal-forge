@@ -1,0 +1,20 @@
+10.1586/14737159.2013.828889	Fractal dimension of chromatin: potential molecular diagnostic applications for cancer prognosis
+10.1046/j.1365-2818.1998.00284.x	Asymptotic fractals in the context of grey‐scale images
+10.29194/njes21020208	The Performance Evaluation of SAR for a Sausage Minkowski Square Patch Antenna
+10.1016/s0013-7944(03)00136-x	Statistical artefacts in the determination of the fractal dimension by the slit island method
+10.1111/1467-9868.00085	Fractal Function Estimation via Wavelet Shrinkage
+10.20944/preprints202508.1392.v1	Automated Box-Counting Fractal Dimension Analysis: Sliding Window Optimization and Multi-Fractal Validation
+	Exploring the Effect of Direction on Vector-Based Fractals
+10.3390/fractalfract9100633	Automated Box-Counting Fractal Dimension Analysis: Sliding Window Optimization and Multi-Fractal Validation
+10.3390/fractalfract7080597	A Brief Survey of Paradigmatic Fractals from a Topological Perspective
+10.1051/mmnp:2008081	On the Relations Between 2D and 3D Fractal Dimensions: Theoretical Approach and Clinical Application in Bone Imaging
+10.17586/2220-8054-2019-10-1-42-49	Fractal characterization of nanostructured materials
+10.1175/1520-0450(1998)037<1265:aaofbd>2.0.co;2	An Application of Fractal Box Dimension to the Recognition of Mesoscale Cloud Patterns in Infrared Satellite Images
+10.15407/rpra28.01.005	FRACTAL RADIOPHYSICS. Part 2. FRACTAL AND MULTIFRACTAL ANALYSIS METHODS OF SIGNALS AND PROCESSES
+10.1142/s0218348x96000674	THE FRACTAL DIMENSION OF A UNION OF TRINOMIAL ARCS
+10.1109/access.2021.3063523	Accurate Modeling of Frequency Selective Surfaces Using Fully-Connected Regression Model With Automated Architecture Determination and Parameter Selection Based on Bayesian Optimization
+10.3390/fractalfract7030238	A Multi-Spectral Fractal Image Model and Its Associated Fractal Dimension Estimator
+10.1007/s10494-024-00560-4	A Comparison of Evaluation Methodologies of the Fractal Dimension of Premixed Turbulent Flames in 2D and 3D Using Direct Numerical Simulation Data
+10.1214/09-aap596	Approximations of the Wiener sausage and its curvature measures
+10.82308/30165	On the complexity of curves and the representation of visual information
+10.4028/www.scientific.net/ddf.323-325.133	Fractal Dimension of Grain Boundary during Heating Comparison between Images Analyses and Monte Carlo Simulation

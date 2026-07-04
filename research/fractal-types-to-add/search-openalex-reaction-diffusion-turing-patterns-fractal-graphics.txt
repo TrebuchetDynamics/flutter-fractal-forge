@@ -1,0 +1,20 @@
+10.1145/122718.122749	Generating textures on arbitrary surfaces using reaction-diffusion
+10.1145/127719.122749	Generating textures on arbitrary surfaces using reaction-diffusion
+10.1029/2019rg000671	The Role of Chemistry in Fracture Pattern Development and Opportunities to Advance Interpretations of Geological Materials
+10.1073/pnas.1613007114	Cell morphology drives spatial patterning in microbial communities
+10.1371/journal.pone.0190176	Pattern dynamics of the reaction-diffusion immune system
+10.1093/aob/mcm295	Pattern Selection in Plants: Coupling Chemical Dynamics to Surface Growth in Three Dimensions
+10.1142/s0218202524400025	Biological modeling with nonlocal advection–diffusion equations
+10.1145/237170.237267	A cellular texture basis function
+10.1007/s42235-022-00295-w	Multi-verse Optimizer with Rosenbrock and Diffusion Mechanisms for Multilevel Threshold Image Segmentation from COVID-19 Chest X-Ray Images
+10.22541/au.175131225.56823239/v1	Scalable Complexity in Fractal Geometry: The Keçeci Fractal Approach
+10.1093/femsre/fuw029	The multicellular nature of filamentous heterocyst-forming cyanobacteria
+10.1155/2016/8234108	Fractal Dimension Analysis of the Julia Sets of Controlled Brusselator Model
+10.1103/physrevmaterials.7.033604	Statistical properties of fractal type dislocation cell structures
+10.1371/journal.pone.0042508	Stochastic Simulations of Pattern Formation in Excitable Media
+10.1371/journal.pcbi.1002421	Cytoskeletal Signaling: Is Memory Encoded in Microtubule Lattices by CaMKII Phosphorylation?
+10.3389/fpls.2017.00900	Morphological Plant Modeling: Unleashing Geometric and Topological Potential within the Plant Sciences
+10.1146/annurev-chembioeng-060817-084141	Molecular Modelling for Reactor Design
+10.1007/s11263-023-01843-5	Pyramid Attention Network for Image Restoration
+10.3390/knowledge5010001	A Deterministic Model for Harmful Algal Bloom (HAB) Patterns Under Turing’s Instability Perspective
+10.1155/2020/7624829	Perona-Malik Model with Diffusion Coefficient Depending on Fractional Gradient via Caputo-Fabrizio Derivative

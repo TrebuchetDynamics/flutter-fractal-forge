@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-07-03T20:26:03.954304Z",
+  "moduleId": "legalize_auto_tman1",
+  "moduleName": "FOTD TMan1",
+  "tags": [
+    "Randomize breaks"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=legalize_auto_tman1&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6My4zLCJjb2VmZkEiOjY2Ljg1LCJjb2VmZkQiOjE1Ljc5LCJjb2VmZkciOi0xNC41OCwiY29lZmZKIjoxNC4zOCwifmMiOjAsIn5pIjoxMDYsInBvd2VyQiI6NTkuOTQsInBvd2VyRiI6LTExNi41NiwicG93ZXJIIjotNi43NiwicG93ZXJLIjotMTUuMDIsInNlZWRYIjotMTUuOTEsInNlZWRZIjotNi4xMSwidmFyaWFudCI6OS4wfQ&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 106,
+    "bailout": 3.3,
+    "colorScheme": 0,
+    "variant": 9.0,
+    "coeffA": 66.85,
+    "powerB": 59.94,
+    "coeffD": 15.79,
+    "powerF": -116.56,
+    "coeffG": -14.58,
+    "powerH": -6.76,
+    "coeffJ": 14.38,
+    "powerK": -15.02,
+    "seedX": -15.91,
+    "seedY": -6.11
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

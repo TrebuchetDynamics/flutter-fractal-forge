@@ -1,0 +1,20 @@
+	Wild Knots as limit sets of Kleinian Groups
+	Wild knots in higher dimensions as limit sets of Kleinian groups
+	A wild knot $\mathbb{S}^{2}\hookrightarrow\mathbb{S}^{4}$ as limit set of a Kleinian Group: Indra's pearls in four dimensions
+	Braid structures in knot complements, handlebodies and 3-manifolds
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Dimensions of Kleinian orbital sets
+	Beyond English: Centering Multilingualism in Data Visualization
+	Homogeneity of dynamically defined wild knots
+	Wild knots embedded in the Menger Sponge
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	On horospheric limit sets of Kleinian groups
+	The Poincaré exponent and the dimensions of Kleinian limit sets
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+10.1017/s0004972710000146	Limit sets and commensurability of Kleinian groups
+	Optimal transport of signed measures: existence, uniqueness and fractal structure
+	The Assouad spectrum of Kleinian limit sets and Patterson-Sullivan measure
+	NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+10.1109/tvcg.2023.3326576	Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges

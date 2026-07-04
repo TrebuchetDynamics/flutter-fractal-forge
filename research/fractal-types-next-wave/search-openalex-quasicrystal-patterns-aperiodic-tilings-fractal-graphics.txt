@@ -1,0 +1,19 @@
+10.3390/math5020029	Emergence of an Aperiodic Dirichlet Space from the Tetrahedral Units of an Icosahedral Internal Space
+10.1186/s40494-022-00852-w	Application-based principles of islamic geometric patterns; state-of-the-art, and future trends in computer science/technologies: a review
+10.4204/eptcs.90.21	A Universal Semi-totalistic Cellular Automaton on Kite and Dart Penrose Tilings
+10.1051/e3sconf/20183803015	Application of Tessellation in Architectural Geometry Design
+10.3233/fi-2013-880	A 6-state Universal Semi-totalistic Cellular Automaton on Kite and Dart Penrose Tilings
+	Cohomology of tiling spaces : beyond primitive substitutions
+10.52842/conf.acadia.2012.391	The Forbidden Symmetries
+10.3389/fphy.2026.1699796	Fractal rep-tiles of the plane via reflections and integer matrices
+10.3390/books978-3-03943-057-4	Symmetry and Asymmetry in Quasicrystals or Amorphous Materials
+10.3390/math13182982	Graph Theoretic Analyses of Tessellations of Five Aperiodic Polykite Unitiles
+10.1007/s00454-025-00816-4	Fixed-Parameter Extrapolation and Aperiodic Order
+10.48550/arxiv.2408.15316	Holographic Foliations: Self-Similar Quasicrystals from Hyperbolic Honeycombs
+10.5821/dissertation-2117-110437	Suppression and control of modulation instability
+	Toward Understanding Low Surface Friction on Quasiperiodic Surfaces
+10.15517/q6hk0t24	DE LA PERIODICIDAD AL ORDEN NO REPETITIVO: Un análisis físico-matemático de los teselados hasta los patrones de Penrose desde el Enfoque Ontosemiótico
+10.48550/arxiv.math/9912131	Spectral pairs in Cartesian coordinates
+10.12759/hsr.18.1993.1.26-70	Readings in the 'New Science'. A selective annotated bilbiography
+	Düzenli Tesellasyonlara Dayalı Düzlemsel Toparlanabilen Plaka Strüktürler için Yeni Bir Tasarım Yaklaşımı
+10.25972/opus-23499	Critical Phenomena in Topologically Disordered Systems

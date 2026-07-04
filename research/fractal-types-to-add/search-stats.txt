@@ -1,0 +1,8 @@
+Source coverage for .
+  arxiv                    201 records (11 files)
+  crossref                 201 records (11 files)
+  openalex                 157 records (11 files)
+  semantic-scholar         72 records (11 files)
+  stats                    0 records (1 files)
+
+Total unique DOIs: 578

@@ -1,0 +1,23 @@
+# App implementation gap check (lib, shaders, pubspec only)
+McMullen                     34
+Mcmullen                     34
+Blaschke                     10
+complex Henon                0
+complex Hénon               2
+Herman ring                  0
+Siegel disk                  4
+Cremer                       0
+fractal percolation          0
+random carpet                0
+random recursive             0
+superfractal                 0
+random IFS                   0
+basin boundary               0
+Lorenz basin                 0
+Bessel                       0
+Airy                         0
+gamma function               0
+special function Julia       0
+Baker map                    0
+Lozi                         40
+gingerbreadman               13

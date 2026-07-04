@@ -1,0 +1,20 @@
+10.1007/s11425-016-9228-x	Quasisymmetric geometry of the Julia sets of McMullen maps
+10.1017/etds.2013.53	Rational maps whose Julia sets are Cantor circles
+	Julia sets of rational maps with rotational symmetries
+	Paper Fortune Tellers in Julia sets of Generalized McMullen maps II: Sidecars and Zippers
+10.1017/etds.2014.22	A family of rational maps with buried Julia components
+	Laplacians on Julia sets of rational maps
+	Rational maps whose Julia sets are generalized Sierpiński gaskets
+	Checkerboard Julia Sets for Rational Maps
+	Quasisymmetric geometry of the Cantor circles as the Julia sets of rational maps
+	Entire or rational maps with integer multipliers
+	Exploring baby Julia sets in parameter space slices for Generalized McMullen Maps
+	Symmetries for Julia sets of rational maps
+	Rigidity of McMullen Julia sets
+	Rational maps with Cantor bubble Julia sets
+	Dynamics of McMullen maps
+	The dynamics of hyperbolic rational maps with Cantor Julia sets
+	Invariant graphs in Julia sets and decompositions of rational maps
+	Sierpiński curve Julia sets for quadratic rational maps
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+10.1017/s0305004126101868	A fixed-point theorem for face maps, or deletion-tolerant random finite sets

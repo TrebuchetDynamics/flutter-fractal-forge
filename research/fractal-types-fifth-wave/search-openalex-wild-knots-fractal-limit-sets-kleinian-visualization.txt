@@ -1,0 +1,3 @@
+10.1090/s1088-4173-09-00198-2	Wild knots in higher dimensions as limit sets of Kleinian groups
+	Wild knots embedded in the Menger Sponge
+10.48550/arxiv.2101.08956	Existence of an exotic plane in an acylindrical 3-manifold

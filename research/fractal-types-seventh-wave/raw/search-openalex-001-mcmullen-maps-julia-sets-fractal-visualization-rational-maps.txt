@@ -1,0 +1,20 @@
+10.1109/access.2019.2920026	Boundaries of Filled Julia Sets in Generalized Jungck Mann Orbit
+10.1017/s0143385700003655	Dynamics of entire functions near the essential singularity
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.1109/access.2019.2951385	Fixed Point Results for Fractal Generation in Extended Jungck–SP Orbit
+10.1155/2020/7020921	Comparative Study of Some Fixed-Point Methods in the Generation of Julia and Mandelbrot Sets
+10.1109/access.2020.3018090	Fixed Point Results for Fractal Generation of Complex Polynomials Involving Sine Function via Non-Standard Iterations
+10.5815/ijigsp.2012.05.08	Wavelet Based Some Julia Sets of Rational Maps Having Zhukovskii Function
+10.1007/s11511-013-0091-0	Invariant Peano curves of expanding Thurston maps
+10.3390/fractalfract8070414	On the Application of Mann-Iterative Scheme with h-Convexity in the Generation of Fractals
+10.19139/soic-2310-5070-2089	Fractal as Julia sets of complex functions via a new generalized viscosity approximation type iterative method
+10.1109/access.2020.3033733	Anti Mandelbrot Sets via Jungck-M Iteration
+10.1007/s00454-011-9330-3	Polynomial Root-Finding Methods Whose Basins of Attraction Approximate Voronoi Diagram
+10.1112/plms.12118	Exponential growth of some iterated monodromy groups
+10.5186/aasfm.2015.4046	From Apollonian packings to homogeneous sets
+10.1155/2014/539707	Basins of Attraction for Various Steffensen-Type Methods
+10.12732/ijam.v34i6.3	ON SOME ADVANCES IN DYNAMICS OF ONE VARIABLE COMPLEX FUNCTIONS
+10.53846/goediss-2452	Julia Set as a Martin Boundary
+10.53846/goediss-2452	Julia Set as a Martin Boundary
+10.3390/math13030401	Generating Special Curves for Cubic Polynomials
+10.48550/arxiv.2302.09827	The Sullivan dictionary and Bowen-Series maps

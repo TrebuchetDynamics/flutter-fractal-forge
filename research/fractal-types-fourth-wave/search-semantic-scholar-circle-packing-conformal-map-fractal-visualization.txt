@@ -1,0 +1,20 @@
+10.1115/detc2024-143299	Geometry-Driven Design of Morphable Surface Structures Using Topology Optimization and Circle Packing
+10.1215/00127094-2025-0035	Conformal uniformization of domains bounded by quasitripods
+10.1090/s0002-9947-1992-1081937-x	An inverse problem for circle packing and conformal mapping
+	Convergence of discrete conformal mappings on surfaces
+10.1109/access.2025.3581267	Optimizing Access Point Placement in Industrial IoT: A Deep Reinforcement Learning Approach With Q-Learning Verification and Signal Heatmap Visualization
+10.1016/j.comgeo.2012.05.002	Advancing front circle packing to approximate conformal strips
+10.1017/s0305004100075575	The set of circle packing points in the Teichmüller space of a surface of finite conformal type is dense
+	Using Circle Packing to Illustrate Conformal Maps
+	Generating conformal flat maps of the cortical surface via circle packing
+	The Discrete Schwarz-Pick Lemma For Circle Packings Revisited
+10.1016/s1874-5709(02)80013-0	Circle Packing and Discrete Analytic Function Theory
+10.1080/10586458.1995.10504331	Circle Packing: Experiments In Discrete Analytic Function Theory
+10.1007/s11042-021-11479-7	Data visualization through non linear dimensionality reduction using feature based Ricci flow embedding
+10.1016/j.neuroimage.2004.07.018	Cortical cartography using the discrete conformal approach of circle packings.
+10.1103/physreve.62.1706	Conformal dynamics of fractal growth patterns without randomness
+10.1007/s002220050076	On the convergence of circle packings to the Riemann map
+10.1088/0951-7715/12/3/313	Perturbing circle-packing Kleinian groups as correspondences
+10.1088/0951-7715/12/3/313	Perturbing circle-packing Kleinian groups as correspondences
+10.2140/gt.2022.26.937	Discrete conformal geometry of polyhedral surfaces and its convergence
+	Minkowski measurability of infinite conformal graph directed systems and application to Apollonian packings

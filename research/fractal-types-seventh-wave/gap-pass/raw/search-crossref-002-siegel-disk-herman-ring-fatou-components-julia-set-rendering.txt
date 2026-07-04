@@ -1,0 +1,20 @@
+10.13187/ejm.2019.2.68	Multi-Beam Interference Patterns of Living Sarcoma Cells may be Approximated by a Fractal Julia Set and Rieman Spheres or Fatou Components Decoded as a Siegel Discs
+10.4007/annals.2004.159.1	On the Julia set of a typical quadratic polynomial with a Siegel disk
+10.1007/s11425-006-1998-0	Hausdorff dimension of Julia set of a polynomial with a Siegel disk
+10.1007/978-3-663-08092-3_6	Using the Fatou Set to Study the Julia Set
+10.2307/j.ctt7rnxn.11	USING THE FATOU SET TO STUDY THE JULIA SET
+10.1007/s11425-006-1284-1	Hausdorff dimension of Julia set of a polynomial with a Siegel disk
+10.1201/9780203759011-4	The Components of the Fatou Set
+10.1515/9781400835539.174	Using the Fatou Set to Study the Julia Set
+10.1515/9783111689685-007	7 Fatou components
+10.1090/s1088-4173-06-00150-0	Mating a Siegel disk with the Julia set of a real quadratic polynomial
+10.1017/cbo9780511735233.003	Iteration of inner functions and boundaries of components of the Fatou set
+10.32614/cran.package.butcher	butcher: Model Butcher
+10.2307/2069804	Adolescent Subcultures and Delinquency
+10.3126/jnms.v5i1.47373	Periodic Components of the Fatou Set in Angular Region
+10.1007/s00208-023-02725-4	Bounded Fatou and Julia components of meromorphic functions
+10.2307/2578923	Adolescent Subcultures and Delinquency.
+10.3390/e22091019	The Siegel–Klein Disk: Hilbert Geometry of the Siegel Disk Domain
+10.1007/978-3-642-17854-2_5	After Fatou and Julia
+10.3126/jnms.v3i1.33002	Periodic Components of the Fatou Set of Three Transcendental Entire Functions and Their Compositions
+10.1080/17476930008815242	Unbounded components of the fatou set

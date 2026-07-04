@@ -1,0 +1,20 @@
+10.1007/978-3-663-08092-3_6	Using the Fatou Set to Study the Julia Set
+10.2307/j.ctt7rnxn.11	USING THE FATOU SET TO STUDY THE JULIA SET
+10.1007/978-3-663-09197-4_10	Lattès and Ritt
+10.1515/9781400835539.174	Using the Fatou Set to Study the Julia Set
+10.1201/b10617-9	The Connectivity of the Julia Set and Fixed Points
+10.1007/978-3-031-80115-0_7	Dimensions of Mandelbrot Set Boundary and of Julia Sets
+10.1007/s11071-015-2061-x	Synchronization between the spatial Julia sets of complex Lorenz system and complex Henon map
+10.1109/iv.1997.626469	Visualization of controllable regions in real-time systems using a 3D-Julia set methodology
+10.3390/math11030727	On the Fractional-Order Complex Cosine Map: Fractal Analysis, Julia Set Control and Synchronization
+10.5256/f1000research.7138.r10711	Peer Review Report For: Constellation Map: Downstream visualization and interpretation of gene set enrichment results [version 1; peer review: 2 approved]
+10.3934/dcdsb.2016.21.173	Fastest synchronized network and synchrony on the Julia set of complex-valued coupled map lattices
+10.7717/peerj.16195/fig-6	Figure 6: Docking visualization and dynamics simulations of the solasonine-ACHE complex.
+10.47974/jim-1569	Rational map has a Cantor Circle Julia set and a Sierpinski Carpet Julia set of degree m
+10.5256/f1000research.7138.r9357	Peer Review Report For: Constellation Map: Downstream visualization and interpretation of gene set enrichment results [version 1; peer review: 2 approved]
+10.1109/pacificvis.2013.6596124	Improved grid map layout by point set matching
+10.1109/iv.1999.781573	Occlusion culling using minimum occluder set and opacity map
+10.1090/surv/219/20	Connectedness of the Julia set
+10.1201/b11855-11	Complex Fractals : Julia Sets and the Mandelbrot Set
+10.1007/978-1-4757-4017-2_5	The complex quadratic map and its ℳ-set
+10.4171/011-1/1	On Lattès Maps

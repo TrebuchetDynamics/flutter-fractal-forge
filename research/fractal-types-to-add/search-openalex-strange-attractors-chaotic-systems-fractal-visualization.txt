@@ -1,0 +1,20 @@
+10.3390/systems4040037	Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1017/s002211209600763x	Dynamical flow characterization of transitional and chaotic regimes in converging–diverging channels
+10.1074/jbc.r115.685859	Dancing Protein Clouds: The Strange Biology and Chaotic Physics of Intrinsically Disordered Proteins
+10.1007/s11071-015-2056-7	New class of chaotic systems with circular equilibrium
+10.1103/physreve.64.066208	Wada basins and chaotic invariant sets in the Hénon-Heiles system
+10.1175/1520-0477(1989)070<0014:csaaw>2.0.co;2	Chaos, Strange Attractors, and Weather
+10.1103/revmodphys.89.025007	Frontiers of chaotic advection
+10.1140/epjst/e2015-02470-3	Homoclinic orbits, and self-excited and hidden attractors in a Lorenz-like system describing convective fluid motion
+10.1088/0951-7715/15/4/312	Bifurcations and strange attractors in the Lorenz-84 climate model with seasonal forcing
+10.1038/s41467-017-00030-8	Chaos as an intermittently forced linear system
+10.3389/fphys.2012.00382	Recurrence Quantification of Fractal Structures
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.1140/epjst/e2017-70037-1	Megastability: Coexistence of a countable infinity of nested attractors in a periodically-forced oscillator with spatially-periodic damping
+10.1007/s10207-022-00588-5	Survey on image encryption techniques using chaotic maps in spatial, transform and spatiotemporal domains
+10.1155/2020/8175639	Infinitely Many Coexisting Attractors in No-Equilibrium Chaotic System
+10.15388/na.2016.6.3	On new chaotic and hyperchaotic systems: A literature survey
+10.1007/s40747-018-0070-3	Circuit design and simulation for the fractional-order chaotic behavior in a new dynamical system
+10.3390/e25030495	Fuzzy Synchronization of Chaotic Systems with Hidden Attractors

@@ -1,0 +1,3 @@
+10.1016/j.eml.2026.102460	Elastic lattices inspired by Ulam–Warburton Cellular Automaton
+10.48550/arxiv.1503.01168	On the Number of ON Cells in Cellular Automata
+10.48550/arxiv.2409.03068	The Pattern Complexity of the 2-Dimensional Paperfolding Sequence

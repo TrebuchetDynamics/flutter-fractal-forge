@@ -1,0 +1,14 @@
+10.22373/ekw.v11i2.25438	Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane
+10.1016/j.mex.2025.103778	Construction and applications of iterative methods for finding approximate solutions of nonlinear equations having unknown zeros of multiplicity with fractal geometry and dynamical behavior
+	Approximations of Continuous Newton's Method: An Extension of Cayley's Problem
+10.1007/s10910-026-01792-7	Third order methods for multiple roots of nonlinear equations with applications
+10.32513/tbilisi/1528768904	Plotting basins of end points of rational maps with Sage
+10.1016/s0960-0779(98)00150-7	Superstrings, Cantorian-fractal Spacetime and Quantum-like Chaos in Atmospheric Flows
+	Approximations of continuous Newton's method: an extension of Cayley's problem.
+	RECENT RESULTS AND EXPERIMENTS WITH POLYNOMIALS AND POLYNOMIOGRAPHY
+10.2172/899950	Physical Modelling of Sedimentary Basin
+	Polynomiography : From the Fundamental Theorem of Algebra to Art Bahman Kalantari
+	Polynomiography : From the Fundamental Theorem of Algebra to Art Bahman Kalantari
+	Computational methods in surface and ground water transport
+	Automatic identification and statistical characteristics of annual layers in stalagmites
+	Artificial intelligence and soft computing - ICAISC 2004 : 7th International Conference, Zakopane, Poland, June 7-11, 2004 : proceedings

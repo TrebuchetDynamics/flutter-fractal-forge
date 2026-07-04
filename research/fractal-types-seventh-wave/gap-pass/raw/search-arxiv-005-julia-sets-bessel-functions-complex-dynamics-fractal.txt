@@ -1,0 +1,20 @@
+	On the order derivatives of Bessel functions
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Theory of Fundamental Bessel Functions of High Rank
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	Boundary Julia theory for slice regular functions
+10.1002/asna.18260041601	Über die Berechnung der geographischen Längen und Breiten aus geodätischen Vermessungen
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+	Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+10.1017/s0305004108001564	Complex asymptotics of Poincaré functions and properties of Julia sets
+10.1007/978-3-319-18660-3_13	Fractal zeta functions and complex dimensions: A general higher-dimensional theory
+10.5802/jep.327	Homeomorphism groups of basilica, rabbit and airplane Julia sets
+	Kernels, Data & Physics
+10.1016/j.cnsns.2020.105417	Unveiling the Fractal Structure of Julia Sets with Lagrangian Descriptors
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+10.1007/s11071-013-0859-y	Graphical exploration of the connectivity sets of alternated Julia sets; M, the set of disconnected alternated Julia sets
+10.1007/s11071-021-07167-8	A Parametric and Feasibility Study for Data Sampling of the Dynamic Mode Decomposition--Range, Resolution, and Universal Convergence States
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon

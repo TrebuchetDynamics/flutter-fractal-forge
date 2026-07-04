@@ -1,0 +1,20 @@
+10.1063/1.5012134	Riddled Basins of Attraction in Systems Exhibiting Extreme Events
+10.1063/5.0147679	Fractal and Wada escape basins in the chaotic particle drift motion in tokamaks
+10.1016/j.chaos.2022.111891	Weak dissipation drives and enhances Wada basins in three-dimensional chaotic scattering
+10.1016/j.cnsns.2019.01.024	Frustration induced transient chaos, fractal and riddled basins in coupled limit cycle oscillators
+10.1016/j.cnsns.2020.105167	The saddle-straddle method to test for Wada basins
+10.1016/j.physd.2022.133291	The occurrence of riddled basins and blowout bifurcations in a parametric nonlinear system
+	How to detect Wada Basins
+	From Basins to safe sets: a machine learning perspective on chaotic dynamics
+	Basin Riddling in Coupled Phase Oscillators
+	Ascertaining when a basin is Wada: the merging method
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+	Riddled basin geometry sets fundamental limits to predictability and reproducibility in deep learning
+10.1103/physreve.97.042214	Uncertainty dimension and basin entropy in relativistic chaotic scattering
+	Multifractal analysis of intermingled basins and blowout bifurcations in a parametetric family of skew product maps
+10.1086/323668	The Three-Dimensional Structure of a Massive Gas Disk in the Galactic Central Region
+10.1142/s0218127403006558	Complex patterns on the plane: different types of basin fractalization in a two-dimensional mapping
+10.1143/jpsj.71.2075	Riddled-like Basin in Two-Dimensional Map for Bouncing Motion of an Inelastic Particle on a Vibrating Board
+10.1103/physrevd.50.r618	Fractal basins and chaotic trajectories in multi-black hole space-times
+	Arbitrariness in defining fractal basins: Relations between open and closed systems
+10.1016/j.newast.2020.101543	Fractal basins of attraction in a binary quasar model

@@ -1,0 +1,17 @@
+10.1016/0734-189x(88)90133-8	Texture description and segmentation through fractal geometry
+10.1016/0734-189x(89)90130-8	Texture description and segmentation through fractal geometry
+10.1109/sibgrapi.2001.963042	Multi-bands image analysis using local fractal dimension
+10.1109/sibgra.2000.883912	Fractal color image compression
+10.1016/0734-189x(89)90095-9	Fractal-based analysis and interpolation of 3D natural surface shapes and their application to terrain modeling
+10.1007/1-4020-4179-9_110	LARGE TEXTURE STORAGE USING FRACTAL IMAGE COMPRESSION
+10.1016/0734-189x(89)90034-0	Fractal-based analysis and interpolation of 3D natural surface shapes and their application to terrain modeling
+10.1109/cgiv.2006.46	Fractal Image Compression on Spiral Architecture
+10.1016/0146-664x(78)90063-1	Texture synthesis using a growth model
+10.1016/0734-189x(85)90026-x	Sequential synthesis of natural textures
+10.1016/0734-189x(85)90162-8	Sequential synthesis of natural textures
+10.1016/s0146-664x(81)80004-4	Bidimensional texture synthesis by Markov chains
+10.1017/cbo9780511663031.010	Fractal Computer Graphics
+10.1016/j.media.2009.05.003	Fractal and multifractal analysis: A review
+10.1109/sibgrapi.2009.22	Fractal-JSEG: JSEG Using an Homogeneity Measurement Based on Local Fractal Descriptor
+10.1145/2683483.2683566	Secret Image Sharing using Fractal Codes
+10.1016/0146-664x(79)90050-9	Image processing and computer graphics

@@ -1,0 +1,20 @@
+10.1145/344779.344899	Adaptively sampled distance fields
+10.1145/311535.311560	Modeling and rendering of weathered stone
+10.1145/133994.134063	Sound rendering
+10.1145/74334.74338	From splines to fractals
+10.1111/j.1467-8659.2010.01827.x	A Survey of Procedural Noise Functions
+10.1145/344779.344954	Efficient image-based methods for rendering soft shadows
+10.1145/97879.97918	Rendering and animation of gaseous phenomena by combining fast volume and scanline A-buffer techniques
+10.1523/jneurosci.16-13-04261.1996	Three-Dimensional Statistical Analysis of Sulcal Variability in the Human Brain
+10.1145/97880.97918	Rendering and animation of gaseous phenomena by combining fast volume and scanline A-buffer techniques
+10.2481/dsj.3.153	Visualization techniques for spatial probability density function data
+10.1145/258734.258896	Computer-generated watercolor
+10.1111/j.1467-8659.1990.tb00398.x	The Douglas‐Peucker Algorithm for Line Simplification: Re‐evaluation through Visualization
+10.1523/jneurosci.0165-05.2005	Abnormal Cortical Complexity and Thickness Profiles Mapped in Williams Syndrome
+10.1016/j.nanoen.2017.06.028	The fractal nature of the three-phase boundary: A heuristic approach to the degradation of nanostructured solid oxide fuel cell anodes
+10.1145/311535.311548	Stable fluids
+10.1088/2051-672x/acbe53	Fractal and statistical characterization of brushstroke on paintings
+10.2312/egst.20101059	State of the Art in Procedural Noise Functions
+10.1145/223904.223934	Space-scale diagrams
+10.1145/353888.353893	Reducing aliasing artifacts in iso-surfaces of binary volumes
+10.3390/rs12213522	Digital Elevation Model Quality Assessment Methods: A Critical Review

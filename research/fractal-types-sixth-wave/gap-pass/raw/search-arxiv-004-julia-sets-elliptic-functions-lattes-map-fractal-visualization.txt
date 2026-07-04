@@ -1,0 +1,20 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Boundary Julia theory for slice regular functions
+	Algebraic Equations Solved with Jacobi Elliptic Functions
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+	Kernels, Data & Physics
+10.5802/jep.327	Homeomorphism groups of basilica, rabbit and airplane Julia sets
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+	Dual-Quaternion Julia Fractals
+	Limits of multivariate elliptic hypergeometric biorthogonal functions
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon
+	Genus $g$ Cantor sets and germane Julia sets
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	Evaluations of Series Related to Jacobi Elliptic Functions
+	Laplacians on Julia sets of rational maps
+	Optimal transport of signed measures: existence, uniqueness and fractal structure
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations

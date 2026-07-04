@@ -1,0 +1,10 @@
+10.5821/dissertation-2117-94939	Efficient algorithms for the realistic simulation of fluids
+10.3390/app14020548	CWD-Sim: Real-Time Simulation on Grass Swaying with Controllable Wind Dynamics
+10.1145/3592098	Generalizing Shallow Water Simulations with Dispersive Surface Waves
+	Large-Scale Water Simulation in Games
+10.11159/htff23.191	A GPU-Accelerated Hydrodynamics Solver for Atmosphere-Fire Interactions
+10.15368/theses.2009.73	Boundless Fluids Using the Lattice-Boltzmann Method
+	Enhancements in Volumetric Surgical Simulation
+	Real-time particle systems and their application to flow visualization
+10.22215/etd/2013-07260	Targeted smoke simulation combining control and turbulent flow
+10.12794/metadc6112	General Purpose Programming on Modern Graphics Hardware

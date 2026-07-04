@@ -1,0 +1,5 @@
+10.1101/780882	Induction of hierarchy and time through one-dimensional probability space with certain topologies
+10.4169/002557010x494797	Mathematics Magazine Front Matter
+10.5281/zenodo.5029496	A Formal Connection between Napier's Logarithm and the Bernoulli Numbers
+10.5281/zenodo.5015650	A Formal Connection between Napier's Logarithm and the Bernoulli Numbers
+10.5281/zenodo.5144036	A Recursive Algorithm for Calculating Natural Logarithms using Bernoulli Numbers

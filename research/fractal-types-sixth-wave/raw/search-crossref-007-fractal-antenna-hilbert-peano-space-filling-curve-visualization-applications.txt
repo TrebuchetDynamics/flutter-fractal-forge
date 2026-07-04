@@ -1,0 +1,20 @@
+10.1109/icip.1994.413392	A class of fast algorithms for the Peano-Hilbert space-filling curve
+10.32614/cran.package.sfcurve	sfcurve: 2x2, 3x3 and Nxn Space-Filling Curves
+10.5120/cae2017652660	Fractal Parallel Stacked Inductor using Modified Hilbert Space Filling Curve for RFIC
+10.1109/lawp.2007.903492	High Directivity Antenna Using a Modified Peano Space-Filling Curve
+10.1002/mop.11046	Miniature microstrip patch antenna loaded with a space‐filling transmission line based on the fractal Hilbert curve
+10.1007/978-3-540-71027-1_9	Online Data Visualization of Multidimensional Databases Using the Hilbert Space–Filling Curve
+10.31224/osf.io/ftqh8	Koch Infinite Fractal Curve Implementation for the Space Filling Problem in Manufacturing
+10.1007/s11276-026-04085-8	Performance analysis of multiport hilbert curve fractal antenna in mid-band applications
+10.23919/ursi.2018.8406743	Printed self-complementary Hilbert curve (SCHC) fractal broad-band antenna
+10.1016/j.chaos.2023.113130	A Peano-based space-filling surface of fractal dimension three
+10.1063/5.0262681	Directivity improvement of the Hilbert Curve Shaped Fractal Antenna using increased fractal stages in comparison with conventional fractal antenna
+10.1016/0030-4018(94)90456-1	Space filling modular optics: expanded Peano and collapsed Hilbert curves
+10.1002/mop.10625	Comments on Hilbert curve fractal antenna: A small resonant antenna for VHF/UHF applications
+10.1109/scac.2014.34	Amplification Matrix Iteration Algorithm to Generate: The Hilbert-Peano Curve
+10.5120/15873-4885	Secure and Efficient Data Retrieval Process based on Hilbert Space Filling Curve
+10.1109/icetas62372.2024.11120089	Design of Hilbert Curve Shaped Fractal Antenna With Increased Fractal Stages to Enhance Radiation Efficiency by Comparing With Conventional Fractal Antenna
+10.1007/978-981-10-7329-8_54	A Novel Fractal Stacked Inductor Using Modified Hilbert Space Filling Curve for RFICs
+10.1080/03772063.2020.1772126	Development of a Modified Hilbert Curve Fractal Antenna for Multiband Applications
+10.1109/compem.2015.7052632	A miniaturized differentially fed implantable Hilbert curve fractal antenna at MICS band
+10.4028/www.scientific.net/amm.220-223.2508	Peano Space Filling Curve Applied in Managing P2P Service Resources

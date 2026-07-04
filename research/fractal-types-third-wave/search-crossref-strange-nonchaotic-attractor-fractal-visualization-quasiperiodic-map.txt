@@ -1,0 +1,20 @@
+10.18500/0869-6632-1995-3-3-34-43	Mechanisms of strange nonchaotic attractor birth in the ring map with quasiperiodic excitation
+10.1007/bf02847692	Conversion of a chaotic attractor into a strange nonchaotic attractor in an one dimensional map and BVP oscillator
+10.52843/cassyni.dym6j8	Strange Nonchaotic Attractor in a Self-organized Turbulent Reactive Flow System
+10.2139/ssrn.6839358	Weird quasiperiodic attractors and strange nonchaotic attractors in two-dimensional discontinuous maps
+10.1088/0253-6102/35/4/389	Strange-Nonchaotic-Attractor-Like Behaviors in Coupled Map System
+10.1063/1.59961	Experimental study on the blowout bifurcation route to strange nonchaotic attractor
+10.4064/fm206-0-2	On the definition of strange nonchaotic attractor
+10.1109/phycon.2003.1236905	"Strange nonchaotic attractor" in 3D autonomous differential system
+10.1103/physreve.63.036208	Milnor strange nonchaotic attractor with complex basin of attraction
+10.1016/s0375-9601(99)00463-6	Scaling of intermittent behaviour of a strange nonchaotic attractor
+10.1016/0375-9601(83)90751-x	Fractal dimension of the strange attractor in a piecewise linear two-dimensional map
+10.1103/physreva.35.4404	Strange nonchaotic attractors of the damped pendulum with quasiperiodic forcing
+10.1103/physreve.54.6114	Fractalization of a torus as a strange nonchaotic attractor
+10.1103/physrevlett.87.254101	Fractal Properties of Robust Strange Nonchaotic Attractors
+10.21203/rs.3.rs-1999690/v1	Border-collision bifurcation route to strange nonchaotic attractors in the piecewise linear normal form map
+10.1103/physreva.39.2593	Evolution of attractors in quasiperiodically forced systems: From quasiperiodic to strange nonchaotic to chaotic
+10.1103/physreve.64.058201	Comment on “Simple approach to the creation of a strange nonchaotic attractor in any chaotic system”
+10.1007/bf02509614	An example of a strange nonchaotic attractor
+10.1088/0031-8949/40/3/031	Quasiperiodic forcing and the observability of strange nonchaotic attractors
+10.1103/physreva.45.5394	Observation of a strange nonchaotic attractor in a multistable potential

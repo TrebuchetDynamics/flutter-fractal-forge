@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T00:00:00.000Z",
+  "generated_at": "2026-07-02T00:00:00.000Z",
   "purpose": "Deprecated: catalog thumbnails are rendered at runtime, so no bundled thumbnail worklist is needed.",
   "thumbnailStandard": "Runtime-rendered catalog previews",
   "missingCount": 0,

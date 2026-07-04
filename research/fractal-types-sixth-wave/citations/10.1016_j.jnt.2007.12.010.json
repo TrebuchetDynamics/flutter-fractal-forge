@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "id": "10.1016/j.jnt.2007.12.010"
+    },
+    {
+      "id": "136ab3467564d5b86e2df2a7036709dc792b98a3"
+    },
+    {
+      "id": "164a7d18ba0cfdaacca939f478df92f0cf086b72"
+    },
+    {
+      "id": "165c0e0d350504e60194a69fb976644ae491a521"
+    },
+    {
+      "id": "25aa271bdf4506b979e0095afc53e2cedca84366"
+    },
+    {
+      "id": "2b10230c2567179e25d7efe37f85e838cbe7aeb2"
+    },
+    {
+      "id": "2d0e93b1b9fb98377e00eae3e547362abe5c6fa1"
+    },
+    {
+      "id": "33a42255e042d9d3b1dd483c5be1376d1b62be7a"
+    },
+    {
+      "id": "4714c1062c0a014f85f455fe3977a18f4ef9ea4e"
+    },
+    {
+      "id": "4a6a765b0c7dea9f4d8ab65481c9731339b61517"
+    },
+    {
+      "id": "4af8d4a831c09eb70d3e5987c47bc17e85792a17"
+    },
+    {
+      "id": "4f2f2f61286eb1b2c5577885fd592f9f89c21a9f"
+    },
+    {
+      "id": "5eeaf5452ca5f4158625a31149e8f32d1dde55a9"
+    },
+    {
+      "id": "65db6df3681c09df8d9c4260947ecb923131ff57"
+    },
+    {
+      "id": "6fcb782f141773640672aabb12e5713ca8691406"
+    },
+    {
+      "id": "8275929eefd15a45a5c13d2b6e139ed884185201"
+    },
+    {
+      "id": "82acf200e9fdb77d17f578c383f028667d8efa86"
+    },
+    {
+      "id": "9a66583f07804ca8f8736d3142daf273bfa24096"
+    },
+    {
+      "id": "9d9cb279e1d13b22de5575dde8cab127414ab977"
+    },
+    {
+      "id": "a99b74629ba1db5a5e790a22d41d6f611b0cf542"
+    },
+    {
+      "id": "baf92d7ac9317a98c7badaed0bb6ee052a74bab8"
+    },
+    {
+      "id": "d3727cb00bc2d7c1e961f886529d7e33f96de5f9"
+    },
+    {
+      "id": "e4ebdb88cf99929684561cb309b18a0275050bde"
+    },
+    {
+      "id": "ecfb37210bddc4987c4c6064aebbc85eb6df0bc2"
+    },
+    {
+      "id": "f7998dc4c4fe9b5629755c4e3b0b3f93f40eb2bd"
+    },
+    {
+      "id": "fa78bde24f3bdf0033411c2259309f576fbf029d"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "136ab3467564d5b86e2df2a7036709dc792b98a3"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "165c0e0d350504e60194a69fb976644ae491a521"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "25aa271bdf4506b979e0095afc53e2cedca84366"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "2b10230c2567179e25d7efe37f85e838cbe7aeb2"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "2d0e93b1b9fb98377e00eae3e547362abe5c6fa1"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "33a42255e042d9d3b1dd483c5be1376d1b62be7a"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "4714c1062c0a014f85f455fe3977a18f4ef9ea4e"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "4a6a765b0c7dea9f4d8ab65481c9731339b61517"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "4af8d4a831c09eb70d3e5987c47bc17e85792a17"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "4f2f2f61286eb1b2c5577885fd592f9f89c21a9f"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "5eeaf5452ca5f4158625a31149e8f32d1dde55a9"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "65db6df3681c09df8d9c4260947ecb923131ff57"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "6fcb782f141773640672aabb12e5713ca8691406"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "8275929eefd15a45a5c13d2b6e139ed884185201"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "82acf200e9fdb77d17f578c383f028667d8efa86"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "9a66583f07804ca8f8736d3142daf273bfa24096"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "9d9cb279e1d13b22de5575dde8cab127414ab977"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "a99b74629ba1db5a5e790a22d41d6f611b0cf542"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "baf92d7ac9317a98c7badaed0bb6ee052a74bab8"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "d3727cb00bc2d7c1e961f886529d7e33f96de5f9"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "e4ebdb88cf99929684561cb309b18a0275050bde"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "ecfb37210bddc4987c4c6064aebbc85eb6df0bc2"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "f7998dc4c4fe9b5629755c4e3b0b3f93f40eb2bd"
+    },
+    {
+      "source": "10.1016/j.jnt.2007.12.010",
+      "target": "fa78bde24f3bdf0033411c2259309f576fbf029d"
+    },
+    {
+      "source": "164a7d18ba0cfdaacca939f478df92f0cf086b72",
+      "target": "10.1016/j.jnt.2007.12.010"
+    }
+  ]
+}

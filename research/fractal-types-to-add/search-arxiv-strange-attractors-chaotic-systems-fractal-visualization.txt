@@ -1,0 +1,20 @@
+	A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+10.3390/fractalfract9090584	Chaotic Dynamics and Fractal Geometry in Ring Lattice Systems of Nonchaotic Rulkov Neurons
+10.1063/5.0092933	Templex: a bridge between homologies and templates for chaotic attractors
+	Potential Function in a Continuous Dissipative Chaotic System: Decomposition Scheme and Role of Strange Attractor
+	Strange Non-Chaotic Attractors with Unpredictable Trajectories
+10.1088/0305-4470/38/49/014	Fractal Weyl laws in discrete models of chaotic scattering
+10.1007/978-3-030-04414-5_8	Visualizing the Template of a Chaotic Attractor
+	Multiple Chaotic Attractors in Coupled Lorenz Systems
+10.1088/0951-7715/19/9/001	How chaotic are strange nonchaotic attractors
+	Quantum Signatures of Strange Attractors
+	Generalized Attracting Horseshoes and Chaotic Strange Attractors
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	A model for dynamical systems with strange attractors
+10.1103/physrevlett.92.074102	Strange nonchaotic attractors in noise driven systems
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.1103/physreve.56.7294	Synchronization of Strange Nonchaotic Attractors
+	Analysis of Two Time Scale Property of Singularly Perturbed System on Chaotic Attractor
+10.1103/physreve.54.6114	Fractalization of Torus Revisited as a Strange Nonchaotic Attractor
+10.3938/jkps.69.1631	An Analytical Study on the Synchronization of Strange Non-Chaotic Attractors
+10.1063/5.0098163	On the origin of chaotic attractors with two zero Lyapunov exponents in a system of five biharmonically coupled phase oscillators

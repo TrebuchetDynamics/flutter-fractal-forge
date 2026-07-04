@@ -1,0 +1,114 @@
+{
+  "nodes": [
+    {
+      "id": "03b9694de2f2d188c0ea6ea273981d71674b4a27"
+    },
+    {
+      "id": "10.1112/jlms/jdn030"
+    },
+    {
+      "id": "1fdc9165d41a772db46da8b2cb4cf97f099ebe4d"
+    },
+    {
+      "id": "231830384aebf6aa2916a61cfccb816507269769"
+    },
+    {
+      "id": "8cbe5ca6b4fe09d92e7b01001d2c62130a90b264"
+    },
+    {
+      "id": "9433111af56a6e7ad9c40dcfb0dfdf631c81080f"
+    },
+    {
+      "id": "9e499eb326af00e594079799a6e74107191bbb77"
+    },
+    {
+      "id": "a15850b109b57e09ee1845de55f87a51db245d91"
+    },
+    {
+      "id": "b057f6b69f7e274e69515edd12a065cd69208246"
+    },
+    {
+      "id": "c351291127bfd1547999b1dccde26049c1152d42"
+    },
+    {
+      "id": "c494de6cd57545e5433211c7b4ff6b1938c59dd9"
+    },
+    {
+      "id": "c53ffac19062842fd104fafcb1ee370c8b6596f4"
+    },
+    {
+      "id": "c74f206e8e8786871674913a9daa6a03a7508ae3"
+    },
+    {
+      "id": "d63690ac78fdebb1a4050ad871147710d4a5d8cd"
+    },
+    {
+      "id": "dd8e176d0816949aff0f0d279d8dbf64656bd9d4"
+    },
+    {
+      "id": "ece59e4b5a339ff3e95e777fd0d2ba6a93a9b159"
+    }
+  ],
+  "edges": [
+    {
+      "source": "03b9694de2f2d188c0ea6ea273981d71674b4a27",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "1fdc9165d41a772db46da8b2cb4cf97f099ebe4d",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "231830384aebf6aa2916a61cfccb816507269769",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "8cbe5ca6b4fe09d92e7b01001d2c62130a90b264",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "9433111af56a6e7ad9c40dcfb0dfdf631c81080f",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "9e499eb326af00e594079799a6e74107191bbb77",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "a15850b109b57e09ee1845de55f87a51db245d91",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "b057f6b69f7e274e69515edd12a065cd69208246",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "c351291127bfd1547999b1dccde26049c1152d42",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "c494de6cd57545e5433211c7b4ff6b1938c59dd9",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "c53ffac19062842fd104fafcb1ee370c8b6596f4",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "c74f206e8e8786871674913a9daa6a03a7508ae3",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "d63690ac78fdebb1a4050ad871147710d4a5d8cd",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "dd8e176d0816949aff0f0d279d8dbf64656bd9d4",
+      "target": "10.1112/jlms/jdn030"
+    },
+    {
+      "source": "ece59e4b5a339ff3e95e777fd0d2ba6a93a9b159",
+      "target": "10.1112/jlms/jdn030"
+    }
+  ]
+}

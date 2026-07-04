@@ -1,0 +1,20 @@
+	The Julia set for Henon maps
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+10.3934/jmd.2014.8.1	Rigidity of Julia sets for Henon type maps
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+	Julia sets of complex Hénon maps
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	The solenoid and holomorphic motions for Henon maps
+	Kernels, Data & Physics
+	Beyond English: Centering Multilingualism in Data Visualization
+	Julia sets of Zorich maps
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	Michel Henon, a playfull and simplifying mind

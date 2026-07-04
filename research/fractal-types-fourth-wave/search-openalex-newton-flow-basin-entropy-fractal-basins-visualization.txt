@@ -1,0 +1,20 @@
+10.1038/srep31416	Basin entropy: a new tool to analyze uncertainty in dynamical systems
+10.1016/j.jhydrol.2016.03.026	An overview of current applications, challenges, and future trends in distributed process-based models in hydrology
+10.3390/fractalfract9020114	Fractal Dimension Time Series and Interaction Between Entropic Surfaces of Urban Meteorology and Pollutants in a Geographic Basin: Dynamic Effects, Thermal Flows and Anomalous Diffusion
+10.1007/s10462-023-10470-y	An exhaustive review of the metaheuristic algorithms for search and optimization: taxonomy, applications, and open challenges
+10.1016/j.jnnfm.2019.03.002	Transient dynamics of turbulence growth and bursting: Effects of drag-reducing polymers
+10.5539/cis.v5n4p25	Simulation and Visualization of Chaotic Systems
+10.1098/rsta.2022.0288	The principle underlying all evolution, biological, geophysical, social and technological
+10.1007/s11075-023-01625-7	A new optimal root-finding iterative algorithm: local and semilocal analysis with polynomiography
+10.5821/dissertation-2117-94505	Turbulent structure in environmental flows: effects of stratification and rotation
+	Efficient method for detection of periodic orbits in chaotic maps and flows
+10.1103/physrevlett.131.034002	Direct Path from Turbulence to Time-Periodic Solutions
+10.1109/access.2021.3063243	A Bayesian Regularized Neural Network for Analyzing Bitcoin Trends
+10.3390/math11102340	Chaotic Sand Cat Swarm Optimization
+10.1109/access.2021.3095941	Numerical Methods With Engineering Applications and Their Visual Analysis via Polynomiography
+10.1038/s41598-024-69633-8	Application of remote sensing and electrical resistivity technique for delineating groundwater potential in North Western Nigeria
+10.1007/s11831-018-9280-5	Sample-Based Methods of Analysis for Multistable Dynamical Systems
+10.1109/access.2022.3150775	A Novel Root-Finding Algorithm With Engineering Applications and its Dynamics via Computer Technology
+10.1093/pnasnexus/pgae237	Understanding underlying physical mechanism reveals early warning indicators and key elements for adaptive infections disease networks
+10.3389/fonc.2024.1419599	Integrating frontiers: a holistic, quantum and evolutionary approach to conquering cancer through systems biology and multidisciplinary synergy
+10.3133/ofr99140	A bibliography of geomorphometry, the quantitative representation of topography; supplement 3.0

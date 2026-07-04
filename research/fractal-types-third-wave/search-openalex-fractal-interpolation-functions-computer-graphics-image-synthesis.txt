@@ -1,0 +1,20 @@
+10.1145/127719.122752	Artificial evolution for computer graphics
+10.1137/0708019	Blending-Function Methods of Bivariate and Multivariate Interpolation and Approximation
+10.1145/74334.74337	The synthesis and rendering of eroded fractal terrains
+10.1145/258734.258896	Computer-generated watercolor
+10.1016/j.imavis.2019.02.002	Adaptive rational fractal interpolation function for image super-resolution via local fractal analysis
+10.1155/2013/496701	An Overview on Image Forensics
+10.1145/237748.237750	Multiresolution analysis for surfaces of arbitrary topological type
+10.1145/74334.74338	From splines to fractals
+10.1145/311535.311548	Stable fluids
+10.1111/j.1467-8659.2010.01827.x	A Survey of Procedural Noise Functions
+10.1145/176579.176583	Multiresolution stochastic hybrid shape models with fractal priors
+10.1016/j.acha.2010.04.005	Wavelets on graphs via spectral graph theory
+10.1155/2014/504825	Monotonicity Preserving Rational Quadratic Fractal Interpolation Functions
+10.1016/j.media.2013.10.005	Three-dimensional solid texture analysis in biomedical imaging: Review and opportunities
+10.1007/s007990050026	Content-based image indexing and searching using Daubechies' wavelets
+10.1109/access.2019.2956508	A Survey on the New Generation of Deep Learning in Image Processing
+10.1142/s0218348x20501364	MULTIVARIATE AFFINE FRACTAL INTERPOLATION
+10.1145/74333.74336	Combinatorial analysis of ramified patterns and computer imagery of trees
+10.1145/800031.808605	Texture synthesis for digital painting
+10.1145/35068.35069	Generalized stochastic subdivision

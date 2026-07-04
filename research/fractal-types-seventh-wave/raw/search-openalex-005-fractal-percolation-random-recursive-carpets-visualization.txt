@@ -1,0 +1,10 @@
+10.3389/fphys.2014.00523	Function of metabolic and organelle networks in crowded and organized media
+10.5772/intechopen.69578	Emerging Microwave Technologies in Industrial, Agricultural, Medical and Food Processing
+10.1090/noti2803	Random Phenomena with Fractal-like Features
+10.15068/0002012936	Properties of Networks with Fractal Structure
+10.48550/arxiv.2205.03125	Projections of the random Menger sponge
+10.3390/fractalfract7080612	New Properties and Sets Derived from the 2-Ball Fractal Dust
+10.48550/arxiv.2410.18559	Emergence of non-ergodic multifractal quantum states in geometrical fractals
+10.51483/ijpamr.5.2.2025.69-82	Ismail A Mageed’s Megaannum Theory of Fractal Topology: Open Problems, Applications, and Outlook for Tomorrow
+10.1007/s11082-026-08741-3	Fractal photonic crystals with controlled disorder for robust 3D-integrated on-chip quantum mode localization
+	Quantum and stochastic processes

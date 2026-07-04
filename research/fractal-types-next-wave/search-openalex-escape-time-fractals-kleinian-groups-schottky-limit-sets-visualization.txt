@@ -1,0 +1,2 @@
+10.1007/s13373-017-0099-4	Mathematical study of scattering resonances
+10.4310/atmp.2018.v22.n1.a4	Tensor networks, $p$-adic fields, and algebraic curves: arithmetic and the $\mathrm{AdS}_3 / \mathrm{CFT}_2$ correspondence

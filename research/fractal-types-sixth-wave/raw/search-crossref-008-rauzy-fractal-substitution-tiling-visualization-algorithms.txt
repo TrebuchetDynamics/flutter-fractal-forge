@@ -1,0 +1,20 @@
+10.24033/bsmf.2762	Topological substitution for the aperiodic Rauzy fractal tiling
+10.1016/s0019-3577(99)80032-9	Coboundary on colored tiling space as Rauzy fractal
+10.2140/pjm.2002.206.465	Self-affine tiling via substitution dynamical systems and Rauzy fractals
+10.1016/j.crma.2008.06.014	On the triplex substitution – Rauzy fractal
+10.1080/10586458.2018.1446063	Rauzy Fractal of the Smallest Substitution Associated with the Smallest Pisot Number
+10.1134/s1063774510050019	2D quasi-periodic Rauzy tiling as a section of 3D periodic tiling
+10.2139/ssrn.4924604	The Boundary of Rauzy Fractal and Discrete Tilings
+10.1090/s1061-0022-2011-01157-4	Parametrization of a two-dimensional quasiperiodic Rauzy tiling
+10.1134/s1063774508060035	Diffraction on the 2D quasi-periodic Rauzy tiling
+10.1134/s1063774507020022	Layer-by-layer growth of quasi-periodic Rauzy tiling
+10.1134/s1063774509030018	Construction of 2D quasi-periodic Rauzy tiling by similarity transformation
+10.1134/s1063774507040037	Complexity function and forcing in the 2D quasi-periodic Rauzy tiling
+10.1134/s106377450903002x	Similarity symmetry of a 2D quasi-periodic Rauzy tiling
+10.4171/jfg/13	Rauzy fractals with countable fundamental group
+10.1134/s106377450801001x	Quasi-periods of layer-by-layer growth of Rauzy tiling
+10.22405/2226-8383-2019-20-4-134-154	RAUZY SUBSTITUTION AND LOCAL STRUCTURE OF TORUS TILINGS
+10.1142/s0218348x97000279	Identifications and Dimension of the Rauzy Fractal
+10.4064/aa-95-3-195-224	Frontière du fractal de Rauzy et système de numération complexe
+10.1080/10586458.2019.1583615	Triangle Tiling Billiards and the Exceptional Family of their Escaping Trajectories: Circumcenters and Rauzy Gasket
+10.5802/jtnb.223	Propriétés arithmétiques et dynamiques du fractal de Rauzy

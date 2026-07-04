@@ -1,0 +1,20 @@
+	Arithmetic properties of homogeneous Hilbert curves
+	An inventory of three-dimensional Hilbert space-filling curves
+10.1142/s0218348x15500486	Using Peano Curves to Construct Laplacians on Fractals
+	Reworking on affine exterior algebra of Grassmann, Peano and his school
+10.1109/iwat66946.2026.11501871	Multi-Band Patch Antenna Array for Out-of-Band Aided Millimeter Wave Communication
+	Harmonious Hilbert curves and other extradimensional space-filling curves
+10.1142/s0217732321502497	Discrete phase space and continuous time relativistic quantum mechanics II: Peano circles, hyper-tori phase cells, and fibre bundles
+	Star discrepancy bounds based on Hilbert space filling curve stratified sampling and its applications
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1088/0143-0807/26/2/008	The role of the rigged Hilbert space in Quantum Mechanics
+	Peano on derivative of measures, strict derivative of distributive set functions
+10.1088/1741-2552/ada705	Using Space-Filling Curves and Fractals to Reveal Spatial and Temporal Patterns in Neuroimaging Data
+	How many three-dimensional Hilbert curves are there?
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	A generalized model for Yang-Fourier transforms in fractal space
+	Hilbert Grassmannians as classifying spaces
+10.1109/antem.2014.6887670	The cloverleaf antenna: A compact wide-bandwidth dual-polarization feed for CHIME
+	Beyond English: Centering Multilingualism in Data Visualization
+	L-systems for the Boundaries of fractal dragon space filling folding curves
+10.1088/0741-3335/51/2/024006	Prospects for all-optical ultrafast muon acceleration

@@ -1,0 +1,192 @@
+{
+  "nodes": [
+    {
+      "id": "01bc80e028af4c60ed11acc0f3b96d0c78bd19c3"
+    },
+    {
+      "id": "0f6352331865414b89180ff52822c3e24091c0d9"
+    },
+    {
+      "id": "10.1016/j.exmath.2022.12.002"
+    },
+    {
+      "id": "13d033a6ca3e092a119dd82cace1122f55ec7908"
+    },
+    {
+      "id": "18a04d8fb9f2112eb424383f04564a7a7a917646"
+    },
+    {
+      "id": "25294be71fa560b92a674213addf704c19361a18"
+    },
+    {
+      "id": "28fbb8d7d35e6a76bad6e7f9f6fd7fe9836894e6"
+    },
+    {
+      "id": "31591ef19c52f73783067aed38c8a628d3481d87"
+    },
+    {
+      "id": "4178d14e65abad8b4896645f144f541f12cdebce"
+    },
+    {
+      "id": "475560d10dd70496dbe134f09ad08eb776b2d44a"
+    },
+    {
+      "id": "47d9f442a065a5b8c808ccefa6e7f8c9b3648573"
+    },
+    {
+      "id": "4d9063738947a7c68653b8d68fbfe0d075293414"
+    },
+    {
+      "id": "57e3df3f85528b7037a72bda505caccb43765151"
+    },
+    {
+      "id": "58876229dfefd27c1ca9189df2ffe0221760011e"
+    },
+    {
+      "id": "6d38e44d5a6e3752ada612e4f2e38b2260567210"
+    },
+    {
+      "id": "8cb387596a15f1783a24aee7e1902d8063279d2c"
+    },
+    {
+      "id": "8daafb99fe4d73dfd546e83019919d904bee12b5"
+    },
+    {
+      "id": "9287ac222291d7d3b5b62ea39b4db839cd14031f"
+    },
+    {
+      "id": "a9f22645d9c4bc35e66a9204b97ba0ed34ee3968"
+    },
+    {
+      "id": "b64d36f9dff087daff8bb1d4761a95c41fc926bb"
+    },
+    {
+      "id": "bb64189a0eef63d91376259e92886891285a5c68"
+    },
+    {
+      "id": "e2ceedf9771beaad3af8dd8de7dd82834b0bd2fc"
+    },
+    {
+      "id": "e90ac43eb370cd1e1bca16c928b295c029268522"
+    },
+    {
+      "id": "f03a62b273792c46150addf80f1bed29af577814"
+    },
+    {
+      "id": "f3121fa411c774e47f661a55dd46866fdb2d3110"
+    },
+    {
+      "id": "fd2e7cbe6c5a28de139ffc26bacd2bd5535cbfc8"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "01bc80e028af4c60ed11acc0f3b96d0c78bd19c3"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "0f6352331865414b89180ff52822c3e24091c0d9"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "13d033a6ca3e092a119dd82cace1122f55ec7908"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "18a04d8fb9f2112eb424383f04564a7a7a917646"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "25294be71fa560b92a674213addf704c19361a18"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "28fbb8d7d35e6a76bad6e7f9f6fd7fe9836894e6"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "31591ef19c52f73783067aed38c8a628d3481d87"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "4178d14e65abad8b4896645f144f541f12cdebce"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "475560d10dd70496dbe134f09ad08eb776b2d44a"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "47d9f442a065a5b8c808ccefa6e7f8c9b3648573"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "4d9063738947a7c68653b8d68fbfe0d075293414"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "57e3df3f85528b7037a72bda505caccb43765151"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "58876229dfefd27c1ca9189df2ffe0221760011e"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "6d38e44d5a6e3752ada612e4f2e38b2260567210"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "8cb387596a15f1783a24aee7e1902d8063279d2c"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "8daafb99fe4d73dfd546e83019919d904bee12b5"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "9287ac222291d7d3b5b62ea39b4db839cd14031f"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "a9f22645d9c4bc35e66a9204b97ba0ed34ee3968"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "b64d36f9dff087daff8bb1d4761a95c41fc926bb"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "bb64189a0eef63d91376259e92886891285a5c68"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "e2ceedf9771beaad3af8dd8de7dd82834b0bd2fc"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "e90ac43eb370cd1e1bca16c928b295c029268522"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "f03a62b273792c46150addf80f1bed29af577814"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "f3121fa411c774e47f661a55dd46866fdb2d3110"
+    },
+    {
+      "source": "10.1016/j.exmath.2022.12.002",
+      "target": "fd2e7cbe6c5a28de139ffc26bacd2bd5535cbfc8"
+    },
+    {
+      "source": "e90ac43eb370cd1e1bca16c928b295c029268522",
+      "target": "10.1016/j.exmath.2022.12.002"
+    },
+    {
+      "source": "f3121fa411c774e47f661a55dd46866fdb2d3110",
+      "target": "10.1016/j.exmath.2022.12.002"
+    }
+  ]
+}

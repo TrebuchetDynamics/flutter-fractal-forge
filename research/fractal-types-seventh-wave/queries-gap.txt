@@ -1,0 +1,8 @@
+Herman ring rational maps fractal visualization
+Siegel disk Herman ring Fatou components Julia set rendering
+Mandelbrot percolation random Sierpinski carpet fractal visualization
+random iterated function systems superfractals visualization rendering
+Julia sets Bessel functions complex dynamics fractal
+Newton fractal Bessel Airy gamma functions
+Baker domains wandering domains transcendental entire functions Julia sets visualization
+Sierpinski curve Julia sets rational maps visualization

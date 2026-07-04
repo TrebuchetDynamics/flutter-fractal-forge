@@ -1,0 +1,4 @@
+10.12732/ijam.v34i6.3	ON SOME ADVANCES IN DYNAMICS OF ONE VARIABLE COMPLEX FUNCTIONS
+10.3390/math13030401	Generating Special Curves for Cubic Polynomials
+10.17268/sel.mat.2023.01.06	Exploring parameter spaces in complex dynamics
+	Spatial disaggregation of population data onto Urban Footprint data

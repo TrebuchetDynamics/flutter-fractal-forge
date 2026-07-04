@@ -1,0 +1,20 @@
+10.1073/pnas.1016325108	Ergodic and nonergodic processes coexist in the plasma membrane as observed by single-molecule tracking
+10.1038/s41467-021-21252-x	Bridging scales in disordered porous media by mapping molecular dynamics onto intermittent Brownian motion
+10.1038/srep19505	Fractality à la carte: a general particle aggregation model
+10.3390/fractalfract7120866	Models for Simulation of Fractal-like Particle Clusters with Prescribed Fractal Dimension
+10.1016/j.cell.2022.06.054	Glioblastoma hijacks neuronal mechanisms for brain invasion
+10.1007/s11831-023-09928-7	A Systematic Review of the Whale Optimization Algorithm: Theoretical Foundation, Improvements, and Hybridizations
+10.5772/67941	Fractal to Non-Fractal Morphological Transitions in Stochastic Growth Processes
+10.1007/s00422-023-00975-8	Learning heterogeneous delays in a layer of spiking neurons for fast motion detection
+10.1038/srep06639	Cancer-driven dynamics of immune cells in a microfluidic environment
+10.1016/j.physa.2018.10.019	Econophysics and sociophysics: Their milestones &amp; challenges
+10.1073/pnas.2020242119	Rotational dynamics and transition mechanisms of surface-adsorbed proteins
+10.1371/journal.pcbi.1005927	Inferring cell state by quantitative motility analysis reveals a dynamic state system and broken detailed balance
+10.1111/gean.12212	A Data Science Framework for Movement
+10.1007/s12551-019-00580-9	Understanding biochemical processes in the presence of sub-diffusive behavior of biomolecules in solution and living cells
+10.3390/aerospace12050413	Optimization of Flight Scheduling in Urban Air Mobility Considering Spatiotemporal Uncertainties
+10.3390/fractalfract8010055	Predicting the Remaining Useful Life of Turbofan Engines Using Fractional Lévy Stable Motion with Long-Range Dependence
+10.3390/math13213533	Research on Path Planning for Mobile Robot Using the Enhanced Artificial Lemming Algorithm
+10.1103/physrevresearch.2.043369	Bridging dynamic regimes of segmental relaxation and center-of-mass diffusion in associative protein hydrogels
+10.1038/s41598-017-14511-9	A random acceleration model of individual animal movement allowing for diffusive, superdiffusive and superballistic regimes
+10.1007/s11831-023-10030-1	A Contemporary Systematic Review on Meta-heuristic Optimization Algorithms with Their MATLAB and Python Code Reference

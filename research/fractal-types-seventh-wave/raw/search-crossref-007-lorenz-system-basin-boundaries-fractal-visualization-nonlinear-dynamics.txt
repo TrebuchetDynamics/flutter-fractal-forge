@@ -1,0 +1,20 @@
+10.1007/bf01858294	Fractal basin boundaries in a two-degree-of-freedom nonlinear system
+10.1007/s11071-015-1930-7	Escape dynamics and fractal basin boundaries in Seyfert galaxies
+10.1007/s11071-016-2782-5	Fractal basin boundaries and escape dynamics in a multiwell potential
+10.1016/s0960-0779(01)00121-7	Chaotic attractors, chaotic saddles, and fractal basin boundaries: Goodwin's nonlinear accelerator model reconsidered
+10.1115/imece1994-1256	Measures of Robust Dynamical Behavior and Fractal Basin Boundaries for Two- and Three-Well Potential Problems
+10.1016/j.nonrwa.2005.01.003	Chaotic motions and fractal basin boundaries in spring-pendulum system
+10.1007/978-94-007-0732-0_18	Fractal Basin Boundaries and Chaotic Dynamics in the Randomly-Driven Henon-Heiles Oscillator
+10.1126/science.238.4827.632	Chaos, Strange Attractors, and Fractal Basin Boundaries in Nonlinear Dynamics
+10.1007/3-540-17894-5_311	Fractal basin boundaries
+10.1016/0167-2789(85)90001-6	Fractal basin boundaries
+10.1007/bf02430636	Truncated fractal basin boundaries in the pendulum with nonperiodic forcing
+10.18500/0869-6632-2003-11-3-38-45	Fluctuational transitions across locally-disconnected and locally-connected fractal basin boundaries
+10.1007/s11071-013-1126-y	Wada basin boundaries in switched systems
+10.1115/imece2003-43919	Fractal Basin Boundaries and Chaotic Motions in Spring-Pendulum System
+10.1063/1.3030833	Partial Control of a System with Fractal Basin Boundaries
+10.1016/0167-2789(86)90221-6	Visualization of the Lorenz system
+10.1007/s10569-014-9567-2	Escape dynamics and fractal basin boundaries in the planar Earth–Moon system
+10.1007/s11071-013-0936-2	Switching-induced Wada basin boundaries in the Hénon map
+10.1007/s11071-014-1318-0	Dynamics of a hyperchaotic Lorenz-type system
+10.1080/02681119508806198	Chaos, coexistence of attractors and fractal basin boundaries of attraction in a model system coupling activation and inhibition in parallel

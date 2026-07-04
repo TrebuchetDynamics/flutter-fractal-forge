@@ -1,0 +1,20 @@
+	Random Dynamical Systems
+	V-variable fractals and superfractals
+	Infinitely many holes in connectedness loci for collinear affine iterated function systems
+	On affine iterated function systems which robustly admit an invariant affine subspace
+	Evolutive Rendering Models
+	Random countable iterated function systems with overlaps and applications
+	Finite random iterated function systems do not always satisfy Bowen's formula
+	Random iterated function systems with smooth invariant densities
+	One-dimensional stochastic growth and Gaussian ensembles of random matrices
+10.1016/j.nahs.2020.100857	Symmetries and periodic orbits in simple hybrid Routhian systems
+	Non-photorealistic image processing: an Impressionist rendering
+10.1142/s2010326324500266	Spectrum of random centrosymmetric matrices; CLT and Circular law
+	Shrinking target problem for random iterated function systems
+10.4064/fm210-1-2	The absolute continuity of the invariant measure of random iterated function systems with overlaps
+10.1002/rsa.20929	Diameter of P.A. random graphs with edge-step functions
+	Absolute continuity for random iterated function systems with overlaps
+10.1002/rsa.21172	Random perfect matchings in regular graphs
+10.1002/rsa.20715	Cliques in dense inhomogeneous random graphs
+10.1002/rsa.20168	The phase transition in inhomogeneous random graphs
+10.1002/rsa.21249	Cover and Hitting Times of Hyperbolic Random Graphs

@@ -1,0 +1,20 @@
+10.1016/j.eml.2026.102460	Elastic lattices inspired by Ulam–Warburton Cellular Automaton
+10.1093/oso/9780195137170.003.0007	A Two-Dimensional Cellular Automaton Crystal with Irrational Density
+10.1201/9780429494093-19	Cellular Automaton Supercomputing
+10.1201/9780429494093-12	Cellular Automaton Fluids: Basic Theory
+10.1201/9780429494093-20	Tables of Cellular Automaton Properties
+10.1201/9780429494093-11	Minimal Cellular Automaton Approximations to Continuum Systems
+10.1007/978-981-10-7497-4_7	Agent-Cellular Automata
+10.1007/0-8176-4415-6_4	Cellular Automata
+10.1007/978-1-84996-217-9_7	The B36/S125 “2x2” Life-Like Cellular Automaton
+10.1007/978-94-015-9153-9_11	Dynamic Properties of an Automaton with Memory
+10.1007/978-981-10-7497-4_4	The Complexity of Cellular Automata
+10.1007/978-981-10-7497-4_8	The Application Fields of Cellular Automata
+10.1007/978-981-10-7497-4_3	Model Building Method of Cellular Automata
+10.20944/preprints201806.0021.v1	Complex Buildings and Cellular Automata &amp;ndash; A Cellular Automaton Model for the Centquatre-Paris
+10.1007/978-981-10-7497-4_1	The Conceptual Origin of Cellular Automata
+10.1007/978-981-10-7497-4_2	The Working Principle of Cellular Automata
+10.1007/978-3-319-65558-1_6	The Sandpile Cellular Automaton
+10.5772/15747	Visual Spike Processing based on Cellular Automaton
+10.1007/978-94-011-1691-6_9	How to Fire Almost any Arbitrary Pattern on a Cellular Automaton
+10.5772/15390	Application of Cellular Automaton Model to Advanced Information Feedback in Intelligent Transportation Systems

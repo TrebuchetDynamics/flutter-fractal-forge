@@ -1,0 +1,170 @@
+{
+  "nodes": [
+    {
+      "id": "10.11591/eei.v11i1.3333"
+    },
+    {
+      "id": "1a98a6c1ace4793d4256b9a574f739c16367685c"
+    },
+    {
+      "id": "21ca49a4fc9ac031075289c8f4e972edd43d8de6"
+    },
+    {
+      "id": "22e56ee326e59a4ad5c469054ff6b40975316e5c"
+    },
+    {
+      "id": "31f8d2e1ba0e948d6bbe23ca82b075cae648a2f1"
+    },
+    {
+      "id": "36d011adc6367606d4b2962fd267f0dfe4710417"
+    },
+    {
+      "id": "421977e3b76ac49e645cc4879ea271727998a327"
+    },
+    {
+      "id": "499e5648571c73cc6bfac6fcab12948019a54f62"
+    },
+    {
+      "id": "4b5ad1b3849f2c735c5226a015d656cbe672b33d"
+    },
+    {
+      "id": "5c9f7a989818445c6442a2b462c4fa1a04014d4f"
+    },
+    {
+      "id": "5f0411029cac4cb904ce8823c3efe92fe3d846dd"
+    },
+    {
+      "id": "63bb033acdffdeeacba6615827b7ef2323e3671f"
+    },
+    {
+      "id": "70862bf2e454d10fdcfe6057a0e7a3d596b94f52"
+    },
+    {
+      "id": "73e14d182d11e810bcbeb133872f296f7567738d"
+    },
+    {
+      "id": "74b9379e28ce6947f5618978d917db2ac41cef58"
+    },
+    {
+      "id": "858c6d1d7f443af913eecd828268f621fc55c081"
+    },
+    {
+      "id": "86db08240cc59bd61919d745c08be98b901bd94a"
+    },
+    {
+      "id": "a5cd13b8c310239a3e694e9761458b1852ab961f"
+    },
+    {
+      "id": "b6fe2a6af0ef19b397d94895bf6c344ee56dd0d5"
+    },
+    {
+      "id": "bfca74d01179ab68405d8625162590f3f6dd65a6"
+    },
+    {
+      "id": "c4cc4ac1b4bc926947d7ffc211ce3365141d66ed"
+    },
+    {
+      "id": "d70f2ac6ffa4959285f72cda5ee4075c6e7314b9"
+    },
+    {
+      "id": "db8f7006312b460dc30094c230f03e90a7b4c77e"
+    },
+    {
+      "id": "f4630ff0bca44f26c8eba8a7124f86ca2ddf45eb"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "1a98a6c1ace4793d4256b9a574f739c16367685c"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "21ca49a4fc9ac031075289c8f4e972edd43d8de6"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "22e56ee326e59a4ad5c469054ff6b40975316e5c"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "31f8d2e1ba0e948d6bbe23ca82b075cae648a2f1"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "421977e3b76ac49e645cc4879ea271727998a327"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "499e5648571c73cc6bfac6fcab12948019a54f62"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "4b5ad1b3849f2c735c5226a015d656cbe672b33d"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "5c9f7a989818445c6442a2b462c4fa1a04014d4f"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "5f0411029cac4cb904ce8823c3efe92fe3d846dd"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "63bb033acdffdeeacba6615827b7ef2323e3671f"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "70862bf2e454d10fdcfe6057a0e7a3d596b94f52"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "73e14d182d11e810bcbeb133872f296f7567738d"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "74b9379e28ce6947f5618978d917db2ac41cef58"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "858c6d1d7f443af913eecd828268f621fc55c081"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "86db08240cc59bd61919d745c08be98b901bd94a"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "a5cd13b8c310239a3e694e9761458b1852ab961f"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "b6fe2a6af0ef19b397d94895bf6c344ee56dd0d5"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "c4cc4ac1b4bc926947d7ffc211ce3365141d66ed"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "d70f2ac6ffa4959285f72cda5ee4075c6e7314b9"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "db8f7006312b460dc30094c230f03e90a7b4c77e"
+    },
+    {
+      "source": "10.11591/eei.v11i1.3333",
+      "target": "f4630ff0bca44f26c8eba8a7124f86ca2ddf45eb"
+    },
+    {
+      "source": "36d011adc6367606d4b2962fd267f0dfe4710417",
+      "target": "10.11591/eei.v11i1.3333"
+    },
+    {
+      "source": "bfca74d01179ab68405d8625162590f3f6dd65a6",
+      "target": "10.11591/eei.v11i1.3333"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+10.1090/s1088-4173-09-00198-2	Wild knots in higher dimensions as limit sets of Kleinian groups
+10.1090/conm/389/07276	Wild Knots as limit sets of Kleinian Groups
+	S ep 2 00 5 A wild knot S 2 →֒ S 4 as limit set of a Kleinian Group : Indra ’ s pearls in four dimensions
+10.1007/s00283-018-09856-6	The Intrigues and Delights of Kleinian and Quasi-Fuchsian Limit Sets
+	Some examples of dynamically defined ambient homogeneous wild knots in higher dimensions
+10.5209/rev_rema.2006.v19.n1.16633	Homogeneity of Dynamically Defined Wild Knots
+	A wild knot $\mathbb{S}^{2}\hookrightarrow\mathbb{S}^{4}$ as limit set of a Kleinian Group: Indra's pearls in four dimensions
+10.1142/s0218216507005610	A WILD KNOT 𝕊2 ↪ 𝕊4 AS LIMIT SET OF A KLEINIAN GROUP: INDRA'S PEARLS IN FOUR DIMENSIONS
+10.1016/j.top.2003.10.004	Complex hyperbolic Kleinian groups with limit set a wild knot
+	Jørgensen numbers of some Kleinian groups on the boundary of the classical Schottky space 14 : 25 – 14 : 50
+	Geometry and dynamics : international conference in honor of the 60th anniversary of Alberto Verjovsky, January 6-11, 2003, Cuernavaca, Mexico
+	Topology and combinatorial group theory : proceedings of the Fall Foliage Topology Seminars held in New Hampshire 1986-1988
+10.1016/s0960-0779(03)00253-4	On a connection between the VAK, knot theory and El Naschie’s theory of the mass spectrum of the high energy elementary particles
+	Bending Hyperbolic Kaleidoscopes

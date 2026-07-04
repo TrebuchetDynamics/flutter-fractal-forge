@@ -1,0 +1,20 @@
+	Tevatron-for-LHC Report of the QCD Working Group
+10.1103/physrevc.69.034338	Kerman-Klein-Donau-Frauendorf model for odd-odd nuclei: formal theory
+10.1103/physrevd.80.015015	Supersymmetric and Kaluza-Klein Particles Multiple Scattering in the Earth
+	Representation varieties of Fuchsian groups
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.1112/jlms/jdq083	On the Brauer group of diagonal quartic surfaces
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1515/jgth-2019-0045	Schur multipliers of special p-groups of rank 2
+	On Automorphisms of Finite $p$-groups
+10.1007/s002220050117	Fuchsian groups of the second kind and representations carried by the limit set
+	Regularity of limit sets of AdS quasi-Fuchsian groups
+	Andrews-Curtis and Nielsen equivalence relations on some infinite groups
+	Quotients and subgroups of Baumslag-Solitar groups
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	Graphs, free groups and the Hanna Neumann conjecture
+	Groups acting on spaces of non-positive curvature
+	Fuchsian Groups, Quasiconformal Groups, and Conical Limit Sets
+10.1103/physrevlett.78.4347	Application of the Kerman-Klein method to the solution of a spherical shell model for a deformed rare-earth nucleus
+10.1515/jgt.2010.040	Solomon's induction in quasi-elementary groups

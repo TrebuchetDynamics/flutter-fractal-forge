@@ -1,0 +1,20 @@
+10.3390/systems4040037	Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.1109/access.2023.3257349	Chaotic Image Encryption Using Piecewise-Logistic-Sine Map
+10.1088/0951-7715/15/4/312	Bifurcations and strange attractors in the Lorenz-84 climate model with seasonal forcing
+10.3390/sym14122559	Application of DNA Coding, the Lorenz Differential Equations and a Variation of the Logistic Map in a Multi-Stage Cryptosystem
+10.3390/math11194166	Bifurcation, Hidden Chaos, Entropy and Control in Hénon-Based Fractional Memristor Map with Commensurate and Incommensurate Orders
+10.1007/s10207-022-00588-5	Survey on image encryption techniques using chaotic maps in spatial, transform and spatiotemporal domains
+10.3390/app8122640	The Fractional Form of the Tinkerbell Map Is Chaotic
+10.3390/app13064034	Enhancing Image Encryption with the Kronecker xor Product, the Hill Cipher, and the Sigmoid Logistic Map
+10.3390/fractalfract7100728	On Ikeda-Based Memristor Map with Commensurate and Incommensurate Fractional Orders: Bifurcation, Chaos, and Entropy
+10.1371/journal.pone.0174621	Phase diagrams and dynamics of a computationally efficient map-based neuron model
+10.1109/access.2019.2946807	A New Chaotic Image Steganography Technique Based on Huffman Compression of Turkish Texts and Fractal Encryption With Post-Quantum Security
+10.3390/e25111478	Fractal-Based Hybrid Cryptosystem: Enhancing Image Encryption with RSA, Homomorphic Encryption, and Chaotic Maps
+10.3390/e21030279	Chaotic Map with No Fixed Points: Entropy, Implementation and Control
+10.1109/access.2023.3282160	Color Image Cryptosystem Based on Sine Chaotic Map, 4D Chen Hyperchaotic Map of Fractional-Order and Hybrid DNA Coding
+10.3390/electronics9091432	Neural Network for Low-Memory IoT Devices and MNIST Image Recognition Using Kernels Based on Logistic Map
+10.1103/physreve.98.012217	Robustness of chimera states in nonlocally coupled networks of nonidentical logistic maps
+10.3390/e23111373	An Image Encryption Algorithm Using Logistic Map with Plaintext-Related Parameter Values
+10.1007/s12190-022-01737-8	Bifurcations and dynamics of a discrete predator–prey model of ricker type

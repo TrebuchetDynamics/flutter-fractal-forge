@@ -1,0 +1,20 @@
+10.1007/978-3-030-01497-1_8	Parameter-Mapping Sonification of Tick-Data
+10.22541/au.177023544.40878763/v1	Topological Sonification of CeRu₄Sn₆: Mapping Kondo Lattice Topology into Structured Audio Domains
+10.1145/3561212.3561239	Sounding Obstacles for Social Distance Sonification
+10.1101/2025.08.08.669315	N100 as a Neural Marker of Atypical Early Auditory Encoding in Autism: Sensitivity to Pitch, Distance-Based Intensity, and Spatial Location
+10.1109/imsccs.2006.213	Distance Ratio Fractal for Complex Mapping z\leftarrow z^a
+10.1109/tvcg.2025.3633835/mm1	Perceiving Slope and Acceleration: Evidence for Variable Tempo Sampling in Pitch-Based Sonification of Functions_supp1-3633835.mp4
+10.1016/j.clinph.2023.02.053	P-36 Movement sonification by pitch feedback enhances context-dependent motor sequence learning
+10.3390/biology12050670	Parameter Mapping Sonification of Human Olfactory Thresholds
+10.1109/secon.2007.342842	Pitch conversion based on pitch mark mapping
+10.36487/acg_rep/1815_63_cortolezzis	Application of sequential spatial clustering and fractal dimension to caving seismic event parameters of time, distance, and intensity
+10.1515/pjbr-2020-0014	PLAY ME: interactive sonification of sexual arousal in long-distance relationships
+10.1145/3283458.3283527	Self-similarity
+10.1145/2619195.2656326	MaD
+10.1037/e408462004-001	The influence of practice and pitch distance between tones on the absolute identification of pitch.
+10.32614/cran.package.musicxml	musicXML: Data Sonification using 'musicXML'
+10.1108/ilt-09-2023-0300/v1/review1	Review for "Fractal contact resistance model of wind pitch slip ring considering wear and self-excited vibration"
+10.17918/sw29-4532	Mapping of a baseball pitch
+10.1108/ilt-09-2023-0300/v2/review1	Review for "Fractal contact resistance model of wind pitch slip ring considering wear and self-excited vibration"
+10.1108/ilt-09-2023-0300/v3/review1	Review for "Fractal contact resistance model of wind pitch slip ring considering wear and self-excited vibration"
+10.1227/01.neu.0000417781.38009.50	191 Subcortical Mapping

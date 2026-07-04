@@ -1,0 +1,20 @@
+10.1038/emboj.2009.340	Molecular crowding affects diffusion and binding of nuclear proteins in heterochromatin and reveals the fractal organization of chromatin
+10.1111/j.1467-9868.2011.00777.x	An Explicit Link between Gaussian Fields and Gaussian Markov Random Fields: The Stochastic Partial Differential Equation Approach
+10.1039/c3sm52813h	Phase behaviour of active Brownian particles: the role of dimensionality
+10.1016/j.bpj.2012.09.040	Universal Algorithm for Identification of Fractional Brownian Motion. A Case of Telomere Subdiffusion
+10.1073/pnas.1016325108	Ergodic and nonergodic processes coexist in the plasma membrane as observed by single-molecule tracking
+10.1093/nar/gks586	A fractal model for nuclear organization: current evidence and biological implications
+10.1038/ncomms9396	Swarming bacteria migrate by Lévy Walk
+10.1155/2015/242695	Diagnosis of Lung Cancer by Fractal Analysis of Damaged DNA
+10.1371/journal.pone.0041148	Fractal Dimension and Vessel Complexity in Patients with Cerebral Arteriovenous Malformations
+10.1038/srep19505	Fractality à la carte: a general particle aggregation model
+10.1002/andp.200551701-303	Brownian motion: a paradigm of soft matter and biological physics
+10.3390/fractalfract7120866	Models for Simulation of Fractal-like Particle Clusters with Prescribed Fractal Dimension
+10.1038/s41467-021-21252-x	Bridging scales in disordered porous media by mapping molecular dynamics onto intermittent Brownian motion
+	The Multi-Fractal Model of Asset Returns:Its Estimation via GMM and Its Use for Volatility Forecasting
+10.1371/journal.pcbi.1000153	Structure and Dynamics of Interphase Chromosomes
+10.5120/14970-3157	A Review on Natural Phenomenon of Fractal Geometry
+10.1038/s41598-019-38515-9	Fractal conceptualization of intumescent fire barriers, toward simulations of virtual morphologies
+10.3389/fncom.2020.00056	Serotonergic Axons as Fractional Brownian Motion Paths: Insights Into the Self-Organization of Regional Densities
+10.1038/ncomms15675	Conserved linear dynamics of single-molecule Brownian motion
+10.1590/s0103-97331999000100011	Non-Markovian processes with long-range correlations: fractal dimension analysis

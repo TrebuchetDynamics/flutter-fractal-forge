@@ -1,0 +1,7 @@
+Search batch stats
+Queries: 6
+Sources: crossref,semantic-scholar
+Records: 70
+Deduped records: 57
+Failures: 5
+  semantic-scholar failures: 5

@@ -1,0 +1,20 @@
+10.3390/su13020823	The Potential of Biophilic Fractal Designs to Promote Health and Performance: A Review of Experiments and Applications
+10.1371/journal.pone.0110300	Quantification of Heterogeneity as a Biomarker in Tumor Imaging: A Systematic Review
+10.1016/j.cities.2019.102481	Understanding cities with machine eyes: A review of deep computer vision in urban analytics
+10.1007/s11263-018-1125-z	From BoW to CNN: Two Decades of Texture Representation for Texture Classification
+10.1007/s40747-021-00563-y	Brain tumor detection and classification using machine learning: a comprehensive survey
+	Fractal Geometry and Spatial Phenomena: A Bibliography (91-1)
+10.23919/eusipco63237.2025.11226034	Diffusion Models for Multifractal Texture Synthesis
+10.1201/b13691-27	- Multiscale Representations: Fractals, Self-Similar Random Processes and Wavelets
+10.1002/9781118568767.ch2	Discrete Wavelet Transform‐Based Multifractal Analysis
+	Topics in multifractal analysis of two- and three- dimensional structures in spaces of constant curvature
+	Multifractal analysis for multivariate data with application to remote sensing
+10.3390/electronics10151772	Concrete Cracks Detection and Monitoring Using Deep Learning-Based Multiresolution Analysis
+10.1016/j.advwatres.2009.07.005	Dissecting the effect of rainfall variability on the statistical structure of peak flows
+10.20944/preprints202106.0194.v1	Concrete Cracks Monitoring using Deep Learning-based Multiresolution Analysis
+10.1109/access.2021.3117578	Multi-Scale Fusion U-Net for the Segmentation of Breast Lesions
+10.1155/2012/863707	Hölder Scales of Sea Level
+10.1029/2008rs003935	Simulation of rain fade on arbitrary microwave link networks by the downscaling and interpolation of rain radar data
+10.3221/igf-esis.58.03	Wavelet-based multiresolution analysis coupled with deep learning to efficiently monitor cracks in concrete
+10.1007/s41095-021-0206-z	Prime gradient noise
+	Deep learning for texture and dynamic texture analysis

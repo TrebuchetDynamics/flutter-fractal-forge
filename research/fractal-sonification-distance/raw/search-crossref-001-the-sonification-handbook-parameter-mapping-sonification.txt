@@ -1,0 +1,10 @@
+10.1007/978-3-030-01497-1_8	Parameter-Mapping Sonification of Tick-Data
+10.3390/biology12050670	Parameter Mapping Sonification of Human Olfactory Thresholds
+10.1162/leon_a_02568	The Sound of Data: Designing a Framework for Parameter Mapping Sonification
+10.1109/icimu.2014.7066664	Sonification of 3D body movement using parameter mapping technique
+10.1201/9781420064995-44	Auditory Interfaces and Sonification
+10.1145/2590651.2590777	A parameter mapping sonification for price differences in market research studies
+10.1093/oxfordhb/9780190226992.013.9	Sonification ≠ Music
+10.20944/preprints202106.0292.v1	The CURAT Sonification Game: Gamification for Remote Sonification Evaluation
+10.22541/au.177023544.40878763/v1	Topological Sonification of CeRu₄Sn₆: Mapping Kondo Lattice Topology into Structured Audio Domains
+10.4324/9781003325567-21	Sonification and sustainability

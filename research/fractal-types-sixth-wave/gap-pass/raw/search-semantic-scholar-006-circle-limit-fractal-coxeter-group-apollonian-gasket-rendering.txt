@@ -1,0 +1,2 @@
+	Minkowski measurability of infinite conformal graph directed systems and application to Apollonian packings
+10.1353/ajm.2015.0023	Birational automorphism groups and the movable cone theorem for Calabi-Yau manifolds of Wehler type via universal Coxeter groups

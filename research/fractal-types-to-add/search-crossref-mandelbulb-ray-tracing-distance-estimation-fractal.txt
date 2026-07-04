@@ -1,0 +1,20 @@
+10.1142/9789812778604_0009	Ray Tracing Methods by Distance Estimation
+10.1016/s0262-4079(09)63150-x	The Mandelbulb: first ‘true’ 3D image of famous fractal
+10.1016/j.chaos.2025.116829	Dynamic Mandelbulb fractals: A mathematical framework for time-evolving 3D fractals using distance estimation
+10.25206/978-5-8149-3873-2-2024-194-205	COMPARATIVE STUDY OF RAY TRACING FOR SIGNED DISTANCE FUNCTION
+10.5120/7309-9869	Game-enabling the 3D-Mandelbulb Fractal by adding Velocity-induced Support Vectors
+10.1145/2342896.2343016	Distance aware ray tracing for curves
+10.5772/16373	Field Estimation through Ray- Tracing for Microwave Links
+10.1109/wd52248.2021.9508280	Distance Estimation for BLE-based Contact Tracing – A Measurement Study
+10.1007/979-8-8688-1691-8_3	GPGPU Ray Tracing vs. DXR Ray Tracing Approaches
+10.1007/978-1-4842-7185-8_7	Texture Coordinate Gradients Estimation for Ray Cones
+10.1364/giois.1987.thc5	Estimation of Planar Microlens by Oblique Ray Tracing
+10.1142/s0218348x16500407	FRACTAL DIMENSION ESTIMATION OF RGB COLOR IMAGES USING MAXIMUM COLOR DISTANCE
+10.1109/wpnc.2012.6268766	Velocity estimation of cellular terminals in urban environment using ray tracing
+10.2172/1835864	Coherent Ray-tracing for BREAD
+10.3233/xst-140460	Fast estimation of first-order scattering in a medical x-ray computed tomography scanner using a ray-tracing technique
+10.1016/0263-7855(91)80019-v	The application of fractal clustering to efficient molecular ray tracing on low-cost computers
+10.1201/b10675-3	Bare-Bones Ray Tracing
+10.1109/icupc.1993.528349	Ray tracing for indoor radio channel estimation
+10.1007/978-3-030-17490-3_7	Ray-Tracing Hardware
+10.1109/rt.2008.4634609	Ray tracing: Strengths and opportunities

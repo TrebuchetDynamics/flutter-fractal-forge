@@ -1,0 +1,20 @@
+	On the order derivatives of Bessel functions
+10.1007/s10509-007-9395-x	Underground Water Cherenkov Muon Detector Array with the Tibet Air Shower Array for Gamma-Ray Astronomy in the 100 TeV Region
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Theory of Fundamental Bessel Functions of High Rank
+10.1002/asna.18260041601	Über die Berechnung der geographischen Längen und Breiten aus geodätischen Vermessungen
+	Boundary Julia theory for slice regular functions
+	Macroscopic Hausdorff dimension of the level sets of the Airy processes
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+10.1080/10652469.2016.1153638	Mellin transform of quartic products of shifted Airy functions
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	On the relation between Airy integral and Bessel functions revisited
+	Asymptotics of the convolution of the Airy function and a function of the power-like behavior
+10.1016/j.cpc.2011.11.010	Numerical calculation of Bessel, Hankel and Airy functions
+10.1086/499335	Observation of PeV Gamma Rays from the Monogem Ring with the Tibet Air Shower Array
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Rigidity of Determinantal Point Processes with the Airy, the Bessel and the Gamma Kernel
+	Kernels, Data & Physics
+10.5802/jep.327	Homeomorphism groups of basilica, rabbit and airplane Julia sets
+	Beyond English: Centering Multilingualism in Data Visualization
+	Flux upper limits of diffuse TeV gamma rays from the Galactic plane using the effective area of the Tibet-II and -III arrays

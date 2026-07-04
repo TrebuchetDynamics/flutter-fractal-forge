@@ -1,0 +1,20 @@
+10.1016/j.cpc.2016.06.016	CoFlame: A refined and validated numerical algorithm for modeling sooting laminar coflow diffusion flames
+10.1017/jfm.2013.141	Flame front/turbulence interaction for syngas fuels in the thin reaction zones regime: turbulent and stretched laminar flame speeds at elevated pressures and temperatures
+10.3390/su14106159	Energy Efficient Clustering Protocol for FANETS Using Moth Flame Optimization
+10.3390/su13020823	The Potential of Biophilic Fractal Designs to Promote Health and Performance: A Review of Experiments and Applications
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1016/j.combustflame.2020.12.049	Revealing soot maturity based on multi-wavelength absorption/emission measurements in laminar axisymmetric coflow ethylene diffusion flames
+	Detailed Modeling of Soot Formation/Oxidation in Laminar Coflow Diffusion Flames
+10.2478/v10178-012-0039-2	Algorithms and methods for analysis of the optical structure factor of fractal aggregates
+10.1371/journal.pone.0158738	Impact of Chaos Functions on Modern Swarm Optimizers
+10.1016/j.cpc.2019.01.015	FracVAL: An improved tunable algorithm of cluster–cluster aggregation for generation of fractal structures formed by polydisperse primary particles
+10.3390/fractalfract7120866	Models for Simulation of Fractal-like Particle Clusters with Prescribed Fractal Dimension
+10.1103/physrevresearch.3.013090	Machine learning prediction of critical transition and system collapse
+10.3390/math10071089	Certain New Models of the Multi-Space Fractal-Fractional Kuramoto-Sivashinsky and Korteweg-de Vries Equations
+10.1080/00102200802261852	LES Modeling of Premixed Deflagrating Flames in a Small-Scale Vented Explosion Chamber with a Series of Solid Obstructions
+10.1017/jfm.2014.549	Matrix-free continuation of limit cycles and their bifurcations for a ducted premixed flame
+10.1016/j.compfluid.2024.106233	Modified variational iteration method and its convergence analysis for solving nonlinear aggregation population balance equation
+10.1080/02786826.2017.1325440	Investigation of the size of the incandescent incipient soot particles in premixed sooting and nucleation flames of <i>n</i>-butane using LII, HIM, and 1 nm-SMPS
+10.4310/dpde.2005.v2.n1.a1	Existence of KPP fronts in spatially-temporally periodic advection and variational principle for propagation speeds
+10.5194/acp-5-827-2005	A review of biomass burning emissions part III: intensive optical properties of biomass burning particles
+10.1038/s41598-019-38515-9	Fractal conceptualization of intumescent fire barriers, toward simulations of virtual morphologies

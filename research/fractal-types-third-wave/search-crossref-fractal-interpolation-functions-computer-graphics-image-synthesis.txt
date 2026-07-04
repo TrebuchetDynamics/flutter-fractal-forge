@@ -1,0 +1,20 @@
+10.1016/0734-189x(89)90095-9	Fractal-based analysis and interpolation of 3D natural surface shapes and their application to terrain modeling
+10.1016/0734-189x(89)90034-0	Fractal-based analysis and interpolation of 3D natural surface shapes and their application to terrain modeling
+10.1111/cgf.12056	Example‐based Interpolation and Synthesis of Bidirectional Texture Functions
+10.1016/0146-664x(79)90067-4	Isotropic four-point interpolation
+10.1016/0146-664x(79)90084-4	Interpolation of images via histosplines
+10.1109/sibgrapi.2009.11	Hermite Interpolation of Implicit Surfaces with Radial Basis Functions
+10.1007/978-3-642-95678-2_10	Fractal Interpolation of Random Fields of Fractional Brownian Motion
+10.1016/0146-664x(80)90117-3	A C1 triangular interpolation patch for computer-aided geometric design
+10.1016/0146-664x(82)90151-4	An isotropic four-point interpolation based on cubic splines
+10.1016/0734-189x(83)90096-8	Rotationally symmetric operators for surface interpolation
+10.1016/0146-664x(82)90086-7	An isotropic four-point interpolation based on cubic splines
+10.1016/s0734-189x(87)80202-5	Angular spline: A new approach to the interpolation problem in computer graphics
+10.1145/166117.166153	View interpolation for image synthesis
+10.1016/0734-189x(83)90095-6	An implementation of a computational theory of visual surface interpolation
+10.1016/0734-189x(88)90133-8	Texture description and segmentation through fractal geometry
+10.1145/2602161.2602181	Modeling turbulent flows with fractal interpolation
+10.3724/sp.j.1087.2013.00519	Controllable and realistic terrain synthesis based on feature sketch and fractal interpolation
+10.1109/iccgiv57403.2022.00020	Interpolation and Sharpening for Image Upsampling
+10.1109/sibgra.1999.805729	Using adaptive contraction for fractal image coding based on local fractal dimension
+10.1016/0146-664x(79)90081-9	Feature detection using basis functions

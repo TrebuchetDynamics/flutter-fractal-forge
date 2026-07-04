@@ -1,0 +1,20 @@
+10.1063/1.5012134	Riddled Basins of Attraction in Systems Exhibiting Extreme Events
+10.1063/5.0147679	Fractal and Wada escape basins in the chaotic particle drift motion in tokamaks
+10.1016/j.cnsns.2019.01.024	Frustration induced transient chaos, fractal and riddled basins in coupled limit cycle oscillators
+	How to detect Wada Basins
+10.1016/j.cnsns.2020.105167	The saddle-straddle method to test for Wada basins
+10.1016/j.physd.2022.133291	The occurrence of riddled basins and blowout bifurcations in a parametric nonlinear system
+10.1016/j.chaos.2022.111891	Weak dissipation drives and enhances Wada basins in three-dimensional chaotic scattering
+	Ascertaining when a basin is Wada: the merging method
+10.1016/j.cnsns.2020.105588	A test for fractal boundaries based on the basin entropy
+	Basin Riddling in Coupled Phase Oscillators
+10.1086/323668	The Three-Dimensional Structure of a Massive Gas Disk in the Galactic Central Region
+	Riddled basin geometry sets fundamental limits to predictability and reproducibility in deep learning
+10.1088/1367-2630/aa5a7b	Potentials and Limits to Basin Stability Estimation
+10.1007/s11071-016-2782-5	Fractal basin boundaries and escape dynamics in a multiwell potential
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+10.1016/j.newast.2020.101543	Fractal basins of attraction in a binary quasar model
+	Final state sensitivity and fractal basin boundaries from coupled Chialvo neurons
+10.1111/j.1365-2966.2007.12640.x	Escape from the vicinity of fractal basin boundaries of a star cluster
+	Minkowski dimension of the boundaries of the lakes of Wada
+10.1016/j.newast.2020.101451	Unpredictable basin boundaries in restricted six-body problem with square configuration

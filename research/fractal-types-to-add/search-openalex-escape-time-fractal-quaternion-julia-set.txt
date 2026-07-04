@@ -1,0 +1,20 @@
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.1007/s11071-023-08785-0	On the quaternion Julia sets via Picard–Mann iteration
+10.22436/jnsa.010.03.24	Fractal generation method based on asymptote family of generalized Mandelbrot set and its application
+10.1109/access.2019.2921309	A Chaos-Based Image Encryption Technique Utilizing Hilbert Curves and H-Fractals
+10.1109/access.2019.2920026	Boundaries of Filled Julia Sets in Generalized Jungck Mann Orbit
+10.1007/s11071-015-2145-7	Generalized quaternion M sets and Julia sets perturbed by dynamical noises
+10.1007/s00010-022-00908-z	An Application of Viscosity Approximation Type Iterative Method in the Generation of Mandelbrot and Julia Fractals
+10.1371/journal.pone.0312197	On escape criterion of an orbit with s−convexity and illustrations of the behavior shifts in Mandelbrot and Julia set fractals
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.3390/fractalfract7010076	Escape Criteria for Generating Fractals of Complex Functions Using DK-Iterative Scheme
+10.30538/oms2018.0017	Fixed point results for the complex fractal generation in the S -iteration orbit with s -convexity
+10.3390/fractalfract8020116	Escape Criteria Using Hybrid Picard S-Iteration Leading to a Comparative Analysis of Fractal Mandelbrot Sets Generated with S-Iteration
+10.5815/ijcnis.2017.04.01	Symmetric Key Encryption using Iterated Fractal Functions
+10.5121/ijcsit.2017.9205	Image Encryption Techniques Using Fractal Function : A Review
+10.1109/access.2019.2951385	Fixed Point Results for Fractal Generation in Extended Jungck–SP Orbit
+10.1109/access.2020.3018090	Fixed Point Results for Fractal Generation of Complex Polynomials Involving Sine Function via Non-Standard Iterations
+10.1155/2020/7020921	Comparative Study of Some Fixed-Point Methods in the Generation of Julia and Mandelbrot Sets
+10.3390/fractalfract8070414	On the Application of Mann-Iterative Scheme with h-Convexity in the Generation of Fractals
+10.1155/2021/8886056	Fractals via Generalized Jungck–S Iterative Scheme
+10.17512/jamcm.2015.1.06	On a visualization of the convergence of the boundary of generalized Mandelbrot set to (n-1)-sphere

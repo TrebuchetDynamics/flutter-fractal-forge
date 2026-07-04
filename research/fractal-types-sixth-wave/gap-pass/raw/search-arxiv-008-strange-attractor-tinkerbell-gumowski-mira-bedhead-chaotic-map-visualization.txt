@@ -1,0 +1,20 @@
+	Unitary theories in the work of Mira Fernandes (beyond general relativity and differential geometry)
+	Potential Function in a Continuous Dissipative Chaotic System: Decomposition Scheme and Role of Strange Attractor
+	Intermittency and Synchronisation in Gumowski-Mira Maps
+10.1007/978-3-030-04414-5_8	Visualizing the Template of a Chaotic Attractor
+	Generalized Attracting Horseshoes and Chaotic Strange Attractors
+	Strange Non-Chaotic Attractors with Unpredictable Trajectories
+	A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+	Stability enhanced by transient attractors in a memristive chaotic map
+10.1063/5.0092933	Templex: a bridge between homologies and templates for chaotic attractors
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+10.1088/0951-7715/19/9/001	How chaotic are strange nonchaotic attractors
+	Strange non-chaotic attractors in quasiperiodically forced circle maps
+	Beyond English: Centering Multilingualism in Data Visualization
+	Structure of strange baryons
+10.1103/physreve.57.1576	Strange Nonchaotic Attractors in the Quasiperiodically forced Logistic Map
+10.1103/physrevlett.92.074102	Strange nonchaotic attractors in noise driven systems
+10.3390/physics8010022	Kicked fluxonium with quantum strange attractor
+	Chaotic dynamics of the Hunt model, an artificially constructed flow system with a hyperbolic attractor
+	MIRA: Mental Imagery for Robotic Affordances

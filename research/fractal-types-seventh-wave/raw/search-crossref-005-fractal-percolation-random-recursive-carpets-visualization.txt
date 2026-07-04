@@ -1,0 +1,20 @@
+10.1002/9783527615995.ch06	Vanishing Carpets, Fractal Felts and Dendritic Capture Trees
+10.1002/rsa.20603	Percolation on random recursive trees
+10.1002/rsa.20448	Sizes of the largest clusters for supercritical percolation on random recursive trees
+10.1103/physreve.54.4590	Percolation in random-Sierpiński carpets: A real space renormalization group approach
+10.1090/proc/17076	Fractal percolation on statistically self-affine carpets
+10.1002/rsa.20566	New methods to bound the critical probability in fractal percolation
+10.1063/1.58516	DC conductive percolation of 2-D fractal random network
+10.1112/jlms/jdq094	Random soups, carpets and fractal dimensions
+10.1007/bf00192155	Fractal porous media I: Longitudinal stokes flow in random carpets
+10.1016/s0378-4371(97)00090-3	Percolation transition into random-Sierpinski-carpets
+10.1007/bf00820345	Fractal porous media III: Transversal Stokes flow through random and Sierpinski carpets
+10.1002/rsa.1012	On the value of the critical point in fractal percolation
+10.1016/0167-577x(93)90039-z	Random fractal percolation analysis of ductile fracture
+10.3390/fractalfract6010039	Elementary Fractal Geometry. 2. Carpets Involving Irrational Rotations
+10.1214/ejp.v19-2822	On the non-Gaussian fluctuations of the giant cluster for percolation on random recursive trees
+10.1051/jphyslet:0198300440101300	Random walks on fractal structures and percolation clusters
+10.1016/0022-2313(84)90088-7	Fractal energy transport: Random walk simulations on long-range percolation clusters
+10.1103/physreve.64.016135	Nonlinear random resistor diode networks and fractal dimensions of directed percolation clusters
+10.1063/1.447736	Fractal to Euclidean crossover and scaling for random walkers on percolation clusters
+10.1007/bfb0073258	Percolation and fractal properties of thin gold films

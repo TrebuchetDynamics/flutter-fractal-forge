@@ -1,0 +1,20 @@
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1017/jfm.2019.680	Forced synchronization of quasiperiodic oscillations in a thermoacoustic system
+10.1017/s002211209600763x	Dynamical flow characterization of transitional and chaotic regimes in converging–diverging channels
+10.1103/physrevb.60.5694	Multifractal dimension of chaotic attractors in a driven semiconductor superlattice
+10.5194/npg-25-671-2018	The onset of chaos in nonautonomous dissipative dynamical systems: a low-order ocean-model case study
+10.1063/1.868910	Lagrangian chaos, Eulerian chaos, and mixing enhancement in converging–diverging channel flows
+10.1140/epjp/s13360-022-03625-3	Route to extreme events in a parametrically driven position-dependent nonlinear oscillator
+10.1103/physreve.60.5412	Approximate renormalization-group transformation for Hamiltonian systems with three degrees of freedom
+10.1103/physrevb.53.10008	Chaotic dynamics of electric-field domains in periodically driven superlattices
+10.1007/s10955-019-02445-7	The Theory of Parallel Climate Realizations
+10.2172/983781	High-Precision Computation: Mathematical Physics and Dynamics
+10.1016/j.physd.2023.133786	Classifying 1D elementary cellular automata with the 0–1 test for chaos
+10.1007/s11633-014-0785-6	Finding Chaos in Finnish GDP
+10.21203/rs.3.rs-3327450/v1	Multiple tori intermittency routes to strange nonchaotic attractors in a quasiperiodically-forced piecewise smooth system
+10.5194/npg-2018-19	The onset of chaos in nonautonomous dissipative dynamical systems: A low-order ocean–model case study
+10.3390/sym15040780	Influence of Parametric Symmetry on the Dynamics of 3D Sinusoidal Discrete Systems
+10.1098/rspa.2025.0898	Weird quasiperiodic attractors in a piecewise linear Belykh map
+10.1007/s44198-024-00233-w	Birth of Strange Non-chaotic Attractors in Fractional-Order Systems
+10.1063/5.0197676	Searching for chaotic behavior in the experimental ion current and discharge current waveforms of a Hall effect thruster
+10.21203/rs.3.rs-888047/v1	Chaos is not rare in natural ecosystems

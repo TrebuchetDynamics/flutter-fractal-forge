@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-07-02T22:58:17Z",
+  "queries": [
+    "McMullen maps Julia sets fractal visualization rational maps",
+    "Blaschke product Julia sets basins fractal visualization",
+    "complex Henon map Julia set fractal visualization",
+    "Herman rings Siegel disks Julia set visualization complex dynamics",
+    "fractal percolation random recursive carpets visualization",
+    "random iterated function systems superfractals rendering",
+    "Lorenz system basin boundaries fractal visualization nonlinear dynamics",
+    "Julia sets of special functions Bessel Airy gamma fractal visualization"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "limit": 20,
+  "results": 485,
+  "deduped": 411,
+  "failures": 3
+}

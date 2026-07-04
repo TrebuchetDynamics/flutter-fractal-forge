@@ -1,0 +1,20 @@
+	Unveiling Biological Models Through Turing Patterns
+10.1103/physreve.55.5291	Effect of randomness and anisotropy on Turing patterns in reaction-diffusion systems
+	Anomalous diffusion by fractal homogenization
+10.1007/s11587-016-0267-y	Effects of cross-diffusion on Turing patterns in a reaction-diffusion Schnakenberg model
+	Turing Machines and Understanding Computational Complexity
+	Graphics Turing Test
+10.1007/s00285-016-1035-z	Instability of Turing patterns in reaction-diffusion-ODE systems
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	A surprising regularizing effect of the nonlinear semigroup associated to the semilinear heat equation and applications to reaction diffusion systems
+	On the speed of propagation in Turing patterns for reaction-diffusion systems
+10.1016/j.matt.2025.102513	Imperfect Turing Patterns: Diffusiophoretic Assembly of Hard Spheres via Reaction-Diffusion Instabilities
+	Spatial Heterogeneity Localizes Turing Patterns in Reaction-Cross-Diffusion Systems
+	Temperature Illusions in Mixed Reality using Color and Dynamic Graphics
+10.1145/3731209.	MoVer: Motion Verification for Motion Graphics Animations
+	Reaction-diffusion Equations on Complex Networks and Turing Patterns, via p-Adic Analysis
+	Oscillating Turing patterns, chaos and strange attractors in a reaction-diffusion system augmented with self- and cross-diffusion terms
+10.1016/j.physa.2016.10.036	Analyzing Signal Attenuation in PFG Anomalous Diffusion via a Modified Gaussian Phase Distribution Approximation Based on Fractal Derivative Model
+	Free energy dissipation enhances spatial accuracy and robustness of Turing pattern in small reaction-diffusion systems
+	Origin of anisotropic diffusion in Turing Patterns
+10.1016/j.aop.2022.169033	Turing and wave instabilities in hyperbolic reaction-diffusion systems: The role of second-order time derivatives and cross-diffusion terms on pattern formation

@@ -1,0 +1,3 @@
+10.1029/98wr01209	Influence of image resolution and thresholding on the apparent mass fractal characteristics of preferential flow patterns in field soils
+10.1016/s0016-7061(98)00101-3	Surface fractal characteristics of preferential flow patterns in field soils: evaluation and effect of image processing
+	Exploring the Effect of Direction on Vector-Based Fractals

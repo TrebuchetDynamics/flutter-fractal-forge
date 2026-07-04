@@ -1,0 +1,10 @@
+10.1038/s42254-021-00314-5	Physics-informed machine learning
+10.1111/j.1467-8659.2012.03071.x	Real‐Time Fluid Effects on Surfaces using the Closest Point Method
+10.1145/3320285	Real-Time Fluid Simulation on the Surface of a Sphere
+10.1145/3197517.3201309	Animating fluid sediment mixture in particle-laden flows
+10.1088/2040-8978/19/1/013001	Roadmap on structured light
+10.1007/s41095-023-0368-y	Physics-based fluid simulation in computer graphics: Survey, research trends, and challenges
+10.1016/j.compfluid.2023.106141	Global fluid simulations of edge plasma turbulence in tokamaks: a review
+10.1088/1741-4326/abf99f	The JOREK non-linear extended MHD code and applications to large-scale instabilities and their control in magnetically confined fusion plasmas
+10.1017/flo.2023.27	Applications of the vortex-surface field to flow visualization, modelling and simulation
+10.5167/uzh-29724	Incompressible fluid simulation and advanced surface handling with SPH

@@ -1,0 +1,20 @@
+10.1088/1742-6596/246/1/012001	Extreme fractal structures in chaotic mechanical systems: riddled basins of attraction
+10.1103/physreve.64.056228	Catastrophic bifurcation from riddled to fractal basins
+10.1016/s0378-4371(01)00087-5	Fractal and riddled basins: arithmetic signatures in the parameter space of two coupled quadratic maps
+10.1117/12.227902	&lt;title&gt;Riddled basins and other practical problems in coupled synchronized chaotic circuits&lt;/title&gt;
+10.1103/physrevlett.73.3528	Experimental and Numerical Evidence for Riddled Basins in Coupled Chaotic Systems
+10.1016/0167-2789(94)90047-7	The transition to chaotic attractors with riddled basins
+10.1103/physreve.56.6393	Locally and globally riddled basins in two coupled piecewise-linear maps
+10.1103/physrevlett.71.4134	Scaling behavior of chaotic systems with riddled basins
+10.1063/5.0050613	Chaotic transients, riddled basins, and stochastic transitions in coupled periodic logistic maps
+10.1016/s0960-0779(00)00209-5	Partially nearly riddled basins in systems with chaotic saddle
+10.1016/s0960-0779(97)00066-0	Chaos synchronization and riddled basins in two coupled one-dimensional maps
+10.1103/physreve.57.2713	Transverse instability and riddled basins in a system of two coupled logistic maps
+10.1142/9789814360258_0009	Fractal Basin Boundaries
+10.1142/s0218127401003772	RIDDLED BASINS AND UNSTABLE DIMENSION VARIABILITY IN CHAOTIC SYSTEMS WITH AND WITHOUT SYMMETRY
+10.7498/aps.52.2989	The characters of riddled basins in coupled chaotic synchronized maps with addit ive noises
+10.2139/ssrn.5351023	Multistability and Riddled Basins in 4d Wilson Neocortical Neuron Model
+10.1016/s0960-0779(02)00639-2	A special bifurcation of riddled basin in two coupled skew tent maps
+10.1002/(sici)1520-6440(199711)80:11<21::aid-ecjc3>3.3.co;2-j	A simple model of a riddled basin in chaotic synchronization
+10.1002/(sici)1520-6440(199711)80:11<21::aid-ecjc3>3.0.co;2-v	A simple model of a riddled basin in chaotic synchronization
+10.1007/978-94-011-5320-1_12	Jumps to Resonance Phenomena in Nonlinear Mechanics: Fractal Basins, Chaotic Transients and Unpredictability

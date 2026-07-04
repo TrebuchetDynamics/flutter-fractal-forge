@@ -1,0 +1,6 @@
+"The Sonification Handbook" parameter mapping sonification
+"Auditory Display" sonification parameter mapping pitch loudness brightness
+"image sonification" brightness pitch scanline
+"Fractal music" Mandelbrot sonification
+"auditory graph" pitch mapping function sonification
+"Timbre space" sonification brightness texture

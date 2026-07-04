@@ -1,0 +1,5 @@
+10.3390/electronics10222730	Raymarching Distance Fields with CUDA
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals
+10.48550/arxiv.2303.14827	Dual-Quaternion Julia Fractals
+10.1007/s00454-012-9431-7	Mandelbrot Set + Symmetry Groups ∗ Higher Dimensions = ?
+10.70675/eac6d731zb122z42e4z9bfazc694e2be432a	GigaVoxels : un pipeline de rendu basé Voxel pour l'exploration efficace de scènes larges et détaillées

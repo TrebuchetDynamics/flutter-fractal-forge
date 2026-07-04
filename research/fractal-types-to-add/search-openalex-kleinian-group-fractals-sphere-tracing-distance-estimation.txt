@@ -1,0 +1,2 @@
+10.1007/s00454-012-9431-7	Mandelbrot Set + Symmetry Groups ∗ Higher Dimensions = ?
+10.2140/agt.2002.2.465	A new invariant on hyperbolic Dehn surgery space

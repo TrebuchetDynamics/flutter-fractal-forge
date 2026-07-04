@@ -1,0 +1,20 @@
+10.1007/bf02392046	The limit set of a Fuchsian group
+10.2748/tmj/1178227620	Invariant subsets of the limit set for a Fuchsian group
+10.1007/s10958-005-0333-6	The Limit Set of a Fuchsian Group and Dyn’kin’s Lemma
+10.2748/tmj/1178228952	The limit set of deformations of some Fuchsian groups
+10.1512/iumj.1975.24.24011	Special Limit Points for Fuchsian Groups and Automorphic Functions Near the Limit Set
+10.1007/s002220050117	Fuchsian groups of the second kind and representations carried by the limit set
+10.1023/a:1015399606833	On the Porosity of the Limit Set and the Boundedness of Oscillation for the Function log(dist(x,Λ))in the Case of a Fuchsian Group without Parabolic Elements
+10.17323/1609-4514-2005-5-4-857-868	The Klein Quartic as a Cyclic Group Generator
+10.1016/s0097-8493(00)00080-7	An infinite circle inversion limit set fractal
+10.1070/rm1984v039n06abeh003188	Metric and category properties of subsets of the cluster set of a Fuchsian group
+10.1017/9781009701730.001	Preface: MSRI and the Klein Quartic
+10.2139/ssrn.4906067	Mirror Partner for a Klein Quartic Polynomial
+10.1017/9781009701730.004	The Klein Quartic in Number Theory
+10.2307/j.ctv125jsjz.12	The Intrigues and Delights of Kleinian and Quasi-Fuchsian Limit Sets
+10.34257/gjsfravol20is3pg29	Platonic Quantum Set Theory Proposal and Fractal-Cantorian Heterotic Kaluza- Klein Spacetime
+10.2748/tmj/1178229403	The Hausdorff dimension of limit sets of some Fuchsian groups
+10.1016/0040-9383(90)90023-d	The measure of the limit set of the handlebody group
+10.1515/9780691213651-010	The Intrigues and Delights of Kleinian and Quasi- Fuchsian Limit Sets
+10.4310/mrl.241024233904	Regularity of limit sets of AdS quasi-Fuchsian groups
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization

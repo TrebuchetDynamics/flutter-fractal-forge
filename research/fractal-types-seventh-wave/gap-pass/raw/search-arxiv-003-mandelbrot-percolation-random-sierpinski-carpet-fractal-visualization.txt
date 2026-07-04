@@ -1,0 +1,20 @@
+	Percolation properties of the classic Sierpinski carpet and sponge
+	A Sierpinski carpet like fractal without standard self-similar energy
+	Self-assembly of the discrete Sierpinski carpet and related fractals
+10.1088/0305-4470/36/6/305	Spontaneous magnetization of the Ising model on the Sierpinski carpet fractal, a rigorous result
+10.1142/s0218348x17500402	The generalization of Sierpinski carpet and Sierpinski triangle in $n$-dimensional space
+	Critical Percolation Probabilities for the Next-Nearest-Neighboring Site Problems on Sierpinski Carpets
+10.1007/978-3-030-50805-0	Potential theory on Sierpinski carpets with applications to uniformization
+10.4204/eptcs.372.18	The Sierpinski Carpet as a Final Coalgebra
+10.1103/physrevb.101.045413	Hall conductivity of Sierpinski carpet
+10.4171/jems/211	Brownian motion on the Sierpinski carpet
+	Uniqueness of the critical probability for percolation in the two dimensional Sierpinski carpet lattice
+10.4171/jfg/163	Projected images of the Sierpinski tetrahedron and other layered fractal imaginary cubes
+	On totally disconnected generalised Sierpinski carpets
+10.1021/acsphotonics.8b00186	Multiband Plasmonic Sierpinski Carpet Fractal Antennas
+	Projections of Mandelbrot percolation in higher dimensions
+10.7566/jpsj.87.085003	Spatial Search on Sierpinski Carpet Using Quantum Walk
+10.1016/j.jmaa.2014.03.001	Periodic billiard orbits of self-similar Sierpinski carpets
+	Fractal dimension of discrete sets and percolation
+	Metrics on the Sierpinski carpet by weight functions
+	Quantum Pascal's Triangle and Sierpinski's carpet

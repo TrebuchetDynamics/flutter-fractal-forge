@@ -1,0 +1,20 @@
+10.1007/s00454-005-1196-9	Apollonian Circle Packings: Geometry and Group Theory I. The Apollonian Group
+10.1038/s41467-018-04247-z	Supramolecular Kandinsky circles with high antibacterial activity
+10.3390/info11050238	A Self-Operating Time Crystal Model of the Human Brain: Can We Replace Entire Brain Hardware with a 3D Fractal Architecture of Clocks Alone?
+10.1007/s00454-010-9269-9	Conformal Mapping in Linear Time
+10.1016/j.pmatsci.2019.04.005	Structural heterogeneities and mechanical behavior of amorphous alloys
+10.1145/320248.320255	Distance browsing in spatial databases
+10.1090/s1088-4173-97-00014-3	A “regular” pentagonal tiling of the plane
+10.1073/pnas.1809731116	Linear variational principle for Riemann mappings and discrete conformality
+10.17169/refubium-5349	Ball Packings and Lorentzian Discrete Geometry
+10.48550/arxiv.1607.08391	Self-similar space-filling sphere packings in three and four dimensions
+10.3390/fractalfract7120863	Fractal Features in Terrain Restoration of Jiuzhai Valley, a World Natural Heritage Site in China
+10.5186/aasfm.2015.4046	From Apollonian packings to homogeneous sets
+10.1155/2018/7315695	The Visualization of Spherical Patterns with Symmetries of the Wallpaper Group
+10.1038/s41467-019-12508-8	Fusion dynamics of cubosome nanocarriers with model cell membranes
+	Discrete Global Grids: A Web Book
+10.1016/j.jbc.2021.100742	Seeing the PDB
+10.1017/jfm.2016.486	Chaotic mixing in three-dimensional porous media
+10.1063/1.4871365	Exploring the significance of structural hierarchy in material systems—A review
+10.1002/psc.3170	β<i>‐</i>sheet assembly in amyloidogenic glutamic acid nanostructures: Insights from X‐ray scattering and infrared nanospectroscopy
+10.1100/2012/940293	Morphostructural Characterization of Rice Grain (<i>Oryza sativa</i>L.) Variety Morelos A-98 during Filling Stages

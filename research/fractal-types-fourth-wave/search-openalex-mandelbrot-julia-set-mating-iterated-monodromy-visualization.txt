@@ -1,0 +1,4 @@
+10.1090/ecgd/302	Mating, paper folding, and an endomorphism of ℙℂ²
+10.5802/afst.1354	Introduction
+10.48550/arxiv.2509.05682	Misiurewicz points and subhyperbolicity in unicritical algebraic correspondences
+10.33774/coe-2025-qjx62	Rigorous Analytic Solutions of Univariate Real-Power Equations in Transcendental Differential Algebraic Closure

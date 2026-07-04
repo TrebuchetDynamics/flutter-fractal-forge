@@ -1,0 +1,11 @@
+10.3390/fractalfract4010003	Fractal Antennas: An Historical Perspective
+10.1186/s13244-021-01100-8	Decoding intra-tumoral spatial heterogeneity on radiological images using the Hilbert curve
+10.3390/engproc2023059127	Fractal-Enhanced Microstrip Antennas: Miniaturization, Multiband Performance and Cross-Polarization Minimization for Wi-Fi Applications
+10.22541/au.175131225.56823239/v1	Scalable Complexity in Fractal Geometry: The Keçeci Fractal Approach
+10.20944/preprints202507.1586.v1	Unfolding Infinity: Fractal Counterarguments to Cantorian Formalism
+	Optimization of Digital TV coverage prediction and broadcasting antennas
+	Miniaturized Antennas for Platform-level Integration Scenarios.
+	Multifractal Analysis Of Histological Images: Application For Thyroid (Python Programming Environment)
+10.1186/s13244-021-01100-8	11011 Kinectとダイナミックベイジアンネットワークを用いたホメオスタシス制御のための眠気情報推定(ロボット・生命化建築,2013年度日本建築学会大会(北海道)学術講演会・建築デザイン発表会)
+10.15168/11572_367941	Optimization-based Strategy for Polyomino Subarraying in Wideband Phased Array Design
+10.48550/arxiv.2312.08259	Analysis of reconstruction of functions with rough edges from discrete Radon data in $\mathbb R^2$

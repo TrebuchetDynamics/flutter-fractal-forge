@@ -1,0 +1,20 @@
+10.1007/978-1-4613-2741-7_22	Commensurability, Chaos, and the Devil′s Staircase
+10.2307/3617301	The Blancmange Function Continuous Everywhere but Differentiable Nowhere
+10.17323/1609-4514-2001-1-1-27-47	The Duck and the Devil: Canards on the Staircase
+10.1017/s0025557200099320	The blancmange function: Continuous everywhere but differentiable nowhere
+10.1007/s41478-018-0074-9	Data visualization by rational fractal function based on function values
+10.1209/0295-5075/29/5/012	Devil Staircase Dynamic in Arrays of Overdamped Josephson Junctions
+10.1142/s0218348x07003666	AUTOSTEREOSCOPIC STAIRCASE FRACTAL STRUCTURES WITH CSL-PARALLAX
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization
+10.1093/oed/7188111885	blancmange | blancmanger, n.
+10.3154/jvs.28.1051	PTV by ACO Algorithms using Radial Basis Function
+10.1093/acref/9780192803511.013.0111	blancmange
+10.1016/s0167-2789(00)00059-2	Devil-staircase behavior of dynamical invariants in chaotic scattering
+10.1080/13583149808047718	Devil' Staircase and Frustoelectricity in Chiral Smectic-C like Liquid Crystals
+10.3182/20090622-3-uk-3004.00060	A Generalized Devil Staircase-Based Generator for the JPY-USD Exchange Rate?
+10.1007/978-1-4613-2741-7_23	The Complete Devil′s Staircase and Universality of Mode Locking Structures in Discrete Mappings
+10.1007/978-3-642-95678-2_2	Escape-time Visualization Method for Language-restricted Iterated Function Systems
+10.1515/fca-2020-0044	The 2-Adic Derivatives and Fractal Dimension of Takagi-Like Function on 2-Series Field
+10.1016/b978-0-08-092458-8.50008-3	Fractal Function Construction
+10.5040/9781472550408.ch-011	The Dangerous Loser : The Narrative and Rhetorical Function of the Devil as Character in the Book of Revelation
+10.3791/31414	Staircase Test for Motor Function Assessment in a Hemiparkinsonian Rat

@@ -1,0 +1,20 @@
+10.47974/jim-2308	The complex dynamics of rational maps having no Herman ring
+10.19139/soic-2310-5070-2871	An application of nonstandard viscosity iterative methods with s-convexity in the generation of fractals for rational maps
+10.1016/j.aim.2024.109827	Rational maps with smooth degenerate Herman rings
+10.1090/tran/9607	Rigidity of J-rotational rational maps and critical quasicircle maps
+10.1090/proc/14347	No Herman rings for regularly ramified rational maps
+10.1090/proc/13336	Rational maps without Herman rings
+	Rational maps with bad reduction and domains of quasiperiodicity
+10.1090/s0002-9939-99-04566-9	The rational maps \mapsto1+1/^{} have no Herman rings
+	An Experimental View of Herman Rings for Dianalytic Maps of $\mathbb{RP}^2$
+	On the dynamics of Stirling's iterative root-finding method for rational functions
+	Measure rigidity and equidistribution for fractal carpets
+	THE RATIONAL MAPS Z 1 + 1/OMEGA ZD HAVE NO HERMAN RINGS
+10.37256/cm.7220268373	A Brief Study on Fractals as Julia and Mandelbrot Sets for Generalized Rational Map Using the Generalized Viscosity Approximation-Type Iterative Methods
+10.3390/axioms15060452	Dynamics of a Uniparametric Sixth-Order Family for Multiple Roots with Rational-Polynomial Weight Functions
+10.5815/ijigsp.2012.05.08	Wavelet Based Some Julia Sets of Rational Maps Having Zhukovskii Function
+10.1007/s00222-025-01369-2	A priori bounds and degeneration of Herman rings with bounded type rotation number
+	Puzzle Pieces, Bi-accessibility, and Connectivity of the Julia Set for Generalized Blaschke Products
+10.1007/s00039-014-0280-9	Classification of invariant Fatou components for dissipative Hénon maps
+10.32628/cseit241051043	The Evolution and Future of Virtual Reality in Geographic Information Systems
+10.1016/j.aim.2014.09.004	A decomposition theorem for Herman maps

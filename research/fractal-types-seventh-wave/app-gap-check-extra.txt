@@ -1,0 +1,16 @@
+# Additional app gap terms
+Cantor circle                3
+Cantor circles               1
+Sierpinski curve Julia       0
+Sierpiński curve Julia      0
+Cantor bubble                0
+Mandelbrot percolation       0
+random Sierpinski            0
+random Sierpiński           0
+Bessel Julia                 0
+Airy Julia                   0
+Gamma Julia                  0
+Herman Rings                 0
+Fatou component              7
+Baker domain                 0
+wandering domain             0

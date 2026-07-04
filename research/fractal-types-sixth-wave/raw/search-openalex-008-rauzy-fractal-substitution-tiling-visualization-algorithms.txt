@@ -1,0 +1,10 @@
+10.1007/s13373-013-0041-3	Developments in fractal geometry
+10.18910/58859	TOPOLOGICAL PROPERTIES OF A CLASS OF CUBIC RAUZY FRACTALS
+10.4064/aa121-1-2	Generalized radix representations and dynamical systems II
+10.48550/arxiv.2308.10213	The boundary of Rauzy fractal and discrete tilings
+10.46298/dmtcs.2089	Determining pure discrete spectrum for some self-affine tilings
+10.3390/app16094180	From Mathematics to Art: Petri Net Modelling of Tribonacci and k-Bonacci Petri Net Fractal Patterns
+10.3934/jmd.2024015	Symbolic coding of linear complexity for generic translations on the torus, using continued fractions
+10.3390/math12081129	On Complex Pisot Numbers That Are Roots of Borwein Trinomials
+	Involutive Translation Surfaces and Panov Planes
+10.48550/arxiv.2510.13071	Finite and infinite invariant measures for adic transformations

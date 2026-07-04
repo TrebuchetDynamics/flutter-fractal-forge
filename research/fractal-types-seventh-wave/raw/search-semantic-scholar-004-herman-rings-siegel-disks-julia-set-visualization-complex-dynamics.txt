@@ -1,0 +1,13 @@
+10.1016/b978-044450002-1/50050-3	Chapter 45 – A tutorial on the visualization of forward orbits associated with Siegel disks in the quadratic Julia Sets
+10.1016/0097-8493(93)90081-j	A tutorial on the visualization of forward orbits associated with Siegel disks in the quadratic Julia sets
+	Complex dynamics of Newton's method
+10.1090/ecgd/380	Single and double toral band Fatou components in meromorphic dynamics
+10.1007/s12346-025-01417-5	On Dynamics of Chebyshev’s Method for Quartic Polynomials
+	On dynamics of the Chebyshev's method for quartic polynomials
+	ON DYNAMICS OF CUBIC SIEGEL POLYNOMIALS
+10.1016/j.jmaa.2004.12.047	Dynamics of composite functions meromorphic outside a small set
+10.1007/s12044-018-0440-1	Iteration of certain exponential-like meromorphic functions
+	DYNAMICS OF RATIONAL SURFACE AUTOMORPHISMS: ROTATION DOMAINS By ERIC BEDFORD and KYOUNGHEE KIM
+10.1007/s12044-018-0440-1	Iteration of certain exponential-like meromorphic functions
+10.1007/978-1-4612-4364-9_5	Critical Points and Expanding Maps
+	Energy Scalability of Mode-locked Oscillators: a Completely Analytical Approach to Analysis References and Links

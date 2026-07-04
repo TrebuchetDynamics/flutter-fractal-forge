@@ -1,0 +1,15 @@
+	Bending Hyperbolic Kaleidoscopes
+10.2996/kmj/1106168782	Kleinian groups with singly cusped parabolic fixed points
+	Properties of geometrical realizations of substitutions associated to a family of Pisot numbers
+10.48550/arxiv.2005.05971	The infinite-dimensional HaPPY code: entanglement wedge reconstruction and dynamics
+10.20944/preprints202110.0093.v1	Tensor Rules in the Stochastic Organization of Genomes and Genetic Stochastic Resonance in Algebraic Biology
+10.37236/4989	Even More Infinite Ball Packings from Lorentzian Root Systems
+10.1088/1742-6596/965/1/012036	Conformal amplitude hierarchy and the Poincaré disk
+	Conformal amplitude hierarchy and the Poincaré disk
+10.1007/978-3-030-23370-9_3	Mesoscopic Approach to Nematic Fluids
+10.36959/863/755	Multidimensional Chaotic Dynamics and Entropies
+10.48550/arxiv.2310.03115	The Necker cube surface
+10.4171/owr/2024/53	Mini-Workshop: Infinite-Dimensional Kac-Moody Lie Algebras in Supergravity and M Theory
+10.34726/hss.2015.26942	Ein Framework für die GPU-gestützte Erzeugung und Gestaltung induktiv rotierter Muster
+	AN EXPLORATION OF IDENTITY THROUGH DATA DRIVEN ART
+	The offline software framework of the NA61

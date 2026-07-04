@@ -1,0 +1,20 @@
+10.1007/s11071-016-2782-5	Fractal basin boundaries and escape dynamics in a multiwell potential
+10.1007/s11071-015-1930-7	Escape dynamics and fractal basin boundaries in Seyfert galaxies
+10.1007/s11071-021-07167-8	A Parametric and Feasibility Study for Data Sampling of the Dynamic Mode Decomposition--Range, Resolution, and Universal Convergence States
+10.1007/s11071-014-1674-9	Analytical stable Gaussian soliton supported by a parity-time-symmetric potential with power-law nonlinearity
+10.3390/systems4040037	Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction
+10.1016/j.cnsns.2020.105588	A test for fractal boundaries based on the basin entropy
+10.1007/s11071-019-05186-0	Two-breather solutions for the class I infinitely extended nonlinear Schrodinger equation and their special cases
+10.1007/s11071-024-10192-y	Dynamic learning of synchronization in coupled nonlinear systems
+10.1007/s11071-017-3441-1	Elucidating the escape dynamics of the four hill potential
+10.1007/s11071-012-0406-2	Application of new dynamical spectra of orbits in Hamiltonian systems
+10.1007/s10509-016-2683-6	Escape dynamics and fractal basins boundaries in the three-dimensional Earth-Moon system
+10.1103/physrevlett.91.174104	Fluctuational transitions through a fractal basin boundary
+10.5890/jand.2018.06.008	Influence of round-off errors on the reliability of numerical simulations of chaotic dynamic systems
+10.1007/s11071-020-05592-9	Nonlinear dynamics in the flexible shaft rotating-lifting system of silicon crystal puller using Czochralski method
+	Fractal atom-photon dynamics in a cavity
+10.2991/jnmp.2008.15.4.4	Doubly periodic waves of a discrete nonlinear Schrödinger system with saturable nonlinearity
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1038/srep31416	Basin entropy: a new tool to analyze uncertainty in dynamical systems
+	Modeling Nonlinear Dynamical Systems with Delay-differential Equations
+	Exploring Nonlinear System with Machine Learning: Chua and Lorenz Circuits Analyzed

@@ -1,0 +1,36 @@
+{
+  "question": "Research games.paveldogreat.fluidsimfree / Pavel-style fluid simulation and how to add fluid mode to any Flutter Fractal Forge shader.",
+  "rforge_version": "rforge v0.1.14-4-g96621ca-dirty (96621ca, 2026-06-30T23:00:23Z)",
+  "timestamp": "2026-07-03T02:31:48.823193+00:00",
+  "depth": "standard",
+  "queries": [
+    "GPU Gems 38 fast fluid dynamics simulation GPU Jos Stam stable fluids",
+    "real-time fluid simulation GPU pressure projection vorticity confinement",
+    "screen-space fluid simulation fragment shader advection pressure projection"
+  ],
+  "sources": [
+    "Google Play listing HTML",
+    "PavelDoGreat/WebGL-Fluid-Simulation README/source/license",
+    "NVIDIA GPU Gems 38",
+    "openalex",
+    "arxiv"
+  ],
+  "search_stats": {
+    "coverage_stats_log": "Source coverage for research/fluid-mode-fractals\n  openalex                 20 records (2 files)\n\nTotal unique DOIs: 20\nLibrary (results.jsonl): 20 records\n\nFailed queries (1):\n  [arxiv] \"GPU Gems 38 fast fluid dynamics simulation GPU Jos Stam stable fluids\" \u2014 source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)\n"
+  },
+  "citation_expand_attempted": [],
+  "citation_expand_succeeded": [],
+  "outputs": [
+    "report.md",
+    "provenance.json",
+    "coverage-stats.log",
+    "google-play-snapshot.txt",
+    "webgl-fluid-readme.md",
+    "webgl-fluid-algorithm-snippets.txt",
+    "gpu-gems-38-snapshot.txt"
+  ],
+  "errors": [
+    "arxiv returned HTTP 429 during rforge batch search",
+    "Google Play HTML exposed only limited machine-readable app description"
+  ]
+}

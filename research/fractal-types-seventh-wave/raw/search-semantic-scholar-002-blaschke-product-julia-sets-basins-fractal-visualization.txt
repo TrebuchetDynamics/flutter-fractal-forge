@@ -1,0 +1,10 @@
+	Simulation of nonlinear-complex mapping family creating generalized Julia sets
+10.22373/ekw.v11i2.25438	Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane
+10.3390/math14091433	A Novel Inertial-Type Iteration Algorithm: Convergence, Data Dependence, and Applications in Image Deblurring and Fractal Generation
+10.33019/jrfi.v6i01.6852	Analisis Fraktal untuk Pengembangan Motif Batik Indonesia: Perpaduan Fisika dan Budaya
+10.3756/artsci.2.61	Automatic Generation of 3-D Linear Fractal Shapes with Quadratic Map Basins Animation
+	Fractal Geography of Riemann Zeta and Related Functions
+10.4064/ba54-1-4	On the Hyperbolic Hausdorff Dimension of the Boundary of a Basin of Attraction for a Holomorphic Map and of Quasirepellers
+	Polynomiography : From the Fundamental Theorem of Algebra to Art Bahman Kalantari
+	Polynomiography : From the Fundamental Theorem of Algebra to Art Bahman Kalantari
+	Mathematisches Forschungsinstitut Oberwolfach Report No . 9 / 2007 Normal Families and Complex Dynamics

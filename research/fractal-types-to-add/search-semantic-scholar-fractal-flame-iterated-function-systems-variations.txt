@@ -1,0 +1,20 @@
+10.1186/s13663-025-00784-7	Proximal iterated function systems using cyclic Meir-Keeler contractions and an application to fractal theory
+10.48550/arxiv.2505.18849	Fractal Attractors in Random Nonlinear Iterated Function Systems: Existence, Stability, and Dimensional Properties
+	Generating fractal functions associated with Suzuki iterated function systems
+10.3390/fractalfract10060361	Applying Iterated Function Systems in Waste Recycling Processes by Identifying Fractal-Like Patterns in Material Decomposition
+10.1016/j.chaos.2023.113337	Revisiting fractal through nonconventional iterated function systems
+10.1007/s13398-024-01697-7	On the fractal operator of a mixed possibly infinite iterated function system
+10.1007/s11784-022-00995-0	Existence of a fractal of iterated function systems containing condensing functions for the degree of nondensifiability
+10.1007/s10884-024-10367-6	Highly Non-contractive Iterated Function Systems on Euclidean Space Can Have an Attractor
+10.3390/axioms13120881	Mathematical Modeling of Fractals via Proximal F-Iterated Function Systems
+10.1007/s12346-024-01095-9	Continuity Dependence of Attractors of Iterated Function Systems with Orbital Condition
+10.3934/dcdss.2026011	Dimensional analysis of general recurrent fractal functions corresponding to a weak iterated function system
+10.1177/18758967261447101	Mandelbrot Set and Julia Set in Fuzzy Iterated Function Systems
+10.3390/mca28030065	Notes on the Transversality Method for Iterated Function Systems—A Survey
+10.3934/math.2019.6.1824	Fractal approximation of chaos game representations using recurrent iterated function systems
+10.1007/s10883-025-09762-z	A Variational Principle of the Packing Topological Pressure on Subsets for Non-autonomous Iterated Function Systems
+10.1016/j.cnsns.2017.08.010	Efficient fractal-based mutation in evolutionary algorithms from iterated function systems
+	Iterated Function Systems as a Generator of Fractal Objects
+10.5772/intechopen.68499	On Self‐Affine and Self‐Similar Graphs of Fractal Interpolation Functions Generated from Iterated Function Systems
+10.1007/978-3-319-62392-4_26	Genetic Estimation of Iterated Function Systems for Accurate Fractal Modeling in Pattern Recognition Tools
+10.1134/s0001434624603502	Iterated Function System with Fuzzy Banach Orbital Condition for Fractal Generation

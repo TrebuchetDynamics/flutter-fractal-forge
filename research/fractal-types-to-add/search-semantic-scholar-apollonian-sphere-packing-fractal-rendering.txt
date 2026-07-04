@@ -1,0 +1,20 @@
+10.1142/s0218348x94000739	THE FRACTAL DIMENSION OF THE APOLLONIAN SPHERE PACKING
+	CLASSP: The Continuum Limit of Apollonian–Soddy Sphere Packing Dynamics as the Origin of Weak-Field Gravity and Dirac Quantum Mechanics
+10.1103/physreve.107.034129	Mean-field approach to random Apollonian packing.
+10.1016/j.apt.2011.06.006	Fractal dimension of Apollonian packing of spherical particles
+10.1088/0965-0393/14/4/018	Fractal properties of Apollonian packing of spherical particles
+10.1073/pnas.1721104116	Geometry and arithmetic of crystallographic sphere packings
+10.1103/physreve.81.061403	Estimate for the fractal dimension of the Apollonian gasket in d dimensions.
+	Fractal Properties of Dense Packing of Spherical Particles
+	The Fractal Substrate Equivalence Physics: Möbius Boundary Dynamics in a Recursive Scale Geometry
+	The Fact Of Fractal Tennis: The Universe As A Fractal Computer Defined by the Star=Electron+Atom=Galaxy Quine
+10.1080/00268976.2011.630598	Apollonian packings as physical fractals
+10.1080/00268976.2011.640039	Apollonian packings as physical fractals
+10.1887/0750306483	The pursuit of perfect packing
+10.1017/s0305004120000225	Directions in orbits of geometrically finite hyperbolic subgroups
+10.1007/s00023-020-00894-5	Bell Polynomials and Brownian Bridge in Spectral Gravity Models on Multifractal Robertson–Walker Cosmologies
+10.1007/s00023-020-00894-5	Bell Polynomials and Brownian Bridge in Spectral Gravity Models on Multifractal Robertson–Walker Cosmologies
+10.1088/0264-9381/33/11/115018	Spectral action models of gravity on packed swiss cheese cosmology
+	The Laplacian on some self-conformal fractals and Weyl's asymptotics for its eigenvalues: A survey of the analytic aspects
+	Bilinear log n - log p relation and critical power-law grain size distribution of crushable aggregates under compression and shear
+10.1021/jp903104p	Molecules: what kind of a bag of atoms?

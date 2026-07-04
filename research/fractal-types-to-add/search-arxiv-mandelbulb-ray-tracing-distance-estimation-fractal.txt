@@ -1,0 +1,20 @@
+	The Advanced X-ray Timing Array (AXTAR): A US MIDEX Mission Concept
+10.1063/1.3031197	The Advanced X-ray Timing Array (AXTAR)
+10.1063/1.1781061	X-Ray Eclipse Timing in the LMXB EXO0748-676
+	The USA X-ray Timing Experiment
+10.1063/1.1370815	Gamma Rays from Dark Matter
+	Acceleration and Interaction of Ultra High Energy Cosmic Rays
+10.1126/science.1175558	Detection of 16 Gamma-Ray Pulsars Through Blind Frequency Searches Using the Fermi LAT
+10.1016/j.nuclphysbps.2004.04.054	X-ray and radio prompt emission from a hypernova SN 2002ap
+10.1051/0004-6361/201527847	The gamma-ray millisecond pulsar deathline, revisited - New velocity and distance measurements
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1111/j.1365-2966.2008.13752.x	Interpretation of radio continuum and molecular line observations of Sgr B2: free-free and synchrotron emission, and implications for cosmic rays
+	Very high energy gamma rays from Markarian 501
+	X-ray observation of radio supernova SN1979C by ASCA
+	The NRL Program in X-ray Navigation
+10.1086/444348	A Strong X-Ray Burst from the Low Mass X-Ray Binary EXO0748-676
+	Characterization of Pulsar Sources for X-ray Navigation
+10.1142/s0218271807010304	General relativistic effects of strong magnetic fields on the gravitational force: a driving engine for bursts of gamma rays in SGRs?
+10.1086/344300	The Orbit of the High-Mass X-Ray Binary Pulsar 1E1145.1-6141
+10.1088/2041-8205/725/1/l6	X-ray pulsations from the radio-quiet gamma-ray pulsar in CTA 1
+10.1088/0004-637x/814/2/128	Timing Gamma-ray Pulsars with the Fermi Large Area Telescope: Timing Noise and Astrometry

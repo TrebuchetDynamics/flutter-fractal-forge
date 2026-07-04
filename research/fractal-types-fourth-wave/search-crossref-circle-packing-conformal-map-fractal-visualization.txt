@@ -1,0 +1,20 @@
+10.1142/9789812833044_0041	The approximation of conformal structures via circle packing
+10.2139/ssrn.4154056	Stress-Field Driven Conformal Lattice Design Using Circle Packing Algorithm
+10.21105/joss.06868	APackOfTheClones: Visualization of clonal expansion with circle packing
+10.2307/2154486	An Inverse Problem for Circle Packing and Conformal Mapping
+10.32614/cran.package.nivo.bubblechart	nivo.bubblechart: Interactive Bubble Charts for 'Shiny' Using 'Nivo'
+10.1007/bf00970652	Covering of radial segments under a conformal map of a circle
+10.1090/s0002-9947-1992-1081937-x	An inverse problem for circle packing and conformal mapping
+10.1145/1124772.1124851	Visualization of large hierarchical data by circle packing
+10.1016/j.comgeo.2012.05.002	Advancing front circle packing to approximate conformal strips
+10.1007/bf01211066	Map dependence of the fractal dimension deduced from iterations of circle maps
+10.32657/10356/61764	Constrained conformal/quasi-conformal map and its applications
+10.1142/s0218348x08004083	BELLS GALORE: OSCILLATIONS AND CIRCLE-MAP DYNAMICS FROM SPACE-FILLING FRACTAL FUNCTIONS
+10.1103/physreva.42.6230	Fractal dimension associated with a critical circle map with an arbitrary-order inflection point
+10.1109/tvcg.2013.106	Content-Aware Photo Collage Using Circle Packing
+10.2172/4800477	CONFORMAL MAPPING OF A CIRCLE ONTO A RECTANGLE.
+10.1007/978-3-030-27968-4_3	The Circle Packing Theorem
+10.1103/physrevlett.50.1637	Complete Devil's Staircase, Fractal Dimension, and Universality of Mode- Locking Structure in the Circle Map
+10.1007/978-0-387-45676-8_10	Repeated Patterns in Circle Packings
+10.1017/s0305004100075575	The set of circle packing points in the Teichmüller space of a surface of finite conformal type is dense
+10.1007/978-0-387-45676-8_4	Approximate Circle Packings Using Optimization Methods

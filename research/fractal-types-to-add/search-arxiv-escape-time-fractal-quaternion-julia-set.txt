@@ -1,0 +1,20 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Dual-Quaternion Julia Fractals
+	The Extreme-ultraviolet Stellar Characterization for Atmospheric Physics and Evolution (ESCAPE) Mission: Motivation and Overview
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	Space-time distributions
+	On Symmetry Properties of Quaternionic Analogs of Julia Sets
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	On a solution to display non-filled-in quaternionic Julia sets
+	Kernels, Data & Physics
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+	Quaternion Hardy Functions for Local Images Feature Representation
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon
+	Fatou Set, Julia Set and Escaping Set in Holomorphic Subsemigroup Dynamics
+	Extreme Narrow Escape: shortest paths for the first particles to escape through a small window
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+	Boundary Julia theory for slice regular functions
+10.1007/s40315-014-0051-5	The Julia set and the fast escaping set of a quasiregular mapping
+	Escaping set and Julia set of transcendental semigroups
+10.1016/j.chaos.2022.112346	Competition between decoherence and purification: quaternionic representation and quaternionic fractals
+	A Study of Fatou Set, Julia set and Escaping Set in Conjugate Transcendental Semigroup

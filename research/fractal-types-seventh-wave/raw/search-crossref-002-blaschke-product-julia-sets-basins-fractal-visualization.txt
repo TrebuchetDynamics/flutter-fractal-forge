@@ -1,0 +1,20 @@
+10.3390/fractalfract5030073	Visualization of Mandelbrot and Julia Sets of Möbius Transformations
+10.1515/9783111689685-006	6 The Fatou and Julia sets
+10.1109/visual.1990.146384	Interactive visualization of quaternion Julia sets
+10.2139/ssrn.4657394	On the Mean Fractal Dimensions of the Cartesian Product Sets
+10.1007/978-981-10-7050-1_3	Synchronization of Julia Sets
+10.1515/9783111689685	Dynamics of Entire Functions
+10.1063/1.5095111	A comparison of fractal dimension estimations for filled Julia fractal sets based on the escape time algorithm
+10.1007/bf02384861	A Blaschke-type product and random zero sets for Bergman spaces
+10.1007/978-981-10-7050-1_4	Identification Control for Julia Sets
+10.1515/9783111689685-016	Bibliography
+10.1515/9783111689685-fm	Frontmatter
+10.1515/9783111689685-017	Index
+10.1515/9783111689685-toc	Contents
+10.1515/9783111689685-201	Preface
+10.3390/fractalfract8010069	Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order
+10.1515/9783111689685-001	1 Introduction
+10.1515/9783111689685-002	2 Normal families
+10.1515/9783111689685-008	8 Singular values
+10.1007/978-1-4757-4740-9_14	Julia Sets: Fractal Basin Boundaries
+10.1007/0-387-21823-8_14	Julia Sets: Fractal Basin Boundaries

@@ -1,0 +1,20 @@
+10.1201/b19216-2	Time-Varying Root Finding
+10.1201/b19216-14	Matrix Square Root Finding
+10.1201/b19216-5	Time-Varying 4th Root Finding
+10.1201/b19216-4	Time-Varying Cube Root Finding
+10.1201/b19216-6	Time-Varying 5th Root Finding
+10.1201/b19216-3	Time-Varying Square Root Finding
+10.5120/8821-2742	Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals
+10.1017/cbo9781316036549.005	Newton—Raphson iteration and complex fractals
+10.1016/j.chaos.2017.04.021	Nonlinear embeddings: Applications to analysis, fractals and polynomial root finding
+10.1007/s11075-022-01474-w	Dynamics of Newton-like root finding methods
+10.1142/9781860946035_0018	Root Finding for Nonlinear and Complex Equations
+10.1201/b19216-24	Application to Fractals
+10.2172/934800	On the Reversibility of Newton-Raphson Root-Finding Method
+10.1201/b19216-25	Fractals Yielded via Static Nonlinear Equation
+10.1142/s0218348x19500993	CONJECTURES ABOUT SIMPLE DYNAMICS FOR SOME REAL NEWTON MAPS ON ℝ2
+10.1017/9781316285572.015	Elementary Complex Dynamics
+10.1201/b19216-26	Fractals Yielded via Time-Varying Nonlinear Equation
+10.1142/9789812811837_0019	Visualization of Homogeneous Linear Recurrence Relations
+10.1016/0895-7177(94)90046-9	Second-order complex Newton root-finding algorithm for determining resonant modes of a nontrivial laser system
+10.1142/s0218348x09004430	JULIA SET OF THE NEWTON TRANSFORMATION FOR SOLVING SOME COMPLEX EXPONENTIAL EQUATION

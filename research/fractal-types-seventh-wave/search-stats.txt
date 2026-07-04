@@ -1,0 +1,7 @@
+Search batch stats
+Queries: 8
+Sources: openalex,crossref,semantic-scholar,arxiv
+Records: 485
+Deduped records: 411
+Failures: 3
+  semantic-scholar failures: 3

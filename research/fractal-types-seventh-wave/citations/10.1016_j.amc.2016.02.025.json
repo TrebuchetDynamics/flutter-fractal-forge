@@ -1,0 +1,163 @@
+{
+  "nodes": [
+    {
+      "id": "10.1016/j.amc.2016.02.025"
+    },
+    {
+      "id": "10e57c7557583c716d7ffeca7cfeef84cad449b7"
+    },
+    {
+      "id": "373fa11f9badee53a3453ba2c7b2e92c3a3174b4"
+    },
+    {
+      "id": "3d4a1595fae54860cc39d7d950dcde92ae01076b"
+    },
+    {
+      "id": "4efcaf00e391d3c4caea4e09c777edd34d690d13"
+    },
+    {
+      "id": "78676da03b0a660dd3f6582e6a67f0d1ddc14b77"
+    },
+    {
+      "id": "8297636b707ac1c1c4da340d3abddff4ba1c5e77"
+    },
+    {
+      "id": "85c2da434fa28a976bc07fdf712ba9d49d624895"
+    },
+    {
+      "id": "8b2992873612803ebf1159674e8fb2a5f4b3c955"
+    },
+    {
+      "id": "8d5dd0d51d835463d977d8b41694398871a55ecc"
+    },
+    {
+      "id": "927b083412f464301f57078ae640ff89ccf047ef"
+    },
+    {
+      "id": "96bdea54f2c5ea1c2fbad971ff25ee913cf2e122"
+    },
+    {
+      "id": "ac141b048d1a24c991ebb5cd78c7f8ac2e698c69"
+    },
+    {
+      "id": "b8845572fb70a7b841de3e9d100b669f4cdd476d"
+    },
+    {
+      "id": "be28f38e07ed231c7a580101983ffd2a4dcc7b6f"
+    },
+    {
+      "id": "c3ea17b5e48f620d6ed57388ce9545aa74215c25"
+    },
+    {
+      "id": "c8ad992123efc238b20698a954b14a97a5bf083e"
+    },
+    {
+      "id": "ca5c6a55d79d71029a97559b0c0a9778af0ec31a"
+    },
+    {
+      "id": "d2e20b881e6f88d6b85dc382bc3639fffe5a60a3"
+    },
+    {
+      "id": "e261e8105bd37b31f1ea620986b1fc09150c2b9c"
+    },
+    {
+      "id": "e65ac8b90a14588b824b4f1b6dcff014327df604"
+    },
+    {
+      "id": "efac412922971f4062c24d04ad5c216565605804"
+    },
+    {
+      "id": "f070d57b6ab95e36c48d8509da4aca266c54cb80"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "10e57c7557583c716d7ffeca7cfeef84cad449b7"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "3d4a1595fae54860cc39d7d950dcde92ae01076b"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "4efcaf00e391d3c4caea4e09c777edd34d690d13"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "78676da03b0a660dd3f6582e6a67f0d1ddc14b77"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "8297636b707ac1c1c4da340d3abddff4ba1c5e77"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "85c2da434fa28a976bc07fdf712ba9d49d624895"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "8b2992873612803ebf1159674e8fb2a5f4b3c955"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "8d5dd0d51d835463d977d8b41694398871a55ecc"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "927b083412f464301f57078ae640ff89ccf047ef"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "96bdea54f2c5ea1c2fbad971ff25ee913cf2e122"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "ac141b048d1a24c991ebb5cd78c7f8ac2e698c69"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "b8845572fb70a7b841de3e9d100b669f4cdd476d"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "c8ad992123efc238b20698a954b14a97a5bf083e"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "d2e20b881e6f88d6b85dc382bc3639fffe5a60a3"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "e261e8105bd37b31f1ea620986b1fc09150c2b9c"
+    },
+    {
+      "source": "10.1016/j.amc.2016.02.025",
+      "target": "e65ac8b90a14588b824b4f1b6dcff014327df604"
+    },
+    {
+      "source": "373fa11f9badee53a3453ba2c7b2e92c3a3174b4",
+      "target": "10.1016/j.amc.2016.02.025"
+    },
+    {
+      "source": "be28f38e07ed231c7a580101983ffd2a4dcc7b6f",
+      "target": "10.1016/j.amc.2016.02.025"
+    },
+    {
+      "source": "c3ea17b5e48f620d6ed57388ce9545aa74215c25",
+      "target": "10.1016/j.amc.2016.02.025"
+    },
+    {
+      "source": "ca5c6a55d79d71029a97559b0c0a9778af0ec31a",
+      "target": "10.1016/j.amc.2016.02.025"
+    },
+    {
+      "source": "efac412922971f4062c24d04ad5c216565605804",
+      "target": "10.1016/j.amc.2016.02.025"
+    },
+    {
+      "source": "f070d57b6ab95e36c48d8509da4aca266c54cb80",
+      "target": "10.1016/j.amc.2016.02.025"
+    }
+  ]
+}

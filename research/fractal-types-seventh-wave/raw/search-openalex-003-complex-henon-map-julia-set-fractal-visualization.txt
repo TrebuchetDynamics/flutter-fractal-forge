@@ -1,0 +1,19 @@
+10.3390/e25111478	Fractal-Based Hybrid Cryptosystem: Enhancing Image Encryption with RSA, Homomorphic Encryption, and Chaotic Maps
+10.3390/jimaging6070070	A New Composite Fractal Function and Its Application in Image Encryption
+10.1109/access.2021.3065810	An Image Encryption Algorithm Based on Bisection Method and One-Dimensional Piecewise Chaotic Map
+10.1007/s11071-022-08048-4	Estimations and Control of Julia Sets of the SIS Model Perturbed by Noise
+10.3390/fractalfract7120872	Synchronization of Julia Sets in Three-Dimensional Discrete Financial Models
+10.5815/ijcnis.2023.01.06	A Secure and Efficient Cryptography System Based on Chaotic Maps for Securing Data Image in Fog Computing
+10.3390/e24070900	A New Hyperchaotic 4D-FDHNN System with Four Positive Lyapunov Exponents and Its Application in Image Encryption
+10.1186/s13634-025-01255-2	5D chaotic map-based image encryption trade-off analysis on various stages of encryption
+	Critical points and Julia sets of complex Henon maps (Integrated Research on Complex Dynamics)
+10.1063/5.0167263	Ordinal methods: Concepts, applications, new developments, and challenges—In memory of Karsten Keller (1961–2022)
+	Exploration of complex Henon dynamics (Research on Complex Dynamics and Related Fields)
+10.3390/e24091266	A Novel Hyperchaotic 2D-SFCF with Simple Structure and Its Application in Image Encryption
+10.21203/rs.3.rs-1872846/v1	Estimations and Control of Julia Sets of the SIS Model Perturbed by Noise
+	Developing a flexible and expressive realtime polyphonic wave terrain synthesis instrument based on a visual and multidimensional methodology
+	Mathematics and biology: The interface, challenges and opportunities
+	DYNAMICS OF POLYNOMIAL DIFFEOMORPHISMS OF C2: COMBINATORIAL AND TOPOLOGICAL ASPECTS
+10.32744/pse.2023.4.37	Founding complexes of multi-stage mathematical and informational tasks in the hybrid intellectual environment of school mathematics
+10.1007/s10791-026-10199-6	Exploring quantum security by using S-box and Hilbert scrambling in image encryption
+10.1007/s40324-025-00408-5	Linking dynamics, geometry, and environmental challenges

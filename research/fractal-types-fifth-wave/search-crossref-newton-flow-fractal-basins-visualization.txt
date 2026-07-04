@@ -1,0 +1,20 @@
+10.1109/visual.1994.346297	Visualization of mesoscale flow features in ocean basins
+10.1155/ddns/2006/28756	Fractal Newton basins
+10.1615/jflowvisimageproc.v16.i1.10	PIV MEASUREMENTS OF SURFACE FLOWS IN LABORATORY WAVE BASINS
+10.1533/9780857099594.138	Fractal Basins of Attraction in the Inversion of Geomagnetic Data
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization
+10.4236/jwarp.2013.51012	Prediction of Flow Duration Curves for Ungauged Basins with Quasi-Newton Method
+10.1007/978-3-540-33267-1_8	A Newton-type Total Variation Diminishing Flow
+10.1007/bf03181879	Large-scale PIV surface flow measurements in shallow basins with different geometries
+10.3390/fractalfract8120698	On Traub–Steffensen-Type Iteration Schemes With and Without Memory: Fractal Analysis Using Basins of Attraction
+10.1016/b978-0-08-050658-6.50007-2	Optical Flow Visualization
+10.1103/physreve.88.057001	Comment on “Hydrodynamics of fractal continuum flow” and “Map of fluid flow in fractal porous medium into fractal continuum flow”
+10.1109/iv.1998.694204	An application model for scientific visualization in hydrologic basins management
+10.12928/telkomnika.v11i4.1185	Two-phase Flow Visualization Employing Gauss-Newton Method in Microchannel
+10.1103/physreve.88.057002	Reply to “Comment on ‘Hydrodynamics of fractal continuum flow’ and ‘Map of fluid flow in fractal porous medium into fractal continuum flow’ ”
+10.5220/0011929100003497	Emotion Based Music Visualization with Fractal Arts
+10.3390/math11102277	Fractal Newton Methods
+10.4236/jfcmv.2019.72010	Introduction of Multiscaled Longitudinal Vortices by Fractal-Patterned Surface Roughness
+10.1201/9780203752876-24	Computer-Aided Flow Visualization
+10.3390/fractalfract6060296	Properties of q-Differential Equations of Higher Order and Visualization of Fractal Using q-Bernoulli Polynomials
+10.26006/22228535_2022_14_1_3	MORPHOSTRUCTURE OF INTRACONTINENTAL SEDIMENTARY BASINS AND FRACTAL GEOMETRY

@@ -1,0 +1,20 @@
+10.2478/s11534-011-0096-2	Gwyddion: an open-source software for SPM data analysis
+10.3390/fractalfract7120866	Models for Simulation of Fractal-like Particle Clusters with Prescribed Fractal Dimension
+10.1088/2051-672x/acbe53	Fractal and statistical characterization of brushstroke on paintings
+	Fractal Zeta Functions in Metric Spaces
+10.1145/357775.357776	A cost model for query processing in high dimensional data spaces
+10.1371/journal.pone.0110300	Quantification of Heterogeneity as a Biomarker in Tumor Imaging: A Systematic Review
+10.1029/2023wr036036	A New Phase Diagram for Fluid Invasion Patterns as a Function of Pore‐Scale Heterogeneity, Surface Roughness, and Wettability
+10.3390/s21062193	The Cognitive-Emotional Design and Study of Architectural Space: A Scoping Review of Neuroarchitecture and Its Precursor Approaches
+10.1007/jhep10(2017)167	Towards a 2d QFT analog of the SYK model
+10.1029/2023gl106197	The Interplay Between Pore‐Scale Heterogeneity, Surface Roughness, and Wettability Controls Trapping in Two‐Phase Fluid Displacement in Porous Media
+	Multivariate multifractal models : estimation of parameters and applications to risk management
+10.1088/1475-7516/2019/12/014	Search optimization, funnel topography, and dynamical criticality on the string landscape
+10.1016/j.diamond.2023.110199	Fabrication process independent and robust aggregation of detonation nanodiamonds in aqueous media
+10.4236/apm.2023.139038	The Golden Ratio Theorem: A Framework for Interchangeability and Self-Similarity in Complex Systems
+10.3389/fphys.2023.1153268	Driving drowsiness detection using spectral signatures of EEG-based neurophysiology
+10.3389/fphy.2023.1286030	The Feynman chessboard model in 3 + 1 dimensions
+10.1155/2011/414702	A Wiener‐Laguerre Model of VIV Forces Given Recent Cylinder Velocities
+10.1088/1126-6708/2007/07/060	Cosmological moduli dynamics
+10.1007/jhep03(2010)025	Unraveling $$\mathcal {L}_{n, k} $$ : grassmannian kinematics
+10.1007/978-3-642-54812-3	Library and Information Sciences

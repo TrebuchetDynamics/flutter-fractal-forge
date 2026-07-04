@@ -1,0 +1,14 @@
+10.2138/rmg.2015.80.04	Characterization and Analysis of Porosity and Pore Structures
+10.3389/fphys.2014.00523	Function of metabolic and organelle networks in crowded and organized media
+10.1103/physrevb.107.115424	Energy-level statistics in planar fractal tight-binding models
+10.1038/s41598-020-80059-w	Fractal structures arising from interfacial instabilities in bio-oil atomization
+10.1103/physrevb.110.035403	Wave functions in the critical phase: A planar Sierpiński fractal lattice
+10.1063/5.0198071	Interdisciplinary approaches to modeling extraction efficiency and safety for clean energy under coupled multi-field effects
+10.51483/ijpamr.5.2.2025.69-82	Ismail A Mageed’s Megaannum Theory of Fractal Topology: Open Problems, Applications, and Outlook for Tomorrow
+10.15068/0002012936	Properties of Networks with Fractal Structure
+10.3390/fractalfract7080612	New Properties and Sets Derived from the 2-Ball Fractal Dust
+10.1016/j.aim.2025.110316	Measure and dimension theory of permeable sets and its applications to fractals
+10.48550/arxiv.2410.17254	Measure and dimension theory of permeable sets and its applications to fractals
+10.48550/arxiv.2410.18559	Emergence of non-ergodic multifractal quantum states in geometrical fractals
+	Modelling of surface morphologies in disordered organic semiconductors using fractal methods / Kong Yeo Lee
+10.71781/4787	Écoulements granulaires par avalanches : indices de fluidité, fractales et multifractales

@@ -1,0 +1,3 @@
+10.3756/artsci.2.61	Automatic Generation of 3-D Linear Fractal Shapes with Quadratic Map Basins Animation
+10.1057/palgrave.ivs.9500082	Dynamical System Visualization and Analysis Via Performance Maps
+	Jørgensen numbers of some Kleinian groups on the boundary of the classical Schottky space 14 : 25 – 14 : 50

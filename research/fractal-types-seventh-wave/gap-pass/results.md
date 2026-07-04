@@ -1,0 +1,435 @@
+# Search batch results
+
+Deduped records: 422
+
+- The Fractal Geometry of Invention
+- Wavelet Based Some Julia Sets of Rational Maps Having Zhukovskii Function — DOI: `10.5815/ijigsp.2012.05.08`
+- Planning beyond growth: The case for economic democracy within ecological limits — DOI: `10.1016/j.jclepro.2023.140351`
+- A landscape of crowd-management support: An integrative approach — DOI: `10.1016/j.ssci.2016.02.027`
+- Vehicular mobility patterns and their applications to Internet-of-Vehicles: a comprehensive survey — DOI: `10.1007/s11432-021-3487-x`
+- ON SOME ADVANCES IN DYNAMICS OF ONE VARIABLE COMPLEX FUNCTIONS — DOI: `10.12732/ijam.v34i6.3`
+- Unraveling the Tangled Complexity of DNA: Combining Mathematical Modeling and Experimental Biology to Understand Replication, Recombination and Repair — DOI: `10.1051/mmnp/20116607`
+- The Computable City — DOI: `10.7551/mitpress/14099.001.0001`
+- Planning Beyond Growth the Case for Economic Democracy within Ecological Limits — DOI: `10.2139/ssrn.4457481`
+- Comparing Business, Innovation, and Platform Ecosystems: A Systematic Review of the Literature — DOI: `10.3390/biomimetics9040216`
+- The Orientalist Semiotics of »Dune« — DOI: `10.14631/978-3-96317-851-1`
+- FRACTAL ONTOLOGY AND ANARCHIC SELFHOOD: MULTIPLICITOUS BECOMINGS
+- Engineered Molecular Therapeutics Targeting Fibrin and the Coagulation System: a Biophysical Perspective — DOI: `10.1007/s12551-022-00950-w`
+- Genomic Characterization of Four Novel Probiotic Strains with Enzymatic Activity and Their Effects on Carp (Cyprinus carpio) — DOI: `10.3390/ani15131998`
+- Small-angle scattering of complex fluids in flow — DOI: `10.1016/j.cis.2024.103161`
+- Time Scales for Sustainable Urban System Design - Stretching the Boundaries of Standard Practice — DOI: `10.5445/ir/1000007280`
+- SERS-guided photodynamic therapy: pioneering strategies in advanced cancer diagnosis and treatment — DOI: `10.1186/s11671-025-04280-0`
+- 12. Displacing the Human — DOI: `10.11647/obp.0303.12`
+- Interferences and Events : On Epistemic Shifts in Physics through Computer Simulations — DOI: `10.14619/022`
+- Exploring parameter spaces in complex dynamics — DOI: `10.17268/sel.mat.2023.01.06`
+- The complex dynamics of rational maps having no Herman ring — DOI: `10.47974/jim-2308`
+- Rational families converging to a family of exponential maps — DOI: `10.4171/jfg/70`
+- Ring maps for spatial visualization of multivariate epidemiological data — DOI: `10.4113/jom.2011.1182`
+- Zipper rational cubic fractal interpolation functions (ZRCFIF) for visualization of shaped data — DOI: `10.1063/5.0140520`
+- Visualization of constrained data by smooth rational fractal interpolation — DOI: `10.1080/00207160.2015.1067308`
+- No Herman rings for regularly ramified rational maps — DOI: `10.1090/proc/14347`
+- Data visualization by rational fractal function based on function values — DOI: `10.1007/s41478-018-0074-9`
+- Ring Fractal — DOI: `10.3840/08002821`
+- Rational maps with smooth degenerate Herman rings — DOI: `10.1016/j.aim.2024.109827`
+- Ring Fractal — DOI: `10.3840/002821`
+- IFS fractal interpolation for 2D and 3D visualization — DOI: `10.1109/visual.1995.480798`
+- The rational maps F λ (z) = z m + λ/z d have no Herman rings — DOI: `10.1007/s12044-010-0044-x`
+- Control of Rational Fractal Sets — DOI: `10.1007/978-981-10-7050-1_8`
+- Examples and Properties of Rational Sphere Maps — DOI: `10.1007/978-3-030-75809-7_2`
+- Geometric Properties of Rational Sphere Maps — DOI: `10.1007/978-3-030-75809-7_7`
+- Intelligence and rational behaviour in the bottlenosed dolphin — DOI: `10.1093/acprof:oso/9780198528272.003.0020`
+- Rational maps, geometric genus and rational curves — DOI: `10.1007/978-1-84800-056-8_9`
+- The rational maps $z\mapsto 1+1/\omega z^d$ have no Herman rings — DOI: `10.1090/s0002-9939-99-04566-9`
+- degeneration of complex rational maps — DOI: `10.70675/2cd4f8a2z8097z4113zaeeazfd46690707fe`
+- 15 Fractal measures and dimensions — DOI: `10.1515/9783110702699-015`
+- An application of nonstandard viscosity iterative methods with s-convexity in the generation of fractals for rational maps — DOI: `10.19139/soic-2310-5070-2871`
+- Rigidity of J-rotational rational maps and critical quasicircle maps — DOI: `10.1090/tran/9607`
+- Rational maps without Herman rings — DOI: `10.1090/proc/13336`
+- Rational maps with bad reduction and domains of quasiperiodicity
+- An Experimental View of Herman Rings for Dianalytic Maps of $\mathbb{RP}^2$
+- On the dynamics of Stirling's iterative root-finding method for rational functions
+- Measure rigidity and equidistribution for fractal carpets
+- THE RATIONAL MAPS Z 1 + 1/OMEGA ZD HAVE NO HERMAN RINGS
+- A Brief Study on Fractals as Julia and Mandelbrot Sets for Generalized Rational Map Using the Generalized Viscosity Approximation-Type Iterative Methods — DOI: `10.37256/cm.7220268373`
+- Dynamics of a Uniparametric Sixth-Order Family for Multiple Roots with Rational-Polynomial Weight Functions — DOI: `10.3390/axioms15060452`
+- A priori bounds and degeneration of Herman rings with bounded type rotation number — DOI: `10.1007/s00222-025-01369-2`
+- Puzzle Pieces, Bi-accessibility, and Connectivity of the Julia Set for Generalized Blaschke Products
+- Classification of invariant Fatou components for dissipative Hénon maps — DOI: `10.1007/s00039-014-0280-9`
+- The Evolution and Future of Virtual Reality in Geographic Information Systems — DOI: `10.32628/cseit241051043`
+- A decomposition theorem for Herman maps — DOI: `10.1016/j.aim.2014.09.004`
+- Rational maps without Herman rings
+- Rational maps with smooth degenerate Herman rings
+- The rational cohomology ring of the moduli space of abelian 3-folds
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference — DOI: `10.1177/14738716241229437`
+- A decomposition theorem for Herman maps
+- Herman rings of meromorphic maps with an omitted value
+- LMap: Shape-Preserving Local Mappings for Biomedical Visualization — DOI: `10.1109/tvcg.2017.2772237`
+- Beyond English: Centering Multilingualism in Data Visualization
+- The Fine Structure of Herman Rings — DOI: `10.1007/s12220-017-9764-9`
+- Herman Rings: Structure, Dynamics, and Open Problems
+- On the formulas of meromorphic functions with periodic Herman rings
+- Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable — DOI: `10.1109/tvcg.2025.3633909`
+- On periods of Herman rings and relevant poles
+- A New Class of Monotone/Convex Rational Fractal Function
+- Towards a Survey on Static and Dynamic Hypergraph Visualizations — DOI: `10.1109/vis49827.2021.9623305`
+- Probing the Evolution of the Galaxy Interaction/Merger Rate Using Collisional Ring Galaxies — DOI: `10.1086/422420`
+- NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+- Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges — DOI: `10.1109/tvcg.2023.3326576`
+- Biggest bounded type Siegel disks of monic polynomials include those that stick to all critical points
+- Multi-Beam Interference Patterns of Living Sarcoma Cells may be Approximated by a Fractal Julia Set and Rieman Spheres or Fatou Components Decoded as a Siegel Discs — DOI: `10.13187/ejm.2019.2.68`
+- On the Julia set of a typical quadratic polynomial with a Siegel disk — DOI: `10.4007/annals.2004.159.1`
+- Hausdorff dimension of Julia set of a polynomial with a Siegel disk — DOI: `10.1007/s11425-006-1998-0`
+- Using the Fatou Set to Study the Julia Set — DOI: `10.1007/978-3-663-08092-3_6`
+- USING THE FATOU SET TO STUDY THE JULIA SET — DOI: `10.2307/j.ctt7rnxn.11`
+- Hausdorff dimension of Julia set of a polynomial with a Siegel disk — DOI: `10.1007/s11425-006-1284-1`
+- The Components of the Fatou Set — DOI: `10.1201/9780203759011-4`
+- Using the Fatou Set to Study the Julia Set — DOI: `10.1515/9781400835539.174`
+- 7 Fatou components — DOI: `10.1515/9783111689685-007`
+- Mating a Siegel disk with the Julia set of a real quadratic polynomial — DOI: `10.1090/s1088-4173-06-00150-0`
+- Iteration of inner functions and boundaries of components of the Fatou set — DOI: `10.1017/cbo9780511735233.003`
+- butcher: Model Butcher — DOI: `10.32614/cran.package.butcher`
+- Adolescent Subcultures and Delinquency — DOI: `10.2307/2069804`
+- Periodic Components of the Fatou Set in Angular Region — DOI: `10.3126/jnms.v5i1.47373`
+- Bounded Fatou and Julia components of meromorphic functions — DOI: `10.1007/s00208-023-02725-4`
+- Adolescent Subcultures and Delinquency. — DOI: `10.2307/2578923`
+- The Siegel–Klein Disk: Hilbert Geometry of the Siegel Disk Domain — DOI: `10.3390/e22091019`
+- After Fatou and Julia — DOI: `10.1007/978-3-642-17854-2_5`
+- Periodic Components of the Fatou Set of Three Transcendental Entire Functions and Their Compositions — DOI: `10.3126/jnms.v3i1.33002`
+- Unbounded components of the fatou set — DOI: `10.1080/17476930008815242`
+- Wandering Fatou Components and Algebraic Julia Sets
+- Most Fatou and Julia components are small for polynomials
+- World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+- The leaves of the Fatou set accumulate on the leaves of the Julia set
+- Fatou Set, Julia Set and Escaping Set in Holomorphic Subsemigroup Dynamics
+- On Fatou sets containing Baker omitted value
+- An answer to a question of Herman, Baker and Rippon concerning Siegel disks — DOI: `10.1112/s0024609304003157`
+- On Fatou and Julia sets of foliations
+- Local connectivity of Julia sets of some transcendental entire functions with Siegel disks
+- Fatou and Julia like sets II
+- Fatou and Julia like sets
+- A Study of Fatou Set, Julia set and Escaping Set in Nearly Abelian Transcendental Semigroup
+- Local connectivity of Julia sets of some rational maps with Siegel disks
+- A Study of Fatou Set, Julia set and Escaping Set in Conjugate Transcendental Semigroup
+- Fatou Components with Punctured Limit Sets
+- Characterization and Analysis of Porosity and Pore Structures — DOI: `10.2138/rmg.2015.80.04`
+- Function of metabolic and organelle networks in crowded and organized media — DOI: `10.3389/fphys.2014.00523`
+- Energy-level statistics in planar fractal tight-binding models — DOI: `10.1103/physrevb.107.115424`
+- Fractal structures arising from interfacial instabilities in bio-oil atomization — DOI: `10.1038/s41598-020-80059-w`
+- Wave functions in the critical phase: A planar Sierpiński fractal lattice — DOI: `10.1103/physrevb.110.035403`
+- Interdisciplinary approaches to modeling extraction efficiency and safety for clean energy under coupled multi-field effects — DOI: `10.1063/5.0198071`
+- Ismail A Mageed’s Megaannum Theory of Fractal Topology: Open Problems, Applications, and Outlook for Tomorrow — DOI: `10.51483/ijpamr.5.2.2025.69-82`
+- Properties of Networks with Fractal Structure — DOI: `10.15068/0002012936`
+- New Properties and Sets Derived from the 2-Ball Fractal Dust — DOI: `10.3390/fractalfract7080612`
+- Measure and dimension theory of permeable sets and its applications to fractals — DOI: `10.1016/j.aim.2025.110316`
+- Measure and dimension theory of permeable sets and its applications to fractals — DOI: `10.48550/arxiv.2410.17254`
+- Emergence of non-ergodic multifractal quantum states in geometrical fractals — DOI: `10.48550/arxiv.2410.18559`
+- Modelling of surface morphologies in disordered organic semiconductors using fractal methods / Kong Yeo Lee
+- Écoulements granulaires par avalanches : indices de fluidité, fractales et multifractales — DOI: `10.71781/4787`
+- Multiband Plasmonic Sierpinski Carpet Fractal Antennas — DOI: `10.1021/acsphotonics.8b00186.s001`
+- Fractal Nature of Viscous Fingering in Random Sierpinski Carpet — DOI: `10.1088/0256-307x/15/7/014`
+- Design and Analysis of Multiband Sierpinski Carpet Fractal Antenna for Wireless Communications — DOI: `10.70729/ijser15147`
+- Complex system analysis of market return percolation model on Sierpinski carpet lattice fractal — DOI: `10.1007/s11424-014-2073-5`
+- Random forest machine learning approach for efficient optimization of Sierpinski carpet fractal antenna — DOI: `10.47974/jios-1610`
+- Fractal viscous fingering and its scaling structure in random sierpinski carpet — DOI: `10.1088/1009-1963/10/2/309`
+- NATURAL CONVECTION HEAT TRANSFER CHARACTERISTICS OF SIERPINSKI CARPET FRACTAL FIN — DOI: `10.2139/ssrn.5027948`
+- Fractal Geometries in Wireless Communication: A Focus on Sierpinski Carpet Fractal Antennas — DOI: `10.53433/yyufbed.1582558`
+- Fractal metamaterial based on Sierpinski carpet — DOI: `10.1109/lapc.2014.6996449`
+- Design of Flexible Fractal Antenna by Sierpinski Carpet for Satellite Communication — DOI: `10.37896/jxu14.9/046`
+- Analysis of the Multiband Behavior on Sierpinski Carpet Fractal Antennas — DOI: `10.1109/apmc.2005.1606873`
+- Sierpinski carpet fractal antenna in third iteration — DOI: `10.1109/icmtce.2013.6812412`
+- Sierpinski Carpet Fractal Antenna for Multiband Applications — DOI: `10.5120/4888-7376`
+- Territory covered by<b><i>N</i></b>random walkers on fractal media: The Sierpinski gasket and the percolation aggregate — DOI: `10.1103/physreve.63.011105`
+- MODIFIED SIERPINSKI CARPET FRACTAL ANTENNA FOR WIRELESS COMMUNICATION — DOI: `10.21090/ijaerd.t1022205`
+- Combined Sierpinski Carpet and Koch Fractal Patch Antenna with Fractal DGS for Wireless Applications — DOI: `10.1109/iementech.2018.8465210`
+- A Tree-Shaped Sierpinski Carpet Fractal Antenna for 5G Applications — DOI: `10.46620/ursi_rsrc24/0509nlz8963`
+- Genetically Designed High Gain Sierpinski Carpet Fractal Antenna — DOI: `10.1109/iciis47346.2019.9063309`
+- Thermal Performance of Sierpinski Carpet Fractal Fins in a Forced Convection Environment — DOI: `10.1115/imece2016-67164`
+- An UWB antenna using modified Sierpinski-carpet Fractal Antenna — DOI: `10.1109/aps.2013.6710769`
+- Variational principles for Hausdorff and packing dimensions of fractal percolation on self-affine sponges — DOI: `10.1016/j.aim.2025.110549`
+- The existence of phase V in the Mandelbrot percolation process — DOI: `10.1007/bf02179876`
+- Statistical Behavior of a Financial Model by Lattice Fractal Sierpinski Carpet Percolation — DOI: `10.1155/2012/735068`
+- Percolation in random-Sierpiński carpets: A real space renormalization group approach — DOI: `10.1103/physreve.54.4590`
+- Volatility Behaviors of Financial Time Series by Percolation System on Sierpinski Carpet Lattice — DOI: `10.1142/s0219477515500157`
+- PERCOLATION TRANSITION INTO RANDOM-SIERPINSKI-CARPETS — DOI: `10.1016/s0378-4371(97)00090-3`
+- On the structure of Mandelbrot's percolation process and other random cantor sets — DOI: `10.1007/bf01026566`
+- FLUCTUATION BEHAVIOR OF FINANCIAL RETURN INTERVAL SERIES MODEL FOR PERCOLATION ON SIERPINSKI CARPET LATTICE — DOI: `10.1142/s0218348x13500230`
+- DC conductive percolation of 2-D fractal random network — DOI: `10.1016/s0378-4371(00)00051-0`
+- Fractal porous media III: Transversal Stokes flow through random and Sierpinski carpets — DOI: `10.1007/bf00820345`
+- Percolation on infinitely ramified fractal networks — DOI: `10.1016/j.physleta.2017.10.035`
+- Predicting agent-based financial time series model on lattice fractal with random Legendre neural network — DOI: `10.1007/s00500-015-1874-3`
+- A new fractal dimension: The topological Hausdorff dimension — DOI: `10.1016/j.aim.2015.02.001`
+- Fluctuation behavior analysis of stochastic exclusion financial dynamics with random jump — DOI: `10.1016/j.physa.2019.123503`
+- Global first-passage times of fractal lattices. — DOI: `10.1103/physreve.78.041111`
+- THE BOX-COUNTING DIMENSION OF RANDOM BOX-LIKE SELF-AFFINE SETS
+- CLE PERCOLATIONS — DOI: `10.1017/fmp.2017.5`
+- Fractal concepts in condensed matter physics — DOI: `10.1007/978-3-662-05193-1`
+- Percolation properties of the classic Sierpinski carpet and sponge
+- A Sierpinski carpet like fractal without standard self-similar energy
+- Self-assembly of the discrete Sierpinski carpet and related fractals
+- Spontaneous magnetization of the Ising model on the Sierpinski carpet fractal, a rigorous result — DOI: `10.1088/0305-4470/36/6/305`
+- The generalization of Sierpinski carpet and Sierpinski triangle in $n$-dimensional space — DOI: `10.1142/s0218348x17500402`
+- Critical Percolation Probabilities for the Next-Nearest-Neighboring Site Problems on Sierpinski Carpets
+- Potential theory on Sierpinski carpets with applications to uniformization — DOI: `10.1007/978-3-030-50805-0`
+- The Sierpinski Carpet as a Final Coalgebra — DOI: `10.4204/eptcs.372.18`
+- Hall conductivity of Sierpinski carpet — DOI: `10.1103/physrevb.101.045413`
+- Brownian motion on the Sierpinski carpet — DOI: `10.4171/jems/211`
+- Uniqueness of the critical probability for percolation in the two dimensional Sierpinski carpet lattice
+- Projected images of the Sierpinski tetrahedron and other layered fractal imaginary cubes — DOI: `10.4171/jfg/163`
+- On totally disconnected generalised Sierpinski carpets
+- Multiband Plasmonic Sierpinski Carpet Fractal Antennas — DOI: `10.1021/acsphotonics.8b00186`
+- Projections of Mandelbrot percolation in higher dimensions
+- Spatial Search on Sierpinski Carpet Using Quantum Walk — DOI: `10.7566/jpsj.87.085003`
+- Periodic billiard orbits of self-similar Sierpinski carpets — DOI: `10.1016/j.jmaa.2014.03.001`
+- Fractal dimension of discrete sets and percolation
+- Metrics on the Sierpinski carpet by weight functions
+- Quantum Pascal's Triangle and Sierpinski's carpet
+- Intuitive modeling of vaporish objects — DOI: `10.1016/j.chaos.2015.08.014`
+- Composable function systems as a general-purpose rendering framework
+- The discrete charm of iterated function systems. A computer scientist's perspective on approximation of IFS invariant sets and measures — DOI: `10.48550/arxiv.2410.15139`
+- 3D Fractal Flame Wisps
+- IFS Rendering Algorithms — DOI: `10.1007/1-84628-686-7_5`
+- Modeling and rendering of nonlinear iterated function systems — DOI: `10.1016/b978-044450002-1/50063-1`
+- Fractals via Random Iterated Function Systems and Random Geometric Constructions — DOI: `10.1007/978-3-0348-7755-8_7`
+- Modeling and rendering of nonlinear iterated function systems — DOI: `10.1016/0097-8493(94)90169-4`
+- Deterministic Theory of Iterated Function Systems — DOI: `10.1201/9781439864708-10`
+- Probabilistic Theory of Iterated Function Systems — DOI: `10.1201/9781439864708-11`
+- Image based rendering of iterated function systems — DOI: `10.1016/j.cag.2004.08.005`
+- Iterated Function Systems – the Model — DOI: `10.1007/1-84628-686-7_3`
+- nD Iterated Function Systems and Their Applications — DOI: `10.1007/1-84628-686-7_6`
+- Counting problem for some random conformal iterated function systems — DOI: `10.3934/dcds.2025110`
+- ITERATED FUNCTION SYSTEMS FOR OBJECT GENERATION AND RENDERING — DOI: `10.1142/s0218127401002237`
+- Random iteration for infinite nonexpansive iterated function systems — DOI: `10.1063/1.4929387`
+- Random countable alphabet conformal iterated function systems satisfying the transversality condition — DOI: `10.1088/0951-7715/29/3/1096`
+- Markov chains in random environments and random iterated function systems — DOI: `10.1090/s0002-9947-01-02798-2`
+- Random Affine Iterated Function Systems: Mixing and Encoding — DOI: `10.1007/978-1-4612-0389-6_15`
+- ifs: Iterated Function Systems — DOI: `10.32614/cran.package.ifs`
+- Random iteration for non-expansive iterated function systems: derandomised algorithm — DOI: `10.1504/ijans.2014.068267`
+- Random Affine Iterated Function Systems: Curve Generation and Wavelets — DOI: `10.1137/1034082`
+- SuperFractals — DOI: `10.1017/cbo9781107590168.006`
+- Discrete Iterated Function Systems — DOI: `10.1201/9781439864708`
+- Random Dynamical Systems
+- V-variable fractals and superfractals
+- Infinitely many holes in connectedness loci for collinear affine iterated function systems
+- On affine iterated function systems which robustly admit an invariant affine subspace
+- Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots — DOI: `10.1109/tvcg.2024.3456305`
+- Visual Acuity Consistent Foveated Rendering towards Retinal Resolution — DOI: `10.1109/tvcg.2025.3539851`
+- Evolutive Rendering Models
+- VisRuler: Visual Analytics for Extracting Decision Rules from Bagged and Boosted Decision Trees — DOI: `10.1177/14738716221142005`
+- What Would a Graph Look Like in This Layout? A Machine Learning Approach to Large Graph Visualization — DOI: `10.1109/tvcg.2017.2743858`
+- Visual Analytics for Temporal Hypergraph Model Exploration — DOI: `10.1109/tvcg.2020.3030408`
+- Corresponding Supine and Prone Colon Visualization Using Eigenfunction Analysis and Fold Modeling — DOI: `10.1109/tvcg.2016.2598791`
+- Random countable iterated function systems with overlaps and applications
+- Finite random iterated function systems do not always satisfy Bowen's formula
+- Frontiers of fractals for complex systems: recent advances and future challenges — DOI: `10.1140/epjs/s11734-021-00376-7`
+- Geometry of fractional spaces — DOI: `10.4310/atmp.2012.v16.n2.a5`
+- Radial Multiresolution, Cuntz Algebras Representations and an Application to Fractals — DOI: `10.1007/s11785-008-0063-0`
+- Wavy spirals and their fractal connection with chirps
+- Orthogonal polynomials of equilibrium measures supported on Cantor sets — DOI: `10.1016/j.cam.2015.05.014`
+- Integral transforms of the Minkowski question mark function
+- High-Precision Arithmetic in Mathematical Physics — DOI: `10.3390/math3020337`
+- Numerical computation of the isospectral torus of finite gap sets and of IFS Cantor sets — DOI: `10.48550/arxiv.1503.03801`
+- On the Mandelbrot Set for i**2 = ±1 and Imaginary Higgs Fields — DOI: `10.22606/jaam.2021.62001`
+- A Survey on EEG Data Analysis Software — DOI: `10.3390/sci5020023`
+- Applications of the Generalized Morse Wavelets: A Review — DOI: `10.1109/access.2022.3232729`
+- Acoustic analysis of starting jets in an anechoic chamber: implications for volcano monitoring — DOI: `10.1038/s41598-020-69949-1`
+- Physics-informed neural network with symbolic regression for deriving analytical approximate solutions to nonlinear partial differential equations — DOI: `10.1007/s00521-025-11450-9`
+- The conformal primon gas at the end of time — DOI: `10.1007/jhep07(2025)281`
+- A fast and well-conditioned spectral method for singular integral equations — DOI: `10.1016/j.jcp.2016.12.009`
+- Relativistic wavepackets in classically chaotic quantum cosmological billiards — DOI: `10.1103/physrevd.85.063501`
+- Early Fault-Tolerant Quantum Algorithms in Practice: Application to Ground-State Energy Estimation — DOI: `10.22331/q-2025-04-01-1682`
+- Constrained instantons and kink-antikink collisions — DOI: `10.1016/j.physletb.2023.137728`
+- GenPhys: From Physical Processes to Generative Models — DOI: `10.48550/arxiv.2304.02637`
+- Wheeler-DeWitt wavefunctions for 5d BKL dynamics, automorphic L-functions and complex primon gases — DOI: `10.1007/jhep11(2025)160`
+- C Computer graphics of complex dynamics — DOI: `10.1515/9783111689685-014`
+- 6 The Fatou and Julia sets — DOI: `10.1515/9783111689685-006`
+- Dynamics of Entire Functions — DOI: `10.1515/9783111689685`
+- 11 Convergence and dynamics — DOI: `10.1515/9783111689685-011`
+- Frontmatter — DOI: `10.1515/9783111689685-fm`
+- Bibliography — DOI: `10.1515/9783111689685-016`
+- Index — DOI: `10.1515/9783111689685-017`
+- Contents — DOI: `10.1515/9783111689685-toc`
+- Preface — DOI: `10.1515/9783111689685-201`
+- A Univalent functions in the disc — DOI: `10.1515/9783111689685-012`
+- 1 Introduction — DOI: `10.1515/9783111689685-001`
+- Iteration of Complex Functions—Julia Sets — DOI: `10.1002/0470013850.ch14`
+- 8 Singular values — DOI: `10.1515/9783111689685-008`
+- 4 Periodic points — DOI: `10.1515/9783111689685-004`
+- 2 Normal families — DOI: `10.1515/9783111689685-002`
+- 5 Local conjugacy — DOI: `10.1515/9783111689685-005`
+- List of Special Symbols — DOI: `10.1515/9783111689685-202`
+- 10 The parameter plane — DOI: `10.1515/9783111689685-010`
+- 9 The exponential family — DOI: `10.1515/9783111689685-009`
+- On the order derivatives of Bessel functions
+- Theory of Fundamental Bessel Functions of High Rank
+- NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase — DOI: `10.1063/5.0089436`
+- Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality — DOI: `10.4171/jfg/57`
+- Boundary Julia theory for slice regular functions
+- Über die Berechnung der geographischen Längen und Breiten aus geodätischen Vermessungen — DOI: `10.1002/asna.18260041601`
+- An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+- NetworkDynamics.jl -- Composing and simulating complex networks in Julia — DOI: `10.1063/5.0051387`
+- Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+- Complex asymptotics of Poincaré functions and properties of Julia sets — DOI: `10.1017/s0305004108001564`
+- Fractal zeta functions and complex dimensions: A general higher-dimensional theory — DOI: `10.1007/978-3-319-18660-3_13`
+- Homeomorphism groups of basilica, rabbit and airplane Julia sets — DOI: `10.5802/jep.327`
+- Kernels, Data & Physics
+- Unveiling the Fractal Structure of Julia Sets with Lagrangian Descriptors — DOI: `10.1016/j.cnsns.2020.105417`
+- Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version) — DOI: `10.1145/3485527`
+- Graphical exploration of the connectivity sets of alternated Julia sets; M, the set of disconnected alternated Julia sets — DOI: `10.1007/s11071-013-0859-y`
+- A Parametric and Feasibility Study for Data Sampling of the Dynamic Mode Decomposition--Range, Resolution, and Universal Convergence States — DOI: `10.1007/s11071-021-07167-8`
+- Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon — DOI: `10.1103/physrevd.107.055015`
+- Roadmap on superoscillations — DOI: `10.1088/2040-8986/ab0191`
+- On an Umbral Point of View of the Gaussian and Gaussian-like Functions — DOI: `10.3390/sym15122157`
+- Vortex clustering and universal scaling laws in two-dimensional quantum turbulence — DOI: `10.1103/physreve.93.032106`
+- Measurement and Modelling of Light Scattering by Small to Medium Size Parameter Airborne Particles
+- HIGH-PRECISION PARALLEL FLOATING-РOINT MULTIPLICATION ON CPU AND GPU — DOI: `10.14489/vkit.2018.05.pp.042-050`
+- Multiscaling limit theorems for stochastic FPDE with cyclic long-range dependence — DOI: `10.48550/arxiv.2409.09215`
+- Effects of ionizing radiation on cell-matrix interactions at the single molecule level — DOI: `10.26083/tuprints-00004533`
+- Bessel and Airy Functions — DOI: `10.1007/978-3-030-64232-7_4`
+- Airy Functions Demystified — III — DOI: `10.1007/s12045-022-1514-z`
+- Numerical calculation of Bessel, Hankel and Airy functions — DOI: `10.1016/j.cpc.2011.11.010`
+- Integrals involving products of Airy functions, their derivatives and Bessel functions — DOI: `10.1016/j.jmaa.2010.05.004`
+- The Marichev-Saigo-Maeda Fractional-Calculus Operators Involving the (p,q)-Extended Bessel and Bessel-Wright Functions — DOI: `10.3390/fractalfract5040210`
+- Appendix A: Gamma and Bessel Functions — DOI: `10.1002/9780470172582.app1`
+- Computation of Bessel and Airy Functions and of Related Gaussian Quadrature Formulae — DOI: `10.1023/a:1021974203359`
+- From Circular to Bessel Functions: A Transition through the Umbral Method — DOI: `10.3390/fractalfract1010009`
+- Approximations for the Bessel and Airy functions with an explicit error term — DOI: `10.1112/s1461157013000351`
+- Incoherent Airy and Bessel-Vortex Beams — DOI: `10.1364/opticaopen.25856248`
+- Incoherent Airy and Bessel-Vortex Beams — DOI: `10.1364/opticaopen.25856248.v2`
+- Incoherent Airy and Bessel-Vortex Beams — DOI: `10.1364/opticaopen.25856248.v1`
+- Transformations of Airy Functions — DOI: `10.1142/9781848165502_0004`
+- On the complex zeros of Airy and Bessel functions and those of their derivatives — DOI: `10.1142/s0219530514500341`
+- Generalisation of Airy Functions — DOI: `10.1142/9781860945359_0006`
+- Transformations of Airy Functions — DOI: `10.1142/9781860945359_0004`
+- Generalisation of Airy Functions — DOI: `10.1142/9781848165502_0006`
+- Primitives and Integrals of Airy Functions — DOI: `10.1142/9781860945359_0003`
+- Generalized Bessel transform of $(\beta, \gamma)$-generalized Bessel Lipschitz functions — DOI: `10.3792/pjaa.91.85`
+- Fractal properties of Bessel functions — DOI: `10.1016/j.amc.2016.02.025`
+- BESSEL FUNCTIONS. Airy log gamma subroutines
+- Computing Hypergeometric Functions Rigorously — DOI: `10.1145/3328732`
+- Global rational approximations of functions with factorially divergent asymptotic series — DOI: `10.1016/j.jat.2025.106178`
+- NOMA-Enhanced Cooperative Relaying Systems in Drone-Enabled IoV: Capacity Analysis and Height Optimization — DOI: `10.1109/tvt.2024.3442929`
+- Computation of special functions — DOI: `10.1119/1.18543`
+- Rigorous analysis of large-space and long-time asymptotics for the short-pulse soliton gases
+- Two New Zeta Constants: Fractal String, Continued Fraction, and Hypergeometric Aspects of the Riemann Zeta Function
+- The Mathematica GuideBook for Symbolics — DOI: `10.1007/0-387-28815-5`
+- Asymptotic Analysis Of Differential Equations — DOI: `10.1142/p410`
+- A new type of factorial series expansions and applications
+- High accuracy gamma function values for some rational arguments — DOI: `10.1090/s0025-5718-68-99864-5`
+- Advanced Calculus for Applications
+- First-order nonlinear eigenvalue problems involving functions of a general oscillatory behavior — DOI: `10.1088/1751-8121/ac2e29`
+- An Atlas of Functions: with Equator, the Atlas Function Calculator
+- On the computation of special functions by using asymptotic expansions
+- Integral Transforms and Their Applications
+- Global Analysis in Linear Differential Equations — DOI: `10.1007/978-94-011-4605-0`
+- CRC Standard Curves and Surfaces with Mathematica — DOI: `10.1201/b16001`
+- Aldo Clementi — DOI: `10.1017/s0040298222000213`
+- A Study of Polynomials and their Q-Analogues using Classical and Fractional Calculus Techniques
+- Underground Water Cherenkov Muon Detector Array with the Tibet Air Shower Array for Gamma-Ray Astronomy in the 100 TeV Region — DOI: `10.1007/s10509-007-9395-x`
+- On the relation between Airy integral and Bessel functions revisited
+- Rigidity of Determinantal Point Processes with the Airy, the Bessel and the Gamma Kernel
+- Observation of PeV Gamma Rays from the Monogem Ring with the Tibet Air Shower Array — DOI: `10.1086/499335`
+- Asymptotics of the convolution of the Airy function and a function of the power-like behavior
+- The Dynamics of the Schrodinger-Newton System with Self-Field Coupling — DOI: `10.1088/0264-9381/33/7/075002`
+- Flux upper limits of diffuse TeV gamma rays from the Galactic plane using the effective area of the Tibet-II and -III arrays
+- Products of Bessel functions and associated polynomials
+- Macroscopic Hausdorff dimension of the level sets of the Airy processes
+- Propagation of Bessel and Airy beams through atmospheric turbulence — DOI: `10.1364/josaa.31.000603`
+- Revised Upper Limits of the Diffuse Tev Gamma Rays from the Galactic Planes with the Tibet II and III Air Shower Arrays
+- The Modified Airy Function Approximation Applied to the Double-Well Potential
+- Fractal properties of Bessel functions
+- Strong approximation of Gaussian $β$-ensemble characteristic polynomials: the edge regime and the stochastic Airy function
+- Search for pulsed multi-TeV gamma rays from the Crab pulsar using the Tibet-III air shower array
+- Constructing entire functions by quasiconformal folding — DOI: `10.1007/s11511-015-0122-0`
+- Dynamics of entire functions near the essential singularity — DOI: `10.1017/s0143385700003655`
+- Iteration of some topologically hyperbolic maps in the family $ λ+z+\tan z$ — DOI: `10.48550/arxiv.2106.02832`
+- An effective algorithm to compute Mandelbrot sets in parameter planes — DOI: `10.1007/s11075-017-0270-8`
+- Deformations on Entire Transcendental Functions — DOI: `10.48550/arxiv.2305.10291`
+- Δυναμική ρητών επαναληπτικών μεθόδων και μορφοκλασματικές συναρτήσεις — DOI: `10.12681/eadd/11228`
+- Between Site-Specificity and Landscape in Video Art
+- 'Passionately subjective': challenges to identity in the works of Amy Levy
+- Life is in the manuscript: Virginia Woolf, historiography, and the "mythical method" — DOI: `10.5287/ora-r8vy7r1bz`
+- Authoring Death: Mourning Masculinity in American Autobiography
+- Edge effects: poetry, place, and spiritual practices
+- On multiply connected wandering domains of entire functions — DOI: `10.1017/cbo9780511735233.012`
+- Julia Components of Transcendental Entire Functions with Multiply-Connected Wandering Domains — DOI: `10.1007/s40315-024-00521-y`
+- ON WANDERING AND BAKER DOMAINS OF TRANSCENDENTAL ENTIRE FUNCTIONS — DOI: `10.1142/s021812740400903x`
+- On the Stability of Julia Sets of Functions having Baker Domains — DOI: `10.53846/goediss-2450`
+- Some entire functions with multiply-connected wandering domains — DOI: `10.1017/s0143385700002832`
+- Wandering Domains in the Iteration of Entire Functions — DOI: `10.1112/plms/s3-49.3.563`
+- Absence of wandering domains for some real entire functions with bounded singular sets — DOI: `10.1007/s00208-013-0936-z`
+- Approximation of Baker domains and convergence of Julia sets. — DOI: `10.53846/goediss-3840`
+- Transcendental entire functions whose Julia sets contain any infinite collection of quasiconformal copies of quadratic Julia sets — DOI: `10.3934/dcds.2019217`
+- On topological properties of Fatou sets and Julia sets of transcendental entire functions — DOI: `10.1090/suga/425`
+- An entire function which has wandering domains — DOI: `10.1017/s1446788700015287`
+- Baker domains — DOI: `10.1017/cbo9780511735233.015`
+- Deformation of entire functions with Baker domains — DOI: `10.3934/dcds.2006.15.379`
+- Wandering domains in the transcendental dynamics — DOI: `10.1007/bf03183203`
+- The Lebesgue Measure of the Julia Sets of Permutable Transcendental Entire Functions — DOI: `10.4236/apm.2022.129040`
+- On the connectivity of Julia sets of transcendental entire functions — DOI: `10.1017/s0143385798097570`
+- Multiply connected wandering domains of entire functions — DOI: `10.1112/plms/pdt010`
+- Spiders’ webs and locally connected Julia sets of transcendental entire functions — DOI: `10.1017/s0143385712000259`
+- Oscillating wandering domains for p$p$‐adic transcendental entire maps — DOI: `10.1112/blms.12709`
+- Permutable entire functions and multiply connected wandering domains — DOI: `10.1016/j.aim.2015.04.031`
+- A new family of entire functions with no wandering domains
+- The limit set of iterations of entire functions on wandering domains
+- A Survey of Baker Wandering Domains
+- Commuting functions in class K and families of wandering Baker domains
+- Wandering domains for composition of entire functions
+- Permutable entire functions and multiply connected wandering domains
+- Thermodynamic formalism for entire transcendental maps with hyperbolic Baker Domains
+- Dynamics on the Wandering Components of the Fatou Set of Three Transcendental Entire Functions and Their Composites
+- Sum of the exponential and a polynomial: Singular values and Baker wandering domains
+- Wandering domains for entire functions of finite order in the Eremenko-Lyubich class — DOI: `10.1112/plms.12288`
+- A generalized family of transcendental functions with one dimensional Julia sets
+- Connectivity of Fatou Components of Meromorphic Functions
+- Escaping set and Julia set of transcendental semigroups
+- An entire function connected with the approximation of the golden ratio
+- Boundaries of Baker domains of entire functions. A finer approach
+- Spiders' webs and locally connected Julia sets of transcendental entire functions
+- Exotic Baker and wandering domains for Ahlfors islands maps — DOI: `10.1007/s11854-012-0023-5`
+- The dynamics of semigroups of transcendental entire functions I
+- Fractals: An Eclectic Survey, Part-I — DOI: `10.3390/fractalfract6020089`
+- On the Geometry of IFS Fractals and its Applications
+- Fractals Generated by Various Iterative Procedures - A Survey — DOI: `10.15415/mjis.2014.22016`
+- The escape buffer: Efficient computation of escape time for linear fractals — DOI: `10.20380/gi1995.24`
+- - Multiscale Representations: Fractals, Self-Similar Random Processes and Wavelets — DOI: `10.1201/b13691-27`
+- Secure data transmission through fractal-based cryptosystem: a Noor iteration approach — DOI: `10.1038/s41598-025-04700-2`
+- Scalable Complexity in Fractal Geometry: The Keçeci Fractal Approach — DOI: `10.22541/au.175131225.56823239/v1`
+- Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane — DOI: `10.22373/ekw.v11i2.25438`
+- Scale Covariance of Fractal Sets and Measures, A Differential Approach to the Box-Counting Function of a Fractal, with Applications
+- Rearrangement Groups of Fractals: Structure and Conjugacy — DOI: `10.48550/arxiv.2412.02339`
+- Ein Framework für die GPU-gestützte Erzeugung und Gestaltung induktiv rotierter Muster — DOI: `10.34726/hss.2015.26942`
+- Selected topics in theoretical mathematics — DOI: `10.1177/10806032231220394`
+- Deformation spaces and static animations — DOI: `10.1090/psapm/079/00712`
+- From Ergodic Theory and Probability to Fractal Geometry and Dynamics: Themes in the Work of Manfred Denker
+- Creeping Always Back: The Grotesque Body in the Work of David Foster Wallace — DOI: `10.22024/unikent/01.02.86953`
+- Cantor necklaces and structurally unstable Sierpinski curve Julia sets for rational maps — DOI: `10.1007/bf02972685`
+- Sierpinski curve Julia sets for quadratic rational maps — DOI: `10.5186/aasfm.2014.3903`
+- Rational maps with generalized Sierpinski gasket Julia sets — DOI: `10.1016/j.topol.2006.03.024`
+- Sierpiński Curve Julia Sets of Rational Maps — DOI: `10.1007/bf03321617`
+- A MYRIAD OF SIERPINSKI CURVE JULIA SETS — DOI: `10.1142/9789812770752_0011`
+- Limiting behavior of Julia sets of singularly perturbed rational maps — DOI: `10.23943/princeton/9780691159294.003.0008`
+- Sierpinski Carpets and Gaskets as Julia sets of Rational Maps — DOI: `10.4171/011-1/5`
+- Sierpiński and non-Sierpiński curve Julia sets in families of rational maps — DOI: `10.1112/jlms/jdn030`
+- Buried Sierpinski curve Julia sets — DOI: `10.3934/dcds.2005.13.1035`
+- Arboreal Galois groups of rational maps with nonreal Julia sets — DOI: `10.4064/aa241204-24-6`
+- Julia sets of rational maps — DOI: `10.1090/psapm/049/1315534`
+- Julia sets of postcritically finite rational maps and topological self-similar sets — DOI: `10.1088/0951-7715/13/1/308`
+- Intertwined internal rays in Julia sets of rational maps — DOI: `10.4064/fm206-0-9`
+- Some comments on "Generation of Mandelbrot and Julia sets for generalized rational maps using SP-iteration process equipped with s-convexity" — DOI: `10.22541/au.171923771.13964201/v1`
+- SOME PROPERTIES OF THE JULIA SETS OF QUADRATIC RATIONAL MAPS — DOI: `10.5831/hmj.2007.29.2.205`
+- Semiconjugacies between the Julia sets of geometrically finite rational maps II — DOI: `10.4171/011-1/7`
+- Sierpinski-curve Julia sets and singular perturbations of complex polynomials — DOI: `10.1017/s0143385704000380`
+- Rational maps with half symmetries, Julia sets, and Multibrot sets in parameter planes — DOI: `10.1090/conm/573/11393`
+- Julia sets are quasicircles for rational maps of degree N — DOI: `10.47974/jim-1560`
+- Metric diophantine approximation in Julia sets of expanding rational maps — DOI: `10.1007/bf02699537`
+
+## Failures
+
+- semantic-scholar / "Siegel disk Herman ring Fatou components Julia set rendering": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "random iterated function systems superfractals visualization rendering": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Julia sets Bessel functions complex dynamics fractal": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Baker domains wandering domains transcendental entire functions Julia sets visualization": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Sierpinski curve Julia sets rational maps visualization": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "Sierpinski curve Julia sets rational maps visualization": source HTTP status 503

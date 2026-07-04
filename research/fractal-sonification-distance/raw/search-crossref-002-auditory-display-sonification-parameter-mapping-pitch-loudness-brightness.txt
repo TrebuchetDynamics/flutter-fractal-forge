@@ -1,0 +1,10 @@
+10.21785/icad2024.034	Adapting Audio Mixing Principles and Tools to Parameter Mapping Sonification Design
+10.4324/9781410602886-12	Pitch and Loudness Codes
+10.1068/ic764	Effect of Size Change and Brightness Change of Visual Stimuli on Loudness Perception and Pitch Perception of Auditory Stimuli
+10.21785/icad2017.051	Spectral Parameter Encoding: Towards a Framework for Functional-Aesthetic Sonification
+10.1016/b978-0-08-025957-4.50009-7	The Measurement of Loudness and Pitch
+10.21785/icad2019.047	Evaluating the Magnitude Estimation Approach for Designing Sonification Mapping Topologies
+10.21785/icad2021.026	The CURAT Sonification Game: Gamification for Remote Sonification Evaluation
+10.1017/cbo9780511754777.005	Judging auditory magnitudes: the sone scale of loudness and the mel scale of pitch
+10.2307/3680606	Auditory Display: Sonification, Audification, and Auditory Interfaces
+10.21785/icad2023.4233	Facial Behavior Sonification With the Interactive Sonification Framework Panson

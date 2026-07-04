@@ -1,0 +1,20 @@
+10.1021/acsphotonics.8b00186.s001	Multiband Plasmonic Sierpinski Carpet Fractal Antennas
+10.1088/0256-307x/15/7/014	Fractal Nature of Viscous Fingering in Random Sierpinski Carpet
+10.70729/ijser15147	Design and Analysis of Multiband Sierpinski Carpet Fractal Antenna for Wireless Communications
+10.1007/s11424-014-2073-5	Complex system analysis of market return percolation model on Sierpinski carpet lattice fractal
+10.47974/jios-1610	Random forest machine learning approach for efficient optimization of Sierpinski carpet fractal antenna
+10.1088/1009-1963/10/2/309	Fractal viscous fingering and its scaling structure in random sierpinski carpet
+10.2139/ssrn.5027948	NATURAL CONVECTION HEAT TRANSFER CHARACTERISTICS OF SIERPINSKI CARPET FRACTAL FIN
+10.53433/yyufbed.1582558	Fractal Geometries in Wireless Communication: A Focus on Sierpinski Carpet Fractal Antennas
+10.1109/lapc.2014.6996449	Fractal metamaterial based on Sierpinski carpet
+10.37896/jxu14.9/046	Design of Flexible Fractal Antenna by Sierpinski Carpet for Satellite Communication
+10.1109/apmc.2005.1606873	Analysis of the Multiband Behavior on Sierpinski Carpet Fractal Antennas
+10.1109/icmtce.2013.6812412	Sierpinski carpet fractal antenna in third iteration
+10.5120/4888-7376	Sierpinski Carpet Fractal Antenna for Multiband Applications
+10.1103/physreve.63.011105	Territory covered by<b><i>N</i></b>random walkers on fractal media: The Sierpinski gasket and the percolation aggregate
+10.21090/ijaerd.t1022205	MODIFIED SIERPINSKI CARPET FRACTAL ANTENNA FOR WIRELESS COMMUNICATION
+10.1109/iementech.2018.8465210	Combined Sierpinski Carpet and Koch Fractal Patch Antenna with Fractal DGS for Wireless Applications
+10.46620/ursi_rsrc24/0509nlz8963	A Tree-Shaped Sierpinski Carpet Fractal Antenna for 5G Applications
+10.1109/iciis47346.2019.9063309	Genetically Designed High Gain Sierpinski Carpet Fractal Antenna
+10.1115/imece2016-67164	Thermal Performance of Sierpinski Carpet Fractal Fins in a Forced Convection Environment
+10.1109/aps.2013.6710769	An UWB antenna using modified Sierpinski-carpet Fractal Antenna

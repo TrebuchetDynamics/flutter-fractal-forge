@@ -1,0 +1,8 @@
+10.1088/2040-8986/ab0191	Roadmap on superoscillations
+10.3390/math3020337	High-Precision Arithmetic in Mathematical Physics
+10.3390/sym15122157	On an Umbral Point of View of the Gaussian and Gaussian-like Functions
+10.1103/physreve.93.032106	Vortex clustering and universal scaling laws in two-dimensional quantum turbulence
+	Measurement and Modelling of Light Scattering by Small to Medium Size Parameter Airborne Particles
+10.14489/vkit.2018.05.pp.042-050	HIGH-PRECISION PARALLEL FLOATING-РOINT MULTIPLICATION ON CPU AND GPU
+10.48550/arxiv.2409.09215	Multiscaling limit theorems for stochastic FPDE with cyclic long-range dependence
+10.26083/tuprints-00004533	Effects of ionizing radiation on cell-matrix interactions at the single molecule level

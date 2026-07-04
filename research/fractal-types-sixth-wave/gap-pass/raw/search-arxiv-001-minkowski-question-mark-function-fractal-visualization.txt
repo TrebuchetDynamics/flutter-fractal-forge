@@ -1,0 +1,20 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	The Hausdorff dimension of the set where the Minkowski question mark function has infinite derivative
+	Differentiability of the Minkowski question mark function
+10.1016/j.jnt.2007.12.010	Fractal analysis for sets of non-differentiability of Minkowski's question mark function
+10.2140/involve.2009.2.121	Generating and zeta functions, structure, spectral and analytic properties of the moments of Minkowski question mark function
+	Generalizing the Minkowski Question Mark Function to a Family of Multidimensional Continued Fractions
+10.1016/j.cam.2014.07.013	Orthogonal polynomials for Minkowski's question mark function
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Beyond English: Centering Multilingualism in Data Visualization
+	The Stern Sequence and Moments of Minkowski's Question Mark Function
+	Derivative of the iterations of Minkowski question mark function in special points
+10.1007/s10986-008-9027-3	Asymptotic formula for the moments of Minkowski question mark function in the interval [0,1]
+	Fourier-Stieltjes coefficients of the Minkowski question mark function
+10.1017/s0017089509990152	The moments of Minkowski question mark function: the dyadic period function
+10.1090/s0025-5718-09-02263-7	The Minkowski question mark function: explicit series for the dyadic period function and moments
+10.1007/s00605-018-1205-8	On Minkowski type question mark functions associated with even or odd continued fractions
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	K-theory of Minkowski question-mark function
+	Diophantine properties of fixed points of Minkowski question mark function
+	Sums with Stern-Brocot sequences and Minkowski question mark function

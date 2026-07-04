@@ -1,0 +1,20 @@
+10.1016/j.aim.2025.110549	Variational principles for Hausdorff and packing dimensions of fractal percolation on self-affine sponges
+10.1007/s11424-014-2073-5	Complex system analysis of market return percolation model on Sierpinski carpet lattice fractal
+10.1007/s11424-014-2073-5	Complex system analysis of market return percolation model on Sierpinski carpet lattice fractal
+10.1007/bf02179876	The existence of phase V in the Mandelbrot percolation process
+10.1155/2012/735068	Statistical Behavior of a Financial Model by Lattice Fractal Sierpinski Carpet Percolation
+10.1103/physreve.54.4590	Percolation in random-Sierpiński carpets: A real space renormalization group approach
+10.1142/s0219477515500157	Volatility Behaviors of Financial Time Series by Percolation System on Sierpinski Carpet Lattice
+10.1016/s0378-4371(97)00090-3	PERCOLATION TRANSITION INTO RANDOM-SIERPINSKI-CARPETS
+10.1007/bf01026566	On the structure of Mandelbrot's percolation process and other random cantor sets
+10.1142/s0218348x13500230	FLUCTUATION BEHAVIOR OF FINANCIAL RETURN INTERVAL SERIES MODEL FOR PERCOLATION ON SIERPINSKI CARPET LATTICE
+10.1016/s0378-4371(00)00051-0	DC conductive percolation of 2-D fractal random network
+10.1007/bf00820345	Fractal porous media III: Transversal Stokes flow through random and Sierpinski carpets
+10.1016/j.physleta.2017.10.035	Percolation on infinitely ramified fractal networks
+10.1007/s00500-015-1874-3	Predicting agent-based financial time series model on lattice fractal with random Legendre neural network
+10.1016/j.aim.2015.02.001	A new fractal dimension: The topological Hausdorff dimension
+10.1016/j.physa.2019.123503	Fluctuation behavior analysis of stochastic exclusion financial dynamics with random jump
+10.1103/physreve.78.041111	Global first-passage times of fractal lattices.
+	THE BOX-COUNTING DIMENSION OF RANDOM BOX-LIKE SELF-AFFINE SETS
+10.1017/fmp.2017.5	CLE PERCOLATIONS
+10.1007/978-3-662-05193-1	Fractal concepts in condensed matter physics

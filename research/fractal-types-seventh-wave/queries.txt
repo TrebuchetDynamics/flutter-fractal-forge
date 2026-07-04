@@ -1,0 +1,8 @@
+McMullen maps Julia sets fractal visualization rational maps
+Blaschke product Julia sets basins fractal visualization
+complex Henon map Julia set fractal visualization
+Herman rings Siegel disks Julia set visualization complex dynamics
+fractal percolation random recursive carpets visualization
+random iterated function systems superfractals rendering
+Lorenz system basin boundaries fractal visualization nonlinear dynamics
+Julia sets of special functions Bessel Airy gamma fractal visualization

@@ -1,0 +1,20 @@
+10.1016/j.chaos.2022.112346	Competition between decoherence and purification: Quaternionic representation and quaternionic fractals
+10.5120/ijca2016909821	The Effect of Multiple Rotations on Mobius Transformations in Generating IFS Fractals
+10.1017/9781316216477.016	Quaternionic Modular Groups
+10.1007/978-1-4757-4017-2_18	Self-inverse fractals osculated by sigma-discs: the limit sets of (“Kleinian”) inversion groups
+10.1007/s10711-023-00797-9	Limit sets of cyclic quaternionic Kleinian groups
+10.1016/0960-0779(95)00001-1	Experimental status of quaternionic quantum mechanics
+10.1016/j.chaos.2020.110541	A geometrical and physical interpretation of quaternionic generalized magnetic flux tubes
+10.2478/v10062-011-0014-5	Structure fractals and para-quaternionic geometry
+10.1016/s0960-0779(02)00489-7	Kleinian groups in E(∞) and their connection to particle physics and cosmology
+10.1142/s0218348x2250013x	A QUATERNIONIC FRACTIONAL BOREL–POMPEIU-TYPE FORMULA
+10.1007/s10711-017-0288-z	Quaternionic Kleinian modular groups and arithmetic hyperbolic orbifolds over the quaternions
+10.1016/j.chaos.2004.09.067	Symbolic dynamics in investigation of quaternionic Julia sets
+10.1016/0960-0779(94)00163-k	Generalization of the Mandelbrot set: Quaternionic quadratic maps
+10.2140/agt.2018.18.957	A characterization of quaternionic Kleinian groups in dimension 2 with complex trace fields
+10.11606/d.55.2024.tde-21082024-155537	Fractals with Affine Transformations
+10.1007/978-3-642-61590-0_1	Fractional Linear Transformations
+10.1142/s0129167x97000147	Quaternionic Transformations of a Non-Positive Quaternionic Kähler Manifold
+10.1112/jlms/jdv063	Complex and quaternionic hyperbolic Kleinian groups with real trace fields
+10.1007/s00220-003-0957-7	Generalized Symmetry Transformations on Quaternionic Indefinite Inner Product Spaces: An Extension of Quaternionic Version of Wigner’s Theorem
+10.1007/jhep11(2017)187	Basic quantizations of D = 4 Euclidean, Lorentz, Kleinian and quaternionic $$ {\mathfrak{o}}^{\star }(4) $$ symmetries

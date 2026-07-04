@@ -1,0 +1,20 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Local connectivity of Julia sets of some transcendental entire functions with Siegel disks
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+10.1112/s0024609304003157	An answer to a question of Herman, Baker and Rippon concerning Siegel disks
+	Rational maps with smooth degenerate Herman rings
+	Local connectivity of Julia sets of some rational maps with Siegel disks
+10.1007/s12220-017-9764-9	The Fine Structure of Herman Rings
+10.1007/s00220-016-2614-y	Herman's condition and critical points on the boundary of Siegel disks of polynomials with two critical values
+	Herman Rings: Structure, Dynamics, and Open Problems
+	On the formulas of meromorphic functions with periodic Herman rings
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+	Rational maps without Herman rings
+	Biaccessiblility in quadratic Julia sets II: The Siegel and Cremer cases
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.1515/crelle.2008.081	Siegel Disks and Periodic Rays of Entire Functions
+	Kernels, Data & Physics
+	Local Connectivity of Polynomial Julia sets at Bounded Type Siegel Boundaries
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1007/s11071-021-07167-8	A Parametric and Feasibility Study for Data Sampling of the Dynamic Mode Decomposition--Range, Resolution, and Universal Convergence States
+	Is the boundary of a Siegel disk a Jordan curve?

@@ -1,0 +1,22 @@
+# App implementation gap check, gap pass terms
+Minkowski question           0
+question mark                0
+Minkowski sausage            0
+Levy dragon                  0
+Lévy dragon                 0
+twin dragon                  1
+terdragon                    7
+Lattes                       13
+Lattès                      1
+Möbius Transformations      0
+Mobius Transformations       0
+Tinkerbell                   37
+Gumowski                     74
+Mira                         78
+Bedhead                      5
+cosine map                   0
+tangent map                  1
+secant map                   1
+fractal antenna              1
+Coxeter                      0
+Apollonian gasket            1

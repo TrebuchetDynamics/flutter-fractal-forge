@@ -1,0 +1,47 @@
+{
+  "createdAt": "2026-07-03T20:28:21.618022Z",
+  "moduleId": "legalize_auto_slicejulibrot2",
+  "moduleName": "FOTD Slicejulibrot2",
+  "tags": [
+    "Randomize breaks",
+    "Wrong fractal"
+  ],
+  "notes": "",
+  "shareUrl": "https://fractal.trebuchetdynamics.com/?t=legalize_auto_slicejulibrot2&z=1&x=0&y=0&rx=0&ry=0&rz=0&p=eyJ-YiI6OC4wLCJjb2VmZkEiOi0xMC4wLCJjb2VmZkQiOjIxLjAsImNvZWZmRyI6MS4wLCJjb2VmZkoiOjAuMCwifmMiOjAsIn5pIjoxODAsInBvd2VyQiI6LTI1LjAsInBvd2VyRiI6MTIuMCwicG93ZXJIIjo0LjAsInBvd2VySyI6NS4wLCJzZWVkWCI6My4wLCJzZWVkWSI6MC4wLCJ2YXJpYW50IjoxMC4wfQ&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0",
+  "params": {
+    "iterations": 180,
+    "bailout": 8.0,
+    "colorScheme": 0,
+    "variant": 10.0,
+    "coeffA": -10.0,
+    "powerB": -25.0,
+    "coeffD": 21.0,
+    "powerF": 12.0,
+    "coeffG": 1.0,
+    "powerH": 4.0,
+    "coeffJ": 0.0,
+    "powerK": 5.0,
+    "seedX": 3.0,
+    "seedY": 0.0
+  },
+  "view": {
+    "zoom": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "visualState": {
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1.0,
+    "glowIntensity": 0.35,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 8,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeMirrorMode": 0
+  }
+}

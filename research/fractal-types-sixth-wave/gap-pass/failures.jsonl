@@ -1,0 +1,5 @@
+{"source":"semantic-scholar","query":"Levy dragon twin dragon terdragon fractal curve visualization","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"Lattès map Julia set visualization complex dynamics","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"escape time transcendental entire functions Julia set cosine tangent secant","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"crossref","query":"strange attractor Tinkerbell Gumowski Mira Bedhead chaotic map visualization","error":"paper title is required"}
+{"source":"semantic-scholar","query":"strange attractor Tinkerbell Gumowski Mira Bedhead chaotic map visualization","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}

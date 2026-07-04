@@ -1,0 +1,3 @@
+10.12732/ijam.v34i6.3	ON SOME ADVANCES IN DYNAMICS OF ONE VARIABLE COMPLEX FUNCTIONS
+10.53733/135	Dynamics of the meromorphic families $f_\lambda=\lambda \tan^pz^q$
+10.48550/arxiv.2305.10291	Deformations on Entire Transcendental Functions

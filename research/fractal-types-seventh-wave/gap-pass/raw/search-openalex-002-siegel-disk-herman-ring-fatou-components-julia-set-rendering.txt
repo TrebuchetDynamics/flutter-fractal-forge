@@ -1,0 +1,1 @@
+	Biggest bounded type Siegel disks of monic polynomials include those that stick to all critical points

@@ -1,0 +1,20 @@
+10.1142/9789812778604_0009	Ray Tracing Methods by Distance Estimation
+10.1142/9789812778604_0002	Deterministic Fractals and Distance Estimation
+10.1353/ajm.1999.0034	Semiconjugacies between Kleinian group actions on the Riemann sphere
+10.1142/s0218348x17400047	A NOVEL FAST FRACTAL IMAGE COMPRESSION METHOD BASED ON DISTANCE CLUSTERING IN HIGH DIMENSIONAL SPHERE SURFACE
+10.1007/978-1-4757-4017-2_18	Self-inverse fractals osculated by sigma-discs: the limit sets of (“Kleinian”) inversion groups
+10.1142/9789812778604_0003	Distance Estimation in Complex Space
+10.1142/s0218348x16500407	FRACTAL DIMENSION ESTIMATION OF RGB COLOR IMAGES USING MAXIMUM COLOR DISTANCE
+10.1016/s0960-0779(02)00630-6	Complex vacuum fluctuation as a chaotic “limit” set of any Kleinian group transformation and the mass spectrum of high energy particle physics via spontaneous self-organization
+10.1142/9789812778604_0007	Distance Estimation in Higher Dimensional Spaces
+10.1016/j.chaos.2025.116829	Dynamic Mandelbulb fractals: A mathematical framework for time-evolving 3D fractals using distance estimation
+10.1109/tvcg.2025.3613853/mm1	Parabolic Sphere Tracing Of Signed Distance Fields For Old Glass Modelling And Rendering_supp1-3613853.pdf
+10.1093/oso/9780198500629.003.0003	The basis of Kleinian group theory
+10.1093/oso/9780198500629.003.0006	The sphere at infinity
+10.1142/9789812778604_0010	Quaternion Deterministic Fractals in Virtual Reality
+10.1016/s0960-0779(02)00489-7	Kleinian groups in E(∞) and their connection to particle physics and cosmology
+10.1017/cbo9781139106993.011	The Weil–Petersson geometry of the five-times punctured sphere
+10.1007/bfb0065672	What is a Kleinian group?
+10.1007/978-3-0348-0481-3_5	Kleinian Groups with a Control Group
+10.1109/wd52248.2021.9508280	Distance Estimation for BLE-based Contact Tracing – A Measurement Study
+10.1007/bf01456704	A Kleinian analysis of group development

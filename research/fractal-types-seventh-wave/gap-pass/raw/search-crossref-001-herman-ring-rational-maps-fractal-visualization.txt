@@ -1,0 +1,20 @@
+10.47974/jim-2308	The complex dynamics of rational maps having no Herman ring
+10.4171/jfg/70	Rational families converging to a family of exponential maps
+10.4113/jom.2011.1182	Ring maps for spatial visualization of multivariate epidemiological data
+10.1063/5.0140520	Zipper rational cubic fractal interpolation functions (ZRCFIF) for visualization of shaped data
+10.1080/00207160.2015.1067308	Visualization of constrained data by smooth rational fractal interpolation
+10.1090/proc/14347	No Herman rings for regularly ramified rational maps
+10.1007/s41478-018-0074-9	Data visualization by rational fractal function based on function values
+10.3840/08002821	Ring Fractal
+10.1016/j.aim.2024.109827	Rational maps with smooth degenerate Herman rings
+10.3840/002821	Ring Fractal
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization
+10.1007/s12044-010-0044-x	The rational maps F λ (z) = z m + λ/z d have no Herman rings
+10.1007/978-981-10-7050-1_8	Control of Rational Fractal Sets
+10.1007/978-3-030-75809-7_2	Examples and Properties of Rational Sphere Maps
+10.1007/978-3-030-75809-7_7	Geometric Properties of Rational Sphere Maps
+10.1093/acprof:oso/9780198528272.003.0020	Intelligence and rational behaviour in the bottlenosed dolphin
+10.1007/978-1-84800-056-8_9	Rational maps, geometric genus and rational curves
+10.1090/s0002-9939-99-04566-9	The rational maps $z\mapsto 1+1/\omega z^d$ have no Herman rings
+10.70675/2cd4f8a2z8097z4113zaeeazfd46690707fe	degeneration of complex rational maps
+10.1515/9783110702699-015	15 Fractal measures and dimensions

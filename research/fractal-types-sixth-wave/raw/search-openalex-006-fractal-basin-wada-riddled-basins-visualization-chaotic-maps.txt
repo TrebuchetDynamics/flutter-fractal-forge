@@ -1,0 +1,14 @@
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1038/srep31416	Basin entropy: a new tool to analyze uncertainty in dynamical systems
+10.1371/journal.pone.0194926	From local uncertainty to global predictions: Making predictions on fractal basins
+10.1209/0295-5075/acb5be	Unpredictability and basin entropy
+10.1007/s40430-021-03188-x	Multiple solutions and transient chaos in a nonlinear flexible coupling model
+10.48550/arxiv.2510.05606	Riddled basin geometry sets fundamental limits to predictability and reproducibility in deep learning
+10.1016/j.chaos.2022.112112	Classifying basins of attraction using the basin entropy
+	From Basins to safe sets: a machine learning perspective on chaotic dynamics
+10.1007/s40766-022-00038-x	Earth’s gradients as the engine of plate tectonics and earthquakes
+10.1103/physrevlett.127.194101	Basins with Tentacles
+10.48550/arxiv.2409.01878	Basin of attraction organization in infinite-dimensional delayed systems: a stochastic basin entropy approach
+10.48550/arxiv.2412.16189	Asymmetric coupling of nonchaotic Rulkov neurons: Fractal attractors, quasimultistability, and final state sensitivity
+	Chaos and Quantum Tunneling
+	Multistable systems under the influence of noise

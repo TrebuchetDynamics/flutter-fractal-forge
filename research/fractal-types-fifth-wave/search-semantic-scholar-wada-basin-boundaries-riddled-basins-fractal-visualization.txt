@@ -1,0 +1,20 @@
+10.1016/0167-2789(95)00249-9	Wada basin boundaries and basin cells
+10.1142/s0218127496000035	Wada Basin Boundaries in Chaotic Scattering
+10.1063/5.0336333	Robust Wada boundaries and entropy scaling in pp-wave spacetimes.
+10.1063/5.0147679	Fractal and Wada escape basins in the chaotic particle drift motion in tokamaks with electrostatic fluctuations.
+10.1142/s021812740701986x	Fractal and Wada Exit Basin Boundaries in tokamaks
+10.1088/1674-1056/17/1/021	New bifurcations of basin boundaries involving Wada and a smooth Wada basin boundary
+10.1088/1674-1056/17/1/021	New bifurcations of basin boundaries involving Wada and a smooth Wada basin boundary
+	New bifurcations of basin boundaries involving Wada and a smooth Wada basin boundary
+10.1142/s0218348x20500231	WADA FRACTAL BASINS OF ATTRACTION IN A ZERO-STIFFNESS VIBRATION ISOLATION SYSTEM
+10.1016/j.physd.2022.133291	The occurrence of riddled basins and blowout bifurcations in a parametric nonlinear system
+	Basin Riddling in Coupled Phase Oscillators
+10.1063/5.0197988	Fractal structures in the chaotic advection of passive scalars in leaky planar hydrodynamical flows.
+10.1109/iscas.2010.5536979	Chaos, coexisting attractors, and fractal basin boundaries in DC drives with full-bridge converter
+	Multifractal analysis of intermingled basins and blowout bifurcations in a parametetric family of skew product maps
+10.1103/physrevlett.73.3528	Experimental and Numerical Evidence for Riddled Basins in Coupled Chaotic Systems.
+10.1016/s0960-0779(00)00111-9	Categories of chaos and fractal basin boundaries in forced predator–prey models
+10.1103/physreve.64.056228	Catastrophic bifurcation from riddled to fractal basins.
+10.1371/journal.pone.0194926	From local uncertainty to global predictions: Making predictions on fractal basins
+10.1007/s11071-016-3281-4	Fractal dimension and Wada measure revisited: no straightforward relationships in NDDS
+10.22373/ekw.v11i2.25438	Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane

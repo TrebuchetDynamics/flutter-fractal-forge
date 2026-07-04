@@ -1,0 +1,20 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	A Fractal Comparison of Escher and Koch Tessellations
+10.4171/jfg/155	Tube Formulae for Generalized von Koch Fractals through Scaling Functional Equations
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Beyond English: Centering Multilingualism in Data Visualization
+10.4171/jfg/19	Minkowski content and fractal Euler characteristic for conformal graph directed systems
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	Families of Periodic Orbits of the Koch Snowflake Fractal Billiard
+	NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+10.1039/c6cp07496k	Small-angle scattering from the Cantor surface fractal on the plane and the Koch snowflake
+10.1109/tvcg.2023.3326576	Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges
+10.1109/tvcg.2024.3456305	Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots
+	Minkowski Measurability and Exact Fractal Tube Formulas for p-Adic Self-Similar Strings
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+10.1109/tvcg.2017.2743858	What Would a Graph Look Like in This Layout? A Machine Learning Approach to Large Graph Visualization
+10.1109/tvcg.2020.3030408	Visual Analytics for Temporal Hypergraph Model Exploration
+10.1016/j.physleta.2011.07.061	Strange eigenstates and anomalous transport in a Koch fractal with hierarchical interaction
+10.1177/14738716221142005	VisRuler: Visual Analytics for Extracting Decision Rules from Bagged and Boosted Decision Trees
+	General volumes in the Orlicz-Brunn-Minkowski theory and a related Minkowski Problem I

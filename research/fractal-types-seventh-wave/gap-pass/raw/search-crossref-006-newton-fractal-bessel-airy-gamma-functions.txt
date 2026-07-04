@@ -1,0 +1,20 @@
+10.1007/978-3-030-64232-7_4	Bessel and Airy Functions
+10.1007/s12045-022-1514-z	Airy Functions Demystified — III
+10.1016/j.cpc.2011.11.010	Numerical calculation of Bessel, Hankel and Airy functions
+10.1016/j.jmaa.2010.05.004	Integrals involving products of Airy functions, their derivatives and Bessel functions
+10.3390/fractalfract5040210	The Marichev-Saigo-Maeda Fractional-Calculus Operators Involving the (p,q)-Extended Bessel and Bessel-Wright Functions
+10.1002/9780470172582.app1	Appendix A: Gamma and Bessel Functions
+10.1023/a:1021974203359	Computation of Bessel and Airy Functions and of Related Gaussian Quadrature Formulae
+10.3390/fractalfract1010009	From Circular to Bessel Functions: A Transition through the Umbral Method
+10.1112/s1461157013000351	Approximations for the Bessel and Airy functions with an explicit error term
+10.1364/opticaopen.25856248	Incoherent Airy and Bessel-Vortex Beams
+10.1364/opticaopen.25856248.v2	Incoherent Airy and Bessel-Vortex Beams
+10.1364/opticaopen.25856248.v1	Incoherent Airy and Bessel-Vortex Beams
+10.1142/9781848165502_0004	Transformations of Airy Functions
+10.1142/s0219530514500341	On the complex zeros of Airy and Bessel functions and those of their derivatives
+10.1142/9781860945359_0006	Generalisation of Airy Functions
+10.1142/9781860945359_0004	Transformations of Airy Functions
+10.1142/9781848165502_0006	Generalisation of Airy Functions
+10.1142/9781860945359_0003	Primitives and Integrals of Airy Functions
+10.3792/pjaa.91.85	Generalized Bessel transform of $(\beta, \gamma)$-generalized Bessel Lipschitz functions
+10.1016/j.amc.2016.02.025	Fractal properties of Bessel functions

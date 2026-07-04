@@ -1,0 +1,20 @@
+10.1090/conm/389/07276	Wild knots as limit sets of Kleinian groups
+10.1090/s1088-4173-09-00198-2	Wild knots in higher dimensions as limit sets of Kleinian groups
+10.4171/jfg/93	On horospheric limit sets of Kleinian groups
+10.1007/978-1-4757-4017-2_15	Introduction to papers on Kleinian groups, their fractal limit sets, and IFS: history, recollections, and acknowledgments
+10.1090/conm/731/14674	Dimensions of limit sets of Kleinian groups
+10.1007/bf02559716	Fractal dimensions for Jarník limit sets of geometrically finite Kleinian groups; the semi-classical approach
+10.1007/bfb0084452	Fractal dimensions of limit sets of some Kleinian groups
+10.2748/tmj/1178241038	Limit sets of some Kleinian groups
+10.1353/ajm.2002.0015	Calculating Hausdorff dimension of Julia sets and Kleinian limit sets
+10.2996/kmj/1123767022	Word length and limit sets of Kleinian groups
+10.1007/bf02392264	The residual limit sets of Kleinian groups
+10.1215/s0012-7094-94-07316-x	Kleinian groups with small limit sets
+10.4171/jfg/139	Dimensions of Kleinian orbital sets
+10.7146/math.scand.a-12104	On limit sets of geometrically finite Kleinian groups.
+10.2748/tmj/1178229600	Remarks on the limit sets of Kleinian groups
+10.1007/978-1-4612-5796-7_25	Fundamental Polyhedrons and Limit Point Sets of Kleinian Groups
+10.1007/978-3-0348-7755-8_8	Remarks on Weak Limit Laws for Fractal Sets
+10.2748/tmj/1178228898	Limit sets of geometrically finite free Kleinian groups
+10.1007/bf02820470	Kleinian groups with intersecting limit sets
+10.1007/s10711-023-00797-9	Limit sets of cyclic quaternionic Kleinian groups

@@ -1,0 +1,20 @@
+	On integer sequences for rendering limit sets of Kleinian groups
+	On horospheric limit sets of Kleinian groups
+	All finitely generated Kleinian groups of small Hausdorff dimension are classical Schottky groups
+	Tevatron-for-LHC Report of the QCD Working Group
+10.1017/s0004972710000146	Limit sets and commensurability of Kleinian groups
+	Kleinian groups of small Hausdorff dimension are classical Schottky groups I
+	Fractal Models for Normal Subgroups of Schottky Groups
+	Dimensions of Kleinian orbital sets
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	On the limit set of a geometrically infinite Kleinian group
+	Wild Knots as limit sets of Kleinian Groups
+10.1007/s40315-014-0078-7	Limit set intersection theorems for Kleinian groups and a conjecture of Susskind
+10.1007/s00209-026-04018-3	On groups with Schottky set boundary
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1515/jgth-2019-0045	Schur multipliers of special p-groups of rank 2
+10.1215/00127094-2020-0058	Kleinian Schottky groups, Patterson-Sullivan measures and Fourier decay
+	On Automorphisms of Finite $p$-groups
+	Lorentzian Kleinian Groups
+	The classification of Kleinian groups of Hausdorff dimensions at most one

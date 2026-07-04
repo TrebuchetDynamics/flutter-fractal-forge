@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-07-02T03:59:00Z",
+  "queries": [
+    "\"The Sonification Handbook\" parameter mapping sonification",
+    "\"Auditory Display\" sonification parameter mapping pitch loudness brightness",
+    "\"image sonification\" brightness pitch scanline",
+    "\"Fractal music\" Mandelbrot sonification",
+    "\"auditory graph\" pitch mapping function sonification",
+    "\"Timbre space\" sonification brightness texture"
+  ],
+  "sources": [
+    "crossref",
+    "semantic-scholar"
+  ],
+  "limit": 10,
+  "results": 70,
+  "deduped": 57,
+  "failures": 5
+}

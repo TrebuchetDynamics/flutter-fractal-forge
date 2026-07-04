@@ -1,0 +1,20 @@
+	Purely unrectifiable sets, fractal percolation and graphs of functions
+10.1016/0375-9601(88)90878-x	Fractal basin boundary in dynamical systems and the Weierstrass-Takagi functions
+	On the $p^{\text{th}}$ variation of a class of fractal functions
+10.1134/s1064562417020016	Fractal functions with continuous Weil-type derivatives of variable order in control of distributed systems
+10.1134/s1064562417020016	Fractal functions with continuous Weil-type derivatives of variable order in control of distributed systems
+	Prime-Anchored Oscillatory Fractals: A Visual Exploration of Primes through Helical Weierstrass Functions
+10.1007/978-981-16-0174-3_3	Dimension Theory of Some Non-Markovian Repellers Part II: Dynamically Defined Function Graphs
+10.1029/95gl02548	Further evidence of fractal structure in hydraulic conductivity distributions
+10.1007/s11771-011-0865-5	Synthesis of fractal geometry and CAGD models for multi-scale topography modelling of functional surfaces
+10.1016/j.atmosres.2005.12.012	Limitations of fractal dimension estimation algorithms with implications for cloud studies
+10.3103/s8756699014040025	Synthesis of stochastic images with given fractal dimension
+10.3103/s1066369x1209006x	Periodic dyadic wavelets and coding of fractal functions
+10.3103/s1066369x1209006x	Periodic dyadic wavelets and coding of fractal functions
+	LATTICE MODELS AND FRACTAL MEASURES
+10.1007/s10474-008-7220-9	Irregular 1-sets on the graphs of continuous functions
+10.1007/bf01178243	Parametric homogeneity and non-classical self-similarity. I. Mathematical background
+	THE BERNOULLI OPERATOR
+	A crisis of intuition as viewed by Felix Klein and Hans Hahn and its resolution by fractal geometry
+	Symmetries of Period-Doubling Maps
+	Introduction to the Special Issue on Internet Geometry and Geography

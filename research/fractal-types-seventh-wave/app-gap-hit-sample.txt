@@ -1,0 +1,103 @@
+lib/features/renderer/cpu/academic_expansion_formula_helpers.dart:116:bool bedfordMcMullenContains(double x, double y, int depth) {
+lib/features/renderer/cpu/academic_expansion_formula_helpers.dart:220:(double r, double g, double b) _cpu_bedford_mcmullen_carpet(
+lib/features/renderer/cpu/academic_expansion_formula_helpers.dart:227:  final inside = bedfordMcMullenContains(x + 0.5, y + 0.5, 10);
+lib/features/renderer/cpu/cpu_iterators.dart:69:  'gingerbreadman': _proxyFromColor('gingerbreadman'),
+lib/features/renderer/cpu/cpu_formulas.dart:94:  'bedford_mcmullen_carpet': _cpu_bedford_mcmullen_carpet,
+lib/features/renderer/cpu/cpu_formulas.dart:113:  'gingerbreadman': _cpu_gingerbreadman,
+lib/features/renderer/cpu/cpu_formulas.dart:114:  'lozi': _cpu_lozi,
+lib/features/renderer/cpu/cpu_formulas.dart:266:  'mcmullen_map': _cpu_mcmullen_map,
+lib/features/renderer/cpu/cpu_formulas.dart:267:  'generalized_mcmullen': _cpu_generalized_mcmullen,
+lib/features/renderer/cpu/cpu_formulas.dart:1991:(double r, double g, double b) _cpu_gingerbreadman(
+lib/features/renderer/cpu/cpu_formulas.dart:1998:  // Ported from shaders/strange_attractors/discrete_maps/gingerbreadman_gpu.frag (CPU approximation, seed=0x29b691a7)
+lib/features/renderer/cpu/cpu_formulas.dart:2002:(double r, double g, double b) _cpu_lozi(
+lib/features/renderer/cpu/cpu_formulas.dart:2009:  // Ported from shaders/strange_attractors/discrete_maps/lozi_gpu.frag (CPU approximation, seed=0xc91e8591)
+lib/features/renderer/cpu/cpu_formulas.dart:3936:// ── McMullen Map ────────────────────────────────────────────────────────────
+lib/features/renderer/cpu/cpu_formulas.dart:3939:(double r, double g, double b) _cpu_mcmullen_map(
+lib/features/renderer/cpu/cpu_formulas.dart:3982:// ── Generalized McMullen ────────────────────────────────────────────────────
+lib/features/renderer/cpu/cpu_formulas.dart:3985:(double r, double g, double b) _cpu_generalized_mcmullen(
+lib/core/modules/module_registry.dart:28:import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart';
+lib/core/modules/module_registry.dart:170:    result.addAll(buildSharedLoziCatalogModules());
+lib/core/modules/julia_dual_module.dart:82:      preset('siegel', 'Siegel Disk', -0.391, -0.587, 2),
+lib/core/modules/julia_module.dart:125:      // Siegel Disk - circular patterns with intricate borders
+lib/core/modules/julia_module.dart:128:        name: 'Siegel Disk',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:1:// GENERATED — reviewed Lozi coefficient-map promotions.
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:2:// Source: existing-app Lozi metadata aliases with explicit a,b values.
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:12:class SharedLoziCatalogEntry {
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:18:  const SharedLoziCatalogEntry({
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:26:const List<SharedLoziCatalogEntry> sharedLoziCatalogEntries = [
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:27:  SharedLoziCatalogEntry(
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:28:    id: 'f1095_lozi_classic',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:29:    name: 'Lozi Classic',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:33:  SharedLoziCatalogEntry(
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:34:    id: 'f1096_lozi_saddle',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:35:    name: 'Lozi Saddle',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:39:  SharedLoziCatalogEntry(
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:40:    id: 'f1097_lozi_edge',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:41:    name: 'Lozi Edge',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:45:  SharedLoziCatalogEntry(
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:46:    id: 'f1098_lozi_compact',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:47:    name: 'Lozi Compact',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:51:  SharedLoziCatalogEntry(
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:52:    id: 'f1099_lozi_strange',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:53:    name: 'Lozi Strange',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:57:  SharedLoziCatalogEntry(
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:58:    id: 'f1100_lozi_wide',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:59:    name: 'Lozi Wide',
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:65:List<FractalModule> buildSharedLoziCatalogModules() => sharedLoziCatalogEntries
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:66:    .map(_buildSharedLoziModule)
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:69:FractalModule _buildSharedLoziModule(SharedLoziCatalogEntry entry) {
+lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart:92:    shaderAsset: 'shaders/strange_attractors/lozi_gpu.frag',
+lib/core/modules/builders/shared_catalogs/shared_exact_attractor_catalog.dart:186:    id: 'f0205_lozi_map',
+lib/core/modules/builders/shared_catalogs/shared_exact_attractor_catalog.dart:187:    name: 'Lozi Map',
+lib/core/modules/builders/shared_catalogs/shared_exact_attractor_catalog.dart:188:    shaderAsset: 'shaders/strange_attractors/lozi_gpu.frag',
+lib/core/modules/builders/shared_catalogs/shared_exact_attractor_catalog.dart:191:    id: 'f0206_gingerbreadman_map',
+lib/core/modules/builders/shared_catalogs/shared_exact_attractor_catalog.dart:192:    name: 'Gingerbreadman Map',
+lib/core/modules/builders/shared_catalogs/shared_exact_attractor_catalog.dart:193:    shaderAsset: 'shaders/strange_attractors/gingerbreadman_gpu.frag',
+lib/core/modules/builders/shared_catalogs/shared_exact_attractor_catalog.dart:302:          'shaders/strange_attractors/lozi_gpu.frag') {
+lib/core/modules/builders/shared_catalogs/shared_julia_catalog.dart:66:      name: "Siegel Disk Julia",
+lib/core/modules/builders/escape_time_catalog/ifs_geometric_fractals.dart:228:    id: 'bedford_mcmullen_carpet',
+lib/core/modules/builders/escape_time_catalog/ifs_geometric_fractals.dart:229:    name: 'Bedford-McMullen Carpet',
+lib/core/modules/builders/escape_time_catalog/ifs_geometric_fractals.dart:230:    shaderAsset: 'shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:210:    id: 'mcmullen_map',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:211:    name: 'McMullen Map',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:213:        'shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:249:        id: 'mcmullen-classic',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:250:        moduleId: 'mcmullen_map',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:267:        id: 'mcmullen-spiral',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:268:        moduleId: 'mcmullen_map',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:288:    id: 'generalized_mcmullen',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:289:    name: 'Generalized McMullen',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:291:        'shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:354:        id: 'generalized-mcmullen-symmetric',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:355:        moduleId: 'generalized_mcmullen',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:375:        id: 'generalized-mcmullen-asymmetric',
+lib/core/modules/builders/escape_time_catalog/batch_18_web_researched.dart:376:        moduleId: 'generalized_mcmullen',
+lib/core/modules/builders/escape_time_catalog/rational_polynomial.dart:115:    name: 'Complex Hénon Julia Slice',
+lib/core/modules/builders/escape_time_catalog/maps_attractors.dart:30:    id: 'gingerbreadman',
+lib/core/modules/builders/escape_time_catalog/maps_attractors.dart:31:    name: 'Gingerbreadman Map',
+lib/core/modules/builders/escape_time_catalog/maps_attractors.dart:32:    shaderAsset: 'shaders/strange_attractors/gingerbreadman_gpu.frag',
+lib/core/modules/builders/escape_time_catalog/maps_attractors.dart:37:    id: 'lozi',
+lib/core/modules/builders/escape_time_catalog/maps_attractors.dart:38:    name: 'Lozi Map',
+lib/core/modules/builders/escape_time_catalog/maps_attractors.dart:39:    shaderAsset: 'shaders/strange_attractors/lozi_gpu.frag',
+lib/core/modules/builders/escape_time_catalog/batch_16_novel_dynamics.dart:32:    id: 'blaschke',
+lib/core/modules/builders/escape_time_catalog/batch_16_novel_dynamics.dart:33:    name: 'Blaschke Product',
+lib/core/modules/builders/escape_time_catalog/batch_16_novel_dynamics.dart:35:        'shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag',
+lib/core/modules/builders/escape_time_catalog/batch_16_novel_dynamics.dart:40:        id: 'blaschke-cantor',
+lib/core/modules/builders/escape_time_catalog/batch_16_novel_dynamics.dart:41:        moduleId: 'blaschke',
+lib/core/modules/builders/escape_time_catalog/batch_16_novel_dynamics.dart:48:        id: 'blaschke-relief',
+lib/core/modules/builders/escape_time_catalog/batch_16_novel_dynamics.dart:49:        moduleId: 'blaschke',
+lib/core/modules/builders/escape_time_catalog/batch_16_novel_dynamics.dart:50:        name: 'Blaschke Relief',
+lib/core/widgets/catalog_thumbnail.dart:72:  'gingerbreadman',
+shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag:3:// Bedford-McMullen self-affine carpet digit test on a 3x4 grid.
+shaders/strange_attractors/gingerbreadman_gpu.frag:74:    // Gingerbreadman is a bounded chaotic map for much of the default view;
+shaders/escape_time_family/transcendental_maps/complex_henon_julia_slice_gpu.frag:3:// Complex Hénon Julia slice: H_{a,c}(z,w)=(z^2+c-a*w, z).
+shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag:5:// Blaschke product Julia set: B(z) = z² · (z − a) / (1 − ā·z),  a = 2 (fixed).
+shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag:5:// McMullen Rational Map: z → z^n + a / z^n
+shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag:5:// Generalized McMullen Map: z → z^n + a / z^m + b
+shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag:6:// Extends the classic McMullen rational map by allowing independent powers
+pubspec.yaml:169:    - shaders/strange_attractors/gingerbreadman_gpu.frag
+pubspec.yaml:170:    - shaders/strange_attractors/lozi_gpu.frag
+pubspec.yaml:204:    - shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag
+pubspec.yaml:463:    - shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag
+pubspec.yaml:474:    - shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag
+pubspec.yaml:475:    - shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag

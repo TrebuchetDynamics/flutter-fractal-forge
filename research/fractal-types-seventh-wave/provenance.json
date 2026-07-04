@@ -1,0 +1,92 @@
+{
+  "question": "research more fractals to add",
+  "rforge_version": "rforge v0.1.14-4-g96621ca-dirty (96621ca, 2026-06-30T23:00:23Z)",
+  "timestamp": "2026-07-02T23:06:46Z",
+  "depth": "standard",
+  "queries": [
+    "McMullen maps Julia sets fractal visualization rational maps",
+    "Blaschke product Julia sets basins fractal visualization",
+    "complex Henon map Julia set fractal visualization",
+    "Herman rings Siegel disks Julia set visualization complex dynamics",
+    "fractal percolation random recursive carpets visualization",
+    "random iterated function systems superfractals rendering",
+    "Lorenz system basin boundaries fractal visualization nonlinear dynamics",
+    "Julia sets of special functions Bessel Airy gamma fractal visualization",
+    "Herman ring rational maps fractal visualization",
+    "Siegel disk Herman ring Fatou components Julia set rendering",
+    "Mandelbrot percolation random Sierpinski carpet fractal visualization",
+    "random iterated function systems superfractals visualization rendering",
+    "Julia sets Bessel functions complex dynamics fractal",
+    "Newton fractal Bessel Airy gamma functions",
+    "Baker domains wandering domains transcendental entire functions Julia sets visualization",
+    "Sierpinski curve Julia sets rational maps visualization"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "search_stats": {
+    "first_pass": {
+      "records": 485,
+      "unique_dois": 411,
+      "openalex": 82,
+      "crossref": 160,
+      "semantic_scholar": 83,
+      "arxiv": 160
+    },
+    "gap_pass": {
+      "records": 456,
+      "unique_dois": 422,
+      "openalex": 96,
+      "crossref": 160,
+      "semantic_scholar": 60,
+      "arxiv": 140
+    }
+  },
+  "citation_expand_attempted": [
+    "10.1007/s12220-017-9764-9",
+    "10.1090/ecgd/380",
+    "10.1112/jlms/jdn030",
+    "10.1007/bf02179876",
+    "10.1103/physreve.54.4590",
+    "10.1017/cbo9781107590168.006",
+    "10.1016/j.amc.2016.02.025",
+    "10.1142/s021812740400903x",
+    "10.1016/0097-8493(94)90169-4"
+  ],
+  "citation_expand_succeeded": [
+    "10.1007/s12220-017-9764-9",
+    "10.1090/ecgd/380",
+    "10.1112/jlms/jdn030",
+    "10.1007/bf02179876",
+    "10.1103/physreve.54.4590",
+    "10.1016/j.amc.2016.02.025",
+    "10.1142/s021812740400903x"
+  ],
+  "outputs": [
+    "report.md",
+    "provenance.json",
+    "queries.txt",
+    "queries-gap.txt",
+    "coverage-stats.log",
+    "gap-pass/coverage-stats.log",
+    "app-gap-check.txt",
+    "app-gap-check-extra.txt",
+    "app-gap-hit-sample.txt",
+    "results.jsonl",
+    "gap-pass/results.jsonl",
+    "citations/*.json",
+    "citations/*.md"
+  ],
+  "errors": [
+    "Semantic Scholar live search returned HTTP 429 for 8 query/source attempts across both passes.",
+    "arXiv returned HTTP 503 for the gap-pass Sierpinski curve Julia query.",
+    "Citation expansion failed for 10.1017/cbo9781107590168.006 with HTTP 404 and for 10.1016/0097-8493(94)90169-4 with HTTP 429.",
+    "No full text was fetched; report is based on metadata/search results and citation graph metadata."
+  ],
+  "human_gates": [
+    "No screening decisions, full-text acquisition, package export, or final scientific-claim approval was self-approved."
+  ]
+}

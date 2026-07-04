@@ -1,0 +1,6 @@
+{"source":"semantic-scholar","query":"Siegel disk Herman ring Fatou components Julia set rendering","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"random iterated function systems superfractals visualization rendering","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"Julia sets Bessel functions complex dynamics fractal","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"Baker domains wandering domains transcendental entire functions Julia sets visualization","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"Sierpinski curve Julia sets rational maps visualization","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"arxiv","query":"Sierpinski curve Julia sets rational maps visualization","error":"source HTTP status 503"}

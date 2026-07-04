@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "id": "012faca1b88b2fb87b0f4d384f9c5c70f2ce3ca2"
+    },
+    {
+      "id": "02018a7581f5ef43d4698be8ac915ec55a58193a"
+    },
+    {
+      "id": "10.3390/fractalfract5030073"
+    },
+    {
+      "id": "20814c03c14aeabf5675180c36f9f4c49e032c26"
+    },
+    {
+      "id": "24b5033294134fdb9863869ff52043c0a7490a43"
+    },
+    {
+      "id": "2e33842d93ddf0369f13388854702bc536a663fd"
+    },
+    {
+      "id": "31738bd65d0f89c625ba0dce048db74320a47bc9"
+    },
+    {
+      "id": "3fff57b1bdf24e3c937cfae5ab7d44555c8a7234"
+    },
+    {
+      "id": "4c61e3287973c303923af97484aa54b093cfabfa"
+    },
+    {
+      "id": "537a6cf78f2ca777ff199956d8801f83620ccd8d"
+    },
+    {
+      "id": "55fecf422635290deeaeccfa81e7a629d86b0e2d"
+    },
+    {
+      "id": "56dfb51e3155e6e859842f5f045f66174a2a23a2"
+    },
+    {
+      "id": "5957ec84c87bb4b6ea8c73e58b74fa75eca7cd66"
+    },
+    {
+      "id": "7084da18ed84c8f76a9c0c836283b7537611125f"
+    },
+    {
+      "id": "8572b998267c5897135010aa93d284ea33c96343"
+    },
+    {
+      "id": "8e6c519fe5abc08c144b529e027f0c1eef30a39b"
+    },
+    {
+      "id": "960b4bd00386561c4aff7d2864789ea86f029068"
+    },
+    {
+      "id": "9b6c816dc09eb31e192741f7775a955f86ad3a16"
+    },
+    {
+      "id": "aa2338cd8bae1fdfd63770bb75721e09b558e5b8"
+    },
+    {
+      "id": "b65b5278b70301e5a44aa6f742f0e728c8dc6f8c"
+    },
+    {
+      "id": "bd09d351452960bf112d35a2c4f41cce17be188a"
+    },
+    {
+      "id": "cd38110d240c8133d3f67fea6d293d30fb10cda8"
+    },
+    {
+      "id": "cd74e66b2e9aa47f9709f2a54ee1e9357c6de865"
+    },
+    {
+      "id": "d1f30625247621396fc8da855f9c9c2b9dcda2ec"
+    },
+    {
+      "id": "df4e62ad61dd83f2f60cfbe1f46e5aa829f251ac"
+    },
+    {
+      "id": "ff92cade366fb9942512c2c57c84158f15c4ee82"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "012faca1b88b2fb87b0f4d384f9c5c70f2ce3ca2"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "02018a7581f5ef43d4698be8ac915ec55a58193a"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "31738bd65d0f89c625ba0dce048db74320a47bc9"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "3fff57b1bdf24e3c937cfae5ab7d44555c8a7234"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "4c61e3287973c303923af97484aa54b093cfabfa"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "55fecf422635290deeaeccfa81e7a629d86b0e2d"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "56dfb51e3155e6e859842f5f045f66174a2a23a2"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "5957ec84c87bb4b6ea8c73e58b74fa75eca7cd66"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "8572b998267c5897135010aa93d284ea33c96343"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "8e6c519fe5abc08c144b529e027f0c1eef30a39b"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "960b4bd00386561c4aff7d2864789ea86f029068"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "9b6c816dc09eb31e192741f7775a955f86ad3a16"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "bd09d351452960bf112d35a2c4f41cce17be188a"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "cd38110d240c8133d3f67fea6d293d30fb10cda8"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "cd74e66b2e9aa47f9709f2a54ee1e9357c6de865"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "d1f30625247621396fc8da855f9c9c2b9dcda2ec"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "df4e62ad61dd83f2f60cfbe1f46e5aa829f251ac"
+    },
+    {
+      "source": "10.3390/fractalfract5030073",
+      "target": "ff92cade366fb9942512c2c57c84158f15c4ee82"
+    },
+    {
+      "source": "20814c03c14aeabf5675180c36f9f4c49e032c26",
+      "target": "10.3390/fractalfract5030073"
+    },
+    {
+      "source": "24b5033294134fdb9863869ff52043c0a7490a43",
+      "target": "10.3390/fractalfract5030073"
+    },
+    {
+      "source": "2e33842d93ddf0369f13388854702bc536a663fd",
+      "target": "10.3390/fractalfract5030073"
+    },
+    {
+      "source": "537a6cf78f2ca777ff199956d8801f83620ccd8d",
+      "target": "10.3390/fractalfract5030073"
+    },
+    {
+      "source": "7084da18ed84c8f76a9c0c836283b7537611125f",
+      "target": "10.3390/fractalfract5030073"
+    },
+    {
+      "source": "aa2338cd8bae1fdfd63770bb75721e09b558e5b8",
+      "target": "10.3390/fractalfract5030073"
+    },
+    {
+      "source": "b65b5278b70301e5a44aa6f742f0e728c8dc6f8c",
+      "target": "10.3390/fractalfract5030073"
+    }
+  ]
+}

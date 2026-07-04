@@ -1,0 +1,20 @@
+10.1103/revmodphys.91.015006	Topological photonics
+10.1007/s00332-008-9023-0	Laplacian Instability of Planar Streamer Ionization Fronts—An Example of Pulled Front Analysis
+10.1111/j.1469-7580.2011.01386.x	A bidirectional interface growth model for cranial interosseous suture morphogenesis
+10.1088/1361-6595/abaa05	The physics of streamer discharge phenomena
+10.5772/67941	Fractal to Non-Fractal Morphological Transitions in Stochastic Growth Processes
+10.6028/jres.105.068	Accelerating scientific discovery through computation and visualization
+10.1109/access.2020.3022292	Analysis of Partial Discharges in Electrical Tree Growth Under Very Low Frequency (VLF) Excitation Through Pulse Sequence and Nonlinear Time Series Analysis
+	Transport and dielectric properties of thin fullerene (C₆₀) films
+10.13140/rg.2.2.24206.38722	Simulating electron-avalanche-driven positive streamers in dielectric liquids
+10.3390/app13042049	Dynamic Mechanism of Dendrite Formation in Zhoukoudian, China
+10.15781/t25g6q	Understanding unstable immiscible displacement in porous media
+	Large Scale Simulations of Complex Systems Part I: Conceptual Framework
+10.1016/j.triboint.2025.111326	Modeling in tribology: Recent advances, applications, and open questions
+10.48550/arxiv.2309.09681	Non-Hermitian physics and topological phenomena in convective thermal metamaterials
+10.48550/arxiv.1601.01713	Following the evolution of metastable glassy states under external\n perturbations: compression and shear-strain
+10.32469/10355/98768	Lippmann's legacy : the evolution of electrowetting and its impact on wettability
+10.48550/arxiv.2309.12770	Radiative metamaterials based on effective-medium theory
+10.5821/dissertation-2117-94620	Study on conduction mechanismes of mediun voltage cable XLPE insulation in the melting range of temperatures.
+10.48550/arxiv.1601.01713	Following the evolution of metastable glassy states under external perturbations: compression and shear-strain
+	Asymptotic dynamics and control of spiral and scroll waves

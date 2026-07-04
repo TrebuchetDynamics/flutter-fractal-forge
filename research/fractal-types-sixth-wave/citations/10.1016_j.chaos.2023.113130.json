@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "id": "10.1016/j.chaos.2023.113130"
+    },
+    {
+      "id": "4ec188b8ad13045725ce7d2ef4b15a7701309ee3"
+    },
+    {
+      "id": "5ce61500e8fa8cb1ba36e3fd8458c424e3832744"
+    },
+    {
+      "id": "691dd77cb0137f874545445da7004b857b298990"
+    },
+    {
+      "id": "69752e193e1b5bfb7d0938bb9748f78a0b2c02d7"
+    },
+    {
+      "id": "6c309a6f1908bc0febdd0b6154945c76ca410ffe"
+    },
+    {
+      "id": "b43dce13d0306d119b41bee1a1cdb3eed187fc00"
+    },
+    {
+      "id": "ffdba1dbe98c0a91ebb9731f5d2d03a5be51366c"
+    }
+  ],
+  "edges": [
+    {
+      "source": "4ec188b8ad13045725ce7d2ef4b15a7701309ee3",
+      "target": "10.1016/j.chaos.2023.113130"
+    },
+    {
+      "source": "5ce61500e8fa8cb1ba36e3fd8458c424e3832744",
+      "target": "10.1016/j.chaos.2023.113130"
+    },
+    {
+      "source": "691dd77cb0137f874545445da7004b857b298990",
+      "target": "10.1016/j.chaos.2023.113130"
+    },
+    {
+      "source": "69752e193e1b5bfb7d0938bb9748f78a0b2c02d7",
+      "target": "10.1016/j.chaos.2023.113130"
+    },
+    {
+      "source": "6c309a6f1908bc0febdd0b6154945c76ca410ffe",
+      "target": "10.1016/j.chaos.2023.113130"
+    },
+    {
+      "source": "b43dce13d0306d119b41bee1a1cdb3eed187fc00",
+      "target": "10.1016/j.chaos.2023.113130"
+    },
+    {
+      "source": "ffdba1dbe98c0a91ebb9731f5d2d03a5be51366c",
+      "target": "10.1016/j.chaos.2023.113130"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+	Unmating of expanding Thurston maps with Julia set $\mathbb{S}^2$
+	Invariant graphs, tilings, and iterated monodromy groups
+10.1112/plms.12118	Exponential growth of some iterated monodromy groups
+10.1109/iv.1997.626469	Visualization of controllable regions in real-time systems using a 3D-Julia set methodology
+10.1017/cbo9780511842467.004	Iterated Monodromy Groups
+10.1109/icoict49345.2020.9166282	Fractal Batik Motifs Generation Using Variations of Parameters in Julia Set Function
+	ec 2 00 3 Iterated Monodromy Groups
+10.3390/fractalfract5030073	Visualization of Mandelbrot and Julia Sets of Möbius Transformations
+10.1016/j.aim.2013.12.031	Hyperbolic polynomial diffeomorphisms of C2. III: Iterated monodromy groups
+	Application of Fractal Graphics in Clothing Pattern Design Based on Julia Set
+	The Generation and Study of Communicative Hypercomplex Julia Set
+10.1080/13873954.2025.2500444	Hybrid Picard S-iteration for escape analysis, symmetry, computational insights, and visualization of complex fractals
+10.19139/soic-2310-5070-1918	Julia sets of transcendental functions via a viscosity approximation-type iterative method with s-convexity
+10.1090/conm/394/07434	On the Growth of Iterated Monodromy Groups
+10.19139/soic-2310-5070-2089	Fractal as Julia sets of complex functions via a new generalized viscosity approximation type iterative method
+10.3390/sym17071028	Generation of Julia and Mandelbrot Sets for a Complex Function via Jungck-Noor Iterative Method with s-Convexity
+10.29020/nybg.ejpam.v18i4.6896	Mathematical Visualization of Fractal-Based Batik Designs
+10.3390/axioms14040322	Generation of Julia Sets for a Novel Class of Generalized Rational Functions via Generalized Viscosity Iterative Method
+10.1088/1402-4896/adc958	Dynamics of Julia and Mandelbrot sets: viscosity approximation method with h-convexity
+	$p$-adic alternated Julia sets

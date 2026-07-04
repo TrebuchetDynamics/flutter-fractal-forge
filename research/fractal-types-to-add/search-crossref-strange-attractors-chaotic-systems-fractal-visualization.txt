@@ -1,0 +1,20 @@
+10.1007/978-0-387-21830-4_9	Strange attractors and chaotic motions of dynamical systems
+10.1007/978-3-032-09854-2_7	Generating Multiscroll Chaotic Attractors from Fractional-Fractal Systems
+10.1017/cbo9780511803260.005	Strange attractors and fractal dimension
+10.2172/6441057	Statistical properties of chaotic dynamical systems which exhibit strange attractors
+10.1007/978-1-4615-3464-8_5	Determination of Fractal Dimensions and Generalized Entropies for Strange Attractors
+10.1017/cbo9780511608773.007	Attracting sets and attractors
+10.21203/rs.3.rs-7858725/v1	Nonlinear dynamical systems, strange attractors and economic cycles: Towards a chaotic modeling of macroeconomic fluctuations
+10.1017/cbo9780511608773	Chaotic Evolution and Strange Attractors
+10.1017/cbo9780511608773.019	Bibliography
+10.1201/b22063-5	Strange attractors and continuous-time chaotic systems
+10.1017/cbo9780511608773.017	Conclusions
+10.1017/cbo9780511608773.016	Resonances
+10.1017/cbo9780511608773.018	References
+10.1017/cbo9780511608773.002	Introduction
+10.1017/cbo9780511608773.014	Entropy
+10.1017/cbo9780511608773.015	Dimensions
+10.1017/cbo9780511608773.001	Foreword
+10.1515/9783110430585-006	5. Chaos and Fractal Attractors in Dissipative Systems
+10.1109/ccdc.2009.5194925	Synchronization of uncertain chaotic systems with double strange attractors
+10.1017/cbo9780511608773.010	Physical measures

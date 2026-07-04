@@ -1,0 +1,20 @@
+10.1038/srep31416	Basin entropy: a new tool to analyze uncertainty in dynamical systems
+10.1155/2013/509496	Convergence Region of Newton Iterative Power Flow Method: Numerical Studies
+10.1146/annurev-fluid-051820-020223	Exact Coherent States and the Nonlinear Dynamics of Wall-Bounded Turbulent Flows
+10.1016/j.cnsns.2014.02.010	An adaptive Newton-method based on a dynamical systems approach
+10.1016/j.jhydrol.2016.03.026	An overview of current applications, challenges, and future trends in distributed process-based models in hydrology
+10.1142/s0218348x18400029	SPONTANEOUS IMBIBITION PROCESS IN MICRO–NANO FRACTAL CAPILLARIES CONSIDERING SLIP FLOW
+10.3390/ijerph17217988	Cultivated Land Change, Driving Forces and Its Impact on Landscape Pattern Changes in the Dongting Lake Basin
+10.1016/s0079-6611(02)00138-6	Transparent exopolymer particles (TEP) in aquatic environments
+10.1016/j.quageo.2010.08.003	Tephrochronology and its application: A review
+10.3390/sym15020330	A Novel Three-Step Numerical Solver for Physical Models under Fractal Behavior
+10.1029/2021wr031760	A Lubrication‐Based Solver for Shear‐Thinning Flow in Rough Fractures
+10.3390/fractalfract9020114	Fractal Dimension Time Series and Interaction Between Entropic Surfaces of Urban Meteorology and Pollutants in a Geographic Basin: Dynamic Effects, Thermal Flows and Anomalous Diffusion
+10.1007/s10462-023-10470-y	An exhaustive review of the metaheuristic algorithms for search and optimization: taxonomy, applications, and open challenges
+10.1063/1.2212987	Accumulation of heavy particles in N-vortex flow on a disk
+10.1029/2020wr029500	Global Groundwater Modeling and Monitoring: Opportunities and Challenges
+	Fluid Flow in the Subsurface History, Generalization and Applications of Physical Laws
+10.5539/cis.v5n4p25	Simulation and Visualization of Chaotic Systems
+10.1186/1742-4682-3-25	Parameter estimation in biochemical systems models with alternating regression
+10.1007/978-3-030-81362-8_5	Propagation of Uncertainties in Density-Driven Flow
+10.3390/pr11113185	Seepage Simulation of Conglomerate Reservoir Based on Digital Core: A Case Study of the Baikouquan Formation in Mahu Sag, Junggar Basin

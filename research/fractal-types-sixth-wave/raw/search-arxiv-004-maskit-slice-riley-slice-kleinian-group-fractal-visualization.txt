@@ -1,0 +1,20 @@
+10.1090/s1088-4173-08-00187-2	An extension of the Maskit slice for 4-dimensional Kleinian groups
+	Linear slices close to a Maskit slice
+	Pseudo-slice knots
+10.1088/0264-9381/22/21/008	Slice Stretching Effects for Maximal Slicing of a Schwarzschild Black Hole
+10.1016/j.exmath.2022.12.002	Approximations of the Riley slice
+	The Zero Slice of Quaternionic Real Bordism
+	On the geometry of the slice of trace--free SL(2,C)-characters of a knot group
+	The ideals of the slice Burnside p-biset functor
+	Sheets, slice induction and G2(2) case
+10.1007/s00029-018-0435-x	On classical upper bounds for slice genera
+	The Riley slice revisited
+	Boundary Julia theory for slice regular functions
+	Slice knots with distinct Ozsvath-Szabo and Rasmussen Invariants
+	Distinguishing properties of weak slice conditions II
+10.1017/s1474748024000276	The slice-Bennequin inequality for the fractional Dehn twist coefficient
+	Smoothly slice boundary links whose derivative links have nonvanishing Milnor invariants
+10.1080/10586458.2017.1353453	On calculating the slice genera of 11- and 12-crossing knots
+	A two-dimensional slice through the parameter space of two-generator Kleinian groups
+	A Slice Theorem for singular Riemannian foliations, with applications
+10.1112/jlms.12412	Nondiscrete parabolic characters of the free group $F_2$: supergroup density and Nielsen classes in the complement of the Riley slice

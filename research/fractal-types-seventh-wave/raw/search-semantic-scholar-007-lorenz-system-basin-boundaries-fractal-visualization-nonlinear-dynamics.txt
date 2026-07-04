@@ -1,0 +1,20 @@
+10.1016/s0960-0779(01)00121-7	Chaotic attractors, chaotic saddles, and fractal basin boundaries: Goodwin's nonlinear accelerator model reconsidered
+10.1126/science.238.4827.632	Chaos, Strange Attractors, and Fractal Basin Boundaries in Nonlinear Dynamics
+10.1007/s11012-025-02068-1	Dynamics comparison of bistable and tristable configurations in a geometrically nonlinear electromagnetic energy harvesting system
+10.1007/bf01858294	Fractal basin boundaries in a two-degree-of-freedom nonlinear system
+10.1007/s11071-023-08913-w	Sharp changes in fractal basin of attraction in passive dynamic walking
+10.2514/1.j065758	Periodic Oscillations to Chaos: Nonlinear Dynamics of a Tristable Piezoelectric Flutter System
+10.1007/s11071-023-08382-1	Generation mechanisms of strange nonchaotic attractors and multistable dynamics in a class of nonlinear economic systems
+10.1142/s0218127422502352	Complicated Boundaries of the Attraction Basin in a Class of Three-Dimensional Polynomial Systems
+10.1115/1.4068930	Nonlinear Dynamics of a Three-Degree-of-Freedom Shaft Driveline Coupled With a Series of Universal Joints With Clearances
+10.1142/s0217732326500847	Chaos, Bifurcations, and Fractal Phase-Space Structures in a Relativistic Kicked Hamiltonian with Modified Dispersion Relations
+10.1007/s11071-026-12461-4	Basin boundary metamorphoses due to changes in accessible boundary orbits in passive dynamic walking
+10.1007/s11071-023-08391-0	A deep generative framework for data-driven surrogate modeling and visualization of parameterized nonlinear dynamical systems
+10.1142/s0218127414500345	Coexisting Hidden Attractors in a 4-D Simplified Lorenz System
+10.1016/s0960-0779(02)00108-x	Boundary crises, fractal basin boundaries, and electric power collapses
+10.1063/1.1481546	Modifying fractal basin boundaries by reshaping periodic terms
+10.1016/j.physd.2020.132779	Statistical basin of attraction in time-delayed cutting dynamics: Modelling and computation
+10.1103/physrevlett.55.1439	Fractal basin boundaries and homoclinic orbits for periodic motion in a two-well potential.
+10.1007/978-1-4419-6987-3_5	Fractal Basin Boundaries
+10.5687/iscie.7.68	Existing Conditions of Fractal Boundaries of Invariant Sets of a Class of One-Dimensional Nonlinear Discrete-Time Systems
+10.1140/epjp/s13360-022-02903-4	Effect of amplitude-modulated force on horseshoe dynamics in Briggs–Rauscher chemical system modeled by a new parametric oscillator with asymmetric potential

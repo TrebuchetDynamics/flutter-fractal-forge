@@ -1,0 +1,20 @@
+10.1007/bf02972685	Cantor necklaces and structurally unstable Sierpinski curve Julia sets for rational maps
+10.5186/aasfm.2014.3903	Sierpinski curve Julia sets for quadratic rational maps
+10.1016/j.topol.2006.03.024	Rational maps with generalized Sierpinski gasket Julia sets
+10.1007/bf03321617	Sierpiński Curve Julia Sets of Rational Maps
+10.1142/9789812770752_0011	A MYRIAD OF SIERPINSKI CURVE JULIA SETS
+10.23943/princeton/9780691159294.003.0008	Limiting behavior of Julia sets of singularly perturbed rational maps
+10.4171/011-1/5	Sierpinski Carpets and Gaskets as Julia sets of Rational Maps
+10.1112/jlms/jdn030	Sierpiński and non-Sierpiński curve Julia sets in families of rational maps
+10.3934/dcds.2005.13.1035	Buried Sierpinski curve Julia sets
+10.4064/aa241204-24-6	Arboreal Galois groups of rational maps with nonreal Julia sets
+10.1090/psapm/049/1315534	Julia sets of rational maps
+10.1088/0951-7715/13/1/308	Julia sets of postcritically finite rational maps and topological self-similar sets
+10.4064/fm206-0-9	Intertwined internal rays in Julia sets of rational maps
+10.22541/au.171923771.13964201/v1	Some comments on "Generation of Mandelbrot and Julia sets for generalized rational maps using SP-iteration process equipped with s-convexity"
+10.5831/hmj.2007.29.2.205	SOME PROPERTIES OF THE JULIA SETS OF QUADRATIC RATIONAL MAPS
+10.4171/011-1/7	Semiconjugacies between the Julia sets of geometrically finite rational maps II
+10.1017/s0143385704000380	Sierpinski-curve Julia sets and singular perturbations of complex polynomials
+10.1090/conm/573/11393	Rational maps with half symmetries, Julia sets, and Multibrot sets in parameter planes
+10.47974/jim-1560	Julia sets are quasicircles for rational maps of degree N
+10.1007/bf02699537	Metric diophantine approximation in Julia sets of expanding rational maps

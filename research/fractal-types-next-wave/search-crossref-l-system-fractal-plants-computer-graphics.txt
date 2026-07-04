@@ -1,0 +1,20 @@
+10.1017/cbo9780511663031.010	Fractal Computer Graphics
+10.1145/15886.15892	Real time design and animation of fractal plants and trees
+10.1145/15922.15892	Real time design and animation of fractal plants and trees
+10.5220/0002845703700377	REAL-TIME INTERACTIVE L-SYSTEM - A Virtual Plant and Fractal Generator
+10.1109/pccga.2001.962891	Virtual autumn coloring system based on biological and fractal model
+10.1007/978-3-642-95678-2_4	Fractal Sounds
+10.1109/csss.2011.5975025	The E-Learning environment development of triangle fractal graphics programming
+10.1111/cgf.14905	A Shape Modulus for Fractal Geometry Generation
+10.3724/sp.j.1089.2018.16618	3D Printing Path Planning of Fractal Models
+10.5220/0001785300760081	GENERATING 3D PLANTS USING LINDENMAYER SYSTEM
+10.1007/978-3-642-95678-2_17	Texture Analysis Using Fractal Dimensions
+10.1007/978-3-642-95678-2_9	3D-Rendering of Fractal Landscapes
+10.1007/978-3-642-95678-2_5	Fractal Geometry in Vaporisation
+10.1111/1467-8659.1530269	Fractal modeling using free form techniques
+10.1111/1467-8659.1110061	The Fractal Nature of an Ecological Model
+10.1111/cgf.12163	An Algorithm for Random Fractal Filling of Space
+10.1007/978-3-642-84574-1_34	Random Fractal Forgeries
+10.1016/0734-189x(88)90133-8	Texture description and segmentation through fractal geometry
+10.5539/cis.v2n1p184	Generating a Simple Fractal Graphics in Computer
+10.1007/978-3-642-95678-2_10	Fractal Interpolation of Random Fields of Fractional Brownian Motion

@@ -1,0 +1,20 @@
+10.1109/visual.1994.346297	Visualization of mesoscale flow features in ocean basins
+10.1155/ddns/2006/28756	Fractal Newton basins
+10.3390/e20040259	An Efficient Computational Technique for Fractal Vehicular Traffic Flow
+10.3390/e22020176	Fractal-Like Flow-Fields with Minimum Entropy Production for Polymer Electrolyte Membrane Fuel Cells
+10.3390/e18060206	A Reliable Algorithm for a Local Fractional Tricomi Equation Arising in Fractal Transonic Flow
+10.3133/i1033e	Map showing principal drainage basins, principal runoff-producing areas, and selected stream flow data in the Kaiparowits coal-basin area, Utah
+10.1111/j.1365-2117.1994.tb00071.x	Fluid flow in sedimentary basins: model of pore water flow in a vertical fracture
+10.31219/osf.io/bvt6g_v1	Unified Framework of the Arrow of Time and Entropy Flow in Rigid Fractal Structures
+10.3390/fractalfract10040240	Chaotic Heat Flows and Kolmogorov Entropy in a Basin Geomorphology: A First Approximation Study of Their Effects on the Fractal Dimension
+10.1016/j.chaos.2021.111532	Fractal dimension of basin boundaries calculated using the basin entropy
+10.3133/wri944147	Hydrogeology and ground-water flow, fractured Mesozoic structural-basin rocks, Stony Brook, Beden Brook, and Jacobs Creek drainage basins, west-central New Jersey
+10.2118/187502-ms	Production Optimization in the Midland Basin Through Lateral Multiphase Flow Simulation
+10.1615/jflowvisimageproc.v16.i1.10	PIV MEASUREMENTS OF SURFACE FLOWS IN LABORATORY WAVE BASINS
+10.5962/bhl.title.47667	The hydrogen-bubble, flow visualization technique / by George E. Mattingly.
+10.31988/scitrends.30132	Precious Resource Basins: Facilitating Regional Transboundary Cooperation In The Eastern Nile Basin Beyond The River Flow
+10.1533/9780857099594.138	Fractal Basins of Attraction in the Inversion of Geomagnetic Data
+10.3390/e18030084	Entropy and Fractal Antennas
+10.5194/egusphere-egu26-9788	How sub-basins runoff contribute to debris flow propagation at a basin scale? A numerical study
+10.3133/b2000	Evolution of sedimentary basins: Paradox Basin
+10.1007/978-94-017-2809-6_3	Local Morphologic Controls and Effects of Basin Geometry on Flow Processes in Deep Marine Basins

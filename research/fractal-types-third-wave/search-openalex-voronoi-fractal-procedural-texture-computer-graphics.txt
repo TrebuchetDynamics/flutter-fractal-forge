@@ -1,0 +1,20 @@
+10.1145/122718.122749	Generating textures on arbitrary surfaces using reaction-diffusion
+10.1145/237170.237267	A cellular texture basis function
+10.1145/127719.122749	Generating textures on arbitrary surfaces using reaction-diffusion
+	A Survey of Procedural Methods for Terrain Modelling
+10.1145/344779.344809	Computer modelling of fallen snow
+10.1111/cgf.12821	Sparse representation of terrains for procedural modeling
+10.1007/s00371-006-0090-7	Ray casting implicit fractal surfaces with reduced affine arithmetic
+10.1109/mcg.2003.1198261	Generating organic textures with controlled anisotropy and directionality
+10.1145/186376.186392	Computer graphics education in Germany
+10.1109/access.2021.3110239	Use Procedural Noise to Achieve Backdoor Attack
+10.1145/3494885.3494953	GAN Theft Auto: Autonomous Texturing of Procedurally Generated Interactive Cities
+10.1016/j.gmod.2019.101024	Noisy gradient meshes: Augmenting gradient meshes with procedural noise
+10.62051/ijcsit.v2n1.16	An Overview of Procedurally Generating Virtual Environments
+10.15407/csc.2019.03.052	Algorithmic modifications in procedural generation systems
+	Human Skin Modelling and Rendering
+10.33915/etd.1944	Increasing the performance and realism of procedurally generated buildings
+10.48550/arxiv.2102.10553	A Comprehensive Review of Computer-aided Whole-slide Image Analysis: from Datasets to Feature Extraction, Segmentation, Classification, and Detection Approaches
+10.48550/arxiv.1912.01067	A Bayesian Inference Framework for Procedural Material Parameter Estimation
+10.11606/d.55.2019.tde-25032019-144917	Procedural Generation of Dungeon Maps, Missions and Rooms
+	Urbis Terram - Designing and Implementing a Procedural City Generation Tool for Unity3D Game Engine

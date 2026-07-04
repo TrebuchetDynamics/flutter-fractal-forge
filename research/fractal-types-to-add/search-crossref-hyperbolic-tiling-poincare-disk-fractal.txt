@@ -1,0 +1,20 @@
+10.31979/etd.rfeg-y9vg	Exploring the Poincare ́models of hyperbolic geometry using Geometer's Sketchpad
+10.20944/preprints202306.1681.v1	The Hyperbolic Ptolemy’s Theorem in the Poincare Ball Model of Analytic Hyperbolic Geometry
+10.9734/cjast/2022/v41i2531771	Investigation of Poincare Solutions of Nonlinear Duffing and Pendulum under Selected Periodic Excitations Using Fractal Disk Characterisation
+10.1017/cbo9781316036549.023	Tiling the Euclidean and hyperbolic planes
+10.21236/ada585960	Multidimensional Scaling in the Poincare Disk
+10.20944/preprints201901.0151.v1	The Line Element Approach for the Geometry of Poincare Disk
+10.2307/2589022	The Hyperbolic Pythagorean Theorem in the Poincare Disc Model of Hyperbolic Geometry
+10.3840/000649	Poincaré Hyperbolic Disk
+10.3840/07000649	Poincaré Hyperbolic Disk
+10.62072/acm.2023.060304	Trigonometric and hyperbolic Poincare, Sobolev and Hilbert-Pachpatte type inequalities
+10.7212/zkufbd.v8i2.1181	Directed suborbital graphs on the Poincare disk
+10.1017/cbo9780511618789.003	Hyperbolic metric in the unit disk
+10.1017/cbo9781107590168.005	Hyperbolic IFSs, attractors and fractal tops
+10.1016/j.anihpb.2005.01.004	Hydrodynamic limit for perturbation of a hyperbolic equilibrium point in two-component systems
+10.2307/2695674	Compass and Straightedge in the Poincare Disk
+10.2307/2306925	Hyperbolic Trigonometry Derived from the Poincare Model
+10.2307/2687140	Investigating Circles in the Poincare Disk Using Geometer's Sketchpad
+10.4172/1736-4337.1000255	On Poincare Polynomials of Hyperbolic Lie Algebras
+10.1016/j.anihpb.2005.06.001	Hausdorff–Besicovitch measure of fractal functional limit laws induced by Wiener process in Hölder norms
+10.1007/bf01403163	Undecidable tiling problems in the hyperbolic plane

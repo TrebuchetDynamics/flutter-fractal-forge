@@ -1,0 +1,20 @@
+10.1007/978-94-009-2653-0_30	Simple Models for Colloidal Aggregation, Dielectric Breakdown and Mechanical Breakdown Patterns
+10.1109/icdl.1996.565510	Computer simulation of fractal dimension in dielectric breakdown
+10.1142/9789814415798_0010	EXPERIMENTS ON LAPLACIAN GROWTH
+10.1142/9789814360234_0010	EXPERIMENTS ON LAPLACIAN GROWTH
+10.1007/978-3-642-93400-1_8	Growth by Gradients: Fractal Growth and Pattern Formation in a Laplacian Field
+10.1007/978-94-009-2653-0_31	Dielectric Breakdown Patterns with a Growth Probability Threshold
+10.1109/ceidp.1994.592025	Fractal characteristics of dielectric breakdown
+10.1103/physreve.52.1476	Dielectric-breakdown-type crack-growth models and the fractal distribution of earthquake faults
+10.1016/b978-0-444-86995-1.50030-5	PROPERTIES OF LAPLACIAN FRACTALS FOR DIELECTRIC BREAKDOWN IN 2 AND 3 DIMENSIONS
+10.1103/physrevlett.57.649	Comment on "Fractal Dimension of Dielectric Breakdown"
+10.1109/ceidp.1986.7726472	A fractal model of dielectric breakdown and prebreakdown in solid dielectrics
+10.1007/978-94-009-2147-4_11	A Fractal Study of Dielectric Breakdown in the Atmosphere
+10.1103/physrevlett.52.1033	Fractal Dimension of Dielectric Breakdown
+10.1109/icdl.1993.593938	Fractal streamer models with physical time
+10.1103/physrevlett.87.175502	Fractal to Nonfractal Phase Transition in the Dielectric Breakdown Model
+10.5353/th_b3120437	Visualization study on growth and breakdown of two-dimensional vortices from sharp-edged slits
+10.1109/ceidp.1987.7736594	Tree growth simulation associated with dielectric breakdown
+10.1142/9789814503792_0057	SCALE-INVARIANT DYNAMICS AND UNIVERSALITY CLASSES IN LAPLACIAN FRACTAL GROWTH
+10.1109/ceidp.2003.1254844	Breakdown pattern identification in high temperature dielectric films using scanning electron microscopy (SEM)
+10.1016/0167-577x(90)90067-v	Studies on the fractal structure of the dielectric breakdown in polymer sheets

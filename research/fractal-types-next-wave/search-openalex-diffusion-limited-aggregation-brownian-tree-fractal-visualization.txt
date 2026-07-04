@@ -1,0 +1,20 @@
+10.1038/srep19505	Fractality à la carte: a general particle aggregation model
+10.1039/c8sm00707a	Visualization of diffusion limited antimicrobial peptide attack on supported lipid membranes
+10.1016/j.carbon.2020.01.022	Size-dependent aggregation of graphene oxide
+10.1007/s10450-021-00314-y	Connecting theory and simulation with experiment for the study of diffusion in nanoporous solids
+10.1371/journal.pone.0041148	Fractal Dimension and Vessel Complexity in Patients with Cerebral Arteriovenous Malformations
+10.1016/j.jneumeth.2020.108951	The sensitivity of diffusion MRI to microstructural properties and experimental factors
+10.1155/2014/417305	Green Nanobiotechnology: Factors Affecting Synthesis and Characterization Techniques
+10.1371/journal.pone.0107580	Wavelet-Based 3D Reconstruction of Microcalcification Clusters from Two Mammographic Views: New Evidence That Fractal Tumors Are Malignant and Euclidean Tumors Are Benign
+10.1371/journal.pone.0187736	Diffusion-based neuromodulation can eliminate catastrophic forgetting in simple neural networks
+10.2478/s11534-009-0036-6	Simulation model of the fractal patterns in ionic conducting polymer films
+10.5194/bg-7-3799-2010	Fractal Metrology for biogeosystems analysis
+10.1016/j.physrep.2018.10.005	Complex network approaches to nonlinear time series analysis
+10.1007/s10462-023-10470-y	An exhaustive review of the metaheuristic algorithms for search and optimization: taxonomy, applications, and open challenges
+	Dynamic Light Scattering for the Characterization of Polydisperse Fractal Systems by the Example of Pyrogenic Silica
+10.5772/65699	Colloidal Aggregation Coupled with Sedimentation: A Comprehensive Overview
+10.1007/s11831-023-09928-7	A Systematic Review of the Whale Optimization Algorithm: Theoretical Foundation, Improvements, and Hybridizations
+	Sticky Pixels: Evolutionary Growth by Random Drop Ballistic Aggregation
+	Implementing Quantum Random Walks in Two-Dimensions with Application to Diffusion-Limited Aggregation
+10.3758/bf03196615	Estimation and interpretation of 1/fα noise in human cognition
+	Simulation studies on shape and growth kinetics for fractal aggregates in aerosol and colloidal systems
