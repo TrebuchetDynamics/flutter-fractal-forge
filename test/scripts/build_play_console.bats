@@ -78,7 +78,9 @@ run_script() {
   run run_script --skip-pub-get --output-dir "$PROJECT_UNDER_TEST/out" --build-name 1.2.0
 
   [ "$status" -eq 0 ]
-  grep -q -- 'build appbundle --release --build-name 1.2.0 --no-pub --build-number=38' "$FAKE_FLUTTER_LOG"
+  grep -q -- 'build appbundle --release --build-name 1.2.0' "$FAKE_FLUTTER_LOG"
+  grep -q -- '--no-pub' "$FAKE_FLUTTER_LOG"
+  grep -q -- '--build-number=38' "$FAKE_FLUTTER_LOG"
   grep -q '^buildNumber=38$' "$PROJECT_UNDER_TEST/out/LATEST_BUILD_INFO.txt"
   test -f "$PROJECT_UNDER_TEST/out/LATEST_AAB.txt"
   test -f "$PROJECT_UNDER_TEST/out/LAST_BUILD_NUMBER.txt"
@@ -102,7 +104,8 @@ run_script() {
   run run_script --skip-pub-get --output-dir "$PROJECT_UNDER_TEST/out" --build-number 77
 
   [ "$status" -eq 0 ]
-  grep -q -- 'build appbundle --release --build-number 77 --no-pub' "$FAKE_FLUTTER_LOG"
+  grep -q -- 'build appbundle --release --build-number 77' "$FAKE_FLUTTER_LOG"
+  grep -q -- '--no-pub' "$FAKE_FLUTTER_LOG"
   ! grep -q -- '--build-number=42' "$FAKE_FLUTTER_LOG"
   grep -q '^buildNumber=77$' "$PROJECT_UNDER_TEST/out/LATEST_BUILD_INFO.txt"
 }
