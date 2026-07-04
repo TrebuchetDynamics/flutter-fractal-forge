@@ -90,7 +90,9 @@ void main() {
         'delta05_1:${delta05To1.progressionRatio.toStringAsFixed(4)}',
       );
     },
-    timeout: const Timeout(Duration(seconds: 60)),
+    // Three real shader renders take ~40s on a fast machine; loaded CI
+    // runners need substantially more headroom than the old 60s budget.
+    timeout: const Timeout(Duration(minutes: 3)),
   );
 }
 
