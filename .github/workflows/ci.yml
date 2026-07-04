@@ -28,21 +28,21 @@ jobs:
       - name: Fast safety tests
         run: >-
           flutter test
-          test/android_edge_to_edge_boundary_test.dart
-          test/precision_ladder_policy_test.dart
-          test/backend_policy_comprehensive_test.dart
-          test/fractal_controller_behavior_test.dart
-          test/export_service_test.dart
-          test/export_options_sheet_widget_test.dart
-          test/share_service_boundary_test.dart
-          test/viewer_export_session_test.dart
+          test/android/android_edge_to_edge_boundary_test.dart
+          test/renderer/precision_ladder_policy_test.dart
+          test/renderer/backend_policy_comprehensive_test.dart
+          test/fractal/fractal_controller_behavior_test.dart
+          test/export/export_service_test.dart
+          test/export/export_options_sheet_widget_test.dart
+          test/share/share_service_boundary_test.dart
+          test/export/viewer_export_session_test.dart
           test/features/viewer/viewer_export_feedback_test.dart
-          test/catalog_id_integrity_test.dart
-          test/catalog_search_widget_test.dart
+          test/catalog/catalog_id_integrity_test.dart
+          test/catalog/catalog_search_widget_test.dart
           test/features/catalog/generate_live_registry_ledger_test.dart
           test/modules/generated_module_contract_test.dart
-          test/memory_lifecycle_regression_test.dart
+          test/app/memory_lifecycle_regression_test.dart
           test/modules/escape_time_shader_manifest_test.dart
           test/modules/escape_time_uniform_contract_test.dart
           test/shaders/standalone_shader_catalogs/cellular_and_stochastic_shader_assets_test.dart
-          test/shader_web_compat_test.dart
+          test/shaders/shader_web_compat_test.dart
