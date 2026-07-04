@@ -112,20 +112,33 @@ void main() {
         // ------------------------------------------------------------------
         // Step 3: Tap on Mandelbrot card to open viewer
         // ------------------------------------------------------------------
+        // scrollUntilVisible can leave the card only partially on screen,
+        // which makes tap() miss its center; bring it fully into view first.
+        await tester.ensureVisible(mandelbrotCard);
+        await tester.pump(const Duration(milliseconds: 200));
         await tester.tap(mandelbrotCard);
-        // Shader animation frames may never settle; use bounded pumps.
-        await tester.pump(const Duration(seconds: 2));
         drainKnownShaderExceptions(tester);
 
         // ------------------------------------------------------------------
         // Step 4: Verify viewer screen loaded
         // ------------------------------------------------------------------
         // The redesigned viewer has no top app bar; its chrome is the FAB
-        // column of control buttons. Anchor on that instead of a back arrow.
+        // column of control buttons. Software-GL emulators compile shaders
+        // slowly, so poll with bounded pumps instead of a single fixed pump.
+        final viewerFabColumn = find.byKey(const ValueKey('viewerFabColumn'));
+        var viewerLoaded = false;
+        for (var i = 0; i < 60; i++) {
+          await tester.pump(const Duration(milliseconds: 500));
+          drainKnownShaderExceptions(tester);
+          if (viewerFabColumn.evaluate().isNotEmpty) {
+            viewerLoaded = true;
+            break;
+          }
+        }
         expect(
-          find.byKey(const ValueKey('viewerFabColumn')),
-          findsOneWidget,
-          reason: 'Viewer must show its control button column',
+          viewerLoaded,
+          isTrue,
+          reason: 'Viewer must show its control button column within 30s',
         );
 
         // ------------------------------------------------------------------
