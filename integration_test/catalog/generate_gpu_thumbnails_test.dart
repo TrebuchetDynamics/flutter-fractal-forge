@@ -76,8 +76,12 @@ void main() {
     // launch_media output directory, instead of catalog thumbnails.
     final launchMediaSize = _envInt(env, 'LAUNCH_MEDIA_SIZE');
     final launchMedia = launchMediaSize != null;
+    final auditFast = _envBool(env, 'CATALOG_AUDIT_FAST');
+    final skipShaderPreflight = _envBool(env, 'CATALOG_SKIP_SHADER_PREFLIGHT');
     final thumbSize = launchMediaSize ??
-        (updateAssets ? _catalogAssetThumbSize : _stagedSmokeThumbSize);
+        (updateAssets
+            ? _catalogAssetThumbSize
+            : (auditFast ? 96 : _stagedSmokeThumbSize));
     final registry = ModuleRegistry();
     final entries = _selectEntries(
       CatalogRepository.fromRegistry(registry)
@@ -104,6 +108,7 @@ void main() {
         'mathOracle records cheap CPU/reference known-point checks where a stable oracle exists.',
       ],
       'selectedCount': entries.length,
+      'selectedEntries': _selectedEntryJson(entries),
       'renderHealthSummary': <String, Object>{},
       'mathOracleSummary': <String, Object>{},
       'renderMetrics': <Map<String, Object>>[],
@@ -117,6 +122,15 @@ void main() {
       'launchVisualMetrics': <Map<String, Object>>[],
     };
 
+    final outDir =
+        _outputDirectory(updateAssets: updateAssets, launchMedia: launchMedia);
+    outDir.createSync(recursive: true);
+    if (_envBool(env, 'CATALOG_THUMB_LIST_ONLY')) {
+      _writeReport(outDir, report);
+      debugPrint('Catalog list written: ${entries.length} entries.');
+      return;
+    }
+
     // Required for takeScreenshot on Android. Some desktop runners do not
     // expose this plugin; record a skipped report rather than failing setup.
     try {
@@ -126,16 +140,10 @@ void main() {
         'reason': 'Screenshot plugin unavailable',
         'error': error.toString(),
       });
-      final outDir = _outputDirectory(
-          updateAssets: updateAssets, launchMedia: launchMedia);
       _writeReport(outDir, report);
       debugPrint('Screenshot plugin unavailable; wrote thumbnail report only.');
       return;
     }
-
-    final outDir =
-        _outputDirectory(updateAssets: updateAssets, launchMedia: launchMedia);
-    outDir.createSync(recursive: true);
 
     for (var index = 0; index < entries.length; index++) {
       final entry = entries[index];
@@ -144,9 +152,14 @@ void main() {
       FractalController? controller;
       try {
         final totalStopwatch = Stopwatch()..start();
-        final shaderLoadStopwatch = Stopwatch()..start();
-        await ui.FragmentProgram.fromAsset(module.shaderAsset);
-        shaderLoadStopwatch.stop();
+        final shaderLoadStopwatch = Stopwatch();
+        var shaderLoadMode = 'renderer-warmup';
+        if (!skipShaderPreflight) {
+          shaderLoadMode = 'preflight';
+          shaderLoadStopwatch.start();
+          await ui.FragmentProgram.fromAsset(module.shaderAsset);
+          shaderLoadStopwatch.stop();
+        }
 
         final selectStopwatch = Stopwatch()..start();
         controller = FractalController(registry);
@@ -169,12 +182,14 @@ void main() {
               supportedLocales: AppLocalizations.supportedLocales,
               home: ChangeNotifierProvider.value(
                 value: controller,
-                child: SizedBox(
-                  width: thumbSize.toDouble(),
-                  height: thumbSize.toDouble(),
-                  child: FractalRenderer(
-                    boundaryKey: repaintKey,
-                    gesturesEnabled: false,
+                child: RepaintBoundary(
+                  key: repaintKey,
+                  child: SizedBox(
+                    width: thumbSize.toDouble(),
+                    height: thumbSize.toDouble(),
+                    child: const FractalRenderer(
+                      gesturesEnabled: false,
+                    ),
                   ),
                 ),
               ),
@@ -182,14 +197,22 @@ void main() {
           );
 
           // Let shader compile and render a stable frame.
-          await tester.pump(const Duration(milliseconds: 500));
-          await tester.pump(const Duration(milliseconds: 500));
-          await tester.pump(const Duration(milliseconds: 500));
-          await tester.pump(const Duration(milliseconds: 100));
+          if (auditFast) {
+            await tester.pump(const Duration(milliseconds: 120));
+            await tester.pump(const Duration(milliseconds: 80));
+          } else {
+            await tester.pump(const Duration(milliseconds: 500));
+            await tester.pump(const Duration(milliseconds: 500));
+            await tester.pump(const Duration(milliseconds: 500));
+            await tester.pump(const Duration(milliseconds: 100));
+          }
         } finally {
           WidgetsBinding.instance.removeTimingsCallback(timingsCallback);
         }
         renderWarmupStopwatch.stop();
+        if (find.text('Shader Error').evaluate().isNotEmpty) {
+          throw StateError('renderer displayed Shader Error');
+        }
 
         final captureStopwatch = Stopwatch()..start();
         final bytes = await _captureThumbnailBytes(
@@ -230,6 +253,7 @@ void main() {
           'moduleId': module.id,
           'shaderAsset': module.shaderAsset,
           'shaderLoadMs': _elapsedMs(shaderLoadStopwatch),
+          'shaderLoadMode': shaderLoadMode,
           'moduleSelectMs': _elapsedMs(selectStopwatch),
           'renderWarmupMs': _elapsedMs(renderWarmupStopwatch),
           'frameTimings': _frameTimingStats(frameTimings),
@@ -410,6 +434,15 @@ List<CatalogEntry> _selectEntries(
   return selected.sublist(safeOffset, end).toList(growable: false);
 }
 
+List<Map<String, Object>> _selectedEntryJson(List<CatalogEntry> entries) => [
+      for (final entry in entries)
+        {
+          'catalogId': entry.catalogId,
+          'moduleId': entry.module.id,
+          'shaderAsset': entry.module.shaderAsset,
+        },
+    ];
+
 Map<String, Object>? _launchMetricsFor(CatalogEntry entry, img.Image thumb) {
   if (!kFeaturedLaunchSetModuleIds.contains(entry.module.id)) return null;
   return LaunchVisualMetrics.fromImage(thumb).toJson();
@@ -498,6 +531,7 @@ Map<String, Object> _renderHealthSummary(
     'transparent': verdictCount('transparent'),
     'lowColor': verdictCount('low-color'),
     'flat': verdictCount('flat'),
+    'blank': verdictCount('blank'),
     'maxBlackPixelRatio': maxRatio('blackPixelRatio'),
     'maxTransparentPixelRatio': maxRatio('transparentPixelRatio'),
     'thresholds': {

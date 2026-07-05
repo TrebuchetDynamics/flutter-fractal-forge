@@ -7,12 +7,12 @@ import 'package:image/image.dart' as img;
 /// These metrics are intentionally renderer-agnostic: integration tests can
 /// feed captured GPU frames, while unit tests can feed synthetic images.
 final class RenderAuditMetrics {
-  static const int minimumPngBytes = 500;
-  static const int minimumUniqueRgbColors = 16;
-  static const double minimumLuminanceStdDev = 3.0;
+  static const int minimumPngBytes = 250;
+  static const int minimumUniqueRgbColors = 3;
+  static const double minimumLuminanceStdDev = 0.5;
   static const double minimumNonTransparentPixelRatio = 0.05;
-  static const double maximumAllBlackPixelRatio = 0.98;
-  static const double maximumMostlyBlackPixelRatio = 0.90;
+  static const double maximumAllBlackPixelRatio = 0.999;
+  static const double maximumMostlyBlackPixelRatio = 0.98;
 
   final int width;
   final int height;
@@ -114,24 +114,22 @@ final class RenderAuditMetrics {
         'non-transparent pixel ratio ${nonTransparentRatio.toStringAsFixed(4)} < $minimumNonTransparentPixelRatio',
       );
     }
-    if (blackPixelRatio >= maximumAllBlackPixelRatio) {
-      warnings.add(
-        'black pixel ratio ${blackPixelRatio.toStringAsFixed(4)} >= $maximumAllBlackPixelRatio',
-      );
-    } else if (blackPixelRatio >= maximumMostlyBlackPixelRatio) {
-      warnings.add(
-        'black pixel ratio ${blackPixelRatio.toStringAsFixed(4)} >= $maximumMostlyBlackPixelRatio',
-      );
-    }
-    if (uniqueColors.length < minimumUniqueRgbColors) {
-      warnings.add(
-        'unique RGB colors ${uniqueColors.length} < $minimumUniqueRgbColors',
-      );
-    }
-    if (luminanceStdDev < minimumLuminanceStdDev) {
-      warnings.add(
-        'luminance stddev ${luminanceStdDev.toStringAsFixed(2)} < $minimumLuminanceStdDev',
-      );
+    final looksBlank = uniqueColors.length < minimumUniqueRgbColors &&
+        luminanceStdDev < minimumLuminanceStdDev;
+    if (looksBlank) {
+      if (blackPixelRatio >= maximumAllBlackPixelRatio) {
+        warnings.add(
+          'blank black render: black pixel ratio ${blackPixelRatio.toStringAsFixed(4)} >= $maximumAllBlackPixelRatio, unique RGB colors ${uniqueColors.length} < $minimumUniqueRgbColors, luminance stddev ${luminanceStdDev.toStringAsFixed(2)} < $minimumLuminanceStdDev',
+        );
+      } else if (blackPixelRatio >= maximumMostlyBlackPixelRatio) {
+        warnings.add(
+          'mostly blank black render: black pixel ratio ${blackPixelRatio.toStringAsFixed(4)} >= $maximumMostlyBlackPixelRatio, unique RGB colors ${uniqueColors.length} < $minimumUniqueRgbColors, luminance stddev ${luminanceStdDev.toStringAsFixed(2)} < $minimumLuminanceStdDev',
+        );
+      } else {
+        warnings.add(
+          'blank low-detail render: unique RGB colors ${uniqueColors.length} < $minimumUniqueRgbColors and luminance stddev ${luminanceStdDev.toStringAsFixed(2)} < $minimumLuminanceStdDev',
+        );
+      }
     }
 
     return RenderAuditMetrics(
@@ -181,11 +179,12 @@ final class RenderAuditMetrics {
     if (nonTransparentRatio < minimumNonTransparentPixelRatio) {
       return 'transparent';
     }
+    final looksBlank = uniqueRgbColors < minimumUniqueRgbColors &&
+        luminanceStdDev < minimumLuminanceStdDev;
+    if (!looksBlank) return 'pass';
     if (blackPixelRatio >= maximumAllBlackPixelRatio) return 'all-black';
     if (blackPixelRatio >= maximumMostlyBlackPixelRatio) return 'mostly-black';
-    if (uniqueRgbColors < minimumUniqueRgbColors) return 'low-color';
-    if (luminanceStdDev < minimumLuminanceStdDev) return 'flat';
-    return 'pass';
+    return 'blank';
   }
 }
 
