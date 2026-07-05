@@ -1,8 +1,10 @@
-/// Generates GPU-rendered catalog thumbnails.
+/// Generates GPU-rendered catalog thumbnails and render-health audit metrics.
 ///
-/// Stages output by default so catalog-wide runs do not accidentally churn
+/// Stages output by default so catalog-wide audit runs do not accidentally churn
 /// tracked assets. Use UPDATE_CATALOG_THUMBS=true to write to
-/// assets/catalog_thumbs/.
+/// assets/catalog_thumbs/. The JSON report includes per-fractal load timings,
+/// frame timings, blackPixelRatio, nonBlackPixelRatio, luminanceStdDev, and a
+/// health verdict for broken-fractal triage.
 ///
 /// Run a small smoke pass:
 ///   CATALOG_THUMB_LIMIT=5 flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux
@@ -45,21 +47,20 @@ import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/featured_launch_set.dart';
 import 'package:flutter_fractals/features/catalog/data/launch_visual_metrics.dart';
+import 'package:flutter_fractals/features/renderer/diagnostics/render_audit_metrics.dart';
+import 'package:flutter_fractals/features/renderer/diagnostics/render_math_oracle.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 const int _catalogAssetThumbSize = 320;
 const int _stagedSmokeThumbSize = 256;
-const int _minimumPngBytes = 500;
-const int _minimumUniqueRgbColors = 16;
-const double _minimumLuminanceStdDev = 3.0;
-const double _minimumNonTransparentPixelRatio = 0.05;
 
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('Generate GPU thumbnails', (tester) async {
+  testWidgets('Generate GPU thumbnails and render audit metrics',
+      (tester) async {
     SharedPreferences.setMockInitialValues({
       'onboarding_complete': true,
       'onboarding_version': OnboardingService.currentVersion,
@@ -99,8 +100,14 @@ void main() {
         'shaderLoadMs measures ui.FragmentProgram.fromAsset in this process; repeated shader assets may benefit from Flutter asset/shader cache.',
         'renderWarmupMs measures widget build plus three 500ms pumps before capture.',
         'captureMs measures PNG capture from the rendered RepaintBoundary/screenshot surface.',
+        'renderMetrics records image-health measurements including blackPixelRatio, nonBlackPixelRatio, uniqueRgbColors, luminanceStdDev, and verdict per fractal.',
+        'mathOracle records cheap CPU/reference known-point checks where a stable oracle exists.',
       ],
       'selectedCount': entries.length,
+      'renderHealthSummary': <String, Object>{},
+      'mathOracleSummary': <String, Object>{},
+      'renderMetrics': <Map<String, Object>>[],
+      'mathOracle': <Map<String, Object>>[],
       'generated': <Map<String, Object>>[],
       'failed': <Map<String, Object>>[],
       'skipped': <Map<String, Object>>[],
@@ -206,11 +213,16 @@ void main() {
         totalStopwatch.stop();
 
         final flutterErrors = _takeFlutterExceptions(tester);
-        final quality = _qualityWarnings(
+        final renderMetrics = RenderAuditMetrics.fromImage(
           thumb,
-          pngBytes.length,
+          pngBytes: pngBytes.length,
           expectedSize: thumbSize,
         );
+        final mathOracle = RenderMathOracle.evaluate(module.id);
+        final mathOracleJson = mathOracle.toJson();
+        (report['mathOracle']! as List<Map<String, Object>>)
+            .add(mathOracleJson);
+        final quality = renderMetrics.warnings;
         final generated = report['generated']! as List<Map<String, Object>>;
         final launchMetrics = _launchMetricsFor(entry, thumb);
         final performance = <String, Object>{
@@ -229,6 +241,14 @@ void main() {
           'pngBytes': pngBytes.length,
         };
         (report['performance']! as List<Map<String, Object>>).add(performance);
+        final renderMetricJson = <String, Object>{
+          'catalogId': entry.catalogId,
+          'moduleId': module.id,
+          'shaderAsset': module.shaderAsset,
+          ...renderMetrics.toJson(),
+        };
+        (report['renderMetrics']! as List<Map<String, Object>>)
+            .add(renderMetricJson);
         if (flutterErrors.isNotEmpty) {
           (report['flutterErrors']! as List<Map<String, Object>>).add({
             'catalogId': entry.catalogId,
@@ -243,6 +263,9 @@ void main() {
           'bytes': pngBytes.length,
           'warnings': quality,
           'performance': performance,
+          'renderMetrics': renderMetricJson,
+          'mathOracle': mathOracleJson,
+          'mathVerdict': mathOracle.verdict,
           if (flutterErrors.isNotEmpty) 'flutterErrors': flutterErrors,
           if (launchMetrics != null) 'launchVisualMetrics': launchMetrics,
         });
@@ -297,6 +320,14 @@ void main() {
       }
     }
 
+    report['renderHealthSummary'] = _renderHealthSummary(
+      report['renderMetrics']! as List<Map<String, Object>>,
+      selectedCount: entries.length,
+    );
+    report['mathOracleSummary'] = _mathOracleSummary(
+      report['mathOracle']! as List<Map<String, Object>>,
+      selectedCount: entries.length,
+    );
     _writeReport(outDir, report);
 
     final generated = (report['generated']! as List).length;
@@ -444,61 +475,58 @@ int _stableSeed(String input) {
   return hash;
 }
 
-List<String> _qualityWarnings(
-  img.Image image,
-  int byteLength, {
-  required int expectedSize,
+Map<String, Object> _renderHealthSummary(
+  List<Map<String, Object>> metrics, {
+  required int selectedCount,
 }) {
-  final warnings = <String>[];
-  if (image.width != expectedSize || image.height != expectedSize) {
-    warnings.add(
-        'dimensions ${image.width}x${image.height}, expected ${expectedSize}x$expectedSize');
-  }
-  if (byteLength < _minimumPngBytes) {
-    warnings.add('png bytes $byteLength < $_minimumPngBytes');
+  int verdictCount(String verdict) =>
+      metrics.where((metric) => metric['verdict'] == verdict).length;
+
+  double maxRatio(String key) {
+    if (metrics.isEmpty) return 0.0;
+    return metrics
+        .map((metric) => (metric[key] as num?)?.toDouble() ?? 0.0)
+        .reduce(max);
   }
 
-  var nonTransparent = 0;
-  var luminanceSum = 0.0;
-  var luminanceSquaredSum = 0.0;
-  final uniqueColors = <int>{};
-  final total = image.width * image.height;
+  return {
+    'selectedCount': selectedCount,
+    'evaluated': metrics.length,
+    'pass': verdictCount('pass'),
+    'allBlack': verdictCount('all-black'),
+    'mostlyBlack': verdictCount('mostly-black'),
+    'transparent': verdictCount('transparent'),
+    'lowColor': verdictCount('low-color'),
+    'flat': verdictCount('flat'),
+    'maxBlackPixelRatio': maxRatio('blackPixelRatio'),
+    'maxTransparentPixelRatio': maxRatio('transparentPixelRatio'),
+    'thresholds': {
+      'minimumPngBytes': RenderAuditMetrics.minimumPngBytes,
+      'minimumUniqueRgbColors': RenderAuditMetrics.minimumUniqueRgbColors,
+      'minimumLuminanceStdDev': RenderAuditMetrics.minimumLuminanceStdDev,
+      'minimumNonTransparentPixelRatio':
+          RenderAuditMetrics.minimumNonTransparentPixelRatio,
+      'maximumAllBlackPixelRatio': RenderAuditMetrics.maximumAllBlackPixelRatio,
+      'maximumMostlyBlackPixelRatio':
+          RenderAuditMetrics.maximumMostlyBlackPixelRatio,
+    },
+  };
+}
 
-  for (final pixel in image) {
-    final r = pixel.r.toInt();
-    final g = pixel.g.toInt();
-    final b = pixel.b.toInt();
-    final a = pixel.a.toInt();
-    if (a > 16) {
-      nonTransparent++;
-    }
-    uniqueColors.add((r << 16) | (g << 8) | b);
-    final luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-    luminanceSum += luminance;
-    luminanceSquaredSum += luminance * luminance;
-  }
+Map<String, Object> _mathOracleSummary(
+  List<Map<String, Object>> results, {
+  required int selectedCount,
+}) {
+  int verdictCount(String verdict) =>
+      results.where((result) => result['verdict'] == verdict).length;
 
-  final nonTransparentRatio = total == 0 ? 0.0 : nonTransparent / total;
-  if (nonTransparentRatio < _minimumNonTransparentPixelRatio) {
-    warnings.add(
-      'non-transparent pixel ratio ${nonTransparentRatio.toStringAsFixed(4)} < $_minimumNonTransparentPixelRatio',
-    );
-  }
-  if (uniqueColors.length < _minimumUniqueRgbColors) {
-    warnings.add(
-        'unique RGB colors ${uniqueColors.length} < $_minimumUniqueRgbColors');
-  }
-
-  final mean = total == 0 ? 0.0 : luminanceSum / total;
-  final variance = total == 0 ? 0.0 : luminanceSquaredSum / total - mean * mean;
-  final stdDev = sqrt(max(0.0, variance));
-  if (stdDev < _minimumLuminanceStdDev) {
-    warnings.add(
-      'luminance stddev ${stdDev.toStringAsFixed(2)} < $_minimumLuminanceStdDev',
-    );
-  }
-
-  return warnings;
+  return {
+    'selectedCount': selectedCount,
+    'evaluated': results.length,
+    'pass': verdictCount('pass'),
+    'fail': verdictCount('fail'),
+    'skipped': verdictCount('skipped'),
+  };
 }
 
 double _elapsedMs(Stopwatch stopwatch) =>
