@@ -83,7 +83,7 @@ void main() {
   vec2 c = uv / max(0.000001, uZoom) + uCenter;
   vec2 c0 = c;
   int variant = int(uVariant);
-  vec2 z = (variant == 9 || variant == 11) ? c : vec2(0.0);
+  vec2 z = (variant == 9 || variant == 11 || variant == 12) ? c : vec2(0.0);
   vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;

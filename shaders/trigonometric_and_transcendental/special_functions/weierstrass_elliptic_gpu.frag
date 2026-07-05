@@ -95,8 +95,8 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
+  float mag2 = clamp(dot(z, z), 1e-12, 1e24);
+  float smoothVal = float(it) - log2(max(log2(mag2), 1e-6)) + 4.0;
 
   if (schemeInt >= 50) {
     float angle = float(schemeInt - 50) * (3.14159265 / 13.0);

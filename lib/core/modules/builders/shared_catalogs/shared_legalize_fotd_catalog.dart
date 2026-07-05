@@ -1198,7 +1198,9 @@ const List<SharedLegalizeFotdEntry> sharedLegalizeFotdCatalogEntries = [
     powerH: 3,
     coeffJ: -0.06,
     powerK: 4,
-    zoom: 0.9,
+    centerX: -0.45,
+    centerY: 0.0,
+    zoom: 0.7,
   ),
   SharedLegalizeFotdEntry(
     id: 'legalize_main_mandel_rings',

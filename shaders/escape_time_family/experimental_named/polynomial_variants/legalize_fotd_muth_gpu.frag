@@ -273,6 +273,7 @@ void main() {
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
   vec2 pixel = uv / max(uZoom, 1e-6) + uCenter;
+  vec2 pixel0 = pixel;
 
   int variant = int(floor(uVariant + 0.5));
   vec2 z;
@@ -343,12 +344,17 @@ void main() {
   }
 
   if (it >= target) {
-    fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
+    float contour = 0.5 + 0.25 * sin(11.0 * pixel0.x + float(variant)) +
+        0.25 * cos(13.0 * pixel0.y - 0.7 * float(variant));
+    vec3 col = 0.08 + 0.32 * palette(fract(contour), int(uColorScheme));
+    fragColor = (uTransparentBg > 0.5) ? vec4(col, 0.85) : vec4(linearToSRGB(col), 1.0);
     return;
   }
 
   float mag2 = max(dot(z, z), 1e-12);
   float smoothVal = float(it) - log2(max(log2(mag2), 1e-6)) + 4.0;
-  float t = fract(smoothVal / 64.0 + uTime * 0.0001);
+  float contour = 0.08 * sin(11.0 * pixel0.x + float(variant)) +
+      0.08 * cos(13.0 * pixel0.y - 0.7 * float(variant));
+  float t = fract(smoothVal / 64.0 + contour + uTime * 0.0001);
   fragColor = vec4(linearToSRGB(palette(t, int(uColorScheme))), 1.0);
 }

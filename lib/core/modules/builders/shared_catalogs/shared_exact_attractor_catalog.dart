@@ -312,6 +312,11 @@ FractalModule _buildSharedExactAttractorModule(
       } else if (entry.shaderAsset ==
           'shaders/strange_attractors/standard_map_gpu.frag') {
         shader.setFloat(10, 0.9);
+      } else if (entry.shaderAsset ==
+          'shaders/strange_attractors/bogdanov_map_gpu.frag') {
+        shader.setFloat(10, 0.1);
+        shader.setFloat(11, 1.2);
+        shader.setFloat(12, 0.5);
       }
     },
   );
