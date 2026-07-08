@@ -93,6 +93,7 @@ void main() {
       initialOptions: ExportPresets.webOptimized,
     );
 
+    await tester.scrollUntilVisible(find.text('PNG (PNG fallback)'), 120);
     expect(find.text('PNG (PNG fallback)'), findsOneWidget);
     expect(
       find.text('WebP is not encoded yet; exports use PNG fallback.'),
@@ -184,10 +185,10 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('Customize').last);
+    await tester.tap(find.text('Web'));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Web'));
+    await tester.tap(find.text('Customize').last);
     await tester.pumpAndSettle();
 
     await tester.tap(find.text(ExportResolution.custom.displayName));

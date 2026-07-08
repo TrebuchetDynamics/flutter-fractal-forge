@@ -117,7 +117,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     final theme = Theme.of(context);
 
     return DraggableScrollableSheet(
-      initialChildSize: 0.95,
+      initialChildSize: 0.82,
       minChildSize: 0.5,
       maxChildSize: 0.95,
       expand: false,
@@ -135,33 +135,23 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
               ),
 
-              // Title
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
-                    Icon(Icons.share_rounded, color: theme.colorScheme.primary),
-                    const SizedBox(width: 12),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.exportTitle,
-                            style: theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            l10n.exportSaveLocationHint,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface
-                                  .withValues(alpha: 0.62),
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        l10n.exportTitle,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                    ),
+                    IconButton(
+                      tooltip:
+                          MaterialLocalizations.of(context).closeButtonTooltip,
+                      onPressed: () => Navigator.of(context).maybePop(),
+                      icon: const Icon(Icons.close_rounded),
                     ),
                   ],
                 ),
@@ -173,44 +163,30 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               Expanded(
                 child: ListView(
                   controller: scrollController,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   children: [
                     _buildSimpleModeCard(context, l10n),
 
                     const SizedBox(height: 12),
 
-                    // Keep quick presets always visible for easy one-tap changes.
-                    _buildQuickPresets(context, l10n),
-
                     if (_showCustomization) ...[
-                      const SizedBox(height: 16),
-
                       _buildQuoteSection(context, l10n),
-
                       const SizedBox(height: 16),
-
-                      // Format selection
                       _buildFormatSection(context, l10n),
-
                       const SizedBox(height: 16),
-
-                      // Resolution selection
                       _buildResolutionSection(context, l10n),
-
                       const SizedBox(height: 16),
-
-                      // Quality slider (for JPG/WebP)
                       if (_options.format != ExportFormat.png)
                         _buildQualitySection(context, l10n),
-
-                      // Advanced options toggle
                       _buildAdvancedToggle(context, l10n),
-
                       if (_showAdvanced) ...[
                         const SizedBox(height: 12),
                         _buildAdvancedOptions(context, l10n),
                       ],
+                      const SizedBox(height: 16),
                     ],
+
+                    _buildQuickPresets(context, l10n),
 
                     const SizedBox(height: 24),
 
@@ -233,42 +209,88 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
 
   Widget _buildSimpleModeCard(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
+    final effectiveOptions = _effectiveOptionsForExport();
+    final screenSize = MediaQuery.sizeOf(context);
+    final resolutionText = ExportResolutionSummary.fromEffectiveOptions(
+      options: effectiveOptions,
+      screenWidth: screenSize.width,
+      screenHeight: screenSize.height,
+    ).label(screenResolutionLabel: l10n.exportScreenResolution);
+    final planText = '${_formatSummaryValue(effectiveOptions, l10n)} • '
+        '$resolutionText';
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color:
-            theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.45),
-        borderRadius: BorderRadius.circular(12),
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: theme.colorScheme.outline.withValues(alpha: 0.25),
+          color: theme.colorScheme.outline.withValues(alpha: 0.16),
         ),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.flash_on_rounded, color: theme.colorScheme.primary),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              _showCustomization
-                  ? l10n.exportCustomizeModeHint
-                  : l10n.exportSimpleModeHint,
-              style: theme.textTheme.bodySmall,
-            ),
+          Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.ios_share_rounded,
+                  color: theme.colorScheme.onPrimaryContainer,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      planText,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      _showCustomization
+                          ? l10n.exportCustomizeModeHint
+                          : l10n.exportSimpleModeHint,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color:
+                            theme.colorScheme.onSurface.withValues(alpha: 0.68),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _showCustomization = !_showCustomization;
+                    if (!_showCustomization) {
+                      _showAdvanced = false;
+                    }
+                  });
+                },
+                child: Text(_showCustomization
+                    ? l10n.exportButtonSimple
+                    : l10n.exportButtonCustomize),
+              ),
+            ],
           ),
-          const SizedBox(width: 8),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _showCustomization = !_showCustomization;
-                if (!_showCustomization) {
-                  _showAdvanced = false;
-                }
-              });
-            },
-            child: Text(_showCustomization
-                ? l10n.exportButtonSimple
-                : l10n.exportButtonCustomize),
+          const SizedBox(height: 12),
+          Text(
+            l10n.exportSaveLocationHint,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ),
@@ -644,11 +666,51 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     ).label(screenResolutionLabel: l10n.exportScreenResolution);
     final effectiveFormat = _effectiveFormatForExport(effectiveOptions);
 
+    final chips = <Widget>[
+      _SummaryChip(
+        icon: Icons.photo_size_select_large,
+        label: l10n.exportResolution,
+        value: resolutionText,
+      ),
+      _SummaryChip(
+        icon: Icons.image,
+        label: l10n.exportFormat,
+        value: _formatSummaryValue(effectiveOptions, l10n),
+      ),
+      if (effectiveFormat != ExportFormat.png)
+        _SummaryChip(
+          icon: Icons.tune,
+          label: l10n.exportQuality,
+          value: '${effectiveOptions.quality}%',
+        ),
+      if (effectiveOptions.transparentBackground)
+        _SummaryChip(
+          icon: Icons.layers,
+          label: l10n.exportTransparentBg,
+          value: '✓',
+        ),
+      if (effectiveOptions.embedMetadata)
+        _SummaryChip(
+          icon: Icons.info_outline,
+          label: l10n.exportEmbedMetadata,
+          value: '✓',
+        ),
+      if (effectiveOptions.quoteText?.isNotEmpty == true)
+        _SummaryChip(
+          icon: Icons.format_quote,
+          label: l10n.exportQuoteOverlay,
+          value: '✓',
+        ),
+    ];
+
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(12),
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: theme.colorScheme.outline.withValues(alpha: 0.14),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -656,73 +718,18 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           Text(
             l10n.exportSummary,
             style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 12),
-          _SummaryRow(
-            icon: Icons.photo_size_select_large,
-            label: l10n.exportResolution,
-            value: resolutionText,
-          ),
-          const SizedBox(height: 8),
-          _SummaryRow(
-            icon: Icons.image,
-            label: l10n.exportFormat,
-            value: _formatSummaryValue(effectiveOptions, l10n),
-          ),
+          Wrap(spacing: 8, runSpacing: 8, children: chips),
           if (effectiveFormat != effectiveOptions.format) ...[
-            const SizedBox(height: 8),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 16,
-                  color: theme.colorScheme.primary,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    l10n.exportFormatHintWebp,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-          if (effectiveFormat != ExportFormat.png) ...[
-            const SizedBox(height: 8),
-            _SummaryRow(
-              icon: Icons.tune,
-              label: l10n.exportQuality,
-              value: '${effectiveOptions.quality}%',
-            ),
-          ],
-          if (effectiveOptions.transparentBackground) ...[
-            const SizedBox(height: 8),
-            _SummaryRow(
-              icon: Icons.layers,
-              label: l10n.exportTransparentBg,
-              value: '✓',
-            ),
-          ],
-          if (effectiveOptions.embedMetadata) ...[
-            const SizedBox(height: 8),
-            _SummaryRow(
-              icon: Icons.info_outline,
-              label: l10n.exportEmbedMetadata,
-              value: '✓',
-            ),
-          ],
-          if (effectiveOptions.quoteText?.isNotEmpty == true) ...[
-            const SizedBox(height: 8),
-            _SummaryRow(
-              icon: Icons.format_quote,
-              label: l10n.exportQuoteOverlay,
-              value: '✓',
+            const SizedBox(height: 12),
+            Text(
+              l10n.exportFormatHintWebp,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.68),
+              ),
             ),
           ],
         ],
@@ -737,16 +744,15 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     );
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, -2),
+        border: Border(
+          top: BorderSide(
+            color:
+                Theme.of(context).colorScheme.outline.withValues(alpha: 0.12),
           ),
-        ],
+        ),
       ),
       child: SafeArea(
         child: Row(
@@ -845,24 +851,32 @@ class _QuickPresetCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(14),
           child: Container(
-            constraints: const BoxConstraints(minHeight: 72),
+            constraints: const BoxConstraints(minHeight: 78),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: isSelected
-                  ? theme.colorScheme.primaryContainer
-                  : theme.colorScheme.surfaceContainerHighest
-                      .withValues(alpha: 0.65),
-              borderRadius: BorderRadius.circular(14),
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: isSelected
                     ? selectedColor
-                    : theme.colorScheme.outline.withValues(alpha: 0.18),
-                width: isSelected ? 2 : 1,
+                    : theme.colorScheme.outline.withValues(alpha: 0.14),
+                width: isSelected ? 1.6 : 1,
               ),
             ),
             child: Row(
               children: [
-                Icon(icon, size: 22, color: foreground),
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: (isSelected
+                            ? theme.colorScheme.primaryContainer
+                            : theme.colorScheme.surfaceContainerHighest)
+                        .withValues(alpha: 0.7),
+                    borderRadius: BorderRadius.circular(11),
+                  ),
+                  child: Icon(icon, size: 20, color: foreground),
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -892,6 +906,11 @@ class _QuickPresetCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (isSelected) ...[
+                  const SizedBox(width: 8),
+                  Icon(Icons.check_circle_rounded,
+                      size: 18, color: selectedColor),
+                ],
               ],
             ),
           ),
@@ -901,12 +920,12 @@ class _QuickPresetCard extends StatelessWidget {
   }
 }
 
-class _SummaryRow extends StatelessWidget {
+class _SummaryChip extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
 
-  const _SummaryRow({
+  const _SummaryChip({
     required this.icon,
     required this.label,
     required this.value,
@@ -916,28 +935,36 @@ class _SummaryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 16,
-          color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color:
+            theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.45),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 15,
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.56),
           ),
-        ),
-        const Spacer(),
-        Text(
-          value,
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.bold,
+          const SizedBox(width: 6),
+          Text(
+            '$label ',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.62),
+            ),
           ),
-        ),
-      ],
+          Text(
+            value,
+            style: theme.textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
