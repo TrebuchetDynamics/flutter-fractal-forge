@@ -44,8 +44,83 @@
 
   <title>Fractal Forge</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #05070f;
+    }
+
+    #ff-web-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 2147483647;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      box-sizing: border-box;
+      color: rgba(255, 255, 255, 0.86);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(109, 71, 255, 0.22), transparent 34%),
+        #05070f;
+      transition: opacity 180ms ease;
+    }
+
+    #ff-web-splash.ff-web-splash--hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .ff-web-splash-card {
+      width: min(420px, 100%);
+      text-align: center;
+    }
+
+    .ff-web-splash-mark {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 18px;
+      border-radius: 22px;
+      background:
+        conic-gradient(from 90deg, #8f7cff, #39d0ff, #ff7ac8, #8f7cff);
+      box-shadow: 0 0 44px rgba(143, 124, 255, 0.28);
+    }
+
+    .ff-web-splash-title {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .ff-web-splash-copy {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 <body>
+  <div id="ff-web-splash" role="status" aria-live="polite" aria-label="Loading Fractal Forge">
+    <div class="ff-web-splash-card">
+      <div class="ff-web-splash-mark" aria-hidden="true"></div>
+      <h1 class="ff-web-splash-title">Fractal Forge</h1>
+      <p class="ff-web-splash-copy">Preparing the first fractal scene…</p>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const splash = document.getElementById('ff-web-splash');
+      if (!splash) return;
+      const removeSplash = () => {
+        splash.classList.add('ff-web-splash--hidden');
+        setTimeout(() => splash.remove(), 220);
+      };
+      window.addEventListener('flutter-first-frame', removeSplash, { once: true });
+    })();
+  </script>
   <script>
     // Clear old Flutter service-worker caches; stale workers can keep serving
     // older bundles where web thumbnails never render.
