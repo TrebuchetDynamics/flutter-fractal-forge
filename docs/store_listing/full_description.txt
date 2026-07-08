@@ -1,17 +1,18 @@
-Fractal Forge is a fast, private fractal explorer for artists, learners, educators, and anyone curious about mathematical patterns.
+Fractal Forge is a fast, private fractal explorer for creating generative math art, fractal wallpapers, and visual studies. Explore 1,585 production fractals with GPU-accelerated GLSL shaders where supported, deep zoom, and real-time controls.
 
-Explore 1,585 production fractals across classic and modern families:
-• Mandelbrot, Julia, Burning Ship, Tricorn, Celtic, Buffalo, Nova, Phoenix, and Lyapunov maps
+Discover classic and modern fractal families:
+• Mandelbrot and Julia sets, Burning Ship, Tricorn, Celtic, Buffalo, Nova, Phoenix, and Lyapunov maps
 • Newton, Halley, Householder, Schroeder, and other root-finding basins
 • Strange attractors, cellular automata, space-filling curves, tilings, and IFS systems
 • 3D ray-marched worlds such as Mandelbulb, Mandelbox, and quaternion-style fractals
 
-Fractal Forge renders with GPU-powered GLSL shaders where supported, with precision fallback paths for deeper exploration. Use curated presets to jump to rich regions, adjust iterations, palettes, color styles, and visual parameters, then export high-resolution PNG images for wallpaper, sharing, or study.
+Use curated presets to jump to rich regions, adjust iterations, palettes, color styles, orbit traps, distance estimation, normal-map relief, and visual parameters, then export high-resolution PNG images for wallpaper, sharing, teaching, or study.
 
 Features:
 • 1,585 production fractal modules
+• GPU-powered rendering where supported
 • Deep zoom and pan controls
-• 60+ color schemes with smooth coloring, orbit traps, distance estimation, normal-map relief, and more
+• 60+ color schemes with smooth coloring
 • Dual Mandelbrot / Julia viewer
 • Auto-explore mode for discovering interesting regions
 • Randomizer for instant new looks
@@ -24,4 +25,4 @@ Features:
 
 Private by design: no ads, no tracking, no account required, and no data collection.
 
-Use Fractal Forge to create mathematical art, study nonlinear systems, teach fractals, or relax with infinite patterns.
+Use Fractal Forge to create fractal art, study nonlinear systems, teach math patterns, make unique wallpapers, or relax with infinite visual worlds.
