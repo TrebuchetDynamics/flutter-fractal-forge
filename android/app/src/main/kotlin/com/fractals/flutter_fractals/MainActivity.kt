@@ -264,12 +264,14 @@ class MainActivity : FlutterFragmentActivity() {
                     ?: throw IOException("Failed to decode wallpaper bitmap")
                 val manager = WallpaperManager.getInstance(applicationContext)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    val which = when (target) {
-                        "lock" -> WallpaperManager.FLAG_LOCK
-                        "both" -> WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
-                        else -> WallpaperManager.FLAG_SYSTEM // "home"
+                    when (target) {
+                        "lock" -> manager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                        "both" -> {
+                            manager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM)
+                            manager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                        }
+                        else -> manager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM) // "home"
                     }
-                    manager.setBitmap(bitmap, null, true, which)
                 } else {
                     // Pre-N: only the system (home) wallpaper, no per-target flags.
                     manager.setBitmap(bitmap)

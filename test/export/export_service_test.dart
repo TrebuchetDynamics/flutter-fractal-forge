@@ -93,6 +93,36 @@ void main() {
     });
   });
 
+  group('ExportService.resizePngToTargetDimensions', () {
+    test('resizes fallback exports to the requested high-res target', () {
+      final source = img.Image(width: 40, height: 20);
+      img.fill(source, color: img.ColorRgb8(12, 34, 56));
+      final bytes = Uint8List.fromList(img.encodePng(source));
+
+      final resized = service.resizePngToTargetDimensions(
+        bytes,
+        width: 120,
+        height: 90,
+      );
+      final decoded = img.decodePng(resized);
+
+      expect(decoded, isNotNull);
+      expect(decoded!.width, 120);
+      expect(decoded.height, 90);
+    });
+
+    test('rejects invalid captured PNG bytes', () {
+      expect(
+        () => service.resizePngToTargetDimensions(
+          Uint8List.fromList([1, 2, 3]),
+          width: 120,
+          height: 90,
+        ),
+        throwsStateError,
+      );
+    });
+  });
+
   group('ExportService.generateFilename', () {
     test('uses default prefix and format extension', () {
       final name = service.generateFilename(format: ExportFormat.png);

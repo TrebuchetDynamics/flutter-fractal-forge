@@ -446,6 +446,58 @@ class ExportService {
     throw StateError('Failed to capture PNG: $lastError');
   }
 
+  Uint8List resizePngToTargetDimensions(
+    Uint8List pngBytes, {
+    required int width,
+    required int height,
+    String? quoteText,
+  }) {
+    ExportSizePolicy.validateTargetDimensions(width, height);
+    final decodedImage = img.decodePng(pngBytes);
+    if (decodedImage == null) {
+      throw StateError('Failed to decode captured image');
+    }
+
+    img.Image processedImage;
+    if (decodedImage.width != width || decodedImage.height != height) {
+      final crop = ExportAspectCrop.center(
+        sourceWidth: decodedImage.width,
+        sourceHeight: decodedImage.height,
+        targetWidth: width,
+        targetHeight: height,
+      );
+      final cropped = (crop.width == decodedImage.width &&
+              crop.height == decodedImage.height)
+          ? decodedImage
+          : img.copyCrop(
+              decodedImage,
+              x: crop.x,
+              y: crop.y,
+              width: crop.width,
+              height: crop.height,
+            );
+      processedImage = (cropped.width == width && cropped.height == height)
+          ? cropped
+          : img.copyResize(
+              cropped,
+              width: width,
+              height: height,
+              interpolation: img.Interpolation.average,
+            );
+    } else {
+      processedImage = decodedImage;
+    }
+
+    final overlayText = quoteText?.trim();
+    if (overlayText != null && overlayText.isNotEmpty) {
+      processedImage = applyInvertedTextOverlay(processedImage, overlayText);
+    }
+
+    final encoded = Uint8List.fromList(img.encodePng(processedImage, level: 6));
+    ExportSizePolicy.validateEncodedByteLength(encoded.lengthInBytes);
+    return encoded;
+  }
+
   /// Capture with advanced options (format, resolution, metadata)
   Future<Uint8List> captureWithOptions(
     GlobalKey boundaryKey, {

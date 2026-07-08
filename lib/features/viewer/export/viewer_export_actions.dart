@@ -447,16 +447,21 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         style: options.style.name,
       );
 
-      final ok = await const WallpaperService()
-          .setWallpaper(styled, target: options.target);
-
       if (saveCopy) {
         final filename = _exportService.generateFilename(
           format: ExportFormat.png,
           fractalType: controller.module.id,
         );
-        await _exportService.saveBytes(styled, filename: filename);
+        try {
+          await _exportService.saveBytes(styled, filename: filename);
+        } catch (error) {
+          _log.warn('wallpaper', 'Save wallpaper copy failed',
+              data: {'error': error.toString()});
+        }
       }
+
+      final ok = await const WallpaperService()
+          .setWallpaper(styled, target: options.target);
 
       if (!mounted) return;
       await HapticService.heavy();
@@ -500,28 +505,13 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       boundaryKey,
       pixelRatio: pixelRatio,
     );
-    final quoteText = options.quoteText?.trim();
-    if (quoteText != null && quoteText.isNotEmpty) {
-      final decoded = img.decodePng(bytes);
-      if (decoded != null) {
-        bytes = Uint8List.fromList(
-          img.encodePng(
-              _exportService.applyInvertedTextOverlay(decoded, quoteText)),
-        );
-      }
-    }
-
-    final codec = await ui.instantiateImageCodec(bytes);
-    late final int width;
-    late final int height;
-    try {
-      final frame = await codec.getNextFrame();
-      width = frame.image.width;
-      height = frame.image.height;
-      frame.image.dispose();
-    } finally {
-      codec.dispose();
-    }
+    final targetDims = options.getTargetDimensions(screenWidth, screenHeight);
+    bytes = _exportService.resizePngToTargetDimensions(
+      bytes,
+      width: targetDims.$1,
+      height: targetDims.$2,
+      quoteText: options.quoteText,
+    );
 
     final filename = _exportService.generateFilename(
       format: ExportFormat.png,
@@ -531,8 +521,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       bytes,
       filename: filename,
       format: ExportFormat.png,
-      width: width,
-      height: height,
+      width: targetDims.$1,
+      height: targetDims.$2,
     );
   }
 }
