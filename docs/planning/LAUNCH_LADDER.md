@@ -53,7 +53,7 @@ Objective: make a visitor able to understand, trust, and try Fractal Forge in un
    - Tertiary CTA: **View on GitHub**
 2. Proof strip
    - **500+ downloads**
-   - **1,585 production fractals** (1,592 debug/test registry modules including 7 diagnostics)
+   - **974 production fractals** (981 debug/test registry modules including 7 diagnostics)
    - **MIT licensed**
    - **No ads / no tracking**
 3. Visual gallery

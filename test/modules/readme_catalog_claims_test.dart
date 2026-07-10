@@ -14,8 +14,8 @@ void main() {
         .length;
     final diagnostics = modules.length - production;
 
-    expect(production, 1585,
-        reason: 'README.md advertises 1,585 production fractals');
+    expect(production, 974,
+        reason: 'README.md advertises 974 production fractals');
     expect(diagnostics, 7,
         reason: 'README.md says debug/test builds add 7 diagnostic modules');
   });

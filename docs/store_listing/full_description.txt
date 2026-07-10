@@ -1,4 +1,4 @@
-Fractal Forge is a fast, private fractal explorer for creating generative math art, fractal wallpapers, and visual studies. Explore 1,585 production fractals with GPU-accelerated GLSL shaders where supported, deep zoom, and real-time controls.
+Fractal Forge is a fast, private fractal explorer for creating generative math art, fractal wallpapers, and visual studies. Explore 974 production fractals with GPU-accelerated GLSL shaders where supported, deep zoom, and real-time controls.
 
 Discover classic and modern fractal families:
 • Mandelbrot and Julia sets, Burning Ship, Tricorn, Celtic, Buffalo, Nova, Phoenix, and Lyapunov maps
@@ -9,7 +9,7 @@ Discover classic and modern fractal families:
 Use curated presets to jump to rich regions, adjust iterations, palettes, color styles, orbit traps, distance estimation, normal-map relief, and visual parameters, then export high-resolution PNG images for wallpaper, sharing, teaching, or study.
 
 Features:
-• 1,585 production fractal modules
+• 974 production fractal modules
 • GPU-powered rendering where supported
 • Deep zoom and pan controls
 • 60+ color schemes with smooth coloring
