@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
@@ -10,12 +11,43 @@ class _SheetHarness {
 }
 
 void main() {
-  test('ExportActionAvailability disables unsupported actions on web preview',
-      () {
+  test('ExportActionAvailability matches platform capabilities', () {
     expect(ExportActionAvailability.canSaveAndShare(isWeb: false), isTrue);
     expect(ExportActionAvailability.canSaveAndShare(isWeb: true), isFalse);
-    expect(ExportActionAvailability.canSetWallpaper(isWeb: false), isTrue);
-    expect(ExportActionAvailability.canSetWallpaper(isWeb: true), isFalse);
+    expect(
+      ExportActionAvailability.canSetWallpaper(
+        isWeb: false,
+        platform: TargetPlatform.android,
+      ),
+      isTrue,
+    );
+    expect(
+      ExportActionAvailability.canSetWallpaper(
+        isWeb: false,
+        platform: TargetPlatform.iOS,
+      ),
+      isTrue,
+    );
+    for (final platform in [
+      TargetPlatform.linux,
+      TargetPlatform.macOS,
+      TargetPlatform.windows,
+    ]) {
+      expect(
+        ExportActionAvailability.canSetWallpaper(
+          isWeb: false,
+          platform: platform,
+        ),
+        isFalse,
+      );
+    }
+    expect(
+      ExportActionAvailability.canSetWallpaper(
+        isWeb: true,
+        platform: TargetPlatform.android,
+      ),
+      isFalse,
+    );
   });
 
   Future<_SheetHarness> pumpSheet(
@@ -145,6 +177,29 @@ void main() {
     expect(find.byKey(const ValueKey('exportSaveButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('exportShareButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('exportWallpaperButton')), findsOneWidget);
+    expect(
+      tester.getTopLeft(find.byKey(const ValueKey('exportSaveButton'))).dy,
+      lessThan(
+        tester.getTopLeft(find.byKey(const ValueKey('exportShareButton'))).dy,
+      ),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('desktop sheet is width constrained and hides wallpaper',
+      (tester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.linux;
+    addTearDown(() => debugDefaultTargetPlatformOverride = null);
+    tester.view.physicalSize = const Size(1200, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await pumpSheet(tester);
+
+    expect(tester.getSize(find.byType(ExportOptionsSheet)).width, 720);
+    expect(find.byKey(const ValueKey('exportWallpaperButton')), findsNothing);
+    expect(tester.takeException(), isNull);
+    debugDefaultTargetPlatformOverride = null;
   });
 
   testWidgets('quote overlay text is included in submitted options',

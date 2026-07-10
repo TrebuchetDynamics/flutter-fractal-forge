@@ -10,13 +10,25 @@ import 'package:flutter_fractals/shared/widgets/sheet_section_label.dart';
 
 class WallpaperOptionsSheet extends StatefulWidget {
   final WallpaperOptions initial;
-  final void Function(WallpaperOptions options) onApply;
 
   const WallpaperOptionsSheet({
     super.key,
     required this.initial,
-    required this.onApply,
   });
+
+  static Future<WallpaperOptions?> show(
+    BuildContext context, {
+    WallpaperOptions initial = const WallpaperOptions(),
+  }) {
+    return showModalBottomSheet<WallpaperOptions>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      constraints: const BoxConstraints(maxWidth: 720),
+      backgroundColor: Colors.transparent,
+      builder: (_) => WallpaperOptionsSheet(initial: initial),
+    );
+  }
 
   @override
   State<WallpaperOptionsSheet> createState() => _WallpaperOptionsSheetState();
@@ -133,7 +145,7 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                 subtitle: Text(l10n.wallpaperSaveCopySubtitle),
                 contentPadding: EdgeInsets.zero,
               ),
-              const SizedBox(height: 90),
+              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -144,8 +156,7 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
             child: FilledButton.icon(
               onPressed: () {
                 HapticService.heavy();
-                Navigator.of(context).pop();
-                widget.onApply(_options);
+                Navigator.of(context).pop(_options);
               },
               icon: const Icon(Icons.wallpaper_rounded),
               label: Text(l10n.wallpaperApply),

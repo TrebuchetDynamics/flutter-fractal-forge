@@ -230,9 +230,6 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     }
 
     if (submission.action == ExportAction.setWallpaper) {
-      setState(() {
-        _finishExportFlow();
-      });
       await _openWallpaper(context);
       return;
     }
@@ -420,15 +417,38 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
 
   Future<void> _openWallpaper(BuildContext context) async {
     _log.info('action', 'Open wallpaper');
-    await showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => WallpaperOptionsSheet(
-        initial: const WallpaperOptions(),
-        onApply: (options) => _applyWallpaper(context, options),
-      ),
+    final canSetWallpaper = ExportActionAvailability.canSetWallpaper(
+      isWeb: kIsWeb,
+      platform: defaultTargetPlatform,
     );
+    if (!canSetWallpaper) {
+      if (mounted && _exportSession.freezeFrame) {
+        setState(_finishExportFlow);
+      }
+      return;
+    }
+
+    if (!_exportSession.freezeFrame) {
+      final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
+      setState(() {
+        _exportSession = _exportSession.openSheet(
+          resumeAutoExploreWhenFinished: shouldResumeAutoExplore,
+        );
+      });
+    }
+
+    final options = await WallpaperOptionsSheet.show(
+      context,
+      initial: const WallpaperOptions(),
+    );
+    if (!mounted) return;
+
+    if (options == null) {
+      setState(_finishExportFlow);
+      return;
+    }
+
+    await _applyWallpaper(context, options);
   }
 
   Future<void> _applyWallpaper(
@@ -439,11 +459,16 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final boundaryKey = _activeBoundaryKey();
     final l10n = AppLocalizations.of(context)!;
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
-    final saveCopy =
-        options.saveCopy && await _exportService.chooseLinuxExportDirectory();
-    if (!mounted) return;
+
+    setState(() {
+      _exportSession = _exportSession.startExport();
+    });
 
     try {
+      final saveCopy =
+          options.saveCopy && await _exportService.chooseLinuxExportDirectory();
+      if (!mounted) return;
+
       // Capture the current frame at the device's native resolution (capped),
       // apply the legibility overlay, then hand it to the platform.
       final pngBytes = await _exportService.capturePng(
@@ -497,6 +522,10 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           behavior: SnackBarBehavior.floating,
         ),
       );
+    } finally {
+      if (mounted) {
+        setState(_finishExportFlow);
+      }
     }
   }
 

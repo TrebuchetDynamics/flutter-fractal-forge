@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter_fractals/core/models/export_options.dart';
 
 /// User intent selected from the export sheet.
@@ -24,5 +25,11 @@ class ExportActionAvailability {
 
   static bool canSaveAndShare({required bool isWeb}) => !isWeb;
 
-  static bool canSetWallpaper({required bool isWeb}) => !isWeb;
+  static bool canSetWallpaper({
+    required bool isWeb,
+    required TargetPlatform platform,
+  }) {
+    return !isWeb &&
+        (platform == TargetPlatform.android || platform == TargetPlatform.iOS);
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -35,6 +36,22 @@ void main() {
     );
     expect(
         find.text('Preview crops for phone wallpaper sizes.'), findsOneWidget);
+  });
+
+  testWidgets('desktop export sheet omits unsupported wallpaper actions',
+      (tester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.linux;
+    addTearDown(() => debugDefaultTargetPlatformOverride = null);
+    await _pumpHarness(tester);
+
+    await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Export'), findsNWidgets(2));
+    expect(find.text('Save or share the current render.'), findsOneWidget);
+    expect(find.text('Wallpaper'), findsNothing);
+    expect(find.text('Preview crops for phone wallpaper sizes.'), findsNothing);
+    debugDefaultTargetPlatformOverride = null;
   });
 
   testWidgets('long-pressing kaleidoscope FAB opens section picker',

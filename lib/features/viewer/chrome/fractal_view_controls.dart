@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
@@ -93,6 +95,10 @@ class FractalViewControls extends StatelessWidget {
             mediaQuery.padding.right -
             AppSpacing.xxl)
         .clamp(0.0, double.infinity);
+    final supportsWallpaper = ExportActionAvailability.canSetWallpaper(
+      isWeb: kIsWeb,
+      platform: defaultTargetPlatform,
+    );
 
     final actionButtons = <Widget>[
       if (showFractalReport)
@@ -157,9 +163,14 @@ class FractalViewControls extends StatelessWidget {
       ),
       _ExportWallpaperFab(
         isExporting: isExporting,
+        supportsWallpaper: supportsWallpaper,
         l10n: l10n,
         onOpenExport: actions.openExport,
-        onLongPress: () => _showExportModal(context, l10n),
+        onLongPress: () => _showExportModal(
+          context,
+          l10n,
+          supportsWallpaper: supportsWallpaper,
+        ),
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerTextOverlayButton'),
@@ -299,12 +310,20 @@ class FractalViewControls extends StatelessWidget {
     );
   }
 
-  void _showExportModal(BuildContext context, AppLocalizations l10n) {
+  void _showExportModal(
+    BuildContext context,
+    AppLocalizations l10n, {
+    required bool supportsWallpaper,
+  }) {
     _showActionModal(
       context,
       icon: Icons.ios_share_rounded,
-      title: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
-      subtitle: 'Save, share, or fit the current render to your device.',
+      title: supportsWallpaper
+          ? '${l10n.tooltipExport} / ${l10n.wallpaperTitle}'
+          : l10n.tooltipExport,
+      subtitle: supportsWallpaper
+          ? 'Save, share, or fit the current render to your device.'
+          : 'Save or share the current render.',
       children: [
         _ActionTile(
           icon: Icons.download_rounded,
@@ -324,12 +343,13 @@ class FractalViewControls extends StatelessWidget {
           description: 'Render an image and send it to installed apps.',
           onTap: actions.shareImage,
         ),
-        _ActionTile(
-          icon: Icons.wallpaper_rounded,
-          label: l10n.wallpaperTitle,
-          description: 'Preview crops for phone wallpaper sizes.',
-          onTap: actions.openWallpaper,
-        ),
+        if (supportsWallpaper)
+          _ActionTile(
+            icon: Icons.wallpaper_rounded,
+            label: l10n.wallpaperTitle,
+            description: 'Preview crops for phone wallpaper sizes.',
+            onTap: actions.openWallpaper,
+          ),
       ],
     );
   }
@@ -640,12 +660,14 @@ class _ModalIconBadge extends StatelessWidget {
 
 class _ExportWallpaperFab extends StatelessWidget {
   final bool isExporting;
+  final bool supportsWallpaper;
   final AppLocalizations l10n;
   final VoidCallback onOpenExport;
   final VoidCallback onLongPress;
 
   const _ExportWallpaperFab({
     required this.isExporting,
+    required this.supportsWallpaper,
     required this.l10n,
     required this.onOpenExport,
     required this.onLongPress,
@@ -656,7 +678,9 @@ class _ExportWallpaperFab extends StatelessWidget {
     return FloatingActionButtonWidget(
       key: const ValueKey('viewerExportButton'),
       icon: Icons.ios_share_rounded,
-      tooltip: '${l10n.tooltipExport} / ${l10n.wallpaperTitle}',
+      tooltip: supportsWallpaper
+          ? '${l10n.tooltipExport} / ${l10n.wallpaperTitle}'
+          : l10n.tooltipExport,
       onPressed: isExporting ? null : onOpenExport,
       onLongPress: isExporting ? null : onLongPress,
       isCompact: true,

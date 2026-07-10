@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
@@ -28,6 +28,8 @@ class ExportOptionsSheet extends StatefulWidget {
     return showModalBottomSheet<ExportSheetSubmission>(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
+      constraints: const BoxConstraints(maxWidth: 720),
       backgroundColor: Colors.transparent,
       builder: (_) => ExportOptionsSheet(
         initialOptions: initialOptions,
@@ -153,7 +155,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
               _buildQuickPresets(context, l10n),
               const SizedBox(height: 24),
               _buildExportSummary(context, l10n),
-              const SizedBox(height: 100),
+              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -699,6 +701,53 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     );
     final canSetWallpaper = ExportActionAvailability.canSetWallpaper(
       isWeb: kIsWeb,
+      platform: defaultTargetPlatform,
+    );
+
+    final saveButton = Semantics(
+      button: true,
+      label: l10n.exportActionSaveImage,
+      hint: l10n.exportSaveLocationHint,
+      child: FilledButton.icon(
+        key: const ValueKey('exportSaveButton'),
+        onPressed: () {
+          Navigator.of(context).pop(
+            ExportSheetSubmission(
+              options: effectiveOptions,
+              action: ExportAction.saveOnly,
+            ),
+          );
+        },
+        icon: const Icon(Icons.save_alt_rounded),
+        label: Text(l10n.exportActionSaveImage),
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        ),
+      ),
+    );
+    final shareButton = Semantics(
+      button: true,
+      enabled: canSaveAndShare,
+      label: l10n.exportActionSaveAndShare,
+      hint: l10n.exportSaveLocationHint,
+      child: OutlinedButton.icon(
+        key: const ValueKey('exportShareButton'),
+        onPressed: canSaveAndShare
+            ? () {
+                Navigator.of(context).pop(
+                  ExportSheetSubmission(
+                    options: effectiveOptions,
+                    action: ExportAction.saveAndShare,
+                  ),
+                );
+              }
+            : null,
+        icon: const Icon(Icons.share_rounded),
+        label: Text(l10n.exportActionSaveAndShare),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        ),
+      ),
     );
 
     return Container(
@@ -716,87 +765,53 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Semantics(
-                    button: true,
-                    label: l10n.exportActionSaveImage,
-                    hint: l10n.exportSaveLocationHint,
-                    child: FilledButton.icon(
-                      key: const ValueKey('exportSaveButton'),
-                      onPressed: () {
-                        Navigator.of(context).pop(
-                          ExportSheetSubmission(
-                            options: effectiveOptions,
-                            action: ExportAction.saveOnly,
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.save_alt_rounded),
-                      label: Text(l10n.exportActionSaveImage),
-                      style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Semantics(
-                    button: true,
-                    enabled: canSaveAndShare,
-                    label: l10n.exportActionSaveAndShare,
-                    hint: l10n.exportSaveLocationHint,
-                    child: OutlinedButton.icon(
-                      key: const ValueKey('exportShareButton'),
-                      onPressed: canSaveAndShare
-                          ? () {
-                              Navigator.of(context).pop(
-                                ExportSheetSubmission(
-                                  options: effectiveOptions,
-                                  action: ExportAction.saveAndShare,
-                                ),
-                              );
-                            }
-                          : null,
-                      icon: const Icon(Icons.share_rounded),
-                      label: Text(l10n.exportActionSaveAndShare),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth < 420) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      saveButton,
+                      const SizedBox(height: 10),
+                      shareButton,
+                    ],
+                  );
+                }
+                return Row(
+                  children: [
+                    Expanded(child: saveButton),
+                    const SizedBox(width: 12),
+                    Expanded(child: shareButton),
+                  ],
+                );
+              },
             ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: Semantics(
-                button: true,
-                enabled: canSetWallpaper,
-                label: l10n.wallpaperTitle,
-                child: OutlinedButton.icon(
-                  key: const ValueKey('exportWallpaperButton'),
-                  onPressed: canSetWallpaper
-                      ? () {
-                          Navigator.of(context).pop(
-                            ExportSheetSubmission(
-                              options: effectiveOptions,
-                              action: ExportAction.setWallpaper,
-                            ),
-                          );
-                        }
-                      : null,
-                  icon: const Icon(Icons.wallpaper_rounded),
-                  label: Text(l10n.wallpaperTitle),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+            if (canSetWallpaper) ...[
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: Semantics(
+                  button: true,
+                  label: l10n.wallpaperTitle,
+                  child: OutlinedButton.icon(
+                    key: const ValueKey('exportWallpaperButton'),
+                    onPressed: () {
+                      Navigator.of(context).pop(
+                        ExportSheetSubmission(
+                          options: effectiveOptions,
+                          action: ExportAction.setWallpaper,
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.wallpaper_rounded),
+                    label: Text(l10n.wallpaperTitle),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ],
         ),
       ),

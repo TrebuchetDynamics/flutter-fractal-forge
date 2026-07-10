@@ -5,9 +5,8 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('wallpaper sheet uses shared header and applies options',
-      (tester) async {
-    WallpaperOptions? applied;
+  Future<_WallpaperSheetHarness> pumpSheet(WidgetTester tester) async {
+    final harness = _WallpaperSheetHarness();
 
     await tester.pumpWidget(
       MaterialApp(
@@ -17,15 +16,12 @@ void main() {
         home: Scaffold(
           body: Builder(
             builder: (context) => ElevatedButton(
-              onPressed: () => showModalBottomSheet<void>(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (_) => WallpaperOptionsSheet(
+              onPressed: () async {
+                harness.result = await WallpaperOptionsSheet.show(
+                  context,
                   initial: const WallpaperOptions(),
-                  onApply: (options) => applied = options,
-                ),
-              ),
+                );
+              },
               child: const Text('Open'),
             ),
           ),
@@ -35,6 +31,12 @@ void main() {
 
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
+    return harness;
+  }
+
+  testWidgets('wallpaper sheet returns selected options after it closes',
+      (tester) async {
+    final harness = await pumpSheet(tester);
 
     expect(find.byIcon(Icons.close_rounded), findsOneWidget);
     expect(find.text('Wallpaper'), findsOneWidget);
@@ -43,7 +45,32 @@ void main() {
     await tester.tap(find.text('Apply'));
     await tester.pumpAndSettle();
 
-    expect(applied, isNotNull);
-    expect(applied!.target, WallpaperTarget.home);
+    expect(harness.result, isNotNull);
+    expect(harness.result!.target, WallpaperTarget.home);
   });
+
+  testWidgets('wallpaper sheet returns null when dismissed', (tester) async {
+    final harness = await pumpSheet(tester);
+
+    await tester.tap(find.byIcon(Icons.close_rounded));
+    await tester.pumpAndSettle();
+
+    expect(harness.result, isNull);
+  });
+
+  testWidgets('wallpaper sheet is width constrained on large screens',
+      (tester) async {
+    tester.view.physicalSize = const Size(1200, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await pumpSheet(tester);
+
+    expect(tester.getSize(find.byType(WallpaperOptionsSheet)).width, 720);
+    expect(tester.takeException(), isNull);
+  });
+}
+
+class _WallpaperSheetHarness {
+  WallpaperOptions? result;
 }
