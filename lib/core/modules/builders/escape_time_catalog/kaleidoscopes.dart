@@ -222,6 +222,24 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'c2Real',
+        label: 'C2 real',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: -0.4,
+      ),
+      _floatParam(
+        id: 'c2Imag',
+        label: 'C2 imag',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: 0.6,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'bedhead',
@@ -239,6 +257,32 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'eps',
+        label: 'Epsilon',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: 0.1,
+      ),
+      _floatParam(
+        id: 'k',
+        label: 'K',
+        min: -4.0,
+        max: 4.0,
+        step: 0.01,
+        defaultValue: 1.2,
+      ),
+      _floatParam(
+        id: 'mu',
+        label: 'Mu',
+        min: -4.0,
+        max: 4.0,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'buddhabrot_full',
@@ -345,6 +389,24 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'cReal',
+        label: 'C real',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: -0.4,
+      ),
+      _floatParam(
+        id: 'cImag',
+        label: 'C imag',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: 0.6,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'cosecant_mandelbrot',
@@ -363,6 +425,24 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'cReal',
+        label: 'C real',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: -0.4,
+      ),
+      _floatParam(
+        id: 'cImag',
+        label: 'C imag',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: 0.6,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'cotangent_mandelbrot',
@@ -561,6 +641,24 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'traceReal',
+        label: 'Trace real',
+        min: -4.0,
+        max: 4.0,
+        step: 0.01,
+        defaultValue: 1.9,
+      ),
+      _floatParam(
+        id: 'traceImag',
+        label: 'Trace imag',
+        min: -4.0,
+        max: 4.0,
+        step: 0.01,
+        defaultValue: 0.2,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'laguerre_fractal',
@@ -645,6 +743,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'alpha',
+        label: 'Alpha',
+        min: 0.1,
+        max: 4.0,
+        step: 0.01,
+        defaultValue: 1.5,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'muller',
@@ -669,6 +777,32 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'a',
+        label: 'A',
+        min: 0.0,
+        max: 1.0,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+      _floatParam(
+        id: 'b',
+        label: 'B',
+        min: 0.0,
+        max: 1.0,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+      _floatParam(
+        id: 'c',
+        label: 'C',
+        min: 0.0,
+        max: 1.0,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'nova_degree5',
@@ -790,6 +924,24 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'cReal',
+        label: 'C real',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: -0.4,
+      ),
+      _floatParam(
+        id: 'cImag',
+        label: 'C imag',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: 0.6,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'secant_mandelbrot',
@@ -816,6 +968,24 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'cReal',
+        label: 'C real',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: -0.1,
+      ),
+      _floatParam(
+        id: 'cImag',
+        label: 'C imag',
+        min: -2.0,
+        max: 2.0,
+        step: 0.01,
+        defaultValue: 0.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'sprott_g',

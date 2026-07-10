@@ -169,5 +169,6 @@ void main() {
   float alpha = clamp(normDensity * 5.0, 0.0, 1.0);
   col *= alpha;
 
-  fragColor = vec4(linearToSRGB(col), alpha);
+  float outAlpha = (uTransparentBg > 0.5) ? alpha : 1.0;
+  fragColor = vec4(linearToSRGB(col), outAlpha);
 }
