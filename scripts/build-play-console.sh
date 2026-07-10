@@ -462,6 +462,8 @@ PYREG
 cd "$PROJECT_ROOT"
 
 if [[ "$RUN_PUB_GET" -eq 1 ]]; then
+  log "Cleaning stale Flutter build cache..."
+  flutter clean
   log "Running flutter pub get..."
   flutter pub get
 fi
@@ -482,6 +484,27 @@ sanitize_release_registrant
 
 log "Building release app bundle..."
 flutter build appbundle --release "${FORWARDED_ARGS[@]}"
+
+python3 - <<'PYSHADERS'
+from pathlib import Path
+
+declared = 0
+in_shaders = False
+for line in Path('pubspec.yaml').read_text().splitlines():
+    if line == '  shaders:':
+        in_shaders = True
+        continue
+    if in_shaders and line.startswith('  ') and not line.startswith('    '):
+        break
+    if in_shaders and line.startswith('    - '):
+        declared += 1
+
+roots = [Path('build/app/intermediates/flutter/release/flutter_assets/shaders')]
+built = sum(1 for root in roots if root.exists() for _ in root.rglob('*.frag'))
+if built < declared:
+    raise SystemExit(f'only {built}/{declared} declared shaders bundled; refusing Play upload')
+print(f'[build-play-console] Shader bundle verified: {built}/{declared}')
+PYSHADERS
 
 BUNDLE_ROOT="$PROJECT_ROOT/build/app/outputs/bundle"
 [[ -d "$BUNDLE_ROOT" ]] || die "Bundle output directory not found: $BUNDLE_ROOT"

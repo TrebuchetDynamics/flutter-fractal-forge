@@ -13,10 +13,12 @@ if [[ ! -x "${FLUTTER_BIN}" ]]; then
   FLUTTER_BIN="flutter"
 fi
 
+"${FLUTTER_BIN}" clean
 "${FLUTTER_BIN}" build web --release --no-wasm-dry-run --base-href "${BASE_HREF}"
 
 export BASE_HREF
 python3 - <<'PY'
+import hashlib
 import os
 from html.parser import HTMLParser
 from pathlib import Path
@@ -30,6 +32,15 @@ manifest = root / 'manifest.json'
 assert index.exists(), 'build/web/index.html missing'
 assert landing.exists(), 'build/web/landing.html missing'
 assert manifest.exists(), 'build/web/manifest.json missing'
+
+main_js = root / 'main.dart.js'
+bootstrap = root / 'flutter_bootstrap.js'
+main_hash = hashlib.sha256(main_js.read_bytes()).hexdigest()[:12]
+bootstrap_text = bootstrap.read_text()
+bootstrap_text = bootstrap_text.replace('"mainJsPath":"main.dart.js"', f'"mainJsPath":"main.dart.js?v={main_hash}"')
+bootstrap.write_text(bootstrap_text)
+bootstrap_hash = hashlib.sha256(bootstrap.read_bytes()).hexdigest()[:12]
+index.write_text(index.read_text().replace('src="flutter_bootstrap.js"', f'src="flutter_bootstrap.js?v={bootstrap_hash}"'))
 
 class Parser(HTMLParser):
     def __init__(self):
@@ -69,5 +80,18 @@ base_href = os.environ['BASE_HREF']
 index_text = index.read_text()
 assert f'<base href="{base_href}">' in index_text, 'unexpected Flutter base href'
 
-print('web_preview_build_ok', {'baseHref': base_href, 'links': len(parser.links), 'images': len(parser.images)})
+declared_shaders = 0
+in_shaders = False
+for line in Path('pubspec.yaml').read_text().splitlines():
+    if line == '  shaders:':
+        in_shaders = True
+        continue
+    if in_shaders and line.startswith('  ') and not line.startswith('    '):
+        break
+    if in_shaders and line.startswith('    - '):
+        declared_shaders += 1
+built_shaders = sum(1 for _ in (root / 'assets' / 'shaders').rglob('*.frag'))
+assert built_shaders >= declared_shaders, f'only {built_shaders}/{declared_shaders} declared shaders bundled; run a clean build'
+
+print('web_preview_build_ok', {'baseHref': base_href, 'links': len(parser.links), 'images': len(parser.images), 'shaders': built_shaders})
 PY
