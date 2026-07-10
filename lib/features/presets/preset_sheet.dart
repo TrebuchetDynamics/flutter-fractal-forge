@@ -358,26 +358,21 @@ class _PresetSheetState extends State<PresetSheet> {
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        title: Text(
-          l10n.deletePresetTitle,
-          style:
-              AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
+      builder: (ctx) => AppDialog(
+        icon: Icons.delete_rounded,
+        iconGradient: const LinearGradient(
+          colors: [AppColors.error, AppColors.warning],
         ),
-        content: Text(
-          l10n.deletePresetMessage(preset.name),
-          style:
-              AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-        ),
+        title: l10n.deletePresetTitle,
+        content: Text(l10n.deletePresetMessage(preset.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
             child: Text(l10n.buttonCancel),
           ),
-          TextButton(
+          FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.error),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.error),
             child: Text(l10n.buttonDelete),
           ),
         ],
@@ -414,13 +409,9 @@ class _PresetSheetState extends State<PresetSheet> {
     final renameController = TextEditingController(text: preset.name);
     final newName = await showDialog<String>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        title: Text(
-          l10n.renamePresetTitle,
-          style:
-              AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
-        ),
+      builder: (ctx) => AppDialog(
+        icon: Icons.edit_rounded,
+        title: l10n.renamePresetTitle,
         content: TextField(
           controller: renameController,
           autofocus: true,
@@ -441,7 +432,7 @@ class _PresetSheetState extends State<PresetSheet> {
             onPressed: () => Navigator.of(ctx).pop(),
             child: Text(l10n.buttonCancel),
           ),
-          TextButton(
+          FilledButton(
             onPressed: () {
               final trimmed = renameController.text.trim();
               if (trimmed.isNotEmpty) Navigator.of(ctx).pop(trimmed);

@@ -36,151 +36,123 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return DraggableScrollableSheet(
+    return AppDraggableBottomSheet(
       initialChildSize: 0.62,
       minChildSize: 0.5,
       maxChildSize: 0.92,
-      expand: false,
-      builder: (context, scrollController) {
-        return Container(
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
+      childrenBuilder: (context, scrollController) => [
+        AppBottomSheetHeader(
+          icon: Icons.wallpaper_rounded,
+          title: l10n.wallpaperTitle,
+          onClose: () => Navigator.of(context).maybePop(),
+        ),
+        const Divider(height: 1),
+        const SizedBox(height: 16),
+        Expanded(
+          child: ListView(
+            controller: scrollController,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
-              SheetDragHandle(
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Icon(Icons.wallpaper_rounded,
-                        color: theme.colorScheme.primary),
-                    const SizedBox(width: 12),
-                    Text(
-                      l10n.wallpaperTitle,
-                      style: theme.textTheme.headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ],
+              Text(
+                (!kIsWeb && Platform.isIOS)
+                    ? l10n.wallpaperIosNote
+                    : l10n.wallpaperAndroidNote,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
                 ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                l10n.wallpaperTarget,
+                style: sheetSectionLabelStyle(theme),
+              ),
+              const SizedBox(height: 12),
+              SegmentedButton(
+                segments: [
+                  ButtonSegment(
+                    value: WallpaperTarget.home,
+                    label: Text(l10n.wallpaperTargetHome),
+                    icon: const Icon(Icons.home_rounded),
+                  ),
+                  ButtonSegment(
+                    value: WallpaperTarget.lock,
+                    label: Text(l10n.wallpaperTargetLock),
+                    icon: const Icon(Icons.lock_rounded),
+                  ),
+                  ButtonSegment(
+                    value: WallpaperTarget.both,
+                    label: Text(l10n.wallpaperTargetBoth),
+                    icon: const Icon(Icons.layers_rounded),
+                  ),
+                ],
+                selected: {_options.target},
+                onSelectionChanged: (s) {
+                  HapticService.light();
+                  setState(() => _options = _options.copyWith(target: s.first));
+                },
+              ),
+              const SizedBox(height: 20),
+              Text(
+                l10n.wallpaperPresets,
+                style: sheetSectionLabelStyle(theme),
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _StyleChip(
+                    selected: _options.style == WallpaperStyle.plain,
+                    label: l10n.wallpaperPresetPlain,
+                    icon: Icons.brush_rounded,
+                    onTap: () => setState(() => _options =
+                        _options.copyWith(style: WallpaperStyle.plain)),
+                  ),
+                  _StyleChip(
+                    selected: _options.style == WallpaperStyle.homeOptimized,
+                    label: l10n.wallpaperPresetHome,
+                    icon: Icons.home_rounded,
+                    onTap: () => setState(() => _options =
+                        _options.copyWith(style: WallpaperStyle.homeOptimized)),
+                  ),
+                  _StyleChip(
+                    selected: _options.style == WallpaperStyle.lockOptimized,
+                    label: l10n.wallpaperPresetLock,
+                    icon: Icons.lock_rounded,
+                    onTap: () => setState(() => _options =
+                        _options.copyWith(style: WallpaperStyle.lockOptimized)),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  children: [
-                    Text(
-                      (!kIsWeb && Platform.isIOS)
-                          ? l10n.wallpaperIosNote
-                          : l10n.wallpaperAndroidNote,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color:
-                            theme.colorScheme.onSurface.withValues(alpha: 0.75),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      l10n.wallpaperTarget,
-                      style: sheetSectionLabelStyle(theme),
-                    ),
-                    const SizedBox(height: 12),
-                    SegmentedButton(
-                      segments: [
-                        ButtonSegment(
-                          value: WallpaperTarget.home,
-                          label: Text(l10n.wallpaperTargetHome),
-                          icon: const Icon(Icons.home_rounded),
-                        ),
-                        ButtonSegment(
-                          value: WallpaperTarget.lock,
-                          label: Text(l10n.wallpaperTargetLock),
-                          icon: const Icon(Icons.lock_rounded),
-                        ),
-                        ButtonSegment(
-                          value: WallpaperTarget.both,
-                          label: Text(l10n.wallpaperTargetBoth),
-                          icon: const Icon(Icons.layers_rounded),
-                        ),
-                      ],
-                      selected: {_options.target},
-                      onSelectionChanged: (s) {
-                        HapticService.light();
-                        setState(() =>
-                            _options = _options.copyWith(target: s.first));
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      l10n.wallpaperPresets,
-                      style: sheetSectionLabelStyle(theme),
-                    ),
-                    const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        _StyleChip(
-                          selected: _options.style == WallpaperStyle.plain,
-                          label: l10n.wallpaperPresetPlain,
-                          icon: Icons.brush_rounded,
-                          onTap: () => setState(() => _options =
-                              _options.copyWith(style: WallpaperStyle.plain)),
-                        ),
-                        _StyleChip(
-                          selected:
-                              _options.style == WallpaperStyle.homeOptimized,
-                          label: l10n.wallpaperPresetHome,
-                          icon: Icons.home_rounded,
-                          onTap: () => setState(() => _options = _options
-                              .copyWith(style: WallpaperStyle.homeOptimized)),
-                        ),
-                        _StyleChip(
-                          selected:
-                              _options.style == WallpaperStyle.lockOptimized,
-                          label: l10n.wallpaperPresetLock,
-                          icon: Icons.lock_rounded,
-                          onTap: () => setState(() => _options = _options
-                              .copyWith(style: WallpaperStyle.lockOptimized)),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    SwitchListTile.adaptive(
-                      value: _options.saveCopy,
-                      onChanged: (v) => setState(
-                          () => _options = _options.copyWith(saveCopy: v)),
-                      title: Text(l10n.wallpaperSaveCopy),
-                      subtitle: Text(l10n.wallpaperSaveCopySubtitle),
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                    const SizedBox(height: 90),
-                  ],
-                ),
+              SwitchListTile.adaptive(
+                value: _options.saveCopy,
+                onChanged: (v) =>
+                    setState(() => _options = _options.copyWith(saveCopy: v)),
+                title: Text(l10n.wallpaperSaveCopy),
+                subtitle: Text(l10n.wallpaperSaveCopySubtitle),
+                contentPadding: EdgeInsets.zero,
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.icon(
-                    onPressed: () {
-                      HapticService.heavy();
-                      Navigator.of(context).pop();
-                      widget.onApply(_options);
-                    },
-                    icon: const Icon(Icons.wallpaper_rounded),
-                    label: Text(l10n.wallpaperApply),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 90),
             ],
           ),
-        );
-      },
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+          child: SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: () {
+                HapticService.heavy();
+                Navigator.of(context).pop();
+                widget.onApply(_options);
+              },
+              icon: const Icon(Icons.wallpaper_rounded),
+              label: Text(l10n.wallpaperApply),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

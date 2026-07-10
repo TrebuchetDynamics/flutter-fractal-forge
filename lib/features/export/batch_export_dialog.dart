@@ -12,6 +12,7 @@ import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 class BatchExportDialog extends StatefulWidget {
   final GlobalKey boundaryKey;
@@ -178,29 +179,14 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       child: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.lg,
-                AppSpacing.lg,
-                AppSpacing.lg,
-                AppSpacing.md,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      l10n.batchExportTitle,
-                      style: AppTypography.headlineSmall,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: _cancelOrClose,
-                    child: Text(
-                        _running ? l10n.batchExportCancel : l10n.actionClose),
-                  ),
-                ],
-              ),
+            AppBottomSheetHeader(
+              icon: Icons.collections_rounded,
+              title: l10n.batchExportTitle,
+              subtitle: _running ? l10n.batchExportCancel : l10n.actionClose,
+              onClose: _cancelOrClose,
             ),
+            const Divider(height: 1, color: AppColors.divider),
+            const SizedBox(height: AppSpacing.md),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(

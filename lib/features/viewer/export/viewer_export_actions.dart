@@ -229,6 +229,14 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       return;
     }
 
+    if (submission.action == ExportAction.setWallpaper) {
+      setState(() {
+        _finishExportFlow();
+      });
+      await _openWallpaper(context);
+      return;
+    }
+
     await _performExport(
       context,
       submission.options,

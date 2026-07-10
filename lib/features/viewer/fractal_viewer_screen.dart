@@ -717,8 +717,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         if (!mounted) return;
         await showDialog<void>(
           context: context,
-          builder: (dialogContext) => AlertDialog(
-            title: const Text('Copy report JSON'),
+          builder: (dialogContext) => AppDialog(
+            icon: Icons.data_object_rounded,
+            title: 'Copy report JSON',
             content: SizedBox(
               width: double.maxFinite,
               child: SingleChildScrollView(child: SelectableText(json)),

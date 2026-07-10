@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -48,57 +47,25 @@ class _HistorySheetState extends State<HistorySheet>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.95),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(
-              color: AppColors.border.withValues(alpha: 0.3),
-            ),
-          ),
-          child: DraggableScrollableSheet(
-            initialChildSize: 0.6,
-            minChildSize: 0.3,
-            maxChildSize: 0.9,
-            expand: false,
-            builder: (context, scrollController) {
-              return Column(
-                children: [
-                  // Drag handle
-                  const SizedBox(height: AppSpacing.md),
-                  SheetDragHandle(
-                    color: AppColors.textMuted.withValues(alpha: 0.4),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-
-                  // Header with navigation
-                  _buildHeader(context, l10n),
-                  const SizedBox(height: AppSpacing.md),
-
-                  // Tab bar
-                  _buildTabBar(l10n),
-                  const SizedBox(height: AppSpacing.sm),
-
-                  // Tab content
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        _buildHistoryList(context, scrollController, l10n),
-                        _buildFavoritesList(context, scrollController, l10n),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
+    return AppDraggableBottomSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.3,
+      maxChildSize: 0.9,
+      childrenBuilder: (context, scrollController) => [
+        _buildHeader(context, l10n),
+        const SizedBox(height: AppSpacing.md),
+        _buildTabBar(l10n),
+        const SizedBox(height: AppSpacing.sm),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildHistoryList(context, scrollController, l10n),
+              _buildFavoritesList(context, scrollController, l10n),
+            ],
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -366,8 +333,9 @@ class _HistorySheetState extends State<HistorySheet>
 
     showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.saveFavoriteTitle),
+      builder: (dialogContext) => AppDialog(
+        icon: Icons.star_rounded,
+        title: l10n.saveFavoriteTitle,
         content: TextField(
           controller: _nameController,
           autofocus: true,
@@ -382,7 +350,7 @@ class _HistorySheetState extends State<HistorySheet>
             onPressed: () => Navigator.pop(dialogContext),
             child: Text(l10n.buttonCancel),
           ),
-          ElevatedButton(
+          FilledButton(
             onPressed: () => _saveFavorite(dialogContext, history, entry),
             child: Text(l10n.buttonSave),
           ),
@@ -418,8 +386,9 @@ class _HistorySheetState extends State<HistorySheet>
 
     showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.renameFavoriteTitle),
+      builder: (dialogContext) => AppDialog(
+        icon: Icons.edit_rounded,
+        title: l10n.renameFavoriteTitle,
         content: TextField(
           controller: _nameController,
           autofocus: true,
@@ -440,7 +409,7 @@ class _HistorySheetState extends State<HistorySheet>
             onPressed: () => Navigator.pop(dialogContext),
             child: Text(l10n.buttonCancel),
           ),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               final newName = _nameController.text.trim();
               if (newName.isNotEmpty) {
@@ -464,16 +433,20 @@ class _HistorySheetState extends State<HistorySheet>
 
     showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.deleteFavoriteTitle),
+      builder: (dialogContext) => AppDialog(
+        icon: Icons.delete_rounded,
+        iconGradient: const LinearGradient(
+          colors: [AppColors.error, AppColors.warning],
+        ),
+        title: l10n.deleteFavoriteTitle,
         content: Text(l10n.deleteFavoriteMessage(entry.name ?? '')),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
             child: Text(l10n.buttonCancel),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
+          FilledButton(
+            style: FilledButton.styleFrom(
               backgroundColor: AppColors.error,
             ),
             onPressed: () {

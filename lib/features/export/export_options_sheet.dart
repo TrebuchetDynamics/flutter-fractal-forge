@@ -114,96 +114,51 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
-    return DraggableScrollableSheet(
+    return AppDraggableBottomSheet(
       initialChildSize: 0.82,
       minChildSize: 0.5,
       maxChildSize: 0.95,
-      expand: false,
-      builder: (context, scrollController) {
-        return Container(
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
+      childrenBuilder: (context, scrollController) => [
+        AppBottomSheetHeader(
+          icon: Icons.ios_share_rounded,
+          title: l10n.exportTitle,
+          onClose: () => Navigator.of(context).maybePop(),
+        ),
+        const Divider(height: 1),
+        const SizedBox(height: 12),
+        Expanded(
+          child: ListView(
+            controller: scrollController,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
-              // Handle bar
-              SheetDragHandle(
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        l10n.exportTitle,
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      tooltip:
-                          MaterialLocalizations.of(context).closeButtonTooltip,
-                      onPressed: () => Navigator.of(context).maybePop(),
-                      icon: const Icon(Icons.close_rounded),
-                    ),
-                  ],
-                ),
-              ),
-
+              _buildSimpleModeCard(context, l10n),
               const SizedBox(height: 12),
-
-              // Content
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  children: [
-                    _buildSimpleModeCard(context, l10n),
-
-                    const SizedBox(height: 12),
-
-                    if (_showCustomization) ...[
-                      _buildQuoteSection(context, l10n),
-                      const SizedBox(height: 16),
-                      _buildFormatSection(context, l10n),
-                      const SizedBox(height: 16),
-                      _buildResolutionSection(context, l10n),
-                      const SizedBox(height: 16),
-                      if (_options.format != ExportFormat.png)
-                        _buildQualitySection(context, l10n),
-                      _buildAdvancedToggle(context, l10n),
-                      if (_showAdvanced) ...[
-                        const SizedBox(height: 12),
-                        _buildAdvancedOptions(context, l10n),
-                      ],
-                      const SizedBox(height: 16),
-                    ],
-
-                    _buildQuickPresets(context, l10n),
-
-                    const SizedBox(height: 24),
-
-                    // Export info summary
-                    _buildExportSummary(context, l10n),
-
-                    const SizedBox(height: 100), // Space for button
-                  ],
-                ),
-              ),
-
-              // Export actions
-              _buildExportActions(context, l10n),
+              if (_showCustomization) ...[
+                _buildQuoteSection(context, l10n),
+                const SizedBox(height: 16),
+                _buildFormatSection(context, l10n),
+                const SizedBox(height: 16),
+                _buildResolutionSection(context, l10n),
+                const SizedBox(height: 16),
+                if (_options.format != ExportFormat.png)
+                  _buildQualitySection(context, l10n),
+                _buildAdvancedToggle(context, l10n),
+                if (_showAdvanced) ...[
+                  const SizedBox(height: 12),
+                  _buildAdvancedOptions(context, l10n),
+                ],
+                const SizedBox(height: 16),
+              ],
+              _buildQuickPresets(context, l10n),
+              const SizedBox(height: 24),
+              _buildExportSummary(context, l10n),
+              const SizedBox(height: 100),
             ],
           ),
-        );
-      },
+        ),
+        _buildExportActions(context, l10n),
+      ],
     );
   }
 
@@ -742,6 +697,9 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     final canSaveAndShare = ExportActionAvailability.canSaveAndShare(
       isWeb: kIsWeb,
     );
+    final canSetWallpaper = ExportActionAvailability.canSetWallpaper(
+      isWeb: kIsWeb,
+    );
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 14, 20, 20),
@@ -755,54 +713,86 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
         ),
       ),
       child: SafeArea(
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Semantics(
-                button: true,
-                label: l10n.exportActionSaveImage,
-                hint: l10n.exportSaveLocationHint,
-                child: FilledButton.icon(
-                  key: const ValueKey('exportSaveButton'),
-                  onPressed: () {
-                    Navigator.of(context).pop(
-                      ExportSheetSubmission(
-                        options: effectiveOptions,
-                        action: ExportAction.saveOnly,
+            Row(
+              children: [
+                Expanded(
+                  child: Semantics(
+                    button: true,
+                    label: l10n.exportActionSaveImage,
+                    hint: l10n.exportSaveLocationHint,
+                    child: FilledButton.icon(
+                      key: const ValueKey('exportSaveButton'),
+                      onPressed: () {
+                        Navigator.of(context).pop(
+                          ExportSheetSubmission(
+                            options: effectiveOptions,
+                            action: ExportAction.saveOnly,
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.save_alt_rounded),
+                      label: Text(l10n.exportActionSaveImage),
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                    );
-                  },
-                  icon: const Icon(Icons.save_alt_rounded),
-                  label: Text(l10n.exportActionSaveImage),
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Semantics(
+                    button: true,
+                    enabled: canSaveAndShare,
+                    label: l10n.exportActionSaveAndShare,
+                    hint: l10n.exportSaveLocationHint,
+                    child: OutlinedButton.icon(
+                      key: const ValueKey('exportShareButton'),
+                      onPressed: canSaveAndShare
+                          ? () {
+                              Navigator.of(context).pop(
+                                ExportSheetSubmission(
+                                  options: effectiveOptions,
+                                  action: ExportAction.saveAndShare,
+                                ),
+                              );
+                            }
+                          : null,
+                      icon: const Icon(Icons.share_rounded),
+                      label: Text(l10n.exportActionSaveAndShare),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 12),
-            Expanded(
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
               child: Semantics(
                 button: true,
-                enabled: canSaveAndShare,
-                label: l10n.exportActionSaveAndShare,
-                hint: l10n.exportSaveLocationHint,
+                enabled: canSetWallpaper,
+                label: l10n.wallpaperTitle,
                 child: OutlinedButton.icon(
-                  key: const ValueKey('exportShareButton'),
-                  onPressed: canSaveAndShare
+                  key: const ValueKey('exportWallpaperButton'),
+                  onPressed: canSetWallpaper
                       ? () {
                           Navigator.of(context).pop(
                             ExportSheetSubmission(
                               options: effectiveOptions,
-                              action: ExportAction.saveAndShare,
+                              action: ExportAction.setWallpaper,
                             ),
                           );
                         }
                       : null,
-                  icon: const Icon(Icons.share_rounded),
-                  label: Text(l10n.exportActionSaveAndShare),
+                  icon: const Icon(Icons.wallpaper_rounded),
+                  label: Text(l10n.wallpaperTitle),
                   style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                 ),
               ),

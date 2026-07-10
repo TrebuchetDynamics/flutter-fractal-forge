@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_fractals/features/settings/accessibility_settings_screen.dart';
 import 'package:flutter_fractals/features/formulas/frm_formula_screen.dart';
 
@@ -91,93 +92,83 @@ class SettingsScreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (sheetContext) => Container(
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Drag handle
-            Container(
-              margin: const EdgeInsets.only(top: 12),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.border,
-                borderRadius: BorderRadius.circular(2),
-              ),
+      builder: (sheetContext) => AppBottomSheet(
+        maxHeightFactor: 0.56,
+        children: [
+          AppBottomSheetHeader(
+            icon: Icons.palette_outlined,
+            title: 'Color Theme',
+            subtitle: 'Choose a contrast and surface style.',
+            onClose: () => Navigator.pop(sheetContext),
+          ),
+          const Divider(height: 1, color: AppColors.divider),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              AppSpacing.md,
+              AppSpacing.md,
+              0,
             ),
-            // Title
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                'Color Theme',
-                style: AppTypography.headlineMedium,
-              ),
-            ),
-            // Theme options
-            _ThemeOption(
-              title: AppThemeMode.dark.displayName,
-              subtitle: AppThemeMode.dark.description,
-              gradient: const LinearGradient(
-                colors: [Color(0xFF0A0A12), Color(0xFF7C4DFF)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              isSelected: accessibility.themeMode == AppThemeMode.dark,
-              onTap: () {
-                accessibility.setThemeMode(AppThemeMode.dark);
-                Navigator.pop(sheetContext);
-              },
-            ),
-            const SizedBox(height: 12),
-            _ThemeOption(
-              title: AppThemeMode.oled.displayName,
-              subtitle: AppThemeMode.oled.description,
-              gradient: const LinearGradient(
-                colors: [Color(0xFF000000), Color(0xFF7C4DFF)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              isSelected: accessibility.themeMode == AppThemeMode.oled,
-              onTap: () {
-                accessibility.setThemeMode(AppThemeMode.oled);
-                Navigator.pop(sheetContext);
-              },
-            ),
-            const SizedBox(height: 12),
-            _ThemeOption(
-              title: AppThemeMode.highContrast.displayName,
-              subtitle: AppThemeMode.highContrast.description,
-              gradient: const LinearGradient(
-                colors: [Color(0xFF000000), Color(0xFFFFFF00)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              isSelected: accessibility.themeMode == AppThemeMode.highContrast,
-              onTap: () {
-                accessibility.setThemeMode(AppThemeMode.highContrast);
-                Navigator.pop(sheetContext);
-              },
-            ),
-            const SizedBox(height: 20),
-            // Cancel button
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                child: SizedBox(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _ThemeOption(
+                  title: AppThemeMode.dark.displayName,
+                  subtitle: AppThemeMode.dark.description,
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF0A0A12), Color(0xFF7C4DFF)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  isSelected: accessibility.themeMode == AppThemeMode.dark,
+                  onTap: () {
+                    accessibility.setThemeMode(AppThemeMode.dark);
+                    Navigator.pop(sheetContext);
+                  },
+                ),
+                const SizedBox(height: 12),
+                _ThemeOption(
+                  title: AppThemeMode.oled.displayName,
+                  subtitle: AppThemeMode.oled.description,
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF000000), Color(0xFF7C4DFF)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  isSelected: accessibility.themeMode == AppThemeMode.oled,
+                  onTap: () {
+                    accessibility.setThemeMode(AppThemeMode.oled);
+                    Navigator.pop(sheetContext);
+                  },
+                ),
+                const SizedBox(height: 12),
+                _ThemeOption(
+                  title: AppThemeMode.highContrast.displayName,
+                  subtitle: AppThemeMode.highContrast.description,
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF000000), Color(0xFFFFFF00)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  isSelected:
+                      accessibility.themeMode == AppThemeMode.highContrast,
+                  onTap: () {
+                    accessibility.setThemeMode(AppThemeMode.highContrast);
+                    Navigator.pop(sheetContext);
+                  },
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
                   width: double.infinity,
                   child: TextButton(
                     onPressed: () => Navigator.pop(sheetContext),
                     child: const Text('Cancel'),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -185,32 +176,9 @@ class SettingsScreen extends StatelessWidget {
   void _showAboutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                gradient: AppColors.primaryGradient,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(
-                Icons.blur_circular_rounded,
-                color: Colors.white,
-                size: 24,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            Text(
-              'Fractal Forge',
-              style: AppTypography.titleLarge,
-            ),
-          ],
-        ),
+      builder: (context) => AppDialog(
+        icon: Icons.blur_circular_rounded,
+        title: 'Fractal Forge',
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,10 +201,7 @@ class SettingsScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              AppLocalizations.of(context)!.actionClose,
-              style: const TextStyle(color: AppColors.primary),
-            ),
+            child: Text(AppLocalizations.of(context)!.actionClose),
           ),
         ],
       ),

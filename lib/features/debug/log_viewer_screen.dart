@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 /// Full-screen log viewer with export capability.
 class LogViewerScreen extends StatefulWidget {
@@ -76,63 +77,58 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => SafeArea(
-        child: Container(
-          margin: const EdgeInsets.all(12),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+      builder: (ctx) => AppBottomSheet(
+        maxHeightFactor: 0.44,
+        children: [
+          AppBottomSheetHeader(
+            icon: Icons.article_rounded,
+            title: l10n.logExportTitle(_log.length),
+            onClose: () => Navigator.pop(ctx),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(l10n.logExportTitle(_log.length),
-                  style: AppTypography.titleMedium),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: _ExportButton(
-                      icon: Icons.copy_rounded,
-                      label: l10n.logCopyText,
-                      onTap: () {
-                        Clipboard.setData(ClipboardData(text: text));
-                        Navigator.pop(ctx);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.logCopied)),
-                        );
-                      },
-                    ),
+          const Divider(height: 1, color: AppColors.divider),
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _ExportButton(
+                    icon: Icons.copy_rounded,
+                    label: l10n.logCopyText,
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: text));
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.logCopied)),
+                      );
+                    },
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _ExportButton(
-                      icon: Icons.share_rounded,
-                      label: l10n.logShareText,
-                      onTap: () async {
-                        Navigator.pop(ctx);
-                        await _shareText(text, 'fractal_log_$ts.txt');
-                      },
-                    ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _ExportButton(
+                    icon: Icons.share_rounded,
+                    label: l10n.logShareText,
+                    onTap: () async {
+                      Navigator.pop(ctx);
+                      await _shareText(text, 'fractal_log_$ts.txt');
+                    },
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _ExportButton(
-                      icon: Icons.data_object_rounded,
-                      label: l10n.logShareJson,
-                      onTap: () async {
-                        Navigator.pop(ctx);
-                        await _shareText(json, 'fractal_log_$ts.json');
-                      },
-                    ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _ExportButton(
+                    icon: Icons.data_object_rounded,
+                    label: l10n.logShareJson,
+                    onTap: () async {
+                      Navigator.pop(ctx);
+                      await _shareText(json, 'fractal_log_$ts.json');
+                    },
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

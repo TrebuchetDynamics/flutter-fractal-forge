@@ -67,98 +67,104 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (_) {
-          return SafeArea(
-            child: Container(
-              margin: const EdgeInsets.all(12),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.85),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.amber.withValues(alpha: 0.8)),
+          return AppBottomSheet(
+            maxHeightFactor: 0.72,
+            children: [
+              AppBottomSheetHeader(
+                icon: Icons.science_rounded,
+                iconGradient: const LinearGradient(
+                  colors: [Colors.amber, AppColors.warning],
+                ),
+                title: 'GPU Debug Report',
+                onClose: () => Navigator.of(context).pop(),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'GPU Debug Report',
-                    style: TextStyle(
-                        color: Colors.amber, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
+              const Divider(height: 1, color: AppColors.divider),
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
+                      SizedBox(
+                        width: double.infinity,
                         child: OutlinedButton.icon(
                           onPressed: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (_) => const ShaderLabScreen()),
+                                builder: (_) => const ShaderLabScreen(),
+                              ),
                             );
                           },
-                          icon: const Icon(Icons.science_rounded,
-                              color: Colors.amber),
+                          icon: const Icon(Icons.science_rounded),
                           label: Text(
-                              AppLocalizations.of(context)!
-                                  .debugReportOpenShaderLab,
-                              style: const TextStyle(color: Colors.amber)),
+                            AppLocalizations.of(context)!
+                                .debugReportOpenShaderLab,
+                          ),
                         ),
                       ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Saved report: ${reportFile.path}',
+                        style: AppTypography.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      if (screenshotFile != null)
+                        Text(
+                          'Saved screenshot: ${screenshotFile.path}',
+                          style: AppTypography.bodySmall.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      const SizedBox(height: 10),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.45,
+                        ),
+                        child: SingleChildScrollView(
+                          child: SelectableText(
+                            reportText,
+                            style: AppTypography.bodySmall.copyWith(
+                              fontFamily: 'monospace',
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 6,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () {
+                              Clipboard.setData(
+                                  ClipboardData(text: reportText));
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Copied GPU debug JSON to clipboard. Paste it into Telegram.',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(AppLocalizations.of(context)!
+                                .debugReportCopyJson),
+                          ),
+                          OutlinedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child:
+                                Text(AppLocalizations.of(context)!.actionClose),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Saved report: ${reportFile.path}',
-                    style: const TextStyle(color: Colors.white70, fontSize: 12),
-                  ),
-                  if (screenshotFile != null)
-                    Text(
-                      'Saved screenshot: ${screenshotFile.path}',
-                      style:
-                          const TextStyle(color: Colors.white70, fontSize: 12),
-                    ),
-                  const SizedBox(height: 10),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.45),
-                    child: SingleChildScrollView(
-                      child: SelectableText(
-                        reportText,
-                        style: const TextStyle(
-                            fontFamily: 'monospace',
-                            fontSize: 11,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 6,
-                    children: [
-                      OutlinedButton(
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(text: reportText));
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    'Copied GPU debug JSON to clipboard. Paste it into Telegram.')),
-                          );
-                        },
-                        child: Text(
-                            AppLocalizations.of(context)!.debugReportCopyJson),
-                      ),
-                      OutlinedButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text(AppLocalizations.of(context)!.actionClose),
-                      ),
-                    ],
-                  )
-                ],
+                ),
               ),
-            ),
+            ],
           );
         },
       );

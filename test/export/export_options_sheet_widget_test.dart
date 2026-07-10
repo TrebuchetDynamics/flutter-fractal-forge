@@ -10,9 +10,12 @@ class _SheetHarness {
 }
 
 void main() {
-  test('ExportActionAvailability disables share on web preview', () {
+  test('ExportActionAvailability disables unsupported actions on web preview',
+      () {
     expect(ExportActionAvailability.canSaveAndShare(isWeb: false), isTrue);
     expect(ExportActionAvailability.canSaveAndShare(isWeb: true), isFalse);
+    expect(ExportActionAvailability.canSetWallpaper(isWeb: false), isTrue);
+    expect(ExportActionAvailability.canSetWallpaper(isWeb: true), isFalse);
   });
 
   Future<_SheetHarness> pumpSheet(
@@ -62,12 +65,13 @@ void main() {
     return harness.submission;
   }
 
-  testWidgets('shows explicit save actions and save location hint',
+  testWidgets('shows explicit save actions and wallpaper action',
       (tester) async {
     await pumpSheet(tester);
 
     expect(find.text('Save image'), findsOneWidget);
     expect(find.text('Save & share'), findsOneWidget);
+    expect(find.text('Wallpaper'), findsOneWidget);
     expect(
       find.text(
           'Saves to Pictures/FractalForge. No storage permission prompt.'),
@@ -119,6 +123,28 @@ void main() {
     );
 
     expect(submission?.action, ExportAction.saveAndShare);
+  });
+
+  testWidgets('wallpaper action triggers setWallpaper export action',
+      (tester) async {
+    final submission = await pumpSheetAndSubmit(
+      tester,
+      submitButton: find.byKey(const ValueKey('exportWallpaperButton')),
+    );
+
+    expect(submission?.action, ExportAction.setWallpaper);
+  });
+
+  testWidgets('export actions fit narrow screens', (tester) async {
+    tester.view.physicalSize = const Size(320, 640);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await pumpSheet(tester);
+
+    expect(find.byKey(const ValueKey('exportSaveButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('exportShareButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('exportWallpaperButton')), findsOneWidget);
   });
 
   testWidgets('quote overlay text is included in submitted options',

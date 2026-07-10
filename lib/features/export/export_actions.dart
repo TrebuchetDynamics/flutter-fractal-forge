@@ -4,6 +4,7 @@ import 'package:flutter_fractals/core/models/export_options.dart';
 enum ExportAction {
   saveOnly,
   saveAndShare,
+  setWallpaper,
 }
 
 /// Immutable payload returned by the export sheet.
@@ -22,4 +23,6 @@ class ExportActionAvailability {
   const ExportActionAvailability._();
 
   static bool canSaveAndShare({required bool isWeb}) => !isWeb;
+
+  static bool canSetWallpaper({required bool isWeb}) => !isWeb;
 }
