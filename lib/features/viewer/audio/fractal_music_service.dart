@@ -424,6 +424,11 @@ Uint8List buildFractalMusicScanWav({
     final maxDetail = bins.fold<double>(0, (maxDetail, bin) {
       return math.max(maxDetail, bin.detail);
     });
+    final profile = _collapseDistanceProfile(bins);
+    final rootSemitones = (profile.hue * 12).round() % 12;
+    final scale = profile.brightness >= 0.5
+        ? _visualMajorPentatonic
+        : _visualMinorPentatonic;
     final envelope = _noteEnvelope(t, detail: maxDetail);
     final angle = step / steps * math.pi * 2 - math.pi / 2;
     final pan = math.cos(angle) * 0.72;
@@ -434,9 +439,9 @@ Uint8List buildFractalMusicScanWav({
 
     for (final bin in bins) {
       if (bin.brightness < 0.02 && bin.detail < 0.02) continue;
-      final midi = _scanDistanceMidi(bin.distance, zoomOctave);
-      final hz = (440 * math.pow(2, (midi - 69) / 12)).toDouble() *
-          (1 + (bin.hue - 0.5) * 0.025);
+      final midi =
+          _scanDistanceMidi(bin.distance, zoomOctave, scale) + rootSemitones;
+      final hz = (440 * math.pow(2, (midi - 69) / 12)).toDouble();
       final gain = (math.pow(bin.brightness, 1.15) * 0.56 + bin.detail * 0.16)
               .clamp(0.0, 0.68) /
           mixScale;
@@ -676,14 +681,18 @@ List<
   });
 }
 
-int _scanDistanceMidi(double distance, int zoomOctave) {
-  final noteIndex =
-      (distance.clamp(0.0, 0.999999) * _visualMinorPentatonic.length)
-          .floor()
-          .clamp(0, _visualMinorPentatonic.length - 1);
-  return 45 + zoomOctave * 12 + _visualMinorPentatonic[noteIndex];
+int _scanDistanceMidi(
+  double distance,
+  int zoomOctave, [
+  List<int> scale = _visualMinorPentatonic,
+]) {
+  final noteIndex = (distance.clamp(0.0, 0.999999) * scale.length)
+      .floor()
+      .clamp(0, scale.length - 1);
+  return 45 + zoomOctave * 12 + scale[noteIndex];
 }
 
+const List<int> _visualMajorPentatonic = [0, 2, 4, 7, 9, 12, 14, 16];
 const List<int> _visualMinorPentatonic = [0, 2, 3, 5, 7, 10, 12, 15];
 
 double _rootHz(int zoomOctave) {

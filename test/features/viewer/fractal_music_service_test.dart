@@ -60,6 +60,23 @@ double _pcmRms(Uint8List wav) {
   return count == 0 ? 0 : math.sqrt(sumSquares / count);
 }
 
+int _pcmZeroCrossings(Uint8List wav) {
+  final channels = _wavChannels(wav);
+  final data = ByteData.sublistView(wav);
+  var crossings = 0;
+  var previous = _pcmSample(wav, 0);
+  for (var frame = 1;
+      44 + (frame * channels + channels - 1) * 2 + 1 < wav.length;
+      frame++) {
+    final sample = data.getInt16(44 + frame * channels * 2, Endian.little);
+    if ((previous < 0 && sample >= 0) || (previous > 0 && sample <= 0)) {
+      crossings++;
+    }
+    previous = sample;
+  }
+  return crossings;
+}
+
 int _wavSampleRate(Uint8List wav) =>
     ByteData.sublistView(wav).getUint32(24, Endian.little);
 
@@ -567,7 +584,7 @@ void main() {
     expect(_pcmPeak(detailedWav), lessThan(7000));
   });
 
-  test('scan audio maps visual brightness to loudness', () {
+  test('scan audio maps visual brightness to loudness and harmony', () {
     final dim = buildFractalMusicScanWav(
       scanFrame: FractalMusicScanFrame(
         rgba: _solidFrame(8, 8, 40, 40, 40),
@@ -590,10 +607,12 @@ void main() {
     );
 
     expect(_pcmRms(bright), greaterThan(_pcmRms(dim) * 2));
+    expect(
+        _pcmZeroCrossings(bright), greaterThan(_pcmZeroCrossings(dim) * 1.03));
     expect(_pcmPeak(bright), lessThan(7000));
   });
 
-  test('scan audio is color-sensitive and peak-limited', () {
+  test('scan audio maps dominant hue to a chromatic root', () {
     final red = buildFractalMusicScanWav(
       scanFrame: FractalMusicScanFrame(
         rgba: _solidFrame(8, 8, 255, 0, 0),
@@ -615,7 +634,7 @@ void main() {
       seconds: 1,
     );
 
-    expect(red, isNot(green));
+    expect(_pcmZeroCrossings(green), greaterThan(_pcmZeroCrossings(red) * 1.1));
     expect(_pcmPeak(red), lessThan(7000));
     expect(_pcmPeak(green), lessThan(7000));
   });
