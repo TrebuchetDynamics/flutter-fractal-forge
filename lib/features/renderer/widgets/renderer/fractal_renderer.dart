@@ -32,14 +32,16 @@ part 'input/gesture_handler.dart';
 part 'shaders/shader_loader.dart';
 part 'errors/shader_error_display.dart';
 
-class WebRendererPerformancePolicy {
+class GpuIterationPolicy {
   static const int webMaxGpuIterations = 160;
+  static const int mobileMaxGpuIterations = 160;
 
-  const WebRendererPerformancePolicy._();
+  const GpuIterationPolicy._();
 
   static int effectiveGpuIterations({
     required int scaledIterations,
     required bool isWeb,
+    required bool isMobile,
     required bool playwrightSmoke,
     required int playwrightSmokeMaxGpuIterations,
   }) {
@@ -51,6 +53,9 @@ class WebRendererPerformancePolicy {
     }
     if (isWeb) {
       return math.min(scaledIterations, webMaxGpuIterations);
+    }
+    if (isMobile) {
+      return math.min(scaledIterations, mobileMaxGpuIterations);
     }
     return scaledIterations;
   }
@@ -421,10 +426,12 @@ class _FractalRendererState extends State<FractalRenderer>
       baseIterations: baseIterations,
       zoom: controllerView.zoom,
     );
-    final effectiveIterations =
-        WebRendererPerformancePolicy.effectiveGpuIterations(
+    final effectiveIterations = GpuIterationPolicy.effectiveGpuIterations(
       scaledIterations: scaledIterations,
       isWeb: kIsWeb,
+      isMobile: !kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.android ||
+              defaultTargetPlatform == TargetPlatform.iOS),
       playwrightSmoke: RuntimeModeService.playwrightCatalogSmoke,
       playwrightSmokeMaxGpuIterations:
           RuntimeModeService.playwrightCatalogSmokeMaxGpuIterations,

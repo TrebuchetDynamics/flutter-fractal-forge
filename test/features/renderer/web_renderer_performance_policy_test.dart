@@ -4,21 +4,36 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('web GPU iterations are capped below desktop quality ceiling', () {
     expect(
-      WebRendererPerformancePolicy.effectiveGpuIterations(
+      GpuIterationPolicy.effectiveGpuIterations(
         scaledIterations: 500,
         isWeb: true,
+        isMobile: false,
         playwrightSmoke: false,
         playwrightSmokeMaxGpuIterations: 10,
       ),
-      WebRendererPerformancePolicy.webMaxGpuIterations,
+      GpuIterationPolicy.webMaxGpuIterations,
     );
   });
 
-  test('desktop GPU iterations are not capped by web policy', () {
+  test('mobile GPU iterations use the safe ceiling', () {
     expect(
-      WebRendererPerformancePolicy.effectiveGpuIterations(
+      GpuIterationPolicy.effectiveGpuIterations(
         scaledIterations: 500,
         isWeb: false,
+        isMobile: true,
+        playwrightSmoke: false,
+        playwrightSmokeMaxGpuIterations: 10,
+      ),
+      GpuIterationPolicy.mobileMaxGpuIterations,
+    );
+  });
+
+  test('desktop GPU iterations are not capped', () {
+    expect(
+      GpuIterationPolicy.effectiveGpuIterations(
+        scaledIterations: 500,
+        isWeb: false,
+        isMobile: false,
         playwrightSmoke: false,
         playwrightSmokeMaxGpuIterations: 10,
       ),
@@ -26,11 +41,12 @@ void main() {
     );
   });
 
-  test('playwright smoke cap still wins over web cap', () {
+  test('playwright smoke cap still wins over platform caps', () {
     expect(
-      WebRendererPerformancePolicy.effectiveGpuIterations(
+      GpuIterationPolicy.effectiveGpuIterations(
         scaledIterations: 500,
         isWeb: true,
+        isMobile: false,
         playwrightSmoke: true,
         playwrightSmokeMaxGpuIterations: 12,
       ),
