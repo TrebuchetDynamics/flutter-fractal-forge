@@ -1,0 +1,87 @@
+math {'selectedCount': 1585, 'evaluated': 1585, 'pass': 7, 'fail': 0, 'skipped': 1578}
+render {'selectedCount': 1585, 'evaluated': 1585, 'pass': 1582, 'allBlack': 2, 'mostlyBlack': 0, 'transparent': 1, 'lowColor': 0, 'flat': 0, 'blank': 0, 'maxBlackPixelRatio': 1.0, 'maxTransparentPixelRatio': 1.0, 'thresholds': {'minimumPngBytes': 250, 'minimumUniqueRgbColors': 3, 'minimumLuminanceStdDev': 0.5, 'minimumNonTransparentPixelRatio': 0.05, 'maximumAllBlackPixelRatio': 0.999, 'maximumMostlyBlackPixelRatio': 0.98}}
+warnings
+{
+  "catalogId": "core.kleinian_limit_set",
+  "moduleId": "kleinian_limit_set",
+  "warnings": [
+    "non-transparent pixel ratio 0.0000 < 0.05",
+    "blank low-detail render: unique RGB colors 1 < 3 and luminance stddev 0.00 < 0.5"
+  ]
+}
+{
+  "catalogId": "core.mittag_leffler",
+  "moduleId": "mittag_leffler",
+  "warnings": [
+    "blank black render: black pixel ratio 1.0000 >= 0.999, unique RGB colors 1 < 3, luminance stddev 0.00 < 0.5"
+  ]
+}
+{
+  "catalogId": "core.noor_newton",
+  "moduleId": "noor_newton",
+  "warnings": [
+    "blank black render: black pixel ratio 1.0000 >= 0.999, unique RGB colors 1 < 3, luminance stddev 0.00 < 0.5"
+  ]
+}
+nonpass
+{
+  "catalogId": "core.kleinian_limit_set",
+  "moduleId": "kleinian_limit_set",
+  "shaderAsset": "shaders/ifs_and_geometric/kleinian_limit_set_gpu.frag",
+  "width": 96,
+  "height": 96,
+  "pngBytes": 288,
+  "uniqueRgbColors": 1,
+  "blackPixelRatio": 0.0,
+  "nonBlackPixelRatio": 0.0,
+  "transparentPixelRatio": 1.0,
+  "nonTransparentRatio": 0.0,
+  "luminanceMean": 0.0,
+  "luminanceStdDev": 0.0,
+  "dominantColorRatio": 0.0,
+  "verdict": "transparent",
+  "warnings": [
+    "non-transparent pixel ratio 0.0000 < 0.05",
+    "blank low-detail render: unique RGB colors 1 < 3 and luminance stddev 0.00 < 0.5"
+  ]
+}
+{
+  "catalogId": "core.mittag_leffler",
+  "moduleId": "mittag_leffler",
+  "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag",
+  "width": 96,
+  "height": 96,
+  "pngBytes": 291,
+  "uniqueRgbColors": 1,
+  "blackPixelRatio": 1.0,
+  "nonBlackPixelRatio": 0.0,
+  "transparentPixelRatio": 0.0,
+  "nonTransparentRatio": 1.0,
+  "luminanceMean": 0.0,
+  "luminanceStdDev": 0.0,
+  "dominantColorRatio": 1.0,
+  "verdict": "all-black",
+  "warnings": [
+    "blank black render: black pixel ratio 1.0000 >= 0.999, unique RGB colors 1 < 3, luminance stddev 0.00 < 0.5"
+  ]
+}
+{
+  "catalogId": "core.noor_newton",
+  "moduleId": "noor_newton",
+  "shaderAsset": "shaders/root_finding/noor_newton_gpu.frag",
+  "width": 96,
+  "height": 96,
+  "pngBytes": 291,
+  "uniqueRgbColors": 1,
+  "blackPixelRatio": 1.0,
+  "nonBlackPixelRatio": 0.0,
+  "transparentPixelRatio": 0.0,
+  "nonTransparentRatio": 1.0,
+  "luminanceMean": 0.0,
+  "luminanceStdDev": 0.0,
+  "dominantColorRatio": 1.0,
+  "verdict": "all-black",
+  "warnings": [
+    "blank black render: black pixel ratio 1.0000 >= 0.999, unique RGB colors 1 < 3, luminance stddev 0.00 < 0.5"
+  ]
+}

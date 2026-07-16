@@ -1,0 +1,181 @@
+{
+  "seed": "catalog-thumbnails-v1",
+  "updateAssets": false,
+  "strict": false,
+  "thumbnailSize": 96,
+  "thumbnailStandard": "staged-smoke",
+  "performanceNotes": [
+    "shaderLoadMs measures ui.FragmentProgram.fromAsset in this process; repeated shader assets may benefit from Flutter asset/shader cache.",
+    "renderWarmupMs measures widget build plus three 500ms pumps before capture.",
+    "captureMs measures PNG capture from the rendered RepaintBoundary/screenshot surface.",
+    "renderMetrics records image-health measurements including blackPixelRatio, nonBlackPixelRatio, uniqueRgbColors, luminanceStdDev, and verdict per fractal.",
+    "mathOracle records cheap CPU/reference known-point checks where a stable oracle exists."
+  ],
+  "selectedCount": 1,
+  "selectedEntries": [
+    {
+      "catalogId": "core.legalize_type_julzpower",
+      "moduleId": "legalize_type_julzpower",
+      "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/legalize_fotd_muth_gpu.frag"
+    }
+  ],
+  "renderHealthSummary": {
+    "selectedCount": 1,
+    "evaluated": 1,
+    "pass": 0,
+    "allBlack": 0,
+    "mostlyBlack": 0,
+    "transparent": 1,
+    "lowColor": 0,
+    "flat": 0,
+    "blank": 0,
+    "maxBlackPixelRatio": 0.0,
+    "maxTransparentPixelRatio": 0.9974,
+    "thresholds": {
+      "minimumPngBytes": 250,
+      "minimumUniqueRgbColors": 3,
+      "minimumLuminanceStdDev": 0.5,
+      "minimumNonTransparentPixelRatio": 0.05,
+      "maximumAllBlackPixelRatio": 0.999,
+      "maximumMostlyBlackPixelRatio": 0.98
+    }
+  },
+  "mathOracleSummary": {
+    "selectedCount": 1,
+    "evaluated": 1,
+    "pass": 0,
+    "fail": 0,
+    "skipped": 1
+  },
+  "renderMetrics": [
+    {
+      "catalogId": "core.legalize_type_julzpower",
+      "moduleId": "legalize_type_julzpower",
+      "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/legalize_fotd_muth_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 466,
+      "uniqueRgbColors": 10,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 0.0026,
+      "transparentPixelRatio": 0.9974,
+      "nonTransparentRatio": 0.0026,
+      "luminanceMean": 0.4274,
+      "luminanceStdDev": 8.8308,
+      "dominantColorRatio": 0.5,
+      "verdict": "transparent",
+      "warnings": [
+        "non-transparent pixel ratio 0.0026 < 0.05"
+      ]
+    }
+  ],
+  "mathOracle": [
+    {
+      "moduleId": "legalize_type_julzpower",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    }
+  ],
+  "generated": [
+    {
+      "catalogId": "core.legalize_type_julzpower",
+      "moduleId": "legalize_type_julzpower",
+      "path": "build/test_output/catalog_thumbs_seeded/legalize_type_julzpower.png",
+      "bytes": 466,
+      "warnings": [
+        "non-transparent pixel ratio 0.0026 < 0.05"
+      ],
+      "performance": {
+        "catalogId": "core.legalize_type_julzpower",
+        "moduleId": "legalize_type_julzpower",
+        "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/legalize_fotd_muth_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 5.559,
+        "renderWarmupMs": 642.983,
+        "frameTimings": {
+          "count": 2,
+          "avgBuildMs": 166.8535,
+          "maxBuildMs": 333.704,
+          "avgRasterMs": 17.695999999999998,
+          "maxRasterMs": 18.557,
+          "avgTotalSpanMs": 206.621,
+          "maxTotalSpanMs": 394.648
+        },
+        "captureMs": 50.845,
+        "totalMs": 788.317,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/legalize_type_julzpower.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 466
+      },
+      "renderMetrics": {
+        "catalogId": "core.legalize_type_julzpower",
+        "moduleId": "legalize_type_julzpower",
+        "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/legalize_fotd_muth_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 466,
+        "uniqueRgbColors": 10,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 0.0026,
+        "transparentPixelRatio": 0.9974,
+        "nonTransparentRatio": 0.0026,
+        "luminanceMean": 0.4274,
+        "luminanceStdDev": 8.8308,
+        "dominantColorRatio": 0.5,
+        "verdict": "transparent",
+        "warnings": [
+          "non-transparent pixel ratio 0.0026 < 0.05"
+        ]
+      },
+      "mathOracle": {
+        "moduleId": "legalize_type_julzpower",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    }
+  ],
+  "failed": [],
+  "skipped": [],
+  "qualityWarnings": [
+    {
+      "catalogId": "core.legalize_type_julzpower",
+      "moduleId": "legalize_type_julzpower",
+      "warnings": [
+        "non-transparent pixel ratio 0.0026 < 0.05"
+      ]
+    }
+  ],
+  "performance": [
+    {
+      "catalogId": "core.legalize_type_julzpower",
+      "moduleId": "legalize_type_julzpower",
+      "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/legalize_fotd_muth_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 5.559,
+      "renderWarmupMs": 642.983,
+      "frameTimings": {
+        "count": 2,
+        "avgBuildMs": 166.8535,
+        "maxBuildMs": 333.704,
+        "avgRasterMs": 17.695999999999998,
+        "maxRasterMs": 18.557,
+        "avgTotalSpanMs": 206.621,
+        "maxTotalSpanMs": 394.648
+      },
+      "captureMs": 50.845,
+      "totalMs": 788.317,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/legalize_type_julzpower.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 466
+    }
+  ],
+  "flutterErrors": [],
+  "launchVisualMetrics": []
+}
