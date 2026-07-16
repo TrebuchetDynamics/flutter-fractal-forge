@@ -2,10 +2,7 @@
 
 precision highp float;
 
-// Perpendicular Celtic — abs applied to Im(z^2) instead of Re(z^2).
-// Iteration: z_{n+1} = Re(z_n^2) + i*|Im(z_n^2)| + c
-// Complement to the Celtic fractal; the abs on the imaginary component
-// creates a different folding symmetry producing distinct spiral arms.
+// Perpendicular Celtic: z_{n+1} = |Re(z²)| - i·2|Re(z)|Im(z) + c.
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform vec2  uCenter;        // 3-4
@@ -56,10 +53,7 @@ void main() {
   int schemeInt = int(uColorScheme);
   vec2 c   = uv / max(0.000001, uZoom) + uCenter;
   vec2 z   = vec2(0.0);
-  // Complex derivative dz/dc for normal-map shading.
-  // Abs gate on Im(z^2) only (opposite of Celtic):
-  //   d(Re(z^2))/dc  = Re(2*z*der)           — no abs gate
-  //   d|Im(z^2)|/dc  = sign(Im(z^2)) * Im(2*z*der)
+  // Approximate orbit derivative for normal-map shading.
   vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
@@ -70,14 +64,12 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // Perpendicular Celtic: z_{n+1} = Re(z^2) + i*|Im(z^2)| + c
     float x2 = z.x*z.x - z.y*z.y;
-    float y2 = 2.0*z.x*z.y;
-    // Derivative update: abs gate on Im(z^2), plain pass-through on Re(z^2)
-    float dx2 = 2.0*(z.x*der.x - z.y*der.y);  // d(Re(z^2))/dc
-    float dy2 = 2.0*(z.x*der.y + z.y*der.x);  // d(Im(z^2))/dc
-    der = vec2(dx2 + 1.0, sign(y2) * dy2);
-    z = vec2(x2 + c.x, abs(y2) + c.y);
+    float y2 = -2.0*abs(z.x)*z.y;
+    float dx2 = 2.0*(z.x*der.x - z.y*der.y);
+    float dy2 = -2.0*(sign(z.x)*der.x*z.y + abs(z.x)*der.y);
+    der = vec2(sign(x2)*dx2 + 1.0, dy2);
+    z = vec2(abs(x2) + c.x, y2 + c.y);
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;

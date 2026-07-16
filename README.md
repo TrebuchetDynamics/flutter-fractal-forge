@@ -37,7 +37,7 @@ If you want to run the app from source instead, the easiest target is usually Ch
 
 ## What you can do
 
-- **974 production fractals** across escape-time systems, Newton basins, strange attractors, IFS, cellular automata, tilings, space-filling curves, and 3D ray-marched forms.
+- **977 production fractals** across escape-time systems, Newton basins, strange attractors, IFS, cellular automata, tilings, space-filling curves, and 3D ray-marched forms.
 - **GPU-first rendering** through Flutter fragment shaders, with documented CPU Precision paths for supported deep-zoom cases.
 - **60+ color schemes** with smooth coloring, orbit traps, distance estimation, stripe averaging, curvature averaging, and normal-map relief.
 - **Exploration tools** including presets, randomizer, looper, auto-explore, dual Mandelbrot / Julia viewing, export, wallpaper, and Fractal Music experiments.
@@ -215,7 +215,7 @@ Key runtime path:
 4. Renderer widgets load the module shader, map Dart parameters to GLSL uniforms, and route to GPU or CPU precision paths as needed.
 5. Export, wallpaper, looper, audio, and history features consume the same view state instead of forking renderer logic.
 
-The current registry contains **974 production fractals**. Debug and test builds include 7 diagnostic modules in addition to the production modules.
+The current registry contains **977 production fractals**. Debug and test builds include 7 diagnostic modules in addition to the production modules.
 
 ## Testing
 

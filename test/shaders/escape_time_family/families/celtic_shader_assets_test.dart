@@ -14,7 +14,7 @@ void main() {
     expectDeclaredShaderAssetsForRoot(
       declaredShaderAssets,
       shaderRoot,
-      matcher: hasLength(14),
+      matcher: hasLength(16),
     );
   });
 
@@ -22,7 +22,7 @@ void main() {
     expectCatalogShaderAssetsForRoot(
       declaredShaderAssets,
       shaderRoot,
-      matcher: hasLength(14),
+      matcher: hasLength(16),
     );
   });
 }

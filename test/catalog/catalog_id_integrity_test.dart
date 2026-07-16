@@ -11,13 +11,13 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog raw unique IDs       : 501
+/// - Escape-time catalog raw unique IDs       : 504
 /// - Raymarched-3D catalog unique IDs         :  10
 /// - Custom hand-built modules                :   7
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital)
-/// - Total ModuleRegistry modules (debug/test) : 981
-/// - Production fractals excluding diagnostics : 974
+/// - Total ModuleRegistry modules (debug/test) : 984
+/// - Production fractals excluding diagnostics : 977
 ///
 /// The debug/test registry includes 7 diagnostic shader modules; public copy
 /// should use 974 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
@@ -33,8 +33,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 501', () {
-      expect(catalog.length, 501,
+    test('total entry count is 504', () {
+      expect(catalog.length, 504,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
@@ -118,10 +118,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 981 in debug/test', () {
+    test('total module count is 984 in debug/test', () {
       // Debug/test builds include 7 diagnostic modules. Public docs count
-      // production fractals as 974 after excluding those diagnostics.
-      expect(registry.modules.length, 981,
+      // production fractals as 977 after excluding those diagnostics.
+      expect(registry.modules.length, 984,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });
@@ -208,7 +208,12 @@ void main() {
         'nova_julia',
         'tricorn',
         'celtic',
+        'celtic_mandelbar',
+        'celtic_heart',
+        'perp_celtic',
         'buffalo',
+        'perp_buffalo',
+        'simonbrot',
         'multibrot3',
         'mandelbulb',
         'mandelbox',

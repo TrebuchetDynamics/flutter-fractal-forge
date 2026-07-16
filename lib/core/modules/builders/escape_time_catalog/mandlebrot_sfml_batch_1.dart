@@ -39,16 +39,15 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch1Catalog = [
     ],
   ),
 
-// Perpendicular Celtic: z_{n+1} = Re(z^2) + i*|Im(z^2)| + c
-// Complement to Celtic — abs on the imaginary component instead of real,
-// producing different folding symmetry and distinct spiral arm geometry.
-// Supports normal-map shading (colorScheme 50-63).
+// Perpendicular Celtic: z_{n+1} = |Re(z^2)| - i*2|Re(z)|Im(z) + c.
   EscapeTimeConfig(
     id: 'perp_celtic',
     name: 'Perpendicular Celtic',
     shaderAsset:
         'shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag',
     defaultIterations: 180,
+    defaultCenterX: -0.35,
+    defaultZoom: 0.35,
     extraPresets: [
       catalogPreset(
         id: 'perp-celtic-relief-jade',
@@ -59,6 +58,36 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch1Catalog = [
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
       ),
     ],
+  ),
+
+// Requested folded variants from the standard Mandelbrot derivatives family.
+  EscapeTimeConfig(
+    id: 'celtic_mandelbar',
+    name: 'Celtic Mandelbar',
+    shaderAsset:
+        'shaders/escape_time_family/families/celtic/celtic_mandelbar_gpu.frag',
+    defaultIterations: 180,
+    defaultCenterX: -0.45,
+    defaultZoom: 0.35,
+  ),
+  EscapeTimeConfig(
+    id: 'celtic_heart',
+    name: 'Celtic Heart',
+    shaderAsset:
+        'shaders/escape_time_family/families/celtic/celtic_heart_gpu.frag',
+    defaultIterations: 180,
+    defaultCenterX: -0.5,
+    defaultZoom: 0.35,
+  ),
+  EscapeTimeConfig(
+    id: 'perp_buffalo',
+    name: 'Perpendicular Buffalo',
+    shaderAsset:
+        'shaders/escape_time_family/families/buffalo/perp_buffalo_gpu.frag',
+    defaultIterations: 180,
+    defaultCenterX: -0.35,
+    defaultCenterY: -0.1,
+    defaultZoom: 0.35,
   ),
 
 // Feather Fractal: z_{n+1} = z^3 / (1 + |z|^2) + c

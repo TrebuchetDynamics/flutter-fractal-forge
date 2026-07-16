@@ -350,6 +350,9 @@ flutter:
     - shaders/escape_time_family/experimental_named/polynomial_variants/washed_away_gpu.frag
     - shaders/escape_time_family/mandelbrot_variants/iterative_maps/damaged_doublebrot_gpu.frag
     - shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag
+    - shaders/escape_time_family/families/celtic/celtic_mandelbar_gpu.frag
+    - shaders/escape_time_family/families/celtic/celtic_heart_gpu.frag
+    - shaders/escape_time_family/families/buffalo/perp_buffalo_gpu.frag
     - shaders/escape_time_family/julia_variants/feather_gpu.frag
     - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_cubic_gpu.frag
     - shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag
