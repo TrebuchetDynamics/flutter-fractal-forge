@@ -35,7 +35,7 @@ AVD: fractal_test | API: 34 (Android 14) | GPU: swiftshader_indirect
 Result: 7 PASSED, 0 FAILED
 Final line: "02:00 +7: All tests passed!"
 Tests passed:
-  ✓ Catalog displays fractal modules (196 modules in this 2026-02 validation; current live catalog is 974 production fractals / 981 debug-test registry modules as of 2026-07-03)
+  ✓ Catalog displays fractal modules (196 modules in this 2026-02 validation; current live catalog is 977 production fractals / 984 debug-test registry modules as of 2026-07-17)
   ✓ Navigate to fractal viewer and back
   ✓ Navigate to each fractal module viewer (8 sampled)
   ✓ Search filters catalog
@@ -124,9 +124,9 @@ Size: 55.7 MB
 | `flutter analyze`: No issues found | ✅ PASS | "No issues found! (ran in 2.9s)" (2026-02-17 21:22) |
 | `headless-emulator-test.sh`: all pass | ✅ PASS | 7/7 passed on API 34 emulator (2026-02-17 21:17) |
 | `flutter build appbundle --release`: size reported | ✅ PASS | 55.7 MB (2026-02-17 21:20) |
-| Cold start on API 34: no crash in 2 min | ✅ PASS | Integration test ran 120 s; 0 FATAL EXCEPTION, 0 ANR; catalog showed 196 modules at 2026-02 validation; current live count is 974 production fractals |
+| Cold start on API 34: no crash in 2 min | ✅ PASS | Integration test ran 120 s; 0 FATAL EXCEPTION, 0 ANR; catalog showed 196 modules at 2026-02 validation; current live count is 977 production fractals |
 | All 5 gesture types respond: no freeze | ✅ PASS | Gesture test 16/16; integration test "drag+pinch changed pan/zoom" ✓; tilt test ✓ |
-| Catalog loads: no blank state | ✅ PASS | Integration: "Catalog shows 196 modules" at 2026-02 validation; current live count is 974 production fractals |
+| Catalog loads: no blank state | ✅ PASS | Integration: "Catalog shows 196 modules" at 2026-02 validation; current live count is 977 production fractals |
 | Viewer loads within 3 s: no black screen | ✅ PASS | first_frame_ms=89 (Mandelbrot GPU, first compile); first_frame_ms=1 (cache hit) |
 | Export flow: file created, no crash | ⚠️ PARTIAL | Export sheet opens + format options visible ✓; actual MediaStore write not tested on emulator |
 | AndroidManifest: 0 uses-permission (main) | ✅ PASS | `android/app/src/main/AndroidManifest.xml` has 0 `<uses-permission>` tags; INTERNET in debug/profile only |
@@ -195,7 +195,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 ## 5. Render Quality Audit
 
 *Source: integration_test/app_test.dart run on emulator-5554, API 34, SwiftShader indirect, 2026-02-17 21:17–21:19 CST.*  
-*Source: fractal_render_audit_test.dart (CPU renderer), 196/196 modules passed the 2026-02 variance check. Current live catalog count is 974 production fractals (981 debug/test registry modules including 7 diagnostics).*
+*Source: fractal_render_audit_test.dart (CPU renderer), 196/196 modules passed the 2026-02 variance check. Current live catalog count is 977 production fractals (984 debug/test registry modules including 7 diagnostics).*
 
 ### 5.1 Mandelbrot Coloring
 - **Backend:** GPU (`shaders/mandel_step_smooth.frag`)

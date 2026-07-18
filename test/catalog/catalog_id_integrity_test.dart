@@ -20,7 +20,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 /// - Production fractals excluding diagnostics : 977
 ///
 /// The debug/test registry includes 7 diagnostic shader modules; public copy
-/// should use 974 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
+/// should use 977 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
 void main() {
   // ---------------------------------------------------------------------------

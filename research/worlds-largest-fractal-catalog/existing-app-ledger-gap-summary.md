@@ -82,4 +82,4 @@ Recommended next batch: add shader or mapper extension support for one remaining
 
 ## Completion impact
 
-The reviewed shared-Julia, Phoenix, exact-Sprott, 3D, residual CA, Elementary CA, Multibrot, and later catalog promotions are reflected in the active live-registry ledger, which currently counts **974** production entries, still far below 5,000. The debug/test `ModuleRegistry` has 981 modules including 7 diagnostics that are skipped by the ledger. The remaining discovered existing-app leads are useful backlog, not objective completion.
+The reviewed shared-Julia, Phoenix, exact-Sprott, 3D, residual CA, Elementary CA, Multibrot, and later catalog promotions are reflected in the active live-registry ledger. The live app currently has **977** production entries, still far below 5,000; the debug/test `ModuleRegistry` has 984 modules including 7 diagnostics. The remaining discovered existing-app leads are useful backlog, not objective completion.
