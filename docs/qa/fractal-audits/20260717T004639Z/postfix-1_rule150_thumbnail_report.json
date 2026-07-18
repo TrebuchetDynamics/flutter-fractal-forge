@@ -1,0 +1,167 @@
+{
+  "seed": "catalog-thumbnails-v1",
+  "updateAssets": false,
+  "strict": true,
+  "thumbnailSize": 96,
+  "thumbnailStandard": "staged-smoke",
+  "performanceNotes": [
+    "shaderLoadMs measures ui.FragmentProgram.fromAsset in this process; repeated shader assets may benefit from Flutter asset/shader cache.",
+    "renderWarmupMs measures widget build plus three 500ms pumps before capture.",
+    "captureMs measures PNG capture from the rendered RepaintBoundary/screenshot surface.",
+    "renderMetrics records image-health measurements including blackPixelRatio, nonBlackPixelRatio, uniqueRgbColors, luminanceStdDev, and verdict per fractal.",
+    "mathOracle records cheap CPU/reference known-point checks where a stable oracle exists."
+  ],
+  "selectedCount": 1,
+  "selectedEntries": [
+    {
+      "catalogId": "core.rule150_linear_ca",
+      "moduleId": "rule150_linear_ca",
+      "shaderAsset": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag"
+    }
+  ],
+  "renderHealthSummary": {
+    "selectedCount": 1,
+    "evaluated": 1,
+    "pass": 1,
+    "allBlack": 0,
+    "mostlyBlack": 0,
+    "transparent": 0,
+    "lowColor": 0,
+    "flat": 0,
+    "blank": 0,
+    "maxBlackPixelRatio": 0.0,
+    "maxTransparentPixelRatio": 0.0,
+    "thresholds": {
+      "minimumPngBytes": 250,
+      "minimumUniqueRgbColors": 3,
+      "minimumLuminanceStdDev": 0.5,
+      "minimumNonTransparentPixelRatio": 0.05,
+      "maximumAllBlackPixelRatio": 0.999,
+      "maximumMostlyBlackPixelRatio": 0.98
+    }
+  },
+  "mathOracleSummary": {
+    "selectedCount": 1,
+    "evaluated": 1,
+    "pass": 0,
+    "fail": 0,
+    "skipped": 1
+  },
+  "renderMetrics": [
+    {
+      "catalogId": "core.rule150_linear_ca",
+      "moduleId": "rule150_linear_ca",
+      "shaderAsset": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 5105,
+      "uniqueRgbColors": 488,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 51.4611,
+      "luminanceStdDev": 39.1087,
+      "dominantColorRatio": 0.921,
+      "verdict": "pass",
+      "warnings": []
+    }
+  ],
+  "mathOracle": [
+    {
+      "moduleId": "rule150_linear_ca",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    }
+  ],
+  "generated": [
+    {
+      "catalogId": "core.rule150_linear_ca",
+      "moduleId": "rule150_linear_ca",
+      "path": "build/test_output/catalog_thumbs_seeded/rule150_linear_ca.png",
+      "bytes": 5105,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.rule150_linear_ca",
+        "moduleId": "rule150_linear_ca",
+        "shaderAsset": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 4.354,
+        "renderWarmupMs": 614.768,
+        "frameTimings": {
+          "count": 2,
+          "avgBuildMs": 155.086,
+          "maxBuildMs": 310.168,
+          "avgRasterMs": 17.0315,
+          "maxRasterMs": 17.668,
+          "avgTotalSpanMs": 182.293,
+          "maxTotalSpanMs": 346.886
+        },
+        "captureMs": 243.009,
+        "totalMs": 969.194,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/rule150_linear_ca.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 5105
+      },
+      "renderMetrics": {
+        "catalogId": "core.rule150_linear_ca",
+        "moduleId": "rule150_linear_ca",
+        "shaderAsset": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 5105,
+        "uniqueRgbColors": 488,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 51.4611,
+        "luminanceStdDev": 39.1087,
+        "dominantColorRatio": 0.921,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "rule150_linear_ca",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    }
+  ],
+  "failed": [],
+  "skipped": [],
+  "qualityWarnings": [],
+  "performance": [
+    {
+      "catalogId": "core.rule150_linear_ca",
+      "moduleId": "rule150_linear_ca",
+      "shaderAsset": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 4.354,
+      "renderWarmupMs": 614.768,
+      "frameTimings": {
+        "count": 2,
+        "avgBuildMs": 155.086,
+        "maxBuildMs": 310.168,
+        "avgRasterMs": 17.0315,
+        "maxRasterMs": 17.668,
+        "avgTotalSpanMs": 182.293,
+        "maxTotalSpanMs": 346.886
+      },
+      "captureMs": 243.009,
+      "totalMs": 969.194,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/rule150_linear_ca.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 5105
+    }
+  ],
+  "flutterErrors": [],
+  "launchVisualMetrics": []
+}

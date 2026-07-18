@@ -72,27 +72,44 @@ float rule90State(int gen, int cell) {
   return alive;
 }
 
+vec3 toggleRule150Carry(vec3 parity, int carry, float value) {
+  if (value < 0.5) return parity;
+  if (carry < 0) parity.x = 1.0 - parity.x;
+  else if (carry > 0) parity.z = 1.0 - parity.z;
+  else parity.y = 1.0 - parity.y;
+  return parity;
+}
+
 float rule150State(int gen, int cell) {
   if (cell > gen || -cell > gen || int(mod(float(gen + cell), 2.0)) != 0) return 0.0;
-  float parity = 0.0;
 
-  // Rule 150 from one seed is the parity of signed subset sums from the
-  // set bits of n in (x^-1 + 1 + x)^n. The catalog view is 256 rows, so
-  // 8 binary digits cover the issue without SkSL dynamic arrays.
-  for (int combo = 0; combo < 6561; combo++) {
-    int code = combo;
-    int sum = 0;
-    for (int bitIndex = 0; bitIndex < 8; bitIndex++) {
-      float bit = pow(2.0, float(bitIndex));
-      if (bitIsSet(float(gen), bit) > 0.5) {
-        int choice = int(mod(float(code), 3.0));
-        code = code / 3;
-        sum += (choice - 1) * int(bit + 0.5);
+  // In GF(2), (x^-1 + 1 + x)^gen factors by the set bits of gen.
+  // Track the parity of the three possible signed-binary carries instead of
+  // enumerating all 3^8 signed subsets per pixel.
+  vec3 parity = vec3(0.0, 1.0, 0.0); // carries -1, 0, +1
+  for (int bitIndex = 0; bitIndex < 11; bitIndex++) {
+    float bit = pow(2.0, float(bitIndex));
+    int targetBit = int(mod(floor(float(cell) / bit), 2.0));
+    bool bitActive = bitIsSet(float(gen), bit) > 0.5;
+    vec3 nextParity = vec3(0.0);
+
+    for (int carryIndex = 0; carryIndex < 3; carryIndex++) {
+      int carry = carryIndex - 1;
+      float current = carryIndex == 0 ? parity.x :
+          (carryIndex == 1 ? parity.y : parity.z);
+      for (int choiceIndex = 0; choiceIndex < 3; choiceIndex++) {
+        int choice = choiceIndex - 1;
+        if (!bitActive && choice != 0) continue;
+        int delta = choice + carry - targetBit;
+        if (int(mod(float(delta), 2.0)) != 0) continue;
+        int nextCarry = delta / 2;
+        if (nextCarry < -1 || nextCarry > 1) continue;
+        nextParity = toggleRule150Carry(nextParity, nextCarry, current);
       }
     }
-    if (sum == cell) parity = 1.0 - parity;
+    parity = nextParity;
   }
-  return parity;
+  return cell < 0 ? parity.x : parity.y;
 }
 
 float cellStateRule30(int gen, int cell) {
