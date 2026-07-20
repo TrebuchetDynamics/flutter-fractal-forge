@@ -949,6 +949,11 @@ class CatalogRuntimeThumbnailCache {
 
   static int get readyCountForTesting => _readyCatalogIds.length;
 
+  static void setManifestForTesting(Set<String> ids) {
+    _PreviewThumbnail._cachedThumbnailAssetIds = ids;
+    _PreviewThumbnail._thumbnailAssetIds = Future.value(ids);
+  }
+
   static void clearForTesting() => _readyCatalogIds.clear();
 }
 
@@ -965,9 +970,20 @@ class _PreviewThumbnail extends StatefulWidget {
     'RUNTIME_CATALOG_THUMBNAIL_IMMEDIATE_SLOTS',
     defaultValue: 4,
   );
-  static final Future<Set<String>> _thumbnailAssetIds =
-      loadCatalogThumbnailAssetIds();
+  static Set<String>? _cachedThumbnailAssetIds;
+  static Future<Set<String>> _thumbnailAssetIds = _loadThumbnailAssetIds();
   static int _runtimeThumbnailSlotsUsed = 0;
+
+  static Future<Set<String>> _loadThumbnailAssetIds() =>
+      loadCatalogThumbnailAssetIds().then((ids) {
+        _cachedThumbnailAssetIds = ids;
+        return ids;
+      });
+
+  static void beginCatalogSession() {
+    _cachedThumbnailAssetIds = null;
+    _thumbnailAssetIds = _loadThumbnailAssetIds();
+  }
 
   final String catalogId;
   final FractalModule module;
@@ -1101,6 +1117,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   Widget build(BuildContext context) {
     return FutureBuilder<Set<String>>(
       future: _PreviewThumbnail._thumbnailAssetIds,
+      initialData: _PreviewThumbnail._cachedThumbnailAssetIds,
       builder: (context, snapshot) {
         final thumbnail = CatalogThumbnailAvailability.fromCatalogId(
           catalogId: widget.catalogId,

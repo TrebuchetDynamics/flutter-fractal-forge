@@ -135,6 +135,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   @override
   void initState() {
     super.initState();
+    _PreviewThumbnail.beginCatalogSession();
     _shimmerController = _GlobalShimmerController.of(this);
     _searchController.addListener(_onSearchChanged);
     _focusNode.addListener(_onSearchFocusChanged);

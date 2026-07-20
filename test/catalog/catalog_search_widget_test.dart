@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -91,11 +89,21 @@ void main() {
 
     expect(CatalogRuntimeThumbnailCache.isReady('core.mandelbrot'), isTrue);
     expect(CatalogRuntimeThumbnailCache.isReady('core.julia'), isFalse);
+  });
 
-    final source = File('lib/features/catalog/widgets/catalog_widgets.dart')
-        .readAsStringSync();
-    expect(source,
-        contains('static final Future<Set<String>> _thumbnailAssetIds'));
+  testWidgets('recycled thumbnails reuse the loaded manifest immediately',
+      (tester) async {
+    await pumpCatalog(tester);
+    CatalogRuntimeThumbnailCache.setManifestForTesting(const <String>{});
+
+    final scrollable = find.byWidgetPredicate(
+      (widget) =>
+          widget is Scrollable && widget.axisDirection == AxisDirection.down,
+    );
+    tester.state<ScrollableState>(scrollable).position.jumpTo(2000);
+    await tester.pump();
+
+    expect(find.byType(ShaderMask), findsNothing);
   });
 
   testWidgets(
