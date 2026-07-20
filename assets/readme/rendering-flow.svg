@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330" role="img" aria-labelledby="title desc">
+  <title id="title">Fractal Forge exploration and rendering flow</title>
+  <desc id="desc">Browse a formula, tune parameters, render through the precision ladder, then export or share the result.</desc>
+  <defs>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c4dff"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="330" rx="24" fill="#0a0a12"/>
+  <text x="56" y="52" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="28" font-weight="700">From formula to finished image</text>
+  <text x="1144" y="50" text-anchor="end" fill="#77758b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">ONE SHARED VIEW STATE</text>
+
+  <path d="M146 138 H1052" stroke="#343247" stroke-width="2"/>
+  <path d="M146 138 H1052" stroke="url(#flow)" stroke-width="3" stroke-dasharray="210 28" opacity="0.75"/>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+    <g transform="translate(64 102)">
+      <circle cx="48" cy="36" r="36" fill="#151426" stroke="#7c4dff" stroke-width="2"/>
+      <text x="48" y="43" text-anchor="middle" fill="#c4b5fd" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">01</text>
+      <text x="0" y="108" fill="#f5f5f7" font-size="20" font-weight="700">Browse</text>
+      <text x="0" y="134" fill="#9d9baa" font-size="15">Choose a family</text>
+      <text x="0" y="155" fill="#9d9baa" font-size="15">or search by name</text>
+    </g>
+
+    <g transform="translate(340 102)">
+      <circle cx="48" cy="36" r="36" fill="#151426" stroke="#8b5cf6" stroke-width="2"/>
+      <text x="48" y="43" text-anchor="middle" fill="#ddd6fe" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">02</text>
+      <text x="0" y="108" fill="#f5f5f7" font-size="20" font-weight="700">Tune</text>
+      <text x="0" y="134" fill="#9d9baa" font-size="15">Pan, zoom, recolor,</text>
+      <text x="0" y="155" fill="#9d9baa" font-size="15">animate parameters</text>
+    </g>
+
+    <g transform="translate(616 102)">
+      <circle cx="48" cy="36" r="36" fill="#111a25" stroke="#22d3ee" stroke-width="2"/>
+      <text x="48" y="43" text-anchor="middle" fill="#a5f3fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">03</text>
+      <text x="0" y="108" fill="#f5f5f7" font-size="20" font-weight="700">Render</text>
+      <text x="0" y="134" fill="#9d9baa" font-size="15">GPU first, deeper</text>
+      <text x="0" y="155" fill="#9d9baa" font-size="15">paths when supported</text>
+    </g>
+
+    <g transform="translate(892 102)">
+      <circle cx="48" cy="36" r="36" fill="#111a25" stroke="#67e8f9" stroke-width="2"/>
+      <text x="48" y="43" text-anchor="middle" fill="#cffafe" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">04</text>
+      <text x="0" y="108" fill="#f5f5f7" font-size="20" font-weight="700">Export</text>
+      <text x="0" y="134" fill="#9d9baa" font-size="15">Save, share, study,</text>
+      <text x="0" y="155" fill="#9d9baa" font-size="15">or set a wallpaper</text>
+    </g>
+  </g>
+
+  <g transform="translate(56 286)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+    <text x="0" y="0" fill="#77758b">PRECISION LADDER</text>
+    <text x="164" y="0" fill="#c4b5fd">REALTIME GPU</text>
+    <text x="294" y="0" fill="#57556a">→</text>
+    <text x="326" y="0" fill="#a5f3fc">EXTENDED GPU PREVIEW</text>
+    <text x="526" y="0" fill="#57556a">→</text>
+    <text x="558" y="0" fill="#d4d4dc">CPU PRECISION*</text>
+    <text x="1144" y="0" text-anchor="end" fill="#77758b">*SUPPORTED MODULES</text>
+  </g>
+</svg>

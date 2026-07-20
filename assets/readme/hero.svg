@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400" role="img" aria-labelledby="title desc">
+  <title id="title">Fractal Forge</title>
+  <desc id="desc">A GPU-first studio for exploring mathematical worlds, illustrated with a complex-plane orbit and escape contours.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#090914"/>
+      <stop offset="0.6" stop-color="#111024"/>
+      <stop offset="1" stop-color="#07161d"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="0.52" stop-color="#7c4dff"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <radialGradient id="orbitGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#7c4dff" stop-opacity="0.34"/>
+      <stop offset="0.62" stop-color="#22d3ee" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="plotClip">
+      <rect x="730" y="34" width="422" height="332" rx="24"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1200" height="400" rx="28" fill="url(#bg)"/>
+  <path d="M0 320 C210 275 318 430 532 352 C692 294 770 244 894 279 C1014 314 1092 277 1200 226 L1200 400 L0 400 Z" fill="#7c4dff" opacity="0.045"/>
+
+  <g id="title-block" transform="translate(64 52)">
+    <text x="0" y="0" dominant-baseline="hanging" fill="#22d3ee" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700" letter-spacing="2.4">OPEN-SOURCE · FLUTTER + GLSL</text>
+    <text x="0" y="82" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="68" font-weight="760" letter-spacing="-3">Fractal</text>
+    <text x="0" y="148" fill="url(#accent)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="68" font-weight="760" letter-spacing="-3">Forge</text>
+    <text x="2" y="202" fill="#c6c5d0" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="23">
+      <tspan x="2" dy="0">A GPU-first studio for exploring</tspan>
+      <tspan x="2" dy="32">mathematical worlds.</tspan>
+    </text>
+    <g transform="translate(0 278)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="650">
+      <rect width="118" height="34" rx="17" fill="#7c4dff" fill-opacity="0.16" stroke="#8b5cf6" stroke-opacity="0.65"/>
+      <text x="59" y="22" text-anchor="middle" fill="#c4b5fd">DEEP ZOOM</text>
+      <rect x="130" width="166" height="34" rx="17" fill="#22d3ee" fill-opacity="0.1" stroke="#22d3ee" stroke-opacity="0.55"/>
+      <text x="213" y="22" text-anchor="middle" fill="#a5f3fc">LIVE CONTROLS</text>
+      <rect x="308" width="104" height="34" rx="17" fill="#ffffff" fill-opacity="0.045" stroke="#ffffff" stroke-opacity="0.18"/>
+      <text x="360" y="22" text-anchor="middle" fill="#d4d4dc">EXPORT</text>
+    </g>
+  </g>
+
+  <g id="complex-plane" clip-path="url(#plotClip)">
+    <rect x="730" y="34" width="422" height="332" rx="24" fill="#080a14" stroke="#34324b"/>
+    <circle cx="945" cy="200" r="176" fill="url(#orbitGlow)"/>
+    <g stroke="#2b2b40" stroke-width="1">
+      <path d="M758 90 H1124 M758 145 H1124 M758 200 H1124 M758 255 H1124 M758 310 H1124"/>
+      <path d="M790 62 V338 M845 62 V338 M900 62 V338 M955 62 V338 M1010 62 V338 M1065 62 V338 M1120 62 V338"/>
+    </g>
+    <path d="M758 200 H1124 M945 62 V338" stroke="#66647d" stroke-width="1.4"/>
+
+    <g fill="none" stroke-linecap="round">
+      <path d="M1090 202 C1074 142 1027 109 977 116 C943 121 928 143 922 164 C905 133 871 119 842 133 C807 149 798 187 812 215 C829 248 871 254 901 236 C896 270 918 300 950 307 C995 317 1030 281 1028 242 C1050 252 1080 235 1090 202 Z" stroke="#312e81" stroke-width="22" opacity="0.36"/>
+      <path d="M1085 202 C1072 151 1031 121 982 125 C950 128 932 150 924 174 C907 145 877 132 850 143 C820 155 810 188 823 213 C839 242 878 246 906 226 C904 260 925 285 953 291 C990 299 1018 270 1017 235 C1042 246 1075 228 1085 202 Z" stroke="#7c4dff" stroke-width="5" opacity="0.88"/>
+      <path d="M1070 200 C1061 163 1030 141 993 143 C962 145 943 166 936 190 C922 164 897 153 876 162 C852 172 846 197 857 216 C870 237 900 239 922 223 C923 249 939 266 960 270 C987 275 1007 254 1005 229 C1025 238 1059 223 1070 200 Z" stroke="#22d3ee" stroke-width="2.5" opacity="0.92"/>
+    </g>
+
+    <path d="M780 277 C830 245 855 285 884 236 C911 191 952 259 976 198 C999 139 1042 193 1104 111" fill="none" stroke="#f5f5f7" stroke-width="1.6" stroke-dasharray="4 7" opacity="0.68"/>
+    <g fill="#f5f5f7" stroke="#090914" stroke-width="3">
+      <circle cx="780" cy="277" r="5"/>
+      <circle cx="853" cy="260" r="5" fill="#a78bfa"/>
+      <circle cx="901" cy="221" r="5" fill="#8b5cf6"/>
+      <circle cx="969" cy="213" r="5" fill="#22d3ee"/>
+      <circle cx="1018" cy="176" r="5" fill="#67e8f9"/>
+      <circle cx="1104" cy="111" r="5"/>
+    </g>
+    <text x="758" y="57" fill="#8f8da3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">IM(z)</text>
+    <text x="1086" y="220" fill="#8f8da3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">RE(z)</text>
+    <text x="758" y="342" fill="#22d3ee" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700">zₙ₊₁ = zₙ² + c</text>
+    <text x="1108" y="342" text-anchor="end" fill="#8f8da3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">ORBIT 05 / ESCAPE</text>
+  </g>
+</svg>
