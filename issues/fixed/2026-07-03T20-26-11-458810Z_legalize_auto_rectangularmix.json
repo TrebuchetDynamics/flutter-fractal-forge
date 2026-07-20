@@ -44,5 +44,14 @@
     "kaleidoscopeMirror": true,
     "kaleidoscopeRotation": 0.0,
     "kaleidoscopeMirrorMode": 0
+  },
+  "resolution": {
+    "status": "fixed",
+    "fixedAt": "2026-07-20T01:40:33Z",
+    "summary": "Confirmed the inaccurate shared Legalize approximation was removed from the live registry by c1cf90b8, so the reported bad-view, wrong-fractal, and broken-randomization paths are no longer user-reachable.",
+    "research": "research/issue-fixes/2026-07-03T20-26-11-458810Z_legalize_auto_rectangularmix/research-not-needed.md",
+    "validation": [
+      "flutter test test/modules/legalize_fotd_shared_catalog_test.dart"
+    ]
   }
 }
