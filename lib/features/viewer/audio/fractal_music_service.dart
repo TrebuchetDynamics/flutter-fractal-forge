@@ -9,8 +9,8 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'fractal_music_web_player_stub.dart'
     if (dart.library.html) 'fractal_music_web_player_html.dart';
 
-const double fractalMusicLoopSeconds = 8;
-const Duration fractalMusicLoopDuration = Duration(seconds: 8);
+const double fractalMusicLoopSeconds = 16;
+const Duration fractalMusicLoopDuration = Duration(seconds: 16);
 const int _scanMusicSteps = 64;
 const int _scanDistanceBins = 8;
 
@@ -57,6 +57,7 @@ class FractalMusicScanFrame {
       hash = (hash ^ rgba[offset]) * 0x01000193 & 0xffffffff;
       hash = (hash ^ rgba[offset + 1]) * 0x01000193 & 0xffffffff;
       hash = (hash ^ rgba[offset + 2]) * 0x01000193 & 0xffffffff;
+      hash = (hash ^ rgba[offset + 3]) * 0x01000193 & 0xffffffff;
     }
     return hash;
   }
@@ -94,10 +95,22 @@ class FractalMusicService {
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
   }) async {
-    try {
-      await stop();
-    } catch (error) {
-      throw FractalMusicStopFailure(error);
+    if (_playback is _UnsupportedFractalMusicPlayer) {
+      throw StateError(
+          'Fractal Music playback is supported on Web, Android, and Linux.');
+    }
+    final playback = _playback;
+    if (playback is _LinuxFractalMusicPlayer) {
+      try {
+        await playback.ensurePlayerAvailable();
+      } catch (error, stackTrace) {
+        try {
+          await playback.stop();
+        } catch (stopError) {
+          throw FractalMusicStopFailure(stopError);
+        }
+        Error.throwWithStackTrace(error, stackTrace);
+      }
     }
     final bytes = scanFrame != null && scanFrame.isValid
         ? buildFractalMusicScanWav(
@@ -111,6 +124,11 @@ class FractalMusicService {
             panY: controller.view.pan.y,
             zoom: controller.view.zoom,
           );
+    try {
+      await stop();
+    } catch (error) {
+      throw FractalMusicStopFailure(error);
+    }
     await _playback.play(bytes);
   }
 
@@ -230,16 +248,23 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
         _createTempDir = createTempDir ??
             ((prefix) => Directory.systemTemp.createTemp(prefix));
 
-  @override
-  Future<void> play(Uint8List bytes) async {
+  Future<void> ensurePlayerAvailable() async {
     if (!await _commandExists('paplay') && !await _commandExists('aplay')) {
       throw StateError('No Linux audio player found (paplay or aplay).');
     }
+  }
 
+  @override
+  Future<void> play(Uint8List bytes) async {
     final dir = await _createTempDir('fractal_music_');
     final file = File('${dir.path}/loop.wav');
-    await file.writeAsBytes(bytes, flush: true);
     _wavFile = file;
+    try {
+      await file.writeAsBytes(bytes, flush: true);
+    } catch (_) {
+      await _deleteTempAudio();
+      rethrow;
+    }
 
     // ponytail: use common Linux players, add a real audio backend only when
     // we need cross-platform playback or lower latency.
@@ -256,10 +281,18 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
       rethrow;
     }
     _player = player;
-    final earlyExitCode = await player.exitCode.timeout(
-      const Duration(milliseconds: 250),
-      onTimeout: () => -1,
-    );
+    final int earlyExitCode;
+    try {
+      earlyExitCode = await player.exitCode.timeout(
+        const Duration(milliseconds: 250),
+        onTimeout: () => -1,
+      );
+    } catch (_) {
+      player.kill();
+      _player = null;
+      await _deleteTempAudio();
+      rethrow;
+    }
     if (earlyExitCode != -1) {
       _player = null;
       await _deleteTempAudio();
@@ -269,15 +302,33 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
 
   @override
   Future<void> stop() async {
-    _player?.kill();
+    final player = _player;
     _player = null;
+    Object? killError;
+    StackTrace? killStackTrace;
+    try {
+      if (player != null && !player.kill()) {
+        throw StateError('Linux audio player could not be stopped.');
+      }
+    } catch (error, stackTrace) {
+      killError = error;
+      killStackTrace = stackTrace;
+    }
     await _deleteTempAudio();
+    if (killError != null) {
+      Error.throwWithStackTrace(killError, killStackTrace!);
+    }
   }
 
   @override
   void dispose() {
-    _player?.kill();
+    final player = _player;
     _player = null;
+    try {
+      player?.kill();
+    } catch (_) {
+      // Player shutdown is best-effort during synchronous disposal.
+    }
     try {
       final file = _wavFile;
       if (file != null) {
@@ -410,6 +461,13 @@ Uint8List buildFractalMusicScanWav({
     steps,
     (step) => _smoothedScanDistanceProfile(scans, step),
   );
+  final harmonyProfile =
+      _collapseDistanceProfile(smoothedScans.expand((scan) => scan).toList());
+  final rootSemitones = (harmonyProfile.hue * 12).round() % 12;
+  final scale = harmonyProfile.brightness >= 0.5
+      ? _visualMajorPentatonic
+      : _visualMinorPentatonic;
+  final droneHz = _rootHz(zoomOctave, rootSemitones);
 
   for (var i = 0; i < sampleCount; i++) {
     final position = _musicStepPosition(i, sampleCount, steps);
@@ -424,11 +482,6 @@ Uint8List buildFractalMusicScanWav({
     final maxDetail = bins.fold<double>(0, (maxDetail, bin) {
       return math.max(maxDetail, bin.detail);
     });
-    final profile = _collapseDistanceProfile(bins);
-    final rootSemitones = (profile.hue * 12).round() % 12;
-    final scale = profile.brightness >= 0.5
-        ? _visualMajorPentatonic
-        : _visualMinorPentatonic;
     final envelope = _noteEnvelope(t, detail: maxDetail);
     final angle = step / steps * math.pi * 2 - math.pi / 2;
     final pan = math.cos(angle) * 0.72;
@@ -451,7 +504,7 @@ Uint8List buildFractalMusicScanWav({
             sampleRate: sampleRate,
             harmonic: 0.04 + bin.saturation * 0.10,
             harmony: 0.04 + bin.detail * 0.10,
-            droneHz: _rootHz(zoomOctave),
+            droneHz: droneHz,
           ) *
           gain;
     }
@@ -695,8 +748,8 @@ int _scanDistanceMidi(
 const List<int> _visualMajorPentatonic = [0, 2, 4, 7, 9, 12, 14, 16];
 const List<int> _visualMinorPentatonic = [0, 2, 3, 5, 7, 10, 12, 15];
 
-double _rootHz(int zoomOctave) {
-  final midi = 33 + zoomOctave * 12;
+double _rootHz(int zoomOctave, int rootSemitones) {
+  final midi = 33 + zoomOctave * 12 + rootSemitones;
   return (440 * math.pow(2, (midi - 69) / 12)).toDouble();
 }
 

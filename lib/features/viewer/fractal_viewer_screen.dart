@@ -268,7 +268,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     // Record view/config changes into history
     _recordHistory(context);
-    _musicCoordinator.scheduleRescan(controller);
+    _musicCoordinator.scheduleRescan(
+      controller,
+      moduleChanged: moduleChanged,
+    );
 
     if (moduleChanged) {
       _log.logState('action', 'Module changed', {

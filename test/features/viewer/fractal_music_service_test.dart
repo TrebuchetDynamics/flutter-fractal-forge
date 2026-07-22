@@ -151,13 +151,42 @@ Uint8List _angledRayFrame({int size = 65, required double degrees}) {
   return frame;
 }
 
-class _FakeProcess implements Process {
-  _FakeProcess(this.code);
+class _TrackingScanFrame extends FractalMusicScanFrame {
+  _TrackingScanFrame(this.onFirstValidation)
+      : super(rgba: _solidFrame(1, 1, 120, 120, 120), width: 1, height: 1);
 
-  final int code;
+  final void Function() onFirstValidation;
+  bool _recorded = false;
 
   @override
-  Future<int> get exitCode => Future.value(code);
+  bool get isValid {
+    if (!_recorded) {
+      _recorded = true;
+      onFirstValidation();
+    }
+    return super.isValid;
+  }
+}
+
+class _FakeProcess implements Process {
+  _FakeProcess(
+    this.code, {
+    this.exitError,
+    this.killError,
+    this.killResult = true,
+  });
+
+  final int code;
+  final Object? exitError;
+  final Object? killError;
+  final bool killResult;
+  bool killed = false;
+
+  @override
+  Future<int> get exitCode {
+    final error = exitError;
+    return error == null ? Future.value(code) : Future.error(error);
+  }
 
   @override
   int get pid => 1234;
@@ -172,7 +201,12 @@ class _FakeProcess implements Process {
   Stream<List<int>> get stderr => const Stream.empty();
 
   @override
-  bool kill([ProcessSignal signal = ProcessSignal.sigterm]) => true;
+  bool kill([ProcessSignal signal = ProcessSignal.sigterm]) {
+    killed = true;
+    final error = killError;
+    if (error != null) throw error;
+    return killResult;
+  }
 }
 
 void main() {
@@ -215,8 +249,10 @@ void main() {
     expect(a, isNot(c));
   });
 
-  test('default audio duration matches the visible scan loop duration', () {
+  test('default audio and visible scanner share a slower 16-second loop', () {
     const sampleRate = 1000;
+    expect(fractalMusicLoopSeconds, 16);
+    expect(fractalMusicLoopDuration, const Duration(seconds: 16));
     final stateLoop = buildFractalMusicWav(
       moduleId: 'mandelbrot',
       params: const {},
@@ -350,6 +386,21 @@ void main() {
     final second = FractalMusicScanFrame(rgba: b, width: 8, height: 8);
 
     expect(first.visualSignature, isNot(second.visualSignature));
+  });
+
+  test('scan frame signature catches transparency changes used by music', () {
+    final opaque = FractalMusicScanFrame(
+      rgba: Uint8List.fromList([120, 80, 200, 255]),
+      width: 1,
+      height: 1,
+    );
+    final transparent = FractalMusicScanFrame(
+      rgba: Uint8List.fromList([120, 80, 200, 0]),
+      width: 1,
+      height: 1,
+    );
+
+    expect(opaque.visualSignature, isNot(transparent.visualSignature));
   });
 
   test('scan profile follows the scanner cross-section angle', () {
@@ -712,21 +763,75 @@ void main() {
     expect(a, isNot(b));
   });
 
-  test('play reports missing Linux audio players before starting playback',
-      () async {
+  test('unsupported platforms fail before generating audio', () async {
     final controller = FractalController(ModuleRegistry());
     addTearDown(controller.dispose);
+    var generated = false;
+    final service = FractalMusicService(
+      isWeb: false,
+      isAndroid: false,
+      isLinux: false,
+    );
+    addTearDown(service.dispose);
+
+    await expectLater(
+      service.play(
+        controller,
+        scanFrame: _TrackingScanFrame(() => generated = true),
+      ),
+      throwsStateError,
+    );
+
+    expect(generated, isFalse);
+  });
+
+  test('missing Linux players fail before generating audio', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    var generated = false;
     final service = FractalMusicService(commandExists: (_) async => false);
     addTearDown(service.dispose);
 
     await expectLater(
-      service.play(controller),
+      service.play(
+        controller,
+        scanFrame: _TrackingScanFrame(() => generated = true),
+      ),
       throwsA(isA<StateError>().having(
         (error) => error.message,
         'message',
         contains('No Linux audio player'),
       )),
     );
+    expect(generated, isFalse);
+  });
+
+  test('Linux preflight failure stops the previous loop', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final tempRoot = Directory.systemTemp.createTempSync('fractal_music_test_');
+    addTearDown(() {
+      if (tempRoot.existsSync()) tempRoot.deleteSync(recursive: true);
+    });
+    var playerAvailable = true;
+    final process = _FakeProcess(-1);
+    Directory? playingDir;
+    final service = FractalMusicService(
+      commandExists: (_) async => playerAvailable,
+      createTempDir: (prefix) async {
+        playingDir = await tempRoot.createTemp(prefix);
+        return playingDir!;
+      },
+      startProcess: (_, __) async => process,
+    );
+    addTearDown(service.dispose);
+
+    await service.play(controller);
+    playerAvailable = false;
+    await expectLater(service.play(controller), throwsStateError);
+
+    expect(process.killed, isTrue);
+    expect(playingDir!.existsSync(), isFalse);
   });
 
   test('play reports audio device failure and cleans generated temp audio',
@@ -759,6 +864,31 @@ void main() {
 
     expect(createdDir, isNotNull);
     expect(createdDir!.existsSync(), isFalse);
+  });
+
+  test('play generates replacement audio before stopping the current loop',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final calls = <String>[];
+    final service = FractalMusicService(
+      isWeb: true,
+      isAndroid: false,
+      isLinux: false,
+      webPlay: (_) async {
+        calls.add('play');
+        return true;
+      },
+      webStop: () async => calls.add('stop'),
+    );
+    addTearDown(service.dispose);
+
+    await service.play(
+      controller,
+      scanFrame: _TrackingScanFrame(() => calls.add('generate')),
+    );
+
+    expect(calls.take(3), ['generate', 'stop', 'play']);
   });
 
   test('web play sends generated wav bytes to browser audio player', () async {
@@ -853,6 +983,116 @@ void main() {
     expect(command, contains('kill "\$child"'));
     expect(command, contains('exit "\$status"'));
     expect(command, contains('wait "\$child"'));
+  });
+
+  test('Linux stop reports failed kill signals after cleaning temp audio',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final tempRoot = Directory.systemTemp.createTempSync('fractal_music_test_');
+    addTearDown(() {
+      if (tempRoot.existsSync()) tempRoot.deleteSync(recursive: true);
+    });
+    Directory? createdDir;
+    final process = _FakeProcess(-1, killResult: false);
+    final service = FractalMusicService(
+      commandExists: (_) async => true,
+      createTempDir: (prefix) async {
+        createdDir = await tempRoot.createTemp(prefix);
+        return createdDir!;
+      },
+      startProcess: (_, __) async => process,
+    );
+    addTearDown(service.dispose);
+
+    await service.play(controller);
+    await expectLater(service.stop(), throwsStateError);
+
+    expect(createdDir!.existsSync(), isFalse);
+  });
+
+  test('Linux dispose tolerates kill errors and cleans temp audio', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final tempRoot = Directory.systemTemp.createTempSync('fractal_music_test_');
+    addTearDown(() {
+      if (tempRoot.existsSync()) tempRoot.deleteSync(recursive: true);
+    });
+    Directory? createdDir;
+    final process = _FakeProcess(
+      -1,
+      killError: StateError('cannot signal player'),
+    );
+    final service = FractalMusicService(
+      commandExists: (_) async => true,
+      createTempDir: (prefix) async {
+        createdDir = await tempRoot.createTemp(prefix);
+        return createdDir!;
+      },
+      startProcess: (_, __) async => process,
+    );
+
+    await service.play(controller);
+
+    expect(service.dispose, returnsNormally);
+    expect(createdDir!.existsSync(), isFalse);
+  });
+
+  test('play cleans temp audio when writing the WAV fails', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final tempRoot = Directory.systemTemp.createTempSync('fractal_music_test_');
+    addTearDown(() {
+      if (tempRoot.existsSync()) tempRoot.deleteSync(recursive: true);
+    });
+    Directory? createdDir;
+    final service = FractalMusicService(
+      commandExists: (_) async => true,
+      createTempDir: (prefix) async {
+        createdDir = await tempRoot.createTemp(prefix);
+        await Directory('${createdDir!.path}/loop.wav').create();
+        return createdDir!;
+      },
+      startProcess: (_, __) async => _FakeProcess(-1),
+    );
+    addTearDown(service.dispose);
+
+    await expectLater(
+      service.play(controller),
+      throwsA(isA<FileSystemException>()),
+    );
+
+    expect(createdDir, isNotNull);
+    expect(createdDir!.existsSync(), isFalse);
+  });
+
+  test('play cleans Linux resources when exit status cannot be read', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final tempRoot = Directory.systemTemp.createTempSync('fractal_music_test_');
+    addTearDown(() {
+      if (tempRoot.existsSync()) tempRoot.deleteSync(recursive: true);
+    });
+    Directory? createdDir;
+    final process = _FakeProcess(
+      -1,
+      exitError: StateError('cannot read exit status'),
+    );
+    final service = FractalMusicService(
+      commandExists: (_) async => true,
+      createTempDir: (prefix) async {
+        createdDir = await tempRoot.createTemp(prefix);
+        return createdDir!;
+      },
+      startProcess: (_, __) async => process,
+    );
+    addTearDown(service.dispose);
+
+    await expectLater(service.play(controller), throwsStateError);
+
+    expect(process.killed, isTrue);
+    expect(createdDir, isNotNull);
+    expect(createdDir!.existsSync(), isFalse);
   });
 
   test('play cleans temp audio when Linux player process cannot start',
