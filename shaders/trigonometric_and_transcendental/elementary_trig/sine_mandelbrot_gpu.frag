@@ -23,11 +23,60 @@ uniform float uVariant;
 
 out vec4 fragColor;
 
-// Shared includes: color.glsl (linearToSRGB, palette), complex.glsl (cmul, cdiv, cexp)
-// Custom cexp clamp for sine domain stability
+vec3 linearToSRGB(vec3 lin) {
+  lin = clamp(lin, 0.0, 1.0);
+  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
+  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+  vec3 lo = lin * 12.92;
+  return mix(hi, lo, vec3(cutoff));
+}
+
+vec3 palette(float t, int scheme) {
+  if (scheme == 0) {
+    return vec3(
+      0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.4)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.7))
+    );
+  } else if (scheme == 1) {
+    return vec3(
+      0.5 + 0.5 * cos(6.28318 * (t + 0.5)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.3)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.0))
+    );
+  } else if (scheme == 2) {
+    return vec3(
+      0.5 + 0.5 * cos(6.28318 * (t + 0.0)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.33)),
+      0.5 + 0.5 * cos(6.28318 * (t + 0.67))
+    );
+  } else if (scheme == 3) {
+    float g = 0.5 + 0.5 * cos(6.28318 * t);
+    return vec3(g);
+  }
+
+  float s = float(scheme);
+  vec3 a = 0.55 + 0.15 * sin(vec3(1.0, 2.0, 3.0) * (0.37 * s + 0.1));
+  vec3 b = 0.45 + 0.25 * cos(vec3(1.7, 2.3, 2.9) * (0.29 * s + 0.2));
+  vec3 c = 1.0  + 0.80 * sin(vec3(0.8, 1.3, 1.7) * (0.11 * s + 0.3));
+  vec3 d = fract(sin(vec3(12.9898, 78.233, 37.719) * (s + 0.5)) * 43758.5453);
+  vec3 col = a + b * cos(6.28318 * (c * t + d));
+  return clamp(col, 0.0, 1.0);
+}
+
+vec2 cmul(vec2 a, vec2 b) { return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x); }
+
+vec2 cdiv(vec2 a, vec2 b) {
+  float d = dot(b, b);
+  if (d < 1e-20) return vec2(1e10);
+  return vec2(a.x * b.x + a.y * b.y, a.y * b.x - a.x * b.y) / d;
+}
+
 #define CEXP_CLAMP -20.0
-#include "../../shared/color.glsl"
-#include "../../shared/complex.glsl"
+vec2 cexp(vec2 z) {
+  float ex = exp(clamp(z.x, CEXP_CLAMP, -CEXP_CLAMP));
+  return ex * vec2(cos(z.y), sin(z.y));
+}
 
 vec2 clogSafe(vec2 z) { return vec2(log(max(length(z), 1e-12)), atan(z.y, z.x)); }
 
