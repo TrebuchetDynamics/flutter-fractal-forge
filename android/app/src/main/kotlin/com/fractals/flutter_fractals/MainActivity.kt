@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.Window
+import android.view.WindowManager
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import io.flutter.embedding.engine.FlutterEngine
@@ -27,6 +28,7 @@ class MainActivity : FlutterFragmentActivity() {
     private var deepLinkChannel: MethodChannel? = null
     private var initialLink: String? = null
     private var fractalMusicTrack: AudioTrack? = null
+    private val fractalMusicGeneration = FractalMusicPlaybackGeneration()
 
     companion object {
         private const val DEVICE_CHANNEL = "fractalforge/device"
@@ -51,8 +53,11 @@ class MainActivity : FlutterFragmentActivity() {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val attributes = window.attributes
-            // ponytail: raw values avoid Android 15's deprecated cutout constants; 3=ALWAYS, 1=SHORT_EDGES pre-R.
-            attributes.layoutInDisplayCutoutMode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) 3 else 1
+            attributes.layoutInDisplayCutoutMode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+            } else {
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            }
             window.attributes = attributes
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -174,79 +179,93 @@ class MainActivity : FlutterFragmentActivity() {
     }
 
     private fun playFractalMusic(bytes: ByteArray, result: MethodChannel.Result) {
+        val request = fractalMusicGeneration.begin()
         Thread {
+            val wav = try {
+                FractalMusicWavParser.parse(bytes)
+            } catch (error: IllegalArgumentException) {
+                runOnUiThread {
+                    result.error("invalid_audio", error.message ?: "Invalid WAV bytes", null)
+                }
+                return@Thread
+            }
+
+            var candidate: AudioTrack? = null
             try {
-                if (bytes.size <= 44 || String(bytes.copyOfRange(0, 4)) != "RIFF") {
-                    runOnUiThread { result.error("invalid_audio", "Expected WAV bytes", null) }
-                    return@Thread
-                }
-                val sampleRate = readLeInt(bytes, 24).coerceIn(8000, 48000)
-                val channelCount = readLeShort(bytes, 22).coerceIn(1, 2)
-                val bitsPerSample = readLeShort(bytes, 34)
-                if (bitsPerSample != 16) {
-                    runOnUiThread { result.error("invalid_audio", "Expected 16-bit PCM WAV", null) }
-                    return@Thread
-                }
-                val pcm = bytes.copyOfRange(44, bytes.size)
-                val frameSize = channelCount * 2
-                val frameCount = pcm.size / frameSize
-                if (frameCount <= 0 || pcm.size % frameSize != 0) {
-                    runOnUiThread { result.error("invalid_audio", "Invalid WAV payload", null) }
-                    return@Thread
-                }
-                val channelConfig = if (channelCount == 2) {
+                val channelConfig = if (wav.channelCount == 2) {
                     AudioFormat.CHANNEL_OUT_STEREO
                 } else {
                     AudioFormat.CHANNEL_OUT_MONO
                 }
-
-                stopFractalMusic()
                 val track = AudioTrack(
                     AudioManager.STREAM_MUSIC,
-                    sampleRate,
+                    wav.sampleRate,
                     channelConfig,
                     AudioFormat.ENCODING_PCM_16BIT,
-                    pcm.size,
+                    wav.pcm.size,
                     AudioTrack.MODE_STATIC,
                 )
-                val written = track.write(pcm, 0, pcm.size)
-                if (written != pcm.size) {
-                    track.release()
-                    runOnUiThread { result.error("audio_write_failed", "Failed to write complete audio buffer", null) }
+                candidate = track
+                val written = track.write(wav.pcm, 0, wav.pcm.size)
+                if (written != wav.pcm.size) {
+                    releaseFractalMusicTrack(track)
+                    candidate = null
+                    runOnUiThread {
+                        result.error("audio_write_failed", "Failed to write complete audio buffer", null)
+                    }
                     return@Thread
                 }
-                if (track.setLoopPoints(0, frameCount, -1) != AudioTrack.SUCCESS) {
-                    track.release()
-                    runOnUiThread { result.error("audio_loop_failed", "Failed to loop generated audio", null) }
+                if (track.setLoopPoints(0, wav.frameCount, -1) != AudioTrack.SUCCESS) {
+                    releaseFractalMusicTrack(track)
+                    candidate = null
+                    runOnUiThread {
+                        result.error("audio_loop_failed", "Failed to loop generated audio", null)
+                    }
                     return@Thread
                 }
-                track.playbackHeadPosition = 0
-                track.play()
-                synchronized(this) { fractalMusicTrack = track }
-                runOnUiThread { result.success(true) }
-            } catch (t: Throwable) {
-                stopFractalMusic()
-                runOnUiThread { result.error("audio_play_failed", t.message ?: "Failed to play fractal music", null) }
+
+                val accepted = synchronized(this) {
+                    if (!fractalMusicGeneration.isCurrent(request)) {
+                        false
+                    } else {
+                        fractalMusicTrack?.let(::releaseFractalMusicTrack)
+                        fractalMusicTrack = null
+                        track.playbackHeadPosition = 0
+                        track.play()
+                        fractalMusicTrack = track
+                        candidate = null
+                        true
+                    }
+                }
+                if (!accepted) {
+                    releaseFractalMusicTrack(track)
+                    candidate = null
+                }
+                runOnUiThread { result.success(accepted) }
+            } catch (error: Throwable) {
+                candidate?.let(::releaseFractalMusicTrack)
+                runOnUiThread {
+                    result.error(
+                        "audio_play_failed",
+                        error.message ?: "Failed to play fractal music",
+                        null,
+                    )
+                }
             }
         }.start()
     }
 
     @Synchronized private fun stopFractalMusic() {
-        val track = fractalMusicTrack ?: return
+        fractalMusicGeneration.cancel()
+        val track = fractalMusicTrack
         fractalMusicTrack = null
-        runCatching { track.stop() }
-        track.release()
+        track?.let(::releaseFractalMusicTrack)
     }
 
-    private fun readLeInt(bytes: ByteArray, offset: Int): Int =
-        (bytes[offset].toInt() and 0xff) or
-            ((bytes[offset + 1].toInt() and 0xff) shl 8) or
-            ((bytes[offset + 2].toInt() and 0xff) shl 16) or
-            ((bytes[offset + 3].toInt() and 0xff) shl 24)
-
-    private fun readLeShort(bytes: ByteArray, offset: Int): Int =
-        (bytes[offset].toInt() and 0xff) or
-            ((bytes[offset + 1].toInt() and 0xff) shl 8)
+    private fun releaseFractalMusicTrack(track: AudioTrack) {
+        runCatching { track.stop() }
+        runCatching { track.release() }
+    }
 
     override fun onDestroy() {
         stopFractalMusic()

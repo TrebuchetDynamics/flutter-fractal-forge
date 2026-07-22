@@ -116,4 +116,6 @@ dependencies {
     // Play Core modular library for SDK 34+ compatibility
     // Replaces deprecated com.google.android.play:core:1.10.3
     implementation("com.google.android.play:feature-delivery:2.1.0")
+
+    testImplementation("junit:junit:4.13.2")
 }
