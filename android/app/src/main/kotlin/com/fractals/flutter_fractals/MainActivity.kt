@@ -1,5 +1,6 @@
 package com.trebuchetdynamics.fractal.forge
 
+import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.ContentValues
 import android.content.Intent
@@ -14,7 +15,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.Window
-import android.view.WindowManager
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import io.flutter.embedding.engine.FlutterEngine
@@ -45,6 +45,7 @@ class MainActivity : FlutterFragmentActivity() {
         initialLink = intent?.dataString
     }
 
+    @SuppressLint("WrongConstant")
     private fun enableEdgeToEdgeCompat() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         if (Build.VERSION.SDK_INT < 35) {
@@ -53,11 +54,8 @@ class MainActivity : FlutterFragmentActivity() {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val attributes = window.attributes
-            attributes.layoutInDisplayCutoutMode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
-            } else {
-                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-            }
+            // Raw values avoid Android 15's deprecated constants: 3=ALWAYS, 1=SHORT_EDGES.
+            attributes.layoutInDisplayCutoutMode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) 3 else 1
             window.attributes = attributes
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
