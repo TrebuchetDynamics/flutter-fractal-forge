@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+10.1016/j.media.2022.102704	Data synthesis and adversarial networks: A review and meta-analysis in cancer imaging
+10.1007/978-3-030-87592-3_5	Synth-by-Reg (SbR): Contrastive learning for synthesis-based registration of paired images
+10.1007/s10035-023-01363-6	Simulation of Lateral Impulse Induced Inertial Dilation at the Surface of a Vacuum-Exposed Granular Assembly
+10.1007/s10035-014-0498-0	Shear dispersion in dense granular flows
+10.1016/b978-0-12-800868-3.00010-9	Granular Impact: A Grain-scale Approach
+	Lack of energy equipartition in homogeneous heated binary granular mixtures
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Influence of particle shape on sheared dense granular media

@@ -1,0 +1,10 @@
+10.1109/jstsp.2019.2908700	Deep Learning for Audio Signal Processing
+10.1371/journal.pone.0196391	The Ryerson Audio-Visual Database of Emotional Speech and Song (RAVDESS): A dynamic, multimodal set of facial and vocal expressions in North American English
+10.1186/s40537-021-00414-0	A survey on generative adversarial networks for imbalance problems in computer vision tasks
+10.1109/access.2024.3356122	CIFAKE: Image Classification and Explainable Identification of AI-Generated Synthetic Images
+10.1007/s11263-019-01150-y	You Said That?: Synthesising Talking Faces from Audio
+10.1145/3592458	Listen, Denoise, Action! Audio-Driven Motion Synthesis with Diffusion Models
+10.48550/arxiv.2303.04226	A Comprehensive Survey of AI-Generated Content (AIGC): A History of Generative AI from GAN to ChatGPT
+10.1109/jproc.2021.3074329	Tensor Methods in Computer Vision and Deep Learning
+10.1109/jiot.2020.2997047	The Internet of Audio Things: State of the Art, Vision, and Challenges
+10.1016/j.aiia.2020.09.002	A review on computer vision systems in monitoring of poultry: A welfare perspective

@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	A map of approaches to temporal networks
+10.1017/s0263034614000500	Comparison between illumination model and hydrodynamic simulation for a Direct Drive laser irradiated target
+10.1103/physrevlett.92.151101	Measurement of the Flux of Ultrahigh Energy Cosmic Rays from Monocular Observations by the High Resolution Fly's Eye Experiment
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+10.1086/427931	A Study of the Composition of Ultra High Energy Cosmic Rays Using the High Resolution Fly's Eye
+	A temporal network version of Watts's cascade model
+	Astronomical images sonification: inclusion or outreach?

@@ -1,0 +1,10 @@
+	Diffusion-based Symbolic Music Generation with Structured State Space Models
+	Symbolic Music Representations for Classification Tasks: A Systematic Evaluation
+10.5281/zenodo.13359873	musif: a Python package for symbolic music feature extraction
+	Music SketchNet: Controllable Music Generation via Factorized Representations of Pitch and Rhythm
+	Byte Pair Encoding for Symbolic Music
+	Motifs, Phrases, and Beyond: The Modelling of Structure in Symbolic Music Generation
+	GTR-CTRL: Instrument and Genre Conditioning for Guitar-Focused Music Generation with Transformers
+	MMT-BERT: Chord-aware Symbolic Music Generation Based on Multitrack Music Transformer and MusicBERT
+	Instrumental Text-to-Music Generation with Auxiliary Conditioning Branches
+10.1080/17459737.2018.1450902	Introduction to Gestural Similarity in Music. An Application of Category Theory to the Orchestra

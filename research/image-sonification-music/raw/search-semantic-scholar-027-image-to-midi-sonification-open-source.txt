@@ -1,0 +1,10 @@
+	Extending Xenakis: From Architectural Geometry to Sonification of the Philips Pavilion
+10.48550/arxiv.2412.09152	Herakoi: a Sonification Experiment for Astronomical Data
+10.1109/ism55400.2022.00051	Retaining Semantics in Image to Music Conversion
+10.48550/arxiv.2507.23608	Medical Image De-Identification Benchmark Challenge
+10.1145/3757375.3774343	Agentic VJ System - Real-time Visual Generation with Multi-modal Agents for Live Performances
+10.1017/s1355771826101162	The harmonicity of brain dynamics: A neurophenomenological approach to creative biofeedback
+10.64898/2026.03.21.713430	Visualizing and sonifying neurodata (ViSoND) for enhanced observation
+10.1098/rsta.2025.0253	Sulfur fractionation in coronal plumes as observed by Solar Orbiter/Spectral Imaging of the Coronal Environment.
+	The R Programming Language as a Unified Environment for Data Sonification
+	Sonification of Colour and Depth in a Mobility Aid for Blind People

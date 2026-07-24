@@ -1,0 +1,10 @@
+10.1109/taslpro.2025.3648794	Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio
+	Music SketchNet: Controllable Music Generation via Factorized Representations of Pitch and Rhythm
+10.1109/taslp.2024.3407529	MOSA: Music Motion with Semantic Annotation Dataset for Cross-Modal Music Processing
+	IteraTTA: An interface for exploring both text prompts and audio priors in generating music with text-to-audio models
+	Passage Summarization with Recurrent Models for Audio-Sheet Music Retrieval
+10.1080/17459737.2018.1450902	Introduction to Gestural Similarity in Music. An Application of Category Theory to the Orchestra
+	Vision-to-Music Generation: A Survey
+	Dorabella Cipher as Musical Inspiration
+10.1145/3108242	A Functional Taxonomy of Music Generation Systems
+	Learning Audio - Sheet Music Correspondences for Score Identification and Offline Alignment

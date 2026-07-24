@@ -1,0 +1,10 @@
+10.1109/icaccs60874.2024.10717173	Enhanced Vision:Hybrid Deep Learning Based Model for Image Captioning and Audio Synthesis
+10.1109/ojsp.2026.3701313	GAN-Based Bayer Pattern Image Synthesis for Raw Domain Computer Vision Tasks
+10.1109/eit67313.2025.11231835	Improved Audio-Video Synchronization Generation Mechanism Based on Google Veo 3 in Computer Vision Applications
+10.38124/ijisrt/25aug1648	Emotion Detection and Music Recommendation Using Deep Learning and Computer Vision
+10.48550/arxiv.2503.19161	Pitch Contour Exploration Across Audio Domains: A Vision-Based Transfer Learning Approach
+10.33411/ijist/1728	Sight Mate – An Intelligent Visual Assistance System for Visually Impaired Individuals Using Computer Vision and Audio Feedback
+10.55041/isjem07367	AI-Based Image and Video Detection and Translation using Computer Vision, OCR and NLP
+10.48550/arxiv.2503.21254	Vision-to-Music Generation: A Survey
+10.3390/electronics13091726	Recent Advances in Synthesis and Interaction of Speech, Text, and Vision
+10.1109/icancs65819.2025.11377235	Emotive Audio Synthesis for Sign Language Translation

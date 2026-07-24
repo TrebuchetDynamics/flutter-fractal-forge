@@ -1,0 +1,10 @@
+	Vision-to-Music Generation: A Survey
+	Diffusion-based Symbolic Music Generation with Structured State Space Models
+	WiCV 2019: The Sixth Women In Computer Vision Workshop
+10.5281/zenodo.13359873	musif: a Python package for symbolic music feature extraction
+	Symbolic Music Representations for Classification Tasks: A Systematic Evaluation
+	Motifs, Phrases, and Beyond: The Modelling of Structure in Symbolic Music Generation
+10.1007/s11263-022-01715-4	Spatial Monitoring and Insect Behavioural Analysis Using Computer Vision for Precision Pollination
+	Byte Pair Encoding for Symbolic Music
+	MMT-BERT: Chord-aware Symbolic Music Generation Based on Multitrack Music Transformer and MusicBERT
+	Music SketchNet: Controllable Music Generation via Factorized Representations of Pitch and Rhythm

@@ -1,0 +1,541 @@
+# Search batch results
+
+Deduped records: 512
+
+- A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities — DOI: `10.1371/journal.pone.0082491`
+- Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review — DOI: `10.3758/s13423-012-0333-8`
+- TAXONOMY AND DEFINITIONS FOR SONIFICATION AND AUDITORY DISPLAY
+- Sonification of Arm Movements in Stroke Rehabilitation – A Novel Approach in Neurologic Music Therapy — DOI: `10.3389/fneur.2016.00106`
+- The importance of interaction in sonification
+- Sonific ation Report: Status of the Field and Research Agenda
+- <i>Go-with-the-Flow</i>: Tracking, Analysis and Sonification of Movement and Breathing to Build Confidence in Activity Despite Chronic Pain — DOI: `10.1080/07370024.2015.1085310`
+- A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation — DOI: `10.1109/rbme.2022.3187840`
+- Scale-Free Music of the Brain — DOI: `10.1371/journal.pone.0005915`
+- Movement Sonification in Stroke Rehabilitation — DOI: `10.3389/fneur.2018.00389`
+- Interactive Sonification for Health and Energy using ChucK and Unity — DOI: `10.5281/zenodo.7243950`
+- BINet: a binary inpainting network for deep patch-based image compression — DOI: `10.1016/j.image.2020.116119`
+- CAE-Net: Generalized Deepfake Image Detection using Convolution and Attention Mechanisms with Spatial and Frequency Domain Features — DOI: `10.1016/j.jvcir.2025.104679`
+- Privacy Preserving Image Registration — DOI: `10.1007/978-3-031-16446-0_13`
+- A Generic Fundus Image Enhancement Network Boosted by Frequency Self-supervised Representation Learning — DOI: `10.1016/j.media.2023.102945`
+- Locally Linear Image Structural Embedding for Image Structure Manifold Learning — DOI: `10.1007/978-3-030-27202-9_11`
+- Emotion-Guided Image to Music Generation
+- FlexHDR: Modelling Alignment and Exposure Uncertainties for Flexible HDR Imaging — DOI: `10.1109/tip.2022.3203562`
+- Fréchet Radiomic Distance (FRD): A Versatile Metric for Comparing Medical Imaging Datasets — DOI: `10.1016/j.media.2026.103943`
+- Learning a Single Model with a Wide Range of Quality Factors for JPEG Image Artifacts Removal — DOI: `10.1109/tip.2020.3020389`
+- From tissue to sound: A new paradigm for medical sonic interaction design — DOI: `10.1016/j.media.2025.103571`
+- Application of Image Sonification Methods to Music
+- Cross-modal plasticity in a blind jazz pianist and prodigy — DOI: `10.1016/j.ynirp.2026.100341`
+- Real-Time Sound / Image Manipulation and Mapping in a Performance Setting
+- Deep Hybrid Synesthesia Model for Audio-Image Transfer — DOI: `10.3390/electronics15102218`
+- From the visualization of sound to real-time sonification: different prototypes in the Max/MSP/Jitter environment
+- Animacy , Motion , Emotion and Empathy in Visual Music : Enhancing appreciation of abstracted animation through
+- Creating Visual Music in Jitter: Approaches and Techniques — DOI: `10.1162/014892605775179900`
+- A JAVA FRAMEWORK FOR DATA SONIFICATION AND 3 D GRAPHIC RENDERING
+- Stereo music visualization through manifold harmonics — DOI: `10.1007/s00371-011-0617-4`
+- Is Sonification Doomed to Fail? — DOI: `10.21785/icad2019.069`
+- Music of brain and music on brain: a novel EEG sonification approach — DOI: `10.1007/s11571-018-9502-4`
+- Sonification as a reliable alternative to conventional visual surgical navigation — DOI: `10.1038/s41598-023-32778-z`
+- Lobbying for the ear : the public fascination with and academic legitimacy of the sonification of scientific data — DOI: `10.26481/dis.20120606as`
+- On Breathing and Geography: Explorations of Data Sonifications of Timespace Processes with Illustrating Examples from a Tidally Dynamic Landscape (Severn Estuary, UK) — DOI: `10.1068/a45264`
+- Sonification of network traffic flow for monitoring and situational awareness — DOI: `10.1371/journal.pone.0195948`
+- Sonification Aesthetics and Listening for Network Situational Awareness — DOI: `10.13140/2.1.4225.6648`
+- Kinetic surface friction rendering for interactive sonification: an initial exploration
+- Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+- Speech-based Mark for Data Sonification — DOI: `10.1145/3663548.3688514`
+- Perceiving Slope and Acceleration: Evidence for Variable Tempo Sampling in Pitch-Based Sonification of Functions
+- Erie: A Declarative Grammar for Data Sonification — DOI: `10.1145/3613904.3642442`
+- Evaluating the efficacy of sonification for signal detection in univariate, evenly sampled light curves using astronify — DOI: `10.1093/mnras/stac2590`
+- Astronomical images sonification: inclusion or outreach?
+- Data Melodification FM: Where Musical Rhetoric Meets Sonification
+- Music and the brain: the neuroscience of music and musical appreciation — DOI: `10.1192/s2056474000001720`
+- Displaced Soundscapes: A Survey of Network Systems for Music and Sonic Art Creation — DOI: `10.1162/096112104322750791`
+- Dalcroze meets technology: integrating music, movement and visuals with the Music Paint Machine — DOI: `10.1080/14613808.2017.1312323`
+- Music in Extended Realities — DOI: `10.1109/access.2021.3052931`
+- Using music as a signal for biofeedback — DOI: `10.1016/j.ijpsycho.2013.04.013`
+- Music, Computing, and Health: A Roadmap for the Current and Future Roles of Music Technology for Health Care and Well-Being — DOI: `10.1177/2059204321997709`
+- Sonification of Spatial Data
+- Models of Music Cognition and Composition
+- Musical Smart City: Perspectives on Ubiquitous Sonification
+- Music and musical sonification for the rehabilitation of Parkinsonian dysgraphia: Conceptual framework
+- Introduction to Gestural Similarity in Music. An Application of Category Theory to the Orchestra — DOI: `10.1080/17459737.2018.1450902`
+- Dorabella Cipher as Musical Inspiration
+- Extending Xenakis: From Architectural Geometry to Sonification of the Philips Pavilion
+- Music SketchNet: Controllable Music Generation via Factorized Representations of Pitch and Rhythm
+- DISCO: An object-oriented system for music composition and sound design
+- Deep Learning for Audio Signal Processing — DOI: `10.1109/jstsp.2019.2908700`
+- The Ryerson Audio-Visual Database of Emotional Speech and Song (RAVDESS): A dynamic, multimodal set of facial and vocal expressions in North American English — DOI: `10.1371/journal.pone.0196391`
+- A survey on generative adversarial networks for imbalance problems in computer vision tasks — DOI: `10.1186/s40537-021-00414-0`
+- CIFAKE: Image Classification and Explainable Identification of AI-Generated Synthetic Images — DOI: `10.1109/access.2024.3356122`
+- You Said That?: Synthesising Talking Faces from Audio — DOI: `10.1007/s11263-019-01150-y`
+- Listen, Denoise, Action! Audio-Driven Motion Synthesis with Diffusion Models — DOI: `10.1145/3592458`
+- A Comprehensive Survey of AI-Generated Content (AIGC): A History of Generative AI from GAN to ChatGPT — DOI: `10.48550/arxiv.2303.04226`
+- Tensor Methods in Computer Vision and Deep Learning — DOI: `10.1109/jproc.2021.3074329`
+- The Internet of Audio Things: State of the Art, Vision, and Challenges — DOI: `10.1109/jiot.2020.2997047`
+- A review on computer vision systems in monitoring of poultry: A welfare perspective — DOI: `10.1016/j.aiia.2020.09.002`
+- Network Modulation Synthesis: New Algorithms for Generating Musical Audio Using Autoencoder Networks
+- MusCaps: Generating Captions for Music Audio — DOI: `10.1109/ijcnn52387.2021.9533461`
+- Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio — DOI: `10.1109/taslpro.2025.3648794`
+- Vision-to-Music Generation: A Survey
+- Digital Audio Processing Tools for Music Corpus Studies
+- WiCV 2019: The Sixth Women In Computer Vision Workshop
+- The Whole Is Greater than the Sum of Its Parts: Improving Music Source Separation by Bridging Network — DOI: `10.1186/s13636-024-00354-6`
+- Generation of lyrics lines conditioned on music audio clips
+- Adversarial Audio Synthesis with Complex-valued Polynomial Networks
+- IteraTTA: An interface for exploring both text prompts and audio priors in generating music with text-to-audio models
+- Enhanced Vision:Hybrid Deep Learning Based Model for Image Captioning and Audio Synthesis — DOI: `10.1109/icaccs60874.2024.10717173`
+- GAN-Based Bayer Pattern Image Synthesis for Raw Domain Computer Vision Tasks — DOI: `10.1109/ojsp.2026.3701313`
+- Improved Audio-Video Synchronization Generation Mechanism Based on Google Veo 3 in Computer Vision Applications — DOI: `10.1109/eit67313.2025.11231835`
+- Emotion Detection and Music Recommendation Using Deep Learning and Computer Vision — DOI: `10.38124/ijisrt/25aug1648`
+- Pitch Contour Exploration Across Audio Domains: A Vision-Based Transfer Learning Approach — DOI: `10.48550/arxiv.2503.19161`
+- Sight Mate – An Intelligent Visual Assistance System for Visually Impaired Individuals Using Computer Vision and Audio Feedback — DOI: `10.33411/ijist/1728`
+- AI-Based Image and Video Detection and Translation using Computer Vision, OCR and NLP — DOI: `10.55041/isjem07367`
+- Vision-to-Music Generation: A Survey — DOI: `10.48550/arxiv.2503.21254`
+- Recent Advances in Synthesis and Interaction of Speech, Text, and Vision — DOI: `10.3390/electronics13091726`
+- Emotive Audio Synthesis for Sign Language Translation — DOI: `10.1109/icancs65819.2025.11377235`
+- Multimodal Learning With Transformers: A Survey — DOI: `10.1109/tpami.2023.3275156`
+- Conceptual Captions: A Cleaned, Hypernymed, Image Alt-text Dataset For Automatic Image Captioning — DOI: `10.18653/v1/p18-1238`
+- MMMU: A Massive Multi-Discipline Multimodal Understanding and Reasoning Benchmark for Expert AGI — DOI: `10.1109/cvpr52733.2024.00913`
+- Deep Multimodal Representation Learning: A Survey — DOI: `10.1109/access.2019.2916887`
+- Toward a Neural Basis of Music Perception – A Review and Updated Model — DOI: `10.3389/fpsyg.2011.00110`
+- Flamingo: a Visual Language Model for Few-Shot Learning — DOI: `10.48550/arxiv.2204.14198`
+- Visual Attention Model for Name Tagging in Multimodal Social Media — DOI: `10.18653/v1/p18-1185`
+- Multimodal Large Language Models in Health Care: Applications, Challenges, and Future Outlook — DOI: `10.2196/59505`
+- Towards Multimodal MIR: Predicting individual differences from music-induced movement — DOI: `10.5281/zenodo.4245368`
+- Pisces: An Auto-regressive Foundation Model for Image Understanding and Generation
+- MMVA: Multimodal Matching Based on Valence and Arousal across Images, Music, and Musical Captions
+- Joint Music and Language Attention Models for Zero-shot Music Tagging
+- GlobalMood: A cross-cultural benchmark for music emotion recognition
+- Modeling Musical Context with Word2vec
+- VT2Music: A Multimodal Framework for Text-Visual Guided Music Generation and Comprehensive Performance Analysis — DOI: `10.1109/access.2025.3572954`
+- Mozart’s Touch: a lightweight multimodal music generation framework based on pre-trained large models — DOI: `10.1117/12.3067408`
+- CNN-LSTM based Multimodal Models for Music Generation — DOI: `10.1109/ispa63168.2024.00117`
+- Multimodal Music Generation with Explicit Bridges and Retrieval Augmentation — DOI: `10.48550/arxiv.2412.09428`
+- Intelligent Text-Conditioned Music Generation — DOI: `10.48550/arxiv.2406.00626`
+- Bridging Paintings and Music - Exploring Emotion based Music Generation through Paintings — DOI: `10.48550/arxiv.2409.07827`
+- Multimodal Large Language Models for Multi-Subject In-Context Image Generation — DOI: `10.48550/arxiv.2604.07422`
+- Music-driven Character Dance Video Generation based on Pre-trained Diffusion Model — DOI: `10.1109/ijcnn60899.2024.10650092`
+- Every Image Listens, Every Image Dances: Music-Driven Image Animation — DOI: `10.48550/arxiv.2501.18801`
+- MuseDance: A Diffusion-based Music-Driven Image Animation System — DOI: `10.1109/wacv61042.2026.00372`
+- Educating the Net Generation
+- Video-LLaMA: An Instruction-tuned Audio-Visual Language Model for Video Understanding — DOI: `10.18653/v1/2023.emnlp-demo.49`
+- Perceptual Fusion and Stimulus Coincidence in the Cross-Modal Integration of Speech — DOI: `10.1523/jneurosci.0896-05.2005`
+- Music as a coevolved system for social bonding — DOI: `10.1017/s0140525x20000333`
+- CMCGAN: A Uniform Framework for Cross-Modal Visual-Audio Mutual Generation — DOI: `10.1609/aaai.v32i1.12329`
+- MusicLDM: Enhancing Novelty in text-to-music Generation Using Beat-Synchronous mixup Strategies — DOI: `10.1109/icassp48485.2024.10447265`
+- Multimodal emotion recognition using cross modal audio-video fusion with attention and deep metric learning — DOI: `10.1016/j.imavis.2023.104676`
+- Cross-Modality Fusion Transformer for Multispectral Object Detection — DOI: `10.2139/ssrn.4227745`
+- Deep Audio-visual Learning: A Survey — DOI: `10.1007/s11633-021-1293-0`
+- MOSA: Music Motion with Semantic Annotation Dataset for Cross-Modal Music Processing — DOI: `10.1109/taslp.2024.3407529`
+- Passage Summarization with Recurrent Models for Audio-Sheet Music Retrieval
+- A Functional Taxonomy of Music Generation Systems — DOI: `10.1145/3108242`
+- Learning Audio - Sheet Music Correspondences for Score Identification and Offline Alignment
+- Sonification and haptic feedback in addition to visual feedback enhances complex motor task learning — DOI: `10.1007/s00221-014-4167-7`
+- Movement Sonification: Effects on Motor Learning beyond Rhythmic Adjustments — DOI: `10.3389/fnins.2016.00219`
+- Mobile virtual reality for musical genre learning in primary education — DOI: `10.1016/j.compedu.2019.04.010`
+- Vrengt: A Shared Body-Machine Instrument for Music-Dance Performance — DOI: `10.5281/zenodo.3672917`
+- A case study of translating sonifications across musical cultures for an educational application
+- Sonification of Facial Actions for Musical Expression — DOI: `10.5281/zenodo.1176749`
+- A Music-generating System Inspired by the Science of Complex Adaptive Systems
+- PONIFY: Pose-Driven Painting Sonification to Enhance Augmented Artwork Perception through Sense of Dynamics — DOI: `10.1080/10447318.2025.2514876`
+- Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis — DOI: `10.1162/comj_a_00580`
+- Evaluation of the musical field visualization using XR technology by extracting visualized images — DOI: `10.1121/10.0040909`
+- Sonic Array of Rhythmic Alleles (SARA): Giving Voice to Genomic DNA Through the Sonification of Fourier Transform Infrared Spectroscopy (FTIR) Data — DOI: `10.1162/leon.a.2754`
+- Accessible Sonification of Total Solar Eclipse 2024: Accessible Map and Multimodal Virtual Reality Experience — DOI: `10.21785/icad2024.030`
+- Skin Pattern Sonification Using NMF-based Visual Feature Extraction and Learning-based PMSon
+- A Novel Method for Sleep-Stage Classification Based on Sonification of Sleep Electroencephalogram Signals Using Wavelet Transform and Recurrent Neural Network — DOI: `10.1159/000511306`
+- Synesthesia Add-on: a Tool for HTML Sonification
+- Sounds interesting: can sonification help us design new proteins? — DOI: `10.1080/14789450.2019.1697236`
+- Towards a systematic approach to real-time sonification design for surface electromyography — DOI: `10.1016/j.displa.2016.05.006`
+- Musical Vision: an interactive bio-inspired sonification tool to convert images into music — DOI: `10.1007/s12193-018-0280-4`
+- Polyphonic sonification of electrocardiography signals for diagnosis of cardiac pathologies — DOI: `10.1038/srep44549`
+- A Hierarchical Visual Feature-Based Approach For Image Sonification — DOI: `10.1109/tmm.2020.2987710`
+- Sonification Workstation — DOI: `10.21785/icad2019.056`
+- Digital analysis of early color photographs taken using regular color screen processes — DOI: `10.23738/rcasb.009`
+- Joint Multi-Scale Tone Mapping and Denoising for HDR Image Enhancement — DOI: `10.1109/wacvw54805.2022.00080`
+- ColorNet -- Estimating Colorfulness in Natural Images
+- Interactive sonification of U-depth images in a navigation aid for the visually impaired — DOI: `10.1007/s12193-018-0281-3`
+- The Discipline of Interactive Sonification
+- MULTI-CHANNEL SONIFICATION OF HUMAN EEG
+- A Comparative Study in Real-Time Scene Sonification for Visually Impaired People — DOI: `10.3390/s20113222`
+- Psychoacoustical Signal Processing for Three-dimensional Sonification — DOI: `10.21785/icad2019.018`
+- The Independence of AGN Black Hole Mass and Radio-Loudness — DOI: `10.1086/345944`
+- Neuromorphic Imaging with Joint Image Deblurring and Event Denoising — DOI: `10.1109/tip.2024.3374074`
+- A Comparative Study of Histogram Equalization Based Image Enhancement Techniques for Brightness Preservation and Contrast Enhancement — DOI: `10.5121/sipij.2013.4502`
+- APPLICATION OF RASTER SCANNING METHOD TO IMAGE SONIFICATION, SOUND VISUALIZATION, SOUND ANALYSIS AND SYNTHESIS
+- Raster scanning : a new approach to image sonification, sound visualization, sound analysis, and synthesis
+- Hand rehabilitation with sonification techniques in the subacute stage of stroke — DOI: `10.1038/s41598-021-86627-y`
+- Sonification: Review of Auditory Display Solutions in Electronic Travel Aids for the Blind — DOI: `10.1515/aoa-2016-0040`
+- Texture image analysis and texture classification methods - A review
+- A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection — DOI: `10.13140/rg.2.2.33612.46722`
+- Evaluating Urbanization from Satellite and Aerial Images by means of a statistical approach to the texture analysis
+- A method for the segmentation of images based on thresholding and applied to vesicular textures
+- A Robust Low-Rank Prior Model for Structured Cartoon-Texture Image Decomposition with Heavy-Tailed Noise
+- PolSeT: Polish Semantics of Timbre Dataset
+- The composition and performance of spatial music
+- Towards a unified terminology for sonification and visualization — DOI: `10.1007/s00779-023-01720-5`
+- Transposing musical skill: sonification of movement as concurrent augmented feedback enhances learning in a bimanual task — DOI: `10.1007/s00426-016-0775-0`
+- Improving Choral Music Separation through Expressive Synthesized Data from Sampled Instruments
+- musif: a Python package for symbolic music feature extraction — DOI: `10.5281/zenodo.13359873`
+- Sonification supports perception of brightness contrast — DOI: `10.1007/s12193-019-00311-0`
+- Web sonification with synesthesia tools — DOI: `10.5216/mh.v18i1.53572`
+- From Point to Pixel: A Genealogy of Digital Aesthetics
+- Traces of Modal Synergy: Studying Interactive Musical Sonification of Images in General-audience Use — DOI: `10.21785/icad2019.010`
+- HEARING IMAGES: INTERACTIVE SONIFICATION INTERFACE FOR IMAGES — DOI: `10.14236/ewic/eva2008.22`
+- Listening to Dura Europos: An Experiment in Archaeological Image Sonification — DOI: `10.11141/10.11141/ia.56.8`
+- The EyeHarp: A Gaze-Controlled Digital Musical Instrument — DOI: `10.3389/fpsyg.2016.00906`
+- Multi-Sensory Color Code Based on Sound and Scent for Visual Art Appreciation — DOI: `10.3390/electronics10141696`
+- Photone: Exploring Modal Synergy in Photographic Images and Music — DOI: `10.21785/icad2018.022`
+- The ATLAS Pixel Project
+- Recent progress of the ATLAS Planar Pixel Sensor R&D Project — DOI: `10.1016/j.phpro.2012.02.436`
+- A-Muze-Net: Music Generation by Composing the Harmony based on the Generated Melody
+- Harmony Search as a Metaheuristic Algorithm
+- Harmony Explained: Progress Towards A Scientific Theory of Music
+- Music Composition from the Brain Signal: Representing the Mental State by Music — DOI: `10.1155/2010/267671`
+- Molecular biology’s symphony orchestra from DNA to ribosome: a sonification from gene to protein — DOI: `10.33263/briac104.679688`
+- Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing — DOI: `10.1109/tsipn.2015.2448520`
+- Scale-Free Brain Quartet: Artistic Filtering of Multi-Channel Brainwave Music — DOI: `10.1371/journal.pone.0064046`
+- Interactive Sonification Exploring Emergent Behavior Applying Models for Biological Information and Listening — DOI: `10.3389/fnins.2018.00197`
+- Effect of rhythmic auditory cueing on parkinsonian gait: A systematic review and meta-analysis — DOI: `10.1038/s41598-017-16232-5`
+- The Power of Musification: Sensor‐Based Music Feedback Improves Arm Swing in Parkinson's Disease — DOI: `10.1002/mdc3.13352`
+- Adaptive game scoring with ambient music — DOI: `10.5920/beyondairports.09`
+- On the Interesting World of Fractals and Their Applications to Music
+- Scale-Free Brain-Wave Music from Simultaneously EEG and fMRI Recordings — DOI: `10.1371/journal.pone.0049773`
+- Knots, Music and DNA — DOI: `10.5920/jcms.2018.02`
+- Generating Music Transition by Using a Transformer-Based Model — DOI: `10.3390/electronics10182276`
+- Fitness in evolutionary art and music: a taxonomy and future prospects — DOI: `10.1504/ijart.2016.075406`
+- Using Data Sonification to Overcome Science Literacy, Numeracy, and Visualization Barriers in Science Communication — DOI: `10.3389/fcomm.2020.00046`
+- Sonification, Musification, and Synthesis of Absolute Program Music — DOI: `10.21785/icad2016.030`
+- Sonification of navigation instructions for people with visual impairment — DOI: `10.1016/j.ijhcs.2023.103057`
+- Sonification of Visual Art for Accessibility: A Mathematical Pipeline from Painting Structure to Auditory Signature — Argira Station v1.0 — DOI: `10.5281/zenodo.18832292`
+- Manifold Compositions, Music Visualization, and Scientific Sonification In an Immersive Virtual-reality Environment
+- Musical Borrowing in Sonification — DOI: `10.1017/s1355771819000220`
+- Sequencing batch reactor technology for landfill leachate treatment: A state-of-the-art review — DOI: `10.1016/j.jenvman.2021.111946`
+- Developing a 21st Century Global Library for Mathematics Research
+- Mathematical Physics : Problems and Solutions of The Students Training Contest Olympiad in Mathematical and Theoretical Physics (May 21st - 24th, 2010)
+- Sonification Abstraite/Sonification Concrète: An 'Aesthetic Perspective Space' for Classifying Auditory Displays in the Ars Musica Domain
+- The mathematics of superoscillations
+- A Sonification of the zCOSMOS Galaxy Dataset — DOI: `10.22201/ia.14052059p.2022.54.10`
+- Using psychoacoustical models for information sonification
+- Sonification as Concurrent Augmented Feedback for Motor Skill Learning and the Importance of Mapping Design — DOI: `10.2174/1874350101508010192`
+- A Metaphor-Based Technical Framework for Musical Sonification in Movement Rehabilitation — DOI: `10.21785/icad2021.008`
+- Can Micro-Gestural Inflections Be Used to Improve the Soniculatory Effectiveness of Parameter Mapping Sonifications? — DOI: `10.1017/s135577181300040x`
+- The Sounds of Music : Science of Musical Scales I -- Human Perception of Sound
+- The Sounds of Music : Science of Musical Scales II -- Western Classical
+- The Sounds of Music : Science of Musical Scales III -- Indian Classical
+- Data Encoding for Byzantine-Resilient Distributed Optimization
+- Byzantine-Resilient SGD in High Dimensions on Heterogeneous Data
+- Constraints on dark energy from H II starburst galaxy apparent magnitude versus redshift data — DOI: `10.1016/j.physletb.2012.07.011`
+- Universal Design of Auditory Graphs — DOI: `10.1145/1714458.1714459`
+- DESIGN GUIDELINES FOR AUDIO PRESENTATION OF GRAPHS AND TABLES
+- Auditory Information Design — DOI: `10.25911/5d7a2acd2b71d`
+- Take-over requests in highly automated driving: A crowdsourcing survey on auditory, vibrotactile, and visual displays — DOI: `10.1016/j.trf.2018.04.001`
+- Reef Elegy: An Auditory Display of Hawaii's 2019 Coral Bleaching Data
+- Singing Materials: Initial experiments in applying sonification to phonon spectra
+- Evaluation of short range depth sonifications for visual-to-auditory sensory substitution
+- Reconstructing Speech from Human Auditory Cortex — DOI: `10.1371/journal.pbio.1001251`
+- 3-D Sound for Virtual Reality and Multimedia — DOI: `10.2307/3680997`
+- The Sound of Concepts: Four Markers for a Link between Auditory and Conceptual Brain Systems — DOI: `10.1523/jneurosci.3579-08.2008`
+- Feature Analysis of Natural Sounds in the Songbird Auditory Forebrain — DOI: `10.1152/jn.2001.86.3.1445`
+- Multisensory Visual-Auditory Object Recognition in Humans: a High-density Electrical Mapping Study — DOI: `10.1093/cercor/bhh007`
+- Functional classes of neurons in primary auditory cortex of the cat distinguished by sensitivity to sound location — DOI: `10.1523/jneurosci.01-01-00107.1981`
+- Ways of Listening and Modes of Being: Electroacoustic Auditory Display
+- Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration — DOI: `10.1002/hbm.70548`
+- The role of sound and auditory displays in telescope control rooms: a pilot study
+- Astronomy & Astrophysics in ICAD History
+- Robust Quantitative Susceptibility Mapping via Approximate Message Passing with Parameter Estimation
+- An Initial Description of Capabilities and Constraints for a Computational Auditory System (an Artificial Ear) for Cognitive Architectures
+- A Probabilistic Bayesian Approach to Recover $R_2^*$ map and Phase Images for Quantitative Susceptibility Mapping — DOI: `10.1002/mrm.29303`
+- HappyQuokka System for ICASSP 2023 Auditory EEG Challenge
+- Sonification of markov chain monte carlo simulations
+- SONEX: AN EVALUATION EXCHANGE FRAMEWORK FOR REPRODUCIBLE SONIFICATION — DOI: `10.13140/2.1.4998.3680`
+- Securing Hardware Accelerators: A New Challenge for High-Level Synthesis — DOI: `10.1109/les.2017.2774800`
+- A Formalised Approach to Designing Sonification Systems for Network−Security Monitoring
+- Audiovisual sonifications: A design map for multisensory integration in data representation — DOI: `10.21606/drs.2022.380`
+- Synthesis of Polyaniline (PANI) in Nano-Reaction Field of Cellulose Nanofiber (CNF), and Carbonization — DOI: `10.3390/polym8020040`
+- Data synthesis and adversarial networks: A review and meta-analysis in cancer imaging — DOI: `10.1016/j.media.2022.102704`
+- Synth-by-Reg (SbR): Contrastive learning for synthesis-based registration of paired images — DOI: `10.1007/978-3-030-87592-3_5`
+- Simulation of Lateral Impulse Induced Inertial Dilation at the Surface of a Vacuum-Exposed Granular Assembly — DOI: `10.1007/s10035-023-01363-6`
+- Shear dispersion in dense granular flows — DOI: `10.1007/s10035-014-0498-0`
+- Granular Impact: A Grain-scale Approach — DOI: `10.1016/b978-0-12-800868-3.00010-9`
+- Lack of energy equipartition in homogeneous heated binary granular mixtures
+- Influence of particle shape on sheared dense granular media
+- Generative Sonification of Synthetic Virology Data with Waveshaping and Granular Synthesis Techniques — DOI: `10.1162/leon.a.2583`
+- Letting Pulsars Sing: Sonification With Granular Synthesis — DOI: `10.17743/jaes.2022.0147`
+- Generative Sonification of Synthetic Virology Data with Waveshaping and Granular Synthesis Techniques
+- Pixasonics: An Image Sonification Toolbox for Python — DOI: `10.21785/icad2025.074`
+- Granular Text-to-Image Synthesis Using Attentionbased Generative Adversarial Networks — DOI: `10.1109/iciccs67901.2026.11502956`
+- Pair-Free Self-Supervised PET Image Denoising via Contrastive Synthesis Learning — DOI: `10.1109/nss/mic/rtsd57106.2025.11287012`
+- Iterative Multi-granular Image Editing using Diffusion Models — DOI: `10.1109/wacv57701.2024.00792`
+- Audiovisual granular synthesis: creating synergistic relationships between sound and image
+- Audiovisual granular synthesis: micro relationships between sound and image — DOI: `10.1145/2513002.2513568`
+- A structural model for binaural sound synthesis — DOI: `10.1109/89.709673`
+- Multimodal Cinematic Video Synthesis Using Text-to-Image and Audio Generation Models
+- Diffusion-Based Audio Inpainting — DOI: `10.17743/jaes.2022.0129`
+- VQCPC-GAN: Variable-Length Adversarial Audio Synthesis Using Vector-Quantized Contrastive Predictive Coding
+- Audio-visual Speech Enhancement Using Conditional Variational Auto-Encoders — DOI: `10.1109/taslp.2020.3000593`
+- Towards Improved Objective Perceptual Audio Quality Assessment -- Part 1: A Novel Data-Driven Cognitive Model — DOI: `10.1109/taslp.2024.3477291`
+- Principal Curve Sonification
+- Acoustic radiation force elasticity imaging in diagnostic ultrasound — DOI: `10.1109/tuffc.2013.2617`
+- Measurement and sonification of construction site noise and particle pollution data — DOI: `10.1108/sasbe-11-2021-0189`
+- The sound of proteins — DOI: `10.1109/bhi.2012.6211657`
+- Sonification of Samba dance using periodic pattern analysis
+- Quadratic discrete Fourier transform and mutually unbiased bases
+- Sound Terminology Describing Production and Perception of Sonification — DOI: `10.17743/jaes.2022.0133`
+- Images that Sound: Composing Images and Sounds on a Single Canvas
+- Paley-Wiener theorem for the Joint-Eigenspace Fourier transform on noncompact symmetric spaces
+- Data sonification and sound visualization
+- On the diagonalization of the discrete Fourier transform
+- The discrete Fourier transform: A canonical basis of eigenfunctions
+- Cell Music: The Sonification of Digitalized Fast-Fourier Transformed Microscopic Images
+- Holographic sound field imaging filtering technology using bandwidth-adjustable window Fourier transform — DOI: `10.1117/12.3066414`
+- Implementation of Fourier transform in acoustic: evidence from sound signal analysis and acoustic imaging — DOI: `10.1049/icp.2024.4541`
+- Physics-guided deep learning-based real-time image reconstruction of Fourier-domain optical coherence tomography — DOI: `10.1364/boe.538756`
+- Metasurface holographic image projection based on mathematical properties of Fourier transform — DOI: `10.1186/s43074-020-00016-8`
+- Design and Implementation of Fast Fourier Transform Using Pipelining — DOI: `10.14445/22315381/ijett-v74i2p110`
+- Sound Field Imaging in Gas Flow using Parallel Phase-Shifting Digital Holography and Fourier Transform — DOI: `10.1364/3d.2023.jtu4a.28`
+- An Analytical Method for Recognizing Cat Meowing States Utilizing Short-Time Fourier Transform and Vision Transformers — DOI: `10.52710/mt.141`
+- Estimation of acoustic reflection pattern using multi-point impulse response and spatial Fourier transform — DOI: `10.3397/in_2023_0497`
+- Detection of Children Abuse by Voice and Audio Classification by Short-Time Fourier Transform Machine Learning Implemented on Nvidia Edge GPU Device — DOI: `10.1109/prai59366.2023.10331940`
+- Symbolic Music Generation with Transformer-GANs — DOI: `10.1609/aaai.v35i1.16117`
+- Recent Advances of Generative Adversarial Networks in Computer Vision — DOI: `10.1109/access.2018.2886814`
+- Automatic Music Transcription: An Overview — DOI: `10.1109/msp.2018.2869928`
+- Computational Creativity and Music Generation Systems: An Introduction to the State of the Art — DOI: `10.3389/frai.2020.00014`
+- Implicit Learning and Acquisition of Music — DOI: `10.1111/j.1756-8765.2012.01223.x`
+- Simple and Controllable Music Generation — DOI: `10.48550/arxiv.2306.05284`
+- From Skills to Symbols: Learning Symbolic Representations for Abstract High-Level Planning — DOI: `10.1613/jair.5575`
+- Explainable Artificial Intelligence (XAI): Concepts, taxonomies, opportunities and challenges toward responsible AI — DOI: `10.1016/j.inffus.2019.12.012`
+- The neglected user in music information retrieval research — DOI: `10.1007/s10844-013-0247-6`
+- Natural Language Processing Methods for Symbolic Music Generation and Information Retrieval: A Survey — DOI: `10.1145/3714457`
+- Diffusion-based Symbolic Music Generation with Structured State Space Models
+- Symbolic Music Representations for Classification Tasks: A Systematic Evaluation
+- Motifs, Phrases, and Beyond: The Modelling of Structure in Symbolic Music Generation
+- Spatial Monitoring and Insect Behavioural Analysis Using Computer Vision for Precision Pollination — DOI: `10.1007/s11263-022-01715-4`
+- Byte Pair Encoding for Symbolic Music
+- MMT-BERT: Chord-aware Symbolic Music Generation Based on Multitrack Music Transformer and MusicBERT
+- On the history of the isomorphism problem of dynamical systems with special regard to von Neumann's contribution
+- Expectations for tonal cadences: Sensory and cognitive priming effects — DOI: `10.1177/1747021818814472`
+- Music Transcription Modelling and Composition Using Deep Learning — DOI: `10.5281/zenodo.4289322`
+- ChoCo: a Chord Corpus and a Data Transformation Workflow for Musical Harmony Knowledge Graphs — DOI: `10.1038/s41597-023-02410-w`
+- Sparks of Artificial General Intelligence: Early experiments with GPT-4 — DOI: `10.48550/arxiv.2303.12712`
+- Expectation adaptation for rare cadences in music: Item order matters in repetition priming — DOI: `10.1016/j.cognition.2023.105601`
+- Modelling the perception and composition of Western musical harmony
+- Investigating style evolution of Western classical music: A computational approach — DOI: `10.1177/1029864918757595`
+- Application of Intermediate Multi-Agent Systems to Integrated Algorithmic Composition and Expressive Performance of Music — DOI: `10.24382/4900`
+- Exploring the Full Potentials of IoT for Better Financial Growth and Stability: A Comprehensive Survey — DOI: `10.3390/s23198015`
+- A Hybrid Meta-Heuristic Feature Selection Method for Identification of Indian Spoken Languages From Audio Signals — DOI: `10.1109/access.2020.3028241`
+- LSST AGN SC Cadence Note: Two metrics on AGN variability observable
+- A Cadence to Reduce Aliasing in LSST
+- Self‐Supervised Image Harmonization via Region‐Aware Harmony Classification — DOI: `10.1111/cgf.70157`
+- Algorithmic harmonies the sounds of AI composition (MUZIKOGEN) — DOI: `10.26634/jse.19.3.21320`
+- Enhancing emotional expression in algorithmic music composition systems using reinforcement learning — DOI: `10.1177/14727978251352150`
+- Algorithmic music generation by harmony recombination with genetic algorithm — DOI: `10.3233/jifs-219231`
+- A Harmony Search-Based Wrapper-Filter Feature Selection Approach for Microstructural Image Classification — DOI: `10.1007/s40192-020-00197-x`
+- Improving the Harmony of the Composite Image by Spatial-Separated Attention Module — DOI: `10.1109/tip.2020.2975979`
+- Oil Painting Features Based on Big Data Blockchain Algorithm and Digital Image Technology — DOI: `10.25236/far.2025.070206`
+- Evaluation and Improvement of Image Aesthetics Quality via Composition and Similarity — DOI: `10.3390/s25185919`
+- A Study of the Fundamental Role of Color Perception in the Design of Graphic Composition — DOI: `10.2478/amns-2025-0506`
+- Dramatic features of the composition for piano still life with flowers, melodies and harmonies by Gennady Ciobanu — DOI: `10.55383/iadc2025.33`
+- Machine learning and deep learning — DOI: `10.1007/s12525-021-00475-2`
+- A Survey on the Explainability of Supervised Machine Learning — DOI: `10.1613/jair.1.12228`
+- Human-in-the-loop machine learning: a state of the art — DOI: `10.1007/s10462-022-10246-w`
+- Adversarial Learning for Neural Dialogue Generation — DOI: `10.18653/v1/d17-1230`
+- Autoencoders and their applications in machine learning: a survey — DOI: `10.1007/s10462-023-10662-6`
+- Machine Learning — DOI: `10.7551/mitpress/13811.001.0001`
+- Toward Causal Representation Learning — DOI: `10.1109/jproc.2021.3058954`
+- Edge Computing with Artificial Intelligence: A Machine Learning Perspective — DOI: `10.1145/3555802`
+- Changing Data Sources in the Age of Machine Learning for Official Statistics
+- DOME: Recommendations for supervised machine learning validation in biology
+- Learning Curves for Decision Making in Supervised Machine Learning: A Survey — DOI: `10.1007/s10994-024-06619-7`
+- Active learning for data streams: a survey — DOI: `10.1007/s10994-023-06454-2`
+- Learning to Traverse Latent Spaces for Musical Score Inpainting
+- Physics-Inspired Interpretability Of Machine Learning Models
+- Privacy-preserving machine learning for healthcare: open challenges and future perspectives — DOI: `10.1007/978-3-031-39539-0_3`
+- MerLin: A Discovery Engine for Photonic and Hybrid Quantum Machine Learning
+- A Benchmark Study of Machine Learning Models for Online Fake News Detection — DOI: `10.1016/j.mlwa.2021.100032`
+- MuseGAN: Multi-track Sequential Generative Adversarial Networks for Symbolic Music Generation and Accompaniment — DOI: `10.1609/aaai.v32i1.11312`
+- The Political Unconscious: Narrative as a Socially Symbolic Act — DOI: `10.2307/3684627`
+- Hierarchical processing in music, language, and action: Lashley revisited — DOI: `10.1111/nyas.12406`
+- Music practice and participation for psychological well-being: A review of how music influences positive emotion, engagement, relationships, meaning, and accomplishment — DOI: `10.1177/1029864914561709`
+- The evolution of music: Theories, definitions and the nature of the evidence — DOI: `10.1093/oso/9780198566281.003.0005`
+- GTR-CTRL: Instrument and Genre Conditioning for Guitar-Focused Music Generation with Transformers
+- Instrumental Text-to-Music Generation with Auxiliary Conditioning Branches
+- Text Conditioned Symbolic Drumbeat Generation using Latent Diffusion Models — DOI: `10.48550/arxiv.2408.02711`
+- EmoMusicTV: Emotion-Conditioned Symbolic Music Generation With Hierarchical Transformer VAE — DOI: `10.1109/tmm.2023.3276177`
+- XMusic: Towards a Generalized and Controllable Symbolic Music Generation Framework — DOI: `10.1109/tmm.2025.3590912`
+- Temporal-Conditioned Symbolic Alignment for Controllable Text-to-Music Generation — DOI: `10.1145/3746027.3754812`
+- NotaGen: Advancing Musicality in Symbolic Music Generation with Large Language Model Training Paradigms — DOI: `10.48550/arxiv.2502.18008`
+- Cascaded symbolic music generation with bar-wise feature sequence modeling — DOI: `10.1121/10.0041417`
+- Hierarchical Symbolic Music Generation with Variational Autoencoder-Based Bar-Wise Feature Sequences — DOI: `10.1109/apsipaasc65261.2025.11249414`
+- Mamba-Diffusion Model with Learnable Wavelet for Controllable Symbolic Music Generation — DOI: `10.1109/ijcnn64981.2025.11228274`
+- Theme Transformer: Symbolic Music Generation With Theme-Conditioned Transformer — DOI: `10.1109/tmm.2022.3161851`
+- Symbolic music generation conditioned on continuous-valued emotions — DOI: `10.1109/access.2022.3169744`
+- Highcharts Sonification Studio: An Online, Open-Source, Extensible, and Accessible Data Sonification Tool — DOI: `10.21785/icad2021.005`
+- After Direct Manipulation - Direct Sonification — DOI: `10.14236/ewic/ad1998.14`
+- Open Your Ears and Take a Look: A State‐of‐the‐Art Report on the Integration of Sonification and Visualization — DOI: `10.1111/cgf.15114`
+- ECG sonification to support the diagnosis and monitoring of myocardial infarction — DOI: `10.1007/s12193-020-00319-x`
+- MIDI: Multi-Instance Diffusion for Single Image to 3D Scene Generation
+- Underdetermined Blind Source Separation via Weighted Simplex Shrinkage Regularization and Quantum Deep Image Prior — DOI: `10.1109/tip.2026.3673957`
+- Herakoi: a Sonification Experiment for Astronomical Data — DOI: `10.48550/arxiv.2412.09152`
+- Retaining Semantics in Image to Music Conversion — DOI: `10.1109/ism55400.2022.00051`
+- Medical Image De-Identification Benchmark Challenge — DOI: `10.48550/arxiv.2507.23608`
+- Agentic VJ System - Real-time Visual Generation with Multi-modal Agents for Live Performances — DOI: `10.1145/3757375.3774343`
+- The harmonicity of brain dynamics: A neurophenomenological approach to creative biofeedback — DOI: `10.1017/s1355771826101162`
+- Visualizing and sonifying neurodata (ViSoND) for enhanced observation — DOI: `10.64898/2026.03.21.713430`
+- Sulfur fractionation in coronal plumes as observed by Solar Orbiter/Spectral Imaging of the Coronal Environment. — DOI: `10.1098/rsta.2025.0253`
+- The R Programming Language as a Unified Environment for Data Sonification
+- Sonification of Colour and Depth in a Mobility Aid for Blind People
+- pyAudioAnalysis: An Open-Source Python Library for Audio Signal Analysis — DOI: `10.1371/journal.pone.0144610`
+- Optical music recognition: state-of-the-art and open issues — DOI: `10.1007/s13735-012-0004-6`
+- Freesound Datasets: A Platform For The Creation Of Open Audio Datasets. — DOI: `10.5281/zenodo.1417159`
+- Developing a benchmark for emotional analysis of music — DOI: `10.1371/journal.pone.0173392`
+- An Overview on Networked Music Performance Technologies — DOI: `10.1109/access.2016.2628440`
+- A high-resolution 7-Tesla fMRI dataset from complex natural stimulation with an audio movie — DOI: `10.1038/sdata.2014.3`
+- Current challenges and visions in music recommender systems research — DOI: `10.1007/s13735-018-0154-2`
+- LabelBuddy: An Open Source Music and Audio Language Annotation Tagging Tool Using AI Assistance
+- Semantic Audio-Visual Navigation
+- Audio query-based music source separation
+- The Cancionero de Miranda Edition: Leveraging Open Source Technologies for Multi-Modal Music Publication — DOI: `10.1145/3748336.3748337`
+- Chord-Color Mapping for Audio-Visual Generation: Integrating Deep Learning and Emotion Quantification — DOI: `10.54097/kzmpm585`
+- MM-StoryAgent: Immersive Narrated Storybook Video Generation with a Multi-Agent Paradigm across Text, Image and Audio — DOI: `10.48550/arxiv.2503.05242`
+- The Hearing Impairment Phenomenon in Audio-Visual Sound Source Localization — DOI: `10.1109/icicn67355.2025.11430447`
+- AI-Powered Image-to-Speech Framework for Accessible Audio-Visual Descriptions Using Large Language Model — DOI: `10.1109/ic3it66137.2025.11341633`
+- VITA: Towards Open-Source Interactive Omni Multimodal LLM — DOI: `10.48550/arxiv.2408.05211`
+- SONIQUE: Video Background Music Generation Using Unpaired Audio-Visual Data — DOI: `10.1109/icassp49660.2025.10889053`
+- OmniNxt: A Fully Open-source and Compact Aerial Robot with Omnidirectional Visual Perception — DOI: `10.1109/iros58592.2024.10802134`
+- Colmap-PCD: An Open-source Tool for Fine Image-to-point cloud Registration — DOI: `10.1109/icra57147.2024.10611582`
+- Assessment of tree cover density of Sri Lanka using visual interpretation of open-source high-resolution imagery and geographic information system interface mapping — DOI: `10.4038/jnsfsr.v51i4.11429`
+- Three-dimensional sonification as a surgical guidance tool — DOI: `10.1007/s12193-023-00422-9`
+- Audiovisual Cartography: Established and New Multimedia Approaches to Represent Soundscapes — DOI: `10.1007/s42489-019-00004-4`
+- The Sound of Being There: Audiovisual Cartography with Immersive Virtual Environments — DOI: `10.1007/s42489-019-00003-5`
+- A vector quantized masked autoencoder for audiovisual speech emotion recognition — DOI: `10.1016/j.cviu.2025.104362`
+- Balanced Audiovisual Dataset for Imbalance Analysis
+- SOMson -- Sonification of Multidimensional Data in Kohonen Maps — DOI: `10.21785/icad2024.008`
+- Two Empirical Studies on Audiovisual Semiotics of Uncertainty
+- Mobile assistive technologies for the visually impaired — DOI: `10.1016/j.survophthal.2012.10.004`
+- Interactive sonification of images in serious games as an education aid for visually impaired children — DOI: `10.1111/bjet.12852`
+- Toward Real-Time Image Annotation Using Marginalized Coupled Dictionary Learning — DOI: `10.1007/s11554-022-01210-6`
+- Real time state monitoring and fault diagnosis system for motor based on LabVIEW
+- Real-Time Service Subscription and Adaptive Offloading Control in Vehicular Edge Computing — DOI: `10.1109/rtss66672.2025.00023`
+- Real-Time-Data Analytics in Raw Materials Handling
+- Space-time distributions
+- Real-Time Quantized Image Super-Resolution on Mobile NPUs, Mobile AI 2021 Challenge: Report
+- Lightweight network towards real-time image denoising on mobile devices
+- Dynamic Emotional and Neural Responses to Music Depend on Performance Expression and Listener Experience — DOI: `10.1371/journal.pone.0013812`
+- Network Science and the Effects of Music Preference on Functional Brain Connectivity: From Beethoven to Eminem — DOI: `10.1038/srep06130`
+- Examining Complexity across Domains: Relating Subjective and Objective Measures of Affective Environmental Scenes, Paintings and Music — DOI: `10.1371/journal.pone.0072412`
+- Connectivity patterns during music listening: Evidence for action‐based processing in musicians — DOI: `10.1002/hbm.23565`
+- Recurrence plots for the analysis of complex systems — DOI: `10.1016/j.physrep.2006.11.001`
+- A History of Audio Effects — DOI: `10.3390/app10030791`
+- Proceedings of the Linux Audio Conference 2018 — DOI: `10.14279/depositonce-7046`
+- Global Sensory Qualities and Aesthetic Experience in Music — DOI: `10.3389/fnins.2017.00159`
+- Writer Identification in Old Handwritten Music Scores — DOI: `10.1109/das.2008.29`
+- Visual Complexity and Affect: Ratings Reflect More Than Meets the Eye — DOI: `10.3389/fpsyg.2017.02368`
+- Learning Audio-Visual Dereverberation
+- Sound Adversarial Audio-Visual Navigation
+- Music Visualization Design Method Based on Multi Audio Features of Video Image Processing Technology — DOI: `10.65102/is2026338`
+- ArtStory Beats: Highlighting Interactions between Visual Arts and Music with Storytelling — DOI: `10.1145/3702006`
+- Active Audio-Visual Separation of Dynamic Sound Sources — DOI: `10.1007/978-3-031-19842-7_32`
+- Symphonic Ornaments in Parametric Architecture through Music — DOI: `10.31926/but.pa.2023.16.65.2.12`
+- Manipulative Aspects of Music — DOI: `10.59324/ejtas.2023.1(5).06`
+- Automatic Mapping of Scanned Sheet Music to Audio Recordings
+- Inner Renaissance: The Noise Within, The Calm Beyond — DOI: `10.33093/ijcm.2025.6.si.9`
+- Commission on Audio-Visual Materials
+- Handling Scanned Sheet Music and Audio Recordings in Digital Music Libraries
+- Recognition of emotional states induced by music videos based on nonlinear feature extraction and SOM classification — DOI: `10.1109/icbme.2014.7043946`
+- Action Observation Plus Sonification. A Novel Therapeutic Protocol for Parkinson’s Patient with Freezing of Gait — DOI: `10.3389/fneur.2017.00723`
+- Sonification of Surface Tapping Changes Behavior, Surface Perception, and Emotion — DOI: `10.1109/mmul.2015.14`
+- The 2018 PIRM Challenge on Perceptual Image Super-resolution
+- Perceptual Image Quality Assessment with Transformers
+- Perceptual Quality Study on Deep Learning based Image Compression
+- Auto-Encoded Supervision for Perceptual Image Super-Resolution
+- Deep Learning-based Image Super-Resolution Considering Quantitative and Perceptual Quality
+- A Perceptual Study of Sound Ecology in Peripheral Sonification — DOI: `10.48550/arxiv.2302.03957`
+- Study on Evaluation Indexes for Deep Learning-Based Image Enhancement of Aero-Engine Borescope Probing — DOI: `10.1109/cvip67348.2025.11291439`
+- PEA-PODs: Perceptual Evaluation of Algorithms for Power Optimization in XR Displays — DOI: `10.1145/3658126`
+- Gap-Closing Matters: Perceptual Quality Evaluation and Optimization of Low-Light Image Enhancement — DOI: `10.1109/tmm.2023.3312851`
+- Validation of a novel perceptual body image assessment method using mobile digital imaging analysis: a cross-sectional multi-center evaluation in a multiethnic sample — DOI: `10.1016/j.beth.2023.08.009`
+- Words Worth a Thousand Pictures: Measuring and Understanding Perceptual Variability in Text-to-Image Generation — DOI: `10.48550/arxiv.2406.08482`
+- Seam Carving-based Image Partial Enlargement Method for Perceptual Impression Reflection — DOI: `10.1109/cw64301.2024.00029`
+- Quantitative Performance Evaluation of Commonly Used Colormaps for Image Display in Myocardial Perfusion Imaging: Analysis based on Perceptual Metrics — DOI: `10.4274/mirt.galenos.2024.34711`
+- Perceptual Evaluation of Masked AutoEncoder Emergent Properties Through Eye-Tracking-Based Policy — DOI: `10.1145/3649902.3655638`
+- Improving deep learning-based image super-resolution with residual learning and perceptual loss using SRGAN model — DOI: `10.1007/s00500-023-09126-4`
+- A closed-loop, music-based brain-computer interface for emotion mediation — DOI: `10.1371/journal.pone.0213516`
+- Automatic music composition using answer set programming — DOI: `10.1017/s1471068410000530`
+- Sonification with Musical Characteristics: A Path Guided by User-Engagement — DOI: `10.21785/icad2018.006`
+- In-Depth Quantification of Cell Division and Elongation Dynamics at the Tip of Growing Arabidopsis Roots Using 4D Microscopy, AI-Assisted Image Processing and Data Sonification — DOI: `10.1093/pcp/pcad105`
+- Collaborating with an Autonomous Agent to Generate Affective Music — DOI: `10.1145/2967508`
+- Proceedings of the 2020 Joint Conference on AI Music Creativity — DOI: `10.30746/978-91-519-5560-5`
+- Brain–Computer Music Interfacing: Interdisciplinary Research at the Crossroads of Music, Science and Biomedical Engineering — DOI: `10.1007/978-1-4471-6584-2_1`
+- Musical Chords: A Novel Java Algorithm and App Utility to Enumerate Chord-Progressions Adhering to Music Theory Guidelines
+- Do Music Generation Models Encode Music Theory?
+- Striking a New Chord: Neural Networks in Music Information Dynamics
+- The Machine Learning Algorithm as Creative Musical Tool
+- ChordSync: Conformer-Based Alignment of Chord Annotations to Music Audio
+- Video Echoed in Harmony: Learning and Sampling Video-Integrated Chord Progression Sequences for Controllable Video Background Music Generation — DOI: `10.1109/tcss.2024.3451515`
+- Musical Chords: A Novel Java Algorithm and App Utility to Enumerate Chord-Progressions Adhering to Music Theory Guidelines — DOI: `10.48550/arxiv.2409.06024`
+- Algorithmic Composition with Random Walk and Quantization Based on Nyquist — DOI: `10.54254/2755-2721/2025.tj23813`
+- Generative Adversarial Neural Networks for Random and Complex Chord Progression Generation — DOI: `10.23919/fruct65909.2025.11008228`
+- Computational Analysis of Jazz Music: Estimating Tonality through Chord Progression Distances — DOI: `10.1145/3627915.3629600`
+- Music102: An D12-equivariant transformer for chord progression accompaniment — DOI: `10.48550/arxiv.2410.18151`
+- A Transformational Modified Markov Process for Chord-Based Algorithmic Composition — DOI: `10.3390/mca25030043`
+- Parsimonious sequences of finite sets and their applications to chord progressions and music composition — DOI: `10.1080/17459737.2023.2244480`
+- Algorithmic Music Composition Comparison — DOI: `10.1109/jcsse.2018.8457397`
+- An innovative method of algorithmic composition using musical tension — DOI: `10.1007/s11042-020-09506-0`
+- Musical hallucinosis in acquired deafness: Phenomenology and brain substrate — DOI: `10.1093/brain/123.10.2065`
+- Tactons: structured tactile messages for non-visual information display
+- The brain basis of emotion: A meta-analytic review — DOI: `10.1017/s0140525x11000446`
+- Visual Narrative Structure — DOI: `10.1111/cogs.12016`
+- The 'E' in NIME: musical expression with new computer interfaces — DOI: `10.5072/zenodo.205601`
+- Sensorimotor synchronization: A review of recent research (2006–2012) — DOI: `10.3758/s13423-012-0371-2`
+- Tone Language Speakers and Musicians Share Enhanced Perceptual and Cognitive Abilities for Musical Pitch: Evidence for Bidirectionality between the Domains of Language and Music — DOI: `10.1371/journal.pone.0060676`
+- Perception of emotional expression in musical performance. — DOI: `10.1037/a0021922`
+- Musical elements in the discrete-time representation of sound
+- TerraGen: A Unified Multi-Task Layout Generation Framework for Remote Sensing Data Augmentation
+- AeroGen: Enhancing Remote Sensing Object Detection with Diffusion-Driven Data Generation
+- A 20 Gbps Data Transmitting ASIC with PAM4 for Particle Physics Experiments
+- The Accordiatron: A MIDI Controller For Interactive Music — DOI: `10.5281/zenodo.1176364`
+- Next-generation in vivo optical imaging with short-wave infrared quantum dots — DOI: `10.1038/s41551-017-0056`
+- Model predictive filtering for improved temporal resolution in MRI temperature imaging — DOI: `10.1002/mrm.22321`
+- A Novel Sonification Approach to Support the Diagnosis of Alzheimer’s Dementia — DOI: `10.3389/fneur.2017.00647`
+- A map of approaches to temporal networks
+- Comparison between illumination model and hydrodynamic simulation for a Direct Drive laser irradiated target — DOI: `10.1017/s0263034614000500`
+- Measurement of the Flux of Ultrahigh Energy Cosmic Rays from Monocular Observations by the High Resolution Fly's Eye Experiment — DOI: `10.1103/physrevlett.92.151101`
+- A Study of the Composition of Ultra High Energy Cosmic Rays Using the High Resolution Fly's Eye — DOI: `10.1086/427931`
+- A temporal network version of Watts's cascade model
+- A Survey on Measuring Cognitive Workload in Human-Computer Interaction — DOI: `10.1145/3582272`
+- A survey of assistive technologies and applications for blind users on mobile platforms: a review and foundation for research — DOI: `10.1007/s12193-015-0182-7`
+- Wearable assistive devices for visually impaired: A state of the art survey — DOI: `10.1016/j.patrec.2018.10.031`
+- Movement sonification expectancy model: leveraging musical expectancy theory to create movement-altering sonifications — DOI: `10.1007/s12193-020-00322-2`
+- WeatherChimes: An Open IoT Weather Station and Data Sonification System — DOI: `10.1016/j.ohx.2023.e00402`
+- Towards Sonification in Multimodal and User-friendlyExplainable Artificial Intelligence — DOI: `10.1145/3462244.3479879`
+- AIn't Nothing But a Survey? Using Large Language Models for Coding German Open-Ended Survey Responses on Survey Motivation — DOI: `10.18148/srm/2025.v19i4.8568`
+- Research on Diamond Open Access in the Long Shadow of Science Policy
+- A rich bounty of AGN in the 9 square degree Bootes survey: high-z obscured AGN and large-scale structure
+- Attention Mechanisms in Medical Image Segmentation: A Survey
+- Image Segmentation in Foundation Model Era: A Survey
+- The SAMI Galaxy Survey: first 1000 galaxies — DOI: `10.1017/s1743921314009417`
+
+## Failures
+
+- semantic-scholar / "image sonification methods timbre pitch rhythm data sonification review": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "visual music image sonification composition": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "cross-modal image-to-audio generation music": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "color to pitch mapping image sonification": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "image texture to timbre sonification": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "spatial image scanning sonification music": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "pixel sonification melody harmony": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "fractal sonification music generation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "fractal image to music sonification": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "mathematical art sonification composition": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "data sonification psychoacoustics musical scales mapping": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "sonification design guidelines auditory display pitch mapping": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "auditory display data-to-sound parameter mapping review": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "image sonification spectral audio synthesis": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "computer vision to symbolic music generation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "visual music systems history sonification": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "machine learning image conditioned music generation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "interactive audiovisual sonification images": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "real time image sonification mobile": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "mapping continuous visual data to discrete musical notes": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "sonification temporal resolution scanning images": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "image sonification open access survey": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

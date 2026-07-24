@@ -1,0 +1,10 @@
+10.1186/s13636-024-00354-6	The Whole Is Greater than the Sum of Its Parts: Improving Music Source Separation by Bridging Network
+10.1109/taslpro.2025.3648794	Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio
+10.1109/ijcnn52387.2021.9533461	MusCaps: Generating Captions for Music Audio
+	LabelBuddy: An Open Source Music and Audio Language Annotation Tagging Tool Using AI Assistance
+	Digital Audio Processing Tools for Music Corpus Studies
+	Network Modulation Synthesis: New Algorithms for Generating Musical Audio Using Autoencoder Networks
+10.1109/taslp.2020.3000593	Audio-visual Speech Enhancement Using Conditional Variational Auto-Encoders
+	Generation of lyrics lines conditioned on music audio clips
+	Semantic Audio-Visual Navigation
+	Audio query-based music source separation

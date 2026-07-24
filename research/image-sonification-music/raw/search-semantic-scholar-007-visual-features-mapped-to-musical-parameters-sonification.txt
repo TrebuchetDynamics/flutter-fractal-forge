@@ -1,0 +1,10 @@
+10.1080/10447318.2025.2514876	PONIFY: Pose-Driven Painting Sonification to Enhance Augmented Artwork Perception through Sense of Dynamics
+10.1162/comj_a_00580	Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis
+10.1121/10.0040909	Evaluation of the musical field visualization using XR technology by extracting visualized images
+10.1162/leon.a.2754	Sonic Array of Rhythmic Alleles (SARA): Giving Voice to Genomic DNA Through the Sonification of Fourier Transform Infrared Spectroscopy (FTIR) Data
+10.21785/icad2024.030	Accessible Sonification of Total Solar Eclipse 2024: Accessible Map and Multimodal Virtual Reality Experience
+	Skin Pattern Sonification Using NMF-based Visual Feature Extraction and Learning-based PMSon
+10.1159/000511306	A Novel Method for Sleep-Stage Classification Based on Sonification of Sleep Electroencephalogram Signals Using Wavelet Transform and Recurrent Neural Network
+	Synesthesia Add-on: a Tool for HTML Sonification
+10.1080/14789450.2019.1697236	Sounds interesting: can sonification help us design new proteins?
+10.1016/j.displa.2016.05.006	Towards a systematic approach to real-time sonification design for surface electromyography

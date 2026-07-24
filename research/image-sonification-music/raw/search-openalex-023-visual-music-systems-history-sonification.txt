@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.1007/s11571-018-9502-4	Music of brain and music on brain: a novel EEG sonification approach
+	The importance of interaction in sonification
+10.1162/096112104322750791	Displaced Soundscapes: A Survey of Network Systems for Music and Sonic Art Creation
+10.1080/14613808.2017.1312323	Dalcroze meets technology: integrating music, movement and visuals with the Music Paint Machine
+10.1192/s2056474000001720	Music and the brain: the neuroscience of music and musical appreciation
+10.1038/s41598-023-32778-z	Sonification as a reliable alternative to conventional visual surgical navigation
+10.1109/access.2021.3052931	Music in Extended Realities
+	Sonific ation Report: Status of the Field and Research Agenda
+10.21785/icad2016.030	Sonification, Musification, and Synthesis of Absolute Program Music

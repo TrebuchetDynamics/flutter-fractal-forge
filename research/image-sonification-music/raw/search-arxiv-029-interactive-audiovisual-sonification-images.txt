@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+10.1016/j.cviu.2025.104362	A vector quantized masked autoencoder for audiovisual speech emotion recognition
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+	Balanced Audiovisual Dataset for Imbalance Analysis
+10.1007/s12193-023-00422-9	Three-Dimensional Sonification as a Surgical Guidance Tool
+10.21785/icad2024.008	SOMson -- Sonification of Multidimensional Data in Kohonen Maps
+	Astronomical images sonification: inclusion or outreach?
+	Two Empirical Studies on Audiovisual Semiotics of Uncertainty

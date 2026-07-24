@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	Musical Smart City: Perspectives on Ubiquitous Sonification
+	Music and musical sonification for the rehabilitation of Parkinsonian dysgraphia: Conceptual framework
+	Music SketchNet: Controllable Music Generation via Factorized Representations of Pitch and Rhythm
+	On the Interesting World of Fractals and Their Applications to Music
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+10.1080/17459737.2018.1450902	Introduction to Gestural Similarity in Music. An Application of Category Theory to the Orchestra
+10.1145/3108242	A Functional Taxonomy of Music Generation Systems
+	Dorabella Cipher as Musical Inspiration
+	Improving Choral Music Separation through Expressive Synthesized Data from Sampled Instruments

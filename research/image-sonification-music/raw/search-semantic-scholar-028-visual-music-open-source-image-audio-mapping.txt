@@ -1,0 +1,10 @@
+10.1145/3748336.3748337	The Cancionero de Miranda Edition: Leveraging Open Source Technologies for Multi-Modal Music Publication
+10.54097/kzmpm585	Chord-Color Mapping for Audio-Visual Generation: Integrating Deep Learning and Emotion Quantification
+10.48550/arxiv.2503.05242	MM-StoryAgent: Immersive Narrated Storybook Video Generation with a Multi-Agent Paradigm across Text, Image and Audio
+10.1109/icicn67355.2025.11430447	The Hearing Impairment Phenomenon in Audio-Visual Sound Source Localization
+10.1109/ic3it66137.2025.11341633	AI-Powered Image-to-Speech Framework for Accessible Audio-Visual Descriptions Using Large Language Model
+10.48550/arxiv.2408.05211	VITA: Towards Open-Source Interactive Omni Multimodal LLM
+10.1109/icassp49660.2025.10889053	SONIQUE: Video Background Music Generation Using Unpaired Audio-Visual Data
+10.1109/iros58592.2024.10802134	OmniNxt: A Fully Open-source and Compact Aerial Robot with Omnidirectional Visual Perception
+10.1109/icra57147.2024.10611582	Colmap-PCD: An Open-source Tool for Fine Image-to-point cloud Registration
+10.4038/jnsfsr.v51i4.11429	Assessment of tree cover density of Sri Lanka using visual interpretation of open-source high-resolution imagery and geographic information system interface mapping

@@ -1,0 +1,10 @@
+	Changing Data Sources in the Age of Machine Learning for Official Statistics
+	DOME: Recommendations for supervised machine learning validation in biology
+10.1007/s10994-024-06619-7	Learning Curves for Decision Making in Supervised Machine Learning: A Survey
+10.1007/s10994-023-06454-2	Active learning for data streams: a survey
+	Learning to Traverse Latent Spaces for Musical Score Inpainting
+	Physics-Inspired Interpretability Of Machine Learning Models
+	Music SketchNet: Controllable Music Generation via Factorized Representations of Pitch and Rhythm
+10.1007/978-3-031-39539-0_3	Privacy-preserving machine learning for healthcare: open challenges and future perspectives
+	MerLin: A Discovery Engine for Photonic and Hybrid Quantum Machine Learning
+10.1016/j.mlwa.2021.100032	A Benchmark Study of Machine Learning Models for Online Fake News Detection

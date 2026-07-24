@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression
+10.1016/j.jvcir.2025.104679	CAE-Net: Generalized Deepfake Image Detection using Convolution and Attention Mechanisms with Spatial and Frequency Domain Features
+10.1007/978-3-031-16446-0_13	Privacy Preserving Image Registration
+10.1016/j.media.2023.102945	A Generic Fundus Image Enhancement Network Boosted by Frequency Self-supervised Representation Learning
+10.1007/978-3-030-27202-9_11	Locally Linear Image Structural Embedding for Image Structure Manifold Learning
+	Emotion-Guided Image to Music Generation
+10.1109/tip.2022.3203562	FlexHDR: Modelling Alignment and Exposure Uncertainties for Flexible HDR Imaging
+10.1016/j.media.2026.103943	Fréchet Radiomic Distance (FRD): A Versatile Metric for Comparing Medical Imaging Datasets
+10.1109/tip.2020.3020389	Learning a Single Model with a Wide Range of Quality Factors for JPEG Image Artifacts Removal

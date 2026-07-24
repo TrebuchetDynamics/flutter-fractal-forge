@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+	TAXONOMY AND DEFINITIONS FOR SONIFICATION AND AUDITORY DISPLAY
+10.3389/fneur.2016.00106	Sonification of Arm Movements in Stroke Rehabilitation – A Novel Approach in Neurologic Music Therapy
+	The importance of interaction in sonification
+	Sonific ation Report: Status of the Field and Research Agenda
+10.1080/07370024.2015.1085310	<i>Go-with-the-Flow</i>: Tracking, Analysis and Sonification of Movement and Breathing to Build Confidence in Activity Despite Chronic Pain
+10.1109/rbme.2022.3187840	A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation
+10.1371/journal.pone.0005915	Scale-Free Music of the Brain
+10.3389/fneur.2018.00389	Movement Sonification in Stroke Rehabilitation

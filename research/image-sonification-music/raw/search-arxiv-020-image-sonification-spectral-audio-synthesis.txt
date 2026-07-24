@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	Adversarial Audio Synthesis with Complex-valued Polynomial Networks
+	Multimodal Cinematic Video Synthesis Using Text-to-Image and Audio Generation Models
+10.17743/jaes.2022.0129	Diffusion-Based Audio Inpainting
+10.1109/taslpro.2025.3648794	Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	VQCPC-GAN: Variable-Length Adversarial Audio Synthesis Using Vector-Quantized Contrastive Predictive Coding
+10.1109/taslp.2020.3000593	Audio-visual Speech Enhancement Using Conditional Variational Auto-Encoders
+10.1016/j.media.2022.102704	Data synthesis and adversarial networks: A review and meta-analysis in cancer imaging
+10.1109/taslp.2024.3477291	Towards Improved Objective Perceptual Audio Quality Assessment -- Part 1: A Novel Data-Driven Cognitive Model

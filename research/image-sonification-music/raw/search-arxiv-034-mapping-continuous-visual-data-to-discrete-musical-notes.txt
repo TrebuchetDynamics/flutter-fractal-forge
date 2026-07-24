@@ -1,0 +1,10 @@
+	Data Encoding for Byzantine-Resilient Distributed Optimization
+	Byzantine-Resilient SGD in High Dimensions on Heterogeneous Data
+10.1016/j.physletb.2012.07.011	Constraints on dark energy from H II starburst galaxy apparent magnitude versus redshift data
+	Musical elements in the discrete-time representation of sound
+	TerraGen: A Unified Multi-Task Layout Generation Framework for Remote Sensing Data Augmentation
+	AeroGen: Enhancing Remote Sensing Object Detection with Diffusion-Driven Data Generation
+10.5281/zenodo.3672917	Vrengt: A Shared Body-Machine Instrument for Music-Dance Performance
+	A 20 Gbps Data Transmitting ASIC with PAM4 for Particle Physics Experiments
+	A Music-generating System Inspired by the Science of Complex Adaptive Systems
+10.5281/zenodo.1176364	The Accordiatron: A MIDI Controller For Interactive Music

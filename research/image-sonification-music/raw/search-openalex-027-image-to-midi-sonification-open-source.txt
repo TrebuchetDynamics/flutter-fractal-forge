@@ -1,0 +1,10 @@
+10.21785/icad2021.005	Highcharts Sonification Studio: An Online, Open-Source, Extensible, and Accessible Data Sonification Tool
+10.21785/icad2019.056	Sonification Workstation
+10.1109/rbme.2022.3187840	A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation
+10.1371/journal.pone.0195948	Sonification of network traffic flow for monitoring and situational awareness
+	Using psychoacoustical models for information sonification
+10.14236/ewic/ad1998.14	After Direct Manipulation - Direct Sonification
+10.1111/cgf.15114	Open Your Ears and Take a Look: A State‐of‐the‐Art Report on the Integration of Sonification and Visualization
+10.13140/2.1.4998.3680	SONEX: AN EVALUATION EXCHANGE FRAMEWORK FOR REPRODUCIBLE SONIFICATION
+10.1007/s12193-020-00319-x	ECG sonification to support the diagnosis and monitoring of myocardial infarction
+	A Formalised Approach to Designing Sonification Systems for Network−Security Monitoring

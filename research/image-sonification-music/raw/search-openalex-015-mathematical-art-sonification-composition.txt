@@ -1,0 +1,10 @@
+10.3389/fcomm.2020.00046	Using Data Sonification to Overcome Science Literacy, Numeracy, and Visualization Barriers in Science Communication
+10.1007/s11571-018-9502-4	Music of brain and music on brain: a novel EEG sonification approach
+10.1109/rbme.2022.3187840	A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation
+10.26481/dis.20120606as	Lobbying for the ear : the public fascination with and academic legitimacy of the sonification of scientific data
+10.21785/icad2016.030	Sonification, Musification, and Synthesis of Absolute Program Music
+10.1016/j.ijhcs.2023.103057	Sonification of navigation instructions for people with visual impairment
+10.5281/zenodo.18832292	Sonification of Visual Art for Accessibility: A Mathematical Pipeline from Painting Structure to Auditory Signature — Argira Station v1.0
+	Manifold Compositions, Music Visualization, and Scientific Sonification In an Immersive Virtual-reality Environment
+10.1017/s1355771819000220	Musical Borrowing in Sonification
+10.1016/j.jenvman.2021.111946	Sequencing batch reactor technology for landfill leachate treatment: A state-of-the-art review

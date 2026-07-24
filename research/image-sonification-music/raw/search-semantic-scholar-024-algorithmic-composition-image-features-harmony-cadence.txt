@@ -1,0 +1,10 @@
+10.1111/cgf.70157	Self‐Supervised Image Harmonization via Region‐Aware Harmony Classification
+10.26634/jse.19.3.21320	Algorithmic harmonies the sounds of AI composition (MUZIKOGEN)
+10.1177/14727978251352150	Enhancing emotional expression in algorithmic music composition systems using reinforcement learning
+10.3233/jifs-219231	Algorithmic music generation by harmony recombination with genetic algorithm
+10.1007/s40192-020-00197-x	A Harmony Search-Based Wrapper-Filter Feature Selection Approach for Microstructural Image Classification
+10.1109/tip.2020.2975979	Improving the Harmony of the Composite Image by Spatial-Separated Attention Module
+10.25236/far.2025.070206	Oil Painting Features Based on Big Data Blockchain Algorithm and Digital Image Technology
+10.3390/s25185919	Evaluation and Improvement of Image Aesthetics Quality via Composition and Similarity
+10.2478/amns-2025-0506	A Study of the Fundamental Role of Color Perception in the Design of Graphic Composition
+10.55383/iadc2025.33	Dramatic features of the composition for piano still life with flowers, melodies and harmonies by Gennady Ciobanu

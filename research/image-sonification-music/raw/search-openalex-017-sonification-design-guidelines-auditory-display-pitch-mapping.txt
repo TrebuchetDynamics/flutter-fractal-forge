@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+10.1145/1714458.1714459	Universal Design of Auditory Graphs
+	DESIGN GUIDELINES FOR AUDIO PRESENTATION OF GRAPHS AND TABLES
+10.25911/5d7a2acd2b71d	Auditory Information Design
+10.3389/fnins.2016.00219	Movement Sonification: Effects on Motor Learning beyond Rhythmic Adjustments
+	Sonific ation Report: Status of the Field and Research Agenda
+10.1016/j.trf.2018.04.001	Take-over requests in highly automated driving: A crowdsourcing survey on auditory, vibrotactile, and visual displays
+10.1080/07370024.2015.1085310	<i>Go-with-the-Flow</i>: Tracking, Analysis and Sonification of Movement and Breathing to Build Confidence in Activity Despite Chronic Pain
+10.2174/1874350101508010192	Sonification as Concurrent Augmented Feedback for Motor Skill Learning and the Importance of Mapping Design

@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	The 2018 PIRM Challenge on Perceptual Image Super-resolution
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+10.1016/j.media.2026.103943	Fréchet Radiomic Distance (FRD): A Versatile Metric for Comparing Medical Imaging Datasets
+	Perceptual Image Quality Assessment with Transformers
+	Perceptual Quality Study on Deep Learning based Image Compression
+	Auto-Encoded Supervision for Perceptual Image Super-Resolution
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Deep Learning-based Image Super-Resolution Considering Quantitative and Perceptual Quality
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression

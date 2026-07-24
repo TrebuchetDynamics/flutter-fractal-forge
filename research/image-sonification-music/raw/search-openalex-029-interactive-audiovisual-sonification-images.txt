@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.1080/07370024.2015.1085310	<i>Go-with-the-Flow</i>: Tracking, Analysis and Sonification of Movement and Breathing to Build Confidence in Activity Despite Chronic Pain
+	Sonification of Spatial Data
+10.1007/s12193-023-00422-9	Three-dimensional sonification as a surgical guidance tool
+10.21606/drs.2022.380	Audiovisual sonifications: A design map for multisensory integration in data representation
+10.1007/s42489-019-00004-4	Audiovisual Cartography: Established and New Multimedia Approaches to Represent Soundscapes
+10.1007/s42489-019-00003-5	The Sound of Being There: Audiovisual Cartography with Immersive Virtual Environments
+10.1109/rbme.2022.3187840	A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+10.26481/dis.20120606as	Lobbying for the ear : the public fascination with and academic legitimacy of the sonification of scientific data

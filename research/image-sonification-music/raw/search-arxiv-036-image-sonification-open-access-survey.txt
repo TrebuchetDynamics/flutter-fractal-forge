@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+10.18148/srm/2025.v19i4.8568	AIn't Nothing But a Survey? Using Large Language Models for Coding German Open-Ended Survey Responses on Survey Motivation
+	Research on Diamond Open Access in the Long Shadow of Science Policy
+	A rich bounty of AGN in the 9 square degree Bootes survey: high-z obscured AGN and large-scale structure
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Attention Mechanisms in Medical Image Segmentation: A Survey
+	Image Segmentation in Foundation Model Era: A Survey
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression
+10.1017/s1743921314009417	The SAMI Galaxy Survey: first 1000 galaxies

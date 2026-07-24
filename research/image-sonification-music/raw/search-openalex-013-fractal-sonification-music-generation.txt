@@ -1,0 +1,10 @@
+10.1371/journal.pone.0005915	Scale-Free Music of the Brain
+10.1155/2010/267671	Music Composition from the Brain Signal: Representing the Mental State by Music
+10.1162/comj_a_00580	Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis
+10.33263/briac104.679688	Molecular biology’s symphony orchestra from DNA to ribosome: a sonification from gene to protein
+10.1109/tsipn.2015.2448520	Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing
+10.1371/journal.pone.0064046	Scale-Free Brain Quartet: Artistic Filtering of Multi-Channel Brainwave Music
+10.3389/fnins.2018.00197	Interactive Sonification Exploring Emergent Behavior Applying Models for Biological Information and Listening
+10.1038/s41598-017-16232-5	Effect of rhythmic auditory cueing on parkinsonian gait: A systematic review and meta-analysis
+10.1002/mdc3.13352	The Power of Musification: Sensor‐Based Music Feedback Improves Arm Swing in Parkinson's Disease
+10.5920/beyondairports.09	Adaptive game scoring with ambient music

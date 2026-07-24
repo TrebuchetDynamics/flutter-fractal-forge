@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	The ATLAS Pixel Project
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+10.1016/j.phpro.2012.02.436	Recent progress of the ATLAS Planar Pixel Sensor R&D Project
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	A-Muze-Net: Music Generation by Composing the Harmony based on the Generated Melody
+	Harmony Search as a Metaheuristic Algorithm
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+	Data Melodification FM: Where Musical Rhetoric Meets Sonification
+	Harmony Explained: Progress Towards A Scientific Theory of Music

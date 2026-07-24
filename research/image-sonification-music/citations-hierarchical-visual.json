@@ -1,0 +1,44 @@
+{
+  "nodes": [
+    {
+      "id": "10.1109/tmm.2020.2987710"
+    },
+    {
+      "id": "25bd89d427f6feede8e8432c40e58140248a862d"
+    },
+    {
+      "id": "39d7d058b2165c28cfbf4e75e25ee2115867b60a"
+    },
+    {
+      "id": "45ba4d0d3ed0024ebd4a1620de88e7ead0c72190"
+    },
+    {
+      "id": "876c738a27c0cf80eae481be18c8b9a08ae80e31"
+    },
+    {
+      "id": "b95d1a42b19d5ef07da6d0f18d287dfdd456c706"
+    }
+  ],
+  "edges": [
+    {
+      "source": "25bd89d427f6feede8e8432c40e58140248a862d",
+      "target": "10.1109/tmm.2020.2987710"
+    },
+    {
+      "source": "39d7d058b2165c28cfbf4e75e25ee2115867b60a",
+      "target": "10.1109/tmm.2020.2987710"
+    },
+    {
+      "source": "45ba4d0d3ed0024ebd4a1620de88e7ead0c72190",
+      "target": "10.1109/tmm.2020.2987710"
+    },
+    {
+      "source": "876c738a27c0cf80eae481be18c8b9a08ae80e31",
+      "target": "10.1109/tmm.2020.2987710"
+    },
+    {
+      "source": "b95d1a42b19d5ef07da6d0f18d287dfdd456c706",
+      "target": "10.1109/tmm.2020.2987710"
+    }
+  ]
+}

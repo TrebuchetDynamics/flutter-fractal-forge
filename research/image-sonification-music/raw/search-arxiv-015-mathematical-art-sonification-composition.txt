@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Developing a 21st Century Global Library for Mathematics Research
+	Mathematical Physics : Problems and Solutions of The Students Training Contest Olympiad in Mathematical and Theoretical Physics (May 21st - 24th, 2010)
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+10.1145/3613904.3642442	Erie: A Declarative Grammar for Data Sonification
+	Sonification Abstraite/Sonification Concrète: An 'Aesthetic Perspective Space' for Classifying Auditory Displays in the Ars Musica Domain
+	The mathematics of superoscillations
+10.22201/ia.14052059p.2022.54.10	A Sonification of the zCOSMOS Galaxy Dataset

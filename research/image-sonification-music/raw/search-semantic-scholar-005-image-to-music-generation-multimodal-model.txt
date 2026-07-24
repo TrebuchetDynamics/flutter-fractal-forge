@@ -1,0 +1,10 @@
+10.1109/access.2025.3572954	VT2Music: A Multimodal Framework for Text-Visual Guided Music Generation and Comprehensive Performance Analysis
+10.1117/12.3067408	Mozart’s Touch: a lightweight multimodal music generation framework based on pre-trained large models
+10.1109/ispa63168.2024.00117	CNN-LSTM based Multimodal Models for Music Generation
+10.48550/arxiv.2412.09428	Multimodal Music Generation with Explicit Bridges and Retrieval Augmentation
+10.48550/arxiv.2406.00626	Intelligent Text-Conditioned Music Generation
+10.48550/arxiv.2409.07827	Bridging Paintings and Music - Exploring Emotion based Music Generation through Paintings
+10.48550/arxiv.2604.07422	Multimodal Large Language Models for Multi-Subject In-Context Image Generation
+10.1109/ijcnn60899.2024.10650092	Music-driven Character Dance Video Generation based on Pre-trained Diffusion Model
+10.48550/arxiv.2501.18801	Every Image Listens, Every Image Dances: Music-Driven Image Animation
+10.1109/wacv61042.2026.00372	MuseDance: A Diffusion-based Music-Driven Image Animation System

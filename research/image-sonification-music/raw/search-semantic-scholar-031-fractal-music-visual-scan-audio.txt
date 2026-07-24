@@ -1,0 +1,10 @@
+10.65102/is2026338	Music Visualization Design Method Based on Multi Audio Features of Video Image Processing Technology
+10.1145/3702006	ArtStory Beats: Highlighting Interactions between Visual Arts and Music with Storytelling
+10.1007/978-3-031-19842-7_32	Active Audio-Visual Separation of Dynamic Sound Sources
+10.31926/but.pa.2023.16.65.2.12	Symphonic Ornaments in Parametric Architecture through Music
+10.59324/ejtas.2023.1(5).06	Manipulative Aspects of Music
+	Automatic Mapping of Scanned Sheet Music to Audio Recordings
+10.33093/ijcm.2025.6.si.9	Inner Renaissance: The Noise Within, The Calm Beyond
+	Commission on Audio-Visual Materials
+	Handling Scanned Sheet Music and Audio Recordings in Digital Music Libraries
+10.1109/icbme.2014.7043946	Recognition of emotional states induced by music videos based on nonlinear feature extraction and SOM classification

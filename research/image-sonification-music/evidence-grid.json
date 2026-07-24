@@ -1,0 +1,69 @@
+{
+  "question": "How do existing systems generate music from images, and what should improve Fractal Music?",
+  "items": [
+    {
+      "source": "https://link.springer.com/article/10.1007/s12193-018-0280-4",
+      "title": "Musical Vision: an interactive bio-inspired sonification tool to convert images into music",
+      "year": 2018,
+      "evidence": "Configurable color-to-MIDI/instrument/pitch mappings, harmonic polyphony, harmonizer, interactive duration; publisher abstract reports a 12-person pilot and nearly 70% accuracy after less than 25 minutes training.",
+      "confidence": "high",
+      "implication": "Keep mappings configurable and add a composition/harmonization layer instead of raw pixel tones."
+    },
+    {
+      "source": "https://doi.org/10.1109/TMM.2020.2987710",
+      "title": "A Hierarchical Visual Feature-Based Approach For Image Sonification",
+      "year": 2021,
+      "evidence": "Abstract describes pixel color edges/texture, region gradients/color distributions, segmentation, and mappings across notes/octaves, timbre, loudness, pitch, rhythm, and distortion.",
+      "confidence": "high",
+      "implication": "Assign different visual feature levels to different musical channels."
+    },
+    {
+      "source": "https://doi.org/10.21785/ICAD2018.022",
+      "title": "Photone: Exploring Modal Synergy in Photographic Images and Music",
+      "year": 2018,
+      "evidence": "Global image color plus cursor-pixel color drives a dynamic musical score; interaction changes the music.",
+      "confidence": "high",
+      "implication": "Make zoom/pan/touch meaningful musical exploration controls."
+    },
+    {
+      "source": "https://doi.org/10.1162/comj_a_00580",
+      "title": "Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis",
+      "year": 2020,
+      "evidence": "Maps spatial data to pitch, amplitude, and envelope, then reconstitutes musical building blocks with granular synthesis into melody, rhythm, harmony, and chords.",
+      "confidence": "high",
+      "implication": "Separate faithful image sonification from event-level musical recomposition."
+    },
+    {
+      "source": "https://doi.org/10.1145/3613904.3642442",
+      "title": "Erie: A Declarative Grammar for Data Sonification",
+      "year": 2024,
+      "evidence": "Supports multiple encoding channels, synthesizer designs, auditory legends, sequencing, and overlays.",
+      "confidence": "high",
+      "implication": "Use an internal event/mapping layer before synthesis; do not add the dependency."
+    },
+    {
+      "source": "https://doi.org/10.1080/10447318.2025.2514876",
+      "title": "PONIFY: Pose-Driven Painting Sonification",
+      "year": 2025,
+      "evidence": "Maps perceived visual dynamics to tempo and musical density; reports better alignment than methods without pose analysis.",
+      "confidence": "high",
+      "implication": "Use frame-to-frame fractal change to drive attacks, fills, tempo energy, and density."
+    },
+    {
+      "source": "https://doi.org/10.1371/journal.pone.0082491",
+      "title": "A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities",
+      "year": 2013,
+      "evidence": "Review of 179 publications and 495 mappings; pitch was the dominant auditory dimension and mapping evaluation was marginal.",
+      "confidence": "high",
+      "implication": "Add objective and listening evaluation before increasing pitch complexity further."
+    },
+    {
+      "source": "https://arxiv.org/abs/2410.22299",
+      "title": "Emotion-Guided Image to Music Generation",
+      "year": 2024,
+      "evidence": "Uses valence-arousal conditioning and Transformer MIDI generation; reports polyphony rate, pitch entropy, and groove consistency as metrics.",
+      "confidence": "medium",
+      "implication": "Use these metrics for offline diagnostics; defer ML generation for mobile simplicity."
+    }
+  ]
+}

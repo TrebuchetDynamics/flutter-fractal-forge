@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.1080/07370024.2015.1085310	<i>Go-with-the-Flow</i>: Tracking, Analysis and Sonification of Movement and Breathing to Build Confidence in Activity Despite Chronic Pain
+10.1109/89.709673	A structural model for binaural sound synthesis
+	Sonific ation Report: Status of the Field and Research Agenda
+10.1007/s11571-018-9502-4	Music of brain and music on brain: a novel EEG sonification approach
+	MULTI-CHANNEL SONIFICATION OF HUMAN EEG
+10.1109/jiot.2020.2997047	The Internet of Audio Things: State of the Art, Vision, and Challenges
+10.21785/icad2019.018	Psychoacoustical Signal Processing for Three-dimensional Sonification
+	Using psychoacoustical models for information sonification
+	Sonification of markov chain monte carlo simulations

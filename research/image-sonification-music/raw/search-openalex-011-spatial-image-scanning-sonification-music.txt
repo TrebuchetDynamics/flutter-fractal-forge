@@ -1,0 +1,10 @@
+	APPLICATION OF IMAGE SONIFICATION METHODS TO MUSIC
+	Sonification of Spatial Data
+	Sonific ation Report: Status of the Field and Research Agenda
+10.1177/2059204321997709	Music, Computing, and Health: A Roadmap for the Current and Future Roles of Music Technology for Health Care and Well-Being
+10.3390/s20113222	A Comparative Study in Real-Time Scene Sonification for Visually Impaired People
+	The composition and performance of spatial music
+10.1371/journal.pone.0195948	Sonification of network traffic flow for monitoring and situational awareness
+10.26481/dis.20120606as	Lobbying for the ear : the public fascination with and academic legitimacy of the sonification of scientific data
+10.1007/s00779-023-01720-5	Towards a unified terminology for sonification and visualization
+10.1007/s00426-016-0775-0	Transposing musical skill: sonification of movement as concurrent augmented feedback enhances learning in a bimanual task

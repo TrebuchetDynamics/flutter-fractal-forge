@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.1007/s12193-019-00311-0	Sonification supports perception of brightness contrast
+10.5216/mh.v18i1.53572	Web sonification with synesthesia tools
+	From Point to Pixel: A Genealogy of Digital Aesthetics
+10.21785/icad2019.010	Traces of Modal Synergy: Studying Interactive Musical Sonification of Images in General-audience Use
+10.14236/ewic/eva2008.22	HEARING IMAGES: INTERACTIVE SONIFICATION INTERFACE FOR IMAGES
+10.11141/10.11141/ia.56.8	Listening to Dura Europos: An Experiment in Archaeological Image Sonification
+10.3389/fpsyg.2016.00906	The EyeHarp: A Gaze-Controlled Digital Musical Instrument
+10.3390/electronics10141696	Multi-Sensory Color Code Based on Sound and Scent for Visual Art Appreciation
+10.21785/icad2018.022	Photone: Exploring Modal Synergy in Photographic Images and Music

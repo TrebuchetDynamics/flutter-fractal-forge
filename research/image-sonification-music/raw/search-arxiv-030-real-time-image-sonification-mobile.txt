@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.1007/s11554-022-01210-6	Toward Real-Time Image Annotation Using Marginalized Coupled Dictionary Learning
+	Real time state monitoring and fault diagnosis system for motor based on LabVIEW
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+10.1109/rtss66672.2025.00023	Real-Time Service Subscription and Adaptive Offloading Control in Vehicular Edge Computing
+	Real-Time-Data Analytics in Raw Materials Handling
+	Space-time distributions
+	Real-Time Quantized Image Super-Resolution on Mobile NPUs, Mobile AI 2021 Challenge: Report
+	Lightweight network towards real-time image denoising on mobile devices
+	Kinetic surface friction rendering for interactive sonification: an initial exploration

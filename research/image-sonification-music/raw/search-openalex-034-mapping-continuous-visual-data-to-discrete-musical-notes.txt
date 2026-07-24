@@ -1,0 +1,10 @@
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+10.1093/brain/123.10.2065	Musical hallucinosis in acquired deafness: Phenomenology and brain substrate
+	Tactons: structured tactile messages for non-visual information display
+10.1017/s0140525x11000446	The brain basis of emotion: A meta-analytic review
+10.1111/cogs.12016	Visual Narrative Structure
+10.5072/zenodo.205601	The 'E' in NIME: musical expression with new computer interfaces
+10.3758/s13423-012-0371-2	Sensorimotor synchronization: A review of recent research (2006–2012)
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.1371/journal.pone.0060676	Tone Language Speakers and Musicians Share Enhanced Perceptual and Cognitive Abilities for Musical Pitch: Evidence for Bidirectionality between the Domains of Language and Music
+10.1037/a0021922	Perception of emotional expression in musical performance.

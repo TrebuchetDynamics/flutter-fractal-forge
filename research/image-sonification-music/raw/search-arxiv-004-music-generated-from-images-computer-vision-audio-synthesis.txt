@@ -1,0 +1,10 @@
+	Network Modulation Synthesis: New Algorithms for Generating Musical Audio Using Autoencoder Networks
+10.1109/ijcnn52387.2021.9533461	MusCaps: Generating Captions for Music Audio
+10.1109/taslpro.2025.3648794	Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio
+	Vision-to-Music Generation: A Survey
+	Digital Audio Processing Tools for Music Corpus Studies
+	WiCV 2019: The Sixth Women In Computer Vision Workshop
+10.1186/s13636-024-00354-6	The Whole Is Greater than the Sum of Its Parts: Improving Music Source Separation by Bridging Network
+	Generation of lyrics lines conditioned on music audio clips
+	Adversarial Audio Synthesis with Complex-valued Polynomial Networks
+	IteraTTA: An interface for exploring both text prompts and audio priors in generating music with text-to-audio models

@@ -1,0 +1,10 @@
+10.1109/tcss.2024.3451515	Video Echoed in Harmony: Learning and Sampling Video-Integrated Chord Progression Sequences for Controllable Video Background Music Generation
+10.48550/arxiv.2409.06024	Musical Chords: A Novel Java Algorithm and App Utility to Enumerate Chord-Progressions Adhering to Music Theory Guidelines
+10.54254/2755-2721/2025.tj23813	Algorithmic Composition with Random Walk and Quantization Based on Nyquist
+10.23919/fruct65909.2025.11008228	Generative Adversarial Neural Networks for Random and Complex Chord Progression Generation
+10.1145/3627915.3629600	Computational Analysis of Jazz Music: Estimating Tonality through Chord Progression Distances
+10.48550/arxiv.2410.18151	Music102: An D12-equivariant transformer for chord progression accompaniment
+10.3390/mca25030043	A Transformational Modified Markov Process for Chord-Based Algorithmic Composition
+10.1080/17459737.2023.2244480	Parsimonious sequences of finite sets and their applications to chord progressions and music composition
+10.1109/jcsse.2018.8457397	Algorithmic Music Composition Comparison
+10.1007/s11042-020-09506-0	An innovative method of algorithmic composition using musical tension

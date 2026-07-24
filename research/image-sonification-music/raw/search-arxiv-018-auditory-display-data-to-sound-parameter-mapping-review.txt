@@ -1,0 +1,10 @@
+	Reef Elegy: An Auditory Display of Hawaii's 2019 Coral Bleaching Data
+	Ways of Listening and Modes of Being: Electroacoustic Auditory Display
+10.1002/hbm.70548	Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration
+	The role of sound and auditory displays in telescope control rooms: a pilot study
+	Astronomy & Astrophysics in ICAD History
+	Robust Quantitative Susceptibility Mapping via Approximate Message Passing with Parameter Estimation
+	An Initial Description of Capabilities and Constraints for a Computational Auditory System (an Artificial Ear) for Cognitive Architectures
+10.1002/mrm.29303	A Probabilistic Bayesian Approach to Recover $R_2^*$ map and Phase Images for Quantitative Susceptibility Mapping
+10.21785/icad2019.018	Three Orthogonal Dimensions for Psychoacoustic Sonification
+	HappyQuokka System for ICASSP 2023 Auditory EEG Challenge

@@ -1,0 +1,10 @@
+10.48550/arxiv.2302.03957	A Perceptual Study of Sound Ecology in Peripheral Sonification
+10.1109/cvip67348.2025.11291439	Study on Evaluation Indexes for Deep Learning-Based Image Enhancement of Aero-Engine Borescope Probing
+10.1145/3658126	PEA-PODs: Perceptual Evaluation of Algorithms for Power Optimization in XR Displays
+10.1109/tmm.2023.3312851	Gap-Closing Matters: Perceptual Quality Evaluation and Optimization of Low-Light Image Enhancement
+10.1016/j.beth.2023.08.009	Validation of a novel perceptual body image assessment method using mobile digital imaging analysis: a cross-sectional multi-center evaluation in a multiethnic sample
+10.48550/arxiv.2406.08482	Words Worth a Thousand Pictures: Measuring and Understanding Perceptual Variability in Text-to-Image Generation
+10.1109/cw64301.2024.00029	Seam Carving-based Image Partial Enlargement Method for Perceptual Impression Reflection
+10.4274/mirt.galenos.2024.34711	Quantitative Performance Evaluation of Commonly Used Colormaps for Image Display in Myocardial Perfusion Imaging: Analysis based on Perceptual Metrics
+10.1145/3649902.3655638	Perceptual Evaluation of Masked AutoEncoder Emergent Properties Through Eye-Tracking-Based Policy
+10.1007/s00500-023-09126-4	Improving deep learning-based image super-resolution with residual learning and perceptual loss using SRGAN model

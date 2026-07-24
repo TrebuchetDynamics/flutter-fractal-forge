@@ -1,0 +1,10 @@
+10.1371/journal.pone.0144610	pyAudioAnalysis: An Open-Source Python Library for Audio Signal Analysis
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+10.1007/s13735-012-0004-6	Optical music recognition: state-of-the-art and open issues
+10.1007/s11633-021-1293-0	Deep Audio-visual Learning: A Survey
+10.5281/zenodo.1417159	Freesound Datasets: A Platform For The Creation Of Open Audio Datasets.
+10.1371/journal.pone.0173392	Developing a benchmark for emotional analysis of music
+10.1109/access.2016.2628440	An Overview on Networked Music Performance Technologies
+10.1038/sdata.2014.3	A high-resolution 7-Tesla fMRI dataset from complex natural stimulation with an audio movie
+10.1007/s13735-018-0154-2	Current challenges and visions in music recommender systems research
+10.1007/s11263-019-01150-y	You Said That?: Synthesising Talking Faces from Audio

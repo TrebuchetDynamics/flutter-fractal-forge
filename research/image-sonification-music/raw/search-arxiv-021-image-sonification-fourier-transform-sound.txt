@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	Quadratic discrete Fourier transform and mutually unbiased bases
+10.17743/jaes.2022.0133	Sound Terminology Describing Production and Perception of Sonification
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Images that Sound: Composing Images and Sounds on a Single Canvas
+	Paley-Wiener theorem for the Joint-Eigenspace Fourier transform on noncompact symmetric spaces
+	Data sonification and sound visualization
+	On the diagonalization of the discrete Fourier transform
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	The discrete Fourier transform: A canonical basis of eigenfunctions

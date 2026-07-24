@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	The Sounds of Music : Science of Musical Scales I -- Human Perception of Sound
+	The Sounds of Music : Science of Musical Scales II -- Western Classical
+	The Sounds of Music : Science of Musical Scales III -- Indian Classical
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+10.5281/zenodo.3672917	Vrengt: A Shared Body-Machine Instrument for Music-Dance Performance
+	Data Encoding for Byzantine-Resilient Distributed Optimization
+	Byzantine-Resilient SGD in High Dimensions on Heterogeneous Data
+10.21785/icad2019.018	Three Orthogonal Dimensions for Psychoacoustic Sonification
+10.1016/j.physletb.2012.07.011	Constraints on dark energy from H II starburst galaxy apparent magnitude versus redshift data

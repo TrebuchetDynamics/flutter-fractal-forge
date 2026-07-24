@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.5281/zenodo.3672917	Vrengt: A Shared Body-Machine Instrument for Music-Dance Performance
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Music and musical sonification for the rehabilitation of Parkinsonian dysgraphia: Conceptual framework
+	Data Melodification FM: Where Musical Rhetoric Meets Sonification
+	Musical Smart City: Perspectives on Ubiquitous Sonification
+	A case study of translating sonifications across musical cultures for an educational application
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+10.5281/zenodo.1176749	Sonification of Facial Actions for Musical Expression
+	A Music-generating System Inspired by the Science of Complex Adaptive Systems

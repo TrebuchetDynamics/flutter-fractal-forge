@@ -1,0 +1,10 @@
+10.1609/aaai.v35i1.16117	Symbolic Music Generation with Transformer-GANs
+10.1109/access.2018.2886814	Recent Advances of Generative Adversarial Networks in Computer Vision
+10.1109/msp.2018.2869928	Automatic Music Transcription: An Overview
+10.3389/frai.2020.00014	Computational Creativity and Music Generation Systems: An Introduction to the State of the Art
+10.1111/j.1756-8765.2012.01223.x	Implicit Learning and Acquisition of Music
+10.48550/arxiv.2306.05284	Simple and Controllable Music Generation
+10.1613/jair.5575	From Skills to Symbols: Learning Symbolic Representations for Abstract High-Level Planning
+10.1016/j.inffus.2019.12.012	Explainable Artificial Intelligence (XAI): Concepts, taxonomies, opportunities and challenges toward responsible AI
+10.1007/s10844-013-0247-6	The neglected user in music information retrieval research
+10.1145/3714457	Natural Language Processing Methods for Symbolic Music Generation and Information Retrieval: A Survey

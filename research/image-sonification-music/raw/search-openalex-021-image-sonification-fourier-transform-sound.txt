@@ -1,0 +1,10 @@
+10.1109/89.709673	A structural model for binaural sound synthesis
+	Sonific ation Report: Status of the Field and Research Agenda
+	Principal Curve Sonification
+10.1109/tuffc.2013.2617	Acoustic radiation force elasticity imaging in diagnostic ultrasound
+10.26481/dis.20120606as	Lobbying for the ear : the public fascination with and academic legitimacy of the sonification of scientific data
+	Sonification of markov chain monte carlo simulations
+	A Formalised Approach to Designing Sonification Systems for Network−Security Monitoring
+10.1108/sasbe-11-2021-0189	Measurement and sonification of construction site noise and particle pollution data
+10.1109/bhi.2012.6211657	The sound of proteins
+	Sonification of Samba dance using periodic pattern analysis

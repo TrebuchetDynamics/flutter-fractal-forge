@@ -1,0 +1,10 @@
+10.1177/1747021818814472	Expectations for tonal cadences: Sensory and cognitive priming effects
+10.5281/zenodo.4289322	Music Transcription Modelling and Composition Using Deep Learning
+10.1038/s41597-023-02410-w	ChoCo: a Chord Corpus and a Data Transformation Workflow for Musical Harmony Knowledge Graphs
+10.48550/arxiv.2303.12712	Sparks of Artificial General Intelligence: Early experiments with GPT-4
+10.1016/j.cognition.2023.105601	Expectation adaptation for rare cadences in music: Item order matters in repetition priming
+	Modelling the perception and composition of Western musical harmony
+10.1177/1029864918757595	Investigating style evolution of Western classical music: A computational approach
+10.24382/4900	Application of Intermediate Multi-Agent Systems to Integrated Algorithmic Composition and Expressive Performance of Music
+10.3390/s23198015	Exploring the Full Potentials of IoT for Better Financial Growth and Stability: A Comprehensive Survey
+10.1109/access.2020.3028241	A Hybrid Meta-Heuristic Feature Selection Method for Identification of Indian Spoken Languages From Audio Signals

@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.1080/07370024.2015.1085310	<i>Go-with-the-Flow</i>: Tracking, Analysis and Sonification of Movement and Breathing to Build Confidence in Activity Despite Chronic Pain
+	The Discipline of Interactive Sonification
+10.1162/comj_a_00580	Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis
+	Sonification of markov chain monte carlo simulations
+10.13140/2.1.4998.3680	SONEX: AN EVALUATION EXCHANGE FRAMEWORK FOR REPRODUCIBLE SONIFICATION
+10.1109/les.2017.2774800	Securing Hardware Accelerators: A New Challenge for High-Level Synthesis
+	A Formalised Approach to Designing Sonification Systems for Network−Security Monitoring
+10.21606/drs.2022.380	Audiovisual sonifications: A design map for multisensory integration in data representation
+10.3390/polym8020040	Synthesis of Polyaniline (PANI) in Nano-Reaction Field of Cellulose Nanofiber (CNF), and Carbonization

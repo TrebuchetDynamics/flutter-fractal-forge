@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	Edukoi: developing an interactive sonification tool for astronomy between entertainment and education
+10.1145/3663548.3688514	Speech-based Mark for Data Sonification
+	Perceiving Slope and Acceleration: Evidence for Variable Tempo Sampling in Pitch-Based Sonification of Functions
+10.1145/3613904.3642442	Erie: A Declarative Grammar for Data Sonification
+10.1093/mnras/stac2590	Evaluating the efficacy of sonification for signal detection in univariate, evenly sampled light curves using astronify
+	Astronomical images sonification: inclusion or outreach?
+	Data Melodification FM: Where Musical Rhetoric Meets Sonification

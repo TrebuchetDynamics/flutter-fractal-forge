@@ -1,0 +1,10 @@
+10.1016/j.media.2025.103571	From tissue to sound: A new paradigm for medical sonic interaction design
+	Application of Image Sonification Methods to Music
+10.1016/j.ynirp.2026.100341	Cross-modal plasticity in a blind jazz pianist and prodigy
+	Real-Time Sound / Image Manipulation and Mapping in a Performance Setting
+10.3390/electronics15102218	Deep Hybrid Synesthesia Model for Audio-Image Transfer
+	From the visualization of sound to real-time sonification: different prototypes in the Max/MSP/Jitter environment
+	Animacy , Motion , Emotion and Empathy in Visual Music : Enhancing appreciation of abstracted animation through
+10.1162/014892605775179900	Creating Visual Music in Jitter: Approaches and Techniques
+	A JAVA FRAMEWORK FOR DATA SONIFICATION AND 3 D GRAPHIC RENDERING
+10.1007/s00371-011-0617-4	Stereo music visualization through manifold harmonics

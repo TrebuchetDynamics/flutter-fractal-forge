@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	Musical Chords: A Novel Java Algorithm and App Utility to Enumerate Chord-Progressions Adhering to Music Theory Guidelines
+	Models of Music Cognition and Composition
+10.1080/17459737.2018.1450902	Introduction to Gestural Similarity in Music. An Application of Category Theory to the Orchestra
+	Musical Smart City: Perspectives on Ubiquitous Sonification
+	Music and musical sonification for the rehabilitation of Parkinsonian dysgraphia: Conceptual framework
+	Do Music Generation Models Encode Music Theory?
+	Striking a New Chord: Neural Networks in Music Information Dynamics
+	The Machine Learning Algorithm as Creative Musical Tool
+	ChordSync: Conformer-Based Alignment of Chord Annotations to Music Audio

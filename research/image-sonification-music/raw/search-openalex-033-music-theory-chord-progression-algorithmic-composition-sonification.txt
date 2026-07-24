@@ -1,0 +1,10 @@
+10.3389/fcomm.2020.00046	Using Data Sonification to Overcome Science Literacy, Numeracy, and Visualization Barriers in Science Communication
+10.1371/journal.pone.0213516	A closed-loop, music-based brain-computer interface for emotion mediation
+10.1017/s1471068410000530	Automatic music composition using answer set programming
+10.1068/a45264	On Breathing and Geography: Explorations of Data Sonifications of Timespace Processes with Illustrating Examples from a Tidally Dynamic Landscape (Severn Estuary, UK)
+10.1162/comj_a_00580	Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis
+10.21785/icad2018.006	Sonification with Musical Characteristics: A Path Guided by User-Engagement
+10.1093/pcp/pcad105	In-Depth Quantification of Cell Division and Elongation Dynamics at the Tip of Growing Arabidopsis Roots Using 4D Microscopy, AI-Assisted Image Processing and Data Sonification
+10.1145/2967508	Collaborating with an Autonomous Agent to Generate Affective Music
+10.30746/978-91-519-5560-5	Proceedings of the 2020 Joint Conference on AI Music Creativity
+10.1007/978-1-4471-6584-2_1	Brain–Computer Music Interfacing: Interdisciplinary Research at the Crossroads of Music, Science and Biomedical Engineering

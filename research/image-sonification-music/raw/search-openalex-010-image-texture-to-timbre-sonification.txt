@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+	APPLICATION OF RASTER SCANNING METHOD TO IMAGE SONIFICATION, SOUND VISUALIZATION, SOUND ANALYSIS AND SYNTHESIS
+	Raster scanning : a new approach to image sonification, sound visualization, sound analysis, and synthesis
+	Sonification of Spatial Data
+10.1038/s41598-021-86627-y	Hand rehabilitation with sonification techniques in the subacute stage of stroke
+	MULTI-CHANNEL SONIFICATION OF HUMAN EEG
+10.1109/tmm.2020.2987710	A Hierarchical Visual Feature-Based Approach For Image Sonification
+10.1038/s41598-023-32778-z	Sonification as a reliable alternative to conventional visual surgical navigation
+10.1515/aoa-2016-0040	Sonification: Review of Auditory Display Solutions in Electronic Travel Aids for the Blind
+10.26481/dis.20120606as	Lobbying for the ear : the public fascination with and academic legitimacy of the sonification of scientific data

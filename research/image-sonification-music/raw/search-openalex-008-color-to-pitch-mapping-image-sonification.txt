@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+	TAXONOMY AND DEFINITIONS FOR SONIFICATION AND AUDITORY DISPLAY
+10.1007/s12193-018-0280-4	Musical Vision: an interactive bio-inspired sonification tool to convert images into music
+10.1109/rbme.2022.3187840	A Mapping Review of Real-Time Movement Sonification Systems for Movement Rehabilitation
+10.3389/fneur.2016.00106	Sonification of Arm Movements in Stroke Rehabilitation – A Novel Approach in Neurologic Music Therapy
+	APPLICATION OF IMAGE SONIFICATION METHODS TO MUSIC
+	Sonification of Spatial Data
+10.1038/srep44549	Polyphonic sonification of electrocardiography signals for diagnosis of cardiac pathologies
+10.1109/tmm.2020.2987710	A Hierarchical Visual Feature-Based Approach For Image Sonification
+10.21785/icad2019.056	Sonification Workstation

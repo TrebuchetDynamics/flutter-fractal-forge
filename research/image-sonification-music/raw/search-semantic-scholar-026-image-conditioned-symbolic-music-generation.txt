@@ -1,0 +1,10 @@
+10.48550/arxiv.2408.02711	Text Conditioned Symbolic Drumbeat Generation using Latent Diffusion Models
+10.1109/tmm.2023.3276177	EmoMusicTV: Emotion-Conditioned Symbolic Music Generation With Hierarchical Transformer VAE
+10.1109/tmm.2025.3590912	XMusic: Towards a Generalized and Controllable Symbolic Music Generation Framework
+10.1145/3746027.3754812	Temporal-Conditioned Symbolic Alignment for Controllable Text-to-Music Generation
+10.48550/arxiv.2502.18008	NotaGen: Advancing Musicality in Symbolic Music Generation with Large Language Model Training Paradigms
+10.1121/10.0041417	Cascaded symbolic music generation with bar-wise feature sequence modeling
+10.1109/apsipaasc65261.2025.11249414	Hierarchical Symbolic Music Generation with Variational Autoencoder-Based Bar-Wise Feature Sequences
+10.1109/ijcnn64981.2025.11228274	Mamba-Diffusion Model with Learnable Wavelet for Controllable Symbolic Music Generation
+10.1109/tmm.2022.3161851	Theme Transformer: Symbolic Music Generation With Theme-Conditioned Transformer
+10.1109/access.2022.3169744	Symbolic music generation conditioned on continuous-valued emotions

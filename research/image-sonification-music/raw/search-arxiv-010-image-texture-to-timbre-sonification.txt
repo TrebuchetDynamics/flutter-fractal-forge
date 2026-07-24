@@ -1,0 +1,10 @@
+10.5281/zenodo.7243950	Interactive Sonification for Health and Energy using ChucK and Unity
+	Texture image analysis and texture classification methods - A review
+10.13140/rg.2.2.33612.46722	A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection
+10.13140/2.1.4225.6648	Sonification Aesthetics and Listening for Network Situational Awareness
+	Evaluating Urbanization from Satellite and Aerial Images by means of a statistical approach to the texture analysis
+	A method for the segmentation of images based on thresholding and applied to vesicular textures
+	Kinetic surface friction rendering for interactive sonification: an initial exploration
+	A Robust Low-Rank Prior Model for Structured Cartoon-Texture Image Decomposition with Heavy-Tailed Noise
+	PolSeT: Polish Semantics of Timbre Dataset
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression

@@ -1,0 +1,10 @@
+10.1371/journal.pone.0013812	Dynamic Emotional and Neural Responses to Music Depend on Performance Expression and Listener Experience
+10.1038/srep06130	Network Science and the Effects of Music Preference on Functional Brain Connectivity: From Beethoven to Eminem
+10.1371/journal.pone.0072412	Examining Complexity across Domains: Relating Subjective and Objective Measures of Affective Environmental Scenes, Paintings and Music
+10.1002/hbm.23565	Connectivity patterns during music listening: Evidence for action‐based processing in musicians
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.3390/app10030791	A History of Audio Effects
+10.14279/depositonce-7046	Proceedings of the Linux Audio Conference 2018
+10.3389/fnins.2017.00159	Global Sensory Qualities and Aesthetic Experience in Music
+10.1109/das.2008.29	Writer Identification in Old Handwritten Music Scores
+10.3389/fpsyg.2017.02368	Visual Complexity and Affect: Ratings Reflect More Than Meets the Eye

@@ -1,0 +1,10 @@
+10.1007/s12525-021-00475-2	Machine learning and deep learning
+10.1613/jair.1.12228	A Survey on the Explainability of Supervised Machine Learning
+	Educating the Net Generation
+10.1007/s10462-022-10246-w	Human-in-the-loop machine learning: a state of the art
+10.18653/v1/d17-1230	Adversarial Learning for Neural Dialogue Generation
+10.1007/s10462-023-10662-6	Autoencoders and their applications in machine learning: a survey
+10.7551/mitpress/13811.001.0001	Machine Learning
+10.18653/v1/p18-1238	Conceptual Captions: A Cleaned, Hypernymed, Image Alt-text Dataset For Automatic Image Captioning
+10.1109/jproc.2021.3058954	Toward Causal Representation Learning
+10.1145/3555802	Edge Computing with Artificial Intelligence: A Machine Learning Perspective

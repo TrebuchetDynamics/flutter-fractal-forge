@@ -1,0 +1,10 @@
+10.1038/s41551-017-0056	Next-generation in vivo optical imaging with short-wave infrared quantum dots
+10.1002/mrm.22321	Model predictive filtering for improved temporal resolution in MRI temperature imaging
+10.1109/tuffc.2013.2617	Acoustic radiation force elasticity imaging in diagnostic ultrasound
+10.3390/s20113222	A Comparative Study in Real-Time Scene Sonification for Visually Impaired People
+10.1371/journal.pone.0195948	Sonification of network traffic flow for monitoring and situational awareness
+10.1515/aoa-2016-0040	Sonification: Review of Auditory Display Solutions in Electronic Travel Aids for the Blind
+10.1007/s00779-023-01720-5	Towards a unified terminology for sonification and visualization
+10.1007/s00426-016-0775-0	Transposing musical skill: sonification of movement as concurrent augmented feedback enhances learning in a bimanual task
+10.3389/fneur.2017.00647	A Novel Sonification Approach to Support the Diagnosis of Alzheimer’s Dementia
+10.1007/s12193-020-00319-x	ECG sonification to support the diagnosis and monitoring of myocardial infarction

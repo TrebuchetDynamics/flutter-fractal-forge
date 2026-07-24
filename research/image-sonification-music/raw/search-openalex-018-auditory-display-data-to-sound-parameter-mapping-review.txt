@@ -1,0 +1,10 @@
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+10.1371/journal.pbio.1001251	Reconstructing Speech from Human Auditory Cortex
+10.2307/3680997	3-D Sound for Virtual Reality and Multimedia
+10.1523/jneurosci.3579-08.2008	The Sound of Concepts: Four Markers for a Link between Auditory and Conceptual Brain Systems
+10.1152/jn.2001.86.3.1445	Feature Analysis of Natural Sounds in the Songbird Auditory Forebrain
+10.1093/cercor/bhh007	Multisensory Visual-Auditory Object Recognition in Humans: a High-density Electrical Mapping Study
+	TAXONOMY AND DEFINITIONS FOR SONIFICATION AND AUDITORY DISPLAY
+10.1523/jneurosci.01-01-00107.1981	Functional classes of neurons in primary auditory cortex of the cat distinguished by sensitivity to sound location
+	Sonific ation Report: Status of the Field and Research Agenda
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities

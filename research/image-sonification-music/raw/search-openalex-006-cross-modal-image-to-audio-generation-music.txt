@@ -1,0 +1,10 @@
+	Educating the Net Generation
+10.18653/v1/2023.emnlp-demo.49	Video-LLaMA: An Instruction-tuned Audio-Visual Language Model for Video Understanding
+10.1523/jneurosci.0896-05.2005	Perceptual Fusion and Stimulus Coincidence in the Cross-Modal Integration of Speech
+10.1017/s0140525x20000333	Music as a coevolved system for social bonding
+10.1609/aaai.v32i1.12329	CMCGAN: A Uniform Framework for Cross-Modal Visual-Audio Mutual Generation
+10.1109/icassp48485.2024.10447265	MusicLDM: Enhancing Novelty in text-to-music Generation Using Beat-Synchronous mixup Strategies
+10.1016/j.imavis.2023.104676	Multimodal emotion recognition using cross modal audio-video fusion with attention and deep metric learning
+10.2139/ssrn.4227745	Cross-Modality Fusion Transformer for Multispectral Object Detection
+10.1007/s11633-021-1293-0	Deep Audio-visual Learning: A Survey
+10.1007/s11263-019-01150-y	You Said That?: Synthesising Talking Faces from Audio

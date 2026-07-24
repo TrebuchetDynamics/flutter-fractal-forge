@@ -1,0 +1,10 @@
+10.1162/leon.a.2583	Generative Sonification of Synthetic Virology Data with Waveshaping and Granular Synthesis Techniques
+10.17743/jaes.2022.0147	Letting Pulsars Sing: Sonification With Granular Synthesis
+	Generative Sonification of Synthetic Virology Data with Waveshaping and Granular Synthesis Techniques
+10.21785/icad2025.074	Pixasonics: An Image Sonification Toolbox for Python
+10.1162/comj_a_00580	Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis
+10.1109/iciccs67901.2026.11502956	Granular Text-to-Image Synthesis Using Attentionbased Generative Adversarial Networks
+10.1109/nss/mic/rtsd57106.2025.11287012	Pair-Free Self-Supervised PET Image Denoising via Contrastive Synthesis Learning
+10.1109/wacv57701.2024.00792	Iterative Multi-granular Image Editing using Diffusion Models
+	Audiovisual granular synthesis: creating synergistic relationships between sound and image
+10.1145/2513002.2513568	Audiovisual granular synthesis: micro relationships between sound and image

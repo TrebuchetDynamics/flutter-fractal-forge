@@ -1,0 +1,10 @@
+	Cell Music: The Sonification of Digitalized Fast-Fourier Transformed Microscopic Images
+10.1117/12.3066414	Holographic sound field imaging filtering technology using bandwidth-adjustable window Fourier transform
+10.1049/icp.2024.4541	Implementation of Fourier transform in acoustic: evidence from sound signal analysis and acoustic imaging
+10.1364/boe.538756	Physics-guided deep learning-based real-time image reconstruction of Fourier-domain optical coherence tomography
+10.1186/s43074-020-00016-8	Metasurface holographic image projection based on mathematical properties of Fourier transform
+10.14445/22315381/ijett-v74i2p110	Design and Implementation of Fast Fourier Transform Using Pipelining
+10.1364/3d.2023.jtu4a.28	Sound Field Imaging in Gas Flow using Parallel Phase-Shifting Digital Holography and Fourier Transform
+10.52710/mt.141	An Analytical Method for Recognizing Cat Meowing States Utilizing Short-Time Fourier Transform and Vision Transformers
+10.3397/in_2023_0497	Estimation of acoustic reflection pattern using multi-point impulse response and spatial Fourier transform
+10.1109/prai59366.2023.10331940	Detection of Children Abuse by Voice and Audio Classification by Short-Time Fourier Transform Machine Learning Implemented on Nvidia Edge GPU Device

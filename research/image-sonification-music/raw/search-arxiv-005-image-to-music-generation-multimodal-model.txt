@@ -1,0 +1,10 @@
+	Music SketchNet: Controllable Music Generation via Factorized Representations of Pitch and Rhythm
+10.5281/zenodo.4245368	Towards Multimodal MIR: Predicting individual differences from music-induced movement
+	Pisces: An Auto-regressive Foundation Model for Image Understanding and Generation
+	MMVA: Multimodal Matching Based on Valence and Arousal across Images, Music, and Musical Captions
+	Emotion-Guided Image to Music Generation
+	Joint Music and Language Attention Models for Zero-shot Music Tagging
+	GlobalMood: A cross-cultural benchmark for music emotion recognition
+10.1080/17459737.2018.1450902	Introduction to Gestural Similarity in Music. An Application of Category Theory to the Orchestra
+	Modeling Musical Context with Word2vec
+	Vision-to-Music Generation: A Survey

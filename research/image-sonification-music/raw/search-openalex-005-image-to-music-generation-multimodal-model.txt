@@ -1,0 +1,10 @@
+10.1109/tpami.2023.3275156	Multimodal Learning With Transformers: A Survey
+10.18653/v1/p18-1238	Conceptual Captions: A Cleaned, Hypernymed, Image Alt-text Dataset For Automatic Image Captioning
+10.3758/s13423-012-0333-8	Augmented visual, auditory, haptic, and multimodal feedback in motor learning: A review
+10.1109/cvpr52733.2024.00913	MMMU: A Massive Multi-Discipline Multimodal Understanding and Reasoning Benchmark for Expert AGI
+10.48550/arxiv.2303.04226	A Comprehensive Survey of AI-Generated Content (AIGC): A History of Generative AI from GAN to ChatGPT
+10.1109/access.2019.2916887	Deep Multimodal Representation Learning: A Survey
+10.3389/fpsyg.2011.00110	Toward a Neural Basis of Music Perception – A Review and Updated Model
+10.48550/arxiv.2204.14198	Flamingo: a Visual Language Model for Few-Shot Learning
+10.18653/v1/p18-1185	Visual Attention Model for Name Tagging in Multimodal Social Media
+10.2196/59505	Multimodal Large Language Models in Health Care: Applications, Challenges, and Future Outlook

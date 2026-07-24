@@ -1,0 +1,10 @@
+10.1007/s11571-018-9502-4	Music of brain and music on brain: a novel EEG sonification approach
+10.1371/journal.pone.0005915	Scale-Free Music of the Brain
+10.1371/journal.pone.0049773	Scale-Free Brain-Wave Music from Simultaneously EEG and fMRI Recordings
+10.5920/jcms.2018.02	Knots, Music and DNA
+10.1162/comj_a_00580	Sonification of a 3-D Spider Web and Reconstitution for Musical Composition Using Granular Synthesis
+10.33263/briac104.679688	Molecular biology’s symphony orchestra from DNA to ribosome: a sonification from gene to protein
+10.1109/tsipn.2015.2448520	Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing
+10.3389/fnins.2018.00197	Interactive Sonification Exploring Emergent Behavior Applying Models for Biological Information and Listening
+10.3390/electronics10182276	Generating Music Transition by Using a Transformer-Based Model
+10.1504/ijart.2016.075406	Fitness in evolutionary art and music: a taxonomy and future prospects

@@ -1,0 +1,10 @@
+10.1371/journal.pone.0082491	A Systematic Review of Mapping Strategies for the Sonification of Physical Quantities
+10.21785/icad2019.069	Is Sonification Doomed to Fail?
+	The importance of interaction in sonification
+	Sonific ation Report: Status of the Field and Research Agenda
+10.3389/fneur.2016.00106	Sonification of Arm Movements in Stroke Rehabilitation – A Novel Approach in Neurologic Music Therapy
+10.3389/fneur.2018.00389	Movement Sonification in Stroke Rehabilitation
+10.3389/fneur.2017.00723	Action Observation Plus Sonification. A Novel Therapeutic Protocol for Parkinson’s Patient with Freezing of Gait
+10.1109/mmul.2015.14	Sonification of Surface Tapping Changes Behavior, Surface Perception, and Emotion
+10.1038/s41598-023-32778-z	Sonification as a reliable alternative to conventional visual surgical navigation
+10.21785/icad2019.018	Psychoacoustical Signal Processing for Three-dimensional Sonification

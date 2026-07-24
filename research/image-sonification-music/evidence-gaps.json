@@ -1,0 +1,25 @@
+{
+  "topic": "image-sonification-music",
+  "gaps": [
+    {
+      "gap": "Classic image-sonification papers were not all available with full abstracts in the retrieval output.",
+      "impact": "Detailed implementation claims for those papers remain bounded.",
+      "next_step": "Human-approved full-text acquisition and extraction."
+    },
+    {
+      "gap": "No controlled listening study for fractal imagery was found in this pass.",
+      "impact": "Recommendations about musicality and visual correspondence are hypotheses for this app.",
+      "next_step": "Run a small A/B listening test over fixed fractal samples."
+    },
+    {
+      "gap": "Semantic Scholar rate-limited 22 queries.",
+      "impact": "Citation and metadata coverage is weaker for some query variants.",
+      "next_step": "Retry later with an API key or rely on OpenAlex/arXiv for the next pass."
+    },
+    {
+      "gap": "ML image-to-music systems use datasets and compute unlike the deterministic mobile renderer.",
+      "impact": "Their reported metrics do not directly predict Fractal Music quality.",
+      "next_step": "Treat them as future research, not an immediate dependency."
+    }
+  ]
+}
