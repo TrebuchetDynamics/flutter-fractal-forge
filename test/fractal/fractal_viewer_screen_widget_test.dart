@@ -307,6 +307,23 @@ void main() {
       expect(find.text('Controls'), findsOneWidget);
     });
 
+    testWidgets('controls HUD supports modules without core params',
+        (tester) async {
+      controller.selectModule(registry.byId('test_minimal'));
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('Controls'), findsOneWidget);
+      expect(find.text('Fluid mode'), findsOneWidget);
+      expect(find.text('Iterations'), findsNothing);
+      expect(find.text('Bailout'), findsNothing);
+    });
+
     testWidgets('keyboard arrow keys pan view', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();

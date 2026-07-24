@@ -191,22 +191,25 @@ function meanPixelDiff(aBuffer, bBuffer, step = 6) {
 
 function fabPoint(page, name) {
   const viewport = page.viewportSize() || { width: 1280, height: 900 };
-  // Current viewer FAB column, bottom to top: export, looper, random,
-  // randomize, kaleidoscope, color, iterations, reset, presets, fullscreen.
-  const fromBottom = {
-    export: 50,
-    looper: 106,
-    random: 162,
-    randomize: 218,
-    kaleidoscope: 274,
-    color: 330,
-    iterations: 386,
-    reset: 442,
-    presets: 498,
-    fullscreen: 554,
+  // Landscape viewer order: random, randomize, color, export, text,
+  // looper, kaleidoscope, music, fullscreen.
+  const index = {
+    random: 0,
+    randomize: 1,
+    color: 2,
+    export: 3,
+    text: 4,
+    looper: 5,
+    kaleidoscope: 6,
+    music: 7,
+    fullscreen: 8,
   }[name];
-  if (fromBottom == null) throw new Error(`Unknown FAB ${name}`);
-  return { x: viewport.width - 40, y: viewport.height - fromBottom };
+  if (index == null) throw new Error(`Unknown FAB ${name}`);
+  const spacing = 56;
+  return {
+    x: viewport.width / 2 - ((9 - 1) * spacing) / 2 + index * spacing,
+    y: viewport.height - 44,
+  };
 }
 
 async function clickFab(page, name) {
@@ -356,8 +359,9 @@ async function runControlJourney(page, baseURL, id, browserName, testInfo) {
     result.screenshots.push(fullscreen.relPath);
     await requireChanged(result, reset, fullscreen, 'fullscreen FAB hides chrome', 0.35);
 
-    // Restore UI button lives in the upper-right after fullscreen/unobtrusive mode.
-    await page.mouse.click(viewport.width - 48, 42);
+    // Fullscreen exit FAB uses the same bottom-right safe-area position as
+    // the viewer's normal fullscreen control.
+    await page.mouse.click(viewport.width - 40, viewport.height - 44);
     await page.waitForTimeout(500);
     const restored = await saveScreenshot(page, dir, 6, 'ui-restored');
     result.screenshots.push(restored.relPath);
@@ -374,45 +378,8 @@ async function runControlJourney(page, baseURL, id, browserName, testInfo) {
     result.screenshots.push(afterControls.relPath);
     await requireChanged(result, controls, afterControls, 'controls HUD close', 0.5);
 
-    await clickFab(page, 'presets');
-    await page.waitForTimeout(700);
-    const presets = await saveScreenshot(page, dir, 9, 'presets-sheet');
-    result.screenshots.push(presets.relPath);
-    await requireChanged(result, afterControls, presets, 'presets FAB opens sheet', 0.5);
-    await page.keyboard.press('Escape');
-    await page.waitForTimeout(500);
-
-    await performAndRequireMarker(
-      result,
-      page,
-      'reset view FAB',
-      (marker) => marker.category === 'reset' && /Reset view/i.test(marker.message || ''),
-      async () => { await clickFab(page, 'reset'); },
-    );
-
-    await performAndRequireMarker(
-      result,
-      page,
-      'reset params long-press FAB',
-      (marker) => marker.category === 'reset' && /Reset params/i.test(marker.message || ''),
-      async () => { await longPressFab(page, 'reset'); },
-    );
-
-    await performAndRequireMarker(
-      result,
-      page,
-      'iterations increase FAB',
-      (marker) => marker.category === 'paramUpdate' && /iterations/i.test(marker.message || ''),
-      async () => { await clickFab(page, 'iterations'); },
-    );
-
-    await performAndRequireMarker(
-      result,
-      page,
-      'iterations decrease long-press FAB',
-      (marker) => marker.category === 'paramUpdate' && /iterations/i.test(marker.message || ''),
-      async () => { await longPressFab(page, 'iterations'); },
-    );
+    // Reset and preset actions now live in their dedicated sheets/HUD; the
+    // viewer no longer exposes the old reset/iterations/presets FAB column.
 
     await performAndRequireMarker(
       result,

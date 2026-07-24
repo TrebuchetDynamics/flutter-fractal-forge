@@ -24,6 +24,7 @@ class _PresetSheetState extends State<PresetSheet> {
   bool _saving = false;
   bool _isInputFocused = false;
   Future<List<FractalPreset>>? _userPresetsFuture;
+  String? _userPresetsModuleId;
 
   @override
   void initState() {
@@ -49,7 +50,10 @@ class _PresetSheetState extends State<PresetSheet> {
     final presetStore = context.read<PresetStore>();
     final l10n = AppLocalizations.of(context)!;
 
-    _userPresetsFuture ??= presetStore.loadUserPresets(controller.module.id);
+    if (_userPresetsModuleId != controller.module.id) {
+      _userPresetsModuleId = controller.module.id;
+      _userPresetsFuture = presetStore.loadUserPresets(controller.module.id);
+    }
 
     return AppBottomSheet(
       maxHeightFactor: 0.85,

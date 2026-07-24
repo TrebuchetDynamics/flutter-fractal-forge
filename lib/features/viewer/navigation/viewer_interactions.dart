@@ -25,48 +25,42 @@ KeyEventResult _viewerOnKeyEvent(
   if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
     final view = controller.view;
     final step = _rotatedKeyboardPanStep(-panStep, 0, view.rotation.z);
-    controller.updateView(view.copyWith(pan: view.pan + step));
+    controller.updatePan(view.pan + step);
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
     final view = controller.view;
     final step = _rotatedKeyboardPanStep(panStep, 0, view.rotation.z);
-    controller.updateView(view.copyWith(pan: view.pan + step));
+    controller.updatePan(view.pan + step);
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
     final view = controller.view;
     final step = _rotatedKeyboardPanStep(0, -panStep, view.rotation.z);
-    controller.updateView(view.copyWith(pan: view.pan + step));
+    controller.updatePan(view.pan + step);
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
     final view = controller.view;
     final step = _rotatedKeyboardPanStep(0, panStep, view.rotation.z);
-    controller.updateView(view.copyWith(pan: view.pan + step));
+    controller.updatePan(view.pan + step);
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.minus ||
       event.logicalKey == LogicalKeyboardKey.numpadSubtract) {
     final view = controller.view;
-    controller.updateView(
-      view.copyWith(zoom: view.zoom / 1.2),
-      adaptIterationsForZoom: true,
-    );
+    controller.updateZoom(view.zoom / 1.2);
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }
   if (event.logicalKey == LogicalKeyboardKey.equal ||
       event.logicalKey == LogicalKeyboardKey.numpadAdd) {
     final view = controller.view;
-    controller.updateView(
-      view.copyWith(zoom: view.zoom * 1.2),
-      adaptIterationsForZoom: true,
-    );
+    controller.updateZoom(view.zoom * 1.2);
     state._onAutoExploreUserCorrection();
     return KeyEventResult.handled;
   }

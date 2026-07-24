@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
@@ -41,5 +42,49 @@ void main() {
     await tester.pump();
 
     expect(find.text('My Preset'), findsOneWidget);
+  });
+
+  testWidgets('PresetSheet reloads presets when the module changes',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    final presetStore = await PresetStore.create();
+    addTearDown(controller.dispose);
+    await presetStore.saveUserPreset(
+      FractalPreset(
+        id: 'mandelbrot-saved',
+        moduleId: 'mandelbrot',
+        name: 'Mandelbrot saved',
+        params: Map<String, Object>.from(controller.params),
+        view: controller.view,
+        createdAt: DateTime(2026),
+      ),
+    );
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: controller),
+          Provider.value(value: presetStore),
+        ],
+        child: MaterialApp(
+          locale: const Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const Scaffold(body: PresetSheet()),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Mandelbrot saved'), findsOneWidget);
+
+    controller.selectModule(registry.byId('julia'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Julia'), findsOneWidget);
+    expect(find.text('Mandelbrot saved'), findsNothing);
+    expect(find.text('No saved presets yet.'), findsOneWidget);
   });
 }

@@ -87,42 +87,31 @@ class FractalControlsHud extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Core params: iterations, bailout
-                  _CompactHudSliderRow(
-                    label: l10n.paramIterations,
-                    value: _numParam(controller, 'iterations', 120),
-                    min: 20,
-                    max: controller.module.parameters
-                        .firstWhere((p) => p.id == 'iterations')
-                        .max,
-                    divisions: null,
-                    valueLabel: _numParam(controller, 'iterations', 120)
-                        .round()
-                        .toString(),
-                    semanticLabel: l10n.paramIterations,
-                    onChanged: (v) =>
-                        controller.updateParam('iterations', v.round()),
-                  ),
-                  const SizedBox(height: 4),
-                  _CompactHudSliderRow(
-                    label: l10n.paramBailout,
-                    value: _numParam(controller, 'bailout', 4.0),
-                    min: 2.0,
-                    max: 8.0,
-                    divisions: 60,
-                    valueLabel: _numParam(controller, 'bailout', 4.0)
-                        .toStringAsFixed(1),
-                    semanticLabel: l10n.paramBailout,
-                    onChanged: (v) => controller.updateParam('bailout', v),
-                  ),
-                  const SizedBox(height: 8),
+                  // Core params are optional: custom modules can expose a
+                  // different schema (for example Nova uses relaxation,
+                  // not bailout).
+                  ...controller.module.parameters
+                      .where((p) => p.id == 'iterations' || p.id == 'bailout')
+                      .map((param) {
+                    final value =
+                        controller.params[param.id] ?? param.defaultValue;
+                    return _buildExtraParamControl(
+                      context,
+                      controller,
+                      param,
+                      value,
+                      l10n,
+                    );
+                  }),
 
                   // Color scheme - compact horizontal chip row
-                  _CompactColorSchemeRow(
-                    currentValue: _intParam(controller, 'colorScheme', 0),
-                    onChanged: (v) => controller.updateParam('colorScheme', v),
-                  ),
-                  const SizedBox(height: 8),
+                  if (_hasParam(controller, 'colorScheme')) ...[
+                    _CompactColorSchemeRow(
+                      currentValue: _intParam(controller, 'colorScheme', 0),
+                      onChanged: (v) => controller.updateParam('colorScheme', v),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
 
                   // Extra params (per-fractal)
                   ...controller.module.parameters
@@ -253,11 +242,8 @@ class FractalControlsHud extends StatelessWidget {
     }
   }
 
-  double _numParam(FractalController c, String id, double fallback) {
-    final v = c.params[id];
-    if (v is num) return v.toDouble();
-    return fallback;
-  }
+  bool _hasParam(FractalController c, String id) =>
+      c.module.parameters.any((param) => param.id == id);
 
   int _intParam(FractalController c, String id, int fallback) {
     final v = c.params[id];
