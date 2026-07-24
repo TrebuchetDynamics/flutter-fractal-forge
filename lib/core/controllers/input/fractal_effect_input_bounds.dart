@@ -10,6 +10,8 @@ final class FractalEffectInputBounds {
   static const double maxGlowSigma = 5.0;
   static const double minGlowIntensity = 0.0;
   static const double maxGlowIntensity = 1.0;
+  static const double minFluidStrength = 0.0;
+  static const double maxFluidStrength = 2.0;
 
   const FractalEffectInputBounds._();
 
@@ -34,6 +36,18 @@ final class FractalEffectInputBounds {
       current: current,
       minValue: minGlowIntensity,
       maxValue: maxGlowIntensity,
+    );
+  }
+
+  static double normalizeFluidStrength({
+    required double candidate,
+    required double current,
+  }) {
+    return _normalizeBounded(
+      candidate: candidate,
+      current: current,
+      minValue: minFluidStrength,
+      maxValue: maxFluidStrength,
     );
   }
 

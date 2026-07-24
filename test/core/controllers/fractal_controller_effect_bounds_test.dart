@@ -18,6 +18,20 @@ void main() {
       expect(controller.glowIntensity, 0.6);
     });
 
+    test('clamps fluid intensity and preserves it for NaN', () {
+      final controller = FractalController(ModuleRegistry());
+      addTearDown(controller.dispose);
+
+      controller.setFluidStrength(1.6);
+      expect(controller.fluidStrength, 1.6);
+
+      controller.setFluidStrength(9.0);
+      expect(controller.fluidStrength, 2.0);
+
+      controller.setFluidStrength(double.nan);
+      expect(controller.fluidStrength, 2.0);
+    });
+
     test('preserves kaleidoscope rotation when replayed values are non-finite',
         () {
       final controller = FractalController(ModuleRegistry());

@@ -43,6 +43,21 @@ void main() {
       expect(find.text('Randomize'), findsOneWidget);
     });
 
+    testWidgets('fluid mode exposes intensity control when enabled',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Fluid mode'), findsOneWidget);
+      expect(find.text('Fluid intensity'), findsNothing);
+
+      await tester.tap(find.text('Fluid mode'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Fluid intensity'), findsOneWidget);
+      expect(harness.controller.fluidModeEnabled, isTrue);
+    });
+
     testWidgets('kaleidoscope section toggles', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();

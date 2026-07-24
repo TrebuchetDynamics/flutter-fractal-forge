@@ -527,8 +527,12 @@ class _FractalRendererState extends State<FractalRenderer>
 
           return FluidWarpEffect(
             enabled: controller.fluidModeEnabled,
+            strength: controller.fluidStrength,
             time: _animationController.value * 1000.0,
             touchPosition: _fluidPointerLocal,
+            touchVelocity: _fluidPointerVelocity,
+            secondaryTouchPosition: _fluidSecondaryPointer,
+            secondaryTouchActive: _fluidSecondaryActive,
             touchActive: _fluidPointerActive,
             child: paint,
           );

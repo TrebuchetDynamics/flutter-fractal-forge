@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/core/controllers/input/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Game-like HUD overlay for fractal parameter controls.
@@ -108,7 +109,8 @@ class FractalControlsHud extends StatelessWidget {
                   if (_hasParam(controller, 'colorScheme')) ...[
                     _CompactColorSchemeRow(
                       currentValue: _intParam(controller, 'colorScheme', 0),
-                      onChanged: (v) => controller.updateParam('colorScheme', v),
+                      onChanged: (v) =>
+                          controller.updateParam('colorScheme', v),
                     ),
                     const SizedBox(height: 8),
                   ],
@@ -142,6 +144,19 @@ class FractalControlsHud extends StatelessWidget {
                     value: controller.fluidModeEnabled,
                     onChanged: controller.setFluidModeEnabled,
                   ),
+                  if (controller.fluidModeEnabled) ...[
+                    const SizedBox(height: 4),
+                    _CompactHudSliderRow(
+                      label: 'Fluid intensity',
+                      value: controller.fluidStrength,
+                      min: FractalEffectInputBounds.minFluidStrength,
+                      max: FractalEffectInputBounds.maxFluidStrength,
+                      divisions: 20,
+                      valueLabel: controller.fluidStrength.toStringAsFixed(1),
+                      semanticLabel: 'Fluid intensity',
+                      onChanged: controller.setFluidStrength,
+                    ),
+                  ],
 
                   const SizedBox(height: 8),
 

@@ -47,7 +47,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   DateTime? _lastDoubleTapTriggeredAt;
   bool _deferUserInteractionEndToAnimation = false;
   Offset _fluidPointerLocal = Offset.zero;
+  Offset _fluidSecondaryPointer = Offset.zero;
+  Offset _fluidPointerVelocity = Offset.zero;
   bool _fluidPointerActive = false;
+  bool _fluidSecondaryActive = false;
 
   // Velocity history for Google Maps-style fling
   static const int _velHistorySize = 5;
@@ -618,10 +621,28 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _doubleTapDownLocal = null;
   }
 
+  void _updateFluidSecondaryPointer(int primaryPointer) {
+    MapEntry<int, Offset>? secondary;
+    for (final entry in _activePointers.entries) {
+      if (entry.key != primaryPointer) {
+        secondary = entry;
+        break;
+      }
+    }
+    if (secondary == null) {
+      _fluidSecondaryActive = false;
+      return;
+    }
+    _fluidSecondaryPointer = secondary.value;
+    _fluidSecondaryActive = true;
+  }
+
   void _onPointerDown(PointerDownEvent event) {
     _activePointers[event.pointer] = event.localPosition;
     _fluidPointerLocal = event.localPosition;
+    _fluidPointerVelocity = Offset.zero;
     _fluidPointerActive = true;
+    _updateFluidSecondaryPointer(event.pointer);
 
     if (_activePointers.length > 1) {
       _lastRawTapAt = null;
@@ -641,8 +662,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
   void _onPointerMove(PointerMoveEvent event) {
     _activePointers[event.pointer] = event.localPosition;
+    _fluidPointerVelocity = event.localPosition - _fluidPointerLocal;
     _fluidPointerLocal = event.localPosition;
     _fluidPointerActive = true;
+    _updateFluidSecondaryPointer(event.pointer);
     if (!_twoFingerTapCandidate) return;
 
     final origin = _twoFingerTapDownPositions[event.pointer];
@@ -652,13 +675,16 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   }
 
   void _onPointerHover(PointerHoverEvent event) {
+    _fluidPointerVelocity = event.localPosition - _fluidPointerLocal;
     _fluidPointerLocal = event.localPosition;
     _fluidPointerActive = true;
   }
 
   void _onPointerUp(PointerEvent event) {
+    _fluidPointerVelocity = event.localPosition - _fluidPointerLocal;
     _fluidPointerLocal = event.localPosition;
     _fluidPointerActive = _activePointers.length > 1;
+    _updateFluidSecondaryPointer(event.pointer);
     // Check two-finger tap FIRST (before removing pointer)
     // This prevents single-finger logic from running when second finger lifts
     final twoFingerTap = RendererTwoFingerTapDecision.evaluate(
@@ -725,6 +751,11 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     }
 
     _activePointers.remove(event.pointer);
+    if (_activePointers.isEmpty) {
+      _fluidSecondaryActive = false;
+    } else {
+      _updateFluidSecondaryPointer(_activePointers.keys.first);
+    }
     if (_activePointers.length < 2) {
       _twoFingerTapCandidate = false;
       _twoFingerTapDownPositions.clear();

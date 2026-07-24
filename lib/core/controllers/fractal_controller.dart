@@ -72,6 +72,7 @@ class FractalController extends ChangeNotifier {
   double _glowSigma = 1.0; // blur radius multiplier: 1.0 = standard
   double _glowIntensity = 0.35; // opacity of glow layer
   bool _fluidModeEnabled = false;
+  double _fluidStrength = 1.0;
 
   // Animation state
   bool _isMorphing = false;
@@ -144,6 +145,7 @@ class FractalController extends ChangeNotifier {
   double get glowSigma => _glowSigma;
   double get glowIntensity => _glowIntensity;
   bool get fluidModeEnabled => _fluidModeEnabled;
+  double get fluidStrength => _fluidStrength;
 
   // Kaleidoscope state
   bool _kaleidoscopeEnabled = false;
@@ -643,6 +645,16 @@ class FractalController extends ChangeNotifier {
   void setFluidModeEnabled(bool value) {
     if (_fluidModeEnabled == value) return;
     _fluidModeEnabled = value;
+    notifyListeners();
+  }
+
+  void setFluidStrength(double value) {
+    final normalized = FractalEffectInputBounds.normalizeFluidStrength(
+      candidate: value,
+      current: _fluidStrength,
+    );
+    if (_fluidStrength == normalized) return;
+    _fluidStrength = normalized;
     notifyListeners();
   }
 

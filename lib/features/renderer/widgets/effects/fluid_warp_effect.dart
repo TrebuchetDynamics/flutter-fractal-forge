@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -7,6 +8,10 @@ class FluidWarpEffect extends StatefulWidget {
   final bool enabled;
   final double time;
   final Offset touchPosition;
+  final double strength;
+  final Offset touchVelocity;
+  final Offset secondaryTouchPosition;
+  final bool secondaryTouchActive;
   final bool touchActive;
 
   const FluidWarpEffect({
@@ -15,6 +20,10 @@ class FluidWarpEffect extends StatefulWidget {
     required this.enabled,
     required this.time,
     required this.touchPosition,
+    this.strength = 1.0,
+    this.touchVelocity = Offset.zero,
+    this.secondaryTouchPosition = Offset.zero,
+    this.secondaryTouchActive = false,
     required this.touchActive,
   });
 
@@ -26,6 +35,7 @@ class _FluidWarpEffectState extends State<FluidWarpEffect> {
   static ui.FragmentProgram? _program;
   static Future<ui.FragmentProgram>? _load;
   ui.FragmentShader? _shader;
+  double _touchEnergy = 0.0;
 
   @override
   void initState() {
@@ -36,6 +46,13 @@ class _FluidWarpEffectState extends State<FluidWarpEffect> {
   @override
   void didUpdateWidget(covariant FluidWarpEffect oldWidget) {
     super.didUpdateWidget(oldWidget);
+    final dt = (widget.time - oldWidget.time).clamp(0.0, 100.0);
+    if (widget.touchActive) {
+      _touchEnergy = 1.0;
+    } else if (dt > 0.0) {
+      // Keep the last gesture alive briefly so a release leaves a fluid wake.
+      _touchEnergy *= math.exp(-dt / 260.0);
+    }
     if (widget.enabled) _ensureProgram();
   }
 
@@ -72,15 +89,33 @@ class _FluidWarpEffectState extends State<FluidWarpEffect> {
         final touchY =
             (widget.touchPosition.dy / size.height.clamp(1.0, double.infinity))
                 .clamp(0.0, 1.0);
+        final touchVelocityX =
+            (widget.touchVelocity.dx / size.width.clamp(1.0, double.infinity))
+                .clamp(-0.25, 0.25);
+        final touchVelocityY =
+            (widget.touchVelocity.dy / size.height.clamp(1.0, double.infinity))
+                .clamp(-0.25, 0.25);
+        final secondaryTouchX = (widget.secondaryTouchPosition.dx /
+                size.width.clamp(1.0, double.infinity))
+            .clamp(0.0, 1.0);
+        final secondaryTouchY = (widget.secondaryTouchPosition.dy /
+                size.height.clamp(1.0, double.infinity))
+            .clamp(0.0, 1.0);
 
         Widget content = widget.child;
         if (ui.ImageFilter.isShaderFilterSupported && _program != null) {
           _shader = _program!.fragmentShader()
             ..setFloat(2, widget.time)
-            ..setFloat(3, 1.0)
+            ..setFloat(3, widget.strength.clamp(0.0, 2.0))
             ..setFloat(4, touchX)
             ..setFloat(5, touchY)
-            ..setFloat(6, widget.touchActive ? 1.0 : 0.0);
+            ..setFloat(6, widget.touchActive ? 1.0 : 0.0)
+            ..setFloat(7, _touchEnergy)
+            ..setFloat(8, touchVelocityX)
+            ..setFloat(9, touchVelocityY)
+            ..setFloat(10, secondaryTouchX)
+            ..setFloat(11, secondaryTouchY)
+            ..setFloat(12, widget.secondaryTouchActive ? 1.0 : 0.0);
           content = ImageFiltered(
             imageFilter: ui.ImageFilter.shader(_shader!),
             child: CustomPaint(
