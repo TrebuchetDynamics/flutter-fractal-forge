@@ -7,18 +7,9 @@ tags:
 - runFlow: helpers/ensure_catalog.yaml
 
 - tapOn:
-    point: "846,350"
+    text: "Search fractals"
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 500
-- runFlow:
-    when:
-      notVisible: "Search fractals"
-    commands:
-      - tapOn:
-          text: "Button"
-          index: 0
-          retryTapIfNoChange: true
-          waitToSettleTimeoutMs: 500
 
 - extendedWaitUntil:
     visible:
@@ -32,31 +23,31 @@ tags:
 
 - extendedWaitUntil:
     visible:
-      text: ".*Aizawa Attractor fractal, 2D.*"
+      text: ".*Aizawa Attractor fractal, .*2D.*"
     timeout: 15000
 
 - tapOn:
-    text: ".*Aizawa Attractor fractal, 2D.*"
+    text: ".*Aizawa Attractor fractal, .*2D.*"
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 750
 
 - extendedWaitUntil:
     visible:
-      text: "Controls"
+      text: ".*Randomize.*Controls.*"
     timeout: 20000
 
-- tapOn: "Export"
+- tapOn: "Export / Wallpaper"
 
 - extendedWaitUntil:
     visible:
-      text: "Export Now"
+      text: "Save & share"
     timeout: 15000
 
-- assertVisible: "Share"
+- assertVisible: "Save & share"
 
 - takeScreenshot: "04_export_sheet"
 
-- tapOn: "Export Now"
+- tapOn: "Save & share"
 
 - waitForAnimationToEnd:
     timeout: 15000
@@ -64,9 +55,9 @@ tags:
 - runFlow:
     when:
       visible:
-        text: ".*(Dismiss|Export Now|Share).*"
+        text: ".*(Dismiss|Save & share|Share).*"
     commands:
       - pressKey: back
       - waitForAnimationToEnd
 
-- tapOn: "Back"
+- pressKey: back

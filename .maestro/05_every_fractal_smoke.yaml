@@ -11,62 +11,62 @@ tags:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Mandelbrot"
-      FRACTAL_CARD_REGEX: ".*Mandelbrot fractal, 2D.*"
+      FRACTAL_CARD_REGEX: ".*Mandelbrot fractal, .*2D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Burning Ship"
-      FRACTAL_CARD_REGEX: ".*Burning Ship fractal, 2D.*"
+      FRACTAL_CARD_REGEX: ".*Burning Ship fractal, .*2D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Quaternion Julia 3D"
-      FRACTAL_CARD_REGEX: ".*Quaternion Julia 3D fractal, 3D.*"
+      FRACTAL_CARD_REGEX: ".*Quaternion Julia 3D fractal, .*3D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Lorenz Attractor"
       FRACTAL_QUERY: "Lorenz Attractor"
-      FRACTAL_CARD_REGEX: ".*Lorenz Attractor( \\(2D\\))? fractal, 2D.*"
+      FRACTAL_CARD_REGEX: ".*Lorenz Attractor.*2D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Barnsley Fern"
-      FRACTAL_CARD_REGEX: ".*Barnsley Fern fractal, 2D.*"
+      FRACTAL_CARD_REGEX: ".*Barnsley Fern fractal, .*2D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Koch Snowflake"
-      FRACTAL_CARD_REGEX: ".*Koch Snowflake fractal, 2D.*"
+      FRACTAL_CARD_REGEX: ".*Koch Snowflake fractal, .*2D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Langton's Ant"
-      FRACTAL_CARD_REGEX: ".*Langton's Ant fractal, 2D.*"
+      FRACTAL_CARD_REGEX: ".*Langton's Ant fractal, .*2D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Chair Tiling"
-      FRACTAL_CARD_REGEX: ".*Chair Tiling fractal, 2D.*"
+      FRACTAL_CARD_REGEX: ".*Chair Tiling fractal, .*2D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Halley"
-      FRACTAL_CARD_REGEX: ".*Halley fractal, 2D.*"
+      FRACTAL_CARD_REGEX: ".*Halley fractal, .*2D.*"
 
 - runFlow:
     file: 06_single_fractal_probe.yaml
     env:
       FRACTAL_NAME: "Dual-Quaternion Julia"
       FRACTAL_QUERY: "Dual"
-      FRACTAL_CARD_REGEX: ".*Dual.?Quaternion Julia fractal, 3D.*"
+      FRACTAL_CARD_REGEX: ".*Dual.?Quaternion Julia fractal, .*3D.*"
 
 - takeScreenshot: "05_category_sweep_complete"

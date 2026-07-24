@@ -6,20 +6,11 @@ tags:
 ---
 - runFlow: helpers/ensure_catalog.yaml
 
-# Search is behind a toggle in the current catalog UI.
+# Search is exposed as an accessibility-labelled button.
 - tapOn:
-    point: "846,350"
+    text: "Search fractals"
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 500
-- runFlow:
-    when:
-      notVisible: "Search fractals"
-    commands:
-      - tapOn:
-          text: "Button"
-          index: 0
-          retryTapIfNoChange: true
-          waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:
       text: "Search fractals"
@@ -31,22 +22,22 @@ tags:
 
 - extendedWaitUntil:
     visible:
-      text: ".*Aizawa Attractor fractal, 2D.*"
+      text: ".*Aizawa Attractor fractal, .*2D.*"
     timeout: 15000
 
 - takeScreenshot: "02_search_results_aizawa"
 
 - tapOn:
-    text: ".*Aizawa Attractor fractal, 2D.*"
+    text: ".*Aizawa Attractor fractal, .*2D.*"
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 750
 
 - extendedWaitUntil:
     visible:
-      text: "Controls"
+      text: ".*Randomize.*Controls.*"
     timeout: 20000
 
-- assertVisible: "Export"
+- assertVisible: "Export / Wallpaper"
 - takeScreenshot: "02_viewer_opened"
 
 - pressKey: back
@@ -57,7 +48,7 @@ tags:
     timeout: 10000
 
 - tapOn:
-    point: "846,350"
+    text: "Search fractals"
     waitToSettleTimeoutMs: 500
 
 - swipe:

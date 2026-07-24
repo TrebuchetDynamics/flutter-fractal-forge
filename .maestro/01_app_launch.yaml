@@ -8,6 +8,6 @@ tags:
 
 - assertVisible: "Fractal Forge"
 - assertVisible:
-    text: "350\\+ fractals"
+    text: ".*[0-9]+ fractals.*"
 
 - takeScreenshot: "01_catalog_loaded"

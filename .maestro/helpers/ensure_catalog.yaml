@@ -3,7 +3,7 @@ name: "Helper — Ensure Catalog"
 ---
 - extendedWaitUntil:
     visible:
-      text: ".*(Fractal Forge|Skip onboarding|Back|Dismiss|Controls|Export Now|Share).*"
+      text: ".*(Fractal Forge|Skip onboarding|Dismiss|Controls|Export Now|Share|Randomize.*Controls|Export / Wallpaper).*"
     timeout: 120000
 
 - runFlow:
@@ -17,35 +17,10 @@ name: "Helper — Ensure Catalog"
 - runFlow:
     when:
       visible:
-        text: ".*(Dismiss|Controls|Export Now|Share).*"
+        text: ".*(Dismiss|Controls|Export Now|Share|Randomize.*Controls|Export / Wallpaper).*"
     commands:
       - pressKey: back
       - waitForAnimationToEnd
-
-- runFlow:
-    when:
-      visible:
-        text: "Back"
-    commands:
-      - tapOn: "Back"
-      - waitForAnimationToEnd
-
-- runFlow:
-    when:
-      visible:
-        text: "Search fractals"
-    commands:
-      - pressKey: back
-      - waitForAnimationToEnd
-      - runFlow:
-          when:
-            visible:
-              text: "Search fractals"
-          commands:
-            - tapOn:
-                point: "846,350"
-                waitToSettleTimeoutMs: 500
-            - waitForAnimationToEnd
 
 - extendedWaitUntil:
     visible:
@@ -63,4 +38,4 @@ name: "Helper — Ensure Catalog"
     waitToSettleTimeoutMs: 400
 
 - assertVisible:
-    text: "Explore.*Tab 1 of 3"
+    text: ".*All categories.*"

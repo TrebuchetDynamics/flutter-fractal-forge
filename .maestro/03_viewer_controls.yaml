@@ -7,18 +7,9 @@ tags:
 - runFlow: helpers/ensure_catalog.yaml
 
 - tapOn:
-    point: "846,350"
+    text: "Search fractals"
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 500
-- runFlow:
-    when:
-      notVisible: "Search fractals"
-    commands:
-      - tapOn:
-          text: "Button"
-          index: 0
-          retryTapIfNoChange: true
-          waitToSettleTimeoutMs: 500
 
 - extendedWaitUntil:
     visible:
@@ -32,51 +23,61 @@ tags:
 
 - extendedWaitUntil:
     visible:
-      text: ".*Aizawa Attractor fractal, 2D.*"
+      text: ".*Aizawa Attractor fractal, .*2D.*"
     timeout: 15000
 
 - tapOn:
-    text: ".*Aizawa Attractor fractal, 2D.*"
+    text: ".*Aizawa Attractor fractal, .*2D.*"
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 750
 
 - extendedWaitUntil:
     visible:
-      text: "Controls"
+      text: ".*Randomize.*Controls.*"
     timeout: 20000
 
-- assertVisible: "Controls"
-- assertVisible: "Random Fractal"
-- assertVisible: "Export"
+- assertVisible:
+    text: ".*Randomize.*Controls.*"
+- assertVisible: "Export / Wallpaper"
 
 - takeScreenshot: "03_viewer_active"
 
-- tapOn: "Controls"
+- longPressOn:
+    text: ".*Randomize.*Controls.*"
 
 - extendedWaitUntil:
     visible:
-      text: "Controls"
+      text: ".*Controls.*"
     timeout: 10000
 
 - assertVisible:
     text: "Iterations"
 - assertVisible:
-    text: "ACTIONS"
+    text: ".*Fluid mode.*"
+- tapOn:
+    text: ".*Fluid mode.*"
+- extendedWaitUntil:
+    visible:
+      text: ".*Fluid intensity.*"
+    timeout: 10000
+- assertVisible:
+    text: ".*Fluid intensity.*"
 
 - takeScreenshot: "03_controls_sheet"
 
-- pressKey: back
+- tapOn: "Close this dialog"
 - waitForAnimationToEnd
 
-- tapOn: "Random Fractal"
+- tapOn:
+    text: ".*Randomize.*Controls.*"
 
 - extendedWaitUntil:
     visible:
-      text: "Back"
+      text: ".*Randomize.*Controls.*"
     timeout: 20000
 
-- assertVisible: "Export"
+- assertVisible: "Export / Wallpaper"
 
 - takeScreenshot: "03_random_fractal"
 
-- tapOn: "Back"
+- pressKey: back

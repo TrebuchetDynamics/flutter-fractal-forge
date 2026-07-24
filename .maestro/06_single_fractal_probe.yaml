@@ -3,7 +3,7 @@ name: "06 — Single Fractal Probe"
 env:
   FRACTAL_NAME: ${FRACTAL_NAME || "Mandelbrot"}
   FRACTAL_QUERY: ${FRACTAL_QUERY || FRACTAL_NAME || "Mandelbrot"}
-  FRACTAL_CARD_REGEX: ${FRACTAL_CARD_REGEX || ".*Mandelbrot fractal, 2D.*"}
+  FRACTAL_CARD_REGEX: ${FRACTAL_CARD_REGEX || ".*Mandelbrot fractal, .*2D.*"}
 tags:
   - smoke
   - single-fractal
@@ -11,18 +11,9 @@ tags:
 - runFlow: helpers/ensure_catalog.yaml
 
 - tapOn:
-    point: "846,350"
+    text: "Search fractals"
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 500
-- runFlow:
-    when:
-      notVisible: "Search fractals"
-    commands:
-      - tapOn:
-          text: "Button"
-          index: 0
-          retryTapIfNoChange: true
-          waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:
       text: "Search fractals"
@@ -44,10 +35,10 @@ tags:
 
 - extendedWaitUntil:
     visible:
-      text: "Controls"
+      text: ".*Randomize.*Controls.*"
     timeout: 25000
 
-- assertVisible: "Export"
+- assertVisible: "Export / Wallpaper"
 
 - pressKey: back
 
@@ -59,5 +50,5 @@ tags:
 # Toggle search closed so the next invocation starts from the same state and
 # clears the previous query via the widget's built-in controller reset.
 - tapOn:
-    point: "846,350"
+    text: "Search fractals"
     waitToSettleTimeoutMs: 500

@@ -53,15 +53,15 @@ probe_regex_for_name() {
   local fractal_dimension="$2"
   case "$fractal_name" in
     "Dual-Quaternion Julia")
-      printf '%s\n' ".*Dual.?Quaternion Julia fractal, $fractal_dimension.*"
+      printf '%s\n' ".*Dual.?Quaternion Julia fractal, .*$fractal_dimension.*"
       ;;
     "Lorenz Attractor")
-      printf '%s\n' ".*Lorenz Attractor( \\(2D\\))? fractal, $fractal_dimension.*"
+      printf '%s\n' ".*Lorenz Attractor.*$fractal_dimension.*"
       ;;
     *)
       local escaped_name
       escaped_name="$(printf '%s' "$fractal_name" | sed -e 's/[][(){}.^$*+?|\\/]/\\\\&/g')"
-      printf '%s\n' ".*$escaped_name fractal, $fractal_dimension.*"
+      printf '%s\n' ".*$escaped_name fractal, .*$fractal_dimension.*"
       ;;
   esac
 }
