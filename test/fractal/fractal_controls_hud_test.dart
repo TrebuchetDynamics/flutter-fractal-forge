@@ -56,6 +56,20 @@ void main() {
 
       expect(find.text('Fluid intensity'), findsOneWidget);
       expect(harness.controller.fluidModeEnabled, isTrue);
+
+      final initialStrength = harness.controller.fluidStrength;
+      await tester.timedDrag(
+        find.byType(Slider).last,
+        const Offset(80, 0),
+        const Duration(milliseconds: 150),
+      );
+      await tester.pumpAndSettle();
+      expect(harness.controller.fluidStrength, isNot(initialStrength));
+
+      await tester.tap(find.text('Fluid mode'));
+      await tester.pumpAndSettle();
+      expect(find.text('Fluid intensity'), findsNothing);
+      expect(harness.controller.fluidModeEnabled, isFalse);
     });
 
     testWidgets('kaleidoscope section toggles', (tester) async {

@@ -71,6 +71,34 @@ void main() {
       expect(controller.view.zoom, isNot(initialZoom));
     });
 
+    testWidgets('fluid mode accepts two simultaneous touch sources',
+        (tester) async {
+      controller.setFluidModeEnabled(true);
+      controller.setFluidStrength(1.5);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final surface = find.byKey(const Key('fractalTestSurface'));
+      final center = tester.getCenter(surface);
+      final first = await tester.createGesture(pointer: 11);
+      final second = await tester.createGesture(pointer: 12);
+
+      await first.down(center + const Offset(-40, 0));
+      await second.down(center + const Offset(40, 0));
+      await tester.pump();
+      await first.moveTo(center + const Offset(-70, 20));
+      await second.moveTo(center + const Offset(70, -20));
+      await tester.pump();
+      await first.up();
+      await second.up();
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(controller.fluidModeEnabled, isTrue);
+      expect(controller.fluidStrength, 1.5);
+      expect(find.byKey(const Key('fractalTestSurface')), findsOneWidget);
+    });
+
     testWidgets('responds to pan gesture for 2D fractals', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
