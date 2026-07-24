@@ -249,10 +249,10 @@ void main() {
     expect(a, isNot(c));
   });
 
-  test('default audio and visible scanner share a slower 16-second loop', () {
+  test('default audio and visible scanner share a slower 24-second loop', () {
     const sampleRate = 1000;
-    expect(fractalMusicLoopSeconds, 16);
-    expect(fractalMusicLoopDuration, const Duration(seconds: 16));
+    expect(fractalMusicLoopSeconds, 24);
+    expect(fractalMusicLoopDuration, const Duration(seconds: 24));
     final stateLoop = buildFractalMusicWav(
       moduleId: 'mandelbrot',
       params: const {},

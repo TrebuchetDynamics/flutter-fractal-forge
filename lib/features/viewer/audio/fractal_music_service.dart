@@ -9,10 +9,11 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'fractal_music_web_player_stub.dart'
     if (dart.library.html) 'fractal_music_web_player_html.dart';
 
-const double fractalMusicLoopSeconds = 16;
-const Duration fractalMusicLoopDuration = Duration(seconds: 16);
+const double fractalMusicLoopSeconds = 24;
+const Duration fractalMusicLoopDuration = Duration(seconds: 24);
 const int _scanMusicSteps = 64;
-const int _scanDistanceBins = 8;
+const int _scanDistanceBins = 12;
+const int _musicPhraseBeats = 16;
 
 typedef FractalMusicProcessStart = Future<Process> Function(
   String executable,
@@ -391,8 +392,9 @@ Uint8List buildFractalMusicWav({
   final left = Int16List(sampleCount);
   final right = Int16List(sampleCount);
   final seed = _stableSeed(moduleId, params);
-  final notes = _visualMinorPentatonic;
-  final steps = 16;
+  final notes = _visualMinorDiatonic;
+  final steps = 32;
+  final rootSemitones = seed % 12;
   final zoomOctave =
       (math.log(zoom.clamp(0.25, 256)) / math.ln2).round().clamp(-1, 2);
 
@@ -409,8 +411,10 @@ Uint8List buildFractalMusicWav({
           math.log(zoom.clamp(1e-6, 1e6)) * 0.31,
     );
     final note = notes[((scan + 1) * 0.5 * (notes.length - 1)).round()];
-    final midi = 48 + zoomOctave * 12 + note;
+    final midi = 48 + zoomOctave * 12 + rootSemitones + note;
     final hz = (440 * math.pow(2, (midi - 69) / 12)).toDouble();
+    final chordRoot =
+        rootSemitones + _chordRootSemitones(step, steps, major: false);
     final envelope = _noteEnvelope(t, detail: scan.abs());
     final wave = _softTone(
       hz: hz,
@@ -418,7 +422,7 @@ Uint8List buildFractalMusicWav({
       sampleRate: sampleRate,
       harmonic: 0.18,
       harmony: 0.10 + scan.abs() * 0.08,
-      droneHz: hz / 2,
+      droneHz: _rootHz(zoomOctave, chordRoot),
     );
     final pan = math.sin(
           angle +
@@ -464,53 +468,138 @@ Uint8List buildFractalMusicScanWav({
   final harmonyProfile =
       _collapseDistanceProfile(smoothedScans.expand((scan) => scan).toList());
   final rootSemitones = (harmonyProfile.hue * 12).round() % 12;
-  final scale = harmonyProfile.brightness >= 0.5
-      ? _visualMajorPentatonic
-      : _visualMinorPentatonic;
-  final droneHz = _rootHz(zoomOctave, rootSemitones);
+  final major = harmonyProfile.brightness >= 0.5;
+  final scale = major ? _visualMajorDiatonic : _visualMinorDiatonic;
+  final beatEvents = List.generate(_musicPhraseBeats, (beat) {
+    final start = (beat * steps) ~/ _musicPhraseBeats;
+    final end = ((beat + 1) * steps) ~/ _musicPhraseBeats;
+    final beatBins = <({
+      double brightness,
+      double detail,
+      double hue,
+      double saturation,
+      double distance,
+    })>[];
+    for (var scanStep = start; scanStep < end; scanStep++) {
+      beatBins.addAll(smoothedScans[scanStep]);
+    }
+    if (beatBins.isEmpty) {
+      return (
+        energy: 0.0,
+        detail: 0.0,
+        melodyMidi: 0,
+        chordRootSemitones: 0,
+      );
+    }
+
+    final summary = _collapseDistanceProfile(beatBins);
+    var leadBin = beatBins.first;
+    var leadScore = leadBin.brightness + leadBin.detail * 0.8;
+    for (final candidate in beatBins.skip(1)) {
+      final score = candidate.brightness + candidate.detail * 0.8;
+      if (score > leadScore) {
+        leadBin = candidate;
+        leadScore = score;
+      }
+    }
+    final chordRootSemitones = rootSemitones +
+        _chordRootSemitones(beat, _musicPhraseBeats, major: major);
+    return (
+      energy: summary.brightness,
+      detail: summary.detail,
+      melodyMidi: _nearestChordToneMidi(
+        midi: _scanDistanceMidi(leadBin.distance, zoomOctave, scale) +
+            rootSemitones,
+        chordRootSemitones: chordRootSemitones,
+        zoomOctave: zoomOctave,
+        major: major,
+      ),
+      chordRootSemitones: chordRootSemitones,
+    );
+  });
 
   for (var i = 0; i < sampleCount; i++) {
     final position = _musicStepPosition(i, sampleCount, steps);
+    final beatPosition = _musicStepPosition(i, sampleCount, _musicPhraseBeats);
     final step = position.step;
-    final t = position.t;
-    final bins = smoothedScans[step];
-    final activeBins = bins
-        .where((bin) => bin.brightness >= 0.02 || bin.detail >= 0.02)
-        .length;
-    if (activeBins == 0) continue;
+    final beat = beatPosition.step;
+    final event = beatEvents[beat];
+    if (event.energy <= 0.001 && event.detail <= 0.001) continue;
 
-    final maxDetail = bins.fold<double>(0, (maxDetail, bin) {
-      return math.max(maxDetail, bin.detail);
-    });
-    final envelope = _noteEnvelope(t, detail: maxDetail);
     final angle = step / steps * math.pi * 2 - math.pi / 2;
     final pan = math.cos(angle) * 0.72;
     final leftGain = math.sqrt((1 - pan) * 0.5);
     final rightGain = math.sqrt((1 + pan) * 0.5);
-    final mixScale = math.sqrt(activeBins);
+    final envelope = _noteEnvelope(beatPosition.t, detail: event.detail);
+    final rootMidi = 45 + zoomOctave * 12 + event.chordRootSemitones;
+    final rootHz = (440 * math.pow(2, (rootMidi - 69) / 12)).toDouble();
+    final thirdMidi = rootMidi + (major ? 4 : 3);
+    final fifthMidi = rootMidi + 7;
     var mix = 0.0;
+    final padGain = 0.07 + event.energy.clamp(0.0, 1.0) * 0.06;
 
-    for (final bin in bins) {
-      if (bin.brightness < 0.02 && bin.detail < 0.02) continue;
-      final midi =
-          _scanDistanceMidi(bin.distance, zoomOctave, scale) + rootSemitones;
+    for (final midi in [rootMidi, thirdMidi, fifthMidi]) {
       final hz = (440 * math.pow(2, (midi - 69) / 12)).toDouble();
-      final gain = (math.pow(bin.brightness, 1.15) * 0.56 + bin.detail * 0.16)
-              .clamp(0.0, 0.68) /
-          mixScale;
       mix += _softTone(
             hz: hz,
             sample: i,
             sampleRate: sampleRate,
-            harmonic: 0.04 + bin.saturation * 0.10,
-            harmony: 0.04 + bin.detail * 0.10,
-            droneHz: droneHz,
+            harmonic: 0.04 + event.energy * 0.22,
+            harmony: 0.04 + event.detail * 0.06,
+            droneHz: rootHz / 2,
           ) *
-          gain;
+          padGain;
     }
 
-    left[i] = _toPcm16(mix, envelope * leftGain);
-    right[i] = _toPcm16(mix, envelope * rightGain);
+    if (beat % 4 == 0 || beat % 4 == 2) {
+      mix += _softTone(
+            hz: rootHz,
+            sample: i,
+            sampleRate: sampleRate,
+            harmonic: 0.02,
+            harmony: 0.05,
+            droneHz: rootHz / 2,
+          ) *
+          (0.10 + event.energy.clamp(0.0, 1.0) * 0.08);
+    }
+
+    // Strong beats get one chord-tone lead. The final beat of each bar is a
+    // rest, leaving the cadence audible instead of filling every pixel bin.
+    if (beat % 4 != 3 && event.energy >= 0.06) {
+      final leadHz =
+          (440 * math.pow(2, (event.melodyMidi - 69) / 12)).toDouble();
+      mix += _softTone(
+            hz: leadHz,
+            sample: i,
+            sampleRate: sampleRate,
+            harmonic: 0.10,
+            harmony: 0.12,
+            droneHz: rootHz,
+          ) *
+          (0.14 + event.energy.clamp(0.0, 1.0) * 0.12) *
+          _noteEnvelope(beatPosition.t, detail: event.detail);
+    }
+
+    // Fine detail adds a quiet attack layer without turning each image bin
+    // into a separate pitched voice.
+    if (event.detail >= 0.08 && beat % 2 == 1) {
+      final textureHz =
+          (440 * math.pow(2, (event.melodyMidi + 12 - 69) / 12)).toDouble();
+      mix += _softTone(
+            hz: textureHz,
+            sample: i,
+            sampleRate: sampleRate,
+            harmonic: 0.24,
+            harmony: 0.02,
+            droneHz: rootHz,
+          ) *
+          event.detail.clamp(0.0, 1.0) *
+          0.05;
+    }
+
+    final dynamicGain = 0.4 + event.energy.clamp(0.0, 1.0) * 1.1;
+    left[i] = _toPcm16(mix, envelope * leftGain * dynamicGain);
+    right[i] = _toPcm16(mix, envelope * rightGain * dynamicGain);
   }
 
   return _wavFromPcm16Stereo(left, right, sampleRate);
@@ -737,7 +826,7 @@ List<
 int _scanDistanceMidi(
   double distance,
   int zoomOctave, [
-  List<int> scale = _visualMinorPentatonic,
+  List<int> scale = _visualMinorDiatonic,
 ]) {
   final noteIndex = (distance.clamp(0.0, 0.999999) * scale.length)
       .floor()
@@ -745,8 +834,71 @@ int _scanDistanceMidi(
   return 45 + zoomOctave * 12 + scale[noteIndex];
 }
 
-const List<int> _visualMajorPentatonic = [0, 2, 4, 7, 9, 12, 14, 16];
-const List<int> _visualMinorPentatonic = [0, 2, 3, 5, 7, 10, 12, 15];
+const List<int> _visualMajorDiatonic = [
+  0,
+  2,
+  4,
+  5,
+  7,
+  9,
+  11,
+  12,
+  14,
+  16,
+  17,
+  19,
+  21,
+  23,
+  24,
+];
+const List<int> _visualMinorDiatonic = [
+  0,
+  2,
+  3,
+  5,
+  7,
+  8,
+  10,
+  12,
+  14,
+  15,
+  17,
+  19,
+  20,
+  22,
+  24,
+];
+
+int _chordRootSemitones(int step, int steps, {required bool major}) {
+  if (steps <= 0) return 0;
+  final chordIndex = ((step * 4) ~/ steps).clamp(0, 3);
+  const majorProgression = [0, 9, 5, 7]; // I - vi - IV - V.
+  const minorProgression = [0, 8, 3, 10]; // i - VI - III - VII.
+  return (major ? majorProgression : minorProgression)[chordIndex];
+}
+
+int _nearestChordToneMidi({
+  required int midi,
+  required int chordRootSemitones,
+  required int zoomOctave,
+  required bool major,
+}) {
+  final rootMidi = 45 + zoomOctave * 12 + chordRootSemitones;
+  final chordTones = major ? const [0, 4, 7] : const [0, 3, 7];
+  var closest = rootMidi;
+  var closestDistance = (midi - closest).abs();
+  for (var octave = -2; octave <= 2; octave++) {
+    for (final tone in chordTones) {
+      final candidate = rootMidi + octave * 12 + tone;
+      final distance = (midi - candidate).abs();
+      if (distance < closestDistance) {
+        closest = candidate;
+        closestDistance = distance;
+      }
+    }
+  }
+  return closest;
+}
 
 double _rootHz(int zoomOctave, int rootSemitones) {
   final midi = 33 + zoomOctave * 12 + rootSemitones;
