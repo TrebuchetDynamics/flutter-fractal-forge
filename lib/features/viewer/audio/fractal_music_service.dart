@@ -879,6 +879,20 @@ List<_MusicEvent> _composeScanScore({
     );
   });
 
+  // A frame the beam found nothing in produces no music at all. A dark bar
+  // inside a live image is different: it keeps its pad and bass so the piece
+  // holds together, and only loses the lead. Fractals are mostly dark, so
+  // dropping whole bars leaves the iconic shapes sounding broken, not sparse.
+  var frameEnergy = 0.0;
+  var frameDetail = 0.0;
+  for (final beat in beats) {
+    frameEnergy += beat.energy;
+    frameDetail += beat.detail;
+  }
+  frameEnergy /= beats.length;
+  frameDetail /= beats.length;
+  if (frameEnergy <= 0.001 && frameDetail <= 0.001) return const [];
+
   final events = <_MusicEvent>[];
   final barCount = (beatsPerLoop / _musicBeatsPerBar).ceil();
 
@@ -895,8 +909,7 @@ List<_MusicEvent> _composeScanScore({
     }
     barEnergy /= lastBeat - firstBeat;
     barDetail /= lastBeat - firstBeat;
-    // A bar the beam found nothing in stays silent rather than inventing a pad.
-    if (barEnergy <= 0.001 && barDetail <= 0.001) continue;
+    final barIsDark = barEnergy <= 0.001 && barDetail <= 0.001;
 
     final barStart = (firstBeat * samplesPerBeat).round();
     if (barStart >= contentEnd) break;
@@ -926,6 +939,9 @@ List<_MusicEvent> _composeScanScore({
         voice: _MusicVoice.pad,
       ));
     }
+
+    // Dark bar: the chord holds, but nothing plays over it.
+    if (barIsDark) continue;
 
     for (var beat = firstBeat; beat < lastBeat; beat++) {
       final summary = beats[beat];

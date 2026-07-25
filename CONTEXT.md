@@ -33,7 +33,7 @@ A viewer audio mode that composes deterministic music conditioned on the current
 _Avoid_: AI song, opaque music generator, soundtrack mode
 
 **Image-Conditioned Composition**:
-The single Fractal Music pipeline: measured image features choose the composer's parameters, and a deterministic composer then decides notes, chords, rests, and cadences. Musical structure that the image cannot supply is permitted and expected; what is not permitted is structure that ignores the image or that no test can trace back to a measured feature.
+The single Fractal Music pipeline: measured image features choose the composer's parameters, and a deterministic composer then decides notes, chords, rests, and cadences. Musical structure that the image cannot supply is permitted and expected; what is not permitted is structure that ignores the image or that no test can trace back to a measured feature. Emptiness is read at two scales: a frame with nothing in it makes no sound, but a dark region inside a live image keeps its chord and loses only its melody — fractals are mostly black, and dropping those bars makes the iconic shapes sound broken rather than sparse.
 _Avoid_: Pixel-to-note, strict scan mode, random seeded melody
 
 **Musical Identity Tier**:

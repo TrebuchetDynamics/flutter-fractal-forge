@@ -1044,6 +1044,62 @@ void main() {
     expect(_pcmSample(moving, 8000 * 16 - 1), 0);
   });
 
+  test('a dark region holds the chord instead of dropping out', () {
+    // Bright centre, black outer ring: a Mandelbrot is mostly black, so bars
+    // the beam finds nothing in must still carry pad and bass. Only a wholly
+    // empty frame is silent.
+    const size = 41;
+    final frame = Uint8List(size * size * 4);
+    final centre = (size - 1) / 2;
+    for (var y = 0; y < size; y++) {
+      for (var x = 0; x < size; x++) {
+        final dx = x - centre;
+        final dy = y - centre;
+        final lit = math.sqrt(dx * dx + dy * dy) < size * 0.22;
+        final offset = (y * size + x) * 4;
+        frame[offset] = lit ? 230 : 0;
+        frame[offset + 1] = lit ? 200 : 0;
+        frame[offset + 2] = lit ? 120 : 0;
+        frame[offset + 3] = 255;
+      }
+    }
+
+    final wav = buildFractalMusicScanWav(
+      scanFrame: FractalMusicScanFrame(
+        rgba: frame,
+        width: size,
+        height: size,
+      ),
+      zoom: 1,
+      sampleRate: 8000,
+      seconds: 8,
+    );
+
+    final frames = 8000 * 8;
+    var nonZero = 0;
+    for (var i = 0; i < frames; i++) {
+      if (_pcmSample(wav, i) != 0) nonZero++;
+    }
+    expect(
+      nonZero / frames,
+      greaterThan(0.85),
+      reason: 'dark bars should sustain, not go silent',
+    );
+
+    // A frame with nothing in it at all still produces nothing.
+    final empty = buildFractalMusicScanWav(
+      scanFrame: FractalMusicScanFrame(
+        rgba: Uint8List(size * size * 4),
+        width: size,
+        height: size,
+      ),
+      zoom: 1,
+      sampleRate: 8000,
+      seconds: 8,
+    );
+    expect(_pcmHasSignal(empty), isFalse);
+  });
+
   test('unsupported platforms fail before generating audio', () async {
     final controller = FractalController(ModuleRegistry());
     addTearDown(controller.dispose);
