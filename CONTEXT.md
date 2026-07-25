@@ -37,7 +37,7 @@ The single Fractal Music pipeline: measured image features choose the composer's
 _Avoid_: Pixel-to-note, strict scan mode, random seeded melody
 
 **Musical Identity Tier**:
-The slow-moving Fractal Music parameters — key, mode, tempo, and progression — which change only when an image feature crosses a hysteresis band, and only at a loop boundary. The performance tier (register, density, articulation, pan, texture) may follow the image continuously. A parameter that flickers while the user pans belongs in the performance tier, not here.
+The slow-moving Fractal Music parameters — key, mode, tempo, register, and progression — which change only once an image feature has travelled past a hysteresis band, so exploring a fractal re-voices the same piece instead of starting a different one. The performance tier (density, articulation, pan, texture) follows the image continuously. Quantized parameters belong here with a hysteresis band; only genuinely continuous ones belong in the performance tier.
 _Avoid_: Live remap, per-frame recompute, restart on any pixel change
 
 **Radial Scan**:

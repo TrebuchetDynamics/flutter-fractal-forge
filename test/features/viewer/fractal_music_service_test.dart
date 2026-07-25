@@ -373,36 +373,6 @@ void main() {
     expect(_pcmHasSignal(b), isTrue);
   });
 
-  test('scan frame signature catches localized visual changes', () {
-    final a = Uint8List(8 * 8 * 4);
-    final b = Uint8List(8 * 8 * 4);
-    for (var i = 0; i < 8 * 8; i++) {
-      a[i * 4 + 3] = 255;
-      b[i * 4 + 3] = 255;
-    }
-    b[(7 * 8 + 7) * 4] = 255;
-
-    final first = FractalMusicScanFrame(rgba: a, width: 8, height: 8);
-    final second = FractalMusicScanFrame(rgba: b, width: 8, height: 8);
-
-    expect(first.visualSignature, isNot(second.visualSignature));
-  });
-
-  test('scan frame signature catches transparency changes used by music', () {
-    final opaque = FractalMusicScanFrame(
-      rgba: Uint8List.fromList([120, 80, 200, 255]),
-      width: 1,
-      height: 1,
-    );
-    final transparent = FractalMusicScanFrame(
-      rgba: Uint8List.fromList([120, 80, 200, 0]),
-      width: 1,
-      height: 1,
-    );
-
-    expect(opaque.visualSignature, isNot(transparent.visualSignature));
-  });
-
   test('scan profile follows the scanner cross-section angle', () {
     final frame = Uint8List(11 * 11 * 4);
     for (var x = 5; x < 11; x++) {
@@ -811,6 +781,118 @@ void main() {
     );
 
     expect(a, isNot(b));
+  });
+
+  FractalMusicFeatures features({
+    double brightness = 0.2,
+    double detail = 0.05,
+    double hue = 0.0,
+    double saturation = 0.5,
+  }) =>
+      FractalMusicFeatures(
+        brightness: brightness,
+        detail: detail,
+        hue: hue,
+        saturation: saturation,
+      );
+
+  test('mode holds through a nudge and flips once it clears the band', () {
+    final start = resolveFractalMusicIdentity(features(brightness: 0.20));
+    expect(start.major, isFalse);
+
+    // Past the raw edge but still inside the hysteresis band: hold.
+    expect(
+      resolveFractalMusicIdentity(
+        features(brightness: 0.24),
+        previous: start,
+      ).major,
+      isFalse,
+    );
+
+    expect(
+      resolveFractalMusicIdentity(
+        features(brightness: 0.27),
+        previous: start,
+      ).major,
+      isTrue,
+    );
+  });
+
+  test('key holds under small hue drift, including across the wrap', () {
+    final start = resolveFractalMusicIdentity(features(hue: 0.0));
+    expect(start.rootSemitones, 0);
+
+    expect(
+      resolveFractalMusicIdentity(features(hue: 0.08), previous: start)
+          .rootSemitones,
+      0,
+    );
+    // Hue just below the wrap is 0.6 semitones away, not 11.4.
+    expect(
+      resolveFractalMusicIdentity(features(hue: 0.95), previous: start)
+          .rootSemitones,
+      0,
+    );
+    expect(
+      resolveFractalMusicIdentity(features(hue: 0.2), previous: start)
+          .rootSemitones,
+      2,
+    );
+  });
+
+  test('tempo holds through a nudge across a detail band edge', () {
+    final start = resolveFractalMusicIdentity(features(detail: 0.02));
+    expect(start.bpm, 60);
+
+    expect(
+      resolveFractalMusicIdentity(features(detail: 0.05), previous: start).bpm,
+      60,
+    );
+    expect(
+      resolveFractalMusicIdentity(features(detail: 0.08), previous: start).bpm,
+      greaterThan(60),
+    );
+  });
+
+  test('feature comparison ignores nudges and catches real changes', () {
+    FractalMusicFeatures of(int value) => fractalMusicFeaturesOf(
+          FractalMusicScanFrame(
+            rgba: _solidFrame(8, 8, value, value, value),
+            width: 8,
+            height: 8,
+          ),
+        );
+
+    expect(of(120).differsFrom(of(122)), isFalse);
+    expect(of(120).differsFrom(of(220)), isTrue);
+  });
+
+  test('an explicit identity overrides what the frame would have chosen', () {
+    final frame = FractalMusicScanFrame(
+      rgba: _solidFrame(8, 8, 120, 80, 200),
+      width: 8,
+      height: 8,
+    );
+    final fromFrame = buildFractalMusicScanWav(
+      scanFrame: frame,
+      zoom: 1,
+      sampleRate: 8000,
+      seconds: 1,
+    );
+    final forced = buildFractalMusicScanWav(
+      scanFrame: frame,
+      zoom: 1,
+      identity: const FractalMusicIdentity(
+        rootSemitones: 7,
+        major: true,
+        registerSemitones: 12,
+        bpm: 90,
+      ),
+      sampleRate: 8000,
+      seconds: 1,
+    );
+
+    expect(fromFrame, isNot(forced));
   });
 
   test('unsupported platforms fail before generating audio', () async {

@@ -21,7 +21,7 @@ class ViewerMusicCoordinator {
 
   Timer? _rescanTimer;
   Timer? _loopRefreshTimer;
-  int? _lastScanSignature;
+  FractalMusicFeatures? _lastFeatures;
   double? _lastScanZoom;
   int _rescanGeneration = 0;
   bool _moduleRescanPending = false;
@@ -85,7 +85,7 @@ class ViewerMusicCoordinator {
     _moduleRescanPending = false;
     _deferredRescanController = null;
     final hasValidScan = scanFrame != null && scanFrame.isValid;
-    _lastScanSignature = hasValidScan ? scanFrame.visualSignature : null;
+    _lastFeatures = hasValidScan ? fractalMusicFeaturesOf(scanFrame) : null;
     _lastScanZoom = hasValidScan ? controller.view.zoom : null;
     scheduleRescan(controller, skipMissingScan: true);
   }
@@ -97,7 +97,7 @@ class ViewerMusicCoordinator {
     _deferredRescanController = null;
     _rescanTimer?.cancel();
     _loopRefreshTimer?.cancel();
-    _lastScanSignature = null;
+    _lastFeatures = null;
     _lastScanZoom = null;
   }
 
@@ -111,19 +111,24 @@ class ViewerMusicCoordinator {
     if (generation != _rescanGeneration || !_effects.fractalMusicEnabled) {
       return;
     }
-    final signature = scanFrame != null && scanFrame.isValid
-        ? scanFrame.visualSignature
+    final features = scanFrame != null && scanFrame.isValid
+        ? fractalMusicFeaturesOf(scanFrame)
         : null;
     final scanZoom = controller.view.zoom;
-    if (signature == null && skipMissingScan) {
+    if (features == null && skipMissingScan) {
       // Capture can race rendering or fail transiently. Do not restart fallback
       // audio for a missing loop-refresh frame, but keep the refresh loop alive
       // so animated visuals can re-sync on the next successful capture.
-      _armLoopRefresh(controller, retryMissingScan: _lastScanSignature == null);
+      _armLoopRefresh(controller, retryMissingScan: _lastFeatures == null);
       return;
     }
-    if (signature != null &&
-        signature == _lastScanSignature &&
+    // Compare what the music actually depends on. A per-pixel hash restarts the
+    // piece for one antialiased edge pixel; the collapsed features do not move
+    // for a nudge that cannot change a note.
+    final previousFeatures = _lastFeatures;
+    if (features != null &&
+        previousFeatures != null &&
+        !features.differsFrom(previousFeatures) &&
         scanZoom == _lastScanZoom) {
       _armLoopRefresh(controller);
       return;
@@ -136,7 +141,7 @@ class ViewerMusicCoordinator {
       if (result.enabled) {
         _armLoopRefresh(
           controller,
-          retryMissingScan: _lastScanSignature == null,
+          retryMissingScan: _lastFeatures == null,
         );
       } else {
         _syncAnimation(false);
@@ -148,10 +153,10 @@ class ViewerMusicCoordinator {
       _syncAnimation(false);
       return;
     }
-    _lastScanSignature = signature;
-    _lastScanZoom = signature == null ? null : scanZoom;
+    _lastFeatures = features;
+    _lastScanZoom = features == null ? null : scanZoom;
     _syncAnimation(true);
-    _armLoopRefresh(controller, retryMissingScan: signature == null);
+    _armLoopRefresh(controller, retryMissingScan: features == null);
   }
 
   void _armLoopRefresh(
@@ -160,7 +165,7 @@ class ViewerMusicCoordinator {
   }) {
     _loopRefreshTimer?.cancel();
     if (!_effects.fractalMusicEnabled) return;
-    if (_lastScanSignature == null && !retryMissingScan) return;
+    if (_lastFeatures == null && !retryMissingScan) return;
     final generation = _rescanGeneration;
     _loopRefreshTimer = Timer(
       _loopRefreshDelay,
@@ -178,7 +183,7 @@ class ViewerMusicCoordinator {
     _deferredRescanController = null;
     _rescanTimer?.cancel();
     _loopRefreshTimer?.cancel();
-    _lastScanSignature = null;
+    _lastFeatures = null;
     _lastScanZoom = null;
   }
 }

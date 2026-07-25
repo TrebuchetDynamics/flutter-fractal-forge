@@ -19,11 +19,21 @@ const int _musicBeatsPerBar = 4;
 /// (24/28/32/36/40 beats). Image detail density picks the band.
 const List<int> _musicTempoBpmBands = [60, 70, 80, 90, 100];
 
-// Collapsed detail on real captures runs about 0.01-0.14, so it is scaled
-// before banding or every image would land on the slowest tempo. Measured over
-// the fractal screenshots in screenshots/; re-measure if the scan bins or the
-// detail formula change.
-const double _musicTempoDetailScale = 7.0;
+// Band edges below are set from the fractal captures in screenshots/, where
+// collapsed detail runs about 0.01-0.14 and brightness about 0.09-0.67. Even
+// splits of the nominal 0-1 range leave most of each table unreachable.
+// Re-measure if the scan bins or the collapse formulas change.
+const List<double> _musicTempoDetailEdges = [0.03, 0.06, 0.09, 0.12];
+const List<double> _musicRegisterBrightnessEdges = [0.15, 0.35];
+const List<double> _musicModeBrightnessEdges = [0.22];
+
+/// How far past an edge a feature must travel before the band it selects is
+/// allowed to change. Without it, a view resting near an edge flips key, mode,
+/// tempo, or register on every small pan.
+const double _musicBandHysteresis = 0.04;
+
+/// Key may only move once the hue has drifted more than this many semitones.
+const double _musicRootHysteresisSemitones = 1.5;
 
 typedef FractalMusicProcessStart = Future<Process> Function(
   String executable,
@@ -56,22 +66,159 @@ class FractalMusicScanFrame {
 
   bool get isValid =>
       width > 0 && height > 0 && rgba.length >= width * height * 4;
+}
 
-  int get visualSignature {
-    if (!isValid) return 0;
-    var hash = 0x811c9dc5;
-    hash = (hash ^ width) * 0x01000193 & 0xffffffff;
-    hash = (hash ^ height) * 0x01000193 & 0xffffffff;
-    final pixelCount = width * height;
-    for (var pixel = 0; pixel < pixelCount; pixel++) {
-      final offset = pixel * 4;
-      hash = (hash ^ rgba[offset]) * 0x01000193 & 0xffffffff;
-      hash = (hash ^ rgba[offset + 1]) * 0x01000193 & 0xffffffff;
-      hash = (hash ^ rgba[offset + 2]) * 0x01000193 & 0xffffffff;
-      hash = (hash ^ rgba[offset + 3]) * 0x01000193 & 0xffffffff;
-    }
-    return hash;
+/// The collapsed image features Fractal Music listens to. Cheaper to compare
+/// than the raw frame, and it is what the musical decisions actually depend on.
+@immutable
+class FractalMusicFeatures {
+  final double brightness;
+  final double detail;
+  final double hue;
+  final double saturation;
+
+  const FractalMusicFeatures({
+    required this.brightness,
+    required this.detail,
+    required this.hue,
+    required this.saturation,
+  });
+
+  /// Whether the image moved enough that regenerating the music is worth a
+  /// restart. Hue is circular, the rest are linear.
+  bool differsFrom(
+    FractalMusicFeatures other, {
+    double tolerance = 0.04,
+  }) {
+    if ((brightness - other.brightness).abs() > tolerance) return true;
+    if ((detail - other.detail).abs() > tolerance) return true;
+    if ((saturation - other.saturation).abs() > tolerance) return true;
+    var hueDelta = (hue - other.hue).abs();
+    if (hueDelta > 0.5) hueDelta = 1 - hueDelta;
+    return hueDelta > tolerance;
   }
+}
+
+/// The slow-moving musical parameters. These only change once a feature has
+/// travelled past a hysteresis band, so exploring an image does not restart it
+/// as a different piece.
+@immutable
+class FractalMusicIdentity {
+  final int rootSemitones;
+  final bool major;
+  final int registerSemitones;
+  final int bpm;
+
+  const FractalMusicIdentity({
+    required this.rootSemitones,
+    required this.major,
+    required this.registerSemitones,
+    required this.bpm,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      other is FractalMusicIdentity &&
+      other.rootSemitones == rootSemitones &&
+      other.major == major &&
+      other.registerSemitones == registerSemitones &&
+      other.bpm == bpm;
+
+  @override
+  int get hashCode =>
+      Object.hash(rootSemitones, major, registerSemitones, bpm);
+}
+
+/// Collapses a frame to the features the composer listens to.
+FractalMusicFeatures fractalMusicFeaturesOf(FractalMusicScanFrame frame) {
+  if (!frame.isValid) {
+    return const FractalMusicFeatures(
+      brightness: 0,
+      detail: 0,
+      hue: 0,
+      saturation: 0,
+    );
+  }
+  final bins = <({
+    double brightness,
+    double detail,
+    double hue,
+    double saturation,
+    double distance,
+  })>[];
+  for (var step = 0; step < _scanMusicSteps; step++) {
+    bins.addAll(debugFractalMusicScanDistanceProfile(
+      scanFrame: frame,
+      step: step,
+      steps: _scanMusicSteps,
+    ));
+  }
+  final collapsed = _collapseDistanceProfile(bins);
+  return FractalMusicFeatures(
+    brightness: collapsed.brightness,
+    detail: collapsed.detail,
+    hue: collapsed.hue,
+    saturation: collapsed.saturation,
+  );
+}
+
+/// Chooses key, mode, register, and tempo, holding the previous choice until a
+/// feature clears its band edge by [_musicBandHysteresis].
+FractalMusicIdentity resolveFractalMusicIdentity(
+  FractalMusicFeatures features, {
+  FractalMusicIdentity? previous,
+}) {
+  final registerBand = _bandWithHysteresis(
+    features.brightness,
+    _musicRegisterBrightnessEdges,
+    previous == null ? null : previous.registerSemitones ~/ 12,
+  );
+  final modeBand = _bandWithHysteresis(
+    features.brightness,
+    _musicModeBrightnessEdges,
+    previous == null ? null : (previous.major ? 1 : 0),
+  );
+  final tempoBand = _bandWithHysteresis(
+    features.detail,
+    _musicTempoDetailEdges,
+    previous == null
+        ? null
+        : _musicTempoBpmBands.indexOf(previous.bpm).clamp(0, _musicTempoBpmBands.length - 1),
+  );
+
+  final rawRoot = (features.hue * 12) % 12;
+  var root = rawRoot.round() % 12;
+  if (previous != null) {
+    var drift = (rawRoot - previous.rootSemitones).abs();
+    if (drift > 6) drift = 12 - drift;
+    if (drift <= _musicRootHysteresisSemitones) root = previous.rootSemitones;
+  }
+
+  return FractalMusicIdentity(
+    rootSemitones: root,
+    major: modeBand == 1,
+    registerSemitones: registerBand * 12,
+    bpm: _musicTempoBpmBands[tempoBand],
+  );
+}
+
+/// Picks the band [value] falls in, but refuses to leave [previousIndex] until
+/// the value has cleared the edge between them by the hysteresis margin.
+int _bandWithHysteresis(
+  double value,
+  List<double> edges,
+  int? previousIndex,
+) {
+  var index = 0;
+  while (index < edges.length && value >= edges[index]) {
+    index++;
+  }
+  if (previousIndex == null || index == previousIndex) return index;
+  final held = previousIndex.clamp(0, edges.length);
+  if (index > held) {
+    return value >= edges[held] + _musicBandHysteresis ? index : held;
+  }
+  return value < edges[held - 1] - _musicBandHysteresis ? index : held;
 }
 
 class FractalMusicService {
@@ -79,6 +226,9 @@ class FractalMusicService {
       MethodChannel('com.fractalforge/fractal_music');
 
   final _FractalMusicPlaybackAdapter _playback;
+
+  /// Previous slow-moving parameters, so hysteresis survives across restarts.
+  FractalMusicIdentity? _lastIdentity;
 
   FractalMusicService({
     Future<bool> Function(String command)? commandExists,
@@ -123,18 +273,29 @@ class FractalMusicService {
         Error.throwWithStackTrace(error, stackTrace);
       }
     }
-    final bytes = scanFrame != null && scanFrame.isValid
-        ? buildFractalMusicScanWav(
-            scanFrame: scanFrame,
-            zoom: controller.view.zoom,
-          )
-        : buildFractalMusicWav(
-            moduleId: controller.module.id,
-            params: controller.params,
-            panX: controller.view.pan.x,
-            panY: controller.view.pan.y,
-            zoom: controller.view.zoom,
-          );
+    final Uint8List bytes;
+    if (scanFrame != null && scanFrame.isValid) {
+      // Carry the previous identity forward so a small pan re-voices the same
+      // piece instead of restarting a different one.
+      final identity = resolveFractalMusicIdentity(
+        fractalMusicFeaturesOf(scanFrame),
+        previous: _lastIdentity,
+      );
+      _lastIdentity = identity;
+      bytes = buildFractalMusicScanWav(
+        scanFrame: scanFrame,
+        zoom: controller.view.zoom,
+        identity: identity,
+      );
+    } else {
+      bytes = buildFractalMusicWav(
+        moduleId: controller.module.id,
+        params: controller.params,
+        panX: controller.view.pan.x,
+        panY: controller.view.pan.y,
+        zoom: controller.view.zoom,
+      );
+    }
     try {
       await stop();
     } catch (error) {
@@ -454,6 +615,7 @@ Uint8List buildFractalMusicWav({
 Uint8List buildFractalMusicScanWav({
   required FractalMusicScanFrame scanFrame,
   required double zoom,
+  FractalMusicIdentity? identity,
   int sampleRate = 22050,
   double seconds = fractalMusicLoopSeconds,
 }) {
@@ -476,9 +638,17 @@ Uint8List buildFractalMusicScanWav({
   final harmonyProfile =
       _collapseDistanceProfile(smoothedScans.expand((scan) => scan).toList());
 
+  final resolved = identity ??
+      resolveFractalMusicIdentity(FractalMusicFeatures(
+        brightness: harmonyProfile.brightness,
+        detail: harmonyProfile.detail,
+        hue: harmonyProfile.hue,
+        saturation: harmonyProfile.saturation,
+      ));
+
   final score = _composeScanScore(
     smoothedScans: smoothedScans,
-    harmonyProfile: harmonyProfile,
+    identity: resolved,
     zoomOctave: zoomOctave,
     sampleCount: sampleCount,
     sampleRate: sampleRate,
@@ -565,22 +735,6 @@ class _MusicEvent {
   });
 }
 
-/// Register lift in octaves, from overall image brightness. Thresholds are set
-/// from measured captures (mostly 0.09-0.25, occasionally past 0.5) rather than
-/// an even split of the 0-1 range, which would leave nearly every fractal in
-/// the bottom octave.
-int _musicRegisterSemitones(double brightness) {
-  if (brightness < 0.15) return 0;
-  if (brightness < 0.35) return 12;
-  return 24;
-}
-
-int _musicTempoBpm(double detail) {
-  final scaled = (detail * _musicTempoDetailScale).clamp(0.0, 0.999);
-  final index = (scaled * _musicTempoBpmBands.length).floor();
-  return _musicTempoBpmBands[index.clamp(0, _musicTempoBpmBands.length - 1)];
-}
-
 List<_MusicEvent> _composeScanScore({
   required List<
           List<
@@ -592,26 +746,20 @@ List<_MusicEvent> _composeScanScore({
                 double distance,
               })>>
       smoothedScans,
-  required ({
-    double brightness,
-    double detail,
-    double hue,
-    double saturation,
-  }) harmonyProfile,
+  required FractalMusicIdentity identity,
   required int zoomOctave,
   required int sampleCount,
   required int sampleRate,
   required double seconds,
 }) {
   if (sampleCount <= 0) return const [];
-  final rootSemitones = (harmonyProfile.hue * 12).round() % 12;
-  final major = harmonyProfile.brightness >= 0.5;
+  final rootSemitones = identity.rootSemitones;
+  final major = identity.major;
   final scale = major ? _visualMajorDiatonic : _visualMinorDiatonic;
   // Brighter images sing higher. Octave steps only, so the chord keeps its
   // pitch classes; the bass stays anchored so the low end does not move.
-  final register = _musicRegisterSemitones(harmonyProfile.brightness);
-  final bpm = _musicTempoBpm(harmonyProfile.detail);
-  final beatsPerLoop = math.max(1, (bpm * seconds / 60).round());
+  final register = identity.registerSemitones;
+  final beatsPerLoop = math.max(1, (identity.bpm * seconds / 60).round());
   final steps = smoothedScans.length;
   if (steps == 0) return const [];
 
@@ -889,7 +1037,8 @@ List<
 }
 
 @visibleForTesting
-int debugFractalMusicTempoBpm(double detail) => _musicTempoBpm(detail);
+int debugFractalMusicTempoBpm(double detail) => _musicTempoBpmBands[
+    _bandWithHysteresis(detail, _musicTempoDetailEdges, null)];
 
 @visibleForTesting
 int debugFractalMusicDistanceMidi({
