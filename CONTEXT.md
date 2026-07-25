@@ -29,12 +29,20 @@ A deterministic color variation chosen from a thumbnail generation seed and a st
 _Avoid_: True random thumbnail colors, one-off palette shuffle, unreviewable visual diff
 
 **Fractal Music**:
-A viewer audio mode that turns the current fractal state into explainable sonification, starting with constrained polar/spiral-scan motifs. It is not a generic background soundtrack, AI song generator, or MIDI export promise.
+A viewer audio mode that composes deterministic music conditioned on the current fractal image. Its identity — key, mode, tempo, register, density, and phrase shape — must be traceable to measured image features, but individual audible events may come from musical rules the image does not supply. The ensemble itself is fixed; the image chooses how it is played, not what it is. It is not a generic background soundtrack, an ML song model, or a MIDI export promise.
 _Avoid_: AI song, opaque music generator, soundtrack mode
 
-**Radial Scan Sonification**:
-The first Fractal Music scan mode: a visible rotating center-out radar beam samples the current fractal view and maps those samples to bounded musical pitch, loudness, rhythm, or pan. It is the canonical launch path for Fractal Music, not a promise that every shader exposes exact internal iteration data.
-_Avoid_: Pixel-to-song, hidden soundtrack, exact shader readback
+**Image-Conditioned Composition**:
+The single Fractal Music pipeline: measured image features choose the composer's parameters, and a deterministic composer then decides notes, chords, rests, and cadences. Musical structure that the image cannot supply is permitted and expected; what is not permitted is structure that ignores the image or that no test can trace back to a measured feature.
+_Avoid_: Pixel-to-note, strict scan mode, random seeded melody
+
+**Musical Identity Tier**:
+The slow-moving Fractal Music parameters — key, mode, tempo, and progression — which change only when an image feature crosses a hysteresis band, and only at a loop boundary. The performance tier (register, density, articulation, pan, texture) may follow the image continuously. A parameter that flickers while the user pans belongs in the performance tier, not here.
+_Avoid_: Live remap, per-frame recompute, restart on any pixel change
+
+**Radial Scan**:
+The rotating center-out beam that both extracts Fractal Music's image features and shows loop position while audio plays. It is the feature source and the visible playhead, not a per-event provenance claim: pan and phrase position follow the beam, but the note under it comes from the composer.
+_Avoid_: Listening path, beam explains every note, exact shader readback
 
 **Performance Fractals**:
 A separate catalog family for reactive, instrument-like fractal visuals whose parameters may be driven by time, gestures, or modulation. They do not change the behavior, controls, presets, or render contracts of existing mathematical fractal modules.
@@ -96,10 +104,13 @@ Developer: “Can I paste this upstream GLSL function from the Reference Corpus 
 Domain expert: “No. First create a Provenance Record with source, license context, target, and validation signal, then implement our own version or explicitly record why direct reuse is license-compatible.”
 
 Developer: “Can Fractal Music just play a nice backing track?”
-Domain expert: “No. Fractal Music should stay tied to the current fractal state through explainable sonification; a generic soundtrack is a different feature.”
+Domain expert: “No. A backing track sounds the same for every fractal. Image-Conditioned Composition means a different image has to produce a measurably different piece.”
 
 Developer: “Should the music button draw a line from the center like a radar scan?”
-Domain expert: “Yes. That is Radial Scan Sonification: the visible beam is the listening path, and the sound should explain what that beam is sampling.”
+Domain expert: “Yes, that is the Radial Scan. It samples the features and shows where you are in the loop. Do not promise that the note you hear is the pixel under the beam.”
+
+Developer: “The cadence on the last beat isn’t in the image. Is that a bug?”
+Domain expert: “No. The composer supplies cadences, voice leading, and rests. It would only be a bug if the key, mode, register, or density stopped tracking the image.”
 
 Developer: “Can we add LFO/audio-reactive controls to every current fractal?”
 Domain expert: “No. Put reactive instrument visuals in Performance Fractals so the existing catalog keeps its current module contracts.”
