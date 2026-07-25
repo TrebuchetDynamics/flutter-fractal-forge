@@ -52,6 +52,17 @@ const double _musicBandHysteresis = 0.04;
 /// Key may only move once the hue has drifted more than this many semitones.
 const double _musicRootHysteresisSemitones = 1.5;
 
+/// Motion above this turns a bar's closing rest into a pickup fill.
+///
+/// A re-render only happens once some feature has moved past the 0.04
+/// materiality tolerance, so motion at any fill-eligible render is already at
+/// least that. This sits at twice the floor: roughly two channels moving
+/// materially, or one moving hard.
+// ponytail: derived from the materiality tolerance, not measured. Calibrating
+// it properly needs inter-frame deltas from a live pan or auto-explore session,
+// which static captures cannot provide.
+const double _musicFillMotionThreshold = 0.08;
+
 typedef FractalMusicProcessStart = Future<Process> Function(
   String executable,
   List<String> arguments,
@@ -113,6 +124,19 @@ class FractalMusicFeatures {
     var hueDelta = (hue - other.hue).abs();
     if (hueDelta > 0.5) hueDelta = 1 - hueDelta;
     return hueDelta > tolerance;
+  }
+
+  /// How far the image travelled since [previous], as a single 0-1 scalar.
+  /// Drives rhythmic fills: a still view stays sparse, a moving one gets busy.
+  double motionFrom(FractalMusicFeatures previous) {
+    var hueDelta = (hue - previous.hue).abs();
+    if (hueDelta > 0.5) hueDelta = 1 - hueDelta;
+    return ((brightness - previous.brightness).abs() +
+            (detail - previous.detail).abs() +
+            (saturation - previous.saturation).abs() +
+            // Hue is circular, so its delta tops out at 0.5.
+            hueDelta * 2)
+        .clamp(0.0, 1.0);
   }
 }
 
@@ -264,6 +288,9 @@ class FractalMusicService {
   /// Previous slow-moving parameters, so hysteresis survives across restarts.
   FractalMusicIdentity? _lastIdentity;
 
+  /// Previous features, so the next render can tell how far the view moved.
+  FractalMusicFeatures? _lastFeatures;
+
   FractalMusicService({
     Future<bool> Function(String command)? commandExists,
     FractalMusicProcessStart? startProcess,
@@ -311,15 +338,21 @@ class FractalMusicService {
     if (scanFrame != null && scanFrame.isValid) {
       // Carry the previous identity forward so a small pan re-voices the same
       // piece instead of restarting a different one.
+      final features = fractalMusicFeaturesOf(scanFrame);
       final identity = resolveFractalMusicIdentity(
-        fractalMusicFeaturesOf(scanFrame),
+        features,
         previous: _lastIdentity,
       );
+      final previousFeatures = _lastFeatures;
+      final motion =
+          previousFeatures == null ? 0.0 : features.motionFrom(previousFeatures);
       _lastIdentity = identity;
+      _lastFeatures = features;
       bytes = buildFractalMusicScanWav(
         scanFrame: scanFrame,
         zoom: controller.view.zoom,
         identity: identity,
+        motion: motion,
       );
     } else {
       bytes = buildFractalMusicWav(
@@ -650,6 +683,7 @@ Uint8List buildFractalMusicScanWav({
   required FractalMusicScanFrame scanFrame,
   required double zoom,
   FractalMusicIdentity? identity,
+  double motion = 0,
   int sampleRate = 22050,
   double seconds = fractalMusicLoopSeconds,
 }) {
@@ -683,6 +717,7 @@ Uint8List buildFractalMusicScanWav({
   final score = _composeScanScore(
     smoothedScans: smoothedScans,
     identity: resolved,
+    motion: motion,
     zoomOctave: zoomOctave,
     sampleCount: sampleCount,
     sampleRate: sampleRate,
@@ -781,6 +816,7 @@ List<_MusicEvent> _composeScanScore({
               })>>
       smoothedScans,
   required FractalMusicIdentity identity,
+  required double motion,
   required int zoomOctave,
   required int sampleCount,
   required int sampleRate,
@@ -895,15 +931,50 @@ List<_MusicEvent> _composeScanScore({
       final summary = beats[beat];
       if (summary.energy < 0.06) continue;
       final beatInBar = beat - firstBeat;
-      // Last beat of a full bar rests, so the cadence stays audible.
-      if (beatInBar == _musicBeatsPerBar - 1 &&
-          lastBeat - firstBeat == _musicBeatsPerBar) {
-        continue;
-      }
+      final closesBar = beatInBar == _musicBeatsPerBar - 1 &&
+          lastBeat - firstBeat == _musicBeatsPerBar;
       final beatStart = (beat * samplesPerBeat).round();
       if (beatStart >= contentEnd) break;
       final beatEnd = math.min(((beat + 1) * samplesPerBeat).round(),
           contentEnd);
+
+      if (closesBar) {
+        // A still view leaves the bar's last beat empty so the cadence stays
+        // audible. A moving one fills it with a pickup into the next chord.
+        if (motion < _musicFillMotionThreshold) continue;
+        final tonicMidi = 45 + zoomOctave * 12 + rootSemitones;
+        final nextBar = barCount <= 1 ? 0 : (bar + 1) % barCount;
+        final nextChordRoot =
+            rootSemitones + _chordRootSemitones(nextBar, barCount, progression);
+        final half = math.max(1, ((beatEnd - beatStart) * 0.5).round());
+        final fillSustain = math.max(1, (half * 0.9).round());
+        // Two eighths approaching the next downbeat from a step below, so the
+        // fill leads somewhere instead of just adding noise.
+        final approach = _nearestScaleToneMidi(
+          midi: 45 + zoomOctave * 12 + nextChordRoot - 1,
+          rootMidi: tonicMidi,
+          scale: scale,
+        );
+        final lift = _nearestScaleToneMidi(
+          midi: _scanDistanceMidi(summary.leadDistance, zoomOctave, scale) +
+              rootSemitones,
+          rootMidi: tonicMidi,
+          scale: scale,
+        );
+        for (final (offset, midi) in [(0, lift), (half, approach)]) {
+          if (beatStart + offset >= contentEnd) break;
+          events.add(_MusicEvent(
+            startSample: beatStart + offset,
+            sustainSamples: fillSustain,
+            midi: midi + register,
+            velocity: _musicVelocity(summary.energy, summary.detail) * 0.85,
+            harmonicBoost: summary.energy.clamp(0.0, 1.0) * 0.14,
+            voice: _MusicVoice.lead,
+          ));
+        }
+        continue;
+      }
+
       final noteSustain = math.max(1, ((beatEnd - beatStart) * 0.9).round());
 
       final target =

@@ -974,6 +974,76 @@ void main() {
     expect(render(0), isNot(render(7)));
   });
 
+  test('motion measures how far the image travelled', () {
+    const base = FractalMusicFeatures(
+      brightness: 0.3,
+      detail: 0.05,
+      hue: 0.1,
+      saturation: 0.4,
+    );
+    expect(base.motionFrom(base), 0);
+
+    const brighter = FractalMusicFeatures(
+      brightness: 0.6,
+      detail: 0.05,
+      hue: 0.1,
+      saturation: 0.4,
+    );
+    expect(base.motionFrom(brighter), closeTo(0.3, 1e-9));
+
+    // Hue wraps: 0.98 and 0.02 are 0.04 apart, not 0.96.
+    const nearWrapLow = FractalMusicFeatures(
+      brightness: 0.3,
+      detail: 0.05,
+      hue: 0.98,
+      saturation: 0.4,
+    );
+    const nearWrapHigh = FractalMusicFeatures(
+      brightness: 0.3,
+      detail: 0.05,
+      hue: 0.02,
+      saturation: 0.4,
+    );
+    expect(nearWrapLow.motionFrom(nearWrapHigh), closeTo(0.08, 1e-9));
+  });
+
+  test('motion turns the bar-closing rest into a pickup fill', () {
+    final frame = FractalMusicScanFrame(
+      rgba: _solidFrame(8, 8, 120, 80, 200),
+      width: 8,
+      height: 8,
+    );
+    Uint8List render(double motion) => buildFractalMusicScanWav(
+          scanFrame: frame,
+          zoom: 1,
+          identity: const FractalMusicIdentity(
+            rootSemitones: 0,
+            major: true,
+            registerSemitones: 12,
+            bpm: 60,
+            progressionIndex: 0,
+          ),
+          motion: motion,
+          sampleRate: 8000,
+          // Four bars, so the closing beat of a full bar actually exists.
+          seconds: 16,
+        );
+
+    final still = render(0);
+    expect(
+      render(0.02),
+      still,
+      reason: 'below the threshold the bar keeps its rest',
+    );
+
+    final moving = render(0.4);
+    expect(moving, isNot(still));
+    expect(_pcmRms(moving), greaterThan(_pcmRms(still)));
+    expect(_pcmPeak(moving), lessThan(7000));
+    expect(_pcmSample(moving, 0), 0);
+    expect(_pcmSample(moving, 8000 * 16 - 1), 0);
+  });
+
   test('unsupported platforms fail before generating audio', () async {
     final controller = FractalController(ModuleRegistry());
     addTearDown(controller.dispose);

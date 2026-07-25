@@ -52,6 +52,17 @@ void main() {
         ),
         zoom: 4,
       ),
+      // Same frame as 04, but as if the view had just moved: the bar-closing
+      // rests become pickup fills. A/B these two to hear motion-as-rhythm.
+      '06-motion-fill.wav': buildFractalMusicScanWav(
+        scanFrame: FractalMusicScanFrame(
+          rgba: rightEdgeDetailFrame(96, 64),
+          width: 96,
+          height: 64,
+        ),
+        zoom: 4,
+        motion: 0.4,
+      ),
       '05-state-fallback.wav': buildFractalMusicWav(
         moduleId: 'mandelbrot',
         params: const {'iterations': 180, 'colorScheme': 5},
