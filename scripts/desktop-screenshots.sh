@@ -14,14 +14,23 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-DEVICE_ID="${DEVICE_ID:-linux}"
-TEST_FILE="${TEST_FILE:-integration_test/screenshots_test.dart}"
+# Exported because the xvfb-run branch re-declares run_flutter_test in a fresh
+# login shell; unexported vars arrive empty there, and `flutter test ""` sweeps
+# the whole suite instead of this one file.
+export DEVICE_ID="${DEVICE_ID:-linux}"
+export TEST_FILE="${TEST_FILE:-integration_test/screenshots/full_screenshots_test.dart}"
+export ROOT_DIR
 OUT_DIR="${OUT_DIR:-$ROOT_DIR/screenshots}"
 
 mkdir -p "$OUT_DIR"
 
+# Without FORCE_GPU_RENDER the renderer swaps in its placeholder surface for any
+# test binding -- a plain black ColoredBox -- so every viewer screenshot comes
+# out black with only the chrome visible. See RuntimeModeService.
 run_flutter_test() {
-  flutter test "$TEST_FILE" -d "$DEVICE_ID" --reporter expanded
+  cd "$ROOT_DIR"
+  flutter test "$TEST_FILE" -d "$DEVICE_ID" --reporter expanded \
+    --dart-define=FORCE_GPU_RENDER=true
 }
 
 echo "[desktop-screenshots] device=$DEVICE_ID test=$TEST_FILE"
