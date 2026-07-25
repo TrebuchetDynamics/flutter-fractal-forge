@@ -887,12 +887,91 @@ void main() {
         major: true,
         registerSemitones: 12,
         bpm: 90,
+        progressionIndex: 3,
       ),
       sampleRate: 8000,
       seconds: 1,
     );
 
     expect(fromFrame, isNot(forced));
+  });
+
+  test('every banked progression is tonic-rooted and stays in its mode', () {
+    // Catches a typo in the tables: a progression that starts somewhere other
+    // than the tonic, or borrows a chord from outside the mode, would make the
+    // loop point stop resolving.
+    const majorDegrees = {0, 2, 4, 5, 7, 9, 11};
+    const minorDegrees = {0, 2, 3, 5, 7, 8, 10};
+
+    expect(debugFractalMusicProgressionCount, 8);
+    for (final major in [true, false]) {
+      final allowed = major ? majorDegrees : minorDegrees;
+      final seen = <String>{};
+      for (var index = 0; index < debugFractalMusicProgressionCount; index++) {
+        final progression =
+            debugFractalMusicProgression(major: major, index: index);
+        expect(progression.length, 4, reason: 'index $index');
+        expect(progression.first, 0, reason: 'index $index must start on I/i');
+        for (final degree in progression) {
+          expect(allowed, contains(degree), reason: 'index $index');
+        }
+        expect(seen.add(progression.join(',')), isTrue,
+            reason: 'index $index duplicates an earlier progression');
+      }
+    }
+  });
+
+  test('saturation selects the progression and holds through a nudge', () {
+    FractalMusicFeatures withSaturation(double saturation) =>
+        FractalMusicFeatures(
+          brightness: 0.2,
+          detail: 0.05,
+          hue: 0.0,
+          saturation: saturation,
+        );
+
+    final low = resolveFractalMusicIdentity(withSaturation(0.20));
+    expect(low.progressionIndex, 0);
+    expect(resolveFractalMusicIdentity(withSaturation(0.26)).progressionIndex,
+        greaterThan(0));
+
+    // Just past the edge but inside the tighter progression band: hold.
+    expect(
+      resolveFractalMusicIdentity(withSaturation(0.255), previous: low)
+          .progressionIndex,
+      0,
+    );
+    expect(
+      resolveFractalMusicIdentity(withSaturation(0.27), previous: low)
+          .progressionIndex,
+      1,
+    );
+  });
+
+  test('different progressions produce different audio', () {
+    final frame = FractalMusicScanFrame(
+      rgba: _solidFrame(8, 8, 120, 80, 200),
+      width: 8,
+      height: 8,
+    );
+    Uint8List render(int progressionIndex) => buildFractalMusicScanWav(
+          scanFrame: frame,
+          zoom: 1,
+          identity: FractalMusicIdentity(
+            rootSemitones: 0,
+            major: true,
+            registerSemitones: 12,
+            bpm: 60,
+            progressionIndex: progressionIndex,
+          ),
+          sampleRate: 8000,
+          // Needs at least four bars, or the loop never leaves the tonic that
+          // every progression starts on. The 24s production loop holds 6-10.
+          seconds: 16,
+        );
+
+    expect(render(0), isNot(render(1)));
+    expect(render(0), isNot(render(7)));
   });
 
   test('unsupported platforms fail before generating audio', () async {

@@ -27,6 +27,23 @@ const List<double> _musicTempoDetailEdges = [0.03, 0.06, 0.09, 0.12];
 const List<double> _musicRegisterBrightnessEdges = [0.15, 0.35];
 const List<double> _musicModeBrightnessEdges = [0.22];
 
+/// Saturation picks the progression. Measured captures run about 0.19-0.64,
+/// so the eight bands are spread across that range rather than 0-1.
+const List<double> _musicProgressionSaturationEdges = [
+  0.25,
+  0.30,
+  0.35,
+  0.40,
+  0.45,
+  0.50,
+  0.55,
+];
+
+/// These bands are roughly 0.05 wide, so they need a tighter margin than the
+/// wide mode/tempo/register bands or a band would be almost impossible to
+/// leave.
+const double _musicProgressionHysteresis = 0.015;
+
 /// How far past an edge a feature must travel before the band it selects is
 /// allowed to change. Without it, a view resting near an edge flips key, mode,
 /// tempo, or register on every small pan.
@@ -108,12 +125,14 @@ class FractalMusicIdentity {
   final bool major;
   final int registerSemitones;
   final int bpm;
+  final int progressionIndex;
 
   const FractalMusicIdentity({
     required this.rootSemitones,
     required this.major,
     required this.registerSemitones,
     required this.bpm,
+    required this.progressionIndex,
   });
 
   @override
@@ -122,11 +141,17 @@ class FractalMusicIdentity {
       other.rootSemitones == rootSemitones &&
       other.major == major &&
       other.registerSemitones == registerSemitones &&
-      other.bpm == bpm;
+      other.bpm == bpm &&
+      other.progressionIndex == progressionIndex;
 
   @override
-  int get hashCode =>
-      Object.hash(rootSemitones, major, registerSemitones, bpm);
+  int get hashCode => Object.hash(
+        rootSemitones,
+        major,
+        registerSemitones,
+        bpm,
+        progressionIndex,
+      );
 }
 
 /// Collapses a frame to the features the composer listens to.
@@ -186,6 +211,13 @@ FractalMusicIdentity resolveFractalMusicIdentity(
         : _musicTempoBpmBands.indexOf(previous.bpm).clamp(0, _musicTempoBpmBands.length - 1),
   );
 
+  final progressionBand = _bandWithHysteresis(
+    features.saturation,
+    _musicProgressionSaturationEdges,
+    previous?.progressionIndex,
+    margin: _musicProgressionHysteresis,
+  );
+
   final rawRoot = (features.hue * 12) % 12;
   var root = rawRoot.round() % 12;
   if (previous != null) {
@@ -199,6 +231,7 @@ FractalMusicIdentity resolveFractalMusicIdentity(
     major: modeBand == 1,
     registerSemitones: registerBand * 12,
     bpm: _musicTempoBpmBands[tempoBand],
+    progressionIndex: progressionBand,
   );
 }
 
@@ -207,8 +240,9 @@ FractalMusicIdentity resolveFractalMusicIdentity(
 int _bandWithHysteresis(
   double value,
   List<double> edges,
-  int? previousIndex,
-) {
+  int? previousIndex, {
+  double margin = _musicBandHysteresis,
+}) {
   var index = 0;
   while (index < edges.length && value >= edges[index]) {
     index++;
@@ -216,9 +250,9 @@ int _bandWithHysteresis(
   if (previousIndex == null || index == previousIndex) return index;
   final held = previousIndex.clamp(0, edges.length);
   if (index > held) {
-    return value >= edges[held] + _musicBandHysteresis ? index : held;
+    return value >= edges[held] + margin ? index : held;
   }
-  return value < edges[held - 1] - _musicBandHysteresis ? index : held;
+  return value < edges[held - 1] - margin ? index : held;
 }
 
 class FractalMusicService {
@@ -584,8 +618,8 @@ Uint8List buildFractalMusicWav({
     final note = notes[((scan + 1) * 0.5 * (notes.length - 1)).round()];
     final midi = 48 + zoomOctave * 12 + rootSemitones + note;
     final hz = (440 * math.pow(2, (midi - 69) / 12)).toDouble();
-    final chordRoot =
-        rootSemitones + _chordRootSemitones(step, steps, major: false);
+    final chordRoot = rootSemitones +
+        _chordRootSemitones(step, steps, _musicMinorProgressions[0]);
     final envelope = _noteEnvelope(t, detail: scan.abs());
     final wave = _softTone(
       hz: hz,
@@ -759,6 +793,10 @@ List<_MusicEvent> _composeScanScore({
   // Brighter images sing higher. Octave steps only, so the chord keeps its
   // pitch classes; the bass stays anchored so the low end does not move.
   final register = identity.registerSemitones;
+  final progression = _musicProgression(
+    major: major,
+    index: identity.progressionIndex,
+  );
   final beatsPerLoop = math.max(1, (identity.bpm * seconds / 60).round());
   final steps = smoothedScans.length;
   if (steps == 0) return const [];
@@ -829,7 +867,7 @@ List<_MusicEvent> _composeScanScore({
     final barEnd = math.min((lastBeat * samplesPerBeat).round(), contentEnd);
     final barSustain = math.max(1, barEnd - barStart);
     final chordRootSemitones =
-        rootSemitones + _chordRootSemitones(bar, barCount, major: major);
+        rootSemitones + _chordRootSemitones(bar, barCount, progression);
     final chordRootMidi = 45 + zoomOctave * 12 + chordRootSemitones;
     final barVelocity = _musicVelocity(barEnergy, barDetail);
     final harmonicBoost = barEnergy.clamp(0.0, 1.0) * 0.22;
@@ -1035,6 +1073,16 @@ List<
     step / steps * math.pi * 2 - math.pi / 2,
   );
 }
+
+@visibleForTesting
+int get debugFractalMusicProgressionCount => _musicMajorProgressions.length;
+
+@visibleForTesting
+List<int> debugFractalMusicProgression({
+  required bool major,
+  required int index,
+}) =>
+    _musicProgression(major: major, index: index);
 
 @visibleForTesting
 int debugFractalMusicTempoBpm(double detail) => _musicTempoBpmBands[
@@ -1258,12 +1306,41 @@ const List<int> _visualMinorDiatonic = [
   24,
 ];
 
-int _chordRootSemitones(int step, int steps, {required bool major}) {
+/// Curated progressions, as semitone offsets from the key. Every entry starts
+/// on the tonic and ends on a chord that leads back to it, so the loop point
+/// lands on a cadence. Index 0 of each is the original pair.
+const List<List<int>> _musicMajorProgressions = [
+  [0, 9, 5, 7], // I  - vi  - IV  - V
+  [0, 5, 9, 7], // I  - IV  - vi  - V
+  [0, 7, 9, 5], // I  - V   - vi  - IV
+  [0, 2, 9, 7], // I  - ii  - vi  - V
+  [0, 9, 2, 7], // I  - vi  - ii  - V
+  [0, 5, 0, 7], // I  - IV  - I   - V
+  [0, 4, 5, 7], // I  - iii - IV  - V
+  [0, 9, 4, 5], // I  - vi  - iii - IV
+];
+
+const List<List<int>> _musicMinorProgressions = [
+  [0, 8, 3, 10], // i - VI  - III - VII
+  [0, 3, 8, 10], // i - III - VI  - VII
+  [0, 10, 8, 3], // i - VII - VI  - III
+  [0, 5, 8, 10], // i - iv  - VI  - VII
+  [0, 8, 10, 5], // i - VI  - VII - iv
+  [0, 10, 3, 8], // i - VII - III - VI
+  [0, 3, 10, 8], // i - III - VII - VI
+  [0, 5, 10, 8], // i - iv  - VII - VI
+];
+
+List<int> _musicProgression({required bool major, required int index}) {
+  final bank = major ? _musicMajorProgressions : _musicMinorProgressions;
+  return bank[index.clamp(0, bank.length - 1)];
+}
+
+int _chordRootSemitones(int step, int steps, List<int> progression) {
   if (steps <= 0) return 0;
-  final chordIndex = ((step * 4) ~/ steps).clamp(0, 3);
-  const majorProgression = [0, 9, 5, 7]; // I - vi - IV - V.
-  const minorProgression = [0, 8, 3, 10]; // i - VI - III - VII.
-  return (major ? majorProgression : minorProgression)[chordIndex];
+  final chordIndex =
+      ((step * progression.length) ~/ steps).clamp(0, progression.length - 1);
+  return progression[chordIndex];
 }
 
 int _nearestChordToneMidi({
