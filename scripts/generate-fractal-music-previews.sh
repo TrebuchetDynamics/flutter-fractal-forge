@@ -13,6 +13,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
 
 void main() {
   test('write fractal music preview wavs', () {
@@ -66,8 +67,105 @@ void main() {
       print('${file.path} ${entry.value.length}');
       expect(file.lengthSync(), entry.value.length);
     }
+
+    writeRealCapturePreviews(outDir);
   });
 }
+
+/// Renders previews from real viewer captures in screenshots/.
+///
+/// The synthetic panel above is the reproducible baseline; it uses solid
+/// fields, so it exercises neither the tempo bands nor the progression bank.
+/// These do. screenshots/ is gitignored, so this is skipped on a fresh clone
+/// and in CI rather than failing.
+void writeRealCapturePreviews(Directory outDir) {
+  final captures = Directory('screenshots');
+  if (!captures.existsSync()) {
+    print('screenshots/ absent - skipping real-capture previews');
+    return;
+  }
+
+  final files = captures
+      .listSync()
+      .whereType<File>()
+      .where((file) => file.path.endsWith('.png'))
+      .toList()
+    ..sort((a, b) => a.path.compareTo(b.path));
+
+  for (final file in files) {
+    final decoded = img.decodePng(file.readAsBytesSync());
+    if (decoded == null) continue;
+
+    // Match the live capture path in fractal_viewer_screen.dart: pixelRatio
+    // 0.25 of the viewer surface.
+    final small = img.copyResize(
+      decoded,
+      width: (decoded.width * 0.25).round(),
+      height: (decoded.height * 0.25).round(),
+    );
+    final rgba = Uint8List(small.width * small.height * 4);
+    var i = 0;
+    for (var y = 0; y < small.height; y++) {
+      for (var x = 0; x < small.width; x++) {
+        final pixel = small.getPixel(x, y);
+        rgba[i++] = pixel.r.toInt();
+        rgba[i++] = pixel.g.toInt();
+        rgba[i++] = pixel.b.toInt();
+        rgba[i++] = 255;
+      }
+    }
+    final frame = FractalMusicScanFrame(
+      rgba: rgba,
+      width: small.width,
+      height: small.height,
+    );
+
+    final features = fractalMusicFeaturesOf(frame);
+    // A capture that came out black carries no music and would only trip the
+    // panel's loudness checks. Blank GPU captures do happen.
+    if (features.brightness < 0.01) {
+      print('skipping ${file.uri.pathSegments.last}: capture is near-black');
+      continue;
+    }
+
+    final identity = resolveFractalMusicIdentity(features);
+    final wav = buildFractalMusicScanWav(
+      scanFrame: frame,
+      zoom: 1,
+      identity: identity,
+    );
+
+    final label = file.uri.pathSegments.last
+        .replaceAll('.png', '')
+        .replaceAll('_', '-');
+    final key = noteNames[identity.rootSemitones];
+    final mode = identity.major ? 'maj' : 'min';
+    final name = 'real-$label-$key$mode-${identity.bpm}bpm'
+        '-prog${identity.progressionIndex}'
+        '-reg${identity.registerSemitones}.wav';
+    File('${outDir.path}/$name').writeAsBytesSync(wav, flush: true);
+    print('${outDir.path}/$name  <- '
+        'brightness=${features.brightness.toStringAsFixed(3)} '
+        'detail=${features.detail.toStringAsFixed(3)} '
+        'hue=${features.hue.toStringAsFixed(3)} '
+        'saturation=${features.saturation.toStringAsFixed(3)}');
+  }
+}
+
+const noteNames = [
+  'C',
+  'Cs',
+  'D',
+  'Ds',
+  'E',
+  'F',
+  'Fs',
+  'G',
+  'Gs',
+  'A',
+  'As',
+  'B',
+];
 
 Uint8List solidFrame(int width, int height, int r, int g, int b) {
   final frame = Uint8List(width * height * 4);
@@ -142,8 +240,8 @@ for path in sorted(out_dir.glob('*.wav')):
         issues.append(f'expected stereo, got {channels} channel(s)')
     if sample_rate != 22050:
         issues.append(f'expected 22050 Hz, got {sample_rate}')
-    if abs(seconds - 4.0) > 0.01:
-        issues.append(f'expected 4.0 seconds, got {seconds:.3f}')
+    if abs(seconds - 24.0) > 0.01:
+        issues.append(f'expected 24.0 seconds, got {seconds:.3f}')
     if mean > 64:
         issues.append(f'DC offset too high: {mean:.3f}')
     if path.name == '01-dark-silence.wav':
