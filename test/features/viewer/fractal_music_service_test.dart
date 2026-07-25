@@ -603,6 +603,56 @@ void main() {
     expect(_pcmSample(wav, 7999, channel: 1), 0);
   });
 
+  test('sustained voices carry across beat boundaries', () {
+    const sampleRate = 8000;
+    const seconds = 4;
+    final wav = buildFractalMusicScanWav(
+      scanFrame: FractalMusicScanFrame(
+        rgba: _solidFrame(8, 8, 200, 200, 200),
+        width: 8,
+        height: 8,
+      ),
+      zoom: 1,
+      sampleRate: sampleRate,
+      seconds: seconds.toDouble(),
+    );
+
+    final overall = _pcmRms(wav);
+    expect(overall, greaterThan(0));
+
+    // Bass and pad hold through the bar, so no beat boundary may duck the whole
+    // mix toward silence the way a single shared envelope did.
+    final bpm = debugFractalMusicTempoBpm(0);
+    final beats = (bpm * seconds / 60).round();
+    for (var beat = 1; beat < beats; beat++) {
+      final boundary = beat * sampleRate * seconds ~/ beats;
+      var sumSquares = 0.0;
+      var count = 0;
+      for (var frame = boundary - 60; frame < boundary + 60; frame++) {
+        if (frame < 0 || frame >= sampleRate * seconds) continue;
+        final sample = _pcmSample(wav, frame);
+        sumSquares += sample * sample;
+        count++;
+      }
+      final boundaryRms = math.sqrt(sumSquares / count);
+      expect(
+        boundaryRms,
+        greaterThan(overall * 0.25),
+        reason: 'beat $beat boundary ducked to $boundaryRms vs overall $overall',
+      );
+    }
+  });
+
+  test('image detail selects a tempo band across the usable range', () {
+    // Measured captures run about 0.01-0.14 collapsed detail, so that range has
+    // to reach both ends of the band table rather than pinning to the slowest.
+    expect(debugFractalMusicTempoBpm(0.0), 60);
+    expect(debugFractalMusicTempoBpm(0.14), 100);
+    final mid = debugFractalMusicTempoBpm(0.07);
+    expect(mid, greaterThan(60));
+    expect(mid, lessThan(100));
+  });
+
   test('scan audio maps visual detail to stronger texture', () {
     final flat = _solidFrame(16, 16, 128, 128, 128);
     final detailed = Uint8List(16 * 16 * 4);
