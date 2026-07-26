@@ -52,7 +52,7 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import yaml
+          from ruamel.yaml import YAML
           from scripts.research.admit.emit_dart import emit
 
           repo = Path.cwd()
@@ -70,7 +70,7 @@ jobs:
 
           for fname, iter_type in iter_map.items():
               with (fixtures / fname).open() as f:
-                  cand = yaml.safe_load(f)
+                  cand = YAML(typ="safe").load(f)
               name = cand["proposed_name"]
               id_ = "ci_probe_" + name.lower().replace(" ", "_").replace("'", "").replace("-", "_")
               reg_entry = {

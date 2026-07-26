@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-import yaml
+from ruamel.yaml import YAML
 
 from scripts.research.admit.emit_dart import build_context, emit
 
@@ -12,8 +12,11 @@ FIXTURE_DIR = Path(__file__).parent / "fixtures" / "sample_candidates"
 
 
 def _load_candidate(name: str) -> dict:
+    # ruamel.yaml is the project's YAML library and the only one in
+    # scripts/research/requirements.txt; importing PyYAML here aborted pytest
+    # collection in CI and took the whole research suite with it.
     with (FIXTURE_DIR / name).open() as f:
-        return yaml.safe_load(f)
+        return YAML(typ="safe").load(f)
 
 
 def _registry_entry_for(candidate: dict) -> dict:
