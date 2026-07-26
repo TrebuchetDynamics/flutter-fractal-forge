@@ -5,6 +5,16 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.78] - 2026-07-26
+
+### Fixed
+- Fractal Music added a rhythmic flourish at the end of every bar whenever the
+  view moved at all, however slightly, so the music was busier than intended
+  while exploring and the quieter phrasing rarely came through. The flourish
+  now waits for a substantial change of view, which is what it was meant to
+  respond to: hold still or adjust gently and the phrasing stays open, make a
+  real jump and the rhythm picks up.
+
 ## [1.1.77] - 2026-07-26
 
 ### Fixed
