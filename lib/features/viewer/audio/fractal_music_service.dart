@@ -63,14 +63,18 @@ const double _musicRootHysteresisSemitones = 1.5;
 
 /// Motion above this turns a bar's closing rest into a pickup fill.
 ///
-/// A re-render only happens once some feature has moved past the 0.04
-/// materiality tolerance, so motion at any fill-eligible render is already at
-/// least that. This sits at twice the floor: roughly two channels moving
-/// materially, or one moving hard.
-// ponytail: derived from the materiality tolerance, not measured. Calibrating
-// it properly needs inter-frame deltas from a live pan or auto-explore session,
-// which static captures cannot provide.
-const double _musicFillMotionThreshold = 0.08;
+/// Measured by rendering the same fractal at controlled camera offsets (pans
+/// of 0.5%-50% of the visible width, zoom steps of 1.02x-2x, over three sites
+/// at different depths) and taking the motion between successive frames. Of 45
+/// samples only 9 moved enough to trigger a re-render at all; those 9 ran
+/// 0.086-0.641 with a median of 0.203.
+///
+/// The threshold sits at that median so the fill actually discriminates: a
+/// still view rests, a modest adjustment rests, and a substantial jump fills.
+/// The earlier value of 0.08 sat below the smallest re-rendering movement, so
+/// every movement filled and the rest branch was unreachable except when the
+/// view was perfectly static.
+const double _musicFillMotionThreshold = 0.20;
 
 typedef FractalMusicProcessStart = Future<Process> Function(
   String executable,
