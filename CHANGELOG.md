@@ -60,6 +60,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The Fractal Music preview tool checked audio against a stale loop length and
   reported every clip as failing.
 
+## [1.1.75] - 2026-07-24
+
+Consolidated notes for the 1.1.1-56 through 1.1.75 build series (2026-07-01 to
+2026-07-24), which shipped without individual entries. Those builds were dense
+increments rather than distinct releases, so they are summarised here by theme
+instead of reconstructed one by one.
+
+### Added
+- Fractal Music: first version of the feature, turning the fractal on screen
+  into sound, with a visible scanner and colour-driven harmony.
+- Fluid warp mode, with runtime controls and feedback.
+- New fractal families: folded fractals, plus IFS, cellular, and root-finding
+  shaders.
+- Wallpaper export, and a single unified sheet for the export and share actions.
+- Render audit metrics for checking catalog-wide rendering health.
+
+### Fixed
+- Blank renders and inaccurate catalog entries found by the render audit.
+- Wallpaper and high-resolution export falling back incorrectly.
+- Export and wallpaper flows, and modal and viewer control state, all
+  stabilised.
+- Fractal Music playback and refresh hardened, including on Android.
+- Catalog thumbnails reused from the manifest while scrolling instead of being
+  re-rendered.
+- GPU load reduced on mobile, and Rule 150 rendering optimised.
+- Edge-to-edge display compatibility preserved.
+
 ## [1.1.0+24] - 2026-02-25
 
 ### Added
