@@ -5,6 +5,40 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.76] - 2026-07-25
+
+### Changed
+- Fractal Music now composes from an explicit score instead of generating audio
+  a sample at a time. Notes have their own start, length, and voice, so they
+  overlap and ring on rather than being cut off at each beat.
+- Fixed four-voice ensemble (bass, pad, lead, texture), each with its own
+  envelope and tone. The image chooses how it is played, not what plays.
+- Tempo now follows the image: 60-100 BPM from how much fine detail it holds,
+  where every fractal previously played at a fixed 40 BPM.
+- Brightness sets the register in octave steps, and picks major or minor.
+- Harmony draws on eight chord progressions per mode, chosen by colour
+  saturation, where there were previously only two progressions in total.
+- Melody lands on chord tones on strong beats and passes through the scale on
+  weak ones, so the line reads as a melody rather than a broken chord.
+- Key, mode, tempo, register, and progression now hold steady until the image
+  changes substantially, so panning and zooming re-voice the same piece instead
+  of restarting a different one.
+- Moving the view fills the end of each bar with a pickup into the next chord;
+  a still view keeps the rest, leaving the cadence audible.
+
+### Fixed
+- The whole arrangement briefly faded to silence at every beat, because one
+  envelope was applied to the entire mix.
+- Dark regions of a fractal dropped out completely. A Mandelbrot is mostly
+  black, so roughly half its loop was silent; the chord now holds through
+  those regions and only the melody rests. A wholly empty view is still silent.
+- Small movements no longer restart the music: whether to regenerate is now
+  decided from the measured image features rather than a hash of every pixel.
+- Desktop screenshot capture produced black fractals, because the runner did
+  not force GPU rendering and so captured the test placeholder surface.
+- The Fractal Music preview tool checked audio against a stale loop length and
+  reported every clip as failing.
+
 ## [1.1.0+24] - 2026-02-25
 
 ### Added
