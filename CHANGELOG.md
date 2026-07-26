@@ -5,6 +5,20 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.79] - 2026-07-26
+
+### Fixed
+- The catalog's filter bar clipped its own contents at the largest
+  accessibility text size, cutting off the bottom of the category chips. The
+  bar now grows with the text instead of staying a fixed height.
+- Fractal Music sounded hollow on bright fractals: the chords and melody both
+  moved up an extra octave while the bass stayed put, leaving a gap in the
+  middle of the sound. The chords now stay closer to the bass and bridge it.
+
+### Added
+- The privacy policy is published with the site at
+  https://fractal.trebuchetdynamics.com/privacy-policy
+
 ## [1.1.78] - 2026-07-26
 
 ### Fixed
